@@ -1,0 +1,1134 @@
+===== PHASE 716 DASHBOARD ROUTING INSPECTION =====
+
+[1] Branch + status
+phase716-execution-evidence-surfacing
+?? PHASE716_INSPECT_DASHBOARD_ROUTING.sh
+?? phase716_dashboard_routing_inspection.txt
+f1767d62 Phase 716: add routed execution evidence inspector page
+911b5b3e Phase 716: add execution inspector UI validation script
+2059a6ad Phase 716: surface read-only execution evidence in inspector
+611f77b7 Phase 716: inspect execution inspector component
+7342d38f Phase 716: inspect execution evidence route registration
+bb760990 Phase 716: capture safe read-only execution evidence audit
+
+[2] Package scripts
+{
+  "name": "motherboard-systems-hq",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "verify:replay": "tsx scripts/_local/verification/check-replay-verification.ts"
+  },
+  "dependencies": {
+    "better-sqlite3": "^12.9.0",
+    "cors": "^2.8.6",
+    "express": "^5.2.1",
+    "pg": "^8.20.0"
+  },
+  "devDependencies": {
+    "typescript": "^6.0.3"
+  }
+}
+
+[3] Docker dashboard entrypoint
+FROM node:20-alpine
+
+WORKDIR /app
+
+RUN apk add --no-cache postgresql-client netcat-openbsd
+
+COPY package*.json ./
+RUN npm install
+
+COPY . .
+
+EXPOSE 3000
+
+CMD ["node", "server.js"]
+
+[4] Server entry files
+./_reports/phase625-dashboard-task-patch-zone.md
+./_reports/phase625-dashboard-task-render-target.md
+./_reports/phase626-dashboard-crash-current.md
+./_snapshots/phase617-pre-result-surfacing-wire-stable-20260501_233350/docker-compose.phase46.dashboard_heap.override.yml
+./_snapshots/phase617-pre-result-surfacing-wire-stable-20260501_233350/Dockerfile.dashboard
+./_snapshots/phase617-pre-result-surfacing-wire-stable-20260501_233350/ops-sse-server.mjs
+./_snapshots/phase617-pre-result-surfacing-wire-stable-20260501_233350/phase616_add_dashboard_env_block.py
+./_snapshots/phase617-pre-result-surfacing-wire-stable-20260501_233350/PHASE88_14_1_dashboard_body.txt
+./_snapshots/phase617-pre-result-surfacing-wire-stable-20260501_233350/PHASE88_14_1_dashboard_headers.txt
+./_snapshots/phase617-pre-result-surfacing-wire-stable-20260501_233350/PHASE88_14_1_public_dashboard_body.html
+./_snapshots/phase617-pre-result-surfacing-wire-stable-20260501_233350/PHASE88_14_1_public_dashboard_headers.txt
+./_snapshots/phase617-pre-result-surfacing-wire-stable-20260501_233350/server.js
+./_snapshots/phase617-pre-result-surfacing-wire-stable-20260501_233350/server.mjs
+./_snapshots/phase617-pre-result-surfacing-wire-stable-20260501_233350/server.mjs.backup-20251118-161429
+./_snapshots/phase617-pre-result-surfacing-wire-stable-20260501_233350/server.mjs.backup-20251118-161525
+./_snapshots/phase617-pre-result-surfacing-wire-stable-20260501_233350/server.mjs.backup-20251118-161734
+./_snapshots/phase617-pre-result-surfacing-wire-stable-20260501_233350/server.mjs.backup-20251204-154936
+./_snapshots/phase617-pre-result-surfacing-wire-stable-20260501_233350/verify-dashboard-sync.ts
+./_snapshots/phase618-ui-communication-tier-surfacing-complete-20260501_235622/docker-compose.phase46.dashboard_heap.override.yml
+./_snapshots/phase618-ui-communication-tier-surfacing-complete-20260501_235622/Dockerfile.dashboard
+./_snapshots/phase618-ui-communication-tier-surfacing-complete-20260501_235622/ops-sse-server.mjs
+./_snapshots/phase618-ui-communication-tier-surfacing-complete-20260501_235622/phase616_add_dashboard_env_block.py
+./_snapshots/phase618-ui-communication-tier-surfacing-complete-20260501_235622/PHASE88_14_1_dashboard_body.txt
+./_snapshots/phase618-ui-communication-tier-surfacing-complete-20260501_235622/PHASE88_14_1_dashboard_headers.txt
+./_snapshots/phase618-ui-communication-tier-surfacing-complete-20260501_235622/PHASE88_14_1_public_dashboard_body.html
+./_snapshots/phase618-ui-communication-tier-surfacing-complete-20260501_235622/PHASE88_14_1_public_dashboard_headers.txt
+./_snapshots/phase618-ui-communication-tier-surfacing-complete-20260501_235622/server.js
+./_snapshots/phase618-ui-communication-tier-surfacing-complete-20260501_235622/server.mjs
+./_snapshots/phase618-ui-communication-tier-surfacing-complete-20260501_235622/server.mjs.backup-20251118-161429
+./_snapshots/phase618-ui-communication-tier-surfacing-complete-20260501_235622/server.mjs.backup-20251118-161525
+./_snapshots/phase618-ui-communication-tier-surfacing-complete-20260501_235622/server.mjs.backup-20251118-161734
+./_snapshots/phase618-ui-communication-tier-surfacing-complete-20260501_235622/server.mjs.backup-20251204-154936
+./_snapshots/phase618-ui-communication-tier-surfacing-complete-20260501_235622/verify-dashboard-sync.ts
+./_snapshots/phase630-runtime-proof-ready-containerized/Dockerfile.dashboard
+./_snapshots/phase630-runtime-proof-ready-containerized/server.js
+./_snapshots/phase630-runtime-proof-ready-containerized/server.mjs
+./_snapshots/phase631-live-runtime-proof-containerized/Dockerfile.dashboard
+./_snapshots/phase631-live-runtime-proof-containerized/server.js
+./_snapshots/phase631-live-runtime-proof-containerized/server.mjs
+./.github/workflows/dashboard-layout-contract.yml
+./docker-compose.phase46.dashboard_heap.override.yml
+./Dockerfile.dashboard
+./docs/dashboard_bridge_latest.json
+./docs/dashboard_down_diagnosis_20260405_185141.md
+./docs/dashboard_down_followup_20260405_185007.txt
+./docs/dashboard_down_inspection_20260405_184928.txt
+./docs/dashboard_outage_verified_conclusion_20260405.md
+./docs/dashboard_recovery_20260415_144929.txt
+./docs/docker_fast_recovery_and_dashboard_verify_20260405_185627.txt
+./docs/phase455_6_dashboard_natural_language_entrypoint.md
+./docs/phase456_canonical_dashboard_post_restore_evidence.txt
+./docs/phase456_dashboard_down_evidence.txt
+./docs/phase456_force_dashboard_asset_refresh.txt
+./docs/phase456_rebuild_dashboard_container.txt
+./docs/phase464_x_dashboard_script_duplicate_scan.txt
+./docs/phase464_x_dashboard_status_false_positive_decision.txt
+./docs/phase464_x_dashboard_status_hotspots.txt
+./docs/phase469_4_verify_host_port_8080_and_dashboard_refresh.txt
+./docs/phase470_8_remaining_live_dashboard_surfaces.txt
+./docs/phase473_1_restore_dashboard_and_create_minimal_probe_page.txt
+./docs/phase473_2_trace_actual_dashboard_html_source.txt
+./docs/phase473_5_rebuild_dashboard_image_and_verify_public_sync.txt
+./docs/phase474_9_isolate_dashboard_body_markup_only.txt
+./docs/phase475_0_restore_dashboard_and_create_body_probe_page.txt
+./docs/phase475_3_create_dashboard_half_probes_and_verify.txt
+./docs/phase476_5_dashboard_vs_recomposed_diff.txt
+./docs/phase476_6_strip_dashboard_to_recomposed_shape.txt
+./docs/phase476_7_observe_dashboard_after_recomposition.txt
+./docs/phase476_8_restore_real_dashboard_attributes_only.txt
+./docs/phase476_9_observe_attribute_reintroduced_dashboard.txt
+./docs/phase477_2_remove_probe_banners_from_stable_dashboard.txt
+./docs/phase477_3_observe_dashboard_after_probe_banner_removal.txt
+./docs/phase477_5_observe_inline_script_free_dashboard.txt
+./docs/phase477_7_observe_pure_structure_dashboard.txt
+./docs/phase478_6_force_true_dashboard_css_reintroduction.txt
+./docs/phase478_7_reintroduce_single_stylesheet_dashboard_reflections.txt
+./docs/phase478_dashboard_bridge_snapshot_approval_rejected.json
+./docs/phase478_dashboard_bridge_snapshot_entry_invalid.json
+./docs/phase478_dashboard_bridge_snapshot_governance_rejected.json
+./docs/phase478_dashboard_bridge_snapshot_success.json
+./docs/phase479_step2_dashboard_bridge_audit.txt
+./docs/phase487_compare_served_dashboard_vs_public_html_20260415_223300.txt
+./docs/phase487_dashboard_down_recovery_report.txt
+./docs/phase487_minimal_docker_health_and_dashboard_restore.txt
+./docs/phase487_patch_served_dashboard_html_confidence_label_20260415_222306.txt
+./docs/phase487_postgres_recovery_and_dashboard_restore.txt
+./docs/phase487_rebuild_dashboard_for_confidence_fix_20260415_215817.txt
+./docs/phase487_served_dashboard_snapshot_20260415_223300.html
+./docs/phase487_served_vs_public_dashboard_verdict_20260415_223716.txt
+./docs/phase488_recover_docker_and_dashboard.txt
+./docs/phase488_restart_postgres_and_dashboard_after_docker_ready.txt
+./docs/recovery_full_audit/32_served_dashboard_artifact_verification.txt
+./docs/recovery_full_audit/43_blob_driven_dashboard_shell_shortlist.txt
+./docs/recovery_full_audit/44_root_vs_dashboard_entrypoint_proof.txt
+./docs/recovery_full_audit/46_authoritative_dashboard_shell_urls.txt
+./docs/recovery_full_audit/47_current_authoritative_dashboard_wiring_audit.txt
+./docs/recovery_full_audit/55_verify_live_dashboard_after_fallback_restore.txt
+./docs/v11-dashboard-bundle-handoff-thread3.md
+./docs/v11-dashboard-bundle-handoff-v2.md
+./docs/v11-dashboard-bundle-handoff-v3.md
+./docs/v11-dashboard-bundle-next-steps.md
+./docs/v11-dashboard-bundle-next-thread-anchor.md
+./docs/v11-dashboard-bundle-status.md
+./docs/v11-dashboard-bundle-thread-summary-2025-11-27.md
+./docs/v11-dashboard-bundle-thread4-placeholder.md
+./docs/v11-dashboard-bundle-todo.md
+./exports/dashboard_phase6.8/dashboard.html
+./node_modules/accepts/index.js
+./node_modules/base64-js/index.js
+./node_modules/body-parser/index.js
+./node_modules/buffer/index.js
+./node_modules/bytes/index.js
+./node_modules/call-bind-apply-helpers/index.js
+./node_modules/call-bound/index.js
+./node_modules/content-disposition/index.js
+./node_modules/content-type/index.js
+./node_modules/cookie-signature/index.js
+./node_modules/cookie/index.js
+./node_modules/decompress-response/index.js
+./node_modules/deep-extend/index.js
+./node_modules/depd/index.js
+./node_modules/ee-first/index.js
+./node_modules/encodeurl/index.js
+./node_modules/end-of-stream/index.js
+./node_modules/es-define-property/index.js
+./node_modules/es-errors/index.js
+./node_modules/es-object-atoms/index.js
+./node_modules/escape-html/index.js
+./node_modules/etag/index.js
+./node_modules/expand-template/index.js
+./node_modules/express/index.js
+./node_modules/file-uri-to-path/index.js
+./node_modules/finalhandler/index.js
+./node_modules/forwarded/index.js
+./node_modules/fresh/index.js
+./node_modules/fs-constants/index.js
+./node_modules/function-bind/index.js
+./node_modules/get-intrinsic/index.js
+./node_modules/get-proto/index.js
+./node_modules/github-from-package/index.js
+./node_modules/gopd/index.js
+./node_modules/has-symbols/index.js
+./node_modules/hasown/index.js
+./node_modules/http-errors/index.js
+./node_modules/ieee754/index.js
+./node_modules/is-promise/index.js
+./node_modules/is-promise/index.mjs
+./node_modules/media-typer/index.js
+./node_modules/merge-descriptors/index.js
+./node_modules/mime-db/index.js
+./node_modules/mime-types/index.js
+./node_modules/mimic-response/index.js
+./node_modules/minimist/index.js
+./node_modules/mkdirp-classic/index.js
+./node_modules/ms/index.js
+./node_modules/napi-build-utils/index.js
+./node_modules/negotiator/index.js
+./node_modules/node-abi/index.js
+./node_modules/object-assign/index.js
+./node_modules/object-inspect/index.js
+./node_modules/on-finished/index.js
+./node_modules/parseurl/index.js
+./node_modules/pg-connection-string/index.js
+./node_modules/pg-int8/index.js
+./node_modules/pg-pool/index.js
+./node_modules/pg-types/index.js
+./node_modules/postgres-array/index.js
+./node_modules/postgres-bytea/index.js
+./node_modules/postgres-date/index.js
+./node_modules/postgres-interval/index.js
+./node_modules/prebuild-install/index.js
+./node_modules/proxy-addr/index.js
+./node_modules/pump/index.js
+./node_modules/range-parser/index.js
+./node_modules/raw-body/index.js
+./node_modules/rc/index.js
+./node_modules/router/index.js
+./node_modules/safe-buffer/index.js
+./node_modules/semver/index.js
+./node_modules/send/index.js
+./node_modules/serve-static/index.js
+./node_modules/setprototypeof/index.js
+./node_modules/side-channel-list/index.js
+./node_modules/side-channel-map/index.js
+./node_modules/side-channel-weakmap/index.js
+./node_modules/side-channel/index.js
+./node_modules/simple-concat/index.js
+./node_modules/simple-get/index.js
+./node_modules/split2/index.js
+./node_modules/statuses/index.js
+./node_modules/strip-json-comments/index.js
+./node_modules/tar-fs/index.js
+./node_modules/tar-stream/index.js
+./node_modules/toidentifier/index.js
+./node_modules/tunnel-agent/index.js
+./node_modules/type-is/index.js
+./node_modules/unpipe/index.js
+./node_modules/vary/index.js
+./ops-sse-server.mjs
+./phase616_add_dashboard_env_block.py
+./phase716_dashboard_routing_inspection.txt
+./PHASE88_14_1_dashboard_body.txt
+./PHASE88_14_1_dashboard_headers.txt
+./PHASE88_14_1_public_dashboard_body.html
+./PHASE88_14_1_public_dashboard_headers.txt
+./public_broken_rollback_1762824556/dashboard-chat.js
+./public_broken_rollback_1762824556/dashboard-ops.js
+./public_broken_rollback_1762824556/dashboard-reflections.js
+./public_broken_rollback_1762824556/dashboard.html
+./public/.dashboard.html.swk
+./public/.dashboard.html.swl
+./public/.dashboard.html.swm
+./public/.dashboard.html.swn
+./public/css/dashboard-reflections.css
+./public/css/dashboard.css
+./public/dashboard_body_bottom_half_probe.html
+./public/dashboard_body_q1_probe.html
+./public/dashboard_body_q2_probe.html
+./public/dashboard_body_q3_probe.html
+./public/dashboard_body_q4_probe.html
+./public/dashboard_body_top_half_probe.html
+./public/dashboard_recomposed_from_stable_quarters_probe.html
+./public/dashboard-logs.js
+./public/dashboard-logs.v3.js
+./public/dashboard-status.js
+./public/dashboard-stream.js
+./public/dashboard-tabs.backup.js
+./public/dashboard-tabs.js
+./public/dashboard.backup.js
+./public/dashboard.css
+./public/dashboard.html
+./public/dashboard.html.backup-20251204-152244
+./public/dashboard.html.backup-20251204-154117
+./public/dashboard.html.bad_structure
+./public/dashboard.html.bak
+./public/dashboard.html.bak_1762904490
+./public/dashboard.html.bak_1762905357
+./public/dashboard.html.bak_9.7.0b
+./public/dashboard.html.bak.1762372376
+./public/dashboard.html.bak.1762457360
+./public/dashboard.html.bundling-phase11
+./public/dashboard.html.phase470_6_operator_guidance_neutralized.bak
+./public/dashboard.html.phase471_0_task_events_surface_neutralized.bak
+./public/dashboard.html.phase471_1_force_remove_task_events_script.bak
+./public/dashboard.html.phase471_4_bundle_boot_neutralized.bak
+./public/dashboard.html.phase472_1_external_css_neutralized.bak
+./public/dashboard.html.phase473_0_minimal_shell_backup.bak
+./public/dashboard.html.phase473_9_pre_styles_restore.bak
+./public/dashboard.html.phase474_2_pre_tailwind_only_restore.bak
+./public/dashboard.html.phase474_3_pre_force_tailwind_only.bak
+./public/dashboard.html.phase474_4_pre_inline_style_neutralization.bak
+./public/dashboard.html.phase474_9_pre_body_isolation.bak
+./public/dashboard.html.phase476_6_pre_strip.bak
+./public/dashboard.html.phase477_2_pre_probe_banner_removal.bak
+./public/dashboard.html.phase477_4_pre_inline_script_neutralization.bak
+./public/dashboard.html.phase477_6_pre_src_script_neutralization.bak
+./public/dashboard.html.phase477_8_pre_restore.bak
+./public/dashboard.html.phase478_1_pre_script_restore.bak
+./public/dashboard.html.phase478_4_pre_dashboard_css_restore.bak
+./public/dashboard.html.phase478_5_pre_repo_stylesheet_restore.bak
+./public/dashboard.html.phase478_6_pre_true_dashboard_css_restore.bak
+./public/dashboard.html.phase478_7_pre_dashboard_reflections_restore.bak
+./public/dashboard.html.phase479_0_pre_phase61_workspace_consolidation_restore.bak
+./public/dashboard.html.phase61_agent_emoji_backup
+./public/dashboard.js
+./public/dashboard.js.bak
+./public/dashboard.js.bak2
+./public/dashboard.pre-bundle-tag.html
+./public/js/dashboard-broadcast.js
+./public/js/dashboard-bundle-entry.js
+./public/js/dashboard-delegation.js
+./public/js/dashboard-graph-loader.js
+./public/js/dashboard-graph.js
+./public/js/dashboard-ops-reflections-ui.js
+./public/js/dashboard-status.js
+./public/js/dashboard-tasks-widget.js
+./public/js/reflections-sse-dashboard.js
+./public/scripts/dashboard-chat.js
+./public/scripts/dashboard-ops.js
+./public/scripts/dashboard-reflections.js
+./scripts/_lib/phase48_fix_compose_dashboard_env.py
+./scripts/_local/dashboard_down_diagnosis.sh
+./scripts/_local/dashboard_down_followup_inspection.sh
+./scripts/_local/dashboard_down_inspection.sh
+./scripts/_local/docker_daemon_recover_and_open_dashboard.sh
+./scripts/_local/docker_fast_recovery_and_dashboard_verify.sh
+./scripts/_local/ensure_dashboard_static_assets.py
+./scripts/_local/find_dashboard_layout_file_and_history.sh
+./scripts/_local/inspect_dashboard_layout_restore_candidates.sh
+./scripts/_local/phase120_dashboard_consumption_smoke.sh
+./scripts/_local/phase136_governance_dashboard_consumption_report.ts
+./scripts/_local/phase136_governance_dashboard_consumption_smoke.ts
+./scripts/_local/phase136_run_governance_dashboard_consumption_report.sh
+./scripts/_local/phase136_run_governance_dashboard_consumption_smoke.sh
+./scripts/_local/phase137_governance_dashboard_contract_registration_report.ts
+./scripts/_local/phase137_governance_dashboard_contract_registration_smoke.ts
+./scripts/_local/phase137_run_governance_dashboard_contract_registration_report.sh
+./scripts/_local/phase137_run_governance_dashboard_contract_registration_smoke.sh
+./scripts/_local/phase457_audit_current_authoritative_dashboard_wiring.sh
+./scripts/_local/phase457_blob_driven_dashboard_shell_shortlist.sh
+./scripts/_local/phase457_open_authoritative_dashboard_shell.sh
+./scripts/_local/phase457_remove_base_dashboard_port_and_boot_remaining.sh
+./scripts/_local/phase457_remove_base_dashboard_port_from_shell_candidates.sh
+./scripts/_local/phase457_verify_root_vs_dashboard_entrypoint.sh
+./scripts/_local/phase457_verify_served_dashboard_artifacts.sh
+./scripts/_local/phase457d_verify_live_dashboard_after_fallback_restore.sh
+./scripts/_local/phase487_dashboard_down_recovery.sh
+./scripts/_local/phase487_minimal_docker_health_and_dashboard_restore.sh
+./scripts/_local/phase487_recover_postgres_and_restore_dashboard.sh
+./scripts/_local/phase487_start_dashboard_after_postgres_ready.sh
+./scripts/_local/phase488_recover_docker_and_dashboard.sh
+./scripts/_local/phase488_restart_postgres_and_dashboard_after_docker_ready.sh
+./scripts/_local/phase488a_rebuild_dashboard_container.sh
+./scripts/_local/phase488a_restore_dashboard_matilda_script_tag.sh
+./scripts/_local/phase488e_fix_dashboard_bundle_on_dashboard_route.sh
+./scripts/_local/phase488f_verify_dashboard_and_reload.sh
+./scripts/_local/phase488h_redirect_dashboard_route_server_side.sh
+./scripts/_local/phase489_h5_dashboard_recovery_probe.sh
+./scripts/_local/phase59_dashboard_audit.py
+./scripts/_local/phase61_dashboard_target_scan.sh
+./scripts/_local/phase61_dashboard_ui_contract.sh
+./scripts/_local/phase61_open_stable_dashboard.sh
+./scripts/_local/phase61_open_verified_dashboard.sh
+./scripts/_local/phase61_rebuild_dashboard_from_current_source.sh
+./scripts/_local/phase61_recover_dashboard_from_checkpoint.sh
+./scripts/_local/phase61_restore_stable_dashboard_image.sh
+./scripts/_local/phase61_safe_dashboard_cycle.sh
+./scripts/_local/phase62b_dashboard_asset_load_path_inspect.sh
+./scripts/_local/phase62b_rebuild_dashboard_bundle_after_success_writer_neutralization.sh
+./scripts/_local/phase64_4_restore_interactive_dashboard.sh
+./scripts/_local/phase64_7_dashboard_layout_script_mount_guard.sh
+./scripts/_local/phase95_8_dashboard_healthcheck_hardening.sh
+./scripts/_local/phase95_8_verify_dashboard_health.sh
+./scripts/_local/recover_dashboard_after_restart.sh
+./scripts/_local/recover_dashboard_layout_target_from_proofs.sh
+./scripts/_local/restore_recovered_stable_dashboard_checkpoint.sh
+./scripts/_local/strip_dashboard_runtime.py
+./scripts/_local/trace_served_dashboard_source.sh
+./scripts/_proofs/phase_487_step1_locate_dashboard_entry.sh
+./scripts/build_dashboard_bundle.sh
+./scripts/build-dashboard-bundle.js
+./scripts/dashboard_alive_smoke.sh
+./scripts/dashboard-chat.js
+./scripts/dashboard-ops.js
+./scripts/dashboard-reflections.js
+./scripts/db/create-dashboard-db.sh
+./scripts/db/inspect-dashboard-db-env.sh
+./scripts/debug-dashboard-container.sh
+./scripts/debug/step3-dashboard-source-check.sh
+./scripts/demo/verify-dashboard-sync.ts
+./scripts/disable_dashboard_schema_mutations.sh
+./scripts/docker-dashboard-up.sh
+./scripts/inspect-dashboard.sh
+./scripts/phase11_rebuild_dashboard_container.sh
+./scripts/phase11_v11.10_find_dashboard_template.sh
+./scripts/phase11_v11.10_rebuild_dashboard.sh
+./scripts/phase14_4_fix_dashboard_phase_banner.mjs
+./scripts/phase14_4_verify_dashboard_phase_banner.sh
+./scripts/phase14_5_patch_dashboard_no_cache.mjs
+./scripts/phase36_5_smoke_dashboard_runs.sh
+./scripts/phase456_canonical_dashboard_post_restore_evidence.sh
+./scripts/phase456_dashboard_down_evidence_pass.sh
+./scripts/phase456_force_dashboard_asset_refresh.sh
+./scripts/phase456_rebuild_dashboard_container.sh
+./scripts/phase456_restore_docker_daemon_and_dashboard.sh
+./scripts/phase464_x_extract_dashboard_status_hotspots.sh
+./scripts/phase464_x_resolve_dashboard_status_false_positive_and_extract_next_target.sh
+./scripts/phase464_x_scan_dashboard_script_duplicates.sh
+./scripts/phase464_x_verify_dashboard_effect.sh
+./scripts/phase469_4_verify_host_port_8080_and_dashboard_refresh.sh
+./scripts/phase470_8_probe_remaining_live_dashboard_surfaces.sh
+./scripts/phase473_1_restore_dashboard_and_create_minimal_probe_page.sh
+./scripts/phase473_2_trace_actual_dashboard_html_source.sh
+./scripts/phase473_5_rebuild_dashboard_image_and_verify_public_sync.sh
+./scripts/phase474_9_isolate_dashboard_body_markup_only.sh
+./scripts/phase475_0_restore_dashboard_and_create_body_probe_page.sh
+./scripts/phase475_3_create_dashboard_half_probes_and_verify.sh
+./scripts/phase476_5_record_recomposed_probe_stable_and_diff_against_dashboard.sh
+./scripts/phase476_6_strip_dashboard_to_recomposed_shape.sh
+./scripts/phase476_7_observe_dashboard_after_recomposition.sh
+./scripts/phase476_8_restore_real_dashboard_attributes_only.sh
+./scripts/phase476_9_observe_attribute_reintroduced_dashboard.sh
+./scripts/phase477_2_remove_probe_banners_from_stable_dashboard.sh
+./scripts/phase477_3_observe_dashboard_after_probe_banner_removal.sh
+./scripts/phase477_5_observe_inline_script_free_dashboard.sh
+./scripts/phase477_7_observe_pure_structure_dashboard.sh
+./scripts/phase478_4_reintroduce_single_stylesheet_dashboard_css.sh
+./scripts/phase478_6_force_true_dashboard_css_reintroduction.sh
+./scripts/phase478_7_reintroduce_single_stylesheet_dashboard_reflections.sh
+./scripts/phase478_dashboard_bridge.sh
+./scripts/phase487_5_extract_dashboard_guidance_consumers.sh
+./scripts/phase487_compare_served_dashboard_vs_public_html.sh
+./scripts/phase487_patch_active_dashboard_bundle_insufficient.sh
+./scripts/phase487_patch_served_dashboard_html_confidence_label.sh
+./scripts/phase487_rebuild_dashboard_for_confidence_fix.sh
+./scripts/phase487_summarize_served_vs_public_dashboard_verdict.sh
+./scripts/phase625-inspect-dashboard-task-render.sh
+./scripts/phase625-show-dashboard-task-patch-zone.sh
+./scripts/phase626-recover-dashboard-after-disk-cleanup.sh
+./scripts/phase80_2_deep_dashboard_inventory.sh
+./scripts/phase80_2_find_dashboard_entrypoints.sh
+./scripts/phase80_2_find_external_dashboard_consumers.sh
+./scripts/phase80_2_run_external_dashboard_consumer_discovery.sh
+./scripts/phase88_10_patch_dashboard_bad_structure_system_health_panel.mjs
+./scripts/phase88_10_verify_dashboard_bad_structure_patch.sh
+./scripts/phase88_11_inspect_dashboard_entrypoint.sh
+./scripts/phase88_12_inspect_served_dashboard_diagnostics_surface.sh
+./scripts/phase88_13_patch_served_dashboard_system_health_panel.mjs
+./scripts/phase88_13_verify_served_dashboard_system_health_panel.sh
+./scripts/phase88_14_1_diagnose_live_dashboard_route.sh
+./scripts/phase88_14_10_restart_and_verify_live_system_health_and_dashboard.sh
+./scripts/phase88_14_2_verify_public_dashboard_system_health_attachment.sh
+./scripts/phase88_14_3_diagnose_live_health_and_dashboard_candidates.sh
+./scripts/phase88_14_verify_live_dashboard_system_health_attachment.sh
+./scripts/phase88_9_inspect_dashboard_system_health_consumer.sh
+./scripts/rebuild-dashboard-matilda.sh
+./scripts/run-dashboard-local.sh
+./scripts/v11-dashboard-bundle-inspect.sh
+./scripts/verify-dashboard-layout-contract.sh
+./scripts/verify-dashboard-two-panel-structure.sh
+./scripts/verify-dashboard-two-panel.sh
+./scripts/verify-phase62-dashboard-golden.sh
+./scripts/verify/test-operator-dashboard.sh
+./server.js
+./server.mjs
+./server.mjs.backup-20251118-161429
+./server.mjs.backup-20251118-161525
+./server.mjs.backup-20251118-161734
+./server.mjs.backup-20251204-154936
+./server/routes/index.js
+./snapshots/phase530-ui-debug/dashboard-tail.log
+./snapshots/phase530/dashboard-tail.log
+./snapshots/phase531-recent-tasks-layout/dashboard-tail.log
+./snapshots/phase531-ui-lockup-fix/dashboard-tail.log
+./snapshots/phase532-task-history-stable/dashboard-tail.log
+./snapshots/phase533-execution-inspector-stable/dashboard-tail.log
+./snapshots/phase534-execution-inspector-format/dashboard-tail.log
+./snapshots/phase535-requeue-stable/dashboard-tail.log
+./snapshots/phase536-retry-ui-stable/dashboard-tail.log
+./snapshots/phase537-retry-functional-stable/dashboard-tail.log
+./snapshots/phase544-retry-clean-stable/dashboard.log
+./src/governance_investigation/governance_dashboard_playback_contract.ts
+./tools/start-ui-dashboard.sh
+./ts-backup/verify-dashboard-sync.ts
+./ui/dashboard/ticker-events.log
+./verify-dashboard-sync.ts
+
+[5] Main server source
+import { createRequire } from "module";
+const require = createRequire(import.meta.url);
+const { routeRetryExecution } = require("./server/retry_execution_router.js");
+const { enforceRetryContract } = require("./server/retry_contract.js");
+import express from 'express';
+import { fileURLToPath } from 'url';
+import path from 'path';
+import pg from 'pg';
+import taskEventsSseRouter from "./server/routes/task-events-sse.mjs";
+import { apiTasksRouter } from "./server/routes/api-tasks-postgres.mjs";
+import operatorGuidanceRouter from "./server/routes/operator-guidance.mjs";
+
+const { Pool } = pg;
+
+// Environment configuration
+const PORT = process.env.PORT || 3000;
+const HOST = '0.0.0.0'; // Bind to all interfaces for Docker
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+const app = express();
+
+// Phase 11 stubbed task endpoints to avoid Postgres dependency
+app.post("/api/delegate-task", (req, res) => {
+  // PHASE 542 ENFORCEMENT
+  req.body = routeRetryExecution(req.body || {});
+  const { title, agent, notes } = req.body || {};
+  const fakeId = Math.floor(Date.now() / 1000);
+  res.json({
+    id: fakeId,
+    title,
+    agent,
+    notes,
+    status: "delegated",
+    source: "stub"
+  });
+});
+
+app.post("/api/complete-task", (req, res) => {
+  const { taskId } = req.body || {};
+  res.json({
+    id: taskId ?? null,
+    status: "completed",
+    source: "stub"
+  });
+});
+
+app.use(express.json()); // Middleware to parse JSON body for POST requests
+
+// Database Connection Pool
+const pool = new Pool({
+  user: process.env.POSTGRES_USER || 'postgres',
+  host: process.env.DB_HOST || 'postgres', // 'postgres' is the service name in docker-compose
+  database: process.env.POSTGRES_DB || 'postgres',
+  password: process.env.POSTGRES_PASSWORD || 'postgres',
+  port: 5432,
+});
+globalThis.__DB_POOL = pool;
+
+// Serve static files
+app.use(express.static(path.join(__dirname, 'public')));
+app.use(taskEventsSseRouter);
+app.use('/api/tasks', apiTasksRouter);
+app.use(operatorGuidanceRouter({ pool }));
+
+// 1. API Endpoint: System Metrics
+app.get('/api/metrics', async (req, res) => {
+  try {
+    const result = await pool.query('SELECT * FROM system_metrics ORDER BY id DESC LIMIT 1');
+    if (result.rows.length > 0) {
+      res.json(result.rows[0]);
+    } else {
+      res.status(404).json({ error: 'No metrics found' });
+    }
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'Database error' });
+  }
+});
+
+// 2. API Endpoint: Task Activity Graph
+app.get('/api/activity-graph', async (req, res) => {
+  try {
+    const result = await pool.query('SELECT * FROM task_activity ORDER BY timestamp ASC LIMIT 10');
+    res.json(result.rows);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'Database error fetching activity' });
+  }
+});
+
+// 3. API Endpoint: Agent Status Row
+app.get('/api/agents', async (req, res) => {
+  try {
+    const result = await pool.query(
+      'SELECT agent_name, status, current_task, last_heartbeat FROM agent_status ORDER BY status DESC, agent_name ASC'
+    );
+    res.json(result.rows);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'Database error fetching agent status' });
+  }
+});
+
+// 4. API Endpoint: Task Delegation
+app.post('/api/delegate-task-db', async (req, res) => {
+  const client = await pool.connect();
+  let assignedAgent = null;
+
+  try {
+    await client.query('BEGIN'); // Start transaction
+
+    const findAgentQuery =
+      'SELECT agent_name FROM agent_status ' +
+      "WHERE status = 'IDLE' " +
+      'ORDER BY last_heartbeat ASC ' +
+      'LIMIT 1 FOR UPDATE';
+
+    const result = await client.query(findAgentQuery);
+
+    if (result.rows.length === 0) {
+      await client.query('ROLLBACK');
+      return res.status(404).json({ message: 'No IDLE agents available.' });
+    }
+
+    const agentName = result.rows[0].agent_name;
+
+    const newTask =
+      (req.body && typeof req.body.task === 'string' && req.body.task.trim().length > 0)
+        ? req.body.task
+        : 'Processing Task ' + Date.now();
+
+    const updateQuery =
+      'UPDATE agent_status ' +
+      "SET status = 'BUSY', current_task = $1, last_heartbeat = CURRENT_TIMESTAMP " +
+      'WHERE agent_name = $2 ' +
+      'RETURNING agent_name, current_task;';
+
+    const updateResult = await client.query(updateQuery, [newTask, agentName]);
+
+    assignedAgent = updateResult.rows[0];
+
+    await client.query('COMMIT'); // Commit transaction
+
+    res.json({
+      message: 'Task successfully delegated.',
+      agent: assignedAgent,
+    });
+  } catch (err) {
+    await client.query('ROLLBACK');
+    console.error('Error during task delegation:', err);
+    res.status(500).json({ error: 'Delegation failed due to server error.' });
+  } finally {
+    client.release();
+  }
+});
+
+// 5. API Endpoint: Task Completion
+app.post('/api/complete-task-db', async (req, res) => {
+  const body = req.body || {};
+  const agentName = body.agentName;
+
+  if (!agentName || typeof agentName !== 'string') {
+    return res.status(400).json({ error: 'Agent name is required.' });
+  }
+
+  try {
+    const query =
+      'UPDATE agent_status ' +
+      "SET status = 'IDLE', current_task = NULL, last_heartbeat = CURRENT_TIMESTAMP " +
+      'WHERE agent_name = $1 ' +
+      'RETURNING agent_name, status;';
+
+    const result = await pool.query(query, [agentName]);
+
+    if (result.rowCount === 0) {
+      return res.status(404).json({
+        message: 'Agent ' + agentName + ' not found or was already IDLE.',
+      });
+    }
+
+    res.json({
+      message: 'Task completed. Agent ' + agentName + ' is now IDLE.',
+      agent: result.rows[0],
+    });
+  } catch (err) {
+    console.error('Error during task completion:', err);
+    res.status(500).json({ error: 'Task completion failed due to server error.' });
+  }
+});
+
+
+
+// 6. API Endpoint: Advisory Chat (Phase 703)
+function pickMatildaPhrase(options = []) {
+
+  if (!Array.isArray(options) || options.length === 0) {
+
+    return '';
+
+  }
+
+  return options[Math.floor(Math.random() * options.length)];
+
+}
+
+function buildSafeStatusGuidance() {
+
+  const openings = [
+
+    'The surfaced context is limited, read-only, and non-authoritative.',
+
+    'The currently surfaced advisory context is limited and read-only.',
+
+    'Only limited advisory context is currently available from the chat surface.',
+
+    'The advisory layer currently exposes only compact, non-authoritative context.'
+
+  ];
+
+  const certainty = [
+
+    'The guidance endpoint is available, but this does not confirm overall subsystem health.',
+
+    'The available context does not verify whether all subsystems are healthy.',
+
+    'This compact context is insufficient for authoritative system health confirmation.',
+
+    'Additional verification would be required before making broad health claims.'
+
+  ];
+
+  const nextSteps = [
+
+    'Reviewing the dashboard for alerts, queue state, or subsystem indicators would be the safest next verification step.',
+
+    'A safe next step would be checking visible dashboard indicators or recent alerts.',
+
+    'The dashboard would provide more reliable operational detail than the compact advisory context alone.',
+
+    'Inspecting surfaced runtime indicators would help establish a more authoritative status assessment.'
+
+  ];
+
+  return [
+
+    pickMatildaPhrase(openings),
+
+    pickMatildaPhrase(certainty),
+
+    pickMatildaPhrase(nextSteps)
+
+  ].join(' ');
+
+}
+
+function buildSafePriorityGuidance() {
+
+  const openings = [
+
+    'The surfaced context is limited, read-only, and non-authoritative.',
+
+    'Only compact advisory context is currently available.',
+
+    'The current advisory context is intentionally limited and non-authoritative.'
+
+  ];
+
+  const reasoning = [
+
+    'Because the available context does not confirm subsystem health, prioritization confidence is limited.',
+
+    'The compact advisory context does not establish enough evidence to confidently prioritize subsystem work.',
+
+    'There is not enough surfaced evidence here to safely determine operational priority.'
+
+  ];
+
+  const nextSteps = [
+
+    'Reviewing dashboard alerts, retry queues, worker indicators, or recent failures would help determine the safest priority.',
+
+    'A reasonable next step would be checking visible runtime indicators before assigning priority.',
+
+    'Additional surfaced operational detail would be needed before making a confident prioritization recommendation.'
+
+  ];
+
+  return [
+
+    pickMatildaPhrase(openings),
+
+    pickMatildaPhrase(reasoning),
+
+    pickMatildaPhrase(nextSteps)
+
+  ].join(' ');
+
+}
+
+function buildEvidenceBasedGuidance(input = '') {
+
+  const text = String(input || '').trim();
+
+  const evidenceSignals = [
+
+    ['retry', 'retry behavior'],
+
+    ['retries', 'retry behavior'],
+
+    ['queued', 'queued task behavior'],
+
+    ['stuck', 'possible stalled progress'],
+
+    ['failed', 'failure signal'],
+
+    ['error', 'error signal'],
+
+    ['worker', 'worker-related signal'],
+
+[6] Static/frontend routing clues
+server.mjs:49:app.use(express.json()); // Middleware to parse JSON body for POST requests
+server.mjs:62:app.use(express.static(path.join(__dirname, 'public')));
+server.mjs:63:app.use(taskEventsSseRouter);
+server.mjs:64:app.use('/api/tasks', apiTasksRouter);
+server.mjs:65:app.use(operatorGuidanceRouter({ pool }));
+server.mjs:68:app.get('/api/metrics', async (req, res) => {
+server.mjs:83:app.get('/api/activity-graph', async (req, res) => {
+server.mjs:94:app.get('/api/agents', async (req, res) => {
+server.mjs:208:function buildSafeStatusGuidance() {
+server.mjs:234:  const nextSteps = [
+server.mjs:236:    'Reviewing the dashboard for alerts, queue state, or subsystem indicators would be the safest next verification step.',
+server.mjs:238:    'A safe next step would be checking visible dashboard indicators or recent alerts.',
+server.mjs:252:    pickMatildaPhrase(nextSteps)
+server.mjs:258:function buildSafePriorityGuidance() {
+server.mjs:280:  const nextSteps = [
+server.mjs:284:    'A reasonable next step would be checking visible runtime indicators before assigning priority.',
+server.mjs:296:    pickMatildaPhrase(nextSteps)
+server.mjs:302:function buildEvidenceBasedGuidance(input = '') {
+server.mjs:360:  const nextStep =
+server.mjs:362:    'Safest next inspection: review the relevant dashboard indicator, recent task events, worker logs, or exact error text before choosing a repair path.';
+server.mjs:364:  return [known, interpretation, unknown, nextStep].join(' ');
+server.mjs:403:    "Recommend the safest next inspection step instead of overstating certainty.",
+server.mjs:406:    "If the user provides dashboard details, logs, error text, task state, worker state, or visible UI indicators, reason from those details and suggest the next safest inspection or recovery step.",
+server.mjs:407:    "If needed information is missing, do not dead-end. State what is known, what is unknown, and what specific dashboard detail or safe inspection would help next.",
+server.mjs:484:app.get('/api/chat/context', async (req, res) => {
+server.mjs:528:    console.error('Error building /api/chat/context:', err);
+server.mjs:532:      error: 'Failed to build chat context',
+server.mjs:568:      reply = buildSafeStatusGuidance();
+server.mjs:570:    } else if (/prioritize|priority|what should we prioritize|next step/i.test(normalized)) {
+server.mjs:572:      reply = buildSafePriorityGuidance();
+server.mjs:576:      reply = buildEvidenceBasedGuidance(normalized);
+server/taskContract.mjs:73:export function validateTransition(prevStatusRaw, nextStatusRaw) {
+server/taskContract.mjs:75:  const nextStatus = normalizeStatus(nextStatusRaw);
+server/taskContract.mjs:77:  if (prevStatus === nextStatus) return;
+server/taskContract.mjs:92:  const nextAllowed = allowed[prevStatus] || [];
+server/taskContract.mjs:93:  if (!nextAllowed.includes(nextStatus)) {
+server/taskContract.mjs:94:    throw new Error(`Invalid transition: ${prevStatus} → ${nextStatus}`);
+server/orchestrator_state_route.mjs:76:  if (!app || typeof app.get !== "function") {
+server/orchestrator_state_route.mjs:89:  app.get("/orchestrator/state._debug", (req, res) => {
+server/orchestrator_state_route.mjs:112:  app.get("/orchestrator/state", (req, res) => {
+server/db_bootstrap_tasks_task_id.mjs:8:    ALTER TABLE public.tasks
+server/guidance/coherence-engine.mjs:5:export function buildIdentityKey(evt) {
+server/guidance/coherence-engine.mjs:38:    const key = buildIdentityKey(evt);
+server/worker_retry_enforcer.js:11:    task.execution_mode = "rebuild_context";
+server/phase19_debug_routes_dump.mjs:4: * NOTE: These endpoints are intended for local dev only.
+server/phase19_debug_routes_dump.mjs:28:  if (!app || typeof app.get !== "function") return;
+server/phase19_debug_routes_dump.mjs:30:  app.get("/__debug/routes", (req, res) => {
+server/db_bootstrap_run_view.mjs:11:      select distinct on (te.task_id)
+server/db_bootstrap_run_view.mjs:22:      select distinct on (te.task_id)
+server/optional-sse.mjs:165:  if (!app || typeof app.get !== "function") {
+server/optional-sse.mjs:166:    throw new Error("registerOptionalSSE expected an Express-like app with app.get()");
+server/optional-sse.mjs:172:  app.get("/events/ops", ops.handler);
+server/optional-sse.mjs:173:  app.get("/events/reflections", reflections.handler);
+server/optional-sse.mjs:179:// --- Phase 16.9: broadcaster globals for dev emit endpoints ---
+server/optional-sse.mjs:197:// Convenience shims expected by server.mjs dev emit endpoints:
+server/task-lifecycle.ts:35:  next: TaskState
+server/task-lifecycle.ts:37:  if (prev === null) return next === "created";
+server/task-lifecycle.ts:39:  return ORDER[next] >= ORDER[prev];
+server/utils/observability/BOUNDARY_LOCK.md:32:## NEXT VALID EXPANSION PATH
+server/utils/observability/README.md:31:- Internal development (full usage)
+server/utils/observability/README.md:32:- External builds (can be included or removed without dependency)
+server/artifacts.mjs:19:  app.get("/events/artifacts", (req, res) => {
+server/retry_execution_router.js:7:      execution_mode: "rebuild_context",
+server/integrations/execution_guidance_dev_probe.mjs:4: * PHASE 621 — DEV PROBE (REALISTIC EVENT SHAPE)
+server/integrations/execution_guidance_dev_probe.mjs:10:const simulatedEvents = [
+server/integrations/execution_guidance_dev_probe.mjs:14:      task_id: 'dev-1',
+server/integrations/execution_guidance_dev_probe.mjs:25:      task_id: 'dev-2',
+server/integrations/execution_guidance_dev_probe.mjs:36:      task_id: 'dev-3',
+server/integrations/execution_guidance_dev_probe.mjs:46:console.log("▶️ Running execution guidance dev probe...\n");
+server/integrations/execution_guidance_dev_probe.mjs:48:executionGuidanceHook(simulatedEvents);
+server/tasks-mutations.mjs:20:function buildPayload(body = {}) {
+server/tasks-mutations.mjs:39:  const payload = buildPayload(body);
+server/retry_contract.js:1:function enforceRetryContract(req, res, next) {
+server/retry_contract.js:5:    return next();
+server/retry_contract.js:32:  next();
+server/orchestration/scheduler.test.ts:32:    nextEligibleAt: null,
+server/orchestration/scheduler.test.ts:62:  const r = isEligibleNow(ctxNormal, task({ nextEligibleAt: 999 }), snap(0, [], []), cfg);
+server/orchestration/scheduler.ts:8:  nextEligibleAt?: number | null; // used for RETRY_WAIT or delayed queueing
+server/orchestration/scheduler.ts:52:  if (task.nextEligibleAt != null && task.nextEligibleAt > ctx.now) {
+server/orchestration/scheduler.ts:53:    return { ok: true, eligible: false, reason: `not_before=${task.nextEligibleAt}` };
+server/orchestration/task-state-machine.ts:31:  | { type: "task.retry_wait"; ts: number; reason: string; nextAt: number }
+server/orchestration/task-state-machine.ts:59:  function go(next: TaskState): TransitionResult {
+server/orchestration/task-state-machine.ts:60:    if (!canTransition(t.state, next)) {
+server/orchestration/task-state-machine.ts:61:      return { ok: false, error: `disallowed transition ${t.state} -> ${next}`, task: t };
+server/orchestration/task-state-machine.ts:63:    return { ok: true, task: { ...t, state: next } };
+server/orchestration/task-state-machine.ts:76:      const nextAttempts = t.attempts + 1;
+server/orchestration/task-state-machine.ts:77:      if (nextAttempts > t.maxAttempts) {
+server/orchestration/task-state-machine.ts:80:      return { ok: true, task: { ...t, attempts: nextAttempts, state: "RETRY_WAIT", lastError: ev.reason } };
+server/orchestration/task-state-machine.ts:85:      const nextAttempts = t.attempts + 1;
+server/orchestration/task-state-machine.ts:86:      if (nextAttempts >= t.maxAttempts) {
+server/orchestration/task-state-machine.ts:87:        return { ok: true, task: { ...t, attempts: nextAttempts, state: "FAILED", lastError: ev.error } };
+server/orchestration/task-state-machine.ts:89:      return { ok: false, error: "non-terminal fail requires policy (Phase 17.2)", task: { ...t, attempts: nextAttempts, lastError: ev.error } };
+server/orchestration/policy-pipeline.ts:10:  let next = { ...ctx };
+server/orchestration/policy-pipeline.ts:21:        next.operatorMode = d.mode;
+server/orchestration/policy-pipeline.ts:24:        next.intent = d.intent;
+server/orchestration/policy-pipeline.ts:33:  return { ctx: next, emitted };
+server/db/migrations/phase632_add_run_columns.sql:2:ADD COLUMN IF NOT EXISTS next_run_at TIMESTAMP;
+server/db/init.sql:10:  ADD COLUMN IF NOT EXISTS next_run_at TIMESTAMP,
+server/api/chat.mjs:8:function buildAdvisoryReply(normalized) {
+server/api/chat.mjs:38:    return 'I can provide advisory guidance, summarize visible system state, explain runtime behavior, and help reason through next steps. I cannot execute tasks, modify infrastructure, mutate data, or trigger workers from this chat surface.';
+server/api/chat.mjs:50:      'I can still help you reason through the safest next command, validation step, rollback point, or operator decision.'
+server/api/chat.mjs:58:    return 'I am Matilda, an advisory-only system interface for the Motherboard Systems dashboard. My role is to interpret visible runtime context, explain boundaries, support operator reasoning, and help plan safe next steps without performing execution.';
+server/api/chat.mjs:70:      'Next useful check: compare the visible dashboard state, Execution Inspector stream, and recent task events before concluding that anything changed.',
+server/api/chat.mjs:86:      'Avoid layering fixes until the current error clearly points to the next step.'
+server/api/chat.mjs:92:  if (includesAny(normalized, [/\bplan\b/i, /\bnext step\b/i, /\bprioritize\b/i, /\bcorridor\b/i, /\broadmap\b/i])) {
+server/api/chat.mjs:96:      'The safest next-step structure is: preserve the stable checkpoint, choose one narrow refinement target, define the validation proof, then patch only that target.',
+server/api/chat.mjs:128:      'A good next move is to identify which visible signal would confirm the interpretation.'
+server/api/chat.mjs:182:    const reply = buildAdvisoryReply(normalized);
+server/enforcement/phase44_mutation_enforcer.mjs:43:function buildAllowlistIndex(entries) {
+server/enforcement/phase44_mutation_enforcer.mjs:79:  const idx = buildAllowlistIndex(allowlist);
+server/enforcement/phase44_mutation_enforcer.mjs:81:  return function phase44MutationEnforcer(req, res, next) {
+server/enforcement/phase44_mutation_enforcer.mjs:84:      if (!isMutationMethod(m)) return next();
+server/enforcement/phase44_mutation_enforcer.mjs:90:      if (mode === "off") return next();
+server/enforcement/phase44_mutation_enforcer.mjs:94:      if (ok) return next();
+server/enforcement/phase44_mutation_enforcer.mjs:111:        return next();
+server/enforcement/phase44_mutation_enforcer.mjs:134:      return next();
+server/worker/execution_policy_runtime_logger.mjs:9:      requires_context_rebuild: policy.requires_context_rebuild,
+server/worker/execution_policy_runtime_logger.mjs:32:    if (policy.requires_context_rebuild) {
+server/worker/execution_policy_runtime_logger.mjs:36:        action: "rebuild_context_observed",
+server/worker/execution_policy_resolver.mjs:18:    requires_context_rebuild: executionMode === "rebuild_context",
+server/worker/task_execution_interpreter.mjs:26:    executionMode === "rebuild_context" ||
+server/worker/task_execution_interpreter.mjs:32:      executionMode === "rebuild_context" ? "fresh context requested" : null,
+server/worker/phase29_db_migrate_to_phase27.sql:6:alter table tasks add column if not exists next_run_at timestamptz null;
+server/worker/phase29_db_migrate_to_phase27.sql:29:-- 4) tasks: best-effort backfill next_run_at from available_at if present
+server/worker/phase29_db_migrate_to_phase27.sql:34:      set next_run_at = coalesce(next_run_at, available_at)
+server/worker/phase29_db_migrate_to_phase27.sql:35:    where next_run_at is null and available_at is not null;
+server/worker/phase29_db_migrate_to_phase27.sql:61:      else jsonb_build_object('text', payload)
+server/worker/phase29_db_migrate_to_phase27.sql:68:create index if not exists idx_tasks_status_next_run on tasks(status, next_run_at);
+server/worker/phase30_db_doctor_pretty.sh:12:  (select count(*) from information_schema.columns where table_name='tasks' and column_name='next_run_at')::int as has_tasks_next_run_at,
+server/worker/phase30_db_doctor_pretty.sh:19:IFS='|' read -r t_payload t_meta t_attempt t_attempts t_avail t_next ev_payload_type ev_payload_jsonb ev_run ev_actor <<<"$row"
+server/worker/phase30_db_doctor_pretty.sh:27:echo "tasks.next_run_at:  ${t_next}"
+server/worker/phase30_contract_check.sql:11:  if not exists (select 1 from information_schema.columns where table_name='tasks' and column_name='next_run_at') then
+server/worker/phase30_contract_check.sql:12:    raise exception 'missing tasks.next_run_at';
+server/worker/phase32_claim_one.sql:12:    AND (next_run_at IS NULL OR next_run_at <= now())
+server/worker/phase29_db_doctor.sh:12:  (select count(*) from information_schema.columns where table_name='tasks' and column_name='next_run_at') as has_tasks_next_run_at,
+server/worker/phase28_mark_failure.sql:4:-- $3 next_attempt (int)
+server/worker/phase28_mark_failure.sql:5:-- $4 next_available_at (timestamptz, nullable)
+server/worker/phase28_mark_failure.sql:14:    next_run_at = $4,
+server/db_bootstrap_tasks_task_id.mjs.bak_phase464x:2:  // Idempotent, safe for dev: makes string task_id support durable.
+server/routes/subsystem-status.js:25:  app.get('/api/subsystem-status', async (req, res) => {
+server/routes/operator-guidance.mjs:58:function mergeGuidanceEvents(memoryEvents = [], persistedEvents = []) {
+server/routes/operator-guidance.mjs:62:  for (const event of [...persistedEvents, ...memoryEvents]) {
+server/routes/operator-guidance.mjs:80:async function buildGuidance(pool) {
+server/routes/operator-guidance.mjs:193:      const payload = await buildGuidance(pool);
+server/routes/operator-guidance.mjs:223:    const persistedEvents = persisted.ok ? persisted.events : [];
+server/routes/operator-guidance.mjs:224:    const raw = mergeGuidanceEvents(memoryEvents, persistedEvents);
+server/routes/operator-guidance.mjs:228:    const persistedAvailable = persistedEvents.length > 0;
+server/routes/operator-guidance.mjs:248:        persisted_events: persistedEvents.length,
+server/routes/operator-guidance.mjs:255:        event_count: persistedEvents.length,
+server/routes/operator-guidance.mjs:284:        const payload = await buildGuidance(pool);
+server/routes/phase40_6_shadow_audit_task_events.mjs:5:  app.get("/api/shadow/audit/task-events", async (req, res) => {
+server/routes/guidance-sse.js:34:function buildGuidanceSnapshot() {
+server/routes/guidance-sse.js:48:  app.get('/events/guidance', (req, res) => {
+server/routes/guidance-sse.js:55:        const snapshot = buildGuidanceSnapshot();
+server/routes/task-events-sse.mjs:201:          const nextCursor = intOrNull(enrichedPayload.ts);
+server/routes/task-events-sse.mjs:202:          if (nextCursor != null && nextCursor > cursor) {
+server/routes/task-events-sse.mjs:203:            cursor = nextCursor;
+server/routes/api-health.mjs:2:  app.get("/api/health", (_req, res) => {
+server/routes/phase36_run_view.mjs:44:  app.get("/api/runs", async (req, res) => {
+server/routes/phase36_run_view.mjs:133:  app.get("/api/runs/:run_id", async (req, res) => {
+server/routes/guidance.js:35:  app.get('/api/guidance', async (req, res) => {
+server/routes/subsystem-sse.js:27:function buildSnapshot() {
+server/routes/subsystem-sse.js:44:  app.get('/events/subsystem-status', (req, res) => {
+server/routes/subsystem-sse.js:51:        const snapshot = buildSnapshot();
+server/guards/phase44_runtime_integrity_guard.mjs:67:// Tests/dev only
+server/orchestrator/phase18_store.mjs:30:      const next = {
+server/orchestrator/phase18_store.mjs:36:      state.agents.set(agentId, next);
+server/orchestrator/phase18_store.mjs:37:      return next;
+server/policy/policy_grants.ts:39:      // eslint-disable-next-line @typescript-eslint/no-var-requires
+server/policy/grants/resolvePolicyGrant.mjs:6: * - { args: [firstArg, ...], legacy_decision?, ... }  (wrapper buildGrantInput form)
+server/policy/policy_audit.mjs:102:    // eslint-disable-next-line no-console
+server/policy/evaluate.mjs:120:function buildGrantInput(args, legacyResult) {
+server/policy/evaluate.mjs:149:  const grantInput = buildGrantInput(args, legacyResult);
+server/sql/phase54_bootstrap.sql:16:ALTER TABLE public.tasks
+server/sql/phase54_bootstrap.sql:17:ADD COLUMN IF NOT EXISTS next_run_at TIMESTAMPTZ;
+server/sql/phase54_bootstrap.sql:19:ALTER TABLE public.tasks
+server/sql/phase54_bootstrap.sql:37:    WHERE n.nspname = 'public' AND c.relname = 'run_snapshots'
+server/sql/phase54_bootstrap.sql:45:-- So we guard by relying on the file being mounted; if you don't have it, delete the next line.
+server/sql/phase40_6_shadow_audit_task_events.sql:47:  SELECT DISTINCT ON (task_id)
+server/sql/phase40_6_shadow_audit_task_events.sql:56:  SELECT DISTINCT ON (task_id)
+server/sql/phase40_6_shadow_audit_task_events.sql:65:  SELECT DISTINCT ON (task_id)
+server/sql/phase40_6_shadow_audit_task_events.sql:74:  SELECT DISTINCT ON (task_id)
+server/sql/phase47_decision_correctness_invariants.sql:23:  IF to_regclass('public.tasks') IS NULL THEN
+server/sql/phase47_decision_correctness_invariants.sql:24:    RAISE EXCEPTION 'Phase47 invariant failure: missing table public.tasks';
+server/sql/phase47_decision_correctness_invariants.sql:26:  IF to_regclass('public.task_events') IS NULL THEN
+server/sql/phase47_decision_correctness_invariants.sql:27:    RAISE EXCEPTION 'Phase47 invariant failure: missing table public.task_events';
+server/sql/phase47_decision_correctness_invariants.sql:32:  WHERE table_schema='public' AND table_name='tasks' AND column_name='task_id'
+server/sql/phase47_decision_correctness_invariants.sql:40:  WHERE table_schema='public' AND table_name='task_events' AND column_name='id'
+server/sql/phase47_decision_correctness_invariants.sql:45:  WHERE table_schema='public' AND table_name='task_events' AND column_name='task_id'
+server/sql/phase47_decision_correctness_invariants.sql:50:  WHERE table_schema='public' AND table_name='task_events' AND column_name IN ('ts','created_at')
+server/sql/phase47_decision_correctness_invariants.sql:56:  WHERE table_schema='public' AND table_name='task_events' AND column_name IN ('kind','event_kind')
+server/sql/phase47_decision_correctness_invariants.sql:66:  WHERE table_schema='public' AND table_name='tasks' AND column_name IN ('task_status','status')
+server/sql/phase47_decision_correctness_invariants.sql:72:  WHERE table_schema='public' AND table_name='tasks' AND column_name IN ('is_terminal','terminal')
+server/sql/phase47_decision_correctness_invariants.sql:78:  WHERE table_schema='public' AND table_name='tasks' AND column_name IN ('lease_owner','lease_actor','lease_holder')
+server/sql/phase47_decision_correctness_invariants.sql:88:  WHERE table_schema='public' AND table_name='tasks' AND column_name IN ('lease_expires_at','lease_until','lease_expires_ts')
+server/sql/phase47_decision_correctness_invariants.sql:98:  WHERE table_schema='public' AND table_name='tasks' AND column_name IN ('last_heartbeat_ts','heartbeat_ts','last_heartbeat_ms')
+server/sql/phase47_decision_correctness_invariants.sql:115:      FROM public.task_events
+server/sql/phase47_decision_correctness_invariants.sql:130:      FROM public.tasks t
+app/components/GuidancePanel.tsx:66:            execution_mode: 'rebuild_context',
+app/components/GuidancePanel.tsx.bak_phase677_pre_diff:66:            execution_mode: 'rebuild_context',
+app/api/guidance/coherence-preview/route.ts:1:import { NextResponse } from 'next/server';
+app/api/guidance/coherence-preview/route.ts:34:  return NextResponse.json({
+app/api/guidance/route.ts:1:import { NextResponse } from "next/server";
+app/api/guidance/route.ts:27:    return NextResponse.json({
+app/api/guidance/route.ts:33:    return NextResponse.json(
+app/api/guidance/coherence-shadow/route.ts:1:import { NextResponse } from 'next/server';
+app/api/guidance/coherence-shadow/route.ts:10:    const base = process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:8080';
+app/api/guidance/coherence-shadow/route.ts:50:  return NextResponse.json({
+app/api/demo-runtime/route.ts:1:import { NextRequest, NextResponse } from "next/server";
+app/api/demo-runtime/route.ts:11:export async function POST(request: NextRequest) {
+app/api/demo-runtime/route.ts:16:      return NextResponse.json(
+app/api/demo-runtime/route.ts:29:    return NextResponse.json(report, { status: 200 });
+app/api/demo-runtime/route.ts:34:    return NextResponse.json({ error: message }, { status: 500 });
+
+[7] Existing reachable HTML routes
+
+--- / ---
+HTTP/1.1 200 OK
+X-Powered-By: Express
+Accept-Ranges: bytes
+Cache-Control: public, max-age=0
+Last-Modified: Mon, 04 May 2026 16:37:15 GMT
+ETag: W/"b630-19df3d9de78"
+Content-Type: text/html; charset=utf-8
+Content-Length: 46640
+Date: Fri, 08 May 2026 04:25:46 GMT
+Connection: keep-alive
+Keep-Alive: timeout=5
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta http-equiv="Cache-Control" content="no-store, no-cache, must-revalidate, max-age=0" />
+  <meta http-equiv="Pragma" content="no-cache" />
+  <meta http-equiv="Expires" content="0" />
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Motherboard Systems Operator Console</title>
+
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet" />
+  <link rel="stylesheet" href="css/broadcast.css" />
+  <link rel="stylesheet" href="css/dashboard.css?v=darkmode" />
+  <link rel="stylesheet" href="css/dashboard-reflections.css" />
+  <link rel="stylesheet" href="css/agent-status-row.css" />
+  <link rel="stylesheet" href="css/matilda-chat.css" />
+  <link rel="stylesheet" href="css/demo_layout_trim.css" />
+  <link rel="stylesheet" href="css/phase59_demo_focus.css" />
+
+--- /dev ---
+HTTP/1.1 404 Not Found
+X-Powered-By: Express
+Content-Security-Policy: default-src 'none'
+X-Content-Type-Options: nosniff
+Content-Type: text/html; charset=utf-8
+Content-Length: 142
+Date: Fri, 08 May 2026 04:25:46 GMT
+Connection: keep-alive
+Keep-Alive: timeout=5
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Error</title>
+</head>
+<body>
+<pre>Cannot GET /dev</pre>
+</body>
+</html>
+
+--- /dashboard ---
+HTTP/1.1 404 Not Found
+X-Powered-By: Express
+Content-Security-Policy: default-src 'none'
+X-Content-Type-Options: nosniff
+Content-Type: text/html; charset=utf-8
+Content-Length: 148
+Date: Fri, 08 May 2026 04:25:46 GMT
+Connection: keep-alive
+Keep-Alive: timeout=5
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Error</title>
+</head>
+<body>
+<pre>Cannot GET /dashboard</pre>
+</body>
+</html>
+
+--- /api/tasks ---
+HTTP/1.1 200 OK
+X-Powered-By: Express
+Content-Type: application/json; charset=utf-8
+Content-Length: 1546
+ETag: W/"60a-mez9jHoRVNTMxK2QBeh5O1spUSY"
+Date: Fri, 08 May 2026 04:25:46 GMT
+Connection: keep-alive
+Keep-Alive: timeout=5
+
+{"ok":true,"tasks":[{"id":"1","task_id":"t_920a97c9-ddd5-41d3-851d-5735c6e52c30","title":"Phase 704 Execution Inspector live proof","status":"completed","claimed_by":"worker-f23fad8f-a5db-4621-94a5-e41f2e1e666a","updated_at":"2026-05-06T04:25:29.607Z","outcome_preview":"Standard execution prepared for: Phase 704 Execution Inspector live proof","explanation_preview":"standard execution path","guidance":{"ts":1778041531002,"actor":"worker-f23fad8f-a5db-4621-94a5-e41f2e1e666a","run_id":"run_8d705078-6853-44cb-92c4-94bae960c8ea","source":"worker","status":"completed","task_id":"t_920a97c9-ddd5-41d3-851d-5735c6e52c30","claimed_by":"worker-f23fad8f-a5db-4621-94a5-e41f2e1e666a","completed_at":"2026-05-06T04:25:31.000Z","outcome_preview":"Standard execution prepared for: Phase 704 Execution Inspector live proof","communicationResult":{"outcome":{"tier":"TIER_1","content":"Standard execution prepared for: Phase 704 Execution Inspector live proof","purpose":"operator-safe outcome","visibility":"default"},"explanation":{"tier":"TIER_2","content":"standard execution path","purpose":"brief causal explanation","visibility":"on_request","persistence":"non_sticky"},"systemTrace":{"tier":"TIER_3","content":{"run_id":"run_8d705078-6853-44cb-92c4-94bae960c8ea","task_id":"t_920a97c9-ddd5-41d3-851d-5735c6e52c30","execution_meta":{},"compiler_options":{},"strategy_applied":"default"},"purpose":"internal/system execution trace","visibility":"explicit_access_only","persistence":"non_default"}},"explanation_preview":"standard execution path"}}]}
+--- /api/guidance ---
+HTTP/1.1 200 OK
+X-Powered-By: Express
+Content-Type: application/json; charset=utf-8
+Content-Length: 371
+ETag: W/"173-Cxh0QYEVoCqnRJGiz0xGmmndb7I"
+Date: Fri, 08 May 2026 04:25:46 GMT
+Connection: keep-alive
+Keep-Alive: timeout=5
+
+{"ok":true,"guidance_available":true,"guidance":[{"type":"info","severity":1,"message":"All monitored subsystems are operating normally.","subsystem":"all","suggested_action":null,"generated_at":"2026-05-08T04:25:46.826Z"}],"meta":{"source":"guidance-engine","generated_at":"2026-05-08T04:25:46.826Z","task_count":1,"failure_count":0,"retry_count":0,"subsystem_count":0}}
+===== PHASE 716 DASHBOARD ROUTING INSPECTION COMPLETE =====
