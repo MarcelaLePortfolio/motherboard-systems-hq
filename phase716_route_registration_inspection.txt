@@ -1,0 +1,564 @@
+===== PHASE 716 ROUTE REGISTRATION INSPECTION =====
+
+[1] Branch + status
+phase716-execution-evidence-surfacing
+?? PHASE716_INSPECT_ROUTE_REGISTRATION.sh
+?? phase716_route_registration_inspection.txt
+
+[2] Route index
+/**
+ * PHASE 641 — ROUTE REGISTRATION (GUIDANCE SSE + EXISTING)
+ */
+
+import { registerSubsystemStatusRoute } from './subsystem-status.js';
+import { registerSubsystemSSERoute } from './subsystem-sse.js';
+import { registerGuidanceRoute } from './guidance.js';
+import { registerGuidanceSSERoute } from './guidance-sse.js';
+
+export function registerRoutes(app) {
+  // existing routes assumed preserved externally
+
+  registerSubsystemStatusRoute(app);
+  registerSubsystemSSERoute(app);
+  registerGuidanceRoute(app);
+  registerGuidanceSSERoute(app);
+}
+
+[3] Bootstrap route registration
+/**
+ * PHASE 641 — ACTIVE SERVER ROUTE INJECTION
+ * Ensures subsystem + guidance API/SSE routes are available for active runtime mounting.
+ * Safe: read-only route registration only.
+ */
+
+import { registerSubsystemStatusRoute } from '../routes/subsystem-status.js';
+import { registerSubsystemSSERoute } from '../routes/subsystem-sse.js';
+import { registerGuidanceRoute } from '../routes/guidance.js';
+import { registerGuidanceSSERoute } from '../routes/guidance-sse.js';
+
+export function applyRouteRegistration(app) {
+  registerSubsystemStatusRoute(app);
+  registerSubsystemSSERoute(app);
+  registerGuidanceRoute(app);
+  registerGuidanceSSERoute(app);
+}
+
+[4] Existing run_view route
+import { Pool } from "pg";
+import { pool } from "../db.js";
+
+/**
+ * Phase 36.2 — read-only run-centric observability
+ * GET /api/runs/:run_id
+ *
+ * Contract:
+ * - Read-only
+ * - Backed strictly by SQL view: run_view
+ * - No writes, no derived state
+ */
+function getPool() {
+  // Prefer the app-wide pool if present; this matches the server’s canonical DB config.
+  if (globalThis.__DB_POOL) return globalThis.__DB_POOL;
+
+  const url = process.env.POSTGRES_URL || process.env.DATABASE_URL;
+
+  // If URL is not provided, fall back to PG* env vars (matches server.mjs behavior).
+  // NOTE: In containers, PGHOST should be "postgres" (service DNS), not 127.0.0.1.
+  const cfg = url
+    ? { connectionString: url }
+    : {
+        host: process.env.PGHOST || "127.0.0.1",
+        port: Number(process.env.PGPORT || 5432),
+        user: process.env.PGUSER || "postgres",
+        password: process.env.PGPASSWORD || "postgres",
+        database: process.env.PGDATABASE || "postgres",
+      };
+
+  if (!globalThis.__PHASE36_RUNVIEW_POOL) {
+    globalThis.__PHASE36_RUNVIEW_POOL = new Pool({
+      ...cfg,
+      max: 5,
+      idleTimeoutMillis: 30_000,
+    });
+  }
+  return globalThis.__PHASE36_RUNVIEW_POOL;
+}
+
+export function registerPhase36RunView(app) {
+  // Phase 36.4 — Run list observability (read-only, deterministic; DB is source of truth)
+  // GET /api/runs?limit=200&task_status=created&task_status=running&is_terminal=true&since_ts=1770000000000
+  app.get("/api/runs", async (req, res) => {
+    try {
+      const pool = getPool();
+
+      // limit: clamp 1..200, default 50
+      const rawLimit = Array.isArray(req.query.limit) ? req.query.limit[0] : req.query.limit;
+      const limit = Math.max(1, Math.min(200, Number(rawLimit ?? 50) || 50));
+
+      // task_status[]: allow repeated query keys (?task_status=a&task_status=b)
+      const rawStatuses = req.query.task_status;
+      const statuses = (Array.isArray(rawStatuses) ? rawStatuses : (rawStatuses ? [rawStatuses] : []))
+        .map((s) => String(s).trim())
+        .filter(Boolean);
+
+      // is_terminal: optional boolean
+      const rawIsTerminal = Array.isArray(req.query.is_terminal) ? req.query.is_terminal[0] : req.query.is_terminal;
+      const is_terminal =
+        rawIsTerminal === undefined ? undefined :
+        (String(rawIsTerminal).toLowerCase() === "true" ? true :
+         String(rawIsTerminal).toLowerCase() === "false" ? false : undefined);
+
+      // since_ts: optional integer (ms epoch)
+      const rawSince = Array.isArray(req.query.since_ts) ? req.query.since_ts[0] : req.query.since_ts;
+      const since_ts = rawSince === undefined ? undefined : (Number(rawSince) || undefined);
+
+      const where = [];
+      const params = [];
+      let p = 1;
+
+      if (statuses.length > 0) {
+        where.push(`task_status = ANY($${p}::text[])`);
+        params.push(statuses);
+        p++;
+      }
+
+      if (is_terminal !== undefined) {
+        where.push(`is_terminal = $${p}::boolean`);
+        params.push(is_terminal);
+        p++;
+      }
+
+      if (since_ts !== undefined) {
+        where.push(`last_event_ts >= $${p}::bigint`);
+        params.push(since_ts);
+        p++;
+      }
+
+      const whereSql = where.length ? `WHERE ${where.join(" AND ")}` : "";
+
+      // Deterministic ordering (no UI inference): newest activity first; stable tie-breaks
+      const sql = `
+        
+    SELECT
+          run_id,
+          task_id,
+          task_status,
+          is_terminal,
+          last_event_id,
+          last_event_ts,
+          last_event_kind,
+          actor,
+          lease_expires_at,
+          lease_fresh,
+          lease_ttl_ms,
+          last_heartbeat_ts,
+          heartbeat_age_ms,
+          terminal_event_kind,
+          terminal_event_ts,
+          terminal_event_id
+  
+        FROM run_view
+        ${whereSql}
+        ORDER BY
+          last_event_ts DESC NULLS LAST,
+          last_event_id DESC NULLS LAST,
+          run_id DESC
+        LIMIT $${p}::int
+      `;
+
+      params.push(limit);
+
+      const { rows } = await pool.query(sql, params);
+      res.status(200).json({ ok: true, count: rows.length, rows });
+    } catch (err) {
+      res.status(500).json({ ok: false, error: String(err?.message || err) });
+    }
+  });
+
+
+  app.get("/api/runs/:run_id", async (req, res) => {
+    const run_id = String(req.params.run_id || "").trim();
+    if (!run_id) return res.status(400).json({ error: "run_id required" });
+
+    try {
+      const pool = getPool();
+      const q = "SELECT * FROM run_view WHERE run_id = $1 LIMIT 1";
+      const r = await pool.query(q, [run_id]);
+
+      if (!r.rows?.length) return res.status(404).json({ error: "not_found", run_id });
+      return res.status(200).json(r.rows[0]);
+    } catch (e) {
+      return res.status(500).json({ error: "query_failed", detail: String(e?.message || e) });
+    }
+  });
+}
+
+const DEFAULT_LIMIT = 50;
+const MAX_LIMIT = 200;
+
+export async function getRunsList(req, res) {
+  const rawLimit = Number((req && req.query && req.query.limit) ?? DEFAULT_LIMIT);
+  const limit = Number.isFinite(rawLimit) && rawLimit > 0
+    ? Math.min(rawLimit, MAX_LIMIT)
+    : DEFAULT_LIMIT;
+
+  const sql = `
+    SELECT *
+    FROM run_view
+    ORDER BY created_at DESC, run_id DESC
+    LIMIT $1
+  `;
+
+  try {
+    const { rows } = await pool.query(sql, [limit]);
+    return res.status(200).json(rows);
+  } catch (err) {
+    console.error("GET /api/runs failed", err);
+    return res.status(500).json({ error: "internal_error" });
+  }
+}
+
+[5] Existing task API route
+import express from "express";
+import crypto from "crypto";
+
+console.log("[phase25] api-tasks-postgres loaded", new Date().toISOString(), "file=", import.meta.url);
+import { emitTaskEvent } from "../task_events_emit.mjs";
+import { PolicyEnforcedError, assertNotEnforced } from "../policy/enforce.mjs";
+
+export const apiTasksRouter = express.Router();
+
+function _asJson(req) {
+  const b = req.body;
+  if (b == null) return {};
+  if (typeof b === "object") return b;
+  if (typeof b === "string") {
+    try { return JSON.parse(b); } catch (_) { return { _raw: b }; }
+  }
+  return { _raw: b };
+}
+
+function _getPoolOrFail(res) {
+  const pool = globalThis.__DB_POOL;
+  if (!pool) {
+    res.status(500).json({ ok: false, error: "db_pool_not_initialized" });
+    return null;
+  }
+  return pool;
+}
+
+// Health (non-writing). Keep both endpoints for compatibility.
+apiTasksRouter.get("/healthz", async (_req, res) => {
+  res.status(200).json({ ok: true });
+});
+
+apiTasksRouter.get("/health", async (_req, res) => {
+  res.status(200).json({ ok: true });
+});
+
+// GET /api/tasks?limit=25  -> recent tasks for dashboard widget
+apiTasksRouter.get("/", async (req, res) => {
+  console.log("[phase57c-router] /api/tasks probe", {
+    originalUrl: req.originalUrl,
+    baseUrl: req.baseUrl,
+    path: req.path,
+    referer: req.get("referer") || null,
+    userAgent: req.get("user-agent") || null,
+    accept: req.get("accept") || null,
+  });
+
+  try {
+    const pool = _getPoolOrFail(res);
+    if (!pool) return;
+
+    const limit = Math.max(1, Math.min(200, Number(req.query?.limit ?? 25) || 25));
+    const r = await pool.query(
+      `
+      SELECT
+        t.id,
+        t.task_id,
+        t.title,
+        t.status,
+        t.claimed_by,
+        t.updated_at,
+        completed.payload->>'outcome_preview' AS outcome_preview,
+        completed.payload->>'explanation_preview' AS explanation_preview,
+        completed.payload AS guidance
+      FROM tasks t
+      LEFT JOIN LATERAL (
+        SELECT te.payload
+        FROM task_events te
+        WHERE te.task_id = t.task_id
+          AND te.kind = 'task.completed'
+        ORDER BY te.id DESC
+        LIMIT 1
+      ) completed ON true
+      ORDER BY t.updated_at DESC NULLS LAST, t.id DESC
+      LIMIT $1
+      `,
+      [limit]
+    );
+
+    res.status(200).json({ ok: true, tasks: r.rows || [] });
+  } catch (e) {
+    console.error("[phase25] /api/tasks list error", e);
+    res.status(500).json({ ok: false, error: e?.message || String(e) });
+  }
+});
+
+// POST /api/tasks/create  { task_id?, title?, agent?, run_id?, ... }
+apiTasksRouter.post("/create", async (req, res) => {
+  try {
+    const pool = _getPoolOrFail(res);
+    if (!pool) return;
+
+    console.log("[phase25] /api/tasks/create pool snapshot", {
+      hasLocal: !!pool,
+      localType: pool?.constructor?.name,
+      hasGlobal: !!globalThis.__DB_POOL,
+      globalType: globalThis.__DB_POOL?.constructor?.name,
+    });
+
+    const b = _asJson(req);
+
+    let run_id = b.run_id ?? b.runId ?? null;
+    if (!run_id) run_id = `run_${crypto.randomUUID()}`;
+    run_id = String(run_id);
+
+    // Accept caller-provided task_id; otherwise create a task row + mint a stable string task_id.
+    let task_id = b.task_id ?? b.taskId ?? b.id ?? null;
+
+    // Phase52: schema-compat — task_id must never be null (tasks.task_id is NOT NULL)
+    if (!task_id) task_id = `t_${crypto.randomUUID()}`;
+
+    // Normalize to string for lifecycle events
+    task_id = String(task_id);
+
+    // phase25: ensure tasks row exists even when caller provides task_id
+    // (workers claim from tasks, not task_events)
+    await pool.query(
+      `
+      INSERT INTO tasks (task_id, title, status, kind, payload, run_id, action_tier, notes)
+      VALUES ($1, $2, $3, $4, $5::jsonb, $6, $7, $8)
+      ON CONFLICT (task_id) DO UPDATE
+      SET title       = COALESCE(EXCLUDED.title, tasks.title),
+          status      = COALESCE(EXCLUDED.status, tasks.status),
+          kind        = COALESCE(EXCLUDED.kind, tasks.kind),
+          payload     = COALESCE(EXCLUDED.payload, tasks.payload),
+          run_id      = COALESCE(EXCLUDED.run_id, tasks.run_id),
+          action_tier = COALESCE(EXCLUDED.action_tier, tasks.action_tier),
+          notes       = COALESCE(EXCLUDED.notes, tasks.notes),
+          updated_at  = now()
+      `,
+      [
+        task_id,
+        b.title ?? null,
+        b.status ?? "queued",
+        b.kind ?? null,
+        JSON.stringify(b.payload ?? b.meta ?? {}),
+        run_id,
+        b.action_tier ?? "A",
+        b.notes ?? null,
+      ]
+    );
+
+    const evt = await emitTaskEvent({
+      pool,
+      kind: "task.created",
+      task_id,
+      run_id,
+      actor: b.actor ?? b.agent ?? "api",
+      payload: {
+        title: b.title ?? null,
+        agent: b.agent ?? null,
+        status: b.status ?? "delegated",
+        source: b.source ?? "api",
+        meta: b.meta ?? null,
+      },
+    });
+
+    res.status(201).json({ ok: true, task_id, run_id, event: evt });
+  } catch (e) {
+    console.error("[phase25] /api/tasks error", e);
+
+    if (e instanceof PolicyEnforcedError || e?.code === "POLICY_ENFORCED" || e?.name === "PolicyEnforcedError") {
+      return res.status(403).json({ ok: false, error: "policy.enforced", detail: e?.message || String(e) });
+    }
+
+    res.status(500).json({ ok: false, error: e?.message || String(e) });
+  }
+});
+
+// POST /api/tasks/complete  { task_id, status?, run_id?, ... }
+apiTasksRouter.post("/complete", async (req, res) => {
+  try {
+    // Phase53: enforce gate BEFORE any DB writes
+    assertNotEnforced("http:/api/tasks/create");
+
+    const pool = _getPoolOrFail(res);
+    if (!pool) return;
+
+    const b = _asJson(req);
+    const task_id = b.task_id ?? b.taskId ?? b.id ?? null;
+    if (!task_id) return res.status(400).json({ ok: false, error: "task_id_required" });
+
+    const evt = await emitTaskEvent({
+      pool,
+      kind: "task.completed",
+      task_id,
+      run_id: b.run_id ?? b.runId ?? null,
+      actor: b.actor ?? b.agent ?? "api",
+      payload: {
+        status: b.status ?? "complete",
+        result: b.result ?? null,
+        source: b.source ?? "api",
+      },
+    });
+
+    res.status(200).json({ ok: true, task_id, event: evt });
+  } catch (e) {
+    console.error("[phase25] /api/tasks error", e);
+
+    if (e instanceof PolicyEnforcedError || e?.code === "POLICY_ENFORCED" || e?.name === "PolicyEnforcedError") {
+      return res.status(403).json({ ok: false, error: "policy.enforced", detail: e?.message || String(e) });
+    }
+
+    res.status(500).json({ ok: false, error: e?.message || String(e) });
+  }
+});
+
+// POST /api/tasks/fail  { task_id, error?, status?, run_id?, ... }
+apiTasksRouter.post("/fail", async (req, res) => {
+  try {
+    // Phase53: enforce gate BEFORE any DB writes
+    assertNotEnforced("http:/api/tasks/complete");
+
+    const pool = _getPoolOrFail(res);
+    if (!pool) return;
+
+    const b = _asJson(req);
+    const task_id = b.task_id ?? b.taskId ?? b.id ?? null;
+    if (!task_id) return res.status(400).json({ ok: false, error: "task_id_required" });
+
+    const evt = await emitTaskEvent({
+      pool,
+      kind: "task.failed",
+      task_id,
+      run_id: b.run_id ?? b.runId ?? null,
+      actor: b.actor ?? b.agent ?? "api",
+      payload: {
+        status: b.status ?? "failed",
+        error: b.error ?? b.err ?? null,
+        source: b.source ?? "api",
+      },
+    });
+
+    res.status(200).json({ ok: true, task_id, event: evt });
+  } catch (e) {
+    console.error("[phase25] /api/tasks error", e);
+
+    if (e instanceof PolicyEnforcedError || e?.code === "POLICY_ENFORCED" || e?.name === "PolicyEnforcedError") {
+      return res.status(403).json({ ok: false, error: "policy.enforced", detail: e?.message || String(e) });
+    }
+
+    res.status(500).json({ ok: false, error: e?.message || String(e) });
+  }
+});
+
+// POST /api/tasks/cancel  { task_id, run_id?, ... }
+apiTasksRouter.post("/cancel", async (req, res) => {
+  try {
+    // Phase53: enforce gate BEFORE any DB writes
+    assertNotEnforced("http:/api/tasks/cancel");
+
+    // Phase53: enforce gate BEFORE any DB writes
+    assertNotEnforced("http:/api/tasks/fail");
+
+    const pool = _getPoolOrFail(res);
+    if (!pool) return;
+
+    const b = _asJson(req);
+    const task_id = b.task_id ?? b.taskId ?? b.id ?? null;
+    if (!task_id) return res.status(400).json({ ok: false, error: "task_id_required" });
+
+    const evt = await emitTaskEvent({
+      pool,
+      kind: "task.canceled",
+      task_id,
+      run_id: b.run_id ?? b.runId ?? null,
+      actor: b.actor ?? b.agent ?? "api",
+      payload: {
+        reason: b.reason ?? null,
+        source: b.source ?? "api",
+      },
+    });
+
+    res.status(200).json({ ok: true, task_id, event: evt });
+  } catch (e) {
+    console.error("[phase25] /api/tasks error", e);
+
+    if (e instanceof PolicyEnforcedError || e?.code === "POLICY_ENFORCED" || e?.name === "PolicyEnforcedError") {
+      return res.status(403).json({ ok: false, error: "policy.enforced", detail: e?.message || String(e) });
+    }
+
+    res.status(500).json({ ok: false, error: e?.message || String(e) });
+  }
+});
+
+[6] Execution inspector test UI
+'use client';
+
+import ExecutionInspector from "../components/ExecutionInspector";
+
+export default function Page() {
+  return (
+    <div className="p-6 space-y-6">
+      <div className="text-lg font-semibold">Execution Inspector — Guidance Test (UI Verified)</div>
+
+      <ExecutionInspector
+        task={{
+          id: "live-task-001",
+          status: "completed",
+          guidance: {
+            classification: "success",
+            outcome: "Execution pipeline completed cleanly.",
+            explanation: "All stages (DB → Worker → SSE) executed without error. No retry or intervention required."
+          }
+        }}
+      />
+
+      <ExecutionInspector
+        task={{
+          id: "live-task-002",
+          status: "completed",
+          guidance: {
+            classification: "warning",
+            outcome: "Execution completed with advisory signal.",
+            explanation: "Non-blocking anomaly detected in communication layer. Monitoring recommended but no action required."
+          }
+        }}
+      />
+
+      <ExecutionInspector
+        task={{
+          id: "live-task-003",
+          status: "failed",
+          guidance: {
+            classification: "blocked",
+            outcome: "Execution halted due to upstream failure.",
+            explanation: "Dependency did not resolve. Retry should only occur after upstream fix is confirmed."
+          }
+        }}
+      />
+
+      <ExecutionInspector
+        task={{
+          id: "live-task-004",
+          status: "completed"
+        }}
+      />
+    </div>
+  );
+}
+
+===== PHASE 716 ROUTE REGISTRATION INSPECTION COMPLETE =====
