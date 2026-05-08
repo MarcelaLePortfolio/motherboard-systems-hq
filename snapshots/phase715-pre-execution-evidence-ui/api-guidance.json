@@ -1,0 +1,1 @@
+{"ok":true,"guidance_available":true,"guidance":[{"type":"info","severity":1,"message":"All monitored subsystems are operating normally.","subsystem":"all","suggested_action":null,"generated_at":"2026-05-08T03:50:42.367Z"}],"meta":{"source":"guidance-engine","generated_at":"2026-05-08T03:50:42.367Z","task_count":1,"failure_count":0,"retry_count":0,"subsystem_count":0}}

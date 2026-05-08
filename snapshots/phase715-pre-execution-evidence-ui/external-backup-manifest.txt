@@ -1,0 +1,13 @@
+
+Phase 715 External Manifest Backup
+
+Created: 2026-05-08T03:50:42Z
+
+Repo: /Users/marcela-dev/Projects/Motherboard_Systems_HQ
+
+External target: /Volumes/Rio Drive/Motherboard_System_Backups/phase715-pre-execution-evidence-ui/manifest-only
+
+Backup type: lightweight manifest-only
+
+Heavy repo-copy backup removed: /Volumes/Rio Drive/Motherboard_System_Backups/phase715-pre-execution-evidence-ui/Motherboard_Systems_HQ
+

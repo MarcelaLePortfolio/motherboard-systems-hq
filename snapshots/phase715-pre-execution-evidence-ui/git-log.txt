@@ -1,3 +1,4 @@
+af4209be Create Phase 715 pre-execution-evidence-ui checkpoint
 64893898 Stabilize Phase 714 inspection script
 531aa2b7 Fix Phase 714 inspection script find pruning logic
 b62eda91 Add Phase 714 read-only inspection script
@@ -22,4 +23,3 @@ fe019c66 phase710-compact-context-grounding-stable: seal grounded advisory runti
 185e792b Phase 710: verify Matilda compact context grounding
 3431168a Phase 710: ground Matilda prompt with compact read-only context
 27becc53 Phase 710: verify Matilda prompt patch target before context injection
-1fb3b86a Phase 709: capture Matilda prompt assembly finding
