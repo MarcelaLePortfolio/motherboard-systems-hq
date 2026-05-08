@@ -47,9 +47,9 @@ curl -sS -i "http://localhost:3000/api/tasks" | head -80 || true
 
 echo ""
 
-echo "[7] Probe dev inspector page"
+echo "[7] Probe routed dev inspector evidence page"
 
-curl -sS -i "http://localhost:3000/dev/page-ExecutionInspectorTest" | head -40 || true
+curl -sS -i "http://localhost:3000/dev/execution-inspector" | head -80 || true
 
 echo ""
 
