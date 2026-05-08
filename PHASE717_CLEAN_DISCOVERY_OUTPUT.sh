@@ -3,6 +3,14 @@
 
 set -euo pipefail
 
+echo "===== PHASE 717 CLEAN DISCOVERY OUTPUT ====="
+
+cat > PHASE717_TARGETED_DISCOVERY.sh << 'EOS'
+
+#!/bin/bash
+
+set -euo pipefail
+
 echo "===== PHASE 717 TARGETED DISCOVERY v3 ====="
 
 echo ""
@@ -116,4 +124,26 @@ git log --oneline --decorate -5
 echo ""
 
 echo "===== PHASE 717 TARGETED DISCOVERY v3 COMPLETE ====="
+
+EOS
+
+chmod +x PHASE717_TARGETED_DISCOVERY.sh
+
+cat > PHASE717_TARGETED_DISCOVERY_RESULT.txt << 'EOS'
+
+PHASE 717 TARGETED DISCOVERY RESULT
+
+Prior result was intentionally cleared because it captured excessive repository output.
+
+Run ./PHASE717_TARGETED_DISCOVERY.sh again for bounded, macOS-safe discovery output.
+
+EOS
+
+git add PHASE717_CLEAN_DISCOVERY_OUTPUT.sh PHASE717_TARGETED_DISCOVERY.sh PHASE717_TARGETED_DISCOVERY_RESULT.txt
+
+git commit -m "Phase 717: clean oversized discovery output"
+
+git push origin dev
+
+echo "===== PHASE 717 CLEAN DISCOVERY OUTPUT COMPLETE ====="
 
