@@ -1,0 +1,784 @@
+===== PHASE 716 RENDERER TARGET DISCOVERY REPAIRED =====
+
+[1] Confirm stable base
+Your branch is up to date with 'origin/dev'.
+?? PHASE716_RENDERER_TARGET_DISCOVERY_REPAIRED.sh
+?? phase716_renderer_target_discovery_repaired.txt
+3d3bf42c Revert "Phase 716: discover exact telemetry renderer target"
+de038917 Phase 716: discover exact telemetry renderer target
+b901049e Phase 716: confirm stable reverted base
+27da65ec Phase 716: add post-revert stable checkpoint script
+3e869030 Revert "Phase 716: fix zero-height recent tasks containment"
+db312a74 Phase 716: fix zero-height recent tasks containment
+80657225 Revert "Phase 716: target recent tasks inspector overflow containment"
+f9194f53 Revert "Phase 716: add post-overflow runtime verification"
+
+[2] Locate exact renderer files for Recent Tasks / Execution Inspector tabs
+public/dashboard.html.bak:131:    <h2 style="color:#eee;">🧾 Recent Tasks</h2>
+public/dashboard.html.bak:132:    <div id="recentTasks" style="padding:8px;font-family:monospace;color:#ccc;"></div>
+public/dashboard.html.bak:134:    <div id="recentLogs" style="padding:8px;font-family:monospace;color:#ccc;"></div>
+public/dashboard.html.phase478_4_pre_dashboard_css_restore.bak:171:                <button id="obs-tab-recent" class="obs-tab active" type="button" data-workspace-tab data-target="obs-panel-recent" role="tab" aria-selected="true" aria-controls="obs-panel-recent">
+public/dashboard.html.phase478_4_pre_dashboard_css_restore.bak:172:                  Recent Tasks
+public/dashboard.html.phase478_4_pre_dashboard_css_restore.bak:175:                  Task History
+public/dashboard.html.phase478_4_pre_dashboard_css_restore.bak:182:              <div id="observational-panels">
+public/dashboard.html.phase478_4_pre_dashboard_css_restore.bak:183:                <div id="obs-panel-recent" class="obs-panel active" data-workspace-panel role="tabpanel" aria-labelledby="obs-tab-recent">
+public/dashboard.html.phase478_4_pre_dashboard_css_restore.bak:239:    <div id="recentLogs"></div>
+public/index.html:150:    #recentTasks,
+public/index.html:151:    #recentLogs,
+public/index.html:374:              <button id="obs-tab-recent" class="obs-tab active" type="button" data-workspace-tab data-target="obs-panel-recent" role="tab" aria-selected="true" aria-controls="obs-panel-recent">
+public/index.html:375:                Recent Tasks
+public/index.html:378:                Task History
+public/index.html:381:                Execution Inspector
+public/index.html:385:            <div id="observational-panels">
+public/index.html:386:              <div id="obs-panel-recent" class="obs-panel active" data-workspace-panel role="tabpanel" aria-labelledby="obs-tab-recent">
+public/index.html:389:                    <h3 class="text-sm uppercase tracking-[0.2em] text-gray-400 mb-2">Recent Tasks</h3>
+public/index.html:390:                    <div id="recentTasks" class="bg-gray-900 border border-gray-700 rounded-xl p-3 text-sm text-gray-300"></div>
+public/index.html:394:                    <div id="recentLogs" class="bg-gray-900 border border-gray-700 rounded-xl p-3 text-sm text-gray-300"></div>
+public/index.html:462:  #observational-panels,
+public/index.html:480:  #recentTasks,
+public/index.html:481:  #recentLogs,
+public/index.html:519:  #obs-panel-recent,
+public/index.html:530:  #observational-panels > .obs-panel:not([hidden]),
+public/index.html:589:  <script defer src="js/phase530_visible_panels_bridge.js"></script>
+public/index.html:1123:      empty.textContent = "No recent tasks available.";
+public/index.html:1212:  <script defer src="js/phase573_execution_inspector_debug.js"></script>
+public/index.html:1335:  #recentTasks,
+public/index.html:1336:  #recentLogs,
+public/dashboard.html.bak.1762372376:72:    <h2 style="color:#eee;">🧾 Recent Tasks</h2>
+public/dashboard.html.bak.1762372376:73:    <div id="recentTasks" style="padding:8px;font-family:monospace;color:#ccc;"></div>
+public/dashboard.html.bak.1762372376:75:    <div id="recentLogs" style="padding:8px;font-family:monospace;color:#ccc;"></div>
+public/dashboard.html.backup-20251204-152244:181:    <h2 style="color:#eee;">🧾 Recent Tasks</h2>
+public/dashboard-logs.v3.js:4:  const container = document.getElementById("recentLogs_legacy");
+public/dashboard-logs.v3.js:6:    console.warn("⚠️ No #recentLogs found in DOM");
+public/dashboard.js.bak2:14:  const container = document.getElementById("recentTasks");
+public/dashboard.js.bak2:15:  if (!container) return console.warn("⚠️ No #recentTasks container found.");
+public/dashboard.js.bak2:22:      container.innerText = "⚠️ No recent tasks available.";
+public/dashboard.js.bak2:35:    console.error("❌ Failed to load recent tasks:", err);
+public/css/phase61_tabs_observational_workspace.css:49:#observational-panels {
+public/css/phase61_tabs_observational_workspace.css:67:#obs-panel-recent .obs-surface,
+public/css/phase61_tabs_observational_workspace.css:124:  #observational-panels {
+public/css/phase60_live_polish.css:163:/* Recent tasks should remain compact but readable */
+public/css/phase491_workspace_equal_height.css:28:#obs-panel-recent,
+public/css/dashboard-reflections.css:2:#recentLogs {
+public/js/dashboard-tasks-widget.js:459:/* HARD GUARD — protect Execution Inspector from DOM wipes */
+public/js/phase490_telemetry_height_probe.js:55:      measure("#obs-panel-recent"),
+public/js/phase457_neutralize_legacy_observational_consumers.js:36:    setIfProbeLike(byId("tasks-widget"), "No recent tasks yet.");
+public/js/phase457_neutralize_legacy_observational_consumers.js:37:    setIfProbeLike(byId("recentLogs"), "No task history yet.");
+public/js/task-events-sse-client.js.bak_phase704_waiting_state:196:        <span>Execution Inspector: ${escapeHtml(state)}</span>
+public/js/phase61_tabs_workspace.js:120:    installTabGroup("observational-tabs", "observational-panels");
+public/js/phase565_recent_logs_wire.js:15:    const mount = document.getElementById("recentLogs");
+public/js/phase565_recent_logs_wire.js:21:      mount.textContent = "No task history yet.";
+public/js/phase565_recent_logs_wire.js:65:  function startRecentLogsWire() {
+public/js/phase565_recent_logs_wire.js:70:    document.addEventListener("DOMContentLoaded", startRecentLogsWire, { once: true });
+public/js/phase565_recent_logs_wire.js:72:    startRecentLogsWire();
+public/js/phase531_recent_tasks_layout_fix.js:7:    const tasks = document.getElementById("recentTasks");
+public/js/phase531_recent_tasks_layout_fix.js:8:    const logs = document.getElementById("recentLogs");
+public/js/phase530_visible_panels_bridge.js:2:  if (window.__PHASE530_VISIBLE_PANELS_BRIDGE__) return;
+public/js/phase530_visible_panels_bridge.js:3:  window.__PHASE530_VISIBLE_PANELS_BRIDGE__ = true;
+public/js/phase530_visible_panels_bridge.js:45:      return `<div style="color:#94a3b8;font-size:.8rem;">No recent tasks yet.</div>`;
+public/js/phase530_visible_panels_bridge.js:59:    const recentTasks = document.getElementById("recentTasks");
+public/js/phase530_visible_panels_bridge.js:60:    const recentLogs = document.getElementById("recentLogs");
+public/js/phase530_visible_panels_bridge.js:71:    [recentTasks, recentLogs].forEach((el) => {
+public/js/phase530_visible_panels_bridge.js:79:    if (recentTasks) recentTasks.innerHTML = taskRows(tasks);
+public/js/phase530_visible_panels_bridge.js:81:    if (recentLogs) {
+public/js/phase530_visible_panels_bridge.js:82:      recentLogs.innerHTML = (tasks && tasks.length)
+public/js/phase530_visible_panels_bridge.js:88:        : `<div style="color:#94a3b8;font-size:.8rem;">No task history yet.</div>`;
+public/js/phase530_visible_panels_bridge.js:179:      console.warn("[phase530] recent tasks render failed", e);
+public/js/phase565_recent_tasks_wire.js:22:  function renderRecentTasks(tasks) {
+public/js/phase565_recent_tasks_wire.js:23:    const mount = document.getElementById("recentTasks");
+public/js/phase565_recent_tasks_wire.js:31:      mount.textContent = "No recent tasks yet.";
+public/js/phase565_recent_tasks_wire.js:66:  async function refreshRecentTasks() {
+public/js/phase565_recent_tasks_wire.js:71:      renderRecentTasks(Array.isArray(data.tasks) ? data.tasks : []);
+public/js/phase565_recent_tasks_wire.js:73:      renderRecentTasks([]);
+public/js/phase565_recent_tasks_wire.js:77:  function startRecentTasksWire() {
+public/js/phase565_recent_tasks_wire.js:78:    refreshRecentTasks();
+public/js/phase565_recent_tasks_wire.js:82:    document.addEventListener("DOMContentLoaded", startRecentTasksWire, { once: true });
+public/js/phase565_recent_tasks_wire.js:84:    startRecentTasksWire();
+public/js/task-events-sse-client.js.bak_phase704_sse_endpoint:196:        <span>Execution Inspector: ${escapeHtml(state)}</span>
+public/js/task-events-sse-client.js:196:        <span>Execution Inspector: ${escapeHtml(state)}</span>
+public/js/phase457_restore_task_panels.BROKEN_BACKUP.js:278:            notes: "Retry requested from Execution Inspector",
+public/js/phase61_inspector_mount.js:1:/* Execution Inspector — Minimal Deterministic Mount (NO GUARDS, NO OVERLAY SYSTEMS) */
+public/js/phase61_recent_history_wire.js:2:/* Execution Inspector — Deterministic Mount + Stable Render Contract */
+public/dashboard_body_q2_probe.html:40:                <button id="obs-tab-recent" class="obs-tab active" type="button" data-workspace-tab data-target="obs-panel-recent" role="tab" aria-selected="true" aria-controls="obs-panel-recent">
+public/dashboard_body_q2_probe.html:41:                  Recent Tasks
+public/dashboard_body_q2_probe.html:44:                  Task History
+public/dashboard_body_q2_probe.html:51:              <div id="observational-panels">
+public/dashboard_body_q2_probe.html:52:                <div id="obs-panel-recent" class="obs-panel active" data-workspace-panel role="tabpanel" aria-labelledby="obs-tab-recent">
+public/dashboard_body_q2_probe.html:108:    <div id="recentLogs"></div>
+public/dashboard.html.phase478_5_pre_repo_stylesheet_restore.bak:171:                <button id="obs-tab-recent" class="obs-tab active" type="button" data-workspace-tab data-target="obs-panel-recent" role="tab" aria-selected="true" aria-controls="obs-panel-recent">
+public/dashboard.html.phase478_5_pre_repo_stylesheet_restore.bak:172:                  Recent Tasks
+public/dashboard.html.phase478_5_pre_repo_stylesheet_restore.bak:175:                  Task History
+public/dashboard.html.phase478_5_pre_repo_stylesheet_restore.bak:182:              <div id="observational-panels">
+public/dashboard.html.phase478_5_pre_repo_stylesheet_restore.bak:183:                <div id="obs-panel-recent" class="obs-panel active" data-workspace-panel role="tabpanel" aria-labelledby="obs-tab-recent">
+public/dashboard.html.phase478_5_pre_repo_stylesheet_restore.bak:239:    <div id="recentLogs"></div>
+public/dashboard.html.phase477_4_pre_inline_script_neutralization.bak:171:                <button id="obs-tab-recent" class="obs-tab active" type="button" data-workspace-tab data-target="obs-panel-recent" role="tab" aria-selected="true" aria-controls="obs-panel-recent">
+public/dashboard.html.phase477_4_pre_inline_script_neutralization.bak:172:                  Recent Tasks
+public/dashboard.html.phase477_4_pre_inline_script_neutralization.bak:175:                  Task History
+public/dashboard.html.phase477_4_pre_inline_script_neutralization.bak:182:              <div id="observational-panels">
+public/dashboard.html.phase477_4_pre_inline_script_neutralization.bak:183:                <div id="obs-panel-recent" class="obs-panel active" data-workspace-panel role="tabpanel" aria-labelledby="obs-tab-recent">
+public/dashboard.html.phase477_4_pre_inline_script_neutralization.bak:239:    <div id="recentLogs"></div>
+public/dashboard-logs.js:7:  const container = document.getElementById("recentLogs_legacy");
+public/dashboard-logs.js:9:    console.warn("⚠️ No #recentLogs container found.");
+public/dashboard.html.phase474_2_pre_tailwind_only_restore.bak:123:      #observational-panels {
+public/dashboard.html.phase474_2_pre_tailwind_only_restore.bak:131:      #obs-panel-recent,
+public/dashboard.html.phase474_2_pre_tailwind_only_restore.bak:139:      #obs-panel-recent .obs-surface,
+public/dashboard.html.phase474_2_pre_tailwind_only_restore.bak:161:      #obs-panel-recent,
+public/dashboard.html.phase474_2_pre_tailwind_only_restore.bak:551:                <button id="obs-tab-recent" class="obs-tab active" type="button" data-workspace-tab data-target="obs-panel-recent" role="tab" aria-selected="true" aria-controls="obs-panel-recent">
+public/dashboard.html.phase474_2_pre_tailwind_only_restore.bak:552:                  Recent Tasks
+public/dashboard.html.phase474_2_pre_tailwind_only_restore.bak:555:                  Task History
+public/dashboard.html.phase474_2_pre_tailwind_only_restore.bak:562:              <div id="observational-panels">
+public/dashboard.html.phase474_2_pre_tailwind_only_restore.bak:563:                <div id="obs-panel-recent" class="obs-panel active" data-workspace-panel role="tabpanel" aria-labelledby="obs-tab-recent">
+public/dashboard.html.phase474_2_pre_tailwind_only_restore.bak:619:    <div id="recentLogs"></div>
+public/dashboard.html.phase471_0_task_events_surface_neutralized.bak:123:      #observational-panels {
+public/dashboard.html.phase471_0_task_events_surface_neutralized.bak:131:      #obs-panel-recent,
+public/dashboard.html.phase471_0_task_events_surface_neutralized.bak:139:      #obs-panel-recent .obs-surface,
+public/dashboard.html.phase471_0_task_events_surface_neutralized.bak:161:      #obs-panel-recent,
+public/dashboard.html.phase471_0_task_events_surface_neutralized.bak:551:                <button id="obs-tab-recent" class="obs-tab active" type="button" data-workspace-tab data-target="obs-panel-recent" role="tab" aria-selected="true" aria-controls="obs-panel-recent">
+public/dashboard.html.phase471_0_task_events_surface_neutralized.bak:552:                  Recent Tasks
+public/dashboard.html.phase471_0_task_events_surface_neutralized.bak:555:                  Task History
+public/dashboard.html.phase471_0_task_events_surface_neutralized.bak:562:              <div id="observational-panels">
+public/dashboard.html.phase471_0_task_events_surface_neutralized.bak:563:                <div id="obs-panel-recent" class="obs-panel active" data-workspace-panel role="tabpanel" aria-labelledby="obs-tab-recent">
+public/dashboard.html.phase471_0_task_events_surface_neutralized.bak:619:    <div id="recentLogs"></div>
+public/dashboard.html.phase478_7_pre_dashboard_reflections_restore.bak:171:                <button id="obs-tab-recent" class="obs-tab active" type="button" data-workspace-tab data-target="obs-panel-recent" role="tab" aria-selected="true" aria-controls="obs-panel-recent">
+public/dashboard.html.phase478_7_pre_dashboard_reflections_restore.bak:172:                  Recent Tasks
+public/dashboard.html.phase478_7_pre_dashboard_reflections_restore.bak:175:                  Task History
+public/dashboard.html.phase478_7_pre_dashboard_reflections_restore.bak:182:              <div id="observational-panels">
+public/dashboard.html.phase478_7_pre_dashboard_reflections_restore.bak:183:                <div id="obs-panel-recent" class="obs-panel active" data-workspace-panel role="tabpanel" aria-labelledby="obs-tab-recent">
+public/dashboard.html.phase478_7_pre_dashboard_reflections_restore.bak:239:    <div id="recentLogs"></div>
+public/dashboard.css:107:header, #chatContainer, #recentTasks, #recentLogs, #reflectionsContainer, #diagnosticsOverview {
+public/dashboard.css:132:#recentLogs pre, #recentTasks pre, #reflectionsContainer pre {
+public/dashboard.css:153:header, #chatContainer, #recentTasks, #recentLogs, #reflectionsContainer, #diagnosticsOverview {
+public/dashboard.css:178:#recentLogs pre, #recentTasks pre, #reflectionsContainer pre {
+public/dashboard.css:193:#chatContainer, #recentTasks, #recentLogs, #reflectionsContainer, #diagnosticsOverview, #agentStatus, #opsTicker {
+public/dashboard.css:225:#recentTasks,
+public/dashboard.css:226:#recentLogs,
+public/dashboard.css:246:html body #recentTasks,
+public/dashboard.css:247:html body #recentLogs,
+public/dashboard.html.phase478_6_pre_true_dashboard_css_restore.bak:171:                <button id="obs-tab-recent" class="obs-tab active" type="button" data-workspace-tab data-target="obs-panel-recent" role="tab" aria-selected="true" aria-controls="obs-panel-recent">
+public/dashboard.html.phase478_6_pre_true_dashboard_css_restore.bak:172:                  Recent Tasks
+public/dashboard.html.phase478_6_pre_true_dashboard_css_restore.bak:175:                  Task History
+public/dashboard.html.phase478_6_pre_true_dashboard_css_restore.bak:182:              <div id="observational-panels">
+public/dashboard.html.phase478_6_pre_true_dashboard_css_restore.bak:183:                <div id="obs-panel-recent" class="obs-panel active" data-workspace-panel role="tabpanel" aria-labelledby="obs-tab-recent">
+public/dashboard.html.phase478_6_pre_true_dashboard_css_restore.bak:239:    <div id="recentLogs"></div>
+public/dashboard.html.phase474_4_pre_inline_style_neutralization.bak:123:      #observational-panels {
+public/dashboard.html.phase474_4_pre_inline_style_neutralization.bak:131:      #obs-panel-recent,
+public/dashboard.html.phase474_4_pre_inline_style_neutralization.bak:139:      #obs-panel-recent .obs-surface,
+public/dashboard.html.phase474_4_pre_inline_style_neutralization.bak:161:      #obs-panel-recent,
+public/dashboard.html.phase474_4_pre_inline_style_neutralization.bak:551:                <button id="obs-tab-recent" class="obs-tab active" type="button" data-workspace-tab data-target="obs-panel-recent" role="tab" aria-selected="true" aria-controls="obs-panel-recent">
+public/dashboard.html.phase474_4_pre_inline_style_neutralization.bak:552:                  Recent Tasks
+public/dashboard.html.phase474_4_pre_inline_style_neutralization.bak:555:                  Task History
+public/dashboard.html.phase474_4_pre_inline_style_neutralization.bak:562:              <div id="observational-panels">
+public/dashboard.html.phase474_4_pre_inline_style_neutralization.bak:563:                <div id="obs-panel-recent" class="obs-panel active" data-workspace-panel role="tabpanel" aria-labelledby="obs-tab-recent">
+public/dashboard.html.phase474_4_pre_inline_style_neutralization.bak:619:    <div id="recentLogs"></div>
+public/dashboard.html.phase477_2_pre_probe_banner_removal.bak:185:                <button id="obs-tab-recent" class="obs-tab active" type="button" data-workspace-tab data-target="obs-panel-recent" role="tab" aria-selected="true" aria-controls="obs-panel-recent">
+public/dashboard.html.phase477_2_pre_probe_banner_removal.bak:186:                  Recent Tasks
+public/dashboard.html.phase477_2_pre_probe_banner_removal.bak:189:                  Task History
+public/dashboard.html.phase477_2_pre_probe_banner_removal.bak:196:              <div id="observational-panels">
+public/dashboard.html.phase477_2_pre_probe_banner_removal.bak:197:                <div id="obs-panel-recent" class="obs-panel active" data-workspace-panel role="tabpanel" aria-labelledby="obs-tab-recent">
+public/dashboard.html.phase477_2_pre_probe_banner_removal.bak:253:    <div id="recentLogs"></div>
+public/dashboard.html.bak_1762904490:181:    <h2 style="color:#eee;">🧾 Recent Tasks</h2>
+public/dashboard.html:177:                <button id="obs-tab-recent" class="obs-tab active" type="button" data-workspace-tab data-target="obs-panel-recent" role="tab" aria-selected="true" aria-controls="obs-panel-recent">
+public/dashboard.html:178:                  Recent Tasks
+public/dashboard.html:181:                  Task History
+public/dashboard.html:188:              <div id="observational-panels">
+public/dashboard.html:189:                <div id="obs-panel-recent" class="obs-panel active" data-workspace-panel role="tabpanel" aria-labelledby="obs-tab-recent">
+public/dashboard.html:245:    <div id="recentLogs"></div>
+public/dashboard.html:386:      empty.textContent = "No recent tasks available.";
+public/dashboard.html.bundling-phase11:181:    <h2 style="color:#eee;">🧾 Recent Tasks</h2>
+public/dashboard.html.phase61_agent_emoji_backup:57:      #observational-panels {
+public/dashboard.html.phase61_agent_emoji_backup:65:      #obs-panel-recent,
+public/dashboard.html.phase61_agent_emoji_backup:73:      #obs-panel-recent .obs-surface,
+public/dashboard.html.phase61_agent_emoji_backup:95:      #obs-panel-recent,
+public/dashboard.html.phase61_agent_emoji_backup:464:                <button id="obs-tab-recent" class="obs-tab active" type="button" data-workspace-tab data-target="obs-panel-recent" role="tab" aria-selected="true" aria-controls="obs-panel-recent">
+public/dashboard.html.phase61_agent_emoji_backup:465:                  Recent Tasks
+public/dashboard.html.phase61_agent_emoji_backup:468:                  Task History
+public/dashboard.html.phase61_agent_emoji_backup:475:              <div id="observational-panels">
+public/dashboard.html.phase61_agent_emoji_backup:476:                <div id="obs-panel-recent" class="obs-panel active" data-workspace-panel role="tabpanel" aria-labelledby="obs-tab-recent">
+public/dashboard.html.phase61_agent_emoji_backup:532:    <div id="recentLogs"></div>
+public/dashboard.html.bak_1762905357:181:    <h2 style="color:#eee;">🧾 Recent Tasks</h2>
+public/dashboard_body_top_half_probe.html:175:                <button id="obs-tab-recent" class="obs-tab active" type="button" data-workspace-tab data-target="obs-panel-recent" role="tab" aria-selected="true" aria-controls="obs-panel-recent">
+public/dashboard_body_top_half_probe.html:176:                  Recent Tasks
+public/dashboard_body_top_half_probe.html:179:                  Task History
+public/dashboard_body_top_half_probe.html:186:              <div id="observational-panels">
+public/dashboard_body_top_half_probe.html:187:                <div id="obs-panel-recent" class="obs-panel active" data-workspace-panel role="tabpanel" aria-labelledby="obs-tab-recent">
+public/dashboard_body_top_half_probe.html:243:    <div id="recentLogs"></div>
+public/dashboard.html.bak.1762457360:129:    <h2 style="color:#eee;">🧾 Recent Tasks</h2>
+public/dashboard.html.bak.1762457360:130:    <div id="recentTasks" style="padding:8px;font-family:monospace;color:#ccc;"></div>
+public/dashboard.html.bak.1762457360:132:    <div id="recentLogs" style="padding:8px;font-family:monospace;color:#ccc;"></div>
+public/dashboard.html.phase477_6_pre_src_script_neutralization.bak:171:                <button id="obs-tab-recent" class="obs-tab active" type="button" data-workspace-tab data-target="obs-panel-recent" role="tab" aria-selected="true" aria-controls="obs-panel-recent">
+public/dashboard.html.phase477_6_pre_src_script_neutralization.bak:172:                  Recent Tasks
+public/dashboard.html.phase477_6_pre_src_script_neutralization.bak:175:                  Task History
+public/dashboard.html.phase477_6_pre_src_script_neutralization.bak:182:              <div id="observational-panels">
+public/dashboard.html.phase477_6_pre_src_script_neutralization.bak:183:                <div id="obs-panel-recent" class="obs-panel active" data-workspace-panel role="tabpanel" aria-labelledby="obs-tab-recent">
+public/dashboard.html.phase477_6_pre_src_script_neutralization.bak:239:    <div id="recentLogs"></div>
+public/dashboard.js.bak:14:  const container = document.getElementById("recentTasks");
+public/dashboard.js.bak:15:  if (!container) return console.warn("⚠️ No #recentTasks container found.");
+public/dashboard.js.bak:22:      container.innerText = "⚠️ No recent tasks available.";
+public/dashboard.js.bak:35:    console.error("❌ Failed to load recent tasks:", err);
+public/dashboard.html.phase473_9_pre_styles_restore.bak:123:      #observational-panels {
+public/dashboard.html.phase473_9_pre_styles_restore.bak:131:      #obs-panel-recent,
+public/dashboard.html.phase473_9_pre_styles_restore.bak:139:      #obs-panel-recent .obs-surface,
+public/dashboard.html.phase473_9_pre_styles_restore.bak:161:      #obs-panel-recent,
+public/dashboard.html.phase473_9_pre_styles_restore.bak:551:                <button id="obs-tab-recent" class="obs-tab active" type="button" data-workspace-tab data-target="obs-panel-recent" role="tab" aria-selected="true" aria-controls="obs-panel-recent">
+public/dashboard.html.phase473_9_pre_styles_restore.bak:552:                  Recent Tasks
+public/dashboard.html.phase473_9_pre_styles_restore.bak:555:                  Task History
+public/dashboard.html.phase473_9_pre_styles_restore.bak:562:              <div id="observational-panels">
+public/dashboard.html.phase473_9_pre_styles_restore.bak:563:                <div id="obs-panel-recent" class="obs-panel active" data-workspace-panel role="tabpanel" aria-labelledby="obs-tab-recent">
+public/dashboard.html.phase473_9_pre_styles_restore.bak:619:    <div id="recentLogs"></div>
+public/scripts/dashboard-reflections.js:4:  const container = document.getElementById("recentLogs");
+public/dashboard.pre-bundle-tag.html:181:    <h2 style="color:#eee;">🧾 Recent Tasks</h2>
+public/dashboard.html.backup-20251204-154117:181:    <h2 style="color:#eee;">🧾 Recent Tasks</h2>
+public/dashboard.html.phase478_1_pre_script_restore.bak:171:                <button id="obs-tab-recent" class="obs-tab active" type="button" data-workspace-tab data-target="obs-panel-recent" role="tab" aria-selected="true" aria-controls="obs-panel-recent">
+public/dashboard.html.phase478_1_pre_script_restore.bak:172:                  Recent Tasks
+public/dashboard.html.phase478_1_pre_script_restore.bak:175:                  Task History
+public/dashboard.html.phase478_1_pre_script_restore.bak:182:              <div id="observational-panels">
+public/dashboard.html.phase478_1_pre_script_restore.bak:183:                <div id="obs-panel-recent" class="obs-panel active" data-workspace-panel role="tabpanel" aria-labelledby="obs-tab-recent">
+public/dashboard.html.phase478_1_pre_script_restore.bak:239:    <div id="recentLogs"></div>
+public/dashboard-tabs.backup.js:37:// 2️⃣ Task History Tab
+public/dashboard-tabs.backup.js:50:    console.warn("⚠️ Task History container #task-history not found.");
+public/dashboard-tabs.backup.js:60:      container.innerHTML = "<div class='empty'>No task history yet</div>";
+public/dashboard-tabs.backup.js:66:    console.error("❌ Failed to fetch Task History:", err);
+public/dashboard-tabs.backup.js:67:    container.innerHTML = "<div class='empty'>Error loading Task History</div>";
+public/dashboard.html.bak_9.7.0b:130:    <h2 style="color:#eee;">🧾 Recent Tasks</h2>
+public/dashboard.html.bak_9.7.0b:131:    <div id="recentTasks" style="padding:8px;font-family:monospace;color:#ccc;"></div>
+public/dashboard.html.phase470_6_operator_guidance_neutralized.bak:123:      #observational-panels {
+public/dashboard.html.phase470_6_operator_guidance_neutralized.bak:131:      #obs-panel-recent,
+public/dashboard.html.phase470_6_operator_guidance_neutralized.bak:139:      #obs-panel-recent .obs-surface,
+public/dashboard.html.phase470_6_operator_guidance_neutralized.bak:161:      #obs-panel-recent,
+public/dashboard.html.phase470_6_operator_guidance_neutralized.bak:551:                <button id="obs-tab-recent" class="obs-tab active" type="button" data-workspace-tab data-target="obs-panel-recent" role="tab" aria-selected="true" aria-controls="obs-panel-recent">
+public/dashboard.html.phase470_6_operator_guidance_neutralized.bak:552:                  Recent Tasks
+public/dashboard.html.phase470_6_operator_guidance_neutralized.bak:555:                  Task History
+public/dashboard.html.phase470_6_operator_guidance_neutralized.bak:562:              <div id="observational-panels">
+public/dashboard.html.phase470_6_operator_guidance_neutralized.bak:563:                <div id="obs-panel-recent" class="obs-panel active" data-workspace-panel role="tabpanel" aria-labelledby="obs-tab-recent">
+public/dashboard.html.phase470_6_operator_guidance_neutralized.bak:619:    <div id="recentLogs"></div>
+public/dashboard.html.phase473_0_minimal_shell_backup.bak:123:      #observational-panels {
+public/dashboard.html.phase473_0_minimal_shell_backup.bak:131:      #obs-panel-recent,
+public/dashboard.html.phase473_0_minimal_shell_backup.bak:139:      #obs-panel-recent .obs-surface,
+public/dashboard.html.phase473_0_minimal_shell_backup.bak:161:      #obs-panel-recent,
+public/dashboard.html.phase473_0_minimal_shell_backup.bak:551:                <button id="obs-tab-recent" class="obs-tab active" type="button" data-workspace-tab data-target="obs-panel-recent" role="tab" aria-selected="true" aria-controls="obs-panel-recent">
+public/dashboard.html.phase473_0_minimal_shell_backup.bak:552:                  Recent Tasks
+public/dashboard.html.phase473_0_minimal_shell_backup.bak:555:                  Task History
+public/dashboard.html.phase473_0_minimal_shell_backup.bak:562:              <div id="observational-panels">
+public/dashboard.html.phase473_0_minimal_shell_backup.bak:563:                <div id="obs-panel-recent" class="obs-panel active" data-workspace-panel role="tabpanel" aria-labelledby="obs-tab-recent">
+public/dashboard.html.phase473_0_minimal_shell_backup.bak:619:    <div id="recentLogs"></div>
+public/dashboard.html.bad_structure:131:    <h2 style="color:#eee;">🧾 Recent Tasks</h2>
+public/dashboard.html.bad_structure:132:    <div id="recentTasks" style="padding:8px;font-family:monospace;color:#ccc;"></div>
+public/dashboard.html.bad_structure:134:    <div id="recentLogs" style="padding:8px;font-family:monospace;color:#ccc;"></div>
+public/dashboard.js:2:Phase 31.6 — Recent Tasks empty-state helper
+public/dashboard.js:6:The dashboard "Recent Tasks" panel is driven by task-events (SSE) + mb.task.event bridge.
+public/dashboard.js:20:const container = document.getElementById("recentTasks");
+public/dashboard.js:22:try { console.warn("⚠️ No #recentTasks container found."); } catch {}
+public/dashboard.js:48:cursorRow.id = "recentTasksCursor";
+public/dashboard.js:83:const el = document.getElementById("recentTasksCursor");
+public/dashboard.html.phase477_8_pre_restore.bak:171:                <button id="obs-tab-recent" class="obs-tab active" type="button" data-workspace-tab data-target="obs-panel-recent" role="tab" aria-selected="true" aria-controls="obs-panel-recent">
+public/dashboard.html.phase477_8_pre_restore.bak:172:                  Recent Tasks
+public/dashboard.html.phase477_8_pre_restore.bak:175:                  Task History
+public/dashboard.html.phase477_8_pre_restore.bak:182:              <div id="observational-panels">
+public/dashboard.html.phase477_8_pre_restore.bak:183:                <div id="obs-panel-recent" class="obs-panel active" data-workspace-panel role="tabpanel" aria-labelledby="obs-tab-recent">
+public/dashboard.html.phase477_8_pre_restore.bak:239:    <div id="recentLogs"></div>
+public/dashboard_recomposed_from_stable_quarters_probe.html:185:                <button id="obs-tab-recent" class="obs-tab active" type="button" data-workspace-tab data-target="obs-panel-recent" role="tab" aria-selected="true" aria-controls="obs-panel-recent">
+public/dashboard_recomposed_from_stable_quarters_probe.html:186:                  Recent Tasks
+public/dashboard_recomposed_from_stable_quarters_probe.html:189:                  Task History
+public/dashboard_recomposed_from_stable_quarters_probe.html:196:              <div id="observational-panels">
+public/dashboard_recomposed_from_stable_quarters_probe.html:197:                <div id="obs-panel-recent" class="obs-panel active" data-workspace-panel role="tabpanel" aria-labelledby="obs-tab-recent">
+public/dashboard_recomposed_from_stable_quarters_probe.html:253:    <div id="recentLogs"></div>
+public/dashboard.html.phase474_3_pre_force_tailwind_only.bak:123:      #observational-panels {
+public/dashboard.html.phase474_3_pre_force_tailwind_only.bak:131:      #obs-panel-recent,
+public/dashboard.html.phase474_3_pre_force_tailwind_only.bak:139:      #obs-panel-recent .obs-surface,
+public/dashboard.html.phase474_3_pre_force_tailwind_only.bak:161:      #obs-panel-recent,
+public/dashboard.html.phase474_3_pre_force_tailwind_only.bak:551:                <button id="obs-tab-recent" class="obs-tab active" type="button" data-workspace-tab data-target="obs-panel-recent" role="tab" aria-selected="true" aria-controls="obs-panel-recent">
+public/dashboard.html.phase474_3_pre_force_tailwind_only.bak:552:                  Recent Tasks
+public/dashboard.html.phase474_3_pre_force_tailwind_only.bak:555:                  Task History
+public/dashboard.html.phase474_3_pre_force_tailwind_only.bak:562:              <div id="observational-panels">
+public/dashboard.html.phase474_3_pre_force_tailwind_only.bak:563:                <div id="obs-panel-recent" class="obs-panel active" data-workspace-panel role="tabpanel" aria-labelledby="obs-tab-recent">
+public/dashboard.html.phase474_3_pre_force_tailwind_only.bak:619:    <div id="recentLogs"></div>
+public/dashboard.html.phase471_1_force_remove_task_events_script.bak:123:      #observational-panels {
+public/dashboard.html.phase471_1_force_remove_task_events_script.bak:131:      #obs-panel-recent,
+public/dashboard.html.phase471_1_force_remove_task_events_script.bak:139:      #obs-panel-recent .obs-surface,
+public/dashboard.html.phase471_1_force_remove_task_events_script.bak:161:      #obs-panel-recent,
+public/dashboard.html.phase471_1_force_remove_task_events_script.bak:551:                <button id="obs-tab-recent" class="obs-tab active" type="button" data-workspace-tab data-target="obs-panel-recent" role="tab" aria-selected="true" aria-controls="obs-panel-recent">
+public/dashboard.html.phase471_1_force_remove_task_events_script.bak:552:                  Recent Tasks
+public/dashboard.html.phase471_1_force_remove_task_events_script.bak:555:                  Task History
+public/dashboard.html.phase471_1_force_remove_task_events_script.bak:562:              <div id="observational-panels">
+public/dashboard.html.phase471_1_force_remove_task_events_script.bak:563:                <div id="obs-panel-recent" class="obs-panel active" data-workspace-panel role="tabpanel" aria-labelledby="obs-tab-recent">
+public/dashboard.html.phase471_1_force_remove_task_events_script.bak:619:    <div id="recentLogs"></div>
+public/bundle-core.js:28:    const reflectionsContainer = document.getElementById("recentLogs");
+public/bundle-core.js:14798:    const container2 = document.getElementById("recentLogs");
+public/dashboard.html.phase472_1_external_css_neutralized.bak:123:      #observational-panels {
+public/dashboard.html.phase472_1_external_css_neutralized.bak:131:      #obs-panel-recent,
+public/dashboard.html.phase472_1_external_css_neutralized.bak:139:      #obs-panel-recent .obs-surface,
+public/dashboard.html.phase472_1_external_css_neutralized.bak:161:      #obs-panel-recent,
+public/dashboard.html.phase472_1_external_css_neutralized.bak:551:                <button id="obs-tab-recent" class="obs-tab active" type="button" data-workspace-tab data-target="obs-panel-recent" role="tab" aria-selected="true" aria-controls="obs-panel-recent">
+public/dashboard.html.phase472_1_external_css_neutralized.bak:552:                  Recent Tasks
+public/dashboard.html.phase472_1_external_css_neutralized.bak:555:                  Task History
+public/dashboard.html.phase472_1_external_css_neutralized.bak:562:              <div id="observational-panels">
+public/dashboard.html.phase472_1_external_css_neutralized.bak:563:                <div id="obs-panel-recent" class="obs-panel active" data-workspace-panel role="tabpanel" aria-labelledby="obs-tab-recent">
+public/dashboard.html.phase472_1_external_css_neutralized.bak:619:    <div id="recentLogs"></div>
+public/dashboard.html.phase471_4_bundle_boot_neutralized.bak:123:      #observational-panels {
+public/dashboard.html.phase471_4_bundle_boot_neutralized.bak:131:      #obs-panel-recent,
+public/dashboard.html.phase471_4_bundle_boot_neutralized.bak:139:      #obs-panel-recent .obs-surface,
+public/dashboard.html.phase471_4_bundle_boot_neutralized.bak:161:      #obs-panel-recent,
+public/dashboard.html.phase471_4_bundle_boot_neutralized.bak:551:                <button id="obs-tab-recent" class="obs-tab active" type="button" data-workspace-tab data-target="obs-panel-recent" role="tab" aria-selected="true" aria-controls="obs-panel-recent">
+public/dashboard.html.phase471_4_bundle_boot_neutralized.bak:552:                  Recent Tasks
+public/dashboard.html.phase471_4_bundle_boot_neutralized.bak:555:                  Task History
+public/dashboard.html.phase471_4_bundle_boot_neutralized.bak:562:              <div id="observational-panels">
+public/dashboard.html.phase471_4_bundle_boot_neutralized.bak:563:                <div id="obs-panel-recent" class="obs-panel active" data-workspace-panel role="tabpanel" aria-labelledby="obs-tab-recent">
+public/dashboard.html.phase471_4_bundle_boot_neutralized.bak:619:    <div id="recentLogs"></div>
+public/dashboard.html.phase476_6_pre_strip.bak:172:                <button id="obs-tab-recent" class="obs-tab active" type="button" data-workspace-tab data-target="obs-panel-recent" role="tab" aria-selected="true" aria-controls="obs-panel-recent">
+public/dashboard.html.phase476_6_pre_strip.bak:173:                  Recent Tasks
+public/dashboard.html.phase476_6_pre_strip.bak:176:                  Task History
+public/dashboard.html.phase476_6_pre_strip.bak:183:              <div id="observational-panels">
+public/dashboard.html.phase476_6_pre_strip.bak:184:                <div id="obs-panel-recent" class="obs-panel active" data-workspace-panel role="tabpanel" aria-labelledby="obs-tab-recent">
+public/dashboard.html.phase476_6_pre_strip.bak:240:    <div id="recentLogs"></div>
+public/dashboard-tabs.js:38:// 2️⃣ Task History Tab
+public/dashboard-tabs.js:51:    console.warn("⚠️ Task History container #task-history not found.");
+public/dashboard-tabs.js:61:      container.innerHTML = "<div class='empty'>No task history yet</div>";
+public/dashboard-tabs.js:67:    console.error("❌ Failed to fetch Task History:", err);
+public/dashboard-tabs.js:68:    container.innerHTML = "<div class='empty'>Error loading Task History</div>";
+public/dashboard.html.phase479_0_pre_phase61_workspace_consolidation_restore.bak:171:                <button id="obs-tab-recent" class="obs-tab active" type="button" data-workspace-tab data-target="obs-panel-recent" role="tab" aria-selected="true" aria-controls="obs-panel-recent">
+public/dashboard.html.phase479_0_pre_phase61_workspace_consolidation_restore.bak:172:                  Recent Tasks
+public/dashboard.html.phase479_0_pre_phase61_workspace_consolidation_restore.bak:175:                  Task History
+public/dashboard.html.phase479_0_pre_phase61_workspace_consolidation_restore.bak:182:              <div id="observational-panels">
+public/dashboard.html.phase479_0_pre_phase61_workspace_consolidation_restore.bak:183:                <div id="obs-panel-recent" class="obs-panel active" data-workspace-panel role="tabpanel" aria-labelledby="obs-tab-recent">
+public/dashboard.html.phase479_0_pre_phase61_workspace_consolidation_restore.bak:239:    <div id="recentLogs"></div>
+public/dashboard.html.phase474_9_pre_body_isolation.bak:172:                <button id="obs-tab-recent" class="obs-tab active" type="button" data-workspace-tab data-target="obs-panel-recent" role="tab" aria-selected="true" aria-controls="obs-panel-recent">
+public/dashboard.html.phase474_9_pre_body_isolation.bak:173:                  Recent Tasks
+public/dashboard.html.phase474_9_pre_body_isolation.bak:176:                  Task History
+public/dashboard.html.phase474_9_pre_body_isolation.bak:183:              <div id="observational-panels">
+public/dashboard.html.phase474_9_pre_body_isolation.bak:184:                <div id="obs-panel-recent" class="obs-panel active" data-workspace-panel role="tabpanel" aria-labelledby="obs-tab-recent">
+public/dashboard.html.phase474_9_pre_body_isolation.bak:240:    <div id="recentLogs"></div>
+app/dev/page-ExecutionInspectorTest.tsx:8:      <div className="text-lg font-semibold">Execution Inspector — Guidance Test (UI Verified)</div>
+app/dev/execution-inspector/page.tsx:14:        <div className="text-lg font-semibold">Execution Inspector — Evidence Surface</div>
+app/dev/execution-inspector/page.tsx:36:          outcome_preview: "Standard execution prepared for: Phase 704 Execution Inspector live proof",
+app/dev/execution-inspector/page.tsx:44:            outcome: "Standard execution prepared for: Phase 704 Execution Inspector live proof",
+app/dev/execution-inspector/page.tsx:58:            outcome_preview: "Standard execution prepared for: Phase 704 Execution Inspector live proof",
+app/dev/execution-inspector/page.tsx:68:                content: "Standard execution prepared for: Phase 704 Execution Inspector live proof",
+server/guidance/formatGuidance.ts:16:    "Retried tasks are present in recent task history.": "Elevated retry activity detected.",
+server/lib/guidance-engine.js:69:        message: 'Retried tasks are present in recent task history.',
+server/api/chat.mjs:70:      'Next useful check: compare the visible dashboard state, Execution Inspector stream, and recent task events before concluding that anything changed.',
+server/routes/api-tasks-postgres.mjs:38:// GET /api/tasks?limit=25  -> recent tasks for dashboard widget
+
+[3] Read likely renderer files
+
+----- public/js/dashboard-tasks-widget.js -----
+/**
+ * Tasks Widget + Runs Panel
+ * - Stable DOM shell (prevents runs panel remount churn)
+ * - Debounced task refresh
+ * - Conservative polling
+ * - No SSE-triggered fetch storm
+ */
+(() => {
+  const API = {
+    list: "/api/tasks",
+    complete: "/api/tasks/complete",
+  };
+
+  const SELECTORS = [
+    "#tasks-widget",
+    "#tasksWidget",
+    "[data-tasks-widget]",
+    "[data-widget='tasks']",
+  ];
+
+  const TASK_POLL_MS = 15000;
+  const RUNS_POLL_MS = 15000;
+  const TASK_EVENT_DEBOUNCE_MS = 1000;
+
+  const state = {
+    tasks: [],
+    loading: false,
+    lastError: null,
+    inflightComplete: new Set(),
+    shellMounted: false,
+    taskFetchPromise: null,
+    taskFetchTimer: null,
+    runsPanelMounted: false,
+    runsPanelTimer: null,
+  };
+
+  function $(sel, root = document) {
+    return root.querySelector(sel);
+  }
+
+  function findMount() {
+    for (const sel of SELECTORS) {
+      const el = $(sel);
+      if (el) return el;
+    }
+    return null;
+  }
+
+  function esc(s) {
+    return String(s ?? "")
+      .replaceAll("&", "&amp;")
+      .replaceAll("<", "&lt;")
+      .replaceAll(">", "&gt;")
+      .replaceAll('"', "&quot;")
+      .replaceAll("'", "&#39;");
+  }
+
+  function ensureShell() {
+    const mount = findMount();
+    if (!mount) return null;
+
+    if (!state.shellMounted) {
+      mount.innerHTML = `
+        <div data-tasks-shell="1">
+          <div data-tasks-error></div>
+          <div data-tasks-list></div>
+          <div data-runs-host></div>
+        </div>
+      `;
+      state.shellMounted = true;
+    }
+
+    const shell = mount.querySelector('[data-tasks-shell="1"]');
+    return {
+      mount,
+      shell,
+      errorEl: shell?.querySelector("[data-tasks-error]") || null,
+      listEl: shell?.querySelector("[data-tasks-list]") || null,
+      runsHost: shell?.querySelector("[data-runs-host]") || null,
+    };
+  }
+
+  function renderGuidance(t) {
+    const g = t?.guidance || (t?.outcome_preview || t?.explanation_preview ? { classification: 'info', outcome: t?.outcome_preview, explanation: t?.explanation_preview } : null);
+    if (!g) return "";
+    return `<div style="margin-top:4px;font-size:12px;opacity:.75"><strong>${esc(g.classification || "guidance")}</strong>${g.outcome ? `: ${esc(g.outcome)}` : ""}${g.explanation ? `<details><summary>details</summary><div>${esc(g.explanation)}</div></details>` : ""}</div>`;
+  }
+
+  async function apiJson(url, opts = {}) {
+    const res = await fetch(url, {
+      method: opts.method || "GET",
+      headers: { "Content-Type": "application/json" },
+      body: opts.body ? JSON.stringify(opts.body) : undefined,
+    });
+    const json = await res.json();
+    if (!res.ok) throw new Error(json?.error || "Request failed");
+    return json;
+  }
+
+  function render() {
+    const ui = ensureShell();
+    if (!ui) return;
+
+    if (ui.errorEl) {
+      ui.errorEl.innerHTML = state.lastError
+        ? `<div style="color:red">${esc(state.lastError)}</div>`
+        : "";
+    }
+
+    if (ui.listEl) {
+      ui.listEl.innerHTML = `
+        <div>
+          ${state.loading && !state.tasks.length ? `<div style="opacity:.7">Loading…</div>` : ""}
+          ${
+            state.tasks.length
+              ? state.tasks
+                  .map(
+                    (t) => `
+              <div data-task-row="true" data-task-id="${esc(t.id)}" style="display:flex;justify-content:space-between;gap:8px;cursor:pointer">
+                <span>${esc(t.title)}</span>
+                ${
+                  ["complete", "completed", "done"].includes(String(t.status || "").toLowerCase())
+                    ? `<span style="opacity:.5;font-size:12px">Completed</span>`
+                    : `<button data-id="${esc(t.id)}">Complete</button>`
+                }
+              </div>
+              ${renderGuidance(t)}
+            `
+                  )
+                  .join("")
+              : !state.loading
+              ? `<div style="opacity:.7">No tasks found.</div>`
+              : ""
+          }
+        </div>
+      `;
+
+      ui.listEl.querySelectorAll("[data-task-row][data-task-id]").forEach((row) => {
+        row.onclick = () => {
+          window.selectedTaskId = row.getAttribute("data-task-id");
+          window.dispatchEvent(new CustomEvent("execution-inspector:selected-task", { detail: { taskId: window.selectedTaskId } }));
+        };
+      });
+
+      ui.listEl.querySelectorAll("button[data-id]").forEach((btn) => {
+        btn.onclick = () => completeTask(btn.dataset.id);
+      });
+    }
+
+    if (ui.runsHost && !state.runsPanelMounted) {
+      try {
+        renderRunsPanel(ui.runsHost);
+        state.runsPanelMounted = true;
+      } catch (e) {
+        console.warn("[runs] panel mount failed", e);
+      }
+    }
+  }
+
+  async function fetchTasksNow() {
+    if (state.taskFetchPromise) return state.taskFetchPromise;
+
+    state.taskFetchPromise = (async () => {
+      state.loading = true;
+      render();
+      try {
+        const data = await apiJson(API.list);
+        state.tasks = (data.tasks || []).map((t) => ({
+          id: String(t.task_id ?? t.taskId ?? t.id),
+          title: t.title || "",
+          status: t.status || "",
+        }));
+        state.lastError = null;
+      } catch (e) {
+        state.lastError = e?.message || String(e);
+      } finally {
+        state.loading = false;
+        render();
+        state.taskFetchPromise = null;
+      }
+    })();
+
+    return state.taskFetchPromise;
+  }
+
+  function scheduleFetchTasks(delayMs = 0) {
+    if (state.taskFetchTimer) clearTimeout(state.taskFetchTimer);
+    state.taskFetchTimer = setTimeout(() => {
+      state.taskFetchTimer = null;
+      fetchTasksNow().catch((e) => console.warn("[tasks] refresh failed", e));
+    }, delayMs);
+  }
+
+  async function completeTask(taskId) {
+    if (!taskId || state.inflightComplete.has(taskId)) return;
+    state.inflightComplete.add(taskId);
+    render();
+
+    try {
+      await apiJson(API.complete, {
+        method: "POST",
+        body: { task_id: taskId },
+      });
+      state.lastError = null;
+    } catch (e) {
+      state.lastError = e?.message || String(e);
+    } finally {
+      state.inflightComplete.delete(taskId);
+      scheduleFetchTasks(0);
+    }
+  }
+
+  function buildRunsQuery({ limit, task_status, is_terminal, since_ts }) {
+    const p = new URLSearchParams();
+    if (limit != null && String(limit).trim() !== "") p.set("limit", String(limit));
+    for (const s of task_status || []) p.append("task_status", String(s));
+    if (is_terminal === "true" || is_terminal === "false") p.set("is_terminal", is_terminal);
+    if (since_ts != null && String(since_ts).trim() !== "") p.set("since_ts", String(since_ts));
+    return p.toString();
+  }
+
+  async function fetchRuns({ limit, task_status, is_terminal, since_ts }) {
+    const q = buildRunsQuery({ limit, task_status, is_terminal, since_ts });
+    const url = "/api/runs" + (q ? "?" + q : "");
+    const r = await fetch(url, { headers: { Accept: "application/json" } });
+    const j = await r.json().catch(() => ({}));
+    if (!r.ok) throw new Error(j?.error || j?.detail || "HTTP_" + r.status);
+    return j;
+  }
+
+  function fmtTs(ms) {
+    const n = Number(ms);
+    if (!Number.isFinite(n)) return "";
+    try {
+      return new Date(n).toISOString();
+    } catch {
+      return String(ms);
+    }
+  }
+
+  function renderRunsPanel(root) {
+    if (!root) return;
+    if (root.querySelector('[data-runs-panel="1"]')) return;
+
+    const wrap = document.createElement("div");
+    wrap.dataset.runsPanel = "1";
+    wrap.className = "card";
+    wrap.style.marginTop = "12px";
+
+    const hdr = document.createElement("div");
+    hdr.className = "card-header";
+    hdr.innerHTML = `<div style="display:flex;align-items:center;gap:10px;justify-content:space-between;">
+      <div>
+        <div class="card-title">Runs</div>
+        <div class="card-subtitle">Read-only from <code>run_view</code> via <code>/api/runs</code> (server ordering is canonical)</div>
+      </div>
+      <button class="btn" id="runs-refresh-btn" type="button">Refresh</button>
+    </div>`;
+    wrap.appendChild(hdr);
+
+
+----- public/dashboard.js -----
+/*
+Phase 31.6 — Recent Tasks empty-state helper
+
+Why this exists:
+
+The dashboard "Recent Tasks" panel is driven by task-events (SSE) + mb.task.event bridge.
+
+When the worker is intentionally scaled to 0, /events/task-events will usually stream only
+hello/heartbeat frames (cursor advances) but no task.* events — leaving the panel blank.
+
+This helper renders a friendly empty-state until a task.* event arrives.
+
+Notes:
+
+This file is intentionally lightweight and non-invasive.
+
+It does NOT alter the core renderer; it only adds/removes an empty-state message.
+*/
+(() => {
+const container = document.getElementById("recentTasks");
+if (!container) {
+try { console.warn("⚠️ No #recentTasks container found."); } catch {}
+return;
+}
+
+const EMPTY_SEL = '[data-empty="recent-tasks"]';
+let sawTask = false;
+
+function ensureEmpty() {
+if (container.querySelector(EMPTY_SEL)) return;
+
+const box = document.createElement("div");
+box.dataset.empty = "recent-tasks";
+box.className =
+"text-sm text-slate-300/90 border border-white/10 rounded-2xl p-4 bg-white/5";
+
+const title = document.createElement("div");
+title.className = "font-semibold text-slate-100";
+title.textContent = "No task events yet";
+
+const body = document.createElement("div");
+body.className = "mt-2 leading-relaxed";
+body.innerHTML =
+'You are connected to <code class="px-1 py-0.5 rounded bg-black/30 border border-white/10">/events/task-events</code>, but only <span class="opacity-90">heartbeats</span> are arriving. ' +
+'If the worker is intentionally scaled to <code class="px-1 py-0.5 rounded bg-black/30 border border-white/10">0</code>, this is expected.';
+
+const cursorRow = document.createElement("div");
+cursorRow.id = "recentTasksCursor";
+cursorRow.className = "mt-3 opacity-80";
+cursorRow.textContent = "";
+
+box.appendChild(title);
+box.appendChild(body);
+box.appendChild(cursorRow);
+
+container.appendChild(box);
+}
+
+function clearEmpty() {
+const el = container.querySelector(EMPTY_SEL);
+if (el) el.remove();
+}
+
+window.addEventListener("mb.task.event", (e) => {
+try {
+const ev = e?.detail || {};
+const kind = String(ev.kind || "");
+if (kind.startsWith("task.")) {
+sawTask = true;
+clearEmpty();
+}
+} catch {}
+});
+
+setTimeout(() => {
+if (sawTask) return;
+ensureEmpty();
+
+try {
+const snap = window.__taskEventsSnap || null; // set by task-events SSE client (if present)
+const cursor = snap?.cursor ?? null;
+if (cursor != null) {
+const el = document.getElementById("recentTasksCursor");
+if (el) el.textContent = last heartbeat cursor: ${cursor};
+}
+} catch {}
+}, 1500);
+})();
+
+----- public/dashboard-logs.js -----
+document.body.insertAdjacentHTML("beforeend", "<div style="position:fixed;bottom:10px;right:10px;background:#333;color:#0f0;padding:4px 8px;border-radius:4px;font-family:monospace;">✅ logs.js loaded</div>");
+console.log("📋 DOM fully loaded — dashboard-logs.js executing safely");
+
+document.addEventListener("DOMContentLoaded", async () => {
+  console.log("📋 DOM fully loaded — dashboard-logs.js executing safely");
+
+  const container = document.getElementById("recentLogs_legacy");
+  if (!container) {
+    console.warn("⚠️ No #recentLogs container found.");
+    return;
+  }
+
+  try {
+    const res = await fetch("/reflections/recent");
+    const logs = await res.json();
+
+    container.innerHTML = "";
+    logs.forEach(log => {
+      const div = document.createElement("div");
+      div.className = "log-item";
+      div.style.marginBottom = "8px";
+      div.style.padding = "6px 8px";
+      div.style.borderBottom = "1px solid #222";
+      div.style.fontFamily = "monospace";
+      div.innerHTML = `
+        <span style="color:#7fffd4;"><b>${log.type}</b></span>
+        — ${log.result}<br>
+        <span style="color:#888;">${log.actor} · ${new Date(log.created_at).toLocaleString()}</span>
+      `;
+      container.appendChild(div);
+    });
+  } catch (err) {
+    console.error("❌ Failed to load logs:", err);
+    container.textContent = "⚠️ Could not load logs.";
+  }
+});
+
+----- public/dashboard-status.js -----
+// --- Live Agent Status Stream ---
+document.addEventListener("DOMContentLoaded", () => {
+  const container = document.getElementById("agentStatusContainer");
+  if (!container) {
+    console.warn("⚠️ No #agentStatusContainer found in DOM");
+    return;
+  }
+
+  const evtSource = new EventSource("http://localhost:3201/events/ops");
+
+  evtSource.addEventListener("agent", (e) => {
+    const { agents } = JSON.parse(e.data);
+    container.innerHTML = agents
+      .map(a => `<div style="padding:2px 0;color:${a.status === "online" ? "#6f6" : "#f66"};">
+        <strong>${a.name}</strong> — ${a.status}
+      </div>`)
+      .join("");
+  });
+
+  evtSource.addEventListener("ping", () => {
+    console.debug("💓 SSE ping received");
+  });
+
+  evtSource.onerror = (err) => {
+    console.error("❌ SSE connection error:", err);
+  };
+});
+
+[4] Confirm no broad failed overflow CSS is present
+
+===== PHASE 716 RENDERER TARGET DISCOVERY REPAIRED COMPLETE =====
