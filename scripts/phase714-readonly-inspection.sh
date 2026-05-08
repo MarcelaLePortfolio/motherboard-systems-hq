@@ -23,29 +23,29 @@ echo "Relevant files:"
 
 find . \
 
-  -path "./node_modules" -prune -o \
+  \( -path "./node_modules" -o -path "./.next" -o -path "./.git" -o -path "./dist" -o -path "./build" \) -prune -o \
 
-  -path "./.next" -prune -o \
+  -type f \
 
-  -path "./.git" -prune -o \
+  \( \
 
-  -type f \( \
+    -iname "*Inspector*" -o \
 
-    -name "*Inspector*" -o \
+    -iname "*Task*" -o \
 
-    -name "*Task*" -o \
+    -iname "*task*" -o \
 
-    -name "*task*" -o \
+    -iname "*guidance*" -o \
 
-    -name "*guidance*" -o \
+    -iname "*event*" -o \
 
-    -name "*event*" -o \
-
-    -name "*sse*" -o \
+    -iname "*sse*" -o \
 
     -name "server.mjs" \
 
-  \) -print | sort
+  \) \
+
+  -print | sort
 
 echo ""
 
@@ -85,5 +85,5 @@ grep -RIn \
 
 echo ""
 
-echo "Read-only inspection complete."
+echo "Inspection completed successfully."
 
