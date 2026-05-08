@@ -3,15 +3,11 @@
 
 set -euo pipefail
 
-echo "===== PHASE 717 CLEAN HELPER SCRIPTS ====="
+echo "===== PHASE 717 FINAL CLEANUP RECOVERY ====="
 
-rm -f \
+rm -f PHASE717_PATCH_RECENT_TASKS_ARCHITECTURAL_LABELS.sh PHASE717_VERIFY_LIFECYCLE_LABELS.sh PHASE717_FORCE_CLEAN_DISCOVERY_ARTIFACTS.sh
 
-PHASE717_PATCH_RECENT_TASKS_ARCHITECTURAL_LABELS.sh \
-
-PHASE717_VERIFY_LIFECYCLE_LABELS.sh \
-
-PHASE717_FORCE_CLEAN_DISCOVERY_ARTIFACTS.sh
+git rm -f --ignore-unmatch PHASE717_CLEAN_HELPER_SCRIPTS.sh
 
 cat > PHASE717_HELPER_SCRIPT_CLEANUP.txt << 'EON'
 
@@ -37,11 +33,17 @@ Current stable state:
 
 - Retry/requeue remains disabled until exact safe endpoint contract is confirmed.
 
+Cleanup note:
+
+- The broken helper cleanup script was removed.
+
+- Future cleanup commands should avoid multiline rm continuations in this shell.
+
 EON
 
 git add -A
 
-git commit -m "Phase 717: clean transient helper scripts" || true
+git commit -m "Phase 717: finalize cleanup recovery" || true
 
 git push origin dev
 
@@ -49,5 +51,5 @@ git status --short
 
 git log --oneline --decorate -6
 
-echo "===== PHASE 717 CLEAN HELPER SCRIPTS COMPLETE ====="
+echo "===== PHASE 717 FINAL CLEANUP RECOVERY COMPLETE ====="
 
