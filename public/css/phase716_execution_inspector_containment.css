@@ -1,0 +1,97 @@
+
+/*
+
+ * Phase 716 — Targeted Execution Inspector containment
+
+ * Fixes expanded JSON/preformatted task evidence overflow inside Recent Tasks.
+
+ * Scope: UI layout only. No execution, retry, worker, DB, SSE, or advisory behavior changes.
+
+ */
+
+#recent-tasks-card,
+
+#recent-tasks-card *,
+
+#tasks-widget,
+
+#tasks-widget * {
+
+  box-sizing: border-box;
+
+}
+
+#recent-tasks-card {
+
+  min-width: 0 !important;
+
+  overflow: hidden !important;
+
+}
+
+#tasks-widget {
+
+  min-width: 0 !important;
+
+  min-height: 0 !important;
+
+  max-width: 100% !important;
+
+  overflow-y: auto !important;
+
+  overflow-x: hidden !important;
+
+}
+
+#tasks-widget > *,
+
+#recent-tasks-card details,
+
+#recent-tasks-card details[open],
+
+#recent-tasks-card .task,
+
+#recent-tasks-card .task-card,
+
+#recent-tasks-card .recent-task,
+
+#recent-tasks-card .task-row {
+
+  min-width: 0 !important;
+
+  max-width: 100% !important;
+
+  overflow: hidden !important;
+
+}
+
+#recent-tasks-card pre,
+
+#recent-tasks-card code,
+
+#recent-tasks-card textarea,
+
+#tasks-widget pre,
+
+#tasks-widget code,
+
+#tasks-widget textarea {
+
+  display: block !important;
+
+  width: 100% !important;
+
+  max-width: 100% !important;
+
+  max-height: 260px !important;
+
+  overflow: auto !important;
+
+  white-space: pre-wrap !important;
+
+  overflow-wrap: anywhere !important;
+
+  word-break: break-word !important;
+
+}
+
