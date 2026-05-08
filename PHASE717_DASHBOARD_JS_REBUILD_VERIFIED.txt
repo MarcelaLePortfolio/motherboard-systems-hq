@@ -1,0 +1,21 @@
+
+PHASE 717 — DASHBOARD JS REBUILD VERIFIED
+
+Verified:
+
+- Local renderer contains Phase 717 lifecycle-card markers.
+
+- Dashboard container was rebuilt and restarted.
+
+- Served public JS contains Phase 717 lifecycle-card markers.
+
+- Recent Tasks visual update should appear after browser hard refresh.
+
+- Retry/requeue controls remain disabled placeholders only.
+
+- No backend mutation behavior was added.
+
+Browser step:
+
+- Hard refresh http://localhost:3000
+
