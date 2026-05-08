@@ -40,20 +40,63 @@
     `;
   }
 
+
   function taskRows(tasks) {
+
     if (!tasks || !tasks.length) {
+
       return `<div style="color:#94a3b8;font-size:.8rem;">No recent tasks yet.</div>`;
+
     }
 
-    return tasks.map((task) => `
-      <div style="border-bottom:1px solid rgba(51,65,85,.7);padding:.55rem 0;">
-        <div style="color:#e5e7eb;font-size:.86rem;font-weight:650;">${esc(task.title || task.task_id || "Untitled task")}</div>
-        <div style="color:#94a3b8;font-size:.74rem;margin-top:.2rem;">
-          status=${esc(task.status || "unknown")} · id=${esc(task.task_id || task.id || "—")}
-        </div>
-      </div>
-    `).join("");
+    return tasks.map((t) => {
+
+      const title = esc(t.title || t.task_id || t.id || "Untitled task");
+
+      const status = esc(t.status || "unknown");
+
+      const taskId = esc(t.task_id || t.id || "");
+
+      const updated = esc(t.updated_at || "");
+
+      const outcome = esc(t.outcome_preview || "");
+
+      const explanation = esc(t.explanation_preview || "");
+
+      const guidance = t.guidance || {};
+
+      const trace = guidance.communicationResult && guidance.communicationResult.systemTrace
+
+        ? guidance.communicationResult.systemTrace.content
+
+        : null;
+
+      const traceJson = trace ? esc(JSON.stringify(trace, null, 2)) : "";
+
+      return `
+
+        <article data-phase716-contained-task="true" style="display:block;width:100%;min-width:0;max-width:100%;box-sizing:border-box;border:1px solid rgba(148,163,184,.22);border-radius:12px;padding:10px;margin:0 0 10px 0;background:rgba(15,23,42,.72);overflow:hidden;">
+
+          <div style="font-weight:600;color:#e5e7eb;overflow-wrap:anywhere;word-break:break-word;">${title}</div>
+
+          <div style="margin-top:4px;color:#94a3b8;font-size:12px;overflow-wrap:anywhere;word-break:break-word;">status=${status} · id=${taskId}</div>
+
+          ${updated ? `<div style="margin-top:4px;color:#64748b;font-size:11px;overflow-wrap:anywhere;">updated=${updated}</div>` : ""}
+
+          ${outcome ? `<div style="margin-top:8px;color:#d1d5db;font-size:12px;overflow-wrap:anywhere;word-break:break-word;">${outcome}</div>` : ""}
+
+          ${explanation ? `<details style="margin-top:8px;display:block;max-width:100%;overflow:hidden;"><summary style="cursor:pointer;color:#93c5fd;font-size:12px;">details</summary><div style="margin-top:6px;color:#cbd5e1;font-size:12px;white-space:pre-wrap;overflow-wrap:anywhere;word-break:break-word;">${explanation}</div></details>` : ""}
+
+          ${traceJson ? `<details style="margin-top:8px;display:block;max-width:100%;overflow:hidden;"><summary style="cursor:pointer;color:#fbbf24;font-size:12px;">advanced JSON</summary><pre style="display:block;box-sizing:border-box;width:100%;max-width:100%;max-height:220px;overflow:auto;margin-top:6px;padding:8px;border-radius:8px;background:#020617;color:#e5e7eb;font-size:11px;line-height:1.35;white-space:pre-wrap;overflow-wrap:anywhere;word-break:break-word;">${traceJson}</pre></details>` : ""}
+
+        </article>
+
+      `;
+
+    }).join("");
+
   }
+
 
   function renderRecent(tasks) {
     const recentTasks = document.getElementById("recentTasks");
