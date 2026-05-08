@@ -1,0 +1,25 @@
+64893898 Stabilize Phase 714 inspection script
+531aa2b7 Fix Phase 714 inspection script find pruning logic
+b62eda91 Add Phase 714 read-only inspection script
+f8f2378a Add Phase 714 implementation inspection plan
+9ec8c16d Start Phase 714 execution evidence surfacing
+67a8267d Phase 713: document evidence-based advisory validation
+87a66dd7 Phase 713: add evidence-based advisory interpretation
+a856dbb0 Phase 713: establish evidence-based advisory corridor
+347caa65 Phase 712: document advisory variation validation
+682a3c37 Phase 712: fix advisory variation helper wiring
+2c291b14 Phase 712: establish advisory reasoning enhancement corridor
+e9f886ab Phase 711: add final advisory runtime validation proof
+aab9253c Phase 711: document advisory status validation
+ed92a9c8 Phase 711: harden advisory status phrasing constraints
+85c1297b Phase 711: align live advisory prompt with limited-certainty context
+ecf1dbed Phase 711: reduce Matilda unsupported status certainty
+b3cce199 Phase 711: improve Matilda advisory response composition
+f0398f7e Phase 711: establish Matilda transcript review protocol
+faba2545 Phase 711: add Matilda reasoning quality evaluation rubric
+4a31671c Phase 711: establish Matilda reasoning refinement corridor
+fe019c66 phase710-compact-context-grounding-stable: seal grounded advisory runtime
+185e792b Phase 710: verify Matilda compact context grounding
+3431168a Phase 710: ground Matilda prompt with compact read-only context
+27becc53 Phase 710: verify Matilda prompt patch target before context injection
+1fb3b86a Phase 709: capture Matilda prompt assembly finding

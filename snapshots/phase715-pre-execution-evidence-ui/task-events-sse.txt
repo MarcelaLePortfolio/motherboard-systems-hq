@@ -1,0 +1,5 @@
+: connected 2026-05-08T03:45:53.632Z
+
+event: hello
+data: {"kind":"task-events","cursor":1778041531002,"ts":1778211953632}
+
