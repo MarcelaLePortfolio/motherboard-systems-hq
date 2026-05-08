@@ -1,7 +1,13 @@
 
 PHASE 717 TARGETED DISCOVERY RESULT
 
-Prior result was intentionally cleared because it captured excessive repository output.
+Superseded by:
 
-Run ./PHASE717_TARGETED_DISCOVERY.sh again for bounded, macOS-safe discovery output.
+- PHASE717_GIT_GREP_DISCOVERY.sh
+
+- PHASE717_GIT_GREP_DISCOVERY_RESULT.txt
+
+Reason:
+
+Earlier find/grep discovery scripts produced excessive output and shell parsing errors on macOS.
 
