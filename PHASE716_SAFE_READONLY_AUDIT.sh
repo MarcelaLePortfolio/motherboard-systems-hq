@@ -29,15 +29,9 @@ curl -sS -i "http://localhost:3000/api/tasks" | head -40 || true
 
 curl -sS -i "http://localhost:3000/events/task-events" --max-time 5 | head -40 || true
 
-printf '\n%s\n' "[5] Probe chat POST as a single intact command"
+printf '\n%s\n' "[5] Probe chat POST as one physical line"
 
-curl -sS -i -X POST "http://localhost:3000/api/chat" \
-
-  -H "Content-Type: application/json" \
-
-  --data '{"message":"Runtime verification probe"}' \
-
-  | head -80 || true
+curl -sS -i -X POST "http://localhost:3000/api/chat" -H "Content-Type: application/json" --data '{"message":"Runtime verification probe"}' | head -80 || true
 
 printf '\n%s\n' "[6] Identify evidence surfacing candidates without writing artifacts"
 
