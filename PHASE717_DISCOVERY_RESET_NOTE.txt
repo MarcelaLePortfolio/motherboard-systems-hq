@@ -1,0 +1,23 @@
+
+PHASE 717 DISCOVERY RESET NOTE
+
+The previous discovery-script corridor is closed.
+
+Reason:
+
+- multiple broad shell discovery scripts produced parsing errors or excessive output
+
+- discovery artifacts are not part of the stable product surface
+
+- next work should inspect exact files directly instead of committing broad search outputs
+
+Next safe approach:
+
+- do not commit discovery output
+
+- inspect exact target files with direct sed/cat only
+
+- make one code change at a time after exact file paths are known
+
+- avoid broad search scripts unless run manually and not committed
+
