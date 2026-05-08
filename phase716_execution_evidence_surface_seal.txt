@@ -1,0 +1,141 @@
+===== PHASE 716 EXECUTION EVIDENCE SURFACE SEAL =====
+
+[1] Branch + commit state
+phase716-execution-evidence-surfacing
+?? PHASE716_SEAL_EXECUTION_EVIDENCE_SURFACE.sh
+?? phase716_execution_evidence_surface_seal.txt
+9158cb33 Phase 716: add static execution evidence surface
+10ffb1f3 Phase 716: inspect dashboard routing before evidence page fix
+f1767d62 Phase 716: add routed execution evidence inspector page
+911b5b3e Phase 716: add execution inspector UI validation script
+2059a6ad Phase 716: surface read-only execution evidence in inspector
+611f77b7 Phase 716: inspect execution inspector component
+7342d38f Phase 716: inspect execution evidence route registration
+bb760990 Phase 716: capture safe read-only execution evidence audit
+
+[2] Runtime containers
+NAME                                 IMAGE                              COMMAND                  SERVICE     CREATED          STATUS                  PORTS
+motherboard_systems_hq-dashboard-1   motherboard_systems_hq-dashboard   "docker-entrypoint.s…"   dashboard   39 seconds ago   Up 36 seconds           0.0.0.0:3000->3000/tcp, [::]:3000->3000/tcp
+motherboard_systems_hq-postgres-1    postgres:16-alpine                 "docker-entrypoint.s…"   postgres    2 days ago       Up 34 hours (healthy)   5432/tcp
+motherboard_systems_hq-worker-1      motherboard_systems_hq-worker      "docker-entrypoint.s…"   worker      39 seconds ago   Up 36 seconds           
+
+[3] Static evidence surface proof
+HTTP/1.1 200 OK
+X-Powered-By: Express
+Accept-Ranges: bytes
+Cache-Control: public, max-age=0
+Last-Modified: Fri, 08 May 2026 04:27:18 GMT
+ETag: W/"1192-19e05d70470"
+Content-Type: text/html; charset=utf-8
+Content-Length: 4498
+Date: Fri, 08 May 2026 04:28:01 GMT
+Connection: keep-alive
+Keep-Alive: timeout=5
+
+
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+
+  <meta charset="UTF-8" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>Execution Evidence Surface</title>
+
+  <style>
+
+    body {
+
+      margin: 0;
+
+      padding: 24px;
+
+      font-family: Arial, sans-serif;
+
+      background: #0f172a;
+
+      color: #e5e7eb;
+
+    }
+
+    .wrap {
+
+      max-width: 980px;
+
+      margin: 0 auto;
+
+    }
+
+    .card {
+
+      border: 1px solid #334155;
+
+      border-radius: 16px;
+
+      background: #111827;
+
+      padding: 18px;
+
+      margin-top: 16px;
+
+      box-shadow: 0 10px 30px rgba(0,0,0,0.25);
+
+    }
+
+    .muted {
+
+      color: #94a3b8;
+
+      font-size: 13px;
+
+    }
+
+    .row {
+
+      display: flex;
+
+      justify-content: space-between;
+
+      gap: 16px;
+
+[4] Task evidence API proof
+HTTP/1.1 200 OK
+X-Powered-By: Express
+Content-Type: application/json; charset=utf-8
+Content-Length: 1546
+ETag: W/"60a-mez9jHoRVNTMxK2QBeh5O1spUSY"
+Date: Fri, 08 May 2026 04:28:01 GMT
+Connection: keep-alive
+Keep-Alive: timeout=5
+
+{"ok":true,"tasks":[{"id":"1","task_id":"t_920a97c9-ddd5-41d3-851d-5735c6e52c30","title":"Phase 704 Execution Inspector live proof","status":"completed","claimed_by":"worker-f23fad8f-a5db-4621-94a5-e41f2e1e666a","updated_at":"2026-05-06T04:25:29.607Z","outcome_preview":"Standard execution prepared for: Phase 704 Execution Inspector live proof","explanation_preview":"standard execution path","guidance":{"ts":1778041531002,"actor":"worker-f23fad8f-a5db-4621-94a5-e41f2e1e666a","run_id":"run_8d705078-6853-44cb-92c4-94bae960c8ea","source":"worker","status":"completed","task_id":"t_920a97c9-ddd5-41d3-851d-5735c6e52c30","claimed_by":"worker-f23fad8f-a5db-4621-94a5-e41f2e1e666a","completed_at":"2026-05-06T04:25:31.000Z","outcome_preview":"Standard execution prepared for: Phase 704 Execution Inspector live proof","communicationResult":{"outcome":{"tier":"TIER_1","content":"Standard execution prepared for: Phase 704 Execution Inspector live proof","purpose":"operator-safe outcome","visibility":"default"},"explanation":{"tier":"TIER_2","content":"standard execution path","purpose":"brief causal explanation","visibility":"on_request","persistence":"non_sticky"},"systemTrace":{"tier":"TIER_3","content":{"run_id":"run_8d705078-6853-44cb-92c4-94bae960c8ea","task_id":"t_920a97c9-ddd5-41d3-851d-5735c6e52c30","execution_meta":{},"compiler_options":{},"strategy_applied":"default"},"purpose":"internal/system execution trace","visibility":"explicit_access_only","persistence":"non_default"}},"explanation_preview":"standard execution path"}}]}
+[5] Guidance boundary proof
+HTTP/1.1 200 OK
+X-Powered-By: Express
+Content-Type: application/json; charset=utf-8
+Content-Length: 490
+ETag: W/"1ea-BQmYVaOsZ4hRl37lHDc3P2f/zEs"
+Date: Fri, 08 May 2026 04:28:12 GMT
+Connection: keep-alive
+Keep-Alive: timeout=5
+
+{"reply":"The surfaced context is limited, read-only, and non-authoritative. \n\nBased on the current context, the execution boundary is confirmed to be chat cannot execute tasks, mutate data, trigger workers, or change infrastructure. \n\nTo confirm this boundary after Phase 716 evidence surface, I recommend reviewing the chat logs for any attempted actions within the chat interface.","meta":{"mode":"advisory-ollama-with-deterministic-safety","execution":false,"systemCoupling":false}}
+[6] Source proof
+170:      Read-only operator proof surface. This page fetches existing task evidence only; it does not create, mutate, retry, or execute tasks.
+226:        row("trace_visibility", trace && trace.visibility),
+230:        traceContent ? '<details><summary>View system trace payload</summary><pre>' + traceContent + '</pre></details>' : '',
+222:            <span className="text-xs text-gray-400">read-only execution evidence</span>
+260:              View execution evidence
+304:                View system trace payload
+
+PHASE 716 RESULT:
+- Static execution evidence page is reachable at /execution-evidence.html.
+- /api/tasks remains the read-only evidence source.
+- No task creation, mutation, retry, or execution behavior was added.
+- Advisory chat remains execution:false and systemCoupling:false.
+- Container runtime rebuilt and verified.
+
+===== PHASE 716 EXECUTION EVIDENCE SURFACE SEALED =====
