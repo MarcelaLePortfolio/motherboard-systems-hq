@@ -19,69 +19,21 @@ git log --oneline -5
 
 echo ""
 
-echo "Relevant files:"
+echo "Relevant tracked files:"
 
-find . \
-
-  \( -path "./node_modules" -o -path "./.next" -o -path "./.git" -o -path "./dist" -o -path "./build" \) -prune -o \
-
-  -type f \
-
-  \( \
-
-    -iname "*Inspector*" -o \
-
-    -iname "*Task*" -o \
-
-    -iname "*task*" -o \
-
-    -iname "*guidance*" -o \
-
-    -iname "*event*" -o \
-
-    -iname "*sse*" -o \
-
-    -name "server.mjs" \
-
-  \) \
-
-  -print | sort
+git ls-files | grep -Ei '(^|/)(server\.mjs|.*inspector.*|.*task.*|.*guidance.*|.*event.*|.*sse.*)$' | grep -Ev '(^|/)(node_modules|\.next|dist|build|ts-backup)/' | sort || true
 
 echo ""
 
 echo "Potential unsupported certainty wording:"
 
-grep -RIn \
-
-  --exclude-dir=node_modules \
-
-  --exclude-dir=.git \
-
-  --exclude-dir=.next \
-
-  --exclude-dir=dist \
-
-  --exclude-dir=build \
-
-  -E '\b(healthy|working correctly|operational|stable|recovered|failed because|queue length)\b' . || true
+git grep -InE '\b(healthy|working correctly|operational|stable|recovered|failed because|queue length)\b' -- ':!node_modules' ':!.next' ':!dist' ':!build' ':!ts-backup' || true
 
 echo ""
 
 echo "Task event / run view references:"
 
-grep -RIn \
-
-  --exclude-dir=node_modules \
-
-  --exclude-dir=.git \
-
-  --exclude-dir=.next \
-
-  --exclude-dir=dist \
-
-  --exclude-dir=build \
-
-  -E 'task_events|run_view|/events/task-events|EventSource|SSE|attempts|max_attempts|claimed_by|run_id' . || true
+git grep -InE 'task_events|run_view|/events/task-events|EventSource|SSE|attempts|max_attempts|claimed_by|run_id' -- ':!node_modules' ':!.next' ':!dist' ':!build' ':!ts-backup' || true
 
 echo ""
 
