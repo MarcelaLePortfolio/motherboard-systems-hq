@@ -1,0 +1,21 @@
+
+PHASE 717 — RECENT TASKS LIFECYCLE LABELS
+
+Change:
+
+- Recent Tasks task cards now identify themselves as lifecycle cards.
+
+- Task cards now show disabled operator-action placeholders for Requeue and Retry Differently.
+
+- Buttons are intentionally disabled because the safe retry/requeue endpoint contract is not confirmed.
+
+- Evidence/details/advanced JSON remain inside the task card.
+
+- No backend mutation path was added.
+
+- No hidden execution behavior was added.
+
+Reason:
+
+- This advances the Phase 717 architecture toward making Recent Tasks the authoritative execution lifecycle surface without prematurely enabling mutation controls.
+

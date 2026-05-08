@@ -75,13 +75,33 @@
 
       return `
 
-        <article data-phase716-contained-task="true" style="display:block;width:100%;min-width:0;max-width:100%;box-sizing:border-box;border:1px solid rgba(148,163,184,.22);border-radius:12px;padding:10px;margin:0 0 10px 0;background:rgba(15,23,42,.72);overflow:hidden;">
+        <article data-phase716-contained-task="true" data-phase717-execution-card="true" style="display:block;width:100%;min-width:0;max-width:100%;box-sizing:border-box;border:1px solid rgba(148,163,184,.22);border-radius:12px;padding:10px;margin:0 0 10px 0;background:rgba(15,23,42,.72);overflow:hidden;">
 
-          <div style="font-weight:600;color:#e5e7eb;overflow-wrap:anywhere;word-break:break-word;">${title}</div>
+          <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:8px;min-width:0;">
+
+            <div style="font-weight:600;color:#e5e7eb;overflow-wrap:anywhere;word-break:break-word;min-width:0;">${title}</div>
+
+            <div style="flex:0 0 auto;color:#93c5fd;border:1px solid rgba(147,197,253,.35);border-radius:999px;padding:2px 7px;font-size:10px;line-height:1.4;background:rgba(30,64,175,.18);">lifecycle</div>
+
+          </div>
 
           <div style="margin-top:4px;color:#94a3b8;font-size:12px;overflow-wrap:anywhere;word-break:break-word;">status=${status} · id=${taskId}</div>
 
           ${updated ? `<div style="margin-top:4px;color:#64748b;font-size:11px;overflow-wrap:anywhere;">updated=${updated}</div>` : ""}
+
+          <div style="margin-top:8px;border:1px solid rgba(71,85,105,.55);border-radius:10px;padding:7px;background:rgba(2,6,23,.22);">
+
+            <div style="color:#cbd5e1;font-size:11px;font-weight:700;margin-bottom:5px;">Operator actions</div>
+
+            <div style="display:flex;flex-wrap:wrap;gap:6px;">
+
+              <button type="button" disabled title="Retry/requeue endpoint contract not confirmed yet" style="cursor:not-allowed;opacity:.45;border:1px solid rgba(148,163,184,.35);background:rgba(15,23,42,.8);color:#cbd5e1;border-radius:8px;padding:5px 8px;font-size:11px;">Requeue pending contract</button>
+
+              <button type="button" disabled title="Strategy-shift retry contract not confirmed yet" style="cursor:not-allowed;opacity:.45;border:1px solid rgba(148,163,184,.35);background:rgba(15,23,42,.8);color:#cbd5e1;border-radius:8px;padding:5px 8px;font-size:11px;">Retry differently pending contract</button>
+
+            </div>
+
+          </div>
 
           ${outcome ? `<div style="margin-top:8px;color:#d1d5db;font-size:12px;overflow-wrap:anywhere;word-break:break-word;">${outcome}</div>` : ""}
 
