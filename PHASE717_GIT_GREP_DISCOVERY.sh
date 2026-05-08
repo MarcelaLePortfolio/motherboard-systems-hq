@@ -3,7 +3,7 @@
 
 set -euo pipefail
 
-echo "===== PHASE 717 GIT-GREP DISCOVERY v2 ====="
+echo "===== PHASE 717 GIT-GREP DISCOVERY v3 ====="
 
 echo ""
 
@@ -13,49 +13,39 @@ git_grep_bounded() {
 
   local pattern="$2"
 
-  local tmp_file
-
-  tmp_file="$(mktemp)"
-
   echo "$title"
 
   git grep -nEi "$pattern" -- \
 
-    . \
+    routes \
 
-    ':(exclude)ts-backup/**' \
+    src/components \
 
-    ':(exclude)node_modules/**' \
+    public \
 
-    ':(exclude).next/**' \
+    app 2>/dev/null \
 
-    ':(exclude).git/**' \
+    | grep -v "ts-backup" \
 
-    ':(exclude)backups/**' \
-
-    ':(exclude)PHASE717_TARGETED_DISCOVERY_RESULT.txt' \
-
-    ':(exclude)PHASE717_EXECUTION_SURFACE_INSPECTION_RESULT.txt' \
-
-    ':(exclude)PHASE717_GIT_GREP_DISCOVERY_RESULT.txt' \
-
-    > "$tmp_file" || true
-
-  head -n 160 "$tmp_file"
-
-  rm -f "$tmp_file"
+    | head -n 40 || true
 
   echo ""
 
 }
 
-git_grep_bounded "[1] Recent Tasks / Task History / Execution Inspector matches" "Recent Tasks|recent tasks|recentTasks|Task History|task history|Execution Inspector|execution inspector"
+git_grep_bounded "[1] Recent Tasks / Inspector matches" \
 
-git_grep_bounded "[2] Retry / requeue matches" "retry differently|retryDifferently|requeue|retry|rerun|restart"
+"Recent Tasks|recentTasks|Execution Inspector|task history"
 
-git_grep_bounded "[3] Task API / event / run_view matches" "/api/tasks|task_events|task-events|run_view|router\\.(post|get)|app\\.(post|get)"
+git_grep_bounded "[2] Retry / requeue matches" \
 
-echo "[4] Concrete files"
+"retry differently|retryDifferently|requeue|retry"
+
+git_grep_bounded "[3] Task API matches" \
+
+"/api/tasks|task_events|run_view"
+
+echo "[4] Minimal concrete file previews"
 
 for file in \
 
@@ -63,13 +53,7 @@ for file in \
 
   routes/tasks.ts \
 
-  public/js/phase530_visible_panels_bridge.js \
-
-  app/api/tasks/route.ts \
-
-  app/api/tasks/retry/route.ts \
-
-  app/api/tasks/requeue/route.ts
+  public/js/phase530_visible_panels_bridge.js
 
 do
 
@@ -79,7 +63,7 @@ do
 
     echo "----- $file -----"
 
-    sed -n '1,220p' "$file"
+    sed -n '1,80p' "$file"
 
   fi
 
@@ -91,9 +75,9 @@ echo "[5] Git state"
 
 git status --short
 
-git log --oneline --decorate -5
+git log --oneline --decorate -3
 
 echo ""
 
-echo "===== PHASE 717 GIT-GREP DISCOVERY v2 COMPLETE ====="
+echo "===== PHASE 717 GIT-GREP DISCOVERY v3 COMPLETE ====="
 
