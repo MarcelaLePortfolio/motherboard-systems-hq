@@ -1,0 +1,23 @@
+
+PHASE 717 — LIFECYCLE LABELS VERIFIED
+
+Verified:
+
+- Recent Tasks renderer contains lifecycle-card marker.
+
+- Recent Tasks renderer contains disabled operator-action placeholders.
+
+- Requeue remains disabled pending endpoint contract confirmation.
+
+- Retry Differently remains disabled pending strategy-shift contract confirmation.
+
+- No backend mutation route was added.
+
+- No hidden execution behavior was added.
+
+Next safe step:
+
+- Identify the exact safe mutation endpoint and payload before enabling any retry/requeue button.
+
+- If no safe endpoint is confirmed, keep controls disabled and continue surface consolidation only.
+
