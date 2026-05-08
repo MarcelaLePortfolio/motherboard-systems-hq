@@ -1,0 +1,163 @@
+===== PHASE 716 EXECUTION INSPECTOR COMPONENT INSPECTION =====
+
+[1] Branch + status
+phase716-execution-evidence-surfacing
+?? PHASE716_INSPECT_EXECUTION_INSPECTOR_COMPONENT.sh
+?? phase716_execution_inspector_component_inspection.txt
+
+[2] Locate ExecutionInspector component
+app/api/guidance/coherence-preview/route.ts
+app/api/guidance/coherence-shadow/route.ts
+app/api/guidance/route.ts
+app/components/ExecutionInspector.tsx
+app/components/GuidancePanel.tsx
+app/components/GuidancePanel.tsx.bak_phase677_pre_diff
+app/dev/page-ExecutionInspectorTest.tsx
+app/dev/page-GuidancePanel.tsx
+
+[3] Read ExecutionInspector component
+'use client';
+
+import React from 'react';
+
+type Guidance = {
+  classification?: 'success' | 'warning' | 'blocked' | string;
+  outcome?: string;
+  explanation?: string;
+};
+
+type Task = {
+  id: string;
+  status: string;
+  guidance?: Guidance;
+};
+
+function getBadgeColor(classification?: string) {
+  switch (classification) {
+    case 'success':
+      return 'bg-green-100 text-green-700';
+    case 'warning':
+      return 'bg-yellow-100 text-yellow-700';
+    case 'blocked':
+      return 'bg-red-100 text-red-700';
+    default:
+      return 'bg-gray-100 text-gray-600';
+  }
+}
+
+function getStatusColor(status?: string) {
+  switch (status) {
+    case 'completed':
+      return 'text-green-600';
+    case 'failed':
+      return 'text-red-600';
+    case 'running':
+      return 'text-blue-600';
+    default:
+      return 'text-gray-500';
+  }
+}
+
+export default function ExecutionInspector({ task }: { task: Task }) {
+  const guidance = task?.guidance;
+
+  return (
+    <div className="p-4 border rounded-xl space-y-4 shadow-sm">
+      <div className="flex items-center justify-between">
+        <div>
+          <div className="text-sm text-gray-500">Task ID</div>
+          <div className="font-mono text-sm">{task.id}</div>
+        </div>
+        <div className={`text-sm font-medium capitalize ${getStatusColor(task.status)}`}>
+          {task.status}
+        </div>
+      </div>
+
+      {guidance ? (
+        <div className="border rounded-lg p-3 bg-gray-50 space-y-2">
+          <div className="flex items-center gap-2">
+            <span className={`px-2 py-1 text-xs rounded ${getBadgeColor(guidance.classification)}`}>
+              {guidance.classification || 'unknown'}
+            </span>
+            <span className="text-xs text-gray-400">guidance</span>
+          </div>
+
+          {guidance.outcome && (
+            <div className="text-sm text-gray-800 font-medium">
+              {guidance.outcome}
+            </div>
+          )}
+
+          {guidance.explanation && (
+            <details className="text-sm text-gray-600">
+              <summary className="cursor-pointer hover:underline">
+                View explanation
+              </summary>
+              <div className="mt-2 whitespace-pre-wrap">
+                {guidance.explanation}
+              </div>
+            </details>
+          )}
+        </div>
+      ) : (
+        <div className="text-xs text-gray-400 italic">
+          No guidance available for this task.
+        </div>
+      )}
+    </div>
+  );
+}
+
+[4] Locate component usage
+app/components/ExecutionInspector.tsx:43:export default function ExecutionInspector({ task }: { task: Task }) {
+app/dev/page-ExecutionInspectorTest.tsx:3:import ExecutionInspector from "../components/ExecutionInspector";
+app/dev/page-ExecutionInspectorTest.tsx:10:      <ExecutionInspector
+app/dev/page-ExecutionInspectorTest.tsx:22:      <ExecutionInspector
+app/dev/page-ExecutionInspectorTest.tsx:34:      <ExecutionInspector
+app/dev/page-ExecutionInspectorTest.tsx:46:      <ExecutionInspector
+
+[5] Probe run evidence endpoint
+HTTP/1.1 404 Not Found
+X-Powered-By: Express
+Content-Security-Policy: default-src 'none'
+X-Content-Type-Options: nosniff
+Content-Type: text/html; charset=utf-8
+Content-Length: 147
+Date: Fri, 08 May 2026 04:21:49 GMT
+Connection: keep-alive
+Keep-Alive: timeout=5
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Error</title>
+</head>
+<body>
+<pre>Cannot GET /api/runs</pre>
+</body>
+</html>
+
+[6] Probe run detail from known task response run_id
+HTTP/1.1 404 Not Found
+X-Powered-By: Express
+Content-Security-Policy: default-src 'none'
+X-Content-Type-Options: nosniff
+Content-Type: text/html; charset=utf-8
+Content-Length: 188
+Date: Fri, 08 May 2026 04:21:49 GMT
+Connection: keep-alive
+Keep-Alive: timeout=5
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Error</title>
+</head>
+<body>
+<pre>Cannot GET /api/runs/run_8d705078-6853-44cb-92c4-94bae960c8ea</pre>
+</body>
+</html>
+
+===== PHASE 716 EXECUTION INSPECTOR COMPONENT INSPECTION COMPLETE =====
