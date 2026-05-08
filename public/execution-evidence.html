@@ -1,0 +1,269 @@
+
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+
+  <meta charset="UTF-8" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>Execution Evidence Surface</title>
+
+  <style>
+
+    body {
+
+      margin: 0;
+
+      padding: 24px;
+
+      font-family: Arial, sans-serif;
+
+      background: #0f172a;
+
+      color: #e5e7eb;
+
+    }
+
+    .wrap {
+
+      max-width: 980px;
+
+      margin: 0 auto;
+
+    }
+
+    .card {
+
+      border: 1px solid #334155;
+
+      border-radius: 16px;
+
+      background: #111827;
+
+      padding: 18px;
+
+      margin-top: 16px;
+
+      box-shadow: 0 10px 30px rgba(0,0,0,0.25);
+
+    }
+
+    .muted {
+
+      color: #94a3b8;
+
+      font-size: 13px;
+
+    }
+
+    .row {
+
+      display: flex;
+
+      justify-content: space-between;
+
+      gap: 16px;
+
+      padding: 8px 0;
+
+      border-bottom: 1px solid #1f2937;
+
+      font-size: 13px;
+
+    }
+
+    .row:last-child {
+
+      border-bottom: 0;
+
+    }
+
+    .label {
+
+      color: #94a3b8;
+
+    }
+
+    .value {
+
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+
+      text-align: right;
+
+      overflow-wrap: anywhere;
+
+    }
+
+    .status {
+
+      display: inline-block;
+
+      border-radius: 999px;
+
+      padding: 4px 10px;
+
+      background: #064e3b;
+
+      color: #bbf7d0;
+
+      font-size: 12px;
+
+      font-weight: 700;
+
+    }
+
+    details {
+
+      margin-top: 14px;
+
+    }
+
+    summary {
+
+      cursor: pointer;
+
+      color: #bfdbfe;
+
+    }
+
+    pre {
+
+      white-space: pre-wrap;
+
+      overflow: auto;
+
+      background: #020617;
+
+      border: 1px solid #334155;
+
+      border-radius: 12px;
+
+      padding: 14px;
+
+      font-size: 12px;
+
+      color: #d1d5db;
+
+    }
+
+    a {
+
+      color: #bfdbfe;
+
+    }
+
+  </style>
+
+</head>
+
+<body>
+
+  <main class="wrap">
+
+    <h1>Execution Evidence Surface</h1>
+
+    <p class="muted">
+
+      Read-only operator proof surface. This page fetches existing task evidence only; it does not create, mutate, retry, or execute tasks.
+
+    </p>
+
+    <section id="status" class="card">
+
+      <span class="status">loading</span>
+
+      <p class="muted">Fetching /api/tasks…</p>
+
+    </section>
+
+    <section id="tasks"></section>
+
+  </main>
+
+  <script>
+
+    function row(label, value) {
+
+      if (value === undefined || value === null || value === "") return "";
+
+      return '<div class="row"><div class="label">' + label + '</div><div class="value">' + String(value) + '</div></div>';
+
+    }
+
+    function renderTask(task) {
+
+      const guidance = task.guidance || {};
+
+      const trace = guidance.communicationResult && guidance.communicationResult.systemTrace;
+
+      const traceContent = trace && trace.content ? JSON.stringify(trace.content, null, 2) : "";
+
+      return [
+
+        '<article class="card">',
+
+        '<div class="row"><div class="label">status</div><div><span class="status">' + (task.status || "unknown") + '</span></div></div>',
+
+        row("task_id", task.task_id || task.id),
+
+        row("run_id", guidance.run_id),
+
+        row("actor", guidance.actor || task.claimed_by),
+
+        row("source", guidance.source),
+
+        row("updated_at", task.updated_at),
+
+        row("completed_at", guidance.completed_at),
+
+        row("outcome_preview", guidance.outcome_preview || task.outcome_preview),
+
+        row("explanation_preview", guidance.explanation_preview || task.explanation_preview),
+
+        row("trace_visibility", trace && trace.visibility),
+
+        row("trace_purpose", trace && trace.purpose),
+
+        traceContent ? '<details><summary>View system trace payload</summary><pre>' + traceContent + '</pre></details>' : '',
+
+        '</article>'
+
+      ].join("");
+
+    }
+
+    async function main() {
+
+      const status = document.getElementById("status");
+
+      const tasks = document.getElementById("tasks");
+
+      try {
+
+        const res = await fetch("/api/tasks", { cache: "no-store" });
+
+        const data = await res.json();
+
+        status.innerHTML = '<span class="status">connected</span><p class="muted">/api/tasks returned ok=' + String(data.ok) + ' with ' + ((data.tasks || []).length) + ' task(s).</p>';
+
+        tasks.innerHTML = (data.tasks || []).map(renderTask).join("") || '<section class="card"><p class="muted">No tasks returned.</p></section>';
+
+      } catch (err) {
+
+        status.innerHTML = '<span class="status">error</span><p class="muted">' + String(err && err.message ? err.message : err) + '</p>';
+
+      }
+
+    }
+
+    main();
+
+  </script>
+
+</body>
+
+</html>
+
