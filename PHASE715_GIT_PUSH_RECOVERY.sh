@@ -17,7 +17,7 @@ git log --oneline --decorate -8
 
 echo ""
 
-echo "[2] Confirm commits ahead of origin/dev"
+echo "[2] Fetch origin/dev and confirm commits ahead"
 
 git fetch origin dev --tags
 
@@ -25,23 +25,53 @@ git log --oneline --decorate origin/dev..HEAD || true
 
 echo ""
 
-echo "[3] Inspect largest objects only in commits ahead of origin/dev"
+echo "[3] Inspect largest blob objects only in commits ahead of origin/dev"
 
-git rev-list --objects origin/dev..HEAD \
+TMP_OBJECTS="$(mktemp)"
 
-  | git cat-file --batch-check='%(objecttype) %(objectname) %(objectsize) %(rest)' \
+TMP_BLOBS="$(mktemp)"
 
-  | awk '$1=="blob" {print $3, $4}' \
+trap 'rm -f "$TMP_OBJECTS" "$TMP_BLOBS"' EXIT
 
-  | sort -nr \
+git rev-list --objects origin/dev..HEAD > "$TMP_OBJECTS" || true
 
-  | head -40 \
+while IFS= read -r line; do
 
-  | awk '{size=$1; $1=""; printf "%.2f MB%s\n", size/1024/1024, $0}' || true
+  oid="${line%% *}"
+
+  path="${line#* }"
+
+  if [ "$oid" = "$path" ]; then
+
+    path=""
+
+  fi
+
+  type="$(git cat-file -t "$oid" 2>/dev/null || true)"
+
+  if [ "$type" = "blob" ]; then
+
+    size="$(git cat-file -s "$oid")"
+
+    printf "%s %s %s\n" "$size" "$oid" "$path" >> "$TMP_BLOBS"
+
+  fi
+
+done < "$TMP_OBJECTS"
+
+if [ -s "$TMP_BLOBS" ]; then
+
+  sort -nr "$TMP_BLOBS" | head -40 | awk '{size=$1; oid=$2; $1=""; $2=""; printf "%.2f MB %s\n", size/1024/1024, $0}'
+
+else
+
+  echo "No unpushed blob objects found."
+
+fi
 
 echo ""
 
-echo "[4] Push branch only — DO NOT push all tags"
+echo "[4] Push branch only"
 
 git push origin dev
 
