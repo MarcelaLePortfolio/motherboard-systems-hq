@@ -3,7 +3,7 @@
 
 set -euo pipefail
 
-echo "===== PHASE 717 GIT-GREP DISCOVERY ====="
+echo "===== PHASE 717 GIT-GREP DISCOVERY v2 ====="
 
 echo ""
 
@@ -13,9 +13,11 @@ git_grep_bounded() {
 
   local pattern="$2"
 
-  echo "$title"
+  local tmp_file
 
-  set +o pipefail
+  tmp_file="$(mktemp)"
+
+  echo "$title"
 
   git grep -nEi "$pattern" -- \
 
@@ -35,25 +37,23 @@ git_grep_bounded() {
 
     ':(exclude)PHASE717_EXECUTION_SURFACE_INSPECTION_RESULT.txt' \
 
-    | head -n 160
+    ':(exclude)PHASE717_GIT_GREP_DISCOVERY_RESULT.txt' \
 
-  set -o pipefail
+    > "$tmp_file" || true
+
+  head -n 160 "$tmp_file"
+
+  rm -f "$tmp_file"
 
   echo ""
 
 }
 
-git_grep_bounded "[1] Recent Tasks / Task History / Execution Inspector matches" \
+git_grep_bounded "[1] Recent Tasks / Task History / Execution Inspector matches" "Recent Tasks|recent tasks|recentTasks|Task History|task history|Execution Inspector|execution inspector"
 
-  "Recent Tasks|recent tasks|recentTasks|Task History|task history|Execution Inspector|execution inspector"
+git_grep_bounded "[2] Retry / requeue matches" "retry differently|retryDifferently|requeue|retry|rerun|restart"
 
-git_grep_bounded "[2] Retry / requeue matches" \
-
-  "retry differently|retryDifferently|requeue|retry|rerun|restart"
-
-git_grep_bounded "[3] Task API / event / run_view matches" \
-
-  "/api/tasks|task_events|task-events|run_view|router\\.(post|get)|app\\.(post|get)"
+git_grep_bounded "[3] Task API / event / run_view matches" "/api/tasks|task_events|task-events|run_view|router\\.(post|get)|app\\.(post|get)"
 
 echo "[4] Concrete files"
 
@@ -95,5 +95,5 @@ git log --oneline --decorate -5
 
 echo ""
 
-echo "===== PHASE 717 GIT-GREP DISCOVERY COMPLETE ====="
+echo "===== PHASE 717 GIT-GREP DISCOVERY v2 COMPLETE ====="
 
