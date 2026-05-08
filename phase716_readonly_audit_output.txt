@@ -1,0 +1,180 @@
+===== PHASE 716 SAFE READ-ONLY AUDIT =====
+
+[1] Confirm branch baseline
+phase716-execution-evidence-surfacing
+ M PHASE716_SAFE_READONLY_AUDIT.sh
+?? phase716_readonly_audit_output.txt
+d891ab63 Phase 716: repair safe read-only audit script
+c3394920 Phase 716: add safe read-only execution evidence audit script
+f2dcd143 Fix Phase 715 Git push recovery script
+
+[2] Confirm containers
+NAME                                 IMAGE                              COMMAND                  SERVICE     CREATED        STATUS                  PORTS
+motherboard_systems_hq-dashboard-1   motherboard_systems_hq-dashboard   "docker-entrypoint.s…"   dashboard   6 hours ago    Up 6 hours              0.0.0.0:3000->3000/tcp, [::]:3000->3000/tcp
+motherboard_systems_hq-postgres-1    postgres:16-alpine                 "docker-entrypoint.s…"   postgres    2 days ago     Up 34 hours (healthy)   5432/tcp
+motherboard_systems_hq-worker-1      motherboard_systems_hq-worker      "docker-entrypoint.s…"   worker      47 hours ago   Up 34 hours             
+
+[3] Confirm known evidence routes
+HTTP/1.1 200 OK
+X-Powered-By: Express
+Content-Type: application/json; charset=utf-8
+Content-Length: 371
+ETag: W/"173-WU18qzME0IXTv8CCBWOjFyA15yo"
+Date: Fri, 08 May 2026 04:20:33 GMT
+Connection: keep-alive
+Keep-Alive: timeout=5
+
+{"ok":true,"guidance_available":true,"guidance":[{"type":"info","severity":1,"message":"All monitored subsystems are operating normally.","subsystem":"all","suggested_action":null,"generated_at":"2026-05-08T04:20:33.856Z"}],"meta":{"source":"guidance-engine","generated_at":"2026-05-08T04:20:33.856Z","task_count":1,"failure_count":0,"retry_count":0,"subsystem_count":0}}HTTP/1.1 200 OK
+X-Powered-By: Express
+Content-Type: application/json; charset=utf-8
+Content-Length: 1546
+ETag: W/"60a-mez9jHoRVNTMxK2QBeh5O1spUSY"
+Date: Fri, 08 May 2026 04:20:33 GMT
+Connection: keep-alive
+Keep-Alive: timeout=5
+
+{"ok":true,"tasks":[{"id":"1","task_id":"t_920a97c9-ddd5-41d3-851d-5735c6e52c30","title":"Phase 704 Execution Inspector live proof","status":"completed","claimed_by":"worker-f23fad8f-a5db-4621-94a5-e41f2e1e666a","updated_at":"2026-05-06T04:25:29.607Z","outcome_preview":"Standard execution prepared for: Phase 704 Execution Inspector live proof","explanation_preview":"standard execution path","guidance":{"ts":1778041531002,"actor":"worker-f23fad8f-a5db-4621-94a5-e41f2e1e666a","run_id":"run_8d705078-6853-44cb-92c4-94bae960c8ea","source":"worker","status":"completed","task_id":"t_920a97c9-ddd5-41d3-851d-5735c6e52c30","claimed_by":"worker-f23fad8f-a5db-4621-94a5-e41f2e1e666a","completed_at":"2026-05-06T04:25:31.000Z","outcome_preview":"Standard execution prepared for: Phase 704 Execution Inspector live proof","communicationResult":{"outcome":{"tier":"TIER_1","content":"Standard execution prepared for: Phase 704 Execution Inspector live proof","purpose":"operator-safe outcome","visibility":"default"},"explanation":{"tier":"TIER_2","content":"standard execution path","purpose":"brief causal explanation","visibility":"on_request","persistence":"non_sticky"},"systemTrace":{"tier":"TIER_3","content":{"run_id":"run_8d705078-6853-44cb-92c4-94bae960c8ea","task_id":"t_920a97c9-ddd5-41d3-851d-5735c6e52c30","execution_meta":{},"compiler_options":{},"strategy_applied":"default"},"purpose":"internal/system execution trace","visibility":"explicit_access_only","persistence":"non_default"}},"explanation_preview":"standard execution path"}}]}HTTP/1.1 200 OK
+X-Powered-By: Express
+Content-Type: text/event-stream; charset=utf-8
+Cache-Control: no-cache, no-transform
+Connection: keep-alive
+X-Accel-Buffering: no
+Date: Fri, 08 May 2026 04:20:33 GMT
+Transfer-Encoding: chunked
+
+: connected 2026-05-08T04:20:33.871Z
+
+event: hello
+data: {"kind":"task-events","cursor":1778041531002,"ts":1778214033871}
+
+HTTP/1.1 200 OK
+X-Powered-By: Express
+Content-Type: application/json; charset=utf-8
+Content-Length: 366
+ETag: W/"16e-0pWVvyLdc28IdRAR0Ef2Ls9QBfo"
+Date: Fri, 08 May 2026 04:20:38 GMT
+Connection: keep-alive
+Keep-Alive: timeout=5
+
+{"reply":"The surfaced context is limited, read-only, and non-authoritative.\n\nThe guidance endpoint is available, but this compact context does not prove every subsystem is currently healthy.\n\nA runtime verification probe would be a safe next inspection step.","meta":{"mode":"advisory-ollama-with-deterministic-safety","execution":false,"systemCoupling":false}}
+[4] Identify safest execution evidence insertion points
+app/components/GuidancePanel.tsx:56:      const res = await fetch('/api/tasks/create', {
+app/components/GuidancePanel.tsx.bak_phase677_pre_diff:56:      const res = await fetch('/api/tasks/create', {
+app/dev/page-ExecutionInspectorTest.tsx:8:      <div className="text-lg font-semibold">Execution Inspector — Guidance Test (UI Verified)</div>
+server/db_bootstrap_run_view.mjs:6:  await pool.query(`drop view if exists run_view`);
+server/db_bootstrap_run_view.mjs:9:    create view run_view as
+server/db_bootstrap_run_view.mjs:18:      from task_events te
+server/db_bootstrap_run_view.mjs:27:      from task_events te
+server/task_events_emit.mjs:1:import { appendTaskEvent } from "./task-events.mjs";
+server/task_events_emit.mjs:2:console.log("[phase25] task_events_emit loaded", new Date().toISOString(), "file=", import.meta.url);
+server/tasks-mutations.mjs:2:import { emitTaskEvent } from "./task_events_emit.mjs";
+server/task-events.mjs:3: * Legacy task_events schema in your docker DB:
+server/task-events.mjs:4: *   task_events(id bigint, kind text, payload text, created_at text)
+server/task-events.mjs:31:  // Phase50: DB write-path enforcement (task_events)
+server/task-events.mjs:32:  assertNotEnforced("task_events.append");
+server/task-events.mjs:36:  // Phase25 contract: server is the single authoritative writer of task_events.
+server/task-events.mjs:136:    // Ensure payload is JSONB-safe when task_events.payload is jsonb.
+server/task-events.mjs:143:        "select 1 as ok from task_events where kind=$1::text and payload=$2::jsonb limit 1",
+server/task-events.mjs:161:        "select kind from task_events where kind = any($1::text[]) and payload like $2 order by id desc limit 1",
+server/task-events.mjs:172:      "insert into task_events(kind, task_id, run_id, actor, ts, payload) values ($1::text, $2::text, $3::text, $4::text, $5::bigint, $6::jsonb)",
+server/api/tasks-mutations/delegate-taskspec.mjs:20: * POST /api/tasks-mutations/delegate-taskspec
+server/api/tasks-mutations/delegate-taskspec.mjs:28: * - Inserts into task_events(kind="task.created") so /events/task-events advances
+server/api/chat.mjs:70:      'Next useful check: compare the visible dashboard state, Execution Inspector stream, and recent task events before concluding that anything changed.',
+server/enforcement/phase44_mutation_allowlist.mjs:6: *   { method: "POST", path: "/api/tasks" }
+server/enforcement/phase44_mutation_allowlist.mjs:7: *   { method: "POST", path: "/api/tasks/:task_id/cancel" }
+server/enforcement/phase44_mutation_allowlist.mjs:14:  // { method: "POST", path: "/api/tasks" },
+server/enforcement/phase44_mutation_enforcer.mjs:26: * - "/api/tasks/:id/cancel" => /^\/api\/tasks\/[^/]+\/cancel$/
+server/enforcement/phase44_mutation_enforcer.mjs:27: * - "/api/tasks" => /^\/api\/tasks$/
+server/worker/phase29_db_migrate_to_phase27.sql:39:-- 5) task_events: ensure columns exist
+server/worker/phase29_db_migrate_to_phase27.sql:40:alter table task_events add column if not exists run_id text null;
+server/worker/phase29_db_migrate_to_phase27.sql:41:alter table task_events add column if not exists actor text null;
+server/worker/phase29_db_migrate_to_phase27.sql:43:-- 6) task_events.payload: if it's TEXT, add payload_jsonb and keep payload text (no destructive alter here)
+server/worker/phase29_db_migrate_to_phase27.sql:47:  if not exists (select 1 from information_schema.columns where table_name='task_events' and column_name='payload_jsonb') then
+server/worker/phase29_db_migrate_to_phase27.sql:48:    alter table task_events add column payload_jsonb jsonb null;
+server/worker/phase29_db_migrate_to_phase27.sql:53:update task_events
+server/worker/phase29_db_migrate_to_phase27.sql:66:create index if not exists idx_task_events_task_id on task_events(task_id);
+server/worker/phase29_db_migrate_to_phase27.sql:67:create index if not exists idx_task_events_kind on task_events(kind);
+server/worker/phase30_db_doctor_pretty.sh:13:  (select data_type from information_schema.columns where table_name='task_events' and column_name='payload')::text as events_payload_type,
+server/worker/phase30_db_doctor_pretty.sh:14:  (select count(*) from information_schema.columns where table_name='task_events' and column_name='payload_jsonb')::int as has_events_payload_jsonb,
+server/worker/phase30_db_doctor_pretty.sh:15:  (select count(*) from information_schema.columns where table_name='task_events' and column_name='run_id')::int as has_events_run_id,
+server/worker/phase30_db_doctor_pretty.sh:16:  (select count(*) from information_schema.columns where table_name='task_events' and column_name='actor')::int as has_events_actor
+server/worker/phase30_db_doctor_pretty.sh:29:echo "task_events.payload type:   ${ev_payload_type:-<missing>}"
+server/worker/phase30_db_doctor_pretty.sh:30:echo "task_events.payload_jsonb:  ${ev_payload_jsonb}"
+server/worker/phase30_db_doctor_pretty.sh:31:echo "task_events.run_id:         ${ev_run}"
+server/worker/phase30_db_doctor_pretty.sh:32:echo "task_events.actor:          ${ev_actor}"
+server/worker/phase30_contract_check.sql:14:  if not exists (select 1 from information_schema.columns where table_name='task_events' and column_name='payload') then
+server/worker/phase30_contract_check.sql:15:    raise exception 'missing task_events.payload';
+server/worker/phase26_task_worker.mjs:8:import { emitTaskEvent } from "../task_events_emit.mjs";
+server/worker/phase29_db_doctor.sh:13:  (select count(*) from information_schema.columns where table_name='task_events' and column_name='payload') as has_events_payload,
+server/worker/phase29_db_doctor.sh:14:  (select data_type from information_schema.columns where table_name='task_events' and column_name='payload') as events_payload_type,
+server/worker/phase29_db_doctor.sh:15:  (select count(*) from information_schema.columns where table_name='task_events' and column_name='run_id') as has_events_run_id,
+server/worker/phase29_db_doctor.sh:16:  (select count(*) from information_schema.columns where table_name='task_events' and column_name='actor') as has_events_actor
+server/routes/api-tasks-postgres.mjs:5:import { emitTaskEvent } from "../task_events_emit.mjs";
+server/routes/api-tasks-postgres.mjs:38:// GET /api/tasks?limit=25  -> recent tasks for dashboard widget
+server/routes/api-tasks-postgres.mjs:40:  console.log("[phase57c-router] /api/tasks probe", {
+server/routes/api-tasks-postgres.mjs:69:        FROM task_events te
+server/routes/api-tasks-postgres.mjs:83:    console.error("[phase25] /api/tasks list error", e);
+server/routes/api-tasks-postgres.mjs:88:// POST /api/tasks/create  { task_id?, title?, agent?, run_id?, ... }
+server/routes/api-tasks-postgres.mjs:94:    console.log("[phase25] /api/tasks/create pool snapshot", {
+server/routes/api-tasks-postgres.mjs:117:    // (workers claim from tasks, not task_events)
+server/routes/api-tasks-postgres.mjs:161:    console.error("[phase25] /api/tasks error", e);
+server/routes/api-tasks-postgres.mjs:171:// POST /api/tasks/complete  { task_id, status?, run_id?, ... }
+server/routes/api-tasks-postgres.mjs:175:    assertNotEnforced("http:/api/tasks/create");
+server/routes/api-tasks-postgres.mjs:199:    console.error("[phase25] /api/tasks error", e);
+server/routes/api-tasks-postgres.mjs:209:// POST /api/tasks/fail  { task_id, error?, status?, run_id?, ... }
+server/routes/api-tasks-postgres.mjs:213:    assertNotEnforced("http:/api/tasks/complete");
+server/routes/api-tasks-postgres.mjs:237:    console.error("[phase25] /api/tasks error", e);
+server/routes/api-tasks-postgres.mjs:247:// POST /api/tasks/cancel  { task_id, run_id?, ... }
+server/routes/api-tasks-postgres.mjs:251:    assertNotEnforced("http:/api/tasks/cancel");
+server/routes/api-tasks-postgres.mjs:254:    assertNotEnforced("http:/api/tasks/fail");
+server/routes/api-tasks-postgres.mjs:277:    console.error("[phase25] /api/tasks error", e);
+server/routes/phase40_6_shadow_audit_task_events.mjs:5:  app.get("/api/shadow/audit/task-events", async (req, res) => {
+server/routes/phase40_6_shadow_audit_task_events.mjs:6:    const sqlPath = join(process.cwd(), "server", "sql", "phase40_6_shadow_audit_task_events.sql");
+server/routes/phase40_6_shadow_audit_task_events.mjs:39:        scope: "phase40.6.shadow-audit.task-events",
+server/routes/phase40_6_shadow_audit_task_events.mjs:48:        scope: "phase40.6.shadow-audit.task-events",
+server/routes/task-events-sse.mjs:83:router.get("/api/task-events-sse", (req, res) => {
+server/routes/task-events-sse.mjs:84:  res.redirect(307, "/events/task-events");
+server/routes/task-events-sse.mjs:87:router.get("/events/task-events", async (req, res) => {
+server/routes/task-events-sse.mjs:109:        kind: "task-events",
+server/routes/task-events-sse.mjs:133:        from task_events
+server/routes/task-events-sse.mjs:144:        kind: "task-events",
+server/routes/task-events-sse.mjs:178:          from task_events
+server/routes/task-events-sse.mjs:210:            kind: "task-events",
+server/routes/task-events-sse.mjs:211:            msg: "task-events stream error",
+server/routes/task-events-sse.mjs:238:        kind: "task-events",
+server/routes/task-events-sse.mjs:239:        msg: "task-events stream bootstrap error",
+server/routes/phase48_policy_probe.mjs:24:    // task_events(kind, payload, created_at, task_id, run_id, actor, ts, ...)
+server/routes/phase48_policy_probe.mjs:49:      insert into task_events(kind, task_id, run_id, actor, ts, payload)
+server/routes/phase36_run_view.mjs:6: * GET /api/runs/:run_id
+server/routes/phase36_run_view.mjs:10: * - Backed strictly by SQL view: run_view
+server/routes/phase36_run_view.mjs:43:  // GET /api/runs?limit=200&task_status=created&task_status=running&is_terminal=true&since_ts=1770000000000
+server/routes/phase36_run_view.mjs:44:  app.get("/api/runs", async (req, res) => {
+server/routes/phase36_run_view.mjs:114:        FROM run_view
+server/routes/phase36_run_view.mjs:133:  app.get("/api/runs/:run_id", async (req, res) => {
+server/routes/phase36_run_view.mjs:139:      const q = "SELECT * FROM run_view WHERE run_id = $1 LIMIT 1";
+server/routes/phase36_run_view.mjs:161:    FROM run_view
+server/routes/phase36_run_view.mjs:170:    console.error("GET /api/runs failed", err);
+server/db_bootstrap_task_events_table.mjs:7:    create table if not exists task_events (
+server/db_bootstrap_task_events_table.mjs:20:    create index if not exists idx_task_events_ts
+server/db_bootstrap_task_events_table.mjs:21:    on task_events (ts asc, id asc)
+server/db_bootstrap_task_events_table.mjs:25:    create index if not exists idx_task_events_task_id
+server/db_bootstrap_task_events_table.mjs:26:    on task_events (task_id)
+server/db_bootstrap_task_events_table.mjs:30:    create index if not exists idx_task_events_kind
+server/db_bootstrap_task_events_table.mjs:31:    on task_events (kind)
+server/sql/phase54_bootstrap.sql:7:\i /migrations/drizzle_pg/0001_create_task_events.sql
+server/sql/phase54_bootstrap.sql:8:\i /migrations/drizzle_pg/0006_phase32_1_task_events_contract.sql
+server/sql/phase54_bootstrap.sql:22:-- Lease + heartbeat (required by run_view)
+server/sql/phase54_bootstrap.sql:27:\i /migrations/drizzle_pg/0007_phase36_1_run_view.sql
+server/sql/phase54_bootstrap.sql:28:\i /migrations/drizzle_pg/0007_phase36_2_run_view_contract.sql
+server/sql/phase40_6_shadow_audit_task_events.sql:14:  FROM task_events te
+server/sql/phase47_decision_correctness_invariants.sql:26:  IF to_regclass('public.task_events') IS NULL THEN
+server/sql/phase47_decision_correctness_invariants.sql:27:    RAISE EXCEPTION 'Phase47 invariant failure: missing table public.task_events';
+server/sql/phase47_decision_correctness_invariants.sql:40:  WHERE table_schema='public' AND table_name='task_events' AND column_name='id'
+server/sql/phase47_decision_correctness_invariants.sql:45:  WHERE table_schema='public' AND table_name='task_events' AND column_name='task_id'
+server/sql/phase47_decision_correctness_invariants.sql:50:  WHERE table_schema='public' AND table_name='task_events' AND column_name IN ('ts','created_at')
+server/sql/phase47_decision_correctness_invariants.sql:56:  WHERE table_schema='public' AND table_name='task_events' AND column_name IN ('kind','event_kind')
+server/sql/phase47_decision_correctness_invariants.sql:61:    RAISE EXCEPTION 'Phase47 invariant failure: task_events missing required columns';
+server/sql/phase47_decision_correctness_invariants.sql:115:      FROM public.task_events
+server/sql/phase47_decision_correctness_invariants.sql:124:    RAISE EXCEPTION 'Phase47 invariant failure: task_events ordering violation';
+
+===== PHASE 716 SAFE READ-ONLY AUDIT COMPLETE =====
