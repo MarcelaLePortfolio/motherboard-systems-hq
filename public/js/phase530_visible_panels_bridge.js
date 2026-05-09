@@ -95,9 +95,9 @@
 
             <div style="display:flex;flex-wrap:wrap;gap:6px;">
 
-              <button type="button" data-phase717-requeue="true" data-task-id="${taskId}" title="Explicit operator action: requeue this task through verified retry contract" style="cursor:pointer;border:1px solid rgba(148,163,184,.35);background:rgba(15,23,42,.8);color:#cbd5e1;border-radius:8px;padding:5px 8px;font-size:11px;">Requeue</button>
+              <button type="button" data-phase717-requeue="true" data-task-id="${taskId}" data-task-title="${title}" title="Explicit operator action: requeue this task" style="cursor:pointer;border:1px solid rgba(148,163,184,.35);background:rgba(15,23,42,.8);color:#cbd5e1;border-radius:8px;padding:5px 8px;font-size:11px;">Requeue</button>
 
-              <button type="button" data-phase717-retry-differently="true" data-task-id="${taskId}" title="Explicit operator action: retry with fresh context through verified retry contract" style="cursor:pointer;border:1px solid rgba(96,165,250,.45);background:rgba(30,41,59,.92);color:#dbeafe;border-radius:8px;padding:5px 8px;font-size:11px;">Retry differently</button>
+              <button type="button" data-phase717-retry-differently="true" data-task-id="${taskId}" data-task-title="${title}" title="Explicit operator action: retry this task differently" style="cursor:pointer;border:1px solid rgba(96,165,250,.45);background:rgba(30,41,59,.92);color:#dbeafe;border-radius:8px;padding:5px 8px;font-size:11px;">Retry differently</button>
 
             </div>
 
@@ -331,7 +331,7 @@
 
   }
 
-  async function phase717RetryTask(taskId, mode, button) {
+  async function phase717RetryTask(taskId, mode, button, taskTitle) {
 
     if (!taskId) {
 
@@ -343,7 +343,11 @@
 
     const label = mode === "fresh-context" ? "retry differently" : "requeue";
 
-    const ok = await phase717RetryModal({ title: "Confirm retry action", message: `Submit ${label} for task ${taskId}?\n\nThis uses the verified /api/delegate-task retry contract and requires explicit operator confirmation.`, confirmLabel: "Submit", cancelLabel: "Cancel" });
+    const displayName = taskTitle && taskTitle.trim() ? taskTitle.trim() : taskId;
+
+    const modalTitle = mode === "fresh-context" ? "Confirm retry action" : "Confirm requeue";
+
+    const ok = await phase717RetryModal({ title: modalTitle, message: `Submit ${label} for “${displayName}”?\n\nThis will create a new queued attempt for this task. Nothing will happen unless you choose Submit.`, confirmLabel: "Submit", cancelLabel: "Cancel" });
 
     if (!ok) return;
 
@@ -423,9 +427,11 @@
 
     const taskId = button.getAttribute("data-task-id");
 
+    const taskTitle = button.getAttribute("data-task-title");
+
     const mode = retryDifferently ? "fresh-context" : "standard";
 
-    phase717RetryTask(taskId, mode, button);
+    phase717RetryTask(taskId, mode, button, taskTitle);
 
   });
 
