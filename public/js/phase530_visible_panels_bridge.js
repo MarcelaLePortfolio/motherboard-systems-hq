@@ -105,9 +105,9 @@
 
           ${outcome ? `<div style="margin-top:8px;color:#d1d5db;font-size:12px;overflow-wrap:anywhere;word-break:break-word;">${outcome}</div>` : ""}
 
-          ${explanation ? `<details style="margin-top:8px;display:block;max-width:100%;overflow:hidden;"><summary style="cursor:pointer;color:#93c5fd;font-size:12px;">details</summary><div style="margin-top:6px;color:#cbd5e1;font-size:12px;white-space:pre-wrap;overflow-wrap:anywhere;word-break:break-word;">${explanation}</div></details>` : ""}
+          ${explanation ? `<div data-phase717-compact-details="true" style="margin-top:8px;color:#93c5fd;font-size:12px;overflow-wrap:anywhere;">Details available in the read-only audit/evidence surfaces.</div>` : ""}
 
-          ${traceJson ? `<details style="margin-top:8px;display:block;max-width:100%;overflow:hidden;"><summary style="cursor:pointer;color:#fbbf24;font-size:12px;">advanced JSON</summary><pre style="display:block;box-sizing:border-box;width:100%;max-width:100%;max-height:220px;overflow:auto;margin-top:6px;padding:8px;border-radius:8px;background:#020617;color:#e5e7eb;font-size:11px;line-height:1.35;white-space:pre-wrap;overflow-wrap:anywhere;word-break:break-word;">${traceJson}</pre></details>` : ""}
+          ${traceJson ? `<div data-phase717-compact-advanced-trace="true" style="margin-top:6px;color:#fbbf24;font-size:12px;overflow-wrap:anywhere;">Advanced trace captured; use /execution-evidence.html for read-only forensic review.</div>` : ""}
 
         </article>
 
