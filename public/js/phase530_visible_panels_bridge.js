@@ -227,6 +227,104 @@
     });
   }
 
+  async function phase717RetryTask(taskId, mode, button) {
+
+    if (!taskId) {
+
+      alert("Missing task id; retry was not submitted.");
+
+      return;
+
+    }
+
+    const label = mode === "fresh-context" ? "retry differently" : "requeue";
+
+    const ok = window.confirm(`Submit ${label} for task ${taskId}?`);
+
+    if (!ok) return;
+
+    const originalText = button ? button.textContent : "";
+
+    if (button) {
+
+      button.disabled = true;
+
+      button.textContent = "Submitting...";
+
+    }
+
+    try {
+
+      const res = await fetch("/api/delegate-task", {
+
+        method: "POST",
+
+        headers: { "Content-Type": "application/json" },
+
+        body: JSON.stringify({
+
+          kind: "retry",
+
+          strategy: mode === "fresh-context" ? "fresh-context" : "standard",
+
+          title: `${label} ${taskId}`,
+
+          meta: { retry_of_task_id: taskId },
+
+          source: "operator-guidance-ui"
+
+        })
+
+      });
+
+      const data = await res.json();
+
+      if (!res.ok || data.ok === false) {
+
+        throw new Error(data.error || data.details || `HTTP ${res.status}`);
+
+      }
+
+      alert(`Retry submitted: ${data.task_id || data.id || "created"}`);
+
+      await refresh();
+
+    } catch (err) {
+
+      alert(`Retry failed: ${err && err.message ? err.message : String(err)}`);
+
+    } finally {
+
+      if (button) {
+
+        button.disabled = false;
+
+        button.textContent = originalText;
+
+      }
+
+    }
+
+  }
+
+  document.addEventListener("click", function(event) {
+
+    const requeue = event.target.closest("[data-phase717-requeue]");
+
+    const retryDifferently = event.target.closest("[data-phase717-retry-differently]");
+
+    if (!requeue && !retryDifferently) return;
+
+    const button = requeue || retryDifferently;
+
+    const taskId = button.getAttribute("data-task-id");
+
+    const mode = retryDifferently ? "fresh-context" : "standard";
+
+    phase717RetryTask(taskId, mode, button);
+
+  });
+
   async function refresh() {
     try {
       const agents = await getJson("/api/agents");
