@@ -95,9 +95,9 @@
 
             <div style="display:flex;flex-wrap:wrap;gap:6px;">
 
-              <button type="button" disabled title="Retry/requeue endpoint contract not confirmed yet" style="cursor:not-allowed;opacity:.45;border:1px solid rgba(148,163,184,.35);background:rgba(15,23,42,.8);color:#cbd5e1;border-radius:8px;padding:5px 8px;font-size:11px;">Requeue pending contract</button>
+              <button type="button" data-phase717-requeue="true" data-task-id="${taskId}" title="Explicit operator action: requeue this task through verified retry contract" style="cursor:pointer;border:1px solid rgba(148,163,184,.35);background:rgba(15,23,42,.8);color:#cbd5e1;border-radius:8px;padding:5px 8px;font-size:11px;">Requeue</button>
 
-              <button type="button" disabled title="Strategy-shift retry contract not confirmed yet" style="cursor:not-allowed;opacity:.45;border:1px solid rgba(148,163,184,.35);background:rgba(15,23,42,.8);color:#cbd5e1;border-radius:8px;padding:5px 8px;font-size:11px;">Retry differently pending contract</button>
+              <button type="button" data-phase717-retry-differently="true" data-task-id="${taskId}" title="Explicit operator action: retry with fresh context through verified retry contract" style="cursor:pointer;border:1px solid rgba(96,165,250,.45);background:rgba(30,41,59,.92);color:#dbeafe;border-radius:8px;padding:5px 8px;font-size:11px;">Retry differently</button>
 
             </div>
 
