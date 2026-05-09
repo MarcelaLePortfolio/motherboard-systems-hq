@@ -15,19 +15,21 @@ git rev-parse --short HEAD
 
 printf "\n[2] Locate Recent Tasks renderer files and lifecycle markers\n"
 
-grep -RIn \
+find public scripts app src . -type f \
 
-  "Recent Tasks\|recent tasks\|operator-actions\|Retry differently\|Requeue\|advanced JSON\|task-card\|task card\|execution-evidence" \
+  ! -path "*/node_modules/*" \
 
-  public server.js scripts app src . \
+  ! -path "*/.git/*" \
 
-  --exclude-dir=node_modules \
+  ! -name "*.tar.gz" \
 
-  --exclude-dir=.git \
+  -print0 2>/dev/null | \
 
-  --exclude='*.tar.gz' \
+xargs -0 grep -nE \
 
-  2>/dev/null | head -n 200
+  "Recent Tasks|recent tasks|operator-actions|Retry differently|Requeue|advanced JSON|task-card|task card|execution-evidence" \
+
+  2>/dev/null | head -n 200 || true
 
 printf "\n[3] Inspect likely renderer bridge file\n"
 
@@ -45,9 +47,9 @@ wc -c </tmp/phase717_dashboard_home.html
 
 printf "\n[5] Capture candidate density terms from served dashboard\n"
 
-grep -n \
+grep -nE \
 
-  "Advanced\|advanced\|details\|Details\|evidence\|Evidence\|logs\|Logs\|Retry differently\|Requeue" \
+  "Advanced|advanced|details|Details|evidence|Evidence|logs|Logs|Retry differently|Requeue" \
 
   /tmp/phase717_dashboard_home.html | head -n 120 || true
 
