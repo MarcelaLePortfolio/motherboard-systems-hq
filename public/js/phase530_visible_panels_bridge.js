@@ -349,7 +349,7 @@
 
     const detailMessage = mode === "fresh-context"
 
-      ? "This will create a new queued attempt using a fresh-context execution strategy. Please confirm this action to continue."
+      ? "This will create a new queued attempt using a fresh-context execution strategy.\n\nPlease confirm this action to continue."
 
       : "This will create a new queued attempt for this task.\n\nPlease confirm this action to continue.";
 
