@@ -347,7 +347,13 @@
 
     const modalTitle = mode === "fresh-context" ? "Confirm retry action" : "Confirm requeue";
 
-    const ok = await phase717RetryModal({ title: modalTitle, message: `Submit ${label} for “${displayName}”?\n\nThis will create a new queued attempt for this task. Nothing will happen unless you choose Submit.`, confirmLabel: "Submit", cancelLabel: "Cancel" });
+    const detailMessage = mode === "fresh-context"
+
+      ? "This will create a new queued attempt using a fresh-context execution strategy. Nothing will happen unless you choose Submit."
+
+      : "This will create a new queued attempt for this task. Nothing will happen unless you choose Submit.";
+
+    const ok = await phase717RetryModal({ title: modalTitle, message: `Submit ${label} for “${displayName}”?\n\n${detailMessage}`, confirmLabel: "Submit", cancelLabel: "Cancel" });
 
     if (!ok) return;
 
