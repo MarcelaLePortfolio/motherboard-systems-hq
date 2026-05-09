@@ -349,9 +349,9 @@
 
     const detailMessage = mode === "fresh-context"
 
-      ? "This will create a new queued attempt using a fresh-context execution strategy. Nothing will happen unless you choose Submit."
+      ? "This will create a new queued attempt using a fresh-context execution strategy. Please confirm this action to continue."
 
-      : "This will create a new queued attempt for this task. Nothing will happen unless you choose Submit.";
+      : "This will create a new queued attempt for this task. Please confirm this action to continue.";
 
     const ok = await phase717RetryModal({ title: modalTitle, message: `Submit ${label} for “${displayName}”?\n\n${detailMessage}`, confirmLabel: "Submit", cancelLabel: "Cancel" });
 
