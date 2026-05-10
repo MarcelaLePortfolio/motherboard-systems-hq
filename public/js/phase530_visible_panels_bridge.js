@@ -1,1 +1,605 @@
-(function () {\n  if (window.__PHASE530_VISIBLE_PANELS_BRIDGE__) return;\n  window.__PHASE530_VISIBLE_PANELS_BRIDGE__ = true;\n\n  const POLL_MS = 10000;\n\n  function esc(value) {\n    return String(value ?? "")\n      .replaceAll("&", "&amp;")\n      .replaceAll("<", "&lt;")\n      .replaceAll(">", "&gt;")\n      .replaceAll('"', "&quot;")\n      .replaceAll("'", "&#39;");\n  }\n\n  async function getJson(url) {\n    const res = await fetch(url, { cache: "no-store" });\n    const data = await res.json();\n    if (!res.ok) throw new Error(data?.error || "Request failed");\n    return data;\n  }\n\n  function renderAgents(rows) {\n    const root = document.getElementById("agent-status-container");\n    if (!root) return;\n\n    root.innerHTML = `\n      <h2 class="text-xl font-semibold border-b border-gray-700 pb-2 mb-4">Agent Pool</h2>\n      <div style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:0.9rem;width:100%;">\n        ${(rows || []).map((agent) => `\n          <div style="min-height:5.4rem;border:1px solid rgba(75,85,99,.9);background:rgba(17,24,39,.72);border-radius:1rem;padding:1rem;display:flex;flex-direction:column;justify-content:space-between;">\n            <div>\n              <div style="font-weight:800;color:#e5e7eb;font-size:1rem;line-height:1.2;">${esc(agent.agent_name)}</div>\n              <div style="font-size:.82rem;color:#94a3b8;margin-top:.35rem;">${esc(agent.status)}</div>\n            </div>\n            <div style="font-size:.84rem;color:#cbd5e1;margin-top:.65rem;">${esc(agent.current_task || "Available")}</div>\n          </div>\n        `).join("")}\n      </div>\n    `;\n  }\n\n\n  function taskRows(tasks) {\n\n    if (!tasks || !tasks.length) {\n\n      return `<div style="color:#94a3b8;font-size:.8rem;">No recent tasks yet.</div>`;\n\n    }\n\n    return tasks.map((t) => {\n\n      const title = esc(t.title || t.task_id || t.id || "Untitled task");\n\n      const status = esc(t.status || "unknown");\n\n      const taskId = esc(t.task_id || t.id || "");\n\n      const updated = esc(t.updated_at || "");\n\n      const outcome = esc(t.outcome_preview || "");\n\n      const explanation = esc(t.explanation_preview || "");\n\n      const guidance = t.guidance || {};\n\n      const trace = guidance.communicationResult && guidance.communicationResult.systemTrace\n\n        ? guidance.communicationResult.systemTrace.content\n\n        : null;\n\n      const traceJson = trace ? esc(JSON.stringify(trace, null, 2)) : "";\n\n      const logContent = esc([\n\n        `task_id=${taskId}`,\n\n        `status=${status}`,\n\n        updated ? `updated=${updated}` : "",\n\n        outcome ? `outcome=${outcome}` : "",\n\n        explanation ? `details=${explanation}` : ""\n\n      ].filter(Boolean).join("\n"));\n\n      return `\n\n        <article data-phase716-contained-task="true" data-phase717-execution-card="true" style="display:block;width:100%;min-width:0;max-width:100%;box-sizing:border-box;border:1px solid rgba(148,163,184,.22);border-radius:12px;padding:10px;margin:0 0 10px 0;background:rgba(15,23,42,.72);overflow:hidden;">\n\n          <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:8px;min-width:0;">\n\n            <div style="font-weight:600;color:#e5e7eb;overflow-wrap:anywhere;word-break:break-word;min-width:0;">${title}</div>\n\n            <div style="flex:0 0 auto;color:#93c5fd;border:1px solid rgba(147,197,253,.35);border-radius:999px;padding:2px 7px;font-size:10px;line-height:1.4;background:rgba(30,64,175,.18);">lifecycle</div>\n\n          </div>\n\n          <div style="margin-top:4px;color:#94a3b8;font-size:12px;overflow-wrap:anywhere;word-break:break-word;">status=${status} · id=${taskId}</div>\n\n          ${updated ? `<div style="margin-top:4px;color:#64748b;font-size:11px;overflow-wrap:anywhere;">updated=${updated}</div>` : ""}\n\n          <div style="margin-top:8px;border:1px solid rgba(71,85,105,.55);border-radius:10px;padding:7px;background:rgba(2,6,23,.22);">\n\n            <div style="color:#cbd5e1;font-size:11px;font-weight:700;margin-bottom:5px;">Operator actions</div>\n\n            <div style="display:flex;flex-wrap:wrap;gap:6px;">\n\n              <button type="button" data-phase717-requeue="true" data-task-id="${taskId}" data-task-title="${title}" title="Explicit operator action: requeue this task" style="cursor:pointer;border:1px solid rgba(148,163,184,.35);background:rgba(15,23,42,.8);color:#cbd5e1;border-radius:8px;padding:5px 8px;font-size:11px;">Requeue</button>\n\n              <button type="button" data-phase717-retry-differently="true" data-task-id="${taskId}" data-task-title="${title}" title="Explicit operator action: retry this task differently" style="cursor:pointer;border:1px solid rgba(96,165,250,.45);background:rgba(30,41,59,.92);color:#dbeafe;border-radius:8px;padding:5px 8px;font-size:11px;">Retry differently</button>\n\n            </div>\n\n          </div>\n\n          ${outcome ? `<div style="margin-top:8px;color:#94a3b8;font-size:11px;overflow-wrap:anywhere;word-break:break-word;">Outcome available in Inspect logs.</div>` : ""}\n\n          ${explanation ? `<button type="button" data-phase717-inspect-details="true" data-phase717-inspect-title="${title} — Details" data-phase717-inspect-content="${explanation}" style="margin-top:8px;cursor:pointer;border:1px solid rgba(147,197,253,.35);background:rgba(30,64,175,.14);color:#93c5fd;border-radius:999px;padding:4px 8px;font-size:11px;">Inspect details</button>` : ""}\n\n          ${traceJson ? `<button type="button" data-phase717-inspect-trace="true" data-phase717-inspect-title="${title} — Advanced trace" data-phase717-inspect-content="${traceJson}" style="margin-top:6px;margin-left:6px;cursor:pointer;border:1px solid rgba(251,191,36,.38);background:rgba(120,53,15,.14);color:#fbbf24;border-radius:999px;padding:4px 8px;font-size:11px;">Inspect trace</button>` : ""}\n\n          ${logContent ? `<button type="button" data-phase717-inspect-logs="true" data-phase717-inspect-title="${title} — Logs" data-phase717-inspect-content="${logContent}" style="margin-top:6px;margin-left:6px;cursor:pointer;border:1px solid rgba(45,212,191,.38);background:rgba(20,83,45,.14);color:#5eead4;border-radius:999px;padding:4px 8px;font-size:11px;">Inspect logs</button>` : ""}\n\n        </article>\n\n      `;\n\n    }).join("");\n\n  }\n\n\n    function renderRecent(tasks) {\n\n      const recentTasks = document.getElementById("recentTasks");\n\n      const recentLogs = document.getElementById("recentLogs");\n\n      const recentCard = document.getElementById("recent-tasks-card");\n\n      if (recentCard) {\n\n        recentCard.style.display = "block";\n\n        recentCard.style.minHeight = "0";\n\n        recentCard.style.height = "100%";\n\n      }\n\n      if (recentTasks) {\n\n        recentTasks.style.minHeight = "0";\n\n        recentTasks.style.height = "100%";\n\n        recentTasks.style.overflow = "auto";\n\n        recentTasks.style.display = "block";\n\n        recentTasks.innerHTML = taskRows(tasks);\n\n      }\n\n      if (recentLogs) {\n\n        recentLogs.style.display = "none";\n\n        recentLogs.innerHTML = "";\n\n      }\n\n    }\n\n    [recentTasks, recentLogs].forEach((el) => {\n      if (!el) return;\n      el.style.minHeight = "0";\n      el.style.height = "100%";\n      el.style.overflow = "auto";\n      el.style.display = "block";\n    });\n\n    if (recentTasks) recentTasks.innerHTML = taskRows(tasks);\n\n    if (recentLogs) {\n      recentLogs.innerHTML = (tasks && tasks.length)\n        ? tasks.map((task) => `\n            <div style="border-bottom:1px solid rgba(51,65,85,.55);padding:.5rem 0;color:#cbd5e1;font-size:.8rem;">\n              ${esc(task.updated_at || task.created_at || "time unavailable")} · ${esc(task.status || "unknown")} · ${esc(task.title || task.task_id || "Untitled task")}\n            </div>\n          `).join("")\n        : `<div style="color:#94a3b8;font-size:.8rem;">No task history yet.</div>`;\n    }\n  }\n\n  function renderActivity(rows) {\n    const canvas = document.getElementById("task-activity-graph");\n    if (!canvas || !window.Chart) return;\n\n    const card = document.getElementById("task-activity-card");\n    const shell = canvas.parentElement;\n\n    if (card) {\n      card.style.height = "100%";\n      card.style.minHeight = "0";\n      card.style.display = "flex";\n      card.style.flexDirection = "column";\n    }\n\n    if (shell) {\n      shell.style.flex = "1 1 auto";\n      shell.style.height = "100%";\n      shell.style.minHeight = "0";\n      shell.style.display = "flex";\n      shell.style.padding = "0.75rem";\n    }\n\n    canvas.style.flex = "1 1 auto";\n    canvas.style.width = "100%";\n    canvas.style.height = "100%";\n    canvas.style.minHeight = "0";\n\n    const labels = (rows || []).map((row) => {\n      const d = new Date(row.timestamp || Date.now());\n      return Number.isNaN(d.getTime()) ? "now" : d.toLocaleTimeString();\n    });\n\n    const created = (rows || []).map((row) => Number(row.created_count || 0));\n    const completed = (rows || []).map((row) => Number(row.completed_count || 0));\n    const failed = (rows || []).map((row) => Number(row.failed_count || 0));\n\n    if (window.__PHASE530_ACTIVITY_CHART__) {\n      window.__PHASE530_ACTIVITY_CHART__.data.labels = labels;\n      window.__PHASE530_ACTIVITY_CHART__.data.datasets[0].data = created;\n      window.__PHASE530_ACTIVITY_CHART__.data.datasets[1].data = completed;\n      window.__PHASE530_ACTIVITY_CHART__.data.datasets[2].data = failed;\n      window.__PHASE530_ACTIVITY_CHART__.resize();\n      window.__PHASE530_ACTIVITY_CHART__.update();\n      return;\n    }\n\n    window.__PHASE530_ACTIVITY_CHART__ = new Chart(canvas, {\n      type: "line",\n      data: {\n        labels,\n        datasets: [\n          { label: "Created", data: created },\n          { label: "Completed", data: completed },\n          { label: "Failed", data: failed }\n        ]\n      },\n      options: {\n        responsive: true,\n        maintainAspectRatio: false,\n        resizeDelay: 0,\n        layout: {\n          padding: 8\n        },\n        scales: {\n          y: {\n            beginAtZero: true,\n            ticks: {\n              precision: 0\n            }\n          }\n        }\n      }\n    });\n  }\n\n  function phase717EscapeModalText(value) {\n\n    return String(value ?? "")\n\n      .replace(/&/g, "&amp;")\n\n      .replace(/</g, "&lt;")\n\n      .replace(/>/g, "&gt;")\n\n      .replace(/"/g, "&quot;")\n\n      .replace(/'/g, "&#39;");\n\n  }\n\n\n\n  function phase717InspectionModal(options) {\n\n    return new Promise((resolve) => {\n\n      const rootId = "phase717-inspection-modal-root";\n\n      let root = document.getElementById(rootId);\n\n      if (!root) {\n\n        root = document.createElement("div");\n\n        root.id = rootId;\n\n        document.body.appendChild(root);\n\n      }\n\n      const title = String(options.title || "Read-only inspection");\n\n      const content = String(options.content || "No inspection content available.");\n\n      root.innerHTML = `\n\n        <div data-phase717-inspection-overlay="true" style="position:fixed;inset:0;z-index:9998;display:flex;align-items:center;justify-content:center;padding:18px;background:rgba(2,6,23,.72);backdrop-filter:blur(6px);">\n\n          <section role="dialog" aria-modal="true" aria-labelledby="phase717-inspection-modal-title" style="width:min(760px,calc(100vw - 28px));max-height:min(760px,calc(100vh - 36px));display:flex;flex-direction:column;border:1px solid rgba(148,163,184,.36);border-radius:16px;background:rgba(15,23,42,.98);box-shadow:0 24px 80px rgba(0,0,0,.45);padding:16px;color:#e5e7eb;">\n\n            <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:10px;">\n\n              <div>\n\n                <div id="phase717-inspection-modal-title" style="font-size:14px;font-weight:800;color:#dbeafe;letter-spacing:.01em;"></div>\n\n                <div style="margin-top:4px;color:#94a3b8;font-size:11px;">Read-only inspection. No execution, retry, or mutation is triggered from this view.</div>\n\n              </div>\n\n              <button type="button" data-phase717-inspection-close="true" style="cursor:pointer;border:1px solid rgba(148,163,184,.35);background:rgba(15,23,42,.85);color:#cbd5e1;border-radius:10px;padding:6px 9px;font-size:12px;">Close</button>\n\n            </div>\n\n            <pre data-phase717-inspection-content="true" style="display:block;box-sizing:border-box;width:100%;max-width:100%;min-height:140px;max-height:560px;overflow:auto;margin-top:12px;padding:10px;border-radius:10px;border:1px solid rgba(51,65,85,.7);background:#020617;color:#e5e7eb;font-size:11px;line-height:1.45;white-space:pre-wrap;overflow-wrap:anywhere;word-break:break-word;"></pre>\n\n          </section>\n\n        </div>\n\n      `;\n\n      const titleNode = root.querySelector("#phase717-inspection-modal-title");\n\n      const contentNode = root.querySelector("[data-phase717-inspection-content]");\n\n      const closeButton = root.querySelector("[data-phase717-inspection-close]");\n\n      const overlay = root.querySelector("[data-phase717-inspection-overlay]");\n\n      if (titleNode) titleNode.textContent = title;\n\n      if (contentNode) contentNode.textContent = content;\n\n      const close = () => {\n\n        root.innerHTML = "";\n\n        resolve(true);\n\n      };\n\n      if (closeButton) closeButton.focus();\n\n      if (closeButton) closeButton.addEventListener("click", close, { once: true });\n\n      if (overlay) {\n\n        overlay.addEventListener("click", (event) => {\n\n          if (event.target === overlay) close();\n\n        });\n\n      }\n\n    });\n\n  }\n\n\n  function phase717RetryModal(options) {\n\n    return new Promise((resolve) => {\n\n      const rootId = "phase717-retry-modal-root";\n\n      let root = document.getElementById(rootId);\n\n      if (!root) {\n\n        root = document.createElement("div");\n\n        root.id = rootId;\n\n        document.body.appendChild(root);\n\n      }\n\n      const title = phase717EscapeModalText(options.title || "Confirm action");\n\n      const message = phase717EscapeModalText(options.message || "");\n\n      const confirmLabel = phase717EscapeModalText(options.confirmLabel || "Confirm");\n\n      const cancelLabel = options.cancelLabel === null ? null : phase717EscapeModalText(options.cancelLabel || "Cancel");\n\n      const tone = options.tone === "error" ? "#fecaca" : options.tone === "success" ? "#bbf7d0" : "#dbeafe";\n\n      const border = options.tone === "error" ? "rgba(248,113,113,.45)" : options.tone === "success" ? "rgba(74,222,128,.42)" : "rgba(96,165,250,.45)";\n\n      root.innerHTML = `\n\n        <div data-phase717-modal-overlay="true" style="position:fixed;inset:0;z-index:9999;display:flex;align-items:center;justify-content:center;padding:18px;background:rgba(2,6,23,.72);backdrop-filter:blur(6px);">\n\n          <section role="dialog" aria-modal="true" aria-labelledby="phase717-retry-modal-title" style="width:min(520px,calc(100vw - 28px));border:1px solid ${border};border-radius:16px;background:rgba(15,23,42,.98);box-shadow:0 24px 80px rgba(0,0,0,.45);padding:16px;color:#e5e7eb;">\n\n            <div id="phase717-retry-modal-title" style="font-size:14px;font-weight:800;color:${tone};letter-spacing:.01em;">${title}</div>\n\n            <div style="margin-top:8px;color:#cbd5e1;font-size:12px;line-height:1.5;white-space:pre-wrap;overflow-wrap:anywhere;">${message}</div>\n\n            <div style="display:flex;justify-content:flex-end;gap:8px;margin-top:14px;">\n\n              ${cancelLabel ? `<button type="button" data-phase717-modal-cancel="true" style="cursor:pointer;border:1px solid rgba(148,163,184,.35);background:rgba(15,23,42,.85);color:#cbd5e1;border-radius:10px;padding:7px 10px;font-size:12px;">${cancelLabel}</button>` : ""}\n\n              <button type="button" data-phase717-modal-confirm="true" style="cursor:pointer;border:1px solid ${border};background:rgba(30,41,59,.95);color:${tone};border-radius:10px;padding:7px 10px;font-size:12px;font-weight:700;">${confirmLabel}</button>\n\n            </div>\n\n          </section>\n\n        </div>\n\n      `;\n\n      const close = (value) => {\n\n        root.innerHTML = "";\n\n        resolve(value);\n\n      };\n\n      const confirm = root.querySelector("[data-phase717-modal-confirm]");\n\n      const cancel = root.querySelector("[data-phase717-modal-cancel]");\n\n      const overlay = root.querySelector("[data-phase717-modal-overlay]");\n\n      if (confirm) confirm.focus();\n\n      if (confirm) confirm.addEventListener("click", () => close(true), { once: true });\n\n      if (cancel) cancel.addEventListener("click", () => close(false), { once: true });\n\n      if (overlay) {\n\n        overlay.addEventListener("click", (event) => {\n\n          if (event.target === overlay) close(false);\n\n        }, { once: true });\n\n      }\n\n    });\n\n  }\n\n  async function phase717RetryTask(taskId, mode, button, taskTitle) {\n\n    if (!taskId) {\n\n      await phase717RetryModal({ title: "Retry not submitted", message: "Missing task id; retry was not submitted.", confirmLabel: "Close", cancelLabel: null, tone: "error" });\n\n      return;\n\n    }\n\n    const label = mode === "fresh-context" ? "retry differently" : "requeue";\n\n    const displayName = taskTitle && taskTitle.trim() ? taskTitle.trim() : taskId;\n\n    const modalTitle = mode === "fresh-context" ? "Confirm retry action" : "Confirm requeue";\n\n    const detailMessage = mode === "fresh-context"\n\n      ? "This will create a new queued attempt using a fresh-context execution strategy.\n\nPlease confirm this action to continue."\n\n      : "This will create a new queued attempt for this task.\n\nPlease confirm this action to continue.";\n\n    const ok = await phase717RetryModal({ title: modalTitle, message: `Submit ${label} for “${displayName}”?\n\n${detailMessage}`, confirmLabel: "Submit", cancelLabel: "Cancel" });\n\n    if (!ok) return;\n\n    const originalText = button ? button.textContent : "";\n\n    if (button) {\n\n      button.disabled = true;\n\n      button.textContent = "Submitting...";\n\n    }\n\n    try {\n\n      const res = await fetch("/api/delegate-task", {\n\n        method: "POST",\n\n        headers: { "Content-Type": "application/json" },\n\n        body: JSON.stringify({\n\n          kind: "retry",\n\n          strategy: mode === "fresh-context" ? "fresh-context" : "standard",\n\n          title: `${label} ${taskId}`,\n\n          meta: { retry_of_task_id: taskId },\n\n          source: "operator-guidance-ui"\n\n        })\n\n      });\n\n      const data = await res.json();\n\n      if (!res.ok || data.ok === false) {\n\n        throw new Error(data.error || data.details || `HTTP ${res.status}`);\n\n      }\n\n      await phase717RetryModal({ title: "Retry submitted", message: `Retry submitted: ${data.task_id || data.id || "created"}`, confirmLabel: "Close", cancelLabel: null, tone: "success" });\n\n      await refresh();\n\n    } catch (err) {\n\n      await phase717RetryModal({ title: "Retry failed", message: `${err && err.message ? err.message : String(err)}`, confirmLabel: "Close", cancelLabel: null, tone: "error" });\n\n    } finally {\n\n      if (button) {\n\n        button.disabled = false;\n\n        button.textContent = originalText;\n\n      }\n\n    }\n\n  }\n\n  document.addEventListener("click", function(event) {\n\n    const detailButton = event.target.closest("[data-phase717-inspect-details]");\n\n    const traceButton = event.target.closest("[data-phase717-inspect-trace]");\n\n    const logsButton = event.target.closest("[data-phase717-inspect-logs]");\n\n    const inspectionButton = detailButton || traceButton || logsButton;\n\n    if (!inspectionButton) return;\n\n    event.preventDefault();\n\n    phase717InspectionModal({\n\n      title: inspectionButton.getAttribute("data-phase717-inspect-title") || "Read-only inspection",\n\n      content: inspectionButton.getAttribute("data-phase717-inspect-content") || "No inspection content available."\n\n    });\n\n  });\n\n  document.addEventListener("click", function(event) {\n\n    const requeue = event.target.closest("[data-phase717-requeue]");\n\n    const retryDifferently = event.target.closest("[data-phase717-retry-differently]");\n\n    if (!requeue && !retryDifferently) return;\n\n    const button = requeue || retryDifferently;\n\n    const taskId = button.getAttribute("data-task-id");\n\n    const taskTitle = button.getAttribute("data-task-title");\n\n    const mode = retryDifferently ? "fresh-context" : "standard";\n\n    phase717RetryTask(taskId, mode, button, taskTitle);\n\n  });\n\n  async function refresh() {\n    try {\n      const agents = await getJson("/api/agents");\n      renderAgents(Array.isArray(agents) ? agents : []);\n    } catch (e) {\n      console.warn("[phase530] agents render failed", e);\n    }\n\n    try {\n      const data = await getJson("/api/tasks?limit=12");\n      renderRecent(data.tasks || []);\n    } catch (e) {\n      console.warn("[phase530] recent tasks render failed", e);\n    }\n\n    try {\n      const activity = await getJson("/api/activity-graph");\n      renderActivity(Array.isArray(activity) ? activity : []);\n    } catch (e) {\n      console.warn("[phase530] activity graph render failed", e);\n    }\n  }\n\n  if (document.readyState === "loading") {\n    document.addEventListener("DOMContentLoaded", refresh, { once: true });\n  } else {\n    refresh();\n  }\n\n  setInterval(refresh, POLL_MS);\n})();\n
+(function () {
+  if (window.__PHASE530_VISIBLE_PANELS_BRIDGE__) return;
+  window.__PHASE530_VISIBLE_PANELS_BRIDGE__ = true;
+
+  const POLL_MS = 10000;
+
+  function esc(value) {
+    return String(value ?? "")
+      .replaceAll("&", "&amp;")
+      .replaceAll("<", "&lt;")
+      .replaceAll(">", "&gt;")
+      .replaceAll('"', "&quot;")
+      .replaceAll("'", "&#39;");
+  }
+
+  async function getJson(url) {
+    const res = await fetch(url, { cache: "no-store" });
+    const data = await res.json();
+    if (!res.ok) throw new Error(data?.error || "Request failed");
+    return data;
+  }
+
+  function renderAgents(rows) {
+    const root = document.getElementById("agent-status-container");
+    if (!root) return;
+
+    root.innerHTML = `
+      <h2 class="text-xl font-semibold border-b border-gray-700 pb-2 mb-4">Agent Pool</h2>
+      <div style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:0.9rem;width:100%;">
+        ${(rows || []).map((agent) => `
+          <div style="min-height:5.4rem;border:1px solid rgba(75,85,99,.9);background:rgba(17,24,39,.72);border-radius:1rem;padding:1rem;display:flex;flex-direction:column;justify-content:space-between;">
+            <div>
+              <div style="font-weight:800;color:#e5e7eb;font-size:1rem;line-height:1.2;">${esc(agent.agent_name)}</div>
+              <div style="font-size:.82rem;color:#94a3b8;margin-top:.35rem;">${esc(agent.status)}</div>
+            </div>
+            <div style="font-size:.84rem;color:#cbd5e1;margin-top:.65rem;">${esc(agent.current_task || "Available")}</div>
+          </div>
+        `).join("")}
+      </div>
+    `;
+  }
+
+
+  function taskRows(tasks) {
+
+    if (!tasks || !tasks.length) {
+
+      return `<div style="color:#94a3b8;font-size:.8rem;">No recent tasks yet.</div>`;
+
+    }
+
+    return tasks.map((t) => {
+
+      const title = esc(t.title || t.task_id || t.id || "Untitled task");
+
+      const status = esc(t.status || "unknown");
+
+      const taskId = esc(t.task_id || t.id || "");
+
+      const updated = esc(t.updated_at || "");
+
+      const outcome = esc(t.outcome_preview || "");
+
+      const explanation = esc(t.explanation_preview || "");
+
+      const guidance = t.guidance || {};
+
+      const trace = guidance.communicationResult && guidance.communicationResult.systemTrace
+
+        ? guidance.communicationResult.systemTrace.content
+
+        : null;
+
+      const traceJson = trace ? esc(JSON.stringify(trace, null, 2)) : "";
+
+      const logContent = esc([
+
+        `task_id=${taskId}`,
+
+        `status=${status}`,
+
+        updated ? `updated=${updated}` : "",
+
+        outcome ? `outcome=${outcome}` : "",
+
+        explanation ? `details=${explanation}` : ""
+
+      ].filter(Boolean).join("\n"));
+
+      return `
+
+        <article data-phase716-contained-task="true" data-phase717-execution-card="true" style="display:block;width:100%;min-width:0;max-width:100%;box-sizing:border-box;border:1px solid rgba(148,163,184,.22);border-radius:12px;padding:10px;margin:0 0 10px 0;background:rgba(15,23,42,.72);overflow:hidden;">
+
+          <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:8px;min-width:0;">
+
+            <div style="font-weight:600;color:#e5e7eb;overflow-wrap:anywhere;word-break:break-word;min-width:0;">${title}</div>
+
+            <div style="flex:0 0 auto;color:#93c5fd;border:1px solid rgba(147,197,253,.35);border-radius:999px;padding:2px 7px;font-size:10px;line-height:1.4;background:rgba(30,64,175,.18);">lifecycle</div>
+
+          </div>
+
+          <div style="margin-top:4px;color:#94a3b8;font-size:12px;overflow-wrap:anywhere;word-break:break-word;">status=${status} · id=${taskId}</div>
+
+          ${updated ? `<div style="margin-top:4px;color:#64748b;font-size:11px;overflow-wrap:anywhere;">updated=${updated}</div>` : ""}
+
+          <div style="margin-top:8px;border:1px solid rgba(71,85,105,.55);border-radius:10px;padding:7px;background:rgba(2,6,23,.22);">
+
+            <div style="color:#cbd5e1;font-size:11px;font-weight:700;margin-bottom:5px;">Operator actions</div>
+
+            <div style="display:flex;flex-wrap:wrap;gap:6px;">
+
+              <button type="button" data-phase717-requeue="true" data-task-id="${taskId}" data-task-title="${title}" title="Explicit operator action: requeue this task" style="cursor:pointer;border:1px solid rgba(148,163,184,.35);background:rgba(15,23,42,.8);color:#cbd5e1;border-radius:8px;padding:5px 8px;font-size:11px;">Requeue</button>
+
+              <button type="button" data-phase717-retry-differently="true" data-task-id="${taskId}" data-task-title="${title}" title="Explicit operator action: retry this task differently" style="cursor:pointer;border:1px solid rgba(96,165,250,.45);background:rgba(30,41,59,.92);color:#dbeafe;border-radius:8px;padding:5px 8px;font-size:11px;">Retry differently</button>
+
+            </div>
+
+          </div>
+
+          ${outcome ? `<div style="margin-top:8px;color:#94a3b8;font-size:11px;overflow-wrap:anywhere;word-break:break-word;">Outcome available in Inspect logs.</div>` : ""}
+
+          ${explanation ? `<button type="button" data-phase717-inspect-details="true" data-phase717-inspect-title="${title} — Details" data-phase717-inspect-content="${explanation}" style="margin-top:8px;cursor:pointer;border:1px solid rgba(147,197,253,.35);background:rgba(30,64,175,.14);color:#93c5fd;border-radius:999px;padding:4px 8px;font-size:11px;">Inspect details</button>` : ""}
+
+          ${traceJson ? `<button type="button" data-phase717-inspect-trace="true" data-phase717-inspect-title="${title} — Advanced trace" data-phase717-inspect-content="${traceJson}" style="margin-top:6px;margin-left:6px;cursor:pointer;border:1px solid rgba(251,191,36,.38);background:rgba(120,53,15,.14);color:#fbbf24;border-radius:999px;padding:4px 8px;font-size:11px;">Inspect trace</button>` : ""}
+
+          ${logContent ? `<button type="button" data-phase717-inspect-logs="true" data-phase717-inspect-title="${title} — Logs" data-phase717-inspect-content="${logContent}" style="margin-top:6px;margin-left:6px;cursor:pointer;border:1px solid rgba(45,212,191,.38);background:rgba(20,83,45,.14);color:#5eead4;border-radius:999px;padding:4px 8px;font-size:11px;">Inspect logs</button>` : ""}
+
+        </article>
+
+      `;
+
+    }).join("");
+
+  }
+
+
+  function renderRecent(tasks) {
+    const recentTasks = document.getElementById("recentTasks");
+    const recentLogs = document.getElementById("recentLogs");
+    const recentCard = document.getElementById("recent-tasks-card");
+
+    if (recentCard) {
+      recentCard.style.display = "grid";
+      recentCard.style.gridTemplateRows = "1fr 1fr";
+      recentCard.style.gap = "1rem";
+      recentCard.style.minHeight = "0";
+      recentCard.style.height = "100%";
+    }
+
+    [recentTasks, recentLogs].forEach((el) => {
+      if (!el) return;
+      el.style.minHeight = "0";
+      el.style.height = "100%";
+      el.style.overflow = "auto";
+      el.style.display = "block";
+    });
+
+    if (recentTasks) recentTasks.innerHTML = taskRows(tasks);
+
+    if (recentLogs) {
+      recentLogs.innerHTML = (tasks && tasks.length)
+        ? tasks.map((task) => `
+            <div style="border-bottom:1px solid rgba(51,65,85,.55);padding:.5rem 0;color:#cbd5e1;font-size:.8rem;">
+              ${esc(task.updated_at || task.created_at || "time unavailable")} · ${esc(task.status || "unknown")} · ${esc(task.title || task.task_id || "Untitled task")}
+            </div>
+          `).join("")
+        : `<div style="color:#94a3b8;font-size:.8rem;">No task history yet.</div>`;
+    }
+  }
+
+  function renderActivity(rows) {
+    const canvas = document.getElementById("task-activity-graph");
+    if (!canvas || !window.Chart) return;
+
+    const card = document.getElementById("task-activity-card");
+    const shell = canvas.parentElement;
+
+    if (card) {
+      card.style.height = "100%";
+      card.style.minHeight = "0";
+      card.style.display = "flex";
+      card.style.flexDirection = "column";
+    }
+
+    if (shell) {
+      shell.style.flex = "1 1 auto";
+      shell.style.height = "100%";
+      shell.style.minHeight = "0";
+      shell.style.display = "flex";
+      shell.style.padding = "0.75rem";
+    }
+
+    canvas.style.flex = "1 1 auto";
+    canvas.style.width = "100%";
+    canvas.style.height = "100%";
+    canvas.style.minHeight = "0";
+
+    const labels = (rows || []).map((row) => {
+      const d = new Date(row.timestamp || Date.now());
+      return Number.isNaN(d.getTime()) ? "now" : d.toLocaleTimeString();
+    });
+
+    const created = (rows || []).map((row) => Number(row.created_count || 0));
+    const completed = (rows || []).map((row) => Number(row.completed_count || 0));
+    const failed = (rows || []).map((row) => Number(row.failed_count || 0));
+
+    if (window.__PHASE530_ACTIVITY_CHART__) {
+      window.__PHASE530_ACTIVITY_CHART__.data.labels = labels;
+      window.__PHASE530_ACTIVITY_CHART__.data.datasets[0].data = created;
+      window.__PHASE530_ACTIVITY_CHART__.data.datasets[1].data = completed;
+      window.__PHASE530_ACTIVITY_CHART__.data.datasets[2].data = failed;
+      window.__PHASE530_ACTIVITY_CHART__.resize();
+      window.__PHASE530_ACTIVITY_CHART__.update();
+      return;
+    }
+
+    window.__PHASE530_ACTIVITY_CHART__ = new Chart(canvas, {
+      type: "line",
+      data: {
+        labels,
+        datasets: [
+          { label: "Created", data: created },
+          { label: "Completed", data: completed },
+          { label: "Failed", data: failed }
+        ]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        resizeDelay: 0,
+        layout: {
+          padding: 8
+        },
+        scales: {
+          y: {
+            beginAtZero: true,
+            ticks: {
+              precision: 0
+            }
+          }
+        }
+      }
+    });
+  }
+
+  function phase717EscapeModalText(value) {
+
+    return String(value ?? "")
+
+      .replace(/&/g, "&amp;")
+
+      .replace(/</g, "&lt;")
+
+      .replace(/>/g, "&gt;")
+
+      .replace(/"/g, "&quot;")
+
+      .replace(/'/g, "&#39;");
+
+  }
+
+
+
+  function phase717InspectionModal(options) {
+
+    return new Promise((resolve) => {
+
+      const rootId = "phase717-inspection-modal-root";
+
+      let root = document.getElementById(rootId);
+
+      if (!root) {
+
+        root = document.createElement("div");
+
+        root.id = rootId;
+
+        document.body.appendChild(root);
+
+      }
+
+      const title = String(options.title || "Read-only inspection");
+
+      const content = String(options.content || "No inspection content available.");
+
+      root.innerHTML = `
+
+        <div data-phase717-inspection-overlay="true" style="position:fixed;inset:0;z-index:9998;display:flex;align-items:center;justify-content:center;padding:18px;background:rgba(2,6,23,.72);backdrop-filter:blur(6px);">
+
+          <section role="dialog" aria-modal="true" aria-labelledby="phase717-inspection-modal-title" style="width:min(760px,calc(100vw - 28px));max-height:min(760px,calc(100vh - 36px));display:flex;flex-direction:column;border:1px solid rgba(148,163,184,.36);border-radius:16px;background:rgba(15,23,42,.98);box-shadow:0 24px 80px rgba(0,0,0,.45);padding:16px;color:#e5e7eb;">
+
+            <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:10px;">
+
+              <div>
+
+                <div id="phase717-inspection-modal-title" style="font-size:14px;font-weight:800;color:#dbeafe;letter-spacing:.01em;"></div>
+
+                <div style="margin-top:4px;color:#94a3b8;font-size:11px;">Read-only inspection. No execution, retry, or mutation is triggered from this view.</div>
+
+              </div>
+
+              <button type="button" data-phase717-inspection-close="true" style="cursor:pointer;border:1px solid rgba(148,163,184,.35);background:rgba(15,23,42,.85);color:#cbd5e1;border-radius:10px;padding:6px 9px;font-size:12px;">Close</button>
+
+            </div>
+
+            <pre data-phase717-inspection-content="true" style="display:block;box-sizing:border-box;width:100%;max-width:100%;min-height:140px;max-height:560px;overflow:auto;margin-top:12px;padding:10px;border-radius:10px;border:1px solid rgba(51,65,85,.7);background:#020617;color:#e5e7eb;font-size:11px;line-height:1.45;white-space:pre-wrap;overflow-wrap:anywhere;word-break:break-word;"></pre>
+
+          </section>
+
+        </div>
+
+      `;
+
+      const titleNode = root.querySelector("#phase717-inspection-modal-title");
+
+      const contentNode = root.querySelector("[data-phase717-inspection-content]");
+
+      const closeButton = root.querySelector("[data-phase717-inspection-close]");
+
+      const overlay = root.querySelector("[data-phase717-inspection-overlay]");
+
+      if (titleNode) titleNode.textContent = title;
+
+      if (contentNode) contentNode.textContent = content;
+
+      const close = () => {
+
+        root.innerHTML = "";
+
+        resolve(true);
+
+      };
+
+      if (closeButton) closeButton.focus();
+
+      if (closeButton) closeButton.addEventListener("click", close, { once: true });
+
+      if (overlay) {
+
+        overlay.addEventListener("click", (event) => {
+
+          if (event.target === overlay) close();
+
+        });
+
+      }
+
+    });
+
+  }
+
+
+  function phase717RetryModal(options) {
+
+    return new Promise((resolve) => {
+
+      const rootId = "phase717-retry-modal-root";
+
+      let root = document.getElementById(rootId);
+
+      if (!root) {
+
+        root = document.createElement("div");
+
+        root.id = rootId;
+
+        document.body.appendChild(root);
+
+      }
+
+      const title = phase717EscapeModalText(options.title || "Confirm action");
+
+      const message = phase717EscapeModalText(options.message || "");
+
+      const confirmLabel = phase717EscapeModalText(options.confirmLabel || "Confirm");
+
+      const cancelLabel = options.cancelLabel === null ? null : phase717EscapeModalText(options.cancelLabel || "Cancel");
+
+      const tone = options.tone === "error" ? "#fecaca" : options.tone === "success" ? "#bbf7d0" : "#dbeafe";
+
+      const border = options.tone === "error" ? "rgba(248,113,113,.45)" : options.tone === "success" ? "rgba(74,222,128,.42)" : "rgba(96,165,250,.45)";
+
+      root.innerHTML = `
+
+        <div data-phase717-modal-overlay="true" style="position:fixed;inset:0;z-index:9999;display:flex;align-items:center;justify-content:center;padding:18px;background:rgba(2,6,23,.72);backdrop-filter:blur(6px);">
+
+          <section role="dialog" aria-modal="true" aria-labelledby="phase717-retry-modal-title" style="width:min(520px,calc(100vw - 28px));border:1px solid ${border};border-radius:16px;background:rgba(15,23,42,.98);box-shadow:0 24px 80px rgba(0,0,0,.45);padding:16px;color:#e5e7eb;">
+
+            <div id="phase717-retry-modal-title" style="font-size:14px;font-weight:800;color:${tone};letter-spacing:.01em;">${title}</div>
+
+            <div style="margin-top:8px;color:#cbd5e1;font-size:12px;line-height:1.5;white-space:pre-wrap;overflow-wrap:anywhere;">${message}</div>
+
+            <div style="display:flex;justify-content:flex-end;gap:8px;margin-top:14px;">
+
+              ${cancelLabel ? `<button type="button" data-phase717-modal-cancel="true" style="cursor:pointer;border:1px solid rgba(148,163,184,.35);background:rgba(15,23,42,.85);color:#cbd5e1;border-radius:10px;padding:7px 10px;font-size:12px;">${cancelLabel}</button>` : ""}
+
+              <button type="button" data-phase717-modal-confirm="true" style="cursor:pointer;border:1px solid ${border};background:rgba(30,41,59,.95);color:${tone};border-radius:10px;padding:7px 10px;font-size:12px;font-weight:700;">${confirmLabel}</button>
+
+            </div>
+
+          </section>
+
+        </div>
+
+      `;
+
+      const close = (value) => {
+
+        root.innerHTML = "";
+
+        resolve(value);
+
+      };
+
+      const confirm = root.querySelector("[data-phase717-modal-confirm]");
+
+      const cancel = root.querySelector("[data-phase717-modal-cancel]");
+
+      const overlay = root.querySelector("[data-phase717-modal-overlay]");
+
+      if (confirm) confirm.focus();
+
+      if (confirm) confirm.addEventListener("click", () => close(true), { once: true });
+
+      if (cancel) cancel.addEventListener("click", () => close(false), { once: true });
+
+      if (overlay) {
+
+        overlay.addEventListener("click", (event) => {
+
+          if (event.target === overlay) close(false);
+
+        }, { once: true });
+
+      }
+
+    });
+
+  }
+
+  async function phase717RetryTask(taskId, mode, button, taskTitle) {
+
+    if (!taskId) {
+
+      await phase717RetryModal({ title: "Retry not submitted", message: "Missing task id; retry was not submitted.", confirmLabel: "Close", cancelLabel: null, tone: "error" });
+
+      return;
+
+    }
+
+    const label = mode === "fresh-context" ? "retry differently" : "requeue";
+
+    const displayName = taskTitle && taskTitle.trim() ? taskTitle.trim() : taskId;
+
+    const modalTitle = mode === "fresh-context" ? "Confirm retry action" : "Confirm requeue";
+
+    const detailMessage = mode === "fresh-context"
+
+      ? "This will create a new queued attempt using a fresh-context execution strategy.\n\nPlease confirm this action to continue."
+
+      : "This will create a new queued attempt for this task.\n\nPlease confirm this action to continue.";
+
+    const ok = await phase717RetryModal({ title: modalTitle, message: `Submit ${label} for “${displayName}”?\n\n${detailMessage}`, confirmLabel: "Submit", cancelLabel: "Cancel" });
+
+    if (!ok) return;
+
+    const originalText = button ? button.textContent : "";
+
+    if (button) {
+
+      button.disabled = true;
+
+      button.textContent = "Submitting...";
+
+    }
+
+    try {
+
+      const res = await fetch("/api/delegate-task", {
+
+        method: "POST",
+
+        headers: { "Content-Type": "application/json" },
+
+        body: JSON.stringify({
+
+          kind: "retry",
+
+          strategy: mode === "fresh-context" ? "fresh-context" : "standard",
+
+          title: `${label} ${taskId}`,
+
+          meta: { retry_of_task_id: taskId },
+
+          source: "operator-guidance-ui"
+
+        })
+
+      });
+
+      const data = await res.json();
+
+      if (!res.ok || data.ok === false) {
+
+        throw new Error(data.error || data.details || `HTTP ${res.status}`);
+
+      }
+
+      await phase717RetryModal({ title: "Retry submitted", message: `Retry submitted: ${data.task_id || data.id || "created"}`, confirmLabel: "Close", cancelLabel: null, tone: "success" });
+
+      await refresh();
+
+    } catch (err) {
+
+      await phase717RetryModal({ title: "Retry failed", message: `${err && err.message ? err.message : String(err)}`, confirmLabel: "Close", cancelLabel: null, tone: "error" });
+
+    } finally {
+
+      if (button) {
+
+        button.disabled = false;
+
+        button.textContent = originalText;
+
+      }
+
+    }
+
+  }
+
+  document.addEventListener("click", function(event) {
+
+    const detailButton = event.target.closest("[data-phase717-inspect-details]");
+
+    const traceButton = event.target.closest("[data-phase717-inspect-trace]");
+
+    const logsButton = event.target.closest("[data-phase717-inspect-logs]");
+
+    const inspectionButton = detailButton || traceButton || logsButton;
+
+    if (!inspectionButton) return;
+
+    event.preventDefault();
+
+    phase717InspectionModal({
+
+      title: inspectionButton.getAttribute("data-phase717-inspect-title") || "Read-only inspection",
+
+      content: inspectionButton.getAttribute("data-phase717-inspect-content") || "No inspection content available."
+
+    });
+
+  });
+
+  document.addEventListener("click", function(event) {
+
+    const requeue = event.target.closest("[data-phase717-requeue]");
+
+    const retryDifferently = event.target.closest("[data-phase717-retry-differently]");
+
+    if (!requeue && !retryDifferently) return;
+
+    const button = requeue || retryDifferently;
+
+    const taskId = button.getAttribute("data-task-id");
+
+    const taskTitle = button.getAttribute("data-task-title");
+
+    const mode = retryDifferently ? "fresh-context" : "standard";
+
+    phase717RetryTask(taskId, mode, button, taskTitle);
+
+  });
+
+  async function refresh() {
+    try {
+      const agents = await getJson("/api/agents");
+      renderAgents(Array.isArray(agents) ? agents : []);
+    } catch (e) {
+      console.warn("[phase530] agents render failed", e);
+    }
+
+    try {
+      const data = await getJson("/api/tasks?limit=12");
+      renderRecent(data.tasks || []);
+    } catch (e) {
+      console.warn("[phase530] recent tasks render failed", e);
+    }
+
+    try {
+      const activity = await getJson("/api/activity-graph");
+      renderActivity(Array.isArray(activity) ? activity : []);
+    } catch (e) {
+      console.warn("[phase530] activity graph render failed", e);
+    }
+  }
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", refresh, { once: true });
+  } else {
+    refresh();
+  }
+
+  setInterval(refresh, POLL_MS);
+})();
