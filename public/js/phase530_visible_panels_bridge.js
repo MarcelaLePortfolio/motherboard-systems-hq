@@ -73,6 +73,20 @@
 
       const traceJson = trace ? esc(JSON.stringify(trace, null, 2)) : "";
 
+      const logContent = esc([
+
+        `task_id=${taskId}`,
+
+        `status=${status}`,
+
+        updated ? `updated=${updated}` : "",
+
+        outcome ? `outcome=${outcome}` : "",
+
+        explanation ? `details=${explanation}` : ""
+
+      ].filter(Boolean).join("\n"));
+
       return `
 
         <article data-phase716-contained-task="true" data-phase717-execution-card="true" style="display:block;width:100%;min-width:0;max-width:100%;box-sizing:border-box;border:1px solid rgba(148,163,184,.22);border-radius:12px;padding:10px;margin:0 0 10px 0;background:rgba(15,23,42,.72);overflow:hidden;">
@@ -108,6 +122,8 @@
           ${explanation ? `<button type="button" data-phase717-inspect-details="true" data-phase717-inspect-title="${title} — Details" data-phase717-inspect-content="${explanation}" style="margin-top:8px;cursor:pointer;border:1px solid rgba(147,197,253,.35);background:rgba(30,64,175,.14);color:#93c5fd;border-radius:999px;padding:4px 8px;font-size:11px;">Inspect details</button>` : ""}
 
           ${traceJson ? `<button type="button" data-phase717-inspect-trace="true" data-phase717-inspect-title="${title} — Advanced trace" data-phase717-inspect-content="${traceJson}" style="margin-top:6px;margin-left:6px;cursor:pointer;border:1px solid rgba(251,191,36,.38);background:rgba(120,53,15,.14);color:#fbbf24;border-radius:999px;padding:4px 8px;font-size:11px;">Inspect trace</button>` : ""}
+
+          ${logContent ? `<button type="button" data-phase717-inspect-logs="true" data-phase717-inspect-title="${title} — Logs" data-phase717-inspect-content="${logContent}" style="margin-top:6px;margin-left:6px;cursor:pointer;border:1px solid rgba(45,212,191,.38);background:rgba(20,83,45,.14);color:#5eead4;border-radius:999px;padding:4px 8px;font-size:11px;">Inspect logs</button>` : ""}
 
         </article>
 
@@ -518,7 +534,9 @@
 
     const traceButton = event.target.closest("[data-phase717-inspect-trace]");
 
-    const inspectionButton = detailButton || traceButton;
+    const logsButton = event.target.closest("[data-phase717-inspect-logs]");
+
+    const inspectionButton = detailButton || traceButton || logsButton;
 
     if (!inspectionButton) return;
 
