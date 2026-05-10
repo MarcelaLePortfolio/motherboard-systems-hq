@@ -140,32 +140,25 @@
     const recentCard = document.getElementById("recent-tasks-card");
 
     if (recentCard) {
-      recentCard.style.display = "grid";
-      recentCard.style.gridTemplateRows = "1fr 1fr";
-      recentCard.style.gap = "1rem";
+      recentCard.style.display = "block";
       recentCard.style.minHeight = "0";
       recentCard.style.height = "100%";
     }
 
-    [recentTasks, recentLogs].forEach((el) => {
-      if (!el) return;
-      el.style.minHeight = "0";
-      el.style.height = "100%";
-      el.style.overflow = "auto";
-      el.style.display = "block";
-    });
+    if (recentTasks) {
+      recentTasks.style.minHeight = "0";
+      recentTasks.style.height = "100%";
+      recentTasks.style.overflow = "auto";
+      recentTasks.style.display = "block";
+    }
+
+    if (recentLogs) {
+      recentLogs.style.display = "none";
+    }
 
     if (recentTasks) recentTasks.innerHTML = taskRows(tasks);
 
-    if (recentLogs) {
-      recentLogs.innerHTML = (tasks && tasks.length)
-        ? tasks.map((task) => `
-            <div style="border-bottom:1px solid rgba(51,65,85,.55);padding:.5rem 0;color:#cbd5e1;font-size:.8rem;">
-              ${esc(task.updated_at || task.created_at || "time unavailable")} · ${esc(task.status || "unknown")} · ${esc(task.title || task.task_id || "Untitled task")}
-            </div>
-          `).join("")
-        : `<div style="color:#94a3b8;font-size:.8rem;">No task history yet.</div>`;
-    }
+    if (recentLogs) recentLogs.innerHTML = "";
   }
 
   function renderActivity(rows) {
