@@ -365,7 +365,50 @@
         </section>
 
         <section id="phase61-telemetry-column" class="space-y-4" aria-label="Observational workspace">
-          
+          <section id="observational-workspace-card" class="bg-gray-800 rounded-2xl shadow-lg border border-gray-700" data-workspace-root>
+            <div class="flex items-center justify-between mb-3 border-b border-gray-700 pb-3">
+              <h2 class="text-xl font-semibold">Telemetry Console</h2>
+            </div>
+
+            <div id="observational-tabs" role="tablist" aria-label="Telemetry workspace tabs">
+              <button id="obs-tab-recent" class="obs-tab active" type="button" data-workspace-tab data-target="obs-panel-recent" role="tab" aria-selected="true" aria-controls="obs-panel-recent">
+                Recent Tasks
+              </button>
+              <button id="obs-tab-activity" class="obs-tab" type="button" data-workspace-tab data-target="obs-panel-activity" role="tab" aria-selected="false" aria-controls="obs-panel-activity">
+                Task History
+              </button>
+              <button id="obs-tab-events" class="obs-tab" type="button" data-workspace-tab data-target="obs-panel-events" role="tab" aria-selected="false" aria-controls="obs-panel-events">
+                Execution Inspector
+              </button>
+            </div>
+
+            <div id="observational-panels">
+              <div id="obs-panel-recent" class="obs-panel active" data-workspace-panel role="tabpanel" aria-labelledby="obs-tab-recent">
+                <section id="recent-tasks-card" class="obs-surface space-y-3">
+                  <div>
+                    <h3 class="text-sm uppercase tracking-[0.2em] text-gray-400 mb-2">Recent Tasks</h3>
+                    <div id="recentTasks" class="bg-gray-900 border border-gray-700 rounded-xl p-3 text-sm text-gray-300"></div>
+                  </div>
+                  </div>
+                </section>
+              </div>
+
+              <div id="obs-panel-activity" class="obs-panel" data-workspace-panel role="tabpanel" aria-labelledby="obs-tab-activity" hidden>
+                <section id="task-activity-card" class="obs-surface">
+                  <div class="h-64 bg-slate-950 border-2 border-blue-500 rounded-xl p-3 shadow-[0_0_0_1px_rgba(59,130,246,0.35),0_20px_50px_rgba(2,6,23,0.8)]" style="background:#020617 !important; border:3px solid #3b82f6 !important; border-radius:1rem !important; box-shadow:0 0 0 2px rgba(59,130,246,0.55),0 22px 60px rgba(2,6,23,0.9) !important;">
+                    <canvas id="task-activity-graph" class="w-full h-full"></canvas>
+                  </div>
+                </section>
+              </div>
+
+              <div id="obs-panel-events" class="obs-panel" data-workspace-panel role="tabpanel" aria-labelledby="obs-tab-events" hidden>
+                <section id="task-events-card" class="obs-surface">
+                  <div id="mb-task-events-panel-anchor" class="bg-gray-900 border border-gray-700 rounded-xl p-3 text-sm text-gray-300"></div>
+                </section>
+              </div>
+            </div>
+          </section>
+        </section>
       </div>
     </section>
 
