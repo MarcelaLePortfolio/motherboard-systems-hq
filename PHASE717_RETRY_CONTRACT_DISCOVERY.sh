@@ -7,39 +7,19 @@ echo "===== PHASE 717 RETRY CONTRACT DISCOVERY ====="
 
 echo ""
 
-echo "[1] Git checkpoint"
+echo "[1] Retry contract references"
 
-git status --short
-
-git log --oneline --decorate -5
-
-echo ""
-
-echo "[2] Focused retry contract search"
-
-grep -RInE "retry_of_task_id|enforceRetryContract|delegate-task|/api/tasks/create|retry|requeue" \
+grep -RInE "retry_of_task_id|enforceRetryContract|delegate-task|/api/tasks/create" \
 
   app server routes src scripts \
 
-  2>/dev/null | head -200 || true
+  2>/dev/null | head -40 || true
 
 echo ""
 
-echo "[3] Focused route discovery"
-
-find app server routes src -type f 2>/dev/null | \
-
-grep -E "task|retry|delegate|api" | \
-
-head -120 || true
-
-echo ""
-
-echo "[4] Safe runtime probes"
+echo "[2] Route probe status only"
 
 for route in \
-
-  "/api/tasks" \
 
   "/api/tasks/create" \
 
@@ -47,11 +27,9 @@ for route in \
 
 do
 
-  echo ""
+  printf "%s -> " "$route"
 
-  echo "---- $route ----"
-
-  curl -sS -o /tmp/phase717_probe.txt -D - "http://localhost:3000$route" | head -20 || true
+  curl -s -o /dev/null -w "%{http_code}\n" "http://localhost:3000$route" || true
 
 done
 
