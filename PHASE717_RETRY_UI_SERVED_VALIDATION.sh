@@ -5,6 +5,20 @@ set -euo pipefail
 
 docker compose up -d --build dashboard
 
+echo "Waiting for dashboard HTTP readiness..."
+
+for i in {1..30}; do
+
+  if curl -fsS http://localhost:3000/api/tasks >/tmp/phase717_ready_check.json 2>/dev/null; then
+
+    break
+
+  fi
+
+  sleep 1
+
+done
+
 curl -fsS http://localhost:3000/js/phase530_visible_panels_bridge.js -o /tmp/phase717_visible_panels_bridge.js
 
 grep -q "phase717RetryTask" /tmp/phase717_visible_panels_bridge.js
