@@ -1,53 +1,109 @@
 
-# Phase 717 — Next Corridor
+# Phase 717 Next Corridor
 
-Authoritative stable state:
+## Stable Baseline
 
-- Recent Tasks preserved
+HEAD:
 
-- Task History preserved
+- 9798b5fd Phase 717: record retry activation archive verification
 
-- Execution Inspector removed
+Runtime:
 
-- Recent Logs shell removed
+- healthy
 
-- Telemetry Console preserved
+Dashboard:
 
-- Runtime healthy
+- healthy
 
-- Stable checkpoint tag:
+Worker:
 
-  phase717-stable-telemetry-console
+- healthy
 
-Corridor classification:
+Postgres:
 
-SAFE UI POLISH / LIFECYCLE CONSOLIDATION ONLY
+- healthy
 
-Approved next actions:
+Retry contract:
 
-1. Improve Recent Tasks visual hierarchy only.
+- live
 
-2. Tighten spacing/padding inside Recent Tasks.
+- validated
 
-3. Improve retry/requeue affordance placement inside task cards.
+Retry UI:
 
-4. Preserve all current telemetry container wrappers.
+- served
 
-5. Avoid removing additional tabs/panels until dependency mapping is completed.
+- contract-aligned
 
-6. Keep rollback corridor anchored to:
+External archive:
 
-   phase717-stable-telemetry-console
+- verified
 
-Explicitly prohibited:
+## Current Recommended Direction
 
-- Broad telemetry container removal
+Shift from retry plumbing into execution intelligence and failure classification.
 
-- Multi-surface deletion passes
+## High-ROI Targets
 
-- CSS-wide speculative cleanup
+1. Failure classification
 
-- Removing Task History without isolated dependency validation
+   - transient vs persistent
 
-- Touching execution contracts or SSE routing
+   - infrastructure vs task logic
+
+   - retry recommendation reasoning
+
+2. Lifecycle intelligence
+
+   - richer task state explanations
+
+   - retry rationale surfacing
+
+   - operator triage hints
+
+3. Execution evidence enrichment
+
+   - clearer causal summaries
+
+   - grouped retry lineage
+
+   - execution attempt relationships
+
+4. Safe observability expansion
+
+   - no telemetry shell surgery
+
+   - no broad UI rewrites
+
+   - renderer-scoped only
+
+## Explicitly Avoid
+
+- broad CSS/layout rewrites
+
+- speculative telemetry deletions
+
+- scheduler expansion
+
+- chat execution coupling
+
+- hidden automation behavior
+
+- retry mutation redesign
+
+- multi-surface refactors without dependency mapping
+
+## Preserved Guardrails
+
+- truthful UI
+
+- advisory isolation
+
+- lightweight Git discipline
+
+- external archive workflow
+
+- renderer-scoped modifications
+
+- deterministic rollback discipline
 
