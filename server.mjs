@@ -21,32 +21,63 @@ const __dirname = path.dirname(__filename);
 
 const app = express();
 
-// Phase 11 stubbed task endpoints to avoid Postgres dependency
-app.post("/api/delegate-task", (req, res) => {
-  // PHASE 542 ENFORCEMENT
+app.use(express.json()); // Middleware to parse JSON body for POST requests
+
+// Phase 717 authoritative delegate-task route with narrow retry contract enforcement
+
+app.post("/api/delegate-task", enforceRetryContract, (req, res) => {
+
   req.body = routeRetryExecution(req.body || {});
-  const { title, agent, notes } = req.body || {};
+
+  const { title, agent, notes, kind, strategy, meta, execution_mode, cache_policy, memory_scope } = req.body || {};
+
   const fakeId = Math.floor(Date.now() / 1000);
+
   res.json({
+
     id: fakeId,
+
     title,
+
     agent,
+
     notes,
+
+    kind,
+
+    strategy,
+
+    meta,
+
+    execution_mode,
+
+    cache_policy,
+
+    memory_scope,
+
     status: "delegated",
+
     source: "stub"
+
   });
+
 });
 
 app.post("/api/complete-task", (req, res) => {
-  const { taskId } = req.body || {};
-  res.json({
-    id: taskId ?? null,
-    status: "completed",
-    source: "stub"
-  });
-});
 
-app.use(express.json()); // Middleware to parse JSON body for POST requests
+  const { taskId } = req.body || {};
+
+  res.json({
+
+    id: taskId ?? null,
+
+    status: "completed",
+
+    source: "stub"
+
+  });
+
+});
 
 // Database Connection Pool
 const pool = new Pool({
@@ -633,30 +664,6 @@ app.listen(PORT, HOST, () => {
   console.log('Server running on http://' + HOST + ':' + PORT);
   console.log('Database pool initialized');
 });
-
-// Phase 11 override: stubbed task endpoints take precedence over any earlier DB-backed handlers
-app.post("/api/delegate-task", (req, res) => {
-  const { title, agent, notes } = req.body || {};
-  const fakeId = Math.floor(Date.now() / 1000);
-  return res.json({
-    id: fakeId,
-    title,
-    agent,
-    notes,
-    status: "delegated",
-    source: "stub-override"
-  });
-});
-
-app.post("/api/complete-task", (req, res) => {
-  const { taskId } = req.body || {};
-  return res.json({
-    id: taskId ?? null,
-    status: "completed",
-    source: "stub-override"
-  });
-});
-
 
 // PHASE615 CONTROLLED SYSTEM SCHEDULER (DISABLED BY DEFAULT)
 const SYSTEM_SCHEDULER_ENABLED = String(process.env.SYSTEM_SCHEDULER_ENABLED || "").toLowerCase() === "true";
