@@ -63,7 +63,17 @@
     mount.appendChild(list);
   }
 
+  // PHASE719_LEGACY_RECENT_TASKS_DISABLED
+
+  // Legacy Recent Tasks renderer intentionally disabled.
+
+  // phase530_visible_panels_bridge.js is now authoritative.
+
   async function refreshRecentTasks() {
+
+    return;
+
+
     try {
       const res = await fetch("/api/tasks", { cache: "no-store" });
       if (!res.ok) throw new Error("tasks fetch failed");
