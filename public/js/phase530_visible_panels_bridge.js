@@ -194,9 +194,9 @@
           </div>
             ${""}
 
-          ${updated ? `<div style="margin-top:4px;color:#64748b;font-size:11px;overflow-wrap:anywhere;">updated=${updated}</div>` : ""}
+          ${""}
 
-          ${targetTitle ? `<div style="margin-top:4px;color:#64748b;font-size:11px;overflow-wrap:anywhere;">target=${targetTitle}</div>` : ""}
+          ${""}
 
           <div style="margin-top:10px;border:1px solid rgba(71,85,105,.55);border-radius:12px;padding:9px;background:rgba(2,6,23,.24);">
 
