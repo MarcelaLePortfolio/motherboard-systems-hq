@@ -85,7 +85,7 @@
 
       const retryTitleMatch = rawTitle.match(/^(retry differently|requeue)\s+(t_[a-f0-9-]+)$/i);
 
-      const phase718ResolveReadableTitle = (candidateTitle, depth = 0) => {
+      const phase718ResolveBaseTitle = (candidateTitle, depth = 0) => {
 
         const candidate = String(candidateTitle || "");
 
@@ -95,21 +95,13 @@
 
         if (!nestedRetryMatch) return candidate;
 
-        const nestedAction = nestedRetryMatch[1].toLowerCase() === "requeue" ? "Requeue" : "Retry differently";
-
         const nestedTarget = nestedRetryMatch[2];
 
-        const nestedTargetTitle = phase718TaskTitleByKey.has(nestedTarget)
+        return phase718TaskTitleByKey.has(nestedTarget)
 
-          ? phase718ResolveReadableTitle(phase718TaskTitleByKey.get(nestedTarget), depth + 1)
+          ? phase718ResolveBaseTitle(phase718TaskTitleByKey.get(nestedTarget), depth + 1)
 
           : nestedTarget;
-
-        return nestedTargetTitle && nestedTargetTitle !== nestedTarget
-
-          ? `${nestedAction}: ${nestedTargetTitle}`
-
-          : nestedAction;
 
       };
 
@@ -123,7 +115,7 @@
 
       const resolvedTargetTitleRaw = operatorTarget && phase718TaskTitleByKey.has(operatorTarget)
 
-        ? phase718ResolveReadableTitle(phase718TaskTitleByKey.get(operatorTarget))
+        ? phase718ResolveBaseTitle(phase718TaskTitleByKey.get(operatorTarget))
 
         : operatorTarget;
 
@@ -131,7 +123,7 @@
 
         ? `${operatorAction}: ${resolvedTargetTitleRaw}`
 
-        : (operatorAction || phase718ResolveReadableTitle(rawTitle));
+        : (operatorAction || phase718ResolveBaseTitle(rawTitle));
 
       const title = esc(operatorTitle);
 
