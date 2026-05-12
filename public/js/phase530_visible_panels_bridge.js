@@ -192,8 +192,7 @@
             ${triageLabel ? `<div style="flex:0 0 auto;color:#86efac;border:1px solid rgba(134,239,172,.35);border-radius:999px;padding:2px 7px;font-size:10px;line-height:1.4;background:rgba(22,101,52,.18);">${triageLabel}</div>` : ""}
 
           </div>
-
-          <div style="margin-top:4px;color:#94a3b8;font-size:12px;overflow-wrap:anywhere;word-break:break-word;">${triageLabel ? `id=${taskId}` : `status=${status} · id=${taskId}`}</div>
+            ${""}
 
           ${updated ? `<div style="margin-top:4px;color:#64748b;font-size:11px;overflow-wrap:anywhere;">updated=${updated}</div>` : ""}
 
