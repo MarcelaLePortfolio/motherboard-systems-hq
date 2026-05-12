@@ -171,7 +171,7 @@
 
         outcome ? `outcome=${outcome}` : "",
 
-        explanation ? `details=${explanation}` : ""
+        ""
 
       ].filter(Boolean).join("\n"));
 
