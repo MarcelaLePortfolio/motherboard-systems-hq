@@ -1,0 +1,65 @@
+task_count: 9
+
+--- TASK 1 ---
+id: "9"
+task_id: "t_1163a322-82e6-436d-8b83-635586696d79"
+title: "retry differently t_4f89dd24-d2af-4b38-b885-8365291f920b"
+status: "completed"
+explanation_preview: "fresh context requested; cache bypass observed; partial memory reset observed"
+updated_at: "2026-05-11T22:26:55.295Z"
+
+--- TASK 2 ---
+id: "8"
+task_id: "t_4f89dd24-d2af-4b38-b885-8365291f920b"
+title: "retry differently t_f6f778a7-789b-4ac5-ad96-fa4bbe399169"
+status: "completed"
+explanation_preview: "fresh context requested; cache bypass observed; partial memory reset observed"
+updated_at: "2026-05-11T17:21:47.442Z"
+
+--- TASK 3 ---
+id: "7"
+task_id: "t_f6f778a7-789b-4ac5-ad96-fa4bbe399169"
+title: "requeue t_104ad91d-b122-4276-96d6-4e55970ade9e"
+status: "completed"
+explanation_preview: "standard execution path"
+updated_at: "2026-05-11T17:21:25.232Z"
+
+--- TASK 4 ---
+id: "6"
+task_id: "t_104ad91d-b122-4276-96d6-4e55970ade9e"
+title: "Phase 717 retry contract validation"
+status: "completed"
+explanation_preview: "fresh context requested; cache bypass observed; partial memory reset observed"
+updated_at: "2026-05-11T02:19:43.278Z"
+
+--- TASK 5 ---
+id: "5"
+task_id: "t_07daca19-9187-4285-8b9d-bbd9254d6149"
+title: "Delegated task"
+status: "completed"
+explanation_preview: "standard execution path"
+updated_at: "2026-05-11T02:19:18.625Z"
+
+--- TASK 6 ---
+id: "4"
+task_id: "t_e5a0d183-bc60-4c0a-9b2a-9d91352cc593"
+title: "Delegated task"
+status: "completed"
+explanation_preview: "standard execution path"
+updated_at: "2026-05-11T02:19:18.560Z"
+
+--- TASK 7 ---
+id: "3"
+task_id: "t_c5767c3c-4974-480b-92b1-0d036c642718"
+title: "Delegated task"
+status: "completed"
+explanation_preview: "standard execution path"
+updated_at: "2026-05-09T00:59:46.676Z"
+
+--- TASK 8 ---
+id: "2"
+task_id: "t_bf57fc6c-c733-407e-9b3d-f813d1bdbb91"
+title: "Delegated task"
+status: "completed"
+explanation_preview: "standard execution path"
+updated_at: "2026-05-08T22:51:10.501Z"
