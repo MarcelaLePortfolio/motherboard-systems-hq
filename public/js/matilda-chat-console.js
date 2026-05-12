@@ -69,6 +69,16 @@
         }, 5000);
 
         const data = await res.json();
+
+        console.log("[phase719-matilda-ui] response", {
+
+          ok: res.ok,
+
+          status: res.status,
+
+          data
+
+        });
         console.log("[PHASE488_TRACE] parsed json", data);
 
         const reply =
@@ -77,6 +87,8 @@
 
         appendMessage(transcript, "Matilda", reply);
       } catch (err) {
+
+        console.error("[phase719-matilda-ui] frontend failure", err);
         appendMessage(transcript, "Matilda", "I could not reach the chat service from this browser request, but no execution was attempted. You can retry, or use the visible dashboard/context state for advisory interpretation.");
       } finally {
         inFlight = false;
