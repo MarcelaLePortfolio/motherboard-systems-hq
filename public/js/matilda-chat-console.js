@@ -65,7 +65,7 @@
         const res = await fetchWithTimeout("/api/chat", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ message: message, agent: "matilda" }),
+          body: JSON.stringify({ input: message, message: message, agent: "matilda" }),
         }, 5000);
 
         const data = await res.json();
