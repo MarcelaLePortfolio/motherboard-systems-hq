@@ -1125,9 +1125,9 @@ document.addEventListener("DOMContentLoaded", async function () {
 
       const meta = document.createElement("div");
       meta.className = "mt-2 text-xs text-gray-400 leading-5";
-      meta.innerHTML =
-        "Status: " + summary.status + "<br>" +
-        "Updated: " + summary.updated;
+      // PHASE719_INLINE_RECENT_TASKS_METADATA_DISABLED
+      // Inline metadata suppressed; lifecycle cards are rendered by phase530_visible_panels_bridge.js.
+      meta.innerHTML = "";
 
       card.appendChild(title);
       card.appendChild(meta);
