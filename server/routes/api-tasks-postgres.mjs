@@ -285,3 +285,90 @@ apiTasksRouter.post("/cancel", async (req, res) => {
     res.status(500).json({ ok: false, error: e?.message || String(e) });
   }
 });
+
+/**
+
+ * Phase 719 — Artifact Inspection Endpoint (READ-ONLY)
+
+ * GET /api/artifacts/:task_id
+
+ */
+
+app.get("/api/artifacts/:task_id", async (req, res) => {
+
+  try {
+
+    const task_id = req.params.task_id;
+
+    const result = await pool.query(
+
+      \`
+
+      SELECT
+
+        te.payload->>'artifact' AS artifact,
+
+        te.payload->>'artifacts' AS artifacts,
+
+        te.payload->>'outcome_preview' AS outcome_preview,
+
+        te.payload->>'explanation_preview' AS explanation_preview,
+
+        te.payload
+
+      FROM task_events te
+
+      WHERE te.task_id = $1
+
+        AND te.kind = 'task.completed'
+
+      ORDER BY te.id DESC
+
+      LIMIT 1
+
+      \`,
+
+      [task_id]
+
+    );
+
+    if (!result.rows.length) {
+
+      return res.status(404).json({
+
+        ok: false,
+
+        error: "artifact_not_found"
+
+      });
+
+    }
+
+    const row = result.rows[0];
+
+    res.json({
+
+      ok: true,
+
+      task_id,
+
+      artifact: row.artifact,
+
+      artifacts: row.artifacts,
+
+      outcome_preview: row.outcome_preview,
+
+      explanation_preview: row.explanation_preview
+
+    });
+
+  } catch (err) {
+
+    console.error("[artifact-inspection] error:", err);
+
+    res.status(500).json({ ok: false, error: "internal_error" });
+
+  }
+
+});
+
