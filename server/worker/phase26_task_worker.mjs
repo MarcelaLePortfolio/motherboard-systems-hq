@@ -108,6 +108,102 @@ async function completeSuccess(pool, task, executionResult = null) {
       completed_at: completed.completed_at
     });
 
+    function safeArtifactName(value = "") {
+
+      return String(value)
+
+        .replace(/[^a-zA-Z0-9._-]/g, "_")
+
+        .replace(/_+/g, "_")
+
+        .slice(0, 120);
+
+    }
+
+    function persistTaskArtifact({ task, completed, executionResult }) {
+
+      const taskId = completed?.task_id ?? task?.task_id ?? `task_${Date.now()}`;
+
+      const runId = completed?.run_id ?? task?.run_id ?? "run_unknown";
+
+      const artifactDir = process.env.MB_ARTIFACT_DIR || "/app/data/artifacts";
+
+      fs.mkdirSync(artifactDir, { recursive: true });
+
+      const filename = `${safeArtifactName(taskId)}_${safeArtifactName(runId)}.md`;
+
+      const artifactPath = path.join(artifactDir, filename);
+
+      const outcome = executionResult?.communicationResult?.outcome?.content ?? "";
+
+      const explanation = executionResult?.communicationResult?.explanation?.content ?? "";
+
+      const systemTrace = executionResult?.communicationResult?.systemTrace?.content ?? {};
+
+      const content = [
+
+        "# Task Artifact",
+
+        "",
+
+        "## Task",
+
+        String(task?.title ?? task?.payload?.title ?? taskId),
+
+        "",
+
+        "## Status",
+
+        String(completed?.status ?? "completed"),
+
+        "",
+
+        "## Outcome",
+
+        outcome || "No outcome content was produced.",
+
+        "",
+
+        "## Explanation",
+
+        explanation || "No explanation content was produced.",
+
+        "",
+
+        "## Execution Trace",
+
+        "```json",
+
+        JSON.stringify(systemTrace, null, 2),
+
+        "```",
+
+        ""
+
+      ].join("\n");
+
+      fs.writeFileSync(artifactPath, content, "utf8");
+
+      return {
+
+        type: "markdown",
+
+        filename,
+
+        path: artifactPath,
+
+        size_bytes: Buffer.byteLength(content, "utf8"),
+
+        created_at: new Date().toISOString(),
+
+        source: "worker"
+
+      };
+
+    }
+
+    const artifact = persistTaskArtifact({ task, completed, executionResult });
+
     await emitTaskEvent({
       pool,
       kind: "task.completed",
@@ -121,7 +217,9 @@ async function completeSuccess(pool, task, executionResult = null) {
         completed_at: completed.completed_at,
         communicationResult: executionResult?.communicationResult ?? null,
         outcome_preview: executionResult?.communicationResult?.outcome?.content ?? null,
-        explanation_preview: executionResult?.communicationResult?.explanation?.content ?? null
+        explanation_preview: executionResult?.communicationResult?.explanation?.content ?? null,
+        artifact,
+        artifacts: [artifact]
       }
     });
   }

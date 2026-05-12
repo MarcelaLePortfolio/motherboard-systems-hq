@@ -62,6 +62,8 @@ apiTasksRouter.get("/", async (req, res) => {
         t.updated_at,
         completed.payload->>'outcome_preview' AS outcome_preview,
         completed.payload->>'explanation_preview' AS explanation_preview,
+        completed.payload->'artifact' AS artifact,
+        completed.payload->'artifacts' AS artifacts,
         completed.payload AS guidance
       FROM tasks t
       LEFT JOIN LATERAL (

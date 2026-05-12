@@ -3,35 +3,19 @@
 
 set -euo pipefail
 
-echo "===== PHASE 719 ADD REAL ARTIFACT PERSISTENCE ====="
-
-echo ""
-
-echo "[1] Patch active worker with minimal artifact persistence"
+echo "===== PHASE 719 ADD REAL ARTIFACT PERSISTENCE — SAFE PATCH ====="
 
 python3 - << 'PY'
 
 from pathlib import Path
 
-path = Path("server/worker/phase26_task_worker.mjs")
+worker = Path("server/worker/phase26_task_worker.mjs")
 
-text = path.read_text()
-
-if "PHASE 719 — REAL ARTIFACT PERSISTENCE" in text:
-
-    print("Artifact persistence patch already present.")
-
-    raise SystemExit
+text = worker.read_text()
 
 if 'import fs from "node:fs";' not in text:
 
-    text = text.replace(
-
-        'import { Pool } from "pg";',
-
-        'import { Pool } from "pg";\nimport fs from "node:fs";\nimport path from "node:path";'
-
-    )
+    text = text.replace('import { Pool } from "pg";', 'import { Pool } from "pg";\nimport fs from "node:fs";\nimport path from "node:path";')
 
 helper = '''
 
@@ -69,35 +53,35 @@ function persistTaskArtifact({ task, completed, executionResult }) {
 
   const content = [
 
-    `# Task Artifact`,
+    "# Task Artifact",
 
-    ``,
+    "",
 
-    `## Task`,
+    "## Task",
 
     String(task?.title ?? task?.payload?.title ?? taskId),
 
-    ``,
+    "",
 
-    `## Status`,
+    "## Status",
 
     String(completed?.status ?? "completed"),
 
-    ``,
+    "",
 
-    `## Outcome`,
+    "## Outcome",
 
     outcome || "No outcome content was produced.",
 
-    ``,
+    "",
 
-    `## Explanation`,
+    "## Explanation",
 
     explanation || "No explanation content was produced.",
 
-    ``,
+    "",
 
-    `## Execution Trace`,
+    "## Execution Trace",
 
     "```json",
 
@@ -105,7 +89,7 @@ function persistTaskArtifact({ task, completed, executionResult }) {
 
     "```",
 
-    ``,
+    ""
 
   ].join("\\n");
 
@@ -123,7 +107,7 @@ function persistTaskArtifact({ task, completed, executionResult }) {
 
     created_at: new Date().toISOString(),
 
-    source: "worker",
+    source: "worker"
 
   };
 
@@ -131,145 +115,81 @@ function persistTaskArtifact({ task, completed, executionResult }) {
 
 '''
 
-insert_anchor = "async function processOne(pool) {"
+if "function persistTaskArtifact" not in text:
 
-text = text.replace(insert_anchor, helper + "\n" + insert_anchor)
+    text = text.replace("async function processOne(pool) {", helper + "\nasync function processOne(pool) {")
 
-old = '''    await emitTaskEvent({
+if "const artifact = persistTaskArtifact({ task, completed, executionResult });" not in text:
 
-      pool,
+    marker = "    await emitTaskEvent({\n      pool,\n      kind: \"task.completed\","
 
-      kind: "task.completed",
+    if marker not in text:
 
-      task_id: completed.task_id,
+        raise SystemExit("Could not locate task.completed emitTaskEvent marker.")
 
-      run_id: completed.run_id ?? task.run_id ?? null,
+    text = text.replace(
 
-      actor: OWNER,
+        marker,
 
-      payload: {
+        "    const artifact = persistTaskArtifact({ task, completed, executionResult });\n\n" + marker,
 
-        status: completed.status,
+        1
 
-        source: "worker",
+    )
 
-        claimed_by: completed.claimed_by,
+if "        artifact," not in text:
 
-        completed_at: completed.completed_at,
+    target = "        explanation_preview: executionResult?.communicationResult?.explanation?.content ?? null"
 
-        communicationResult: executionResult?.communicationResult ?? null,
+    if target not in text:
 
-        outcome_preview: executionResult?.communicationResult?.outcome?.content ?? null,
+        raise SystemExit("Could not locate explanation_preview line.")
 
-        explanation_preview: executionResult?.communicationResult?.explanation?.content ?? null
+    text = text.replace(
 
-      }
+        target,
 
-    });'''
+        target + ",\n        artifact,\n        artifacts: [artifact]",
 
-new = '''    // PHASE 719 — REAL ARTIFACT PERSISTENCE
+        1
 
-    // Persist a real, inspectable markdown artifact for every completed worker task.
+    )
 
-    const artifact = persistTaskArtifact({ task, completed, executionResult });
+worker.write_text(text)
 
-    await emitTaskEvent({
-
-      pool,
-
-      kind: "task.completed",
-
-      task_id: completed.task_id,
-
-      run_id: completed.run_id ?? task.run_id ?? null,
-
-      actor: OWNER,
-
-      payload: {
-
-        status: completed.status,
-
-        source: "worker",
-
-        claimed_by: completed.claimed_by,
-
-        completed_at: completed.completed_at,
-
-        communicationResult: executionResult?.communicationResult ?? null,
-
-        outcome_preview: executionResult?.communicationResult?.outcome?.content ?? null,
-
-        explanation_preview: executionResult?.communicationResult?.explanation?.content ?? null,
-
-        artifact,
-
-        artifacts: [artifact]
-
-      }
-
-    });'''
-
-if old not in text:
-
-    raise SystemExit("Could not find expected emitTaskEvent block. No patch applied.")
-
-text = text.replace(old, new)
-
-path.write_text(text)
-
-print("Patched server/worker/phase26_task_worker.mjs")
+print("patched worker artifact persistence")
 
 PY
-
-echo ""
-
-echo "[2] Patch /api/tasks to expose artifact metadata from completed event payload"
 
 python3 - << 'PY'
 
 from pathlib import Path
 
-path = Path("server/routes/api-tasks-postgres.mjs")
+api = Path("server/routes/api-tasks-postgres.mjs")
 
-text = path.read_text()
+text = api.read_text()
 
-if "completed.payload->'artifact' AS artifact" in text:
+if "completed.payload->'artifact' AS artifact" not in text:
 
-    print("/api/tasks artifact exposure already present.")
+    target = "        completed.payload->>'explanation_preview' AS explanation_preview,\n        completed.payload AS guidance"
 
-    raise SystemExit
+    replacement = "        completed.payload->>'explanation_preview' AS explanation_preview,\n        completed.payload->'artifact' AS artifact,\n        completed.payload->'artifacts' AS artifacts,\n        completed.payload AS guidance"
 
-old = '''        completed.payload->>'outcome_preview' AS outcome_preview,
+    if target not in text:
 
-        completed.payload->>'explanation_preview' AS explanation_preview,
+        raise SystemExit("Could not locate /api/tasks guidance select block.")
 
-        completed.payload AS guidance'''
+    text = text.replace(target, replacement, 1)
 
-new = '''        completed.payload->>'outcome_preview' AS outcome_preview,
+api.write_text(text)
 
-        completed.payload->>'explanation_preview' AS explanation_preview,
-
-        completed.payload->'artifact' AS artifact,
-
-        completed.payload->'artifacts' AS artifacts,
-
-        completed.payload AS guidance'''
-
-if old not in text:
-
-    raise SystemExit("Could not find expected /api/tasks select block. No patch applied.")
-
-text = text.replace(old, new)
-
-path.write_text(text)
-
-print("Patched server/routes/api-tasks-postgres.mjs")
+print("patched /api/tasks artifact exposure")
 
 PY
 
 echo ""
 
-echo "[3] Rebuild worker/dashboard containers"
+echo "[1] Rebuild and restart"
 
 docker compose build worker dashboard
 
@@ -277,27 +197,23 @@ docker compose up -d
 
 echo ""
 
-echo "[4] Delegate fresh artifact verification task"
+echo "[2] Create fresh delegated task"
 
 curl -s -X POST http://localhost:3000/api/delegate-task \
 
   -H "Content-Type: application/json" \
 
-  -d '{"title":"Create a short artifact proof for Moonrise Bakery showing a headline, tagline, and three section ideas.","task":"Create a short artifact proof for Moonrise Bakery showing a headline, tagline, and three section ideas."}' \
+  -d '{"title":"Create a real artifact proof for Moonrise Bakery with headline, tagline, and three section ideas.","task":"Create a real artifact proof for Moonrise Bakery with headline, tagline, and three section ideas."}' \
 
   | python3 -m json.tool || true
 
-echo ""
-
-echo "[5] Give worker time to claim/complete"
-
-sleep 8
+sleep 10
 
 echo ""
 
-echo "[6] Verify /api/tasks exposes artifact metadata"
+echo "[3] Verify artifact metadata"
 
-curl -s http://localhost:3000/api/tasks > /tmp/phase719-artifact-api-tasks.json
+curl -s http://localhost:3000/api/tasks > /tmp/phase719-real-artifact-tasks.json
 
 python3 - << 'PY'
 
@@ -305,7 +221,7 @@ import json
 
 from pathlib import Path
 
-data = json.loads(Path("/tmp/phase719-artifact-api-tasks.json").read_text())
+data = json.loads(Path("/tmp/phase719-real-artifact-tasks.json").read_text())
 
 tasks = data.get("tasks", [])
 
@@ -319,41 +235,41 @@ if not tasks:
 
 task = tasks[0]
 
+artifact = task.get("artifact")
+
 print("task_id:", task.get("task_id"))
 
 print("status:", task.get("status"))
 
-print("artifact:", json.dumps(task.get("artifact"), indent=2))
+print("artifact:", json.dumps(artifact, indent=2))
 
-print("artifacts:", json.dumps(task.get("artifacts"), indent=2))
+if not artifact:
 
-artifact = task.get("artifact") or {}
+    raise SystemExit("Artifact metadata missing from latest task.")
 
 artifact_path = artifact.get("path")
 
-if artifact_path:
+if not artifact_path:
 
-    p = Path(artifact_path)
+    raise SystemExit("Artifact path missing.")
 
-    print("artifact_path_exists:", p.exists())
+p = Path(artifact_path)
 
-    print("artifact_size:", p.stat().st_size if p.exists() else None)
+print("artifact_path_exists:", p.exists())
 
-    if p.exists():
+if not p.exists():
 
-        print("artifact_preview:")
+    raise SystemExit("Artifact file does not exist at recorded path.")
 
-        print(p.read_text(errors="ignore")[:1200])
+print("artifact_size:", p.stat().st_size)
+
+print("artifact_preview:")
+
+print(p.read_text(errors="ignore")[:1200])
 
 PY
 
 echo ""
 
-echo "[7] Git status"
-
-git status --short
-
-echo ""
-
-echo "===== PHASE 719 REAL ARTIFACT PERSISTENCE PATCH COMPLETE ====="
+echo "===== PHASE 719 REAL ARTIFACT PERSISTENCE VERIFIED ====="
 
