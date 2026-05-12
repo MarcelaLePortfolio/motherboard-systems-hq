@@ -51,7 +51,21 @@
 
     return tasks.map((t) => {
 
-      const title = esc(t.title || t.task_id || t.id || "Untitled task");
+      const rawTitle = String(t.title || t.task_id || t.id || "Untitled task");
+
+      const retryTitleMatch = rawTitle.match(/^(retry differently|requeue)\s+(t_[a-f0-9-]+)$/i);
+
+      const operatorTitle = retryTitleMatch
+
+        ? (retryTitleMatch[1].toLowerCase() === "requeue" ? "Requeue" : "Retry differently")
+
+        : rawTitle;
+
+      const operatorTarget = retryTitleMatch ? retryTitleMatch[2] : "";
+
+      const title = esc(operatorTitle);
+
+      const targetTitle = esc(operatorTarget);
 
       const status = esc(t.status || "unknown");
 
@@ -114,6 +128,8 @@
           <div style="margin-top:4px;color:#94a3b8;font-size:12px;overflow-wrap:anywhere;word-break:break-word;">status=${status} · id=${taskId}</div>
 
           ${updated ? `<div style="margin-top:4px;color:#64748b;font-size:11px;overflow-wrap:anywhere;">updated=${updated}</div>` : ""}
+
+          ${targetTitle ? `<div style="margin-top:4px;color:#64748b;font-size:11px;overflow-wrap:anywhere;">target=${targetTitle}</div>` : ""}
 
           <div style="margin-top:10px;border:1px solid rgba(71,85,105,.55);border-radius:12px;padding:9px;background:rgba(2,6,23,.24);">
 
