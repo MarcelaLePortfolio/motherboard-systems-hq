@@ -49,19 +49,61 @@
 
     }
 
+      const phase718TaskTitleByKey = new Map();
+
+      tasks.forEach((taskForTitle) => {
+
+        const readableTitle = String(taskForTitle.title || taskForTitle.task_title || taskForTitle.task_id || taskForTitle.id || "");
+
+        const keys = [
+
+          taskForTitle.task_id,
+
+          taskForTitle.id,
+
+          taskForTitle.uuid,
+
+          taskForTitle.execution_id
+
+        ].filter(Boolean).map(String);
+
+        keys.forEach((key) => {
+
+          if (key && readableTitle) {
+
+            phase718TaskTitleByKey.set(key, readableTitle);
+
+          }
+
+        });
+
+      });
+
     return tasks.map((t) => {
 
       const rawTitle = String(t.title || t.task_id || t.id || "Untitled task");
 
       const retryTitleMatch = rawTitle.match(/^(retry differently|requeue)\s+(t_[a-f0-9-]+)$/i);
 
-      const operatorTitle = retryTitleMatch
+      const operatorAction = retryTitleMatch
 
         ? (retryTitleMatch[1].toLowerCase() === "requeue" ? "Requeue" : "Retry differently")
 
-        : rawTitle;
+        : "";
 
       const operatorTarget = retryTitleMatch ? retryTitleMatch[2] : "";
+
+      const resolvedTargetTitleRaw = operatorTarget && phase718TaskTitleByKey.has(operatorTarget)
+
+        ? phase718TaskTitleByKey.get(operatorTarget)
+
+        : operatorTarget;
+
+      const operatorTitle = operatorAction && resolvedTargetTitleRaw
+
+        ? `${operatorAction}: ${resolvedTargetTitleRaw}`
+
+        : (operatorAction || rawTitle);
 
       const title = esc(operatorTitle);
 
