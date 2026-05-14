@@ -1,0 +1,18 @@
+RUNTIME HEALTH
+
+TASK_ID
+t_d1efc418-5049-401c-89fe-19eaceb8f784
+
+ARTIFACT PREVIEW ROUTE
+
+ROUTE MARKERS
+94:// GET /api/tasks/:task_id/artifact-preview
+96:router.get("/:task_id/artifact-preview", async (req, res) => {
+174:      return res.status(403).json({ ok: false, error: "artifact_path_rejected" });
+212:    return res.status(500).json({ ok: false, error: "artifact_preview_failed" });
+
+SYNTAX
+
+DASHBOARD LOGS
+[phase25] task_events_emit loaded 2026-05-14T20:31:30.251Z file= file:///app/server/task_events_emit.mjs
+[phase25] api-tasks-postgres loaded 2026-05-14T20:31:30.251Z file= file:///app/server/routes/api-tasks-postgres.mjs
