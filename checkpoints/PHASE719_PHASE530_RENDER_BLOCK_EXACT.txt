@@ -1,0 +1,93 @@
+STATUS
+?? PHASE719_ADD_ARTIFACT_INSPECTION_ENDPOINT.sh
+?? PHASE719_ARTIFACT_VISIBILITY_INSPECT.sh
+?? PHASE719_BACKEND_DIFF_AND_RUNTIME_INSPECT.sh
+?? PHASE719_COMPARE_ROUTE_BASELINES.sh
+?? PHASE719_FIND_STABLE_TASK_API_BASELINE.sh
+?? PHASE719_FULL_DISASTER_RECOVERY_BACKUP.sh
+?? PHASE719_INSPECT_PHASE530_RENDER_BLOCK_EXACT.sh
+?? PHASE719_PATCH_PHASE530_ARTIFACT_LINE.sh
+?? PHASE719_PATCH_RECENT_TASKS_ARTIFACT_METADATA.sh
+?? PHASE719_REMOVE_MALFORMED_INLINE_ARTIFACT_ENDPOINT.sh
+?? PHASE719_REPAIR_ARTIFACT_HELPER_AND_VERIFY.sh
+?? PHASE719_REPAIR_INLINE_ARTIFACT_HELPER_AND_VERIFY.sh
+?? PHASE719_VERIFY_AND_COMMIT_ARTIFACT_PATCH.sh
+?? PHASE719_VERIFY_EXISTING_ARTIFACT_AND_COMMIT.sh
+?? checkpoints/PHASE719_BACKEND_DIFF_BEFORE_UI.patch
+?? checkpoints/PHASE719_FRONTEND_ARTIFACT_UI_INSPECTION.txt
+?? checkpoints/PHASE719_FRONTEND_ARTIFACT_UI_INSPECTION_NOTE.md
+?? checkpoints/PHASE719_PHASE530_PRE_ARTIFACT_LINE.js
+?? checkpoints/PHASE719_PHASE530_RENDER_BLOCK_EXACT.txt
+?? checkpoints/PHASE719_ROUTE_BASELINE_COMPARISON.txt
+?? checkpoints/PHASE719_STABLE_TASK_API_BASELINE_SEARCH.txt
+?? checkpoints/PHASE719_phase530_visible_panels_bridge_PRE_ARTIFACT_METADATA.js
+
+SYNTAX
+
+RENDER BLOCK LINES 178-240
+   178	      return `
+   179	
+   180	        <article data-phase716-contained-task="true" data-phase717-execution-card="true" style="display:block;width:100%;min-width:0;max-width:100%;box-sizing:border-box;border:1px solid rgba(148,163,184,.24);border-radius:14px;padding:12px;margin:0 0 12px 0;background:rgba(15,23,42,.74);overflow:hidden;">
+   181	
+   182	          <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:8px;min-width:0;">
+   183	
+   184	            <div style="font-weight:600;color:#e5e7eb;overflow-wrap:anywhere;word-break:break-word;min-width:0;">${title}</div>
+   185	
+   186	            <div style="flex:0 0 auto;color:#93c5fd;border:1px solid rgba(147,197,253,.35);border-radius:999px;padding:2px 7px;font-size:10px;line-height:1.4;background:rgba(30,64,175,.18);">lifecycle</div>
+   187	
+   188	            ${executionStrategy ? `<div style="flex:0 0 auto;color:#c4b5fd;border:1px solid rgba(196,181,253,.35);border-radius:999px;padding:2px 7px;font-size:10px;line-height:1.4;background:rgba(88,28,135,.18);">strategy: ${executionStrategy}</div>` : ""}
+   189	
+   190	            ${retryOf ? `<div style="flex:0 0 auto;color:#fcd34d;border:1px solid rgba(252,211,77,.35);border-radius:999px;padding:2px 7px;font-size:10px;line-height:1.4;background:rgba(120,53,15,.18);">retry of: ${retryOf}</div>` : ""}
+   191	
+   192	            ${triageLabel ? `<div style="flex:0 0 auto;color:#86efac;border:1px solid rgba(134,239,172,.35);border-radius:999px;padding:2px 7px;font-size:10px;line-height:1.4;background:rgba(22,101,52,.18);">${triageLabel}</div>` : ""}
+   193	
+   194	          </div>
+   195	            ${""}
+   196	
+   197	          ${""}
+   198	
+   199	          ${""}
+   200	
+   201	          <div style="margin-top:10px;border:1px solid rgba(71,85,105,.55);border-radius:12px;padding:9px;background:rgba(2,6,23,.24);">
+   202	
+   203	            <div style="color:#cbd5e1;font-size:11px;font-weight:700;margin-bottom:7px;letter-spacing:.02em;">Operator actions</div>
+   204	
+   205	            <div style="display:flex;flex-wrap:wrap;gap:7px;align-items:center;">
+   206	
+   207	              <button type="button" data-phase717-requeue="true" data-task-id="${taskId}" data-task-title="${title}" title="Explicit operator action: requeue this task" style="cursor:pointer;border:1px solid rgba(148,163,184,.35);background:rgba(15,23,42,.8);color:#cbd5e1;border-radius:8px;padding:5px 8px;font-size:11px;">Requeue</button>
+   208	
+   209	              <button type="button" data-phase717-retry-differently="true" data-task-id="${taskId}" data-task-title="${title}" title="Explicit operator action: retry this task differently" style="cursor:pointer;border:1px solid rgba(96,165,250,.45);background:rgba(30,41,59,.92);color:#dbeafe;border-radius:8px;padding:5px 8px;font-size:11px;">Retry differently</button>
+   210	
+   211	            </div>
+   212	
+   213	          </div>
+   214	
+   215	          ${outcome ? "" : ""}
+   216	
+   217	          ${explanation ? `<button type="button" data-phase717-inspect-details="true" data-phase717-inspect-title="${title} — Details" data-phase717-inspect-content="${explanation}" style="margin-top:10px;cursor:pointer;border:1px solid rgba(147,197,253,.35);background:rgba(30,64,175,.14);color:#93c5fd;border-radius:999px;padding:4px 9px;font-size:11px;">Inspect details</button>` : ""}
+   218	
+   219	          ${traceJson ? `<button type="button" data-phase717-inspect-trace="true" data-phase717-inspect-title="${title} — Advanced trace" data-phase717-inspect-content="${traceJson}" style="margin-top:10px;margin-left:6px;cursor:pointer;border:1px solid rgba(251,191,36,.38);background:rgba(120,53,15,.14);color:#fbbf24;border-radius:999px;padding:4px 9px;font-size:11px;">Inspect trace</button>` : ""}
+   220	
+   221	          ${logContent ? `<button type="button" data-phase717-inspect-logs="true" data-phase717-inspect-title="${title} — Logs" data-phase717-inspect-content="${logContent}" style="margin-top:10px;margin-left:6px;cursor:pointer;border:1px solid rgba(45,212,191,.38);background:rgba(20,83,45,.14);color:#5eead4;border-radius:999px;padding:4px 9px;font-size:11px;">Inspect logs</button>` : ""}
+   222	
+   223	        </article>
+   224	
+   225	      `;
+   226	
+   227	    }).join("");
+   228	
+   229	  }
+   230	
+   231	
+   232	  function renderRecent(tasks) {
+   233	    const recentTasks = document.getElementById("recentTasks");
+   234	    const recentLogs = document.getElementById("recentLogs");
+   235	    const recentCard = document.getElementById("recent-tasks-card");
+   236	
+   237	    if (recentCard) {
+   238	      recentCard.style.display = "block";
+   239	      recentCard.style.minHeight = "0";
+   240	      recentCard.style.height = "100%";
+
+ARTIFACT VAR PRESENCE
+581:          meta: { retry_of_task_id: taskId },
