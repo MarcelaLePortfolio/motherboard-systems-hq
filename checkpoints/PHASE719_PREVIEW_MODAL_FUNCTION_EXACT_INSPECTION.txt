@@ -1,0 +1,141 @@
+BRANCH
+phase719-artifact-visibility
+
+HEAD
+aa359457 (HEAD -> phase719-artifact-visibility, origin/phase719-artifact-visibility) Phase 719: checkpoint before rendered modal fetch
+3a3308a6 Phase 719: attach worker artifact volume by line patch
+887cfb8a Phase 719: inspect compose worker block before volume fix
+8721735d Phase 719: minimally validate artifact volume with new task
+198ecabb Phase 719: share artifact volume with dashboard
+
+PREVIEW MODAL FUNCTION LINES
+   740	
+   741	    document.body.appendChild(modal);
+   742	
+   743	    modal.addEventListener("click", function (event) {
+   744	
+   745	      if (event.target === modal || event.target.closest("[data-phase719-preview-close]")) {
+   746	
+   747	        modal.style.display = "none";
+   748	
+   749	      }
+   750	
+   751	    });
+   752	
+   753	    document.addEventListener("keydown", function (event) {
+   754	
+   755	      if (event.key === "Escape" && modal.style.display !== "none") {
+   756	
+   757	        modal.style.display = "none";
+   758	
+   759	      }
+   760	
+   761	    });
+   762	
+   763	    return modal;
+   764	
+   765	  }
+   766	
+   767	  function phase719OpenPreviewModal(button) {
+   768	
+   769	    const modal = phase719EnsurePreviewModal();
+   770	
+   771	    const title = modal.querySelector("#phase719-preview-title");
+   772	
+   773	    const subtitle = modal.querySelector("#phase719-preview-subtitle");
+   774	
+   775	    const meta = modal.querySelector("#phase719-preview-meta");
+   776	
+   777	    const body = modal.querySelector("#phase719-preview-body");
+   778	
+   779	    const taskTitle = button.getAttribute("data-task-title") || "Artifact Preview";
+   780	
+   781	    const taskId = button.getAttribute("data-task-id") || "";
+   782	
+   783	    const name = button.getAttribute("data-artifact-name") || "artifact";
+   784	
+   785	    const type = button.getAttribute("data-artifact-type") || "artifact";
+   786	
+   787	    const size = button.getAttribute("data-artifact-size") || "";
+   788	
+   789	    const path = button.getAttribute("data-artifact-path") || "";
+   790	
+   791	    const outcome = button.getAttribute("data-artifact-outcome") || "";
+   792	
+   793	    const explanation = button.getAttribute("data-artifact-explanation") || "";
+   794	
+   795	    title.textContent = "Preview: " + taskTitle;
+   796	
+   797	    subtitle.textContent = taskId ? "task_id: " + taskId : "";
+   798	
+   799	    meta.textContent = [
+   800	
+   801	      "artifact: " + name,
+   802	
+   803	      type ? "type: " + type : "",
+   804	
+   805	      size ? "size: " + size : "",
+   806	
+   807	      path ? "path: " + path : ""
+   808	
+   809	    ].filter(Boolean).join("\n");
+   810	
+   811	    body.textContent = [
+   812	
+   813	      outcome ? "Outcome:\n" + outcome : "",
+   814	
+   815	      explanation ? "Explanation:\n" + explanation : "",
+   816	
+   817	      !outcome && !explanation ? "Artifact metadata is available. File content preview is not wired yet." : ""
+   818	
+   819	    ].filter(Boolean).join("\n\n");
+   820	
+   821	    modal.style.display = "flex";
+   822	
+   823	  }
+   824	
+   825	  document.addEventListener("click", function (event) {
+   826	
+   827	    const button = event.target.closest("[data-phase719-preview-artifact]");
+   828	
+   829	    if (!button) return;
+   830	
+   831	    event.preventDefault();
+   832	
+   833	    phase719OpenPreviewModal(button);
+   834	
+   835	  });
+
+PREVIEW MODAL MARKERS
+191:            ${artifactRaw ? `<button type="button" data-phase719-preview-artifact="true" data-task-id="${taskId}" data-task-title="${title}" data-artifact-name="${artifactName}" data-artifact-type="${artifactType}" data-artifact-size="${artifactSize}" data-artifact-path="${artifactPath}" data-artifact-outcome="${outcome}" data-artifact-explanation="${explanation}" title="Preview completed artifact" style="flex:0 0 auto;cursor:pointer;color:#93c5fd;border:1px solid rgba(147,197,253,.35);border-radius:999px;padding:2px 7px;font-size:10px;line-height:1.4;background:rgba(30,64,175,.18);">Preview</button>` : ""}
+735:        <pre id="phase719-preview-body" style="white-space:pre-wrap;overflow-wrap:anywhere;font-size:12px;line-height:1.55;color:#dbeafe;border:1px solid rgba(96,165,250,.24);background:rgba(15,23,42,.65);border-radius:12px;padding:12px;margin:0;"></pre>
+767:  function phase719OpenPreviewModal(button) {
+777:    const body = modal.querySelector("#phase719-preview-body");
+791:    const outcome = button.getAttribute("data-artifact-outcome") || "";
+793:    const explanation = button.getAttribute("data-artifact-explanation") || "";
+817:      !outcome && !explanation ? "Artifact metadata is available. File content preview is not wired yet." : ""
+
+SYNTAX
+
+RUNTIME HEALTH
+HTTP/1.1 200 OK
+X-Powered-By: Express
+Content-Type: application/json; charset=utf-8
+Content-Length: 11
+ETag: W/"b-Ai2R8hgEarLmHKwesT1qcY913ys"
+Date: Thu, 14 May 2026 20:53:35 GMT
+Connection: keep-alive
+Keep-Alive: timeout=5
+
+{"ok":true}
+PREVIEW ROUTE SAMPLE
+HTTP/1.1 200 OK
+X-Powered-By: Express
+Content-Type: application/json; charset=utf-8
+Content-Length: 795
+ETag: W/"31b-V+pRnp3jHaeC5biMmDFnKUJ3du0"
+Date: Thu, 14 May 2026 20:53:35 GMT
+Connection: keep-alive
+Keep-Alive: timeout=5
+
+{"ok":true,"task_id":"t_3e163cb2-999d-4cdb-b618-baad85cff46c","artifact":{"filename":"t_3e163cb2-999d-4cdb-b618-baad85cff46c_run_88553a17-08b0-47f8-9d0c-6a29fe6e6042.md","type":"markdown","size_bytes":496,"created_at":"2026-05-14T20:47:37.082Z"},"content":"# Task Artifact\n\n## Task\nPhase 719 worker shared artifact volume validation after line patch\n\n## Status\ncompleted\n\n## Outcome\nStandard execution prepared for: Phase 719 worker shared artifact volume validation after line patch\n\n## Explanation\nstandard execution path\n\n## Execution Trace\n```json\n{\n  \"task_id\": \"t_3e163cb2-999d-4cdb-b618-baad85cff46c\",\n  \"run_id\": \"run_88553a17-08b0-47f8-9d0c-6a29fe6e6042\",\n  \"strategy_applied\": \"default\",\n  \"execution_meta\": {},\n  \"compiler_options\": {}\n}\n```\n"}
