@@ -1,0 +1,51 @@
+RUNTIME HEALTH
+HTTP/1.1 200 OK
+X-Powered-By: Express
+Content-Type: application/json; charset=utf-8
+Content-Length: 11
+ETag: W/"b-Ai2R8hgEarLmHKwesT1qcY913ys"
+Date: Thu, 14 May 2026 20:54:46 GMT
+Connection: keep-alive
+Keep-Alive: timeout=5
+
+{"ok":true}
+PREVIEW ROUTE SAMPLE
+HTTP/1.1 200 OK
+X-Powered-By: Express
+Content-Type: application/json; charset=utf-8
+Content-Length: 795
+ETag: W/"31b-V+pRnp3jHaeC5biMmDFnKUJ3du0"
+Date: Thu, 14 May 2026 20:54:46 GMT
+Connection: keep-alive
+Keep-Alive: timeout=5
+
+{"ok":true,"task_id":"t_3e163cb2-999d-4cdb-b618-baad85cff46c","artifact":{"filename":"t_3e163cb2-999d-4cdb-b618-baad85cff46c_run_88553a17-08b0-47f8-9d0c-6a29fe6e6042.md","type":"markdown","size_bytes":496,"created_at":"2026-05-14T20:47:37.082Z"},"content":"# Task Artifact\n\n## Task\nPhase 719 worker shared artifact volume validation after line patch\n\n## Status\ncompleted\n\n## Outcome\nStandard execution prepared for: Phase 719 worker shared artifact volume validation after line patch\n\n## Explanation\nstandard execution path\n\n## Execution Trace\n```json\n{\n  \"task_id\": \"t_3e163cb2-999d-4cdb-b618-baad85cff46c\",\n  \"run_id\": \"run_88553a17-08b0-47f8-9d0c-6a29fe6e6042\",\n  \"strategy_applied\": \"default\",\n  \"execution_meta\": {},\n  \"compiler_options\": {}\n}\n```\n"}
+STATIC JS FETCH MARKERS
+767:  async function phase719OpenPreviewModal(button) {
+811:    body.textContent = "Loading rendered artifact preview…";
+825:      const res = await fetch(`/api/tasks/${encodeURIComponent(taskId)}/artifact-preview`, { cache: "no-store" });
+833:          "Rendered artifact content is not available.",
+875:        "Preview fetch failed.",
+
+DASHBOARD LOGS
+[phase25] task_events_emit loaded 2026-05-14T20:54:41.509Z file= file:///app/server/task_events_emit.mjs
+[phase25] api-tasks-postgres loaded 2026-05-14T20:54:41.509Z file= file:///app/server/routes/api-tasks-postgres.mjs
+[phase615] scheduler disabled
+✅ Dashboard live on port 3000
+Execution Inspector now wired to real task pipeline
+[phase57c-router] /api/tasks probe {
+  originalUrl: '/api/tasks?limit=50',
+  baseUrl: '/api/tasks',
+  path: '/',
+  referer: 'http://localhost:3000/',
+  userAgent: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/148.0.0.0 Safari/537.36',
+  accept: '*/*'
+}
+[phase57c-router] /api/tasks probe {
+  originalUrl: '/api/tasks?limit=12',
+  baseUrl: '/api/tasks',
+  path: '/',
+  referer: 'http://localhost:3000/',
+  userAgent: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/148.0.0.0 Safari/537.36',
+  accept: '*/*'
+}

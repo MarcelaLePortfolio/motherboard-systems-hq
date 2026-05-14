@@ -764,7 +764,7 @@
 
   }
 
-  async function phase719OpenPreviewModal(button) {
+  function phase719OpenPreviewModal(button) {
 
     const modal = phase719EnsurePreviewModal();
 
@@ -780,17 +780,17 @@
 
     const taskId = button.getAttribute("data-task-id") || "";
 
-    const fallbackName = button.getAttribute("data-artifact-name") || "artifact";
+    const name = button.getAttribute("data-artifact-name") || "artifact";
 
-    const fallbackType = button.getAttribute("data-artifact-type") || "artifact";
+    const type = button.getAttribute("data-artifact-type") || "artifact";
 
-    const fallbackSize = button.getAttribute("data-artifact-size") || "";
+    const size = button.getAttribute("data-artifact-size") || "";
 
-    const fallbackPath = button.getAttribute("data-artifact-path") || "";
+    const path = button.getAttribute("data-artifact-path") || "";
 
-    const fallbackOutcome = button.getAttribute("data-artifact-outcome") || "";
+    const outcome = button.getAttribute("data-artifact-outcome") || "";
 
-    const fallbackExplanation = button.getAttribute("data-artifact-explanation") || "";
+    const explanation = button.getAttribute("data-artifact-explanation") || "";
 
     title.textContent = "Preview: " + taskTitle;
 
@@ -798,94 +798,29 @@
 
     meta.textContent = [
 
-      "artifact: " + fallbackName,
+      "artifact: " + name,
 
-      fallbackType ? "type: " + fallbackType : "",
+      type ? "type: " + type : "",
 
-      fallbackSize ? "size: " + fallbackSize : "",
+      size ? "size: " + size : "",
 
-      fallbackPath ? "path: " + fallbackPath : ""
+      path ? "path: " + path : ""
 
     ].filter(Boolean).join("\n");
 
-    body.textContent = "Loading rendered artifact preview…";
+    body.textContent = [
+
+      outcome ? "Outcome:\n" + outcome : "",
+
+      explanation ? "Explanation:\n" + explanation : "",
+
+      !outcome && !explanation ? "Artifact metadata is available. File content preview is not wired yet." : ""
+
+    ].filter(Boolean).join("\n\n");
 
     modal.style.display = "flex";
 
-    if (!taskId) {
-
-      body.textContent = "No task id available for artifact preview.";
-
-      return;
-
-    }
-
-    try {
-
-      const res = await fetch(`/api/tasks/${encodeURIComponent(taskId)}/artifact-preview`, { cache: "no-store" });
-
-      const data = await res.json().catch(() => null);
-
-      if (!res.ok || !data || data.ok !== true) {
-
-        body.textContent = [
-
-          "Rendered artifact content is not available.",
-
-          data && data.error ? "Error: " + data.error : "",
-
-          fallbackOutcome ? "\nOutcome:\n" + fallbackOutcome : "",
-
-          fallbackExplanation ? "\nExplanation:\n" + fallbackExplanation : ""
-
-        ].filter(Boolean).join("\n");
-
-        return;
-
-      }
-
-      const artifact = data.artifact || {};
-
-      const renderedName = artifact.filename || fallbackName;
-
-      const renderedType = artifact.type || fallbackType;
-
-      const renderedSize = artifact.size_bytes ? String(artifact.size_bytes) + " bytes" : fallbackSize;
-
-      const renderedCreated = artifact.created_at || "";
-
-      meta.textContent = [
-
-        "artifact: " + renderedName,
-
-        renderedType ? "type: " + renderedType : "",
-
-        renderedSize ? "size: " + renderedSize : "",
-
-        renderedCreated ? "created: " + renderedCreated : ""
-
-      ].filter(Boolean).join("\n");
-
-      body.textContent = data.content || "Artifact file was loaded, but it contained no previewable content.";
-
-    } catch (error) {
-
-      body.textContent = [
-
-        "Preview fetch failed.",
-
-        error && error.message ? error.message : String(error),
-
-        fallbackOutcome ? "\nOutcome:\n" + fallbackOutcome : "",
-
-        fallbackExplanation ? "\nExplanation:\n" + fallbackExplanation : ""
-
-      ].filter(Boolean).join("\n");
-
-    }
-
   }
-
 
   document.addEventListener("click", function (event) {
 
