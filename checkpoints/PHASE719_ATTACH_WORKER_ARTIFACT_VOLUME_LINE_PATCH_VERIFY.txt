@@ -1,0 +1,172 @@
+RUNTIME HEALTH
+HTTP/1.1 200 OK
+X-Powered-By: Express
+Content-Type: application/json; charset=utf-8
+Content-Length: 11
+ETag: W/"b-Ai2R8hgEarLmHKwesT1qcY913ys"
+Date: Thu, 14 May 2026 20:47:41 GMT
+Connection: keep-alive
+Keep-Alive: timeout=5
+
+{"ok":true}
+TASK_ID
+t_3e163cb2-999d-4cdb-b618-baad85cff46c
+
+DASHBOARD ARTIFACT FILES
+/app/data/artifacts/t_3e163cb2-999d-4cdb-b618-baad85cff46c_run_88553a17-08b0-47f8-9d0c-6a29fe6e6042.md
+
+WORKER ARTIFACT FILES
+/app/data/artifacts/t_3e163cb2-999d-4cdb-b618-baad85cff46c_run_88553a17-08b0-47f8-9d0c-6a29fe6e6042.md
+
+ARTIFACT PREVIEW ROUTE
+HTTP/1.1 200 OK
+X-Powered-By: Express
+Content-Type: application/json; charset=utf-8
+Content-Length: 795
+ETag: W/"31b-V+pRnp3jHaeC5biMmDFnKUJ3du0"
+Date: Thu, 14 May 2026 20:47:41 GMT
+Connection: keep-alive
+Keep-Alive: timeout=5
+
+{"ok":true,"task_id":"t_3e163cb2-999d-4cdb-b618-baad85cff46c","artifact":{"filename":"t_3e163cb2-999d-4cdb-b618-baad85cff46c_run_88553a17-08b0-47f8-9d0c-6a29fe6e6042.md","type":"markdown","size_bytes":496,"created_at":"2026-05-14T20:47:37.082Z"},"content":"# Task Artifact\n\n## Task\nPhase 719 worker shared artifact volume validation after line patch\n\n## Status\ncompleted\n\n## Outcome\nStandard execution prepared for: Phase 719 worker shared artifact volume validation after line patch\n\n## Explanation\nstandard execution path\n\n## Execution Trace\n```json\n{\n  \"task_id\": \"t_3e163cb2-999d-4cdb-b618-baad85cff46c\",\n  \"run_id\": \"run_88553a17-08b0-47f8-9d0c-6a29fe6e6042\",\n  \"strategy_applied\": \"default\",\n  \"execution_meta\": {},\n  \"compiler_options\": {}\n}\n```\n"}
+COMPOSE MARKERS
+8:    volumes:
+18:  dashboard:
+33:    volumes:
+34:      - guidance_data:/app/data
+35:      - worker_artifacts:/app/data/artifacts:ro
+37:  worker:
+45:    volumes:
+46:      - worker_artifacts:/app/data/artifacts
+51:volumes:
+53:  guidance_data:
+55:  worker_artifacts:
+
+DASHBOARD LOGS
+[phase25] task_events_emit loaded 2026-05-14T20:47:27.089Z file= file:///app/server/task_events_emit.mjs
+[phase25] api-tasks-postgres loaded 2026-05-14T20:47:27.089Z file= file:///app/server/routes/api-tasks-postgres.mjs
+[phase615] scheduler disabled
+✅ Dashboard live on port 3000
+Execution Inspector now wired to real task pipeline
+[phase57c-router] /api/tasks probe {
+  originalUrl: '/api/tasks?limit=50',
+  baseUrl: '/api/tasks',
+  path: '/',
+  referer: 'http://localhost:3000/',
+  userAgent: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/148.0.0.0 Safari/537.36',
+  accept: '*/*'
+}
+[phase25] /api/tasks/create pool snapshot {
+  hasLocal: true,
+  localType: 'BoundPool',
+  hasGlobal: true,
+  globalType: 'BoundPool'
+}
+[phase57c-router] /api/tasks probe {
+  originalUrl: '/api/tasks?limit=50',
+  baseUrl: '/api/tasks',
+  path: '/',
+  referer: 'http://localhost:3000/',
+  userAgent: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/148.0.0.0 Safari/537.36',
+  accept: '*/*'
+}
+[phase57c-router] /api/tasks probe {
+  originalUrl: '/api/tasks?limit=12',
+  baseUrl: '/api/tasks',
+  path: '/',
+  referer: 'http://localhost:3000/',
+  userAgent: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/148.0.0.0 Safari/537.36',
+  accept: '*/*'
+}
+[phase25] emitTaskEvent ENTER {
+  ts: 1778791653076,
+  kind: 'task.created',
+  task_id: 't_3e163cb2-999d-4cdb-b618-baad85cff46c',
+  hasGlobal: true,
+  globalType: 'BoundPool'
+}
+[phase25] emitTaskEvent BEFORE CHECK {
+  hasArg: true,
+  hasGlobal: true,
+  globalType: 'BoundPool',
+  argType: 'BoundPool'
+}
+[phase25] emitTaskEvent pool {
+  arg: true,
+  argType: 'BoundPool',
+  hasGlobal: true,
+  globalType: 'BoundPool'
+}
+[phase57c-router] /api/tasks probe {
+  originalUrl: '/api/tasks?limit=50',
+  baseUrl: '/api/tasks',
+  path: '/',
+  referer: 'http://localhost:3000/',
+  userAgent: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/148.0.0.0 Safari/537.36',
+  accept: '*/*'
+}
+
+WORKER LOGS
+[phase25] task_events_emit loaded 2026-05-14T20:47:27.038Z file= file:///app/server/task_events_emit.mjs
+[worker] resolved sql contracts: { phase: '32', count: 3 }
+[worker] contract: phase32_claim_one.sql
+[worker] contract: phase32_mark_failure.sql
+[worker] contract: phase32_mark_success.sql
+[worker] started with POSTGRES_URL: postgresql://postgres:postgres@postgres:5432/postgres
+[worker] running in phase: 32
+[worker] owner: worker-171565ca-53d0-4ae5-a2ba-57442843f6f0
+[worker] claimed task {
+  id: '5',
+  task_id: 't_3e163cb2-999d-4cdb-b618-baad85cff46c',
+  status: 'running',
+  run_id: 'run_88553a17-08b0-47f8-9d0c-6a29fe6e6042',
+  claimed_by: 'worker-171565ca-53d0-4ae5-a2ba-57442843f6f0'
+}
+[worker][execution-policy] {
+  task_id: 't_3e163cb2-999d-4cdb-b618-baad85cff46c',
+  is_retry: false,
+  execution_mode: 'standard',
+  cache_policy: 'reuse',
+  memory_scope: 'preserve',
+  requires_context_rebuild: false,
+  requires_cache_bypass: false,
+  requires_memory_scope_reset: false
+}
+[worker][execution-contract] {
+  task_id: 't_3e163cb2-999d-4cdb-b618-baad85cff46c',
+  strategy_applied: 'default',
+  notes: 'standard execution path',
+  output: 'Standard execution prepared for: Phase 719 worker shared artifact volume validation after line patch'
+}
+[worker][response-compiler] {
+  task_id: 't_3e163cb2-999d-4cdb-b618-baad85cff46c',
+  outcome_preview: 'Standard execution prepared for: Phase 719 worker shared artifact volume validation after line patch',
+  explanation_preview: 'standard execution path'
+}
+[worker] completed task {
+  id: '5',
+  task_id: 't_3e163cb2-999d-4cdb-b618-baad85cff46c',
+  status: 'completed',
+  run_id: 'run_88553a17-08b0-47f8-9d0c-6a29fe6e6042',
+  claimed_by: 'worker-171565ca-53d0-4ae5-a2ba-57442843f6f0',
+  completed_at: 2026-05-14T20:47:37.081Z
+}
+[phase25] emitTaskEvent ENTER {
+  ts: 1778791657082,
+  kind: 'task.completed',
+  task_id: 't_3e163cb2-999d-4cdb-b618-baad85cff46c',
+  hasGlobal: false,
+  globalType: undefined
+}
+[phase25] emitTaskEvent BEFORE CHECK {
+  hasArg: true,
+  hasGlobal: false,
+  globalType: undefined,
+  argType: 'BoundPool'
+}
+[phase25] emitTaskEvent pool {
+  arg: true,
+  argType: 'BoundPool',
+  hasGlobal: false,
+  globalType: undefined
+}

@@ -42,8 +42,6 @@ services:
     depends_on:
       postgres:
         condition: service_healthy
-    volumes:
-      - worker_artifacts:/app/data/artifacts
     environment:
       - POSTGRES_URL=postgresql://postgres:postgres@postgres:5432/postgres
       - DATABASE_URL=postgresql://postgres:postgres@postgres:5432/postgres

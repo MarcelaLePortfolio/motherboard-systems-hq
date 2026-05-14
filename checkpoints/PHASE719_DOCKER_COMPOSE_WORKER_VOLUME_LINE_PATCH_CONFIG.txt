@@ -1,0 +1,98 @@
+name: motherboard_systems_hq
+services:
+  dashboard:
+    build:
+      context: /Users/marcela-dev/Projects/Motherboard_Systems_HQ
+      dockerfile: Dockerfile.dashboard
+    command:
+      - node
+      - server.js
+    depends_on:
+      postgres:
+        condition: service_healthy
+        required: true
+    environment:
+      DATABASE_URL: postgresql://postgres:postgres@postgres:5432/postgres
+      POSTGRES_URL: postgresql://postgres:postgres@postgres:5432/postgres
+      SYSTEM_SCHEDULER_ENABLED: "false"
+      SYSTEM_SCHEDULER_INTERVAL_MS: "60000"
+    networks:
+      default: null
+    ports:
+      - mode: ingress
+        target: 3000
+        published: "3000"
+        protocol: tcp
+    volumes:
+      - type: volume
+        source: guidance_data
+        target: /app/data
+        volume: {}
+      - type: volume
+        source: worker_artifacts
+        target: /app/data/artifacts
+        read_only: true
+        volume: {}
+  postgres:
+    environment:
+      POSTGRES_DB: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_USER: postgres
+    healthcheck:
+      test:
+        - CMD-SHELL
+        - pg_isready -U postgres -d postgres
+      timeout: 5s
+      interval: 2s
+      retries: 30
+    image: postgres:16-alpine
+    networks:
+      default: null
+    volumes:
+      - type: volume
+        source: pgdata
+        target: /var/lib/postgresql/data
+        volume: {}
+      - type: bind
+        source: /Users/marcela-dev/Projects/Motherboard_Systems_HQ/docker-entrypoint-initdb.d
+        target: /docker-entrypoint-initdb.d
+        read_only: true
+        bind:
+          create_host_path: true
+      - type: bind
+        source: /Users/marcela-dev/Projects/Motherboard_Systems_HQ/migrations
+        target: /migrations
+        read_only: true
+        bind:
+          create_host_path: true
+  worker:
+    build:
+      context: /Users/marcela-dev/Projects/Motherboard_Systems_HQ
+      dockerfile: Dockerfile
+    command:
+      - node
+      - server/worker/phase26_task_worker.mjs
+    depends_on:
+      postgres:
+        condition: service_healthy
+        required: true
+    environment:
+      DATABASE_URL: postgresql://postgres:postgres@postgres:5432/postgres
+      POSTGRES_URL: postgresql://postgres:postgres@postgres:5432/postgres
+    networks:
+      default: null
+    volumes:
+      - type: volume
+        source: worker_artifacts
+        target: /app/data/artifacts
+        volume: {}
+networks:
+  default:
+    name: motherboard_systems_hq_default
+volumes:
+  guidance_data:
+    name: motherboard_systems_hq_guidance_data
+  pgdata:
+    name: motherboard_systems_hq_pgdata
+  worker_artifacts:
+    name: motherboard_systems_hq_worker_artifacts
