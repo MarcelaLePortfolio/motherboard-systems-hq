@@ -1,0 +1,43 @@
+PHASE 719 PRE RENDERED MODAL FETCH BACKUP
+
+Timestamp:
+Thu May 14 13:50:34 PDT 2026
+
+Branch:
+phase719-artifact-visibility
+
+HEAD:
+3a3308a6 (HEAD -> phase719-artifact-visibility, origin/phase719-artifact-visibility) Phase 719: attach worker artifact volume by line patch
+887cfb8a Phase 719: inspect compose worker block before volume fix
+8721735d Phase 719: minimally validate artifact volume with new task
+198ecabb Phase 719: share artifact volume with dashboard
+6cf54bdb Phase 719: inspect artifact file location mismatch
+
+Runtime health:
+{"ok":true}
+Preview route sample:
+HTTP/1.1 200 OK
+X-Powered-By: Express
+Content-Type: application/json; charset=utf-8
+Content-Length: 795
+ETag: W/"31b-V+pRnp3jHaeC5biMmDFnKUJ3du0"
+Date: Thu, 14 May 2026 20:50:34 GMT
+Connection: keep-alive
+Keep-Alive: timeout=5
+
+{"ok":true,"task_id":"t_3e163cb2-999d-4cdb-b618-baad85cff46c","artifact":{"filename":"t_3e163cb2-999d-4cdb-b618-baad85cff46c_run_88553a17-08b0-47f8-9d0c-6a29fe6e6042.md","type":"markdown","size_bytes":496,"created_at":"2026-05-14T20:47:37.082Z"},"content":"# Task Artifact\n\n## Task\nPhase 719 worker shared artifact volume validation after line patch\n\n## Status\ncompleted\n\n## Outcome\nStandard execution prepared for: Phase 719 worker shared artifact volume validation after line patch\n\n## Explanation\nstandard execution path\n\n## Execution Trace\n```json\n{\n  \"task_id\": \"t_3e163cb2-999d-4cdb-b618-baad85cff46c\",\n  \"run_id\": \"run_88553a17-08b0-47f8-9d0c-6a29fe6e6042\",\n  \"strategy_applied\": \"default\",\n  \"execution_meta\": {},\n  \"compiler_options\": {}\n}\n```\n"}
+Frontend preview modal markers:
+191:            ${artifactRaw ? `<button type="button" data-phase719-preview-artifact="true" data-task-id="${taskId}" data-task-title="${title}" data-artifact-name="${artifactName}" data-artifact-type="${artifactType}" data-artifact-size="${artifactSize}" data-artifact-path="${artifactPath}" data-artifact-outcome="${outcome}" data-artifact-explanation="${explanation}" title="Preview completed artifact" style="flex:0 0 auto;cursor:pointer;color:#93c5fd;border:1px solid rgba(147,197,253,.35);border-radius:999px;padding:2px 7px;font-size:10px;line-height:1.4;background:rgba(30,64,175,.18);">Preview</button>` : ""}
+705:    let modal = document.getElementById("phase719-preview-modal");
+711:    modal.id = "phase719-preview-modal";
+767:  function phase719OpenPreviewModal(button) {
+827:    const button = event.target.closest("[data-phase719-preview-artifact]");
+833:    phase719OpenPreviewModal(button);
+
+Next mutation:
+- Replace placeholder preview modal content with fetched rendered artifact content
+- Preserve read-only boundary
+- Preserve Details/Trace/Logs separation
+- No retry/execution contract changes
+- No DB schema mutations
+- No worker logic mutations
