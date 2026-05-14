@@ -1,0 +1,42 @@
+RUNTIME HEALTH
+HTTP/1.1 200 OK
+X-Powered-By: Express
+Content-Type: application/json; charset=utf-8
+Content-Length: 11
+ETag: W/"b-Ai2R8hgEarLmHKwesT1qcY913ys"
+Date: Thu, 14 May 2026 00:13:08 GMT
+Connection: keep-alive
+Keep-Alive: timeout=5
+
+{"ok":true}
+TASK API ARTIFACT PRESENCE
+"artifact"
+"artifact"
+"artifact"
+"artifact"
+
+STATIC JS ARTIFACT LINE PRESENCE
+207:              ${artifactRaw ? `<div style="margin-bottom:8px;color:#86efac;font-size:11px;line-height:1.5;overflow-wrap:anywhere;border:1px solid rgba(134,239,172,.28);border-radius:10px;padding:7px;background:rgba(20,83,45,.14);">Artifact: ${artifactName}${artifactType ? ` · ${artifactType}` : ""}${artifactSize ? ` · ${artifactSize}` : ""}</div>` : ""}
+
+DASHBOARD LOGS
+[phase25] task_events_emit loaded 2026-05-14T00:13:03.763Z file= file:///app/server/task_events_emit.mjs
+[phase25] api-tasks-postgres loaded 2026-05-14T00:13:03.763Z file= file:///app/server/routes/api-tasks-postgres.mjs
+[phase615] scheduler disabled
+✅ Dashboard live on port 3000
+Execution Inspector now wired to real task pipeline
+[phase57c-router] /api/tasks probe {
+  originalUrl: '/api/tasks?limit=50',
+  baseUrl: '/api/tasks',
+  path: '/',
+  referer: 'http://localhost:3000/',
+  userAgent: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/148.0.0.0 Safari/537.36',
+  accept: '*/*'
+}
+[phase57c-router] /api/tasks probe {
+  originalUrl: '/api/tasks',
+  baseUrl: '/api/tasks',
+  path: '/',
+  referer: null,
+  userAgent: 'curl/8.7.1',
+  accept: '*/*'
+}

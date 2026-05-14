@@ -138,10 +138,6 @@
       const outcome = esc(t.outcome_preview || "");
 
       const explanation = esc(t.explanation_preview || "");
-      const artifactRaw = t.artifact || (Array.isArray(t.artifacts) ? t.artifacts[0] : null) || null;
-      const artifactName = artifactRaw ? esc(artifactRaw.filename || artifactRaw.path || "artifact") : "";
-      const artifactType = artifactRaw ? esc(artifactRaw.type || "artifact") : "";
-      const artifactSize = artifactRaw && artifactRaw.size_bytes ? esc(String(artifactRaw.size_bytes) + " bytes") : "";
 
       const triageStatusRaw = String(t.status || "").toLowerCase();
 
@@ -204,7 +200,6 @@
 
           <div style="margin-top:10px;border:1px solid rgba(71,85,105,.55);border-radius:12px;padding:9px;background:rgba(2,6,23,.24);">
 
-              ${artifactRaw ? `<div style="margin-bottom:8px;color:#86efac;font-size:11px;line-height:1.5;overflow-wrap:anywhere;border:1px solid rgba(134,239,172,.28);border-radius:10px;padding:7px;background:rgba(20,83,45,.14);">Artifact: ${artifactName}${artifactType ? ` · ${artifactType}` : ""}${artifactSize ? ` · ${artifactSize}` : ""}</div>` : ""}
             <div style="color:#cbd5e1;font-size:11px;font-weight:700;margin-bottom:7px;letter-spacing:.02em;">Operator actions</div>
 
             <div style="display:flex;flex-wrap:wrap;gap:7px;align-items:center;">
