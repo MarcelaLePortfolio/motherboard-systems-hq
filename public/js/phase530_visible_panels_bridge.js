@@ -898,11 +898,66 @@
 
   }
 
-  function phase719RenderMarkdownArtifactPreview(markdown) {
+  function phase719RenderArtifactIframePreview(renderedHtml) {
 
-    return phase719RenderArtifactVisualCard(markdown);
+    const srcdoc = [
+
+      "<!DOCTYPE html>",
+
+      "<html>",
+
+      "<head>",
+
+      "<meta charset=\"utf-8\">",
+
+      "<style>",
+
+      "html,body{margin:0;padding:0;background:#020617;color:#e5e7eb;font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;}",
+
+      "body{padding:18px;overflow-wrap:anywhere;}",
+
+      "*{box-sizing:border-box;max-width:100%;}",
+
+      "</style>",
+
+      "</head>",
+
+      "<body>",
+
+      String(renderedHtml || ""),
+
+      "</body>",
+
+      "</html>"
+
+    ].join("");
+
+    return `
+
+      <iframe
+
+        title="Artifact rendered preview"
+
+        sandbox=""
+
+        srcdoc="${phase719EscapePreviewHtml(srcdoc)}"
+
+        style="display:block;width:100%;min-height:560px;border:1px solid rgba(148,163,184,.24);border-radius:16px;background:#020617;"
+
+      ></iframe>
+
+    `;
 
   }
+
+  function phase719RenderMarkdownArtifactPreview(markdown) {
+
+    const rendered = phase719RenderArtifactVisualCard(markdown);
+
+    return phase719RenderArtifactIframePreview(rendered);
+
+  }
+
 
 
   async function phase719OpenPreviewModal(button) {
