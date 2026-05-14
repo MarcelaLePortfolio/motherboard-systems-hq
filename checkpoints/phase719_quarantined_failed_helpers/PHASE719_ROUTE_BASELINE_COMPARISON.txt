@@ -1,0 +1,140 @@
+CURRENT REF
+a8823936
+phase719-artifact-visibility-ui
+
+CURRENT RUNTIME
+HTTP/1.1 200 OK
+X-Powered-By: Express
+Content-Type: text/html; charset=utf-8
+Content-Length: 20
+ETag: W/"14-k6csJNjBRwYmMHOsaWEGUXeg1Ic"
+Date: Thu, 14 May 2026 00:02:19 GMT
+Connection: keep-alive
+Keep-Alive: timeout=5
+
+Dashboard is running
+HTTP/1.1 404 Not Found
+X-Powered-By: Express
+Content-Security-Policy: default-src 'none'
+X-Content-Type-Options: nosniff
+Content-Type: text/html; charset=utf-8
+Content-Length: 148
+Date: Thu, 14 May 2026 00:02:19 GMT
+Connection: keep-alive
+Keep-Alive: timeout=5
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Error</title>
+</head>
+<body>
+<pre>Cannot GET /api/tasks</pre>
+</body>
+</html>
+
+================ REF: dev ================
+870d2e7e
+
+--- server.js route wiring ---
+8:import { apiTasksRouter } from "./server/routes/api-tasks-postgres.mjs";
+9:import taskEventsSseRouter from "./server/routes/task-events-sse.mjs";
+10:import operatorGuidanceRouter from "./server/routes/operator-guidance.mjs";
+34:app.use("/api/tasks", apiTasksRouter);
+36:app.use(operatorGuidanceRouter({ pool }));
+47:app.post("/api/delegate-task", enforceRetryContract, async (req, res) => {
+61:    const forward = await fetch("http://localhost:3000/api/tasks/create", {
+636:app.use(express.static(path.join(__dirname, "ui/dashboard")));
+637:app.use(express.static(path.join(__dirname, "public")));
+665:      await fetch("http://localhost:3000/api/delegate-task", {
+
+--- api-tasks-postgres export/routes ---
+8:export const apiTasksRouter = express.Router();
+30:apiTasksRouter.get("/healthz", async (_req, res) => {
+34:apiTasksRouter.get("/health", async (_req, res) => {
+38:// GET /api/tasks?limit=25  -> recent tasks for dashboard widget
+39:apiTasksRouter.get("/", async (req, res) => {
+40:  console.log("[phase57c-router] /api/tasks probe", {
+85:    console.error("[phase25] /api/tasks list error", e);
+90:// POST /api/tasks/create  { task_id?, title?, agent?, run_id?, ... }
+91:apiTasksRouter.post("/create", async (req, res) => {
+96:    console.log("[phase25] /api/tasks/create pool snapshot", {
+163:    console.error("[phase25] /api/tasks error", e);
+173:// POST /api/tasks/complete  { task_id, status?, run_id?, ... }
+174:apiTasksRouter.post("/complete", async (req, res) => {
+177:    assertNotEnforced("http:/api/tasks/create");
+201:    console.error("[phase25] /api/tasks error", e);
+211:// POST /api/tasks/fail  { task_id, error?, status?, run_id?, ... }
+212:apiTasksRouter.post("/fail", async (req, res) => {
+215:    assertNotEnforced("http:/api/tasks/complete");
+239:    console.error("[phase25] /api/tasks error", e);
+249:// POST /api/tasks/cancel  { task_id, run_id?, ... }
+250:apiTasksRouter.post("/cancel", async (req, res) => {
+253:    assertNotEnforced("http:/api/tasks/cancel");
+256:    assertNotEnforced("http:/api/tasks/fail");
+279:    console.error("[phase25] /api/tasks error", e);
+293: * GET /api/artifacts/:task_id
+297:app.get("/api/artifacts/:task_id", async (req, res) => {
+
+--- dashboard renderer candidates ---
+_snapshots/phase617-pre-result-surfacing-wire-stable-20260501_233350/public/bundle.js
+_snapshots/phase617-pre-result-surfacing-wire-stable-20260501_233350/public/dashboard-tabs.backup.js
+_snapshots/phase617-pre-result-surfacing-wire-stable-20260501_233350/public/dashboard-tabs.js
+_snapshots/phase617-pre-result-surfacing-wire-stable-20260501_233350/public/dashboard.html
+_snapshots/phase617-pre-result-surfacing-wire-stable-20260501_233350/public/dashboard.js
+_snapshots/phase617-pre-result-surfacing-wire-stable-20260501_233350/public/dashboard.pre-bundle-tag.html
+_snapshots/phase617-pre-result-surfacing-wire-stable-20260501_233350/public/dashboard_body_q2_probe.html
+_snapshots/phase617-pre-result-surfacing-wire-stable-20260501_233350/public/dashboard_body_top_half_probe.html
+_snapshots/phase617-pre-result-surfacing-wire-stable-20260501_233350/public/dashboard_recomposed_from_stable_quarters_probe.html
+_snapshots/phase617-pre-result-surfacing-wire-stable-20260501_233350/public/index.html
+_snapshots/phase617-pre-result-surfacing-wire-stable-20260501_233350/public/js/dashboard-tasks-widget.js
+_snapshots/phase617-pre-result-surfacing-wire-stable-20260501_233350/public/js/phase22_task_delegation_live_bindings.js
+_snapshots/phase617-pre-result-surfacing-wire-stable-20260501_233350/public/js/phase31_6_seed_task_button.js
+_snapshots/phase617-pre-result-surfacing-wire-stable-20260501_233350/public/js/phase457_restore_task_panels.BROKEN_BACKUP.js
+_snapshots/phase617-pre-result-surfacing-wire-stable-20260501_233350/public/js/phase457_restore_task_panels.js
+_snapshots/phase617-pre-result-surfacing-wire-stable-20260501_233350/public/js/phase487_humanize_task_ids.js
+_snapshots/phase617-pre-result-surfacing-wire-stable-20260501_233350/public/js/phase530_visible_panels_bridge.js
+_snapshots/phase617-pre-result-surfacing-wire-stable-20260501_233350/public/js/phase535_execution_inspector_requeue.js
+_snapshots/phase617-pre-result-surfacing-wire-stable-20260501_233350/public/js/phase537_execution_inspector_retry.js
+_snapshots/phase617-pre-result-surfacing-wire-stable-20260501_233350/public/js/phase538_execution_inspector_retry_strategies.js
+_snapshots/phase617-pre-result-surfacing-wire-stable-20260501_233350/public/js/phase565_recent_logs_wire.js
+_snapshots/phase617-pre-result-surfacing-wire-stable-20260501_233350/public/js/phase565_recent_tasks_wire.js
+_snapshots/phase617-pre-result-surfacing-wire-stable-20260501_233350/public/js/phase61_recent_history_wire.js
+_snapshots/phase617-pre-result-surfacing-wire-stable-20260501_233350/public/js/task-events-sse-client.js
+_snapshots/phase617-pre-result-surfacing-wire-stable-20260501_233350/public/js/telemetry/latency_metric.js
+_snapshots/phase617-pre-result-surfacing-wire-stable-20260501_233350/public/js/telemetry/running_tasks_metric.js
+_snapshots/phase617-pre-result-surfacing-wire-stable-20260501_233350/public/js/telemetry/success_rate_metric.js
+_snapshots/phase617-pre-result-surfacing-wire-stable-20260501_233350/public/js/telemetry_failed_tasks_reducer.js
+_snapshots/phase617-pre-result-surfacing-wire-stable-20260501_233350/public/js/telemetry_queue_depth_reducer.js
+_snapshots/phase617-pre-result-surfacing-wire-stable-20260501_233350/server.js
+_snapshots/phase617-pre-result-surfacing-wire-stable-20260501_233350/src/contracts/__fixtures__/governanceExecutionBridgeAssembly.fixture.ts
+_snapshots/phase617-pre-result-surfacing-wire-stable-20260501_233350/src/contracts/__fixtures__/governanceExecutionBridgeContract.fixture.ts
+_snapshots/phase617-pre-result-surfacing-wire-stable-20260501_233350/src/contracts/execution/governedExecutionProof.ts
+_snapshots/phase617-pre-result-surfacing-wire-stable-20260501_233350/src/contracts/governanceExecutionBridgeContract.ts
+_snapshots/phase618-ui-communication-tier-surfacing-complete-20260501_235622/public/bundle.js
+_snapshots/phase618-ui-communication-tier-surfacing-complete-20260501_235622/public/dashboard-tabs.backup.js
+_snapshots/phase618-ui-communication-tier-surfacing-complete-20260501_235622/public/dashboard-tabs.js
+_snapshots/phase618-ui-communication-tier-surfacing-complete-20260501_235622/public/dashboard.html
+_snapshots/phase618-ui-communication-tier-surfacing-complete-20260501_235622/public/dashboard.js
+_snapshots/phase618-ui-communication-tier-surfacing-complete-20260501_235622/public/dashboard.pre-bundle-tag.html
+_snapshots/phase618-ui-communication-tier-surfacing-complete-20260501_235622/public/dashboard_body_q2_probe.html
+_snapshots/phase618-ui-communication-tier-surfacing-complete-20260501_235622/public/dashboard_body_top_half_probe.html
+_snapshots/phase618-ui-communication-tier-surfacing-complete-20260501_235622/public/dashboard_recomposed_from_stable_quarters_probe.html
+_snapshots/phase618-ui-communication-tier-surfacing-complete-20260501_235622/public/index.html
+_snapshots/phase618-ui-communication-tier-surfacing-complete-20260501_235622/public/js/dashboard-tasks-widget.js
+_snapshots/phase618-ui-communication-tier-surfacing-complete-20260501_235622/public/js/phase22_task_delegation_live_bindings.js
+_snapshots/phase618-ui-communication-tier-surfacing-complete-20260501_235622/public/js/phase31_6_seed_task_button.js
+_snapshots/phase618-ui-communication-tier-surfacing-complete-20260501_235622/public/js/phase457_restore_task_panels.BROKEN_BACKUP.js
+_snapshots/phase618-ui-communication-tier-surfacing-complete-20260501_235622/public/js/phase457_restore_task_panels.js
+_snapshots/phase618-ui-communication-tier-surfacing-complete-20260501_235622/public/js/phase487_humanize_task_ids.js
+_snapshots/phase618-ui-communication-tier-surfacing-complete-20260501_235622/public/js/phase530_visible_panels_bridge.js
+_snapshots/phase618-ui-communication-tier-surfacing-complete-20260501_235622/public/js/phase535_execution_inspector_requeue.js
+_snapshots/phase618-ui-communication-tier-surfacing-complete-20260501_235622/public/js/phase537_execution_inspector_retry.js
+_snapshots/phase618-ui-communication-tier-surfacing-complete-20260501_235622/public/js/phase538_execution_inspector_retry_strategies.js
+_snapshots/phase618-ui-communication-tier-surfacing-complete-20260501_235622/public/js/phase565_recent_logs_wire.js
+_snapshots/phase618-ui-communication-tier-surfacing-complete-20260501_235622/public/js/phase565_recent_tasks_wire.js
+_snapshots/phase618-ui-communication-tier-surfacing-complete-20260501_235622/public/js/phase61_recent_history_wire.js
+_snapshots/phase618-ui-communication-tier-surfacing-complete-20260501_235622/public/js/task-events-sse-client.js
+_snapshots/phase618-ui-communication-tier-surfacing-complete-20260501_235622/public/js/telemetry/latency_metric.js
+_snapshots/phase618-ui-communication-tier-surfacing-complete-20260501_235622/public/js/telemetry/running_tasks_metric.js

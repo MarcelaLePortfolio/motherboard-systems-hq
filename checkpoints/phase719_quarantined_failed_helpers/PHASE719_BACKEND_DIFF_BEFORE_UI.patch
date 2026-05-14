@@ -1,0 +1,1126 @@
+diff --git a/server.js b/server.js
+index 18e38fea..47a08ea5 100644
+--- a/server.js
++++ b/server.js
+@@ -1,688 +1,72 @@
+-/* eslint-disable import/no-commonjs */
++
+ import express from "express";
++
+ import path from "path";
++
+ import { fileURLToPath } from "url";
+-import { exec } from "child_process";
++
+ import fs from "fs";
++
+ import pg from "pg";
+-import { apiTasksRouter } from "./server/routes/api-tasks-postgres.mjs";
++
++import registerApiTasksRoutes from "./server/routes/api-tasks-postgres.mjs";
++
+ import taskEventsSseRouter from "./server/routes/task-events-sse.mjs";
++
+ import operatorGuidanceRouter from "./server/routes/operator-guidance.mjs";
++
+ import { createRequire } from "module";
+ 
+ const require = createRequire(import.meta.url);
++
+ const { enforceRetryContract } = require("./server/retry_contract.js");
++
+ const { routeRetryExecution } = require("./server/retry_execution_router.js");
+ 
+ const __filename = fileURLToPath(import.meta.url);
++
+ const __dirname = path.dirname(__filename);
+ 
+ const app = express();
++
+ const PORT = process.env.PORT || 3000;
++
+ app.use(express.json());
+ 
+ const { Pool } = pg;
++
+ const pool = new Pool({
+-  user: process.env.POSTGRES_USER || "postgres",
+-  host: process.env.DB_HOST || "postgres",
+-  database: process.env.POSTGRES_DB || "postgres",
+-  password: process.env.POSTGRES_PASSWORD || "postgres",
+-  port: 5432,
+-});
+-globalThis.__DB_POOL = pool;
+ 
+-app.use("/api/tasks", apiTasksRouter);
+-app.use(taskEventsSseRouter);
+-app.use(operatorGuidanceRouter({ pool }));
++  user: process.env.POSTGRES_USER || "postgres",
+ 
+-const LOG_DIR = path.join(__dirname, "ui/dashboard");
+-const LOG_FILE = path.join(LOG_DIR, "ticker-events.log");
+-
+-if (!fs.existsSync(LOG_DIR)) fs.mkdirSync(LOG_DIR, { recursive: true });
+-if (!fs.existsSync(LOG_FILE)) fs.writeFileSync(LOG_FILE, "");
+-
+-/**
+- * PHASE 580 — REAL TASK PIPELINE + RETRY ROUTING WIRING
+- */
+-app.post("/api/delegate-task", enforceRetryContract, async (req, res) => {
+-  const body = req.body?.kind === "retry"
+-    ? routeRetryExecution(req.body || {})
+-    : (req.body || {});
+-
+-  const payload = {
+-    ...(body.payload && typeof body.payload === "object" ? body.payload : {}),
+-    ...(body.meta && typeof body.meta === "object" ? body.meta : {}),
+-    execution_mode: body.execution_mode ?? null,
+-    cache_policy: body.cache_policy ?? null,
+-    memory_scope: body.memory_scope ?? null
+-  };
+-
+-  try {
+-    const forward = await fetch("http://localhost:3000/api/tasks/create", {
+-      method: "POST",
+-      headers: {
+-        "Content-Type": "application/json"
+-      },
+-      body: JSON.stringify({
+-        title: body.title || body.task || "Delegated task",
+-        kind: body.kind || "delegation",
+-        payload,
+-        source: body.source || "execution-inspector"
+-      })
+-    });
+-
+-    const data = await forward.json();
+-    return res.json(data);
+-  } catch (err) {
+-    console.error("[delegate-task forward error]", err);
+-
+-    return res.status(500).json({
+-      error: "delegate-task forwarding failed",
+-      details: String(err)
+-    });
+-  }
+-});
++  host: process.env.DB_HOST || "postgres",
+ 
+-app.get("/api/agent-status", (req, res) => {
+-  exec("pm2 jlist", (err, stdout) => {
+-    const statusMap = {
+-      Matilda: { status: "offline" },
+-      Atlas: { status: "offline" },
+-      Cade: { status: "offline" },
+-      Effie: { status: "offline" },
+-    };
+-
+-    if (!err) {
+-      try {
+-        const list = JSON.parse(stdout);
+-        list.forEach((proc) => {
+-          const online = proc.pm2_env.status === "online";
+-          if (proc.name.includes("matilda")) statusMap.Matilda.status = online ? "online" : "offline";
+-          if (proc.name.includes("atlas")) statusMap.Atlas.status = online ? "online" : "offline";
+-          if (proc.name.includes("cade")) statusMap.Cade.status = online ? "online" : "offline";
+-          if (proc.name.includes("effie")) statusMap.Effie.status = online ? "online" : "offline";
+-        });
+-      } catch {}
+-    }
+-
+-    res.json(statusMap);
+-  });
+-});
++  database: process.env.POSTGRES_DB || "postgres",
+ 
+-app.get("/api/task-history", (req, res) => {
+-  try {
+-    const logs = fs.readFileSync(LOG_FILE, "utf-8").trim().split("\n").filter(Boolean);
+-    const taskEvents = logs
+-      .map((line) => {
+-        let entry;
+-
+-        try {
+-          entry = JSON.parse(line);
+-        } catch {
+-          const parts = line.split(" | ");
+-          entry = {
+-            event: parts[1] || line,
+-            agent: parts[0] || "unknown",
+-            timestamp: Math.floor(Date.now() / 1000),
+-          };
+-        }
+-
+-        if (!entry.event || !entry.event.includes("task")) return null;
+-
+-        return {
+-          time: new Date(entry.timestamp * 1000).toLocaleTimeString(),
+-          agent: entry.agent,
+-          event: entry.event,
+-        };
+-      })
+-      .filter(Boolean)
+-      .slice(-50);
+-
+-    res.json(taskEvents);
+-  } catch {
+-    res.json([]);
+-  }
+-});
++  password: process.env.POSTGRES_PASSWORD || "postgres",
+ 
+-app.get("/api/settings", (req, res) => {
+-  exec("pm2 jlist", (err, stdout) => {
+-    const agents = [];
+-
+-    const names = ["Matilda", "Atlas", "Cade", "Effie"];
+-
+-    if (!err) {
+-      try {
+-        const list = JSON.parse(stdout);
+-        names.forEach((name) => {
+-          const proc = list.find((p) => p.name.toLowerCase().includes(name.toLowerCase()));
+-          agents.push({ name, status: proc?.pm2_env?.status || "offline" });
+-        });
+-      } catch {
+-        names.forEach((name) => agents.push({ name, status: "unknown" }));
+-      }
+-    } else {
+-      names.forEach((name) => agents.push({ name, status: "offline" }));
+-    }
+-
+-    res.json({ agents, features: { logRetention: 50, theme: "light" } });
+-  });
+-});
++  port: 5432,
+ 
+-app.post("/api/agent-control", (req, res) => {
+-  const { agent, action } = req.body;
+-  if (!agent || !action) return res.status(400).json({ success: false, message: "Missing agent or action" });
+-
+-  let cmd;
+-  if (action === "start") {
+-    cmd = `pm2 start scripts/_local/agent-runtime/launch-${agent.toLowerCase()}.ts --interpreter $(which tsx) --name ${agent.toLowerCase()}`;
+-  } else if (action === "stop") {
+-    cmd = `pm2 stop ${agent.toLowerCase()}`;
+-  } else if (action === "restart") {
+-    cmd = `pm2 restart ${agent.toLowerCase()}`;
+-  } else {
+-    return res.status(400).json({ success: false, message: "Unknown action" });
+-  }
+-
+-  exec(cmd, (err, stdout, stderr) => {
+-    if (err) return res.json({ success: false, message: stderr || err.message });
+-    res.json({ success: true, message: stdout.trim() });
+-  });
+ });
+ 
++globalThis.__DB_POOL = pool;
+ 
+-// PHASE703 ADVISORY CHAT ROUTE — deterministic, non-executing, no task/worker/DB coupling
+-function pickMatildaPhrase(options = []) {
+-
+-  if (!Array.isArray(options) || options.length === 0) {
+-
+-    return '';
+-
+-  }
+-
+-  return options[Math.floor(Math.random() * options.length)];
+-
+-}
+-
+-function buildSafeStatusGuidance() {
+-
+-  const openings = [
+-
+-    'The surfaced context is limited, read-only, and non-authoritative.',
+-
+-    'The currently surfaced advisory context is limited and read-only.',
+-
+-    'Only limited advisory context is currently available from the chat surface.',
+-
+-    'The advisory layer currently exposes only compact, non-authoritative context.'
+-
+-  ];
+-
+-  const certainty = [
+-
+-    'The guidance endpoint is available, but this does not confirm overall subsystem health.',
+-
+-    'The available context does not verify whether all subsystems are healthy.',
+-
+-    'This compact context is insufficient for authoritative system health confirmation.',
+-
+-    'Additional verification would be required before making broad health claims.'
+-
+-  ];
+-
+-  const nextSteps = [
+-
+-    'Reviewing the dashboard for alerts, queue state, or subsystem indicators would be the safest next verification step.',
+-
+-    'A safe next step would be checking visible dashboard indicators or recent alerts.',
+-
+-    'The dashboard would provide more reliable operational detail than the compact advisory context alone.',
+-
+-    'Inspecting surfaced runtime indicators would help establish a more authoritative status assessment.'
+-
+-  ];
+-
+-  return [
+-
+-    pickMatildaPhrase(openings),
+-
+-    pickMatildaPhrase(certainty),
+-
+-    pickMatildaPhrase(nextSteps)
+-
+-  ].join(' ');
+-
+-}
+-
+-function buildSafePriorityGuidance() {
+-
+-  const openings = [
+-
+-    'The surfaced context is limited, read-only, and non-authoritative.',
+-
+-    'Only compact advisory context is currently available.',
+-
+-    'The current advisory context is intentionally limited and non-authoritative.'
+-
+-  ];
+-
+-  const reasoning = [
+-
+-    'Because the available context does not confirm subsystem health, prioritization confidence is limited.',
+-
+-    'The compact advisory context does not establish enough evidence to confidently prioritize subsystem work.',
+-
+-    'There is not enough surfaced evidence here to safely determine operational priority.'
+-
+-  ];
+-
+-  const nextSteps = [
+-
+-    'Reviewing dashboard alerts, retry queues, worker indicators, or recent failures would help determine the safest priority.',
+-
+-    'A reasonable next step would be checking visible runtime indicators before assigning priority.',
+-
+-    'Additional surfaced operational detail would be needed before making a confident prioritization recommendation.'
+-
+-  ];
+-
+-  return [
+-
+-    pickMatildaPhrase(openings),
+-
+-    pickMatildaPhrase(reasoning),
+-
+-    pickMatildaPhrase(nextSteps)
+-
+-  ].join(' ');
+-
+-}
+-
+-function buildEvidenceBasedGuidance(input = '') {
+-
+-  const text = String(input || '').trim();
+-
+-  const evidenceSignals = [
+-
+-    ['retry', 'retry behavior'],
+-
+-    ['retries', 'retry behavior'],
+-
+-    ['queued', 'queued task behavior'],
+-
+-    ['stuck', 'possible stalled progress'],
+-
+-    ['failed', 'failure signal'],
+-
+-    ['error', 'error signal'],
+-
+-    ['worker', 'worker-related signal'],
+-
+-    ['log', 'log evidence'],
+-
+-    ['timeout', 'timeout signal'],
+-
+-    ['inspector', 'inspector signal'],
+-
+-    ['alert', 'alert signal']
+-
+-  ];
+-
+-  const observed = evidenceSignals
+-
+-    .filter(([needle]) => text.toLowerCase().includes(needle))
+-
+-    .map(([, label]) => label);
+-
+-  const uniqueObserved = [...new Set(observed)];
+-
+-  const known =
+-
+-    uniqueObserved.length > 0
+-
+-      ? `Known from your message: ${uniqueObserved.join(', ')}.`
+-
+-      : 'Known from your message: you are describing a possible operational symptom, but no specific runtime evidence was provided.';
+-
+-  const unknown =
+-
+-    'Unknown: this chat surface has not inspected live logs, queues, workers, or database state.';
+-
+-  const interpretation =
+-
+-    uniqueObserved.length > 0
+-
+-      ? 'Safe interpretation: the supplied evidence may point to a processing, queueing, retry, or worker-path issue, but it is not enough by itself to identify a root cause.'
+-
+-      : 'Safe interpretation: more concrete evidence is needed before making a useful operational judgment.';
+-
+-  const nextStep =
+-
+-    'Safest next inspection: review the relevant dashboard indicator, recent task events, worker logs, or exact error text before choosing a repair path.';
+-
+-  return [known, interpretation, unknown, nextStep].join(' ');
+-
+-}
+-
+-async function generateMatildaAdvisoryReply(input) {
+-
+-  const compactContext = {
+-    runtime: {
+-      dashboard: "online",
+-      chat: "model-backed advisory mode",
+-      executionBoundary: "chat cannot execute tasks, mutate data, trigger workers, or change infrastructure"
+-    },
+-    guidance: {
+-      status: "available",
+-      latestSummary: "Guidance endpoint is available, but this compact context does not prove every subsystem is currently healthy.",
+-      certainty: "limited-read-only-context"
+-    },
+-    limits: {
+-      readOnly: true,
+-      execution: false,
+-      systemCoupling: false
+-    }
+-  };
+-
+-  const promptLines = [
+-    "You are Matilda, an advisory-only system interface for the Motherboard Systems dashboard.",
+-    "You may explain, interpret, summarize, and reason conversationally.",
+-    "You may help the user brainstorm, ideate, scope, plan, compare options, and explain what kinds of projects could be built with the system.",
+-
+-    "When the user asks what they can build, asks for project ideas, or asks whether a project is possible, answer helpfully with concrete suggestions and safe next steps.",
+-
+-    "Do not refuse ordinary brainstorming or planning questions merely because chat itself cannot execute actions.",
+-
+-    "Clearly distinguish between advising/planning from chat and executing work through explicit task/delegation pathways.",
+-    "You must not claim you executed anything.",
+-    "You must not say you changed files, triggered workers, restarted services, deployed code, modified databases, gathered live status, checked systems, ran diagnostics, or performed infrastructure actions.",
+-    "You must not invent metrics, queue lengths, task counts, health states, logs, task outcomes, or runtime facts that are not explicitly present in the provided read-only context or the user message.",
+-
+-    "Do not convert compact, default, stale, or limited read-only summaries into broad claims that all systems are healthy.",
+-
+-    "When the user asks for status, never state that all systems are healthy, normal, operational, stable, or fine unless the user explicitly supplied those observations.",
+-
+-    "For status questions, explicitly describe the context as limited, read-only, and non-authoritative.",
+-
+-    "Prefer wording such as: the surfaced context is limited, the guidance endpoint is available, or additional verification would be needed for authoritative status confirmation.",
+-
+-    "Recommend the safest next inspection step instead of overstating certainty.",
+-    "Keep the response natural, helpful, and concise.",
+-    "Use the provided read-only context when relevant.",
+-    "If the user provides dashboard details, logs, error text, task state, worker state, or visible UI indicators, reason from those details and suggest the next safest inspection or recovery step.",
+-    "If needed information is missing, do not dead-end. State what is known, what is unknown, and what specific dashboard detail or safe inspection would help next.",
+-    "Do not imply direct dashboard viewing, active monitoring, or live diagnostics beyond the provided context and the user shared observations.",
+-    "Avoid phrases such as checking now, seeing now, taking a look, or give me a moment.",
+-    "",
+-    "Read-only surfaced context:",
+-    JSON.stringify(compactContext, null, 2),
+-    "",
+-    "User message:",
+-    String(input || '')
+-  ];
+-
+-  const prompt = promptLines.join('\n');
+-
+-  const controller = new AbortController();
+-
+-  const timeout = setTimeout(() => controller.abort(), 20000);
+-
+-  try {
+-
+-    const response = await fetch("http://host.docker.internal:11434/api/generate", {
+-
+-      method: "POST",
+-
+-      headers: { "Content-Type": "application/json" },
+-
+-      signal: controller.signal,
+-
+-      body: JSON.stringify({
+-
+-        model: "gemma3:4b",
+-
+-        prompt,
+-
+-        stream: false
+-
+-      })
+-
+-    });
+-
+-    if (!response.ok) {
+-
+-      return null;
+-
+-    }
+-
+-    const data = await response.json();
+-
+-    const reply = String(data?.response || "").trim();
+-
+-    if (!reply) {
+-
+-      return null;
+-
+-    }
+-
+-    return reply;
+-
+-  } catch (err) {
+-
+-    console.error("Matilda Ollama advisory generation failed:", err?.message || err);
+-
+-    return null;
+-
+-  } finally {
+-
+-    clearTimeout(timeout);
+-
+-  }
+-
+-}
+-
+-// 6. API Endpoint: Advisory Chat (Phase 706)
+-
+-
+-
+-// Phase 707: compact read-only context for Matilda chat
+-
+-app.get("/api/chat/context", async (req, res) => {
+-
+-  try {
+-
+-    const context = {
+-
+-      runtime: {
+-
+-        dashboard: "online",
+-
+-        chat: "model-backed advisory mode",
+-
+-        executionBoundary: "chat cannot execute tasks, mutate data, trigger workers, or change infrastructure"
+-
+-      },
+-
+-      guidance: {
+-
+-        status: "available",
+-
+-        latestSummary: "Guidance endpoint is available, but this compact context does not prove every subsystem is currently healthy.",
+-      certainty: "limited-read-only-context"
+-
+-      },
+-
+-      limits: {
+-
+-        readOnly: true,
+-
+-        execution: false,
+-
+-        systemCoupling: false,
+-
+-        note: "Context is compact and surfaced for interpretation only."
+-
+-      }
+-
+-    };
+-
+-    res.json(context);
+-
+-  } catch (err) {
+-
+-    console.error("Error building /api/chat/context:", err);
+-
+-    res.status(500).json({
+-
+-      error: "Failed to build chat context",
++registerApiTasksRoutes(app);
+ 
+-      readOnly: true,
++app.use(taskEventsSseRouter);
+ 
+-      execution: false
++app.use(operatorGuidanceRouter({ pool }));
+ 
+-    });
++app.listen(PORT, () => {
+ 
+-  }
++  console.log(`[dashboard] running on port ${PORT}`);
+ 
+ });
+ 
+-app.post("/api/chat", async (req, res) => {
+-
+-  try {
+-
+-    const body = req.body || {};
+-
+-    const message = typeof body.message === "string" ? body.message : "";
+-
+-    const input = typeof body.input === "string" ? body.input : message;
+-
+-    const normalized = String(input || "").trim();
+-
+-    let reply;
+-
+-    if (!normalized) {
+-
+-      reply = 'Advisory response only: no message received. I can explain runtime state, execution boundaries, guidance signals, and dashboard behavior. No execution performed.';
+-
+-    } else if (/execute|run task|deploy|restart|shutdown|delete|modify database|trigger worker/i.test(normalized)) {
+-
+-      reply = 'I cannot execute actions from this chat surface. I cannot trigger workers, deploy code, restart services, delete data, or modify infrastructure. Execution pathways remain isolated from chat.';
+-
+-    } else if (/system status|status|health|healthy|operational/i.test(normalized)) {
+-
+-      reply = buildSafeStatusGuidance();
+-
+-    } else if (/prioritize|priority|what should we prioritize|next step/i.test(normalized)) {
+-
+-      reply = buildSafePriorityGuidance();
+-
+-    } else if (/retry|retries|queued|stuck|failed|error|worker|log|timeout|inspector|alert/i.test(normalized)) {
+-
+-      reply = buildEvidenceBasedGuidance(normalized);
+-
+-    } else {
+-
+-      reply = await generateMatildaAdvisoryReply(normalized);
+ 
+-      if (!reply) {
++app.get("/", (req, res) => {
+ 
+-        reply = 'Advisory guidance only: I can help interpret system state, explain runtime behavior, clarify execution boundaries, and assist with operational reasoning. No execution has been performed.';
+-
+-      }
+-
+-    }
+-
+-
+-
+-    res.json({
+-
+-      reply,
+-
+-      meta: {
+-
+-        mode: "advisory-ollama-with-deterministic-safety",
+-
+-        execution: false,
+-
+-        systemCoupling: false
+-
+-      }
+-
+-    });
+-
+-  } catch (err) {
+-
+-    console.error("Error in /api/chat:", err);
+-
+-    res.status(500).json({
+-
+-      reply: "Advisory response only: chat route error. No execution performed.",
+-
+-      meta: {
+-
+-        mode: "advisory-ollama-with-deterministic-safety",
+-
+-        execution: false,
+-
+-        systemCoupling: false
+-
+-      }
+-
+-    });
+-
+-  }
++  res.send("Dashboard is running");
+ 
+ });
+ 
+-app.use(express.static(path.join(__dirname, "ui/dashboard")));
+-app.use(express.static(path.join(__dirname, "public")));
+-
+-app.listen(PORT, () => {
+-  console.log(`✅ Dashboard live on port ${PORT}`);
+-  console.log("Execution Inspector now wired to real task pipeline");
+-});
+-
+-
+-// PHASE615 CONTROLLED SYSTEM SCHEDULER (DISABLED BY DEFAULT)
+-const SYSTEM_SCHEDULER_ENABLED = String(process.env.SYSTEM_SCHEDULER_ENABLED || "").toLowerCase() === "true";
+-const SYSTEM_SCHEDULER_INTERVAL_MS = Number(process.env.SYSTEM_SCHEDULER_INTERVAL_MS || 60000);
+-
+-let phase615SchedulerInFlight = false;
+-
+-if (SYSTEM_SCHEDULER_ENABLED) {
+-  console.log("[phase615] scheduler started", {
+-    interval_ms: SYSTEM_SCHEDULER_INTERVAL_MS
+-  });
+-
+-  setInterval(async () => {
+-    if (phase615SchedulerInFlight) {
+-      console.log("[phase615] skipped (guard active)");
+-      return;
+-    }
+-
+-    phase615SchedulerInFlight = true;
+-
+-    try {
+-      await fetch("http://localhost:3000/api/delegate-task", {
+-        method: "POST",
+-        headers: { "Content-Type": "application/json" },
+-        body: JSON.stringify({
+-          kind: "system-check",
+-          title: "System Scheduler Task",
+-          payload: {
+-            source: "system",
+-            intent: "scheduled-check"
+-          }
+-        })
+-      });
+-
+-      console.log("[phase615] task dispatched");
+-    } catch (err) {
+-      console.error("[phase615] scheduler failed:", err.message);
+-    } finally {
+-      phase615SchedulerInFlight = false;
+-    }
+-  }, SYSTEM_SCHEDULER_INTERVAL_MS);
+-} else {
+-  console.log("[phase615] scheduler disabled");
+-}
+-
+diff --git a/server/routes/api-tasks-postgres.mjs b/server/routes/api-tasks-postgres.mjs
+index b9bda4e9..12078254 100644
+--- a/server/routes/api-tasks-postgres.mjs
++++ b/server/routes/api-tasks-postgres.mjs
+@@ -1,374 +1,53 @@
+-import express from "express";
+-import crypto from "crypto";
+ 
+-console.log("[phase25] api-tasks-postgres loaded", new Date().toISOString(), "file=", import.meta.url);
+-import { emitTaskEvent } from "../task_events_emit.mjs";
+-import { PolicyEnforcedError, assertNotEnforced } from "../policy/enforce.mjs";
++export default function registerApiTasksRoutes(app) {
+ 
+-export const apiTasksRouter = express.Router();
++  app.get("/api/artifacts/:task_id", async (req, res) => {
+ 
+-function _asJson(req) {
+-  const b = req.body;
+-  if (b == null) return {};
+-  if (typeof b === "object") return b;
+-  if (typeof b === "string") {
+-    try { return JSON.parse(b); } catch (_) { return { _raw: b }; }
+-  }
+-  return { _raw: b };
+-}
+-
+-function _getPoolOrFail(res) {
+-  const pool = globalThis.__DB_POOL;
+-  if (!pool) {
+-    res.status(500).json({ ok: false, error: "db_pool_not_initialized" });
+-    return null;
+-  }
+-  return pool;
+-}
+-
+-// Health (non-writing). Keep both endpoints for compatibility.
+-apiTasksRouter.get("/healthz", async (_req, res) => {
+-  res.status(200).json({ ok: true });
+-});
+-
+-apiTasksRouter.get("/health", async (_req, res) => {
+-  res.status(200).json({ ok: true });
+-});
+-
+-// GET /api/tasks?limit=25  -> recent tasks for dashboard widget
+-apiTasksRouter.get("/", async (req, res) => {
+-  console.log("[phase57c-router] /api/tasks probe", {
+-    originalUrl: req.originalUrl,
+-    baseUrl: req.baseUrl,
+-    path: req.path,
+-    referer: req.get("referer") || null,
+-    userAgent: req.get("user-agent") || null,
+-    accept: req.get("accept") || null,
+-  });
+-
+-  try {
+-    const pool = _getPoolOrFail(res);
+-    if (!pool) return;
+-
+-    const limit = Math.max(1, Math.min(200, Number(req.query?.limit ?? 25) || 25));
+-    const r = await pool.query(
+-      `
+-      SELECT
+-        t.id,
+-        t.task_id,
+-        t.title,
+-        t.status,
+-        t.claimed_by,
+-        t.updated_at,
+-        completed.payload->>'outcome_preview' AS outcome_preview,
+-        completed.payload->>'explanation_preview' AS explanation_preview,
+-        completed.payload->'artifact' AS artifact,
+-        completed.payload->'artifacts' AS artifacts,
+-        completed.payload AS guidance
+-      FROM tasks t
+-      LEFT JOIN LATERAL (
+-        SELECT te.payload
+-        FROM task_events te
+-        WHERE te.task_id = t.task_id
+-          AND te.kind = 'task.completed'
+-        ORDER BY te.id DESC
+-        LIMIT 1
+-      ) completed ON true
+-      ORDER BY t.updated_at DESC NULLS LAST, t.id DESC
+-      LIMIT $1
+-      `,
+-      [limit]
+-    );
+-
+-    res.status(200).json({ ok: true, tasks: r.rows || [] });
+-  } catch (e) {
+-    console.error("[phase25] /api/tasks list error", e);
+-    res.status(500).json({ ok: false, error: e?.message || String(e) });
+-  }
+-});
+-
+-// POST /api/tasks/create  { task_id?, title?, agent?, run_id?, ... }
+-apiTasksRouter.post("/create", async (req, res) => {
+-  try {
+-    const pool = _getPoolOrFail(res);
+-    if (!pool) return;
+-
+-    console.log("[phase25] /api/tasks/create pool snapshot", {
+-      hasLocal: !!pool,
+-      localType: pool?.constructor?.name,
+-      hasGlobal: !!globalThis.__DB_POOL,
+-      globalType: globalThis.__DB_POOL?.constructor?.name,
+-    });
+-
+-    const b = _asJson(req);
+-
+-    let run_id = b.run_id ?? b.runId ?? null;
+-    if (!run_id) run_id = `run_${crypto.randomUUID()}`;
+-    run_id = String(run_id);
+-
+-    // Accept caller-provided task_id; otherwise create a task row + mint a stable string task_id.
+-    let task_id = b.task_id ?? b.taskId ?? b.id ?? null;
+-
+-    // Phase52: schema-compat — task_id must never be null (tasks.task_id is NOT NULL)
+-    if (!task_id) task_id = `t_${crypto.randomUUID()}`;
+-
+-    // Normalize to string for lifecycle events
+-    task_id = String(task_id);
+-
+-    // phase25: ensure tasks row exists even when caller provides task_id
+-    // (workers claim from tasks, not task_events)
+-    await pool.query(
+-      `
+-      INSERT INTO tasks (task_id, title, status, kind, payload, run_id, action_tier, notes)
+-      VALUES ($1, $2, $3, $4, $5::jsonb, $6, $7, $8)
+-      ON CONFLICT (task_id) DO UPDATE
+-      SET title       = COALESCE(EXCLUDED.title, tasks.title),
+-          status      = COALESCE(EXCLUDED.status, tasks.status),
+-          kind        = COALESCE(EXCLUDED.kind, tasks.kind),
+-          payload     = COALESCE(EXCLUDED.payload, tasks.payload),
+-          run_id      = COALESCE(EXCLUDED.run_id, tasks.run_id),
+-          action_tier = COALESCE(EXCLUDED.action_tier, tasks.action_tier),
+-          notes       = COALESCE(EXCLUDED.notes, tasks.notes),
+-          updated_at  = now()
+-      `,
+-      [
+-        task_id,
+-        b.title ?? null,
+-        b.status ?? "queued",
+-        b.kind ?? null,
+-        JSON.stringify(b.payload ?? b.meta ?? {}),
+-        run_id,
+-        b.action_tier ?? "A",
+-        b.notes ?? null,
+-      ]
+-    );
+-
+-    const evt = await emitTaskEvent({
+-      pool,
+-      kind: "task.created",
+-      task_id,
+-      run_id,
+-      actor: b.actor ?? b.agent ?? "api",
+-      payload: {
+-        title: b.title ?? null,
+-        agent: b.agent ?? null,
+-        status: b.status ?? "delegated",
+-        source: b.source ?? "api",
+-        meta: b.meta ?? null,
+-      },
+-    });
+-
+-    res.status(201).json({ ok: true, task_id, run_id, event: evt });
+-  } catch (e) {
+-    console.error("[phase25] /api/tasks error", e);
+-
+-    if (e instanceof PolicyEnforcedError || e?.code === "POLICY_ENFORCED" || e?.name === "PolicyEnforcedError") {
+-      return res.status(403).json({ ok: false, error: "policy.enforced", detail: e?.message || String(e) });
+-    }
+-
+-    res.status(500).json({ ok: false, error: e?.message || String(e) });
+-  }
+-});
+-
+-// POST /api/tasks/complete  { task_id, status?, run_id?, ... }
+-apiTasksRouter.post("/complete", async (req, res) => {
+-  try {
+-    // Phase53: enforce gate BEFORE any DB writes
+-    assertNotEnforced("http:/api/tasks/create");
+-
+-    const pool = _getPoolOrFail(res);
+-    if (!pool) return;
+-
+-    const b = _asJson(req);
+-    const task_id = b.task_id ?? b.taskId ?? b.id ?? null;
+-    if (!task_id) return res.status(400).json({ ok: false, error: "task_id_required" });
+-
+-    const evt = await emitTaskEvent({
+-      pool,
+-      kind: "task.completed",
+-      task_id,
+-      run_id: b.run_id ?? b.runId ?? null,
+-      actor: b.actor ?? b.agent ?? "api",
+-      payload: {
+-        status: b.status ?? "complete",
+-        result: b.result ?? null,
+-        source: b.source ?? "api",
+-      },
+-    });
+-
+-    res.status(200).json({ ok: true, task_id, event: evt });
+-  } catch (e) {
+-    console.error("[phase25] /api/tasks error", e);
+-
+-    if (e instanceof PolicyEnforcedError || e?.code === "POLICY_ENFORCED" || e?.name === "PolicyEnforcedError") {
+-      return res.status(403).json({ ok: false, error: "policy.enforced", detail: e?.message || String(e) });
+-    }
+-
+-    res.status(500).json({ ok: false, error: e?.message || String(e) });
+-  }
+-});
+-
+-// POST /api/tasks/fail  { task_id, error?, status?, run_id?, ... }
+-apiTasksRouter.post("/fail", async (req, res) => {
+-  try {
+-    // Phase53: enforce gate BEFORE any DB writes
+-    assertNotEnforced("http:/api/tasks/complete");
+-
+-    const pool = _getPoolOrFail(res);
+-    if (!pool) return;
+-
+-    const b = _asJson(req);
+-    const task_id = b.task_id ?? b.taskId ?? b.id ?? null;
+-    if (!task_id) return res.status(400).json({ ok: false, error: "task_id_required" });
+-
+-    const evt = await emitTaskEvent({
+-      pool,
+-      kind: "task.failed",
+-      task_id,
+-      run_id: b.run_id ?? b.runId ?? null,
+-      actor: b.actor ?? b.agent ?? "api",
+-      payload: {
+-        status: b.status ?? "failed",
+-        error: b.error ?? b.err ?? null,
+-        source: b.source ?? "api",
+-      },
+-    });
++    try {
+ 
+-    res.status(200).json({ ok: true, task_id, event: evt });
+-  } catch (e) {
+-    console.error("[phase25] /api/tasks error", e);
++      const task_id = req.params.task_id;
+ 
+-    if (e instanceof PolicyEnforcedError || e?.code === "POLICY_ENFORCED" || e?.name === "PolicyEnforcedError") {
+-      return res.status(403).json({ ok: false, error: "policy.enforced", detail: e?.message || String(e) });
+-    }
+-
+-    res.status(500).json({ ok: false, error: e?.message || String(e) });
+-  }
+-});
+-
+-// POST /api/tasks/cancel  { task_id, run_id?, ... }
+-apiTasksRouter.post("/cancel", async (req, res) => {
+-  try {
+-    // Phase53: enforce gate BEFORE any DB writes
+-    assertNotEnforced("http:/api/tasks/cancel");
+-
+-    // Phase53: enforce gate BEFORE any DB writes
+-    assertNotEnforced("http:/api/tasks/fail");
+-
+-    const pool = _getPoolOrFail(res);
+-    if (!pool) return;
+-
+-    const b = _asJson(req);
+-    const task_id = b.task_id ?? b.taskId ?? b.id ?? null;
+-    if (!task_id) return res.status(400).json({ ok: false, error: "task_id_required" });
+-
+-    const evt = await emitTaskEvent({
+-      pool,
+-      kind: "task.canceled",
+-      task_id,
+-      run_id: b.run_id ?? b.runId ?? null,
+-      actor: b.actor ?? b.agent ?? "api",
+-      payload: {
+-        reason: b.reason ?? null,
+-        source: b.source ?? "api",
+-      },
+-    });
+-
+-    res.status(200).json({ ok: true, task_id, event: evt });
+-  } catch (e) {
+-    console.error("[phase25] /api/tasks error", e);
+-
+-    if (e instanceof PolicyEnforcedError || e?.code === "POLICY_ENFORCED" || e?.name === "PolicyEnforcedError") {
+-      return res.status(403).json({ ok: false, error: "policy.enforced", detail: e?.message || String(e) });
+-    }
+-
+-    res.status(500).json({ ok: false, error: e?.message || String(e) });
+-  }
+-});
+-
+-/**
+-
+- * Phase 719 — Artifact Inspection Endpoint (READ-ONLY)
+-
+- * GET /api/artifacts/:task_id
+-
+- */
+-
+-app.get("/api/artifacts/:task_id", async (req, res) => {
+-
+-  try {
+-
+-    const task_id = req.params.task_id;
+-
+-    const result = await pool.query(
+-
+-      \`
++      const result = await globalThis.__DB_POOL.query(
+ 
+-      SELECT
++        `
+ 
+-        te.payload->>'artifact' AS artifact,
++        SELECT
+ 
+-        te.payload->>'artifacts' AS artifacts,
++          te.payload->>'artifact' AS artifact,
+ 
+-        te.payload->>'outcome_preview' AS outcome_preview,
++          te.payload->>'artifacts' AS artifacts,
+ 
+-        te.payload->>'explanation_preview' AS explanation_preview,
++          te.payload->>'outcome_preview' AS outcome_preview,
+ 
+-        te.payload
++          te.payload->>'explanation_preview' AS explanation_preview,
+ 
+-      FROM task_events te
++          te.payload
+ 
+-      WHERE te.task_id = $1
+-
+-        AND te.kind = 'task.completed'
++        FROM task_events te
+ 
+-      ORDER BY te.id DESC
++        WHERE te.task_id = $1
+ 
+-      LIMIT 1
++          AND te.kind = 'task.completed'
+ 
+-      \`,
++        ORDER BY te.id DESC
+ 
+-      [task_id]
++        LIMIT 1
+ 
+-    );
++        `,
+ 
+-    if (!result.rows.length) {
++        [task_id]
+ 
+-      return res.status(404).json({
++      );
+ 
+-        ok: false,
++      return res.json({ ok: true, row: result.rows?.[0] || null });
+ 
+-        error: "artifact_not_found"
++    } catch (e) {
+ 
+-      });
++      return res.status(500).json({ ok: false, error: e?.message || String(e) });
+ 
+     }
+ 
+-    const row = result.rows[0];
+-
+-    res.json({
+-
+-      ok: true,
+-
+-      task_id,
+-
+-      artifact: row.artifact,
+-
+-      artifacts: row.artifacts,
+-
+-      outcome_preview: row.outcome_preview,
+-
+-      explanation_preview: row.explanation_preview
+-
+-    });
+-
+-  } catch (err) {
+-
+-    console.error("[artifact-inspection] error:", err);
+-
+-    res.status(500).json({ ok: false, error: "internal_error" });
+-
+-  }
++  });
+ 
+-});
++}
+ 

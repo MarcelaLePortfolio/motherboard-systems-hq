@@ -1,0 +1,47 @@
+PHASE 719 FRONTEND ARTIFACT UI INSPECTION
+
+BRANCH
+phase719-artifact-visibility
+
+STATUS
+A  PHASE719_FRONTEND_ARTIFACT_UI_INSPECT.sh
+?? PHASE719_ADD_ARTIFACT_INSPECTION_ENDPOINT.sh
+?? PHASE719_ARTIFACT_VISIBILITY_INSPECT.sh
+?? PHASE719_BACKEND_DIFF_AND_RUNTIME_INSPECT.sh
+?? PHASE719_COMPARE_ROUTE_BASELINES.sh
+?? PHASE719_FIND_STABLE_TASK_API_BASELINE.sh
+?? PHASE719_FULL_DISASTER_RECOVERY_BACKUP.sh
+?? PHASE719_REMOVE_MALFORMED_INLINE_ARTIFACT_ENDPOINT.sh
+?? PHASE719_REPAIR_ARTIFACT_HELPER_AND_VERIFY.sh
+?? PHASE719_REPAIR_FRONTEND_INSPECTION_CHECKPOINT.sh
+?? PHASE719_REPAIR_INLINE_ARTIFACT_HELPER_AND_VERIFY.sh
+?? PHASE719_VERIFY_AND_COMMIT_ARTIFACT_PATCH.sh
+?? PHASE719_VERIFY_EXISTING_ARTIFACT_AND_COMMIT.sh
+?? checkpoints/PHASE719_BACKEND_DIFF_BEFORE_UI.patch
+?? checkpoints/PHASE719_FRONTEND_ARTIFACT_UI_INSPECTION.txt
+?? checkpoints/PHASE719_FRONTEND_ARTIFACT_UI_INSPECTION_NOTE.md
+?? checkpoints/PHASE719_ROUTE_BASELINE_COMPARISON.txt
+?? checkpoints/PHASE719_STABLE_TASK_API_BASELINE_SEARCH.txt
+
+RUNTIME CONFIRMATION
+{"ok":true}
+{"ok":true,"tasks":[{"id":"3","task_id":"t_d1efc418-5049-401c-89fe-19eaceb8f784","title":"Create a verified artifact proof for Moonrise Bakery with headline, tagline, and three section ideas.","status":"completed","claimed_by":"worker-06032983-c59f-4ccd-a7cc-2473a21bc94e","updated_at":"2026-05-12T23:08:48.464Z","outcome_preview":"Standard execution prepared for: Create a verified artifact proof for Moonrise Bakery with headline, tagline, and three section ideas.","explanation_preview":"standard execution path","artifact":{"path":"/app/data/artifacts/t_d1efc418-5049-401c-89fe-19eaceb8f784_run_292cc050-b420-4a51-aad9-2ca8fd42f0b2.md","type":"markdown","source":"worker","filename":"t_d1efc418-5049-401c-89fe-19eaceb8f784_run_292cc050-b420-4a51-aad9-2ca8fd42f0b2.md","created_at":"2026-05-12T23:08:53.354Z","size_bytes":564},"artifacts":[{"path":"/app/data/artifacts/t_d1efc418-5049-401c-89fe-19eaceb8f784_run_292cc050-b420-4a51-aad9-2ca8fd42f0b2.md","type":"markdown","source":"worker","filename":"t_d1efc418-5049-401c-89fe-19eaceb8f784_run_292cc050-b420-4a51-aad9-2ca8fd42f0b2.md","created_at":"2026-05-12T23:08:53.354Z","size_bytes":564}],"guidance":{"ts":1778627333355,"actor":"worker-06032983-c59f-4ccd-a7cc-2473a21bc94e","run_id":"run_292cc050-b420-4a51-aad9-2ca8fd42f0b2","source":"worker","status":"completed","task_id":"t_d1efc418-5049-401c-89fe-19eaceb8f784","artifact":{"path":"/app/data/artifacts/t_d1efc418-5049-401c-89fe-19eaceb8f784_run_292cc050-b420-4a51-aad9-2ca8fd42f0b2.md","type":"markdown","source":"worker","filename":"t_d1efc418-5049-401c-89fe-19eaceb8f784_run_292cc050-b420-4a51-aad9-2ca8fd42f0b2.md","created_at":"2026-05-12T23:08:53.354Z","size_bytes":564},"artifacts":[{"path":"/app/data/artifacts/t_d1efc418-5049-401c-89fe-19eaceb8f784_run_292cc050-b420-4a51-aad9-2ca8fd42f0b2.md","type":"markdown","source":"worker","filename":"t_d1efc418-5049-401c-89fe-19eaceb8f784_run_292cc050-b420-4a51-aad9-2ca8fd42f0b2.md","created_at":"2026-05-12T23:08:53.354Z","size_bytes":564}],"claimed_by":"worker-06032983-c59f-4ccd-a7cc-2473a21bc94e","completed_at":"2026-05-12T23:08:53.351Z","outcome_preview":"Standard execution prepared for: Create a verified artifact proof for Moonrise Bakery with headline, tagline, and three section ideas.","communicationResult":{"outcome":{"tier":"TIER_1","content":"Standard execution prepared for: Create a verified artifact proof for Moonrise Bakery with headline, tagline, and three section ideas.","purpose":"operator-safe outcome","visibility":"default"},"explanation":{"tier":"TIER_2","content":"standard execution path","purpose":"brief causal explanation","visibility":"on_request","persistence":"non_sticky"},"systemTrace":{"tier":"TIER_3","content":{"run_id":"run_292cc050-b420-4a51-aad9-2ca8fd42f0b2","task_id":"t_d1efc418-5049-401c-89fe-19eaceb8f784","execution_meta":{},"compiler_options":{},"strategy_applied":"default"},"purpose":"internal/system execution trace","visibility":"explicit_access_only","persistence":"non_default"}}
+
+ACTIVE FRONTEND TASK RENDERER
+public/js/phase530_visible_panels_bridge.js
+
+RELEVANT LINES
+44:  function taskRows(tasks) {
+134:      const taskId = esc(t.task_id || t.id || "");
+138:      const outcome = esc(t.outcome_preview || "");
+140:      const explanation = esc(t.explanation_preview || "");
+254:    if (recentTasks) recentTasks.innerHTML = taskRows(tasks);
+653:    const taskId = button.getAttribute("data-task-id");
+672:      const data = await getJson("/api/tasks?limit=12");
+
+BOUNDARY
+- frontend-only from here
+- use artifact/artifacts already returned by /api/tasks
+- do not re-add /api/artifacts/:task_id inside api-tasks-postgres.mjs
+- do not refactor backend routing
+- do not modify retry contract
