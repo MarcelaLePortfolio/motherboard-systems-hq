@@ -1,0 +1,39 @@
+PHASE 719 ARTIFACT FILE LOCATION MISMATCH
+
+Branch:
+phase719-artifact-visibility
+
+HEAD:
+a9c2e472 (HEAD -> phase719-artifact-visibility, origin/phase719-artifact-visibility) Phase 719: fix artifact preview pool reference
+86d8590e Phase 719: fix artifact preview router symbol
+d8e2a10a Phase 719: add readonly artifact preview content route
+e4f84dc2 Phase 719: inspect artifact content access path
+d551a279 Phase 719: checkpoint before rendered artifact preview
+
+Runtime health:
+{"ok":true}
+
+Task API artifact payload:
+"artifact":{"path":"/app/data/artifacts/t_d1efc418-5049-401c-89fe-19eaceb8f784_run_292cc050-b420-4a51-aad9-2ca8fd42f0b2.md","type":"markdown","source":"worker","filename":"t_d1efc418-5049-401c-89fe-19eaceb8f784_run_292cc050-b420-4a51-aad9-2ca8fd42f0b2.md","created_at":"2026-05-12T23:08:53.354Z","size_bytes":564}
+"artifact":{"path":"/app/data/artifacts/t_d1efc418-5049-401c-89fe-19eaceb8f784_run_292cc050-b420-4a51-aad9-2ca8fd42f0b2.md","type":"markdown","source":"worker","filename":"t_d1efc418-5049-401c-89fe-19eaceb8f784_run_292cc050-b420-4a51-aad9-2ca8fd42f0b2.md","created_at":"2026-05-12T23:08:53.354Z","size_bytes":564}
+
+Dashboard /app/data:
+/app/data/guidance-history.jsonl
+
+Worker /app/data:
+/app/data/artifacts/t_d1efc418-5049-401c-89fe-19eaceb8f784_run_292cc050-b420-4a51-aad9-2ca8fd42f0b2.md
+
+Docker compose volumes:
+2:  dashboard:
+
+Preview route test:
+HTTP/1.1 404 Not Found
+X-Powered-By: Express
+Content-Type: application/json; charset=utf-8
+Content-Length: 44
+ETag: W/"2c-4I5YzA853gLTiaHiHFT9OKuy4cs"
+Date: Thu, 14 May 2026 20:35:50 GMT
+Connection: keep-alive
+Keep-Alive: timeout=5
+
+{"ok":false,"error":"artifact_file_missing"}
