@@ -1,0 +1,84 @@
+PHASE 719 ARTIFACT CONTENT ACCESS INSPECTION
+
+Timestamp:
+Thu May 14 13:30:03 PDT 2026
+
+Branch:
+phase719-artifact-visibility
+
+HEAD:
+d551a279 (HEAD -> phase719-artifact-visibility, origin/phase719-artifact-visibility) Phase 719: checkpoint before rendered artifact preview
+49d0e371 Phase 719: add frontend-only artifact preview modal
+fa8a36b5 Phase 719: checkpoint before preview modal
+3b8f4829 Phase 719: replace lifecycle pill with conditional preview
+cba8402a Phase 719: inspect exact lifecycle pill before preview replacement
+
+Runtime health:
+{"ok":true}
+
+Task artifact sample:
+artifact sample parse failed: Expecting value: line 1 column 1 (char 0)
+
+Container artifact directory:
+
+Container artifact file preview:
+No markdown artifact found
+
+Static/public artifact access probes:
+HTTP/1.1 404 Not Found
+X-Powered-By: Express
+Content-Security-Policy: default-src 'none'
+X-Content-Type-Options: nosniff
+Content-Type: text/html; charset=utf-8
+Content-Length: 154
+Date: Thu, 14 May 2026 20:30:03 GMT
+Connection: keep-alive
+Keep-Alive: timeout=5
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Error</title>
+</head>
+<body>
+<pre>Cannot GET /data/artifacts/</pre>
+</body>
+</html>
+
+HTTP/1.1 404 Not Found
+X-Powered-By: Express
+Content-Security-Policy: default-src 'none'
+X-Content-Type-Options: nosniff
+Content-Type: text/html; charset=utf-8
+Content-Length: 149
+Date: Thu, 14 May 2026 20:30:03 GMT
+Connection: keep-alive
+Keep-Alive: timeout=5
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Error</title>
+</head>
+<body>
+<pre>Cannot GET /artifacts/</pre>
+</body>
+</html>
+
+Existing artifact routes/files:
+server/artifacts.mjs:19:  app.get("/events/artifacts", (req, res) => {
+server/artifacts.mjs:54:  app.post("/api/artifacts", (req, res) => {
+server/worker/phase26_task_worker.mjs:129:      const artifactDir = process.env.MB_ARTIFACT_DIR || "/app/data/artifacts";
+public/js/project-visual-output.js:9:  const URL = "/events/artifacts";
+
+Preview modal markers:
+191:            ${artifactRaw ? `<button type="button" data-phase719-preview-artifact="true" data-task-id="${taskId}" data-task-title="${title}" data-artifact-name="${artifactName}" data-artifact-type="${artifactType}" data-artifact-size="${artifactSize}" data-artifact-path="${artifactPath}" data-artifact-outcome="${outcome}" data-artifact-explanation="${explanation}" title="Preview completed artifact" style="flex:0 0 auto;cursor:pointer;color:#93c5fd;border:1px solid rgba(147,197,253,.35);border-radius:999px;padding:2px 7px;font-size:10px;line-height:1.4;background:rgba(30,64,175,.18);">Preview</button>` : ""}
+705:    let modal = document.getElementById("phase719-preview-modal");
+711:    modal.id = "phase719-preview-modal";
+767:  function phase719OpenPreviewModal(button) {
+789:    const path = button.getAttribute("data-artifact-path") || "";
+791:    const outcome = button.getAttribute("data-artifact-outcome") || "";
+793:    const explanation = button.getAttribute("data-artifact-explanation") || "";
+833:    phase719OpenPreviewModal(button);
