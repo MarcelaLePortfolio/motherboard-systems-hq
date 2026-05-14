@@ -1,0 +1,329 @@
+BRANCH
+phase719-artifact-visibility
+
+LOCAL SERVER ROUTE WIRING
+8:import { apiTasksRouter } from "./server/routes/api-tasks-postgres.mjs";
+34:app.use("/api/tasks", apiTasksRouter);
+636:app.use(express.static(path.join(__dirname, "ui/dashboard")));
+637:app.use(express.static(path.join(__dirname, "public")));
+
+DOCKER COMPOSE CONFIG
+name: motherboard_systems_hq
+services:
+  dashboard:
+    build:
+      context: /Users/marcela-dev/Projects/Motherboard_Systems_HQ
+      dockerfile: Dockerfile.dashboard
+    command:
+      - node
+      - server.js
+    depends_on:
+      postgres:
+        condition: service_healthy
+        required: true
+    environment:
+      DATABASE_URL: postgresql://postgres:postgres@postgres:5432/postgres
+      POSTGRES_URL: postgresql://postgres:postgres@postgres:5432/postgres
+      SYSTEM_SCHEDULER_ENABLED: "false"
+      SYSTEM_SCHEDULER_INTERVAL_MS: "60000"
+    networks:
+      default: null
+    ports:
+      - mode: ingress
+        target: 3000
+        published: "3000"
+        protocol: tcp
+    volumes:
+      - type: volume
+        source: guidance_data
+        target: /app/data
+        volume: {}
+  postgres:
+    environment:
+      POSTGRES_DB: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_USER: postgres
+    healthcheck:
+      test:
+        - CMD-SHELL
+        - pg_isready -U postgres -d postgres
+      timeout: 5s
+      interval: 2s
+      retries: 30
+    image: postgres:16-alpine
+    networks:
+      default: null
+    volumes:
+      - type: volume
+        source: pgdata
+        target: /var/lib/postgresql/data
+        volume: {}
+      - type: bind
+        source: /Users/marcela-dev/Projects/Motherboard_Systems_HQ/docker-entrypoint-initdb.d
+        target: /docker-entrypoint-initdb.d
+        read_only: true
+        bind:
+          create_host_path: true
+      - type: bind
+        source: /Users/marcela-dev/Projects/Motherboard_Systems_HQ/migrations
+        target: /migrations
+        read_only: true
+        bind:
+          create_host_path: true
+  worker:
+    build:
+      context: /Users/marcela-dev/Projects/Motherboard_Systems_HQ
+      dockerfile: Dockerfile
+    command:
+      - node
+      - server/worker/phase26_task_worker.mjs
+    depends_on:
+      postgres:
+        condition: service_healthy
+        required: true
+    environment:
+      DATABASE_URL: postgresql://postgres:postgres@postgres:5432/postgres
+      POSTGRES_URL: postgresql://postgres:postgres@postgres:5432/postgres
+    networks:
+      default: null
+networks:
+  default:
+    name: motherboard_systems_hq_default
+volumes:
+  guidance_data:
+    name: motherboard_systems_hq_guidance_data
+  pgdata:
+    name: motherboard_systems_hq_pgdata
+
+CONTAINER WORKDIR FILE LIST
+/app
+total 6936
+drwxr-xr-x    1 root     root         81920 May 13 23:39 .
+drwxr-xr-x    1 root     root          4096 May 13 23:39 ..
+-rw-r--r--    1 root     root          6148 Apr 30 17:28 .DS_Store
+drwxr-xr-x    5 root     root          4096 Apr 30 17:28 .builds
+-rw-r--r--    1 root     root            73 May  3 00:22 .dockerignore
+-rw-r--r--    1 root     root            65 May  1 00:42 .env
+-rw-r--r--    1 root     root           654 Apr 30 17:17 .eslintrc.cjs
+drwxr-xr-x    2 root     root          4096 May  1 00:42 .githooks
+drwxr-xr-x    3 root     root          4096 May  1 00:42 .github
+-rw-r--r--    1 root     root             6 May  1 00:42 .phase489_h4_generator.pid
+-rw-r--r--    1 root     root             6 May  1 00:42 .phase88_14_10_server.pid
+-rw-r--r--    1 root     root             6 May  1 00:42 .phase88_14_5_server.pid
+-rw-r--r--    1 root     root             6 May  1 00:42 .phase88_14_7_server.pid
+-rw-r--r--    1 root     root             6 May  1 00:42 .phase88_14_server.pid
+-rw-r--r--    1 root     root            11 May  1 00:42 .rgignore
+-rw-r--r--    1 root     root            41 Apr 30 17:17 .ts
+-rw-r--r--    1 root     root          2173 May  1 00:42 AGENT_SAFETY_DOCTRINE.md
+-rwxr-xr-x    1 root     root          2207 May  5 02:03 APPLY_PHASE677_COLLAPSE_INDICATORS_PATCH.sh
+-rwxr-xr-x    1 root     root          3366 May  5 01:57 APPLY_PHASE677_DIFF_VIEW_PATCH.sh
+-rwxr-xr-x    1 root     root          2555 May  5 02:02 APPLY_PHASE677_TEMPORAL_GROUPING_PATCH.sh
+-rw-r--r--    1 root     root          1692 May  1 00:42 ARCHITECTURE_OVERVIEW.md
+-rw-r--r--    1 root     root          2057 May  1 00:42 AUTHORITY_FLOW_CONTRACT.md
+-rw-r--r--    1 root     root           444 May  1 00:42 CHECKPOINT.md
+-rw-r--r--    1 root     root          2030 May  1 00:42 CONTAINER_AUTHORITY_RECONCILIATION_SNAPSHOT.md
+-rw-r--r--    1 root     root          1346 May  1 00:42 CONTAINER_RECONCILIATION_NEXT_STEP.md
+-rwxr-xr-x    1 root     root           979 May  5 00:41 DEBUG_PHASE675_CONNECTIVITY.sh
+-rwxr-xr-x    1 root     root           810 May  5 00:43 DEBUG_PHASE675_ROUTE_DISCOVERY.sh
+-rwxr-xr-x    1 root     root          1187 May  5 00:46 DISCOVER_PHASE675_EXPRESS_ROUTE_OWNER.sh
+-rw-r--r--    1 root     root           168 Apr 30 23:55 Dockerfile
+-rw-r--r--    1 root     root           777 Apr 30 23:55 Dockerfile.backup-scheduler
+-rw-r--r--    1 root     root           180 May  1 00:45 Dockerfile.dashboard
+-rw-r--r--    1 root     root           467 Apr 30 23:55 Dockerfile.ops-stream
+-rw-r--r--    1 root     root            41 May  1 00:42 Dockerfile.pgtools.patch
+-rw-r--r--    1 root     root           563 Apr 30 23:55 Dockerfile.reflections-stream
+-rw-r--r--    1 root     root           964 Apr 30 23:55 Dockerfile.worker
+-rwxr-xr-x    1 root     root           855 May  5 00:33 EXECUTE_PHASE675_VALIDATION_AND_CHECKPOINT.sh
+-rw-r--r--    1 root     root          2064 May  1 00:42 EXECUTION_SAFETY_BOUNDARY.md
+-rwxr-xr-x    1 root     root           627 May  5 02:06 FIX_PHASE677_SNAPSHOT_EXCLUDE.sh
+-rw-r--r--    1 root     root          2727 May  1 00:42 GOVERNANCE_ACTIVATION_DECISION_MODEL.md
+-rw-r--r--    1 root     root          3147 May  1 00:42 GOVERNANCE_ADVISORY_ENGINE_MODEL.md
+-rw-r--r--    1 root     root          3114 May  1 00:42 GOVERNANCE_ADVISORY_PRESENTATION_MODEL.md
+-rw-r--r--    1 root     root          2399 May  1 00:42 GOVERNANCE_AUTHORITY_PRESERVATION_MODEL.md
+-rw-r--r--    1 root     root          2884 May  1 00:42 GOVERNANCE_CLASSIFICATION_INDEX.md
+-rw-r--r--    1 root     root          3065 May  1 00:42 GOVERNANCE_COGNITION_ARCHITECTURE_COMPLETION_MODEL.md
+-rw-r--r--    1 root     root          4032 May  1 00:42 GOVERNANCE_COGNITION_BOUNDARIES_MODEL.md
+-rw-r--r--    1 root     root          3582 May  1 00:42 GOVERNANCE_COGNITION_CONFIDENCE_MODEL.md
+-rw-r--r--    1 root     root          3437 May  1 00:42 GOVERNANCE_COGNITION_CONSTRAINT_SCHEMA_MODEL.md
+-rw-r--r--    1 root     root          3030 May  1 00:42 GOVERNANCE_COGNITION_EXPLAINABILITY_MODEL.md
+-rw-r--r--    1 root     root          3767 May  1 00:42 GOVERNANCE_COGNITION_FAILURE_MODES_MODEL.md
+-rw-r--r--    1 root     root          4610 May  1 00:42 GOVERNANCE_COGNITION_PRESENTATION_MODEL.md
+-rw-r--r--    1 root     root          4849 May  1 00:42 GOVERNANCE_COGNITION_PRIORITIZATION_MODEL.md
+-rw-r--r--    1 root     root          4364 May  1 00:42 GOVERNANCE_COGNITION_STABILITY_MODEL.md
+-rw-r--r--    1 root     root          3926 May  1 00:42 GOVERNANCE_COGNITION_TRANSPARENCY_MODEL.md
+-rw-r--r--    1 root     root          2678 May  1 00:42 GOVERNANCE_CONSTRAINT_ACTIVATION_MODEL.md
+-rw-r--r--    1 root     root          4414 May  1 00:42 GOVERNANCE_CONSTRAINT_CLASSIFICATION_MODEL.md
+-rw-r--r--    1 root     root          2630 May  1 00:42 GOVERNANCE_CONSTRAINT_DISCOVERY_SEMANTICS_MODEL.md
+-rw-r--r--    1 root     root          2489 May  1 00:42 GOVERNANCE_CONSTRAINT_LIFECYCLE_MANAGEMENT_MODEL.md
+-rw-r--r--    1 root     root          2726 May  1 00:42 GOVERNANCE_CONSTRAINT_REGISTRY_MODEL.md
+-rw-r--r--    1 root     root          3925 May  1 00:42 GOVERNANCE_CONSTRAINT_REGISTRY_STRUCTURE.md
+-rw-r--r--    1 root     root          2364 May  1 00:42 GOVERNANCE_CONSTRAINT_RISK_CLASSIFICATION_MODEL.md
+-rw-r--r--    1 root     root          5103 May  1 00:42 GOVERNANCE_CONSTRAINT_SCHEMA_MODEL.md
+-rw-r--r--    1 root     root          4018 May  1 00:42 GOVERNANCE_CONSTRAINT_SCHEMA_PLAN.md
+-rw-r--r--    1 root     root          2370 May  1 00:42 GOVERNANCE_CONSTRAINT_VERSIONING_MODEL.md
+-rw-r--r--    1 root     root          4151 May  1 00:42 GOVERNANCE_DECISION_ROUTING_MODEL.md
+-rw-r--r--    1 root     root          3329 May  1 00:42 GOVERNANCE_DEPLOYMENT_SAFEGUARDS_MODEL.md
+-rw-r--r--    1 root     root          2731 May  1 00:42 GOVERNANCE_DOCTRINE_CONFLICT_RESOLUTION_MODEL.md
+-rw-r--r--    1 root     root          2612 May  1 00:42 GOVERNANCE_DOCTRINE_VERIFICATION_MODEL.md
+-rw-r--r--    1 root     root          4494 May  1 00:42 GOVERNANCE_ENFORCEMENT_ARCHITECTURE_MODEL.md
+-rw-r--r--    1 root     root          2042 May  1 00:42 GOVERNANCE_ENFORCEMENT_BOUNDARY.md
+-rw-r--r--    1 root     root          2732 May  1 00:42 GOVERNANCE_ENFORCEMENT_BOUNDARY_MODEL.md
+-rw-r--r--    1 root     root          2600 May  1 00:42 GOVERNANCE_ENFORCEMENT_GATE_MODEL.md
+-rw-r--r--    1 root     root          2504 May  1 00:42 GOVERNANCE_ENFORCEMENT_READINESS_MODEL.md
+-rw-r--r--    1 root     root          4326 May  1 00:42 GOVERNANCE_ENFORCEMENT_TRANSLATION_MAP.md
+-rw-r--r--    1 root     root          4651 May  1 00:42 GOVERNANCE_ENFORCEMENT_TRANSLATION_PREPARATION.md
+-rw-r--r--    1 root     root          4010 May  1 00:42 GOVERNANCE_EVALUATION_LOCATION_SPEC.md
+-rw-r--r--    1 root     root          3769 May  1 00:42 GOVERNANCE_EVALUATION_SEMANTICS.md
+-rw-r--r--    1 root     root          3149 May  1 00:42 GOVERNANCE_EVALUATION_SEMANTICS_MODEL.md
+-rw-r--r--    1 root     root          4250 May  1 00:42 GOVERNANCE_EXPLAINABILITY_MODEL.md
+-rw-r--r--    1 root     root          3025 May  1 00:42 GOVERNANCE_FIRST_CODE_IMPLEMENTATION_READINESS_MODEL.md
+
+CONTAINER SERVER ROUTE WIRING
+69:  res.send("Dashboard is running");
+
+CONTAINER SERVER HEAD
+
+import express from "express";
+
+import path from "path";
+
+import { fileURLToPath } from "url";
+
+import fs from "fs";
+
+import pg from "pg";
+
+import registerApiTasksRoutes from "./server/routes/api-tasks-postgres.mjs";
+
+import taskEventsSseRouter from "./server/routes/task-events-sse.mjs";
+
+import operatorGuidanceRouter from "./server/routes/operator-guidance.mjs";
+
+import { createRequire } from "module";
+
+const require = createRequire(import.meta.url);
+
+const { enforceRetryContract } = require("./server/retry_contract.js");
+
+const { routeRetryExecution } = require("./server/retry_execution_router.js");
+
+const __filename = fileURLToPath(import.meta.url);
+
+const __dirname = path.dirname(__filename);
+
+const app = express();
+
+const PORT = process.env.PORT || 3000;
+
+app.use(express.json());
+
+const { Pool } = pg;
+
+const pool = new Pool({
+
+  user: process.env.POSTGRES_USER || "postgres",
+
+  host: process.env.DB_HOST || "postgres",
+
+  database: process.env.POSTGRES_DB || "postgres",
+
+  password: process.env.POSTGRES_PASSWORD || "postgres",
+
+  port: 5432,
+
+});
+
+globalThis.__DB_POOL = pool;
+
+registerApiTasksRoutes(app);
+
+app.use(taskEventsSseRouter);
+
+app.use(operatorGuidanceRouter({ pool }));
+
+app.listen(PORT, () => {
+
+  console.log(`[dashboard] running on port ${PORT}`);
+
+});
+
+
+app.get("/", (req, res) => {
+
+  res.send("Dashboard is running");
+
+});
+
+
+CONTAINER PACKAGE START
+1-{
+2-  "name": "motherboard-systems-hq",
+3-  "version": "1.0.0",
+4-  "private": true,
+5:  "scripts": {
+6:    "verify:replay": "tsx scripts/_local/verification/check-replay-verification.ts"
+7-  },
+8-  "dependencies": {
+9-    "better-sqlite3": "^12.9.0",
+10-    "cors": "^2.8.6",
+11-    "express": "^5.2.1",
+12-    "pg": "^8.20.0"
+13-  },
+14:  "devDependencies": {
+15:    "typescript": "^6.0.3"
+16-  }
+17-}
+
+LIVE ROUTES
+HTTP/1.1 200 OK
+X-Powered-By: Express
+Content-Type: text/html; charset=utf-8
+Content-Length: 20
+ETag: W/"14-k6csJNjBRwYmMHOsaWEGUXeg1Ic"
+Date: Thu, 14 May 2026 00:05:25 GMT
+Connection: keep-alive
+Keep-Alive: timeout=5
+
+Dashboard is running
+HTTP/1.1 404 Not Found
+X-Powered-By: Express
+Content-Security-Policy: default-src 'none'
+X-Content-Type-Options: nosniff
+Content-Type: text/html; charset=utf-8
+Content-Length: 155
+Date: Thu, 14 May 2026 00:05:25 GMT
+Connection: keep-alive
+Keep-Alive: timeout=5
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Error</title>
+</head>
+<body>
+<pre>Cannot GET /api/tasks/health</pre>
+</body>
+</html>
+
+HTTP/1.1 404 Not Found
+X-Powered-By: Express
+Content-Security-Policy: default-src 'none'
+X-Content-Type-Options: nosniff
+Content-Type: text/html; charset=utf-8
+Content-Length: 148
+Date: Thu, 14 May 2026 00:05:25 GMT
+Connection: keep-alive
+Keep-Alive: timeout=5
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Error</title>
+</head>
+<body>
+<pre>Cannot GET /api/tasks</pre>
+</body>
+</html>
+
