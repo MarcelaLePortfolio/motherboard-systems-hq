@@ -1,0 +1,41 @@
+
+PHASE 719 PRE PREVIEW PILL CHECKPOINT V2
+
+Timestamp:
+
+Thu May 14 13:05:42 PDT 2026
+
+Branch:
+
+phase719-artifact-visibility
+
+Backup result:
+
+Incremental backup completed successfully.
+
+Backup manifest:
+
+/Volumes/Rio Drive/Motherboard_Storage/snapshots/phase719_incremental_20260514_130402_MANIFEST.txt
+
+Runtime health:
+
+{"ok":true}
+
+Artifact UI marker:
+
+207:              ${artifactRaw ? `<div style="margin-bottom:8px;color:#86efac;font-size:11px;line-height:1.5;overflow-wrap:anywhere;border:1px solid rgba(134,239,172,.28);border-radius:10px;padding:7px;background:rgba(20,83,45,.14);">Artifact: ${artifactName}${artifactType ? ` · ${artifactType}` : ""}${artifactSize ? ` · ${artifactSize}` : ""}</div>` : ""}
+
+Next mutation:
+
+Replace always-on lifecycle pill with conditional Preview pill only when artifact/artifacts exists.
+
+Boundary:
+
+- frontend-only
+
+- no backend route changes
+
+- no retry contract changes
+
+- preserve artifact metadata line
+
