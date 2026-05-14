@@ -1,0 +1,26 @@
+PHASE 719 PRE PREVIEW MODAL BACKUP
+
+Timestamp:
+Thu May 14 13:18:23 PDT 2026
+
+Branch:
+phase719-artifact-visibility
+
+HEAD:
+3b8f4829 (HEAD -> phase719-artifact-visibility, origin/phase719-artifact-visibility) Phase 719: replace lifecycle pill with conditional preview
+cba8402a Phase 719: inspect exact lifecycle pill before preview replacement
+bc09f2db Phase 719: checkpoint preview pill backup proof
+df91143a Phase 719: verify backup and seal status
+51e3bd3b Phase 719: surface artifact metadata in recent tasks
+
+Runtime health:
+{"ok":true}
+
+Preview marker:
+190:            ${artifactRaw ? `<button type="button" data-phase719-preview-artifact="true" data-task-id="${taskId}" data-task-title="${title}" title="Preview completed artifact" style="flex:0 0 auto;cursor:pointer;color:#93c5fd;border:1px solid rgba(147,197,253,.35);border-radius:999px;padding:2px 7px;font-size:10px;line-height:1.4;background:rgba(30,64,175,.18);">Preview</button>` : ""}
+
+Next mutation:
+- Add read-only Preview modal behavior
+- Frontend-only
+- No backend routes
+- No retry/execution changes
