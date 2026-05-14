@@ -1,0 +1,54 @@
+PHASE 719 PRE HTML ARTIFACT GENERATION BACKUP
+
+Branch:
+phase719-artifact-visibility
+
+HEAD:
+a1cce132 (HEAD -> phase719-artifact-visibility, origin/phase719-artifact-visibility) Phase 719: render artifact preview as visual card surface
+6bb1f7a3 Phase 719: define visual preview not text boundary
+8074625f Phase 719: verify rendered markdown preview cleanly
+bb3feaa4 Phase 719: render markdown artifact preview visually
+e74025ec Phase 719: checkpoint visual preview direction
+858bee50 Phase 719: wire preview modal to artifact content
+e4091e6c Phase 719: inspect exact preview modal function before fetch wiring
+aa359457 Phase 719: checkpoint before rendered modal fetch
+
+Runtime health:
+{"ok":true}
+
+Current state:
+- Artifact persistence works
+- Shared worker/dashboard artifact volume works
+- Read-only artifact-preview route works
+- Preview modal fetches artifact content
+- Current visual card is generated frontend HTML from markdown, not artifact-authored HTML
+
+Next mutation:
+- Add worker-produced HTML artifact alongside markdown
+- Update artifact metadata so Preview prefers HTML artifact
+- Preserve markdown artifact as fallback
+- Preserve read-only route
+- Preserve retry/execution contract
+- No DB schema changes
+
+Markers:
+server/worker/phase26_task_worker.mjs:123:    function persistTaskArtifact({ task, completed, executionResult }) {
+server/worker/phase26_task_worker.mjs:129:      const artifactDir = process.env.MB_ARTIFACT_DIR || "/app/data/artifacts";
+server/worker/phase26_task_worker.mjs:135:      const artifactPath = path.join(artifactDir, filename);
+server/worker/phase26_task_worker.mjs:185:      fs.writeFileSync(artifactPath, content, "utf8");
+server/worker/phase26_task_worker.mjs:193:        path: artifactPath,
+server/worker/phase26_task_worker.mjs:205:    const artifact = persistTaskArtifact({ task, completed, executionResult });
+server/worker/phase26_task_worker.mjs:222:        artifacts: [artifact]
+server/routes/api-tasks-postgres.mjs:68:        completed.payload->'artifacts' AS artifacts,
+server/routes/api-tasks-postgres.mjs:94:// GET /api/tasks/:task_id/artifact-preview
+server/routes/api-tasks-postgres.mjs:96:apiTasksRouter.get("/:task_id/artifact-preview", async (req, res) => {
+server/routes/api-tasks-postgres.mjs:116:        completed.payload->'artifacts' AS artifacts
+server/routes/api-tasks-postgres.mjs:158:      (Array.isArray(row.artifacts) ? row.artifacts[0] : null);
+server/routes/api-tasks-postgres.mjs:166:    const artifactDir = process.env.MB_ARTIFACT_DIR || "/app/data/artifacts";
+public/js/phase530_visible_panels_bridge.js:141:      const artifactRaw = t.artifact || (Array.isArray(t.artifacts) ? t.artifacts[0] : null) || null;
+public/js/phase530_visible_panels_bridge.js:145:      const artifactPath = artifactRaw ? esc(artifactRaw.path || "") : "";
+public/js/phase530_visible_panels_bridge.js:191:            ${artifactRaw ? `<button type="button" data-phase719-preview-artifact="true" data-task-id="${taskId}" data-task-title="${title}" data-artifact-name="${artifactName}" data-artifact-type="${artifactType}" data-artifact-size="${artifactSize}" data-artifact-path="${artifactPath}" data-artifact-outcome="${outcome}" data-artifact-explanation="${explanation}" title="Preview completed artifact" style="flex:0 0 auto;cursor:pointer;color:#93c5fd;border:1px solid rgba(147,197,253,.35);border-radius:999px;padding:2px 7px;font-size:10px;line-height:1.4;background:rgba(30,64,175,.18);">Preview</button>` : ""}
+public/js/phase530_visible_panels_bridge.js:835:  function phase719RenderArtifactVisualCard(markdown) {
+public/js/phase530_visible_panels_bridge.js:859:      <div data-phase719-rendered-artifact-preview="true" style="max-width:920px;margin:0 auto;">
+public/js/phase530_visible_panels_bridge.js:903:    return phase719RenderArtifactVisualCard(markdown);
+public/js/phase530_visible_panels_bridge.js:966:      const res = await fetch(`/api/tasks/${encodeURIComponent(taskId)}/artifact-preview`, { cache: "no-store" });
