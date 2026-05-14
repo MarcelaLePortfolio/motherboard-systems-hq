@@ -1,0 +1,120 @@
+BRANCH
+phase719-artifact-visibility-ui
+
+HEAD
+b37bb3b1 (HEAD -> phase719-artifact-visibility-ui, origin/phase719-artifact-visibility-ui) Phase 719: restore task API baseline from dev
+a8823936 Phase 719: verify runtime after backend revert
+baa0bd26 Phase 719: revert unsafe backend delta before UI work
+8a971d1b Phase 719: establish verified artifact visibility baseline
+870d2e7e (origin/dev, dev) Add hardened rolling backup v2 (no heredoc, safer execution)
+
+STATUS
+?? PHASE719_ADD_ARTIFACT_INSPECTION_ENDPOINT.sh
+?? PHASE719_ARTIFACT_VISIBILITY_INSPECT.sh
+?? PHASE719_BACKEND_DIFF_AND_RUNTIME_INSPECT.sh
+?? PHASE719_COMPARE_ROUTE_BASELINES.sh
+?? PHASE719_FIND_STABLE_TASK_API_BASELINE.sh
+?? PHASE719_FULL_DISASTER_RECOVERY_BACKUP.sh
+?? PHASE719_REPAIR_ARTIFACT_HELPER_AND_VERIFY.sh
+?? PHASE719_REPAIR_INLINE_ARTIFACT_HELPER_AND_VERIFY.sh
+?? PHASE719_VERIFY_AND_COMMIT_ARTIFACT_PATCH.sh
+?? PHASE719_VERIFY_EXISTING_ARTIFACT_AND_COMMIT.sh
+?? PHASE719_VERIFY_RESTORED_TASK_API_ACTIVE.sh
+?? checkpoints/PHASE719_BACKEND_DIFF_BEFORE_UI.patch
+?? checkpoints/PHASE719_RESTORED_TASK_API_ACTIVE_VERIFY.txt
+?? checkpoints/PHASE719_ROUTE_BASELINE_COMPARISON.txt
+?? checkpoints/PHASE719_STABLE_TASK_API_BASELINE_SEARCH.txt
+
+ROUTE WIRING IN LOCAL FILES
+server.js:8:import { apiTasksRouter } from "./server/routes/api-tasks-postgres.mjs";
+server.js:34:app.use("/api/tasks", apiTasksRouter);
+server.js:636:app.use(express.static(path.join(__dirname, "ui/dashboard")));
+server.js:637:app.use(express.static(path.join(__dirname, "public")));
+server/routes/api-tasks-postgres.mjs:8:export const apiTasksRouter = express.Router();
+server/routes/api-tasks-postgres.mjs:30:apiTasksRouter.get("/healthz", async (_req, res) => {
+server/routes/api-tasks-postgres.mjs:34:apiTasksRouter.get("/health", async (_req, res) => {
+server/routes/api-tasks-postgres.mjs:39:apiTasksRouter.get("/", async (req, res) => {
+server/routes/api-tasks-postgres.mjs:91:apiTasksRouter.post("/create", async (req, res) => {
+server/routes/api-tasks-postgres.mjs:174:apiTasksRouter.post("/complete", async (req, res) => {
+server/routes/api-tasks-postgres.mjs:212:apiTasksRouter.post("/fail", async (req, res) => {
+server/routes/api-tasks-postgres.mjs:250:apiTasksRouter.post("/cancel", async (req, res) => {
+server/routes/api-tasks-postgres.mjs:293: * GET /api/artifacts/:task_id
+server/routes/api-tasks-postgres.mjs:297:app.get("/api/artifacts/:task_id", async (req, res) => {
+
+DOCKER CONTAINERS
+CONTAINER ID   IMAGE                              COMMAND                  CREATED          STATUS                PORTS                                         NAMES
+93d6acb012ac   motherboard_systems_hq-dashboard   "docker-entrypoint.s…"   25 minutes ago   Up 21 seconds         0.0.0.0:3000->3000/tcp, [::]:3000->3000/tcp   motherboard_systems_hq-dashboard-1
+24d1e17e06e2   motherboard_systems_hq-worker      "docker-entrypoint.s…"   25 hours ago     Up 25 hours                                                         motherboard_systems_hq-worker-1
+e37a3b84baf0   postgres:16-alpine                 "docker-entrypoint.s…"   7 days ago       Up 3 days (healthy)   5432/tcp                                      motherboard_systems_hq-postgres-1
+
+DASHBOARD LOGS
+[dashboard] running on port 3000
+[dashboard] running on port 3000
+[dashboard] running on port 3000
+
+ROOT ROUTE
+HTTP/1.1 200 OK
+X-Powered-By: Express
+Content-Type: text/html; charset=utf-8
+Content-Length: 20
+ETag: W/"14-k6csJNjBRwYmMHOsaWEGUXeg1Ic"
+Date: Thu, 14 May 2026 00:04:58 GMT
+Connection: keep-alive
+Keep-Alive: timeout=5
+
+Dashboard is running
+TASK API HEALTH
+HTTP/1.1 404 Not Found
+X-Powered-By: Express
+Content-Security-Policy: default-src 'none'
+X-Content-Type-Options: nosniff
+Content-Type: text/html; charset=utf-8
+Content-Length: 155
+Date: Thu, 14 May 2026 00:04:58 GMT
+Connection: keep-alive
+Keep-Alive: timeout=5
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Error</title>
+</head>
+<body>
+<pre>Cannot GET /api/tasks/health</pre>
+</body>
+</html>
+
+TASK API LIST
+HTTP/1.1 404 Not Found
+X-Powered-By: Express
+Content-Security-Policy: default-src 'none'
+X-Content-Type-Options: nosniff
+Content-Type: text/html; charset=utf-8
+Content-Length: 148
+Date: Thu, 14 May 2026 00:04:58 GMT
+Connection: keep-alive
+Keep-Alive: timeout=5
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Error</title>
+</head>
+<body>
+<pre>Cannot GET /api/tasks</pre>
+</body>
+</html>
+
+ARTIFACT TEST ROUTE
+HTTP/1.1 200 OK
+X-Powered-By: Express
+Content-Type: application/json; charset=utf-8
+Content-Length: 22
+ETag: W/"16-I8Hex2TBcqGjf3bEOyUAJngJ51s"
+Date: Thu, 14 May 2026 00:04:58 GMT
+Connection: keep-alive
+Keep-Alive: timeout=5
+
+{"ok":true,"row":null}
