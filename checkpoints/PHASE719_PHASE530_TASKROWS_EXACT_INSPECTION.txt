@@ -1,0 +1,131 @@
+TASKROWS FUNCTION EXCERPT
+    70	        keys.forEach((key) => {
+    71	
+    72	          if (key && readableTitle) {
+    73	
+    74	            phase718TaskTitleByKey.set(key, readableTitle);
+    75	
+    76	          }
+    77	
+    78	        });
+    79	
+    80	      });
+    81	
+    82	    return tasks.map((t) => {
+    83	
+    84	      const rawTitle = String(t.title || t.task_id || t.id || "Untitled task");
+    85	
+    86	      const retryTitleMatch = rawTitle.match(/^(retry differently|requeue)\s+(t_[a-f0-9-]+)$/i);
+    87	
+    88	      const phase718ResolveBaseTitle = (candidateTitle, depth = 0) => {
+    89	
+    90	        const candidate = String(candidateTitle || "");
+    91	
+    92	        if (!candidate || depth > 5) return candidate;
+    93	
+    94	        const nestedRetryMatch = candidate.match(/^(retry differently|requeue)\s+(t_[a-f0-9-]+)$/i);
+    95	
+    96	        if (!nestedRetryMatch) return candidate;
+    97	
+    98	        const nestedTarget = nestedRetryMatch[2];
+    99	
+   100	        return phase718TaskTitleByKey.has(nestedTarget)
+   101	
+   102	          ? phase718ResolveBaseTitle(phase718TaskTitleByKey.get(nestedTarget), depth + 1)
+   103	
+   104	          : nestedTarget;
+   105	
+   106	      };
+   107	
+   108	      const operatorAction = retryTitleMatch
+   109	
+   110	        ? (retryTitleMatch[1].toLowerCase() === "requeue" ? "Requeue" : "Retry differently")
+   111	
+   112	        : "";
+   113	
+   114	      const operatorTarget = retryTitleMatch ? retryTitleMatch[2] : "";
+   115	
+   116	      const resolvedTargetTitleRaw = operatorTarget && phase718TaskTitleByKey.has(operatorTarget)
+   117	
+   118	        ? phase718ResolveBaseTitle(phase718TaskTitleByKey.get(operatorTarget))
+   119	
+   120	        : operatorTarget;
+   121	
+   122	      const operatorTitle = operatorAction && resolvedTargetTitleRaw
+   123	
+   124	        ? `${operatorAction}: ${resolvedTargetTitleRaw}`
+   125	
+   126	        : (operatorAction || phase718ResolveBaseTitle(rawTitle));
+   127	
+   128	      const title = esc(operatorTitle);
+   129	
+   130	      const targetTitle = esc(operatorTarget);
+   131	
+   132	      const status = esc(t.status || "unknown");
+   133	
+   134	      const taskId = esc(t.task_id || t.id || "");
+   135	
+   136	      const updated = esc(t.updated_at || "");
+   137	
+   138	      const outcome = esc(t.outcome_preview || "");
+   139	
+   140	      const explanation = esc(t.explanation_preview || "");
+   141	
+   142	      const triageStatusRaw = String(t.status || "").toLowerCase();
+   143	
+   144	      const triageLabel = triageStatusRaw === "completed" ? "triage: completed" : "";
+   145	
+   146	      const executionStrategyRaw = t.strategy || t.execution_strategy || t.execution_mode || t.executionMode || "";
+   147	
+   148	      const executionStrategy = esc(String(executionStrategyRaw || ""));
+   149	
+   150	      const retryOfRaw = t.retry_of_task_id || (t.meta && t.meta.retry_of_task_id) || (t.execution_meta && t.execution_meta.retry_of_task_id) || "";
+   151	
+   152	      const retryOf = esc(String(retryOfRaw || ""));
+   153	
+   154	      const guidance = t.guidance || {};
+   155	
+   156	      const trace = guidance.communicationResult && guidance.communicationResult.systemTrace
+   157	
+   158	        ? guidance.communicationResult.systemTrace.content
+   159	
+   160	        : null;
+   161	
+   162	      const traceJson = trace ? esc(JSON.stringify(trace, null, 2)) : "";
+   163	
+   164	      const logContent = esc([
+   165	
+   166	        `task_id=${taskId}`,
+   167	
+   168	        `status=${status}`,
+   169	
+   170	        updated ? `updated=${updated}` : "",
+   171	
+   172	        outcome ? `outcome=${outcome}` : "",
+   173	
+   174	        ""
+   175	
+   176	      ].filter(Boolean).join("\n"));
+   177	
+   178	      return `
+   179	
+   180	        <article data-phase716-contained-task="true" data-phase717-execution-card="true" style="display:block;width:100%;min-width:0;max-width:100%;box-sizing:border-box;border:1px solid rgba(148,163,184,.24);border-radius:14px;padding:12px;margin:0 0 12px 0;background:rgba(15,23,42,.74);overflow:hidden;">
+   181	
+   182	          <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:8px;min-width:0;">
+   183	
+   184	            <div style="font-weight:600;color:#e5e7eb;overflow-wrap:anywhere;word-break:break-word;min-width:0;">${title}</div>
+   185	
+   186	            <div style="flex:0 0 auto;color:#93c5fd;border:1px solid rgba(147,197,253,.35);border-radius:999px;padding:2px 7px;font-size:10px;line-height:1.4;background:rgba(30,64,175,.18);">lifecycle</div>
+   187	
+   188	            ${executionStrategy ? `<div style="flex:0 0 auto;color:#c4b5fd;border:1px solid rgba(196,181,253,.35);border-radius:999px;padding:2px 7px;font-size:10px;line-height:1.4;background:rgba(88,28,135,.18);">strategy: ${executionStrategy}</div>` : ""}
+   189	
+   190	            ${retryOf ? `<div style="flex:0 0 auto;color:#fcd34d;border:1px solid rgba(252,211,77,.35);border-radius:999px;padding:2px 7px;font-size:10px;line-height:1.4;background:rgba(120,53,15,.18);">retry of: ${retryOf}</div>` : ""}
+
+ARTIFACT PATCH STATUS
+44:  function taskRows(tasks) {
+138:      const outcome = esc(t.outcome_preview || "");
+140:      const explanation = esc(t.explanation_preview || "");
+254:    if (recentTasks) recentTasks.innerHTML = taskRows(tasks);
+
+RUNTIME HEALTH
+{"ok":true}
