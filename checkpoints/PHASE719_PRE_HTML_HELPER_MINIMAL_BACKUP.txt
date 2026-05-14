@@ -1,0 +1,23 @@
+PHASE 719 PRE HTML HELPER MINIMAL BACKUP
+
+Branch:
+phase719-artifact-visibility
+
+HEAD:
+aedb8dc0 (HEAD -> phase719-artifact-visibility, origin/phase719-artifact-visibility) Phase 719: revert partial HTML artifact attempt
+f7352d46 Phase 719: inspect partial HTML artifact patch state
+a1c5e9fb Phase 719: inspect exact worker artifact function before HTML generation
+f0b28798 Phase 719: checkpoint before HTML artifact generation
+a1cce132 Phase 719: render artifact preview as visual card surface
+6bb1f7a3 Phase 719: define visual preview not text boundary
+8074625f Phase 719: verify rendered markdown preview cleanly
+bb3feaa4 Phase 719: render markdown artifact preview visually
+
+Runtime health:
+{"ok":true}
+
+Backup reason:
+- Next patch touches worker artifact generation, route artifact selection, and frontend preview rendering.
+- Current stable state preserves markdown artifact preview infrastructure.
+- Failed direct HTML patch attempts were already reverted/sealed.
+- This is the clean checkpoint before the minimal helper approach.
