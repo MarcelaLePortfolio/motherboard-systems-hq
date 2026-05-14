@@ -105,7 +105,7 @@ apiTasksRouter.get("/:task_id/artifact-preview", async (req, res) => {
 
     }
 
-    const q = await globalThis.__DB_POOL.query(
+    const q = await pool.query(
 
       `
 
