@@ -1,0 +1,113 @@
+PHASE 719 DOCKER COMPOSE WORKER BLOCK INSPECTION
+
+Branch:
+phase719-artifact-visibility
+
+HEAD:
+8721735d (HEAD -> phase719-artifact-visibility, origin/phase719-artifact-visibility) Phase 719: minimally validate artifact volume with new task
+198ecabb Phase 719: share artifact volume with dashboard
+6cf54bdb Phase 719: inspect artifact file location mismatch
+a9c2e472 Phase 719: fix artifact preview pool reference
+86d8590e Phase 719: fix artifact preview router symbol
+
+Raw docker-compose.yml:
+     1	services:
+     2	  postgres:
+     3	    image: postgres:16-alpine
+     4	    environment:
+     5	      POSTGRES_USER: postgres
+     6	      POSTGRES_PASSWORD: postgres
+     7	      POSTGRES_DB: postgres
+     8	    volumes:
+     9	      - pgdata:/var/lib/postgresql/data
+    10	      - ./docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d:ro
+    11	      - ./migrations:/migrations:ro
+    12	    healthcheck:
+    13	      test: ["CMD-SHELL", "pg_isready -U postgres -d postgres"]
+    14	      interval: 2s
+    15	      timeout: 5s
+    16	      retries: 30
+    17	
+    18	  dashboard:
+    19	    build:
+    20	      context: .
+    21	      dockerfile: Dockerfile.dashboard
+    22	    command: ["node", "server.js"]
+    23	    depends_on:
+    24	      postgres:
+    25	        condition: service_healthy
+    26	    ports:
+    27	      - "3000:3000"
+    28	    environment:
+    29	      - SYSTEM_SCHEDULER_ENABLED=false
+    30	      - SYSTEM_SCHEDULER_INTERVAL_MS=60000
+    31	      - POSTGRES_URL=postgresql://postgres:postgres@postgres:5432/postgres
+    32	      - DATABASE_URL=postgresql://postgres:postgres@postgres:5432/postgres
+    33	    volumes:
+    34	      - guidance_data:/app/data
+    35	      - worker_artifacts:/app/data/artifacts:ro
+    36	
+    37	  worker:
+    38	    build:
+    39	      context: .
+    40	      dockerfile: Dockerfile
+    41	    command: ["node", "server/worker/phase26_task_worker.mjs"]
+    42	    depends_on:
+    43	      postgres:
+    44	        condition: service_healthy
+    45	    environment:
+    46	      - POSTGRES_URL=postgresql://postgres:postgres@postgres:5432/postgres
+    47	      - DATABASE_URL=postgresql://postgres:postgres@postgres:5432/postgres
+    48	
+    49	volumes:
+    50	  pgdata:
+    51	  guidance_data:
+    52	
+    53	  worker_artifacts:
+
+Compose config worker/dashboard volume excerpts:
+  dashboard:
+    build:
+      context: /Users/marcela-dev/Projects/Motherboard_Systems_HQ
+      dockerfile: Dockerfile.dashboard
+    command:
+      - node
+      - server.js
+    depends_on:
+      postgres:
+
+  worker:
+    build:
+      context: /Users/marcela-dev/Projects/Motherboard_Systems_HQ
+      dockerfile: Dockerfile
+    command:
+      - node
+      - server/worker/phase26_task_worker.mjs
+    depends_on:
+      postgres:
+        condition: service_healthy
+        required: true
+    environment:
+      DATABASE_URL: postgresql://postgres:postgres@postgres:5432/postgres
+      POSTGRES_URL: postgresql://postgres:postgres@postgres:5432/postgres
+    networks:
+
+Current volume markers:
+18:  dashboard:
+34:      - guidance_data:/app/data
+35:      - worker_artifacts:/app/data/artifacts:ro
+37:  worker:
+51:  guidance_data:
+53:  worker_artifacts:
+
+Runtime health:
+HTTP/1.1 200 OK
+X-Powered-By: Express
+Content-Type: application/json; charset=utf-8
+Content-Length: 11
+ETag: W/"b-Ai2R8hgEarLmHKwesT1qcY913ys"
+Date: Thu, 14 May 2026 20:43:35 GMT
+Connection: keep-alive
+Keep-Alive: timeout=5
+
+{"ok":true}
