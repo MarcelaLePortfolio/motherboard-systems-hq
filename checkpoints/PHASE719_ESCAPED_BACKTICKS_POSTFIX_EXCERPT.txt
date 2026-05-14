@@ -1,0 +1,47 @@
+   289	/**
+   290	
+   291	 * Phase 719 — Artifact Inspection Endpoint (READ-ONLY)
+   292	
+   293	 * GET /api/artifacts/:task_id
+   294	
+   295	 */
+   296	
+   297	app.get("/api/artifacts/:task_id", async (req, res) => {
+   298	
+   299	  try {
+   300	
+   301	    const task_id = req.params.task_id;
+   302	
+   303	    const result = await pool.query(
+   304	
+   305	      `
+   306	
+   307	      SELECT
+   308	
+   309	        te.payload->>'artifact' AS artifact,
+   310	
+   311	        te.payload->>'artifacts' AS artifacts,
+   312	
+   313	        te.payload->>'outcome_preview' AS outcome_preview,
+   314	
+   315	        te.payload->>'explanation_preview' AS explanation_preview,
+   316	
+   317	        te.payload
+   318	
+   319	      FROM task_events te
+   320	
+   321	      WHERE te.task_id = $1
+   322	
+   323	        AND te.kind = 'task.completed'
+   324	
+   325	      ORDER BY te.id DESC
+   326	
+   327	      LIMIT 1
+   328	
+   329	      `,
+   330	
+   331	      [task_id]
+   332	
+   333	    );
+   334	
+   335	    if (!result.rows.length) {

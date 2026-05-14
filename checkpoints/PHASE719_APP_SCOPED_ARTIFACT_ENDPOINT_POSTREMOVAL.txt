@@ -1,0 +1,100 @@
+   188	      kind: "task.completed",
+   189	      task_id,
+   190	      run_id: b.run_id ?? b.runId ?? null,
+   191	      actor: b.actor ?? b.agent ?? "api",
+   192	      payload: {
+   193	        status: b.status ?? "complete",
+   194	        result: b.result ?? null,
+   195	        source: b.source ?? "api",
+   196	      },
+   197	    });
+   198	
+   199	    res.status(200).json({ ok: true, task_id, event: evt });
+   200	  } catch (e) {
+   201	    console.error("[phase25] /api/tasks error", e);
+   202	
+   203	    if (e instanceof PolicyEnforcedError || e?.code === "POLICY_ENFORCED" || e?.name === "PolicyEnforcedError") {
+   204	      return res.status(403).json({ ok: false, error: "policy.enforced", detail: e?.message || String(e) });
+   205	    }
+   206	
+   207	    res.status(500).json({ ok: false, error: e?.message || String(e) });
+   208	  }
+   209	});
+   210	
+   211	// POST /api/tasks/fail  { task_id, error?, status?, run_id?, ... }
+   212	apiTasksRouter.post("/fail", async (req, res) => {
+   213	  try {
+   214	    // Phase53: enforce gate BEFORE any DB writes
+   215	    assertNotEnforced("http:/api/tasks/complete");
+   216	
+   217	    const pool = _getPoolOrFail(res);
+   218	    if (!pool) return;
+   219	
+   220	    const b = _asJson(req);
+   221	    const task_id = b.task_id ?? b.taskId ?? b.id ?? null;
+   222	    if (!task_id) return res.status(400).json({ ok: false, error: "task_id_required" });
+   223	
+   224	    const evt = await emitTaskEvent({
+   225	      pool,
+   226	      kind: "task.failed",
+   227	      task_id,
+   228	      run_id: b.run_id ?? b.runId ?? null,
+   229	      actor: b.actor ?? b.agent ?? "api",
+   230	      payload: {
+   231	        status: b.status ?? "failed",
+   232	        error: b.error ?? b.err ?? null,
+   233	        source: b.source ?? "api",
+   234	      },
+   235	    });
+   236	
+   237	    res.status(200).json({ ok: true, task_id, event: evt });
+   238	  } catch (e) {
+   239	    console.error("[phase25] /api/tasks error", e);
+   240	
+   241	    if (e instanceof PolicyEnforcedError || e?.code === "POLICY_ENFORCED" || e?.name === "PolicyEnforcedError") {
+   242	      return res.status(403).json({ ok: false, error: "policy.enforced", detail: e?.message || String(e) });
+   243	    }
+   244	
+   245	    res.status(500).json({ ok: false, error: e?.message || String(e) });
+   246	  }
+   247	});
+   248	
+   249	// POST /api/tasks/cancel  { task_id, run_id?, ... }
+   250	apiTasksRouter.post("/cancel", async (req, res) => {
+   251	  try {
+   252	    // Phase53: enforce gate BEFORE any DB writes
+   253	    assertNotEnforced("http:/api/tasks/cancel");
+   254	
+   255	    // Phase53: enforce gate BEFORE any DB writes
+   256	    assertNotEnforced("http:/api/tasks/fail");
+   257	
+   258	    const pool = _getPoolOrFail(res);
+   259	    if (!pool) return;
+   260	
+   261	    const b = _asJson(req);
+   262	    const task_id = b.task_id ?? b.taskId ?? b.id ?? null;
+   263	    if (!task_id) return res.status(400).json({ ok: false, error: "task_id_required" });
+   264	
+   265	    const evt = await emitTaskEvent({
+   266	      pool,
+   267	      kind: "task.canceled",
+   268	      task_id,
+   269	      run_id: b.run_id ?? b.runId ?? null,
+   270	      actor: b.actor ?? b.agent ?? "api",
+   271	      payload: {
+   272	        reason: b.reason ?? null,
+   273	        source: b.source ?? "api",
+   274	      },
+   275	    });
+   276	
+   277	    res.status(200).json({ ok: true, task_id, event: evt });
+   278	  } catch (e) {
+   279	    console.error("[phase25] /api/tasks error", e);
+   280	
+   281	    if (e instanceof PolicyEnforcedError || e?.code === "POLICY_ENFORCED" || e?.name === "PolicyEnforcedError") {
+   282	      return res.status(403).json({ ok: false, error: "policy.enforced", detail: e?.message || String(e) });
+   283	    }
+   284	
+   285	    res.status(500).json({ ok: false, error: e?.message || String(e) });
+   286	  }
+   287	});

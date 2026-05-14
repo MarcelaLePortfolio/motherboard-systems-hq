@@ -1,0 +1,15 @@
+DASHBOARD CONTAINER
+4b8acc917610   motherboard_systems_hq-dashboard   "docker-entrypoint.s…"   6 seconds ago   Exited (1) 4 seconds ago              motherboard_systems_hq-dashboard-1
+
+DASHBOARD LOGS
+[phase25] task_events_emit loaded 2026-05-14T00:07:22.246Z file= file:///app/server/task_events_emit.mjs
+[phase25] api-tasks-postgres loaded 2026-05-14T00:07:22.247Z file= file:///app/server/routes/api-tasks-postgres.mjs
+
+ROOT ROUTE
+
+TASK API HEALTH
+
+TASK API LIST
+
+ARTIFACT TEST ROUTE
+
