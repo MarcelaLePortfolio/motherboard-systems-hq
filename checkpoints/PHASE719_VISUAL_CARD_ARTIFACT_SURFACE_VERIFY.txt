@@ -1,0 +1,45 @@
+RUNTIME HEALTH
+HTTP/1.1 200 OK
+X-Powered-By: Express
+Content-Type: application/json; charset=utf-8
+Content-Length: 11
+ETag: W/"b-Ai2R8hgEarLmHKwesT1qcY913ys"
+Date: Thu, 14 May 2026 21:09:34 GMT
+Connection: keep-alive
+Keep-Alive: timeout=5
+
+{"ok":true}
+STATIC JS VISUAL CARD MARKERS
+785:  function phase719ExtractArtifactSections(markdown) {
+789:    const withoutTrace = source.replace(/## Execution Trace[\s\S]*$/i, "").trim();
+835:  function phase719RenderArtifactVisualCard(markdown) {
+837:    const sections = phase719ExtractArtifactSections(markdown);
+853:      `<span style="display:inline-flex;align-items:center;border:1px solid rgba(147,197,253,.34);background:rgba(30,64,175,.22);color:#bfdbfe;border-radius:999px;padding:5px 10px;font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.08em;">Rendered Preview</span>`
+859:      <div data-phase719-rendered-artifact-preview="true" style="max-width:920px;margin:0 auto;">
+903:    return phase719RenderArtifactVisualCard(markdown);
+
+PREVIEW ROUTE SAMPLE
+HTTP/1.1 200 OK
+X-Powered-By: Express
+Content-Type: application/json; charset=utf-8
+Content-Length: 795
+ETag: W/"31b-V+pRnp3jHaeC5biMmDFnKUJ3du0"
+Date: Thu, 14 May 2026 21:09:34 GMT
+Connection: keep-alive
+Keep-Alive: timeout=5
+
+{"ok":true,"task_id":"t_3e163cb2-999d-4cdb-b618-baad85cff46c","artifact":{"filename":"t_3e163cb2-999d-4cdb-b618-baad85cff46c_run_88553a17-08b0-47f8-9d0c-6a29fe6e6042.md","type":"markdown","size_bytes":496,"created_at":"2026-05-14T20:47:37.082Z"},"content":"# Task Artifact\n\n## Task\nPhase 719 worker shared artifact volume validation after line patch\n\n## Status\ncompleted\n\n## Outcome\nStandard execution prepared for: Phase 719 worker shared artifact volume validation after line patch\n\n## Explanation\nstandard execution path\n\n## Execution Trace\n```json\n{\n  \"task_id\": \"t_3e163cb2-999d-4cdb-b618-baad85cff46c\",\n  \"run_id\": \"run_88553a17-08b0-47f8-9d0c-6a29fe6e6042\",\n  \"strategy_applied\": \"default\",\n  \"execution_meta\": {},\n  \"compiler_options\": {}\n}\n```\n"}
+DASHBOARD LOGS
+[phase25] task_events_emit loaded 2026-05-14T21:09:29.676Z file= file:///app/server/task_events_emit.mjs
+[phase25] api-tasks-postgres loaded 2026-05-14T21:09:29.676Z file= file:///app/server/routes/api-tasks-postgres.mjs
+[phase615] scheduler disabled
+✅ Dashboard live on port 3000
+Execution Inspector now wired to real task pipeline
+[phase57c-router] /api/tasks probe {
+  originalUrl: '/api/tasks?limit=50',
+  baseUrl: '/api/tasks',
+  path: '/',
+  referer: 'http://localhost:3000/',
+  userAgent: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/148.0.0.0 Safari/537.36',
+  accept: '*/*'
+}

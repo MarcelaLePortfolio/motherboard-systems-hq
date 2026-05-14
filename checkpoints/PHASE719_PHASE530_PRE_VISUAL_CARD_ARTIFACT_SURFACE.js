@@ -782,128 +782,151 @@
 
   }
 
-  function phase719ExtractArtifactSections(markdown) {
-
-    const source = String(markdown || "");
-
-    const withoutTrace = source.replace(/## Execution Trace[\s\S]*$/i, "").trim();
-
-    const sections = {};
-
-    let current = "intro";
-
-    sections[current] = [];
-
-    withoutTrace.split(/\r?\n/).forEach((line) => {
-
-      const h2 = line.match(/^##\s+(.+?)\s*$/);
-
-      if (h2) {
-
-        current = h2[1].trim().toLowerCase();
-
-        sections[current] = [];
-
-        return;
-
-      }
-
-      if (/^#\s+/.test(line)) {
-
-        sections.title = [line.replace(/^#\s+/, "").trim()];
-
-        return;
-
-      }
-
-      if (!sections[current]) sections[current] = [];
-
-      sections[current].push(line);
-
-    });
-
-    Object.keys(sections).forEach((key) => {
-
-      sections[key] = sections[key].join("\n").trim();
-
-    });
-
-    return sections;
-
-  }
-
-  function phase719RenderArtifactVisualCard(markdown) {
-
-    const sections = phase719ExtractArtifactSections(markdown);
-
-    const title = sections.title || "Task Artifact";
-
-    const task = sections.task || "";
-
-    const status = sections.status || "";
-
-    const outcome = sections.outcome || "";
-
-    const explanation = sections.explanation || "";
-
-    const chips = [
-
-      status ? `<span style="display:inline-flex;align-items:center;border:1px solid rgba(134,239,172,.38);background:rgba(20,83,45,.22);color:#bbf7d0;border-radius:999px;padding:5px 10px;font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.08em;">${phase719EscapePreviewHtml(status)}</span>` : "",
-
-      `<span style="display:inline-flex;align-items:center;border:1px solid rgba(147,197,253,.34);background:rgba(30,64,175,.22);color:#bfdbfe;border-radius:999px;padding:5px 10px;font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.08em;">Rendered Preview</span>`
-
-    ].filter(Boolean).join("");
-
-    return `
-
-      <div data-phase719-rendered-artifact-preview="true" style="max-width:920px;margin:0 auto;">
-
-        <div style="border:1px solid rgba(148,163,184,.22);border-radius:22px;overflow:hidden;background:radial-gradient(circle at top left, rgba(59,130,246,.18), transparent 34%),linear-gradient(180deg, rgba(15,23,42,.96), rgba(2,6,23,.9));box-shadow:0 24px 70px rgba(0,0,0,.42), inset 0 1px 0 rgba(255,255,255,.05);">
-
-          <div style="padding:28px 30px 22px 30px;border-bottom:1px solid rgba(148,163,184,.16);">
-
-            <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:18px;">${chips}</div>
-
-            <div style="font-size:30px;line-height:1.05;font-weight:900;letter-spacing:-.04em;color:#f8fafc;margin-bottom:12px;">${phase719EscapePreviewHtml(title)}</div>
-
-            ${task ? `<div style="font-size:15px;line-height:1.55;color:#cbd5e1;max-width:760px;">${phase719EscapePreviewHtml(task)}</div>` : ""}
-
-          </div>
-
-          <div style="display:grid;grid-template-columns:minmax(0,1.2fr) minmax(220px,.8fr);gap:18px;padding:22px 24px 24px 24px;">
-
-            <section style="border:1px solid rgba(96,165,250,.22);border-radius:18px;background:rgba(15,23,42,.7);padding:18px;">
-
-              <div style="font-size:11px;text-transform:uppercase;letter-spacing:.18em;color:#93c5fd;font-weight:900;margin-bottom:10px;">Outcome</div>
-
-              <div style="font-size:17px;line-height:1.55;color:#e0f2fe;font-weight:650;">${phase719EscapePreviewHtml(outcome || "No outcome content available.")}</div>
-
-            </section>
-
-            <section style="border:1px solid rgba(45,212,191,.20);border-radius:18px;background:rgba(6,78,59,.16);padding:18px;">
-
-              <div style="font-size:11px;text-transform:uppercase;letter-spacing:.18em;color:#5eead4;font-weight:900;margin-bottom:10px;">Build Path</div>
-
-              <div style="font-size:14px;line-height:1.55;color:#ccfbf1;">${phase719EscapePreviewHtml(explanation || "No explanation available.")}</div>
-
-            </section>
-
-          </div>
-
-        </div>
-
-      </div>
-
-    `;
-
-  }
-
   function phase719RenderMarkdownArtifactPreview(markdown) {
 
-    return phase719RenderArtifactVisualCard(markdown);
+    const source = String(markdown || "").trim();
+
+    if (!source) {
+
+      return `<div style="color:#94a3b8;">Artifact file was loaded, but it contained no previewable content.</div>`;
+
+    }
+
+    const lines = source.split(/\r?\n/);
+
+    const html = [];
+
+    let inCode = false;
+
+    let codeLines = [];
+
+    let listOpen = false;
+
+    function closeList() {
+
+      if (listOpen) {
+
+        html.push("</ul>");
+
+        listOpen = false;
+
+      }
+
+    }
+
+    function flushCode() {
+
+      if (inCode) {
+
+        html.push(`<pre style="margin:14px 0 0 0;padding:14px;border-radius:12px;background:rgba(2,6,23,.92);border:1px solid rgba(148,163,184,.22);color:#cbd5e1;white-space:pre-wrap;overflow:auto;font-size:12px;line-height:1.5;">${phase719EscapePreviewHtml(codeLines.join("\n"))}</pre>`);
+
+        codeLines = [];
+
+        inCode = false;
+
+      }
+
+    }
+
+    for (const rawLine of lines) {
+
+      const line = rawLine.trimEnd();
+
+      if (line.trim().startsWith("```")) {
+
+        if (inCode) {
+
+          flushCode();
+
+        } else {
+
+          closeList();
+
+          inCode = true;
+
+          codeLines = [];
+
+        }
+
+        continue;
+
+      }
+
+      if (inCode) {
+
+        codeLines.push(rawLine);
+
+        continue;
+
+      }
+
+      if (!line.trim()) {
+
+        closeList();
+
+        continue;
+
+      }
+
+      if (line.startsWith("# ")) {
+
+        closeList();
+
+        html.push(`<div style="font-size:24px;font-weight:800;letter-spacing:-.02em;color:#f8fafc;margin:0 0 18px 0;">${phase719EscapePreviewHtml(line.slice(2))}</div>`);
+
+        continue;
+
+      }
+
+      if (line.startsWith("## ")) {
+
+        closeList();
+
+        html.push(`<div style="font-size:12px;text-transform:uppercase;letter-spacing:.16em;font-weight:800;color:#93c5fd;margin:22px 0 8px 0;">${phase719EscapePreviewHtml(line.slice(3))}</div>`);
+
+        continue;
+
+      }
+
+      if (line.startsWith("### ")) {
+
+        closeList();
+
+        html.push(`<div style="font-size:15px;font-weight:800;color:#e0f2fe;margin:18px 0 8px 0;">${phase719EscapePreviewHtml(line.slice(4))}</div>`);
+
+        continue;
+
+      }
+
+      if (/^[-*]\s+/.test(line)) {
+
+        if (!listOpen) {
+
+          html.push(`<ul style="margin:8px 0 12px 20px;padding:0;color:#dbeafe;">`);
+
+          listOpen = true;
+
+        }
+
+        html.push(`<li style="margin:6px 0;">${phase719EscapePreviewHtml(line.replace(/^[-*]\s+/, ""))}</li>`);
+
+        continue;
+
+      }
+
+      closeList();
+
+      html.push(`<p style="margin:8px 0 14px 0;color:#dbeafe;font-size:14px;line-height:1.65;">${phase719EscapePreviewHtml(line)}</p>`);
+
+    }
+
+    flushCode();
+
+    closeList();
+
+    return `<div data-phase719-rendered-artifact-preview="true" style="max-width:900px;margin:0 auto;">${html.join("\n")}</div>`;
 
   }
-
 
   async function phase719OpenPreviewModal(button) {
 
