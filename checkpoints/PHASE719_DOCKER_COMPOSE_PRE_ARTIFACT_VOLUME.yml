@@ -32,7 +32,6 @@ services:
       - DATABASE_URL=postgresql://postgres:postgres@postgres:5432/postgres
     volumes:
       - guidance_data:/app/data
-      - worker_artifacts:/app/data/artifacts:ro
 
   worker:
     build:
@@ -49,5 +48,3 @@ services:
 volumes:
   pgdata:
   guidance_data:
-
-  worker_artifacts:
