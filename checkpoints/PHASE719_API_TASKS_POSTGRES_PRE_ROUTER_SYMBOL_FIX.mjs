@@ -93,7 +93,7 @@ apiTasksRouter.get("/", async (req, res) => {
 
 // GET /api/tasks/:task_id/artifact-preview
 
-apiTasksRouter.get("/:task_id/artifact-preview", async (req, res) => {
+router.get("/:task_id/artifact-preview", async (req, res) => {
 
   try {
 

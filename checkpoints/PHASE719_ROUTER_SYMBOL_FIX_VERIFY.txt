@@ -1,0 +1,45 @@
+RUNTIME HEALTH
+HTTP/1.1 200 OK
+X-Powered-By: Express
+Content-Type: application/json; charset=utf-8
+Content-Length: 11
+ETag: W/"b-Ai2R8hgEarLmHKwesT1qcY913ys"
+Date: Thu, 14 May 2026 20:33:35 GMT
+Connection: keep-alive
+Keep-Alive: timeout=5
+
+{"ok":true}
+ARTIFACT PREVIEW ROUTE
+HTTP/1.1 500 Internal Server Error
+X-Powered-By: Express
+Content-Type: application/json; charset=utf-8
+Content-Length: 46
+ETag: W/"2e-SudfDKq17iew4yqcn1RpShzz+cU"
+Date: Thu, 14 May 2026 20:33:35 GMT
+Connection: keep-alive
+Keep-Alive: timeout=5
+
+{"ok":false,"error":"artifact_preview_failed"}
+ROUTE MARKERS
+32:apiTasksRouter.get("/healthz", async (_req, res) => {
+36:apiTasksRouter.get("/health", async (_req, res) => {
+41:apiTasksRouter.get("/", async (req, res) => {
+94:// GET /api/tasks/:task_id/artifact-preview
+96:apiTasksRouter.get("/:task_id/artifact-preview", async (req, res) => {
+174:      return res.status(403).json({ ok: false, error: "artifact_path_rejected" });
+212:    return res.status(500).json({ ok: false, error: "artifact_preview_failed" });
+
+DASHBOARD LOGS
+[phase25] task_events_emit loaded 2026-05-14T20:33:30.473Z file= file:///app/server/task_events_emit.mjs
+[phase25] api-tasks-postgres loaded 2026-05-14T20:33:30.474Z file= file:///app/server/routes/api-tasks-postgres.mjs
+[phase615] scheduler disabled
+✅ Dashboard live on port 3000
+Execution Inspector now wired to real task pipeline
+[phase57c-router] /api/tasks probe {
+  originalUrl: '/api/tasks?limit=50',
+  baseUrl: '/api/tasks',
+  path: '/',
+  referer: 'http://localhost:3000/',
+  userAgent: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/148.0.0.0 Safari/537.36',
+  accept: '*/*'
+}
