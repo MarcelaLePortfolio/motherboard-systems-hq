@@ -1,0 +1,104 @@
+BRANCH
+phase719-artifact-visibility
+
+LOCAL ROUTE WIRING BEFORE REBUILD
+server.js:8:import { apiTasksRouter } from "./server/routes/api-tasks-postgres.mjs";
+server.js:34:app.use("/api/tasks", apiTasksRouter);
+server.js:636:app.use(express.static(path.join(__dirname, "ui/dashboard")));
+server.js:637:app.use(express.static(path.join(__dirname, "public")));
+server/routes/api-tasks-postgres.mjs:8:export const apiTasksRouter = express.Router();
+server/routes/api-tasks-postgres.mjs:30:apiTasksRouter.get("/healthz", async (_req, res) => {
+server/routes/api-tasks-postgres.mjs:34:apiTasksRouter.get("/health", async (_req, res) => {
+server/routes/api-tasks-postgres.mjs:39:apiTasksRouter.get("/", async (req, res) => {
+server/routes/api-tasks-postgres.mjs:91:apiTasksRouter.post("/create", async (req, res) => {
+server/routes/api-tasks-postgres.mjs:174:apiTasksRouter.post("/complete", async (req, res) => {
+server/routes/api-tasks-postgres.mjs:212:apiTasksRouter.post("/fail", async (req, res) => {
+server/routes/api-tasks-postgres.mjs:250:apiTasksRouter.post("/cancel", async (req, res) => {
+server/routes/api-tasks-postgres.mjs:293: * GET /api/artifacts/:task_id
+server/routes/api-tasks-postgres.mjs:297:app.get("/api/artifacts/:task_id", async (req, res) => {
+
+REBUILD DASHBOARD IMAGE
+#1 [internal] load local bake definitions
+#1 reading from stdin 605B done
+#1 DONE 0.0s
+
+#2 [internal] load build definition from Dockerfile.dashboard
+#2 transferring dockerfile: 229B done
+#2 DONE 0.0s
+
+#3 [internal] load metadata for docker.io/library/node:20-alpine
+#3 DONE 1.0s
+
+#4 [internal] load .dockerignore
+#4 transferring context: 113B 0.0s done
+#4 DONE 0.0s
+
+#5 [1/6] FROM docker.io/library/node:20-alpine@sha256:fb4cd12c85ee03686f6af5362a0b0d56d50c58a04632e6c0fb8363f609372293
+#5 resolve docker.io/library/node:20-alpine@sha256:fb4cd12c85ee03686f6af5362a0b0d56d50c58a04632e6c0fb8363f609372293 0.0s done
+#5 DONE 0.0s
+
+#6 [internal] load build context
+#6 transferring context: 629.86kB 0.1s done
+#6 DONE 0.1s
+
+#7 [2/6] WORKDIR /app
+#7 CACHED
+
+#8 [3/6] RUN apk add --no-cache postgresql-client netcat-openbsd
+#8 CACHED
+
+#9 [4/6] COPY package*.json ./
+#9 CACHED
+
+#10 [5/6] RUN npm install
+#10 CACHED
+
+#11 [6/6] COPY . .
+#11 DONE 0.3s
+
+#12 exporting to image
+#12 exporting layers
+#12 exporting layers 0.5s done
+#12 exporting manifest sha256:9b99270435032973f24615c33f2477bd18bfd56a2c7f3c3b1d5abecb53c6091c
+#12 exporting manifest sha256:9b99270435032973f24615c33f2477bd18bfd56a2c7f3c3b1d5abecb53c6091c done
+#12 exporting config sha256:c63508f23f118974ac4fee0910c935c11ba9ff5e56d2d80a6b4cd3773bd2a0ef done
+#12 exporting attestation manifest sha256:3402d527b530ecb41b415745ce37de8b4fae22d48d2de97f477c4c01a2e7e959 done
+#12 exporting manifest list sha256:1b93a1ef1fe1041b48b8765c24e3745314c4be75aea24c396363c5800e2aa808 done
+#12 naming to docker.io/library/motherboard_systems_hq-dashboard:latest done
+#12 unpacking to docker.io/library/motherboard_systems_hq-dashboard:latest
+#12 unpacking to docker.io/library/motherboard_systems_hq-dashboard:latest 0.2s done
+#12 DONE 0.8s
+
+#13 resolving provenance for metadata file
+#13 DONE 0.0s
+
+WAIT FOR DASHBOARD
+
+CONTAINER SERVER ROUTE WIRING AFTER REBUILD
+
+DASHBOARD LOGS
+
+ROOT ROUTE
+
+TASK API HEALTH
+
+TASK API LIST
+
+ARTIFACT TEST ROUTE
+
+STATUS
+?? PHASE719_ADD_ARTIFACT_INSPECTION_ENDPOINT.sh
+?? PHASE719_ARTIFACT_VISIBILITY_INSPECT.sh
+?? PHASE719_BACKEND_DIFF_AND_RUNTIME_INSPECT.sh
+?? PHASE719_COMPARE_ROUTE_BASELINES.sh
+?? PHASE719_FIND_STABLE_TASK_API_BASELINE.sh
+?? PHASE719_FULL_DISASTER_RECOVERY_BACKUP.sh
+?? PHASE719_REBUILD_DASHBOARD_AFTER_ROUTE_RESTORE.sh
+?? PHASE719_REPAIR_ARTIFACT_HELPER_AND_VERIFY.sh
+?? PHASE719_REPAIR_INLINE_ARTIFACT_HELPER_AND_VERIFY.sh
+?? PHASE719_VERIFY_AND_COMMIT_ARTIFACT_PATCH.sh
+?? PHASE719_VERIFY_EXISTING_ARTIFACT_AND_COMMIT.sh
+?? checkpoints/PHASE719_BACKEND_DIFF_BEFORE_UI.patch
+?? checkpoints/PHASE719_DASHBOARD_REBUILD_AFTER_ROUTE_RESTORE.txt
+?? checkpoints/PHASE719_ROUTE_BASELINE_COMPARISON.txt
+?? checkpoints/PHASE719_STABLE_TASK_API_BASELINE_SEARCH.txt
