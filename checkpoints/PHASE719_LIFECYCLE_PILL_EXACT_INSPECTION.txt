@@ -1,0 +1,87 @@
+BRANCH
+phase719-artifact-visibility
+
+STATUS
+?? PHASE719_ADD_ARTIFACT_INSPECTION_ENDPOINT.sh
+?? PHASE719_ARTIFACT_VISIBILITY_INSPECT.sh
+?? PHASE719_BACKEND_DIFF_AND_RUNTIME_INSPECT.sh
+?? PHASE719_COMPARE_ROUTE_BASELINES.sh
+?? PHASE719_FIND_STABLE_TASK_API_BASELINE.sh
+?? PHASE719_FULL_DISASTER_RECOVERY_BACKUP.sh
+?? PHASE719_INSPECT_LIFECYCLE_PILL_EXACT.sh
+?? PHASE719_PATCH_PHASE530_ARTIFACT_LINE_V2.sh
+?? PHASE719_PATCH_PHASE530_ARTIFACT_LINE_V3.sh
+?? PHASE719_PATCH_PHASE530_ARTIFACT_LINE_V4.sh
+?? PHASE719_PATCH_RECENT_TASKS_ARTIFACT_METADATA.sh
+?? PHASE719_REMOVE_MALFORMED_INLINE_ARTIFACT_ENDPOINT.sh
+?? PHASE719_REPAIR_ARTIFACT_HELPER_AND_VERIFY.sh
+?? PHASE719_REPAIR_INLINE_ARTIFACT_HELPER_AND_VERIFY.sh
+?? PHASE719_REPLACE_LIFECYCLE_WITH_CONDITIONAL_PREVIEW.sh
+?? PHASE719_VERIFY_AND_COMMIT_ARTIFACT_PATCH.sh
+?? PHASE719_VERIFY_EXISTING_ARTIFACT_AND_COMMIT.sh
+?? checkpoints/PHASE719_BACKEND_DIFF_BEFORE_UI.patch
+?? checkpoints/PHASE719_FRONTEND_ARTIFACT_UI_INSPECTION.txt
+?? checkpoints/PHASE719_FRONTEND_ARTIFACT_UI_INSPECTION_NOTE.md
+?? checkpoints/PHASE719_LIFECYCLE_PILL_EXACT_INSPECTION.txt
+?? checkpoints/PHASE719_PHASE530_PRE_ARTIFACT_LINE_V2.js
+?? checkpoints/PHASE719_PHASE530_PRE_ARTIFACT_LINE_V3.js
+?? checkpoints/PHASE719_PHASE530_PRE_ARTIFACT_LINE_V4.js
+?? checkpoints/PHASE719_PHASE530_PRE_CONDITIONAL_PREVIEW.js
+?? checkpoints/PHASE719_PRE_PREVIEW_PILL_CHECKPOINT.txt
+?? checkpoints/PHASE719_ROUTE_BASELINE_COMPARISON.txt
+?? checkpoints/PHASE719_STABLE_TASK_API_BASELINE_SEARCH.txt
+?? checkpoints/PHASE719_phase530_visible_panels_bridge_PRE_ARTIFACT_METADATA.js
+
+LIFECYCLE / PREVIEW / HEADER MARKERS
+141:      const artifactRaw = t.artifact || (Array.isArray(t.artifacts) ? t.artifacts[0] : null) || null;
+142:      const artifactName = artifactRaw ? esc(artifactRaw.filename || artifactRaw.path || "artifact") : "";
+143:      const artifactType = artifactRaw ? esc(artifactRaw.type || "artifact") : "";
+144:      const artifactSize = artifactRaw && artifactRaw.size_bytes ? esc(String(artifactRaw.size_bytes) + " bytes") : "";
+184:        <article data-phase716-contained-task="true" data-phase717-execution-card="true" style="display:block;width:100%;min-width:0;max-width:100%;box-sizing:border-box;border:1px solid rgba(148,163,184,.24);border-radius:14px;padding:12px;margin:0 0 12px 0;background:rgba(15,23,42,.74);overflow:hidden;">
+190:            <div style="flex:0 0 auto;color:#93c5fd;border:1px solid rgba(147,197,253,.35);border-radius:999px;padding:2px 7px;font-size:10px;line-height:1.4;background:rgba(30,64,175,.18);">lifecycle</div>
+192:            ${executionStrategy ? `<div style="flex:0 0 auto;color:#c4b5fd;border:1px solid rgba(196,181,253,.35);border-radius:999px;padding:2px 7px;font-size:10px;line-height:1.4;background:rgba(88,28,135,.18);">strategy: ${executionStrategy}</div>` : ""}
+194:            ${retryOf ? `<div style="flex:0 0 auto;color:#fcd34d;border:1px solid rgba(252,211,77,.35);border-radius:999px;padding:2px 7px;font-size:10px;line-height:1.4;background:rgba(120,53,15,.18);">retry of: ${retryOf}</div>` : ""}
+207:              ${artifactRaw ? `<div style="margin-bottom:8px;color:#86efac;font-size:11px;line-height:1.5;overflow-wrap:anywhere;border:1px solid rgba(134,239,172,.28);border-radius:10px;padding:7px;background:rgba(20,83,45,.14);">Artifact: ${artifactName}${artifactType ? ` · ${artifactType}` : ""}${artifactSize ? ` · ${artifactSize}` : ""}</div>` : ""}
+582:          strategy: mode === "fresh-context" ? "fresh-context" : "standard",
+
+HEADER BLOCK LINES 178-215
+   178	        ""
+   179	
+   180	      ].filter(Boolean).join("\n"));
+   181	
+   182	      return `
+   183	
+   184	        <article data-phase716-contained-task="true" data-phase717-execution-card="true" style="display:block;width:100%;min-width:0;max-width:100%;box-sizing:border-box;border:1px solid rgba(148,163,184,.24);border-radius:14px;padding:12px;margin:0 0 12px 0;background:rgba(15,23,42,.74);overflow:hidden;">
+   185	
+   186	          <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:8px;min-width:0;">
+   187	
+   188	            <div style="font-weight:600;color:#e5e7eb;overflow-wrap:anywhere;word-break:break-word;min-width:0;">${title}</div>
+   189	
+   190	            <div style="flex:0 0 auto;color:#93c5fd;border:1px solid rgba(147,197,253,.35);border-radius:999px;padding:2px 7px;font-size:10px;line-height:1.4;background:rgba(30,64,175,.18);">lifecycle</div>
+   191	
+   192	            ${executionStrategy ? `<div style="flex:0 0 auto;color:#c4b5fd;border:1px solid rgba(196,181,253,.35);border-radius:999px;padding:2px 7px;font-size:10px;line-height:1.4;background:rgba(88,28,135,.18);">strategy: ${executionStrategy}</div>` : ""}
+   193	
+   194	            ${retryOf ? `<div style="flex:0 0 auto;color:#fcd34d;border:1px solid rgba(252,211,77,.35);border-radius:999px;padding:2px 7px;font-size:10px;line-height:1.4;background:rgba(120,53,15,.18);">retry of: ${retryOf}</div>` : ""}
+   195	
+   196	            ${triageLabel ? `<div style="flex:0 0 auto;color:#86efac;border:1px solid rgba(134,239,172,.35);border-radius:999px;padding:2px 7px;font-size:10px;line-height:1.4;background:rgba(22,101,52,.18);">${triageLabel}</div>` : ""}
+   197	
+   198	          </div>
+   199	            ${""}
+   200	
+   201	          ${""}
+   202	
+   203	          ${""}
+   204	
+   205	          <div style="margin-top:10px;border:1px solid rgba(71,85,105,.55);border-radius:12px;padding:9px;background:rgba(2,6,23,.24);">
+   206	
+   207	              ${artifactRaw ? `<div style="margin-bottom:8px;color:#86efac;font-size:11px;line-height:1.5;overflow-wrap:anywhere;border:1px solid rgba(134,239,172,.28);border-radius:10px;padding:7px;background:rgba(20,83,45,.14);">Artifact: ${artifactName}${artifactType ? ` · ${artifactType}` : ""}${artifactSize ? ` · ${artifactSize}` : ""}</div>` : ""}
+   208	            <div style="color:#cbd5e1;font-size:11px;font-weight:700;margin-bottom:7px;letter-spacing:.02em;">Operator actions</div>
+   209	
+   210	            <div style="display:flex;flex-wrap:wrap;gap:7px;align-items:center;">
+   211	
+   212	              <button type="button" data-phase717-requeue="true" data-task-id="${taskId}" data-task-title="${title}" title="Explicit operator action: requeue this task" style="cursor:pointer;border:1px solid rgba(148,163,184,.35);background:rgba(15,23,42,.8);color:#cbd5e1;border-radius:8px;padding:5px 8px;font-size:11px;">Requeue</button>
+   213	
+   214	              <button type="button" data-phase717-retry-differently="true" data-task-id="${taskId}" data-task-title="${title}" title="Explicit operator action: retry this task differently" style="cursor:pointer;border:1px solid rgba(96,165,250,.45);background:rgba(30,41,59,.92);color:#dbeafe;border-radius:8px;padding:5px 8px;font-size:11px;">Retry differently</button>
+   215	
+
+SYNTAX
