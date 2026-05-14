@@ -732,7 +732,7 @@
 
         <div id="phase719-preview-meta" style="font-size:12px;line-height:1.6;color:#bbf7d0;border:1px solid rgba(134,239,172,.25);background:rgba(20,83,45,.12);border-radius:12px;padding:10px;margin-bottom:12px;"></div>
 
-        <div id="phase719-preview-body" style="overflow-wrap:anywhere;font-size:13px;line-height:1.6;color:#dbeafe;border:1px solid rgba(96,165,250,.24);background:linear-gradient(180deg, rgba(15,23,42,.92), rgba(2,6,23,.74));border-radius:16px;padding:18px;margin:0;box-shadow:inset 0 1px 0 rgba(255,255,255,.04);"></div>
+        <pre id="phase719-preview-body" style="white-space:pre-wrap;overflow-wrap:anywhere;font-size:12px;line-height:1.55;color:#dbeafe;border:1px solid rgba(96,165,250,.24);background:rgba(15,23,42,.65);border-radius:12px;padding:12px;margin:0;"></pre>
 
       </div>
 
@@ -761,170 +761,6 @@
     });
 
     return modal;
-
-  }
-
-
-
-  function phase719EscapePreviewHtml(value) {
-
-    return String(value || "")
-
-      .replace(/&/g, "&amp;")
-
-      .replace(/</g, "&lt;")
-
-      .replace(/>/g, "&gt;")
-
-      .replace(/"/g, "&quot;")
-
-      .replace(/'/g, "&#039;");
-
-  }
-
-  function phase719RenderMarkdownArtifactPreview(markdown) {
-
-    const source = String(markdown || "").trim();
-
-    if (!source) {
-
-      return `<div style="color:#94a3b8;">Artifact file was loaded, but it contained no previewable content.</div>`;
-
-    }
-
-    const lines = source.split(/\r?\n/);
-
-    const html = [];
-
-    let inCode = false;
-
-    let codeLines = [];
-
-    let listOpen = false;
-
-    function closeList() {
-
-      if (listOpen) {
-
-        html.push("</ul>");
-
-        listOpen = false;
-
-      }
-
-    }
-
-    function flushCode() {
-
-      if (inCode) {
-
-        html.push(`<pre style="margin:14px 0 0 0;padding:14px;border-radius:12px;background:rgba(2,6,23,.92);border:1px solid rgba(148,163,184,.22);color:#cbd5e1;white-space:pre-wrap;overflow:auto;font-size:12px;line-height:1.5;">${phase719EscapePreviewHtml(codeLines.join("\n"))}</pre>`);
-
-        codeLines = [];
-
-        inCode = false;
-
-      }
-
-    }
-
-    for (const rawLine of lines) {
-
-      const line = rawLine.trimEnd();
-
-      if (line.trim().startsWith("```")) {
-
-        if (inCode) {
-
-          flushCode();
-
-        } else {
-
-          closeList();
-
-          inCode = true;
-
-          codeLines = [];
-
-        }
-
-        continue;
-
-      }
-
-      if (inCode) {
-
-        codeLines.push(rawLine);
-
-        continue;
-
-      }
-
-      if (!line.trim()) {
-
-        closeList();
-
-        continue;
-
-      }
-
-      if (line.startsWith("# ")) {
-
-        closeList();
-
-        html.push(`<div style="font-size:24px;font-weight:800;letter-spacing:-.02em;color:#f8fafc;margin:0 0 18px 0;">${phase719EscapePreviewHtml(line.slice(2))}</div>`);
-
-        continue;
-
-      }
-
-      if (line.startsWith("## ")) {
-
-        closeList();
-
-        html.push(`<div style="font-size:12px;text-transform:uppercase;letter-spacing:.16em;font-weight:800;color:#93c5fd;margin:22px 0 8px 0;">${phase719EscapePreviewHtml(line.slice(3))}</div>`);
-
-        continue;
-
-      }
-
-      if (line.startsWith("### ")) {
-
-        closeList();
-
-        html.push(`<div style="font-size:15px;font-weight:800;color:#e0f2fe;margin:18px 0 8px 0;">${phase719EscapePreviewHtml(line.slice(4))}</div>`);
-
-        continue;
-
-      }
-
-      if (/^[-*]\s+/.test(line)) {
-
-        if (!listOpen) {
-
-          html.push(`<ul style="margin:8px 0 12px 20px;padding:0;color:#dbeafe;">`);
-
-          listOpen = true;
-
-        }
-
-        html.push(`<li style="margin:6px 0;">${phase719EscapePreviewHtml(line.replace(/^[-*]\s+/, ""))}</li>`);
-
-        continue;
-
-      }
-
-      closeList();
-
-      html.push(`<p style="margin:8px 0 14px 0;color:#dbeafe;font-size:14px;line-height:1.65;">${phase719EscapePreviewHtml(line)}</p>`);
-
-    }
-
-    flushCode();
-
-    closeList();
-
-    return `<div data-phase719-rendered-artifact-preview="true" style="max-width:900px;margin:0 auto;">${html.join("\n")}</div>`;
 
   }
 
@@ -972,7 +808,7 @@
 
     ].filter(Boolean).join("\n");
 
-    body.innerHTML = `<div style="color:#93c5fd;font-size:14px;">Loading rendered artifact preview…</div>`;
+    body.textContent = "Loading rendered artifact preview…";
 
     modal.style.display = "flex";
 
@@ -1030,7 +866,7 @@
 
       ].filter(Boolean).join("\n");
 
-      body.innerHTML = phase719RenderMarkdownArtifactPreview(data.content);
+      body.textContent = data.content || "Artifact file was loaded, but it contained no previewable content.";
 
     } catch (error) {
 
