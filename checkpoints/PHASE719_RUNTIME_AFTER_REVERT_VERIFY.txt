@@ -1,0 +1,69 @@
+BRANCH
+phase719-artifact-visibility-ui
+
+STATUS
+?? PHASE719_ADD_ARTIFACT_INSPECTION_ENDPOINT.sh
+?? PHASE719_ARTIFACT_VISIBILITY_INSPECT.sh
+?? PHASE719_BACKEND_DIFF_AND_RUNTIME_INSPECT.sh
+?? PHASE719_FULL_DISASTER_RECOVERY_BACKUP.sh
+?? PHASE719_REPAIR_ARTIFACT_HELPER_AND_VERIFY.sh
+?? PHASE719_REPAIR_INLINE_ARTIFACT_HELPER_AND_VERIFY.sh
+?? PHASE719_VERIFY_AND_COMMIT_ARTIFACT_PATCH.sh
+?? PHASE719_VERIFY_EXISTING_ARTIFACT_AND_COMMIT.sh
+?? PHASE719_VERIFY_RUNTIME_AFTER_REVERT.sh
+?? checkpoints/PHASE719_BACKEND_DIFF_BEFORE_UI.patch
+?? checkpoints/PHASE719_RUNTIME_AFTER_REVERT_VERIFY.txt
+
+DOCKER PS
+CONTAINER ID   IMAGE                              COMMAND                  CREATED          STATUS                PORTS                                         NAMES
+93d6acb012ac   motherboard_systems_hq-dashboard   "docker-entrypoint.s…"   21 minutes ago   Up 2 minutes          0.0.0.0:3000->3000/tcp, [::]:3000->3000/tcp   motherboard_systems_hq-dashboard-1
+24d1e17e06e2   motherboard_systems_hq-worker      "docker-entrypoint.s…"   25 hours ago     Up 25 hours                                                         motherboard_systems_hq-worker-1
+e37a3b84baf0   postgres:16-alpine                 "docker-entrypoint.s…"   7 days ago       Up 3 days (healthy)   5432/tcp                                      motherboard_systems_hq-postgres-1
+
+ROOT ROUTE
+HTTP/1.1 200 OK
+X-Powered-By: Express
+Content-Type: text/html; charset=utf-8
+Content-Length: 20
+ETag: W/"14-k6csJNjBRwYmMHOsaWEGUXeg1Ic"
+Date: Thu, 14 May 2026 00:01:01 GMT
+Connection: keep-alive
+Keep-Alive: timeout=5
+
+Dashboard is running
+TASK API
+HTTP/1.1 404 Not Found
+X-Powered-By: Express
+Content-Security-Policy: default-src 'none'
+X-Content-Type-Options: nosniff
+Content-Type: text/html; charset=utf-8
+Content-Length: 148
+Date: Thu, 14 May 2026 00:01:01 GMT
+Connection: keep-alive
+Keep-Alive: timeout=5
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Error</title>
+</head>
+<body>
+<pre>Cannot GET /api/tasks</pre>
+</body>
+</html>
+
+ARTIFACT TEST ROUTE
+HTTP/1.1 200 OK
+X-Powered-By: Express
+Content-Type: application/json; charset=utf-8
+Content-Length: 22
+ETag: W/"16-I8Hex2TBcqGjf3bEOyUAJngJ51s"
+Date: Thu, 14 May 2026 00:01:01 GMT
+Connection: keep-alive
+Keep-Alive: timeout=5
+
+{"ok":true,"row":null}
+DASHBOARD LOG TAIL
+[dashboard] running on port 3000
+[dashboard] running on port 3000
