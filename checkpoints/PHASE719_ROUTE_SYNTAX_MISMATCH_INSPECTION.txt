@@ -1,0 +1,196 @@
+BRANCH
+phase719-artifact-visibility
+
+STATUS
+?? PHASE719_ADD_ARTIFACT_INSPECTION_ENDPOINT.sh
+?? PHASE719_ARTIFACT_VISIBILITY_INSPECT.sh
+?? PHASE719_BACKEND_DIFF_AND_RUNTIME_INSPECT.sh
+?? PHASE719_COMPARE_ROUTE_BASELINES.sh
+?? PHASE719_FIND_STABLE_TASK_API_BASELINE.sh
+?? PHASE719_FULL_DISASTER_RECOVERY_BACKUP.sh
+?? PHASE719_INSPECT_ROUTE_SYNTAX_MISMATCH.sh
+?? PHASE719_REMOVE_MALFORMED_INLINE_ARTIFACT_ENDPOINT.sh
+?? PHASE719_REPAIR_ARTIFACT_HELPER_AND_VERIFY.sh
+?? PHASE719_REPAIR_INLINE_ARTIFACT_HELPER_AND_VERIFY.sh
+?? PHASE719_VERIFY_AND_COMMIT_ARTIFACT_PATCH.sh
+?? PHASE719_VERIFY_EXISTING_ARTIFACT_AND_COMMIT.sh
+?? checkpoints/PHASE719_BACKEND_DIFF_BEFORE_UI.patch
+?? checkpoints/PHASE719_BROKEN_ARTIFACT_ENDPOINT_EXCERPT.txt
+?? checkpoints/PHASE719_ROUTE_BASELINE_COMPARISON.txt
+?? checkpoints/PHASE719_ROUTE_SYNTAX_MISMATCH_INSPECTION.txt
+?? checkpoints/PHASE719_STABLE_TASK_API_BASELINE_SEARCH.txt
+
+LOCAL ROUTER SYNTAX CHECK
+
+LOCAL ROUTER LINES 260-340
+   260	
+   261	    const b = _asJson(req);
+   262	    const task_id = b.task_id ?? b.taskId ?? b.id ?? null;
+   263	    if (!task_id) return res.status(400).json({ ok: false, error: "task_id_required" });
+   264	
+   265	    const evt = await emitTaskEvent({
+   266	      pool,
+   267	      kind: "task.canceled",
+   268	      task_id,
+   269	      run_id: b.run_id ?? b.runId ?? null,
+   270	      actor: b.actor ?? b.agent ?? "api",
+   271	      payload: {
+   272	        reason: b.reason ?? null,
+   273	        source: b.source ?? "api",
+   274	      },
+   275	    });
+   276	
+   277	    res.status(200).json({ ok: true, task_id, event: evt });
+   278	  } catch (e) {
+   279	    console.error("[phase25] /api/tasks error", e);
+   280	
+   281	    if (e instanceof PolicyEnforcedError || e?.code === "POLICY_ENFORCED" || e?.name === "PolicyEnforcedError") {
+   282	      return res.status(403).json({ ok: false, error: "policy.enforced", detail: e?.message || String(e) });
+   283	    }
+   284	
+   285	    res.status(500).json({ ok: false, error: e?.message || String(e) });
+   286	  }
+   287	});
+   288	
+   289	/**
+   290	
+   291	 * Phase 719 — Artifact Inspection Endpoint (READ-ONLY)
+   292	
+   293	 * GET /api/artifacts/:task_id
+   294	
+   295	 */
+   296	
+   297	app.get("/api/artifacts/:task_id", async (req, res) => {
+   298	
+   299	  try {
+   300	
+   301	    const task_id = req.params.task_id;
+   302	
+   303	    const result = await pool.query(
+   304	
+   305	      \`
+   306	
+   307	      SELECT
+   308	
+   309	        te.payload->>'artifact' AS artifact,
+   310	
+   311	        te.payload->>'artifacts' AS artifacts,
+   312	
+   313	        te.payload->>'outcome_preview' AS outcome_preview,
+   314	
+   315	        te.payload->>'explanation_preview' AS explanation_preview,
+   316	
+   317	        te.payload
+   318	
+   319	      FROM task_events te
+   320	
+   321	      WHERE te.task_id = $1
+   322	
+   323	        AND te.kind = 'task.completed'
+   324	
+   325	      ORDER BY te.id DESC
+   326	
+   327	      LIMIT 1
+   328	
+   329	      \`,
+   330	
+   331	      [task_id]
+   332	
+   333	    );
+   334	
+   335	    if (!result.rows.length) {
+   336	
+   337	      return res.status(404).json({
+   338	
+   339	        ok: false,
+   340	
+
+CONTAINER STATUS
+ede9b0d661ee   motherboard_systems_hq-dashboard   "docker-entrypoint.s…"   57 seconds ago   Exited (1) 54 seconds ago              motherboard_systems_hq-dashboard-1
+
+CONTAINER ROUTER LINES 260-340
+   260	
+   261	    const b = _asJson(req);
+   262	    const task_id = b.task_id ?? b.taskId ?? b.id ?? null;
+   263	    if (!task_id) return res.status(400).json({ ok: false, error: "task_id_required" });
+   264	
+   265	    const evt = await emitTaskEvent({
+   266	      pool,
+   267	      kind: "task.canceled",
+   268	      task_id,
+   269	      run_id: b.run_id ?? b.runId ?? null,
+   270	      actor: b.actor ?? b.agent ?? "api",
+   271	      payload: {
+   272	        reason: b.reason ?? null,
+   273	        source: b.source ?? "api",
+   274	      },
+   275	    });
+   276	
+   277	    res.status(200).json({ ok: true, task_id, event: evt });
+   278	  } catch (e) {
+   279	    console.error("[phase25] /api/tasks error", e);
+   280	
+   281	    if (e instanceof PolicyEnforcedError || e?.code === "POLICY_ENFORCED" || e?.name === "PolicyEnforcedError") {
+   282	      return res.status(403).json({ ok: false, error: "policy.enforced", detail: e?.message || String(e) });
+   283	    }
+   284	
+   285	    res.status(500).json({ ok: false, error: e?.message || String(e) });
+   286	  }
+   287	});
+   288	
+   289	/**
+   290	
+   291	 * Phase 719 — Artifact Inspection Endpoint (READ-ONLY)
+   292	
+   293	 * GET /api/artifacts/:task_id
+   294	
+   295	 */
+   296	
+   297	app.get("/api/artifacts/:task_id", async (req, res) => {
+   298	
+   299	  try {
+   300	
+   301	    const task_id = req.params.task_id;
+   302	
+   303	    const result = await pool.query(
+   304	
+   305	      \`
+   306	
+   307	      SELECT
+   308	
+   309	        te.payload->>'artifact' AS artifact,
+   310	
+   311	        te.payload->>'artifacts' AS artifacts,
+   312	
+   313	        te.payload->>'outcome_preview' AS outcome_preview,
+   314	
+   315	        te.payload->>'explanation_preview' AS explanation_preview,
+   316	
+   317	        te.payload
+   318	
+   319	      FROM task_events te
+   320	
+   321	      WHERE te.task_id = $1
+   322	
+   323	        AND te.kind = 'task.completed'
+   324	
+   325	      ORDER BY te.id DESC
+   326	
+   327	      LIMIT 1
+   328	
+   329	      \`,
+   330	
+   331	      [task_id]
+   332	
+   333	    );
+   334	
+   335	    if (!result.rows.length) {
+   336	
+   337	      return res.status(404).json({
+   338	
+   339	        ok: false,
+   340	
+
+CONTAINER ROUTER SYNTAX CHECK VIA NODE
+
+DASHBOARD LOGS
