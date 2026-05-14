@@ -1,0 +1,279 @@
+BRANCH
+phase719-artifact-visibility
+
+HEAD
+f0b28798 (HEAD -> phase719-artifact-visibility, origin/phase719-artifact-visibility) Phase 719: checkpoint before HTML artifact generation
+a1cce132 Phase 719: render artifact preview as visual card surface
+6bb1f7a3 Phase 719: define visual preview not text boundary
+8074625f Phase 719: verify rendered markdown preview cleanly
+bb3feaa4 Phase 719: render markdown artifact preview visually
+e74025ec Phase 719: checkpoint visual preview direction
+858bee50 Phase 719: wire preview modal to artifact content
+e4091e6c Phase 719: inspect exact preview modal function before fetch wiring
+
+STATUS
+?? PHASE719_ADD_ARTIFACT_INSPECTION_ENDPOINT.sh
+?? PHASE719_ADD_HTML_ARTIFACT_AND_RENDER_DIRECTLY.sh
+?? PHASE719_ARTIFACT_VISIBILITY_INSPECT.sh
+?? PHASE719_ATTACH_WORKER_ARTIFACT_VOLUME_EXACT.sh
+?? PHASE719_ATTACH_WORKER_ARTIFACT_VOLUME_EXACT_V2.sh
+?? PHASE719_BACKEND_DIFF_AND_RUNTIME_INSPECT.sh
+?? PHASE719_COMPARE_ROUTE_BASELINES.sh
+?? PHASE719_FIND_STABLE_TASK_API_BASELINE.sh
+?? PHASE719_FIX_WORKER_ARTIFACT_VOLUME_AND_VALIDATE.sh
+?? PHASE719_FULL_DISASTER_RECOVERY_BACKUP.sh
+?? PHASE719_INSPECT_WORKER_ARTIFACT_FUNCTION_EXACT.sh
+?? PHASE719_PATCH_PHASE530_ARTIFACT_LINE_V2.sh
+?? PHASE719_PATCH_PHASE530_ARTIFACT_LINE_V3.sh
+?? PHASE719_PATCH_PHASE530_ARTIFACT_LINE_V4.sh
+?? PHASE719_PATCH_RECENT_TASKS_ARTIFACT_METADATA.sh
+?? PHASE719_REMOVE_MALFORMED_INLINE_ARTIFACT_ENDPOINT.sh
+?? PHASE719_REPAIR_ARTIFACT_HELPER_AND_VERIFY.sh
+?? PHASE719_REPAIR_INLINE_ARTIFACT_HELPER_AND_VERIFY.sh
+?? PHASE719_VALIDATE_SHARED_ARTIFACT_VOLUME_WITH_NEW_TASK.sh
+?? PHASE719_VALIDATE_SHARED_ARTIFACT_VOLUME_WITH_NEW_TASK_V2.sh
+?? PHASE719_VALIDATE_SHARED_ARTIFACT_VOLUME_WITH_NEW_TASK_V3.sh
+?? PHASE719_VERIFY_AND_COMMIT_ARTIFACT_PATCH.sh
+?? PHASE719_VERIFY_EXISTING_ARTIFACT_AND_COMMIT.sh
+?? checkpoints/PHASE719_BACKEND_DIFF_BEFORE_UI.patch
+?? checkpoints/PHASE719_DOCKER_COMPOSE_PRE_ATTACH_WORKER_ARTIFACT_VOLUME.yml
+?? checkpoints/PHASE719_DOCKER_COMPOSE_PRE_ATTACH_WORKER_ARTIFACT_VOLUME_V2.yml
+?? checkpoints/PHASE719_DOCKER_COMPOSE_PRE_WORKER_ARTIFACT_VOLUME_FIX.yml
+?? checkpoints/PHASE719_FRONTEND_ARTIFACT_UI_INSPECTION.txt
+?? checkpoints/PHASE719_FRONTEND_ARTIFACT_UI_INSPECTION_NOTE.md
+?? checkpoints/PHASE719_PHASE530_PRE_ARTIFACT_LINE_V2.js
+?? checkpoints/PHASE719_PHASE530_PRE_ARTIFACT_LINE_V3.js
+?? checkpoints/PHASE719_PHASE530_PRE_ARTIFACT_LINE_V4.js
+?? checkpoints/PHASE719_PHASE530_PRE_HTML_ARTIFACT_DIRECT_RENDER.js
+?? checkpoints/PHASE719_PHASE530_PRE_PREVIEW_MODAL_CONTENT_FETCH.js
+?? checkpoints/PHASE719_PRE_PREVIEW_PILL_CHECKPOINT.txt
+?? checkpoints/PHASE719_ROUTE_BASELINE_COMPARISON.txt
+?? checkpoints/PHASE719_ROUTE_PRE_HTML_ARTIFACT_DIRECT_RENDER.mjs
+?? checkpoints/PHASE719_SHARED_ARTIFACT_VOLUME_NEW_TASK_BODY.json
+?? checkpoints/PHASE719_STABLE_TASK_API_BASELINE_SEARCH.txt
+?? checkpoints/PHASE719_WORKER_ARTIFACT_FUNCTION_EXACT_INSPECTION.txt
+?? checkpoints/PHASE719_WORKER_PRE_HTML_ARTIFACT_DIRECT_RENDER.mjs
+?? checkpoints/PHASE719_phase530_visible_panels_bridge_PRE_ARTIFACT_METADATA.js
+
+WORKER ARTIFACT FUNCTION LINES 110-235
+   110	
+   111	    function safeArtifactName(value = "") {
+   112	
+   113	      return String(value)
+   114	
+   115	        .replace(/[^a-zA-Z0-9._-]/g, "_")
+   116	
+   117	        .replace(/_+/g, "_")
+   118	
+   119	        .slice(0, 120);
+   120	
+   121	    }
+   122	
+   123	    function persistTaskArtifact({ task, completed, executionResult }) {
+   124	
+   125	      const taskId = completed?.task_id ?? task?.task_id ?? `task_${Date.now()}`;
+   126	
+   127	      const runId = completed?.run_id ?? task?.run_id ?? "run_unknown";
+   128	
+   129	      const artifactDir = process.env.MB_ARTIFACT_DIR || "/app/data/artifacts";
+   130	
+   131	      fs.mkdirSync(artifactDir, { recursive: true });
+   132	
+   133	      const filename = `${safeArtifactName(taskId)}_${safeArtifactName(runId)}.md`;
+   134	
+   135	      const artifactPath = path.join(artifactDir, filename);
+   136	
+   137	      const outcome = executionResult?.communicationResult?.outcome?.content ?? "";
+   138	
+   139	      const explanation = executionResult?.communicationResult?.explanation?.content ?? "";
+   140	
+   141	      const systemTrace = executionResult?.communicationResult?.systemTrace?.content ?? {};
+   142	
+   143	      const content = [
+   144	
+   145	        "# Task Artifact",
+   146	
+   147	        "",
+   148	
+   149	        "## Task",
+   150	
+   151	        String(task?.title ?? task?.payload?.title ?? taskId),
+   152	
+   153	        "",
+   154	
+   155	        "## Status",
+   156	
+   157	        String(completed?.status ?? "completed"),
+   158	
+   159	        "",
+   160	
+   161	        "## Outcome",
+   162	
+   163	        outcome || "No outcome content was produced.",
+   164	
+   165	        "",
+   166	
+   167	        "## Explanation",
+   168	
+   169	        explanation || "No explanation content was produced.",
+   170	
+   171	        "",
+   172	
+   173	        "## Execution Trace",
+   174	
+   175	        "```json",
+   176	
+   177	        JSON.stringify(systemTrace, null, 2),
+   178	
+   179	        "```",
+   180	
+   181	        ""
+   182	
+   183	      ].join("\n");
+   184	
+   185	      fs.writeFileSync(artifactPath, content, "utf8");
+   186	
+   187	      return {
+   188	
+   189	        type: "markdown",
+   190	
+   191	        filename,
+   192	
+   193	        path: artifactPath,
+   194	
+   195	        size_bytes: Buffer.byteLength(content, "utf8"),
+   196	
+   197	        created_at: new Date().toISOString(),
+   198	
+   199	        source: "worker"
+   200	
+   201	      };
+   202	
+   203	    }
+   204	
+   205	    const artifact = persistTaskArtifact({ task, completed, executionResult });
+   206	
+   207	    await emitTaskEvent({
+   208	      pool,
+   209	      kind: "task.completed",
+   210	      task_id: completed.task_id,
+   211	      run_id: completed.run_id ?? task.run_id ?? null,
+   212	      actor: OWNER,
+   213	      payload: {
+   214	        status: completed.status,
+   215	        source: "worker",
+   216	        claimed_by: completed.claimed_by,
+   217	        completed_at: completed.completed_at,
+   218	        communicationResult: executionResult?.communicationResult ?? null,
+   219	        outcome_preview: executionResult?.communicationResult?.outcome?.content ?? null,
+   220	        explanation_preview: executionResult?.communicationResult?.explanation?.content ?? null,
+   221	        artifact,
+   222	        artifacts: [artifact]
+   223	      }
+   224	    });
+   225	  }
+   226	
+   227	  return completed;
+   228	}
+   229	
+   230	async function main() {
+   231	  console.log("[worker] started with POSTGRES_URL:", POSTGRES_URL);
+   232	  console.log("[worker] running in phase:", SQL.phase);
+   233	  console.log("[worker] owner:", OWNER);
+   234	
+   235	  const pool = new Pool({ connectionString: POSTGRES_URL });
+
+WORKER ARTIFACT MARKERS
+34:    return {
+42:    return {
+53:  return fs.readFileSync(path.join(WORKER_DIR, name), "utf8");
+76:    return null;
+82:    status: task.status,
+87:  return task;
+91:  if (!task?.task_id) return null;
+105:      status: completed.status,
+113:      return String(value)
+123:    function persistTaskArtifact({ task, completed, executionResult }) {
+129:      const artifactDir = process.env.MB_ARTIFACT_DIR || "/app/data/artifacts";
+131:      fs.mkdirSync(artifactDir, { recursive: true });
+133:      const filename = `${safeArtifactName(taskId)}_${safeArtifactName(runId)}.md`;
+135:      const artifactPath = path.join(artifactDir, filename);
+157:        String(completed?.status ?? "completed"),
+185:      fs.writeFileSync(artifactPath, content, "utf8");
+187:      return {
+191:        filename,
+193:        path: artifactPath,
+205:    const artifact = persistTaskArtifact({ task, completed, executionResult });
+209:      kind: "task.completed",
+214:        status: completed.status,
+221:        artifact,
+222:        artifacts: [artifact]
+227:  return completed;
+
+ROUTE ARTIFACT SELECTION LINES 145-190
+   145	
+   146	    const row = q.rows?.[0] || null;
+   147	
+   148	    if (!row) {
+   149	
+   150	      return res.status(404).json({ ok: false, error: "task_not_found" });
+   151	
+   152	    }
+   153	
+   154	    const artifact =
+   155	
+   156	      row.artifact ||
+   157	
+   158	      (Array.isArray(row.artifacts) ? row.artifacts[0] : null);
+   159	
+   160	    if (!artifact || !artifact.path) {
+   161	
+   162	      return res.status(404).json({ ok: false, error: "artifact_not_found" });
+   163	
+   164	    }
+   165	
+   166	    const artifactDir = process.env.MB_ARTIFACT_DIR || "/app/data/artifacts";
+   167	
+   168	    const resolvedPath = path.resolve(String(artifact.path));
+   169	
+   170	    const resolvedDir = path.resolve(artifactDir);
+   171	
+   172	    if (!resolvedPath.startsWith(resolvedDir)) {
+   173	
+   174	      return res.status(403).json({ ok: false, error: "artifact_path_rejected" });
+   175	
+   176	    }
+   177	
+   178	    if (!fs.existsSync(resolvedPath)) {
+   179	
+   180	      return res.status(404).json({ ok: false, error: "artifact_file_missing" });
+   181	
+   182	    }
+   183	
+   184	    const content = fs.readFileSync(resolvedPath, "utf8");
+   185	
+   186	    return res.status(200).json({
+   187	
+   188	      ok: true,
+   189	
+   190	      task_id: taskId,
+
+FRONTEND HTML MARKERS
+835:  function phase719RenderArtifactVisualCard(markdown) {
+901:  function phase719RenderMarkdownArtifactPreview(markdown) {
+903:    return phase719RenderArtifactVisualCard(markdown);
+1010:      body.innerHTML = phase719RenderMarkdownArtifactPreview(data.content);
+
+SYNTAX
+
+RUNTIME HEALTH
+HTTP/1.1 200 OK
+X-Powered-By: Express
+Content-Type: application/json; charset=utf-8
+Content-Length: 11
+ETag: W/"b-Ai2R8hgEarLmHKwesT1qcY913ys"
+Date: Thu, 14 May 2026 22:34:25 GMT
+Connection: keep-alive
+Keep-Alive: timeout=5
+
+{"ok":true}
