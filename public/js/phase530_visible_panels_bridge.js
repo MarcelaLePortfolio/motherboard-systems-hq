@@ -837,9 +837,33 @@
 
     const status = sections.status || "";
 
+    const summary = sections.summary || "";
+
+    const deliverable = sections.deliverable || "";
+
+    const details = sections.details || "";
+
+    const recommendations = sections.recommendations || "";
+
+    const nextSteps = sections["next steps"] || sections.nextsteps || "";
+
     const outcome = sections.outcome || "";
 
     const explanation = sections.explanation || "";
+
+    const enrichedSections = [
+
+      ["Summary", summary],
+
+      ["Deliverable", deliverable],
+
+      ["Details", details],
+
+      ["Recommendations", recommendations],
+
+      ["Next Steps", nextSteps]
+
+    ].filter(([, value]) => String(value || "").trim());
 
     const chips = [
 
@@ -865,7 +889,23 @@
 
           </div>
 
-          <div style="display:grid;grid-template-columns:minmax(0,1.2fr) minmax(220px,.8fr);gap:18px;padding:22px 24px 24px 24px;">
+          <div style="display:grid;grid-template-columns:minmax(0,1fr);gap:14px;padding:22px 24px 10px 24px;">
+
+            ${enrichedSections.map(([label, value]) => `
+
+              <section style="border:1px solid rgba(96,165,250,.22);border-radius:18px;background:rgba(15,23,42,.7);padding:18px;">
+
+                <div style="font-size:11px;text-transform:uppercase;letter-spacing:.18em;color:#93c5fd;font-weight:900;margin-bottom:10px;">${phase719EscapePreviewHtml(label)}</div>
+
+                <div style="font-size:15px;line-height:1.6;color:#e0f2fe;white-space:pre-wrap;">${phase719EscapePreviewHtml(value)}</div>
+
+              </section>
+
+            `).join("")}
+
+          </div>
+
+          <div style="display:grid;grid-template-columns:minmax(0,1.2fr) minmax(220px,.8fr);gap:18px;padding:12px 24px 24px 24px;">
 
             <section style="border:1px solid rgba(96,165,250,.22);border-radius:18px;background:rgba(15,23,42,.7);padding:18px;">
 
@@ -879,7 +919,7 @@
 
               <div style="font-size:11px;text-transform:uppercase;letter-spacing:.18em;color:#5eead4;font-weight:900;margin-bottom:10px;">Build Path</div>
 
-              <div style="font-size:14px;line-height:1.55;color:#ccfbf1;">${phase719EscapePreviewHtml(explanation || "No explanation available.")}</div>
+              <div style="font-size:14px;line-height:1.55;color:#ccfbf1;white-space:pre-wrap;">${phase719EscapePreviewHtml(explanation || "No explanation available.")}</div>
 
             </section>
 
