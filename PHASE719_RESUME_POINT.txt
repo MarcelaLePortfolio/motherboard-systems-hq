@@ -1,0 +1,79 @@
+
+PHASE 719 RESUME POINT
+
+Authoritative stable checkpoint:
+
+62146623
+
+Branch:
+
+phase719-artifact-visibility
+
+System state:
+
+- iframe/srcdoc embedded preview infrastructure operational
+
+- markdown artifact contracts preserved
+
+- retry architecture preserved
+
+- SSE preserved
+
+- runtime healthy
+
+- worker healthy
+
+- dashboard healthy
+
+- backups completed
+
+- external archive completed
+
+Current rendering pipeline:
+
+markdown artifact
+
+→ frontend visual renderer
+
+→ iframe/srcdoc isolation layer
+
+→ embedded modal preview
+
+NOT IMPLEMENTED:
+
+- native HTML artifact contracts
+
+- worker-authored HTML artifacts
+
+- persisted HTML artifact schema
+
+Safe future work:
+
+- iframe polish
+
+- renderer refinement
+
+- responsive sizing improvements
+
+- isolated rendering enhancements
+
+- future HTML contract design documentation
+
+Unsafe directions:
+
+- worker mutation
+
+- speculative payload surgery
+
+- execution coupling
+
+- inline contract rewrites
+
+Untracked evidence intentionally preserved:
+
+- PHASE719_FULL_DISASTER_RECOVERY_BACKUP.sh
+
+- checkpoints/PHASE719_QUARANTINE_FAILED_HELPERS.txt
+
+- public/js/phase530_visible_panels_bridge.js.phase719_iframe_v2_backup
+
