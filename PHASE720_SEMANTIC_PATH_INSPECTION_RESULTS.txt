@@ -1,0 +1,598 @@
+===== PHASE 720 SEMANTIC PATH INSPECTION =====
+
+[1] Current branch and HEAD
+phase719-artifact-visibility
+58c8aad5 (HEAD -> phase719-artifact-visibility, origin/phase719-artifact-visibility) Phase 720: establish semantic schema baseline
+39708f55 Phase 719: seal semantic readability validation
+f79a279a Phase 719: improve semantic artifact preview readability
+cfe29ac0 Phase 719: add next corridor inspection helper
+9df1439d Phase 719: seal agent pool visual validation
+
+[2] Working tree status
+?? PHASE719_FULL_DISASTER_RECOVERY_BACKUP.sh
+?? PHASE720_INSPECT_SEMANTIC_PATHS.sh
+?? PHASE720_SEMANTIC_PATH_INSPECTION_RESULTS.txt
+?? checkpoints/PHASE719_QUARANTINE_FAILED_HELPERS.txt
+?? public/js/phase530_visible_panels_bridge.js.phase719_iframe_v2_backup
+
+[3] Artifact route references
+server/artifacts.mjs:19:  app.get("/events/artifacts", (req, res) => {
+server/artifacts.mjs:54:  app.post("/api/artifacts", (req, res) => {
+server/worker/phase26_task_worker.mjs:129:      const artifactDir = process.env.MB_ARTIFACT_DIR || "/app/data/artifacts";
+server/worker/phase26_task_worker.mjs:288:        artifacts: [artifact]
+server/routes/api-tasks-postgres.mjs:68:        completed.payload->'artifacts' AS artifacts,
+server/routes/api-tasks-postgres.mjs:94:// GET /api/tasks/:task_id/artifact-preview
+server/routes/api-tasks-postgres.mjs:96:apiTasksRouter.get("/:task_id/artifact-preview", async (req, res) => {
+server/routes/api-tasks-postgres.mjs:116:        completed.payload->'artifacts' AS artifacts
+server/routes/api-tasks-postgres.mjs:158:      (Array.isArray(row.artifacts) ? row.artifacts[0] : null);
+server/routes/api-tasks-postgres.mjs:166:    const artifactDir = process.env.MB_ARTIFACT_DIR || "/app/data/artifacts";
+src/governance_operator_guide/governance_operator_guide_contract.ts:6:  "cannot alter audit artifacts",
+src/governance_operator_compendium/governance_operator_compendium_contract.ts:6:  "cannot alter audit artifacts",
+src/governance_operator_bundle/governance_operator_bundle_contract.ts:6:  "cannot alter audit artifacts",
+src/governance_operator_dictionary/governance_operator_dictionary_contract.ts:6:  "cannot alter audit artifacts",
+src/governance_operator_ledger/governance_operator_ledger_contract.ts:6:  "cannot alter audit artifacts",
+src/governance_operator_handbook/governance_operator_handbook_contract.ts:6:  "cannot alter audit artifacts",
+src/governance_operator_map/governance_operator_map_contract.ts:6:  "cannot alter audit artifacts",
+src/governance_operator_register/governance_operator_register_contract.ts:6:  "cannot alter audit artifacts",
+src/governance_operator_lexicon/governance_operator_lexicon_contract.ts:6:  "cannot alter audit artifacts",
+src/governance_operator_briefing/governance_operator_briefing_contract.ts:6:  "cannot alter audit artifacts",
+src/governance_operator_manifest_index/governance_operator_manifest_index_contract.ts:6:  "cannot alter audit artifacts",
+src/governance_operator_session/governance_operator_session_contract.ts:6:  "cannot alter audit artifacts",
+src/governance_operator_console/governance_operator_console_contract.ts:6:  "cannot alter audit artifacts",
+src/governance_operator_directory/governance_operator_directory_contract.ts:6:  "cannot alter audit artifacts",
+src/governance_operator_registry/governance_operator_registry_contract.ts:6:  "cannot alter audit artifacts",
+src/governance_operator_record/governance_operator_record_contract.ts:6:  "cannot alter audit artifacts",
+src/governance_operator_glossary/governance_operator_glossary_contract.ts:6:  "cannot alter audit artifacts",
+src/governance_operator_export/governance_operator_export_contract.ts:6:  "cannot alter audit artifacts",
+src/governance_operator_manifest/governance_operator_manifest_contract.ts:6:  "cannot alter audit artifacts",
+src/governance_traceability/governance_traceability_contract.ts:6:  "cannot alter audit artifacts",
+src/governance_operator_archive/governance_operator_archive_contract.ts:6:  "cannot alter audit artifacts",
+src/governance_operator_logbook/governance_operator_logbook_contract.ts:6:  "cannot alter audit artifacts",
+src/governance/governanceOutcomeSurfaceProof.ts:3: * Deterministic validation that outcome surfaces remain read-only cognition artifacts.
+src/governance_operator_packet/governance_operator_packet_builder.ts:55:      key: "artifacts",
+src/governance_operator_packet/governance_operator_packet_contract.ts:6:  "cannot alter audit artifacts",
+src/governance_operator_index/governance_operator_index_contract.ts:6:  "cannot alter audit artifacts",
+src/governance_reporting/governance_reporting_contract.ts:6:  "cannot alter audit artifacts",
+src/governance_operator_catalog/governance_operator_catalog_contract.ts:6:  "cannot alter audit artifacts",
+src/governance_operator_manual/governance_operator_manual_contract.ts:6:  "cannot alter audit artifacts",
+src/governance_operator_atlas/governance_operator_atlas_contract.ts:6:  "cannot alter audit artifacts",
+src/governance_operator_snapshot/governance_operator_snapshot_contract.ts:6:  "cannot alter audit artifacts",
+src/governance_operator_handoff/governance_operator_handoff_contract.ts:6:  "cannot alter audit artifacts",
+src/governance_digest/governance_digest_contract.ts:6:  "cannot alter audit artifacts",
+src/governance_digest/governance_digest_builder.ts:51:      key: "artifacts",
+src/governance_operator_playbook/governance_operator_playbook_contract.ts:6:  "cannot alter audit artifacts",
+src/governance_operator_reference/governance_operator_reference_contract.ts:6:  "cannot alter audit artifacts",
+public/js/phase530_visible_panels_bridge.js:141:      const artifactRaw = t.artifact || (Array.isArray(t.artifacts) ? t.artifacts[0] : null) || null;
+public/js/phase530_visible_panels_bridge.js:950:      <div data-phase719-rendered-artifact-preview="true" style="max-width:920px;margin:0 auto;">
+public/js/phase530_visible_panels_bridge.js:1140:      const res = await fetch(`/api/tasks/${encodeURIComponent(taskId)}/artifact-preview`, { cache: "no-store" });
+public/js/phase530_visible_panels_bridge.js.phase719_iframe_v2_backup:141:      const artifactRaw = t.artifact || (Array.isArray(t.artifacts) ? t.artifacts[0] : null) || null;
+public/js/phase530_visible_panels_bridge.js.phase719_iframe_v2_backup:859:      <div data-phase719-rendered-artifact-preview="true" style="max-width:920px;margin:0 auto;">
+public/js/phase530_visible_panels_bridge.js.phase719_iframe_v2_backup:966:      const res = await fetch(`/api/tasks/${encodeURIComponent(taskId)}/artifact-preview`, { cache: "no-store" });
+public/js/project-visual-output.js:9:  const URL = "/events/artifacts";
+public/js/project-visual-output.js:34:          new CustomEvent("mb:artifacts:update", { detail: data })
+
+[4] Worker artifact generation references
+src/governance_operator_guide/governance_operator_guide_contract.ts:6:  "cannot alter audit artifacts",
+src/governance_operator_compendium/governance_operator_compendium_contract.ts:6:  "cannot alter audit artifacts",
+src/governance_operator_bundle/governance_operator_bundle_contract.ts:6:  "cannot alter audit artifacts",
+src/governance_operator_dictionary/governance_operator_dictionary_contract.ts:6:  "cannot alter audit artifacts",
+src/governance_operator_ledger/governance_operator_ledger_contract.ts:6:  "cannot alter audit artifacts",
+src/governance_operator_handbook/governance_operator_handbook_contract.ts:6:  "cannot alter audit artifacts",
+src/governance_operator_map/governance_operator_map_contract.ts:6:  "cannot alter audit artifacts",
+src/governance_operator_register/governance_operator_register_contract.ts:6:  "cannot alter audit artifacts",
+src/governance_operator_lexicon/governance_operator_lexicon_contract.ts:6:  "cannot alter audit artifacts",
+src/governance_operator_briefing/governance_operator_briefing_contract.ts:6:  "cannot alter audit artifacts",
+src/governance_operator_manifest_index/governance_operator_manifest_index_contract.ts:6:  "cannot alter audit artifacts",
+src/governance_operator_session/governance_operator_session_contract.ts:6:  "cannot alter audit artifacts",
+src/governance_operator_console/governance_operator_console_contract.ts:6:  "cannot alter audit artifacts",
+src/governance_operator_directory/governance_operator_directory_contract.ts:6:  "cannot alter audit artifacts",
+src/governance_investigation/verification/replay_pathological_fixtures.ts:27:    eventSequence: ["task.created", "task.completed", "task.completed"],
+src/governance_investigation/verification/replay_pathological_fixtures.ts:34:    eventSequence: ["task.updated", "task.completed"],
+src/governance_investigation/verification/replay_pathological_fixtures.ts:41:    eventSequence: ["task.completed", "task.created"],
+src/governance_investigation/verification/run-replay-pathological-proof-suite.ts:20:console.log("[replay-pathological-proof-suite] PASS: pathological replay proof suite completed");
+src/governance_investigation/verification/run-replay-verification-proof-suite.ts:19:console.log("[replay-verification-proof-suite] PASS: all replay verification proofs completed");
+src/governance_investigation/verification/run-replay-diagnostic-stability-proof.ts:18:console.log("[replay-diagnostic-stability-proof] PASS: diagnostic stability verification completed");
+src/governance_investigation/verification/run-pathological-fixture-proof.ts:17:console.log("[replay-pathological-proof] verification runner completed");
+src/governance_operator_registry/governance_operator_registry_contract.ts:6:  "cannot alter audit artifacts",
+src/governance_operator_record/governance_operator_record_contract.ts:6:  "cannot alter audit artifacts",
+src/governance_operator_glossary/governance_operator_glossary_contract.ts:6:  "cannot alter audit artifacts",
+src/governance_operator_export/governance_operator_export_contract.ts:6:  "cannot alter audit artifacts",
+src/governance_operator_manifest/governance_operator_manifest_contract.ts:6:  "cannot alter audit artifacts",
+src/governance_traceability/governance_traceability_model.ts:19:  completed_stages: GovernanceTraceabilityStage[];
+src/governance_traceability/governance_traceability_contract.ts:6:  "cannot alter audit artifacts",
+src/governance_traceability/governance_traceability_snapshot.ts:12:  completed_stages?: readonly GovernanceTraceabilityStage[];
+src/governance_traceability/governance_traceability_snapshot.ts:28:    completed_stages: [...(input.completed_stages ?? [])],
+src/governance_traceability/governance_traceability_formatter.ts:16:  return `Completed stages: ${formatList(record.completed_stages)}`;
+src/governance_operator_archive/governance_operator_archive_contract.ts:6:  "cannot alter audit artifacts",
+src/governance_operator_logbook/governance_operator_logbook_contract.ts:6:  "cannot alter audit artifacts",
+src/governance/governance_signal_classifier.ts:5:Strengthen the first governance code artifact without introducing runtime
+src/governance/governanceOutcomeSurfaceProof.ts:3: * Deterministic validation that outcome surfaces remain read-only cognition artifacts.
+src/governance_operator_packet/governance_operator_packet_builder.ts:21:  completed_stages?: readonly string[];
+src/governance_operator_packet/governance_operator_packet_builder.ts:49:      text: formatGovernanceOperatorPacketStages(input.completed_stages ?? []),
+src/governance_operator_packet/governance_operator_packet_builder.ts:53:  const artifactLines: GovernanceOperatorPacketLine[] = [
+src/governance_operator_packet/governance_operator_packet_builder.ts:55:      key: "artifacts",
+src/governance_operator_packet/governance_operator_packet_builder.ts:70:    { title: "Artifacts", lines: artifactLines },
+src/governance_operator_packet/governance_operator_packet_contract.ts:6:  "cannot alter audit artifacts",
+src/governance_operator_index/governance_operator_index_contract.ts:6:  "cannot alter audit artifacts",
+src/governance_reporting/governance_reporting_builder.ts:19:  completed_stages?: readonly string[];
+src/governance_reporting/governance_reporting_builder.ts:54:          value: formatGovernanceReportStages(input.completed_stages ?? []),
+src/governance_reporting/governance_reporting_contract.ts:6:  "cannot alter audit artifacts",
+src/governance_operator_catalog/governance_operator_catalog_contract.ts:6:  "cannot alter audit artifacts",
+src/telemetry/computeQueueThroughput.test.ts:16:    "zero completed"
+src/telemetry/computeQueueThroughput.test.ts:46:    "negative completed safeguard"
+src/telemetry/queueThroughputHarness.ts:19:function verify(label: string, completed: number, window: number, expected: number) {
+src/telemetry/queueThroughputHarness.ts:20:  const result = computeQueueThroughput(completed, window)
+src/telemetry/queueThroughputHarness.ts:53:    "zero completed",
+src/telemetry/computeQueueThroughput.ts:19:  completedTasks: number,
+src/telemetry/computeQueueThroughput.ts:26:  if (completedTasks <= 0) {
+src/telemetry/computeQueueThroughput.ts:30:  return completedTasks / windowMinutes
+src/governance_operator_manual/governance_operator_manual_contract.ts:6:  "cannot alter audit artifacts",
+src/governance_operator_atlas/governance_operator_atlas_contract.ts:6:  "cannot alter audit artifacts",
+src/governance_operator_snapshot/governance_operator_snapshot_contract.ts:6:  "cannot alter audit artifacts",
+src/governance_operator_handoff/governance_operator_handoff_contract.ts:6:  "cannot alter audit artifacts",
+src/governance_digest/governance_digest_contract.ts:6:  "cannot alter audit artifacts",
+src/governance_digest/governance_digest_builder.ts:20:  completed_stages?: readonly string[];
+src/governance_digest/governance_digest_builder.ts:48:      text: formatGovernanceDigestStages(input.completed_stages ?? []),
+src/governance_digest/governance_digest_builder.ts:51:      key: "artifacts",
+src/governance_operator_playbook/governance_operator_playbook_contract.ts:6:  "cannot alter audit artifacts",
+src/governance_operator_reference/governance_operator_reference_contract.ts:6:  "cannot alter audit artifacts",
+server/taskContract.mjs:26:  if (s === "completed") return "complete";
+server/guidance/guidance-history-store.mjs:34:    fs.writeFileSync(tmpPath, `${retained.join("\n")}\n`, "utf8");
+server/db_bootstrap_run_view.mjs:28:      where te.kind in ('task.completed', 'task.failed', 'task.canceled')
+server/db_bootstrap_run_view.mjs:35:      (t.status in ('completed', 'failed', 'canceled')) as is_terminal,
+server/task-lifecycle.ts:24:export type TaskState = "created" | "running" | "completed" | "failed";
+server/task-lifecycle.ts:29:  completed: 2,
+server/task-lifecycle.ts:38:  if (prev === "completed" || prev === "failed") return false;
+server/task-lifecycle.ts:43:  return state === "completed" || state === "failed";
+server/utils/observability/USAGE.md:18:structuredLog("retry.completed", {
+server/artifacts.mjs:19:  app.get("/events/artifacts", (req, res) => {
+server/artifacts.mjs:54:  app.post("/api/artifacts", (req, res) => {
+server/artifacts.mjs:65:export function emitArtifact(artifact) {
+server/artifacts.mjs:67:    type: artifact?.type || "log",
+server/artifacts.mjs:68:    source: artifact?.source || "unknown",
+server/artifacts.mjs:69:    taskId: artifact?.taskId,
+server/artifacts.mjs:70:    timestamp: artifact?.timestamp || new Date().toISOString(),
+server/artifacts.mjs:71:    payload: artifact?.payload ?? {},
+server/integrations/execution_guidance_dev_probe.mjs:5: * - Simulates real task.completed events
+server/integrations/execution_guidance_dev_probe.mjs:12:    type: 'task.completed',
+server/integrations/execution_guidance_dev_probe.mjs:18:        explanation: 'Execution completed successfully',
+server/integrations/execution_guidance_dev_probe.mjs:23:    type: 'task.completed',
+server/integrations/execution_guidance_dev_probe.mjs:34:    type: 'task.completed',
+server/execution_guidance_runner.mjs:5: * - Reads task.completed events
+server/execution_guidance_runner.mjs:19:    // Strict filter: only task.completed events
+server/execution_guidance_runner.mjs:21:      event.type === 'task.completed' ||
+server/execution_guidance_runner.mjs:22:      event.event_type === 'task.completed'
+server/execution_guidance_runner.mjs:37:      type: 'task.completed',
+server/execution_guidance_runner.mjs:43:          explanation: 'Task completed successfully',
+server/execution_guidance_runner.mjs:48:      type: 'task.completed',
+server/task-events.mjs:16:  "task.completed",
+server/task-events.mjs:22:  "task.completed",
+server/task-events.mjs:153:    "task.created","task.queued","task.started","task.progress","task.completed","task.failed","task.canceled",
+server/task-events.mjs:155:  const __PHASE25_TERMINAL_KINDS = new Set(["task.completed","task.failed","task.canceled"]);
+server/db/migrations/phase632_add_run_columns.sql:5:ADD COLUMN IF NOT EXISTS completed_at TIMESTAMP;
+server/db/init.sql:11:  ADD COLUMN IF NOT EXISTS completed_at TIMESTAMP;
+server/worker/phase35_mark_success.sql:3:     SET status = 'completed',
+server/worker/phase35_mark_success.sql:4:         completed_at = NOW()
+server/worker/phase34_mark_success_pg.sql:3:SET status='completed',
+server/worker/phase35_mark_success_pg.sql:8:SET status = 'completed',
+server/worker/phase34_mark_success.sql:3:SET status='completed',
+server/worker/phase28_mark_success.sql:4:set status = 'completed',
+server/worker/phase28_mark_success.sql:7:    completed_at = now(),
+server/worker/phase32_mark_failure.sql:11:  completed_at = NOW(),
+server/worker/response_compiler.mjs:22:    "Execution completed."
+server/worker/phase27_mark_success.sql:6:  status = 'completed',
+server/worker/phase26_task_worker.mjs:99:  const completed = result.rows?.[0] || null;
+server/worker/phase26_task_worker.mjs:101:  if (completed) {
+server/worker/phase26_task_worker.mjs:102:    console.log("[worker] completed task", {
+server/worker/phase26_task_worker.mjs:103:      id: completed.id,
+server/worker/phase26_task_worker.mjs:104:      task_id: completed.task_id,
+server/worker/phase26_task_worker.mjs:105:      status: completed.status,
+server/worker/phase26_task_worker.mjs:106:      run_id: completed.run_id,
+server/worker/phase26_task_worker.mjs:107:      claimed_by: completed.claimed_by,
+server/worker/phase26_task_worker.mjs:108:      completed_at: completed.completed_at
+server/worker/phase26_task_worker.mjs:123:    function persistTaskArtifact({ task, completed, executionResult }) {
+server/worker/phase26_task_worker.mjs:125:      const taskId = completed?.task_id ?? task?.task_id ?? `task_${Date.now()}`;
+server/worker/phase26_task_worker.mjs:127:      const runId = completed?.run_id ?? task?.run_id ?? "run_unknown";
+server/worker/phase26_task_worker.mjs:129:      const artifactDir = process.env.MB_ARTIFACT_DIR || "/app/data/artifacts";
+server/worker/phase26_task_worker.mjs:131:      fs.mkdirSync(artifactDir, { recursive: true });
+server/worker/phase26_task_worker.mjs:135:      const artifactPath = path.join(artifactDir, filename);
+server/worker/phase26_task_worker.mjs:145:      const taskStatus = String(completed?.status ?? "completed");
+server/worker/phase26_task_worker.mjs:147:      const artifactSummary = outcome || `Execution completed for: ${taskTitle}`;
+server/worker/phase26_task_worker.mjs:149:      const artifactDeliverable = outcome || "No deliverable summary was produced.";
+server/worker/phase26_task_worker.mjs:151:      const artifactDetails = [
+server/worker/phase26_task_worker.mjs:163:      const artifactRecommendations = [
+server/worker/phase26_task_worker.mjs:165:        "Review the generated artifact preview in the operator console.",
+server/worker/phase26_task_worker.mjs:171:      const artifactNextSteps = [
+server/worker/phase26_task_worker.mjs:173:        "Confirm the artifact content matches the operator intent.",
+server/worker/phase26_task_worker.mjs:175:        "If richer deliverable content is needed, refine the worker artifact contract before expanding renderer behavior."
+server/worker/phase26_task_worker.mjs:199:        artifactSummary,
+server/worker/phase26_task_worker.mjs:205:        artifactDeliverable,
+server/worker/phase26_task_worker.mjs:211:        artifactDetails || "No additional details were produced.",
+server/worker/phase26_task_worker.mjs:217:        artifactRecommendations,
+server/worker/phase26_task_worker.mjs:223:        artifactNextSteps,
+server/worker/phase26_task_worker.mjs:251:      fs.writeFileSync(artifactPath, content, "utf8");
+server/worker/phase26_task_worker.mjs:255:        type: "markdown",
+server/worker/phase26_task_worker.mjs:259:        path: artifactPath,
+server/worker/phase26_task_worker.mjs:271:    const artifact = persistTaskArtifact({ task, completed, executionResult });
+server/worker/phase26_task_worker.mjs:275:      kind: "task.completed",
+server/worker/phase26_task_worker.mjs:276:      task_id: completed.task_id,
+server/worker/phase26_task_worker.mjs:277:      run_id: completed.run_id ?? task.run_id ?? null,
+server/worker/phase26_task_worker.mjs:280:        status: completed.status,
+server/worker/phase26_task_worker.mjs:282:        claimed_by: completed.claimed_by,
+server/worker/phase26_task_worker.mjs:283:        completed_at: completed.completed_at,
+server/worker/phase26_task_worker.mjs:287:        artifact,
+server/worker/phase26_task_worker.mjs:288:        artifacts: [artifact]
+server/worker/phase26_task_worker.mjs:293:  return completed;
+server/worker/phase32_mark_success.sql:10:  status       = 'completed',
+server/worker/phase32_mark_success.sql:11:  completed_at = NOW(),
+server/routes/api-tasks-postgres.mjs:65:        completed.payload->>'outcome_preview' AS outcome_preview,
+server/routes/api-tasks-postgres.mjs:66:        completed.payload->>'explanation_preview' AS explanation_preview,
+server/routes/api-tasks-postgres.mjs:67:        completed.payload->'artifact' AS artifact,
+server/routes/api-tasks-postgres.mjs:68:        completed.payload->'artifacts' AS artifacts,
+server/routes/api-tasks-postgres.mjs:69:        completed.payload AS guidance
+server/routes/api-tasks-postgres.mjs:75:          AND te.kind = 'task.completed'
+server/routes/api-tasks-postgres.mjs:78:      ) completed ON true
+server/routes/api-tasks-postgres.mjs:94:// GET /api/tasks/:task_id/artifact-preview
+server/routes/api-tasks-postgres.mjs:96:apiTasksRouter.get("/:task_id/artifact-preview", async (req, res) => {
+server/routes/api-tasks-postgres.mjs:114:        completed.payload->'artifact' AS artifact,
+server/routes/api-tasks-postgres.mjs:116:        completed.payload->'artifacts' AS artifacts
+server/routes/api-tasks-postgres.mjs:128:          AND te.kind = 'task.completed'
+server/routes/api-tasks-postgres.mjs:134:      ) completed ON true
+server/routes/api-tasks-postgres.mjs:154:    const artifact =
+server/routes/api-tasks-postgres.mjs:156:      row.artifact ||
+server/routes/api-tasks-postgres.mjs:158:      (Array.isArray(row.artifacts) ? row.artifacts[0] : null);
+server/routes/api-tasks-postgres.mjs:160:    if (!artifact || !artifact.path) {
+server/routes/api-tasks-postgres.mjs:162:      return res.status(404).json({ ok: false, error: "artifact_not_found" });
+server/routes/api-tasks-postgres.mjs:166:    const artifactDir = process.env.MB_ARTIFACT_DIR || "/app/data/artifacts";
+server/routes/api-tasks-postgres.mjs:168:    const resolvedPath = path.resolve(String(artifact.path));
+server/routes/api-tasks-postgres.mjs:170:    const resolvedDir = path.resolve(artifactDir);
+server/routes/api-tasks-postgres.mjs:174:      return res.status(403).json({ ok: false, error: "artifact_path_rejected" });
+server/routes/api-tasks-postgres.mjs:180:      return res.status(404).json({ ok: false, error: "artifact_file_missing" });
+server/routes/api-tasks-postgres.mjs:192:      artifact: {
+server/routes/api-tasks-postgres.mjs:194:        filename: artifact.filename || null,
+server/routes/api-tasks-postgres.mjs:196:        type: artifact.type || null,
+server/routes/api-tasks-postgres.mjs:198:        size_bytes: artifact.size_bytes || null,
+server/routes/api-tasks-postgres.mjs:200:        created_at: artifact.created_at || null
+server/routes/api-tasks-postgres.mjs:210:    console.error("[phase719] artifact preview route error", e);
+server/routes/api-tasks-postgres.mjs:212:    return res.status(500).json({ ok: false, error: "artifact_preview_failed" });
+server/routes/api-tasks-postgres.mjs:317:      kind: "task.completed",
+server/routes/api-tasks-mutations.mjs:34:        kind: b.kind ?? b.event_kind ?? b.eventKind ?? "task.completed",
+server/routes/task-events-sse.mjs:71:  if (eventName !== "task.completed") {
+server/execution_guidance_router.mjs:56:    combined.includes('completed') ||
+server/sql/phase54_bootstrap.sql:20:ADD COLUMN IF NOT EXISTS completed_at TIMESTAMPTZ;
+server/sql/phase40_6_shadow_audit_task_events.sql:28:    CASE WHEN kind IN ('completed','failed','canceled','cancelled') THEN 1 ELSE 0 END AS is_terminal,
+routes/reset.ts:10:    res.json({ status: "ok", message: "System reset completed successfully." });
+routes/routes/reset.ts:10:    res.json({ status: "ok", message: "System reset completed successfully." });
+
+[5] Frontend semantic renderer references
+public/js/phase489_panel_height_sync.js:85:        panel.querySelector(":scope > section") ||
+public/js/phase489_panel_height_sync.js:86:        panel.querySelector("section") ||
+public/js/phase531_recent_tasks_layout_fix.js:23:    [taskSection, logSection].forEach((section) => {
+public/js/phase531_recent_tasks_layout_fix.js:24:      if (!section) return;
+public/js/phase531_recent_tasks_layout_fix.js:25:      section.style.display = "grid";
+public/js/phase531_recent_tasks_layout_fix.js:26:      section.style.gridTemplateRows = "auto minmax(0, 1fr)";
+public/js/phase531_recent_tasks_layout_fix.js:27:      section.style.gap = "0.45rem";
+public/js/phase531_recent_tasks_layout_fix.js:28:      section.style.minHeight = "0";
+public/js/phase531_recent_tasks_layout_fix.js:29:      section.style.height = "100%";
+public/js/phase531_recent_tasks_layout_fix.js:30:      section.style.margin = "0";
+public/js/phase531_recent_tasks_layout_fix.js:32:      const label = section.querySelector("h3");
+public/js/phase530_visible_panels_bridge.js:191:            ${artifactRaw ? `<button type="button" data-phase719-preview-artifact="true" data-task-id="${taskId}" data-task-title="${title}" data-artifact-name="${artifactName}" data-artifact-type="${artifactType}" data-artifact-size="${artifactSize}" data-artifact-path="${artifactPath}" data-artifact-outcome="${outcome}" data-artifact-explanation="${explanation}" title="Preview completed artifact" style="flex:0 0 auto;cursor:pointer;color:#93c5fd;border:1px solid rgba(147,197,253,.35);border-radius:999px;padding:2px 7px;font-size:10px;line-height:1.4;background:rgba(30,64,175,.18);">Preview</button>` : ""}
+public/js/phase530_visible_panels_bridge.js:384:          <section role="dialog" aria-modal="true" aria-labelledby="phase717-inspection-modal-title" style="width:min(760px,calc(100vw - 28px));max-height:min(760px,calc(100vh - 36px));display:flex;flex-direction:column;border:1px solid rgba(148,163,184,.36);border-radius:16px;background:rgba(15,23,42,.98);box-shadow:0 24px 80px rgba(0,0,0,.45);padding:16px;color:#e5e7eb;">
+public/js/phase530_visible_panels_bridge.js:402:          </section>
+public/js/phase530_visible_panels_bridge.js:481:          <section role="dialog" aria-modal="true" aria-labelledby="phase717-retry-modal-title" style="width:min(520px,calc(100vw - 28px));border:1px solid ${border};border-radius:16px;background:rgba(15,23,42,.98);box-shadow:0 24px 80px rgba(0,0,0,.45);padding:16px;color:#e5e7eb;">
+public/js/phase530_visible_panels_bridge.js:495:          </section>
+public/js/phase530_visible_panels_bridge.js:696:  // Phase 719 — Preview artifact modal (frontend-only, read-only)
+public/js/phase530_visible_panels_bridge.js:698:  function phase719EnsurePreviewModal() {
+public/js/phase530_visible_panels_bridge.js:718:            <div id="phase719-preview-title" style="font-size:14px;font-weight:800;color:#f8fafc;">Artifact Preview</div>
+public/js/phase530_visible_panels_bridge.js:764:  function phase719EscapePreviewHtml(value) {
+public/js/phase530_visible_panels_bridge.js:786:    const sections = {};
+public/js/phase530_visible_panels_bridge.js:790:    sections[current] = [];
+public/js/phase530_visible_panels_bridge.js:800:        sections[current] = [];
+public/js/phase530_visible_panels_bridge.js:808:        sections.title = [line.replace(/^#\s+/, "").trim()];
+public/js/phase530_visible_panels_bridge.js:814:      if (!sections[current]) sections[current] = [];
+public/js/phase530_visible_panels_bridge.js:816:      sections[current].push(line);
+public/js/phase530_visible_panels_bridge.js:820:    Object.keys(sections).forEach((key) => {
+public/js/phase530_visible_panels_bridge.js:822:      sections[key] = sections[key].join("\n").trim();
+public/js/phase530_visible_panels_bridge.js:826:    return sections;
+public/js/phase530_visible_panels_bridge.js:832:    const sections = phase719ExtractArtifactSections(markdown);
+public/js/phase530_visible_panels_bridge.js:834:    const title = sections.title || "Task Artifact";
+public/js/phase530_visible_panels_bridge.js:836:    const task = sections.task || "";
+public/js/phase530_visible_panels_bridge.js:838:    const status = sections.status || "";
+public/js/phase530_visible_panels_bridge.js:840:    const summary = sections.summary || "";
+public/js/phase530_visible_panels_bridge.js:842:    const deliverable = sections.deliverable || "";
+public/js/phase530_visible_panels_bridge.js:844:    const details = sections.details || "";
+public/js/phase530_visible_panels_bridge.js:846:    const recommendations = sections.recommendations || "";
+public/js/phase530_visible_panels_bridge.js:848:    const nextSteps = sections["next steps"] || sections.nextsteps || "";
+public/js/phase530_visible_panels_bridge.js:850:    const outcome = sections.outcome || "";
+public/js/phase530_visible_panels_bridge.js:852:    const explanation = sections.explanation || "";
+public/js/phase530_visible_panels_bridge.js:854:    const semanticSource = [
+public/js/phase530_visible_panels_bridge.js:876:    const semanticType = semanticSource.includes("error") || semanticSource.includes("failed") || semanticSource.includes("failure")
+public/js/phase530_visible_panels_bridge.js:880:      : semanticSource.includes("next steps") || semanticSource.includes("recommend")
+public/js/phase530_visible_panels_bridge.js:884:        : semanticSource.includes("completed") || semanticSource.includes("success")
+public/js/phase530_visible_panels_bridge.js:890:    const semanticPriority = semanticSource.includes("failed") || semanticSource.includes("blocked") || semanticSource.includes("error")
+public/js/phase530_visible_panels_bridge.js:894:      : semanticSource.includes("next") || semanticSource.includes("recommend")
+public/js/phase530_visible_panels_bridge.js:940:      status ? `<span style="display:inline-flex;align-items:center;border:1px solid rgba(134,239,172,.38);background:rgba(20,83,45,.22);color:#bbf7d0;border-radius:999px;padding:5px 10px;font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.08em;">${phase719EscapePreviewHtml(status)}</span>` : "",
+public/js/phase530_visible_panels_bridge.js:942:      `<span style="display:inline-flex;align-items:center;border:1px solid rgba(147,197,253,.34);background:rgba(30,64,175,.22);color:#bfdbfe;border-radius:999px;padding:5px 10px;font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.08em;">${phase719EscapePreviewHtml(semanticType)}</span>`,
+public/js/phase530_visible_panels_bridge.js:944:      `<span style="display:inline-flex;align-items:center;border:1px solid rgba(251,191,36,.34);background:rgba(120,53,15,.18);color:#fde68a;border-radius:999px;padding:5px 10px;font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.08em;">${phase719EscapePreviewHtml(semanticPriority)}</span>`
+public/js/phase530_visible_panels_bridge.js:950:      <div data-phase719-rendered-artifact-preview="true" style="max-width:920px;margin:0 auto;">
+public/js/phase530_visible_panels_bridge.js:958:            <div style="font-size:30px;line-height:1.05;font-weight:900;letter-spacing:-.04em;color:#f8fafc;margin-bottom:12px;">${phase719EscapePreviewHtml(title)}</div>
+public/js/phase530_visible_panels_bridge.js:960:            ${task ? `<div style="font-size:15px;line-height:1.55;color:#cbd5e1;max-width:760px;">${phase719EscapePreviewHtml(task)}</div>` : ""}
+public/js/phase530_visible_panels_bridge.js:968:              <section style="border:1px solid rgba(96,165,250,.22);border-radius:18px;background:rgba(15,23,42,.7);padding:18px;">
+public/js/phase530_visible_panels_bridge.js:970:                <div style="font-size:11px;text-transform:uppercase;letter-spacing:.18em;color:#93c5fd;font-weight:900;margin-bottom:10px;">${phase719EscapePreviewHtml(label)}</div>
+public/js/phase530_visible_panels_bridge.js:972:                <div style="font-size:15px;line-height:1.6;color:#e0f2fe;white-space:pre-wrap;">${phase719EscapePreviewHtml(value)}</div>
+public/js/phase530_visible_panels_bridge.js:974:              </section>
+public/js/phase530_visible_panels_bridge.js:982:            <section style="border:1px solid rgba(96,165,250,.22);border-radius:18px;background:rgba(15,23,42,.7);padding:18px;">
+public/js/phase530_visible_panels_bridge.js:986:              <div style="font-size:17px;line-height:1.55;color:#e0f2fe;font-weight:650;">${phase719EscapePreviewHtml(displayOutcome || "No outcome content available.")}</div>
+public/js/phase530_visible_panels_bridge.js:988:            </section>
+public/js/phase530_visible_panels_bridge.js:990:            <section style="border:1px solid rgba(45,212,191,.20);border-radius:18px;background:rgba(6,78,59,.16);padding:18px;">
+public/js/phase530_visible_panels_bridge.js:994:              <div style="font-size:14px;line-height:1.55;color:#ccfbf1;white-space:pre-wrap;">${phase719EscapePreviewHtml(explanation || "No explanation available.")}</div>
+public/js/phase530_visible_panels_bridge.js:996:            </section>
+public/js/phase530_visible_panels_bridge.js:1008:  function phase719RenderArtifactIframePreview(renderedHtml) {
+public/js/phase530_visible_panels_bridge.js:1050:        srcdoc="${phase719EscapePreviewHtml(srcdoc)}"
+public/js/phase530_visible_panels_bridge.js:1060:  function phase719RenderMarkdownArtifactPreview(markdown) {
+public/js/phase530_visible_panels_bridge.js:1082:  async function phase719OpenPreviewModal(button) {
+public/js/phase530_visible_panels_bridge.js:1084:    const modal = phase719EnsurePreviewModal();
+public/js/phase530_visible_panels_bridge.js:1094:    const taskTitle = button.getAttribute("data-task-title") || "Artifact Preview";
+public/js/phase530_visible_panels_bridge.js:1110:    title.textContent = "Preview: " + taskTitle;
+public/js/phase530_visible_panels_bridge.js:1126:    body.innerHTML = `<div style="color:#93c5fd;font-size:14px;">Loading rendered artifact preview…</div>`;
+public/js/phase530_visible_panels_bridge.js:1132:      body.textContent = "No task id available for artifact preview.";
+public/js/phase530_visible_panels_bridge.js:1140:      const res = await fetch(`/api/tasks/${encodeURIComponent(taskId)}/artifact-preview`, { cache: "no-store" });
+public/js/phase530_visible_panels_bridge.js:1184:      body.innerHTML = phase719RenderMarkdownArtifactPreview(data.content);
+public/js/phase530_visible_panels_bridge.js:1190:        "Preview fetch failed.",
+public/js/phase530_visible_panels_bridge.js:1213:    phase719OpenPreviewModal(button);
+public/js/phase530_visible_panels_bridge.js.phase719_iframe_v2_backup:191:            ${artifactRaw ? `<button type="button" data-phase719-preview-artifact="true" data-task-id="${taskId}" data-task-title="${title}" data-artifact-name="${artifactName}" data-artifact-type="${artifactType}" data-artifact-size="${artifactSize}" data-artifact-path="${artifactPath}" data-artifact-outcome="${outcome}" data-artifact-explanation="${explanation}" title="Preview completed artifact" style="flex:0 0 auto;cursor:pointer;color:#93c5fd;border:1px solid rgba(147,197,253,.35);border-radius:999px;padding:2px 7px;font-size:10px;line-height:1.4;background:rgba(30,64,175,.18);">Preview</button>` : ""}
+public/js/phase530_visible_panels_bridge.js.phase719_iframe_v2_backup:384:          <section role="dialog" aria-modal="true" aria-labelledby="phase717-inspection-modal-title" style="width:min(760px,calc(100vw - 28px));max-height:min(760px,calc(100vh - 36px));display:flex;flex-direction:column;border:1px solid rgba(148,163,184,.36);border-radius:16px;background:rgba(15,23,42,.98);box-shadow:0 24px 80px rgba(0,0,0,.45);padding:16px;color:#e5e7eb;">
+public/js/phase530_visible_panels_bridge.js.phase719_iframe_v2_backup:402:          </section>
+public/js/phase530_visible_panels_bridge.js.phase719_iframe_v2_backup:481:          <section role="dialog" aria-modal="true" aria-labelledby="phase717-retry-modal-title" style="width:min(520px,calc(100vw - 28px));border:1px solid ${border};border-radius:16px;background:rgba(15,23,42,.98);box-shadow:0 24px 80px rgba(0,0,0,.45);padding:16px;color:#e5e7eb;">
+public/js/phase530_visible_panels_bridge.js.phase719_iframe_v2_backup:495:          </section>
+public/js/phase530_visible_panels_bridge.js.phase719_iframe_v2_backup:701:  // Phase 719 — Preview artifact modal (frontend-only, read-only)
+public/js/phase530_visible_panels_bridge.js.phase719_iframe_v2_backup:703:  function phase719EnsurePreviewModal() {
+public/js/phase530_visible_panels_bridge.js.phase719_iframe_v2_backup:723:            <div id="phase719-preview-title" style="font-size:14px;font-weight:800;color:#f8fafc;">Artifact Preview</div>
+public/js/phase530_visible_panels_bridge.js.phase719_iframe_v2_backup:769:  function phase719EscapePreviewHtml(value) {
+public/js/phase530_visible_panels_bridge.js.phase719_iframe_v2_backup:791:    const sections = {};
+public/js/phase530_visible_panels_bridge.js.phase719_iframe_v2_backup:795:    sections[current] = [];
+public/js/phase530_visible_panels_bridge.js.phase719_iframe_v2_backup:805:        sections[current] = [];
+public/js/phase530_visible_panels_bridge.js.phase719_iframe_v2_backup:813:        sections.title = [line.replace(/^#\s+/, "").trim()];
+public/js/phase530_visible_panels_bridge.js.phase719_iframe_v2_backup:819:      if (!sections[current]) sections[current] = [];
+public/js/phase530_visible_panels_bridge.js.phase719_iframe_v2_backup:821:      sections[current].push(line);
+public/js/phase530_visible_panels_bridge.js.phase719_iframe_v2_backup:825:    Object.keys(sections).forEach((key) => {
+public/js/phase530_visible_panels_bridge.js.phase719_iframe_v2_backup:827:      sections[key] = sections[key].join("\n").trim();
+public/js/phase530_visible_panels_bridge.js.phase719_iframe_v2_backup:831:    return sections;
+public/js/phase530_visible_panels_bridge.js.phase719_iframe_v2_backup:837:    const sections = phase719ExtractArtifactSections(markdown);
+public/js/phase530_visible_panels_bridge.js.phase719_iframe_v2_backup:839:    const title = sections.title || "Task Artifact";
+public/js/phase530_visible_panels_bridge.js.phase719_iframe_v2_backup:841:    const task = sections.task || "";
+public/js/phase530_visible_panels_bridge.js.phase719_iframe_v2_backup:843:    const status = sections.status || "";
+public/js/phase530_visible_panels_bridge.js.phase719_iframe_v2_backup:845:    const outcome = sections.outcome || "";
+public/js/phase530_visible_panels_bridge.js.phase719_iframe_v2_backup:847:    const explanation = sections.explanation || "";
+public/js/phase530_visible_panels_bridge.js.phase719_iframe_v2_backup:851:      status ? `<span style="display:inline-flex;align-items:center;border:1px solid rgba(134,239,172,.38);background:rgba(20,83,45,.22);color:#bbf7d0;border-radius:999px;padding:5px 10px;font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.08em;">${phase719EscapePreviewHtml(status)}</span>` : "",
+public/js/phase530_visible_panels_bridge.js.phase719_iframe_v2_backup:853:      `<span style="display:inline-flex;align-items:center;border:1px solid rgba(147,197,253,.34);background:rgba(30,64,175,.22);color:#bfdbfe;border-radius:999px;padding:5px 10px;font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.08em;">Rendered Preview</span>`
+public/js/phase530_visible_panels_bridge.js.phase719_iframe_v2_backup:859:      <div data-phase719-rendered-artifact-preview="true" style="max-width:920px;margin:0 auto;">
+public/js/phase530_visible_panels_bridge.js.phase719_iframe_v2_backup:867:            <div style="font-size:30px;line-height:1.05;font-weight:900;letter-spacing:-.04em;color:#f8fafc;margin-bottom:12px;">${phase719EscapePreviewHtml(title)}</div>
+public/js/phase530_visible_panels_bridge.js.phase719_iframe_v2_backup:869:            ${task ? `<div style="font-size:15px;line-height:1.55;color:#cbd5e1;max-width:760px;">${phase719EscapePreviewHtml(task)}</div>` : ""}
+public/js/phase530_visible_panels_bridge.js.phase719_iframe_v2_backup:875:            <section style="border:1px solid rgba(96,165,250,.22);border-radius:18px;background:rgba(15,23,42,.7);padding:18px;">
+public/js/phase530_visible_panels_bridge.js.phase719_iframe_v2_backup:879:              <div style="font-size:17px;line-height:1.55;color:#e0f2fe;font-weight:650;">${phase719EscapePreviewHtml(outcome || "No outcome content available.")}</div>
+public/js/phase530_visible_panels_bridge.js.phase719_iframe_v2_backup:881:            </section>
+public/js/phase530_visible_panels_bridge.js.phase719_iframe_v2_backup:883:            <section style="border:1px solid rgba(45,212,191,.20);border-radius:18px;background:rgba(6,78,59,.16);padding:18px;">
+public/js/phase530_visible_panels_bridge.js.phase719_iframe_v2_backup:887:              <div style="font-size:14px;line-height:1.55;color:#ccfbf1;">${phase719EscapePreviewHtml(explanation || "No explanation available.")}</div>
+public/js/phase530_visible_panels_bridge.js.phase719_iframe_v2_backup:889:            </section>
+public/js/phase530_visible_panels_bridge.js.phase719_iframe_v2_backup:901:  function phase719RenderMarkdownArtifactPreview(markdown) {
+public/js/phase530_visible_panels_bridge.js.phase719_iframe_v2_backup:908:  async function phase719OpenPreviewModal(button) {
+public/js/phase530_visible_panels_bridge.js.phase719_iframe_v2_backup:910:    const modal = phase719EnsurePreviewModal();
+public/js/phase530_visible_panels_bridge.js.phase719_iframe_v2_backup:920:    const taskTitle = button.getAttribute("data-task-title") || "Artifact Preview";
+public/js/phase530_visible_panels_bridge.js.phase719_iframe_v2_backup:936:    title.textContent = "Preview: " + taskTitle;
+public/js/phase530_visible_panels_bridge.js.phase719_iframe_v2_backup:952:    body.innerHTML = `<div style="color:#93c5fd;font-size:14px;">Loading rendered artifact preview…</div>`;
+public/js/phase530_visible_panels_bridge.js.phase719_iframe_v2_backup:958:      body.textContent = "No task id available for artifact preview.";
+public/js/phase530_visible_panels_bridge.js.phase719_iframe_v2_backup:966:      const res = await fetch(`/api/tasks/${encodeURIComponent(taskId)}/artifact-preview`, { cache: "no-store" });
+public/js/phase530_visible_panels_bridge.js.phase719_iframe_v2_backup:1010:      body.innerHTML = phase719RenderMarkdownArtifactPreview(data.content);
+public/js/phase530_visible_panels_bridge.js.phase719_iframe_v2_backup:1016:        "Preview fetch failed.",
+public/js/phase530_visible_panels_bridge.js.phase719_iframe_v2_backup:1039:    phase719OpenPreviewModal(button);
+
+[6] Existing artifact files
+./PHASE719_ARTIFACT_PAYLOAD_TRACE.sh
+./PHASE719_REMOVE_APP_SCOPED_ARTIFACT_ENDPOINT_FROM_ROUTER.sh
+./PHASE719_ADD_REAL_ARTIFACT_PERSISTENCE.sh
+./artifacts
+./PHASE719_INSPECT_PARTIAL_HTML_ARTIFACT_PATCH_STATE.sh
+./PHASE719_INSPECT_WORKER_ARTIFACT_FUNCTION_EXACT.sh
+./PHASE719_COMMIT_SUCCESSFUL_ARTIFACT_LINE_PATCH.sh
+./PHASE719_ARTIFACT_RENDERER_FINDING.md
+./PHASE719_ARTIFACT_PAYLOAD_TRACE.md
+./PHASE719_COMMIT_READONLY_ARTIFACT_PREVIEW_ROUTE.sh
+./PHASE719_ARTIFACT_PATCH_RUNTIME_INSPECT.sh
+./PHASE719_SEMANTIC_ARTIFACT_UI_PATCH.py
+./PHASE719_ARTIFACT_HTML_CONTENT_INSPECTION.sh
+./PHASE719_ARTIFACT_VISIBILITY_CORRIDOR.md
+./PHASE719_COMMIT_READONLY_ARTIFACT_PREVIEW_ROUTE_V2.sh
+./PHASE719_UNTRACKED_ARTIFACT_CLASSIFICATION.md
+./checkpoints/PHASE719_ARTIFACT_CONTENT_ACCESS_INSPECTION.txt
+./checkpoints/PHASE719_APP_SCOPED_ARTIFACT_ENDPOINT_PREREMOVAL.txt
+./checkpoints/PHASE719_PRE_RENDERED_ARTIFACT_PREVIEW_BACKUP.txt
+./checkpoints/PHASE719_PRE_HTML_ARTIFACT_GENERATION_BACKUP.txt
+./checkpoints/PHASE719_ARTIFACT_FILE_LOCATION_MISMATCH_NOTE.md
+./checkpoints/PHASE719_PHASE530_PRE_VISUAL_CARD_ARTIFACT_SURFACE.js
+./checkpoints/PHASE719_ARTIFACT_VISIBILITY_STATUS.md
+./checkpoints/PHASE719_PHASE530_PRE_ARTIFACT_LINE_V5.js
+./checkpoints/PHASE719_API_TASKS_POSTGRES_POST_ARTIFACT_PREVIEW_ROUTE.mjs
+./checkpoints/PHASE719_FRONTEND_ARTIFACT_UI_INSPECTION_V2.txt
+./checkpoints/phase719_inspect_artifact_renderer.sh
+./checkpoints/PHASE719_SUCCESSFUL_ARTIFACT_LINE_PATCH_VERIFY.txt
+./checkpoints/PHASE719_PARTIAL_HTML_ARTIFACT_PATCH_STATE.txt
+./checkpoints/PHASE719_RENDERED_MARKDOWN_ARTIFACT_PREVIEW_VERIFY.txt
+./checkpoints/PHASE719_DOCKER_COMPOSE_ARTIFACT_VOLUME_CONFIG.txt
+./checkpoints/PHASE719_REVERT_PARTIAL_HTML_ARTIFACT_ATTEMPT.txt
+./checkpoints/PHASE719_BROKEN_ARTIFACT_ENDPOINT_EXCERPT.txt
+./checkpoints/PHASE719_PHASE530_PRE_ARTIFACT_LINE.js
+./checkpoints/PHASE719_ARTIFACT_CONTENT_ACCESS_INSPECTION_NOTE.md
+./checkpoints/PHASE719_ATTACH_WORKER_ARTIFACT_VOLUME_LINE_PATCH_VERIFY.txt
+./checkpoints/PHASE719_SHARED_ARTIFACT_VOLUME_VERIFY.txt
+./checkpoints/PHASE719_ARTIFACT_VISIBILITY_PLAN.md
+./checkpoints/PHASE719_PHASE530_POST_VISUAL_CARD_ARTIFACT_SURFACE.js
+./checkpoints/PHASE719_DOCKER_COMPOSE_PRE_ARTIFACT_VOLUME.yml
+./checkpoints/PHASE719_READONLY_ARTIFACT_PREVIEW_ROUTE_FINAL_VERIFY_V2.txt
+./checkpoints/PHASE719_ARTIFACT_FILE_LOCATION_MISMATCH.txt
+./checkpoints/PHASE719_VISUAL_CARD_ARTIFACT_SURFACE_VERIFY.txt
+./checkpoints/PHASE719_APP_SCOPED_ARTIFACT_ENDPOINT_POSTREMOVAL.txt
+./checkpoints/PHASE719_PHASE530_ARTIFACT_LINE_V5_VERIFY.txt
+./checkpoints/phase719_quarantined_failed_helpers/PHASE719_ATTACH_WORKER_ARTIFACT_VOLUME_EXACT_V2.sh
+./checkpoints/phase719_quarantined_failed_helpers/PHASE719_REMOVE_MALFORMED_INLINE_ARTIFACT_ENDPOINT.sh
+./checkpoints/phase719_quarantined_failed_helpers/PHASE719_PATCH_PHASE530_ARTIFACT_LINE_V3.sh
+./checkpoints/phase719_quarantined_failed_helpers/PHASE719_PHASE530_PRE_HTML_ARTIFACT_DIRECT_RENDER_V3.js
+./checkpoints/phase719_quarantined_failed_helpers/PHASE719_WORKER_PRE_HTML_ARTIFACT_DIRECT_RENDER.mjs
+./checkpoints/phase719_quarantined_failed_helpers/PHASE719_PATCH_PHASE530_ARTIFACT_LINE_V2.sh
+./checkpoints/phase719_quarantined_failed_helpers/PHASE719_PHASE530_PRE_HTML_ARTIFACT_DIRECT_RENDER_V2.js
+./checkpoints/phase719_quarantined_failed_helpers/PHASE719_PHASE530_PRE_ARTIFACT_LINE_V4.js
+./checkpoints/phase719_quarantined_failed_helpers/PHASE719_DOCKER_COMPOSE_PRE_ATTACH_WORKER_ARTIFACT_VOLUME.yml
+./checkpoints/phase719_quarantined_failed_helpers/PHASE719_ARTIFACT_VISIBILITY_INSPECT.sh
+./checkpoints/phase719_quarantined_failed_helpers/PHASE719_PATCH_RECENT_TASKS_ARTIFACT_METADATA.sh
+./checkpoints/phase719_quarantined_failed_helpers/PHASE719_PHASE530_PRE_HTML_ARTIFACT_DIRECT_RENDER.js
+./checkpoints/phase719_quarantined_failed_helpers/PHASE719_ATTACH_WORKER_ARTIFACT_VOLUME_EXACT.sh
+./checkpoints/phase719_quarantined_failed_helpers/PHASE719_SHARED_ARTIFACT_VOLUME_NEW_TASK_BODY.json
+./checkpoints/phase719_quarantined_failed_helpers/PHASE719_FIX_WORKER_ARTIFACT_VOLUME_AND_VALIDATE.sh
+./checkpoints/phase719_quarantined_failed_helpers/PHASE719_ADD_HTML_ARTIFACT_AND_RENDER_DIRECTLY_V3.sh
+./checkpoints/phase719_quarantined_failed_helpers/PHASE719_DOCKER_COMPOSE_PRE_ATTACH_WORKER_ARTIFACT_VOLUME_V2.yml
+./checkpoints/phase719_quarantined_failed_helpers/PHASE719_VALIDATE_SHARED_ARTIFACT_VOLUME_WITH_NEW_TASK_V2.sh
+./checkpoints/phase719_quarantined_failed_helpers/PHASE719_VERIFY_EXISTING_ARTIFACT_AND_COMMIT.sh
+./checkpoints/phase719_quarantined_failed_helpers/PHASE719_FRONTEND_ARTIFACT_UI_INSPECTION_NOTE.md
+./checkpoints/phase719_quarantined_failed_helpers/PHASE719_ADD_ARTIFACT_INSPECTION_ENDPOINT.sh
+./checkpoints/phase719_quarantined_failed_helpers/PHASE719_phase530_visible_panels_bridge_PRE_ARTIFACT_METADATA.js
+./checkpoints/phase719_quarantined_failed_helpers/PHASE719_VALIDATE_SHARED_ARTIFACT_VOLUME_WITH_NEW_TASK_V3.sh
+./checkpoints/phase719_quarantined_failed_helpers/PHASE719_ADD_HTML_ARTIFACT_AND_RENDER_DIRECTLY_V2.sh
+./checkpoints/phase719_quarantined_failed_helpers/PHASE719_VALIDATE_SHARED_ARTIFACT_VOLUME_WITH_NEW_TASK.sh
+./checkpoints/phase719_quarantined_failed_helpers/PHASE719_ROUTE_PRE_HTML_ARTIFACT_DIRECT_RENDER_V3.mjs
+./checkpoints/phase719_quarantined_failed_helpers/PHASE719_WORKER_PRE_HTML_ARTIFACT_DIRECT_RENDER_V3.mjs
+./checkpoints/phase719_quarantined_failed_helpers/PHASE719_PHASE530_PRE_ARTIFACT_LINE_V3.js
+./checkpoints/phase719_quarantined_failed_helpers/PHASE719_WORKER_PRE_HTML_ARTIFACT_DIRECT_RENDER_V2.mjs
+./checkpoints/phase719_quarantined_failed_helpers/PHASE719_ROUTE_PRE_HTML_ARTIFACT_DIRECT_RENDER.mjs
+./checkpoints/phase719_quarantined_failed_helpers/PHASE719_ROUTE_PRE_HTML_ARTIFACT_DIRECT_RENDER_V2.mjs
+./checkpoints/phase719_quarantined_failed_helpers/PHASE719_REPAIR_ARTIFACT_HELPER_AND_VERIFY.sh
+./checkpoints/phase719_quarantined_failed_helpers/PHASE719_ADD_HTML_ARTIFACT_HELPER_MINIMAL.sh
+./checkpoints/phase719_quarantined_failed_helpers/PHASE719_DOCKER_COMPOSE_PRE_WORKER_ARTIFACT_VOLUME_FIX.yml
+./checkpoints/phase719_quarantined_failed_helpers/PHASE719_PATCH_PHASE530_ARTIFACT_LINE_V4.sh
+./checkpoints/phase719_quarantined_failed_helpers/PHASE719_PHASE530_PRE_ARTIFACT_LINE_V2.js
+./checkpoints/phase719_quarantined_failed_helpers/PHASE719_FRONTEND_ARTIFACT_UI_INSPECTION.txt
+./checkpoints/phase719_quarantined_failed_helpers/PHASE719_REPAIR_INLINE_ARTIFACT_HELPER_AND_VERIFY.sh
+./checkpoints/phase719_quarantined_failed_helpers/PHASE719_VERIFY_AND_COMMIT_ARTIFACT_PATCH.sh
+./checkpoints/PHASE719_WORKER_ARTIFACT_FUNCTION_EXACT_INSPECTION.txt
+./checkpoints/PHASE719_DOCKER_COMPOSE_POST_ARTIFACT_VOLUME.yml
+./checkpoints/PHASE719_PHASE530_POST_ARTIFACT_LINE_V5.js
+./checkpoints/PHASE719_API_TASKS_POSTGRES_PRE_ARTIFACT_PREVIEW_ROUTE.mjs
+./checkpoints/PHASE719_MINIMAL_NEW_ARTIFACT_TASK_ID.txt
+./PHASE719_PRE_RENDERED_ARTIFACT_PREVIEW_BACKUP.sh
+./PHASE719_WORKER_CRASH_AFTER_ARTIFACT_PATCH_INSPECT.sh
+./PHASE719_NEXT_SAFE_ARTIFACT_TRACE.md
+./server/artifacts.mjs
+./PHASE719_ARTIFACT_HTML_CONTENT_INSPECTION.md
+./docs/phase487_artifact_containment_plan.md
+./docs/phase487_extract_and_patch_exact_8080_artifact_hits_20260415_230300.txt
+./docs/phase487_artifact_containment_report.txt
+./docs/phase487_artifact_containment_audit_20260420_182531.md
+./docs/phase487_patch_exact_container_served_artifact_20260415_225629.txt
+./docs/phase487_artifact_containment_checkpoint.md
+./docs/phase487_locate_exact_served_insufficient_artifact_in_container_20260415_225343.txt
+./docs/phase487_artifact_containment_review_checkpoint.md
+./docs/phase487_artifact_containment_review_next_step.md
+./docs/recovery_full_audit/32_served_dashboard_artifact_verification.txt
+./PHASE719_INSPECT_ARTIFACT_FILE_LOCATION_MISMATCH.sh
+./PHASE719_ACTIVE_ARTIFACT_WRITER_INSPECTION.md
+./PHASE719_PRE_HTML_ARTIFACT_GENERATION_BACKUP.sh
+./PHASE719_ACTIVE_ARTIFACT_PATH_INSPECT.sh
+./PHASE719_FRONTEND_ARTIFACT_UI_INSPECT.sh
+./PHASE719_ARTIFACT_VISIBILITY_INSPECT_MINIMAL.sh
+./PHASE719_REVERT_PARTIAL_HTML_ARTIFACT_ATTEMPT.sh
+./PHASE719_ARTIFACT_EXISTENCE_FINDINGS.md
+./PHASE719_INSPECT_ARTIFACT_CONTENT_ACCESS.sh
+./PHASE719_VALIDATE_ENRICHED_ARTIFACT_VIA_CREATE_ROUTE.md
+./PHASE719_ADD_READONLY_ARTIFACT_PREVIEW_ROUTE.sh
+./PHASE719_SHARE_ARTIFACT_VOLUME_WITH_DASHBOARD.sh
+./scripts/phase487_identify_actual_8080_server_artifact.sh
+./scripts/phase487_patch_exact_container_served_artifact.sh
+./scripts/phase487_extract_and_patch_exact_8080_artifact_hits.sh
+./scripts/_safety/artifact_safe_io.sh
+./scripts/_safety/phase487_artifact_containment.sh
+./scripts/phase487_locate_exact_served_insufficient_artifact_in_container.sh
+./scripts/phase474_7_stage_observation_artifacts_and_record_result.sh
+./scripts/enforce_artifact_guard.sh
+./scripts/_local/phase457_verify_served_dashboard_artifacts.sh
+./scripts/_local/phase64_6_cleanup_stray_shell_artifacts.sh
+./scripts/_local/phase61_cleanup_workspace_debug_artifacts.sh
+./scripts/_local/phase487_artifact_containment_audit.sh
+./scripts/_local/phase62b_open_manual_validation_artifacts.sh
+./PHASE719_ARTIFACT_PAYLOAD_TRACE_MINIMAL.md
+./PHASE719_ADD_HTML_ARTIFACT_AND_RENDER_DIRECTLY.sh
+./PHASE719_WIRE_PREVIEW_MODAL_TO_ARTIFACT_CONTENT.sh
+./PHASE719_FIX_ARTIFACT_PREVIEW_POOL_REFERENCE.sh
+./PHASE719_PATCH_PHASE530_ARTIFACT_LINE.sh
+./PHASE719_VERIFY_ARTIFACT_EXISTENCE_SAFE.sh
+./_snapshots/phase631-live-runtime-proof-containerized/server/artifacts.mjs
+./_snapshots/phase617-pre-result-surfacing-wire-stable-20260501_233350/artifacts
+./_snapshots/phase617-pre-result-surfacing-wire-stable-20260501_233350/server/artifacts.mjs
+./_snapshots/phase617-pre-result-surfacing-wire-stable-20260501_233350/docs/phase487_artifact_containment_plan.md
+./_snapshots/phase617-pre-result-surfacing-wire-stable-20260501_233350/docs/phase487_extract_and_patch_exact_8080_artifact_hits_20260415_230300.txt
+./_snapshots/phase617-pre-result-surfacing-wire-stable-20260501_233350/docs/phase487_artifact_containment_report.txt
+./_snapshots/phase617-pre-result-surfacing-wire-stable-20260501_233350/docs/phase487_artifact_containment_audit_20260420_182531.md
+./_snapshots/phase617-pre-result-surfacing-wire-stable-20260501_233350/docs/phase487_patch_exact_container_served_artifact_20260415_225629.txt
+./_snapshots/phase617-pre-result-surfacing-wire-stable-20260501_233350/docs/phase487_artifact_containment_checkpoint.md
+./_snapshots/phase617-pre-result-surfacing-wire-stable-20260501_233350/docs/phase487_locate_exact_served_insufficient_artifact_in_container_20260415_225343.txt
+./_snapshots/phase617-pre-result-surfacing-wire-stable-20260501_233350/docs/phase487_artifact_containment_review_checkpoint.md
+./_snapshots/phase617-pre-result-surfacing-wire-stable-20260501_233350/docs/phase487_artifact_containment_review_next_step.md
+./_snapshots/phase617-pre-result-surfacing-wire-stable-20260501_233350/docs/recovery_full_audit/32_served_dashboard_artifact_verification.txt
+./_snapshots/phase617-pre-result-surfacing-wire-stable-20260501_233350/scripts/phase487_identify_actual_8080_server_artifact.sh
+./_snapshots/phase617-pre-result-surfacing-wire-stable-20260501_233350/scripts/phase487_patch_exact_container_served_artifact.sh
+./_snapshots/phase617-pre-result-surfacing-wire-stable-20260501_233350/scripts/phase487_extract_and_patch_exact_8080_artifact_hits.sh
+./_snapshots/phase617-pre-result-surfacing-wire-stable-20260501_233350/scripts/_safety/artifact_safe_io.sh
+./_snapshots/phase617-pre-result-surfacing-wire-stable-20260501_233350/scripts/_safety/phase487_artifact_containment.sh
+./_snapshots/phase617-pre-result-surfacing-wire-stable-20260501_233350/scripts/phase487_locate_exact_served_insufficient_artifact_in_container.sh
+./_snapshots/phase617-pre-result-surfacing-wire-stable-20260501_233350/scripts/phase474_7_stage_observation_artifacts_and_record_result.sh
+./_snapshots/phase617-pre-result-surfacing-wire-stable-20260501_233350/scripts/enforce_artifact_guard.sh
+./_snapshots/phase617-pre-result-surfacing-wire-stable-20260501_233350/scripts/_local/phase457_verify_served_dashboard_artifacts.sh
+./_snapshots/phase617-pre-result-surfacing-wire-stable-20260501_233350/scripts/_local/phase64_6_cleanup_stray_shell_artifacts.sh
+./_snapshots/phase617-pre-result-surfacing-wire-stable-20260501_233350/scripts/_local/phase61_cleanup_workspace_debug_artifacts.sh
+./_snapshots/phase617-pre-result-surfacing-wire-stable-20260501_233350/scripts/_local/phase487_artifact_containment_audit.sh
+./_snapshots/phase617-pre-result-surfacing-wire-stable-20260501_233350/scripts/_local/phase62b_open_manual_validation_artifacts.sh
+./_snapshots/phase618-ui-communication-tier-surfacing-complete-20260501_235622/artifacts
+./_snapshots/phase618-ui-communication-tier-surfacing-complete-20260501_235622/server/artifacts.mjs
+./_snapshots/phase618-ui-communication-tier-surfacing-complete-20260501_235622/docs/phase487_artifact_containment_plan.md
+./_snapshots/phase618-ui-communication-tier-surfacing-complete-20260501_235622/docs/phase487_extract_and_patch_exact_8080_artifact_hits_20260415_230300.txt
+./_snapshots/phase618-ui-communication-tier-surfacing-complete-20260501_235622/docs/phase487_artifact_containment_report.txt
+./_snapshots/phase618-ui-communication-tier-surfacing-complete-20260501_235622/docs/phase487_artifact_containment_audit_20260420_182531.md
+./_snapshots/phase618-ui-communication-tier-surfacing-complete-20260501_235622/docs/phase487_patch_exact_container_served_artifact_20260415_225629.txt
+./_snapshots/phase618-ui-communication-tier-surfacing-complete-20260501_235622/docs/phase487_artifact_containment_checkpoint.md
+./_snapshots/phase618-ui-communication-tier-surfacing-complete-20260501_235622/docs/phase487_locate_exact_served_insufficient_artifact_in_container_20260415_225343.txt
+./_snapshots/phase618-ui-communication-tier-surfacing-complete-20260501_235622/docs/phase487_artifact_containment_review_checkpoint.md
+./_snapshots/phase618-ui-communication-tier-surfacing-complete-20260501_235622/docs/phase487_artifact_containment_review_next_step.md
+./_snapshots/phase618-ui-communication-tier-surfacing-complete-20260501_235622/docs/recovery_full_audit/32_served_dashboard_artifact_verification.txt
+./_snapshots/phase618-ui-communication-tier-surfacing-complete-20260501_235622/scripts/phase487_identify_actual_8080_server_artifact.sh
+./_snapshots/phase618-ui-communication-tier-surfacing-complete-20260501_235622/scripts/phase487_patch_exact_container_served_artifact.sh
+./_snapshots/phase618-ui-communication-tier-surfacing-complete-20260501_235622/scripts/phase487_extract_and_patch_exact_8080_artifact_hits.sh
+./_snapshots/phase618-ui-communication-tier-surfacing-complete-20260501_235622/scripts/_safety/artifact_safe_io.sh
+./_snapshots/phase618-ui-communication-tier-surfacing-complete-20260501_235622/scripts/_safety/phase487_artifact_containment.sh
+./_snapshots/phase618-ui-communication-tier-surfacing-complete-20260501_235622/scripts/phase487_locate_exact_served_insufficient_artifact_in_container.sh
+./_snapshots/phase618-ui-communication-tier-surfacing-complete-20260501_235622/scripts/phase474_7_stage_observation_artifacts_and_record_result.sh
+./_snapshots/phase618-ui-communication-tier-surfacing-complete-20260501_235622/scripts/enforce_artifact_guard.sh
+./_snapshots/phase618-ui-communication-tier-surfacing-complete-20260501_235622/scripts/_local/phase457_verify_served_dashboard_artifacts.sh
+./_snapshots/phase618-ui-communication-tier-surfacing-complete-20260501_235622/scripts/_local/phase64_6_cleanup_stray_shell_artifacts.sh
+./_snapshots/phase618-ui-communication-tier-surfacing-complete-20260501_235622/scripts/_local/phase61_cleanup_workspace_debug_artifacts.sh
+./_snapshots/phase618-ui-communication-tier-surfacing-complete-20260501_235622/scripts/_local/phase487_artifact_containment_audit.sh
+./_snapshots/phase618-ui-communication-tier-surfacing-complete-20260501_235622/scripts/_local/phase62b_open_manual_validation_artifacts.sh
+./_snapshots/phase630-runtime-proof-ready-containerized/server/artifacts.mjs
+./PHASE719_VERIFY_ARTIFACT_EXISTENCE.sh
+./PHASE707_CLEAN_FAILED_CONTEXT_PATCH_ARTIFACTS.sh
+./PHASE719_RENDER_MARKDOWN_ARTIFACT_PREVIEW_VISUALLY.sh
+./PHASE719_FIX_ESCAPED_BACKTICKS_IN_ARTIFACT_ENDPOINT.sh
+./PHASE719_WIRE_PREVIEW_MODAL_TO_ARTIFACT_CONTENT_V2.sh
+./PHASE719_ARTIFACT_READABILITY_PATCH.py
+./PHASE719_RENDER_ARTIFACT_AS_VISUAL_CARD_SURFACE.sh
+./PHASE719_FIX_ARTIFACT_PREVIEW_ROUTER_SYMBOL.sh
+./PHASE719_PATCH_PHASE530_ARTIFACT_LINE_V5.sh
+./PHASE719_WORKER_ARTIFACT_GENERATION_INSPECTION.md
+./PHASE719_SEMANTIC_ARTIFACT_START.sh
+./PHASE719_ARTIFACT_CONTENT_CONTRACT_DESIGN.md
+./PHASE719_ARTIFACT_VISIBILITY_COMPLETION.md
+
+[7] Docker runtime status
+CONTAINER ID   IMAGE                              COMMAND                  CREATED         STATUS                PORTS                                         NAMES
+c74de1acd67a   motherboard_systems_hq-dashboard   "docker-entrypoint.s…"   5 minutes ago   Up 5 minutes          0.0.0.0:3000->3000/tcp, [::]:3000->3000/tcp   motherboard_systems_hq-dashboard-1
+d302447c5d71   motherboard_systems_hq-worker      "docker-entrypoint.s…"   12 hours ago    Up 12 hours                                                         motherboard_systems_hq-worker-1
+e37a3b84baf0   postgres:16-alpine                 "docker-entrypoint.s…"   9 days ago      Up 5 days (healthy)   5432/tcp                                      motherboard_systems_hq-postgres-1
+
+===== PHASE 720 SEMANTIC PATH INSPECTION COMPLETE =====
