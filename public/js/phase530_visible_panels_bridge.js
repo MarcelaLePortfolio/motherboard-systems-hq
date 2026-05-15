@@ -669,7 +669,7 @@
   async function refresh() {
     // Phase 719: /api/agents is retired in this runtime.
     // Stale fetch disabled to preserve console clarity.
-    renderAgents([]);
+    // Agent Pool intentionally preserved during refresh; /api/agents is retired.
 
 
     try {
