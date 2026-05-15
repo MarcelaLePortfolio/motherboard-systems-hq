@@ -1,89 +1,53 @@
 
-# PHASE 719 — BROWSER VALIDATION RESULT
+# PHASE 719 — BROWSER VALIDATION RESULT CORRECTION
 
-## CURRENT HEAD
+## CURRENT HEAD WHEN CORRECTED
 
-`c6a27431`
+`a2e6f90c`
 
 ## RESULT
 
-`PASSED`
+`NOT PASSED`
 
-## VISUAL VALIDATION CONFIRMED
+## CORRECTION
 
-Confirmed in browser:
+The prior browser validation was incorrectly classified as passed.
 
-- Dashboard loads normally
+The screenshot shows the embedded preview remained visually similar to the pre-polish state, so the frontend polish patch should not be treated as a confirmed visual improvement.
 
-- Recent Tasks render normally
+## ACCURATE STATUS
 
-- Preview pill opens modal
+Confirmed:
 
-- Modal title/subtitle/meta render correctly
+- preview modal still opens
 
-- iframe preview renders visual card successfully
+- iframe preview still renders
 
-- Rendered preview visually isolated correctly
+- runtime did not visibly regress
 
-- Modal scroll containment appears stable
+- artifact contract remains markdown-based
 
-- iframe overflow appears controlled
+- worker remains untouched
 
-- Close button visible and correctly positioned
+Not confirmed:
 
-- Visual hierarchy significantly improved
+- meaningful modal containment improvement
 
-- Retry/requeue controls remain unaffected
+- meaningful iframe sizing improvement
 
-- No visible runtime regression observed
+- meaningful visual polish improvement
 
-## RENDERER STATUS
+## CLASSIFICATION
 
-Phase 719 embedded iframe/srcdoc rendering corridor is now:
+The patch is runtime-safe but visually ineffective.
 
-- operational
+## NEXT REQUIRED ACTION
 
-- visually stable
+Do not continue polish layering from this assumption.
 
-- frontend-contained
+Either:
 
-- runtime-safe
+1. revert the polish patch and return to the known prior embedded renderer baseline, or
 
-- contract-preserving
-
-## IMPORTANT ARCHITECTURAL STATUS
-
-Artifacts remain markdown-based.
-
-Rendered preview remains frontend-generated visual HTML inside iframe/srcdoc containment.
-
-No native HTML artifact contract has been introduced.
-
-## CURRENT AUTHORITATIVE STABLE CHECKPOINT
-
-Frontend-rendered embedded artifact preview baseline:
-
-`c6a27431`
-
-## SAFE NEXT DIRECTIONS
-
-SAFE:
-
-- small visual polish refinements
-
-- typography refinement
-
-- responsive tuning
-
-- optional iframe auto-height refinement
-
-- renderer readability cleanup
-
-UNSAFE:
-
-- worker artifact mutation
-
-- persistence contract redesign without planning
-
-- speculative backend coupling
+2. inspect served browser CSS/JS loading and confirm the patched file is actually being served before applying another visual change.
 
