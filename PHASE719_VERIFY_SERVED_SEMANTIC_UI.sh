@@ -5,15 +5,25 @@ set -euo pipefail
 
 echo "===== PHASE 719 SERVED SEMANTIC UI VERIFY ====="
 
-curl -sS http://localhost:3000/js/phase530_visible_panels_bridge.js \
+echo "[1] Local semantic markers"
 
-  | grep -n "Recovery Artifact\|Execution Plan\|Completion Summary\|Needs Review\|Actionable" \
-
-  | head -20
+grep -nE "Recovery Artifact|Execution Plan|Completion Summary|Needs Review|Actionable|Rendered Preview" public/js/phase530_visible_panels_bridge.js | head -30 || true
 
 echo ""
 
-echo "Open http://localhost:3000, click a completed task Preview, and confirm chips now show semantic labels."
+echo "[2] Served semantic markers"
+
+curl -sS http://localhost:3000/js/phase530_visible_panels_bridge.js -o /tmp/phase719_served_bridge.js
+
+grep -nE "Recovery Artifact|Execution Plan|Completion Summary|Needs Review|Actionable|Rendered Preview" /tmp/phase719_served_bridge.js | head -30 || true
+
+echo ""
+
+echo "[3] Syntax check"
+
+node --check public/js/phase530_visible_panels_bridge.js
+
+echo ""
 
 echo "===== COMPLETE ====="
 
