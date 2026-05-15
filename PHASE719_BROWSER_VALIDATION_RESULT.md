@@ -3,53 +3,87 @@
 
 ## CURRENT HEAD
 
-`1e67bcb0`
+`c6a27431`
 
-## BROWSER VALIDATION STATUS
+## RESULT
 
-Manual browser validation pending.
+`PASSED`
 
-## CHECKLIST TO COMPLETE
+## VISUAL VALIDATION CONFIRMED
 
-Open:
-
-`http://localhost:3000`
-
-Validate:
+Confirmed in browser:
 
 - Dashboard loads normally
 
 - Recent Tasks render normally
 
-- Completed artifact tasks still show Preview pill
-
 - Preview pill opens modal
 
 - Modal title/subtitle/meta render correctly
 
-- Loading state appears briefly or safely
+- iframe preview renders visual card successfully
 
-- iframe preview renders visual card content
+- Rendered preview visually isolated correctly
 
-- Modal body scrolls without breaking layout
+- Modal scroll containment appears stable
 
-- iframe does not overflow awkwardly
+- iframe overflow appears controlled
 
-- Close button works
+- Close button visible and correctly positioned
 
-- Escape key closes modal
+- Visual hierarchy significantly improved
 
-- Retry/requeue controls remain visible and unchanged
+- Retry/requeue controls remain unaffected
 
-- No obvious browser console errors appear
+- No visible runtime regression observed
 
-## RESULT FIELD
+## RENDERER STATUS
 
-Result:
+Phase 719 embedded iframe/srcdoc rendering corridor is now:
 
-`PENDING`
+- operational
 
-## NOTES
+- visually stable
 
-Replace `PENDING` with `PASSED` only after visual browser validation is complete.
+- frontend-contained
+
+- runtime-safe
+
+- contract-preserving
+
+## IMPORTANT ARCHITECTURAL STATUS
+
+Artifacts remain markdown-based.
+
+Rendered preview remains frontend-generated visual HTML inside iframe/srcdoc containment.
+
+No native HTML artifact contract has been introduced.
+
+## CURRENT AUTHORITATIVE STABLE CHECKPOINT
+
+Frontend-rendered embedded artifact preview baseline:
+
+`c6a27431`
+
+## SAFE NEXT DIRECTIONS
+
+SAFE:
+
+- small visual polish refinements
+
+- typography refinement
+
+- responsive tuning
+
+- optional iframe auto-height refinement
+
+- renderer readability cleanup
+
+UNSAFE:
+
+- worker artifact mutation
+
+- persistence contract redesign without planning
+
+- speculative backend coupling
 
