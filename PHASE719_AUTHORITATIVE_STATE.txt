@@ -1,0 +1,105 @@
+
+PHASE 719 AUTHORITATIVE STATE
+
+Authoritative HEAD:
+
+42f7d68f
+
+Branch:
+
+phase719-artifact-visibility
+
+System classification:
+
+STABLE EMBEDDED RENDERING BASELINE
+
+Operationally verified:
+
+- iframe/srcdoc rendering operational
+
+- embedded modal preview operational
+
+- dashboard healthy
+
+- worker healthy
+
+- postgres healthy
+
+- SSE healthy
+
+- retry/requeue preserved
+
+- artifact retrieval preserved
+
+- runtime preserved
+
+- backups completed
+
+- external archive completed
+
+Rendering pipeline:
+
+markdown artifact
+
+→ frontend visual renderer
+
+→ iframe/srcdoc isolation layer
+
+→ embedded modal preview
+
+Explicitly deferred:
+
+- native HTML artifact contracts
+
+- worker-authored HTML artifact persistence
+
+- HTML artifact schema redesign
+
+- direct embedded persisted HTML artifacts
+
+Protected boundaries:
+
+- execution architecture unchanged
+
+- retry architecture unchanged
+
+- DB schema unchanged
+
+- worker artifact contracts unchanged
+
+- no execution coupling introduced
+
+Quarantine evidence intentionally preserved:
+
+- PHASE719_FULL_DISASTER_RECOVERY_BACKUP.sh
+
+- checkpoints/PHASE719_QUARANTINE_FAILED_HELPERS.txt
+
+- public/js/phase530_visible_panels_bridge.js.phase719_iframe_v2_backup
+
+Safe future directions:
+
+- iframe polish
+
+- renderer refinement
+
+- responsive sizing improvements
+
+- isolated rendering enhancements
+
+- future artifact contract design planning
+
+Unsafe directions:
+
+- worker mutation
+
+- speculative artifact payload mutation
+
+- inline execution contract rewrites
+
+- speculative architecture layering
+
+Authoritative safe resume point:
+
+42f7d68f
+
