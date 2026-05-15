@@ -851,6 +851,52 @@
 
     const explanation = sections.explanation || "";
 
+    const semanticSource = [
+
+      title,
+
+      task,
+
+      summary,
+
+      deliverable,
+
+      details,
+
+      recommendations,
+
+      nextSteps,
+
+      outcome,
+
+      explanation
+
+    ].join(" ").toLowerCase();
+
+    const semanticType = semanticSource.includes("error") || semanticSource.includes("failed") || semanticSource.includes("failure")
+
+      ? "Recovery Artifact"
+
+      : semanticSource.includes("next steps") || semanticSource.includes("recommend")
+
+        ? "Execution Plan"
+
+        : semanticSource.includes("completed") || semanticSource.includes("success")
+
+          ? "Completion Summary"
+
+          : "Task Artifact";
+
+    const semanticPriority = semanticSource.includes("failed") || semanticSource.includes("blocked") || semanticSource.includes("error")
+
+      ? "Needs Review"
+
+      : semanticSource.includes("next") || semanticSource.includes("recommend")
+
+        ? "Actionable"
+
+        : "Informational";
+
     const enrichedSections = [
 
       ["Summary", summary],
@@ -869,7 +915,9 @@
 
       status ? `<span style="display:inline-flex;align-items:center;border:1px solid rgba(134,239,172,.38);background:rgba(20,83,45,.22);color:#bbf7d0;border-radius:999px;padding:5px 10px;font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.08em;">${phase719EscapePreviewHtml(status)}</span>` : "",
 
-      `<span style="display:inline-flex;align-items:center;border:1px solid rgba(147,197,253,.34);background:rgba(30,64,175,.22);color:#bfdbfe;border-radius:999px;padding:5px 10px;font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.08em;">Rendered Preview</span>`
+      `<span style="display:inline-flex;align-items:center;border:1px solid rgba(147,197,253,.34);background:rgba(30,64,175,.22);color:#bfdbfe;border-radius:999px;padding:5px 10px;font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.08em;">${phase719EscapePreviewHtml(semanticType)}</span>`,
+
+      `<span style="display:inline-flex;align-items:center;border:1px solid rgba(251,191,36,.34);background:rgba(120,53,15,.18);color:#fde68a;border-radius:999px;padding:5px 10px;font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.08em;">${phase719EscapePreviewHtml(semanticPriority)}</span>`
 
     ].filter(Boolean).join("");
 
