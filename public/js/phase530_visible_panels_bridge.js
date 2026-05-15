@@ -897,11 +897,35 @@
 
         : "Informational";
 
+
+
+    function phase719CleanRepeatedArtifactText(value) {
+
+      const raw = String(value || "").trim();
+
+      const standardPrefix = "Standard execution prepared for:";
+
+      if (raw.startsWith(standardPrefix)) {
+
+        return raw.replace(standardPrefix, "Prepared artifact for:").trim();
+
+      }
+
+      return raw;
+
+    }
+
+    const displaySummary = phase719CleanRepeatedArtifactText(summary);
+
+    const displayDeliverable = phase719CleanRepeatedArtifactText(deliverable);
+
+    const displayOutcome = phase719CleanRepeatedArtifactText(outcome);
+
     const enrichedSections = [
 
-      ["Summary", summary],
+      ["Summary", displaySummary],
 
-      ["Deliverable", deliverable],
+      ["Deliverable", displayDeliverable],
 
       ["Details", details],
 
@@ -959,7 +983,7 @@
 
               <div style="font-size:11px;text-transform:uppercase;letter-spacing:.18em;color:#93c5fd;font-weight:900;margin-bottom:10px;">Outcome</div>
 
-              <div style="font-size:17px;line-height:1.55;color:#e0f2fe;font-weight:650;">${phase719EscapePreviewHtml(outcome || "No outcome content available.")}</div>
+              <div style="font-size:17px;line-height:1.55;color:#e0f2fe;font-weight:650;">${phase719EscapePreviewHtml(displayOutcome || "No outcome content available.")}</div>
 
             </section>
 
