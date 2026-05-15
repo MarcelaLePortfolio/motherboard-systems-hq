@@ -710,11 +710,11 @@
 
     modal.id = "phase719-preview-modal";
 
-    modal.style.cssText = "display:none;position:fixed;inset:0;z-index:9999;background:rgba(2,6,23,.72);backdrop-filter:blur(5px);align-items:center;justify-content:center;padding:18px;overflow:hidden;";
+    modal.style.cssText = "display:none;position:fixed;inset:0;z-index:9999;background:rgba(2,6,23,.72);backdrop-filter:blur(5px);align-items:center;justify-content:center;padding:18px;";
 
     modal.innerHTML = `
 
-      <div role="dialog" aria-modal="true" aria-labelledby="phase719-preview-title" style="width:min(880px,96vw);height:min(820px,88vh);max-height:88vh;display:flex;flex-direction:column;overflow:hidden;background:#020617;border:1px solid rgba(148,163,184,.35);border-radius:16px;box-shadow:0 24px 70px rgba(0,0,0,.55);padding:16px;color:#e5e7eb;">
+      <div role="dialog" aria-modal="true" aria-labelledby="phase719-preview-title" style="width:min(760px,96vw);max-height:86vh;overflow:auto;background:#020617;border:1px solid rgba(148,163,184,.35);border-radius:16px;box-shadow:0 24px 70px rgba(0,0,0,.55);padding:16px;color:#e5e7eb;">
 
         <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin-bottom:12px;">
 
@@ -732,7 +732,7 @@
 
         <div id="phase719-preview-meta" style="font-size:12px;line-height:1.6;color:#bbf7d0;border:1px solid rgba(134,239,172,.25);background:rgba(20,83,45,.12);border-radius:12px;padding:10px;margin-bottom:12px;"></div>
 
-        <div id="phase719-preview-body" style="flex:1 1 auto;min-height:0;overflow:auto;overflow-wrap:anywhere;font-size:13px;line-height:1.6;color:#dbeafe;border:1px solid rgba(96,165,250,.24);background:linear-gradient(180deg, rgba(15,23,42,.92), rgba(2,6,23,.74));border-radius:16px;padding:14px;margin:0;box-shadow:inset 0 1px 0 rgba(255,255,255,.04);"></div>
+        <div id="phase719-preview-body" style="overflow-wrap:anywhere;font-size:13px;line-height:1.6;color:#dbeafe;border:1px solid rgba(96,165,250,.24);background:linear-gradient(180deg, rgba(15,23,42,.92), rgba(2,6,23,.74));border-radius:16px;padding:18px;margin:0;box-shadow:inset 0 1px 0 rgba(255,255,255,.04);"></div>
 
       </div>
 
@@ -942,7 +942,7 @@
 
         srcdoc="${phase719EscapePreviewHtml(srcdoc)}"
 
-        style="display:block;width:100%;height:min(650px,70vh);min-height:420px;border:1px solid rgba(148,163,184,.24);border-radius:16px;background:#020617;"
+        style="display:block;width:100%;min-height:560px;border:1px solid rgba(148,163,184,.24);border-radius:16px;background:#020617;"
 
       ></iframe>
 
@@ -1004,7 +1004,7 @@
 
     ].filter(Boolean).join("\n");
 
-    body.innerHTML = `<div style="color:#93c5fd;font-size:14px;border:1px solid rgba(147,197,253,.24);background:rgba(30,64,175,.12);border-radius:12px;padding:14px;">Loading rendered artifact preview…</div>`;
+    body.innerHTML = `<div style="color:#93c5fd;font-size:14px;">Loading rendered artifact preview…</div>`;
 
     modal.style.display = "flex";
 
