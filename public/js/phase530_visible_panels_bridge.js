@@ -667,12 +667,10 @@
   });
 
   async function refresh() {
-    try {
-      const agents = await getJson("/api/agents");
-      renderAgents(Array.isArray(agents) ? agents : []);
-    } catch (e) {
-      console.warn("[phase530] agents render failed", e);
-    }
+    // Phase 719: /api/agents is retired in this runtime.
+    // Stale fetch disabled to preserve console clarity.
+    renderAgents([]);
+
 
     try {
       const data = await getJson("/api/tasks?limit=12");
@@ -681,12 +679,9 @@
       console.warn("[phase530] recent tasks render failed", e);
     }
 
-    try {
-      const activity = await getJson("/api/activity-graph");
-      renderActivity(Array.isArray(activity) ? activity : []);
-    } catch (e) {
-      console.warn("[phase530] activity graph render failed", e);
-    }
+    // Phase 719: /api/activity-graph is retired in this runtime.
+    // Stale fetch disabled to preserve console clarity.
+    renderActivity([]);
   }
 
   if (document.readyState === "loading") {
