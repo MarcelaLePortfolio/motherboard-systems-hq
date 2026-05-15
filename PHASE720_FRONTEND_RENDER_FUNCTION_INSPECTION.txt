@@ -1,0 +1,341 @@
+===== PHASE 720 FRONTEND RENDER FUNCTION INSPECTION =====
+
+[1] Current HEAD
+e62e6e51 (HEAD -> phase719-artifact-visibility) Revert "Phase 720: add read-only frontend semantic envelope detection"
+c2580e56 (origin/phase719-artifact-visibility) Phase 720: add read-only frontend semantic envelope detection
+fb1afd8c Phase 720: plan frontend semantic envelope detection
+ce3cec86 Phase 720: seal semantic envelope validation checkpoint
+adc22473 Phase 720: validate fresh semantic envelope artifact
+
+[2] Working tree
+?? PHASE720_FRONTEND_RENDER_FUNCTION_INSPECTION.txt
+?? PHASE720_INSPECT_FRONTEND_RENDER_FUNCTION.sh
+
+[3] Escape function location
+764:  function phase719EscapePreviewHtml(value) {
+
+[4] Markdown render function location
+1060:  function phase719RenderMarkdownArtifactPreview(markdown) {
+
+[5] Relevant artifact preview block
+  function phase719EscapePreviewHtml(value) {
+
+    return String(value || "")
+
+      .replace(/&/g, "&amp;")
+
+      .replace(/</g, "&lt;")
+
+      .replace(/>/g, "&gt;")
+
+      .replace(/"/g, "&quot;")
+
+      .replace(/'/g, "&#039;");
+
+  }
+
+  function phase719ExtractArtifactSections(markdown) {
+
+    const source = String(markdown || "");
+
+    const withoutTrace = source.replace(/## Execution Trace[\s\S]*$/i, "").trim();
+
+    const sections = {};
+
+    let current = "intro";
+
+    sections[current] = [];
+
+    withoutTrace.split(/\r?\n/).forEach((line) => {
+
+      const h2 = line.match(/^##\s+(.+?)\s*$/);
+
+      if (h2) {
+
+        current = h2[1].trim().toLowerCase();
+
+        sections[current] = [];
+
+        return;
+
+      }
+
+      if (/^#\s+/.test(line)) {
+
+        sections.title = [line.replace(/^#\s+/, "").trim()];
+
+        return;
+
+      }
+
+      if (!sections[current]) sections[current] = [];
+
+      sections[current].push(line);
+
+    });
+
+    Object.keys(sections).forEach((key) => {
+
+      sections[key] = sections[key].join("\n").trim();
+
+    });
+
+    return sections;
+
+  }
+
+  function phase719RenderArtifactVisualCard(markdown) {
+
+    const sections = phase719ExtractArtifactSections(markdown);
+
+    const title = sections.title || "Task Artifact";
+
+    const task = sections.task || "";
+
+    const status = sections.status || "";
+
+    const summary = sections.summary || "";
+
+    const deliverable = sections.deliverable || "";
+
+    const details = sections.details || "";
+
+    const recommendations = sections.recommendations || "";
+
+    const nextSteps = sections["next steps"] || sections.nextsteps || "";
+
+    const outcome = sections.outcome || "";
+
+    const explanation = sections.explanation || "";
+
+    const semanticSource = [
+
+      title,
+
+      task,
+
+      summary,
+
+      deliverable,
+
+      details,
+
+      recommendations,
+
+      nextSteps,
+
+      outcome,
+
+      explanation
+
+    ].join(" ").toLowerCase();
+
+    const semanticType = semanticSource.includes("error") || semanticSource.includes("failed") || semanticSource.includes("failure")
+
+      ? "Recovery Artifact"
+
+      : semanticSource.includes("next steps") || semanticSource.includes("recommend")
+
+        ? "Execution Plan"
+
+        : semanticSource.includes("completed") || semanticSource.includes("success")
+
+          ? "Completion Summary"
+
+          : "Task Artifact";
+
+    const semanticPriority = semanticSource.includes("failed") || semanticSource.includes("blocked") || semanticSource.includes("error")
+
+      ? "Needs Review"
+
+      : semanticSource.includes("next") || semanticSource.includes("recommend")
+
+        ? "Actionable"
+
+        : "Informational";
+
+
+
+    function phase719CleanRepeatedArtifactText(value) {
+
+      const raw = String(value || "").trim();
+
+      const standardPrefix = "Standard execution prepared for:";
+
+      if (raw.startsWith(standardPrefix)) {
+
+        return raw.replace(standardPrefix, "Prepared artifact for:").trim();
+
+      }
+
+      return raw;
+
+    }
+
+    const displaySummary = phase719CleanRepeatedArtifactText(summary);
+
+    const displayDeliverable = phase719CleanRepeatedArtifactText(deliverable);
+
+    const displayOutcome = phase719CleanRepeatedArtifactText(outcome);
+
+    const enrichedSections = [
+
+      ["Summary", displaySummary],
+
+      ["Deliverable", displayDeliverable],
+
+      ["Details", details],
+
+      ["Recommendations", recommendations],
+
+      ["Next Steps", nextSteps]
+
+    ].filter(([, value]) => String(value || "").trim());
+
+    const chips = [
+
+      status ? `<span style="display:inline-flex;align-items:center;border:1px solid rgba(134,239,172,.38);background:rgba(20,83,45,.22);color:#bbf7d0;border-radius:999px;padding:5px 10px;font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.08em;">${phase719EscapePreviewHtml(status)}</span>` : "",
+
+      `<span style="display:inline-flex;align-items:center;border:1px solid rgba(147,197,253,.34);background:rgba(30,64,175,.22);color:#bfdbfe;border-radius:999px;padding:5px 10px;font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.08em;">${phase719EscapePreviewHtml(semanticType)}</span>`,
+
+      `<span style="display:inline-flex;align-items:center;border:1px solid rgba(251,191,36,.34);background:rgba(120,53,15,.18);color:#fde68a;border-radius:999px;padding:5px 10px;font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.08em;">${phase719EscapePreviewHtml(semanticPriority)}</span>`
+
+    ].filter(Boolean).join("");
+
+    return `
+
+      <div data-phase719-rendered-artifact-preview="true" style="max-width:920px;margin:0 auto;">
+
+        <div style="border:1px solid rgba(148,163,184,.22);border-radius:22px;overflow:hidden;background:radial-gradient(circle at top left, rgba(59,130,246,.18), transparent 34%),linear-gradient(180deg, rgba(15,23,42,.96), rgba(2,6,23,.9));box-shadow:0 24px 70px rgba(0,0,0,.42), inset 0 1px 0 rgba(255,255,255,.05);">
+
+          <div style="padding:28px 30px 22px 30px;border-bottom:1px solid rgba(148,163,184,.16);">
+
+            <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:18px;">${chips}</div>
+
+            <div style="font-size:30px;line-height:1.05;font-weight:900;letter-spacing:-.04em;color:#f8fafc;margin-bottom:12px;">${phase719EscapePreviewHtml(title)}</div>
+
+            ${task ? `<div style="font-size:15px;line-height:1.55;color:#cbd5e1;max-width:760px;">${phase719EscapePreviewHtml(task)}</div>` : ""}
+
+          </div>
+
+          <div style="display:grid;grid-template-columns:minmax(0,1fr);gap:14px;padding:22px 24px 10px 24px;">
+
+            ${enrichedSections.map(([label, value]) => `
+
+              <section style="border:1px solid rgba(96,165,250,.22);border-radius:18px;background:rgba(15,23,42,.7);padding:18px;">
+
+                <div style="font-size:11px;text-transform:uppercase;letter-spacing:.18em;color:#93c5fd;font-weight:900;margin-bottom:10px;">${phase719EscapePreviewHtml(label)}</div>
+
+                <div style="font-size:15px;line-height:1.6;color:#e0f2fe;white-space:pre-wrap;">${phase719EscapePreviewHtml(value)}</div>
+
+              </section>
+
+            `).join("")}
+
+          </div>
+
+          <div style="display:grid;grid-template-columns:minmax(0,1.2fr) minmax(220px,.8fr);gap:18px;padding:12px 24px 24px 24px;">
+
+            <section style="border:1px solid rgba(96,165,250,.22);border-radius:18px;background:rgba(15,23,42,.7);padding:18px;">
+
+              <div style="font-size:11px;text-transform:uppercase;letter-spacing:.18em;color:#93c5fd;font-weight:900;margin-bottom:10px;">Outcome</div>
+
+              <div style="font-size:17px;line-height:1.55;color:#e0f2fe;font-weight:650;">${phase719EscapePreviewHtml(displayOutcome || "No outcome content available.")}</div>
+
+            </section>
+
+            <section style="border:1px solid rgba(45,212,191,.20);border-radius:18px;background:rgba(6,78,59,.16);padding:18px;">
+
+              <div style="font-size:11px;text-transform:uppercase;letter-spacing:.18em;color:#5eead4;font-weight:900;margin-bottom:10px;">Build Path</div>
+
+              <div style="font-size:14px;line-height:1.55;color:#ccfbf1;white-space:pre-wrap;">${phase719EscapePreviewHtml(explanation || "No explanation available.")}</div>
+
+            </section>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    `;
+
+  }
+
+  function phase719RenderArtifactIframePreview(renderedHtml) {
+
+    const srcdoc = [
+
+      "<!DOCTYPE html>",
+
+      "<html>",
+
+      "<head>",
+
+      "<meta charset=\"utf-8\">",
+
+      "<style>",
+
+      "html,body{margin:0;padding:0;background:#020617;color:#e5e7eb;font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;}",
+
+      "body{padding:18px;overflow-wrap:anywhere;}",
+
+      "*{box-sizing:border-box;max-width:100%;}",
+
+      "</style>",
+
+      "</head>",
+
+      "<body>",
+
+      String(renderedHtml || ""),
+
+      "</body>",
+
+      "</html>"
+
+    ].join("");
+
+    return `
+
+      <iframe
+
+        title="Artifact rendered preview"
+
+        sandbox=""
+
+        srcdoc="${phase719EscapePreviewHtml(srcdoc)}"
+
+        style="display:block;width:100%;min-height:560px;border:1px solid rgba(148,163,184,.24);border-radius:16px;background:#020617;"
+
+      ></iframe>
+
+    `;
+
+  }
+
+  function phase719RenderMarkdownArtifactPreview(markdown) {
+
+    const rendered = phase719RenderArtifactVisualCard(markdown);
+
+    return `
+
+      <div data-phase719-preview-stack="true" style="display:grid;gap:12px;">
+
+        <div data-phase719-inline-preview-primary="true" style="border:1px solid rgba(96,165,250,.22);border-radius:16px;padding:0;background:rgba(15,23,42,.34);">
+
+          ${rendered}
+
+        </div>
+
+      </div>
+
+    `;
+
+  }
+
+
+
+  async function phase719OpenPreviewModal(button) {
+
+===== INSPECTION COMPLETE =====
