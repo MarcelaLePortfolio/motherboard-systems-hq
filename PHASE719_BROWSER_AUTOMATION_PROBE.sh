@@ -3,7 +3,7 @@
 
 set -euo pipefail
 
-echo "===== PHASE 719 BROWSER AUTOMATION PROBE v3 ====="
+echo "===== PHASE 719 BROWSER AUTOMATION PROBE v4 ====="
 
 echo ""
 
@@ -59,9 +59,19 @@ PY
 
 echo ""
 
-echo "[4] Write Playwright probe"
+echo "[4] Prepare temporary Playwright workspace"
 
-cat > /tmp/phase719_browser_probe.mjs << 'NODE'
+rm -rf /tmp/phase719_playwright_probe
+
+mkdir -p /tmp/phase719_playwright_probe
+
+cd /tmp/phase719_playwright_probe
+
+npm init -y >/dev/null 2>&1
+
+npm install playwright@latest >/tmp/phase719_playwright_npm_install.log 2>&1
+
+cat > phase719_browser_probe.mjs << 'NODE'
 
 import { chromium } from "playwright";
 
@@ -109,19 +119,11 @@ if (previewCount > 0) {
 
     const modal = document.querySelector("#phase719-preview-modal");
 
-    const dialog = modal
-
-      ? modal.querySelector('[role="dialog"]')
-
-      : null;
+    const dialog = modal ? modal.querySelector('[role="dialog"]') : null;
 
     const body = document.querySelector("#phase719-preview-body");
 
-    const iframe = body
-
-      ? body.querySelector("iframe")
-
-      : null;
+    const iframe = body ? body.querySelector("iframe") : null;
 
     function measure(node) {
 
@@ -161,11 +163,7 @@ if (previewCount > 0) {
 
       iframe: measure(iframe),
 
-      iframeSandbox: iframe
-
-        ? iframe.getAttribute("sandbox")
-
-        : null
+      iframeSandbox: iframe ? iframe.getAttribute("sandbox") : null
 
     };
 
@@ -197,9 +195,9 @@ NODE
 
 echo "[5] Run Playwright probe"
 
-npm exec --yes --package=playwright@latest -- node /tmp/phase719_browser_probe.mjs
+node phase719_browser_probe.mjs
 
 echo ""
 
-echo "===== PHASE 719 BROWSER AUTOMATION PROBE v3 COMPLETE ====="
+echo "===== PHASE 719 BROWSER AUTOMATION PROBE v4 COMPLETE ====="
 
