@@ -181,7 +181,6 @@
     }
   </style>
 
-  <script defer src="js/dashboard-status.js"></script>
   <script defer src="js/agent-status-row.js"></script>
   <script type="module" src="js/dashboard-broadcast.js"></script>
   <script defer src="js/matilda-chat-console.js"></script>
@@ -663,7 +662,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 document.addEventListener("DOMContentLoaded", async function () {
   try {
-    const res = await fetch("/diagnostics/system-health");
+    const res = await Promise.reject(new Error("phase719: diagnostics/system-health disabled"));
     const data = await res.json();
 
     // VERY LIGHT INTERPRETATION (allowed: presence only)
@@ -717,7 +716,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 document.addEventListener("DOMContentLoaded", async function () {
   try {
-    const res = await fetch("/diagnostics/system-health");
+    const res = await Promise.reject(new Error("phase719: diagnostics/system-health disabled"));
     const data = await res.json();
 
     if (!window.__PHASE494_SIGNALS__) return;
@@ -754,7 +753,7 @@ document.addEventListener("DOMContentLoaded", async function () {
 
 document.addEventListener("DOMContentLoaded", async function () {
   try {
-    const res = await fetch("/diagnostics/system-health");
+    const res = await Promise.reject(new Error("phase719: diagnostics/system-health disabled"));
     const data = await res.json();
 
     if (!window.__PHASE494_SIGNALS__) return;
@@ -803,7 +802,7 @@ document.addEventListener("DOMContentLoaded", async function () {
 
 document.addEventListener("DOMContentLoaded", async function () {
   try {
-    const res = await fetch("/diagnostics/system-health");
+    const res = await Promise.reject(new Error("phase719: diagnostics/system-health disabled"));
     const data = await res.json();
 
     if (!window.__PHASE494_SIGNALS__) return;
@@ -1054,7 +1053,7 @@ document.addEventListener("DOMContentLoaded", async function () {
       return;
     }
 
-    const systemHealth = await safeJson("/diagnostics/system-health");
+    const systemHealth = await Promise.resolve(null);
     const fallbackText =
       extractGuidanceText(systemHealth) ||
       "System stable. No active guidance stream.";
@@ -1155,7 +1154,6 @@ document.addEventListener("DOMContentLoaded", async function () {
 
   <script defer src="/js/phase487_humanize_task_ids.js"></script>
   <script defer src="js/phase565_recent_tasks_wire.js"></script>
-  <script defer src="js/phase565_recent_logs_wire.js"></script>
 
 
 <script>
