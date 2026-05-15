@@ -140,6 +140,42 @@ async function completeSuccess(pool, task, executionResult = null) {
 
       const systemTrace = executionResult?.communicationResult?.systemTrace?.content ?? {};
 
+      const taskTitle = String(task?.title ?? task?.payload?.title ?? taskId);
+
+      const taskStatus = String(completed?.status ?? "completed");
+
+      const artifactSummary = outcome || `Execution completed for: ${taskTitle}`;
+
+      const artifactDeliverable = outcome || "No deliverable summary was produced.";
+
+      const artifactDetails = [
+
+        `Task: ${taskTitle}`,
+
+        `Status: ${taskStatus}`,
+
+        explanation ? `Execution notes: ${explanation}` : null,
+
+        systemTrace?.strategy_applied ? `Strategy applied: ${systemTrace.strategy_applied}` : null
+
+      ].filter(Boolean).join("\n");
+
+      const artifactRecommendations = [
+
+        "Review the generated artifact preview in the operator console.",
+
+        "Use the execution trace only when deeper debugging is needed."
+
+      ].join("\n");
+
+      const artifactNextSteps = [
+
+        "Confirm the artifact content matches the operator intent.",
+
+        "If richer deliverable content is needed, refine the worker artifact contract before expanding renderer behavior."
+
+      ].join("\n");
+
       const content = [
 
         "# Task Artifact",
@@ -148,13 +184,43 @@ async function completeSuccess(pool, task, executionResult = null) {
 
         "## Task",
 
-        String(task?.title ?? task?.payload?.title ?? taskId),
+        taskTitle,
 
         "",
 
         "## Status",
 
-        String(completed?.status ?? "completed"),
+        taskStatus,
+
+        "",
+
+        "## Summary",
+
+        artifactSummary,
+
+        "",
+
+        "## Deliverable",
+
+        artifactDeliverable,
+
+        "",
+
+        "## Details",
+
+        artifactDetails || "No additional details were produced.",
+
+        "",
+
+        "## Recommendations",
+
+        artifactRecommendations,
+
+        "",
+
+        "## Next Steps",
+
+        artifactNextSteps,
 
         "",
 
