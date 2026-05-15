@@ -1,0 +1,75 @@
+
+PHASE 719 STABLE BASELINE CONFIRMED
+
+Current authoritative HEAD:
+
+f8438276
+
+Branch:
+
+phase719-artifact-visibility
+
+Confirmed stable outcomes:
+
+- iframe/srcdoc rendering operational
+
+- embedded modal preview operational
+
+- dashboard stable
+
+- worker stable
+
+- postgres stable
+
+- SSE stable
+
+- retry/requeue stable
+
+- artifact retrieval stable
+
+- runtime preserved
+
+- backups completed
+
+- external archive completed
+
+Rendering architecture:
+
+markdown artifact
+
+→ frontend visual renderer
+
+→ iframe/srcdoc isolation layer
+
+→ embedded modal preview
+
+Explicitly NOT implemented:
+
+- native HTML artifact contracts
+
+- worker-authored HTML artifact persistence
+
+- HTML artifact schema redesign
+
+Protected architecture boundaries:
+
+- execution architecture unchanged
+
+- retry architecture unchanged
+
+- DB schema unchanged
+
+- worker artifact contract unchanged
+
+Quarantine evidence intentionally preserved:
+
+- PHASE719_FULL_DISASTER_RECOVERY_BACKUP.sh
+
+- checkpoints/PHASE719_QUARANTINE_FAILED_HELPERS.txt
+
+- public/js/phase530_visible_panels_bridge.js.phase719_iframe_v2_backup
+
+Authoritative safe resume point:
+
+f8438276
+
