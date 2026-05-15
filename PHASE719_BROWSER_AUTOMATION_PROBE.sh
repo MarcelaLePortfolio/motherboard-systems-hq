@@ -3,7 +3,7 @@
 
 set -euo pipefail
 
-echo "===== PHASE 719 BROWSER AUTOMATION PROBE ====="
+echo "===== PHASE 719 BROWSER AUTOMATION PROBE v2 ====="
 
 echo ""
 
@@ -13,49 +13,55 @@ docker compose ps
 
 echo ""
 
-echo "[2] Served JS style confirmation"
+echo "[2] Served JS confirmation"
 
-curl -s http://localhost:3000/js/phase530_visible_panels_bridge.js | grep -n "phase719-preview-modal\|phase719RenderArtifactIframePreview\|srcdoc\|width:min(760px,96vw)\|height:min(820px,88vh)\|height:min(650px,70vh)" || true
-
-echo ""
-
-echo "[3] API artifact task confirmation"
-
-curl -s http://localhost:3000/api/tasks | python3 -m json.tool | sed -n '1,140p'
+curl -s http://localhost:3000/js/phase530_visible_panels_bridge.js | grep -n "phase719-preview-modal\|phase719RenderArtifactIframePreview\|srcdoc\|width:min(760px,96vw)" || true
 
 echo ""
 
-echo "[4] Browser automation availability check"
+echo "[3] Compact artifact task confirmation"
 
-if command -v node >/dev/null 2>&1; then
+curl -s http://localhost:3000/api/tasks | python3 - << 'PY'
 
-  echo "node: $(node -v)"
+import json, sys
 
-else
+data = json.load(sys.stdin)
 
-  echo "node not found"
+tasks = data.get("tasks", [])
 
-fi
+print("ok:", data.get("ok"))
 
-if command -v npx >/dev/null 2>&1; then
+print("task_count:", len(tasks))
 
-  echo "npx: available"
+for t in tasks[:5]:
 
-else
+    artifact = t.get("artifact") or {}
 
-  echo "npx not found"
+    print({
 
-fi
+        "id": t.get("id"),
+
+        "task_id": t.get("task_id"),
+
+        "status": t.get("status"),
+
+        "has_artifact": bool(artifact),
+
+        "artifact_type": artifact.get("type"),
+
+        "artifact_source": artifact.get("source"),
+
+    })
+
+PY
 
 echo ""
 
-echo "[5] Create temporary Playwright probe"
+echo "[4] Write temporary Playwright probe"
 
 cat > /tmp/phase719_browser_probe.mjs << 'NODE'
 
 import { chromium } from "playwright";
-
-const url = "http://localhost:3000";
 
 const browser = await chromium.launch({ headless: true });
 
@@ -63,21 +69,11 @@ const page = await browser.newPage({ viewport: { width: 1440, height: 1000 } });
 
 const consoleMessages = [];
 
-page.on("console", msg => {
+page.on("console", msg => consoleMessages.push({ type: msg.type(), text: msg.text() }));
 
-  consoleMessages.push({
+await page.goto("http://localhost:3000", { waitUntil: "domcontentloaded" });
 
-    type: msg.type(),
-
-    text: msg.text(),
-
-  });
-
-});
-
-await page.goto(url, { waitUntil: "networkidle" });
-
-const previewButton = page.locator("[data-phase719-preview-artifact]").first();
+await page.waitForTimeout(1200);
 
 const previewCount = await page.locator("[data-phase719-preview-artifact]").count();
 
@@ -85,41 +81,43 @@ console.log("previewButtonCount:", previewCount);
 
 if (previewCount > 0) {
 
-  await previewButton.click();
+  await page.locator("[data-phase719-preview-artifact]").first().click();
 
-  await page.waitForTimeout(1500);
+  await page.waitForTimeout(1800);
 
-  const modalMetrics = await page.evaluate(() => {
+  const metrics = await page.evaluate(() => {
 
     const modal = document.querySelector("#phase719-preview-modal");
 
+    const dialog = modal ? modal.querySelector('[role="dialog"]') : null;
+
     const body = document.querySelector("#phase719-preview-body");
 
-    const iframe = document.querySelector("#phase719-preview-body iframe");
+    const iframe = body ? body.querySelector("iframe") : null;
 
-    function rectFor(node) {
+    function measure(node) {
 
       if (!node) return null;
 
-      const r = node.getBoundingClientRect();
+      const rect = node.getBoundingClientRect();
+
+      const style = getComputedStyle(node);
 
       return {
 
-        x: Math.round(r.x),
+        width: Math.round(rect.width),
 
-        y: Math.round(r.y),
-
-        width: Math.round(r.width),
-
-        height: Math.round(r.height),
-
-        scrollHeight: node.scrollHeight,
+        height: Math.round(rect.height),
 
         clientHeight: node.clientHeight,
 
-        overflow: getComputedStyle(node).overflow,
+        scrollHeight: node.scrollHeight,
 
-        display: getComputedStyle(node).display,
+        overflow: style.overflow,
+
+        display: style.display,
+
+        inlineStyle: node.getAttribute("style")
 
       };
 
@@ -127,19 +125,15 @@ if (previewCount > 0) {
 
     return {
 
-      modal: rectFor(modal),
+      modal: measure(modal),
 
-      body: rectFor(body),
+      dialog: measure(dialog),
 
-      iframe: rectFor(iframe),
+      body: measure(body),
 
-      iframeStyle: iframe ? iframe.getAttribute("style") : null,
+      iframe: measure(iframe),
 
-      iframeSandbox: iframe ? iframe.getAttribute("sandbox") : null,
-
-      modalDisplay: modal ? getComputedStyle(modal).display : null,
-
-      modalHtmlLength: modal ? modal.innerHTML.length : 0,
+      iframeSandbox: iframe ? iframe.getAttribute("sandbox") : null
 
     };
 
@@ -147,7 +141,7 @@ if (previewCount > 0) {
 
   console.log("modalMetrics:");
 
-  console.log(JSON.stringify(modalMetrics, null, 2));
+  console.log(JSON.stringify(metrics, null, 2));
 
   await page.screenshot({ path: "/tmp/phase719_preview_probe.png", fullPage: true });
 
@@ -157,25 +151,17 @@ if (previewCount > 0) {
 
 console.log("consoleMessages:");
 
-console.log(JSON.stringify(consoleMessages.slice(-30), null, 2));
+console.log(JSON.stringify(consoleMessages.slice(-20), null, 2));
 
 await browser.close();
 
 NODE
 
-echo "[6] Run Playwright probe"
+echo "[5] Run Playwright probe"
 
-npx --yes playwright@latest install chromium >/tmp/phase719_playwright_install.log 2>&1 || {
-
-  echo "Playwright browser install failed. See /tmp/phase719_playwright_install.log"
-
-  exit 1
-
-}
-
-npx --yes playwright@latest node /tmp/phase719_browser_probe.mjs
+npm exec --yes --package=playwright@latest -- node /tmp/phase719_browser_probe.mjs
 
 echo ""
 
-echo "===== PHASE 719 BROWSER AUTOMATION PROBE COMPLETE ====="
+echo "===== PHASE 719 BROWSER AUTOMATION PROBE v2 COMPLETE ====="
 
