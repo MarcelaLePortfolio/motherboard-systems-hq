@@ -1,0 +1,99 @@
+
+PHASE 719 CLEAN STOP STATE
+
+Authoritative HEAD:
+
+57aa269c
+
+Branch:
+
+phase719-artifact-visibility
+
+Final operational classification:
+
+STABLE
+
+Verified stable systems:
+
+- dashboard
+
+- worker
+
+- postgres
+
+- SSE
+
+- retry/requeue corridor
+
+- artifact retrieval corridor
+
+- iframe/srcdoc embedded preview corridor
+
+Current rendering architecture:
+
+markdown artifact
+
+→ frontend visual renderer
+
+→ iframe/srcdoc isolation layer
+
+→ embedded modal preview
+
+Explicitly NOT implemented:
+
+- native HTML artifact contracts
+
+- worker-authored HTML persistence
+
+- persisted HTML artifact schema redesign
+
+- direct embedded persisted artifact documents
+
+Protected architecture boundaries:
+
+- execution architecture unchanged
+
+- retry architecture unchanged
+
+- DB schema unchanged
+
+- worker artifact contracts unchanged
+
+- no execution coupling introduced
+
+- no speculative payload mutation introduced
+
+Quarantine evidence intentionally preserved:
+
+- PHASE719_FULL_DISASTER_RECOVERY_BACKUP.sh
+
+- checkpoints/PHASE719_QUARANTINE_FAILED_HELPERS.txt
+
+- public/js/phase530_visible_panels_bridge.js.phase719_iframe_v2_backup
+
+Safe future directions:
+
+- iframe polish
+
+- renderer refinement
+
+- responsive sizing improvements
+
+- isolated rendering enhancements
+
+- future artifact contract design planning
+
+Unsafe directions:
+
+- worker mutation
+
+- artifact payload mutation
+
+- inline execution contract rewrites
+
+- speculative architecture layering
+
+Authoritative safe resume point:
+
+57aa269c
+
