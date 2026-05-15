@@ -176,45 +176,7 @@ async function completeSuccess(pool, task, executionResult = null) {
 
       ].join("\n");
 
-      const semanticEnvelope = [
-
-        "<!-- MB_SEMANTIC_ARTIFACT_V1",
-
-        JSON.stringify({
-
-          artifact_kind: "task_execution_summary",
-
-          semantic_version: "1.0",
-
-          task_summary: artifactSummary,
-
-          execution_plan: artifactRecommendations,
-
-          actionable_outputs: [artifactDeliverable],
-
-          evidence_notes: artifactDetails
-
-            .split("\n")
-
-            .map((line) => line.trim())
-
-            .filter(Boolean),
-
-          operator_next_steps: artifactNextSteps,
-
-          raw_markdown_fallback: true
-
-        }, null, 2),
-
-        "-->"
-
-      ].join("\n");
-
       const content = [
-
-        semanticEnvelope,
-
-        "",
 
         "# Task Artifact",
 

@@ -1,0 +1,95 @@
+===== PHASE 720 WORKER SEMANTIC ENVELOPE PATCH =====
+Semantic envelope patch applied.
+
+[1] Verify semantic envelope insertion
+181:        "<!-- MB_SEMANTIC_ARTIFACT_V1",
+
+[2] Docker rebuild
+#1 [internal] load local bake definitions
+#1 reading from stdin 1.10kB done
+#1 DONE 0.0s
+
+#2 [dashboard internal] load build definition from Dockerfile.dashboard
+#2 transferring dockerfile: 229B 0.0s done
+#2 DONE 0.0s
+
+#3 [worker internal] load build definition from Dockerfile
+#3 transferring dockerfile: 207B 0.0s done
+#3 DONE 0.0s
+
+#4 [worker internal] load metadata for docker.io/library/node:20-alpine
+#4 DONE 0.1s
+
+#5 [dashboard internal] load .dockerignore
+#5 transferring context: 113B done
+#5 DONE 0.0s
+
+#6 [worker 1/6] FROM docker.io/library/node:20-alpine@sha256:fb4cd12c85ee03686f6af5362a0b0d56d50c58a04632e6c0fb8363f609372293
+#6 resolve docker.io/library/node:20-alpine@sha256:fb4cd12c85ee03686f6af5362a0b0d56d50c58a04632e6c0fb8363f609372293 0.0s done
+#6 DONE 0.0s
+
+#7 [dashboard internal] load build context
+#7 transferring context: 526.32kB 0.2s done
+#7 DONE 0.2s
+
+#8 [worker 2/6] WORKDIR /app
+#8 CACHED
+
+#9 [worker 3/6] RUN apk add --no-cache postgresql-client netcat-openbsd
+#9 CACHED
+
+#10 [worker 4/6] COPY package*.json ./
+#10 CACHED
+
+#11 [worker 5/6] RUN npm install
+#11 CACHED
+
+#8 [dashboard 2/6] WORKDIR /app
+#8 CACHED
+
+#9 [dashboard 3/6] RUN apk add --no-cache postgresql-client netcat-openbsd
+#9 CACHED
+
+#10 [dashboard 4/6] COPY package*.json ./
+#10 CACHED
+
+#12 [dashboard 6/6] COPY . .
+#12 DONE 0.6s
+
+#13 [dashboard] exporting to image
+#13 exporting layers
+#13 exporting layers 0.7s done
+#13 exporting manifest sha256:5f4272eb4e4c5d72f527301a394b84924de5cbd0ac73fbe6b48e70f43079e5d3 done
+#13 exporting config sha256:9287d616c88995183717de84bf01fd13d7393f82da1534e8026f4f81786780ba done
+#13 exporting attestation manifest sha256:b97e078d6f2b79773d8b6ce21f7323de498b6ebd613840b8218ebe968cf0a376 0.0s done
+#13 exporting manifest list sha256:ba7f759e3ef95c885f0abe9c48cc255a960cfd3bb272638df5b1a163d2acc814 done
+#13 naming to docker.io/library/motherboard_systems_hq-dashboard:latest done
+#13 unpacking to docker.io/library/motherboard_systems_hq-dashboard:latest
+#13 unpacking to docker.io/library/motherboard_systems_hq-dashboard:latest 0.4s done
+#13 DONE 1.1s
+
+#14 [worker] exporting to image
+#14 exporting layers 0.7s done
+#14 exporting manifest sha256:ed0a79f71b20458467f025393f2d01afaab60675a06df7e6998d368009eb20f7 done
+#14 exporting config sha256:3d2c0bfd24bf0ab905864f9d50ba217899a51929da86c46e79ba9fd6bf03ee84 done
+#14 exporting attestation manifest sha256:7b43c61f99638861288857e26f251f28c7298cd0ee8f6aede9a8df57487a2132 0.0s done
+#14 exporting manifest list sha256:4e5d0ab94d01f3afff90ca6bfc6cd220a764234f3953921fe202e8393b1bb0ec done
+#14 naming to docker.io/library/motherboard_systems_hq-worker:latest done
+#14 unpacking to docker.io/library/motherboard_systems_hq-worker:latest 0.4s done
+#14 DONE 1.1s
+
+#15 [worker] resolving provenance for metadata file
+#15 DONE 0.0s
+
+#16 [dashboard] resolving provenance for metadata file
+#16 DONE 0.0s
+
+[3] Restart containers
+
+[4] Runtime status
+CONTAINER ID   IMAGE                              COMMAND                  CREATED         STATUS                  PORTS                                         NAMES
+c04ab69ea282   motherboard_systems_hq-dashboard   "docker-entrypoint.s…"   2 seconds ago   Up Less than a second   0.0.0.0:3000->3000/tcp, [::]:3000->3000/tcp   motherboard_systems_hq-dashboard-1
+e8cccc1d4273   motherboard_systems_hq-worker      "docker-entrypoint.s…"   2 seconds ago   Up Less than a second                                                 motherboard_systems_hq-worker-1
+e37a3b84baf0   postgres:16-alpine                 "docker-entrypoint.s…"   9 days ago      Up 5 days (healthy)     5432/tcp                                      motherboard_systems_hq-postgres-1
+
+===== PATCH COMPLETE =====
