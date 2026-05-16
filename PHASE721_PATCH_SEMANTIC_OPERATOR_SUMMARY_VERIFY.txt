@@ -1,0 +1,71 @@
+===== PHASE 721 SEMANTIC OPERATOR SUMMARY PATCH =====
+Semantic operator summary patch applied.
+972:    const semanticOperatorSummary = semanticEnvelope ? [
+1020:          ${semanticOperatorSummary.length ? `
+1026:                <div style="font-size:11px;text-transform:uppercase;letter-spacing:.18em;color:#5eead4;font-weight:900;margin-bottom:12px;">Semantic Operator Summary</div>
+1030:                  ${semanticOperatorSummary.map(([label, value]) => `
+#1 [internal] load local bake definitions
+#1 reading from stdin 605B done
+#1 DONE 0.0s
+
+#2 [internal] load build definition from Dockerfile.dashboard
+#2 transferring dockerfile: 229B 0.0s done
+#2 DONE 0.0s
+
+#3 [internal] load metadata for docker.io/library/node:20-alpine
+#3 DONE 0.1s
+
+#4 [internal] load .dockerignore
+#4 transferring context: 113B done
+#4 DONE 0.0s
+
+#5 [1/6] FROM docker.io/library/node:20-alpine@sha256:fb4cd12c85ee03686f6af5362a0b0d56d50c58a04632e6c0fb8363f609372293
+#5 resolve docker.io/library/node:20-alpine@sha256:fb4cd12c85ee03686f6af5362a0b0d56d50c58a04632e6c0fb8363f609372293 0.0s done
+#5 DONE 0.0s
+
+#6 [internal] load build context
+#6 transferring context: 625.94kB 0.1s done
+#6 DONE 0.1s
+
+#7 [3/6] RUN apk add --no-cache postgresql-client netcat-openbsd
+#7 CACHED
+
+#8 [4/6] COPY package*.json ./
+#8 CACHED
+
+#9 [2/6] WORKDIR /app
+#9 CACHED
+
+#10 [5/6] RUN npm install
+#10 CACHED
+
+#11 [6/6] COPY . .
+#11 DONE 0.5s
+
+#12 exporting to image
+#12 exporting layers
+#12 exporting layers 0.7s done
+#12 exporting manifest sha256:c6fff4a81bbf57873f02a1c85a8befe915bb55b4d79417efff48f8fafdab1e6a done
+#12 exporting config sha256:62c836c616be8060508ed3531d4438904b1ee1bb62b6c887e9f86c5d369cbe77 done
+#12 exporting attestation manifest sha256:e7ee339388746a03c3e75e72f3188a34cb7bcb24243343ce289c3651cd1cba89 done
+#12 exporting manifest list sha256:bde5dc3a5b1a4974befc1cd3b9940eba352c524e90710590d89f1b8faa7b0de1 done
+#12 naming to docker.io/library/motherboard_systems_hq-dashboard:latest done
+#12 unpacking to docker.io/library/motherboard_systems_hq-dashboard:latest
+#12 unpacking to docker.io/library/motherboard_systems_hq-dashboard:latest 0.3s done
+#12 DONE 1.0s
+
+#13 resolving provenance for metadata file
+#13 DONE 0.0s
+[phase719-artifact-visibility 340c3efc] Phase 721: add semantic operator summary card
+ 3 files changed, 1481 insertions(+)
+ create mode 100755 PHASE721_PATCH_SEMANTIC_OPERATOR_SUMMARY.sh
+ create mode 100644 checkpoints/PHASE721_PRE_SEMANTIC_OPERATOR_SUMMARY.js
+?? PHASE721_PATCH_SEMANTIC_OPERATOR_SUMMARY_VERIFY.txt
+340c3efc (HEAD -> phase719-artifact-visibility, origin/phase719-artifact-visibility) Phase 721: add semantic operator summary card
+5aa3ccd2 Phase 721: establish semantic visual enrichment baseline
+e2097e91 Phase 720: seal browser-validated semantic completion
+0489ce35 Phase 720: seal browser validation resume point
+a7c4cefd Phase 720: document browser semantic confirmation target
+e2437607 Phase 720: seal frontend semantic detection checkpoint
+d69fd737 Phase 720: validate frontend semantic detection v2
+e2e69be1 Phase 720: record frontend semantic detection v2 verification
