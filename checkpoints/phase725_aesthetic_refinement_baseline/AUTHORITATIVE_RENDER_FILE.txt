@@ -1,0 +1,37 @@
+
+Phase 725 authoritative UI refinement target:
+
+public/js/phase530_visible_panels_bridge.js
+
+Confirmed references:
+
+- artifact preview fetch route
+
+- semantic preview renderer
+
+- visual artifact preview wrapper
+
+- visual-only Preview rendering path
+
+Allowed mutation class:
+
+- UI-only aesthetic refinement
+
+- inline style polish
+
+- spacing/typography/card presentation only
+
+Forbidden mutation class:
+
+- backend logic
+
+- retry logic
+
+- task polling logic
+
+- SSE logic
+
+- artifact persistence logic
+
+- schema/contracts
+
