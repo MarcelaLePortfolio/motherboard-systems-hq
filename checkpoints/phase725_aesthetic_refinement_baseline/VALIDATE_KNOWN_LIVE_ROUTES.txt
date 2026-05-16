@@ -1,0 +1,21 @@
+
+Phase 725 corrected validation:
+
+Observation:
+
+- /api/health returned Cannot GET /api/health
+
+- This does not prove runtime failure because Docker dashboard, worker, and postgres remain up/healthy
+
+- Prior handoff identifies dashboard root and artifact/task routes as authoritative validation surfaces
+
+Corrected validation targets:
+
+- dashboard root
+
+- /api/tasks
+
+- artifact-preview route discovery through task list
+
+- git clean state
+
