@@ -39,17 +39,23 @@ for (const sample of samples) {
 
   const validation = validateSemanticArtifact(payload);
 
-  console.log('\\n────────────────────────────────');
+  console.log('');
+
+  console.log('────────────────────────────────');
 
   console.log('INPUT:');
 
   console.log(sample);
 
-  console.log('\\nCOMPOSED PAYLOAD:');
+  console.log('');
+
+  console.log('COMPOSED PAYLOAD:');
 
   console.log(JSON.stringify(payload, null, 2));
 
-  console.log('\\nVALIDATION:');
+  console.log('');
+
+  console.log('VALIDATION:');
 
   console.log(JSON.stringify(validation, null, 2));
 
@@ -61,7 +67,9 @@ for (const sample of samples) {
 
 }
 
-console.log('\\n────────────────────────────────');
+console.log('');
+
+console.log('────────────────────────────────');
 
 if (failures > 0) {
 

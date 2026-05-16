@@ -23,11 +23,15 @@ for (const sample of samples) {
 
   const result = validateSemanticArtifact(payload);
 
-  console.log('\\nINPUT:');
+  console.log('');
+
+  console.log('INPUT:');
 
   console.log(sample);
 
-  console.log('\\nVALIDATION:');
+  console.log('');
+
+  console.log('VALIDATION:');
 
   console.log(JSON.stringify(result, null, 2));
 

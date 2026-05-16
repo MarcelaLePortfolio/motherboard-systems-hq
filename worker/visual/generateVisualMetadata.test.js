@@ -15,11 +15,15 @@ const samples = [
 
 for (const sample of samples) {
 
-  console.log('\\nINPUT:');
+  console.log('');
+
+  console.log('INPUT:');
 
   console.log(sample);
 
-  console.log('\\nOUTPUT:');
+  console.log('');
+
+  console.log('OUTPUT:');
 
   console.log(JSON.stringify(generateVisualMetadata(sample), null, 2));
 
