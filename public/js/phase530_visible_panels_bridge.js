@@ -1177,6 +1177,56 @@
 
   }
 
+  // Phase 723 — visual artifact block extraction helper (non-active)
+
+  function phase723ExtractVisualArtifactBlock(markdown) {
+
+    const source = String(markdown || "");
+
+    const startMarker = "<!-- visual-artifact:start -->";
+
+    const endMarker = "<!-- visual-artifact:end -->";
+
+    const startIndex = source.indexOf(startMarker);
+
+    const endIndex = source.indexOf(endMarker);
+
+    if (startIndex === -1 || endIndex === -1 || endIndex <= startIndex) {
+
+      return {
+
+        hasVisualArtifact: false,
+
+        visualHtml: "",
+
+        markdownWithoutVisualArtifact: source
+
+      };
+
+    }
+
+    const visualStart = startIndex + startMarker.length;
+
+    const visualHtml = source.slice(visualStart, endIndex).trim();
+
+    const markdownWithoutVisualArtifact = (
+
+      source.slice(0, startIndex) + source.slice(endIndex + endMarker.length)
+
+    ).trim();
+
+    return {
+
+      hasVisualArtifact: Boolean(visualHtml),
+
+      visualHtml,
+
+      markdownWithoutVisualArtifact
+
+    };
+
+  }
+
   function phase719RenderMarkdownArtifactPreview(markdown) {
 
     const rendered = phase719RenderArtifactVisualCard(markdown);
