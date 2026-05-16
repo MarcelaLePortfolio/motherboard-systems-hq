@@ -1,0 +1,211 @@
+
+{
+
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+
+  "$id": "contracts/artifacts/semantic-artifact-schema.v1.json",
+
+  "title": "Semantic Artifact Schema v1",
+
+  "description": "Additive, non-breaking schema for future worker-authored semantic artifact metadata. Markdown fallback remains authoritative.",
+
+  "type": "object",
+
+  "additionalProperties": false,
+
+  "required": [
+
+    "schema_version",
+
+    "artifact_kind",
+
+    "semantic_intent",
+
+    "fallback_markdown"
+
+  ],
+
+  "properties": {
+
+    "schema_version": {
+
+      "type": "string",
+
+      "const": "semantic-artifact.v1"
+
+    },
+
+    "artifact_kind": {
+
+      "type": "string",
+
+      "enum": [
+
+        "markdown",
+
+        "visual",
+
+        "report",
+
+        "plan",
+
+        "checklist",
+
+        "launch_card",
+
+        "unknown"
+
+      ]
+
+    },
+
+    "semantic_intent": {
+
+      "type": "string",
+
+      "enum": [
+
+        "inform",
+
+        "summarize",
+
+        "plan",
+
+        "persuade",
+
+        "visualize",
+
+        "compare",
+
+        "execute",
+
+        "unknown"
+
+      ]
+
+    },
+
+    "visual_artifact": {
+
+      "type": "boolean",
+
+      "default": false
+
+    },
+
+    "title": {
+
+      "type": "string"
+
+    },
+
+    "sections": {
+
+      "type": "array",
+
+      "items": {
+
+        "type": "object",
+
+        "additionalProperties": false,
+
+        "required": [
+
+          "label",
+
+          "content"
+
+        ],
+
+        "properties": {
+
+          "label": {
+
+            "type": "string"
+
+          },
+
+          "content": {
+
+            "type": "string"
+
+          },
+
+          "priority": {
+
+            "type": "integer",
+
+            "minimum": 0
+
+          }
+
+        }
+
+      },
+
+      "default": []
+
+    },
+
+    "visual_composition": {
+
+      "type": "object",
+
+      "additionalProperties": false,
+
+      "properties": {
+
+        "layout": {
+
+          "type": "string",
+
+          "enum": [
+
+            "card",
+
+            "poster",
+
+            "brief",
+
+            "dashboard",
+
+            "unknown"
+
+          ]
+
+        },
+
+        "tone": {
+
+          "type": "string"
+
+        },
+
+        "audience": {
+
+          "type": "string"
+
+        },
+
+        "render_hint": {
+
+          "type": "string"
+
+        }
+
+      }
+
+    },
+
+    "fallback_markdown": {
+
+      "type": "string",
+
+      "description": "Authoritative markdown fallback preserved for persistence, recovery, and non-visual rendering."
+
+    }
+
+  }
+
+}
+
