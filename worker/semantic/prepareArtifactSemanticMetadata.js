@@ -21,7 +21,15 @@ function prepareArtifactSemanticMetadata(input) {
 
   try {
 
-    const payload = composeSemanticArtifact(input);
+    const source = String(input || '').trim();
+
+    if (!source) {
+
+      return null;
+
+    }
+
+    const payload = composeSemanticArtifact(source);
 
     const validation = validateSemanticArtifact(payload);
 
