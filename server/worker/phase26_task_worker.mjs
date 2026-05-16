@@ -332,7 +332,6 @@ async function completeSuccess(pool, task, executionResult = null) {
         status: completed.status,
         source: "worker",
 
-        ...(semanticMetadata ? semanticMetadata : {}),
         claimed_by: completed.claimed_by,
         completed_at: completed.completed_at,
         communicationResult: executionResult?.communicationResult ?? null,
