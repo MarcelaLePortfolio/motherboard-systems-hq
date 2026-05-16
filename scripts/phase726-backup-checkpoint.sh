@@ -19,19 +19,7 @@ echo "Commit: ${COMMIT}"
 
 echo "Destination: ${BACKUP_DIR}"
 
-rsync -a \
-
-  --exclude 'node_modules' \
-
-  --exclude '.git/objects' \
-
-  --exclude '.next' \
-
-  --exclude 'dist' \
-
-  --exclude 'coverage' \
-
-  ./ "${BACKUP_DIR}/"
+rsync -a --exclude='node_modules' --exclude='.git/objects' --exclude='.next' --exclude='dist' --exclude='coverage' ./ "${BACKUP_DIR}/"
 
 git rev-parse HEAD > "${BACKUP_DIR}/FULL_COMMIT_SHA.txt"
 
