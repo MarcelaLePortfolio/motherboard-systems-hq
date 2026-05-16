@@ -47,7 +47,11 @@ function classifyArtifact(input) {
 
     'design',
 
-    'preview'
+    'preview',
+
+    'dashboard',
+
+    'briefing visual'
 
   ]);
 
@@ -56,6 +60,10 @@ function classifyArtifact(input) {
   if (visualArtifact && includesAny(text, ['launch card', 'card'])) {
 
     artifactKind = 'launch_card';
+
+  } else if (visualArtifact && includesAny(text, ['dashboard'])) {
+
+    artifactKind = 'visual';
 
   } else if (visualArtifact) {
 
