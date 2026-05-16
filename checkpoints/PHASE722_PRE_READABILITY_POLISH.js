@@ -969,43 +969,13 @@
 
     ].filter(([, value]) => String(value || "").trim());
 
-    function phase722NormalizeSemanticText(value) {
-
-      return String(value || "")
-
-        .replace(/Standard execution prepared for:/gi, "")
-
-        .replace(/Prepared artifact for:/gi, "")
-
-        .replace(/\s+/g, " ")
-
-        .trim()
-
-        .toLowerCase();
-
-    }
-
-    function phase722IsDuplicateSemanticText(a, b) {
-
-      const left = phase722NormalizeSemanticText(a);
-
-      const right = phase722NormalizeSemanticText(b);
-
-      return Boolean(left && right && (left === right || left.includes(right) || right.includes(left)));
-
-    }
-
     const semanticOperatorSummary = semanticEnvelope ? [
 
-      semanticEnvelope.task_summary && !phase722IsDuplicateSemanticText(semanticEnvelope.task_summary, displaySummary)
-
-        ? ["Semantic Summary", semanticEnvelope.task_summary]
-
-        : null,
+      semanticEnvelope.task_summary ? ["Semantic Summary", semanticEnvelope.task_summary] : null,
 
       Array.isArray(semanticEnvelope.actionable_outputs) && semanticEnvelope.actionable_outputs.length
 
-        ? ["Actionable Outputs", semanticEnvelope.actionable_outputs.filter((item) => !phase722IsDuplicateSemanticText(item, displayDeliverable)).join("\n")]
+        ? ["Actionable Outputs", semanticEnvelope.actionable_outputs.join("\n")]
 
         : null,
 
@@ -1015,13 +985,9 @@
 
         : null,
 
-      semanticEnvelope.operator_next_steps && !phase722IsDuplicateSemanticText(semanticEnvelope.operator_next_steps, nextSteps)
+      semanticEnvelope.operator_next_steps ? ["Operator Next Steps", semanticEnvelope.operator_next_steps] : null
 
-        ? ["Operator Next Steps", semanticEnvelope.operator_next_steps]
-
-        : null
-
-    ].filter((entry) => entry && String(entry[1] || "").trim()) : [];
+    ].filter(Boolean) : [];
 
     const chips = [
 
@@ -1057,7 +1023,7 @@
 
               <section style="border:1px solid rgba(45,212,191,.24);border-radius:18px;background:rgba(6,78,59,.18);padding:18px;">
 
-                <div style="font-size:11px;text-transform:uppercase;letter-spacing:.18em;color:#5eead4;font-weight:900;margin-bottom:12px;">Semantic Insights</div>
+                <div style="font-size:11px;text-transform:uppercase;letter-spacing:.18em;color:#5eead4;font-weight:900;margin-bottom:12px;">Semantic Operator Summary</div>
 
                 <div style="display:grid;gap:10px;">
 
@@ -1081,7 +1047,7 @@
 
           ` : ""}
 
-          <div style="display:grid;grid-template-columns:minmax(0,1fr);gap:14px;padding:${semanticOperatorSummary.length ? "14px" : "22px"} 24px 10px 24px;">
+          <div style="display:grid;grid-template-columns:minmax(0,1fr);gap:14px;padding:22px 24px 10px 24px;">
 
             ${enrichedSections.map(([label, value]) => `
 
