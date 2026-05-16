@@ -13,7 +13,7 @@ echo "TASK RESPONSE:"
 
 echo "${TASK_RESPONSE}"
 
-TASK_ID=$(node -e 'const json=JSON.parse(process.env.TASK_RESPONSE); console.log(json.task_id || json.taskId || json.id || "");' TASK_RESPONSE="${TASK_RESPONSE}")
+TASK_ID=$(node -e 'const fs=require("fs"); const raw=fs.readFileSync(0,"utf8"); const json=JSON.parse(raw); console.log(json.task_id || json.taskId || json.id || "");' <<< "${TASK_RESPONSE}")
 
 if [ -z "${TASK_ID}" ]; then
 
@@ -31,9 +31,11 @@ sleep 10
 
 TASK_JSON=$(curl -sS "http://localhost:3000/api/tasks")
 
-TASK_JSON="${TASK_JSON}" TASK_ID="${TASK_ID}" node - <<'NODE'
+echo "${TASK_JSON}" | TASK_ID="${TASK_ID}" node - <<'NODE'
 
-const data = JSON.parse(process.env.TASK_JSON);
+const fs = require("fs");
+
+const data = JSON.parse(fs.readFileSync(0, "utf8"));
 
 const tasks = Array.isArray(data)
 
