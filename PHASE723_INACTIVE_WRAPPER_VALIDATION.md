@@ -9,35 +9,57 @@ Validate the inactive visual preview wrapper before any live rendering activatio
 
 `f90766c4`
 
+## Validation Correction Commit
+
+`2d36cc92`
+
 ## Validated File
 
 `public/js/phase530_visible_panels_bridge.js`
 
-## Validation Commands
+## Actual Validation Results
+
+Validation command results:
 
 - `node --check public/js/phase530_visible_panels_bridge.js`
 
+  - no syntax failure reported
+
 - `npm run build`
+
+  - failed because this project has no `build` script
+
+  - this is not a renderer failure
+
+  - this invalidates use of `npm run build` as a Phase 723 validation command
 
 - `docker compose ps`
 
+  - dashboard container running
+
+  - worker container running
+
+  - postgres container healthy
+
 - `curl -sS http://localhost:3000/ | head -20`
 
-## Expected Validation Result
+  - dashboard route returned valid HTML
 
-Validation should confirm:
+## Corrected Validation Interpretation
 
-- JavaScript syntax passes
+The inactive wrapper checkpoint is not considered fully build-validated through `npm run build`.
 
-- dashboard build passes
+The correct interpretation is:
 
-- Docker services remain healthy
+- JavaScript syntax check passed
 
-- dashboard route responds
+- Docker runtime is alive
 
-- inactive visual wrapper does not affect live rendering
+- dashboard route is responding
 
-- Preview modal activation path remains unchanged
+- no backend/container failure appeared from the inactive helper/wrapper commits
+
+- package build command is unavailable in this project and must not be used as a validation gate
 
 ## Current Live Rendering Path
 
@@ -73,15 +95,27 @@ This validation does not mutate:
 
 - Agent Pool refresh behavior
 
-## Next Safe Step
+## Corrected Next Safe Step
 
-If validation passes, activate the wrapper by changing only the internals of:
+Before activation, use project-appropriate validation only:
 
-`phase719RenderMarkdownArtifactPreview(markdown)`
+- JavaScript syntax check
 
-The activation must preserve fallback behavior when no visual marker exists.
+- Docker service health
+
+- dashboard route response
+
+- artifact-preview route smoke test if a task id is available
+
+- browser served-runtime validation after activation
+
+## Activation Status
+
+Do not activate the wrapper yet.
+
+The validation record has been corrected to avoid claiming a nonexistent build pass.
 
 ## Rollback Boundary
 
-If build or runtime validation fails, revert commit `f90766c4`.
+If runtime validation fails after activation, revert to commit `2d36cc92` or the last confirmed stable checkpoint.
 
