@@ -231,7 +231,39 @@ apiTasksRouter.post("/create", async (req, res) => {
 
     const b = _asJson(req);
 
-    let run_id = b.run_id ?? b.runId ?? null;
+    
+
+    const taskTitle = (
+
+      b.title ??
+
+      b.description ??
+
+      b.prompt ??
+
+      b.input ??
+
+      b.message ??
+
+      b.task ??
+
+      b.payload?.title ??
+
+      b.payload?.description ??
+
+      b.payload?.prompt ??
+
+      b.payload?.input ??
+
+      b.payload?.message ??
+
+      b.payload?.task ??
+
+      null
+
+    );
+
+let run_id = b.run_id ?? b.runId ?? null;
     if (!run_id) run_id = `run_${crypto.randomUUID()}`;
     run_id = String(run_id);
 
@@ -262,7 +294,7 @@ apiTasksRouter.post("/create", async (req, res) => {
       `,
       [
         task_id,
-        b.title ?? null,
+        taskTitle ? String(taskTitle) : null,
         b.status ?? "queued",
         b.kind ?? null,
         JSON.stringify(b.payload ?? b.meta ?? {}),
@@ -279,7 +311,7 @@ apiTasksRouter.post("/create", async (req, res) => {
       run_id,
       actor: b.actor ?? b.agent ?? "api",
       payload: {
-        title: b.title ?? null,
+        title: taskTitle ? String(taskTitle) : null,
         agent: b.agent ?? null,
         status: b.status ?? "delegated",
         source: b.source ?? "api",

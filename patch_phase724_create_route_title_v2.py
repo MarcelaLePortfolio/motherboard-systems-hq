@@ -1,17 +1,19 @@
 
 from pathlib import Path
 
+import re
+
 path = Path("server/routes/api-tasks-postgres.mjs")
 
 text = path.read_text()
 
-old = '''    const b = _asJson(req);
+if "const taskTitle = (" not in text:
 
-    let run_id = b.run_id ?? b.runId ?? null;
+    text = re.sub(
 
-'''
+        r"(    const b = _asJson\(req\);\s*)",
 
-new = '''    const b = _asJson(req);
+        r"""\1
 
     const taskTitle = (
 
@@ -43,15 +45,17 @@ new = '''    const b = _asJson(req);
 
     );
 
-    let run_id = b.run_id ?? b.runId ?? null;
+""",
 
-'''
+        text,
 
-if old not in text:
+        count=1,
 
-    raise SystemExit("Could not find create-route body insertion point.")
+    )
 
-text = text.replace(old, new, 1)
+if "const taskTitle = (" not in text:
+
+    raise SystemExit("Failed to insert taskTitle normalization.")
 
 text = text.replace("        b.title ?? null,\n", "        taskTitle ? String(taskTitle) : null,\n", 1)
 
