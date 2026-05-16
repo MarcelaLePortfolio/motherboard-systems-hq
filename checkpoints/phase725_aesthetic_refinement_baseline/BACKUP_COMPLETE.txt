@@ -1,0 +1,41 @@
+
+Phase 725 backup completed:
+
+Stable commit:
+
+2b078d8b Phase 725: mark visual polish baseline backup ready
+
+External snapshot:
+
+ /Volumes/Rio Drive/Motherboard_Storage/snapshots/phase715-pre-execution-evidence-ui_20260515_204428
+
+Snapshot contents verified:
+
+- source-2b078d8b.tar.gz
+
+- docker-compose-ps.txt
+
+- docker-ps.txt
+
+- git-log.txt
+
+- git-status.txt
+
+- api-tasks.json
+
+- api-guidance.json
+
+- api-chat-context.json
+
+- task-events-sse.txt
+
+- manifest.txt
+
+Note:
+
+Archive script reported one curl timeout, but completed snapshot creation successfully.
+
+Next safe corridor:
+
+Pivot away from Preview shell polish and begin artifact intelligence / preview-artifact convergence planning.
+
