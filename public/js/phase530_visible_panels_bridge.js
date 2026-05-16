@@ -1317,7 +1317,25 @@
 
   function phase719RenderMarkdownArtifactPreview(markdown) {
 
-    const rendered = phase723RenderVisualArtifactPreviewCandidate(markdown);
+    const visualCandidate = phase723RenderVisualArtifactPreviewCandidate(markdown);
+
+    const extractedVisual = phase723ExtractVisualArtifactBlock(markdown);
+
+    if (extractedVisual.hasVisualArtifact) {
+
+      return `
+
+        <div data-phase724-visual-only-preview="true" style="display:grid;gap:12px;">
+
+          ${visualCandidate}
+
+        </div>
+
+      `;
+
+    }
+
+    const rendered = visualCandidate;
 
     return `
 
