@@ -1,0 +1,15 @@
+
+Phase 725 artifact Preview endpoint validation:
+
+Known completed visual task:
+
+t_b23890b9-8159-4bb9-81b8-9a89fa514ffb
+
+Validation target:
+
+- /api/tasks/:task_id/artifact-preview
+
+- confirm route still returns successful artifact preview payload after visual shell polish
+
+- confirm no git drift after validation
+
