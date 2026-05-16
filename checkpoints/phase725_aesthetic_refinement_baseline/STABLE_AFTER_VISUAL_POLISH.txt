@@ -1,0 +1,27 @@
+
+Phase 725 stable checkpoint after first visual Preview polish:
+
+Current stable commit:
+
+835c00bd Phase 725: validate artifact preview endpoint
+
+Validated:
+
+- dashboard root returns 200 OK
+
+- /api/tasks returns 200 OK
+
+- known visual artifact preview endpoint returns 200 OK
+
+- docker dashboard, worker, and postgres remain up
+
+- UI-only visual Preview shell polish applied successfully
+
+- no backend, retry, SSE, polling, schema, or persistence contracts mutated
+
+Next safe corridor:
+
+- browser-confirm visual appearance
+
+- then decide whether to refine artifact content generation quality or keep polishing renderer shell
+
