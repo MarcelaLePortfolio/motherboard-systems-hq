@@ -3,85 +3,53 @@
 
 ## Finding
 
-Phase 723 frontend rendering is validated, but delegation-generated visual artifacts are not yet truly generative.
+Phase 723 renderer works correctly.
+
+The remaining gap is worker-side generation.
+
+Delegation currently preserves marker syntax but does not synthesize HTML visual cards automatically.
 
 ## Evidence
 
-Delegated task:
-
-`Create a previewable visual artifact demo for Moonrise Bakery...`
-
-Result:
-
-- Visual Artifact container rendered
-
-- marker extraction worked
-
-- sanitized rendering path worked
-
-- but content inside the visual block was literal placeholder text:
+The Moonrise Bakery task rendered:
 
 `[a polished HTML visual card for Moonrise Bakery]`
 
-## Interpretation
+instead of actual generated HTML.
 
-This is not a Phase 723 renderer failure.
+## Required Outcome
 
-This is a worker/delegation artifact-generation gap.
+Operators should be able to delegate natural requests like:
 
-The worker preserved the marker contract but did not synthesize the requested HTML visual card.
+`Create a visual launch card for Moonrise Bakery.`
 
-## Required Phase 724 Target
+without manually writing marker syntax.
 
-Make visual artifact generation automatic from natural delegation intent.
+The worker should internally:
 
-The user should be able to delegate:
+- generate safe HTML
 
-`Create a visual landing card for Moonrise Bakery.`
+- wrap markers automatically
 
-The system should internally produce:
+- preserve markdown fallback sections
 
-- marker-wrapped embedded HTML
+## Scope
 
-- semantic markdown fallback
-
-- preview-safe visual card
-
-- no user-facing marker requirement
-
-## Phase 724 Scope
-
-Inspect and update the worker artifact-generation layer so it can:
-
-1. detect visual artifact intent
-
-2. synthesize a safe HTML visual block
-
-3. wrap it in Phase 723 markers internally
-
-4. preserve markdown fallback sections
-
-5. avoid exposing marker syntax to the operator
-
-## Forbidden Scope
+Inspect worker artifact-generation logic only.
 
 Do not modify:
 
-- Phase 723 renderer
+- renderer
 
-- artifact preview route
+- preview route
 
 - retry contract
 
-- SSE pipeline
+- SSE
 
 - DB schema
 
-- task polling
+- polling
 
 - Agent Pool behavior
-
-## Next Step
-
-Inspect the worker artifact generation code and identify the safest prompt/template insertion point.
 
