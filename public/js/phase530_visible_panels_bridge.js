@@ -1317,7 +1317,7 @@
 
   function phase719RenderMarkdownArtifactPreview(markdown) {
 
-    const rendered = phase719RenderArtifactVisualCard(markdown);
+    const rendered = phase723RenderVisualArtifactPreviewCandidate(markdown);
 
     return `
 
