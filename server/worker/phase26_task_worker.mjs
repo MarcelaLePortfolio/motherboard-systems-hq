@@ -10,6 +10,13 @@ import { resolveExecutionPolicy } from "./execution_policy_resolver.mjs";
 import { logExecutionPolicyRuntime } from "./execution_policy_runtime_logger.mjs";
 import { executeTaskWithContract } from "./execute_task_with_contract.mjs";
 
+let prepareArtifactSemanticMetadata = null;
+try {
+  ({ prepareArtifactSemanticMetadata } = require("../../worker/semantic/prepareArtifactSemanticMetadata.js"));
+} catch {
+  prepareArtifactSemanticMetadata = null;
+}
+
 const POSTGRES_URL =
   process.env.POSTGRES_URL ||
   process.env.DATABASE_URL ||
@@ -288,6 +295,11 @@ async function completeSuccess(pool, task, executionResult = null) {
 
       fs.writeFileSync(artifactPath, content, "utf8");
 
+      const semanticMetadata =
+        typeof prepareArtifactSemanticMetadata === "function"
+          ? prepareArtifactSemanticMetadata(`${taskTitle}\n\n${artifactSummary}\n\n${artifactDeliverable}`)
+          : null;
+
       return {
 
         type: "markdown",
@@ -300,7 +312,9 @@ async function completeSuccess(pool, task, executionResult = null) {
 
         created_at: new Date().toISOString(),
 
-        source: "worker"
+        source: "worker",
+
+        ...(semanticMetadata ? semanticMetadata : {})
 
       };
 
@@ -317,6 +331,8 @@ async function completeSuccess(pool, task, executionResult = null) {
       payload: {
         status: completed.status,
         source: "worker",
+
+        ...(semanticMetadata ? semanticMetadata : {}),
         claimed_by: completed.claimed_by,
         completed_at: completed.completed_at,
         communicationResult: executionResult?.communicationResult ?? null,
