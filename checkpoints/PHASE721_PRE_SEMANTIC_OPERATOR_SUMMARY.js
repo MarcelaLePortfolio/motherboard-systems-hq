@@ -969,26 +969,6 @@
 
     ].filter(([, value]) => String(value || "").trim());
 
-    const semanticOperatorSummary = semanticEnvelope ? [
-
-      semanticEnvelope.task_summary ? ["Semantic Summary", semanticEnvelope.task_summary] : null,
-
-      Array.isArray(semanticEnvelope.actionable_outputs) && semanticEnvelope.actionable_outputs.length
-
-        ? ["Actionable Outputs", semanticEnvelope.actionable_outputs.join("\n")]
-
-        : null,
-
-      Array.isArray(semanticEnvelope.evidence_notes) && semanticEnvelope.evidence_notes.length
-
-        ? ["Evidence Notes", semanticEnvelope.evidence_notes.join("\n")]
-
-        : null,
-
-      semanticEnvelope.operator_next_steps ? ["Operator Next Steps", semanticEnvelope.operator_next_steps] : null
-
-    ].filter(Boolean) : [];
-
     const chips = [
 
       status ? `<span style="display:inline-flex;align-items:center;border:1px solid rgba(134,239,172,.38);background:rgba(20,83,45,.22);color:#bbf7d0;border-radius:999px;padding:5px 10px;font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.08em;">${phase719EscapePreviewHtml(status)}</span>` : "",
@@ -1016,36 +996,6 @@
             ${task ? `<div style="font-size:15px;line-height:1.55;color:#cbd5e1;max-width:760px;">${phase719EscapePreviewHtml(task)}</div>` : ""}
 
           </div>
-
-          ${semanticOperatorSummary.length ? `
-
-            <div style="display:grid;grid-template-columns:minmax(0,1fr);gap:12px;padding:22px 24px 0 24px;">
-
-              <section style="border:1px solid rgba(45,212,191,.24);border-radius:18px;background:rgba(6,78,59,.18);padding:18px;">
-
-                <div style="font-size:11px;text-transform:uppercase;letter-spacing:.18em;color:#5eead4;font-weight:900;margin-bottom:12px;">Semantic Operator Summary</div>
-
-                <div style="display:grid;gap:10px;">
-
-                  ${semanticOperatorSummary.map(([label, value]) => `
-
-                    <div style="border-top:1px solid rgba(45,212,191,.16);padding-top:10px;">
-
-                      <div style="font-size:10px;text-transform:uppercase;letter-spacing:.16em;color:#99f6e4;font-weight:900;margin-bottom:5px;">${phase719EscapePreviewHtml(label)}</div>
-
-                      <div style="font-size:14px;line-height:1.55;color:#ccfbf1;white-space:pre-wrap;">${phase719EscapePreviewHtml(value)}</div>
-
-                    </div>
-
-                  `).join("")}
-
-                </div>
-
-              </section>
-
-            </div>
-
-          ` : ""}
 
           <div style="display:grid;grid-template-columns:minmax(0,1fr);gap:14px;padding:22px 24px 10px 24px;">
 
