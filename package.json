@@ -3,7 +3,9 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "verify:replay": "tsx scripts/_local/verification/check-replay-verification.ts"
+    "verify:replay": "tsx scripts/_local/verification/check-replay-verification.ts",
+    "phase726:semantic:inspect": "node worker/semantic/inspectSemanticPipeline.js",
+    "phase726:semantic:test": "node worker/semantic/classifyArtifact.test.js && node worker/visual/generateVisualMetadata.test.js && node worker/semantic/composeSemanticArtifact.test.js && node worker/semantic/validateSemanticArtifact.test.js && node worker/semantic/inspectSemanticPipeline.js"
   },
   "dependencies": {
     "better-sqlite3": "^12.9.0",
@@ -14,4 +16,4 @@
   "devDependencies": {
     "typescript": "^6.0.3"
   }
-}
+}\n
