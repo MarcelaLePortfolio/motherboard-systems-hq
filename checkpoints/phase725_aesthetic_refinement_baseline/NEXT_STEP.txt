@@ -1,0 +1,23 @@
+
+Phase 725 next corridor:
+
+Begin UI-only aesthetic refinement of the visual Preview surface.
+
+Hard boundaries:
+
+- no backend mutation
+
+- no retry mutation
+
+- no schema mutation
+
+- no artifact persistence mutation
+
+- no SSE mutation
+
+- no task polling mutation
+
+Target:
+
+Improve visual composition, spacing, typography, and presentation quality inside the existing Preview rendering path only.
+
