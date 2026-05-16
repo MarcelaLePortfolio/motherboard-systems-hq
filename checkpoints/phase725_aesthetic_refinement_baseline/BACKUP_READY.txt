@@ -1,0 +1,23 @@
+
+Phase 725 backup-ready checkpoint:
+
+Current stable commit:
+
+4acad301 Phase 725: seal stable visual polish checkpoint
+
+State:
+
+- Visual Preview shell polish completed
+
+- Dashboard root validated
+
+- /api/tasks validated
+
+- artifact-preview endpoint validated
+
+- Docker dashboard, worker, and postgres stable
+
+- Runtime contracts preserved
+
+- Next corridor should pivot away from shell polish and toward artifact intelligence / preview-artifact convergence
+
