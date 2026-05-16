@@ -271,7 +271,7 @@ export function interpretTaskExecution(task = {}) {
 
       ok: true,
 
-      strategy_applied: "visual_artifact_generation",
+      strategy_applied: "prompt_augmentation",
 
       notes: "visual artifact intent detected",
 
@@ -281,7 +281,9 @@ export function interpretTaskExecution(task = {}) {
 
         ...meta,
 
-        visual_artifact: true
+        visual_artifact: true,
+
+        visual_artifact_strategy: "visual_artifact_generation"
 
       }
 
