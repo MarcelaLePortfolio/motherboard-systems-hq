@@ -5,11 +5,7 @@ set -euo pipefail
 
 echo "Phase 726 runtime semantic validation starting..."
 
-TASK_RESPONSE=$(curl -sS -X POST "http://localhost:3000/api/tasks/create" \
-
-  -H "Content-Type: application/json" \
-
-  --data-raw '{"title":"Phase 726 runtime semantic validation","task":"Create a luxury visual launch card for Moonrise Bakery customers"}')
+TASK_RESPONSE=$(curl -sS -X POST "http://localhost:3000/api/tasks/create" -H "Content-Type: application/json" --data-raw '{"title":"Phase 726 runtime semantic validation","task":"Create a luxury visual launch card for Moonrise Bakery customers"}')
 
 echo ""
 
