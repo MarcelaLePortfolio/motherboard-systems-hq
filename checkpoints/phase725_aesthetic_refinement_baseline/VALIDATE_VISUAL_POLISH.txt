@@ -1,0 +1,29 @@
+
+Phase 725 visual polish validation target:
+
+Commit:
+
+c0209605 Phase 725: polish visual preview shell
+
+Validation scope:
+
+- Docker services remain healthy
+
+- Dashboard health route responds
+
+- Artifact preview route remains available
+
+- UI-only visual Preview shell polish did not mutate backend, retry, SSE, polling, schema, or persistence contracts
+
+Expected result:
+
+- dashboard healthy
+
+- worker healthy
+
+- postgres healthy
+
+- preview route still functional
+
+- no git drift after validation
+
