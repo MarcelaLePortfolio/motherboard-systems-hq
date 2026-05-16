@@ -1177,6 +1177,44 @@
 
   }
 
+  // Phase 723 — minimal visual artifact sanitizer helper (non-active)
+
+  function phase723SanitizeVisualArtifactHtml(html) {
+
+    const source = String(html || "");
+
+    const withoutUnsafeBlocks = source
+
+      .replace(/<\s*script\b[\s\S]*?<\s*\/\s*script\s*>/gi, "")
+
+      .replace(/<\s*style\b[\s\S]*?<\s*\/\s*style\s*>/gi, "")
+
+      .replace(/<\s*iframe\b[\s\S]*?<\s*\/\s*iframe\s*>/gi, "")
+
+      .replace(/<\s*object\b[\s\S]*?<\s*\/\s*object\s*>/gi, "")
+
+      .replace(/<\s*embed\b[\s\S]*?>/gi, "")
+
+      .replace(/<\s*link\b[\s\S]*?>/gi, "")
+
+      .replace(/<\s*meta\b[\s\S]*?>/gi, "");
+
+    return withoutUnsafeBlocks
+
+      .replace(/\s+on[a-z]+\s*=\s*"[^"]*"/gi, "")
+
+      .replace(/\s+on[a-z]+\s*=\s*'[^']*'/gi, "")
+
+      .replace(/\s+on[a-z]+\s*=\s*[^\s>]+/gi, "")
+
+      .replace(/\s+(href|src)\s*=\s*"javascript:[^"]*"/gi, "")
+
+      .replace(/\s+(href|src)\s*=\s*'javascript:[^']*'/gi, "")
+
+      .replace(/\s+(href|src)\s*=\s*javascript:[^\s>]+/gi, "");
+
+  }
+
   // Phase 723 — visual artifact block extraction helper (non-active)
 
   function phase723ExtractVisualArtifactBlock(markdown) {
