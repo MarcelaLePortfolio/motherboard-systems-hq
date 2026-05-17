@@ -1,15 +1,27 @@
 
 /**
 
- * Phase 726 artifact semantic metadata adapter.
+ * Phase 728 artifact semantic metadata adapter.
 
  *
 
- * Inactive helper.
+ * Additive runtime-attached helper.
 
- * Not imported by the live worker.
+ * Prepares optional semantic metadata beside an existing artifact object.
 
- * Intended future use: prepare optional semantic metadata beside an existing artifact object.
+ *
+
+ * Boundary:
+
+ * - artifact-scoped metadata only
+
+ * - observational semantics only
+
+ * - renderer-independent
+
+ * - non-authoritative
+
+ * - no task, retry, SSE, route, database, or persistence contract mutation
 
  */
 
