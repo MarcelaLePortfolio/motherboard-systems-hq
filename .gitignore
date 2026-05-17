@@ -1,67 +1,11 @@
 
 node_modules/
 
-.next/
-
-dist/
-
-build/
-
 .env
 
 .env.local
 
 .DS_Store
 
-# Runtime logs
-
-*.log
-
-logs/
-
-# Heavy local artifacts / snapshots
-
-*.tar
-
-*.tar.gz
-
-*.tgz
-
-*.zip
-
-*.7z
-
-snapshot_*.tar.gz
-
-snapshot_*.tar
-
-*_snapshot.tar.gz
-
-*_snapshot.tar
-
-docker-image-*.tar
-
-docker_*.tar
-
-Docker.raw
-
-# Local-only storage mirrors
-
-local_storage/
-
-external_storage/
-
-Motherboard_Storage/
-
-# OS/editor temp
-
-.vscode/*
-
-!.vscode/settings.json
-
-.idea/
-
-*.swp
-
-*.tmp
+tmp/
 
