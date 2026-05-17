@@ -67,6 +67,14 @@
 
     }
 
+    .meta {
+
+      color: #79c0ff;
+
+      margin-bottom: 8px;
+
+    }
+
     pre {
 
       overflow-x: auto;
@@ -113,35 +121,55 @@
 
         const response = await fetch("/api/tasks");
 
-        const tasks = await response.json();
+        const payload = await response.json();
+
+        const tasks = Array.isArray(payload) ? payload : payload.tasks || [];
 
         results.innerHTML = "";
 
         for (const task of tasks.slice(0, 15)) {
 
+          const artifact = task.artifact || null;
+
+          const semanticArtifact =
+
+            artifact?.semantic_artifact ||
+
+            artifact?.semantic ||
+
+            artifact?.semantic_metadata ||
+
+            null;
+
           const card = document.createElement("div");
 
           card.className = "card";
-
-          const semantic =
-
-            task.artifact?.semantic ||
-
-            task.artifact?.semantic_metadata ||
-
-            null;
 
           card.innerHTML = `
 
             <div class="label">${task.title || "Untitled Task"}</div>
 
+            <div class="meta">task_id: ${task.task_id || task.id || "unknown"}</div>
+
+            <div class="meta">status: ${task.status || "unknown"}</div>
+
+            <div class="meta">semantic schema: ${artifact?.semantic_artifact_schema || "none"}</div>
+
+            <div class="meta">semantic validated: ${artifact?.semantic_artifact_validated === true ? "true" : "false"}</div>
+
             <pre>${JSON.stringify({
 
-              task_id: task.task_id,
+              task_id: task.task_id || task.id || null,
 
-              status: task.status,
+              status: task.status || null,
 
-              semantic
+              artifact_type: artifact?.type || null,
+
+              semantic_artifact_schema: artifact?.semantic_artifact_schema || null,
+
+              semantic_artifact_validated: artifact?.semantic_artifact_validated || false,
+
+              semantic_artifact: semanticArtifact
 
             }, null, 2)}</pre>
 
