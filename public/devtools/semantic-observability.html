@@ -1,0 +1,179 @@
+
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+
+  <meta charset="UTF-8" />
+
+  <title>Semantic Observability</title>
+
+  <style>
+
+    body {
+
+      background: #0f1115;
+
+      color: #e6edf3;
+
+      font-family: monospace;
+
+      padding: 24px;
+
+    }
+
+    h1 {
+
+      font-size: 20px;
+
+      margin-bottom: 16px;
+
+    }
+
+    .warning {
+
+      border: 1px solid #ffcc66;
+
+      padding: 12px;
+
+      margin-bottom: 24px;
+
+      background: rgba(255, 204, 102, 0.08);
+
+    }
+
+    .card {
+
+      border: 1px solid #30363d;
+
+      padding: 16px;
+
+      margin-bottom: 16px;
+
+      border-radius: 8px;
+
+      background: #161b22;
+
+    }
+
+    .label {
+
+      color: #7ee787;
+
+      margin-bottom: 8px;
+
+      font-weight: bold;
+
+    }
+
+    pre {
+
+      overflow-x: auto;
+
+      white-space: pre-wrap;
+
+      word-break: break-word;
+
+    }
+
+  </style>
+
+</head>
+
+<body>
+
+  <h1>Semantic Observability Corridor</h1>
+
+  <div class="warning">
+
+    READ-ONLY INSPECTION SURFACE<br><br>
+
+    - No renderer authority<br>
+
+    - No execution mutation<br>
+
+    - No retry coupling<br>
+
+    - No orchestration coupling<br>
+
+    - Metadata visibility only
+
+  </div>
+
+  <div id="results"></div>
+
+  <script>
+
+    async function loadTasks() {
+
+      const results = document.getElementById("results");
+
+      try {
+
+        const response = await fetch("/api/tasks");
+
+        const tasks = await response.json();
+
+        results.innerHTML = "";
+
+        for (const task of tasks.slice(0, 15)) {
+
+          const card = document.createElement("div");
+
+          card.className = "card";
+
+          const semantic =
+
+            task.artifact?.semantic ||
+
+            task.artifact?.semantic_metadata ||
+
+            null;
+
+          card.innerHTML = `
+
+            <div class="label">${task.title || "Untitled Task"}</div>
+
+            <pre>${JSON.stringify({
+
+              task_id: task.task_id,
+
+              status: task.status,
+
+              semantic
+
+            }, null, 2)}</pre>
+
+          `;
+
+          results.appendChild(card);
+
+        }
+
+      } catch (err) {
+
+        results.innerHTML = `
+
+          <div class="card">
+
+            <div class="label">ERROR</div>
+
+            <pre>${err.stack || err.message}</pre>
+
+          </div>
+
+        `;
+
+      }
+
+    }
+
+    loadTasks();
+
+  </script>
+
+</body>
+
+</html>
+
