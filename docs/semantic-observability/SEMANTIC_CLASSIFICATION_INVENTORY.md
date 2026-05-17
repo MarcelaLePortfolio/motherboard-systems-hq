@@ -7,39 +7,251 @@ READ-ONLY SEMANTIC OBSERVABILITY
 
 ## Purpose
 
-Document observed semantic classifications without introducing renderer authority or execution coupling.
+Document observed and currently supported semantic classifications without introducing renderer authority, execution coupling, orchestration coupling, or persistence mutation.
 
-## Current Observed semantic_intent Values
+## Phase 728 Status
+
+This inventory is aligned with the canonical Phase 728 semantic surface.
+
+Canonical artifact-scoped fields:
+
+- artifact.semantic_artifact
+
+- artifact.semantic_artifact_schema
+
+- artifact.semantic_artifact_validated
+
+The semantic substrate remains:
+
+- additive
+
+- observational
+
+- runtime-attached
+
+- artifact-scoped
+
+- renderer-independent
+
+- non-authoritative
+
+## semantic_intent Inventory
 
 ### inform
 
-Observed Meaning:
+Observed meaning:
 
 Informational artifact output.
 
-Observed Characteristics:
+Observed characteristics:
 
-- markdown artifact_kind
+- markdown-oriented artifact output
 
 - fallback_markdown present
 
-- visual_artifact often false
+- visual_artifact generally false
 
 - explanation-oriented execution payloads
 
-Authority Level:
+Authority level:
 
 Observational only.
 
-## Current Observed visual_artifact Values
+---
+
+### visualize
+
+Observed meaning:
+
+Visual-capable artifact output.
+
+Observed characteristics:
+
+- visual_artifact true
+
+- visual composition metadata may be present
+
+- visual-only Preview rendering may be eligible
+
+- markdown fallback preserved internally
+
+Authority level:
+
+Advisory and observational only.
+
+---
+
+### summarize
+
+Observed meaning:
+
+Summary-oriented artifact output.
+
+Observed characteristics:
+
+- classification triggered by summary or recap language
+
+- fallback_markdown present
+
+- no renderer authority implied
+
+Authority level:
+
+Observational only.
+
+---
+
+### plan
+
+Observed meaning:
+
+Planning, roadmap, or strategy-oriented artifact output.
+
+Observed characteristics:
+
+- classification triggered by plan, roadmap, or strategy language
+
+- fallback_markdown present
+
+- no orchestration authority implied
+
+Authority level:
+
+Observational only.
+
+---
+
+### compare
+
+Observed meaning:
+
+Comparison-oriented artifact output.
+
+Observed characteristics:
+
+- classification triggered by compare, versus, or vs. language
+
+- fallback_markdown present
+
+- no execution branching implied
+
+Authority level:
+
+Observational only.
+
+---
+
+### execute
+
+Observed meaning:
+
+Execution-language artifact classification.
+
+Observed characteristics:
+
+- classification triggered by execute, run, deploy, or build language
+
+- semantic classification does not grant execution authority
+
+- no task routing mutation implied
+
+Authority level:
+
+Observational only.
+
+## artifact_kind Inventory
+
+### markdown
+
+Observed meaning:
+
+Default artifact classification.
+
+Authority level:
+
+Observational only.
+
+---
+
+### launch_card
+
+Observed meaning:
+
+Visual card-oriented artifact classification.
+
+Observed characteristics:
+
+- visual_artifact usually true
+
+- visual composition metadata may be present
+
+Authority level:
+
+Observational only.
+
+---
+
+### visual
+
+Observed meaning:
+
+General visual artifact classification.
+
+Observed characteristics:
+
+- visual_artifact true
+
+- visual-only Preview rendering may be eligible
+
+Authority level:
+
+Advisory and observational only.
+
+---
+
+### report
+
+Observed meaning:
+
+Report-oriented artifact classification.
+
+Authority level:
+
+Observational only.
+
+---
+
+### plan
+
+Observed meaning:
+
+Plan-oriented artifact classification.
+
+Authority level:
+
+Observational only.
+
+---
+
+### checklist
+
+Observed meaning:
+
+Checklist or steps-oriented artifact classification.
+
+Authority level:
+
+Observational only.
+
+## visual_artifact Inventory
 
 ### false
 
-Observed Meaning:
+Observed meaning:
 
 Artifact treated as non-visual semantic output.
 
-Observed Characteristics:
+Observed characteristics:
 
 - markdown persistence preserved
 
@@ -47,7 +259,7 @@ Observed Characteristics:
 
 - no embedded visual HTML required
 
-Authority Level:
+Authority level:
 
 Advisory only.
 
@@ -55,31 +267,47 @@ Advisory only.
 
 ### true
 
-Observed Meaning:
+Observed meaning:
 
 Artifact classified as visual-capable output.
 
-Observed Characteristics:
+Observed characteristics:
 
-- visual delegation workflow active
+- visual delegation workflow may be active
 
-- visual-only Preview rendering eligible
+- visual-only Preview rendering may be eligible
 
 - markdown fallback preserved internally
 
-Authority Level:
+- visual_composition may be present
+
+Authority level:
 
 Advisory only.
+
+## Optional visual_composition Inventory
+
+Observed status:
+
+Optional metadata for visual-capable artifacts.
+
+Purpose:
+
+Describes visual composition characteristics without granting renderer authority.
+
+Authority level:
+
+Observational only.
 
 ## Current Schema Inventory
 
 ### semantic-artifact.v1
 
-Observed Status:
+Observed status:
 
-Stable during Phase 726–727 validation corridor.
+Stable through Phase 728 semantic consistency alignment.
 
-Observed Properties:
+Observed properties:
 
 - additive
 
@@ -105,6 +333,14 @@ Observed Properties:
 
 - artifact contract mutation
 
+- retry coupling
+
+- SSE mutation
+
+- task route mutation
+
+- persistence schema mutation
+
 ## Future Safe Expansion Areas
 
 Allowed:
@@ -117,6 +353,10 @@ Allowed:
 
 - metadata consistency tracking
 
+- classification audit reports
+
+- historical lineage documentation
+
 Forbidden:
 
 - renderer-authoritative semantics
@@ -124,4 +364,8 @@ Forbidden:
 - orchestration coupling
 
 - semantic execution branching
+
+- semantic retry influence
+
+- semantic persistence expansion
 
