@@ -77,7 +77,7 @@ for dir in git docker system package-inventory shell pm2 env-inventory restore; 
 
 done
 
-mkdir -p \
+for vault_dir in \
 
   "$VAULT_MOUNT/encrypted-secrets/project-env/$STAMP" \
 
@@ -87,7 +87,11 @@ mkdir -p \
 
   "$VAULT_MOUNT/docker-volume-exports/$STAMP" \
 
-  "$VAULT_MOUNT/restore-manifests"
+  "$VAULT_MOUNT/restore-manifests"; do
+
+  mkdir -p "$vault_dir"
+
+done
 
 cd "$PROJECT_ROOT"
 
