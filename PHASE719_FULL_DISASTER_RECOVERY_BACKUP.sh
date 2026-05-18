@@ -45,19 +45,7 @@ curl -s http://localhost:3000/api/tasks > "$BACKUP_DIR/${BACKUP_NAME}_api_tasks.
 
 echo "[7] Repo snapshot"
 
-tar -czf "$BACKUP_DIR/${BACKUP_NAME}_repo.tar.gz" . \
-
-  --exclude=node_modules \
-
-  --exclude=.git \
-
-  --exclude=dist \
-
-  --exclude=build \
-
-  --exclude=.next \
-
-  || true
+tar -czf "$BACKUP_DIR/${BACKUP_NAME}_repo.tar.gz" --exclude=node_modules --exclude=.git --exclude=dist --exclude=build --exclude=.next . || true
 
 echo "[8] Manifest"
 
