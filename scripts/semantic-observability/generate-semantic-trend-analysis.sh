@@ -3,6 +3,14 @@
 
 set -euo pipefail
 
+DEBUG=0
+
+if [[ "${1:-}" == "--debug" ]]; then
+
+  DEBUG=1
+
+fi
+
 HISTORY_FILE="runtime/semantic-preview-planning/semantic-score-history.md"
 
 echo "Semantic Trend Report"
@@ -11,35 +19,59 @@ echo "---------------------"
 
 if [[ ! -f "$HISTORY_FILE" ]]; then
 
-  echo "ERROR: No history file found at $HISTORY_FILE"
+  echo "ERROR: No history file found"
 
   exit 1
 
 fi
 
-# Extract numeric scores from history file
+RAW_LINES=$(grep "consistency score" "$HISTORY_FILE" || true)
 
-SCORES=($(grep "consistency score =" "$HISTORY_FILE" | awk -F= '{print $2}' | tr -d ' '))
+SCORES=($(echo "$RAW_LINES" | awk -F= '{print $2}' | tr -d ' '))
+
+if [[ "$DEBUG" -eq 1 ]]; then
+
+  echo "[DEBUG] Raw lines:"
+
+  echo "$RAW_LINES"
+
+  echo "[DEBUG] Scores:"
+
+  echo "${SCORES[@]}"
+
+fi
 
 COUNT=${#SCORES[@]}
 
 if [[ "$COUNT" -lt 2 ]]; then
 
-  echo "Not enough data for trend analysis."
+  echo "ERROR: Not enough valid score entries (found $COUNT)"
 
-  echo "Entries found: $COUNT"
-
-  exit 0
+  exit 1
 
 fi
+
+FILTERED=()
+
+for s in "${SCORES[@]}"; do
+
+  if [[ "$s" =~ ^[0-9]+$ ]]; then
+
+    FILTERED+=("$s")
+
+  fi
+
+done
+
+SCORES=("${FILTERED[@]}")
+
+COUNT=${#SCORES[@]}
 
 LATEST=${SCORES[$((COUNT-1))]}
 
 PREVIOUS=${SCORES[$((COUNT-2))]}
 
 DELTA=$((LATEST - PREVIOUS))
-
-# Compute simple average
 
 SUM=0
 
@@ -50,8 +82,6 @@ for s in "${SCORES[@]}"; do
 done
 
 AVG=$((SUM / COUNT))
-
-# Simple variance approximation (integer-based)
 
 VAR_SUM=0
 
@@ -78,8 +108,6 @@ echo "Average: $AVG"
 echo "Variance: $VAR"
 
 echo ""
-
-# Trend classification
 
 if [[ "$DELTA" -gt 0 ]]; then
 
@@ -120,6 +148,10 @@ if [[ "$TREND" == "Improving" && "$VOLATILITY" == "Low" ]]; then
 elif [[ "$TREND" == "Degrading" && "$VOLATILITY" == "Low" ]]; then
 
   echo "Direction: Stable downward drift"
+
+elif [[ "$TREND" == "Stable" && "$VOLATILITY" == "Low" ]]; then
+
+  echo "Direction: Flat stable plateau"
 
 else
 
