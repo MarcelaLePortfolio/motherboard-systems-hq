@@ -3,13 +3,27 @@
 
 set -euo pipefail
 
-PROJECT_ROOT="/Users/marcela-dev/Projects/Motherboard_Systems_HQ"
+PROJECT_ROOT="${PROJECT_ROOT:-/Users/marcela-dev/Projects/Motherboard_Systems_HQ}"
 
 BACKUP_ROOT="${BACKUP_ROOT:-$HOME/RioDrive/Motherboard_Systems_Backups}"
 
-if [ ! -d "$(dirname "$BACKUP_ROOT")" ]; then
+EXTERNAL_ROOT="$(dirname "$BACKUP_ROOT")"
 
-  echo "ERROR: External drive root not found: $(dirname "$BACKUP_ROOT")"
+STAMP="$(date +%Y%m%d-%H%M%S)"
+
+SNAPSHOT_DIR="$BACKUP_ROOT/full-environment-recovery-$STAMP"
+
+if [ ! -d "$PROJECT_ROOT" ]; then
+
+  echo "ERROR: Project root not found: $PROJECT_ROOT"
+
+  exit 1
+
+fi
+
+if [ ! -d "$EXTERNAL_ROOT" ]; then
+
+  echo "ERROR: External drive root not found: $EXTERNAL_ROOT"
 
   echo "Set BACKUP_ROOT explicitly if RioDrive is mounted somewhere else."
 
@@ -17,33 +31,15 @@ if [ ! -d "$(dirname "$BACKUP_ROOT")" ]; then
 
 fi
 
-STAMP="$(date +%Y%m%d-%H%M%S)"
-
-SNAPSHOT_DIR="$BACKUP_ROOT/full-environment-recovery-$STAMP"
-
 mkdir -p "$SNAPSHOT_DIR"
 
+for dir in git docker system package-inventory shell cloudflare pm2 env-inventory restore; do
+
+  mkdir -p "$SNAPSHOT_DIR/$dir"
+
+done
+
 cd "$PROJECT_ROOT"
-
-mkdir -p \
-
-  "$SNAPSHOT_DIR/git" \
-
-  "$SNAPSHOT_DIR/docker" \
-
-  "$SNAPSHOT_DIR/system" \
-
-  "$SNAPSHOT_DIR/package-inventory" \
-
-  "$SNAPSHOT_DIR/shell" \
-
-  "$SNAPSHOT_DIR/cloudflare" \
-
-  "$SNAPSHOT_DIR/pm2" \
-
-  "$SNAPSHOT_DIR/env-inventory" \
-
-  "$SNAPSHOT_DIR/restore"
 
 git bundle create "$SNAPSHOT_DIR/git/motherboard-systems-hq.bundle" --all
 
@@ -109,7 +105,7 @@ ls -lah "$HOME/.cloudflared" > "$SNAPSHOT_DIR/cloudflare/cloudflared-directory-l
 
 find "$HOME/.cloudflared" -maxdepth 1 -type f -name "*.json" -print > "$SNAPSHOT_DIR/cloudflare/cloudflared-credential-files.txt" 2>/dev/null || true
 
-find "$HOME" -maxdepth 1 -type f -name "*matilda*.log" -o -name "*cade*.log" -o -name "*effie*.log" > "$SNAPSHOT_DIR/cloudflare/agent-log-files.txt" 2>/dev/null || true
+find "$HOME" -maxdepth 1 \( -name "*matilda*.log" -o -name "*cade*.log" -o -name "*effie*.log" \) -print > "$SNAPSHOT_DIR/cloudflare/agent-log-files.txt" 2>/dev/null || true
 
 pm2 list > "$SNAPSHOT_DIR/pm2/pm2-list.txt" 2>/dev/null || true
 
@@ -131,13 +127,13 @@ Created: $STAMP
 
 1. Install Homebrew, Git, Node, pnpm/npm, Docker Desktop, cloudflared, and PM2 as needed.
 
-2. Clone or restore repo from \`git/motherboard-systems-hq.bundle\`.
+2. Restore repo from git/motherboard-systems-hq.bundle or clone the GitHub remote.
 
 3. Restore required environment files from secure secret storage.
 
 4. Reinstall dependencies using the lockfile present in package inventory.
 
-5. Validate Docker config using \`docker compose config\`.
+5. Validate Docker config using docker compose config.
 
 6. Start services using the project runtime instructions.
 
