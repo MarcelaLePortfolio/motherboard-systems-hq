@@ -5,7 +5,17 @@ set -euo pipefail
 
 PROJECT_ROOT="/Users/marcela-dev/Projects/Motherboard_Systems_HQ"
 
-BACKUP_ROOT="$HOME/RioDrive/Motherboard_Systems_Backups"
+BACKUP_ROOT="${BACKUP_ROOT:-$HOME/RioDrive/Motherboard_Systems_Backups}"
+
+if [ ! -d "$(dirname "$BACKUP_ROOT")" ]; then
+
+  echo "ERROR: External drive root not found: $(dirname "$BACKUP_ROOT")"
+
+  echo "Set BACKUP_ROOT explicitly if RioDrive is mounted somewhere else."
+
+  exit 1
+
+fi
 
 STAMP="$(date +%Y%m%d-%H%M%S)"
 
