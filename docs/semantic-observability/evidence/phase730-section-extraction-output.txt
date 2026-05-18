@@ -1,0 +1,48 @@
+
+INPUT:
+# Summary
+System is stable.
+
+## Next Steps
+Continue safely.
+
+SECTIONS:
+[
+  {
+    "label": "Summary",
+    "content": "System is stable.",
+    "priority": 0
+  },
+  {
+    "label": "Next Steps",
+    "content": "Continue safely.",
+    "priority": 1
+  }
+]
+
+INPUT:
+Context:
+Runtime stable.
+
+Decision:
+Proceed with read-only extraction.
+
+SECTIONS:
+[
+  {
+    "label": "Context",
+    "content": "Runtime stable.",
+    "priority": 0
+  },
+  {
+    "label": "Decision",
+    "content": "Proceed with read-only extraction.",
+    "priority": 1
+  }
+]
+
+INPUT:
+Plain artifact with no explicit sections.
+
+SECTIONS:
+[]

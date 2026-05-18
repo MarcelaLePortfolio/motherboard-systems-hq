@@ -11,7 +11,9 @@ const samples = [
 
   'Create a checklist for artifact validation',
 
-  'Generate an executive dashboard for internal operations'
+  'Generate an executive dashboard for internal operations',
+
+  '# Summary\nSystem is stable.\n\n## Next Steps\nContinue safely.'
 
 ];
 

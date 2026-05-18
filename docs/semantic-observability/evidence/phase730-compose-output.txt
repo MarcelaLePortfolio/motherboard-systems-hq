@@ -1,0 +1,88 @@
+
+INPUT:
+Create a luxury visual launch card for Moonrise Bakery customers
+
+OUTPUT:
+{
+  "schema_version": "semantic-artifact.v1",
+  "artifact_kind": "launch_card",
+  "semantic_intent": "visualize",
+  "visual_artifact": true,
+  "fallback_markdown": "Create a luxury visual launch card for Moonrise Bakery customers",
+  "visual_composition": {
+    "layout": "card",
+    "tone": "elevated",
+    "audience": "customers",
+    "render_hint": "phase726_additive_visual_metadata_only"
+  }
+}
+
+INPUT:
+Summarize the latest execution results
+
+OUTPUT:
+{
+  "schema_version": "semantic-artifact.v1",
+  "artifact_kind": "markdown",
+  "semantic_intent": "summarize",
+  "visual_artifact": false,
+  "fallback_markdown": "Summarize the latest execution results"
+}
+
+INPUT:
+Create a checklist for artifact validation
+
+OUTPUT:
+{
+  "schema_version": "semantic-artifact.v1",
+  "artifact_kind": "checklist",
+  "semantic_intent": "inform",
+  "visual_artifact": false,
+  "fallback_markdown": "Create a checklist for artifact validation"
+}
+
+INPUT:
+Generate an executive dashboard for internal operations
+
+OUTPUT:
+{
+  "schema_version": "semantic-artifact.v1",
+  "artifact_kind": "visual",
+  "semantic_intent": "visualize",
+  "visual_artifact": true,
+  "fallback_markdown": "Generate an executive dashboard for internal operations",
+  "visual_composition": {
+    "layout": "dashboard",
+    "tone": "executive",
+    "audience": "internal",
+    "render_hint": "phase726_additive_visual_metadata_only"
+  }
+}
+
+INPUT:
+# Summary
+System is stable.
+
+## Next Steps
+Continue safely.
+
+OUTPUT:
+{
+  "schema_version": "semantic-artifact.v1",
+  "artifact_kind": "checklist",
+  "semantic_intent": "summarize",
+  "visual_artifact": false,
+  "fallback_markdown": "# Summary\nSystem is stable.\n\n## Next Steps\nContinue safely.",
+  "sections": [
+    {
+      "label": "Summary",
+      "content": "System is stable.",
+      "priority": 0
+    },
+    {
+      "label": "Next Steps",
+      "content": "Continue safely.",
+      "priority": 1
+    }
+  ]
+}

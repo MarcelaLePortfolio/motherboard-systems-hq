@@ -27,21 +27,27 @@
 
 const { classifyArtifact } = require('./classifyArtifact');
 
+const { extractSections } = require('./extractSections');
+
 const { generateVisualMetadata } = require('../visual/generateVisualMetadata');
 
 function composeSemanticArtifact(input) {
 
   const base = classifyArtifact(input);
 
-  if (!base.visual_artifact) {
+  const sections = extractSections(input);
 
-    return base;
+  const semanticBase = sections.length > 0 ? { ...base, sections } : base;
+
+  if (!semanticBase.visual_artifact) {
+
+    return semanticBase;
 
   }
 
   return {
 
-    ...base,
+    ...semanticBase,
 
     visual_composition: generateVisualMetadata(input)
 
