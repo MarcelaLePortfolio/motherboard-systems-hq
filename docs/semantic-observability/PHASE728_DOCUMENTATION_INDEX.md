@@ -53,6 +53,26 @@ Topics:
 
 ---
 
+## PHASE728_CONTINUATION_CHECKPOINT.md
+
+Purpose:
+
+Record the Phase 728 continuation checkpoint after helper comment drift cleanup and index restoration.
+
+Topics:
+
+- continuation branch checkpoint
+
+- comment-only helper alignment
+
+- semantic helper test validation
+
+- protected contract confirmation
+
+- continuation commit list
+
+---
+
 ## PHASE728_HELPER_COMMENT_DRIFT_CLEANUP.md
 
 Purpose:
