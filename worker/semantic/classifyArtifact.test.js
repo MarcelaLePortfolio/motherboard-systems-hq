@@ -9,7 +9,11 @@ const samples = [
 
   'Create a checklist for artifact validation',
 
-  'Build a plan for preview-aware Matilda refinement'
+  'Build a plan for preview-aware Matilda refinement',
+
+  'Create a preview card for launch',
+
+  'Create a preview-aware advisory refinement plan'
 
 ];
 

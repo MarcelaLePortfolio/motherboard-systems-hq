@@ -1,0 +1,28 @@
+{
+  "schema_version": "semantic-artifact.v1",
+  "artifact_kind": "launch_card",
+  "semantic_intent": "visualize",
+  "visual_artifact": true,
+  "fallback_markdown": "Create a visual launch card for Moonrise Bakery"
+}
+{
+  "schema_version": "semantic-artifact.v1",
+  "artifact_kind": "markdown",
+  "semantic_intent": "summarize",
+  "visual_artifact": false,
+  "fallback_markdown": "Summarize the latest execution results"
+}
+{
+  "schema_version": "semantic-artifact.v1",
+  "artifact_kind": "checklist",
+  "semantic_intent": "inform",
+  "visual_artifact": false,
+  "fallback_markdown": "Create a checklist for artifact validation"
+}
+{
+  "schema_version": "semantic-artifact.v1",
+  "artifact_kind": "visual",
+  "semantic_intent": "visualize",
+  "visual_artifact": true,
+  "fallback_markdown": "Build a plan for preview-aware Matilda refinement"
+}

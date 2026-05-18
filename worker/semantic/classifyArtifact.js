@@ -43,29 +43,47 @@ function classifyArtifact(input) {
 
   const text = normalizeText(input);
 
-  const visualArtifact = includesAny(text, [
+  const previewAwareOnly =
 
-    'visual',
+    includesAny(text, ['preview-aware']) &&
 
-    'card',
+    !includesAny(text, [
 
-    'launch card',
+      'visual preview',
 
-    'poster',
+      'preview card',
 
-    'flyer',
+      'preview render',
 
-    'graphic',
+      'preview image'
 
-    'design',
+    ]);
 
-    'preview',
+  const visualArtifact =
 
-    'dashboard',
+    !previewAwareOnly &&
 
-    'briefing visual'
+    includesAny(text, [
 
-  ]);
+      'visual',
+
+      'card',
+
+      'launch card',
+
+      'poster',
+
+      'flyer',
+
+      'graphic',
+
+      'design',
+
+      'dashboard',
+
+      'briefing visual'
+
+    ]);
 
   let artifactKind = 'markdown';
 
