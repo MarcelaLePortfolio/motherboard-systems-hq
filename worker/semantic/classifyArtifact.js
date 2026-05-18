@@ -1,15 +1,27 @@
 
 /**
 
- * Phase 726 semantic artifact classifier.
+ * Phase 728 semantic artifact classifier.
 
  *
 
- * Additive helper only.
+ * Additive runtime-attached helper.
 
- * Not wired into runtime execution yet.
+ * Produces deterministic artifact-scoped semantic metadata for observability.
 
- * Does not mutate task, retry, SSE, route, database, or artifact persistence contracts.
+ *
+
+ * Boundary:
+
+ * - keyword classification only
+
+ * - observational semantics only
+
+ * - renderer-independent
+
+ * - non-authoritative
+
+ * - no task, retry, SSE, route, database, preview, or persistence contract mutation
 
  */
 

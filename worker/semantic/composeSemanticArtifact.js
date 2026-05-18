@@ -1,15 +1,27 @@
 
 /**
 
- * Phase 726 semantic artifact composer.
+ * Phase 728 semantic artifact composer.
 
  *
 
- * Additive inspect-only helper.
+ * Additive runtime-attached helper.
 
  * Combines semantic classification with optional visual composition metadata.
 
- * Not wired into runtime execution.
+ *
+
+ * Boundary:
+
+ * - artifact-scoped metadata only
+
+ * - observational semantics only
+
+ * - renderer-independent
+
+ * - non-authoritative
+
+ * - no task, retry, SSE, route, database, preview, or persistence contract mutation
 
  */
 
