@@ -239,3 +239,117 @@ Topics:
 
 - protected execution boundaries
 
+---
+
+# Persistent Reference Documents
+
+## SEMANTIC_FIELD_REFERENCE.md
+
+Purpose:
+
+Authoritative reference for observed semantic artifact fields.
+
+Topics:
+
+- semantic payload fields
+
+- validation fields
+
+- schema references
+
+- alias handling
+
+- observability doctrine
+
+---
+
+## SEMANTIC_CLASSIFICATION_INVENTORY.md
+
+Purpose:
+
+Inventory current semantic classification behaviors and schema classifications.
+
+Topics:
+
+- semantic_intent inventory
+
+- artifact_kind inventory
+
+- visual_artifact observations
+
+- schema inventory
+
+- future-safe observability expansion
+
+---
+
+## PHASE727_SEMANTIC_OBSERVABILITY_PLAN.md
+
+Purpose:
+
+Historical originating corridor plan for semantic observability activation.
+
+Topics:
+
+- initial semantic observability goals
+
+- additive semantic substrate planning
+
+- rollback-safe inspection doctrine
+
+---
+
+# Operational Doctrine
+
+The semantic substrate remains:
+
+- additive
+
+- observational
+
+- runtime-attached
+
+- artifact-scoped
+
+- renderer-independent
+
+- non-authoritative
+
+---
+
+# Explicitly Forbidden Corridors
+
+The following remain intentionally prohibited unless future explicit authorization supersedes Phase 728 doctrine:
+
+- semantic rendering authority
+
+- semantic orchestration authority
+
+- semantic execution routing
+
+- semantic retry influence
+
+- semantic persistence expansion
+
+- preview semantic authority convergence
+
+- SSE mutation
+
+- task route mutation
+
+- execution contract mutation
+
+- renderer-authoritative semantic composition
+
+---
+
+# Stability Status
+
+Phase 728 documentation alignment remains operationally stable.
+
+No runtime mutation introduced.
+
+No persistence contract mutation introduced.
+
+No orchestration behavior mutation introduced.
+
