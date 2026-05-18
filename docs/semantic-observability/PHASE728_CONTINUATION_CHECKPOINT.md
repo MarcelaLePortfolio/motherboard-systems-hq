@@ -97,3 +97,19 @@ The semantic substrate remains:
 
 - non-authoritative
 
+
+
+## Deterministic Recovery Anchor
+
+Authoritative continuation checkpoint:
+
+- branch: `phase728-semantic-consistency-continuation`
+
+- HEAD: `10ec5a705c7cee4e7e538393b16517883203d513`
+
+Local-only recovery evidence generated successfully:
+
+- `tmp/semantic-snapshots/phase728-continuation-diffstat.txt`
+
+The snapshot artifact intentionally remains gitignored under repository runtime evidence policy.
+
