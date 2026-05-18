@@ -119,7 +119,11 @@ else
 
 fi
 
-if [[ "$VAR" -gt 50 ]]; then
+if [[ "$VAR" -gt 500 ]]; then
+
+  VOLATILITY="Extreme"
+
+elif [[ "$VAR" -gt 50 ]]; then
 
   VOLATILITY="High"
 
@@ -153,7 +157,7 @@ fi
 
 # -------------------------
 
-# CONFIDENCE MODEL (NEW)
+# CONFIDENCE MODEL
 
 # -------------------------
 
@@ -199,7 +203,25 @@ else
 
 fi
 
-# cap confidence
+# 4. volatility penalties (NEW SAFE CORRIDOR)
+
+if [[ "$VOLATILITY" == "Extreme" ]]; then
+
+  CONFIDENCE=$((CONFIDENCE - 35))
+
+elif [[ "$VOLATILITY" == "High" ]]; then
+
+  CONFIDENCE=$((CONFIDENCE - 20))
+
+fi
+
+# floor + cap confidence
+
+if [[ "$CONFIDENCE" -lt 0 ]]; then
+
+  CONFIDENCE=0
+
+fi
 
 if [[ "$CONFIDENCE" -gt 100 ]]; then
 
