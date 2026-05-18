@@ -33,21 +33,15 @@ printenv > "$BACKUP_DIR/${BACKUP_NAME}_env.txt" || true
 
 echo "[4] Database dump"
 
-docker compose exec -T postgres pg_dump -U postgres postgres > \
-
-"$BACKUP_DIR/${BACKUP_NAME}_db.sql" || true
+docker compose exec -T postgres pg_dump -U postgres postgres > "$BACKUP_DIR/${BACKUP_NAME}_db.sql" || true
 
 echo "[5] Artifact snapshot"
 
-docker compose exec -T worker tar -czf - /app/data/artifacts > \
-
-"$BACKUP_DIR/${BACKUP_NAME}_artifacts.tar.gz" || true
+docker compose exec -T worker tar -czf - /app/data/artifacts > "$BACKUP_DIR/${BACKUP_NAME}_artifacts.tar.gz" || true
 
 echo "[6] API snapshot"
 
-curl -s http://localhost:3000/api/tasks > \
-
-"$BACKUP_DIR/${BACKUP_NAME}_api_tasks.json" || true
+curl -s http://localhost:3000/api/tasks > "$BACKUP_DIR/${BACKUP_NAME}_api_tasks.json" || true
 
 echo "[7] Repo snapshot"
 
@@ -79,33 +73,25 @@ Includes:
 
 - Git state
 
-- Environment snapshot
+- Environment variables
 
-- PostgreSQL dump
+- Postgres dump
 
 - Artifact archive
 
-- API snapshot
+- API task snapshot
 
-- Repo snapshot
+- Repository archive
 
-Restore order:
+Backup directory:
 
-1. git checkout
+${BACKUP_DIR}
 
-2. docker compose up -d
+Backup name:
 
-3. psql < db.sql
-
-4. extract artifacts
-
-5. restore env
+${BACKUP_NAME}
 
 MANIFEST
 
-echo ""
-
-echo "===== BACKUP COMPLETE ====="
-
-echo "$BACKUP_DIR/${BACKUP_NAME}_MANIFEST.txt"
+echo "===== PHASE 719 FULL DISASTER RECOVERY BACKUP COMPLETE ====="
 
