@@ -69,29 +69,31 @@ if [ ! -d "$VAULT_MOUNT" ]; then
 
 fi
 
-mkdir -p "$SNAPSHOT_DIR"
+mkdir -p "$SNAPSHOT_DIR/git"
 
-for dir in git docker system package-inventory shell pm2 env-inventory restore; do
+mkdir -p "$SNAPSHOT_DIR/docker"
 
-  mkdir -p "$SNAPSHOT_DIR/$dir"
+mkdir -p "$SNAPSHOT_DIR/system"
 
-done
+mkdir -p "$SNAPSHOT_DIR/package-inventory"
 
-for vault_dir in \
+mkdir -p "$SNAPSHOT_DIR/shell"
 
-  "$VAULT_MOUNT/encrypted-secrets/project-env/$STAMP" \
+mkdir -p "$SNAPSHOT_DIR/pm2"
 
-  "$VAULT_MOUNT/cloudflare/$STAMP" \
+mkdir -p "$SNAPSHOT_DIR/env-inventory"
 
-  "$VAULT_MOUNT/postgres-dumps/$STAMP" \
+mkdir -p "$SNAPSHOT_DIR/restore"
 
-  "$VAULT_MOUNT/docker-volume-exports/$STAMP" \
+mkdir -p "$VAULT_MOUNT/encrypted-secrets/project-env/$STAMP"
 
-  "$VAULT_MOUNT/restore-manifests"; do
+mkdir -p "$VAULT_MOUNT/cloudflare/$STAMP"
 
-  mkdir -p "$vault_dir"
+mkdir -p "$VAULT_MOUNT/postgres-dumps/$STAMP"
 
-done
+mkdir -p "$VAULT_MOUNT/docker-volume-exports/$STAMP"
+
+mkdir -p "$VAULT_MOUNT/restore-manifests"
 
 cd "$PROJECT_ROOT"
 
@@ -163,15 +165,9 @@ pm2 save > "$SNAPSHOT_DIR/pm2/pm2-save-output.txt" 2>/dev/null || true
 
 find "$PROJECT_ROOT" -maxdepth 3 -type f \( -name ".env" -o -name ".env.*" \) -print > "$SNAPSHOT_DIR/env-inventory/env-files-present.txt"
 
-find "$PROJECT_ROOT" -maxdepth 3 -type f \( -name ".env" -o -name ".env.*" \) \
+find "$PROJECT_ROOT" -maxdepth 3 -type f \( -name ".env" -o -name ".env.*" \) -exec sh -c 'for f do printf "%s  " "$f"; wc -c < "$f"; done' sh {} + > "$SNAPSHOT_DIR/env-inventory/env-file-sizes.txt" 2>/dev/null || true
 
-  -exec sh -c 'for f do printf "%s  " "$f"; wc -c < "$f"; done' sh {} + \
-
-  > "$SNAPSHOT_DIR/env-inventory/env-file-sizes.txt" 2>/dev/null || true
-
-find "$PROJECT_ROOT" -maxdepth 3 -type f \( -name ".env" -o -name ".env.*" \) \
-
-  -exec cp {} "$VAULT_MOUNT/encrypted-secrets/project-env/$STAMP/" \;
+find "$PROJECT_ROOT" -maxdepth 3 -type f \( -name ".env" -o -name ".env.*" \) -exec cp {} "$VAULT_MOUNT/encrypted-secrets/project-env/$STAMP/" \;
 
 if [ -d "$HOME/.cloudflared" ]; then
 
@@ -179,27 +175,15 @@ if [ -d "$HOME/.cloudflared" ]; then
 
 fi
 
-docker compose exec -T postgres pg_dump -U postgres \
+docker compose exec -T postgres pg_dump -U postgres > "$VAULT_MOUNT/postgres-dumps/$STAMP/motherboard_postgres.sql" 2>/dev/null || true
 
-  > "$VAULT_MOUNT/postgres-dumps/$STAMP/motherboard_postgres.sql" 2>/dev/null || true
-
-docker volume ls --format '{{.Name}}' \
-
-  > "$VAULT_MOUNT/docker-volume-exports/$STAMP/docker-volume-list.txt" 2>/dev/null || true
+docker volume ls --format '{{.Name}}' > "$VAULT_MOUNT/docker-volume-exports/$STAMP/docker-volume-list.txt" 2>/dev/null || true
 
 while read -r VOLUME; do
 
   [ -z "$VOLUME" ] && continue
 
-  docker run --rm \
-
-    -v "${VOLUME}:/volume:ro" \
-
-    -v "$VAULT_MOUNT/docker-volume-exports/$STAMP:/backup" \
-
-    alpine \
-
-    tar czf "/backup/${VOLUME}.tar.gz" -C /volume . 2>/dev/null || true
+  docker run --rm -v "${VOLUME}:/volume:ro" -v "$VAULT_MOUNT/docker-volume-exports/$STAMP:/backup" alpine tar czf "/backup/${VOLUME}.tar.gz" -C /volume . 2>/dev/null || true
 
 done < "$VAULT_MOUNT/docker-volume-exports/$STAMP/docker-volume-list.txt"
 
@@ -295,13 +279,9 @@ RESTORE
 
 find "$SNAPSHOT_DIR" -type f -exec shasum {} \; > "$SNAPSHOT_DIR/MANIFEST_SHA1.txt"
 
-shasum "$SNAPSHOT_DIR/git/motherboard-systems-hq.bundle" \
+shasum "$SNAPSHOT_DIR/git/motherboard-systems-hq.bundle" > "$SNAPSHOT_DIR/git/bundle-checksum.txt"
 
-  > "$SNAPSHOT_DIR/git/bundle-checksum.txt"
-
-find "$VAULT_MOUNT" -type f -maxdepth 5 -exec shasum {} \; \
-
-  > "$VAULT_MOUNT/restore-manifests/VAULT_MANIFEST_SHA1_$STAMP.txt"
+find "$VAULT_MOUNT" -maxdepth 5 -type f -exec shasum {} \; > "$VAULT_MOUNT/restore-manifests/VAULT_MANIFEST_SHA1_$STAMP.txt"
 
 ln -sfn "$SNAPSHOT_DIR" "$SNAPSHOT_ROOT/latest-full-disaster-recovery"
 
