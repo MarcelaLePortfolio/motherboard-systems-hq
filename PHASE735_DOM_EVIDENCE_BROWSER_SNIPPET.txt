@@ -1,0 +1,43 @@
+
+Paste this into the browser DevTools Console while the raw-HTML Artifact Garden preview is open:
+
+(() => {
+
+  const body = document.querySelector("#phase719-preview-body");
+
+  const mount = document.querySelector("[data-phase735-visual-html-mount]");
+
+  const template = document.querySelector("[data-phase735-visual-html-template]");
+
+  const rawTextHit = body ? body.innerText.slice(0, 1200) : "";
+
+  console.log("PHASE735 DOM EVIDENCE", {
+
+    hasPreviewBody: Boolean(body),
+
+    hasMount: Boolean(mount),
+
+    mountChildCount: mount ? mount.childNodes.length : null,
+
+    mountChildren: mount ? [...mount.childNodes].map((n) => ({
+
+      nodeType: n.nodeType,
+
+      nodeName: n.nodeName,
+
+      textPreview: n.textContent ? n.textContent.slice(0, 180) : ""
+
+    })) : [],
+
+    hasTemplate: Boolean(template),
+
+    templateInnerHTMLPreview: template ? template.innerHTML.slice(0, 500) : null,
+
+    bodyInnerTextPreview: rawTextHit,
+
+    bodyInnerHTMLPreview: body ? body.innerHTML.slice(0, 1200) : null
+
+  });
+
+})();
+
