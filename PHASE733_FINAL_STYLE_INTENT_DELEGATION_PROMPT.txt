@@ -1,0 +1,81 @@
+
+Build a preview-only aesthetic artifact titled “Artifact Garden — Final Theme Activation Test.”
+
+Include this semantic style intent explicitly:
+
+style_intent:
+
+  mood: soft garden editorial
+
+  background: cream blush gradient
+
+  card: soft ivory rounded card
+
+  text: deep plum primary text
+
+  secondary_text: muted mauve
+
+  accent: sage green and honey gold
+
+  typography: friendly rounded editorial
+
+  shadow: soft diffuse
+
+  density: airy
+
+Hard constraints:
+
+- Preview-only
+
+- Read-only
+
+- No execution bridge activation
+
+- No database mutation
+
+- No route mutation
+
+- No persistence contract mutation
+
+- No artifact lifecycle authority change
+
+- No Matilda execution authority
+
+Content:
+
+Represent the system as a whimsical garden map with:
+
+- Intent seed
+
+- Snapshot seed packet
+
+- Preview flower
+
+- Matilda guardian lantern
+
+- Locked execution gate
+
+- Reconciliation watering can
+
+Required visible labels:
+
+- Artifact Garden
+
+- Preview-only
+
+- Execution locked
+
+- Matilda observes, does not execute
+
+- Read-only visual artifact
+
+Success criteria:
+
+- Cream/blush shell replaces dominant dark blue shell
+
+- Plum/mauve typography appears
+
+- Sage/honey accents appear
+
+- Visual tone feels soft/editorial instead of operational/dashboard-like
+
