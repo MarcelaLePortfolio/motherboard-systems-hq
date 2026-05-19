@@ -1,0 +1,29 @@
+
+PHASE 735 FINAL BROWSER VALIDATION
+
+1. Hard refresh browser:
+
+   CMD + SHIFT + R
+
+2. Reopen the latest Artifact Garden preview.
+
+3. Expected:
+
+   - styled visual garden artifact
+
+   - no visible <div style=...> source text
+
+   - no raw HTML
+
+   - no escaped entities
+
+   - no Visual Artifact / sanitized html subset wrapper
+
+4. If raw HTML still appears:
+
+   - do not patch immediately
+
+   - capture screenshot evidence
+
+   - capture rendered DOM evidence next
+
