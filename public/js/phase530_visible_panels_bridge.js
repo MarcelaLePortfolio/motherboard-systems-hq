@@ -1419,13 +1419,9 @@
 
         <div data-phase723-visual-artifact-body="true" style="overflow:auto;border-radius:20px;background:rgba(2,6,23,.46);border:1px solid rgba(148,163,184,.24);padding:18px;color:#e5e7eb;box-shadow:inset 0 1px 0 rgba(255,255,255,.04);">
 
-          <div
+          <div data-phase735-visual-html-mount="true"></div>
 
-            data-phase735-visual-html-mount="true"
-
-            data-phase735-visual-html="${encodeURIComponent(safeVisualHtml)}"
-
-          ></div>
+          <template data-phase735-visual-html-template="true">${safeVisualHtml}</template>
 
         </div>
 
@@ -1645,13 +1641,21 @@
 
       body.querySelectorAll("[data-phase735-visual-html-mount]").forEach((phase735Mount) => {
 
-        const encoded = phase735Mount.getAttribute("data-phase735-visual-html") || "";
+        const template = phase735Mount.parentElement
+
+          ? phase735Mount.parentElement.querySelector("[data-phase735-visual-html-template]")
+
+          : null;
+
+        const templateHtml = template ? template.innerHTML : "";
 
         try {
 
-          const decoded = decodeURIComponent(encoded);
+          const decoded = phase735DecodeVisualArtifactHtmlTransport(templateHtml);
 
           phase735Mount.innerHTML = phase723SanitizeVisualArtifactHtml(decoded);
+
+          if (template) template.remove();
 
         } catch (error) {
 
