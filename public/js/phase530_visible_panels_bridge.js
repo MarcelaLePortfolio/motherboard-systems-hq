@@ -1487,13 +1487,9 @@
 
         >
 
-          <div
+          <div data-phase735-visual-html-mount="true"></div>
 
-            data-phase735-visual-html-mount="true"
-
-            data-phase735-visual-html="${encodeURIComponent(safeVisualHtml)}"
-
-          ></div>
+          <template data-phase735-visual-html-template="true">${safeVisualHtml}</template>
 
         </div>
 
