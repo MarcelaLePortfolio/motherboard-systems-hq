@@ -1,0 +1,87 @@
+
+Build a preview-only aesthetic artifact titled “Artifact Garden — Runtime Validation.”
+
+style_intent:
+
+  mood: whimsical soft editorial garden
+
+  background: cream blush gradient
+
+  card: soft ivory floating paper
+
+  text: deep plum primary text
+
+  secondary_text: muted mauve
+
+  accent: sage green and honey gold
+
+  typography: storybook editorial
+
+  shadow: soft diffuse ambient
+
+  density: airy
+
+Hard constraints:
+
+- Preview-only
+
+- Read-only
+
+- No execution bridge activation
+
+- No orchestration mutation
+
+- No database mutation
+
+- No persistence mutation
+
+- No lifecycle authority mutation
+
+- No Matilda execution authority
+
+Content requirements:
+
+Render a whimsical illustrated garden map containing:
+
+- Intent Seed
+
+- Snapshot Seed Packet
+
+- Preview Flower
+
+- Matilda Guardian Lantern
+
+- Locked Execution Gate
+
+- Reconciliation Watering Can
+
+Required visible labels:
+
+- Artifact Garden
+
+- Preview-only
+
+- Execution locked
+
+- Matilda observes, does not execute
+
+- Read-only visual artifact
+
+Success criteria:
+
+- Entire preview appears as a soft whimsical garden scene
+
+- No Hero / Offer / CTA sections exist
+
+- No operational dashboard framing exists
+
+- No “Brand story” text exists
+
+- No “Core promise” text exists
+
+- No “Reserve a box” text exists
+
+- Cream/blush/sage palette dominates
+
+- Artifact itself is the preview
+
