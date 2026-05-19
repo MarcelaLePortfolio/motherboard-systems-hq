@@ -1,0 +1,641 @@
+# Phase 735 Branch Path Inspection
+
+## phase719RenderMarkdownArtifactPreview
+
+1452:  function phase719RenderMarkdownArtifactPreview(markdown) {
+1453-
+1454-    const extractedVisual = phase723ExtractVisualArtifactBlock(markdown);
+1455-
+1456-    if (extractedVisual.hasVisualArtifact) {
+1457-
+1458-      const decodedVisualHtml = phase735DecodeVisualArtifactHtmlTransport(extractedVisual.visualHtml);
+1459-
+1460-      const safeVisualHtml = phase723SanitizeVisualArtifactHtml(decodedVisualHtml);
+1461-
+1462-      return `
+1463-
+1464-        <div
+1465-
+1466-          data-phase733-single-artifact-render="true"
+1467-
+1468-          style="
+1469-
+1470-            max-width:1040px;
+1471-
+1472-            margin:0 auto;
+1473-
+1474-            border:1px solid rgba(148,163,184,.28);
+1475-
+1476-            border-radius:22px;
+1477-
+1478-            padding:18px;
+1479-
+1480-            background:rgba(15,23,42,.42);
+1481-
+1482-            box-shadow:0 24px 80px rgba(0,0,0,.32), inset 0 1px 0 rgba(255,255,255,.05);
+1483-
+1484-            overflow:auto;
+1485-
+1486-          "
+1487-
+1488-        >
+1489-
+1490-          <div
+1491-
+1492-            data-phase735-visual-html-mount="true"
+1493-
+1494-            data-phase735-visual-html="${encodeURIComponent(safeVisualHtml)}"
+1495-
+1496-          ></div>
+1497-
+1498-        </div>
+1499-
+1500-      `;
+1501-
+1502-    }
+1503-
+1504-    return `
+1505-
+1506-      <div
+1507-
+1508-        data-phase733-single-artifact-render-fallback="true"
+1509-
+1510-        style="
+1511-
+1512-          max-width:920px;
+1513-
+1514-          margin:0 auto;
+1515-
+1516-          border:1px solid rgba(148,163,184,.28);
+1517-
+1518-          border-radius:22px;
+1519-
+1520-          padding:22px;
+1521-
+1522-          background:rgba(15,23,42,.72);
+1523-
+1524-          color:#e5e7eb;
+1525-
+1526-          white-space:pre-wrap;
+1527-
+1528-          overflow-wrap:anywhere;
+1529-
+1530-        "
+1531-
+1532-      >${phase719EscapePreviewHtml(phase720StripSemanticEnvelope(markdown))}</div>
+1533-
+1534-    `;
+1535-
+1536-  }
+1537-
+1538-  async function phase719OpenPreviewModal(button) {
+1539-
+1540-    const modal = phase719EnsurePreviewModal();
+1541-
+1542-    const title = modal.querySelector("#phase719-preview-title");
+1543-
+1544-    const subtitle = modal.querySelector("#phase719-preview-subtitle");
+1545-
+1546-    const meta = modal.querySelector("#phase719-preview-meta");
+1547-
+1548-    const body = modal.querySelector("#phase719-preview-body");
+1549-
+1550-    const taskTitle = button.getAttribute("data-task-title") || "Artifact Preview";
+1551-
+1552-    const taskId = button.getAttribute("data-task-id") || "";
+1553-
+1554-    const fallbackName = button.getAttribute("data-artifact-name") || "artifact";
+1555-
+1556-    const fallbackType = button.getAttribute("data-artifact-type") || "artifact";
+1557-
+1558-    const fallbackSize = button.getAttribute("data-artifact-size") || "";
+1559-
+1560-    const fallbackPath = button.getAttribute("data-artifact-path") || "";
+1561-
+1562-    const fallbackOutcome = button.getAttribute("data-artifact-outcome") || "";
+1563-
+1564-    const fallbackExplanation = button.getAttribute("data-artifact-explanation") || "";
+1565-
+1566-    title.textContent = "Preview: " + taskTitle;
+1567-
+1568-    subtitle.textContent = taskId ? "task_id: " + taskId : "";
+1569-
+1570-    meta.textContent = [
+1571-
+1572-      "artifact: " + fallbackName,
+1573-
+1574-      fallbackType ? "type: " + fallbackType : "",
+1575-
+1576-      fallbackSize ? "size: " + fallbackSize : "",
+1577-
+1578-      fallbackPath ? "path: " + fallbackPath : ""
+1579-
+1580-    ].filter(Boolean).join("\n");
+1581-
+1582-    body.innerHTML = `<div style="color:#93c5fd;font-size:14px;">Loading rendered artifact preview…</div>`;
+1583-
+1584-    modal.style.display = "flex";
+1585-
+1586-    if (!taskId) {
+1587-
+1588-      body.textContent = "No task id available for artifact preview.";
+1589-
+1590-      return;
+1591-
+1592-    }
+1593-
+1594-    try {
+1595-
+1596-      const res = await fetch(`/api/tasks/${encodeURIComponent(taskId)}/artifact-preview`, { cache: "no-store" });
+1597-
+1598-      const data = await res.json().catch(() => null);
+1599-
+1600-      if (!res.ok || !data || data.ok !== true) {
+1601-
+1602-        body.textContent = [
+1603-
+1604-          "Rendered artifact content is not available.",
+1605-
+1606-          data && data.error ? "Error: " + data.error : "",
+1607-
+1608-          fallbackOutcome ? "\nOutcome:\n" + fallbackOutcome : "",
+1609-
+1610-          fallbackExplanation ? "\nExplanation:\n" + fallbackExplanation : ""
+1611-
+1612-        ].filter(Boolean).join("\n");
+1613-
+1614-        return;
+1615-
+1616-      }
+1617-
+1618-      const artifact = data.artifact || {};
+1619-
+1620-      const renderedName = artifact.filename || fallbackName;
+1621-
+1622-      const renderedType = artifact.type || fallbackType;
+1623-
+1624-      const renderedSize = artifact.size_bytes ? String(artifact.size_bytes) + " bytes" : fallbackSize;
+1625-
+1626-      const renderedCreated = artifact.created_at || "";
+1627-
+1628-      meta.textContent = [
+1629-
+1630-        "artifact: " + renderedName,
+1631-
+1632-        renderedType ? "type: " + renderedType : "",
+1633-
+1634-        renderedSize ? "size: " + renderedSize : "",
+1635-
+1636-        renderedCreated ? "created: " + renderedCreated : ""
+1637-
+1638-      ].filter(Boolean).join("\n");
+1639-
+1640-      body.innerHTML = phase719RenderMarkdownArtifactPreview(data.content);
+1641-
+1642-      body.querySelectorAll("[data-phase735-visual-html-mount]").forEach((phase735Mount) => {
+1643-
+1644-        const template = phase735Mount.parentElement
+1645-
+1646-          ? phase735Mount.parentElement.querySelector("[data-phase735-visual-html-template]")
+1647-
+1648-          : null;
+1649-
+1650-        const templateHtml = template ? template.innerHTML : "";
+1651-
+1652-        try {
+1653-
+1654-          const decoded = phase735DecodeVisualArtifactHtmlTransport(templateHtml);
+1655-
+1656-          phase735Mount.innerHTML = phase723SanitizeVisualArtifactHtml(decoded);
+1657-
+1658-          if (template) template.remove();
+1659-
+1660-        } catch (error) {
+1661-
+1662-          phase735Mount.textContent = "Unable to render artifact preview.";
+1663-
+1664-        }
+1665-
+1666-      });
+1667-
+1668-    } catch (error) {
+1669-
+1670-      body.textContent = [
+1671-
+1672-        "Preview fetch failed.",
+
+## phase723RenderVisualArtifactPreviewCandidate
+
+1346-    const endIndex = source.indexOf(endMarker);
+1347-
+1348-    if (startIndex === -1 || endIndex === -1 || endIndex <= startIndex) {
+1349-
+1350-      return {
+1351-
+1352-        hasVisualArtifact: false,
+1353-
+1354-        visualHtml: "",
+1355-
+1356-        markdownWithoutVisualArtifact: source
+1357-
+1358-      };
+1359-
+1360-    }
+1361-
+1362-    const visualStart = startIndex + startMarker.length;
+1363-
+1364-    const visualHtml = source.slice(visualStart, endIndex).trim();
+1365-
+1366-    const markdownWithoutVisualArtifact = (
+1367-
+1368-      source.slice(0, startIndex) + source.slice(endIndex + endMarker.length)
+1369-
+1370-    ).trim();
+1371-
+1372-    return {
+1373-
+1374-      hasVisualArtifact: Boolean(visualHtml),
+1375-
+1376-      visualHtml,
+1377-
+1378-      markdownWithoutVisualArtifact
+1379-
+1380-    };
+1381-
+1382-  }
+1383-
+1384-  // Phase 723 — embedded visual artifact preview wrapper (non-active)
+1385-
+1386:  function phase723RenderVisualArtifactPreviewCandidate(markdown) {
+1387-
+1388-    const extracted = phase723ExtractVisualArtifactBlock(markdown);
+1389-
+1390-    const fallbackMarkdown = extracted.markdownWithoutVisualArtifact || phase733NormalizePreviewTransportText(markdown);
+1391-
+1392-    const fallbackPreview = phase719RenderArtifactVisualCard(fallbackMarkdown);
+1393-
+1394-    if (!extracted.hasVisualArtifact) {
+1395-
+1396-      return fallbackPreview;
+1397-
+1398-    }
+1399-
+1400-    const safeVisualHtml = phase723SanitizeVisualArtifactHtml(extracted.visualHtml);
+1401-
+1402-    if (!safeVisualHtml) {
+1403-
+1404-      return fallbackPreview;
+1405-
+1406-    }
+1407-
+1408-    return `
+1409-
+1410-      <div data-phase723-visual-artifact-preview="true" style="max-width:960px;margin:0 auto 22px auto;border:1px solid rgba(45,212,191,.32);background:linear-gradient(135deg,rgba(15,23,42,.78),rgba(8,47,73,.46));border-radius:26px;padding:22px;box-shadow:0 24px 80px rgba(0,0,0,.32), inset 0 1px 0 rgba(255,255,255,.06);">
+1411-
+1412-        <div style="display:flex;align-items:center;justify-content:space-between;gap:14px;margin-bottom:18px;">
+1413-
+1414-          <div style="font-size:12px;text-transform:uppercase;letter-spacing:.2em;color:#ccfbf1;font-weight:950;text-shadow:0 0 22px rgba(45,212,191,.18);">Visual Artifact</div>
+1415-
+1416-          <div style="font-size:10px;text-transform:uppercase;letter-spacing:.14em;color:#dbeafe;border:1px solid rgba(147,197,253,.34);border-radius:999px;padding:5px 10px;background:rgba(30,64,175,.22);box-shadow:inset 0 1px 0 rgba(255,255,255,.05);">sanitized html subset</div>
+1417-
+1418-        </div>
+1419-
+1420-        <div data-phase723-visual-artifact-body="true" style="overflow:auto;border-radius:20px;background:rgba(2,6,23,.46);border:1px solid rgba(148,163,184,.24);padding:18px;color:#e5e7eb;box-shadow:inset 0 1px 0 rgba(255,255,255,.04);">
+1421-
+1422-          <div data-phase735-visual-html-mount="true"></div>
+1423-
+1424-          <template data-phase735-visual-html-template="true">${safeVisualHtml}</template>
+1425-
+1426-        </div>
+1427-
+1428-      </div>
+1429-
+1430-    `;
+1431-
+1432-  }
+1433-
+1434-  function phase735DecodeVisualArtifactHtmlTransport(html) {
+1435-
+1436-    const source = phase733NormalizePreviewTransportText(html || "")
+1437-
+1438-      .replace(/\\\\n/g, "\n")
+1439-
+1440-      .replace(/\\\\\"/g, '"')
+1441-
+1442-      .replace(/\\\\'/g, "'");
+1443-
+1444-    const textarea = document.createElement("textarea");
+1445-
+1446-    textarea.innerHTML = source;
+1447-
+1448-    return textarea.value;
+1449-
+1450-  }
+1451-
+1452-  function phase719RenderMarkdownArtifactPreview(markdown) {
+1453-
+1454-    const extractedVisual = phase723ExtractVisualArtifactBlock(markdown);
+1455-
+1456-    if (extractedVisual.hasVisualArtifact) {
+1457-
+1458-      const decodedVisualHtml = phase735DecodeVisualArtifactHtmlTransport(extractedVisual.visualHtml);
+1459-
+1460-      const safeVisualHtml = phase723SanitizeVisualArtifactHtml(decodedVisualHtml);
+1461-
+1462-      return `
+1463-
+1464-        <div
+1465-
+1466-          data-phase733-single-artifact-render="true"
+1467-
+1468-          style="
+1469-
+1470-            max-width:1040px;
+1471-
+1472-            margin:0 auto;
+1473-
+1474-            border:1px solid rgba(148,163,184,.28);
+1475-
+1476-            border-radius:22px;
+1477-
+1478-            padding:18px;
+1479-
+1480-            background:rgba(15,23,42,.42);
+1481-
+1482-            box-shadow:0 24px 80px rgba(0,0,0,.32), inset 0 1px 0 rgba(255,255,255,.05);
+1483-
+1484-            overflow:auto;
+1485-
+1486-          "
+1487-
+1488-        >
+1489-
+1490-          <div
+1491-
+1492-            data-phase735-visual-html-mount="true"
+1493-
+1494-            data-phase735-visual-html="${encodeURIComponent(safeVisualHtml)}"
+1495-
+1496-          ></div>
+1497-
+1498-        </div>
+1499-
+1500-      `;
+1501-
+1502-    }
+1503-
+1504-    return `
+1505-
+1506-      <div
+
+## data-phase733-single-artifact-render
+
+1426-        </div>
+1427-
+1428-      </div>
+1429-
+1430-    `;
+1431-
+1432-  }
+1433-
+1434-  function phase735DecodeVisualArtifactHtmlTransport(html) {
+1435-
+1436-    const source = phase733NormalizePreviewTransportText(html || "")
+1437-
+1438-      .replace(/\\\\n/g, "\n")
+1439-
+1440-      .replace(/\\\\\"/g, '"')
+1441-
+1442-      .replace(/\\\\'/g, "'");
+1443-
+1444-    const textarea = document.createElement("textarea");
+1445-
+1446-    textarea.innerHTML = source;
+1447-
+1448-    return textarea.value;
+1449-
+1450-  }
+1451-
+1452-  function phase719RenderMarkdownArtifactPreview(markdown) {
+1453-
+1454-    const extractedVisual = phase723ExtractVisualArtifactBlock(markdown);
+1455-
+1456-    if (extractedVisual.hasVisualArtifact) {
+1457-
+1458-      const decodedVisualHtml = phase735DecodeVisualArtifactHtmlTransport(extractedVisual.visualHtml);
+1459-
+1460-      const safeVisualHtml = phase723SanitizeVisualArtifactHtml(decodedVisualHtml);
+1461-
+1462-      return `
+1463-
+1464-        <div
+1465-
+1466:          data-phase733-single-artifact-render="true"
+1467-
+1468-          style="
+1469-
+1470-            max-width:1040px;
+1471-
+1472-            margin:0 auto;
+1473-
+1474-            border:1px solid rgba(148,163,184,.28);
+1475-
+1476-            border-radius:22px;
+1477-
+1478-            padding:18px;
+1479-
+1480-            background:rgba(15,23,42,.42);
+1481-
+1482-            box-shadow:0 24px 80px rgba(0,0,0,.32), inset 0 1px 0 rgba(255,255,255,.05);
+1483-
+1484-            overflow:auto;
+1485-
+1486-          "
+1487-
+1488-        >
+1489-
+1490-          <div
+1491-
+1492-            data-phase735-visual-html-mount="true"
+1493-
+1494-            data-phase735-visual-html="${encodeURIComponent(safeVisualHtml)}"
+1495-
+1496-          ></div>
+1497-
+1498-        </div>
+1499-
+1500-      `;
+1501-
+1502-    }
+1503-
+1504-    return `
+1505-
+1506-      <div
+1507-
+1508:        data-phase733-single-artifact-render-fallback="true"
+1509-
+1510-        style="
+1511-
+1512-          max-width:920px;
+1513-
+1514-          margin:0 auto;
+1515-
+1516-          border:1px solid rgba(148,163,184,.28);
+1517-
+1518-          border-radius:22px;
+1519-
+1520-          padding:22px;
+1521-
+1522-          background:rgba(15,23,42,.72);
+1523-
+1524-          color:#e5e7eb;
+1525-
+1526-          white-space:pre-wrap;
+1527-
+1528-          overflow-wrap:anywhere;
+1529-
+1530-        "
+1531-
+1532-      >${phase719EscapePreviewHtml(phase720StripSemanticEnvelope(markdown))}</div>
+1533-
+1534-    `;
+1535-
+1536-  }
+1537-
+1538-  async function phase719OpenPreviewModal(button) {
+1539-
+1540-    const modal = phase719EnsurePreviewModal();
+1541-
+1542-    const title = modal.querySelector("#phase719-preview-title");
+1543-
+1544-    const subtitle = modal.querySelector("#phase719-preview-subtitle");
+1545-
+1546-    const meta = modal.querySelector("#phase719-preview-meta");
+1547-
+1548-    const body = modal.querySelector("#phase719-preview-body");
+1549-
+1550-    const taskTitle = button.getAttribute("data-task-title") || "Artifact Preview";
+1551-
+1552-    const taskId = button.getAttribute("data-task-id") || "";
+1553-
+1554-    const fallbackName = button.getAttribute("data-artifact-name") || "artifact";
+1555-
+1556-    const fallbackType = button.getAttribute("data-artifact-type") || "artifact";
+1557-
+1558-    const fallbackSize = button.getAttribute("data-artifact-size") || "";
+1559-
+1560-    const fallbackPath = button.getAttribute("data-artifact-path") || "";
+1561-
+1562-    const fallbackOutcome = button.getAttribute("data-artifact-outcome") || "";
+1563-
+1564-    const fallbackExplanation = button.getAttribute("data-artifact-explanation") || "";
+1565-
+1566-    title.textContent = "Preview: " + taskTitle;
+1567-
+1568-    subtitle.textContent = taskId ? "task_id: " + taskId : "";
+1569-
+1570-    meta.textContent = [
+1571-
+1572-      "artifact: " + fallbackName,
+1573-
+1574-      fallbackType ? "type: " + fallbackType : "",
+1575-
+1576-      fallbackSize ? "size: " + fallbackSize : "",
+1577-
+1578-      fallbackPath ? "path: " + fallbackPath : ""
+1579-
+1580-    ].filter(Boolean).join("\n");
+1581-
+1582-    body.innerHTML = `<div style="color:#93c5fd;font-size:14px;">Loading rendered artifact preview…</div>`;
+1583-
+1584-    modal.style.display = "flex";
+1585-
+1586-    if (!taskId) {
+1587-
+1588-      body.textContent = "No task id available for artifact preview.";
+
+## All render-preview callers
+
+1432-  }
+1433-
+1434-  function phase735DecodeVisualArtifactHtmlTransport(html) {
+1435-
+1436-    const source = phase733NormalizePreviewTransportText(html || "")
+1437-
+1438-      .replace(/\\\\n/g, "\n")
+1439-
+1440-      .replace(/\\\\\"/g, '"')
+1441-
+1442-      .replace(/\\\\'/g, "'");
+1443-
+1444-    const textarea = document.createElement("textarea");
+1445-
+1446-    textarea.innerHTML = source;
+1447-
+1448-    return textarea.value;
+1449-
+1450-  }
+1451-
+1452:  function phase719RenderMarkdownArtifactPreview(markdown) {
+1453-
+1454-    const extractedVisual = phase723ExtractVisualArtifactBlock(markdown);
+1455-
+1456-    if (extractedVisual.hasVisualArtifact) {
+1457-
+1458-      const decodedVisualHtml = phase735DecodeVisualArtifactHtmlTransport(extractedVisual.visualHtml);
+1459-
+1460-      const safeVisualHtml = phase723SanitizeVisualArtifactHtml(decodedVisualHtml);
+1461-
+1462-      return `
+1463-
+1464-        <div
+1465-
+1466-          data-phase733-single-artifact-render="true"
+1467-
+1468-          style="
+1469-
+1470-            max-width:1040px;
+1471-
+1472-            margin:0 auto;
+--
+1620-      const renderedName = artifact.filename || fallbackName;
+1621-
+1622-      const renderedType = artifact.type || fallbackType;
+1623-
+1624-      const renderedSize = artifact.size_bytes ? String(artifact.size_bytes) + " bytes" : fallbackSize;
+1625-
+1626-      const renderedCreated = artifact.created_at || "";
+1627-
+1628-      meta.textContent = [
+1629-
+1630-        "artifact: " + renderedName,
+1631-
+1632-        renderedType ? "type: " + renderedType : "",
+1633-
+1634-        renderedSize ? "size: " + renderedSize : "",
+1635-
+1636-        renderedCreated ? "created: " + renderedCreated : ""
+1637-
+1638-      ].filter(Boolean).join("\n");
+1639-
+1640:      body.innerHTML = phase719RenderMarkdownArtifactPreview(data.content);
+1641-
+1642-      body.querySelectorAll("[data-phase735-visual-html-mount]").forEach((phase735Mount) => {
+1643-
+1644-        const template = phase735Mount.parentElement
+1645-
+1646-          ? phase735Mount.parentElement.querySelector("[data-phase735-visual-html-template]")
+1647-
+1648-          : null;
+1649-
+1650-        const templateHtml = template ? template.innerHTML : "";
+1651-
+1652-        try {
+1653-
+1654-          const decoded = phase735DecodeVisualArtifactHtmlTransport(templateHtml);
+1655-
+1656-          phase735Mount.innerHTML = phase723SanitizeVisualArtifactHtml(decoded);
+1657-
+1658-          if (template) template.remove();
+1659-
+1660-        } catch (error) {
