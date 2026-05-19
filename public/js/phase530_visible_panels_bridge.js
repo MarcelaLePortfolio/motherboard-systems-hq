@@ -777,9 +777,21 @@
 
   }
 
+  function phase733NormalizePreviewTransportText(value) {
+
+    return String(value || "")
+
+      .replace(/\\r\\n/g, "\n")
+
+      .replace(/\\n/g, "\n")
+
+      .replace(/\\t/g, "  ");
+
+  }
+
   function phase720ExtractSemanticEnvelope(markdown) {
 
-    const source = String(markdown || "");
+    const source = phase733NormalizePreviewTransportText(markdown);
 
     const match = source.match(/<!--\s*MB_SEMANTIC_ARTIFACT_V1\s*([\s\S]*?)\s*-->/);
 
@@ -803,13 +815,13 @@
 
   function phase720StripSemanticEnvelope(markdown) {
 
-    return String(markdown || "").replace(/<!--\s*MB_SEMANTIC_ARTIFACT_V1\s*[\s\S]*?\s*-->\s*/g, "");
+    return phase733NormalizePreviewTransportText(markdown).replace(/<!--\s*MB_SEMANTIC_ARTIFACT_V1\s*[\s\S]*?\s*-->\s*/g, "");
 
   }
 
   function phase719ExtractArtifactSections(markdown) {
 
-    const source = String(markdown || "");
+    const source = phase733NormalizePreviewTransportText(markdown);
 
     const withoutTrace = source.replace(/## Execution Trace[\s\S]*$/i, "").trim();
 
@@ -1219,7 +1231,7 @@
 
   function phase723ExtractVisualArtifactBlock(markdown) {
 
-    const source = String(markdown || "");
+    const source = phase733NormalizePreviewTransportText(markdown);
 
     const startMarker = "<!-- visual-artifact:start -->";
 
@@ -1271,7 +1283,7 @@
 
     const extracted = phase723ExtractVisualArtifactBlock(markdown);
 
-    const fallbackMarkdown = extracted.markdownWithoutVisualArtifact || String(markdown || "");
+    const fallbackMarkdown = extracted.markdownWithoutVisualArtifact || phase733NormalizePreviewTransportText(markdown);
 
     const fallbackPreview = phase719RenderArtifactVisualCard(fallbackMarkdown);
 
