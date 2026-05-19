@@ -1435,7 +1435,15 @@
 
     if (extractedVisual.hasVisualArtifact) {
 
-      const safeVisualHtml = phase723SanitizeVisualArtifactHtml(extractedVisual.visualHtml);
+      const decodedVisualHtml = phase733NormalizePreviewTransportText(extractedVisual.visualHtml)
+
+        .replace(/\\\\n/g, "\n")
+
+        .replace(/\\\\\"/g, '"')
+
+        .replace(/\\\\'/g, "'");
+
+      const safeVisualHtml = phase723SanitizeVisualArtifactHtml(decodedVisualHtml);
 
       return `
 
