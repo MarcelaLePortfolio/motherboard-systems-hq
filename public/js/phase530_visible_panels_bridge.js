@@ -1419,7 +1419,13 @@
 
         <div data-phase723-visual-artifact-body="true" style="overflow:auto;border-radius:20px;background:rgba(2,6,23,.46);border:1px solid rgba(148,163,184,.24);padding:18px;color:#e5e7eb;box-shadow:inset 0 1px 0 rgba(255,255,255,.04);">
 
-          ${safeVisualHtml}
+          <div
+
+            data-phase735-visual-html-mount="true"
+
+            data-phase735-visual-html="${encodeURIComponent(safeVisualHtml)}"
+
+          ></div>
 
         </div>
 
@@ -1618,6 +1624,26 @@
       ].filter(Boolean).join("\n");
 
       body.innerHTML = phase719RenderMarkdownArtifactPreview(data.content);
+
+      const phase735Mount = body.querySelector("[data-phase735-visual-html-mount]");
+
+      if (phase735Mount) {
+
+        const encoded = phase735Mount.getAttribute("data-phase735-visual-html") || "";
+
+        try {
+
+          const decoded = decodeURIComponent(encoded);
+
+          phase735Mount.innerHTML = phase723SanitizeVisualArtifactHtml(decoded);
+
+        } catch (error) {
+
+          phase735Mount.textContent = "Unable to render artifact preview.";
+
+        }
+
+      }
 
     } catch (error) {
 
