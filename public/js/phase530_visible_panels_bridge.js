@@ -1421,7 +1421,7 @@
 
           <div data-phase735-visual-html-mount="true"></div>
 
-          <template data-phase735-visual-html-template="true">${safeVisualHtml}</template>
+          <template data-phase735-visual-html-template="true">${phase719EscapePreviewHtml(safeVisualHtml)}</template>
 
         </div>
 
@@ -1495,7 +1495,7 @@
 
           <div data-phase735-visual-html-mount="true"></div>
 
-          <template data-phase735-visual-html-template="true">${safeVisualHtml}</template>
+          <template data-phase735-visual-html-template="true">${phase719EscapePreviewHtml(safeVisualHtml)}</template>
 
         </div>
 
@@ -1545,7 +1545,7 @@
 
           <div data-phase735-visual-html-mount="true"></div>
 
-          <template data-phase735-visual-html-template="true">${safeFallbackHtml}</template>
+          <template data-phase735-visual-html-template="true">${phase719EscapePreviewHtml(safeFallbackHtml)}</template>
 
         </div>
 
@@ -1699,7 +1699,7 @@
 
           : null;
 
-        const templateHtml = template ? template.innerHTML : "";
+        const templateHtml = template ? template.textContent : "";
 
         try {
 
