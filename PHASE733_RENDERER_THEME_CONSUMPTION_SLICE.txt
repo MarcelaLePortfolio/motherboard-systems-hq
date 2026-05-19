@@ -1,0 +1,354 @@
+=== Phase 733 Renderer Theme Consumption Slice ===
+Target: public/js/phase530_visible_panels_bridge.js
+
+=== Lines 1180-1365 ===
+1180:                     <div style="border-top:1px solid rgba(45,212,191,.16);padding-top:10px;">
+1181: 
+1182:                       <div style="font-size:10px;text-transform:uppercase;letter-spacing:.16em;color:#99f6e4;font-weight:900;margin-bottom:5px;">${phase719EscapePreviewHtml(label)}</div>
+1183: 
+1184:                       <div style="font-size:14px;line-height:1.55;color:${phase733Theme.insightText};white-space:pre-wrap;">${phase719EscapePreviewHtml(value)}</div>
+1185: 
+1186:                     </div>
+1187: 
+1188:                   `).join("")}
+1189: 
+1190:                 </div>
+1191: 
+1192:               </section>
+1193: 
+1194:             </div>
+1195: 
+1196:           ` : ""}
+1197: 
+1198:           <div style="display:grid;grid-template-columns:minmax(0,1fr);gap:14px;padding:${semanticOperatorSummary.length ? "14px" : "22px"} 24px 10px 24px;">
+1199: 
+1200:             ${enrichedSections.map(([label, value]) => `
+1201: 
+1202:               <section style="border:1px solid ${phase733Theme.cardBorder};border-radius:18px;background:${phase733Theme.card};padding:18px;">
+1203: 
+1204:                 <div style="font-size:11px;text-transform:uppercase;letter-spacing:.18em;color:${phase733Theme.accent};font-weight:900;margin-bottom:10px;">${phase719EscapePreviewHtml(label)}</div>
+1205: 
+1206:                 <div style="font-size:15px;line-height:1.6;color:${phase733Theme.body};white-space:pre-wrap;">${phase719EscapePreviewHtml(value)}</div>
+1207: 
+1208:               </section>
+1209: 
+1210:             `).join("")}
+1211: 
+1212:           </div>
+1213: 
+1214:           <div style="display:grid;grid-template-columns:minmax(0,1.2fr) minmax(220px,.8fr);gap:18px;padding:12px 24px 24px 24px;">
+1215: 
+1216:             <section style="border:1px solid ${phase733Theme.cardBorder};border-radius:18px;background:${phase733Theme.card};padding:18px;">
+1217: 
+1218:               <div style="font-size:11px;text-transform:uppercase;letter-spacing:.18em;color:${phase733Theme.accent};font-weight:900;margin-bottom:10px;">Outcome</div>
+1219: 
+1220:               <div style="font-size:17px;line-height:1.55;color:${phase733Theme.body};font-weight:650;">${phase719EscapePreviewHtml(displayOutcome || "No outcome content available.")}</div>
+1221: 
+1222:             </section>
+1223: 
+1224:             <section style="border:1px solid ${phase733Theme.insightBorder};border-radius:18px;background:${phase733Theme.insight};padding:18px;">
+1225: 
+1226:               <div style="font-size:11px;text-transform:uppercase;letter-spacing:.18em;color:#5eead4;font-weight:900;margin-bottom:10px;">Build Path</div>
+1227: 
+1228:               <div style="font-size:14px;line-height:1.55;color:${phase733Theme.insightText};white-space:pre-wrap;">${phase719EscapePreviewHtml(explanation || "No explanation available.")}</div>
+1229: 
+1230:             </section>
+1231: 
+1232:           </div>
+1233: 
+1234:         </div>
+1235: 
+1236:       </div>
+1237: 
+1238:     `;
+1239: 
+1240:   }
+1241: 
+1242:   function phase719RenderArtifactIframePreview(renderedHtml) {
+1243: 
+1244:     const srcdoc = [
+1245: 
+1246:       "<!DOCTYPE html>",
+1247: 
+1248:       "<html>",
+1249: 
+1250:       "<head>",
+1251: 
+1252:       "<meta charset=\"utf-8\">",
+1253: 
+1254:       "<style>",
+1255: 
+1256:       "html,body{margin:0;padding:0;background:#020617;color:#e5e7eb;font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;}",
+1257: 
+1258:       "body{padding:18px;overflow-wrap:anywhere;}",
+1259: 
+1260:       "*{box-sizing:border-box;max-width:100%;}",
+1261: 
+1262:       "</style>",
+1263: 
+1264:       "</head>",
+1265: 
+1266:       "<body>",
+1267: 
+1268:       String(renderedHtml || ""),
+1269: 
+1270:       "</body>",
+1271: 
+1272:       "</html>"
+1273: 
+1274:     ].join("");
+1275: 
+1276:     return `
+1277: 
+1278:       <iframe
+1279: 
+1280:         title="Artifact rendered preview"
+1281: 
+1282:         sandbox=""
+1283: 
+1284:         srcdoc="${phase719EscapePreviewHtml(srcdoc)}"
+1285: 
+1286:         style="display:block;width:100%;min-height:560px;border:1px solid rgba(148,163,184,.24);border-radius:16px;background:#020617;"
+1287: 
+1288:       ></iframe>
+1289: 
+1290:     `;
+1291: 
+1292:   }
+1293: 
+1294:   // Phase 723 — minimal visual artifact sanitizer helper (non-active)
+1295: 
+1296:   function phase723SanitizeVisualArtifactHtml(html) {
+1297: 
+1298:     const source = String(html || "");
+1299: 
+1300:     const withoutUnsafeBlocks = source
+1301: 
+1302:       .replace(/<\s*script\b[\s\S]*?<\s*\/\s*script\s*>/gi, "")
+1303: 
+1304:       .replace(/<\s*style\b[\s\S]*?<\s*\/\s*style\s*>/gi, "")
+1305: 
+1306:       .replace(/<\s*iframe\b[\s\S]*?<\s*\/\s*iframe\s*>/gi, "")
+1307: 
+1308:       .replace(/<\s*object\b[\s\S]*?<\s*\/\s*object\s*>/gi, "")
+1309: 
+1310:       .replace(/<\s*embed\b[\s\S]*?>/gi, "")
+1311: 
+1312:       .replace(/<\s*link\b[\s\S]*?>/gi, "")
+1313: 
+1314:       .replace(/<\s*meta\b[\s\S]*?>/gi, "");
+1315: 
+1316:     return withoutUnsafeBlocks
+1317: 
+1318:       .replace(/\s+on[a-z]+\s*=\s*"[^"]*"/gi, "")
+1319: 
+1320:       .replace(/\s+on[a-z]+\s*=\s*'[^']*'/gi, "")
+1321: 
+1322:       .replace(/\s+on[a-z]+\s*=\s*[^\s>]+/gi, "")
+1323: 
+1324:       .replace(/\s+(href|src)\s*=\s*"javascript:[^"]*"/gi, "")
+1325: 
+1326:       .replace(/\s+(href|src)\s*=\s*'javascript:[^']*'/gi, "")
+1327: 
+1328:       .replace(/\s+(href|src)\s*=\s*javascript:[^\s>]+/gi, "");
+1329: 
+1330:   }
+1331: 
+1332:   // Phase 723 — visual artifact block extraction helper (non-active)
+1333: 
+1334:   function phase723ExtractVisualArtifactBlock(markdown) {
+1335: 
+1336:     const source = phase733NormalizePreviewTransportText(markdown);
+1337: 
+1338:     const startMarker = "<!-- visual-artifact:start -->";
+1339: 
+1340:     const endMarker = "<!-- visual-artifact:end -->";
+1341: 
+1342:     const startIndex = source.indexOf(startMarker);
+1343: 
+1344:     const endIndex = source.indexOf(endMarker);
+1345: 
+1346:     if (startIndex === -1 || endIndex === -1 || endIndex <= startIndex) {
+1347: 
+1348:       return {
+1349: 
+1350:         hasVisualArtifact: false,
+1351: 
+1352:         visualHtml: "",
+1353: 
+1354:         markdownWithoutVisualArtifact: source
+1355: 
+1356:       };
+1357: 
+1358:     }
+1359: 
+1360:     const visualStart = startIndex + startMarker.length;
+1361: 
+1362:     const visualHtml = source.slice(visualStart, endIndex).trim();
+1363: 
+1364:     const markdownWithoutVisualArtifact = (
+1365: 
+
+=== Lines 1365-1525 ===
+1365: 
+1366:       source.slice(0, startIndex) + source.slice(endIndex + endMarker.length)
+1367: 
+1368:     ).trim();
+1369: 
+1370:     return {
+1371: 
+1372:       hasVisualArtifact: Boolean(visualHtml),
+1373: 
+1374:       visualHtml,
+1375: 
+1376:       markdownWithoutVisualArtifact
+1377: 
+1378:     };
+1379: 
+1380:   }
+1381: 
+1382:   // Phase 723 — embedded visual artifact preview wrapper (non-active)
+1383: 
+1384:   function phase723RenderVisualArtifactPreviewCandidate(markdown) {
+1385: 
+1386:     const extracted = phase723ExtractVisualArtifactBlock(markdown);
+1387: 
+1388:     const fallbackMarkdown = extracted.markdownWithoutVisualArtifact || phase733NormalizePreviewTransportText(markdown);
+1389: 
+1390:     const fallbackPreview = phase719RenderArtifactVisualCard(fallbackMarkdown);
+1391: 
+1392:     if (!extracted.hasVisualArtifact) {
+1393: 
+1394:       return fallbackPreview;
+1395: 
+1396:     }
+1397: 
+1398:     const safeVisualHtml = phase723SanitizeVisualArtifactHtml(extracted.visualHtml);
+1399: 
+1400:     if (!safeVisualHtml) {
+1401: 
+1402:       return fallbackPreview;
+1403: 
+1404:     }
+1405: 
+1406:     return `
+1407: 
+1408:       <div data-phase723-visual-artifact-preview="true" style="max-width:960px;margin:0 auto 22px auto;border:1px solid rgba(45,212,191,.32);background:linear-gradient(135deg,rgba(15,23,42,.78),rgba(8,47,73,.46));border-radius:26px;padding:22px;box-shadow:0 24px 80px rgba(0,0,0,.32), inset 0 1px 0 rgba(255,255,255,.06);">
+1409: 
+1410:         <div style="display:flex;align-items:center;justify-content:space-between;gap:14px;margin-bottom:18px;">
+1411: 
+1412:           <div style="font-size:12px;text-transform:uppercase;letter-spacing:.2em;color:#ccfbf1;font-weight:950;text-shadow:0 0 22px rgba(45,212,191,.18);">Visual Artifact</div>
+1413: 
+1414:           <div style="font-size:10px;text-transform:uppercase;letter-spacing:.14em;color:#dbeafe;border:1px solid rgba(147,197,253,.34);border-radius:999px;padding:5px 10px;background:rgba(30,64,175,.22);box-shadow:inset 0 1px 0 rgba(255,255,255,.05);">sanitized html subset</div>
+1415: 
+1416:         </div>
+1417: 
+1418:         <div data-phase723-visual-artifact-body="true" style="overflow:auto;border-radius:20px;background:rgba(2,6,23,.46);border:1px solid rgba(148,163,184,.24);padding:18px;color:#e5e7eb;box-shadow:inset 0 1px 0 rgba(255,255,255,.04);">
+1419: 
+1420:           ${safeVisualHtml}
+1421: 
+1422:         </div>
+1423: 
+1424:       </div>
+1425: 
+1426:     `;
+1427: 
+1428:   }
+1429: 
+1430:   function phase719RenderMarkdownArtifactPreview(markdown) {
+1431: 
+1432:     const semanticEnvelope = phase720ExtractSemanticEnvelope(markdown);
+1433: 
+1434:     const extractedVisual = phase723ExtractVisualArtifactBlock(markdown);
+1435: 
+1436:     const hasExplicitStyleIntent = Boolean(
+1437: 
+1438:       semanticEnvelope &&
+1439: 
+1440:       semanticEnvelope.style_intent &&
+1441: 
+1442:       typeof semanticEnvelope.style_intent === "object"
+1443: 
+1444:     );
+1445: 
+1446:     if (extractedVisual.hasVisualArtifact && !hasExplicitStyleIntent) {
+1447: 
+1448:       const visualCandidate = phase723RenderVisualArtifactPreviewCandidate(markdown);
+1449: 
+1450:       return `
+1451: 
+1452:         <div data-phase724-visual-only-preview="true" style="display:grid;gap:12px;">
+1453: 
+1454:           ${visualCandidate}
+1455: 
+1456:         </div>
+1457: 
+1458:       `;
+1459: 
+1460:     }
+1461: 
+1462:     const rendered = phase719RenderArtifactVisualCard(markdown);
+1463: 
+1464:     return `
+1465: 
+1466:       <div data-phase719-preview-stack="true" style="display:grid;gap:12px;">
+1467: 
+1468:         <div data-phase719-inline-preview-primary="true" style="border:1px solid rgba(96,165,250,.22);border-radius:16px;padding:0;background:rgba(15,23,42,.34);">
+1469: 
+1470:           ${rendered}
+1471: 
+1472:         </div>
+1473: 
+1474:       </div>
+1475: 
+1476:     `;
+1477: 
+1478:   }
+1479: 
+1480: 
+1481: 
+1482:   async function phase719OpenPreviewModal(button) {
+1483: 
+1484:     const modal = phase719EnsurePreviewModal();
+1485: 
+1486:     const title = modal.querySelector("#phase719-preview-title");
+1487: 
+1488:     const subtitle = modal.querySelector("#phase719-preview-subtitle");
+1489: 
+1490:     const meta = modal.querySelector("#phase719-preview-meta");
+1491: 
+1492:     const body = modal.querySelector("#phase719-preview-body");
+1493: 
+1494:     const taskTitle = button.getAttribute("data-task-title") || "Artifact Preview";
+1495: 
+1496:     const taskId = button.getAttribute("data-task-id") || "";
+1497: 
+1498:     const fallbackName = button.getAttribute("data-artifact-name") || "artifact";
+1499: 
+1500:     const fallbackType = button.getAttribute("data-artifact-type") || "artifact";
+1501: 
+1502:     const fallbackSize = button.getAttribute("data-artifact-size") || "";
+1503: 
+1504:     const fallbackPath = button.getAttribute("data-artifact-path") || "";
+1505: 
+1506:     const fallbackOutcome = button.getAttribute("data-artifact-outcome") || "";
+1507: 
+1508:     const fallbackExplanation = button.getAttribute("data-artifact-explanation") || "";
+1509: 
+1510:     title.textContent = "Preview: " + taskTitle;
+1511: 
+1512:     subtitle.textContent = taskId ? "task_id: " + taskId : "";
+1513: 
+1514:     meta.textContent = [
+1515: 
+1516:       "artifact: " + fallbackName,
+1517: 
+1518:       fallbackType ? "type: " + fallbackType : "",
+1519: 
+1520:       fallbackSize ? "size: " + fallbackSize : "",
+1521: 
+1522:       fallbackPath ? "path: " + fallbackPath : ""
+1523: 
+1524:     ].filter(Boolean).join("\n");
+1525: 
+
