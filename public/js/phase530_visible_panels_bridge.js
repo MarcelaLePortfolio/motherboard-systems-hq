@@ -1439,7 +1439,13 @@
 
       .replace(/\\\\\"/g, '"')
 
-      .replace(/\\\\'/g, "'");
+      .replace(/\\\\'/g, "'")
+
+      .replace(/style="\\+"/g, 'style="')
+
+      .replace(/;\\+"/g, ';')
+
+      .replace(/\\+"=/g, '=');
 
     const textarea = document.createElement("textarea");
 
