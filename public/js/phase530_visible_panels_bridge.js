@@ -1333,7 +1333,9 @@
 
   function phase723ExtractVisualArtifactBlock(markdown) {
 
-    const source = phase733NormalizePreviewTransportText(markdown);
+    const normalized = phase733NormalizePreviewTransportText(markdown);
+
+    const source = phase720StripSemanticEnvelope(normalized);
 
     const startMarker = "<!-- visual-artifact:start -->";
 
