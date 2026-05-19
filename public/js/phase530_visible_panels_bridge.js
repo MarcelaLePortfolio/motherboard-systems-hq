@@ -1435,19 +1435,31 @@
 
   }
 
+  function phase735DecodeVisualArtifactHtmlTransport(html) {
+
+    const source = phase733NormalizePreviewTransportText(html || "")
+
+      .replace(/\\\\n/g, "\n")
+
+      .replace(/\\\\\"/g, '"')
+
+      .replace(/\\\\'/g, "'");
+
+    const textarea = document.createElement("textarea");
+
+    textarea.innerHTML = source;
+
+    return textarea.value;
+
+  }
+
   function phase719RenderMarkdownArtifactPreview(markdown) {
 
     const extractedVisual = phase723ExtractVisualArtifactBlock(markdown);
 
     if (extractedVisual.hasVisualArtifact) {
 
-      const decodedVisualHtml = phase733NormalizePreviewTransportText(extractedVisual.visualHtml)
-
-        .replace(/\\\\n/g, "\n")
-
-        .replace(/\\\\\"/g, '"')
-
-        .replace(/\\\\'/g, "'");
+      const decodedVisualHtml = phase735DecodeVisualArtifactHtmlTransport(extractedVisual.visualHtml);
 
       const safeVisualHtml = phase723SanitizeVisualArtifactHtml(decodedVisualHtml);
 
@@ -1479,7 +1491,13 @@
 
         >
 
-          ${safeVisualHtml}
+          <div
+
+            data-phase735-visual-html-mount="true"
+
+            data-phase735-visual-html="${encodeURIComponent(safeVisualHtml)}"
+
+          ></div>
 
         </div>
 
@@ -1625,9 +1643,7 @@
 
       body.innerHTML = phase719RenderMarkdownArtifactPreview(data.content);
 
-      const phase735Mount = body.querySelector("[data-phase735-visual-html-mount]");
-
-      if (phase735Mount) {
+      body.querySelectorAll("[data-phase735-visual-html-mount]").forEach((phase735Mount) => {
 
         const encoded = phase735Mount.getAttribute("data-phase735-visual-html") || "";
 
@@ -1643,7 +1659,7 @@
 
         }
 
-      }
+      });
 
     } catch (error) {
 
