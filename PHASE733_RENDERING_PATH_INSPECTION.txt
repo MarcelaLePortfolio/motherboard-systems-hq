@@ -1,0 +1,3 @@
+=== Phase 733 Rendering Path Inspection ===
+
+=== Candidate files mentioning artifact preview/rendering ===
