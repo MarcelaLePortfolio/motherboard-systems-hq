@@ -1429,29 +1429,41 @@
 
   function phase719RenderMarkdownArtifactPreview(markdown) {
 
-    const semanticEnvelope = phase720ExtractSemanticEnvelope(markdown);
-
     const extractedVisual = phase723ExtractVisualArtifactBlock(markdown);
 
-    const hasExplicitStyleIntent = Boolean(
+    if (extractedVisual.hasVisualArtifact) {
 
-      semanticEnvelope &&
-
-      semanticEnvelope.style_intent &&
-
-      typeof semanticEnvelope.style_intent === "object"
-
-    );
-
-    if (extractedVisual.hasVisualArtifact && !hasExplicitStyleIntent) {
-
-      const visualCandidate = phase723RenderVisualArtifactPreviewCandidate(markdown);
+      const safeVisualHtml = phase723SanitizeVisualArtifactHtml(extractedVisual.visualHtml);
 
       return `
 
-        <div data-phase724-visual-only-preview="true" style="display:grid;gap:12px;">
+        <div
 
-          ${visualCandidate}
+          data-phase733-single-artifact-render="true"
+
+          style="
+
+            max-width:1040px;
+
+            margin:0 auto;
+
+            border:1px solid rgba(148,163,184,.28);
+
+            border-radius:22px;
+
+            padding:18px;
+
+            background:rgba(15,23,42,.42);
+
+            box-shadow:0 24px 80px rgba(0,0,0,.32), inset 0 1px 0 rgba(255,255,255,.05);
+
+            overflow:auto;
+
+          "
+
+        >
+
+          ${safeVisualHtml}
 
         </div>
 
@@ -1459,49 +1471,39 @@
 
     }
 
-    const rendered = phase719RenderArtifactVisualCard(markdown);
-
-    const previewTheme = phase733BuildPreviewThemeFromStyleIntent(
-
-      semanticEnvelope?.style_intent || {}
-
-    );
-
     return `
 
-      <div data-phase719-preview-stack="true" style="display:grid;gap:12px;">
+      <div
 
-        <div
+        data-phase733-single-artifact-render-fallback="true"
 
-          data-phase719-inline-preview-primary="true"
+        style="
 
-          style="
+          max-width:920px;
 
-            border:1px solid ${previewTheme.cardBorder};
+          margin:0 auto;
 
-            border-radius:16px;
+          border:1px solid rgba(148,163,184,.28);
 
-            padding:0;
+          border-radius:22px;
 
-            background:${previewTheme.shell};
+          padding:22px;
 
-            box-shadow:${previewTheme.shadow};
+          background:rgba(15,23,42,.72);
 
-          "
+          color:#e5e7eb;
 
-        >
+          white-space:pre-wrap;
 
-          ${rendered}
+          overflow-wrap:anywhere;
 
-        </div>
+        "
 
-      </div>
+      >${phase719EscapePreviewHtml(phase720StripSemanticEnvelope(markdown))}</div>
 
     `;
 
   }
-
-
 
   async function phase719OpenPreviewModal(button) {
 
