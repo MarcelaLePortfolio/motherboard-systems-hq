@@ -21,7 +21,7 @@ fi
 
 cd "$ACTUAL_ROOT"
 
-TIMESTAMP=$(date -u +"%Y%m%dT%H%M%SZ")
+TIMESTAMP="$(date -u +"%Y%m%dT%H%M%SZ")"
 
 SNAPSHOT_DIR="backups/disaster-recovery/dr-$TIMESTAMP"
 
@@ -37,15 +37,15 @@ git remote -v > "$SNAPSHOT_DIR/git-remotes.txt"
 
 git status --short > "$SNAPSHOT_DIR/git-status.txt"
 
+git status -sb > "$SNAPSHOT_DIR/git-status-branch.txt"
+
+git log -1 --oneline > "$SNAPSHOT_DIR/latest-commit.txt"
+
 find . \
 
-  -path "./node_modules" -prune -o \
+  \( -path "./node_modules" -o -path "./.git" -o -path "./backups/disaster-recovery/dr-*" \) -prune \
 
-  -path "./.git" -prune -o \
-
-  -path "./backups/disaster-recovery/dr-*" -prune -o \
-
-  -print > "$SNAPSHOT_DIR/repository-tree.txt"
+  -o -print > "$SNAPSHOT_DIR/repository-tree.txt"
 
 pm2 list > "$SNAPSHOT_DIR/pm2-list.txt" 2>/dev/null || true
 
@@ -74,6 +74,8 @@ Commit: $(git rev-parse HEAD)
 Purpose: Disaster recovery snapshot
 
 Classification: Runtime-adjacent backup artifact
+
+Status: complete
 
 MANIFEST
 
