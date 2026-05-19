@@ -245,7 +245,29 @@ async function completeSuccess(pool, task, executionResult = null) {
 
       }
 
-      const phase733StyleIntent = extractPhase733StyleIntent(taskTitle);
+      const phase733StyleIntentSource = [
+
+        taskTitle,
+
+        task?.payload?.title,
+
+        task?.payload?.prompt,
+
+        task?.payload?.description,
+
+        task?.payload?.body,
+
+        task?.payload?.input,
+
+        task?.payload?.request,
+
+        task?.payload?.task,
+
+        typeof task?.payload === "string" ? task.payload : "",
+
+      ].filter(Boolean).join("\n");
+
+      const phase733StyleIntent = extractPhase733StyleIntent(phase733StyleIntentSource);
 
       const semanticEnvelope = [
 
