@@ -1,0 +1,25 @@
+ef1bc797 Use escaped text transport for visual artifact templates
+48b826fa Fix quote-poisoned visual artifact style decoding
+7882ecd9 Render fallback raw HTML artifacts as sanitized DOM
+3c686916 Align single-container preview branch with template mount
+86a6ee10 Inspect active preview branch paths
+11c56d1e Record active preview flow mismatch evidence
+57d26dbb Add runtime browser script content validation step
+ead35f83 Record browser script version mismatch evidence
+cb06d973 Record DOM evidence showing preview not mounted
+e474cd93 Clarify browser console evidence capture workflow
+3b68927f Add browser console DOM evidence snippet
+17904ddf Require DOM evidence before further renderer mutation
+7777ec17 Freeze Phase 735 after raw HTML render persistence
+c17d34f7 Freeze renderer mutations pending DOM evidence
+9eaeb58e Capture rendered DOM evidence instructions
+816593db Record terminal input recovery checkpoint
+cb218f68 Add final browser validation instructions
+b1ab4fdd Record template mount validation status
+ea7124c5 Apply template mount for visual artifact DOM rendering
+f074ed37 Add template mount recovery runner
+4f6a006e Add single-container DOM mount validation runner
+5ce96c3d Mount single-container visual artifacts as decoded sanitized DOM
+5ef4e73a Mount visual artifact HTML after modal render
+b3dfbd1a Locate preview modal render assignment
+98abba1c Mount visual artifact HTML as sanitized DOM
