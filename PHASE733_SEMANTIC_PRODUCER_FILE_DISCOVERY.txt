@@ -1,0 +1,199 @@
+=== Phase 733 Semantic Producer File Discovery ===
+
+=== PHASE733_STYLE_INTENT_PAYLOAD_FINDING.md ===
+hits: task_summary, actionable_outputs, evidence_notes
+12: - task_summary
+14: - actionable_outputs
+16: - evidence_notes
+
+=== PHASE720_SEMANTIC_ENVELOPE_VALIDATION_CHECKPOINT.md ===
+hits: MB_SEMANTIC_ARTIFACT_V1
+16: - `MB_SEMANTIC_ARTIFACT_V1` semantic envelope
+
+=== PHASE722_BROWSER_CONFIRMATION_TARGET.md ===
+hits: MB_SEMANTIC_ARTIFACT_V1
+46: - Raw `MB_SEMANTIC_ARTIFACT_V1` envelope is not visible.
+
+=== PHASE720_COMPLETION_SEAL.md ===
+hits: MB_SEMANTIC_ARTIFACT_V1
+42: - Raw `MB_SEMANTIC_ARTIFACT_V1` envelope does not leak into visual card.
+
+=== PHASE720_FRONTEND_SEMANTIC_DETECTION_CHECKPOINT.md ===
+hits: MB_SEMANTIC_ARTIFACT_V1
+24: - `MB_SEMANTIC_ARTIFACT_V1` envelope present in fresh artifact.
+
+=== PHASE720_SEMANTIC_SCHEMA_BASELINE.md ===
+hits: task_summary, actionable_outputs, evidence_notes, raw_markdown_fallback
+68: - task_summary
+72: - actionable_outputs
+74: - evidence_notes
+78: - raw_markdown_fallback
+
+=== PHASE721_OPERATOR_SUMMARY_ARTIFACT_PREVIEW.json ===
+hits: MB_SEMANTIC_ARTIFACT_V1, task_summary, actionable_outputs, evidence_notes, raw_markdown_fallback
+1: {"ok":true,"task_id":"t_d30302d2-e80b-4f01-85e9-7a8d92ee2d58","artifact":{"filename":"t_d30302d2-e80b-4f01-85e9-7a8d92ee2d58_run_1ade4f7d-0cbf-4870-8a13-574234766b7c.md","type":"markdown","size_bytes":2026,"created_at":"2026-05-16T00:00:56.
+
+=== PHASE720_FRESH_ARTIFACT_PREVIEW.json ===
+hits: MB_SEMANTIC_ARTIFACT_V1, task_summary, actionable_outputs, evidence_notes, raw_markdown_fallback
+1: {"ok":true,"task_id":"t_0a496b00-366d-47db-83f7-f2f19396804c","artifact":{"filename":"t_0a496b00-366d-47db-83f7-f2f19396804c_run_e4adc2e9-baf0-425e-97e4-736062ed11cd.md","type":"markdown","size_bytes":2010,"created_at":"2026-05-15T19:43:14.
+
+=== PHASE724_ALLOWED_STRATEGY_CORRECTION.md ===
+hits: visual_artifact_generation
+20: `strategy_applied: visual_artifact_generation`
+34: `visual_artifact_strategy: visual_artifact_generation`
+
+=== PHASE720_FRONTEND_SEMANTIC_ENVELOPE_DETECTION_PLAN.md ===
+hits: MB_SEMANTIC_ARTIFACT_V1
+6: Add read-only frontend detection for the worker-authored `MB_SEMANTIC_ARTIFACT_V1` envelope without changing backend contracts.
+28: - Detect `MB_SEMANTIC_ARTIFACT_V1` only if present.
+
+=== PHASE720_FRONTEND_DETECTION_ARTIFACT_PREVIEW.json ===
+hits: MB_SEMANTIC_ARTIFACT_V1, task_summary, actionable_outputs, evidence_notes, raw_markdown_fallback
+1: {"ok":true,"task_id":"t_08946e47-7e60-4553-a5e5-9cd6b96712db","artifact":{"filename":"t_08946e47-7e60-4553-a5e5-9cd6b96712db_run_65d60ba0-22f1-40d0-91f5-0c1ad66da587.md","type":"markdown","size_bytes":2042,"created_at":"2026-05-15T19:48:45.
+
+=== PHASE721_SEMANTIC_OPERATOR_SUMMARY_CHECKPOINT.md ===
+hits: MB_SEMANTIC_ARTIFACT_V1
+26: - `MB_SEMANTIC_ARTIFACT_V1` envelope remains present.
+84: - raw `MB_SEMANTIC_ARTIFACT_V1` envelope is not visible
+
+=== PHASE724_BROWSER_VALIDATED_BASELINE_BACKUP.md ===
+hits: visual_artifact_generation
+42:   - `visual_artifact_strategy: visual_artifact_generation`
+
+=== PHASE722_READABILITY_ARTIFACT_PREVIEW.json ===
+hits: MB_SEMANTIC_ARTIFACT_V1, task_summary, actionable_outputs, evidence_notes, raw_markdown_fallback
+1: {"ok":true,"task_id":"t_cfd202e0-9e12-45af-a7ef-be51d27c3c5a","artifact":{"filename":"t_cfd202e0-9e12-45af-a7ef-be51d27c3c5a_run_906bb19b-cd83-4ce7-9e54-fdbc72014757.md","type":"markdown","size_bytes":1970,"created_at":"2026-05-16T00:08:06.
+
+=== PHASE721_SEMANTIC_VISUAL_ENRICHMENT_BASELINE.md ===
+hits: MB_SEMANTIC_ARTIFACT_V1
+16: - Worker-authored `MB_SEMANTIC_ARTIFACT_V1` envelope operational.
+
+=== PHASE720_BROWSER_VALIDATION_AND_RESUME_POINT.md ===
+hits: MB_SEMANTIC_ARTIFACT_V1, task_summary, actionable_outputs, evidence_notes, raw_markdown_fallback
+62: `MB_SEMANTIC_ARTIFACT_V1`
+84: - task_summary
+88: - actionable_outputs
+90: - evidence_notes
+94: - raw_markdown_fallback
+
+=== PHASE724_VISUAL_INTENT_INTERPRETER_PATCH.md ===
+hits: visual_artifact_generation
+22: - `visual_artifact_generation` strategy branch
+
+=== PHASE733_STYLE_INTENT_PAYLOAD_t_d0f68596-f917-42cd-a092-4a2cdc987ea0.json ===
+hits: MB_SEMANTIC_ARTIFACT_V1, task_summary, actionable_outputs, evidence_notes, raw_markdown_fallback, visual_artifact_generation, Preview Concept Visual Artifact
+1: {"ok":true,"task_id":"t_d0f68596-f917-42cd-a092-4a2cdc987ea0","artifact":{"filename":"t_d0f68596-f917-42cd-a092-4a2cdc987ea0_run_2a76f7c8-4550-4067-b0ba-22d8f8ae4acd.md","type":"markdown","size_bytes":28368,"created_at":"2026-05-19T17:37:05
+
+=== PHASE721_COMPLETION_SEAL.md ===
+hits: MB_SEMANTIC_ARTIFACT_V1
+46: - Raw `MB_SEMANTIC_ARTIFACT_V1` envelope does not appear in the visual card.
+
+=== PHASE720_SEMANTIC_CONTRACT_DESIGN.md ===
+hits: MB_SEMANTIC_ARTIFACT_V1, task_summary, actionable_outputs, evidence_notes, raw_markdown_fallback
+86: <!-- MB_SEMANTIC_ARTIFACT_V1
+94:   "task_summary": "",
+98:   "actionable_outputs": [],
+100:   "evidence_notes": [],
+104:   "raw_markdown_fallback": true
+
+=== PHASE722_COMPLETION_SEAL.md ===
+hits: MB_SEMANTIC_ARTIFACT_V1
+42: - Raw `MB_SEMANTIC_ARTIFACT_V1` envelope does not appear in the visual card.
+
+=== PHASE720_BROWSER_VISIBLE_SEMANTIC_CONFIRMATION.md ===
+hits: MB_SEMANTIC_ARTIFACT_V1
+32: - Raw `MB_SEMANTIC_ARTIFACT_V1` comment is not visible in the visual card.
+
+=== checkpoints/PHASE722_PRE_READABILITY_POLISH.js ===
+hits: MB_SEMANTIC_ARTIFACT_V1, task_summary, actionable_outputs, evidence_notes
+784:     const match = source.match(/<!--\s*MB_SEMANTIC_ARTIFACT_V1\s*([\s\S]*?)\s*-->/);
+806:     return String(markdown || "").replace(/<!--\s*MB_SEMANTIC_ARTIFACT_V1\s*[\s\S]*?\s*-->\s*/g, "");
+974:       semanticEnvelope.task_summary ? ["Semantic Summary", semanticEnvelope.task_summary] : null,
+976:       Array.isArray(semanticEnvelope.actionable_outputs) && semanticEnvelope.actionable_outputs.length
+978:         ? ["Actionable Outputs", semanticEnvelope.actionable_outputs.join("\n")]
+982:       Array.isArray(semanticEnvelope.evidence_notes) && semanticEnvelope.evidence_notes.length
+984:         ? ["Evidence Notes", semanticEnvelope.evidence_notes.join("\n")]
+
+=== checkpoints/PHASE721_PRE_SEMANTIC_OPERATOR_SUMMARY.js ===
+hits: MB_SEMANTIC_ARTIFACT_V1
+784:     const match = source.match(/<!--\s*MB_SEMANTIC_ARTIFACT_V1\s*([\s\S]*?)\s*-->/);
+806:     return String(markdown || "").replace(/<!--\s*MB_SEMANTIC_ARTIFACT_V1\s*[\s\S]*?\s*-->\s*/g, "");
+
+=== checkpoints/phase724_cleanup_quarantine/PHASE724_VISUAL_INTENT_RUNTIME_VALIDATION.md ===
+hits: visual_artifact_generation
+20: - `strategy_applied: visual_artifact_generation`
+
+=== checkpoints/phase724_cleanup_quarantine/PHASE724_TITLE_NORMALIZATION_RUNTIME_TEST.md ===
+hits: visual_artifact_generation
+32: - `strategy_applied` becomes `visual_artifact_generation`
+
+=== checkpoints/phase724_cleanup_quarantine/PHASE724_ALLOWED_STRATEGY_RUNTIME_RETEST.md ===
+hits: visual_artifact_generation
+18: `visual_artifact_strategy: visual_artifact_generation`
+
+=== checkpoints/phase724_cleanup_quarantine/PHASE724_NATURAL_VISUAL_TASK_COMPLETION_CHECK.md ===
+hits: visual_artifact_generation
+22: - `visual_artifact_generation`
+
+=== checkpoints/phase725_aesthetic_refinement_baseline/phase530_visible_panels_bridge.pre_phase725_visual_polish.js ===
+hits: MB_SEMANTIC_ARTIFACT_V1, task_summary, actionable_outputs, evidence_notes
+784:     const match = source.match(/<!--\s*MB_SEMANTIC_ARTIFACT_V1\s*([\s\S]*?)\s*-->/);
+806:     return String(markdown || "").replace(/<!--\s*MB_SEMANTIC_ARTIFACT_V1\s*[\s\S]*?\s*-->\s*/g, "");
+1000:       semanticEnvelope.task_summary && !phase722IsDuplicateSemanticText(semanticEnvelope.task_summary, displaySummary)
+1002:         ? ["Semantic Summary", semanticEnvelope.task_summary]
+1006:       Array.isArray(semanticEnvelope.actionable_outputs) && semanticEnvelope.actionable_outputs.length
+1008:         ? ["Actionable Outputs", semanticEnvelope.actionable_outputs.filter((item) => !phase722IsDuplicateSemanticText(item, displayDeliverable)).join("\n")]
+1012:       Array.isArray(semanticEnvelope.evidence_notes) && semanticEnvelope.evidence_notes.length
+1014:         ? ["Evidence Notes", semanticEnvelope.evidence_notes.join("\n")]
+
+=== checkpoints/phase726_pre_runtime_integration/phase26_task_worker.pre_phase726_runtime_integration.mjs ===
+hits: MB_SEMANTIC_ARTIFACT_V1, task_summary, actionable_outputs, evidence_notes, raw_markdown_fallback
+181:         "<!-- MB_SEMANTIC_ARTIFACT_V1",
+189:           task_summary: artifactSummary,
+193:           actionable_outputs: [artifactDeliverable],
+195:           evidence_notes: artifactDetails
+205:           raw_markdown_fallback: true
+
+=== server/worker/task_execution_interpreter.mjs ===
+hits: visual_artifact_generation
+286:         visual_artifact_strategy: "visual_artifact_generation"
+
+=== server/worker/phase26_task_worker.mjs ===
+hits: MB_SEMANTIC_ARTIFACT_V1, task_summary, actionable_outputs, evidence_notes, raw_markdown_fallback
+188:         "<!-- MB_SEMANTIC_ARTIFACT_V1",
+196:           task_summary: artifactSummary,
+200:           actionable_outputs: [artifactDeliverable],
+202:           evidence_notes: artifactDetails
+212:           raw_markdown_fallback: true
+
+=== docs/phase726/PHASE726_RUNTIME_SOURCE_EXCERPTS.md ===
+hits: visual_artifact_generation
+1052:         visual_artifact_strategy: "visual_artifact_generation"
+
+=== public/js/phase530_visible_panels_bridge.js ===
+hits: MB_SEMANTIC_ARTIFACT_V1, task_summary, actionable_outputs, evidence_notes
+896:     const match = source.match(/<!--\s*MB_SEMANTIC_ARTIFACT_V1\s*([\s\S]*?)\s*-->/);
+918:     return phase733NormalizePreviewTransportText(markdown).replace(/<!--\s*MB_SEMANTIC_ARTIFACT_V1\s*[\s\S]*?\s*-->\s*/g, "");
+1114:       semanticEnvelope.task_summary && !phase722IsDuplicateSemanticText(semanticEnvelope.task_summary, displaySummary)
+1116:         ? ["Semantic Summary", semanticEnvelope.task_summary]
+1120:       Array.isArray(semanticEnvelope.actionable_outputs) && semanticEnvelope.actionable_outputs.length
+1122:         ? ["Actionable Outputs", semanticEnvelope.actionable_outputs.filter((item) => !phase722IsDuplicateSemanticText(item, displayDeliverable)).join("\n")]
+1126:       Array.isArray(semanticEnvelope.evidence_notes) && semanticEnvelope.evidence_notes.length
+1128:         ? ["Evidence Notes", semanticEnvelope.evidence_notes.join("\n")]
+
+=== scripts/_local/agent-runtime/db-init/prepare-db.js ===
+hits: task_summary
+13:     task_summary TEXT,
+
+=== _snapshots/phase617-pre-result-surfacing-wire-stable-20260501_233350/scripts/_local/agent-runtime/db-init/prepare-db.js ===
+hits: task_summary
+13:     task_summary TEXT,
+
+=== _snapshots/phase618-ui-communication-tier-surfacing-complete-20260501_235622/scripts/_local/agent-runtime/db-init/prepare-db.js ===
+hits: task_summary
+13:     task_summary TEXT,
+
+=== tmp/semantic-snapshots/semantic-snapshot-20260516-221206.json ===
+hits: visual_artifact_generation
+1: {"ok":true,"tasks":[{"id":"22","task_id":"t_5fa29a78-e3b5-43cb-abc5-df552d930a25","title":"Phase 726 readonly metadata inspection","status":"completed","claimed_by":"worker-e83993aa-8bcb-4315-9110-7eb191677a7d","updated_at":"2026-05-17T02:5
+
