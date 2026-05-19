@@ -1,0 +1,146 @@
+# Phase 735 Modal Render Assignment Scan
+
+730:        <div id="phase719-preview-body" style="overflow-wrap:anywhere;font-size:13px;line-height:1.6;color:#dbeafe;border:1px solid rgba(96,165,250,.24);background:linear-gradient(180deg, rgba(15,23,42,.92), rgba(2,6,23,.74));border-radius:16px;padding:18px;margin:0;box-shadow:inset 0 1px 0 rgba(255,255,255,.04);"></div>
+1432:  function phase719RenderMarkdownArtifactPreview(markdown) {
+1528:    const body = modal.querySelector("#phase719-preview-body");
+1562:    body.innerHTML = `<div style="color:#93c5fd;font-size:14px;">Loading rendered artifact preview…</div>`;
+1620:      body.innerHTML = phase719RenderMarkdownArtifactPreview(data.content);
+
+## nearby modal function
+1518:  async function phase719OpenPreviewModal(button) {
+1519-
+1520-    const modal = phase719EnsurePreviewModal();
+1521-
+1522-    const title = modal.querySelector("#phase719-preview-title");
+1523-
+1524-    const subtitle = modal.querySelector("#phase719-preview-subtitle");
+1525-
+1526-    const meta = modal.querySelector("#phase719-preview-meta");
+1527-
+1528-    const body = modal.querySelector("#phase719-preview-body");
+1529-
+1530-    const taskTitle = button.getAttribute("data-task-title") || "Artifact Preview";
+1531-
+1532-    const taskId = button.getAttribute("data-task-id") || "";
+1533-
+1534-    const fallbackName = button.getAttribute("data-artifact-name") || "artifact";
+1535-
+1536-    const fallbackType = button.getAttribute("data-artifact-type") || "artifact";
+1537-
+1538-    const fallbackSize = button.getAttribute("data-artifact-size") || "";
+1539-
+1540-    const fallbackPath = button.getAttribute("data-artifact-path") || "";
+1541-
+1542-    const fallbackOutcome = button.getAttribute("data-artifact-outcome") || "";
+1543-
+1544-    const fallbackExplanation = button.getAttribute("data-artifact-explanation") || "";
+1545-
+1546-    title.textContent = "Preview: " + taskTitle;
+1547-
+1548-    subtitle.textContent = taskId ? "task_id: " + taskId : "";
+1549-
+1550-    meta.textContent = [
+1551-
+1552-      "artifact: " + fallbackName,
+1553-
+1554-      fallbackType ? "type: " + fallbackType : "",
+1555-
+1556-      fallbackSize ? "size: " + fallbackSize : "",
+1557-
+1558-      fallbackPath ? "path: " + fallbackPath : ""
+1559-
+1560-    ].filter(Boolean).join("\n");
+1561-
+1562-    body.innerHTML = `<div style="color:#93c5fd;font-size:14px;">Loading rendered artifact preview…</div>`;
+1563-
+1564-    modal.style.display = "flex";
+1565-
+1566-    if (!taskId) {
+1567-
+1568-      body.textContent = "No task id available for artifact preview.";
+1569-
+1570-      return;
+1571-
+1572-    }
+1573-
+1574-    try {
+1575-
+1576-      const res = await fetch(`/api/tasks/${encodeURIComponent(taskId)}/artifact-preview`, { cache: "no-store" });
+1577-
+1578-      const data = await res.json().catch(() => null);
+1579-
+1580-      if (!res.ok || !data || data.ok !== true) {
+1581-
+1582-        body.textContent = [
+1583-
+1584-          "Rendered artifact content is not available.",
+1585-
+1586-          data && data.error ? "Error: " + data.error : "",
+1587-
+1588-          fallbackOutcome ? "\nOutcome:\n" + fallbackOutcome : "",
+1589-
+1590-          fallbackExplanation ? "\nExplanation:\n" + fallbackExplanation : ""
+1591-
+1592-        ].filter(Boolean).join("\n");
+1593-
+1594-        return;
+1595-
+1596-      }
+1597-
+1598-      const artifact = data.artifact || {};
+1599-
+1600-      const renderedName = artifact.filename || fallbackName;
+1601-
+1602-      const renderedType = artifact.type || fallbackType;
+1603-
+1604-      const renderedSize = artifact.size_bytes ? String(artifact.size_bytes) + " bytes" : fallbackSize;
+1605-
+1606-      const renderedCreated = artifact.created_at || "";
+1607-
+1608-      meta.textContent = [
+1609-
+1610-        "artifact: " + renderedName,
+1611-
+1612-        renderedType ? "type: " + renderedType : "",
+1613-
+1614-        renderedSize ? "size: " + renderedSize : "",
+1615-
+1616-        renderedCreated ? "created: " + renderedCreated : ""
+1617-
+1618-      ].filter(Boolean).join("\n");
+1619-
+1620-      body.innerHTML = phase719RenderMarkdownArtifactPreview(data.content);
+1621-
+1622-    } catch (error) {
+1623-
+1624-      body.textContent = [
+1625-
+1626-        "Preview fetch failed.",
+1627-
+1628-        error && error.message ? error.message : String(error),
+1629-
+1630-        fallbackOutcome ? "\nOutcome:\n" + fallbackOutcome : "",
+1631-
+1632-        fallbackExplanation ? "\nExplanation:\n" + fallbackExplanation : ""
+1633-
+1634-      ].filter(Boolean).join("\n");
+1635-
+1636-    }
+1637-
+1638-  }
+1639-
+1640-
+1641-  document.addEventListener("click", function (event) {
+1642-
+1643-    const button = event.target.closest("[data-phase719-preview-artifact]");
+1644-
+1645-    if (!button) return;
+1646-
+1647-    event.preventDefault();
+1648-
+1649-    phase719OpenPreviewModal(button);
+1650-
+1651-  });
+1652-
+1653-
+1654-})();
