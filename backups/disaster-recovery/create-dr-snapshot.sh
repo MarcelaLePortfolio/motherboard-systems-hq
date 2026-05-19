@@ -43,9 +43,17 @@ git log -1 --oneline > "$SNAPSHOT_DIR/latest-commit.txt"
 
 find . \
 
-  \( -path "./node_modules" -o -path "./.git" -o -path "./backups/disaster-recovery/dr-*" \) -prune \
+  \( \
 
-  -o -print > "$SNAPSHOT_DIR/repository-tree.txt"
+    -path "./node_modules" -o \
+
+    -path "./.git" -o \
+
+    -path "./backups/disaster-recovery/dr-*" \
+
+  \) \
+
+  -prune -o -print > "$SNAPSHOT_DIR/repository-tree.txt"
 
 pm2 list > "$SNAPSHOT_DIR/pm2-list.txt" 2>/dev/null || true
 
