@@ -9,21 +9,33 @@ echo
 
 echo "=== Candidate files mentioning artifact preview/rendering ==="
 
-grep -RIn \
+find public routes src -type f 2>/dev/null \
 
-  --exclude-dir=node_modules \
+  ! -path "*/node_modules/*" \
 
-  --exclude-dir=.git \
+  ! -path "*/.git/*" \
 
-  --exclude-dir=backups \
+  ! -path "*/backups/*" \
 
-  "artifact\|preview\|sanitize\|innerHTML\|markdown\|\\n" \
+  -print0 \
 
-  public routes src server.ts 2>/dev/null | head -200
+  | xargs -0 grep -nE "artifact|preview|sanitize|innerHTML|markdown|\\\\n" 2>/dev/null \
+
+  | head -200 || true
+
+echo
+
+echo "=== Server candidate scan ==="
+
+grep -nE "artifact|preview|sanitize|innerHTML|markdown|\\\\n" server.ts 2>/dev/null || true
 
 echo
 
 echo "=== Known renderer bridge files ==="
 
-find public src routes -type f 2>/dev/null | grep -Ei 'render|preview|artifact|phase530|semantic|markdown' | sort
+find public src routes -type f 2>/dev/null \
+
+  | grep -Ei 'render|preview|artifact|phase530|semantic|markdown' \
+
+  | sort || true
 
