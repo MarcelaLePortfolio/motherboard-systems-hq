@@ -1,0 +1,80 @@
+=== Phase 733 Worker Semantic Producer Slice ===
+Target: server/worker/phase26_task_worker.mjs
+Lines: 150-225
+
+150:       const taskTitle = String(task?.title ?? task?.payload?.title ?? taskId);
+151: 
+152:       const taskStatus = String(completed?.status ?? "completed");
+153: 
+154:       const artifactSummary = outcome || `Execution completed for: ${taskTitle}`;
+155: 
+156:       const artifactDeliverable = outcome || "No deliverable summary was produced.";
+157: 
+158:       const artifactDetails = [
+159: 
+160:         `Task: ${taskTitle}`,
+161: 
+162:         `Status: ${taskStatus}`,
+163: 
+164:         explanation ? `Execution notes: ${explanation}` : null,
+165: 
+166:         systemTrace?.strategy_applied ? `Strategy applied: ${systemTrace.strategy_applied}` : null
+167: 
+168:       ].filter(Boolean).join("\n");
+169: 
+170:       const artifactRecommendations = [
+171: 
+172:         "Review the generated artifact preview in the operator console.",
+173: 
+174:         "Use the execution trace only when deeper debugging is needed."
+175: 
+176:       ].join("\n");
+177: 
+178:       const artifactNextSteps = [
+179: 
+180:         "Confirm the artifact content matches the operator intent.",
+181: 
+182:         "If richer deliverable content is needed, refine the worker artifact contract before expanding renderer behavior."
+183: 
+184:       ].join("\n");
+185: 
+186:       const semanticEnvelope = [
+187: 
+188:         "<!-- MB_SEMANTIC_ARTIFACT_V1",
+189: 
+190:         JSON.stringify({
+191: 
+192:           artifact_kind: "task_execution_summary",
+193: 
+194:           semantic_version: "1.0",
+195: 
+196:           task_summary: artifactSummary,
+197: 
+198:           execution_plan: artifactRecommendations,
+199: 
+200:           actionable_outputs: [artifactDeliverable],
+201: 
+202:           evidence_notes: artifactDetails
+203: 
+204:             .split("\n")
+205: 
+206:             .map((line) => line.trim())
+207: 
+208:             .filter(Boolean),
+209: 
+210:           operator_next_steps: artifactNextSteps,
+211: 
+212:           raw_markdown_fallback: true
+213: 
+214:         }, null, 2),
+215: 
+216:         "-->"
+217: 
+218:       ].join("\n");
+219: 
+220:       const content = [
+221: 
+222:         semanticEnvelope,
+223: 
+224:         "",
+225: 
