@@ -1,0 +1,19 @@
+
+Timestamp: 20260519T170912Z
+
+Repository: motherboard-systems-hq
+
+Root: /Users/marcela-dev/Projects/Motherboard_Systems_HQ
+
+Branch: phase730-semantic-section-extraction
+
+Commit: f4b8fdee03bd0858dacee676ae6f19c146407a30
+
+Purpose: Disaster recovery metadata checkpoint
+
+Classification: Runtime-adjacent backup artifact
+
+RepositoryTreeExport: suspended-after-three-failure-stop-rule
+
+Status: metadata-only-stable
+
