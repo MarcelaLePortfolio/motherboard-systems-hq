@@ -27,8 +27,6 @@ SNAPSHOT_DIR="backups/disaster-recovery/dr-$TIMESTAMP"
 
 mkdir -p "$SNAPSHOT_DIR"
 
-echo "Creating DR snapshot at: $SNAPSHOT_DIR"
-
 git branch --show-current > "$SNAPSHOT_DIR/current-branch.txt"
 
 git rev-parse HEAD > "$SNAPSHOT_DIR/current-commit.txt"
@@ -41,23 +39,7 @@ git status -sb > "$SNAPSHOT_DIR/git-status-branch.txt"
 
 git log -1 --oneline > "$SNAPSHOT_DIR/latest-commit.txt"
 
-find . \
-
-  \( \
-
-    -path "./node_modules" -o \
-
-    -path "./.git" -o \
-
-    -path "./backups/disaster-recovery/dr-*" \
-
-  \) \
-
-  -prune -o -print > "$SNAPSHOT_DIR/repository-tree.txt"
-
 pm2 list > "$SNAPSHOT_DIR/pm2-list.txt" 2>/dev/null || true
-
-pm2 save > /dev/null 2>&1 || true
 
 docker ps -a > "$SNAPSHOT_DIR/docker-ps.txt" 2>/dev/null || true
 
@@ -79,13 +61,15 @@ Branch: $(git branch --show-current)
 
 Commit: $(git rev-parse HEAD)
 
-Purpose: Disaster recovery snapshot
+Purpose: Disaster recovery metadata checkpoint
 
 Classification: Runtime-adjacent backup artifact
 
-Status: complete
+RepositoryTreeExport: suspended-after-three-failure-stop-rule
+
+Status: metadata-only-stable
 
 MANIFEST
 
-echo "DR snapshot complete: $SNAPSHOT_DIR"
+echo "DR metadata checkpoint complete: $SNAPSHOT_DIR"
 
