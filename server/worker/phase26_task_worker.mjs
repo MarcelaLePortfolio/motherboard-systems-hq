@@ -183,6 +183,70 @@ async function completeSuccess(pool, task, executionResult = null) {
 
       ].join("\n");
 
+      function extractPhase733StyleIntent(sourceText) {
+
+        const source = String(sourceText || "");
+
+        const start = source.match(/style_intent\s*:\s*/i);
+
+        if (!start) return null;
+
+        const after = source.slice(start.index + start[0].length);
+
+        const styleIntent = {};
+
+        const allowedKeys = new Set([
+
+          "mood",
+
+          "background",
+
+          "card",
+
+          "text",
+
+          "secondary_text",
+
+          "accent",
+
+          "typography",
+
+          "shadow",
+
+          "density"
+
+        ]);
+
+        for (const rawLine of after.split(/\r?\n/)) {
+
+          const line = rawLine.trim();
+
+          if (!line) continue;
+
+          if (/^(hard constraints|content|required visible labels|success criteria)\s*:?$/i.test(line)) break;
+
+          const match = line.match(/^([a-z_]+)\s*:\s*(.+)$/i);
+
+          if (!match) continue;
+
+          const key = match[1].trim().toLowerCase();
+
+          const value = match[2].trim();
+
+          if (allowedKeys.has(key) && value) {
+
+            styleIntent[key] = value.slice(0, 160);
+
+          }
+
+        }
+
+        return Object.keys(styleIntent).length ? styleIntent : null;
+
+      }
+
+      const phase733StyleIntent = extractPhase733StyleIntent(taskTitle);
+
       const semanticEnvelope = [
 
         "<!-- MB_SEMANTIC_ARTIFACT_V1",
@@ -206,6 +270,8 @@ async function completeSuccess(pool, task, executionResult = null) {
             .map((line) => line.trim())
 
             .filter(Boolean),
+
+          ...(phase733StyleIntent ? { style_intent: phase733StyleIntent } : {}),
 
           operator_next_steps: artifactNextSteps,
 
