@@ -1,97 +1,15 @@
 
-function unwrapPayload(value) {
+from pathlib import Path
 
-  if (!value) return {};
+path = Path("server/worker/task_execution_interpreter.mjs")
 
-  if (typeof value === "object") return value;
+text = path.read_text()
 
-  try {
+start = text.index("function buildVisualArtifactOutput(title = \"\") {")
 
-    return JSON.parse(String(value));
+end = text.index("\nexport function interpretTaskExecution", start)
 
-  } catch {
-
-    return {};
-
-  }
-
-}
-
-function extractMeta(task = {}) {
-
-  const payload = unwrapPayload(task.payload);
-
-  return payload?.meta || task?.meta || {};
-
-}
-
-function escapeHtml(value) {
-
-  return String(value || "")
-
-    .replace(/&/g, "&amp;")
-
-    .replace(/</g, "&lt;")
-
-    .replace(/>/g, "&gt;")
-
-    .replace(/"/g, "&quot;");
-
-}
-
-function detectVisualArtifactIntent(title = "") {
-
-  const text = String(title || "").toLowerCase();
-
-  const hasVisualLanguage =
-
-    /\bvisual\b/.test(text) ||
-
-    /\bpreviewable\b/.test(text) ||
-
-    /\blanding\s*(page|card)\b/.test(text) ||
-
-    /\bcard\b/.test(text) ||
-
-    /\bhero\b/.test(text) ||
-
-    /\bui\b/.test(text) ||
-
-    /\bmockup\b/.test(text);
-
-  const hasBuildLanguage =
-
-    /\bcreate\b/.test(text) ||
-
-    /\bbuild\b/.test(text) ||
-
-    /\bgenerate\b/.test(text) ||
-
-    /\bmake\b/.test(text) ||
-
-    /\bdesign\b/.test(text);
-
-  return hasVisualLanguage && hasBuildLanguage;
-
-}
-
-function inferBrandName(title = "") {
-
-  const source = String(title || "");
-
-  const calledMatch = source.match(/called\s+([A-Z][A-Za-z0-9 '&-]{2,60})/);
-
-  if (calledMatch?.[1]) return calledMatch[1].trim().replace(/[.?!].*$/, "");
-
-  const forMatch = source.match(/for\s+([A-Z][A-Za-z0-9 '&-]{2,60})/);
-
-  if (forMatch?.[1]) return forMatch[1].trim().replace(/[.?!].*$/, "");
-
-  return "Preview Concept";
-
-}
-
-function buildVisualArtifactOutput(title = "") {
+new_function = r'''function buildVisualArtifactOutput(title = "") {
 
   const source = String(title || "");
 
@@ -281,124 +199,9 @@ ${safeTitle}`;
 
 }
 
+'''
 
-export function interpretTaskExecution(task = {}) {
+path.write_text(text[:start] + new_function + text[end:])
 
-  const payload = unwrapPayload(task.payload);
-
-  const meta = extractMeta(task);
-
-  const title = task.title || payload.title || "Untitled task";
-
-  const executionMode = payload.execution_mode || "standard";
-
-  const cachePolicy = payload.cache_policy || "reuse";
-
-  const memoryScope = payload.memory_scope || "preserve";
-
-  const isPolicyAware =
-
-    executionMode === "rebuild_context" ||
-
-    cachePolicy === "bypass" ||
-
-    memoryScope === "reset_partial";
-
-  if (isPolicyAware) {
-
-    const notes = [
-
-      executionMode === "rebuild_context" ? "fresh context requested" : null,
-
-      cachePolicy === "bypass" ? "cache bypass observed" : null,
-
-      memoryScope === "reset_partial" ? "partial memory reset observed" : null
-
-    ].filter(Boolean).join("; ");
-
-    return {
-
-      ok: true,
-
-      strategy_applied: "prompt_augmentation",
-
-      notes,
-
-      output: `Policy-aware execution prepared for: ${title}`,
-
-      meta: {
-
-        ...meta,
-
-        execution_mode: executionMode,
-
-        cache_policy: cachePolicy,
-
-        memory_scope: memoryScope
-
-      }
-
-    };
-
-  }
-
-  if (meta?.retry_mode === "strategy_shift") {
-
-    return {
-
-      ok: true,
-
-      strategy_applied: "prompt_augmentation",
-
-      notes: meta.instruction || "strategy shift applied",
-
-      output: `Strategy-shift execution prepared for: ${title}`,
-
-      meta
-
-    };
-
-  }
-
-  if (detectVisualArtifactIntent(title)) {
-
-    return {
-
-      ok: true,
-
-      strategy_applied: "prompt_augmentation",
-
-      notes: "visual artifact intent detected",
-
-      output: buildVisualArtifactOutput(title),
-
-      meta: {
-
-        ...meta,
-
-        visual_artifact: true,
-
-        visual_artifact_strategy: "visual_artifact_generation"
-
-      }
-
-    };
-
-  }
-
-  return {
-
-    ok: true,
-
-    strategy_applied: "default",
-
-    notes: "standard execution path",
-
-    output: `Standard execution prepared for: ${title}`,
-
-    meta
-
-  };
-
-}
+print("patched artifact garden generator")
 
