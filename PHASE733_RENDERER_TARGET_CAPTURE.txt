@@ -1,0 +1,198 @@
+=== Phase 733 Targeted Renderer Capture ===
+Target: public/js/phase530_visible_panels_bridge.js
+
+=== File Exists ===
+YES
+
+=== Matching Lines ===
+9:      .replaceAll("&", "&amp;")
+10:      .replaceAll("<", "&lt;")
+11:      .replaceAll(">", "&gt;")
+12:      .replaceAll('"', "&quot;")
+13:      .replaceAll("'", "&#39;");
+23:  function renderAgents(rows) {
+27:    root.innerHTML = `
+138:      const outcome = esc(t.outcome_preview || "");
+140:      const explanation = esc(t.explanation_preview || "");
+141:      const artifactRaw = t.artifact || (Array.isArray(t.artifacts) ? t.artifacts[0] : null) || null;
+142:      const artifactName = artifactRaw ? esc(artifactRaw.filename || artifactRaw.path || "artifact") : "";
+143:      const artifactType = artifactRaw ? esc(artifactRaw.type || "artifact") : "";
+144:      const artifactSize = artifactRaw && artifactRaw.size_bytes ? esc(String(artifactRaw.size_bytes) + " bytes") : "";
+145:      const artifactPath = artifactRaw ? esc(artifactRaw.path || "") : "";
+181:      ].filter(Boolean).join("\n"));
+191:            ${artifactRaw ? `<button type="button" data-phase719-preview-artifact="true" data-task-id="${taskId}" data-task-title="${title}" data-artifact-name="${artifactName}" data-artifact-type="${artifactType}" data-artifact-size="${artifactSize}" data-artifact-path="${artifactPath}" data-artifact-outcome="${outcome}" data-artifact-explanation="${explanation}" title="Preview completed artifact" style="flex:0 0 auto;cursor:pointer;color:#93c5fd;border:1px solid rgba(147,197,253,.35);border-radius:999px;padding:2px 7px;font-size:10px;line-height:1.4;background:rgba(30,64,175,.18);">Preview</button>` : ""}
+208:              ${artifactRaw ? `<div style="margin-bottom:8px;color:#86efac;font-size:11px;line-height:1.5;overflow-wrap:anywhere;border:1px solid rgba(134,239,172,.28);border-radius:10px;padding:7px;background:rgba(20,83,45,.14);">Artifact: ${artifactName}${artifactType ? ` · ${artifactType}` : ""}${artifactSize ? ` · ${artifactSize}` : ""}</div>` : ""}
+238:  function renderRecent(tasks) {
+260:    if (recentTasks) recentTasks.innerHTML = taskRows(tasks);
+262:    if (recentLogs) recentLogs.innerHTML = "";
+265:  function renderActivity(rows) {
+344:      .replace(/&/g, "&amp;")
+346:      .replace(/</g, "&lt;")
+348:      .replace(/>/g, "&gt;")
+350:      .replace(/"/g, "&quot;")
+352:      .replace(/'/g, "&#39;");
+362:      const rootId = "phase717-inspection-modal-root";
+380:      root.innerHTML = `
+384:          <section role="dialog" aria-modal="true" aria-labelledby="phase717-inspection-modal-title" style="width:min(760px,calc(100vw - 28px));max-height:min(760px,calc(100vh - 36px));display:flex;flex-direction:column;border:1px solid rgba(148,163,184,.36);border-radius:16px;background:rgba(15,23,42,.98);box-shadow:0 24px 80px rgba(0,0,0,.45);padding:16px;color:#e5e7eb;">
+390:                <div id="phase717-inspection-modal-title" style="font-size:14px;font-weight:800;color:#dbeafe;letter-spacing:.01em;"></div>
+408:      const titleNode = root.querySelector("#phase717-inspection-modal-title");
+422:        root.innerHTML = "";
+451:      const rootId = "phase717-retry-modal-root";
+477:      root.innerHTML = `
+479:        <div data-phase717-modal-overlay="true" style="position:fixed;inset:0;z-index:9999;display:flex;align-items:center;justify-content:center;padding:18px;background:rgba(2,6,23,.72);backdrop-filter:blur(6px);">
+481:          <section role="dialog" aria-modal="true" aria-labelledby="phase717-retry-modal-title" style="width:min(520px,calc(100vw - 28px));border:1px solid ${border};border-radius:16px;background:rgba(15,23,42,.98);box-shadow:0 24px 80px rgba(0,0,0,.45);padding:16px;color:#e5e7eb;">
+483:            <div id="phase717-retry-modal-title" style="font-size:14px;font-weight:800;color:${tone};letter-spacing:.01em;">${title}</div>
+489:              ${cancelLabel ? `<button type="button" data-phase717-modal-cancel="true" style="cursor:pointer;border:1px solid rgba(148,163,184,.35);background:rgba(15,23,42,.85);color:#cbd5e1;border-radius:10px;padding:7px 10px;font-size:12px;">${cancelLabel}</button>` : ""}
+491:              <button type="button" data-phase717-modal-confirm="true" style="cursor:pointer;border:1px solid ${border};background:rgba(30,41,59,.95);color:${tone};border-radius:10px;padding:7px 10px;font-size:12px;font-weight:700;">${confirmLabel}</button>
+503:        root.innerHTML = "";
+509:      const confirm = root.querySelector("[data-phase717-modal-confirm]");
+511:      const cancel = root.querySelector("[data-phase717-modal-cancel]");
+513:      const overlay = root.querySelector("[data-phase717-modal-overlay]");
+549:    const modalTitle = mode === "fresh-context" ? "Confirm retry action" : "Confirm requeue";
+553:      ? "This will create a new queued attempt using a fresh-context execution strategy.\n\nPlease confirm this action to continue."
+555:      : "This will create a new queued attempt for this task.\n\nPlease confirm this action to continue.";
+557:    const ok = await phase717RetryModal({ title: modalTitle, message: `Submit ${label} for “${displayName}”?\n\n${detailMessage}`, confirmLabel: "Submit", cancelLabel: "Cancel" });
+677:      renderRecent(data.tasks || []);
+679:      console.warn("[phase530] recent tasks render failed", e);
+684:    renderActivity([]);
+696:  // Phase 719 — Preview artifact modal (frontend-only, read-only)
+700:    let modal = document.getElementById("phase719-preview-modal");
+702:    if (modal) return modal;
+704:    modal = document.createElement("div");
+706:    modal.id = "phase719-preview-modal";
+708:    modal.style.cssText = "display:none;position:fixed;inset:0;z-index:9999;background:rgba(2,6,23,.72);backdrop-filter:blur(5px);align-items:center;justify-content:center;padding:18px;";
+710:    modal.innerHTML = `
+712:      <div role="dialog" aria-modal="true" aria-labelledby="phase719-preview-title" style="width:min(760px,96vw);max-height:86vh;overflow:auto;background:#020617;border:1px solid rgba(148,163,184,.35);border-radius:16px;box-shadow:0 24px 70px rgba(0,0,0,.55);padding:16px;color:#e5e7eb;">
+718:            <div id="phase719-preview-title" style="font-size:14px;font-weight:800;color:#f8fafc;">Artifact Preview</div>
+720:            <div id="phase719-preview-subtitle" style="margin-top:4px;font-size:11px;color:#94a3b8;overflow-wrap:anywhere;"></div>
+724:          <button type="button" data-phase719-preview-close="true" style="cursor:pointer;border:1px solid rgba(148,163,184,.35);background:rgba(15,23,42,.85);color:#cbd5e1;border-radius:999px;padding:5px 10px;font-size:12px;">Close</button>
+728:        <div id="phase719-preview-meta" style="font-size:12px;line-height:1.6;color:#bbf7d0;border:1px solid rgba(134,239,172,.25);background:rgba(20,83,45,.12);border-radius:12px;padding:10px;margin-bottom:12px;"></div>
+730:        <div id="phase719-preview-body" style="overflow-wrap:anywhere;font-size:13px;line-height:1.6;color:#dbeafe;border:1px solid rgba(96,165,250,.24);background:linear-gradient(180deg, rgba(15,23,42,.92), rgba(2,6,23,.74));border-radius:16px;padding:18px;margin:0;box-shadow:inset 0 1px 0 rgba(255,255,255,.04);"></div>
+736:    document.body.appendChild(modal);
+738:    modal.addEventListener("click", function (event) {
+740:      if (event.target === modal || event.target.closest("[data-phase719-preview-close]")) {
+742:        modal.style.display = "none";
+750:      if (event.key === "Escape" && modal.style.display !== "none") {
+752:        modal.style.display = "none";
+758:    return modal;
+768:      .replace(/&/g, "&amp;")
+770:      .replace(/</g, "&lt;")
+772:      .replace(/>/g, "&gt;")
+774:      .replace(/"/g, "&quot;")
+776:      .replace(/'/g, "&#039;");
+780:  function phase720ExtractSemanticEnvelope(markdown) {
+782:    const source = String(markdown || "");
+804:  function phase720StripSemanticEnvelope(markdown) {
+806:    return String(markdown || "").replace(/<!--\s*MB_SEMANTIC_ARTIFACT_V1\s*[\s\S]*?\s*-->\s*/g, "");
+810:  function phase719ExtractArtifactSections(markdown) {
+812:    const source = String(markdown || "");
+814:    const withoutTrace = source.replace(/## Execution Trace[\s\S]*$/i, "").trim();
+822:    withoutTrace.split(/\r?\n/).forEach((line) => {
+838:        sections.title = [line.replace(/^#\s+/, "").trim()];
+852:      sections[key] = sections[key].join("\n").trim();
+860:  function phase719RenderArtifactVisualCard(markdown) {
+862:    const semanticEnvelope = phase720ExtractSemanticEnvelope(markdown);
+864:    const markdownWithoutEnvelope = phase720StripSemanticEnvelope(markdown);
+866:    const sections = phase719ExtractArtifactSections(markdownWithoutEnvelope);
+888:    const semanticSource = [
+910:    const semanticType = semanticSource.includes("error") || semanticSource.includes("failed") || semanticSource.includes("failure")
+914:      : semanticSource.includes("next steps") || semanticSource.includes("recommend")
+918:        : semanticSource.includes("completed") || semanticSource.includes("success")
+924:    const semanticPriority = semanticSource.includes("failed") || semanticSource.includes("blocked") || semanticSource.includes("error")
+928:      : semanticSource.includes("next") || semanticSource.includes("recommend")
+944:        return raw.replace(standardPrefix, "Prepared artifact for:").trim();
+976:        .replace(/Standard execution prepared for:/gi, "")
+978:        .replace(/Prepared artifact for:/gi, "")
+980:        .replace(/\s+/g, " ")
+998:    const semanticOperatorSummary = semanticEnvelope ? [
+1000:      semanticEnvelope.task_summary && !phase722IsDuplicateSemanticText(semanticEnvelope.task_summary, displaySummary)
+1002:        ? ["Semantic Summary", semanticEnvelope.task_summary]
+1006:      Array.isArray(semanticEnvelope.actionable_outputs) && semanticEnvelope.actionable_outputs.length
+1008:        ? ["Actionable Outputs", semanticEnvelope.actionable_outputs.filter((item) => !phase722IsDuplicateSemanticText(item, displayDeliverable)).join("\n")]
+1012:      Array.isArray(semanticEnvelope.evidence_notes) && semanticEnvelope.evidence_notes.length
+1014:        ? ["Evidence Notes", semanticEnvelope.evidence_notes.join("\n")]
+1018:      semanticEnvelope.operator_next_steps && !phase722IsDuplicateSemanticText(semanticEnvelope.operator_next_steps, nextSteps)
+1020:        ? ["Operator Next Steps", semanticEnvelope.operator_next_steps]
+1030:      `<span style="display:inline-flex;align-items:center;border:1px solid rgba(147,197,253,.34);background:rgba(30,64,175,.22);color:#bfdbfe;border-radius:999px;padding:5px 10px;font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.08em;">${phase719EscapePreviewHtml(semanticType)}</span>`,
+1032:      semanticEnvelope ? `<span style="display:inline-flex;align-items:center;border:1px solid rgba(45,212,191,.34);background:rgba(20,184,166,.14);color:#99f6e4;border-radius:999px;padding:5px 10px;font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.08em;">semantic v${phase719EscapePreviewHtml(semanticEnvelope.semantic_version || "1")}</span>` : "",
+1034:      `<span style="display:inline-flex;align-items:center;border:1px solid rgba(251,191,36,.34);background:rgba(120,53,15,.18);color:#fde68a;border-radius:999px;padding:5px 10px;font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.08em;">${phase719EscapePreviewHtml(semanticPriority)}</span>`
+1040:      <div data-phase719-rendered-artifact-preview="true" style="max-width:920px;margin:0 auto;">
+1054:          ${semanticOperatorSummary.length ? `
+1064:                  ${semanticOperatorSummary.map(([label, value]) => `
+1084:          <div style="display:grid;grid-template-columns:minmax(0,1fr);gap:14px;padding:${semanticOperatorSummary.length ? "14px" : "22px"} 24px 10px 24px;">
+1128:  function phase719RenderArtifactIframePreview(renderedHtml) {
+1154:      String(renderedHtml || ""),
+1166:        title="Artifact rendered preview"
+1180:  // Phase 723 — minimal visual artifact sanitizer helper (non-active)
+1188:      .replace(/<\s*script\b[\s\S]*?<\s*\/\s*script\s*>/gi, "")
+1190:      .replace(/<\s*style\b[\s\S]*?<\s*\/\s*style\s*>/gi, "")
+1192:      .replace(/<\s*iframe\b[\s\S]*?<\s*\/\s*iframe\s*>/gi, "")
+1194:      .replace(/<\s*object\b[\s\S]*?<\s*\/\s*object\s*>/gi, "")
+1196:      .replace(/<\s*embed\b[\s\S]*?>/gi, "")
+1198:      .replace(/<\s*link\b[\s\S]*?>/gi, "")
+1200:      .replace(/<\s*meta\b[\s\S]*?>/gi, "");
+1204:      .replace(/\s+on[a-z]+\s*=\s*"[^"]*"/gi, "")
+1206:      .replace(/\s+on[a-z]+\s*=\s*'[^']*'/gi, "")
+1208:      .replace(/\s+on[a-z]+\s*=\s*[^\s>]+/gi, "")
+1210:      .replace(/\s+(href|src)\s*=\s*"javascript:[^"]*"/gi, "")
+1212:      .replace(/\s+(href|src)\s*=\s*'javascript:[^']*'/gi, "")
+1214:      .replace(/\s+(href|src)\s*=\s*javascript:[^\s>]+/gi, "");
+1218:  // Phase 723 — visual artifact block extraction helper (non-active)
+1220:  function phase723ExtractVisualArtifactBlock(markdown) {
+1222:    const source = String(markdown || "");
+1224:    const startMarker = "<!-- visual-artifact:start -->";
+1226:    const endMarker = "<!-- visual-artifact:end -->";
+1240:        markdownWithoutVisualArtifact: source
+1250:    const markdownWithoutVisualArtifact = (
+1262:      markdownWithoutVisualArtifact
+1268:  // Phase 723 — embedded visual artifact preview wrapper (non-active)
+1270:  function phase723RenderVisualArtifactPreviewCandidate(markdown) {
+1272:    const extracted = phase723ExtractVisualArtifactBlock(markdown);
+1274:    const fallbackMarkdown = extracted.markdownWithoutVisualArtifact || String(markdown || "");
+1294:      <div data-phase723-visual-artifact-preview="true" style="max-width:960px;margin:0 auto 22px auto;border:1px solid rgba(45,212,191,.32);background:linear-gradient(135deg,rgba(15,23,42,.78),rgba(8,47,73,.46));border-radius:26px;padding:22px;box-shadow:0 24px 80px rgba(0,0,0,.32), inset 0 1px 0 rgba(255,255,255,.06);">
+1300:          <div style="font-size:10px;text-transform:uppercase;letter-spacing:.14em;color:#dbeafe;border:1px solid rgba(147,197,253,.34);border-radius:999px;padding:5px 10px;background:rgba(30,64,175,.22);box-shadow:inset 0 1px 0 rgba(255,255,255,.05);">sanitized html subset</div>
+1304:        <div data-phase723-visual-artifact-body="true" style="overflow:auto;border-radius:20px;background:rgba(2,6,23,.46);border:1px solid rgba(148,163,184,.24);padding:18px;color:#e5e7eb;box-shadow:inset 0 1px 0 rgba(255,255,255,.04);">
+1316:  function phase719RenderMarkdownArtifactPreview(markdown) {
+1318:    const visualCandidate = phase723RenderVisualArtifactPreviewCandidate(markdown);
+1320:    const extractedVisual = phase723ExtractVisualArtifactBlock(markdown);
+1326:        <div data-phase724-visual-only-preview="true" style="display:grid;gap:12px;">
+1336:    const rendered = visualCandidate;
+1340:      <div data-phase719-preview-stack="true" style="display:grid;gap:12px;">
+1342:        <div data-phase719-inline-preview-primary="true" style="border:1px solid rgba(96,165,250,.22);border-radius:16px;padding:0;background:rgba(15,23,42,.34);">
+1344:          ${rendered}
+1358:    const modal = phase719EnsurePreviewModal();
+1360:    const title = modal.querySelector("#phase719-preview-title");
+1362:    const subtitle = modal.querySelector("#phase719-preview-subtitle");
+1364:    const meta = modal.querySelector("#phase719-preview-meta");
+1366:    const body = modal.querySelector("#phase719-preview-body");
+1372:    const fallbackName = button.getAttribute("data-artifact-name") || "artifact";
+1374:    const fallbackType = button.getAttribute("data-artifact-type") || "artifact";
+1376:    const fallbackSize = button.getAttribute("data-artifact-size") || "";
+1378:    const fallbackPath = button.getAttribute("data-artifact-path") || "";
+1380:    const fallbackOutcome = button.getAttribute("data-artifact-outcome") || "";
+1382:    const fallbackExplanation = button.getAttribute("data-artifact-explanation") || "";
+1390:      "artifact: " + fallbackName,
+1398:    ].filter(Boolean).join("\n");
+1400:    body.innerHTML = `<div style="color:#93c5fd;font-size:14px;">Loading rendered artifact preview…</div>`;
+1402:    modal.style.display = "flex";
+1406:      body.textContent = "No task id available for artifact preview.";
+1414:      const res = await fetch(`/api/tasks/${encodeURIComponent(taskId)}/artifact-preview`, { cache: "no-store" });
+1422:          "Rendered artifact content is not available.",
+1426:          fallbackOutcome ? "\nOutcome:\n" + fallbackOutcome : "",
+1428:          fallbackExplanation ? "\nExplanation:\n" + fallbackExplanation : ""
+1430:        ].filter(Boolean).join("\n");
+1436:      const artifact = data.artifact || {};
+1438:      const renderedName = artifact.filename || fallbackName;
+1440:      const renderedType = artifact.type || fallbackType;
+1442:      const renderedSize = artifact.size_bytes ? String(artifact.size_bytes) + " bytes" : fallbackSize;
+1444:      const renderedCreated = artifact.created_at || "";
+1448:        "artifact: " + renderedName,
+1450:        renderedType ? "type: " + renderedType : "",
+1452:        renderedSize ? "size: " + renderedSize : "",
+1454:        renderedCreated ? "created: " + renderedCreated : ""
+1456:      ].filter(Boolean).join("\n");
+1458:      body.innerHTML = phase719RenderMarkdownArtifactPreview(data.content);
+1468:        fallbackOutcome ? "\nOutcome:\n" + fallbackOutcome : "",
+1470:        fallbackExplanation ? "\nExplanation:\n" + fallbackExplanation : ""
+1472:      ].filter(Boolean).join("\n");
+1481:    const button = event.target.closest("[data-phase719-preview-artifact]");
