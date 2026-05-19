@@ -1429,11 +1429,23 @@
 
   function phase719RenderMarkdownArtifactPreview(markdown) {
 
-    const visualCandidate = phase723RenderVisualArtifactPreviewCandidate(markdown);
+    const semanticEnvelope = phase720ExtractSemanticEnvelope(markdown);
 
     const extractedVisual = phase723ExtractVisualArtifactBlock(markdown);
 
-    if (extractedVisual.hasVisualArtifact) {
+    const hasExplicitStyleIntent = Boolean(
+
+      semanticEnvelope &&
+
+      semanticEnvelope.style_intent &&
+
+      typeof semanticEnvelope.style_intent === "object"
+
+    );
+
+    if (extractedVisual.hasVisualArtifact && !hasExplicitStyleIntent) {
+
+      const visualCandidate = phase723RenderVisualArtifactPreviewCandidate(markdown);
 
       return `
 
@@ -1447,7 +1459,7 @@
 
     }
 
-    const rendered = visualCandidate;
+    const rendered = phase719RenderArtifactVisualCard(markdown);
 
     return `
 
