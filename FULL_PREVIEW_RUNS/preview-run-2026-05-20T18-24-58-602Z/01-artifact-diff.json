@@ -1,0 +1,136 @@
+{
+  "schemaVersion": "phase735.artifact-snapshot-diff.v1",
+  "generatedAt": "2026-05-20T18:25:01.771Z",
+  "mode": "read-only",
+  "before": {
+    "file": "/Users/marcela-dev/Projects/Motherboard_Systems_HQ/ARTIFACT_SNAPSHOTS/artifact-snapshot-2026-05-20T03-56-17-932Z.json",
+    "generatedAt": "2026-05-20T03:56:17.934Z",
+    "branch": "phase730-semantic-section-extraction",
+    "headCommit": "5e3be2a945b52e6a0500574ba87234e9b673be2e",
+    "artifactCount": 21948
+  },
+  "after": {
+    "file": "/Users/marcela-dev/Projects/Motherboard_Systems_HQ/ARTIFACT_SNAPSHOTS/artifact-snapshot-2026-05-20T18-24-58-628Z.json",
+    "generatedAt": "2026-05-20T18:24:58.628Z",
+    "branch": "phase730-semantic-section-extraction",
+    "headCommit": "433b99cd3d93577f320c5aa9173cd993b717a340",
+    "artifactCount": 21969
+  },
+  "summary": {
+    "added": 21,
+    "removed": 0,
+    "changed": 0,
+    "unchanged": 21948
+  },
+  "changes": {
+    "added": [
+      {
+        "path": "ARTIFACT_DIFFS/artifact-diff-2026-05-20T09-47-34.json",
+        "sizeBytes": 980,
+        "sha256": "9b7ede0f6ea40eec4f76d01cf3e73d2b6cdeeff2993d6ee8f1893a8dc1e4276d"
+      },
+      {
+        "path": "DISASTER_RECOVERY/phase735_artifact_runtime/2026-05-19_21-05-22/artifact-snapshot-2026-05-20T03-56-17-932Z.json",
+        "sizeBytes": 5089227,
+        "sha256": "0a591654135fafc986ba6a2deff72d8fbfef73eed664b0e69a419c5bc6bb3404"
+      },
+      {
+        "path": "DISASTER_RECOVERY/phase735_artifact_runtime/2026-05-19_21-05-22/current_branch.txt",
+        "sizeBytes": 37,
+        "sha256": "331ba64519ec4f9236503df8c79f5c596ce1cdc601348ca9bdde2289bf9db75c"
+      },
+      {
+        "path": "DISASTER_RECOVERY/phase735_artifact_runtime/2026-05-19_21-05-22/docker_images.txt",
+        "sizeBytes": 546,
+        "sha256": "0c3fb4d1902343d8897ddcfd492869b02fd411df624f7729b6d2d813cb265f11"
+      },
+      {
+        "path": "DISASTER_RECOVERY/phase735_artifact_runtime/2026-05-19_21-05-22/docker_ps.txt",
+        "sizeBytes": 749,
+        "sha256": "d15336f241080c4f87456b8d83feb9b360458f9899e187890c0898c791755c2d"
+      },
+      {
+        "path": "DISASTER_RECOVERY/phase735_artifact_runtime/2026-05-19_21-05-22/git_status.txt",
+        "sizeBytes": 48,
+        "sha256": "358cf9e481eb9e1688ea337193a342d78e1c681eb369f58f1588117ad3bad43d"
+      },
+      {
+        "path": "DISASTER_RECOVERY/phase735_artifact_runtime/2026-05-19_21-05-22/head_commit.txt",
+        "sizeBytes": 41,
+        "sha256": "68c8a05e354f20557d4c2e1551d4df28173595d2ccc61daaa020dc937963c51e"
+      },
+      {
+        "path": "DISASTER_RECOVERY/phase735_artifact_runtime/2026-05-19_21-05-22/pm2_list.txt",
+        "sizeBytes": 978,
+        "sha256": "81e6a3c5251153b726b1072f4b70faad2cafd63697186d352036d1333c5acec3"
+      },
+      {
+        "path": "DISASTER_RECOVERY/phase735_artifact_runtime/2026-05-19_21-05-22/recent_commits.txt",
+        "sizeBytes": 1173,
+        "sha256": "faf6ee57a21da7df6167a77672e69874274d50c0fa1340a424d22a48fd708597"
+      },
+      {
+        "path": "DISASTER_RECOVERY/phase735_artifact_runtime/2026-05-19_21-05-22/RECOVERY_SUMMARY.md",
+        "sizeBytes": 630,
+        "sha256": "b0d6b5ef8f09a62990a06bdeda983f8c8df2f681feace9938506ab89486823d3"
+      },
+      {
+        "path": "scripts/artifact-diff-classifier.mjs",
+        "sizeBytes": 5384,
+        "sha256": "e3685d15f351b8a273fc1e85a409f6169ee6c389241bfc94aaf451ca568bfb84"
+      },
+      {
+        "path": "scripts/artifact-intent-correlator.mjs",
+        "sizeBytes": 5878,
+        "sha256": "99e28914419f6be6a1938cbee2ef5da671643ef94df9b2a6f77bc8bc2de9c511"
+      },
+      {
+        "path": "scripts/artifact-preview-overlay-composer.mjs",
+        "sizeBytes": 4159,
+        "sha256": "44ec240a95fb061ff828e3e2f17d8d84c47466b10f55d44c2f8953f182fcd92d"
+      },
+      {
+        "path": "scripts/artifact-snapshot-diff.mjs",
+        "sizeBytes": 3178,
+        "sha256": "b47c25c8585c0432c70e679d3729d52afaa6e91b076f474db3bc1be0babda3f7"
+      },
+      {
+        "path": "scripts/create-external-disaster-backup.sh",
+        "sizeBytes": 4977,
+        "sha256": "e8003bdc684a31d50da7d694f7399ca79081833fff4a5bb98b3587dce0589e6b"
+      },
+      {
+        "path": "scripts/execution-readiness-gate.mjs",
+        "sizeBytes": 3153,
+        "sha256": "aa1b5561acfac8bc1e6fa52da5d4e72574f7805e48f11626923ed3a347e99016"
+      },
+      {
+        "path": "scripts/execution-recommendation-engine.mjs",
+        "sizeBytes": 4814,
+        "sha256": "53c6e4009ab62fed184166de04d5316b88ad47833dae661a139c2659b2a8b5ba"
+      },
+      {
+        "path": "scripts/human-approval-governance-boundary.mjs",
+        "sizeBytes": 4766,
+        "sha256": "1fca92cf5f9ae37012c3488366afa3c37cfe42d7f98db8092ab0470ad9de9450"
+      },
+      {
+        "path": "scripts/matilda-preview-interpreter.mjs",
+        "sizeBytes": 4942,
+        "sha256": "796b060e1a92cad5624617086c2239590f72fda20ba0fc57128b0c38b7dac9dc"
+      },
+      {
+        "path": "scripts/reconciliation-snapshot-validator.mjs",
+        "sizeBytes": 3023,
+        "sha256": "567c67d89ffbe6c142a0430dc9de20db3633b0bcf6257f2097a3e379d464c0b8"
+      },
+      {
+        "path": "scripts/run-full-preview-pipeline.mjs",
+        "sizeBytes": 4965,
+        "sha256": "f2569092428b1f6b1b54045fb7642d99338c471e96bbbf27d775ceb24b2367fe"
+      }
+    ],
+    "removed": [],
+    "changed": []
+  }
+}

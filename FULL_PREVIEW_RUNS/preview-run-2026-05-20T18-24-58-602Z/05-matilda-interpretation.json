@@ -1,0 +1,53 @@
+{
+  "schemaVersion": "phase735.matilda-preview-interpretation.v1",
+  "generatedAt": "2026-05-20T18:25:01.868Z",
+  "mode": "read-only",
+  "authorityBoundary": {
+    "matildaRole": "semantic-validation-gate",
+    "executionAuthorized": false,
+    "mutationPermitted": false,
+    "requiresHumanApprovalBeforeExecution": true
+  },
+  "sourceOverlay": {
+    "file": "/Users/marcela-dev/Projects/Motherboard_Systems_HQ/FULL_PREVIEW_RUNS/preview-run-2026-05-20T18-24-58-602Z/04-preview-overlay.json",
+    "schemaVersion": "phase735.preview-overlay-composition.v1",
+    "generatedAt": "2026-05-20T18:25:01.844Z",
+    "overlayStatus": "requires-review",
+    "sourceCorrelation": {
+      "file": "/Users/marcela-dev/Projects/Motherboard_Systems_HQ/FULL_PREVIEW_RUNS/preview-run-2026-05-20T18-24-58-602Z/03-intent-correlation.json",
+      "schemaVersion": "phase735.artifact-intent-correlation.v1",
+      "generatedAt": "2026-05-20T18:25:01.819Z"
+    }
+  },
+  "semanticAssessment": {
+    "intent": {
+      "raw": "Generate a full governed preview of current artifact state after the human approval and reconciliation layers",
+      "expectedSemanticCategories": [
+        "artifact-snapshot",
+        "preview-renderer"
+      ]
+    },
+    "alignmentScore": 0,
+    "totalActualChanges": 21,
+    "matchedChanges": 0,
+    "matchedCategories": [],
+    "unexpectedCategories": [
+      "artifact-diff",
+      "disaster-recovery",
+      "tooling"
+    ],
+    "riskCounts": {
+      "low": 10,
+      "medium": 11
+    },
+    "warnings": [
+      "Semantic drift detected between intent and actual artifact changes."
+    ]
+  },
+  "gateDecision": {
+    "decision": "requires-human-review",
+    "confidence": "medium",
+    "reason": "Unexpected categories or advisory warnings require operator review."
+  },
+  "matildaInterpretationMarkdown": "# Matilda Preview Interpretation\n\n## Gate Decision\n- Decision: requires-human-review\n- Confidence: medium\n- Reason: Unexpected categories or advisory warnings require operator review.\n\n## Authority Boundary\n- This interpretation is read-only.\n- This interpretation does not authorize execution.\n- Runtime mutation remains blocked until explicit approval and execution-bridge validation exist.\n\n## Semantic Assessment\n- Alignment score: 0\n- Total actual changes: 21\n- Matched changes: 0\n\n## Unexpected Categories\n- artifact-diff\n- disaster-recovery\n- tooling\n\n## Warnings\n- Semantic drift detected between intent and actual artifact changes."
+}

@@ -1,0 +1,43 @@
+{
+  "schemaVersion": "phase735.preview-overlay-composition.v1",
+  "generatedAt": "2026-05-20T18:25:01.844Z",
+  "mode": "read-only",
+  "overlayStatus": "requires-review",
+  "intent": {
+    "raw": "Generate a full governed preview of current artifact state after the human approval and reconciliation layers",
+    "expectedSemanticCategories": [
+      "artifact-snapshot",
+      "preview-renderer"
+    ]
+  },
+  "changeSummary": {
+    "alignmentScore": 0,
+    "totalActualChanges": 21,
+    "matchedChanges": 0,
+    "matchedCategories": [],
+    "unexpectedCategories": [
+      "artifact-diff",
+      "disaster-recovery",
+      "tooling"
+    ],
+    "riskCounts": {
+      "low": 10,
+      "medium": 11
+    },
+    "diffSummary": {
+      "added": 21,
+      "removed": 0,
+      "changed": 0,
+      "unchanged": 21948
+    }
+  },
+  "warnings": [
+    "Semantic drift detected between intent and actual artifact changes."
+  ],
+  "operatorPreviewMarkdown": "# Artifact Preview Overlay\n\n## Intent\nGenerate a full governed preview of current artifact state after the human approval and reconciliation layers\n\n## Advisory Status\nrequires-review\n\n## Alignment\n- Alignment score: 0\n- Total actual changes: 21\n- Matched changes: 0\n\n## Matched Categories\n- none\n\n## Unexpected Categories\n- artifact-diff\n- disaster-recovery\n- tooling\n\n## Risk Counts\n- low: 10\n- medium: 11\n\n## Diff Summary\n- added: 21\n- removed: 0\n- changed: 0\n- unchanged: 21948\n\n## Warnings\n- Semantic drift detected between intent and actual artifact changes.\n\n## Execution Boundary\n- This overlay is read-only.\n- This overlay does not authorize execution.\n- Matilda validation remains required before any mutation authority.",
+  "sourceCorrelation": {
+    "file": "/Users/marcela-dev/Projects/Motherboard_Systems_HQ/FULL_PREVIEW_RUNS/preview-run-2026-05-20T18-24-58-602Z/03-intent-correlation.json",
+    "schemaVersion": "phase735.artifact-intent-correlation.v1",
+    "generatedAt": "2026-05-20T18:25:01.819Z"
+  }
+}
