@@ -1,0 +1,20 @@
+58eee832 Add validated artifact snapshot test output
+5e3be2a9 Remove snapshot builder shebang and generate baseline snapshot
+ab487f9b Fix artifact snapshot builder shebang
+43301223 Add read-only artifact snapshot builder
+73ae4b7d Add missing bridge runtime file to Phase 735 checkpoint
+1166acc4 Create Phase 735 runtime alignment disaster recovery checkpoint
+ef1bc797 Use escaped text transport for visual artifact templates
+48b826fa Fix quote-poisoned visual artifact style decoding
+7882ecd9 Render fallback raw HTML artifacts as sanitized DOM
+3c686916 Align single-container preview branch with template mount
+86a6ee10 Inspect active preview branch paths
+11c56d1e Record active preview flow mismatch evidence
+57d26dbb Add runtime browser script content validation step
+ead35f83 Record browser script version mismatch evidence
+cb06d973 Record DOM evidence showing preview not mounted
+e474cd93 Clarify browser console evidence capture workflow
+3b68927f Add browser console DOM evidence snippet
+17904ddf Require DOM evidence before further renderer mutation
+7777ec17 Freeze Phase 735 after raw HTML render persistence
+c17d34f7 Freeze renderer mutations pending DOM evidence
