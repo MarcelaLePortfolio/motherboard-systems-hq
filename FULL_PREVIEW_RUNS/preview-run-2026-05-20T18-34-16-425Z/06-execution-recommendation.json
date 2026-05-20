@@ -1,0 +1,49 @@
+{
+  "schemaVersion": "phase736.execution-recommendation.v1",
+  "generatedAt": "2026-05-20T18:34:19.723Z",
+  "mode": "read-only",
+  "authorityBoundary": {
+    "executionAuthorized": false,
+    "mutationPermitted": false,
+    "executionBridgePresent": false,
+    "advisoryOnly": true
+  },
+  "sourceInterpretation": {
+    "file": "/Users/marcela-dev/Projects/Motherboard_Systems_HQ/FULL_PREVIEW_RUNS/preview-run-2026-05-20T18-34-16-425Z/05-matilda-interpretation.json",
+    "schemaVersion": "phase735.matilda-preview-interpretation.v1",
+    "generatedAt": "2026-05-20T18:34:19.701Z"
+  },
+  "recommendation": {
+    "recommendation": "human-review-required",
+    "executionReadiness": "blocked-pending-review",
+    "reconciliationPriority": "elevated",
+    "rollbackRecommended": true,
+    "confidence": "medium",
+    "reason": "Unexpected categories or advisory warnings require operator review."
+  },
+  "reconciliationPlan": {
+    "preserveCurrentSnapshotBeforeExecution": true,
+    "requireDiffVerificationBeforeExecution": true,
+    "requirePostExecutionSnapshot": true,
+    "requireRollbackPathBeforeMutation": true,
+    "requireHumanApproval": true,
+    "recommendedChecks": [
+      "semantic-alignment-review",
+      "unexpected-category-review",
+      "risk-classification-review",
+      "snapshot-diff-verification"
+    ]
+  },
+  "advisorySignals": {
+    "warnings": [
+      "Semantic drift detected between intent and actual artifact changes."
+    ],
+    "unexpectedCategories": [
+      "tooling"
+    ],
+    "riskCounts": {
+      "medium": 9
+    }
+  },
+  "executionRecommendationMarkdown": "# Execution Recommendation\n\n## Recommendation\n- Recommendation: human-review-required\n- Execution readiness: blocked-pending-review\n- Reconciliation priority: elevated\n- Rollback recommended: true\n\n## Confidence\n- medium\n\n## Reason\nUnexpected categories or advisory warnings require operator review.\n\n## Required Reconciliation Checks\n- semantic-alignment-review\n- unexpected-category-review\n- risk-classification-review\n- snapshot-diff-verification\n\n## Authority Boundary\n- This layer is advisory-only.\n- No execution authority exists.\n- Mutation remains blocked.\n- Future execution bridge must remain separately governed."
+}

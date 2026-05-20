@@ -1,0 +1,90 @@
+{
+  "schemaVersion": "phase735.artifact-intent-correlation.v1",
+  "generatedAt": "2026-05-20T18:34:19.654Z",
+  "mode": "read-only",
+  "intent": {
+    "raw": "Generate a complete governed preview of current artifact state after readiness and reconciliation validation",
+    "inferredSignals": {
+      "mentionsSnapshot": true,
+      "mentionsDiff": false,
+      "mentionsSemantic": false,
+      "mentionsPreview": true,
+      "mentionsRuntime": false,
+      "mentionsDisasterRecovery": false,
+      "mentionsDocumentation": false,
+      "mentionsUI": false,
+      "mentionsDependency": false
+    },
+    "expectedSemanticCategories": [
+      "artifact-snapshot",
+      "preview-renderer"
+    ]
+  },
+  "sourceClassification": {
+    "schemaVersion": "phase735.artifact-diff-classification.v1",
+    "generatedAt": "2026-05-20T18:34:19.629Z",
+    "sourceDiff": {
+      "schemaVersion": "phase735.artifact-snapshot-diff.v1",
+      "generatedAt": "2026-05-20T18:34:19.605Z",
+      "before": {
+        "file": "/Users/marcela-dev/Projects/Motherboard_Systems_HQ/ARTIFACT_SNAPSHOTS/artifact-snapshot-2026-05-20T18-24-58-628Z.json",
+        "generatedAt": "2026-05-20T18:24:58.628Z",
+        "branch": "phase730-semantic-section-extraction",
+        "headCommit": "433b99cd3d93577f320c5aa9173cd993b717a340",
+        "artifactCount": 21969
+      },
+      "after": {
+        "file": "/Users/marcela-dev/Projects/Motherboard_Systems_HQ/ARTIFACT_SNAPSHOTS/artifact-snapshot-2026-05-20T18-34-16-450Z.json",
+        "generatedAt": "2026-05-20T18:34:16.450Z",
+        "branch": "phase730-semantic-section-extraction",
+        "headCommit": "94bc86fd46be01e6cabcd6359ae885ce5153c949",
+        "artifactCount": 21976
+      },
+      "summary": {
+        "added": 7,
+        "removed": 0,
+        "changed": 2,
+        "unchanged": 21967
+      },
+      "file": "/Users/marcela-dev/Projects/Motherboard_Systems_HQ/FULL_PREVIEW_RUNS/preview-run-2026-05-20T18-34-16-425Z/01-artifact-diff.json"
+    },
+    "classificationSummary": {
+      "totalClassifiedChanges": 9,
+      "categoryCounts": {
+        "preview-renderer": 7,
+        "tooling": 2
+      },
+      "riskCounts": {
+        "medium": 9
+      },
+      "hasHighRiskChanges": false,
+      "hasRuntimeOrInfrastructureChanges": false,
+      "hasPreviewRendererChanges": true,
+      "hasDisasterRecoveryChanges": false,
+      "hasArtifactLayerChanges": false
+    },
+    "file": "/Users/marcela-dev/Projects/Motherboard_Systems_HQ/FULL_PREVIEW_RUNS/preview-run-2026-05-20T18-34-16-425Z/02-diff-classification.json"
+  },
+  "correlationSummary": {
+    "alignmentScore": 0.7778,
+    "totalActualChanges": 9,
+    "matchedChanges": 7,
+    "matchedCategories": [
+      "preview-renderer"
+    ],
+    "unexpectedCategories": [
+      "tooling"
+    ],
+    "riskCounts": {
+      "medium": 9
+    },
+    "driftDetected": true,
+    "hasHighRiskUnexpectedChanges": false,
+    "advisoryStatus": "requires-review"
+  },
+  "advisoryNotes": [
+    "This artifact is read-only and does not authorize execution.",
+    "Intent correlation is advisory and must not bypass Matilda validation.",
+    "Unexpected runtime, infrastructure, or dependency categories require elevated review before execution."
+  ]
+}

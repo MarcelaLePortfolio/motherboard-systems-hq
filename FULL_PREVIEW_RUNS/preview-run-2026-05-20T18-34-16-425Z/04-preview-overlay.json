@@ -1,0 +1,42 @@
+{
+  "schemaVersion": "phase735.preview-overlay-composition.v1",
+  "generatedAt": "2026-05-20T18:34:19.678Z",
+  "mode": "read-only",
+  "overlayStatus": "requires-review",
+  "intent": {
+    "raw": "Generate a complete governed preview of current artifact state after readiness and reconciliation validation",
+    "expectedSemanticCategories": [
+      "artifact-snapshot",
+      "preview-renderer"
+    ]
+  },
+  "changeSummary": {
+    "alignmentScore": 0.7778,
+    "totalActualChanges": 9,
+    "matchedChanges": 7,
+    "matchedCategories": [
+      "preview-renderer"
+    ],
+    "unexpectedCategories": [
+      "tooling"
+    ],
+    "riskCounts": {
+      "medium": 9
+    },
+    "diffSummary": {
+      "added": 7,
+      "removed": 0,
+      "changed": 2,
+      "unchanged": 21967
+    }
+  },
+  "warnings": [
+    "Semantic drift detected between intent and actual artifact changes."
+  ],
+  "operatorPreviewMarkdown": "# Artifact Preview Overlay\n\n## Intent\nGenerate a complete governed preview of current artifact state after readiness and reconciliation validation\n\n## Advisory Status\nrequires-review\n\n## Alignment\n- Alignment score: 0.7778\n- Total actual changes: 9\n- Matched changes: 7\n\n## Matched Categories\n- preview-renderer\n\n## Unexpected Categories\n- tooling\n\n## Risk Counts\n- medium: 9\n\n## Diff Summary\n- added: 7\n- removed: 0\n- changed: 2\n- unchanged: 21967\n\n## Warnings\n- Semantic drift detected between intent and actual artifact changes.\n\n## Execution Boundary\n- This overlay is read-only.\n- This overlay does not authorize execution.\n- Matilda validation remains required before any mutation authority.",
+  "sourceCorrelation": {
+    "file": "/Users/marcela-dev/Projects/Motherboard_Systems_HQ/FULL_PREVIEW_RUNS/preview-run-2026-05-20T18-34-16-425Z/03-intent-correlation.json",
+    "schemaVersion": "phase735.artifact-intent-correlation.v1",
+    "generatedAt": "2026-05-20T18:34:19.654Z"
+  }
+}

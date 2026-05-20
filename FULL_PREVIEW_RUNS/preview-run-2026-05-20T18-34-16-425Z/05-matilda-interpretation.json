@@ -1,0 +1,52 @@
+{
+  "schemaVersion": "phase735.matilda-preview-interpretation.v1",
+  "generatedAt": "2026-05-20T18:34:19.701Z",
+  "mode": "read-only",
+  "authorityBoundary": {
+    "matildaRole": "semantic-validation-gate",
+    "executionAuthorized": false,
+    "mutationPermitted": false,
+    "requiresHumanApprovalBeforeExecution": true
+  },
+  "sourceOverlay": {
+    "file": "/Users/marcela-dev/Projects/Motherboard_Systems_HQ/FULL_PREVIEW_RUNS/preview-run-2026-05-20T18-34-16-425Z/04-preview-overlay.json",
+    "schemaVersion": "phase735.preview-overlay-composition.v1",
+    "generatedAt": "2026-05-20T18:34:19.678Z",
+    "overlayStatus": "requires-review",
+    "sourceCorrelation": {
+      "file": "/Users/marcela-dev/Projects/Motherboard_Systems_HQ/FULL_PREVIEW_RUNS/preview-run-2026-05-20T18-34-16-425Z/03-intent-correlation.json",
+      "schemaVersion": "phase735.artifact-intent-correlation.v1",
+      "generatedAt": "2026-05-20T18:34:19.654Z"
+    }
+  },
+  "semanticAssessment": {
+    "intent": {
+      "raw": "Generate a complete governed preview of current artifact state after readiness and reconciliation validation",
+      "expectedSemanticCategories": [
+        "artifact-snapshot",
+        "preview-renderer"
+      ]
+    },
+    "alignmentScore": 0.7778,
+    "totalActualChanges": 9,
+    "matchedChanges": 7,
+    "matchedCategories": [
+      "preview-renderer"
+    ],
+    "unexpectedCategories": [
+      "tooling"
+    ],
+    "riskCounts": {
+      "medium": 9
+    },
+    "warnings": [
+      "Semantic drift detected between intent and actual artifact changes."
+    ]
+  },
+  "gateDecision": {
+    "decision": "requires-human-review",
+    "confidence": "medium",
+    "reason": "Unexpected categories or advisory warnings require operator review."
+  },
+  "matildaInterpretationMarkdown": "# Matilda Preview Interpretation\n\n## Gate Decision\n- Decision: requires-human-review\n- Confidence: medium\n- Reason: Unexpected categories or advisory warnings require operator review.\n\n## Authority Boundary\n- This interpretation is read-only.\n- This interpretation does not authorize execution.\n- Runtime mutation remains blocked until explicit approval and execution-bridge validation exist.\n\n## Semantic Assessment\n- Alignment score: 0.7778\n- Total actual changes: 9\n- Matched changes: 7\n\n## Unexpected Categories\n- tooling\n\n## Warnings\n- Semantic drift detected between intent and actual artifact changes."
+}
