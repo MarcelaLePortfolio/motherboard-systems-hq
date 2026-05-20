@@ -51,23 +51,7 @@ git -C "$REPO_ROOT" bundle create "$BACKUP_DIR/git/motherboard-systems-hq.bundle
 
 shasum -a 256 "$BACKUP_DIR/git/motherboard-systems-hq.bundle" > "$BACKUP_DIR/git/bundle-checksum.txt"
 
-tar \
-
-  --exclude=".git" \
-
-  --exclude="node_modules" \
-
-  --exclude=".next" \
-
-  --exclude="tmp" \
-
-  --exclude=".DS_Store" \
-
-  -czf "$BACKUP_DIR/artifacts/source-worktree.tar.gz" \
-
-  -C "$(dirname "$REPO_ROOT")" \
-
-  "$(basename "$REPO_ROOT")"
+tar --exclude=".git" --exclude="node_modules" --exclude=".next" --exclude="tmp" --exclude=".DS_Store" -czf "$BACKUP_DIR/artifacts/source-worktree.tar.gz" -C "$(dirname "$REPO_ROOT")" "$(basename "$REPO_ROOT")"
 
 if [ -d "$REPO_ROOT/ARTIFACT_SNAPSHOTS" ]; then
 
