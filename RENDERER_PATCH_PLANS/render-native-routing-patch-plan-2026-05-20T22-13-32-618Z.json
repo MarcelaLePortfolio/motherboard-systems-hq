@@ -1,0 +1,35 @@
+{
+  "schemaVersion": "phase736.render-native-routing-patch-plan.v1",
+  "generatedAt": "2026-05-20T22:13:32.617Z",
+  "mode": "read-only",
+  "targetFile": "public/js/phase530_visible_panels_bridge.js",
+  "mutationStrategy": {
+    "approach": "Add guarded render-native routing branch before markdown semantic fallback.",
+    "preserveExistingFallbacks": true,
+    "preserveSanitizer": true,
+    "preserveDecodeTransport": true,
+    "preserveGovernanceBoundaries": true,
+    "preserveReadOnlyMode": true
+  },
+  "insertionMarker": "phase735DecodeVisualArtifactHtmlTransport",
+  "insertionIndex": 45320,
+  "intendedRoutingBehavior": {
+    "detectRenderNativePayload": true,
+    "routeDashboardContracts": true,
+    "preserveLegacySemanticArtifacts": true,
+    "preserveMarkdownFallback": true
+  },
+  "proposedBranchPseudoLogic": [
+    "if artifact contains render-native dashboard contract:",
+    "  route to renderNativeDashboardRenderer(...)",
+    "else:",
+    "  continue existing semantic artifact fallback path"
+  ],
+  "extractedContext": "ing:.14em;color:#dbeafe;border:1px solid rgba(147,197,253,.34);border-radius:999px;padding:5px 10px;background:rgba(30,64,175,.22);box-shadow:inset 0 1px 0 rgba(255,255,255,.05);\">sanitized html subset</div>\n\n        </div>\n\n        <div data-phase723-visual-artifact-body=\"true\" style=\"overflow:auto;border-radius:20px;background:rgba(2,6,23,.46);border:1px solid rgba(148,163,184,.24);padding:18px;color:#e5e7eb;box-shadow:inset 0 1px 0 rgba(255,255,255,.04);\">\n\n          <div data-phase735-visual-html-mount=\"true\"></div>\n\n          <template data-phase735-visual-html-template=\"true\">${phase719EscapePreviewHtml(safeVisualHtml)}</template>\n\n        </div>\n\n      </div>\n\n    `;\n\n  }\n\n  function phase735DecodeVisualArtifactHtmlTransport(html) {\n\n    const source = phase733NormalizePreviewTransportText(html || \"\")\n\n      .replace(/\\\\\\\\n/g, \"\\n\")\n\n      .replace(/\\\\\\\\\\\"/g, '\"')\n\n      .replace(/\\\\\\\\'/g, \"'\")\n\n      .replace(/style=\"\\\\+\"/g, 'style=\"')\n\n      .replace(/;\\\\+\"/g, ';')\n\n      .replace(/\\\\+\"=/g, '=');\n\n    const textarea = document.createElement(\"textarea\");\n\n    textarea.innerHTML = source;\n\n    return textarea.value;\n\n  }\n\n  function phase719RenderMarkdownArtifactPreview(markdown) {\n\n    const extractedVisual = phase723ExtractVisualArtifactBlock(markdown);\n\n    if (extractedVisual.hasVisualArtifact) {\n\n      const decodedVisualHtml = phase735DecodeVisualArtifactHtmlTransport(extractedVisual.visualHtml);\n\n      const safeVisualHtml = phase723SanitizeVisualArtifactHtml(decodedVisualHtml);\n\n      return `\n\n        <div\n\n          data-phase733-single-artifact-render=\"true\"\n\n          style=\"\n\n            max-width:1040px;\n\n            margin:0 auto;\n\n            border:1px solid rgba(148,163,184,.28);\n\n            border-radius:22px;\n\n            padding:18px;\n\n            background:rgba(15,23,42,.42);\n\n            box-shadow:0 24px 80px rgba(0,0,0,.32), inset 0 1px 0 rgba(255,255,255,.05);\n\n            overflow:auto;\n\n          \"\n\n        >\n\n          <div data-phase735-visual-html-mount=\"true\"></div>\n\n          <template data-phase735-visual-html-template=\"true\">${phase719EscapePreviewHtml(safeVisualHtml)}</template>\n\n        </div>\n\n      `;\n\n    }\n\n    const strippedFallback = phase720StripSemanticEnvelope(markdown);\n\n    const decodedFallback = phase735DecodeVisualArtifactHtmlTransport(strippedFallback);\n\n    const fallbackLooksLikeHtml = /<\\s*div\\b|<\\s*section\\b|<\\s*article\\b/i.test(decodedFallback);\n\n    if (fallbackLooksLikeHtml) {\n\n      const safeFallbackHtml = phase723SanitizeVisualArtifactHtml(decodedFallback);\n\n      return `\n\n        <div\n\n          data-phase733-single-artifact-render=\"true\"\n\n          data-phase735-fallback-html-artifact=\"true\"\n\n          style=\"\n\n            max-width:1040px;\n\n            margin:0 auto;\n\n            border:1px solid rgba(148,163,184,.28);\n\n            border-radius:22px;\n\n            padding:18",
+  "riskClassification": {
+    "level": "controlled",
+    "rationale": "Single guarded insertion branch preserving existing renderer behavior."
+  },
+  "executionBlocked": true,
+  "humanApprovalRequired": true
+}
