@@ -1,0 +1,147 @@
+{
+  "schemaVersion": "phase736.render-native-insertion-point-analysis.v1",
+  "generatedAt": "2026-05-20T22:03:18.636Z",
+  "mode": "read-only",
+  "sourceExtraction": "RENDERER_INSPECTION/phase530-render-path-extraction-2026-05-20T22-00-43-821Z.json",
+  "targetFile": "public/js/phase530_visible_panels_bridge.js",
+  "rankedCandidateCount": 28,
+  "highestConfidenceCandidate": {
+    "token": "phase735DecodeVisualArtifactHtmlTransport",
+    "index": 45320,
+    "score": 18,
+    "reasons": [
+      "contains decode transport path",
+      "contains sanitizer path",
+      "contains visual artifact path",
+      "contains DOM write path",
+      "contains markdown fallback path"
+    ],
+    "excerpt": "uppercase;letter-spacing:.2em;color:#ccfbf1;font-weight:950;text-shadow:0 0 22px rgba(45,212,191,.18);\">Visual Artifact</div>\n\n          <div style=\"font-size:10px;text-transform:uppercase;letter-spacing:.14em;color:#dbeafe;border:1px solid rgba(147,197,253,.34);border-radius:999px;padding:5px 10px;background:rgba(30,64,175,.22);box-shadow:inset 0 1px 0 rgba(255,255,255,.05);\">sanitized html subset</div>\n\n        </div>\n\n        <div data-phase723-visual-artifact-body=\"true\" style=\"overflow:auto;border-radius:20px;background:rgba(2,6,23,.46);border:1px solid rgba(148,163,184,.24);padding:18px;color:#e5e7eb;box-shadow:inset 0 1px 0 rgba(255,255,255,.04);\">\n\n          <div data-phase735-visual-html-mount=\"true\"></div>\n\n          <template data-phase735-visual-html-template=\"true\">${phase719EscapePreviewHtml(safeVisualHtml)}</template>\n\n        </div>\n\n      </div>\n\n    `;\n\n  }\n\n  function phase735DecodeVisualArtifactHtmlTransport(html) {\n\n    const source = phase733NormalizePreviewTransportText(html || \"\")\n\n      .replace(/\\\\\\\\n/g, \"\\n\")\n\n      .replace(/\\\\\\\\\\\"/g, '\"')\n\n      .replace(/\\\\\\\\'/g, \"'\")\n\n      .replace(/style=\"\\\\+\"/g, 'style=\"')\n\n      .replace(/;\\\\+\"/g, ';')\n\n      .replace(/\\\\+\"=/g, '=');\n\n    const textarea = document.createElement(\"textarea\");\n\n    textarea.innerHTML = source;\n\n    return textarea.value;\n\n  }\n\n  function phase719RenderMarkdownArtifactPreview(markdown) {\n\n    const extractedVisual = phase723ExtractVisualArtifactBlock(markdown);\n\n    if (extractedVisual.hasVisualArtifact) {\n\n      const decodedVisualHtml = phase735DecodeVisualArtifactHtmlTransport(extractedVisual.visualHtml);\n\n      const safeVisualHtml = phase723SanitizeVisualArtifactHtml(decodedVisualHtml);\n\n      return `\n\n        <div\n\n          data-phase733-single-artifact-render=\"true\"\n\n          style=\"\n\n            max-wi"
+  },
+  "rankedCandidates": [
+    {
+      "token": "phase735DecodeVisualArtifactHtmlTransport",
+      "index": 45320,
+      "score": 18,
+      "reasons": [
+        "contains decode transport path",
+        "contains sanitizer path",
+        "contains visual artifact path",
+        "contains DOM write path",
+        "contains markdown fallback path"
+      ],
+      "excerpt": "uppercase;letter-spacing:.2em;color:#ccfbf1;font-weight:950;text-shadow:0 0 22px rgba(45,212,191,.18);\">Visual Artifact</div>\n\n          <div style=\"font-size:10px;text-transform:uppercase;letter-spacing:.14em;color:#dbeafe;border:1px solid rgba(147,197,253,.34);border-radius:999px;padding:5px 10px;background:rgba(30,64,175,.22);box-shadow:inset 0 1px 0 rgba(255,255,255,.05);\">sanitized html subset</div>\n\n        </div>\n\n        <div data-phase723-visual-artifact-body=\"true\" style=\"overflow:auto;border-radius:20px;background:rgba(2,6,23,.46);border:1px solid rgba(148,163,184,.24);padding:18px;color:#e5e7eb;box-shadow:inset 0 1px 0 rgba(255,255,255,.04);\">\n\n          <div data-phase735-visual-html-mount=\"true\"></div>\n\n          <template data-phase735-visual-html-template=\"true\">${phase719EscapePreviewHtml(safeVisualHtml)}</template>\n\n        </div>\n\n      </div>\n\n    `;\n\n  }\n\n  function phase735DecodeVisualArtifactHtmlTransport(html) {\n\n    const source = phase733NormalizePreviewTransportText(html || \"\")\n\n      .replace(/\\\\\\\\n/g, \"\\n\")\n\n      .replace(/\\\\\\\\\\\"/g, '\"')\n\n      .replace(/\\\\\\\\'/g, \"'\")\n\n      .replace(/style=\"\\\\+\"/g, 'style=\"')\n\n      .replace(/;\\\\+\"/g, ';')\n\n      .replace(/\\\\+\"=/g, '=');\n\n    const textarea = document.createElement(\"textarea\");\n\n    textarea.innerHTML = source;\n\n    return textarea.value;\n\n  }\n\n  function phase719RenderMarkdownArtifactPreview(markdown) {\n\n    const extractedVisual = phase723ExtractVisualArtifactBlock(markdown);\n\n    if (extractedVisual.hasVisualArtifact) {\n\n      const decodedVisualHtml = phase735DecodeVisualArtifactHtmlTransport(extractedVisual.visualHtml);\n\n      const safeVisualHtml = phase723SanitizeVisualArtifactHtml(decodedVisualHtml);\n\n      return `\n\n        <div\n\n          data-phase733-single-artifact-render=\"true\"\n\n          style=\"\n\n            max-wi"
+    },
+    {
+      "token": "innerHTML",
+      "index": 45713,
+      "score": 18,
+      "reasons": [
+        "contains decode transport path",
+        "contains sanitizer path",
+        "contains visual artifact path",
+        "contains DOM write path",
+        "contains markdown fallback path"
+      ],
+      "excerpt": "l subset</div>\n\n        </div>\n\n        <div data-phase723-visual-artifact-body=\"true\" style=\"overflow:auto;border-radius:20px;background:rgba(2,6,23,.46);border:1px solid rgba(148,163,184,.24);padding:18px;color:#e5e7eb;box-shadow:inset 0 1px 0 rgba(255,255,255,.04);\">\n\n          <div data-phase735-visual-html-mount=\"true\"></div>\n\n          <template data-phase735-visual-html-template=\"true\">${phase719EscapePreviewHtml(safeVisualHtml)}</template>\n\n        </div>\n\n      </div>\n\n    `;\n\n  }\n\n  function phase735DecodeVisualArtifactHtmlTransport(html) {\n\n    const source = phase733NormalizePreviewTransportText(html || \"\")\n\n      .replace(/\\\\\\\\n/g, \"\\n\")\n\n      .replace(/\\\\\\\\\\\"/g, '\"')\n\n      .replace(/\\\\\\\\'/g, \"'\")\n\n      .replace(/style=\"\\\\+\"/g, 'style=\"')\n\n      .replace(/;\\\\+\"/g, ';')\n\n      .replace(/\\\\+\"=/g, '=');\n\n    const textarea = document.createElement(\"textarea\");\n\n    textarea.innerHTML = source;\n\n    return textarea.value;\n\n  }\n\n  function phase719RenderMarkdownArtifactPreview(markdown) {\n\n    const extractedVisual = phase723ExtractVisualArtifactBlock(markdown);\n\n    if (extractedVisual.hasVisualArtifact) {\n\n      const decodedVisualHtml = phase735DecodeVisualArtifactHtmlTransport(extractedVisual.visualHtml);\n\n      const safeVisualHtml = phase723SanitizeVisualArtifactHtml(decodedVisualHtml);\n\n      return `\n\n        <div\n\n          data-phase733-single-artifact-render=\"true\"\n\n          style=\"\n\n            max-width:1040px;\n\n            margin:0 auto;\n\n            border:1px solid rgba(148,163,184,.28);\n\n            border-radius:22px;\n\n            padding:18px;\n\n            background:rgba(15,23,42,.42);\n\n            box-shadow:0 24px 80px rgba(0,0,0,.32), inset 0 1px 0 rgba(255,255,255,.05);\n\n            overflow:auto;\n\n          \"\n\n        >\n\n          <div data-p"
+    },
+    {
+      "token": "innerHTML",
+      "index": 51253,
+      "score": 15,
+      "reasons": [
+        "contains decode transport path",
+        "contains sanitizer path",
+        "contains DOM write path",
+        "contains preview path"
+      ],
+      "excerpt": "vailable.\",\n\n          data && data.error ? \"Error: \" + data.error : \"\",\n\n          fallbackOutcome ? \"\\nOutcome:\\n\" + fallbackOutcome : \"\",\n\n          fallbackExplanation ? \"\\nExplanation:\\n\" + fallbackExplanation : \"\"\n\n        ].filter(Boolean).join(\"\\n\");\n\n        return;\n\n      }\n\n      const artifact = data.artifact || {};\n\n      const renderedName = artifact.filename || fallbackName;\n\n      const renderedType = artifact.type || fallbackType;\n\n      const renderedSize = artifact.size_bytes ? String(artifact.size_bytes) + \" bytes\" : fallbackSize;\n\n      const renderedCreated = artifact.created_at || \"\";\n\n      meta.textContent = [\n\n        \"artifact: \" + renderedName,\n\n        renderedType ? \"type: \" + renderedType : \"\",\n\n        renderedSize ? \"size: \" + renderedSize : \"\",\n\n        renderedCreated ? \"created: \" + renderedCreated : \"\"\n\n      ].filter(Boolean).join(\"\\n\");\n\n      body.innerHTML = phase719RenderMarkdownArtifactPreview(data.content);\n\n      body.querySelectorAll(\"[data-phase735-visual-html-mount]\").forEach((phase735Mount) => {\n\n        const template = phase735Mount.parentElement\n\n          ? phase735Mount.parentElement.querySelector(\"[data-phase735-visual-html-template]\")\n\n          : null;\n\n        const templateHtml = template ? template.textContent : \"\";\n\n        try {\n\n          const decoded = phase735DecodeVisualArtifactHtmlTransport(templateHtml);\n\n          phase735Mount.innerHTML = phase723SanitizeVisualArtifactHtml(decoded);\n\n          if (template) template.remove();\n\n        } catch (error) {\n\n          phase735Mount.textContent = \"Unable to render artifact preview.\";\n\n        }\n\n      });\n\n    } catch (error) {\n\n      body.textContent = [\n\n        \"Preview fetch failed.\",\n\n        error && error.message ? error.message : String(error),\n\n        fal"
+    },
+    {
+      "token": "phase735DecodeVisualArtifactHtmlTransport",
+      "index": 51691,
+      "score": 15,
+      "reasons": [
+        "contains decode transport path",
+        "contains sanitizer path",
+        "contains DOM write path",
+        "contains preview path"
+      ],
+      "excerpt": "fallbackType;\n\n      const renderedSize = artifact.size_bytes ? String(artifact.size_bytes) + \" bytes\" : fallbackSize;\n\n      const renderedCreated = artifact.created_at || \"\";\n\n      meta.textContent = [\n\n        \"artifact: \" + renderedName,\n\n        renderedType ? \"type: \" + renderedType : \"\",\n\n        renderedSize ? \"size: \" + renderedSize : \"\",\n\n        renderedCreated ? \"created: \" + renderedCreated : \"\"\n\n      ].filter(Boolean).join(\"\\n\");\n\n      body.innerHTML = phase719RenderMarkdownArtifactPreview(data.content);\n\n      body.querySelectorAll(\"[data-phase735-visual-html-mount]\").forEach((phase735Mount) => {\n\n        const template = phase735Mount.parentElement\n\n          ? phase735Mount.parentElement.querySelector(\"[data-phase735-visual-html-template]\")\n\n          : null;\n\n        const templateHtml = template ? template.textContent : \"\";\n\n        try {\n\n          const decoded = phase735DecodeVisualArtifactHtmlTransport(templateHtml);\n\n          phase735Mount.innerHTML = phase723SanitizeVisualArtifactHtml(decoded);\n\n          if (template) template.remove();\n\n        } catch (error) {\n\n          phase735Mount.textContent = \"Unable to render artifact preview.\";\n\n        }\n\n      });\n\n    } catch (error) {\n\n      body.textContent = [\n\n        \"Preview fetch failed.\",\n\n        error && error.message ? error.message : String(error),\n\n        fallbackOutcome ? \"\\nOutcome:\\n\" + fallbackOutcome : \"\",\n\n        fallbackExplanation ? \"\\nExplanation:\\n\" + fallbackExplanation : \"\"\n\n      ].filter(Boolean).join(\"\\n\");\n\n    }\n\n  }\n\n\n  document.addEventListener(\"click\", function (event) {\n\n    const button = event.target.closest(\"[data-phase719-preview-artifact]\");\n\n    if (!button) return;\n\n    event.preventDefault();\n\n    phase719OpenPreviewModal(button);\n\n  });\n\n\n})();\n"
+    },
+    {
+      "token": "innerHTML",
+      "index": 51773,
+      "score": 15,
+      "reasons": [
+        "contains decode transport path",
+        "contains sanitizer path",
+        "contains DOM write path",
+        "contains preview path"
+      ],
+      "excerpt": "ze_bytes) + \" bytes\" : fallbackSize;\n\n      const renderedCreated = artifact.created_at || \"\";\n\n      meta.textContent = [\n\n        \"artifact: \" + renderedName,\n\n        renderedType ? \"type: \" + renderedType : \"\",\n\n        renderedSize ? \"size: \" + renderedSize : \"\",\n\n        renderedCreated ? \"created: \" + renderedCreated : \"\"\n\n      ].filter(Boolean).join(\"\\n\");\n\n      body.innerHTML = phase719RenderMarkdownArtifactPreview(data.content);\n\n      body.querySelectorAll(\"[data-phase735-visual-html-mount]\").forEach((phase735Mount) => {\n\n        const template = phase735Mount.parentElement\n\n          ? phase735Mount.parentElement.querySelector(\"[data-phase735-visual-html-template]\")\n\n          : null;\n\n        const templateHtml = template ? template.textContent : \"\";\n\n        try {\n\n          const decoded = phase735DecodeVisualArtifactHtmlTransport(templateHtml);\n\n          phase735Mount.innerHTML = phase723SanitizeVisualArtifactHtml(decoded);\n\n          if (template) template.remove();\n\n        } catch (error) {\n\n          phase735Mount.textContent = \"Unable to render artifact preview.\";\n\n        }\n\n      });\n\n    } catch (error) {\n\n      body.textContent = [\n\n        \"Preview fetch failed.\",\n\n        error && error.message ? error.message : String(error),\n\n        fallbackOutcome ? \"\\nOutcome:\\n\" + fallbackOutcome : \"\",\n\n        fallbackExplanation ? \"\\nExplanation:\\n\" + fallbackExplanation : \"\"\n\n      ].filter(Boolean).join(\"\\n\");\n\n    }\n\n  }\n\n\n  document.addEventListener(\"click\", function (event) {\n\n    const button = event.target.closest(\"[data-phase719-preview-artifact]\");\n\n    if (!button) return;\n\n    event.preventDefault();\n\n    phase719OpenPreviewModal(button);\n\n  });\n\n\n})();\n"
+    },
+    {
+      "token": "phase723SanitizeVisualArtifactHtml",
+      "index": 51785,
+      "score": 15,
+      "reasons": [
+        "contains decode transport path",
+        "contains sanitizer path",
+        "contains DOM write path",
+        "contains preview path"
+      ],
+      "excerpt": "\" bytes\" : fallbackSize;\n\n      const renderedCreated = artifact.created_at || \"\";\n\n      meta.textContent = [\n\n        \"artifact: \" + renderedName,\n\n        renderedType ? \"type: \" + renderedType : \"\",\n\n        renderedSize ? \"size: \" + renderedSize : \"\",\n\n        renderedCreated ? \"created: \" + renderedCreated : \"\"\n\n      ].filter(Boolean).join(\"\\n\");\n\n      body.innerHTML = phase719RenderMarkdownArtifactPreview(data.content);\n\n      body.querySelectorAll(\"[data-phase735-visual-html-mount]\").forEach((phase735Mount) => {\n\n        const template = phase735Mount.parentElement\n\n          ? phase735Mount.parentElement.querySelector(\"[data-phase735-visual-html-template]\")\n\n          : null;\n\n        const templateHtml = template ? template.textContent : \"\";\n\n        try {\n\n          const decoded = phase735DecodeVisualArtifactHtmlTransport(templateHtml);\n\n          phase735Mount.innerHTML = phase723SanitizeVisualArtifactHtml(decoded);\n\n          if (template) template.remove();\n\n        } catch (error) {\n\n          phase735Mount.textContent = \"Unable to render artifact preview.\";\n\n        }\n\n      });\n\n    } catch (error) {\n\n      body.textContent = [\n\n        \"Preview fetch failed.\",\n\n        error && error.message ? error.message : String(error),\n\n        fallbackOutcome ? \"\\nOutcome:\\n\" + fallbackOutcome : \"\",\n\n        fallbackExplanation ? \"\\nExplanation:\\n\" + fallbackExplanation : \"\"\n\n      ].filter(Boolean).join(\"\\n\");\n\n    }\n\n  }\n\n\n  document.addEventListener(\"click\", function (event) {\n\n    const button = event.target.closest(\"[data-phase719-preview-artifact]\");\n\n    if (!button) return;\n\n    event.preventDefault();\n\n    phase719OpenPreviewModal(button);\n\n  });\n\n\n})();\n"
+    },
+    {
+      "token": "phase735DecodeVisualArtifactHtmlTransport",
+      "index": 45982,
+      "score": 14,
+      "reasons": [
+        "contains decode transport path",
+        "contains sanitizer path",
+        "contains DOM write path",
+        "contains markdown fallback path"
+      ],
+      "excerpt": ">\n\n          <div data-phase735-visual-html-mount=\"true\"></div>\n\n          <template data-phase735-visual-html-template=\"true\">${phase719EscapePreviewHtml(safeVisualHtml)}</template>\n\n        </div>\n\n      </div>\n\n    `;\n\n  }\n\n  function phase735DecodeVisualArtifactHtmlTransport(html) {\n\n    const source = phase733NormalizePreviewTransportText(html || \"\")\n\n      .replace(/\\\\\\\\n/g, \"\\n\")\n\n      .replace(/\\\\\\\\\\\"/g, '\"')\n\n      .replace(/\\\\\\\\'/g, \"'\")\n\n      .replace(/style=\"\\\\+\"/g, 'style=\"')\n\n      .replace(/;\\\\+\"/g, ';')\n\n      .replace(/\\\\+\"=/g, '=');\n\n    const textarea = document.createElement(\"textarea\");\n\n    textarea.innerHTML = source;\n\n    return textarea.value;\n\n  }\n\n  function phase719RenderMarkdownArtifactPreview(markdown) {\n\n    const extractedVisual = phase723ExtractVisualArtifactBlock(markdown);\n\n    if (extractedVisual.hasVisualArtifact) {\n\n      const decodedVisualHtml = phase735DecodeVisualArtifactHtmlTransport(extractedVisual.visualHtml);\n\n      const safeVisualHtml = phase723SanitizeVisualArtifactHtml(decodedVisualHtml);\n\n      return `\n\n        <div\n\n          data-phase733-single-artifact-render=\"true\"\n\n          style=\"\n\n            max-width:1040px;\n\n            margin:0 auto;\n\n            border:1px solid rgba(148,163,184,.28);\n\n            border-radius:22px;\n\n            padding:18px;\n\n            background:rgba(15,23,42,.42);\n\n            box-shadow:0 24px 80px rgba(0,0,0,.32), inset 0 1px 0 rgba(255,255,255,.05);\n\n            overflow:auto;\n\n          \"\n\n        >\n\n          <div data-phase735-visual-html-mount=\"true\"></div>\n\n          <template data-phase735-visual-html-template=\"true\">${phase719EscapePreviewHtml(safeVisualHtml)}</template>\n\n        </div>\n\n      `;\n\n    }\n\n    const strippedFallback = phase720StripSemanticEnvelope(markdown);\n\n    const decodedFallback = phase735D"
+    },
+    {
+      "token": "phase723SanitizeVisualArtifactHtml",
+      "index": 46083,
+      "score": 14,
+      "reasons": [
+        "contains decode transport path",
+        "contains sanitizer path",
+        "contains DOM write path",
+        "contains markdown fallback path"
+      ],
+      "excerpt": "sual-html-template=\"true\">${phase719EscapePreviewHtml(safeVisualHtml)}</template>\n\n        </div>\n\n      </div>\n\n    `;\n\n  }\n\n  function phase735DecodeVisualArtifactHtmlTransport(html) {\n\n    const source = phase733NormalizePreviewTransportText(html || \"\")\n\n      .replace(/\\\\\\\\n/g, \"\\n\")\n\n      .replace(/\\\\\\\\\\\"/g, '\"')\n\n      .replace(/\\\\\\\\'/g, \"'\")\n\n      .replace(/style=\"\\\\+\"/g, 'style=\"')\n\n      .replace(/;\\\\+\"/g, ';')\n\n      .replace(/\\\\+\"=/g, '=');\n\n    const textarea = document.createElement(\"textarea\");\n\n    textarea.innerHTML = source;\n\n    return textarea.value;\n\n  }\n\n  function phase719RenderMarkdownArtifactPreview(markdown) {\n\n    const extractedVisual = phase723ExtractVisualArtifactBlock(markdown);\n\n    if (extractedVisual.hasVisualArtifact) {\n\n      const decodedVisualHtml = phase735DecodeVisualArtifactHtmlTransport(extractedVisual.visualHtml);\n\n      const safeVisualHtml = phase723SanitizeVisualArtifactHtml(decodedVisualHtml);\n\n      return `\n\n        <div\n\n          data-phase733-single-artifact-render=\"true\"\n\n          style=\"\n\n            max-width:1040px;\n\n            margin:0 auto;\n\n            border:1px solid rgba(148,163,184,.28);\n\n            border-radius:22px;\n\n            padding:18px;\n\n            background:rgba(15,23,42,.42);\n\n            box-shadow:0 24px 80px rgba(0,0,0,.32), inset 0 1px 0 rgba(255,255,255,.05);\n\n            overflow:auto;\n\n          \"\n\n        >\n\n          <div data-phase735-visual-html-mount=\"true\"></div>\n\n          <template data-phase735-visual-html-template=\"true\">${phase719EscapePreviewHtml(safeVisualHtml)}</template>\n\n        </div>\n\n      `;\n\n    }\n\n    const strippedFallback = phase720StripSemanticEnvelope(markdown);\n\n    const decodedFallback = phase735DecodeVisualArtifactHtmlTransport(strippedFallback);\n\n    const fallbackLooksLikeHtml = /<\\s*di"
+    },
+    {
+      "token": "phase723SanitizeVisualArtifactHtml",
+      "index": 43790,
+      "score": 12,
+      "reasons": [
+        "contains sanitizer path",
+        "contains visual artifact path",
+        "contains preview path",
+        "contains markdown fallback path"
+      ],
+      "excerpt": "alStart = startIndex + startMarker.length;\n\n    const visualHtml = source.slice(visualStart, endIndex).trim();\n\n    const markdownWithoutVisualArtifact = (\n\n      source.slice(0, startIndex) + source.slice(endIndex + endMarker.length)\n\n    ).trim();\n\n    return {\n\n      hasVisualArtifact: Boolean(visualHtml),\n\n      visualHtml,\n\n      markdownWithoutVisualArtifact\n\n    };\n\n  }\n\n  // Phase 723 — embedded visual artifact preview wrapper (non-active)\n\n  function phase723RenderVisualArtifactPreviewCandidate(markdown) {\n\n    const extracted = phase723ExtractVisualArtifactBlock(markdown);\n\n    const fallbackMarkdown = extracted.markdownWithoutVisualArtifact || phase733NormalizePreviewTransportText(markdown);\n\n    const fallbackPreview = phase719RenderArtifactVisualCard(fallbackMarkdown);\n\n    if (!extracted.hasVisualArtifact) {\n\n      return fallbackPreview;\n\n    }\n\n    const safeVisualHtml = phase723SanitizeVisualArtifactHtml(extracted.visualHtml);\n\n    if (!safeVisualHtml) {\n\n      return fallbackPreview;\n\n    }\n\n    return `\n\n      <div data-phase723-visual-artifact-preview=\"true\" style=\"max-width:960px;margin:0 auto 22px auto;border:1px solid rgba(45,212,191,.32);background:linear-gradient(135deg,rgba(15,23,42,.78),rgba(8,47,73,.46));border-radius:26px;padding:22px;box-shadow:0 24px 80px rgba(0,0,0,.32), inset 0 1px 0 rgba(255,255,255,.06);\">\n\n        <div style=\"display:flex;align-items:center;justify-content:space-between;gap:14px;margin-bottom:18px;\">\n\n          <div style=\"font-size:12px;text-transform:uppercase;letter-spacing:.2em;color:#ccfbf1;font-weight:950;text-shadow:0 0 22px rgba(45,212,191,.18);\">Visual Artifact</div>\n\n          <div style=\"font-size:10px;text-transform:uppercase;letter-spacing:.14em;color:#dbeafe;border:1px solid rgba(147,197,253,.34);border-radius:999px;padding:5px 10px;back"
+    },
+    {
+      "token": "visual-artifact",
+      "index": 43954,
+      "score": 12,
+      "reasons": [
+        "contains sanitizer path",
+        "contains visual artifact path",
+        "contains preview path",
+        "contains markdown fallback path"
+      ],
+      "excerpt": "ource.slice(0, startIndex) + source.slice(endIndex + endMarker.length)\n\n    ).trim();\n\n    return {\n\n      hasVisualArtifact: Boolean(visualHtml),\n\n      visualHtml,\n\n      markdownWithoutVisualArtifact\n\n    };\n\n  }\n\n  // Phase 723 — embedded visual artifact preview wrapper (non-active)\n\n  function phase723RenderVisualArtifactPreviewCandidate(markdown) {\n\n    const extracted = phase723ExtractVisualArtifactBlock(markdown);\n\n    const fallbackMarkdown = extracted.markdownWithoutVisualArtifact || phase733NormalizePreviewTransportText(markdown);\n\n    const fallbackPreview = phase719RenderArtifactVisualCard(fallbackMarkdown);\n\n    if (!extracted.hasVisualArtifact) {\n\n      return fallbackPreview;\n\n    }\n\n    const safeVisualHtml = phase723SanitizeVisualArtifactHtml(extracted.visualHtml);\n\n    if (!safeVisualHtml) {\n\n      return fallbackPreview;\n\n    }\n\n    return `\n\n      <div data-phase723-visual-artifact-preview=\"true\" style=\"max-width:960px;margin:0 auto 22px auto;border:1px solid rgba(45,212,191,.32);background:linear-gradient(135deg,rgba(15,23,42,.78),rgba(8,47,73,.46));border-radius:26px;padding:22px;box-shadow:0 24px 80px rgba(0,0,0,.32), inset 0 1px 0 rgba(255,255,255,.06);\">\n\n        <div style=\"display:flex;align-items:center;justify-content:space-between;gap:14px;margin-bottom:18px;\">\n\n          <div style=\"font-size:12px;text-transform:uppercase;letter-spacing:.2em;color:#ccfbf1;font-weight:950;text-shadow:0 0 22px rgba(45,212,191,.18);\">Visual Artifact</div>\n\n          <div style=\"font-size:10px;text-transform:uppercase;letter-spacing:.14em;color:#dbeafe;border:1px solid rgba(147,197,253,.34);border-radius:999px;padding:5px 10px;background:rgba(30,64,175,.22);box-shadow:inset 0 1px 0 rgba(255,255,255,.05);\">sanitized html subset</div>\n\n        </div>\n\n        <div data-phase7"
+    }
+  ],
+  "recommendation": "Patch only the highest-confidence preview/visual-artifact DOM write branch, preserving sanitizer/decode behavior and default fallback paths.",
+  "mutationBoundary": "No renderer mutation has been performed by this analysis."
+}
