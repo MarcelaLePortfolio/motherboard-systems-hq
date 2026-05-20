@@ -1,0 +1,456 @@
+{
+  "schemaVersion": "phase736.render-native-preview-runtime.v1",
+  "generatedAt": "2026-05-20T21:37:13.075Z",
+  "mode": "read-only",
+  "runtimeTarget": "motherboard-preview-runtime",
+  "renderMode": "render-native-dashboard",
+  "dashboardShell": {
+    "title": "Execution Bridge Readiness Command Center",
+    "subtitle": "Render-native executive operational dashboard contract",
+    "theme": {
+      "background": "navy-glass",
+      "hierarchy": "command-center",
+      "density": "executive",
+      "accents": [
+        "teal",
+        "violet",
+        "amber",
+        "coral",
+        "emerald"
+      ]
+    },
+    "zones": {
+      "header": [
+        "region-1"
+      ],
+      "primary": [
+        "region-2",
+        "region-3"
+      ],
+      "governance": [
+        "region-4"
+      ],
+      "risk": [
+        "region-5"
+      ],
+      "summary": [
+        "region-6"
+      ]
+    }
+  },
+  "runtimeComposition": {
+    "panelCount": 6,
+    "renderSequence": [
+      {
+        "order": 1,
+        "panelId": "region-1",
+        "type": "hero",
+        "renderer": "panel",
+        "zone": "header",
+        "priority": 100
+      },
+      {
+        "order": 2,
+        "panelId": "region-2",
+        "type": "status-grid",
+        "renderer": "status-card-grid",
+        "zone": "primary",
+        "priority": 90
+      },
+      {
+        "order": 3,
+        "panelId": "region-3",
+        "type": "orchestration-map",
+        "renderer": "topology-map",
+        "zone": "primary",
+        "priority": 80
+      },
+      {
+        "order": 4,
+        "panelId": "region-4",
+        "type": "governance-boundary",
+        "renderer": "panel",
+        "zone": "governance",
+        "priority": 70
+      },
+      {
+        "order": 5,
+        "panelId": "region-5",
+        "type": "risk-zones",
+        "renderer": "risk-card-grid",
+        "zone": "risk",
+        "priority": 60
+      },
+      {
+        "order": 6,
+        "panelId": "region-6",
+        "type": "executive-summary",
+        "renderer": "panel",
+        "zone": "summary",
+        "priority": 50
+      }
+    ],
+    "panels": [
+      {
+        "runtimeId": "runtime-panel-1",
+        "component": "ExecutivePanel",
+        "renderer": "panel",
+        "zone": "header",
+        "priority": 100,
+        "emphasis": "primary",
+        "animation": "subtle-pulse",
+        "interaction": "read-only-panel",
+        "placement": {
+          "columnStart": 1,
+          "columnSpan": 12
+        },
+        "styling": {
+          "accent": "teal",
+          "glassmorphism": true,
+          "glow": true,
+          "borderIntensity": "medium"
+        },
+        "lifecycle": {
+          "state": "primary",
+          "visibility": "always-visible",
+          "collapseAllowed": false
+        },
+        "payload": {
+          "type": "hero",
+          "title": "Execution Bridge Readiness Command Center",
+          "subtitle": "Motherboard Systems governed preview substrate",
+          "badges": [
+            {
+              "label": "READ-ONLY",
+              "tone": "info"
+            },
+            {
+              "label": "NO MUTATION",
+              "tone": "blocked"
+            },
+            {
+              "label": "HUMAN APPROVAL REQUIRED",
+              "tone": "warning"
+            }
+          ]
+        }
+      },
+      {
+        "runtimeId": "runtime-panel-2",
+        "component": "StatusGridPanel",
+        "renderer": "status-card-grid",
+        "zone": "primary",
+        "priority": 90,
+        "emphasis": "primary",
+        "animation": "none",
+        "interaction": "status-scan",
+        "placement": {
+          "columnStart": 1,
+          "columnSpan": 12
+        },
+        "styling": {
+          "accent": "emerald",
+          "glassmorphism": true,
+          "glow": true,
+          "borderIntensity": "medium"
+        },
+        "lifecycle": {
+          "state": "primary",
+          "visibility": "always-visible",
+          "collapseAllowed": false
+        },
+        "payload": {
+          "type": "status-grid",
+          "title": "Readiness Matrix",
+          "cards": [
+            {
+              "label": "Snapshot Layer",
+              "status": "READY",
+              "tone": "ready",
+              "detail": "Artifact state capture is operational."
+            },
+            {
+              "label": "Diff Layer",
+              "status": "READY",
+              "tone": "ready",
+              "detail": "Snapshot comparison is operational."
+            },
+            {
+              "label": "Matilda Interpretation",
+              "status": "REQUIRES-HUMAN-REVIEW",
+              "tone": "info",
+              "detail": "Unexpected categories or advisory warnings require operator review."
+            },
+            {
+              "label": "Human Approval Boundary",
+              "status": "APPROVAL-PENDING",
+              "tone": "warning",
+              "detail": "Approval remains mandatory before execution."
+            },
+            {
+              "label": "Execution Bridge",
+              "status": "BLOCKED-PENDING-REVIEW",
+              "tone": "blocked",
+              "detail": "Execution authority is not delegated."
+            },
+            {
+              "label": "Reconciliation",
+              "status": "STATE-CHANGE-DETECTED",
+              "tone": "info",
+              "detail": "Post-execution validation remains required."
+            }
+          ]
+        }
+      },
+      {
+        "runtimeId": "runtime-panel-3",
+        "component": "TopologyMapPanel",
+        "renderer": "topology-map",
+        "zone": "primary",
+        "priority": 80,
+        "emphasis": "primary",
+        "animation": "none",
+        "interaction": "inspectable-flow",
+        "placement": {
+          "columnStart": 1,
+          "columnSpan": 8
+        },
+        "styling": {
+          "accent": "teal",
+          "glassmorphism": true,
+          "glow": true,
+          "borderIntensity": "medium"
+        },
+        "lifecycle": {
+          "state": "supporting",
+          "visibility": "visible",
+          "collapseAllowed": true
+        },
+        "payload": {
+          "type": "orchestration-map",
+          "title": "Governed Execution Flow",
+          "nodes": [
+            {
+              "label": "Intent",
+              "stage": 1,
+              "status": "ready",
+              "tone": "ready"
+            },
+            {
+              "label": "Snapshot",
+              "stage": 2,
+              "status": "ready",
+              "tone": "ready"
+            },
+            {
+              "label": "Diff",
+              "stage": 3,
+              "status": "ready",
+              "tone": "ready"
+            },
+            {
+              "label": "Classification",
+              "stage": 4,
+              "status": "ready",
+              "tone": "ready"
+            },
+            {
+              "label": "Intent Correlation",
+              "stage": 5,
+              "status": "ready",
+              "tone": "ready"
+            },
+            {
+              "label": "Preview Overlay",
+              "stage": 6,
+              "status": "ready",
+              "tone": "ready"
+            },
+            {
+              "label": "Matilda",
+              "stage": 7,
+              "status": "ready",
+              "tone": "ready"
+            },
+            {
+              "label": "Human Approval",
+              "stage": 8,
+              "status": "required",
+              "tone": "warning"
+            },
+            {
+              "label": "Execution Bridge",
+              "stage": 9,
+              "status": "blocked",
+              "tone": "blocked"
+            },
+            {
+              "label": "Reconciliation",
+              "stage": 10,
+              "status": "ready",
+              "tone": "ready"
+            }
+          ]
+        }
+      },
+      {
+        "runtimeId": "runtime-panel-4",
+        "component": "ExecutivePanel",
+        "renderer": "panel",
+        "zone": "governance",
+        "priority": 70,
+        "emphasis": "secondary",
+        "animation": "none",
+        "interaction": "read-only-panel",
+        "placement": {
+          "columnStart": 9,
+          "columnSpan": 4
+        },
+        "styling": {
+          "accent": "amber",
+          "glassmorphism": true,
+          "glow": true,
+          "borderIntensity": "high"
+        },
+        "lifecycle": {
+          "state": "persistent",
+          "visibility": "always-visible",
+          "collapseAllowed": false
+        },
+        "payload": {
+          "type": "governance-boundary",
+          "title": "Governance Boundary",
+          "tone": "warning",
+          "requirements": [
+            "Human approval required",
+            "Execution remains blocked",
+            "Rollback path required",
+            "Reconciliation required after mutation",
+            "Advisory cognition does not grant execution authority"
+          ]
+        }
+      },
+      {
+        "runtimeId": "runtime-panel-5",
+        "component": "RiskGridPanel",
+        "renderer": "risk-card-grid",
+        "zone": "risk",
+        "priority": 60,
+        "emphasis": "secondary",
+        "animation": "none",
+        "interaction": "risk-review",
+        "placement": {
+          "columnStart": 1,
+          "columnSpan": 6
+        },
+        "styling": {
+          "accent": "coral",
+          "glassmorphism": true,
+          "glow": true,
+          "borderIntensity": "medium"
+        },
+        "lifecycle": {
+          "state": "attention",
+          "visibility": "visible-when-risk-present",
+          "collapseAllowed": true
+        },
+        "payload": {
+          "type": "risk-zones",
+          "title": "Semantic Risk Zones",
+          "risks": [
+            {
+              "label": "Runtime Mutation Risk",
+              "severity": "high",
+              "description": "Execution bridge is not active and mutation remains blocked.",
+              "mitigation": "Require explicit approval, rollback path, and reconciliation."
+            },
+            {
+              "label": "Renderer Fallback Risk",
+              "severity": "medium",
+              "description": "Dashboard may still fall back to semantic artifact shell.",
+              "mitigation": "Route render-native scene graph to a dedicated visual renderer."
+            },
+            {
+              "label": "Governance Bypass Risk",
+              "severity": "critical",
+              "description": "Any execution without approval violates system invariants.",
+              "mitigation": "Keep human approval boundary structurally enforced."
+            },
+            {
+              "label": "Reconciliation Drift Risk",
+              "severity": "medium",
+              "description": "Future execution must compare intended and actual post-state.",
+              "mitigation": "Require post-execution snapshot and reconciliation validator."
+            }
+          ]
+        }
+      },
+      {
+        "runtimeId": "runtime-panel-6",
+        "component": "ExecutivePanel",
+        "renderer": "panel",
+        "zone": "summary",
+        "priority": 50,
+        "emphasis": "secondary",
+        "animation": "none",
+        "interaction": "read-only-panel",
+        "placement": {
+          "columnStart": 1,
+          "columnSpan": 6
+        },
+        "styling": {
+          "accent": "teal",
+          "glassmorphism": true,
+          "glow": true,
+          "borderIntensity": "medium"
+        },
+        "lifecycle": {
+          "state": "supporting",
+          "visibility": "visible",
+          "collapseAllowed": true
+        },
+        "payload": {
+          "type": "executive-summary",
+          "title": "Executive Summary",
+          "body": "The system is ready for governed preview reasoning and render-native scene planning, but runtime mutation is not authorized. The next architectural target is renderer consumption of structured scene graphs instead of markdown fallback shells.",
+          "highlights": [
+            "Alignment score: 0.7778",
+            "Gate decision: requires-human-review",
+            "Execution readiness: blocked-pending-review",
+            "Readiness blocked: true"
+          ]
+        }
+      }
+    ]
+  },
+  "runtimeCapabilities": {
+    "multiPanelRendering": true,
+    "topologyMaps": true,
+    "governancePanels": true,
+    "statusGridRendering": true,
+    "riskGridRendering": true,
+    "animatedHierarchy": true,
+    "semanticCardFallbackAllowed": false,
+    "markdownFallbackAllowed": false
+  },
+  "governanceRules": {
+    "executionAuthorized": false,
+    "mutationPermitted": false,
+    "humanApprovalRequired": true,
+    "reconciliationRequired": true,
+    "advisoryOnly": true
+  },
+  "runtimeState": {
+    "sceneGraphConnected": true,
+    "layoutCompositionConnected": true,
+    "panelOrchestrationConnected": true,
+    "dashboardAdapterConnected": true,
+    "previewRuntimeConnected": true,
+    "rendererConsumptionReady": true
+  },
+  "sourceDashboardContract": {
+    "file": "/Users/marcela-dev/Projects/Motherboard_Systems_HQ/RENDER_NATIVE_LAYOUTS/render-native-layout-2026-05-20T14-20-59.json",
+    "schemaVersion": "phase736.render-native-layout.v1",
+    "generatedAt": "2026-05-20T21:20:59.449Z"
+  }
+}
