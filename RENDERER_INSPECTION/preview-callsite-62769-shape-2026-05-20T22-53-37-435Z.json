@@ -1,0 +1,141 @@
+{
+  "schemaVersion": "phase736.preview-callsite-62769-shape-analysis.v1",
+  "generatedAt": "2026-05-20T22:53:37.434Z",
+  "mode": "read-only",
+  "sourceFile": "RENDERER_INSPECTION/preview-callsite-62769-2026-05-20T22-51-39-522Z.json",
+  "targetFile": "public/js/phase530_visible_panels_bridge.js",
+  "targetIndex": 62769,
+  "markerFindings": [
+    {
+      "marker": "phase735DecodeVisualArtifactHtmlTransport(",
+      "count": 1,
+      "indexes": [
+        2500
+      ],
+      "contexts": [
+        {
+          "index": 2500,
+          "excerpt": "orAll(\"[data-phase735-visual-html-mount]\").forEach((phase735Mount) => {\n\n        const template = phase735Mount.parentElement\n\n          ? phase735Mount.parentElement.querySelector(\"[data-phase735-visual-html-template]\")\n\n          : null;\n\n        const templateHtml = template ? template.textContent : \"\";\n\n        try {\n\n          const decoded = phase735DecodeVisualArtifactHtmlTransport(templateHtml);\n\n          phase735Mount.innerHTML = phase723SanitizeVisualArtifactHtml(decoded);\n\n          if (template) template.remove();\n\n        } catch (error) {\n\n          phase735Mount.textContent = \"Unable to render artifact preview.\";\n\n        }\n\n      });\n\n    } catch (error) {\n\n      body.textContent = [\n\n        \"Preview fetch failed.\",\n\n        error && error.message ? error.message : String(error),\n\n        fallbackOutcome ? \"\\nOutcome:\\n\" + fallbackOutcome : \"\",\n\n        fallbackExplanation ? \"\\nExplanation:\\n\" + fallbackExplana"
+        }
+      ]
+    },
+    {
+      "marker": "phase723SanitizeVisualArtifactHtml(",
+      "count": 1,
+      "indexes": [
+        2594
+      ],
+      "contexts": [
+        {
+          "index": 2594,
+          "excerpt": "e = phase735Mount.parentElement\n\n          ? phase735Mount.parentElement.querySelector(\"[data-phase735-visual-html-template]\")\n\n          : null;\n\n        const templateHtml = template ? template.textContent : \"\";\n\n        try {\n\n          const decoded = phase735DecodeVisualArtifactHtmlTransport(templateHtml);\n\n          phase735Mount.innerHTML = phase723SanitizeVisualArtifactHtml(decoded);\n\n          if (template) template.remove();\n\n        } catch (error) {\n\n          phase735Mount.textContent = \"Unable to render artifact preview.\";\n\n        }\n\n      });\n\n    } catch (error) {\n\n      body.textContent = [\n\n        \"Preview fetch failed.\",\n\n        error && error.message ? error.message : String(error),\n\n        fallbackOutcome ? \"\\nOutcome:\\n\" + fallbackOutcome : \"\",\n\n        fallbackExplanation ? \"\\nExplanation:\\n\" + fallbackExplanation : \"\"\n\n      ].filter(Boolean).join(\"\\n\");\n\n    }\n\n  }\n\n\n  document.addEventListene"
+        }
+      ]
+    },
+    {
+      "marker": "innerHTML",
+      "count": 3,
+      "indexes": [
+        604,
+        2062,
+        2582
+      ],
+      "contexts": [
+        {
+          "index": 604,
+          "excerpt": "Preview: \" + taskTitle;\n\n    subtitle.textContent = taskId ? \"task_id: \" + taskId : \"\";\n\n    meta.textContent = [\n\n      \"artifact: \" + fallbackName,\n\n      fallbackType ? \"type: \" + fallbackType : \"\",\n\n      fallbackSize ? \"size: \" + fallbackSize : \"\",\n\n      fallbackPath ? \"path: \" + fallbackPath : \"\"\n\n    ].filter(Boolean).join(\"\\n\");\n\n    body.innerHTML = `<div style=\"color:#93c5fd;font-size:14px;\">Loading rendered artifact preview…</div>`;\n\n    modal.style.display = \"flex\";\n\n    if (!taskId) {\n\n      body.textContent = \"No task id available for artifact preview.\";\n\n      return;\n\n    }\n\n    try {\n\n      const res = await fetch(`/api/tasks/${encodeURIComponent(taskId)}/artifact-preview`, { cache: \"no-store\" });\n\n      const data = await res.json().catch(() => null);\n\n      if (!res.ok || !data || data.ok !== true) {\n\n        body.textContent = [\n\n          \"Rendered artifact content is not av"
+        },
+        {
+          "index": 2062,
+          "excerpt": "kSize;\n\n      const renderedCreated = artifact.created_at || \"\";\n\n      meta.textContent = [\n\n        \"artifact: \" + renderedName,\n\n        renderedType ? \"type: \" + renderedType : \"\",\n\n        renderedSize ? \"size: \" + renderedSize : \"\",\n\n        renderedCreated ? \"created: \" + renderedCreated : \"\"\n\n      ].filter(Boolean).join(\"\\n\");\n\n      body.innerHTML = phase719RenderMarkdownArtifactPreview(data.content);\n\n      body.querySelectorAll(\"[data-phase735-visual-html-mount]\").forEach((phase735Mount) => {\n\n        const template = phase735Mount.parentElement\n\n          ? phase735Mount.parentElement.querySelector(\"[data-phase735-visual-html-template]\")\n\n          : null;\n\n        const templateHtml = template ? template.textContent : \"\";\n\n        try {\n\n          const decoded = phase735DecodeVisualArtifactHtmlTransport(templateHtml);\n\n          phase735Mount.innerHTML = phase723SanitizeVisualArtif"
+        },
+        {
+          "index": 2582,
+          "excerpt": "onst template = phase735Mount.parentElement\n\n          ? phase735Mount.parentElement.querySelector(\"[data-phase735-visual-html-template]\")\n\n          : null;\n\n        const templateHtml = template ? template.textContent : \"\";\n\n        try {\n\n          const decoded = phase735DecodeVisualArtifactHtmlTransport(templateHtml);\n\n          phase735Mount.innerHTML = phase723SanitizeVisualArtifactHtml(decoded);\n\n          if (template) template.remove();\n\n        } catch (error) {\n\n          phase735Mount.textContent = \"Unable to render artifact preview.\";\n\n        }\n\n      });\n\n    } catch (error) {\n\n      body.textContent = [\n\n        \"Preview fetch failed.\",\n\n        error && error.message ? error.message : String(error),\n\n        fallbackOutcome ? \"\\nOutcome:\\n\" + fallbackOutcome : \"\",\n\n        fallbackExplanation ? \"\\nExplanation:\\n\" + fallbackExplanation : \"\"\n\n      ].filter(Boolean).join(\"\\n\");\n\n "
+        }
+      ]
+    },
+    {
+      "marker": "artifactHtml",
+      "count": 0,
+      "indexes": [],
+      "contexts": []
+    },
+    {
+      "marker": "renderedHtml",
+      "count": 0,
+      "indexes": [],
+      "contexts": []
+    },
+    {
+      "marker": "modal",
+      "count": 1,
+      "indexes": [
+        708
+      ],
+      "contexts": [
+        {
+          "index": 708,
+          "excerpt": "ntent = [\n\n      \"artifact: \" + fallbackName,\n\n      fallbackType ? \"type: \" + fallbackType : \"\",\n\n      fallbackSize ? \"size: \" + fallbackSize : \"\",\n\n      fallbackPath ? \"path: \" + fallbackPath : \"\"\n\n    ].filter(Boolean).join(\"\\n\");\n\n    body.innerHTML = `<div style=\"color:#93c5fd;font-size:14px;\">Loading rendered artifact preview…</div>`;\n\n    modal.style.display = \"flex\";\n\n    if (!taskId) {\n\n      body.textContent = \"No task id available for artifact preview.\";\n\n      return;\n\n    }\n\n    try {\n\n      const res = await fetch(`/api/tasks/${encodeURIComponent(taskId)}/artifact-preview`, { cache: \"no-store\" });\n\n      const data = await res.json().catch(() => null);\n\n      if (!res.ok || !data || data.ok !== true) {\n\n        body.textContent = [\n\n          \"Rendered artifact content is not available.\",\n\n          data && data.error ? \"Error: \" + data.error : \"\",\n\n          fallbackOutcome ?"
+        }
+      ]
+    },
+    {
+      "marker": "preview",
+      "count": 5,
+      "indexes": [
+        686,
+        819,
+        945,
+        2776,
+        3266
+      ],
+      "contexts": [
+        {
+          "index": 686,
+          "excerpt": ": \"\";\n\n    meta.textContent = [\n\n      \"artifact: \" + fallbackName,\n\n      fallbackType ? \"type: \" + fallbackType : \"\",\n\n      fallbackSize ? \"size: \" + fallbackSize : \"\",\n\n      fallbackPath ? \"path: \" + fallbackPath : \"\"\n\n    ].filter(Boolean).join(\"\\n\");\n\n    body.innerHTML = `<div style=\"color:#93c5fd;font-size:14px;\">Loading rendered artifact preview…</div>`;\n\n    modal.style.display = \"flex\";\n\n    if (!taskId) {\n\n      body.textContent = \"No task id available for artifact preview.\";\n\n      return;\n\n    }\n\n    try {\n\n      const res = await fetch(`/api/tasks/${encodeURIComponent(taskId)}/artifact-preview`, { cache: \"no-store\" });\n\n      const data = await res.json().catch(() => null);\n\n      if (!res.ok || !data || data.ok !== true) {\n\n        body.textContent = [\n\n          \"Rendered artifact content is not available.\",\n\n          data && data.error ? \"Error: \" + data.error : \"\",\n\n       "
+        },
+        {
+          "index": 819,
+          "excerpt": "ckSize ? \"size: \" + fallbackSize : \"\",\n\n      fallbackPath ? \"path: \" + fallbackPath : \"\"\n\n    ].filter(Boolean).join(\"\\n\");\n\n    body.innerHTML = `<div style=\"color:#93c5fd;font-size:14px;\">Loading rendered artifact preview…</div>`;\n\n    modal.style.display = \"flex\";\n\n    if (!taskId) {\n\n      body.textContent = \"No task id available for artifact preview.\";\n\n      return;\n\n    }\n\n    try {\n\n      const res = await fetch(`/api/tasks/${encodeURIComponent(taskId)}/artifact-preview`, { cache: \"no-store\" });\n\n      const data = await res.json().catch(() => null);\n\n      if (!res.ok || !data || data.ok !== true) {\n\n        body.textContent = [\n\n          \"Rendered artifact content is not available.\",\n\n          data && data.error ? \"Error: \" + data.error : \"\",\n\n          fallbackOutcome ? \"\\nOutcome:\\n\" + fallbackOutcome : \"\",\n\n          fallbackExplanation ? \"\\nExplanation:\\n\" + fallbackExplanation"
+        },
+        {
+          "index": 945,
+          "excerpt": "    body.innerHTML = `<div style=\"color:#93c5fd;font-size:14px;\">Loading rendered artifact preview…</div>`;\n\n    modal.style.display = \"flex\";\n\n    if (!taskId) {\n\n      body.textContent = \"No task id available for artifact preview.\";\n\n      return;\n\n    }\n\n    try {\n\n      const res = await fetch(`/api/tasks/${encodeURIComponent(taskId)}/artifact-preview`, { cache: \"no-store\" });\n\n      const data = await res.json().catch(() => null);\n\n      if (!res.ok || !data || data.ok !== true) {\n\n        body.textContent = [\n\n          \"Rendered artifact content is not available.\",\n\n          data && data.error ? \"Error: \" + data.error : \"\",\n\n          fallbackOutcome ? \"\\nOutcome:\\n\" + fallbackOutcome : \"\",\n\n          fallbackExplanation ? \"\\nExplanation:\\n\" + fallbackExplanation : \"\"\n\n        ].filter(Boolean).join(\"\\n\");\n\n        return;\n\n      }\n\n      const artifact = data.artifact || {};\n\n      con"
+        },
+        {
+          "index": 2776,
+          "excerpt": "te ? template.textContent : \"\";\n\n        try {\n\n          const decoded = phase735DecodeVisualArtifactHtmlTransport(templateHtml);\n\n          phase735Mount.innerHTML = phase723SanitizeVisualArtifactHtml(decoded);\n\n          if (template) template.remove();\n\n        } catch (error) {\n\n          phase735Mount.textContent = \"Unable to render artifact preview.\";\n\n        }\n\n      });\n\n    } catch (error) {\n\n      body.textContent = [\n\n        \"Preview fetch failed.\",\n\n        error && error.message ? error.message : String(error),\n\n        fallbackOutcome ? \"\\nOutcome:\\n\" + fallbackOutcome : \"\",\n\n        fallbackExplanation ? \"\\nExplanation:\\n\" + fallbackExplanation : \"\"\n\n      ].filter(Boolean).join(\"\\n\");\n\n    }\n\n  }\n\n\n  document.addEventListener(\"click\", function (event) {\n\n    const button = event.target.closest(\"[data-phase719-preview-artifact]\");\n\n    if (!button) return;\n\n    event.preventDe"
+        },
+        {
+          "index": 3266,
+          "excerpt": "r.message ? error.message : String(error),\n\n        fallbackOutcome ? \"\\nOutcome:\\n\" + fallbackOutcome : \"\",\n\n        fallbackExplanation ? \"\\nExplanation:\\n\" + fallbackExplanation : \"\"\n\n      ].filter(Boolean).join(\"\\n\");\n\n    }\n\n  }\n\n\n  document.addEventListener(\"click\", function (event) {\n\n    const button = event.target.closest(\"[data-phase719-preview-artifact]\");\n\n    if (!button) return;\n\n    event.preventDefault();\n\n    phase719OpenPreviewModal(button);\n\n  });\n\n\n})();\n"
+        }
+      ]
+    },
+    {
+      "marker": "return",
+      "count": 3,
+      "indexes": [
+        837,
+        1430,
+        3305
+      ],
+      "contexts": [
+        {
+          "index": 837,
+          "excerpt": "+ fallbackSize : \"\",\n\n      fallbackPath ? \"path: \" + fallbackPath : \"\"\n\n    ].filter(Boolean).join(\"\\n\");\n\n    body.innerHTML = `<div style=\"color:#93c5fd;font-size:14px;\">Loading rendered artifact preview…</div>`;\n\n    modal.style.display = \"flex\";\n\n    if (!taskId) {\n\n      body.textContent = \"No task id available for artifact preview.\";\n\n      return;\n\n    }\n\n    try {\n\n      const res = await fetch(`/api/tasks/${encodeURIComponent(taskId)}/artifact-preview`, { cache: \"no-store\" });\n\n      const data = await res.json().catch(() => null);\n\n      if (!res.ok || !data || data.ok !== true) {\n\n        body.textContent = [\n\n          \"Rendered artifact content is not available.\",\n\n          data && data.error ? \"Error: \" + data.error : \"\",\n\n          fallbackOutcome ? \"\\nOutcome:\\n\" + fallbackOutcome : \"\",\n\n          fallbackExplanation ? \"\\nExplanation:\\n\" + fallbackExplanation : \"\"\n\n        ]."
+        },
+        {
+          "index": 1430,
+          "excerpt": "ue) {\n\n        body.textContent = [\n\n          \"Rendered artifact content is not available.\",\n\n          data && data.error ? \"Error: \" + data.error : \"\",\n\n          fallbackOutcome ? \"\\nOutcome:\\n\" + fallbackOutcome : \"\",\n\n          fallbackExplanation ? \"\\nExplanation:\\n\" + fallbackExplanation : \"\"\n\n        ].filter(Boolean).join(\"\\n\");\n\n        return;\n\n      }\n\n      const artifact = data.artifact || {};\n\n      const renderedName = artifact.filename || fallbackName;\n\n      const renderedType = artifact.type || fallbackType;\n\n      const renderedSize = artifact.size_bytes ? String(artifact.size_bytes) + \" bytes\" : fallbackSize;\n\n      const renderedCreated = artifact.created_at || \"\";\n\n      meta.textContent = [\n\n        \"artifact: \" + renderedName,\n\n        renderedType ? \"type: \" + renderedType : \"\",\n\n        renderedSize ? \"size: \" + renderedSize : \"\",\n\n        renderedCreated ? \"created"
+        },
+        {
+          "index": 3305,
+          "excerpt": "r),\n\n        fallbackOutcome ? \"\\nOutcome:\\n\" + fallbackOutcome : \"\",\n\n        fallbackExplanation ? \"\\nExplanation:\\n\" + fallbackExplanation : \"\"\n\n      ].filter(Boolean).join(\"\\n\");\n\n    }\n\n  }\n\n\n  document.addEventListener(\"click\", function (event) {\n\n    const button = event.target.closest(\"[data-phase719-preview-artifact]\");\n\n    if (!button) return;\n\n    event.preventDefault();\n\n    phase719OpenPreviewModal(button);\n\n  });\n\n\n})();\n"
+        }
+      ]
+    }
+  ],
+  "recommendation": "Use this shape analysis to patch only the confirmed preview call-site branch. If the next route activation fails, revert route activation scripts before further renderer work."
+}
