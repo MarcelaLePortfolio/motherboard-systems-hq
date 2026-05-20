@@ -1,0 +1,30 @@
+{
+  "schemaVersion": "phase735.artifact-snapshot-diff.v1",
+  "generatedAt": "2026-05-20T16:47:34.606Z",
+  "mode": "read-only",
+  "before": {
+    "file": "/Users/marcela-dev/Projects/Motherboard_Systems_HQ/ARTIFACT_SNAPSHOTS/artifact-snapshot-2026-05-20T03-52-37-135Z.json",
+    "generatedAt": "2026-05-20T03:52:37.140Z",
+    "branch": "phase730-semantic-section-extraction",
+    "headCommit": "ab487f9b3fa39f07c8bb5a3c225fc1c2909115d3",
+    "artifactCount": 21948
+  },
+  "after": {
+    "file": "/Users/marcela-dev/Projects/Motherboard_Systems_HQ/ARTIFACT_SNAPSHOTS/artifact-snapshot-2026-05-20T03-56-17-932Z.json",
+    "generatedAt": "2026-05-20T03:56:17.934Z",
+    "branch": "phase730-semantic-section-extraction",
+    "headCommit": "5e3be2a945b52e6a0500574ba87234e9b673be2e",
+    "artifactCount": 21948
+  },
+  "summary": {
+    "added": 0,
+    "removed": 0,
+    "changed": 0,
+    "unchanged": 21948
+  },
+  "changes": {
+    "added": [],
+    "removed": [],
+    "changed": []
+  }
+}
