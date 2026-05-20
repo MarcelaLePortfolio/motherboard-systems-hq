@@ -25,23 +25,13 @@ if (original.includes("phase736RenderNativeDashboardHtml")) {
 
 }
 
-const guardName = "function phase736RenderNativeDashboardGuard(payload)";
+const marker = "phase735DecodeVisualArtifactHtmlTransport";
 
-const guardIndex = original.indexOf(guardName);
+const markerIndex = original.indexOf(marker);
 
-if (guardIndex === -1) {
+if (markerIndex === -1) {
 
-  console.error(`Unable to locate guard function: ${guardName}`);
-
-  process.exit(1);
-
-}
-
-const nextFunctionIndex = original.indexOf("\nfunction ", guardIndex + guardName.length);
-
-if (nextFunctionIndex === -1) {
-
-  console.error("Unable to identify insertion boundary after guard.");
+  console.error(`Unable to locate marker: ${marker}`);
 
   process.exit(1);
 
@@ -90,8 +80,6 @@ function phase736RenderNativePanel(panel) {
   const title = phase736EscapeRenderNativeText(payload.title || panel?.title || type);
 
   const accent = phase736EscapeRenderNativeText(panel?.styling?.accent || "teal");
-
-  const tone = phase736RenderNativeToneClass(payload.tone || panel?.styling?.accent || "info");
 
   if (panel?.renderer === "status-card-grid" && Array.isArray(payload.cards)) {
 
@@ -217,7 +205,7 @@ function phase736RenderNativePanel(panel) {
 
   return \`
 
-    <section class="phase736-render-panel \${tone} phase736-accent-\${accent}">
+    <section class="phase736-render-panel phase736-accent-\${accent}">
 
       <div class="phase736-panel-kicker">\${type}</div>
 
@@ -575,11 +563,11 @@ function phase736RenderNativeDashboardHtml(renderNativePayload) {
 
 const patched =
 
-  original.slice(0, nextFunctionIndex) +
+  original.slice(0, markerIndex) +
 
   insertion +
 
-  original.slice(nextFunctionIndex);
+  original.slice(markerIndex);
 
 fs.writeFileSync(resolvedTarget, patched);
 
@@ -593,7 +581,7 @@ console.log(
 
       insertedRenderer: "phase736RenderNativeDashboardHtml",
 
-      insertionBoundary: nextFunctionIndex,
+      insertionBoundary: markerIndex,
 
       preserveFallbacks: true,
 
