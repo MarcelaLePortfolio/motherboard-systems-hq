@@ -31,7 +31,7 @@ function safeExec(command, args = []) {
 
     }).trim();
 
-  } catch (error) {
+  } catch {
 
     return null;
 
