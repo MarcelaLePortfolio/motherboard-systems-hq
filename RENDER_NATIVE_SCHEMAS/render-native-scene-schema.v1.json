@@ -1,0 +1,117 @@
+{
+  "schemaVersion": "phase736.render-native-scene.v1",
+  "mode": "read-only",
+  "description": "Structured visual scene contract for render-native executive artifact composition.",
+  "sceneTypes": {
+    "executiveDashboard": {
+      "requiredFields": [
+        "title",
+        "subtitle",
+        "statusBadge",
+        "theme",
+        "regions"
+      ],
+      "supportedRegions": [
+        "hero",
+        "status-grid",
+        "orchestration-map",
+        "governance-boundary",
+        "risk-zones",
+        "executive-summary",
+        "readiness-gate",
+        "reconciliation"
+      ]
+    }
+  },
+  "visualPrimitives": {
+    "hero": {
+      "fields": [
+        "title",
+        "subtitle",
+        "badges"
+      ]
+    },
+    "statusCard": {
+      "fields": [
+        "label",
+        "status",
+        "tone",
+        "detail"
+      ],
+      "tones": [
+        "ready",
+        "blocked",
+        "warning",
+        "info",
+        "critical"
+      ]
+    },
+    "orchestrationNode": {
+      "fields": [
+        "label",
+        "stage",
+        "status",
+        "tone"
+      ]
+    },
+    "governanceBlock": {
+      "fields": [
+        "title",
+        "requirements",
+        "tone"
+      ]
+    },
+    "riskCard": {
+      "fields": [
+        "label",
+        "severity",
+        "description",
+        "mitigation"
+      ],
+      "severities": [
+        "low",
+        "medium",
+        "high",
+        "critical"
+      ]
+    },
+    "summaryPanel": {
+      "fields": [
+        "title",
+        "body",
+        "highlights"
+      ]
+    }
+  },
+  "themeTokens": {
+    "backgrounds": [
+      "navy-glass",
+      "graphite",
+      "midnight-gradient"
+    ],
+    "accents": [
+      "teal",
+      "violet",
+      "amber",
+      "coral",
+      "emerald"
+    ],
+    "density": [
+      "compact",
+      "balanced",
+      "executive"
+    ],
+    "hierarchy": [
+      "card-grid",
+      "command-center",
+      "briefing-board"
+    ]
+  },
+  "governanceRules": {
+    "executionAuthorized": false,
+    "mutationPermitted": false,
+    "humanApprovalRequired": true,
+    "reconciliationRequired": true,
+    "advisoryOnly": true
+  }
+}
