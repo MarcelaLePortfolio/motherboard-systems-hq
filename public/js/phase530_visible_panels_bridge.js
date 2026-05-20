@@ -1431,7 +1431,69 @@
 
   }
 
-  function phase735DecodeVisualArtifactHtmlTransport(html) {
+  function 
+
+function phase736RenderNativeDashboardGuard(payload) {
+
+  try {
+
+    if (!payload || typeof payload !== "object") {
+
+      return null;
+
+    }
+
+    const schemaVersion =
+
+      payload.schemaVersion || "";
+
+    const renderMode =
+
+      payload.renderMode || "";
+
+    const rendererTarget =
+
+      payload.rendererTarget || "";
+
+    const isRenderNative =
+
+      schemaVersion.includes("render-native") ||
+
+      renderMode.includes("render-native") ||
+
+      rendererTarget.includes("render-native");
+
+    if (!isRenderNative) {
+
+      return null;
+
+    }
+
+    return {
+
+      renderNative: true,
+
+      payload,
+
+    };
+
+  } catch (error) {
+
+    console.warn(
+
+      "[phase736] render-native guard failed",
+
+      error
+
+    );
+
+    return null;
+
+  }
+
+}
+
+phase735DecodeVisualArtifactHtmlTransport(html) {
 
     const source = phase733NormalizePreviewTransportText(html || "")
 
