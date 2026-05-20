@@ -1,0 +1,326 @@
+{
+  "schemaVersion": "phase736.renderer-consumption-target-inspection.v1",
+  "generatedAt": "2026-05-20T21:45:38.246Z",
+  "mode": "read-only",
+  "purpose": "Identify renderer files and preview runtime targets before any render-native dashboard implementation mutation.",
+  "candidatePatterns": [
+    "phase530_visible_panels_bridge.js",
+    "phase719-preview-modal",
+    "artifact-preview",
+    "preview-body",
+    "semantic-artifact",
+    "visual-artifact",
+    "data-phase733-single-artifact-render",
+    "phase723SanitizeVisualArtifactHtml",
+    "phase735DecodeVisualArtifactHtmlTransport"
+  ],
+  "resultCount": 43,
+  "results": [
+    {
+      "path": "_snapshots/phase617-pre-result-surfacing-wire-stable-20260501_233350/public/index.html",
+      "matches": [
+        "phase530_visible_panels_bridge.js"
+      ]
+    },
+    {
+      "path": "_snapshots/phase618-ui-communication-tier-surfacing-complete-20260501_235622/public/index.html",
+      "matches": [
+        "phase530_visible_panels_bridge.js"
+      ]
+    },
+    {
+      "path": "_snapshots/phase630-runtime-proof-ready-containerized/public/index.html",
+      "matches": [
+        "phase530_visible_panels_bridge.js"
+      ]
+    },
+    {
+      "path": "_snapshots/phase631-live-runtime-proof-containerized/public/index.html",
+      "matches": [
+        "phase530_visible_panels_bridge.js"
+      ]
+    },
+    {
+      "path": "checkpoints/PHASE719_API_TASKS_POSTGRES_POST_ARTIFACT_PREVIEW_ROUTE.mjs",
+      "matches": [
+        "artifact-preview"
+      ]
+    },
+    {
+      "path": "checkpoints/PHASE719_API_TASKS_POSTGRES_POST_POOL_REFERENCE_FIX.mjs",
+      "matches": [
+        "artifact-preview"
+      ]
+    },
+    {
+      "path": "checkpoints/PHASE719_API_TASKS_POSTGRES_POST_ROUTER_SYMBOL_FIX.mjs",
+      "matches": [
+        "artifact-preview"
+      ]
+    },
+    {
+      "path": "checkpoints/PHASE719_API_TASKS_POSTGRES_PRE_POOL_REFERENCE_FIX.mjs",
+      "matches": [
+        "artifact-preview"
+      ]
+    },
+    {
+      "path": "checkpoints/PHASE719_API_TASKS_POSTGRES_PRE_ROUTER_SYMBOL_FIX.mjs",
+      "matches": [
+        "artifact-preview"
+      ]
+    },
+    {
+      "path": "checkpoints/PHASE719_PHASE530_POST_PREVIEW_MODAL_CONTENT_FETCH_V2.js",
+      "matches": [
+        "phase719-preview-modal",
+        "artifact-preview",
+        "preview-body"
+      ]
+    },
+    {
+      "path": "checkpoints/PHASE719_PHASE530_POST_PREVIEW_MODAL.js",
+      "matches": [
+        "phase719-preview-modal",
+        "preview-body"
+      ]
+    },
+    {
+      "path": "checkpoints/PHASE719_PHASE530_POST_RENDERED_MARKDOWN_PREVIEW.js",
+      "matches": [
+        "phase719-preview-modal",
+        "artifact-preview",
+        "preview-body"
+      ]
+    },
+    {
+      "path": "checkpoints/PHASE719_PHASE530_POST_VISUAL_CARD_ARTIFACT_SURFACE.js",
+      "matches": [
+        "phase719-preview-modal",
+        "artifact-preview",
+        "preview-body"
+      ]
+    },
+    {
+      "path": "checkpoints/PHASE719_PHASE530_PRE_PREVIEW_MODAL_CONTENT_FETCH_V2.js",
+      "matches": [
+        "phase719-preview-modal",
+        "preview-body"
+      ]
+    },
+    {
+      "path": "checkpoints/PHASE719_PHASE530_PRE_RENDERED_MARKDOWN_PREVIEW.js",
+      "matches": [
+        "phase719-preview-modal",
+        "artifact-preview",
+        "preview-body"
+      ]
+    },
+    {
+      "path": "checkpoints/PHASE719_PHASE530_PRE_VISUAL_CARD_ARTIFACT_SURFACE.js",
+      "matches": [
+        "phase719-preview-modal",
+        "artifact-preview",
+        "preview-body"
+      ]
+    },
+    {
+      "path": "checkpoints/phase719_quarantined_failed_helpers/PHASE719_PHASE530_PRE_HTML_ARTIFACT_DIRECT_RENDER_V2.js",
+      "matches": [
+        "phase719-preview-modal",
+        "artifact-preview",
+        "preview-body"
+      ]
+    },
+    {
+      "path": "checkpoints/phase719_quarantined_failed_helpers/PHASE719_PHASE530_PRE_HTML_ARTIFACT_DIRECT_RENDER_V3.js",
+      "matches": [
+        "phase719-preview-modal",
+        "artifact-preview",
+        "preview-body"
+      ]
+    },
+    {
+      "path": "checkpoints/phase719_quarantined_failed_helpers/PHASE719_PHASE530_PRE_HTML_ARTIFACT_DIRECT_RENDER.js",
+      "matches": [
+        "phase719-preview-modal",
+        "artifact-preview",
+        "preview-body"
+      ]
+    },
+    {
+      "path": "checkpoints/phase719_quarantined_failed_helpers/PHASE719_PHASE530_PRE_HTML_HELPER_MINIMAL.js",
+      "matches": [
+        "phase719-preview-modal",
+        "artifact-preview",
+        "preview-body"
+      ]
+    },
+    {
+      "path": "checkpoints/phase719_quarantined_failed_helpers/PHASE719_PHASE530_PRE_PREVIEW_MODAL_CONTENT_FETCH.js",
+      "matches": [
+        "phase719-preview-modal",
+        "preview-body"
+      ]
+    },
+    {
+      "path": "checkpoints/phase719_quarantined_failed_helpers/PHASE719_ROUTE_PRE_HTML_ARTIFACT_DIRECT_RENDER_V2.mjs",
+      "matches": [
+        "artifact-preview"
+      ]
+    },
+    {
+      "path": "checkpoints/phase719_quarantined_failed_helpers/PHASE719_ROUTE_PRE_HTML_ARTIFACT_DIRECT_RENDER_V3.mjs",
+      "matches": [
+        "artifact-preview"
+      ]
+    },
+    {
+      "path": "checkpoints/phase719_quarantined_failed_helpers/PHASE719_ROUTE_PRE_HTML_ARTIFACT_DIRECT_RENDER.mjs",
+      "matches": [
+        "artifact-preview"
+      ]
+    },
+    {
+      "path": "checkpoints/phase719_quarantined_failed_helpers/PHASE719_ROUTE_PRE_HTML_HELPER_MINIMAL.mjs",
+      "matches": [
+        "artifact-preview"
+      ]
+    },
+    {
+      "path": "checkpoints/PHASE720_PRE_FRONTEND_SEMANTIC_DETECTION_V2.js",
+      "matches": [
+        "phase719-preview-modal",
+        "artifact-preview",
+        "preview-body"
+      ]
+    },
+    {
+      "path": "checkpoints/PHASE721_PRE_SEMANTIC_OPERATOR_SUMMARY.js",
+      "matches": [
+        "phase719-preview-modal",
+        "artifact-preview",
+        "preview-body"
+      ]
+    },
+    {
+      "path": "checkpoints/PHASE722_PRE_READABILITY_POLISH.js",
+      "matches": [
+        "phase719-preview-modal",
+        "artifact-preview",
+        "preview-body"
+      ]
+    },
+    {
+      "path": "checkpoints/phase725_aesthetic_refinement_baseline/phase530_visible_panels_bridge.pre_phase725_visual_polish.js",
+      "matches": [
+        "phase719-preview-modal",
+        "artifact-preview",
+        "preview-body",
+        "visual-artifact",
+        "phase723SanitizeVisualArtifactHtml"
+      ]
+    },
+    {
+      "path": "PHASE717_EXACT_FILE_INSPECTOR.mjs",
+      "matches": [
+        "phase530_visible_panels_bridge.js"
+      ]
+    },
+    {
+      "path": "public/dashboard.html",
+      "matches": [
+        "phase530_visible_panels_bridge.js"
+      ]
+    },
+    {
+      "path": "public/index.html",
+      "matches": [
+        "phase530_visible_panels_bridge.js"
+      ]
+    },
+    {
+      "path": "public/js/dashboard-tasks-widget.js",
+      "matches": [
+        "phase530_visible_panels_bridge.js"
+      ]
+    },
+    {
+      "path": "public/js/phase530_visible_panels_bridge.js",
+      "matches": [
+        "phase719-preview-modal",
+        "artifact-preview",
+        "preview-body",
+        "visual-artifact",
+        "data-phase733-single-artifact-render",
+        "phase723SanitizeVisualArtifactHtml",
+        "phase735DecodeVisualArtifactHtmlTransport"
+      ]
+    },
+    {
+      "path": "public/js/phase565_recent_tasks_wire.js",
+      "matches": [
+        "phase530_visible_panels_bridge.js"
+      ]
+    },
+    {
+      "path": "scripts/artifact-preview-overlay-composer.mjs",
+      "matches": [
+        "artifact-preview"
+      ]
+    },
+    {
+      "path": "scripts/inspect-renderer-consumption-targets.mjs",
+      "matches": [
+        "phase530_visible_panels_bridge.js",
+        "phase719-preview-modal",
+        "artifact-preview",
+        "preview-body",
+        "semantic-artifact",
+        "visual-artifact",
+        "data-phase733-single-artifact-render",
+        "phase723SanitizeVisualArtifactHtml",
+        "phase735DecodeVisualArtifactHtmlTransport"
+      ]
+    },
+    {
+      "path": "scripts/phase725_visual_preview_polish_patch.js",
+      "matches": [
+        "phase530_visible_panels_bridge.js",
+        "artifact-preview",
+        "visual-artifact"
+      ]
+    },
+    {
+      "path": "scripts/run-full-preview-pipeline.mjs",
+      "matches": [
+        "artifact-preview"
+      ]
+    },
+    {
+      "path": "server/routes/api-tasks-postgres.mjs",
+      "matches": [
+        "artifact-preview"
+      ]
+    },
+    {
+      "path": "server/worker/task_execution_interpreter.mjs",
+      "matches": [
+        "visual-artifact"
+      ]
+    },
+    {
+      "path": "worker/semantic/classifyArtifact.js",
+      "matches": [
+        "semantic-artifact"
+      ]
+    },
+    {
+      "path": "worker/semantic/validateSemanticArtifact.js",
+      "matches": [
+        "semantic-artifact"
+      ]
+    }
+  ],
+  "nextRecommendedStep": "Inspect highest-confidence renderer target manually before modifying dashboard runtime path."
+}
