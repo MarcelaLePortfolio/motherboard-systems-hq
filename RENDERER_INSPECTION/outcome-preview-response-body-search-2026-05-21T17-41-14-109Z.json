@@ -1,0 +1,36 @@
+{
+  "schemaVersion": "phase736.outcome-preview-response-body-search.v1",
+  "generatedAt": "2026-05-21T17:41:14.108Z",
+  "mode": "read-only",
+  "targetFile": "server/routes/api-tasks-postgres.mjs",
+  "token": "outcome_preview",
+  "tokenCount": 2,
+  "bodies": [
+    {
+      "tokenIndex": 1819,
+      "found": true,
+      "absoluteStatusIndex": 2424,
+      "objectStart": 2445,
+      "objectEnd": 2477,
+      "containsOutcomePreview": false,
+      "containsPayload": false,
+      "containsArtifact": false,
+      "objectPreview": "{ ok: true, tasks: r.rows || [] }",
+      "objectText": "{ ok: true, tasks: r.rows || [] }"
+    },
+    {
+      "tokenIndex": 1839,
+      "found": true,
+      "absoluteStatusIndex": 2424,
+      "objectStart": 2445,
+      "objectEnd": 2477,
+      "containsOutcomePreview": false,
+      "containsPayload": false,
+      "containsArtifact": false,
+      "objectPreview": "{ ok: true, tasks: r.rows || [] }",
+      "objectText": "{ ok: true, tasks: r.rows || [] }"
+    }
+  ],
+  "recommendation": "Use the first response object that directly contains outcome_preview in the JSON body as the authoritative upstream payload mutation target.",
+  "mutationBoundary": "No mutation performed. Direct response-body search only."
+}
