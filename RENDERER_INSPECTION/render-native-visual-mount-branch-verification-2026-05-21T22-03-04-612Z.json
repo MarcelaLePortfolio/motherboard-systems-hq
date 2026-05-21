@@ -1,0 +1,92 @@
+{
+  "schemaVersion": "phase736.render-native-visual-mount-branch-verification.v1",
+  "generatedAt": "2026-05-21T22:03:04.611Z",
+  "mode": "read-only",
+  "targetFile": "public/js/phase530_visible_panels_bridge.js",
+  "status": {
+    "branchActive": true,
+    "noRegressionTokens": true,
+    "markdownPreviewPreserved": true,
+    "decodeTransportPreserved": true,
+    "sanitizerFallbackPreserved": true,
+    "verificationPassed": true
+  },
+  "requiredFindings": [
+    {
+      "token": "function phase736TryParseRenderNativeVisualMountCandidate",
+      "count": 1,
+      "indexes": [
+        45324
+      ]
+    },
+    {
+      "token": "function phase736TryRenderNativeVisualMountPayload",
+      "count": 1,
+      "indexes": [
+        45797
+      ]
+    },
+    {
+      "token": "phase736RenderNativeVisualMountHtml",
+      "count": 2,
+      "indexes": [
+        64504,
+        64668
+      ]
+    },
+    {
+      "token": "phase736TryRenderNativeVisualMountPayload(data, templateHtml)",
+      "count": 2,
+      "indexes": [
+        45806,
+        64555
+      ]
+    },
+    {
+      "token": "phase735Mount.innerHTML =",
+      "count": 1,
+      "indexes": [
+        64629
+      ]
+    },
+    {
+      "token": "phase723SanitizeVisualArtifactHtml(decoded)",
+      "count": 1,
+      "indexes": [
+        64720
+      ]
+    },
+    {
+      "token": "phase735DecodeVisualArtifactHtmlTransport(templateHtml)",
+      "count": 1,
+      "indexes": [
+        64430
+      ]
+    },
+    {
+      "token": "phase719RenderMarkdownArtifactPreview(data.content)",
+      "count": 1,
+      "indexes": [
+        64004
+      ]
+    }
+  ],
+  "forbiddenFindings": [
+    {
+      "token": "phase736RouteDecodedPreviewHtml",
+      "count": 0,
+      "indexes": []
+    },
+    {
+      "token": "phase736TryRenderNativeDashboardFromTransport",
+      "count": 0,
+      "indexes": []
+    },
+    {
+      "token": "phase736TryParseRenderNativeTransport",
+      "count": 0,
+      "indexes": []
+    }
+  ],
+  "recommendation": "If verification passes, proceed to browser/runtime validation before further renderer mutation."
+}
