@@ -1,0 +1,1085 @@
+{
+  "schemaVersion": "phase736.upstream-render-native-payload-target-inspection.v1",
+  "generatedAt": "2026-05-21T16:38:43.879Z",
+  "mode": "read-only",
+  "purpose": "Identify upstream structured payload routing targets before touching legacy renderer transport.",
+  "targetFiles": [
+    "server/routes/api-tasks-postgres.mjs",
+    "worker/semantic/classifyArtifact.js",
+    "worker/semantic/validateSemanticArtifact.js",
+    "server/worker/task_execution_interpreter.mjs",
+    "public/js/phase530_visible_panels_bridge.js"
+  ],
+  "inspections": [
+    {
+      "filePath": "server/routes/api-tasks-postgres.mjs",
+      "exists": true,
+      "findings": [
+        {
+          "token": "artifactHtml",
+          "count": 0,
+          "indexes": [],
+          "contexts": []
+        },
+        {
+          "token": "artifact_html",
+          "count": 0,
+          "indexes": [],
+          "contexts": []
+        },
+        {
+          "token": "preview",
+          "count": 8,
+          "indexes": [
+            1827,
+            1847,
+            1897,
+            1921,
+            2674,
+            2722,
+            4709,
+            4798
+          ],
+          "contexts": [
+            {
+              "index": 1827,
+              "excerpt": " req.path,\n    referer: req.get(\"referer\") || null,\n    userAgent: req.get(\"user-agent\") || null,\n    accept: req.get(\"accept\") || null,\n  });\n\n  try {\n    const pool = _getPoolOrFail(res);\n    if (!pool) return;\n\n    const limit = Math.max(1, Math.min(200, Number(req.query?.limit ?? 25) || 25));\n    const r = await pool.query(\n      `\n      SELECT\n        t.id,\n        t.task_id,\n        t.title,\n        t.status,\n        t.claimed_by,\n        t.updated_at,\n        completed.payload->>'outcome_preview' AS outcome_preview,\n        completed.payload->>'explanation_preview' AS explanation_preview,\n        completed.payload->'artifact' AS artifact,\n        completed.payload->'artifacts' AS artifacts,\n        completed.payload AS guidance\n      FROM tasks t\n      LEFT JOIN LATERAL (\n        SELECT te.payload\n        FROM task_events te\n        WHERE te.task_id = t.task_id\n          AND te.kind = 'task.completed'\n        ORDER BY te.id DESC\n        LIMIT 1\n      ) completed ON true\n      ORDER BY t.updated_at DESC NULLS LAST, t.id DESC\n      LIMIT $1\n      `,\n      [limit]\n    );\n\n    res.status(200).json({ ok: true, tasks: r.rows || [] });\n  } catch (e) {\n    console.error(\"[phase25] /api/tasks list error\", e);\n    res.status(500).json({ ok: false, error: e?.message || String(e) });\n  }\n});"
+            },
+            {
+              "index": 1847,
+              "excerpt": "er: req.get(\"referer\") || null,\n    userAgent: req.get(\"user-agent\") || null,\n    accept: req.get(\"accept\") || null,\n  });\n\n  try {\n    const pool = _getPoolOrFail(res);\n    if (!pool) return;\n\n    const limit = Math.max(1, Math.min(200, Number(req.query?.limit ?? 25) || 25));\n    const r = await pool.query(\n      `\n      SELECT\n        t.id,\n        t.task_id,\n        t.title,\n        t.status,\n        t.claimed_by,\n        t.updated_at,\n        completed.payload->>'outcome_preview' AS outcome_preview,\n        completed.payload->>'explanation_preview' AS explanation_preview,\n        completed.payload->'artifact' AS artifact,\n        completed.payload->'artifacts' AS artifacts,\n        completed.payload AS guidance\n      FROM tasks t\n      LEFT JOIN LATERAL (\n        SELECT te.payload\n        FROM task_events te\n        WHERE te.task_id = t.task_id\n          AND te.kind = 'task.completed'\n        ORDER BY te.id DESC\n        LIMIT 1\n      ) completed ON true\n      ORDER BY t.updated_at DESC NULLS LAST, t.id DESC\n      LIMIT $1\n      `,\n      [limit]\n    );\n\n    res.status(200).json({ ok: true, tasks: r.rows || [] });\n  } catch (e) {\n    console.error(\"[phase25] /api/tasks list error\", e);\n    res.status(500).json({ ok: false, error: e?.message || String(e) });\n  }\n});\n\n\n\n// GET /api/task"
+            },
+            {
+              "index": 1897,
+              "excerpt": ".get(\"user-agent\") || null,\n    accept: req.get(\"accept\") || null,\n  });\n\n  try {\n    const pool = _getPoolOrFail(res);\n    if (!pool) return;\n\n    const limit = Math.max(1, Math.min(200, Number(req.query?.limit ?? 25) || 25));\n    const r = await pool.query(\n      `\n      SELECT\n        t.id,\n        t.task_id,\n        t.title,\n        t.status,\n        t.claimed_by,\n        t.updated_at,\n        completed.payload->>'outcome_preview' AS outcome_preview,\n        completed.payload->>'explanation_preview' AS explanation_preview,\n        completed.payload->'artifact' AS artifact,\n        completed.payload->'artifacts' AS artifacts,\n        completed.payload AS guidance\n      FROM tasks t\n      LEFT JOIN LATERAL (\n        SELECT te.payload\n        FROM task_events te\n        WHERE te.task_id = t.task_id\n          AND te.kind = 'task.completed'\n        ORDER BY te.id DESC\n        LIMIT 1\n      ) completed ON true\n      ORDER BY t.updated_at DESC NULLS LAST, t.id DESC\n      LIMIT $1\n      `,\n      [limit]\n    );\n\n    res.status(200).json({ ok: true, tasks: r.rows || [] });\n  } catch (e) {\n    console.error(\"[phase25] /api/tasks list error\", e);\n    res.status(500).json({ ok: false, error: e?.message || String(e) });\n  }\n});\n\n\n\n// GET /api/tasks/:task_id/artifact-preview\n\napiTasksRouter.get(\"/"
+            },
+            {
+              "index": 1921,
+              "excerpt": "ll,\n    accept: req.get(\"accept\") || null,\n  });\n\n  try {\n    const pool = _getPoolOrFail(res);\n    if (!pool) return;\n\n    const limit = Math.max(1, Math.min(200, Number(req.query?.limit ?? 25) || 25));\n    const r = await pool.query(\n      `\n      SELECT\n        t.id,\n        t.task_id,\n        t.title,\n        t.status,\n        t.claimed_by,\n        t.updated_at,\n        completed.payload->>'outcome_preview' AS outcome_preview,\n        completed.payload->>'explanation_preview' AS explanation_preview,\n        completed.payload->'artifact' AS artifact,\n        completed.payload->'artifacts' AS artifacts,\n        completed.payload AS guidance\n      FROM tasks t\n      LEFT JOIN LATERAL (\n        SELECT te.payload\n        FROM task_events te\n        WHERE te.task_id = t.task_id\n          AND te.kind = 'task.completed'\n        ORDER BY te.id DESC\n        LIMIT 1\n      ) completed ON true\n      ORDER BY t.updated_at DESC NULLS LAST, t.id DESC\n      LIMIT $1\n      `,\n      [limit]\n    );\n\n    res.status(200).json({ ok: true, tasks: r.rows || [] });\n  } catch (e) {\n    console.error(\"[phase25] /api/tasks list error\", e);\n    res.status(500).json({ ok: false, error: e?.message || String(e) });\n  }\n});\n\n\n\n// GET /api/tasks/:task_id/artifact-preview\n\napiTasksRouter.get(\"/:task_id/artifact-previe"
+            },
+            {
+              "index": 2674,
+              "excerpt": "     WHERE te.task_id = t.task_id\n          AND te.kind = 'task.completed'\n        ORDER BY te.id DESC\n        LIMIT 1\n      ) completed ON true\n      ORDER BY t.updated_at DESC NULLS LAST, t.id DESC\n      LIMIT $1\n      `,\n      [limit]\n    );\n\n    res.status(200).json({ ok: true, tasks: r.rows || [] });\n  } catch (e) {\n    console.error(\"[phase25] /api/tasks list error\", e);\n    res.status(500).json({ ok: false, error: e?.message || String(e) });\n  }\n});\n\n\n\n// GET /api/tasks/:task_id/artifact-preview\n\napiTasksRouter.get(\"/:task_id/artifact-preview\", async (req, res) => {\n\n  try {\n\n    const taskId = String(req.params.task_id || \"\").trim();\n\n    if (!taskId) {\n\n      return res.status(400).json({ ok: false, error: \"task_id_required\" });\n\n    }\n\n    const q = await globalThis.__DB_POOL.query(\n\n      `\n\n      SELECT\n\n        completed.payload->'artifact' AS artifact,\n\n        completed.payload->'artifacts' AS artifacts\n\n      FROM tasks t\n\n      LEFT JOIN LATERAL (\n\n        SELECT te.payload\n\n        FROM task_events te\n\n        WHERE te.task_id = t.task_id\n\n          AND te.kind = 'task.completed'\n\n        ORDER BY te.ts DESC\n\n        LIMIT 1\n\n      ) completed ON true\n\n      WHERE t.task_id = $1\n\n      LIMIT 1\n\n      `,\n\n      [taskId]\n\n    );\n\n    const row = q.rows?.[0] || null;\n\n   "
+            },
+            {
+              "index": 2722,
+              "excerpt": "te.kind = 'task.completed'\n        ORDER BY te.id DESC\n        LIMIT 1\n      ) completed ON true\n      ORDER BY t.updated_at DESC NULLS LAST, t.id DESC\n      LIMIT $1\n      `,\n      [limit]\n    );\n\n    res.status(200).json({ ok: true, tasks: r.rows || [] });\n  } catch (e) {\n    console.error(\"[phase25] /api/tasks list error\", e);\n    res.status(500).json({ ok: false, error: e?.message || String(e) });\n  }\n});\n\n\n\n// GET /api/tasks/:task_id/artifact-preview\n\napiTasksRouter.get(\"/:task_id/artifact-preview\", async (req, res) => {\n\n  try {\n\n    const taskId = String(req.params.task_id || \"\").trim();\n\n    if (!taskId) {\n\n      return res.status(400).json({ ok: false, error: \"task_id_required\" });\n\n    }\n\n    const q = await globalThis.__DB_POOL.query(\n\n      `\n\n      SELECT\n\n        completed.payload->'artifact' AS artifact,\n\n        completed.payload->'artifacts' AS artifacts\n\n      FROM tasks t\n\n      LEFT JOIN LATERAL (\n\n        SELECT te.payload\n\n        FROM task_events te\n\n        WHERE te.task_id = t.task_id\n\n          AND te.kind = 'task.completed'\n\n        ORDER BY te.ts DESC\n\n        LIMIT 1\n\n      ) completed ON true\n\n      WHERE t.task_id = $1\n\n      LIMIT 1\n\n      `,\n\n      [taskId]\n\n    );\n\n    const row = q.rows?.[0] || null;\n\n    if (!row) {\n\n      return res.status(404).json("
+            },
+            {
+              "index": 4709,
+              "excerpt": "tatus(404).json({ ok: false, error: \"artifact_file_missing\" });\n\n    }\n\n    const content = fs.readFileSync(resolvedPath, \"utf8\");\n\n    return res.status(200).json({\n\n      ok: true,\n\n      task_id: taskId,\n\n      artifact: {\n\n        filename: artifact.filename || null,\n\n        type: artifact.type || null,\n\n        size_bytes: artifact.size_bytes || null,\n\n        created_at: artifact.created_at || null\n\n      },\n\n      content\n\n    });\n\n  } catch (e) {\n\n    console.error(\"[phase719] artifact preview route error\", e);\n\n    return res.status(500).json({ ok: false, error: \"artifact_preview_failed\" });\n\n  }\n\n});\n\n\n// POST /api/tasks/create  { task_id?, title?, agent?, run_id?, ... }\napiTasksRouter.post(\"/create\", async (req, res) => {\n  try {\n    const pool = _getPoolOrFail(res);\n    if (!pool) return;\n\n    console.log(\"[phase25] /api/tasks/create pool snapshot\", {\n      hasLocal: !!pool,\n      localType: pool?.constructor?.name,\n      hasGlobal: !!globalThis.__DB_POOL,\n      globalType: globalThis.__DB_POOL?.constructor?.name,\n    });\n\n    const b = _asJson(req);\n\n    \n\n    const taskTitle = (\n\n      b.title ??\n\n      b.description ??\n\n      b.prompt ??\n\n      b.input ??\n\n      b.message ??\n\n      b.task ??\n\n      b.payload?.title ??\n\n      b.payload?.description ??\n\n      b.payload?.pr"
+            },
+            {
+              "index": 4798,
+              "excerpt": " = fs.readFileSync(resolvedPath, \"utf8\");\n\n    return res.status(200).json({\n\n      ok: true,\n\n      task_id: taskId,\n\n      artifact: {\n\n        filename: artifact.filename || null,\n\n        type: artifact.type || null,\n\n        size_bytes: artifact.size_bytes || null,\n\n        created_at: artifact.created_at || null\n\n      },\n\n      content\n\n    });\n\n  } catch (e) {\n\n    console.error(\"[phase719] artifact preview route error\", e);\n\n    return res.status(500).json({ ok: false, error: \"artifact_preview_failed\" });\n\n  }\n\n});\n\n\n// POST /api/tasks/create  { task_id?, title?, agent?, run_id?, ... }\napiTasksRouter.post(\"/create\", async (req, res) => {\n  try {\n    const pool = _getPoolOrFail(res);\n    if (!pool) return;\n\n    console.log(\"[phase25] /api/tasks/create pool snapshot\", {\n      hasLocal: !!pool,\n      localType: pool?.constructor?.name,\n      hasGlobal: !!globalThis.__DB_POOL,\n      globalType: globalThis.__DB_POOL?.constructor?.name,\n    });\n\n    const b = _asJson(req);\n\n    \n\n    const taskTitle = (\n\n      b.title ??\n\n      b.description ??\n\n      b.prompt ??\n\n      b.input ??\n\n      b.message ??\n\n      b.task ??\n\n      b.payload?.title ??\n\n      b.payload?.description ??\n\n      b.payload?.prompt ??\n\n      b.payload?.input ??\n\n      b.payload?.message ??\n\n      b.payload?.task ??"
+            }
+          ]
+        },
+        {
+          "token": "artifact-preview",
+          "count": 2,
+          "indexes": [
+            2665,
+            2713
+          ],
+          "contexts": [
+            {
+              "index": 2665,
+              "excerpt": "ts te\n        WHERE te.task_id = t.task_id\n          AND te.kind = 'task.completed'\n        ORDER BY te.id DESC\n        LIMIT 1\n      ) completed ON true\n      ORDER BY t.updated_at DESC NULLS LAST, t.id DESC\n      LIMIT $1\n      `,\n      [limit]\n    );\n\n    res.status(200).json({ ok: true, tasks: r.rows || [] });\n  } catch (e) {\n    console.error(\"[phase25] /api/tasks list error\", e);\n    res.status(500).json({ ok: false, error: e?.message || String(e) });\n  }\n});\n\n\n\n// GET /api/tasks/:task_id/artifact-preview\n\napiTasksRouter.get(\"/:task_id/artifact-preview\", async (req, res) => {\n\n  try {\n\n    const taskId = String(req.params.task_id || \"\").trim();\n\n    if (!taskId) {\n\n      return res.status(400).json({ ok: false, error: \"task_id_required\" });\n\n    }\n\n    const q = await globalThis.__DB_POOL.query(\n\n      `\n\n      SELECT\n\n        completed.payload->'artifact' AS artifact,\n\n        completed.payload->'artifacts' AS artifacts\n\n      FROM tasks t\n\n      LEFT JOIN LATERAL (\n\n        SELECT te.payload\n\n        FROM task_events te\n\n        WHERE te.task_id = t.task_id\n\n          AND te.kind = 'task.completed'\n\n        ORDER BY te.ts DESC\n\n        LIMIT 1\n\n      ) completed ON true\n\n      WHERE t.task_id = $1\n\n      LIMIT 1\n\n      `,\n\n      [taskId]\n\n    );\n\n    const row = q.rows?.[0] || null;\n\n   "
+            },
+            {
+              "index": 2713,
+              "excerpt": "     AND te.kind = 'task.completed'\n        ORDER BY te.id DESC\n        LIMIT 1\n      ) completed ON true\n      ORDER BY t.updated_at DESC NULLS LAST, t.id DESC\n      LIMIT $1\n      `,\n      [limit]\n    );\n\n    res.status(200).json({ ok: true, tasks: r.rows || [] });\n  } catch (e) {\n    console.error(\"[phase25] /api/tasks list error\", e);\n    res.status(500).json({ ok: false, error: e?.message || String(e) });\n  }\n});\n\n\n\n// GET /api/tasks/:task_id/artifact-preview\n\napiTasksRouter.get(\"/:task_id/artifact-preview\", async (req, res) => {\n\n  try {\n\n    const taskId = String(req.params.task_id || \"\").trim();\n\n    if (!taskId) {\n\n      return res.status(400).json({ ok: false, error: \"task_id_required\" });\n\n    }\n\n    const q = await globalThis.__DB_POOL.query(\n\n      `\n\n      SELECT\n\n        completed.payload->'artifact' AS artifact,\n\n        completed.payload->'artifacts' AS artifacts\n\n      FROM tasks t\n\n      LEFT JOIN LATERAL (\n\n        SELECT te.payload\n\n        FROM task_events te\n\n        WHERE te.task_id = t.task_id\n\n          AND te.kind = 'task.completed'\n\n        ORDER BY te.ts DESC\n\n        LIMIT 1\n\n      ) completed ON true\n\n      WHERE t.task_id = $1\n\n      LIMIT 1\n\n      `,\n\n      [taskId]\n\n    );\n\n    const row = q.rows?.[0] || null;\n\n    if (!row) {\n\n      return res.status(404).json("
+            }
+          ]
+        },
+        {
+          "token": "visual-artifact",
+          "count": 0,
+          "indexes": [],
+          "contexts": []
+        },
+        {
+          "token": "semantic_artifact",
+          "count": 0,
+          "indexes": [],
+          "contexts": []
+        },
+        {
+          "token": "semantic_artifact_schema",
+          "count": 0,
+          "indexes": [],
+          "contexts": []
+        },
+        {
+          "token": "semantic_artifact_validated",
+          "count": 0,
+          "indexes": [],
+          "contexts": []
+        },
+        {
+          "token": "renderNative",
+          "count": 0,
+          "indexes": [],
+          "contexts": []
+        },
+        {
+          "token": "render-native",
+          "count": 0,
+          "indexes": [],
+          "contexts": []
+        },
+        {
+          "token": "metadata",
+          "count": 0,
+          "indexes": [],
+          "contexts": []
+        },
+        {
+          "token": "result",
+          "count": 2,
+          "indexes": [
+            8771,
+            8781
+          ],
+          "contexts": [
+            {
+              "index": 8771,
+              "excerpt": "asks/create\");\n\n    const pool = _getPoolOrFail(res);\n    if (!pool) return;\n\n    const b = _asJson(req);\n    const task_id = b.task_id ?? b.taskId ?? b.id ?? null;\n    if (!task_id) return res.status(400).json({ ok: false, error: \"task_id_required\" });\n\n    const evt = await emitTaskEvent({\n      pool,\n      kind: \"task.completed\",\n      task_id,\n      run_id: b.run_id ?? b.runId ?? null,\n      actor: b.actor ?? b.agent ?? \"api\",\n      payload: {\n        status: b.status ?? \"complete\",\n        result: b.result ?? null,\n        source: b.source ?? \"api\",\n      },\n    });\n\n    res.status(200).json({ ok: true, task_id, event: evt });\n  } catch (e) {\n    console.error(\"[phase25] /api/tasks error\", e);\n\n    if (e instanceof PolicyEnforcedError || e?.code === \"POLICY_ENFORCED\" || e?.name === \"PolicyEnforcedError\") {\n      return res.status(403).json({ ok: false, error: \"policy.enforced\", detail: e?.message || String(e) });\n    }\n\n    res.status(500).json({ ok: false, error: e?.message || String(e) });\n  }\n});\n\n// POST /api/tasks/fail  { task_id, error?, status?, run_id?, ... }\napiTasksRouter.post(\"/fail\", async (req, res) => {\n  try {\n    // Phase53: enforce gate BEFORE any DB writes\n    assertNotEnforced(\"http:/api/tasks/complete\");\n\n    const pool = _getPoolOrFail(res);\n    if (!pool) ret"
+            },
+            {
+              "index": 8781,
+              "excerpt": "e\");\n\n    const pool = _getPoolOrFail(res);\n    if (!pool) return;\n\n    const b = _asJson(req);\n    const task_id = b.task_id ?? b.taskId ?? b.id ?? null;\n    if (!task_id) return res.status(400).json({ ok: false, error: \"task_id_required\" });\n\n    const evt = await emitTaskEvent({\n      pool,\n      kind: \"task.completed\",\n      task_id,\n      run_id: b.run_id ?? b.runId ?? null,\n      actor: b.actor ?? b.agent ?? \"api\",\n      payload: {\n        status: b.status ?? \"complete\",\n        result: b.result ?? null,\n        source: b.source ?? \"api\",\n      },\n    });\n\n    res.status(200).json({ ok: true, task_id, event: evt });\n  } catch (e) {\n    console.error(\"[phase25] /api/tasks error\", e);\n\n    if (e instanceof PolicyEnforcedError || e?.code === \"POLICY_ENFORCED\" || e?.name === \"PolicyEnforcedError\") {\n      return res.status(403).json({ ok: false, error: \"policy.enforced\", detail: e?.message || String(e) });\n    }\n\n    res.status(500).json({ ok: false, error: e?.message || String(e) });\n  }\n});\n\n// POST /api/tasks/fail  { task_id, error?, status?, run_id?, ... }\napiTasksRouter.post(\"/fail\", async (req, res) => {\n  try {\n    // Phase53: enforce gate BEFORE any DB writes\n    assertNotEnforced(\"http:/api/tasks/complete\");\n\n    const pool = _getPoolOrFail(res);\n    if (!pool) return;\n\n    "
+            }
+          ]
+        },
+        {
+          "token": "task",
+          "count": 109,
+          "indexes": [
+            134,
+            245,
+            1105,
+            1131,
+            1242,
+            1702,
+            2083,
+            2156,
+            2188,
+            2200,
+            2233,
+            2457,
+            2531,
+            2650,
+            2657,
+            2705,
+            2774,
+            2801,
+            2834,
+            2900,
+            3118,
+            3194,
+            3227,
+            3239,
+            3273,
+            3377,
+            3423,
+            3550,
+            4399,
+            4408,
+            4843,
+            4859,
+            5055,
+            5306,
+            5428,
+            5598,
+            5785,
+            5813,
+            5845,
+            5862,
+            5874,
+            5887,
+            5944,
+            5972,
+            5978,
+            6008,
+            6017,
+            6108,
+            6125,
+            6159,
+            6202,
+            6237,
+            6248,
+            6309,
+            6316,
+            6455,
+            6523,
+            6587,
+            6650,
+            6714,
+            6780,
+            6850,
+            6919,
+            6988,
+            7005,
+            7024,
+            7298,
+            7319,
+            7416,
+            7435,
+            7647,
+            7729,
+            8073,
+            8091,
+            8270,
+            8387,
+            8399,
+            8412,
+            8445,
+            8503,
+            8589,
+            8612,
+            8887,
+            8961,
+            9305,
+            9319,
+            9502,
+            9621,
+            9633,
+            9646,
+            9679,
+            9737,
+            9823,
+            9843,
+            10123,
+            10197,
+            10541,
+            10557,
+            10725,
+            10825,
+            10940,
+            10952,
+            10965,
+            10998,
+            11056,
+            11142,
+            11164,
+            11399,
+            11473
+          ],
+          "contexts": [
+            {
+              "index": 134,
+              "excerpt": "import express from \"express\";\nimport crypto from \"crypto\";\nimport fs from \"fs\";\nimport path from \"path\";\n\nconsole.log(\"[phase25] api-tasks-postgres loaded\", new Date().toISOString(), \"file=\", import.meta.url);\nimport { emitTaskEvent } from \"../task_events_emit.mjs\";\nimport { PolicyEnforcedError, assertNotEnforced } from \"../policy/enforce.mjs\";\n\nexport const apiTasksRouter = express.Router();\n\nfunction _asJson(req) {\n  const b = req.body;\n  if (b == null) return {};\n  if (typeof b === \"object\") return b;\n  if (typeof b === \"string\") {\n    try { return JSON.parse(b); } catch (_) { return { _raw: b }; }\n  }\n  return { _raw: b };\n}\n\nfunction _getPoolOrFail(res) {\n  const pool = globalThis.__DB_POOL;\n  if (!pool) {\n    res.status(500).json({ ok: false, error: \"db_pool_not_initialized\" });\n    return null;\n  }\n  return pool;\n}\n\n// Health (non-writing). Keep both endpoints for compatibility.\napiTasksRouter.get(\"/healthz\", async ("
+            },
+            {
+              "index": 245,
+              "excerpt": "import express from \"express\";\nimport crypto from \"crypto\";\nimport fs from \"fs\";\nimport path from \"path\";\n\nconsole.log(\"[phase25] api-tasks-postgres loaded\", new Date().toISOString(), \"file=\", import.meta.url);\nimport { emitTaskEvent } from \"../task_events_emit.mjs\";\nimport { PolicyEnforcedError, assertNotEnforced } from \"../policy/enforce.mjs\";\n\nexport const apiTasksRouter = express.Router();\n\nfunction _asJson(req) {\n  const b = req.body;\n  if (b == null) return {};\n  if (typeof b === \"object\") return b;\n  if (typeof b === \"string\") {\n    try { return JSON.parse(b); } catch (_) { return { _raw: b }; }\n  }\n  return { _raw: b };\n}\n\nfunction _getPoolOrFail(res) {\n  const pool = globalThis.__DB_POOL;\n  if (!pool) {\n    res.status(500).json({ ok: false, error: \"db_pool_not_initialized\" });\n    return null;\n  }\n  return pool;\n}\n\n// Health (non-writing). Keep both endpoints for compatibility.\napiTasksRouter.get(\"/healthz\", async (_req, res) => {\n  res.status(200).json({ ok: true });\n});\n\napiTasksRouter.get(\"/health\", async (_req, res) => {"
+            },
+            {
+              "index": 1105,
+              "excerpt": "}; }\n  }\n  return { _raw: b };\n}\n\nfunction _getPoolOrFail(res) {\n  const pool = globalThis.__DB_POOL;\n  if (!pool) {\n    res.status(500).json({ ok: false, error: \"db_pool_not_initialized\" });\n    return null;\n  }\n  return pool;\n}\n\n// Health (non-writing). Keep both endpoints for compatibility.\napiTasksRouter.get(\"/healthz\", async (_req, res) => {\n  res.status(200).json({ ok: true });\n});\n\napiTasksRouter.get(\"/health\", async (_req, res) => {\n  res.status(200).json({ ok: true });\n});\n\n// GET /api/tasks?limit=25  -> recent tasks for dashboard widget\napiTasksRouter.get(\"/\", async (req, res) => {\n  console.log(\"[phase57c-router] /api/tasks probe\", {\n    originalUrl: req.originalUrl,\n    baseUrl: req.baseUrl,\n    path: req.path,\n    referer: req.get(\"referer\") || null,\n    userAgent: req.get(\"user-agent\") || null,\n    accept: req.get(\"accept\") || null,\n  });\n\n  try {\n    const pool = _getPoolOrFail(res);\n    if (!pool) return;\n\n    const limit = Math.max(1, Math.min(200, Number(req.query?.limit ?? 25) || 25));\n    const r = await pool.query(\n      `\n      SELECT\n        t.id,\n        t.task_id,\n        t.title,\n        t.status,\n        t.claimed_by,\n        t.updated_at,\n        completed.payload->>'outcome_preview' AS outcome_preview,\n        completed.payload->>'explanation_preview' AS "
+            },
+            {
+              "index": 1131,
+              "excerpt": "b };\n}\n\nfunction _getPoolOrFail(res) {\n  const pool = globalThis.__DB_POOL;\n  if (!pool) {\n    res.status(500).json({ ok: false, error: \"db_pool_not_initialized\" });\n    return null;\n  }\n  return pool;\n}\n\n// Health (non-writing). Keep both endpoints for compatibility.\napiTasksRouter.get(\"/healthz\", async (_req, res) => {\n  res.status(200).json({ ok: true });\n});\n\napiTasksRouter.get(\"/health\", async (_req, res) => {\n  res.status(200).json({ ok: true });\n});\n\n// GET /api/tasks?limit=25  -> recent tasks for dashboard widget\napiTasksRouter.get(\"/\", async (req, res) => {\n  console.log(\"[phase57c-router] /api/tasks probe\", {\n    originalUrl: req.originalUrl,\n    baseUrl: req.baseUrl,\n    path: req.path,\n    referer: req.get(\"referer\") || null,\n    userAgent: req.get(\"user-agent\") || null,\n    accept: req.get(\"accept\") || null,\n  });\n\n  try {\n    const pool = _getPoolOrFail(res);\n    if (!pool) return;\n\n    const limit = Math.max(1, Math.min(200, Number(req.query?.limit ?? 25) || 25));\n    const r = await pool.query(\n      `\n      SELECT\n        t.id,\n        t.task_id,\n        t.title,\n        t.status,\n        t.claimed_by,\n        t.updated_at,\n        completed.payload->>'outcome_preview' AS outcome_preview,\n        completed.payload->>'explanation_preview' AS explanation_preview,\n     "
+            },
+            {
+              "index": 1242,
+              "excerpt": "json({ ok: false, error: \"db_pool_not_initialized\" });\n    return null;\n  }\n  return pool;\n}\n\n// Health (non-writing). Keep both endpoints for compatibility.\napiTasksRouter.get(\"/healthz\", async (_req, res) => {\n  res.status(200).json({ ok: true });\n});\n\napiTasksRouter.get(\"/health\", async (_req, res) => {\n  res.status(200).json({ ok: true });\n});\n\n// GET /api/tasks?limit=25  -> recent tasks for dashboard widget\napiTasksRouter.get(\"/\", async (req, res) => {\n  console.log(\"[phase57c-router] /api/tasks probe\", {\n    originalUrl: req.originalUrl,\n    baseUrl: req.baseUrl,\n    path: req.path,\n    referer: req.get(\"referer\") || null,\n    userAgent: req.get(\"user-agent\") || null,\n    accept: req.get(\"accept\") || null,\n  });\n\n  try {\n    const pool = _getPoolOrFail(res);\n    if (!pool) return;\n\n    const limit = Math.max(1, Math.min(200, Number(req.query?.limit ?? 25) || 25));\n    const r = await pool.query(\n      `\n      SELECT\n        t.id,\n        t.task_id,\n        t.title,\n        t.status,\n        t.claimed_by,\n        t.updated_at,\n        completed.payload->>'outcome_preview' AS outcome_preview,\n        completed.payload->>'explanation_preview' AS explanation_preview,\n        completed.payload->'artifact' AS artifact,\n        completed.payload->'artifacts' AS artifacts,\n        comp"
+            },
+            {
+              "index": 1702,
+              "excerpt": "{\n  console.log(\"[phase57c-router] /api/tasks probe\", {\n    originalUrl: req.originalUrl,\n    baseUrl: req.baseUrl,\n    path: req.path,\n    referer: req.get(\"referer\") || null,\n    userAgent: req.get(\"user-agent\") || null,\n    accept: req.get(\"accept\") || null,\n  });\n\n  try {\n    const pool = _getPoolOrFail(res);\n    if (!pool) return;\n\n    const limit = Math.max(1, Math.min(200, Number(req.query?.limit ?? 25) || 25));\n    const r = await pool.query(\n      `\n      SELECT\n        t.id,\n        t.task_id,\n        t.title,\n        t.status,\n        t.claimed_by,\n        t.updated_at,\n        completed.payload->>'outcome_preview' AS outcome_preview,\n        completed.payload->>'explanation_preview' AS explanation_preview,\n        completed.payload->'artifact' AS artifact,\n        completed.payload->'artifacts' AS artifacts,\n        completed.payload AS guidance\n      FROM tasks t\n      LEFT JOIN LATERAL (\n        SELECT te.payload\n        FROM task_events te\n        WHERE te.task_id = t.task_id\n          AND te.kind = 'task.completed'\n        ORDER BY te.id DESC\n        LIMIT 1\n      ) completed ON true\n      ORDER BY t.updated_at DESC NULLS LAST, t.id DESC\n      LIMIT $1\n      `,\n      [limit]\n    );\n\n    res.status(200).json({ ok: true, tasks: r.rows || [] });\n  } catch (e) {\n    conso"
+            },
+            {
+              "index": 2083,
+              "excerpt": ", Number(req.query?.limit ?? 25) || 25));\n    const r = await pool.query(\n      `\n      SELECT\n        t.id,\n        t.task_id,\n        t.title,\n        t.status,\n        t.claimed_by,\n        t.updated_at,\n        completed.payload->>'outcome_preview' AS outcome_preview,\n        completed.payload->>'explanation_preview' AS explanation_preview,\n        completed.payload->'artifact' AS artifact,\n        completed.payload->'artifacts' AS artifacts,\n        completed.payload AS guidance\n      FROM tasks t\n      LEFT JOIN LATERAL (\n        SELECT te.payload\n        FROM task_events te\n        WHERE te.task_id = t.task_id\n          AND te.kind = 'task.completed'\n        ORDER BY te.id DESC\n        LIMIT 1\n      ) completed ON true\n      ORDER BY t.updated_at DESC NULLS LAST, t.id DESC\n      LIMIT $1\n      `,\n      [limit]\n    );\n\n    res.status(200).json({ ok: true, tasks: r.rows || [] });\n  } catch (e) {\n    console.error(\"[phase25] /api/tasks list error\", e);\n    res.status(500).json({ ok: false, error: e?.message || String(e) });\n  }\n});\n\n\n\n// GET /api/tasks/:task_id/artifact-preview\n\napiTasksRouter.get(\"/:task_id/artifact-preview\", async (req, res) => {\n\n  try {\n\n    const taskId = String(req.params.task_id || \"\").trim();\n\n    if (!taskId) {\n\n      return res.status(400).json({ ok: fa"
+            },
+            {
+              "index": 2156,
+              "excerpt": "\n      `\n      SELECT\n        t.id,\n        t.task_id,\n        t.title,\n        t.status,\n        t.claimed_by,\n        t.updated_at,\n        completed.payload->>'outcome_preview' AS outcome_preview,\n        completed.payload->>'explanation_preview' AS explanation_preview,\n        completed.payload->'artifact' AS artifact,\n        completed.payload->'artifacts' AS artifacts,\n        completed.payload AS guidance\n      FROM tasks t\n      LEFT JOIN LATERAL (\n        SELECT te.payload\n        FROM task_events te\n        WHERE te.task_id = t.task_id\n          AND te.kind = 'task.completed'\n        ORDER BY te.id DESC\n        LIMIT 1\n      ) completed ON true\n      ORDER BY t.updated_at DESC NULLS LAST, t.id DESC\n      LIMIT $1\n      `,\n      [limit]\n    );\n\n    res.status(200).json({ ok: true, tasks: r.rows || [] });\n  } catch (e) {\n    console.error(\"[phase25] /api/tasks list error\", e);\n    res.status(500).json({ ok: false, error: e?.message || String(e) });\n  }\n});\n\n\n\n// GET /api/tasks/:task_id/artifact-preview\n\napiTasksRouter.get(\"/:task_id/artifact-preview\", async (req, res) => {\n\n  try {\n\n    const taskId = String(req.params.task_id || \"\").trim();\n\n    if (!taskId) {\n\n      return res.status(400).json({ ok: false, error: \"task_id_required\" });\n\n    }\n\n    const q = await globalThis"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "filePath": "worker/semantic/classifyArtifact.js",
+      "exists": true,
+      "findings": [
+        {
+          "token": "artifactHtml",
+          "count": 0,
+          "indexes": [],
+          "contexts": []
+        },
+        {
+          "token": "artifact_html",
+          "count": 0,
+          "indexes": [],
+          "contexts": []
+        },
+        {
+          "token": "preview",
+          "count": 8,
+          "indexes": [
+            353,
+            688,
+            732,
+            793,
+            811,
+            834,
+            859,
+            915
+          ],
+          "contexts": [
+            {
+              "index": 353,
+              "excerpt": "\n/**\n\n * Phase 728 semantic artifact classifier.\n\n *\n\n * Additive runtime-attached helper.\n\n * Produces deterministic artifact-scoped semantic metadata for observability.\n\n *\n\n * Boundary:\n\n * - keyword classification only\n\n * - observational semantics only\n\n * - renderer-independent\n\n * - non-authoritative\n\n * - no task, retry, SSE, route, database, preview, or persistence contract mutation\n\n */\n\nfunction normalizeText(input) {\n\n  return String(input || '').trim();\n\n}\n\nfunction includesAny(text, terms) {\n\n  const lower = text.toLowerCase();\n\n  return terms.some((term) => lower.includes(term));\n\n}\n\nfunction classifyArtifact(input) {\n\n  const text = normalizeText(input);\n\n  const previewAwareOnly =\n\n    includesAny(text, ['preview-aware']) &&\n\n    !includesAny(text, [\n\n      'visual preview',\n\n      'preview card',\n\n      'preview render',\n\n      'preview image'\n\n    ]);\n\n  const visualArtifact =\n\n    !previewAwareOnly &&\n\n    includesAny(text, [\n\n      'visual',\n\n      'card',\n\n      'launch card',\n\n      'poster',\n\n      'flyer',\n\n      'graphic',\n\n      'design',\n\n      'dashboard',\n\n      'briefing visual'\n\n    ]);\n\n  let artifactKind = 'm"
+            },
+            {
+              "index": 688,
+              "excerpt": "\n\n * - keyword classification only\n\n * - observational semantics only\n\n * - renderer-independent\n\n * - non-authoritative\n\n * - no task, retry, SSE, route, database, preview, or persistence contract mutation\n\n */\n\nfunction normalizeText(input) {\n\n  return String(input || '').trim();\n\n}\n\nfunction includesAny(text, terms) {\n\n  const lower = text.toLowerCase();\n\n  return terms.some((term) => lower.includes(term));\n\n}\n\nfunction classifyArtifact(input) {\n\n  const text = normalizeText(input);\n\n  const previewAwareOnly =\n\n    includesAny(text, ['preview-aware']) &&\n\n    !includesAny(text, [\n\n      'visual preview',\n\n      'preview card',\n\n      'preview render',\n\n      'preview image'\n\n    ]);\n\n  const visualArtifact =\n\n    !previewAwareOnly &&\n\n    includesAny(text, [\n\n      'visual',\n\n      'card',\n\n      'launch card',\n\n      'poster',\n\n      'flyer',\n\n      'graphic',\n\n      'design',\n\n      'dashboard',\n\n      'briefing visual'\n\n    ]);\n\n  let artifactKind = 'markdown';\n\n  if (visualArtifact && includesAny(text, ['launch card', 'card'])) {\n\n    artifactKind = 'launch_card';\n\n  } else if (visualArtifact && includesAny(text, ['dashboard'])) {\n\n    artifactKind = 'visual';\n\n  } else if (visualArtifact) {\n\n    artifactKind = 'visual';\n\n  } else if (includesAny(text, ['report', 'summary report'"
+            },
+            {
+              "index": 732,
+              "excerpt": "ervational semantics only\n\n * - renderer-independent\n\n * - non-authoritative\n\n * - no task, retry, SSE, route, database, preview, or persistence contract mutation\n\n */\n\nfunction normalizeText(input) {\n\n  return String(input || '').trim();\n\n}\n\nfunction includesAny(text, terms) {\n\n  const lower = text.toLowerCase();\n\n  return terms.some((term) => lower.includes(term));\n\n}\n\nfunction classifyArtifact(input) {\n\n  const text = normalizeText(input);\n\n  const previewAwareOnly =\n\n    includesAny(text, ['preview-aware']) &&\n\n    !includesAny(text, [\n\n      'visual preview',\n\n      'preview card',\n\n      'preview render',\n\n      'preview image'\n\n    ]);\n\n  const visualArtifact =\n\n    !previewAwareOnly &&\n\n    includesAny(text, [\n\n      'visual',\n\n      'card',\n\n      'launch card',\n\n      'poster',\n\n      'flyer',\n\n      'graphic',\n\n      'design',\n\n      'dashboard',\n\n      'briefing visual'\n\n    ]);\n\n  let artifactKind = 'markdown';\n\n  if (visualArtifact && includesAny(text, ['launch card', 'card'])) {\n\n    artifactKind = 'launch_card';\n\n  } else if (visualArtifact && includesAny(text, ['dashboard'])) {\n\n    artifactKind = 'visual';\n\n  } else if (visualArtifact) {\n\n    artifactKind = 'visual';\n\n  } else if (includesAny(text, ['report', 'summary report'])) {\n\n    artifactKind = 'report';\n\n  } els"
+            },
+            {
+              "index": 793,
+              "excerpt": "n-authoritative\n\n * - no task, retry, SSE, route, database, preview, or persistence contract mutation\n\n */\n\nfunction normalizeText(input) {\n\n  return String(input || '').trim();\n\n}\n\nfunction includesAny(text, terms) {\n\n  const lower = text.toLowerCase();\n\n  return terms.some((term) => lower.includes(term));\n\n}\n\nfunction classifyArtifact(input) {\n\n  const text = normalizeText(input);\n\n  const previewAwareOnly =\n\n    includesAny(text, ['preview-aware']) &&\n\n    !includesAny(text, [\n\n      'visual preview',\n\n      'preview card',\n\n      'preview render',\n\n      'preview image'\n\n    ]);\n\n  const visualArtifact =\n\n    !previewAwareOnly &&\n\n    includesAny(text, [\n\n      'visual',\n\n      'card',\n\n      'launch card',\n\n      'poster',\n\n      'flyer',\n\n      'graphic',\n\n      'design',\n\n      'dashboard',\n\n      'briefing visual'\n\n    ]);\n\n  let artifactKind = 'markdown';\n\n  if (visualArtifact && includesAny(text, ['launch card', 'card'])) {\n\n    artifactKind = 'launch_card';\n\n  } else if (visualArtifact && includesAny(text, ['dashboard'])) {\n\n    artifactKind = 'visual';\n\n  } else if (visualArtifact) {\n\n    artifactKind = 'visual';\n\n  } else if (includesAny(text, ['report', 'summary report'])) {\n\n    artifactKind = 'report';\n\n  } else if (includesAny(text, ['plan', 'roadmap', 'strategy'])) {\n\n"
+            },
+            {
+              "index": 811,
+              "excerpt": "* - no task, retry, SSE, route, database, preview, or persistence contract mutation\n\n */\n\nfunction normalizeText(input) {\n\n  return String(input || '').trim();\n\n}\n\nfunction includesAny(text, terms) {\n\n  const lower = text.toLowerCase();\n\n  return terms.some((term) => lower.includes(term));\n\n}\n\nfunction classifyArtifact(input) {\n\n  const text = normalizeText(input);\n\n  const previewAwareOnly =\n\n    includesAny(text, ['preview-aware']) &&\n\n    !includesAny(text, [\n\n      'visual preview',\n\n      'preview card',\n\n      'preview render',\n\n      'preview image'\n\n    ]);\n\n  const visualArtifact =\n\n    !previewAwareOnly &&\n\n    includesAny(text, [\n\n      'visual',\n\n      'card',\n\n      'launch card',\n\n      'poster',\n\n      'flyer',\n\n      'graphic',\n\n      'design',\n\n      'dashboard',\n\n      'briefing visual'\n\n    ]);\n\n  let artifactKind = 'markdown';\n\n  if (visualArtifact && includesAny(text, ['launch card', 'card'])) {\n\n    artifactKind = 'launch_card';\n\n  } else if (visualArtifact && includesAny(text, ['dashboard'])) {\n\n    artifactKind = 'visual';\n\n  } else if (visualArtifact) {\n\n    artifactKind = 'visual';\n\n  } else if (includesAny(text, ['report', 'summary report'])) {\n\n    artifactKind = 'report';\n\n  } else if (includesAny(text, ['plan', 'roadmap', 'strategy'])) {\n\n    artifactKind ="
+            },
+            {
+              "index": 834,
+              "excerpt": ", route, database, preview, or persistence contract mutation\n\n */\n\nfunction normalizeText(input) {\n\n  return String(input || '').trim();\n\n}\n\nfunction includesAny(text, terms) {\n\n  const lower = text.toLowerCase();\n\n  return terms.some((term) => lower.includes(term));\n\n}\n\nfunction classifyArtifact(input) {\n\n  const text = normalizeText(input);\n\n  const previewAwareOnly =\n\n    includesAny(text, ['preview-aware']) &&\n\n    !includesAny(text, [\n\n      'visual preview',\n\n      'preview card',\n\n      'preview render',\n\n      'preview image'\n\n    ]);\n\n  const visualArtifact =\n\n    !previewAwareOnly &&\n\n    includesAny(text, [\n\n      'visual',\n\n      'card',\n\n      'launch card',\n\n      'poster',\n\n      'flyer',\n\n      'graphic',\n\n      'design',\n\n      'dashboard',\n\n      'briefing visual'\n\n    ]);\n\n  let artifactKind = 'markdown';\n\n  if (visualArtifact && includesAny(text, ['launch card', 'card'])) {\n\n    artifactKind = 'launch_card';\n\n  } else if (visualArtifact && includesAny(text, ['dashboard'])) {\n\n    artifactKind = 'visual';\n\n  } else if (visualArtifact) {\n\n    artifactKind = 'visual';\n\n  } else if (includesAny(text, ['report', 'summary report'])) {\n\n    artifactKind = 'report';\n\n  } else if (includesAny(text, ['plan', 'roadmap', 'strategy'])) {\n\n    artifactKind = 'plan';\n\n  } else if ("
+            },
+            {
+              "index": 859,
+              "excerpt": "w, or persistence contract mutation\n\n */\n\nfunction normalizeText(input) {\n\n  return String(input || '').trim();\n\n}\n\nfunction includesAny(text, terms) {\n\n  const lower = text.toLowerCase();\n\n  return terms.some((term) => lower.includes(term));\n\n}\n\nfunction classifyArtifact(input) {\n\n  const text = normalizeText(input);\n\n  const previewAwareOnly =\n\n    includesAny(text, ['preview-aware']) &&\n\n    !includesAny(text, [\n\n      'visual preview',\n\n      'preview card',\n\n      'preview render',\n\n      'preview image'\n\n    ]);\n\n  const visualArtifact =\n\n    !previewAwareOnly &&\n\n    includesAny(text, [\n\n      'visual',\n\n      'card',\n\n      'launch card',\n\n      'poster',\n\n      'flyer',\n\n      'graphic',\n\n      'design',\n\n      'dashboard',\n\n      'briefing visual'\n\n    ]);\n\n  let artifactKind = 'markdown';\n\n  if (visualArtifact && includesAny(text, ['launch card', 'card'])) {\n\n    artifactKind = 'launch_card';\n\n  } else if (visualArtifact && includesAny(text, ['dashboard'])) {\n\n    artifactKind = 'visual';\n\n  } else if (visualArtifact) {\n\n    artifactKind = 'visual';\n\n  } else if (includesAny(text, ['report', 'summary report'])) {\n\n    artifactKind = 'report';\n\n  } else if (includesAny(text, ['plan', 'roadmap', 'strategy'])) {\n\n    artifactKind = 'plan';\n\n  } else if (includesAny(text, ['check"
+            },
+            {
+              "index": 915,
+              "excerpt": "lizeText(input) {\n\n  return String(input || '').trim();\n\n}\n\nfunction includesAny(text, terms) {\n\n  const lower = text.toLowerCase();\n\n  return terms.some((term) => lower.includes(term));\n\n}\n\nfunction classifyArtifact(input) {\n\n  const text = normalizeText(input);\n\n  const previewAwareOnly =\n\n    includesAny(text, ['preview-aware']) &&\n\n    !includesAny(text, [\n\n      'visual preview',\n\n      'preview card',\n\n      'preview render',\n\n      'preview image'\n\n    ]);\n\n  const visualArtifact =\n\n    !previewAwareOnly &&\n\n    includesAny(text, [\n\n      'visual',\n\n      'card',\n\n      'launch card',\n\n      'poster',\n\n      'flyer',\n\n      'graphic',\n\n      'design',\n\n      'dashboard',\n\n      'briefing visual'\n\n    ]);\n\n  let artifactKind = 'markdown';\n\n  if (visualArtifact && includesAny(text, ['launch card', 'card'])) {\n\n    artifactKind = 'launch_card';\n\n  } else if (visualArtifact && includesAny(text, ['dashboard'])) {\n\n    artifactKind = 'visual';\n\n  } else if (visualArtifact) {\n\n    artifactKind = 'visual';\n\n  } else if (includesAny(text, ['report', 'summary report'])) {\n\n    artifactKind = 'report';\n\n  } else if (includesAny(text, ['plan', 'roadmap', 'strategy'])) {\n\n    artifactKind = 'plan';\n\n  } else if (includesAny(text, ['checklist', 'steps', 'to-do', 'todo'])) {\n\n    artifactKind ="
+            }
+          ]
+        },
+        {
+          "token": "artifact-preview",
+          "count": 0,
+          "indexes": [],
+          "contexts": []
+        },
+        {
+          "token": "visual-artifact",
+          "count": 0,
+          "indexes": [],
+          "contexts": []
+        },
+        {
+          "token": "semantic_artifact",
+          "count": 0,
+          "indexes": [],
+          "contexts": []
+        },
+        {
+          "token": "semantic_artifact_schema",
+          "count": 0,
+          "indexes": [],
+          "contexts": []
+        },
+        {
+          "token": "semantic_artifact_validated",
+          "count": 0,
+          "indexes": [],
+          "contexts": []
+        },
+        {
+          "token": "renderNative",
+          "count": 0,
+          "indexes": [],
+          "contexts": []
+        },
+        {
+          "token": "render-native",
+          "count": 0,
+          "indexes": [],
+          "contexts": []
+        },
+        {
+          "token": "metadata",
+          "count": 1,
+          "indexes": [
+            143
+          ],
+          "contexts": [
+            {
+              "index": 143,
+              "excerpt": "\n/**\n\n * Phase 728 semantic artifact classifier.\n\n *\n\n * Additive runtime-attached helper.\n\n * Produces deterministic artifact-scoped semantic metadata for observability.\n\n *\n\n * Boundary:\n\n * - keyword classification only\n\n * - observational semantics only\n\n * - renderer-independent\n\n * - non-authoritative\n\n * - no task, retry, SSE, route, database, preview, or persistence contract mutation\n\n */\n\nfunction normalizeText(input) {\n\n  return String(input || '').trim();\n\n}\n\nfunction includesAny(text, terms) {\n\n  const lower = text.toLowerCase();\n\n  return terms.some((term) => lower.includes(term));\n\n}\n\nfunction classifyArtifact(input) {\n\n  const text = normalizeText(input);\n\n  const previewAwareOnly =\n\n    includesAny(text, ['preview-aware']) &&\n\n    !includesAny(text, [\n\n      'visual preview',\n\n      'preview card',\n\n      'preview render',\n\n      'preview image'\n\n    ]);\n\n  const visualArtifact =\n\n    !previewAwareOnly &&\n\n    includesAny"
+            }
+          ]
+        },
+        {
+          "token": "result",
+          "count": 0,
+          "indexes": [],
+          "contexts": []
+        },
+        {
+          "token": "task",
+          "count": 1,
+          "indexes": [
+            318
+          ],
+          "contexts": [
+            {
+              "index": 318,
+              "excerpt": "\n/**\n\n * Phase 728 semantic artifact classifier.\n\n *\n\n * Additive runtime-attached helper.\n\n * Produces deterministic artifact-scoped semantic metadata for observability.\n\n *\n\n * Boundary:\n\n * - keyword classification only\n\n * - observational semantics only\n\n * - renderer-independent\n\n * - non-authoritative\n\n * - no task, retry, SSE, route, database, preview, or persistence contract mutation\n\n */\n\nfunction normalizeText(input) {\n\n  return String(input || '').trim();\n\n}\n\nfunction includesAny(text, terms) {\n\n  const lower = text.toLowerCase();\n\n  return terms.some((term) => lower.includes(term));\n\n}\n\nfunction classifyArtifact(input) {\n\n  const text = normalizeText(input);\n\n  const previewAwareOnly =\n\n    includesAny(text, ['preview-aware']) &&\n\n    !includesAny(text, [\n\n      'visual preview',\n\n      'preview card',\n\n      'preview render',\n\n      'preview image'\n\n    ]);\n\n  const visualArtifact =\n\n    !previewAwareOnly &&\n\n    includesAny(text, [\n\n      'visual',\n\n      'card',\n\n      'launch card',\n\n      'poster',\n\n      'flyer',\n\n      'graphic',\n\n      'design',\n\n      'dashboard',\n\n      'briefing vis"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "filePath": "worker/semantic/validateSemanticArtifact.js",
+      "exists": true,
+      "findings": [
+        {
+          "token": "artifactHtml",
+          "count": 0,
+          "indexes": [],
+          "contexts": []
+        },
+        {
+          "token": "artifact_html",
+          "count": 0,
+          "indexes": [],
+          "contexts": []
+        },
+        {
+          "token": "preview",
+          "count": 0,
+          "indexes": [],
+          "contexts": []
+        },
+        {
+          "token": "artifact-preview",
+          "count": 0,
+          "indexes": [],
+          "contexts": []
+        },
+        {
+          "token": "visual-artifact",
+          "count": 0,
+          "indexes": [],
+          "contexts": []
+        },
+        {
+          "token": "semantic_artifact",
+          "count": 0,
+          "indexes": [],
+          "contexts": []
+        },
+        {
+          "token": "semantic_artifact_schema",
+          "count": 0,
+          "indexes": [],
+          "contexts": []
+        },
+        {
+          "token": "semantic_artifact_validated",
+          "count": 0,
+          "indexes": [],
+          "contexts": []
+        },
+        {
+          "token": "renderNative",
+          "count": 0,
+          "indexes": [],
+          "contexts": []
+        },
+        {
+          "token": "render-native",
+          "count": 0,
+          "indexes": [],
+          "contexts": []
+        },
+        {
+          "token": "metadata",
+          "count": 0,
+          "indexes": [],
+          "contexts": []
+        },
+        {
+          "token": "result",
+          "count": 0,
+          "indexes": [],
+          "contexts": []
+        },
+        {
+          "token": "task",
+          "count": 0,
+          "indexes": [],
+          "contexts": []
+        }
+      ]
+    },
+    {
+      "filePath": "server/worker/task_execution_interpreter.mjs",
+      "exists": true,
+      "findings": [
+        {
+          "token": "artifactHtml",
+          "count": 0,
+          "indexes": [],
+          "contexts": []
+        },
+        {
+          "token": "artifact_html",
+          "count": 0,
+          "indexes": [],
+          "contexts": []
+        },
+        {
+          "token": "preview",
+          "count": 3,
+          "indexes": [
+            673,
+            1723,
+            8625
+          ],
+          "contexts": [
+            {
+              "index": 673,
+              "excerpt": "return {};\n\n  }\n\n}\n\nfunction extractMeta(task = {}) {\n\n  const payload = unwrapPayload(task.payload);\n\n  return payload?.meta || task?.meta || {};\n\n}\n\nfunction escapeHtml(value) {\n\n  return String(value || \"\")\n\n    .replace(/&/g, \"&amp;\")\n\n    .replace(/</g, \"&lt;\")\n\n    .replace(/>/g, \"&gt;\")\n\n    .replace(/\"/g, \"&quot;\");\n\n}\n\nfunction detectVisualArtifactIntent(title = \"\") {\n\n  const text = String(title || \"\").toLowerCase();\n\n  const hasVisualLanguage =\n\n    /\\bvisual\\b/.test(text) ||\n\n    /\\bpreviewable\\b/.test(text) ||\n\n    /\\blanding\\s*(page|card)\\b/.test(text) ||\n\n    /\\bcard\\b/.test(text) ||\n\n    /\\bhero\\b/.test(text) ||\n\n    /\\bui\\b/.test(text) ||\n\n    /\\bmockup\\b/.test(text);\n\n  const hasBuildLanguage =\n\n    /\\bcreate\\b/.test(text) ||\n\n    /\\bbuild\\b/.test(text) ||\n\n    /\\bgenerate\\b/.test(text) ||\n\n    /\\bmake\\b/.test(text) ||\n\n    /\\bdesign\\b/.test(text);\n\n  return hasVisualLanguage && hasBuildLanguage;\n\n}\n\nfunction inferBrandName(title = \"\") {\n\n  const source = String(title || \"\");\n\n  const calledMatch = source.match(/called\\s+([A-Z][A-Za-z0-9 '&-]{2,60})/);\n\n  if (calledMatch?.[1]) return calledMatch[1].trim().replace(/[.?!].*$/, \"\");\n\n  const forMatch = source.match(/for\\s+([A-Z][A-Za-z0-9 '&-]{2,60})/);\n\n  if (forMatch?.[1]) return forMatch[1].trim().replace(/[.?!].*$/, \""
+            },
+            {
+              "index": 1723,
+              "excerpt": "ed\\s+([A-Z][A-Za-z0-9 '&-]{2,60})/);\n\n  if (calledMatch?.[1]) return calledMatch[1].trim().replace(/[.?!].*$/, \"\");\n\n  const forMatch = source.match(/for\\s+([A-Z][A-Za-z0-9 '&-]{2,60})/);\n\n  if (forMatch?.[1]) return forMatch[1].trim().replace(/[.?!].*$/, \"\");\n\n  return \"Preview Concept\";\n\n}\n\nfunction buildVisualArtifactOutput(title = \"\") {\n\n  const source = String(title || \"\");\n\n  const safeTitle = escapeHtml(source);\n\n  const isArtifactGarden = /artifact\\s+garden|intent\\s+seed|snapshot\\s+seed|preview\\s+flower|matilda\\s+guardian|locked\\s+execution\\s+gate|reconciliation\\s+watering/i.test(source);\n\n  if (isArtifactGarden) {\n\n    return `# Artifact Garden Visual Artifact\n\n<!-- visual-artifact:start -->\n\n<div style=\"font-family: ui-serif, Georgia, 'Times New Roman', serif; border:1px solid rgba(156,103,126,.28); border-radius:30px; padding:34px; background:radial-gradient(circle at 18% 16%, rgba(255,245,213,.92), transparent 28%), radial-gradient(circle at 82% 10%, rgba(244,214,222,.80), transparent 30%), linear-gradient(135deg,#fff7e8,#f9e4e8 48%,#eef3dc); color:#5b2444; box-shadow:0 28px 90px rgba(91,36,68,.18); overflow:hidden;\">\n\n  <div style=\"text-align:center; margin-bottom:28px;\">\n\n    <div style=\"font-size:56px; line-height:1; font-weight:900; letter-spacing:-.04em; color:#6d2550;\""
+            },
+            {
+              "index": 8625,
+              "excerpt": "0,.28);\">\n\n  <div style=\"display:flex;justify-content:space-between;gap:18px;align-items:flex-start;margin-bottom:22px;\">\n\n    <div>\n\n      <div style=\"font-size:11px;text-transform:uppercase;letter-spacing:.2em;color:#fde68a;font-weight:900;margin-bottom:10px;\">${safeBrand}</div>\n\n      <div style=\"font-size:34px;line-height:1.02;font-weight:950;color:#fff7ed;margin-bottom:12px;\">${headline}</div>\n\n      <div style=\"font-size:15px;line-height:1.7;color:#fed7aa;max-width:620px;\">A warm, premium preview card generated automatically from the delegation request.</div>\n\n    </div>\n\n    <div style=\"border:1px solid rgba(253,230,138,.35);border-radius:999px;padding:9px 13px;color:#fef3c7;background:rgba(120,53,15,.28);font-size:12px;font-weight:800;white-space:nowrap;\">Preview Ready</div>\n\n  </div>\n\n</div>\n\n<!-- visual-artifact:end -->\n\n## Request\n\n${safeTitle}`;\n\n}\n\n\nexport function interpretTaskExecution(task = {}) {\n\n  const payload = unwrapPayload(task.payload);\n\n  const meta = extractMeta(task);\n\n  const title = task.title || payload.title || \"Untitled task\";\n\n  const executionMode = payload.execution_mode || \"standard\";\n\n  const cachePolicy = payload.cache_policy || \"reuse\";\n\n  const memoryScope = payload.memory_scope || \"preserve\";\n\n  const isPolicyAware =\n\n    executionMode === \"rebui"
+            }
+          ]
+        },
+        {
+          "token": "artifact-preview",
+          "count": 0,
+          "indexes": [],
+          "contexts": []
+        },
+        {
+          "token": "visual-artifact",
+          "count": 4,
+          "indexes": [
+            1907,
+            7584,
+            7910,
+            8943
+          ],
+          "contexts": [
+            {
+              "index": 1907,
+              "excerpt": "/);\n\n  if (forMatch?.[1]) return forMatch[1].trim().replace(/[.?!].*$/, \"\");\n\n  return \"Preview Concept\";\n\n}\n\nfunction buildVisualArtifactOutput(title = \"\") {\n\n  const source = String(title || \"\");\n\n  const safeTitle = escapeHtml(source);\n\n  const isArtifactGarden = /artifact\\s+garden|intent\\s+seed|snapshot\\s+seed|preview\\s+flower|matilda\\s+guardian|locked\\s+execution\\s+gate|reconciliation\\s+watering/i.test(source);\n\n  if (isArtifactGarden) {\n\n    return `# Artifact Garden Visual Artifact\n\n<!-- visual-artifact:start -->\n\n<div style=\"font-family: ui-serif, Georgia, 'Times New Roman', serif; border:1px solid rgba(156,103,126,.28); border-radius:30px; padding:34px; background:radial-gradient(circle at 18% 16%, rgba(255,245,213,.92), transparent 28%), radial-gradient(circle at 82% 10%, rgba(244,214,222,.80), transparent 30%), linear-gradient(135deg,#fff7e8,#f9e4e8 48%,#eef3dc); color:#5b2444; box-shadow:0 28px 90px rgba(91,36,68,.18); overflow:hidden;\">\n\n  <div style=\"text-align:center; margin-bottom:28px;\">\n\n    <div style=\"font-size:56px; line-height:1; font-weight:900; letter-spacing:-.04em; color:#6d2550;\">Artifact Garden</div>\n\n    <div style=\"margin-top:12px; font-size:18px; color:#8b5770;\">\n\n      Preview-only&nbsp;&nbsp;•&nbsp;&nbsp;Execution locked&nbsp;&nbsp;•&nbsp;&nbsp;Read-only visual "
+            },
+            {
+              "index": 7584,
+              "excerpt": "/span></div>\n\n    <div style=\"background:rgba(255,248,232,.76); border:1px solid rgba(197,148,117,.22); border-radius:18px; padding:16px; color:#6d2550;\">🏮 <b>Matilda observes</b><br><span style=\"color:#7c5870;\">Does not execute</span></div>\n\n    <div style=\"background:rgba(245,250,232,.76); border:1px solid rgba(128,155,113,.24); border-radius:18px; padding:16px; color:#6d2550;\">🌿 <b>Read-only artifact</b><br><span style=\"color:#7c5870;\">Visual validation</span></div>\n\n  </div>\n\n</div>\n\n<!-- visual-artifact:end -->\n\n## Request\n\n${safeTitle}`;\n\n  }\n\n  const brand = inferBrandName(title);\n\n  const safeBrand = escapeHtml(brand);\n\n  const headline = /moonrise/i.test(brand)\n\n    ? \"Warm pastries for quiet mornings.\"\n\n    : `A polished visual concept for ${safeBrand}.`;\n\n  return `# ${safeBrand} Visual Artifact\n\n<!-- visual-artifact:start -->\n\n<div style=\"border:1px solid rgba(251,191,36,.35);border-radius:26px;padding:26px;background:linear-gradient(135deg,rgba(30,41,59,.96),rgba(120,53,15,.34));box-shadow:0 22px 70px rgba(0,0,0,.28);\">\n\n  <div style=\"display:flex;justify-content:space-between;gap:18px;align-items:flex-start;margin-bottom:22px;\">\n\n    <div>\n\n      <div style=\"font-size:11px;text-transform:uppercase;letter-spacing:.2em;color:#fde68a;font-weight:900;margin-bottom:10px;\">${safeBrand"
+            },
+            {
+              "index": 7910,
+              "excerpt": "3,.24); border-radius:18px; padding:16px; color:#6d2550;\">🌿 <b>Read-only artifact</b><br><span style=\"color:#7c5870;\">Visual validation</span></div>\n\n  </div>\n\n</div>\n\n<!-- visual-artifact:end -->\n\n## Request\n\n${safeTitle}`;\n\n  }\n\n  const brand = inferBrandName(title);\n\n  const safeBrand = escapeHtml(brand);\n\n  const headline = /moonrise/i.test(brand)\n\n    ? \"Warm pastries for quiet mornings.\"\n\n    : `A polished visual concept for ${safeBrand}.`;\n\n  return `# ${safeBrand} Visual Artifact\n\n<!-- visual-artifact:start -->\n\n<div style=\"border:1px solid rgba(251,191,36,.35);border-radius:26px;padding:26px;background:linear-gradient(135deg,rgba(30,41,59,.96),rgba(120,53,15,.34));box-shadow:0 22px 70px rgba(0,0,0,.28);\">\n\n  <div style=\"display:flex;justify-content:space-between;gap:18px;align-items:flex-start;margin-bottom:22px;\">\n\n    <div>\n\n      <div style=\"font-size:11px;text-transform:uppercase;letter-spacing:.2em;color:#fde68a;font-weight:900;margin-bottom:10px;\">${safeBrand}</div>\n\n      <div style=\"font-size:34px;line-height:1.02;font-weight:950;color:#fff7ed;margin-bottom:12px;\">${headline}</div>\n\n      <div style=\"font-size:15px;line-height:1.7;color:#fed7aa;max-width:620px;\">A warm, premium preview card generated automatically from the delegation request.</div>\n\n    </div>\n\n    <div style="
+            },
+            {
+              "index": 8943,
+              "excerpt": "ne-height:1.02;font-weight:950;color:#fff7ed;margin-bottom:12px;\">${headline}</div>\n\n      <div style=\"font-size:15px;line-height:1.7;color:#fed7aa;max-width:620px;\">A warm, premium preview card generated automatically from the delegation request.</div>\n\n    </div>\n\n    <div style=\"border:1px solid rgba(253,230,138,.35);border-radius:999px;padding:9px 13px;color:#fef3c7;background:rgba(120,53,15,.28);font-size:12px;font-weight:800;white-space:nowrap;\">Preview Ready</div>\n\n  </div>\n\n</div>\n\n<!-- visual-artifact:end -->\n\n## Request\n\n${safeTitle}`;\n\n}\n\n\nexport function interpretTaskExecution(task = {}) {\n\n  const payload = unwrapPayload(task.payload);\n\n  const meta = extractMeta(task);\n\n  const title = task.title || payload.title || \"Untitled task\";\n\n  const executionMode = payload.execution_mode || \"standard\";\n\n  const cachePolicy = payload.cache_policy || \"reuse\";\n\n  const memoryScope = payload.memory_scope || \"preserve\";\n\n  const isPolicyAware =\n\n    executionMode === \"rebuild_context\" ||\n\n    cachePolicy === \"bypass\" ||\n\n    memoryScope === \"reset_partial\";\n\n  if (isPolicyAware) {\n\n    const notes = [\n\n      executionMode === \"rebuild_context\" ? \"fresh context requested\" : null,\n\n      cachePolicy === \"bypass\" ? \"cache bypass observed\" : null,\n\n      memoryScope === \"reset_partial\" ? \"partial "
+            }
+          ]
+        },
+        {
+          "token": "semantic_artifact",
+          "count": 0,
+          "indexes": [],
+          "contexts": []
+        },
+        {
+          "token": "semantic_artifact_schema",
+          "count": 0,
+          "indexes": [],
+          "contexts": []
+        },
+        {
+          "token": "semantic_artifact_validated",
+          "count": 0,
+          "indexes": [],
+          "contexts": []
+        },
+        {
+          "token": "renderNative",
+          "count": 0,
+          "indexes": [],
+          "contexts": []
+        },
+        {
+          "token": "render-native",
+          "count": 0,
+          "indexes": [],
+          "contexts": []
+        },
+        {
+          "token": "metadata",
+          "count": 0,
+          "indexes": [],
+          "contexts": []
+        },
+        {
+          "token": "result",
+          "count": 0,
+          "indexes": [],
+          "contexts": []
+        },
+        {
+          "token": "task",
+          "count": 8,
+          "indexes": [
+            214,
+            260,
+            302,
+            9039,
+            9085,
+            9128,
+            9152,
+            9193
+          ],
+          "contexts": [
+            {
+              "index": 214,
+              "excerpt": "\nfunction unwrapPayload(value) {\n\n  if (!value) return {};\n\n  if (typeof value === \"object\") return value;\n\n  try {\n\n    return JSON.parse(String(value));\n\n  } catch {\n\n    return {};\n\n  }\n\n}\n\nfunction extractMeta(task = {}) {\n\n  const payload = unwrapPayload(task.payload);\n\n  return payload?.meta || task?.meta || {};\n\n}\n\nfunction escapeHtml(value) {\n\n  return String(value || \"\")\n\n    .replace(/&/g, \"&amp;\")\n\n    .replace(/</g, \"&lt;\")\n\n    .replace(/>/g, \"&gt;\")\n\n    .replace(/\"/g, \"&quot;\");\n\n}\n\nfunction detectVisualArtifactIntent(title = \"\") {\n\n  const text = String(title || \"\").toLowerCase();\n\n  const hasVisualLanguage =\n\n    /\\bvisual\\b/.test(text) ||\n\n    /\\bpreviewable\\b/.test(text) ||\n\n    /\\blanding\\s*(page|card)\\b/.test(text) ||\n\n    /\\bcard\\b/.test(text) ||\n\n    /\\bhero\\b/.test(text) ||\n\n    /\\bui\\b/.test(text) ||\n\n    /\\bmockup\\b/.test(text);\n\n  const hasBuildLanguage =\n\n    /\\bcreate\\b/.test(text) ||\n\n    /\\bbuild\\b/.test(text) ||\n\n    /\\bgenerate\\b/.test(text) ||\n\n    /\\bmake\\b/.test(text)"
+            },
+            {
+              "index": 260,
+              "excerpt": "\nfunction unwrapPayload(value) {\n\n  if (!value) return {};\n\n  if (typeof value === \"object\") return value;\n\n  try {\n\n    return JSON.parse(String(value));\n\n  } catch {\n\n    return {};\n\n  }\n\n}\n\nfunction extractMeta(task = {}) {\n\n  const payload = unwrapPayload(task.payload);\n\n  return payload?.meta || task?.meta || {};\n\n}\n\nfunction escapeHtml(value) {\n\n  return String(value || \"\")\n\n    .replace(/&/g, \"&amp;\")\n\n    .replace(/</g, \"&lt;\")\n\n    .replace(/>/g, \"&gt;\")\n\n    .replace(/\"/g, \"&quot;\");\n\n}\n\nfunction detectVisualArtifactIntent(title = \"\") {\n\n  const text = String(title || \"\").toLowerCase();\n\n  const hasVisualLanguage =\n\n    /\\bvisual\\b/.test(text) ||\n\n    /\\bpreviewable\\b/.test(text) ||\n\n    /\\blanding\\s*(page|card)\\b/.test(text) ||\n\n    /\\bcard\\b/.test(text) ||\n\n    /\\bhero\\b/.test(text) ||\n\n    /\\bui\\b/.test(text) ||\n\n    /\\bmockup\\b/.test(text);\n\n  const hasBuildLanguage =\n\n    /\\bcreate\\b/.test(text) ||\n\n    /\\bbuild\\b/.test(text) ||\n\n    /\\bgenerate\\b/.test(text) ||\n\n    /\\bmake\\b/.test(text) ||\n\n    /\\bdesign\\b/.test(text);\n\n  return ha"
+            },
+            {
+              "index": 302,
+              "excerpt": "\nfunction unwrapPayload(value) {\n\n  if (!value) return {};\n\n  if (typeof value === \"object\") return value;\n\n  try {\n\n    return JSON.parse(String(value));\n\n  } catch {\n\n    return {};\n\n  }\n\n}\n\nfunction extractMeta(task = {}) {\n\n  const payload = unwrapPayload(task.payload);\n\n  return payload?.meta || task?.meta || {};\n\n}\n\nfunction escapeHtml(value) {\n\n  return String(value || \"\")\n\n    .replace(/&/g, \"&amp;\")\n\n    .replace(/</g, \"&lt;\")\n\n    .replace(/>/g, \"&gt;\")\n\n    .replace(/\"/g, \"&quot;\");\n\n}\n\nfunction detectVisualArtifactIntent(title = \"\") {\n\n  const text = String(title || \"\").toLowerCase();\n\n  const hasVisualLanguage =\n\n    /\\bvisual\\b/.test(text) ||\n\n    /\\bpreviewable\\b/.test(text) ||\n\n    /\\blanding\\s*(page|card)\\b/.test(text) ||\n\n    /\\bcard\\b/.test(text) ||\n\n    /\\bhero\\b/.test(text) ||\n\n    /\\bui\\b/.test(text) ||\n\n    /\\bmockup\\b/.test(text);\n\n  const hasBuildLanguage =\n\n    /\\bcreate\\b/.test(text) ||\n\n    /\\bbuild\\b/.test(text) ||\n\n    /\\bgenerate\\b/.test(text) ||\n\n    /\\bmake\\b/.test(text) ||\n\n    /\\bdesign\\b/.test(text);\n\n  return hasVisualLanguage && hasBuildLanguage;\n\n}\n\nf"
+            },
+            {
+              "index": 9039,
+              "excerpt": "style=\"font-size:15px;line-height:1.7;color:#fed7aa;max-width:620px;\">A warm, premium preview card generated automatically from the delegation request.</div>\n\n    </div>\n\n    <div style=\"border:1px solid rgba(253,230,138,.35);border-radius:999px;padding:9px 13px;color:#fef3c7;background:rgba(120,53,15,.28);font-size:12px;font-weight:800;white-space:nowrap;\">Preview Ready</div>\n\n  </div>\n\n</div>\n\n<!-- visual-artifact:end -->\n\n## Request\n\n${safeTitle}`;\n\n}\n\n\nexport function interpretTaskExecution(task = {}) {\n\n  const payload = unwrapPayload(task.payload);\n\n  const meta = extractMeta(task);\n\n  const title = task.title || payload.title || \"Untitled task\";\n\n  const executionMode = payload.execution_mode || \"standard\";\n\n  const cachePolicy = payload.cache_policy || \"reuse\";\n\n  const memoryScope = payload.memory_scope || \"preserve\";\n\n  const isPolicyAware =\n\n    executionMode === \"rebuild_context\" ||\n\n    cachePolicy === \"bypass\" ||\n\n    memoryScope === \"reset_partial\";\n\n  if (isPolicyAware) {\n\n    const notes = [\n\n      executionMode === \"rebuild_context\" ? \"fresh context requested\" : null,\n\n      cachePolicy === \"bypass\" ? \"cache bypass observed\" : null,\n\n      memoryScope === \"reset_partial\" ? \"partial memory reset observed\" : null\n\n    ].filter(Boolean).join(\"; \");\n\n    return {\n\n     "
+            },
+            {
+              "index": 9085,
+              "excerpt": "ed7aa;max-width:620px;\">A warm, premium preview card generated automatically from the delegation request.</div>\n\n    </div>\n\n    <div style=\"border:1px solid rgba(253,230,138,.35);border-radius:999px;padding:9px 13px;color:#fef3c7;background:rgba(120,53,15,.28);font-size:12px;font-weight:800;white-space:nowrap;\">Preview Ready</div>\n\n  </div>\n\n</div>\n\n<!-- visual-artifact:end -->\n\n## Request\n\n${safeTitle}`;\n\n}\n\n\nexport function interpretTaskExecution(task = {}) {\n\n  const payload = unwrapPayload(task.payload);\n\n  const meta = extractMeta(task);\n\n  const title = task.title || payload.title || \"Untitled task\";\n\n  const executionMode = payload.execution_mode || \"standard\";\n\n  const cachePolicy = payload.cache_policy || \"reuse\";\n\n  const memoryScope = payload.memory_scope || \"preserve\";\n\n  const isPolicyAware =\n\n    executionMode === \"rebuild_context\" ||\n\n    cachePolicy === \"bypass\" ||\n\n    memoryScope === \"reset_partial\";\n\n  if (isPolicyAware) {\n\n    const notes = [\n\n      executionMode === \"rebuild_context\" ? \"fresh context requested\" : null,\n\n      cachePolicy === \"bypass\" ? \"cache bypass observed\" : null,\n\n      memoryScope === \"reset_partial\" ? \"partial memory reset observed\" : null\n\n    ].filter(Boolean).join(\"; \");\n\n    return {\n\n      ok: true,\n\n      strategy_applied: \"prompt_au"
+            },
+            {
+              "index": 9128,
+              "excerpt": "view card generated automatically from the delegation request.</div>\n\n    </div>\n\n    <div style=\"border:1px solid rgba(253,230,138,.35);border-radius:999px;padding:9px 13px;color:#fef3c7;background:rgba(120,53,15,.28);font-size:12px;font-weight:800;white-space:nowrap;\">Preview Ready</div>\n\n  </div>\n\n</div>\n\n<!-- visual-artifact:end -->\n\n## Request\n\n${safeTitle}`;\n\n}\n\n\nexport function interpretTaskExecution(task = {}) {\n\n  const payload = unwrapPayload(task.payload);\n\n  const meta = extractMeta(task);\n\n  const title = task.title || payload.title || \"Untitled task\";\n\n  const executionMode = payload.execution_mode || \"standard\";\n\n  const cachePolicy = payload.cache_policy || \"reuse\";\n\n  const memoryScope = payload.memory_scope || \"preserve\";\n\n  const isPolicyAware =\n\n    executionMode === \"rebuild_context\" ||\n\n    cachePolicy === \"bypass\" ||\n\n    memoryScope === \"reset_partial\";\n\n  if (isPolicyAware) {\n\n    const notes = [\n\n      executionMode === \"rebuild_context\" ? \"fresh context requested\" : null,\n\n      cachePolicy === \"bypass\" ? \"cache bypass observed\" : null,\n\n      memoryScope === \"reset_partial\" ? \"partial memory reset observed\" : null\n\n    ].filter(Boolean).join(\"; \");\n\n    return {\n\n      ok: true,\n\n      strategy_applied: \"prompt_augmentation\",\n\n      notes,\n\n      output: `"
+            },
+            {
+              "index": 9152,
+              "excerpt": "matically from the delegation request.</div>\n\n    </div>\n\n    <div style=\"border:1px solid rgba(253,230,138,.35);border-radius:999px;padding:9px 13px;color:#fef3c7;background:rgba(120,53,15,.28);font-size:12px;font-weight:800;white-space:nowrap;\">Preview Ready</div>\n\n  </div>\n\n</div>\n\n<!-- visual-artifact:end -->\n\n## Request\n\n${safeTitle}`;\n\n}\n\n\nexport function interpretTaskExecution(task = {}) {\n\n  const payload = unwrapPayload(task.payload);\n\n  const meta = extractMeta(task);\n\n  const title = task.title || payload.title || \"Untitled task\";\n\n  const executionMode = payload.execution_mode || \"standard\";\n\n  const cachePolicy = payload.cache_policy || \"reuse\";\n\n  const memoryScope = payload.memory_scope || \"preserve\";\n\n  const isPolicyAware =\n\n    executionMode === \"rebuild_context\" ||\n\n    cachePolicy === \"bypass\" ||\n\n    memoryScope === \"reset_partial\";\n\n  if (isPolicyAware) {\n\n    const notes = [\n\n      executionMode === \"rebuild_context\" ? \"fresh context requested\" : null,\n\n      cachePolicy === \"bypass\" ? \"cache bypass observed\" : null,\n\n      memoryScope === \"reset_partial\" ? \"partial memory reset observed\" : null\n\n    ].filter(Boolean).join(\"; \");\n\n    return {\n\n      ok: true,\n\n      strategy_applied: \"prompt_augmentation\",\n\n      notes,\n\n      output: `Policy-aware execution p"
+            },
+            {
+              "index": 9193,
+              "excerpt": "iv>\n\n    </div>\n\n    <div style=\"border:1px solid rgba(253,230,138,.35);border-radius:999px;padding:9px 13px;color:#fef3c7;background:rgba(120,53,15,.28);font-size:12px;font-weight:800;white-space:nowrap;\">Preview Ready</div>\n\n  </div>\n\n</div>\n\n<!-- visual-artifact:end -->\n\n## Request\n\n${safeTitle}`;\n\n}\n\n\nexport function interpretTaskExecution(task = {}) {\n\n  const payload = unwrapPayload(task.payload);\n\n  const meta = extractMeta(task);\n\n  const title = task.title || payload.title || \"Untitled task\";\n\n  const executionMode = payload.execution_mode || \"standard\";\n\n  const cachePolicy = payload.cache_policy || \"reuse\";\n\n  const memoryScope = payload.memory_scope || \"preserve\";\n\n  const isPolicyAware =\n\n    executionMode === \"rebuild_context\" ||\n\n    cachePolicy === \"bypass\" ||\n\n    memoryScope === \"reset_partial\";\n\n  if (isPolicyAware) {\n\n    const notes = [\n\n      executionMode === \"rebuild_context\" ? \"fresh context requested\" : null,\n\n      cachePolicy === \"bypass\" ? \"cache bypass observed\" : null,\n\n      memoryScope === \"reset_partial\" ? \"partial memory reset observed\" : null\n\n    ].filter(Boolean).join(\"; \");\n\n    return {\n\n      ok: true,\n\n      strategy_applied: \"prompt_augmentation\",\n\n      notes,\n\n      output: `Policy-aware execution prepared for: ${title}`,\n\n      meta: {\n\n "
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "filePath": "public/js/phase530_visible_panels_bridge.js",
+      "exists": true,
+      "findings": [
+        {
+          "token": "artifactHtml",
+          "count": 0,
+          "indexes": [],
+          "contexts": []
+        },
+        {
+          "token": "artifact_html",
+          "count": 0,
+          "indexes": [],
+          "contexts": []
+        },
+        {
+          "token": "preview",
+          "count": 25,
+          "indexes": [
+            4053,
+            4114,
+            6321,
+            24526,
+            24643,
+            24943,
+            25329,
+            25452,
+            25618,
+            25856,
+            26078,
+            26566,
+            36258,
+            40941,
+            43313,
+            43970,
+            59643,
+            59713,
+            59782,
+            59847,
+            60955,
+            61088,
+            61214,
+            63045,
+            63535
+          ],
+          "contexts": [
+            {
+              "index": 4053,
+              "excerpt": ")\n\n        : operatorTarget;\n\n      const operatorTitle = operatorAction && resolvedTargetTitleRaw\n\n        ? `${operatorAction}: ${resolvedTargetTitleRaw}`\n\n        : (operatorAction || phase718ResolveBaseTitle(rawTitle));\n\n      const title = esc(operatorTitle);\n\n      const targetTitle = esc(operatorTarget);\n\n      const status = esc(t.status || \"unknown\");\n\n      const taskId = esc(t.task_id || t.id || \"\");\n\n      const updated = esc(t.updated_at || \"\");\n\n      const outcome = esc(t.outcome_preview || \"\");\n\n      const explanation = esc(t.explanation_preview || \"\");\n      const artifactRaw = t.artifact || (Array.isArray(t.artifacts) ? t.artifacts[0] : null) || null;\n      const artifactName = artifactRaw ? esc(artifactRaw.filename || artifactRaw.path || \"artifact\") : \"\";\n      const artifactType = artifactRaw ? esc(artifactRaw.type || \"artifact\") : \"\";\n      const artifactSize = artifactRaw && artifactRaw.size_bytes ? esc(String(artifactRaw.size_bytes) + \" bytes\") : \"\";\n      const artifactPath = artifactRaw ? esc(artifactRaw.path || \"\") : \"\";\n\n      const triageStatusRaw = String(t.status || \"\").toLowerCase();\n\n      const triageLabel = triageStatusRaw === \"completed\" ? \"triage: completed\" : \"\";\n\n      const executionStrategyRaw = t.strategy || t.execution_strategy || t.execution_m"
+            },
+            {
+              "index": 4114,
+              "excerpt": "ratorAction && resolvedTargetTitleRaw\n\n        ? `${operatorAction}: ${resolvedTargetTitleRaw}`\n\n        : (operatorAction || phase718ResolveBaseTitle(rawTitle));\n\n      const title = esc(operatorTitle);\n\n      const targetTitle = esc(operatorTarget);\n\n      const status = esc(t.status || \"unknown\");\n\n      const taskId = esc(t.task_id || t.id || \"\");\n\n      const updated = esc(t.updated_at || \"\");\n\n      const outcome = esc(t.outcome_preview || \"\");\n\n      const explanation = esc(t.explanation_preview || \"\");\n      const artifactRaw = t.artifact || (Array.isArray(t.artifacts) ? t.artifacts[0] : null) || null;\n      const artifactName = artifactRaw ? esc(artifactRaw.filename || artifactRaw.path || \"artifact\") : \"\";\n      const artifactType = artifactRaw ? esc(artifactRaw.type || \"artifact\") : \"\";\n      const artifactSize = artifactRaw && artifactRaw.size_bytes ? esc(String(artifactRaw.size_bytes) + \" bytes\") : \"\";\n      const artifactPath = artifactRaw ? esc(artifactRaw.path || \"\") : \"\";\n\n      const triageStatusRaw = String(t.status || \"\").toLowerCase();\n\n      const triageLabel = triageStatusRaw === \"completed\" ? \"triage: completed\" : \"\";\n\n      const executionStrategyRaw = t.strategy || t.execution_strategy || t.execution_mode || t.executionMode || \"\";\n\n      const executionStrategy "
+            },
+            {
+              "index": 6321,
+              "excerpt": ":100%;min-width:0;max-width:100%;box-sizing:border-box;border:1px solid rgba(148,163,184,.24);border-radius:14px;padding:12px;margin:0 0 12px 0;background:rgba(15,23,42,.74);overflow:hidden;\">\n\n          <div style=\"display:flex;align-items:flex-start;justify-content:space-between;gap:8px;min-width:0;\">\n\n            <div style=\"font-weight:600;color:#e5e7eb;overflow-wrap:anywhere;word-break:break-word;min-width:0;\">${title}</div>\n\n            ${artifactRaw ? `<button type=\"button\" data-phase719-preview-artifact=\"true\" data-task-id=\"${taskId}\" data-task-title=\"${title}\" data-artifact-name=\"${artifactName}\" data-artifact-type=\"${artifactType}\" data-artifact-size=\"${artifactSize}\" data-artifact-path=\"${artifactPath}\" data-artifact-outcome=\"${outcome}\" data-artifact-explanation=\"${explanation}\" title=\"Preview completed artifact\" style=\"flex:0 0 auto;cursor:pointer;color:#93c5fd;border:1px solid rgba(147,197,253,.35);border-radius:999px;padding:2px 7px;font-size:10px;line-height:1.4;background:rgba(30,64,175,.18);\">Preview</button>` : \"\"}\n\n            ${executionStrategy ? `<div style=\"flex:0 0 auto;color:#c4b5fd;border:1px solid rgba(196,181,253,.35);border-radius:999px;padding:2px 7px;font-size:10px;line-height:1.4;background:rgba(88,28,135,.18);\">strategy: ${executionStrategy}</div>` : \"\""
+            },
+            {
+              "index": 24526,
+              "excerpt": "\n\n    // Phase 719: /api/activity-graph is retired in this runtime.\n    // Stale fetch disabled to preserve console clarity.\n    renderActivity([]);\n  }\n\n  if (document.readyState === \"loading\") {\n    document.addEventListener(\"DOMContentLoaded\", refresh, { once: true });\n  } else {\n    refresh();\n  }\n\n  setInterval(refresh, POLL_MS);\n\n\n  // Phase 719 — Preview artifact modal (frontend-only, read-only)\n\n  function phase719EnsurePreviewModal() {\n\n    let modal = document.getElementById(\"phase719-preview-modal\");\n\n    if (modal) return modal;\n\n    modal = document.createElement(\"div\");\n\n    modal.id = \"phase719-preview-modal\";\n\n    modal.style.cssText = \"display:none;position:fixed;inset:0;z-index:9999;background:rgba(2,6,23,.72);backdrop-filter:blur(5px);align-items:center;justify-content:center;padding:18px;\";\n\n    modal.innerHTML = `\n\n      <div role=\"dialog\" aria-modal=\"true\" aria-labelledby=\"phase719-preview-title\" style=\"width:min(760px,96vw);max-height:86vh;overflow:auto;background:#020617;border:1px solid rgba(148,163,184,.35);border-radius:16px;box-shadow:0 24px 70px rgba(0,0,0,.55);padding:16px;color:#e5e7eb;\">\n\n        <div style=\"display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin-bottom:12px;\">\n\n          <div>\n\n            <div id=\"phase719-prev"
+            },
+            {
+              "index": 24643,
+              "excerpt": "larity.\n    renderActivity([]);\n  }\n\n  if (document.readyState === \"loading\") {\n    document.addEventListener(\"DOMContentLoaded\", refresh, { once: true });\n  } else {\n    refresh();\n  }\n\n  setInterval(refresh, POLL_MS);\n\n\n  // Phase 719 — Preview artifact modal (frontend-only, read-only)\n\n  function phase719EnsurePreviewModal() {\n\n    let modal = document.getElementById(\"phase719-preview-modal\");\n\n    if (modal) return modal;\n\n    modal = document.createElement(\"div\");\n\n    modal.id = \"phase719-preview-modal\";\n\n    modal.style.cssText = \"display:none;position:fixed;inset:0;z-index:9999;background:rgba(2,6,23,.72);backdrop-filter:blur(5px);align-items:center;justify-content:center;padding:18px;\";\n\n    modal.innerHTML = `\n\n      <div role=\"dialog\" aria-modal=\"true\" aria-labelledby=\"phase719-preview-title\" style=\"width:min(760px,96vw);max-height:86vh;overflow:auto;background:#020617;border:1px solid rgba(148,163,184,.35);border-radius:16px;box-shadow:0 24px 70px rgba(0,0,0,.55);padding:16px;color:#e5e7eb;\">\n\n        <div style=\"display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin-bottom:12px;\">\n\n          <div>\n\n            <div id=\"phase719-preview-title\" style=\"font-size:14px;font-weight:800;color:#f8fafc;\">Artifact Preview</div>\n\n            <div id=\"phase71"
+            },
+            {
+              "index": 24943,
+              "excerpt": " phase719EnsurePreviewModal() {\n\n    let modal = document.getElementById(\"phase719-preview-modal\");\n\n    if (modal) return modal;\n\n    modal = document.createElement(\"div\");\n\n    modal.id = \"phase719-preview-modal\";\n\n    modal.style.cssText = \"display:none;position:fixed;inset:0;z-index:9999;background:rgba(2,6,23,.72);backdrop-filter:blur(5px);align-items:center;justify-content:center;padding:18px;\";\n\n    modal.innerHTML = `\n\n      <div role=\"dialog\" aria-modal=\"true\" aria-labelledby=\"phase719-preview-title\" style=\"width:min(760px,96vw);max-height:86vh;overflow:auto;background:#020617;border:1px solid rgba(148,163,184,.35);border-radius:16px;box-shadow:0 24px 70px rgba(0,0,0,.55);padding:16px;color:#e5e7eb;\">\n\n        <div style=\"display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin-bottom:12px;\">\n\n          <div>\n\n            <div id=\"phase719-preview-title\" style=\"font-size:14px;font-weight:800;color:#f8fafc;\">Artifact Preview</div>\n\n            <div id=\"phase719-preview-subtitle\" style=\"margin-top:4px;font-size:11px;color:#94a3b8;overflow-wrap:anywhere;\"></div>\n\n          </div>\n\n          <button type=\"button\" data-phase719-preview-close=\"true\" style=\"cursor:pointer;border:1px solid rgba(148,163,184,.35);background:rgba(15,23,42,.85);color:#cbd5e1;border"
+            },
+            {
+              "index": 25329,
+              "excerpt": "er;padding:18px;\";\n\n    modal.innerHTML = `\n\n      <div role=\"dialog\" aria-modal=\"true\" aria-labelledby=\"phase719-preview-title\" style=\"width:min(760px,96vw);max-height:86vh;overflow:auto;background:#020617;border:1px solid rgba(148,163,184,.35);border-radius:16px;box-shadow:0 24px 70px rgba(0,0,0,.55);padding:16px;color:#e5e7eb;\">\n\n        <div style=\"display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin-bottom:12px;\">\n\n          <div>\n\n            <div id=\"phase719-preview-title\" style=\"font-size:14px;font-weight:800;color:#f8fafc;\">Artifact Preview</div>\n\n            <div id=\"phase719-preview-subtitle\" style=\"margin-top:4px;font-size:11px;color:#94a3b8;overflow-wrap:anywhere;\"></div>\n\n          </div>\n\n          <button type=\"button\" data-phase719-preview-close=\"true\" style=\"cursor:pointer;border:1px solid rgba(148,163,184,.35);background:rgba(15,23,42,.85);color:#cbd5e1;border-radius:999px;padding:5px 10px;font-size:12px;\">Close</button>\n\n        </div>\n\n        <div id=\"phase719-preview-meta\" style=\"font-size:12px;line-height:1.6;color:#bbf7d0;border:1px solid rgba(134,239,172,.25);background:rgba(20,83,45,.12);border-radius:12px;padding:10px;margin-bottom:12px;\"></div>\n\n        <div id=\"phase719-preview-body\" style=\"overflow-wrap:anywhere;font-size:13px"
+            },
+            {
+              "index": 25452,
+              "excerpt": "itle\" style=\"width:min(760px,96vw);max-height:86vh;overflow:auto;background:#020617;border:1px solid rgba(148,163,184,.35);border-radius:16px;box-shadow:0 24px 70px rgba(0,0,0,.55);padding:16px;color:#e5e7eb;\">\n\n        <div style=\"display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin-bottom:12px;\">\n\n          <div>\n\n            <div id=\"phase719-preview-title\" style=\"font-size:14px;font-weight:800;color:#f8fafc;\">Artifact Preview</div>\n\n            <div id=\"phase719-preview-subtitle\" style=\"margin-top:4px;font-size:11px;color:#94a3b8;overflow-wrap:anywhere;\"></div>\n\n          </div>\n\n          <button type=\"button\" data-phase719-preview-close=\"true\" style=\"cursor:pointer;border:1px solid rgba(148,163,184,.35);background:rgba(15,23,42,.85);color:#cbd5e1;border-radius:999px;padding:5px 10px;font-size:12px;\">Close</button>\n\n        </div>\n\n        <div id=\"phase719-preview-meta\" style=\"font-size:12px;line-height:1.6;color:#bbf7d0;border:1px solid rgba(134,239,172,.25);background:rgba(20,83,45,.12);border-radius:12px;padding:10px;margin-bottom:12px;\"></div>\n\n        <div id=\"phase719-preview-body\" style=\"overflow-wrap:anywhere;font-size:13px;line-height:1.6;color:#dbeafe;border:1px solid rgba(96,165,250,.24);background:linear-gradient(180deg, rgba(15,23,42,.92),"
+            }
+          ]
+        },
+        {
+          "token": "artifact-preview",
+          "count": 3,
+          "indexes": [
+            36249,
+            43961,
+            61205
+          ],
+          "contexts": [
+            {
+              "index": 36249,
+              "excerpt": ":.08em;\">semantic v${phase719EscapePreviewHtml(semanticEnvelope.semantic_version || \"1\")}</span>` : \"\",\n\n      `<span style=\"display:inline-flex;align-items:center;border:1px solid rgba(251,191,36,.34);background:rgba(120,53,15,.18);color:#fde68a;border-radius:999px;padding:5px 10px;font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.08em;\">${phase719EscapePreviewHtml(semanticPriority)}</span>`\n\n    ].filter(Boolean).join(\"\");\n\n    return `\n\n      <div data-phase719-rendered-artifact-preview=\"true\" style=\"max-width:920px;margin:0 auto;\">\n\n        <div style=\"border:1px solid ${phase733Theme.border};border-radius:22px;overflow:hidden;background:${phase733Theme.shell};box-shadow:${phase733Theme.shadow};\">\n\n          <div style=\"padding:28px 30px 22px 30px;border-bottom:1px solid rgba(148,163,184,.16);\">\n\n            <div style=\"display:flex;gap:8px;flex-wrap:wrap;margin-bottom:18px;\">${chips}</div>\n\n            <div style=\"font-size:30px;line-height:1.05;font-weight:900;letter-spacing:-.04em;color:${phase733Theme.heading};margin-bottom:12px;\">${phase719EscapePreviewHtml(title)}</div>\n\n            ${task ? `<div style=\"font-size:15px;line-height:1.55;color:${phase733Theme.secondary};max-width:760px;\">${phase719EscapePreviewHtml(task)}</div>` : \"\"}\n\n          </div>\n\n          ${"
+            },
+            {
+              "index": 43961,
+              "excerpt": "ctBlock(markdown);\n\n    const fallbackMarkdown = extracted.markdownWithoutVisualArtifact || phase733NormalizePreviewTransportText(markdown);\n\n    const fallbackPreview = phase719RenderArtifactVisualCard(fallbackMarkdown);\n\n    if (!extracted.hasVisualArtifact) {\n\n      return fallbackPreview;\n\n    }\n\n    const safeVisualHtml = phase723SanitizeVisualArtifactHtml(extracted.visualHtml);\n\n    if (!safeVisualHtml) {\n\n      return fallbackPreview;\n\n    }\n\n    return `\n\n      <div data-phase723-visual-artifact-preview=\"true\" style=\"max-width:960px;margin:0 auto 22px auto;border:1px solid rgba(45,212,191,.32);background:linear-gradient(135deg,rgba(15,23,42,.78),rgba(8,47,73,.46));border-radius:26px;padding:22px;box-shadow:0 24px 80px rgba(0,0,0,.32), inset 0 1px 0 rgba(255,255,255,.06);\">\n\n        <div style=\"display:flex;align-items:center;justify-content:space-between;gap:14px;margin-bottom:18px;\">\n\n          <div style=\"font-size:12px;text-transform:uppercase;letter-spacing:.2em;color:#ccfbf1;font-weight:950;text-shadow:0 0 22px rgba(45,212,191,.18);\">Visual Artifact</div>\n\n          <div style=\"font-size:10px;text-transform:uppercase;letter-spacing:.14em;color:#dbeafe;border:1px solid rgba(147,197,253,.34);border-radius:999px;padding:5px 10px;background:rgba(30,64,175,.22);box-shadow:inset 0 1px 0 r"
+            },
+            {
+              "index": 61205,
+              "excerpt": " fallbackType : \"\",\n\n      fallbackSize ? \"size: \" + fallbackSize : \"\",\n\n      fallbackPath ? \"path: \" + fallbackPath : \"\"\n\n    ].filter(Boolean).join(\"\\n\");\n\n    body.innerHTML = `<div style=\"color:#93c5fd;font-size:14px;\">Loading rendered artifact preview…</div>`;\n\n    modal.style.display = \"flex\";\n\n    if (!taskId) {\n\n      body.textContent = \"No task id available for artifact preview.\";\n\n      return;\n\n    }\n\n    try {\n\n      const res = await fetch(`/api/tasks/${encodeURIComponent(taskId)}/artifact-preview`, { cache: \"no-store\" });\n\n      const data = await res.json().catch(() => null);\n\n      if (!res.ok || !data || data.ok !== true) {\n\n        body.textContent = [\n\n          \"Rendered artifact content is not available.\",\n\n          data && data.error ? \"Error: \" + data.error : \"\",\n\n          fallbackOutcome ? \"\\nOutcome:\\n\" + fallbackOutcome : \"\",\n\n          fallbackExplanation ? \"\\nExplanation:\\n\" + fallbackExplanation : \"\"\n\n        ].filter(Boolean).join(\"\\n\");\n\n        return;\n\n      }\n\n      const artifact = data.artifact || {};\n\n      const renderedName = artifact.filename || fallbackName;\n\n      const renderedType = artifact.type || fallbackType;\n\n      const renderedSize = artifact.size_bytes ? String(artifact.size_bytes) + \" bytes\" : fallbackSize;\n\n      const renderedCreated = ar"
+            }
+          ]
+        },
+        {
+          "token": "visual-artifact",
+          "count": 4,
+          "indexes": [
+            42475,
+            42532,
+            43954,
+            44872
+          ],
+          "contexts": [
+            {
+              "index": 42475,
+              "excerpt": " \"\")\n\n      .replace(/\\s+(href|src)\\s*=\\s*\"javascript:[^\"]*\"/gi, \"\")\n\n      .replace(/\\s+(href|src)\\s*=\\s*'javascript:[^']*'/gi, \"\")\n\n      .replace(/\\s+(href|src)\\s*=\\s*javascript:[^\\s>]+/gi, \"\");\n\n  }\n\n  // Phase 723 — visual artifact block extraction helper (non-active)\n\n  function phase723ExtractVisualArtifactBlock(markdown) {\n\n    const normalized = phase733NormalizePreviewTransportText(markdown);\n\n    const source = phase720StripSemanticEnvelope(normalized);\n\n    const startMarker = \"<!-- visual-artifact:start -->\";\n\n    const endMarker = \"<!-- visual-artifact:end -->\";\n\n    const startIndex = source.indexOf(startMarker);\n\n    const endIndex = source.indexOf(endMarker);\n\n    if (startIndex === -1 || endIndex === -1 || endIndex <= startIndex) {\n\n      return {\n\n        hasVisualArtifact: false,\n\n        visualHtml: \"\",\n\n        markdownWithoutVisualArtifact: source\n\n      };\n\n    }\n\n    const visualStart = startIndex + startMarker.length;\n\n    const visualHtml = source.slice(visualStart, endIndex).trim();\n\n    const markdownWithoutVisualArtifact = (\n\n      source.slice(0, startIndex) + source.slice(endIndex + endMarker.length)\n\n    ).trim();\n\n    return {\n\n      hasVisualArtifact: Boolean(visualHtml),\n\n      visualHtml,\n\n      markdownWithoutVisualArtifact\n\n    };\n\n  }\n\n  // Phase 723 — em"
+            },
+            {
+              "index": 42532,
+              "excerpt": "]*\"/gi, \"\")\n\n      .replace(/\\s+(href|src)\\s*=\\s*'javascript:[^']*'/gi, \"\")\n\n      .replace(/\\s+(href|src)\\s*=\\s*javascript:[^\\s>]+/gi, \"\");\n\n  }\n\n  // Phase 723 — visual artifact block extraction helper (non-active)\n\n  function phase723ExtractVisualArtifactBlock(markdown) {\n\n    const normalized = phase733NormalizePreviewTransportText(markdown);\n\n    const source = phase720StripSemanticEnvelope(normalized);\n\n    const startMarker = \"<!-- visual-artifact:start -->\";\n\n    const endMarker = \"<!-- visual-artifact:end -->\";\n\n    const startIndex = source.indexOf(startMarker);\n\n    const endIndex = source.indexOf(endMarker);\n\n    if (startIndex === -1 || endIndex === -1 || endIndex <= startIndex) {\n\n      return {\n\n        hasVisualArtifact: false,\n\n        visualHtml: \"\",\n\n        markdownWithoutVisualArtifact: source\n\n      };\n\n    }\n\n    const visualStart = startIndex + startMarker.length;\n\n    const visualHtml = source.slice(visualStart, endIndex).trim();\n\n    const markdownWithoutVisualArtifact = (\n\n      source.slice(0, startIndex) + source.slice(endIndex + endMarker.length)\n\n    ).trim();\n\n    return {\n\n      hasVisualArtifact: Boolean(visualHtml),\n\n      visualHtml,\n\n      markdownWithoutVisualArtifact\n\n    };\n\n  }\n\n  // Phase 723 — embedded visual artifact preview wrapper (non-active)\n\n  fu"
+            },
+            {
+              "index": 43954,
+              "excerpt": "lArtifactBlock(markdown);\n\n    const fallbackMarkdown = extracted.markdownWithoutVisualArtifact || phase733NormalizePreviewTransportText(markdown);\n\n    const fallbackPreview = phase719RenderArtifactVisualCard(fallbackMarkdown);\n\n    if (!extracted.hasVisualArtifact) {\n\n      return fallbackPreview;\n\n    }\n\n    const safeVisualHtml = phase723SanitizeVisualArtifactHtml(extracted.visualHtml);\n\n    if (!safeVisualHtml) {\n\n      return fallbackPreview;\n\n    }\n\n    return `\n\n      <div data-phase723-visual-artifact-preview=\"true\" style=\"max-width:960px;margin:0 auto 22px auto;border:1px solid rgba(45,212,191,.32);background:linear-gradient(135deg,rgba(15,23,42,.78),rgba(8,47,73,.46));border-radius:26px;padding:22px;box-shadow:0 24px 80px rgba(0,0,0,.32), inset 0 1px 0 rgba(255,255,255,.06);\">\n\n        <div style=\"display:flex;align-items:center;justify-content:space-between;gap:14px;margin-bottom:18px;\">\n\n          <div style=\"font-size:12px;text-transform:uppercase;letter-spacing:.2em;color:#ccfbf1;font-weight:950;text-shadow:0 0 22px rgba(45,212,191,.18);\">Visual Artifact</div>\n\n          <div style=\"font-size:10px;text-transform:uppercase;letter-spacing:.14em;color:#dbeafe;border:1px solid rgba(147,197,253,.34);border-radius:999px;padding:5px 10px;background:rgba(30,64,175,.22);box-shadow:inset 0"
+            },
+            {
+              "index": 44872,
+              "excerpt": "      <div style=\"font-size:12px;text-transform:uppercase;letter-spacing:.2em;color:#ccfbf1;font-weight:950;text-shadow:0 0 22px rgba(45,212,191,.18);\">Visual Artifact</div>\n\n          <div style=\"font-size:10px;text-transform:uppercase;letter-spacing:.14em;color:#dbeafe;border:1px solid rgba(147,197,253,.34);border-radius:999px;padding:5px 10px;background:rgba(30,64,175,.22);box-shadow:inset 0 1px 0 rgba(255,255,255,.05);\">sanitized html subset</div>\n\n        </div>\n\n        <div data-phase723-visual-artifact-body=\"true\" style=\"overflow:auto;border-radius:20px;background:rgba(2,6,23,.46);border:1px solid rgba(148,163,184,.24);padding:18px;color:#e5e7eb;box-shadow:inset 0 1px 0 rgba(255,255,255,.04);\">\n\n          <div data-phase735-visual-html-mount=\"true\"></div>\n\n          <template data-phase735-visual-html-template=\"true\">${phase719EscapePreviewHtml(safeVisualHtml)}</template>\n\n        </div>\n\n      </div>\n\n    `;\n\n  }\n\n  function \n\nfunction phase736RenderNativeDashboardGuard(payload) {\n\n  try {\n\n    if (!payload || typeof payload !== \"object\") {\n\n      return null;\n\n    }\n\n    const schemaVersion =\n\n      payload.schemaVersion || \"\";\n\n    const renderMode =\n\n      payload.renderMode || \"\";\n\n    const rendererTarget =\n\n      payload.rendererTarget || \"\";\n\n    const isRenderNative =\n\n      sc"
+            }
+          ]
+        },
+        {
+          "token": "semantic_artifact",
+          "count": 0,
+          "indexes": [],
+          "contexts": []
+        },
+        {
+          "token": "semantic_artifact_schema",
+          "count": 0,
+          "indexes": [],
+          "contexts": []
+        },
+        {
+          "token": "semantic_artifact_validated",
+          "count": 0,
+          "indexes": [],
+          "contexts": []
+        },
+        {
+          "token": "renderNative",
+          "count": 10,
+          "indexes": [
+            45900,
+            50463,
+            50512,
+            50551,
+            50599,
+            50716,
+            50774,
+            50901,
+            51049,
+            51164
+          ],
+          "contexts": [
+            {
+              "index": 45900,
+              "excerpt": "oad || typeof payload !== \"object\") {\n\n      return null;\n\n    }\n\n    const schemaVersion =\n\n      payload.schemaVersion || \"\";\n\n    const renderMode =\n\n      payload.renderMode || \"\";\n\n    const rendererTarget =\n\n      payload.rendererTarget || \"\";\n\n    const isRenderNative =\n\n      schemaVersion.includes(\"render-native\") ||\n\n      renderMode.includes(\"render-native\") ||\n\n      rendererTarget.includes(\"render-native\");\n\n    if (!isRenderNative) {\n\n      return null;\n\n    }\n\n    return {\n\n      renderNative: true,\n\n      payload,\n\n    };\n\n  } catch (error) {\n\n    console.warn(\n\n      \"[phase736] render-native guard failed\",\n\n      error\n\n    );\n\n    return null;\n\n  }\n\n}\n\n\n\nfunction phase736EscapeRenderNativeText(value) {\n\n  return String(value ?? \"\")\n\n    .replace(/&/g, \"&amp;\")\n\n    .replace(/</g, \"&lt;\")\n\n    .replace(/>/g, \"&gt;\")\n\n    .replace(/\"/g, \"&quot;\")\n\n    .replace(/'/g, \"&#039;\");\n\n}\n\nfunction phase736RenderNativeToneClass(tone) {\n\n  const normalized = String(tone || \"info\").toLowerCase();\n\n  if (normalized.includes(\"ready\")) return \"phase736-tone-ready\";\n\n  if (normalized.includes(\"blocked\")) return \"phase736-tone-blocked\";\n\n  if (normalized.includes(\"warning\")) return \"phase736-tone-warning\";\n\n  if (normalized.includes(\"critical\")) return \"phase736-tone-critical\";\n\n  return \"p"
+            },
+            {
+              "index": 50463,
+              "excerpt": "se736-accent-${accent}\">\n\n      <div class=\"phase736-panel-kicker\">${type}</div>\n\n      <h3>${title}</h3>\n\n      <p>${phase736EscapeRenderNativeText(payload.body || payload.subtitle || \"\")}</p>\n\n      ${Array.isArray(payload.highlights) ? `\n\n        <div class=\"phase736-highlight-list\">\n\n          ${payload.highlights.map((item) => `<span>${phase736EscapeRenderNativeText(item)}</span>`).join(\"\")}\n\n        </div>\n\n      ` : \"\"}\n\n    </section>\n\n  `;\n\n}\n\nfunction phase736RenderNativeDashboardHtml(renderNativePayload) {\n\n  const dashboard =\n\n    renderNativePayload?.dashboard ||\n\n    renderNativePayload?.payload?.dashboard ||\n\n    renderNativePayload;\n\n  const panels = Array.isArray(dashboard?.panels)\n\n    ? dashboard.panels\n\n    : Array.isArray(renderNativePayload?.runtimeComposition?.panels)\n\n      ? renderNativePayload.runtimeComposition.panels\n\n      : [];\n\n  const title = phase736EscapeRenderNativeText(dashboard?.title || renderNativePayload?.dashboardShell?.title || \"Render-Native Dashboard\");\n\n  const subtitle = phase736EscapeRenderNativeText(dashboard?.subtitle || renderNativePayload?.dashboardShell?.subtitle || \"Governed visual artifact\");\n\n  const theme = dashboard?.theme || renderNativePayload?.dashboardShell?.theme || {};\n\n  const accents = Array.isArray(theme.accents) ? theme.accen"
+            },
+            {
+              "index": 50512,
+              "excerpt": "736-panel-kicker\">${type}</div>\n\n      <h3>${title}</h3>\n\n      <p>${phase736EscapeRenderNativeText(payload.body || payload.subtitle || \"\")}</p>\n\n      ${Array.isArray(payload.highlights) ? `\n\n        <div class=\"phase736-highlight-list\">\n\n          ${payload.highlights.map((item) => `<span>${phase736EscapeRenderNativeText(item)}</span>`).join(\"\")}\n\n        </div>\n\n      ` : \"\"}\n\n    </section>\n\n  `;\n\n}\n\nfunction phase736RenderNativeDashboardHtml(renderNativePayload) {\n\n  const dashboard =\n\n    renderNativePayload?.dashboard ||\n\n    renderNativePayload?.payload?.dashboard ||\n\n    renderNativePayload;\n\n  const panels = Array.isArray(dashboard?.panels)\n\n    ? dashboard.panels\n\n    : Array.isArray(renderNativePayload?.runtimeComposition?.panels)\n\n      ? renderNativePayload.runtimeComposition.panels\n\n      : [];\n\n  const title = phase736EscapeRenderNativeText(dashboard?.title || renderNativePayload?.dashboardShell?.title || \"Render-Native Dashboard\");\n\n  const subtitle = phase736EscapeRenderNativeText(dashboard?.subtitle || renderNativePayload?.dashboardShell?.subtitle || \"Governed visual artifact\");\n\n  const theme = dashboard?.theme || renderNativePayload?.dashboardShell?.theme || {};\n\n  const accents = Array.isArray(theme.accents) ? theme.accents : [\"teal\", \"violet\", \"amber\", \"coral\", \"emeral"
+            },
+            {
+              "index": 50551,
+              "excerpt": "<h3>${title}</h3>\n\n      <p>${phase736EscapeRenderNativeText(payload.body || payload.subtitle || \"\")}</p>\n\n      ${Array.isArray(payload.highlights) ? `\n\n        <div class=\"phase736-highlight-list\">\n\n          ${payload.highlights.map((item) => `<span>${phase736EscapeRenderNativeText(item)}</span>`).join(\"\")}\n\n        </div>\n\n      ` : \"\"}\n\n    </section>\n\n  `;\n\n}\n\nfunction phase736RenderNativeDashboardHtml(renderNativePayload) {\n\n  const dashboard =\n\n    renderNativePayload?.dashboard ||\n\n    renderNativePayload?.payload?.dashboard ||\n\n    renderNativePayload;\n\n  const panels = Array.isArray(dashboard?.panels)\n\n    ? dashboard.panels\n\n    : Array.isArray(renderNativePayload?.runtimeComposition?.panels)\n\n      ? renderNativePayload.runtimeComposition.panels\n\n      : [];\n\n  const title = phase736EscapeRenderNativeText(dashboard?.title || renderNativePayload?.dashboardShell?.title || \"Render-Native Dashboard\");\n\n  const subtitle = phase736EscapeRenderNativeText(dashboard?.subtitle || renderNativePayload?.dashboardShell?.subtitle || \"Governed visual artifact\");\n\n  const theme = dashboard?.theme || renderNativePayload?.dashboardShell?.theme || {};\n\n  const accents = Array.isArray(theme.accents) ? theme.accents : [\"teal\", \"violet\", \"amber\", \"coral\", \"emerald\"];\n\n  return `\n\n    <div class=\"phase"
+            },
+            {
+              "index": 50599,
+              "excerpt": "erNativeText(payload.body || payload.subtitle || \"\")}</p>\n\n      ${Array.isArray(payload.highlights) ? `\n\n        <div class=\"phase736-highlight-list\">\n\n          ${payload.highlights.map((item) => `<span>${phase736EscapeRenderNativeText(item)}</span>`).join(\"\")}\n\n        </div>\n\n      ` : \"\"}\n\n    </section>\n\n  `;\n\n}\n\nfunction phase736RenderNativeDashboardHtml(renderNativePayload) {\n\n  const dashboard =\n\n    renderNativePayload?.dashboard ||\n\n    renderNativePayload?.payload?.dashboard ||\n\n    renderNativePayload;\n\n  const panels = Array.isArray(dashboard?.panels)\n\n    ? dashboard.panels\n\n    : Array.isArray(renderNativePayload?.runtimeComposition?.panels)\n\n      ? renderNativePayload.runtimeComposition.panels\n\n      : [];\n\n  const title = phase736EscapeRenderNativeText(dashboard?.title || renderNativePayload?.dashboardShell?.title || \"Render-Native Dashboard\");\n\n  const subtitle = phase736EscapeRenderNativeText(dashboard?.subtitle || renderNativePayload?.dashboardShell?.subtitle || \"Governed visual artifact\");\n\n  const theme = dashboard?.theme || renderNativePayload?.dashboardShell?.theme || {};\n\n  const accents = Array.isArray(theme.accents) ? theme.accents : [\"teal\", \"violet\", \"amber\", \"coral\", \"emerald\"];\n\n  return `\n\n    <div class=\"phase736-render-native-dashboard\" data-phase736-rende"
+            },
+            {
+              "index": 50716,
+              "excerpt": "v class=\"phase736-highlight-list\">\n\n          ${payload.highlights.map((item) => `<span>${phase736EscapeRenderNativeText(item)}</span>`).join(\"\")}\n\n        </div>\n\n      ` : \"\"}\n\n    </section>\n\n  `;\n\n}\n\nfunction phase736RenderNativeDashboardHtml(renderNativePayload) {\n\n  const dashboard =\n\n    renderNativePayload?.dashboard ||\n\n    renderNativePayload?.payload?.dashboard ||\n\n    renderNativePayload;\n\n  const panels = Array.isArray(dashboard?.panels)\n\n    ? dashboard.panels\n\n    : Array.isArray(renderNativePayload?.runtimeComposition?.panels)\n\n      ? renderNativePayload.runtimeComposition.panels\n\n      : [];\n\n  const title = phase736EscapeRenderNativeText(dashboard?.title || renderNativePayload?.dashboardShell?.title || \"Render-Native Dashboard\");\n\n  const subtitle = phase736EscapeRenderNativeText(dashboard?.subtitle || renderNativePayload?.dashboardShell?.subtitle || \"Governed visual artifact\");\n\n  const theme = dashboard?.theme || renderNativePayload?.dashboardShell?.theme || {};\n\n  const accents = Array.isArray(theme.accents) ? theme.accents : [\"teal\", \"violet\", \"amber\", \"coral\", \"emerald\"];\n\n  return `\n\n    <div class=\"phase736-render-native-dashboard\" data-phase736-render-native-dashboard=\"true\">\n\n      <style>\n\n        .phase736-render-native-dashboard {\n\n          background: radial-"
+            },
+            {
+              "index": 50774,
+              "excerpt": "ghlights.map((item) => `<span>${phase736EscapeRenderNativeText(item)}</span>`).join(\"\")}\n\n        </div>\n\n      ` : \"\"}\n\n    </section>\n\n  `;\n\n}\n\nfunction phase736RenderNativeDashboardHtml(renderNativePayload) {\n\n  const dashboard =\n\n    renderNativePayload?.dashboard ||\n\n    renderNativePayload?.payload?.dashboard ||\n\n    renderNativePayload;\n\n  const panels = Array.isArray(dashboard?.panels)\n\n    ? dashboard.panels\n\n    : Array.isArray(renderNativePayload?.runtimeComposition?.panels)\n\n      ? renderNativePayload.runtimeComposition.panels\n\n      : [];\n\n  const title = phase736EscapeRenderNativeText(dashboard?.title || renderNativePayload?.dashboardShell?.title || \"Render-Native Dashboard\");\n\n  const subtitle = phase736EscapeRenderNativeText(dashboard?.subtitle || renderNativePayload?.dashboardShell?.subtitle || \"Governed visual artifact\");\n\n  const theme = dashboard?.theme || renderNativePayload?.dashboardShell?.theme || {};\n\n  const accents = Array.isArray(theme.accents) ? theme.accents : [\"teal\", \"violet\", \"amber\", \"coral\", \"emerald\"];\n\n  return `\n\n    <div class=\"phase736-render-native-dashboard\" data-phase736-render-native-dashboard=\"true\">\n\n      <style>\n\n        .phase736-render-native-dashboard {\n\n          background: radial-gradient(circle at top left, rgba(45, 212, 191, 0.24), tra"
+            },
+            {
+              "index": 50901,
+              "excerpt": "section>\n\n  `;\n\n}\n\nfunction phase736RenderNativeDashboardHtml(renderNativePayload) {\n\n  const dashboard =\n\n    renderNativePayload?.dashboard ||\n\n    renderNativePayload?.payload?.dashboard ||\n\n    renderNativePayload;\n\n  const panels = Array.isArray(dashboard?.panels)\n\n    ? dashboard.panels\n\n    : Array.isArray(renderNativePayload?.runtimeComposition?.panels)\n\n      ? renderNativePayload.runtimeComposition.panels\n\n      : [];\n\n  const title = phase736EscapeRenderNativeText(dashboard?.title || renderNativePayload?.dashboardShell?.title || \"Render-Native Dashboard\");\n\n  const subtitle = phase736EscapeRenderNativeText(dashboard?.subtitle || renderNativePayload?.dashboardShell?.subtitle || \"Governed visual artifact\");\n\n  const theme = dashboard?.theme || renderNativePayload?.dashboardShell?.theme || {};\n\n  const accents = Array.isArray(theme.accents) ? theme.accents : [\"teal\", \"violet\", \"amber\", \"coral\", \"emerald\"];\n\n  return `\n\n    <div class=\"phase736-render-native-dashboard\" data-phase736-render-native-dashboard=\"true\">\n\n      <style>\n\n        .phase736-render-native-dashboard {\n\n          background: radial-gradient(circle at top left, rgba(45, 212, 191, 0.24), transparent 34%),\n\n                      radial-gradient(circle at top right, rgba(168, 85, 247, 0.22), transparent 30%),\n\n       "
+            }
+          ]
+        },
+        {
+          "token": "render-native",
+          "count": 7,
+          "indexes": [
+            45709,
+            45756,
+            45807,
+            46003,
+            51367,
+            51406,
+            51472
+          ],
+          "contexts": [
+            {
+              "index": 45709,
+              "excerpt": "${phase719EscapePreviewHtml(safeVisualHtml)}</template>\n\n        </div>\n\n      </div>\n\n    `;\n\n  }\n\n  function \n\nfunction phase736RenderNativeDashboardGuard(payload) {\n\n  try {\n\n    if (!payload || typeof payload !== \"object\") {\n\n      return null;\n\n    }\n\n    const schemaVersion =\n\n      payload.schemaVersion || \"\";\n\n    const renderMode =\n\n      payload.renderMode || \"\";\n\n    const rendererTarget =\n\n      payload.rendererTarget || \"\";\n\n    const isRenderNative =\n\n      schemaVersion.includes(\"render-native\") ||\n\n      renderMode.includes(\"render-native\") ||\n\n      rendererTarget.includes(\"render-native\");\n\n    if (!isRenderNative) {\n\n      return null;\n\n    }\n\n    return {\n\n      renderNative: true,\n\n      payload,\n\n    };\n\n  } catch (error) {\n\n    console.warn(\n\n      \"[phase736] render-native guard failed\",\n\n      error\n\n    );\n\n    return null;\n\n  }\n\n}\n\n\n\nfunction phase736EscapeRenderNativeText(value) {\n\n  return String(value ?? \"\")\n\n    .replace(/&/g, \"&amp;\")\n\n    .replace(/</g, \"&lt;\")\n\n    .replace(/>/g, \"&gt;\")\n\n    .replace(/\"/g, \"&quot;\")\n\n    .replace(/'/g, \"&#039;\");\n\n}\n\nfunction phase736RenderNativeToneClass(tone) {\n\n  const normalized = String(tone || \"info\").toLowerCase();\n\n  if (normalized.includes(\"ready\")) return \"phase736-tone-ready\";\n\n  if (normalized.includes(\"blocked\")"
+            },
+            {
+              "index": 45756,
+              "excerpt": "emplate>\n\n        </div>\n\n      </div>\n\n    `;\n\n  }\n\n  function \n\nfunction phase736RenderNativeDashboardGuard(payload) {\n\n  try {\n\n    if (!payload || typeof payload !== \"object\") {\n\n      return null;\n\n    }\n\n    const schemaVersion =\n\n      payload.schemaVersion || \"\";\n\n    const renderMode =\n\n      payload.renderMode || \"\";\n\n    const rendererTarget =\n\n      payload.rendererTarget || \"\";\n\n    const isRenderNative =\n\n      schemaVersion.includes(\"render-native\") ||\n\n      renderMode.includes(\"render-native\") ||\n\n      rendererTarget.includes(\"render-native\");\n\n    if (!isRenderNative) {\n\n      return null;\n\n    }\n\n    return {\n\n      renderNative: true,\n\n      payload,\n\n    };\n\n  } catch (error) {\n\n    console.warn(\n\n      \"[phase736] render-native guard failed\",\n\n      error\n\n    );\n\n    return null;\n\n  }\n\n}\n\n\n\nfunction phase736EscapeRenderNativeText(value) {\n\n  return String(value ?? \"\")\n\n    .replace(/&/g, \"&amp;\")\n\n    .replace(/</g, \"&lt;\")\n\n    .replace(/>/g, \"&gt;\")\n\n    .replace(/\"/g, \"&quot;\")\n\n    .replace(/'/g, \"&#039;\");\n\n}\n\nfunction phase736RenderNativeToneClass(tone) {\n\n  const normalized = String(tone || \"info\").toLowerCase();\n\n  if (normalized.includes(\"ready\")) return \"phase736-tone-ready\";\n\n  if (normalized.includes(\"blocked\")) return \"phase736-tone-blocked\";\n\n  if (normal"
+            },
+            {
+              "index": 45807,
+              "excerpt": "\n\n  function \n\nfunction phase736RenderNativeDashboardGuard(payload) {\n\n  try {\n\n    if (!payload || typeof payload !== \"object\") {\n\n      return null;\n\n    }\n\n    const schemaVersion =\n\n      payload.schemaVersion || \"\";\n\n    const renderMode =\n\n      payload.renderMode || \"\";\n\n    const rendererTarget =\n\n      payload.rendererTarget || \"\";\n\n    const isRenderNative =\n\n      schemaVersion.includes(\"render-native\") ||\n\n      renderMode.includes(\"render-native\") ||\n\n      rendererTarget.includes(\"render-native\");\n\n    if (!isRenderNative) {\n\n      return null;\n\n    }\n\n    return {\n\n      renderNative: true,\n\n      payload,\n\n    };\n\n  } catch (error) {\n\n    console.warn(\n\n      \"[phase736] render-native guard failed\",\n\n      error\n\n    );\n\n    return null;\n\n  }\n\n}\n\n\n\nfunction phase736EscapeRenderNativeText(value) {\n\n  return String(value ?? \"\")\n\n    .replace(/&/g, \"&amp;\")\n\n    .replace(/</g, \"&lt;\")\n\n    .replace(/>/g, \"&gt;\")\n\n    .replace(/\"/g, \"&quot;\")\n\n    .replace(/'/g, \"&#039;\");\n\n}\n\nfunction phase736RenderNativeToneClass(tone) {\n\n  const normalized = String(tone || \"info\").toLowerCase();\n\n  if (normalized.includes(\"ready\")) return \"phase736-tone-ready\";\n\n  if (normalized.includes(\"blocked\")) return \"phase736-tone-blocked\";\n\n  if (normalized.includes(\"warning\")) return \"phase736-tone-war"
+            },
+            {
+              "index": 46003,
+              "excerpt": "oad.schemaVersion || \"\";\n\n    const renderMode =\n\n      payload.renderMode || \"\";\n\n    const rendererTarget =\n\n      payload.rendererTarget || \"\";\n\n    const isRenderNative =\n\n      schemaVersion.includes(\"render-native\") ||\n\n      renderMode.includes(\"render-native\") ||\n\n      rendererTarget.includes(\"render-native\");\n\n    if (!isRenderNative) {\n\n      return null;\n\n    }\n\n    return {\n\n      renderNative: true,\n\n      payload,\n\n    };\n\n  } catch (error) {\n\n    console.warn(\n\n      \"[phase736] render-native guard failed\",\n\n      error\n\n    );\n\n    return null;\n\n  }\n\n}\n\n\n\nfunction phase736EscapeRenderNativeText(value) {\n\n  return String(value ?? \"\")\n\n    .replace(/&/g, \"&amp;\")\n\n    .replace(/</g, \"&lt;\")\n\n    .replace(/>/g, \"&gt;\")\n\n    .replace(/\"/g, \"&quot;\")\n\n    .replace(/'/g, \"&#039;\");\n\n}\n\nfunction phase736RenderNativeToneClass(tone) {\n\n  const normalized = String(tone || \"info\").toLowerCase();\n\n  if (normalized.includes(\"ready\")) return \"phase736-tone-ready\";\n\n  if (normalized.includes(\"blocked\")) return \"phase736-tone-blocked\";\n\n  if (normalized.includes(\"warning\")) return \"phase736-tone-warning\";\n\n  if (normalized.includes(\"critical\")) return \"phase736-tone-critical\";\n\n  return \"phase736-tone-info\";\n\n}\n\nfunction phase736RenderNativePanel(panel) {\n\n  const payload = panel && panel.pa"
+            },
+            {
+              "index": 51367,
+              "excerpt": "derNativeText(dashboard?.title || renderNativePayload?.dashboardShell?.title || \"Render-Native Dashboard\");\n\n  const subtitle = phase736EscapeRenderNativeText(dashboard?.subtitle || renderNativePayload?.dashboardShell?.subtitle || \"Governed visual artifact\");\n\n  const theme = dashboard?.theme || renderNativePayload?.dashboardShell?.theme || {};\n\n  const accents = Array.isArray(theme.accents) ? theme.accents : [\"teal\", \"violet\", \"amber\", \"coral\", \"emerald\"];\n\n  return `\n\n    <div class=\"phase736-render-native-dashboard\" data-phase736-render-native-dashboard=\"true\">\n\n      <style>\n\n        .phase736-render-native-dashboard {\n\n          background: radial-gradient(circle at top left, rgba(45, 212, 191, 0.24), transparent 34%),\n\n                      radial-gradient(circle at top right, rgba(168, 85, 247, 0.22), transparent 30%),\n\n                      linear-gradient(135deg, #07111f 0%, #111827 48%, #1e1b4b 100%);\n\n          color: #f8fafc;\n\n          border-radius: 24px;\n\n          padding: 24px;\n\n          font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, \"Segoe UI\", sans-serif;\n\n          box-shadow: 0 24px 80px rgba(15, 23, 42, 0.42);\n\n        }\n\n        .phase736-dashboard-hero {\n\n          display: grid;\n\n          gap: 12px;\n\n          margin-bottom: 22px;\n\n"
+            },
+            {
+              "index": 51406,
+              "excerpt": "rNativePayload?.dashboardShell?.title || \"Render-Native Dashboard\");\n\n  const subtitle = phase736EscapeRenderNativeText(dashboard?.subtitle || renderNativePayload?.dashboardShell?.subtitle || \"Governed visual artifact\");\n\n  const theme = dashboard?.theme || renderNativePayload?.dashboardShell?.theme || {};\n\n  const accents = Array.isArray(theme.accents) ? theme.accents : [\"teal\", \"violet\", \"amber\", \"coral\", \"emerald\"];\n\n  return `\n\n    <div class=\"phase736-render-native-dashboard\" data-phase736-render-native-dashboard=\"true\">\n\n      <style>\n\n        .phase736-render-native-dashboard {\n\n          background: radial-gradient(circle at top left, rgba(45, 212, 191, 0.24), transparent 34%),\n\n                      radial-gradient(circle at top right, rgba(168, 85, 247, 0.22), transparent 30%),\n\n                      linear-gradient(135deg, #07111f 0%, #111827 48%, #1e1b4b 100%);\n\n          color: #f8fafc;\n\n          border-radius: 24px;\n\n          padding: 24px;\n\n          font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, \"Segoe UI\", sans-serif;\n\n          box-shadow: 0 24px 80px rgba(15, 23, 42, 0.42);\n\n        }\n\n        .phase736-dashboard-hero {\n\n          display: grid;\n\n          gap: 12px;\n\n          margin-bottom: 22px;\n\n          padding: 22px;\n\n          bor"
+            },
+            {
+              "index": 51472,
+              "excerpt": ");\n\n  const subtitle = phase736EscapeRenderNativeText(dashboard?.subtitle || renderNativePayload?.dashboardShell?.subtitle || \"Governed visual artifact\");\n\n  const theme = dashboard?.theme || renderNativePayload?.dashboardShell?.theme || {};\n\n  const accents = Array.isArray(theme.accents) ? theme.accents : [\"teal\", \"violet\", \"amber\", \"coral\", \"emerald\"];\n\n  return `\n\n    <div class=\"phase736-render-native-dashboard\" data-phase736-render-native-dashboard=\"true\">\n\n      <style>\n\n        .phase736-render-native-dashboard {\n\n          background: radial-gradient(circle at top left, rgba(45, 212, 191, 0.24), transparent 34%),\n\n                      radial-gradient(circle at top right, rgba(168, 85, 247, 0.22), transparent 30%),\n\n                      linear-gradient(135deg, #07111f 0%, #111827 48%, #1e1b4b 100%);\n\n          color: #f8fafc;\n\n          border-radius: 24px;\n\n          padding: 24px;\n\n          font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, \"Segoe UI\", sans-serif;\n\n          box-shadow: 0 24px 80px rgba(15, 23, 42, 0.42);\n\n        }\n\n        .phase736-dashboard-hero {\n\n          display: grid;\n\n          gap: 12px;\n\n          margin-bottom: 22px;\n\n          padding: 22px;\n\n          border: 1px solid rgba(148, 163, 184, 0.24);\n\n          border-radius"
+            }
+          ]
+        },
+        {
+          "token": "metadata",
+          "count": 0,
+          "indexes": [],
+          "contexts": []
+        },
+        {
+          "token": "result",
+          "count": 0,
+          "indexes": [],
+          "contexts": []
+        },
+        {
+          "token": "task",
+          "count": 90,
+          "indexes": [
+            1525,
+            1628,
+            1637,
+            1656,
+            1666,
+            1751,
+            1833,
+            1848,
+            1905,
+            1927,
+            1940,
+            1954,
+            1967,
+            1978,
+            2037,
+            2050,
+            2070,
+            2098,
+            2128,
+            2376,
+            2439,
+            2468,
+            3929,
+            3944,
+            5001,
+            5039,
+            5098,
+            5498,
+            5508,
+            5747,
+            6350,
+            6361,
+            6375,
+            8457,
+            8468,
+            8482,
+            8550,
+            8809,
+            8820,
+            8834,
+            8900,
+            10436,
+            10626,
+            11105,
+            11114,
+            11253,
+            11361,
+            20011,
+            20033,
+            20056,
+            20148,
+            20370,
+            20383,
+            20402,
+            20421,
+            20767,
+            21241,
+            21499,
+            21537,
+            21546,
+            21883,
+            23365,
+            23400,
+            23422,
+            23460,
+            23564,
+            23586,
+            23883,
+            23925,
+            23995,
+            31040,
+            31056,
+            31539,
+            33895,
+            33961,
+            34040,
+            36883,
+            37014,
+            59874,
+            59912,
+            59959,
+            59994,
+            60536,
+            60575,
+            60585,
+            60598,
+            61017,
+            61057,
+            61169,
+            61196
+          ],
+          "contexts": [
+            {
+              "index": 1525,
+              "excerpt": "(75,85,99,.9);background:rgba(17,24,39,.72);border-radius:1rem;padding:1rem;display:flex;flex-direction:column;justify-content:space-between;\">\n            <div>\n              <div style=\"font-weight:800;color:#e5e7eb;font-size:1rem;line-height:1.2;\">${esc(agent.agent_name)}</div>\n              <div style=\"font-size:.82rem;color:#94a3b8;margin-top:.35rem;\">${esc(agent.status)}</div>\n            </div>\n            <div style=\"font-size:.84rem;color:#cbd5e1;margin-top:.65rem;\">${esc(agent.current_task || \"Available\")}</div>\n          </div>\n        `).join(\"\")}\n      </div>\n    `;\n  }\n\n\n  function taskRows(tasks) {\n\n    if (!tasks || !tasks.length) {\n\n      return `<div style=\"color:#94a3b8;font-size:.8rem;\">No recent tasks yet.</div>`;\n\n    }\n\n      const phase718TaskTitleByKey = new Map();\n\n      tasks.forEach((taskForTitle) => {\n\n        const readableTitle = String(taskForTitle.title || taskForTitle.task_title || taskForTitle.task_id || taskForTitle.id || \"\");\n\n        const keys = [\n\n          taskForTitle.task_id,\n\n          taskForTitle.id,\n\n          taskForTitle.uuid,\n\n          taskForTitle.execution_id\n\n        ].filter(Boolean).map(String);\n\n        keys.forEach((key) => {\n\n          if (key && readableTitle) {\n\n            phase718TaskTitleByKey.set(key, readableTitle);\n\n "
+            },
+            {
+              "index": 1628,
+              "excerpt": ":column;justify-content:space-between;\">\n            <div>\n              <div style=\"font-weight:800;color:#e5e7eb;font-size:1rem;line-height:1.2;\">${esc(agent.agent_name)}</div>\n              <div style=\"font-size:.82rem;color:#94a3b8;margin-top:.35rem;\">${esc(agent.status)}</div>\n            </div>\n            <div style=\"font-size:.84rem;color:#cbd5e1;margin-top:.65rem;\">${esc(agent.current_task || \"Available\")}</div>\n          </div>\n        `).join(\"\")}\n      </div>\n    `;\n  }\n\n\n  function taskRows(tasks) {\n\n    if (!tasks || !tasks.length) {\n\n      return `<div style=\"color:#94a3b8;font-size:.8rem;\">No recent tasks yet.</div>`;\n\n    }\n\n      const phase718TaskTitleByKey = new Map();\n\n      tasks.forEach((taskForTitle) => {\n\n        const readableTitle = String(taskForTitle.title || taskForTitle.task_title || taskForTitle.task_id || taskForTitle.id || \"\");\n\n        const keys = [\n\n          taskForTitle.task_id,\n\n          taskForTitle.id,\n\n          taskForTitle.uuid,\n\n          taskForTitle.execution_id\n\n        ].filter(Boolean).map(String);\n\n        keys.forEach((key) => {\n\n          if (key && readableTitle) {\n\n            phase718TaskTitleByKey.set(key, readableTitle);\n\n          }\n\n        });\n\n      });\n\n    return tasks.map((t) => {\n\n      const rawTitle = String(t.titl"
+            },
+            {
+              "index": 1637,
+              "excerpt": "ustify-content:space-between;\">\n            <div>\n              <div style=\"font-weight:800;color:#e5e7eb;font-size:1rem;line-height:1.2;\">${esc(agent.agent_name)}</div>\n              <div style=\"font-size:.82rem;color:#94a3b8;margin-top:.35rem;\">${esc(agent.status)}</div>\n            </div>\n            <div style=\"font-size:.84rem;color:#cbd5e1;margin-top:.65rem;\">${esc(agent.current_task || \"Available\")}</div>\n          </div>\n        `).join(\"\")}\n      </div>\n    `;\n  }\n\n\n  function taskRows(tasks) {\n\n    if (!tasks || !tasks.length) {\n\n      return `<div style=\"color:#94a3b8;font-size:.8rem;\">No recent tasks yet.</div>`;\n\n    }\n\n      const phase718TaskTitleByKey = new Map();\n\n      tasks.forEach((taskForTitle) => {\n\n        const readableTitle = String(taskForTitle.title || taskForTitle.task_title || taskForTitle.task_id || taskForTitle.id || \"\");\n\n        const keys = [\n\n          taskForTitle.task_id,\n\n          taskForTitle.id,\n\n          taskForTitle.uuid,\n\n          taskForTitle.execution_id\n\n        ].filter(Boolean).map(String);\n\n        keys.forEach((key) => {\n\n          if (key && readableTitle) {\n\n            phase718TaskTitleByKey.set(key, readableTitle);\n\n          }\n\n        });\n\n      });\n\n    return tasks.map((t) => {\n\n      const rawTitle = String(t.title || t.ta"
+            },
+            {
+              "index": 1656,
+              "excerpt": "e-between;\">\n            <div>\n              <div style=\"font-weight:800;color:#e5e7eb;font-size:1rem;line-height:1.2;\">${esc(agent.agent_name)}</div>\n              <div style=\"font-size:.82rem;color:#94a3b8;margin-top:.35rem;\">${esc(agent.status)}</div>\n            </div>\n            <div style=\"font-size:.84rem;color:#cbd5e1;margin-top:.65rem;\">${esc(agent.current_task || \"Available\")}</div>\n          </div>\n        `).join(\"\")}\n      </div>\n    `;\n  }\n\n\n  function taskRows(tasks) {\n\n    if (!tasks || !tasks.length) {\n\n      return `<div style=\"color:#94a3b8;font-size:.8rem;\">No recent tasks yet.</div>`;\n\n    }\n\n      const phase718TaskTitleByKey = new Map();\n\n      tasks.forEach((taskForTitle) => {\n\n        const readableTitle = String(taskForTitle.title || taskForTitle.task_title || taskForTitle.task_id || taskForTitle.id || \"\");\n\n        const keys = [\n\n          taskForTitle.task_id,\n\n          taskForTitle.id,\n\n          taskForTitle.uuid,\n\n          taskForTitle.execution_id\n\n        ].filter(Boolean).map(String);\n\n        keys.forEach((key) => {\n\n          if (key && readableTitle) {\n\n            phase718TaskTitleByKey.set(key, readableTitle);\n\n          }\n\n        });\n\n      });\n\n    return tasks.map((t) => {\n\n      const rawTitle = String(t.title || t.task_id || t.id || \"U"
+            },
+            {
+              "index": 1666,
+              "excerpt": "\">\n            <div>\n              <div style=\"font-weight:800;color:#e5e7eb;font-size:1rem;line-height:1.2;\">${esc(agent.agent_name)}</div>\n              <div style=\"font-size:.82rem;color:#94a3b8;margin-top:.35rem;\">${esc(agent.status)}</div>\n            </div>\n            <div style=\"font-size:.84rem;color:#cbd5e1;margin-top:.65rem;\">${esc(agent.current_task || \"Available\")}</div>\n          </div>\n        `).join(\"\")}\n      </div>\n    `;\n  }\n\n\n  function taskRows(tasks) {\n\n    if (!tasks || !tasks.length) {\n\n      return `<div style=\"color:#94a3b8;font-size:.8rem;\">No recent tasks yet.</div>`;\n\n    }\n\n      const phase718TaskTitleByKey = new Map();\n\n      tasks.forEach((taskForTitle) => {\n\n        const readableTitle = String(taskForTitle.title || taskForTitle.task_title || taskForTitle.task_id || taskForTitle.id || \"\");\n\n        const keys = [\n\n          taskForTitle.task_id,\n\n          taskForTitle.id,\n\n          taskForTitle.uuid,\n\n          taskForTitle.execution_id\n\n        ].filter(Boolean).map(String);\n\n        keys.forEach((key) => {\n\n          if (key && readableTitle) {\n\n            phase718TaskTitleByKey.set(key, readableTitle);\n\n          }\n\n        });\n\n      });\n\n    return tasks.map((t) => {\n\n      const rawTitle = String(t.title || t.task_id || t.id || \"Untitled ta"
+            },
+            {
+              "index": 1751,
+              "excerpt": "e:1rem;line-height:1.2;\">${esc(agent.agent_name)}</div>\n              <div style=\"font-size:.82rem;color:#94a3b8;margin-top:.35rem;\">${esc(agent.status)}</div>\n            </div>\n            <div style=\"font-size:.84rem;color:#cbd5e1;margin-top:.65rem;\">${esc(agent.current_task || \"Available\")}</div>\n          </div>\n        `).join(\"\")}\n      </div>\n    `;\n  }\n\n\n  function taskRows(tasks) {\n\n    if (!tasks || !tasks.length) {\n\n      return `<div style=\"color:#94a3b8;font-size:.8rem;\">No recent tasks yet.</div>`;\n\n    }\n\n      const phase718TaskTitleByKey = new Map();\n\n      tasks.forEach((taskForTitle) => {\n\n        const readableTitle = String(taskForTitle.title || taskForTitle.task_title || taskForTitle.task_id || taskForTitle.id || \"\");\n\n        const keys = [\n\n          taskForTitle.task_id,\n\n          taskForTitle.id,\n\n          taskForTitle.uuid,\n\n          taskForTitle.execution_id\n\n        ].filter(Boolean).map(String);\n\n        keys.forEach((key) => {\n\n          if (key && readableTitle) {\n\n            phase718TaskTitleByKey.set(key, readableTitle);\n\n          }\n\n        });\n\n      });\n\n    return tasks.map((t) => {\n\n      const rawTitle = String(t.title || t.task_id || t.id || \"Untitled task\");\n\n      const retryTitleMatch = rawTitle.match(/^(retry differently|requeue)\\s+("
+            },
+            {
+              "index": 1833,
+              "excerpt": "font-size:.82rem;color:#94a3b8;margin-top:.35rem;\">${esc(agent.status)}</div>\n            </div>\n            <div style=\"font-size:.84rem;color:#cbd5e1;margin-top:.65rem;\">${esc(agent.current_task || \"Available\")}</div>\n          </div>\n        `).join(\"\")}\n      </div>\n    `;\n  }\n\n\n  function taskRows(tasks) {\n\n    if (!tasks || !tasks.length) {\n\n      return `<div style=\"color:#94a3b8;font-size:.8rem;\">No recent tasks yet.</div>`;\n\n    }\n\n      const phase718TaskTitleByKey = new Map();\n\n      tasks.forEach((taskForTitle) => {\n\n        const readableTitle = String(taskForTitle.title || taskForTitle.task_title || taskForTitle.task_id || taskForTitle.id || \"\");\n\n        const keys = [\n\n          taskForTitle.task_id,\n\n          taskForTitle.id,\n\n          taskForTitle.uuid,\n\n          taskForTitle.execution_id\n\n        ].filter(Boolean).map(String);\n\n        keys.forEach((key) => {\n\n          if (key && readableTitle) {\n\n            phase718TaskTitleByKey.set(key, readableTitle);\n\n          }\n\n        });\n\n      });\n\n    return tasks.map((t) => {\n\n      const rawTitle = String(t.title || t.task_id || t.id || \"Untitled task\");\n\n      const retryTitleMatch = rawTitle.match(/^(retry differently|requeue)\\s+(t_[a-f0-9-]+)$/i);\n\n      const phase718ResolveBaseTitle = (candidateTitle, depth "
+            },
+            {
+              "index": 1848,
+              "excerpt": "m;color:#94a3b8;margin-top:.35rem;\">${esc(agent.status)}</div>\n            </div>\n            <div style=\"font-size:.84rem;color:#cbd5e1;margin-top:.65rem;\">${esc(agent.current_task || \"Available\")}</div>\n          </div>\n        `).join(\"\")}\n      </div>\n    `;\n  }\n\n\n  function taskRows(tasks) {\n\n    if (!tasks || !tasks.length) {\n\n      return `<div style=\"color:#94a3b8;font-size:.8rem;\">No recent tasks yet.</div>`;\n\n    }\n\n      const phase718TaskTitleByKey = new Map();\n\n      tasks.forEach((taskForTitle) => {\n\n        const readableTitle = String(taskForTitle.title || taskForTitle.task_title || taskForTitle.task_id || taskForTitle.id || \"\");\n\n        const keys = [\n\n          taskForTitle.task_id,\n\n          taskForTitle.id,\n\n          taskForTitle.uuid,\n\n          taskForTitle.execution_id\n\n        ].filter(Boolean).map(String);\n\n        keys.forEach((key) => {\n\n          if (key && readableTitle) {\n\n            phase718TaskTitleByKey.set(key, readableTitle);\n\n          }\n\n        });\n\n      });\n\n    return tasks.map((t) => {\n\n      const rawTitle = String(t.title || t.task_id || t.id || \"Untitled task\");\n\n      const retryTitleMatch = rawTitle.match(/^(retry differently|requeue)\\s+(t_[a-f0-9-]+)$/i);\n\n      const phase718ResolveBaseTitle = (candidateTitle, depth = 0) => {\n\n    "
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "recommendation": "Prefer adding structured render-native payload metadata upstream of Preview HTML transport instead of mutating sanitizer/decode renderer internals."
+}
