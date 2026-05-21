@@ -1,0 +1,87 @@
+{
+  "schemaVersion": "phase736.outcome-preview-chained-json-body-isolation.v1",
+  "generatedAt": "2026-05-21T17:36:39.688Z",
+  "mode": "read-only",
+  "sourceFile": "RENDERER_INSPECTION/outcome-preview-success-candidate-narrowing-2026-05-21T17-28-54-548Z.json",
+  "targetFile": "server/routes/api-tasks-postgres.mjs",
+  "bodyCount": 3,
+  "bodies": [
+    {
+      "candidateIndex": 956,
+      "score": 21,
+      "routeSignals": {
+        "hasArtifactPreviewToken": true,
+        "hasOutcomePreviewProjection": true,
+        "hasTaskIdParam": true,
+        "hasRowsReference": true,
+        "hasStatus200Json": true,
+        "hasPayloadReference": true,
+        "hasPreviewReference": true
+      },
+      "bodyFound": true,
+      "body": {
+        "callIndex": 900,
+        "jsonParen": 920,
+        "endIndex": 933,
+        "semicolonIndex": 934,
+        "callText": "res.status(200).json({ ok: true });",
+        "jsonArgument": "{ ok: true }"
+      },
+      "containsRenderNativePayload": false,
+      "containsOutcomePreview": false,
+      "containsPayload": false
+    },
+    {
+      "candidateIndex": 1052,
+      "score": 21,
+      "routeSignals": {
+        "hasArtifactPreviewToken": true,
+        "hasOutcomePreviewProjection": true,
+        "hasTaskIdParam": true,
+        "hasRowsReference": true,
+        "hasStatus200Json": true,
+        "hasPayloadReference": true,
+        "hasPreviewReference": true
+      },
+      "bodyFound": true,
+      "body": {
+        "callIndex": 804,
+        "jsonParen": 824,
+        "endIndex": 837,
+        "semicolonIndex": 838,
+        "callText": "res.status(200).json({ ok: true });",
+        "jsonArgument": "{ ok: true }"
+      },
+      "containsRenderNativePayload": false,
+      "containsOutcomePreview": false,
+      "containsPayload": false
+    },
+    {
+      "candidateIndex": 2424,
+      "score": 21,
+      "routeSignals": {
+        "hasArtifactPreviewToken": true,
+        "hasOutcomePreviewProjection": true,
+        "hasTaskIdParam": true,
+        "hasRowsReference": true,
+        "hasStatus200Json": true,
+        "hasPayloadReference": true,
+        "hasPreviewReference": true
+      },
+      "bodyFound": true,
+      "body": {
+        "callIndex": 900,
+        "jsonParen": 920,
+        "endIndex": 954,
+        "semicolonIndex": 955,
+        "callText": "res.status(200).json({ ok: true, tasks: r.rows || [] });",
+        "jsonArgument": "{ ok: true, tasks: r.rows || [] }"
+      },
+      "containsRenderNativePayload": false,
+      "containsOutcomePreview": false,
+      "containsPayload": false
+    }
+  ],
+  "recommendation": "Compare chained res.status(200).json(...) bodies and patch only the authoritative preview success response object.",
+  "mutationBoundary": "No mutation performed. Chained response-object isolation only."
+}
