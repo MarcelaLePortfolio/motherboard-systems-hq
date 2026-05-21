@@ -1,0 +1,42 @@
+{
+  "schemaVersion": "phase736.preview-consumer-data-field-extraction.v1",
+  "generatedAt": "2026-05-21T17:51:22.196Z",
+  "mode": "read-only",
+  "targetFile": "public/js/phase530_visible_panels_bridge.js",
+  "anchorIndex": 61205,
+  "uniqueFields": [
+    "ok",
+    "error",
+    "artifact",
+    "content"
+  ],
+  "fields": [
+    {
+      "field": "ok",
+      "index": 2330,
+      "context": "yle.display = \"flex\";\n\n    if (!taskId) {\n\n      body.textContent = \"No task id available for artifact preview.\";\n\n      return;\n\n    }\n\n    try {\n\n      const res = await fetch(`/api/tasks/${encodeURIComponent(taskId)}/artifact-preview`, { cache: \"no-store\" });\n\n      const data = await res.json().catch(() => null);\n\n      if (!res.ok || !data || data.ok !== true) {\n\n        body.textContent = [\n\n          \"Rendered artifact content is not available.\",\n\n          data && data.error ? \"Error: \" + data.error : \"\",\n\n          fallbackOutcome ? \"\\nOutcome:\\n\" + fallbackOutcome : \"\",\n\n          fallbackExplanation ? \"\\nExplanation:\\n\" + fallbackExplanation : \"\"\n\n        ].filter(Boolean).join(\"\\n\");\n\n        return;\n\n      }\n\n      const artifact = data.artifact || {};\n\n      const renderedName = artifact.filename || fallbackName;\n\n      const renderedType = artifact.type || fallbackType;\n\n      const renderedSize = artifact.size_bytes ? String(artifact.size_bytes) + \" bytes\" : fallbackSize;\n\n      const renderedCreated = artifact.created_at || "
+    },
+    {
+      "field": "error",
+      "index": 2457,
+      "context": ";\n\n    }\n\n    try {\n\n      const res = await fetch(`/api/tasks/${encodeURIComponent(taskId)}/artifact-preview`, { cache: \"no-store\" });\n\n      const data = await res.json().catch(() => null);\n\n      if (!res.ok || !data || data.ok !== true) {\n\n        body.textContent = [\n\n          \"Rendered artifact content is not available.\",\n\n          data && data.error ? \"Error: \" + data.error : \"\",\n\n          fallbackOutcome ? \"\\nOutcome:\\n\" + fallbackOutcome : \"\",\n\n          fallbackExplanation ? \"\\nExplanation:\\n\" + fallbackExplanation : \"\"\n\n        ].filter(Boolean).join(\"\\n\");\n\n        return;\n\n      }\n\n      const artifact = data.artifact || {};\n\n      const renderedName = artifact.filename || fallbackName;\n\n      const renderedType = artifact.type || fallbackType;\n\n      const renderedSize = artifact.size_bytes ? String(artifact.size_bytes) + \" bytes\" : fallbackSize;\n\n      const renderedCreated = artifact.created_at || \"\";\n\n      meta.textContent = [\n\n        \"artifact: \" + renderedName,\n\n        renderedType ? \"type: \" + renderedType : \"\",\n\n     "
+    },
+    {
+      "field": "error",
+      "index": 2482,
+      "context": "  const res = await fetch(`/api/tasks/${encodeURIComponent(taskId)}/artifact-preview`, { cache: \"no-store\" });\n\n      const data = await res.json().catch(() => null);\n\n      if (!res.ok || !data || data.ok !== true) {\n\n        body.textContent = [\n\n          \"Rendered artifact content is not available.\",\n\n          data && data.error ? \"Error: \" + data.error : \"\",\n\n          fallbackOutcome ? \"\\nOutcome:\\n\" + fallbackOutcome : \"\",\n\n          fallbackExplanation ? \"\\nExplanation:\\n\" + fallbackExplanation : \"\"\n\n        ].filter(Boolean).join(\"\\n\");\n\n        return;\n\n      }\n\n      const artifact = data.artifact || {};\n\n      const renderedName = artifact.filename || fallbackName;\n\n      const renderedType = artifact.type || fallbackType;\n\n      const renderedSize = artifact.size_bytes ? String(artifact.size_bytes) + \" bytes\" : fallbackSize;\n\n      const renderedCreated = artifact.created_at || \"\";\n\n      meta.textContent = [\n\n        \"artifact: \" + renderedName,\n\n        renderedType ? \"type: \" + renderedType : \"\",\n\n        renderedSize ? \"size: "
+    },
+    {
+      "field": "artifact",
+      "index": 2735,
+      "context": "      \"Rendered artifact content is not available.\",\n\n          data && data.error ? \"Error: \" + data.error : \"\",\n\n          fallbackOutcome ? \"\\nOutcome:\\n\" + fallbackOutcome : \"\",\n\n          fallbackExplanation ? \"\\nExplanation:\\n\" + fallbackExplanation : \"\"\n\n        ].filter(Boolean).join(\"\\n\");\n\n        return;\n\n      }\n\n      const artifact = data.artifact || {};\n\n      const renderedName = artifact.filename || fallbackName;\n\n      const renderedType = artifact.type || fallbackType;\n\n      const renderedSize = artifact.size_bytes ? String(artifact.size_bytes) + \" bytes\" : fallbackSize;\n\n      const renderedCreated = artifact.created_at || \"\";\n\n      meta.textContent = [\n\n        \"artifact: \" + renderedName,\n\n        renderedType ? \"type: \" + renderedType : \"\",\n\n        renderedSize ? \"size: \" + renderedSize : \"\",\n\n        renderedCreated ? \"created: \" + renderedCreated : \"\"\n\n      ].filter(Boolean).join(\"\\n\");\n\n      body.innerHTML = phase719RenderMarkdownArtifactPreview(data.content);\n\n      body.querySelectorAll(\"[data-phase735-visual-html-"
+    },
+    {
+      "field": "content",
+      "index": 3376,
+      "context": "ated_at || \"\";\n\n      meta.textContent = [\n\n        \"artifact: \" + renderedName,\n\n        renderedType ? \"type: \" + renderedType : \"\",\n\n        renderedSize ? \"size: \" + renderedSize : \"\",\n\n        renderedCreated ? \"created: \" + renderedCreated : \"\"\n\n      ].filter(Boolean).join(\"\\n\");\n\n      body.innerHTML = phase719RenderMarkdownArtifactPreview(data.content);\n\n      body.querySelectorAll(\"[data-phase735-visual-html-mount]\").forEach((phase735Mount) => {\n\n        const template = phase735Mount.parentElement\n\n          ? phase735Mount.parentElement.querySelector(\"[data-phase735-visual-html-template]\")\n\n          : null;\n\n        const templateHtml = template ? template.textContent : \"\";\n\n        try {\n\n          const decoded = phase735DecodeVisualArtifactHtmlTransport(templateHtml);\n\n          phase735Mount.innerHTML = phase723SanitizeVisualArtifactHtml(decoded);\n\n          if (template) template.remove();\n\n        } catch (error) {\n\n          phase735Mount.textContent = \"Unable to render artifact preview.\";\n\n        }\n\n      });\n\n    } catch (e"
+    }
+  ],
+  "recommendation": "Use extracted data field reads to define the frontend preview response contract before adding render-native payload routing.",
+  "mutationBoundary": "No mutation performed. Data-field extraction only."
+}
