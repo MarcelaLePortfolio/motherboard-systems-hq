@@ -1,0 +1,243 @@
+{
+  "schemaVersion": "phase736.outcome-preview-success-response-branch.v1",
+  "generatedAt": "2026-05-21T17:20:18.329Z",
+  "mode": "read-only",
+  "targetFile": "server/routes/api-tasks-postgres.mjs",
+  "token": "completed.payload->>'outcome_preview' AS outcome_preview",
+  "tokenIndex": 1798,
+  "excerptLength": 11298,
+  "findings": [
+    {
+      "marker": "SELECT",
+      "count": 4,
+      "indexes": [
+        1671,
+        2125,
+        2994,
+        3162
+      ]
+    },
+    {
+      "marker": "FROM",
+      "count": 4,
+      "indexes": [
+        2078,
+        2151,
+        3113,
+        3189
+      ]
+    },
+    {
+      "marker": "rows[0]",
+      "count": 0,
+      "indexes": []
+    },
+    {
+      "marker": "res.status(200)",
+      "count": 6,
+      "indexes": [
+        956,
+        1052,
+        2424,
+        4352,
+        8854,
+        10090
+      ]
+    },
+    {
+      "marker": ".json(",
+      "count": 24,
+      "indexes": [
+        741,
+        971,
+        1067,
+        2439,
+        2573,
+        2873,
+        3523,
+        3756,
+        4087,
+        4219,
+        4367,
+        4762,
+        7629,
+        7890,
+        7997,
+        8476,
+        8869,
+        9122,
+        9229,
+        9710,
+        10105,
+        10358,
+        10465,
+        11029
+      ]
+    },
+    {
+      "marker": "outcome_preview",
+      "count": 2,
+      "indexes": [
+        1819,
+        1839
+      ]
+    },
+    {
+      "marker": "artifact",
+      "count": 30,
+      "indexes": [
+        1958,
+        1971,
+        2009,
+        2023,
+        2665,
+        2713,
+        3030,
+        3043,
+        3082,
+        3096,
+        3588,
+        3610,
+        3648,
+        3665,
+        3697,
+        3710,
+        3783,
+        3825,
+        3881,
+        3939,
+        3994,
+        4114,
+        4246,
+        4423,
+        4454,
+        4496,
+        4540,
+        4590,
+        4700,
+        4789
+      ]
+    },
+    {
+      "marker": "preview",
+      "count": 8,
+      "indexes": [
+        1827,
+        1847,
+        1897,
+        1921,
+        2674,
+        2722,
+        4709,
+        4798
+      ]
+    },
+    {
+      "marker": "payload",
+      "count": 24,
+      "indexes": [
+        1808,
+        1874,
+        1948,
+        1999,
+        2052,
+        2135,
+        3020,
+        3072,
+        3172,
+        5445,
+        5472,
+        5505,
+        5533,
+        5560,
+        5589,
+        6346,
+        6673,
+        6705,
+        6720,
+        7122,
+        7390,
+        8712,
+        9943,
+        11264
+      ]
+    },
+    {
+      "marker": "return",
+      "count": 25,
+      "indexes": [
+        461,
+        501,
+        552,
+        588,
+        616,
+        801,
+        820,
+        1532,
+        2851,
+        3501,
+        3734,
+        4065,
+        4197,
+        4345,
+        4740,
+        5014,
+        7868,
+        8340,
+        8454,
+        9100,
+        9574,
+        9688,
+        10336,
+        10893,
+        11007
+      ]
+    }
+  ],
+  "responseCandidates": [
+    {
+      "index": 956,
+      "containsOutcomePreview": true,
+      "containsRows0": false,
+      "containsArtifact": true,
+      "excerpt": "o\";\nimport fs from \"fs\";\nimport path from \"path\";\n\nconsole.log(\"[phase25] api-tasks-postgres loaded\", new Date().toISOString(), \"file=\", import.meta.url);\nimport { emitTaskEvent } from \"../task_events_emit.mjs\";\nimport { PolicyEnforcedError, assertNotEnforced } from \"../policy/enforce.mjs\";\n\nexport const apiTasksRouter = express.Router();\n\nfunction _asJson(req) {\n  const b = req.body;\n  if (b == null) return {};\n  if (typeof b === \"object\") return b;\n  if (typeof b === \"string\") {\n    try { return JSON.parse(b); } catch (_) { return { _raw: b }; }\n  }\n  return { _raw: b };\n}\n\nfunction _getPoolOrFail(res) {\n  const pool = globalThis.__DB_POOL;\n  if (!pool) {\n    res.status(500).json({ ok: false, error: \"db_pool_not_initialized\" });\n    return null;\n  }\n  return pool;\n}\n\n// Health (non-writing). Keep both endpoints for compatibility.\napiTasksRouter.get(\"/healthz\", async (_req, res) => {\n  res.status(200).json({ ok: true });\n});\n\napiTasksRouter.get(\"/health\", async (_req, res) => {\n  res.status(200).json({ ok: true });\n});\n\n// GET /api/tasks?limit=25  -> recent tasks for dashboard widget\napiTasksRouter.get(\"/\", async (req, res) => {\n  console.log(\"[phase57c-router] /api/tasks probe\", {\n    originalUrl: req.originalUrl,\n    baseUrl: req.baseUrl,\n    path: req.path,\n    referer: req.get(\"referer\") || null,\n    userAgent: req.get(\"user-agent\") || null,\n    accept: req.get(\"accept\") || null,\n  });\n\n  try {\n    const pool = _getPoolOrFail(res);\n    if (!pool) return;\n\n    const limit = Math.max(1, Math.min(200, Number(req.query?.limit ?? 25) || 25));\n    const r = await pool.query(\n      `\n      SELECT\n        t.id,\n        t.task_id,\n        t.title,\n        t.status,\n        t.claimed_by,\n        t.updated_at,\n        completed.payload->>'outcome_preview' AS outcome_preview,\n        completed.payload->>'explanation_preview' AS explanation_preview,\n        completed.payload->'artifact' AS artifact,\n        completed.payload->'artifacts' AS artifacts,\n        completed.payload AS guidance\n      FROM tasks t\n      LEFT JOIN LATERAL (\n        SELECT te.payload\n        FROM task_events te\n        WHERE te.task_id = t.task_id\n          AND te.kind = 'task.completed'\n        ORDER BY te.id DESC\n        LIMIT 1\n      ) completed ON true\n      ORDER BY t.updated_at DESC NULLS LAST, t.id DESC\n      LIMIT $1\n      `,\n      [limit]\n    );\n\n    res.status(200).json({ ok: true, tasks: r.rows || [] });\n  } catch (e) {\n    console.error(\"[phase25] /api/tasks list error\", e);\n    res.status(500).json({ ok: false, error: e?.message || String(e) });\n  }\n});\n\n\n\n// GET /api/tasks/:task_id/artifact-preview\n\napiTasksRouter.get(\"/:task_id/artifact-preview\", async (req, res) => {\n\n  try {\n\n    const taskId = String(req.params.task_id || \"\").trim();\n\n    if (!taskId) {\n\n      return res.status(400).json({ ok: false, error: \"task_id_required\" });\n\n    }\n\n    const q = await globalThis.__DB_POOL.query(\n\n      `\n\n      SELECT\n\n        completed.payload->'artifact' AS artifact,\n\n        completed.payload->'artifacts' AS artifacts\n\n      FROM tasks t\n\n      LEFT JOIN LATERAL (\n\n        SELECT te.payload\n\n        FROM task_events te\n\n        WHERE te.task_id = t.task_id\n\n          AND te.kind = 'task.completed'\n\n        ORDER BY te.ts DESC\n\n        LIMIT 1\n\n      ) completed ON"
+    },
+    {
+      "index": 1052,
+      "containsOutcomePreview": true,
+      "containsRows0": false,
+      "containsArtifact": true,
+      "excerpt": "ded\", new Date().toISOString(), \"file=\", import.meta.url);\nimport { emitTaskEvent } from \"../task_events_emit.mjs\";\nimport { PolicyEnforcedError, assertNotEnforced } from \"../policy/enforce.mjs\";\n\nexport const apiTasksRouter = express.Router();\n\nfunction _asJson(req) {\n  const b = req.body;\n  if (b == null) return {};\n  if (typeof b === \"object\") return b;\n  if (typeof b === \"string\") {\n    try { return JSON.parse(b); } catch (_) { return { _raw: b }; }\n  }\n  return { _raw: b };\n}\n\nfunction _getPoolOrFail(res) {\n  const pool = globalThis.__DB_POOL;\n  if (!pool) {\n    res.status(500).json({ ok: false, error: \"db_pool_not_initialized\" });\n    return null;\n  }\n  return pool;\n}\n\n// Health (non-writing). Keep both endpoints for compatibility.\napiTasksRouter.get(\"/healthz\", async (_req, res) => {\n  res.status(200).json({ ok: true });\n});\n\napiTasksRouter.get(\"/health\", async (_req, res) => {\n  res.status(200).json({ ok: true });\n});\n\n// GET /api/tasks?limit=25  -> recent tasks for dashboard widget\napiTasksRouter.get(\"/\", async (req, res) => {\n  console.log(\"[phase57c-router] /api/tasks probe\", {\n    originalUrl: req.originalUrl,\n    baseUrl: req.baseUrl,\n    path: req.path,\n    referer: req.get(\"referer\") || null,\n    userAgent: req.get(\"user-agent\") || null,\n    accept: req.get(\"accept\") || null,\n  });\n\n  try {\n    const pool = _getPoolOrFail(res);\n    if (!pool) return;\n\n    const limit = Math.max(1, Math.min(200, Number(req.query?.limit ?? 25) || 25));\n    const r = await pool.query(\n      `\n      SELECT\n        t.id,\n        t.task_id,\n        t.title,\n        t.status,\n        t.claimed_by,\n        t.updated_at,\n        completed.payload->>'outcome_preview' AS outcome_preview,\n        completed.payload->>'explanation_preview' AS explanation_preview,\n        completed.payload->'artifact' AS artifact,\n        completed.payload->'artifacts' AS artifacts,\n        completed.payload AS guidance\n      FROM tasks t\n      LEFT JOIN LATERAL (\n        SELECT te.payload\n        FROM task_events te\n        WHERE te.task_id = t.task_id\n          AND te.kind = 'task.completed'\n        ORDER BY te.id DESC\n        LIMIT 1\n      ) completed ON true\n      ORDER BY t.updated_at DESC NULLS LAST, t.id DESC\n      LIMIT $1\n      `,\n      [limit]\n    );\n\n    res.status(200).json({ ok: true, tasks: r.rows || [] });\n  } catch (e) {\n    console.error(\"[phase25] /api/tasks list error\", e);\n    res.status(500).json({ ok: false, error: e?.message || String(e) });\n  }\n});\n\n\n\n// GET /api/tasks/:task_id/artifact-preview\n\napiTasksRouter.get(\"/:task_id/artifact-preview\", async (req, res) => {\n\n  try {\n\n    const taskId = String(req.params.task_id || \"\").trim();\n\n    if (!taskId) {\n\n      return res.status(400).json({ ok: false, error: \"task_id_required\" });\n\n    }\n\n    const q = await globalThis.__DB_POOL.query(\n\n      `\n\n      SELECT\n\n        completed.payload->'artifact' AS artifact,\n\n        completed.payload->'artifacts' AS artifacts\n\n      FROM tasks t\n\n      LEFT JOIN LATERAL (\n\n        SELECT te.payload\n\n        FROM task_events te\n\n        WHERE te.task_id = t.task_id\n\n          AND te.kind = 'task.completed'\n\n        ORDER BY te.ts DESC\n\n        LIMIT 1\n\n      ) completed ON true\n\n      WHERE t.task_id = $1\n\n      LIMIT 1\n\n      `,\n\n      [taskId]\n\n    );\n\n    const ro"
+    },
+    {
+      "index": 2424,
+      "containsOutcomePreview": true,
+      "containsRows0": false,
+      "containsArtifact": true,
+      "excerpt": "(!pool) return;\n\n    const limit = Math.max(1, Math.min(200, Number(req.query?.limit ?? 25) || 25));\n    const r = await pool.query(\n      `\n      SELECT\n        t.id,\n        t.task_id,\n        t.title,\n        t.status,\n        t.claimed_by,\n        t.updated_at,\n        completed.payload->>'outcome_preview' AS outcome_preview,\n        completed.payload->>'explanation_preview' AS explanation_preview,\n        completed.payload->'artifact' AS artifact,\n        completed.payload->'artifacts' AS artifacts,\n        completed.payload AS guidance\n      FROM tasks t\n      LEFT JOIN LATERAL (\n        SELECT te.payload\n        FROM task_events te\n        WHERE te.task_id = t.task_id\n          AND te.kind = 'task.completed'\n        ORDER BY te.id DESC\n        LIMIT 1\n      ) completed ON true\n      ORDER BY t.updated_at DESC NULLS LAST, t.id DESC\n      LIMIT $1\n      `,\n      [limit]\n    );\n\n    res.status(200).json({ ok: true, tasks: r.rows || [] });\n  } catch (e) {\n    console.error(\"[phase25] /api/tasks list error\", e);\n    res.status(500).json({ ok: false, error: e?.message || String(e) });\n  }\n});\n\n\n\n// GET /api/tasks/:task_id/artifact-preview\n\napiTasksRouter.get(\"/:task_id/artifact-preview\", async (req, res) => {\n\n  try {\n\n    const taskId = String(req.params.task_id || \"\").trim();\n\n    if (!taskId) {\n\n      return res.status(400).json({ ok: false, error: \"task_id_required\" });\n\n    }\n\n    const q = await globalThis.__DB_POOL.query(\n\n      `\n\n      SELECT\n\n        completed.payload->'artifact' AS artifact,\n\n        completed.payload->'artifacts' AS artifacts\n\n      FROM tasks t\n\n      LEFT JOIN LATERAL (\n\n        SELECT te.payload\n\n        FROM task_events te\n\n        WHERE te.task_id = t.task_id\n\n          AND te.kind = 'task.completed'\n\n        ORDER BY te.ts DESC\n\n        LIMIT 1\n\n      ) completed ON true\n\n      WHERE t.task_id = $1\n\n      LIMIT 1\n\n      `,\n\n      [taskId]\n\n    );\n\n    const row = q.rows?.[0] || null;\n\n    if (!row) {\n\n      return res.status(404).json({ ok: false, error: \"task_not_found\" });\n\n    }\n\n    const artifact =\n\n      row.artifact ||\n\n      (Array.isArray(row.artifacts) ? row.artifacts[0] : null);\n\n    if (!artifact || !artifact.path) {\n\n      return res.status(404).json({ ok: false, error: \"artifact_not_found\" });\n\n    }\n\n    const artifactDir = process.env.MB_ARTIFACT_DIR || \"/app/data/artifacts\";\n\n    const resolvedPath = path.resolve(String(artifact.path));\n\n    const resolvedDir = path.resolve(artifactDir);\n\n    if (!resolvedPath.startsWith(resolvedDir)) {\n\n      return res.status(403).json({ ok: false, error: \"artifact_path_rejected\" });\n\n    }\n\n    if (!fs.existsSync(resolvedPath)) {\n\n      return res.status(404).json({ ok: false, error: \"artifact_file_missing\" });\n\n    }\n\n    const content = fs.readFileSync(resolvedPath, \"utf8\");\n\n    return res.status(200).json({\n\n      ok: true,\n\n      task_id: taskId,\n\n      artifact: {\n\n        filename: artifact.filename || null,\n\n        type: artifact.type || null,\n\n        size_bytes: artifact.size_bytes || null,\n\n        created_at: artifact.created_at || null\n\n      },\n\n      content\n\n    });\n\n  } catch (e) {\n\n    console.error(\"[phase719] artifact preview route error\", e);\n\n    return res.status(500).json({ ok: false, error: \"artifact_preview_failed\" });\n\n  }\n\n"
+    },
+    {
+      "index": 4352,
+      "containsOutcomePreview": false,
+      "containsRows0": false,
+      "containsArtifact": true,
+      "excerpt": "w = q.rows?.[0] || null;\n\n    if (!row) {\n\n      return res.status(404).json({ ok: false, error: \"task_not_found\" });\n\n    }\n\n    const artifact =\n\n      row.artifact ||\n\n      (Array.isArray(row.artifacts) ? row.artifacts[0] : null);\n\n    if (!artifact || !artifact.path) {\n\n      return res.status(404).json({ ok: false, error: \"artifact_not_found\" });\n\n    }\n\n    const artifactDir = process.env.MB_ARTIFACT_DIR || \"/app/data/artifacts\";\n\n    const resolvedPath = path.resolve(String(artifact.path));\n\n    const resolvedDir = path.resolve(artifactDir);\n\n    if (!resolvedPath.startsWith(resolvedDir)) {\n\n      return res.status(403).json({ ok: false, error: \"artifact_path_rejected\" });\n\n    }\n\n    if (!fs.existsSync(resolvedPath)) {\n\n      return res.status(404).json({ ok: false, error: \"artifact_file_missing\" });\n\n    }\n\n    const content = fs.readFileSync(resolvedPath, \"utf8\");\n\n    return res.status(200).json({\n\n      ok: true,\n\n      task_id: taskId,\n\n      artifact: {\n\n        filename: artifact.filename || null,\n\n        type: artifact.type || null,\n\n        size_bytes: artifact.size_bytes || null,\n\n        created_at: artifact.created_at || null\n\n      },\n\n      content\n\n    });\n\n  } catch (e) {\n\n    console.error(\"[phase719] artifact preview route error\", e);\n\n    return res.status(500).json({ ok: false, error: \"artifact_preview_failed\" });\n\n  }\n\n});\n\n\n// POST /api/tasks/create  { task_id?, title?, agent?, run_id?, ... }\napiTasksRouter.post(\"/create\", async (req, res) => {\n  try {\n    const pool = _getPoolOrFail(res);\n    if (!pool) return;\n\n    console.log(\"[phase25] /api/tasks/create pool snapshot\", {\n      hasLocal: !!pool,\n      localType: pool?.constructor?.name,\n      hasGlobal: !!globalThis.__DB_POOL,\n      globalType: globalThis.__DB_POOL?.constructor?.name,\n    });\n\n    const b = _asJson(req);\n\n    \n\n    const taskTitle = (\n\n      b.title ??\n\n      b.description ??\n\n      b.prompt ??\n\n      b.input ??\n\n      b.message ??\n\n      b.task ??\n\n      b.payload?.title ??\n\n      b.payload?.description ??\n\n      b.payload?.prompt ??\n\n      b.payload?.input ??\n\n      b.payload?.message ??\n\n      b.payload?.task ??\n\n      null\n\n    );\n\nlet run_id = b.run_id ?? b.runId ?? null;\n    if (!run_id) run_id = `run_${crypto.randomUUID()}`;\n    run_id = String(run_id);\n\n    // Accept caller-provided task_id; otherwise create a task row + mint a stable string task_id.\n    let task_id = b.task_id ?? b.taskId ?? b.id ?? null;\n\n    // Phase52: schema-compat — task_id must never be null (tasks.task_id is NOT NULL)\n    if (!task_id) task_id = `t_${crypto.randomUUID()}`;\n\n    // Normalize to string for lifecycle events\n    task_id = String(task_id);\n\n    // phase25: ensure tasks row exists even when caller provides task_id\n    // (workers claim from tasks, not task_events)\n    await pool.query(\n      `\n      INSERT INTO tasks (task_id, title, status, kind, payload, run_id, action_tier, notes)\n      VALUES ($1, $2, $3, $4, $5::jsonb, $6, $7, $8)\n      ON CONFLICT (task_id) DO UPDATE\n      SET title       = COALESCE(EXCLUDED.title, tasks.title),\n          status      = COALESCE(EXCLUDED.status, tasks.status),\n          kind        = COALESCE(EXCLUDED.kind, tasks.kind),\n          payload     = COALESCE(EXCLUDED.payload, tasks.payload),\n          run_id      "
+    },
+    {
+      "index": 8854,
+      "containsOutcomePreview": false,
+      "containsRows0": false,
+      "containsArtifact": true,
+      "excerpt": "|| String(e) });\n    }\n\n    res.status(500).json({ ok: false, error: e?.message || String(e) });\n  }\n});\n\n// POST /api/tasks/complete  { task_id, status?, run_id?, ... }\napiTasksRouter.post(\"/complete\", async (req, res) => {\n  try {\n    // Phase53: enforce gate BEFORE any DB writes\n    assertNotEnforced(\"http:/api/tasks/create\");\n\n    const pool = _getPoolOrFail(res);\n    if (!pool) return;\n\n    const b = _asJson(req);\n    const task_id = b.task_id ?? b.taskId ?? b.id ?? null;\n    if (!task_id) return res.status(400).json({ ok: false, error: \"task_id_required\" });\n\n    const evt = await emitTaskEvent({\n      pool,\n      kind: \"task.completed\",\n      task_id,\n      run_id: b.run_id ?? b.runId ?? null,\n      actor: b.actor ?? b.agent ?? \"api\",\n      payload: {\n        status: b.status ?? \"complete\",\n        result: b.result ?? null,\n        source: b.source ?? \"api\",\n      },\n    });\n\n    res.status(200).json({ ok: true, task_id, event: evt });\n  } catch (e) {\n    console.error(\"[phase25] /api/tasks error\", e);\n\n    if (e instanceof PolicyEnforcedError || e?.code === \"POLICY_ENFORCED\" || e?.name === \"PolicyEnforcedError\") {\n      return res.status(403).json({ ok: false, error: \"policy.enforced\", detail: e?.message || String(e) });\n    }\n\n    res.status(500).json({ ok: false, error: e?.message || String(e) });\n  }\n});\n\n// POST /api/tasks/fail  { task_id, error?, status?, run_id?, ... }\napiTasksRouter.post(\"/fail\", async (req, res) => {\n  try {\n    // Phase53: enforce gate BEFORE any DB writes\n    assertNotEnforced(\"http:/api/tasks/complete\");\n\n    const pool = _getPoolOrFail(res);\n    if (!pool) return;\n\n    const b = _asJson(req);\n    const task_id = b.task_id ?? b.taskId ?? b.id ?? null;\n    if (!task_id) return res.status(400).json({ ok: false, error: \"task_id_required\" });\n\n    const evt = await emitTaskEvent({\n      pool,\n      kind: \"task.failed\",\n      task_id,\n      run_id: b.run_id ?? b.runId ?? null,\n      actor: b.actor ?? b.agent ?? \"api\",\n      payload: {\n        status: b.status ?? \"failed\",\n        error: b.error ?? b.err ?? null,\n        source: b.source ?? \"api\",\n      },\n    });\n\n    res.status(200).json({ ok: true, task_id, event: evt });\n  } catch (e) {\n    console.error(\"[phase25] /api/tasks error\", e);\n\n    if (e instanceof PolicyEnforcedError || e?.code === \"POLICY_ENFORCED\" || e?.name === \"PolicyEnforcedError\") {\n      return res.status(403).json({ ok: false, error: \"policy.enforced\", detail: e?.message || String(e) });\n    }\n\n    res.status(500).json({ ok: false, error: e?.message || String(e) });\n  }\n});\n\n// POST /api/tasks/cancel  { task_id, run_id?, ... }\napiTasksRouter.post(\"/cancel\", async (req, res) => {\n  try {\n    // Phase53: enforce gate BEFORE any DB writes\n    assertNotEnforced(\"http:/api/tasks/cancel\");\n\n    // Phase53: enforce gate BEFORE any DB writes\n    assertNotEnforced(\"http:/api/tasks/fail\");\n\n    const pool = _getPoolOrFail(res);\n    if (!pool) return;\n\n    const b = _asJson(req);\n    const task_id = b.task_id ?? b.taskId ?? b.id ?? null;\n    if (!task_id) return res.status(400).json({ ok: false, error: \"task_id_required\" });\n\n    const evt = await emitTaskEvent({\n      pool,\n      kind: \"task.canceled\",\n      task_id,\n      run_id: b.run_id ?? b.runId ?? null,\n      actor: b.actor ?? b.agent ?? \"ap"
+    },
+    {
+      "index": 10090,
+      "containsOutcomePreview": false,
+      "containsRows0": false,
+      "containsArtifact": true,
+      "excerpt": "tring(e) });\n    }\n\n    res.status(500).json({ ok: false, error: e?.message || String(e) });\n  }\n});\n\n// POST /api/tasks/fail  { task_id, error?, status?, run_id?, ... }\napiTasksRouter.post(\"/fail\", async (req, res) => {\n  try {\n    // Phase53: enforce gate BEFORE any DB writes\n    assertNotEnforced(\"http:/api/tasks/complete\");\n\n    const pool = _getPoolOrFail(res);\n    if (!pool) return;\n\n    const b = _asJson(req);\n    const task_id = b.task_id ?? b.taskId ?? b.id ?? null;\n    if (!task_id) return res.status(400).json({ ok: false, error: \"task_id_required\" });\n\n    const evt = await emitTaskEvent({\n      pool,\n      kind: \"task.failed\",\n      task_id,\n      run_id: b.run_id ?? b.runId ?? null,\n      actor: b.actor ?? b.agent ?? \"api\",\n      payload: {\n        status: b.status ?? \"failed\",\n        error: b.error ?? b.err ?? null,\n        source: b.source ?? \"api\",\n      },\n    });\n\n    res.status(200).json({ ok: true, task_id, event: evt });\n  } catch (e) {\n    console.error(\"[phase25] /api/tasks error\", e);\n\n    if (e instanceof PolicyEnforcedError || e?.code === \"POLICY_ENFORCED\" || e?.name === \"PolicyEnforcedError\") {\n      return res.status(403).json({ ok: false, error: \"policy.enforced\", detail: e?.message || String(e) });\n    }\n\n    res.status(500).json({ ok: false, error: e?.message || String(e) });\n  }\n});\n\n// POST /api/tasks/cancel  { task_id, run_id?, ... }\napiTasksRouter.post(\"/cancel\", async (req, res) => {\n  try {\n    // Phase53: enforce gate BEFORE any DB writes\n    assertNotEnforced(\"http:/api/tasks/cancel\");\n\n    // Phase53: enforce gate BEFORE any DB writes\n    assertNotEnforced(\"http:/api/tasks/fail\");\n\n    const pool = _getPoolOrFail(res);\n    if (!pool) return;\n\n    const b = _asJson(req);\n    const task_id = b.task_id ?? b.taskId ?? b.id ?? null;\n    if (!task_id) return res.status(400).json({ ok: false, error: \"task_id_required\" });\n\n    const evt = await emitTaskEvent({\n      pool,\n      kind: \"task.canceled\",\n      task_id,\n      run_id: b.run_id ?? b.runId ?? null,\n      actor: b.actor ?? b.agent ?? \"api\",\n      payload: {\n        reason: b.reaso"
+    }
+  ],
+  "recommendation": "Patch only the res.status(200).json(...) success branch that directly consumes outcome_preview or rows[0].",
+  "discipline": "No mutation performed. Success response isolation only."
+}
