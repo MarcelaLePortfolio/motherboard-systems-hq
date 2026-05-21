@@ -1,0 +1,72 @@
+{
+  "schemaVersion": "phase736.outcome-preview-json-body-isolation.v1",
+  "generatedAt": "2026-05-21T17:33:35.176Z",
+  "mode": "read-only",
+  "sourceFile": "RENDERER_INSPECTION/outcome-preview-success-candidate-narrowing-2026-05-21T17-28-54-548Z.json",
+  "targetFile": "server/routes/api-tasks-postgres.mjs",
+  "bodyCount": 3,
+  "bodies": [
+    {
+      "candidateIndex": 956,
+      "score": 21,
+      "routeSignals": {
+        "hasArtifactPreviewToken": true,
+        "hasOutcomePreviewProjection": true,
+        "hasTaskIdParam": true,
+        "hasRowsReference": true,
+        "hasStatus200Json": true,
+        "hasPayloadReference": true,
+        "hasPreviewReference": true
+      },
+      "bodyFound": true,
+      "body": {
+        "callIndex": 900,
+        "openParen": 910,
+        "endIndex": 914,
+        "callText": "res.status(200)"
+      }
+    },
+    {
+      "candidateIndex": 1052,
+      "score": 21,
+      "routeSignals": {
+        "hasArtifactPreviewToken": true,
+        "hasOutcomePreviewProjection": true,
+        "hasTaskIdParam": true,
+        "hasRowsReference": true,
+        "hasStatus200Json": true,
+        "hasPayloadReference": true,
+        "hasPreviewReference": true
+      },
+      "bodyFound": true,
+      "body": {
+        "callIndex": 804,
+        "openParen": 814,
+        "endIndex": 818,
+        "callText": "res.status(200)"
+      }
+    },
+    {
+      "candidateIndex": 2424,
+      "score": 21,
+      "routeSignals": {
+        "hasArtifactPreviewToken": true,
+        "hasOutcomePreviewProjection": true,
+        "hasTaskIdParam": true,
+        "hasRowsReference": true,
+        "hasStatus200Json": true,
+        "hasPayloadReference": true,
+        "hasPreviewReference": true
+      },
+      "bodyFound": true,
+      "body": {
+        "callIndex": 900,
+        "openParen": 910,
+        "endIndex": 914,
+        "callText": "res.status(200)"
+      }
+    }
+  ],
+  "recommendation": "Compare isolated res.status(200).json(...) bodies and patch only the authoritative preview success response object.",
+  "mutationBoundary": "No mutation performed. Final response-object isolation only."
+}
