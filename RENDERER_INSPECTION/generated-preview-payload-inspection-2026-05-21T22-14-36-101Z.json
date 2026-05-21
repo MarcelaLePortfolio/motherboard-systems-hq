@@ -1,0 +1,90 @@
+{
+  "schemaVersion": "phase736.generated-preview-payload-inspection.v1",
+  "generatedAt": "2026-05-21T22:14:36.100Z",
+  "mode": "read-only",
+  "bridgeFile": "public/js/phase530_visible_panels_bridge.js",
+  "payloadFindings": [
+    {
+      "token": "render_native_dashboard",
+      "count": 2,
+      "indexes": [
+        45918,
+        46072
+      ]
+    },
+    {
+      "token": "renderNativeDashboard",
+      "count": 2,
+      "indexes": [
+        45956,
+        46120
+      ]
+    },
+    {
+      "token": "render_native_payload",
+      "count": 2,
+      "indexes": [
+        45992,
+        46166
+      ]
+    },
+    {
+      "token": "renderNativePayload",
+      "count": 11,
+      "indexes": [
+        46028,
+        46212,
+        52124,
+        52173,
+        52212,
+        52260,
+        52377,
+        52435,
+        52562,
+        52710,
+        52825
+      ]
+    },
+    {
+      "token": "data.content",
+      "count": 1,
+      "indexes": [
+        64042
+      ]
+    },
+    {
+      "token": "templateHtml",
+      "count": 5,
+      "indexes": [
+        45854,
+        46263,
+        64335,
+        64472,
+        64603
+      ]
+    },
+    {
+      "token": "phase719RenderMarkdownArtifactPreview",
+      "count": 2,
+      "indexes": [
+        58517,
+        64004
+      ]
+    }
+  ],
+  "artifactSnapshots": [
+    "artifact-snapshot-2026-05-20T03-52-37-135Z.json",
+    "artifact-snapshot-2026-05-20T03-56-17-932Z.json",
+    "artifact-snapshot-2026-05-20T18-24-58-628Z.json",
+    "artifact-snapshot-2026-05-20T18-34-16-450Z.json"
+  ],
+  "hypothesis": "Blank Preview may be caused by non-renderable conceptual prompt output rather than renderer regression.",
+  "nextValidationQuestions": [
+    "Did the generated artifact contain actual HTML/template payloads?",
+    "Did the generated artifact contain render-native JSON structures?",
+    "Was the output only conceptual prose/instructions?",
+    "Did template[data-phase735-single-artifact-render] exist at runtime?",
+    "Did phase736TryRenderNativeVisualMountPayload receive renderable input?"
+  ],
+  "recommendation": "Inspect actual generated Preview payload content before reverting renderer branch."
+}
