@@ -1,0 +1,308 @@
+{
+  "schemaVersion": "phase736.artifact-preview-raw-structure-summary.v1",
+  "generatedAt": "2026-05-21T17:14:47.906Z",
+  "mode": "read-only",
+  "sourceFile": "RENDERER_INSPECTION/artifact-preview-raw-structure-2026-05-21T17-10-49-941Z.json",
+  "summaries": [
+    {
+      "index": 2665,
+      "lineCount": 382,
+      "firstLines": [
+        "import express from \"express\";",
+        "import crypto from \"crypto\";",
+        "import fs from \"fs\";",
+        "import path from \"path\";",
+        "",
+        "console.log(\"[phase25] api-tasks-postgres loaded\", new Date().toISOString(), \"file=\", import.meta.url);",
+        "import { emitTaskEvent } from \"../task_events_emit.mjs\";",
+        "import { PolicyEnforcedError, assertNotEnforced } from \"../policy/enforce.mjs\";",
+        "",
+        "export const apiTasksRouter = express.Router();",
+        "",
+        "function _asJson(req) {",
+        "  const b = req.body;",
+        "  if (b == null) return {};",
+        "  if (typeof b === \"object\") return b;",
+        "  if (typeof b === \"string\") {",
+        "    try { return JSON.parse(b); } catch (_) { return { _raw: b }; }",
+        "  }",
+        "  return { _raw: b };",
+        "}",
+        "",
+        "function _getPoolOrFail(res) {",
+        "  const pool = globalThis.__DB_POOL;",
+        "  if (!pool) {",
+        "    res.status(500).json({ ok: false, error: \"db_pool_not_initialized\" });"
+      ],
+      "routeMarkers": [
+        {
+          "marker": "fastify",
+          "count": 0
+        },
+        {
+          "marker": "server.",
+          "count": 0
+        },
+        {
+          "marker": "router.",
+          "count": 0
+        },
+        {
+          "marker": "app.",
+          "count": 0
+        },
+        {
+          "marker": "get(",
+          "count": 7
+        },
+        {
+          "marker": "post(",
+          "count": 3
+        },
+        {
+          "marker": "register",
+          "count": 0
+        },
+        {
+          "marker": "res.status",
+          "count": 19
+        },
+        {
+          "marker": "reply",
+          "count": 0
+        },
+        {
+          "marker": "ctx",
+          "count": 0
+        },
+        {
+          "marker": "request",
+          "count": 0
+        },
+        {
+          "marker": "response",
+          "count": 0
+        },
+        {
+          "marker": "pool.query",
+          "count": 2
+        },
+        {
+          "marker": "client.query",
+          "count": 0
+        }
+      ],
+      "responseLines": [
+        "function _asJson(req) {",
+        "  if (b == null) return {};",
+        "  if (typeof b === \"object\") return b;",
+        "    try { return JSON.parse(b); } catch (_) { return { _raw: b }; }",
+        "  return { _raw: b };",
+        "    res.status(500).json({ ok: false, error: \"db_pool_not_initialized\" });",
+        "    return null;",
+        "  return pool;",
+        "  res.status(200).json({ ok: true });",
+        "  res.status(200).json({ ok: true });",
+        "    if (!pool) return;",
+        "        completed.payload->>'outcome_preview' AS outcome_preview,",
+        "        completed.payload->>'explanation_preview' AS explanation_preview,",
+        "        completed.payload->'artifact' AS artifact,",
+        "        completed.payload->'artifacts' AS artifacts,",
+        "    res.status(200).json({ ok: true, tasks: r.rows || [] });",
+        "    res.status(500).json({ ok: false, error: e?.message || String(e) });",
+        "// GET /api/tasks/:task_id/artifact-preview",
+        "apiTasksRouter.get(\"/:task_id/artifact-preview\", async (req, res) => {",
+        "      return res.status(400).json({ ok: false, error: \"task_id_required\" });",
+        "        completed.payload->'artifact' AS artifact,",
+        "        completed.payload->'artifacts' AS artifacts",
+        "      return res.status(404).json({ ok: false, error: \"task_not_found\" });",
+        "    const artifact =",
+        "      row.artifact ||",
+        "      (Array.isArray(row.artifacts) ? row.artifacts[0] : null);",
+        "    if (!artifact || !artifact.path) {",
+        "      return res.status(404).json({ ok: false, error: \"artifact_not_found\" });",
+        "    const artifactDir = process.env.MB_ARTIFACT_DIR || \"/app/data/artifacts\";",
+        "    const resolvedPath = path.resolve(String(artifact.path));",
+        "    const resolvedDir = path.resolve(artifactDir);",
+        "      return res.status(403).json({ ok: false, error: \"artifact_path_rejected\" });",
+        "      return res.status(404).json({ ok: false, error: \"artifact_file_missing\" });",
+        "    const content = fs.readFileSync(resolvedPath, \"utf8\");",
+        "    return res.status(200).json({",
+        "      artifact: {",
+        "        filename: artifact.filename || null,",
+        "        type: artifact.type || null,",
+        "        size_bytes: artifact.size_bytes || null,",
+        "        created_at: artifact.created_at || null",
+        "      content",
+        "    console.error(\"[phase719] artifact preview route error\", e);",
+        "    return res.status(500).json({ ok: false, error: \"artifact_preview_failed\" });",
+        "    if (!pool) return;",
+        "    const b = _asJson(req);",
+        "      VALUES ($1, $2, $3, $4, $5::jsonb, $6, $7, $8)",
+        "        JSON.stringify(b.payload ?? b.meta ?? {}),",
+        "    res.status(201).json({ ok: true, task_id, run_id, event: evt });",
+        "      return res.status(403).json({ ok: false, error: \"policy.enforced\", detail: e?.message || String(e) });",
+        "    res.status(500).json({ ok: false, error: e?.message || String(e) });",
+        "    if (!pool) return;",
+        "    const b = _asJson(req);",
+        "    if (!task_id) return res.status(400).json({ ok: false, error: \"task_id_required\" });",
+        "    res.status(200).json({ ok: true, task_id, event: evt });",
+        "      return res.status(403).json({ ok: false, error: \"policy.enforced\", detail: e?.message || String(e) });",
+        "    res.status(500).json({ ok: false, error: e?.message || String(e) });",
+        "    if (!pool) return;",
+        "    const b = _asJson(req);"
+      ]
+    },
+    {
+      "index": 2713,
+      "lineCount": 383,
+      "firstLines": [
+        "import express from \"express\";",
+        "import crypto from \"crypto\";",
+        "import fs from \"fs\";",
+        "import path from \"path\";",
+        "",
+        "console.log(\"[phase25] api-tasks-postgres loaded\", new Date().toISOString(), \"file=\", import.meta.url);",
+        "import { emitTaskEvent } from \"../task_events_emit.mjs\";",
+        "import { PolicyEnforcedError, assertNotEnforced } from \"../policy/enforce.mjs\";",
+        "",
+        "export const apiTasksRouter = express.Router();",
+        "",
+        "function _asJson(req) {",
+        "  const b = req.body;",
+        "  if (b == null) return {};",
+        "  if (typeof b === \"object\") return b;",
+        "  if (typeof b === \"string\") {",
+        "    try { return JSON.parse(b); } catch (_) { return { _raw: b }; }",
+        "  }",
+        "  return { _raw: b };",
+        "}",
+        "",
+        "function _getPoolOrFail(res) {",
+        "  const pool = globalThis.__DB_POOL;",
+        "  if (!pool) {",
+        "    res.status(500).json({ ok: false, error: \"db_pool_not_initialized\" });"
+      ],
+      "routeMarkers": [
+        {
+          "marker": "fastify",
+          "count": 0
+        },
+        {
+          "marker": "server.",
+          "count": 0
+        },
+        {
+          "marker": "router.",
+          "count": 0
+        },
+        {
+          "marker": "app.",
+          "count": 0
+        },
+        {
+          "marker": "get(",
+          "count": 7
+        },
+        {
+          "marker": "post(",
+          "count": 3
+        },
+        {
+          "marker": "register",
+          "count": 0
+        },
+        {
+          "marker": "res.status",
+          "count": 20
+        },
+        {
+          "marker": "reply",
+          "count": 0
+        },
+        {
+          "marker": "ctx",
+          "count": 0
+        },
+        {
+          "marker": "request",
+          "count": 0
+        },
+        {
+          "marker": "response",
+          "count": 0
+        },
+        {
+          "marker": "pool.query",
+          "count": 2
+        },
+        {
+          "marker": "client.query",
+          "count": 0
+        }
+      ],
+      "responseLines": [
+        "function _asJson(req) {",
+        "  if (b == null) return {};",
+        "  if (typeof b === \"object\") return b;",
+        "    try { return JSON.parse(b); } catch (_) { return { _raw: b }; }",
+        "  return { _raw: b };",
+        "    res.status(500).json({ ok: false, error: \"db_pool_not_initialized\" });",
+        "    return null;",
+        "  return pool;",
+        "  res.status(200).json({ ok: true });",
+        "  res.status(200).json({ ok: true });",
+        "    if (!pool) return;",
+        "        completed.payload->>'outcome_preview' AS outcome_preview,",
+        "        completed.payload->>'explanation_preview' AS explanation_preview,",
+        "        completed.payload->'artifact' AS artifact,",
+        "        completed.payload->'artifacts' AS artifacts,",
+        "    res.status(200).json({ ok: true, tasks: r.rows || [] });",
+        "    res.status(500).json({ ok: false, error: e?.message || String(e) });",
+        "// GET /api/tasks/:task_id/artifact-preview",
+        "apiTasksRouter.get(\"/:task_id/artifact-preview\", async (req, res) => {",
+        "      return res.status(400).json({ ok: false, error: \"task_id_required\" });",
+        "        completed.payload->'artifact' AS artifact,",
+        "        completed.payload->'artifacts' AS artifacts",
+        "      return res.status(404).json({ ok: false, error: \"task_not_found\" });",
+        "    const artifact =",
+        "      row.artifact ||",
+        "      (Array.isArray(row.artifacts) ? row.artifacts[0] : null);",
+        "    if (!artifact || !artifact.path) {",
+        "      return res.status(404).json({ ok: false, error: \"artifact_not_found\" });",
+        "    const artifactDir = process.env.MB_ARTIFACT_DIR || \"/app/data/artifacts\";",
+        "    const resolvedPath = path.resolve(String(artifact.path));",
+        "    const resolvedDir = path.resolve(artifactDir);",
+        "      return res.status(403).json({ ok: false, error: \"artifact_path_rejected\" });",
+        "      return res.status(404).json({ ok: false, error: \"artifact_file_missing\" });",
+        "    const content = fs.readFileSync(resolvedPath, \"utf8\");",
+        "    return res.status(200).json({",
+        "      artifact: {",
+        "        filename: artifact.filename || null,",
+        "        type: artifact.type || null,",
+        "        size_bytes: artifact.size_bytes || null,",
+        "        created_at: artifact.created_at || null",
+        "      content",
+        "    console.error(\"[phase719] artifact preview route error\", e);",
+        "    return res.status(500).json({ ok: false, error: \"artifact_preview_failed\" });",
+        "    if (!pool) return;",
+        "    const b = _asJson(req);",
+        "      VALUES ($1, $2, $3, $4, $5::jsonb, $6, $7, $8)",
+        "        JSON.stringify(b.payload ?? b.meta ?? {}),",
+        "    res.status(201).json({ ok: true, task_id, run_id, event: evt });",
+        "      return res.status(403).json({ ok: false, error: \"policy.enforced\", detail: e?.message || String(e) });",
+        "    res.status(500).json({ ok: false, error: e?.message || String(e) });",
+        "    if (!pool) return;",
+        "    const b = _asJson(req);",
+        "    if (!task_id) return res.status(400).json({ ok: false, error: \"task_id_required\" });",
+        "    res.status(200).json({ ok: true, task_id, event: evt });",
+        "      return res.status(403).json({ ok: false, error: \"policy.enforced\", detail: e?.message || String(e) });",
+        "    res.status(500).json({ ok: false, error: e?.message || String(e) });",
+        "    if (!pool) return;",
+        "    const b = _asJson(req);",
+        "    if (!task_id) return res.status(400).js"
+      ]
+    }
+  ],
+  "recommendation": "Use responseLines and routeMarkers to identify actual route style before mutating payload shape."
+}
