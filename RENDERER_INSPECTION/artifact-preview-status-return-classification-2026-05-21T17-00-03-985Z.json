@@ -1,0 +1,206 @@
+{
+  "schemaVersion": "phase736.artifact-preview-status-return-classification.v1",
+  "generatedAt": "2026-05-21T17:00:03.984Z",
+  "mode": "read-only",
+  "sourceFile": "RENDERER_INSPECTION/artifact-preview-status-return-bodies-2026-05-21T16-57-08-457Z.json",
+  "targetFile": "server/routes/api-tasks-postgres.mjs",
+  "classifiedReturns": [
+    {
+      "index": 91,
+      "classification": "success",
+      "signals": [
+        "preview-content",
+        "explicit-200"
+      ],
+      "excerpt": " both endpoints for compatibility.\napiTasksRouter.get(\"/healthz\", async (_req, res) => {\n  res.status(200).json({ ok: true });"
+    },
+    {
+      "index": 187,
+      "classification": "success",
+      "signals": [
+        "preview-content",
+        "explicit-200"
+      ],
+      "excerpt": " both endpoints for compatibility.\napiTasksRouter.get(\"/healthz\", async (_req, res) => {\n  res.status(200).json({ ok: true });\n});\n\napiTasksRouter.get(\"/health\", async (_req, res) => {\n  res.status(200).json({ ok: true });"
+    },
+    {
+      "index": 1559,
+      "classification": "success",
+      "signals": [
+        "preview-content",
+        "database-row",
+        "explicit-200"
+      ],
+      "excerpt": "ifact,\n        completed.payload->'artifacts' AS artifacts,\n        completed.payload AS guidance\n      FROM tasks t\n      LEFT JOIN LATERAL (\n        SELECT te.payload\n        FROM task_events te\n        WHERE te.task_id = t.task_id\n          AND te.kind = 'task.completed'\n        ORDER BY te.id DESC\n        LIMIT 1\n      ) completed ON true\n      ORDER BY t.updated_at DESC NULLS LAST, t.id DESC\n      LIMIT $1\n      `,\n      [limit]\n    );\n\n    res.status(200).json({ ok: true, tasks: r.rows || [] });"
+    },
+    {
+      "index": 1693,
+      "classification": "success",
+      "signals": [
+        "server-error",
+        "preview-content",
+        "database-row",
+        "explicit-200"
+      ],
+      "excerpt": "ATERAL (\n        SELECT te.payload\n        FROM task_events te\n        WHERE te.task_id = t.task_id\n          AND te.kind = 'task.completed'\n        ORDER BY te.id DESC\n        LIMIT 1\n      ) completed ON true\n      ORDER BY t.updated_at DESC NULLS LAST, t.id DESC\n      LIMIT $1\n      `,\n      [limit]\n    );\n\n    res.status(200).json({ ok: true, tasks: r.rows || [] });\n  } catch (e) {\n    console.error(\"[phase25] /api/tasks list error\", e);\n    res.status(500).json({ ok: false, error: e?.message || String(e) });"
+    },
+    {
+      "index": 1993,
+      "classification": "success",
+      "signals": [
+        "bad-request",
+        "server-error",
+        "preview-content",
+        "database-row",
+        "explicit-200"
+      ],
+      "excerpt": "it]\n    );\n\n    res.status(200).json({ ok: true, tasks: r.rows || [] });\n  } catch (e) {\n    console.error(\"[phase25] /api/tasks list error\", e);\n    res.status(500).json({ ok: false, error: e?.message || String(e) });\n  }\n});\n\n\n\n// GET /api/tasks/:task_id/artifact-preview\n\napiTasksRouter.get(\"/:task_id/artifact-preview\", async (req, res) => {\n\n  try {\n\n    const taskId = String(req.params.task_id || \"\").trim();\n\n    if (!taskId) {\n\n      return res.status(400).json({ ok: false, error: \"task_id_required\" });"
+    },
+    {
+      "index": 2643,
+      "classification": "error",
+      "signals": [
+        "not-found",
+        "server-error",
+        "preview-content",
+        "database-row"
+      ],
+      "excerpt": "    completed.payload->'artifacts' AS artifacts\n\n      FROM tasks t\n\n      LEFT JOIN LATERAL (\n\n        SELECT te.payload\n\n        FROM task_events te\n\n        WHERE te.task_id = t.task_id\n\n          AND te.kind = 'task.completed'\n\n        ORDER BY te.ts DESC\n\n        LIMIT 1\n\n      ) completed ON true\n\n      WHERE t.task_id = $1\n\n      LIMIT 1\n\n      `,\n\n      [taskId]\n\n    );\n\n    const row = q.rows?.[0] || null;\n\n    if (!row) {\n\n      return res.status(404).json({ ok: false, error: \"task_not_found\" });"
+    },
+    {
+      "index": 2876,
+      "classification": "error",
+      "signals": [
+        "not-found",
+        "server-error",
+        "preview-content",
+        "database-row"
+      ],
+      "excerpt": "       ORDER BY te.ts DESC\n\n        LIMIT 1\n\n      ) completed ON true\n\n      WHERE t.task_id = $1\n\n      LIMIT 1\n\n      `,\n\n      [taskId]\n\n    );\n\n    const row = q.rows?.[0] || null;\n\n    if (!row) {\n\n      return res.status(404).json({ ok: false, error: \"task_not_found\" });\n\n    }\n\n    const artifact =\n\n      row.artifact ||\n\n      (Array.isArray(row.artifacts) ? row.artifacts[0] : null);\n\n    if (!artifact || !artifact.path) {\n\n      return res.status(404).json({ ok: false, error: \"artifact_not_found\" });"
+    },
+    {
+      "index": 3207,
+      "classification": "error",
+      "signals": [
+        "not-found",
+        "server-error",
+        "preview-content",
+        "database-row"
+      ],
+      "excerpt": "\n      (Array.isArray(row.artifacts) ? row.artifacts[0] : null);\n\n    if (!artifact || !artifact.path) {\n\n      return res.status(404).json({ ok: false, error: \"artifact_not_found\" });\n\n    }\n\n    const artifactDir = process.env.MB_ARTIFACT_DIR || \"/app/data/artifacts\";\n\n    const resolvedPath = path.resolve(String(artifact.path));\n\n    const resolvedDir = path.resolve(artifactDir);\n\n    if (!resolvedPath.startsWith(resolvedDir)) {\n\n      return res.status(403).json({ ok: false, error: \"artifact_path_rejected\" });"
+    },
+    {
+      "index": 3339,
+      "classification": "error",
+      "signals": [
+        "not-found",
+        "server-error",
+        "preview-content"
+      ],
+      "excerpt": "4).json({ ok: false, error: \"artifact_not_found\" });\n\n    }\n\n    const artifactDir = process.env.MB_ARTIFACT_DIR || \"/app/data/artifacts\";\n\n    const resolvedPath = path.resolve(String(artifact.path));\n\n    const resolvedDir = path.resolve(artifactDir);\n\n    if (!resolvedPath.startsWith(resolvedDir)) {\n\n      return res.status(403).json({ ok: false, error: \"artifact_path_rejected\" });\n\n    }\n\n    if (!fs.existsSync(resolvedPath)) {\n\n      return res.status(404).json({ ok: false, error: \"artifact_file_missing\" });"
+    },
+    {
+      "index": 3487,
+      "classification": "success",
+      "signals": [
+        "not-found",
+        "server-error",
+        "preview-content",
+        "explicit-200"
+      ],
+      "excerpt": "t resolvedPath = path.resolve(String(artifact.path));\n\n    const resolvedDir = path.resolve(artifactDir);\n\n    if (!resolvedPath.startsWith(resolvedDir)) {\n\n      return res.status(403).json({ ok: false, error: \"artifact_path_rejected\" });\n\n    }\n\n    if (!fs.existsSync(resolvedPath)) {\n\n      return res.status(404).json({ ok: false, error: \"artifact_file_missing\" });\n\n    }\n\n    const content = fs.readFileSync(resolvedPath, \"utf8\");\n\n    return res.status(200).json({\n\n      ok: true,\n\n      task_id: taskId,\n\n      artifact: {\n\n        filename: artifact.filename || null,\n\n        type: artifact.type || null,\n\n        size_bytes: artifact.size_bytes || null,\n\n        created_at: artifact.created_at || null\n\n      },\n\n      content\n\n    });"
+    },
+    {
+      "index": 3882,
+      "classification": "success",
+      "signals": [
+        "server-error",
+        "preview-content",
+        "explicit-200"
+      ],
+      "excerpt": "t = fs.readFileSync(resolvedPath, \"utf8\");\n\n    return res.status(200).json({\n\n      ok: true,\n\n      task_id: taskId,\n\n      artifact: {\n\n        filename: artifact.filename || null,\n\n        type: artifact.type || null,\n\n        size_bytes: artifact.size_bytes || null,\n\n        created_at: artifact.created_at || null\n\n      },\n\n      content\n\n    });\n\n  } catch (e) {\n\n    console.error(\"[phase719] artifact preview route error\", e);\n\n    return res.status(500).json({ ok: false, error: \"artifact_preview_failed\" });"
+    },
+    {
+      "index": 6749,
+      "classification": "unknown",
+      "signals": [],
+      "excerpt": "        b.action_tier ?? \"A\",\n        b.notes ?? null,\n      ]\n    );\n\n    const evt = await emitTaskEvent({\n      pool,\n      kind: \"task.created\",\n      task_id,\n      run_id,\n      actor: b.actor ?? b.agent ?? \"api\",\n      payload: {\n        title: taskTitle ? String(taskTitle) : null,\n        agent: b.agent ?? null,\n        status: b.status ?? \"delegated\",\n        source: b.source ?? \"api\",\n        meta: b.meta ?? null,\n      },\n    });\n\n    res.status(201).json({ ok: true, task_id, run_id, event: evt });"
+    }
+  ],
+  "successCandidateCount": 7,
+  "successCandidates": [
+    {
+      "index": 91,
+      "classification": "success",
+      "signals": [
+        "preview-content",
+        "explicit-200"
+      ],
+      "excerpt": " both endpoints for compatibility.\napiTasksRouter.get(\"/healthz\", async (_req, res) => {\n  res.status(200).json({ ok: true });"
+    },
+    {
+      "index": 187,
+      "classification": "success",
+      "signals": [
+        "preview-content",
+        "explicit-200"
+      ],
+      "excerpt": " both endpoints for compatibility.\napiTasksRouter.get(\"/healthz\", async (_req, res) => {\n  res.status(200).json({ ok: true });\n});\n\napiTasksRouter.get(\"/health\", async (_req, res) => {\n  res.status(200).json({ ok: true });"
+    },
+    {
+      "index": 1559,
+      "classification": "success",
+      "signals": [
+        "preview-content",
+        "database-row",
+        "explicit-200"
+      ],
+      "excerpt": "ifact,\n        completed.payload->'artifacts' AS artifacts,\n        completed.payload AS guidance\n      FROM tasks t\n      LEFT JOIN LATERAL (\n        SELECT te.payload\n        FROM task_events te\n        WHERE te.task_id = t.task_id\n          AND te.kind = 'task.completed'\n        ORDER BY te.id DESC\n        LIMIT 1\n      ) completed ON true\n      ORDER BY t.updated_at DESC NULLS LAST, t.id DESC\n      LIMIT $1\n      `,\n      [limit]\n    );\n\n    res.status(200).json({ ok: true, tasks: r.rows || [] });"
+    },
+    {
+      "index": 1693,
+      "classification": "success",
+      "signals": [
+        "server-error",
+        "preview-content",
+        "database-row",
+        "explicit-200"
+      ],
+      "excerpt": "ATERAL (\n        SELECT te.payload\n        FROM task_events te\n        WHERE te.task_id = t.task_id\n          AND te.kind = 'task.completed'\n        ORDER BY te.id DESC\n        LIMIT 1\n      ) completed ON true\n      ORDER BY t.updated_at DESC NULLS LAST, t.id DESC\n      LIMIT $1\n      `,\n      [limit]\n    );\n\n    res.status(200).json({ ok: true, tasks: r.rows || [] });\n  } catch (e) {\n    console.error(\"[phase25] /api/tasks list error\", e);\n    res.status(500).json({ ok: false, error: e?.message || String(e) });"
+    },
+    {
+      "index": 1993,
+      "classification": "success",
+      "signals": [
+        "bad-request",
+        "server-error",
+        "preview-content",
+        "database-row",
+        "explicit-200"
+      ],
+      "excerpt": "it]\n    );\n\n    res.status(200).json({ ok: true, tasks: r.rows || [] });\n  } catch (e) {\n    console.error(\"[phase25] /api/tasks list error\", e);\n    res.status(500).json({ ok: false, error: e?.message || String(e) });\n  }\n});\n\n\n\n// GET /api/tasks/:task_id/artifact-preview\n\napiTasksRouter.get(\"/:task_id/artifact-preview\", async (req, res) => {\n\n  try {\n\n    const taskId = String(req.params.task_id || \"\").trim();\n\n    if (!taskId) {\n\n      return res.status(400).json({ ok: false, error: \"task_id_required\" });"
+    },
+    {
+      "index": 3487,
+      "classification": "success",
+      "signals": [
+        "not-found",
+        "server-error",
+        "preview-content",
+        "explicit-200"
+      ],
+      "excerpt": "t resolvedPath = path.resolve(String(artifact.path));\n\n    const resolvedDir = path.resolve(artifactDir);\n\n    if (!resolvedPath.startsWith(resolvedDir)) {\n\n      return res.status(403).json({ ok: false, error: \"artifact_path_rejected\" });\n\n    }\n\n    if (!fs.existsSync(resolvedPath)) {\n\n      return res.status(404).json({ ok: false, error: \"artifact_file_missing\" });\n\n    }\n\n    const content = fs.readFileSync(resolvedPath, \"utf8\");\n\n    return res.status(200).json({\n\n      ok: true,\n\n      task_id: taskId,\n\n      artifact: {\n\n        filename: artifact.filename || null,\n\n        type: artifact.type || null,\n\n        size_bytes: artifact.size_bytes || null,\n\n        created_at: artifact.created_at || null\n\n      },\n\n      content\n\n    });"
+    },
+    {
+      "index": 3882,
+      "classification": "success",
+      "signals": [
+        "server-error",
+        "preview-content",
+        "explicit-200"
+      ],
+      "excerpt": "t = fs.readFileSync(resolvedPath, \"utf8\");\n\n    return res.status(200).json({\n\n      ok: true,\n\n      task_id: taskId,\n\n      artifact: {\n\n        filename: artifact.filename || null,\n\n        type: artifact.type || null,\n\n        size_bytes: artifact.size_bytes || null,\n\n        created_at: artifact.created_at || null\n\n      },\n\n      content\n\n    });\n\n  } catch (e) {\n\n    console.error(\"[phase719] artifact preview route error\", e);\n\n    return res.status(500).json({ ok: false, error: \"artifact_preview_failed\" });"
+    }
+  ],
+  "recommendation": "Do not patch yet. Multiple or zero success candidates require narrower extraction."
+}
