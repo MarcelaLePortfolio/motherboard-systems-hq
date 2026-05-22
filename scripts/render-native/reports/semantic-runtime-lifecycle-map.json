@@ -1,0 +1,384 @@
+{
+  "schema_version": "phase737.semantic-runtime-lifecycle-map.v1",
+  "corridor": "read-only-runtime-lifecycle-mapping",
+  "inspected_files": [
+    "server/routes/api-tasks-postgres.mjs",
+    "public/js/phase530_visible_panels_bridge.js",
+    "public/js/dashboard-tasks-widget.js",
+    "public/js/phase565_recent_tasks_wire.js"
+  ],
+  "lifecycle_patterns": [
+    "semantic_artifact",
+    "semantic_artifact_schema",
+    "semantic_artifact_validated",
+    "outcome_preview",
+    "explanation_preview",
+    "artifact-preview",
+    "semantic-preview",
+    "sections",
+    "guidance",
+    "completed.payload",
+    "visual-artifact:start"
+  ],
+  "findings_count": 55,
+  "findings": [
+    {
+      "file": "server/routes/api-tasks-postgres.mjs",
+      "line": 65,
+      "pattern": "outcome_preview",
+      "text": "completed.payload->>'outcome_preview' AS outcome_preview,"
+    },
+    {
+      "file": "server/routes/api-tasks-postgres.mjs",
+      "line": 65,
+      "pattern": "completed.payload",
+      "text": "completed.payload->>'outcome_preview' AS outcome_preview,"
+    },
+    {
+      "file": "server/routes/api-tasks-postgres.mjs",
+      "line": 66,
+      "pattern": "explanation_preview",
+      "text": "completed.payload->>'explanation_preview' AS explanation_preview,"
+    },
+    {
+      "file": "server/routes/api-tasks-postgres.mjs",
+      "line": 66,
+      "pattern": "completed.payload",
+      "text": "completed.payload->>'explanation_preview' AS explanation_preview,"
+    },
+    {
+      "file": "server/routes/api-tasks-postgres.mjs",
+      "line": 67,
+      "pattern": "completed.payload",
+      "text": "completed.payload->'artifact' AS artifact,"
+    },
+    {
+      "file": "server/routes/api-tasks-postgres.mjs",
+      "line": 68,
+      "pattern": "completed.payload",
+      "text": "completed.payload->'artifacts' AS artifacts,"
+    },
+    {
+      "file": "server/routes/api-tasks-postgres.mjs",
+      "line": 69,
+      "pattern": "guidance",
+      "text": "completed.payload AS guidance"
+    },
+    {
+      "file": "server/routes/api-tasks-postgres.mjs",
+      "line": 69,
+      "pattern": "completed.payload",
+      "text": "completed.payload AS guidance"
+    },
+    {
+      "file": "server/routes/api-tasks-postgres.mjs",
+      "line": 94,
+      "pattern": "artifact-preview",
+      "text": "// GET /api/tasks/:task_id/artifact-preview"
+    },
+    {
+      "file": "server/routes/api-tasks-postgres.mjs",
+      "line": 96,
+      "pattern": "artifact-preview",
+      "text": "apiTasksRouter.get(\"/:task_id/artifact-preview\", async (req, res) => {"
+    },
+    {
+      "file": "server/routes/api-tasks-postgres.mjs",
+      "line": 114,
+      "pattern": "completed.payload",
+      "text": "completed.payload->'artifact' AS artifact,"
+    },
+    {
+      "file": "server/routes/api-tasks-postgres.mjs",
+      "line": 116,
+      "pattern": "completed.payload",
+      "text": "completed.payload->'artifacts' AS artifacts"
+    },
+    {
+      "file": "server/routes/api-tasks-postgres.mjs",
+      "line": 219,
+      "pattern": "semantic-preview",
+      "text": "// GET /api/tasks/:task_id/semantic-preview"
+    },
+    {
+      "file": "server/routes/api-tasks-postgres.mjs",
+      "line": 221,
+      "pattern": "semantic-preview",
+      "text": "apiTasksRouter.get(\"/:task_id/semantic-preview\", async (req, res) => {"
+    },
+    {
+      "file": "server/routes/api-tasks-postgres.mjs",
+      "line": 251,
+      "pattern": "outcome_preview",
+      "text": "completed.payload->>'outcome_preview' AS outcome_preview,"
+    },
+    {
+      "file": "server/routes/api-tasks-postgres.mjs",
+      "line": 251,
+      "pattern": "completed.payload",
+      "text": "completed.payload->>'outcome_preview' AS outcome_preview,"
+    },
+    {
+      "file": "server/routes/api-tasks-postgres.mjs",
+      "line": 253,
+      "pattern": "explanation_preview",
+      "text": "completed.payload->>'explanation_preview' AS explanation_preview,"
+    },
+    {
+      "file": "server/routes/api-tasks-postgres.mjs",
+      "line": 253,
+      "pattern": "completed.payload",
+      "text": "completed.payload->>'explanation_preview' AS explanation_preview,"
+    },
+    {
+      "file": "server/routes/api-tasks-postgres.mjs",
+      "line": 255,
+      "pattern": "completed.payload",
+      "text": "completed.payload->'artifact' AS artifact,"
+    },
+    {
+      "file": "server/routes/api-tasks-postgres.mjs",
+      "line": 257,
+      "pattern": "completed.payload",
+      "text": "completed.payload->'artifacts' AS artifacts,"
+    },
+    {
+      "file": "server/routes/api-tasks-postgres.mjs",
+      "line": 259,
+      "pattern": "guidance",
+      "text": "completed.payload AS guidance"
+    },
+    {
+      "file": "server/routes/api-tasks-postgres.mjs",
+      "line": 259,
+      "pattern": "completed.payload",
+      "text": "completed.payload AS guidance"
+    },
+    {
+      "file": "server/routes/api-tasks-postgres.mjs",
+      "line": 315,
+      "pattern": "outcome_preview",
+      "text": "outcome_preview: row.outcome_preview || null,"
+    },
+    {
+      "file": "server/routes/api-tasks-postgres.mjs",
+      "line": 317,
+      "pattern": "explanation_preview",
+      "text": "explanation_preview: row.explanation_preview || null,"
+    },
+    {
+      "file": "server/routes/api-tasks-postgres.mjs",
+      "line": 323,
+      "pattern": "guidance",
+      "text": "guidance: row.guidance || null,"
+    },
+    {
+      "file": "public/js/phase530_visible_panels_bridge.js",
+      "line": 138,
+      "pattern": "outcome_preview",
+      "text": "const outcome = esc(t.outcome_preview || \"\");"
+    },
+    {
+      "file": "public/js/phase530_visible_panels_bridge.js",
+      "line": 140,
+      "pattern": "explanation_preview",
+      "text": "const explanation = esc(t.explanation_preview || \"\");"
+    },
+    {
+      "file": "public/js/phase530_visible_panels_bridge.js",
+      "line": 159,
+      "pattern": "guidance",
+      "text": "const guidance = t.guidance || {};"
+    },
+    {
+      "file": "public/js/phase530_visible_panels_bridge.js",
+      "line": 161,
+      "pattern": "guidance",
+      "text": "const trace = guidance.communicationResult && guidance.communicationResult.systemTrace"
+    },
+    {
+      "file": "public/js/phase530_visible_panels_bridge.js",
+      "line": 163,
+      "pattern": "guidance",
+      "text": "? guidance.communicationResult.systemTrace.content"
+    },
+    {
+      "file": "public/js/phase530_visible_panels_bridge.js",
+      "line": 589,
+      "pattern": "guidance",
+      "text": "source: \"operator-guidance-ui\""
+    },
+    {
+      "file": "public/js/phase530_visible_panels_bridge.js",
+      "line": 928,
+      "pattern": "sections",
+      "text": "const sections = {};"
+    },
+    {
+      "file": "public/js/phase530_visible_panels_bridge.js",
+      "line": 932,
+      "pattern": "sections",
+      "text": "sections[current] = [];"
+    },
+    {
+      "file": "public/js/phase530_visible_panels_bridge.js",
+      "line": 942,
+      "pattern": "sections",
+      "text": "sections[current] = [];"
+    },
+    {
+      "file": "public/js/phase530_visible_panels_bridge.js",
+      "line": 950,
+      "pattern": "sections",
+      "text": "sections.title = [line.replace(/^#\\s+/, \"\").trim()];"
+    },
+    {
+      "file": "public/js/phase530_visible_panels_bridge.js",
+      "line": 956,
+      "pattern": "sections",
+      "text": "if (!sections[current]) sections[current] = [];"
+    },
+    {
+      "file": "public/js/phase530_visible_panels_bridge.js",
+      "line": 958,
+      "pattern": "sections",
+      "text": "sections[current].push(line);"
+    },
+    {
+      "file": "public/js/phase530_visible_panels_bridge.js",
+      "line": 962,
+      "pattern": "sections",
+      "text": "Object.keys(sections).forEach((key) => {"
+    },
+    {
+      "file": "public/js/phase530_visible_panels_bridge.js",
+      "line": 964,
+      "pattern": "sections",
+      "text": "sections[key] = sections[key].join(\"\\n\").trim();"
+    },
+    {
+      "file": "public/js/phase530_visible_panels_bridge.js",
+      "line": 968,
+      "pattern": "sections",
+      "text": "return sections;"
+    },
+    {
+      "file": "public/js/phase530_visible_panels_bridge.js",
+      "line": 980,
+      "pattern": "sections",
+      "text": "const sections = phase719ExtractArtifactSections(markdownWithoutEnvelope);"
+    },
+    {
+      "file": "public/js/phase530_visible_panels_bridge.js",
+      "line": 982,
+      "pattern": "sections",
+      "text": "const title = sections.title || \"Task Artifact\";"
+    },
+    {
+      "file": "public/js/phase530_visible_panels_bridge.js",
+      "line": 984,
+      "pattern": "sections",
+      "text": "const task = sections.task || \"\";"
+    },
+    {
+      "file": "public/js/phase530_visible_panels_bridge.js",
+      "line": 986,
+      "pattern": "sections",
+      "text": "const status = sections.status || \"\";"
+    },
+    {
+      "file": "public/js/phase530_visible_panels_bridge.js",
+      "line": 988,
+      "pattern": "sections",
+      "text": "const summary = sections.summary || \"\";"
+    },
+    {
+      "file": "public/js/phase530_visible_panels_bridge.js",
+      "line": 990,
+      "pattern": "sections",
+      "text": "const deliverable = sections.deliverable || \"\";"
+    },
+    {
+      "file": "public/js/phase530_visible_panels_bridge.js",
+      "line": 992,
+      "pattern": "sections",
+      "text": "const details = sections.details || \"\";"
+    },
+    {
+      "file": "public/js/phase530_visible_panels_bridge.js",
+      "line": 994,
+      "pattern": "sections",
+      "text": "const recommendations = sections.recommendations || \"\";"
+    },
+    {
+      "file": "public/js/phase530_visible_panels_bridge.js",
+      "line": 996,
+      "pattern": "sections",
+      "text": "const nextSteps = sections[\"next steps\"] || sections.nextsteps || \"\";"
+    },
+    {
+      "file": "public/js/phase530_visible_panels_bridge.js",
+      "line": 998,
+      "pattern": "sections",
+      "text": "const outcome = sections.outcome || \"\";"
+    },
+    {
+      "file": "public/js/phase530_visible_panels_bridge.js",
+      "line": 1000,
+      "pattern": "sections",
+      "text": "const explanation = sections.explanation || \"\";"
+    },
+    {
+      "file": "public/js/phase530_visible_panels_bridge.js",
+      "line": 1154,
+      "pattern": "artifact-preview",
+      "text": "<div data-phase719-rendered-artifact-preview=\"true\" style=\"max-width:920px;margin:0 auto;\">"
+    },
+    {
+      "file": "public/js/phase530_visible_panels_bridge.js",
+      "line": 1340,
+      "pattern": "visual-artifact:start",
+      "text": "const startMarker = \"<!-- visual-artifact:start -->\";"
+    },
+    {
+      "file": "public/js/phase530_visible_panels_bridge.js",
+      "line": 1410,
+      "pattern": "artifact-preview",
+      "text": "<div data-phase723-visual-artifact-preview=\"true\" style=\"max-width:960px;margin:0 auto 22px auto;border:1px solid rgba(45,212,191,.32);background:linear-gradient(135deg,rgba(15,23,42,.78),rgba(8,47,73,.46));border-radius:26px;padding:22px;box-shadow:0 24px 80px rgba(0,0,0,.32), inset 0 1px 0 rgba(255,255,255,.06);\">"
+    },
+    {
+      "file": "public/js/phase530_visible_panels_bridge.js",
+      "line": 2350,
+      "pattern": "artifact-preview",
+      "text": "const res = await fetch(`/api/tasks/${encodeURIComponent(taskId)}/artifact-preview`, { cache: \"no-store\" });"
+    }
+  ],
+  "lifecycle_stages": {
+    "worker_completion_payload": [
+      "completed.payload",
+      "semantic_artifact"
+    ],
+    "api_transport": [
+      "/api/tasks",
+      "/artifact-preview",
+      "/semantic-preview"
+    ],
+    "renderer_consumption": [
+      "sections",
+      "outcome_preview",
+      "visual-artifact:start"
+    ],
+    "semantic_inspection": [
+      "guidance",
+      "semantic_artifact_schema",
+      "semantic_artifact_validated"
+    ]
+  },
+  "validation": {
+    "deterministic_mapping": true,
+    "runtime_mutation_disabled": true,
+    "renderer_mutation_disabled": true,
+    "preview_mutation_disabled": true,
+    "execution_authority_disabled": true
+  }
+}
