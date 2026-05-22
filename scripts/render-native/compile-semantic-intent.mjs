@@ -53,6 +53,30 @@ for (const field of requiredIntentFields) {
 
 const scenePattern = intent.scene_pattern || "status_card";
 
+function createStatusBadgeNode(id, value = "PASS", state = "pass") {
+
+  return {
+
+    id,
+
+    type: "status_badge",
+
+    style_token: `status-${state}`,
+
+    layout_token: "badge",
+
+    content: {
+
+      value,
+
+      state
+
+    }
+
+  };
+
+}
+
 function createListNode(id, items = []) {
 
   return {
@@ -75,91 +99,79 @@ function createListNode(id, items = []) {
 
 }
 
+function createTextNode(id, value, styleToken = "text", layoutToken = "card") {
+
+  return {
+
+    id,
+
+    type: "text",
+
+    style_token: styleToken,
+
+    layout_token: layoutToken,
+
+    content: {
+
+      value
+
+    }
+
+  };
+
+}
+
+function createRootNode(children) {
+
+  return {
+
+    id: "root-node",
+
+    type: "container",
+
+    style_token: "background",
+
+    layout_token: "stack",
+
+    content: {
+
+      children
+
+    }
+
+  };
+
+}
+
 function createStatusCardNodes(intent) {
 
   return [
 
-    {
+    createRootNode([
 
-      id: "root-node",
+      "title-node",
 
-      type: "container",
+      "body-node",
 
-      style_token: "background",
+      "status-node",
 
-      layout_token: "stack",
+      "evidence-list-node"
 
-      content: {
+    ]),
 
-        children: [
+    createTextNode("title-node", intent.title, "text"),
 
-          "title-node",
+    createTextNode("body-node", intent.body, "accent"),
 
-          "body-node",
+    createStatusBadgeNode(
 
-          "status-node",
+      "status-node",
 
-          "evidence-list-node"
+      intent.status_label || "PASS",
 
-        ]
+      intent.status_state || "pass"
 
-      }
-
-    },
-
-    {
-
-      id: "title-node",
-
-      type: "text",
-
-      style_token: "text",
-
-      layout_token: "card",
-
-      content: {
-
-        value: intent.title
-
-      }
-
-    },
-
-    {
-
-      id: "body-node",
-
-      type: "text",
-
-      style_token: "accent",
-
-      layout_token: "card",
-
-      content: {
-
-        value: intent.body
-
-      }
-
-    },
-
-    {
-
-      id: "status-node",
-
-      type: "text",
-
-      style_token: "status-pass",
-
-      layout_token: "badge",
-
-      content: {
-
-        value: intent.status_label || "PASS"
-
-      }
-
-    },
+    ),
 
     createListNode(
 
@@ -185,87 +197,43 @@ function createEvidenceCardNodes(intent) {
 
   return [
 
-    {
+    createRootNode([
 
-      id: "root-node",
+      "title-node",
 
-      type: "container",
+      "body-node",
 
-      style_token: "background",
+      "status-node",
 
-      layout_token: "stack",
+      "evidence-node",
 
-      content: {
+      "evidence-list-node"
 
-        children: [
+    ]),
 
-          "title-node",
+    createTextNode("title-node", intent.title, "text"),
 
-          "body-node",
+    createTextNode("body-node", intent.body, "accent"),
 
-          "evidence-node",
+    createStatusBadgeNode(
 
-          "evidence-list-node"
+      "status-node",
 
-        ]
+      intent.status_label || "VERIFIED",
 
-      }
+      intent.status_state || "pass"
 
-    },
+    ),
 
-    {
+    createTextNode(
 
-      id: "title-node",
+      "evidence-node",
 
-      type: "text",
+      intent.evidence_summary || "Evidence verified.",
 
-      style_token: "text",
+      "evidence"
 
-      layout_token: "card",
-
-      content: {
-
-        value: intent.title
-
-      }
-
-    },
-
-    {
-
-      id: "body-node",
-
-      type: "text",
-
-      style_token: "accent",
-
-      layout_token: "card",
-
-      content: {
-
-        value: intent.body
-
-      }
-
-    },
-
-    {
-
-      id: "evidence-node",
-
-      type: "text",
-
-      style_token: "evidence",
-
-      layout_token: "card",
-
-      content: {
-
-        value: intent.evidence_summary || "Evidence verified."
-
-      }
-
-    },
+    ),
 
     createListNode(
 
@@ -291,107 +259,43 @@ function createExecutionReadinessNodes(intent) {
 
   return [
 
-    {
+    createRootNode([
 
-      id: "root-node",
+      "title-node",
 
-      type: "container",
+      "body-node",
 
-      style_token: "background",
+      "status-node",
 
-      layout_token: "stack",
+      "blocking-node",
 
-      content: {
+      "readiness-list-node"
 
-        children: [
+    ]),
 
-          "title-node",
+    createTextNode("title-node", intent.title, "text"),
 
-          "body-node",
+    createTextNode("body-node", intent.body, "accent"),
 
-          "readiness-node",
+    createStatusBadgeNode(
 
-          "blocking-node",
+      "status-node",
 
-          "readiness-list-node"
+      intent.readiness_state || "READY",
 
-        ]
+      intent.status_state || "pass"
 
-      }
+    ),
 
-    },
+    createTextNode(
 
-    {
+      "blocking-node",
 
-      id: "title-node",
+      intent.blocking_conditions || "No blocking conditions.",
 
-      type: "text",
+      "warning"
 
-      style_token: "text",
-
-      layout_token: "card",
-
-      content: {
-
-        value: intent.title
-
-      }
-
-    },
-
-    {
-
-      id: "body-node",
-
-      type: "text",
-
-      style_token: "accent",
-
-      layout_token: "card",
-
-      content: {
-
-        value: intent.body
-
-      }
-
-    },
-
-    {
-
-      id: "readiness-node",
-
-      type: "text",
-
-      style_token: "status-pass",
-
-      layout_token: "badge",
-
-      content: {
-
-        value: intent.readiness_state || "READY"
-
-      }
-
-    },
-
-    {
-
-      id: "blocking-node",
-
-      type: "text",
-
-      style_token: "warning",
-
-      layout_token: "card",
-
-      content: {
-
-        value: intent.blocking_conditions || "No blocking conditions."
-
-      }
-
-    },
+    ),
 
     createListNode(
 
@@ -437,7 +341,7 @@ function composeScene(intent) {
 
 const payload = {
 
-  schema_version: "phase736.render-native-payload.v3",
+  schema_version: "phase736.render-native-payload.v4",
 
   artifact_type: intent.artifact_type,
 
@@ -501,6 +405,10 @@ const payload = {
 
     "status-pass": "success-signal",
 
+    "status-warning": "warning-signal",
+
+    "status-fail": "danger-signal",
+
     spacing: "comfortable"
 
   },
@@ -523,7 +431,9 @@ const payload = {
 
     scene_composer: true,
 
-    list_nodes: true
+    list_nodes: true,
+
+    status_badge_nodes: true
 
   }
 

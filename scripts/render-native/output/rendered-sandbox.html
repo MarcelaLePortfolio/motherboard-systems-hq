@@ -140,9 +140,13 @@
 
     }
 
-    .rn-style-warning {
+    .rn-style-warning,
 
-      color: #ffd28a;
+    .rn-style-status-warning {
+
+      color: #3a2600;
+
+      background: #ffd28a;
 
     }
 
@@ -151,6 +155,14 @@
       color: #102217;
 
       background: #8ff0b0;
+
+    }
+
+    .rn-style-status-fail {
+
+      color: #2a0909;
+
+      background: #ff9b9b;
 
     }
 
@@ -180,7 +192,7 @@
 
     id="sandbox-render-root"
 
-    data-schema-version="phase736.render-native-payload.v3"
+    data-schema-version="phase736.render-native-payload.v4"
 
     data-scene-pattern="status_card"
 
@@ -188,11 +200,11 @@
 
     
 
-      <div class="rn-node rn-container-node rn-style-background rn-layout-stack" data-node-id="root-node" data-style-token="background" data-layout-token="stack">
+      <div class="rn-node rn-container-node rn-style-background rn-layout-stack" data-node-id="root-node" data-node-type="container" data-style-token="background" data-layout-token="stack">
 
         
 
-      <div class="rn-node rn-text-node rn-style-text rn-layout-card" data-node-id="title-node" data-style-token="text" data-layout-token="card">
+      <div class="rn-node rn-text-node rn-style-text rn-layout-card" data-node-id="title-node" data-node-type="text" data-style-token="text" data-layout-token="card">
 
         Render-Native Sandbox Active
 
@@ -201,7 +213,7 @@
     
 
 
-      <div class="rn-node rn-text-node rn-style-accent rn-layout-card" data-node-id="body-node" data-style-token="accent" data-layout-token="card">
+      <div class="rn-node rn-text-node rn-style-accent rn-layout-card" data-node-id="body-node" data-node-type="text" data-style-token="accent" data-layout-token="card">
 
         Deterministic payload emission validated outside live Preview.
 
@@ -210,7 +222,7 @@
     
 
 
-      <div class="rn-node rn-text-node rn-style-status-pass rn-layout-badge" data-node-id="status-node" data-style-token="status-pass" data-layout-token="badge">
+      <div class="rn-node rn-status-badge-node rn-style-status-pass rn-layout-badge" data-node-id="status-node" data-node-type="status_badge" data-style-token="status-pass" data-layout-token="badge" data-status-state="pass">
 
         PASS
 
@@ -219,7 +231,7 @@
     
 
 
-      <ul class="rn-node rn-list-node rn-style-evidence rn-layout-card" data-node-id="evidence-list-node" data-style-token="evidence" data-layout-token="card">
+      <ul class="rn-node rn-list-node rn-style-evidence rn-layout-card" data-node-id="evidence-list-node" data-node-type="list" data-style-token="evidence" data-layout-token="card">
 
         <li>Sandbox chain passing</li>
 <li>Payload validation verified</li>

@@ -45,6 +45,22 @@ function escapeHtml(value) {
 
 }
 
+function nodeAttributes(node) {
+
+  return [
+
+    `data-node-id="${escapeHtml(node.id)}"`,
+
+    `data-node-type="${escapeHtml(node.type)}"`,
+
+    `data-style-token="${escapeHtml(node.style_token)}"`,
+
+    `data-layout-token="${escapeHtml(node.layout_token)}"`
+
+  ].join(" ");
+
+}
+
 function renderNode(nodeId) {
 
   const node = nodesById.get(nodeId);
@@ -55,15 +71,7 @@ function renderNode(nodeId) {
 
   }
 
-  const attributes = [
-
-    `data-node-id="${escapeHtml(node.id)}"`,
-
-    `data-style-token="${escapeHtml(node.style_token)}"`,
-
-    `data-layout-token="${escapeHtml(node.layout_token)}"`
-
-  ].join(" ");
+  const attributes = nodeAttributes(node);
 
   if (node.type === "container") {
 
@@ -86,6 +94,20 @@ function renderNode(nodeId) {
     return `
 
       <div class="rn-node rn-text-node rn-style-${escapeHtml(node.style_token)} rn-layout-${escapeHtml(node.layout_token)}" ${attributes}>
+
+        ${escapeHtml(node.content?.value || "")}
+
+      </div>
+
+    `;
+
+  }
+
+  if (node.type === "status_badge") {
+
+    return `
+
+      <div class="rn-node rn-status-badge-node rn-style-${escapeHtml(node.style_token)} rn-layout-${escapeHtml(node.layout_token)}" ${attributes} data-status-state="${escapeHtml(node.content?.state || "unknown")}">
 
         ${escapeHtml(node.content?.value || "")}
 
@@ -267,9 +289,13 @@ const html = `<!DOCTYPE html>
 
     }
 
-    .rn-style-warning {
+    .rn-style-warning,
 
-      color: #ffd28a;
+    .rn-style-status-warning {
+
+      color: #3a2600;
+
+      background: #ffd28a;
 
     }
 
@@ -278,6 +304,14 @@ const html = `<!DOCTYPE html>
       color: #102217;
 
       background: #8ff0b0;
+
+    }
+
+    .rn-style-status-fail {
+
+      color: #2a0909;
+
+      background: #ff9b9b;
 
     }
 

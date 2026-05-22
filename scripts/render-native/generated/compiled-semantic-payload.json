@@ -1,5 +1,5 @@
 {
-  "schema_version": "phase736.render-native-payload.v3",
+  "schema_version": "phase736.render-native-payload.v4",
   "artifact_type": "render_native_visual",
   "scene": {
     "id": "phase736-sandbox-validation-seed-scene",
@@ -31,6 +31,8 @@
     "evidence": "info-secondary",
     "warning": "warning-signal",
     "status-pass": "success-signal",
+    "status-warning": "warning-signal",
+    "status-fail": "danger-signal",
     "spacing": "comfortable"
   },
   "nodes": [
@@ -68,11 +70,12 @@
     },
     {
       "id": "status-node",
-      "type": "text",
+      "type": "status_badge",
       "style_token": "status-pass",
       "layout_token": "badge",
       "content": {
-        "value": "PASS"
+        "value": "PASS",
+        "state": "pass"
       }
     },
     {
@@ -97,6 +100,7 @@
     "deterministic": true,
     "sandbox_only": true,
     "scene_composer": true,
-    "list_nodes": true
+    "list_nodes": true,
+    "status_badge_nodes": true
   }
 }

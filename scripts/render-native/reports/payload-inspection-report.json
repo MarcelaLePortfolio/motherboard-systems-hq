@@ -1,13 +1,14 @@
 {
-  "schema_version": "phase736.render-native-payload.v3",
+  "schema_version": "phase736.render-native-payload.v4",
   "artifact_type": "render_native_visual",
   "node_count": 5,
   "node_types": {
     "container": 1,
-    "text": 3,
+    "text": 2,
+    "status_badge": 1,
     "list": 1
   },
-  "style_token_count": 7,
+  "style_token_count": 9,
   "layout_token_count": 3,
   "referenced_style_tokens": {
     "background": 1,
