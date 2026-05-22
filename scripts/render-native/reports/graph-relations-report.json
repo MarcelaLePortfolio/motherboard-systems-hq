@@ -1,0 +1,60 @@
+{
+  "schema_version": "phase736.graph-relations-report.v1",
+  "corridor": "sandbox-only-read-only",
+  "payload_schema_version": "phase736.render-native-payload.v5",
+  "artifact_type": "render_native_visual",
+  "node_count": 5,
+  "relation_count": 2,
+  "nodes": [
+    {
+      "id": "root-node",
+      "type": "container",
+      "semantic_role": "scene_root",
+      "relation_count": 0
+    },
+    {
+      "id": "title-node",
+      "type": "text",
+      "semantic_role": "text",
+      "relation_count": 0
+    },
+    {
+      "id": "body-node",
+      "type": "text",
+      "semantic_role": "accent",
+      "relation_count": 0
+    },
+    {
+      "id": "status-node",
+      "type": "status_badge",
+      "semantic_role": "state",
+      "relation_count": 1
+    },
+    {
+      "id": "evidence-list-node",
+      "type": "list",
+      "semantic_role": "evidence_collection",
+      "relation_count": 1
+    }
+  ],
+  "relations": [
+    {
+      "source": "status-node",
+      "type": "validates",
+      "target": "evidence-list-node",
+      "target_exists": true
+    },
+    {
+      "source": "evidence-list-node",
+      "type": "validated_by",
+      "target": "status-node",
+      "target_exists": true
+    }
+  ],
+  "invalid_relations": [],
+  "validation": {
+    "graph_structure_present": true,
+    "semantic_relations_present": true,
+    "all_relation_targets_exist": true
+  }
+}
