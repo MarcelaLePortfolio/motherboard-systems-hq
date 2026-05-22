@@ -5,43 +5,15 @@
 
   "intent_id": "phase736-sandbox-validation-seed",
 
-  "intent": "render_native_validation",
+  "artifact_type": "render_native_visual",
 
-  "title": "Sandbox Validation Artifact",
+  "title": "Render-Native Sandbox Active",
 
-  "summary": "Deterministic sandbox payload validation artifact.",
+  "body": "Deterministic payload emission validated outside live Preview.",
 
-  "scene": {
+  "layout_mode": "single-panel",
 
-    "title": "Sandbox Validation Artifact",
-
-    "summary": "Deterministic sandbox payload validation artifact.",
-
-    "layout": "single-panel",
-
-    "style": {
-
-      "theme": "dark",
-
-      "accent": "hot-pink"
-
-    }
-
-  },
-
-  "components": [
-
-    {
-
-      "type": "hero",
-
-      "headline": "Render-Native Sandbox Active",
-
-      "subheadline": "Deterministic payload emission validated outside live Preview."
-
-    }
-
-  ]
+  "style_profile": "accent-signal"
 
 }
 
