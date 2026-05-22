@@ -1,0 +1,45 @@
+{
+  "schema_version": "phase736.preview-contract-comparison.v1",
+  "corridor": "read-only-deterministic-comparison",
+  "semantic_capabilities": {
+    "node_types": [
+      "panel",
+      "text-block",
+      "status-chip",
+      "list-block"
+    ],
+    "semantic_roles": [
+      "scene_root",
+      "text",
+      "accent",
+      "state",
+      "evidence_collection"
+    ],
+    "lineage_supported": true,
+    "relations_supported": true
+  },
+  "preview_contract_capabilities": {
+    "authoritative_files": [
+      "public/js/dashboard-tasks-widget.js",
+      "public/js/phase530_visible_panels_bridge.js",
+      "public/js/phase565_recent_tasks_wire.js",
+      "server/routes/api-tasks-postgres.mjs"
+    ],
+    "preview_root_detected": true,
+    "artifact_preview_route_detected": true,
+    "renderer_bridge_detected": true
+  },
+  "alignment": {
+    "preview_root_alignment": true,
+    "preview_route_alignment": true,
+    "renderer_bridge_alignment": true,
+    "semantic_render_mapping_present": true
+  },
+  "gaps": [],
+  "validation": {
+    "deterministic_comparison": true,
+    "runtime_mutation_disabled": true,
+    "live_preview_untouched": true,
+    "renderer_interception_disabled": true
+  }
+}
