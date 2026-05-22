@@ -1,7 +1,7 @@
 {
   "schema_version": "phase736.render-native-sandbox-chain-report.v1",
-  "started_at": "2026-05-22T17:04:04.486Z",
-  "completed_at": "2026-05-22T17:04:04.582Z",
+  "started_at": "2026-05-22T17:06:16.334Z",
+  "completed_at": "2026-05-22T17:06:16.425Z",
   "corridor": "sandbox-only",
   "live_preview_mutated": false,
   "status": "pass",
@@ -22,7 +22,7 @@
       "name": "render",
       "status": "pass",
       "command": "node scripts/render-native/render-payload.mjs scripts/render-native/generated/compiled-semantic-payload.json scripts/render-native/output/rendered-sandbox.html",
-      "output": "SANDBOX RENDER PASS\nOutput written to: scripts/render-native/output/rendered-sandbox.html"
+      "output": "SANDBOX RENDER PASS\nRendered sandbox HTML written to: scripts/render-native/output/rendered-sandbox.html"
     },
     {
       "name": "inspect",

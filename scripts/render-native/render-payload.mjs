@@ -1,9 +1,15 @@
 
-import fs from "fs";
+import { readFileSync, writeFileSync, mkdirSync } from "node:fs";
 
-const payloadPath = process.argv[2];
+const inputPath = process.argv[2];
 
-if (!payloadPath) {
+const outputPath =
+
+  process.argv[3] ||
+
+  "scripts/render-native/output/rendered-sandbox.html";
+
+if (!inputPath) {
 
   console.error("Missing payload path.");
 
@@ -11,69 +17,61 @@ if (!payloadPath) {
 
 }
 
-const raw = fs.readFileSync(payloadPath, "utf8");
+const payload = JSON.parse(readFileSync(inputPath, "utf8"));
 
-const payload = JSON.parse(raw);
+if (!payload.validation?.sandbox_only) {
 
-const nodeMap = new Map();
+  console.error("Refusing to render non-sandbox payload.");
 
-for (const node of payload.nodes) {
-
-  nodeMap.set(node.id, node);
+  process.exit(1);
 
 }
 
-function tokenAttributes(node) {
+const nodesById = new Map(payload.nodes.map((node) => [node.id, node]));
 
-  const attributes = [];
+function escapeHtml(value) {
 
-  if (node.style_token) {
+  return String(value)
 
-    attributes.push(`data-style-token="${node.style_token}"`);
+    .replaceAll("&", "&amp;")
 
-  }
+    .replaceAll("<", "&lt;")
 
-  if (node.layout_token) {
+    .replaceAll(">", "&gt;")
 
-    attributes.push(`data-layout-token="${node.layout_token}"`);
+    .replaceAll('"', "&quot;")
 
-  }
-
-  return attributes.length > 0 ? ` ${attributes.join(" ")}` : "";
+    .replaceAll("'", "&#039;");
 
 }
 
 function renderNode(nodeId) {
 
-  const node = nodeMap.get(nodeId);
+  const node = nodesById.get(nodeId);
 
   if (!node) {
 
-    return `<div data-missing-node="${nodeId}"></div>`;
+    return "";
 
   }
 
-  if (node.type === "text") {
+  const attributes = [
 
-    return `
+    `data-node-id="${escapeHtml(node.id)}"`,
 
-      <div class="text-node" data-node-id="${node.id}"${tokenAttributes(node)}>
+    `data-style-token="${escapeHtml(node.style_token)}"`,
 
-        ${node.content.value}
+    `data-layout-token="${escapeHtml(node.layout_token)}"`
 
-      </div>
-
-    `;
-
-  }
+  ].join(" ");
 
   if (node.type === "container") {
 
-    const children = node.content.children || [];
+    const children = node.content?.children || [];
 
     return `
 
-      <div class="container-node" data-node-id="${node.id}"${tokenAttributes(node)}>
+      <div class="rn-node rn-container-node rn-style-${escapeHtml(node.style_token)} rn-layout-${escapeHtml(node.layout_token)}" ${attributes}>
 
         ${children.map(renderNode).join("\n")}
 
@@ -83,11 +81,25 @@ function renderNode(nodeId) {
 
   }
 
+  if (node.type === "text") {
+
+    return `
+
+      <div class="rn-node rn-text-node rn-style-${escapeHtml(node.style_token)} rn-layout-${escapeHtml(node.layout_token)}" ${attributes}>
+
+        ${escapeHtml(node.content?.value || "")}
+
+      </div>
+
+    `;
+
+  }
+
   return `
 
-    <div class="unknown-node" data-node-id="${node.id}"${tokenAttributes(node)}>
+    <div class="rn-node rn-unknown-node" ${attributes}>
 
-      UNKNOWN NODE TYPE
+      Unsupported node type: ${escapeHtml(node.type)}
 
     </div>
 
@@ -95,9 +107,9 @@ function renderNode(nodeId) {
 
 }
 
-const html = `
+const rendered = renderNode(payload.scene.root);
 
-<!DOCTYPE html>
+const html = `<!DOCTYPE html>
 
 <html>
 
@@ -107,15 +119,169 @@ const html = `
 
   <title>Render-Native Sandbox Output</title>
 
+  <style>
+
+    :root {
+
+      color-scheme: dark;
+
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+
+      background: #0f1117;
+
+      color: #f4f7fb;
+
+    }
+
+    body {
+
+      margin: 0;
+
+      min-height: 100vh;
+
+      display: grid;
+
+      place-items: center;
+
+      background:
+
+        radial-gradient(circle at top left, rgba(255, 46, 169, 0.16), transparent 32rem),
+
+        linear-gradient(135deg, #0f1117 0%, #171a23 100%);
+
+    }
+
+    #sandbox-render-root {
+
+      width: min(720px, calc(100vw - 48px));
+
+    }
+
+    .rn-node {
+
+      box-sizing: border-box;
+
+    }
+
+    .rn-container-node {
+
+      border: 1px solid rgba(255, 255, 255, 0.12);
+
+      border-radius: 24px;
+
+      box-shadow: 0 24px 80px rgba(0, 0, 0, 0.32);
+
+      backdrop-filter: blur(16px);
+
+    }
+
+    .rn-layout-stack {
+
+      display: flex;
+
+      flex-direction: column;
+
+      gap: 16px;
+
+      align-items: stretch;
+
+      padding: 28px;
+
+    }
+
+    .rn-layout-card {
+
+      border-radius: 18px;
+
+      padding: 18px 20px;
+
+      background: rgba(255, 255, 255, 0.06);
+
+    }
+
+    .rn-layout-badge {
+
+      align-self: flex-start;
+
+      border-radius: 999px;
+
+      padding: 8px 14px;
+
+      font-size: 0.78rem;
+
+      font-weight: 800;
+
+      letter-spacing: 0.12em;
+
+      text-transform: uppercase;
+
+    }
+
+    .rn-style-background {
+
+      background: rgba(22, 25, 34, 0.86);
+
+    }
+
+    .rn-style-text {
+
+      font-size: clamp(1.8rem, 4vw, 3rem);
+
+      line-height: 1.05;
+
+      font-weight: 850;
+
+    }
+
+    .rn-style-accent {
+
+      color: #ff8bd3;
+
+      font-size: 1.05rem;
+
+      line-height: 1.6;
+
+    }
+
+    .rn-style-evidence {
+
+      color: #a8d8ff;
+
+      font-size: 0.95rem;
+
+      line-height: 1.5;
+
+    }
+
+    .rn-style-warning {
+
+      color: #ffd28a;
+
+      font-size: 0.95rem;
+
+      line-height: 1.5;
+
+    }
+
+    .rn-style-status-pass {
+
+      color: #102217;
+
+      background: #8ff0b0;
+
+    }
+
+  </style>
+
 </head>
 
 <body>
 
-  <div id="sandbox-render-root">
+  <main id="sandbox-render-root" data-schema-version="${escapeHtml(payload.schema_version)}" data-scene-pattern="${escapeHtml(payload.scene.pattern || "unknown")}">
 
-    ${renderNode(payload.scene.root)}
+    ${rendered}
 
-  </div>
+  </main>
 
 </body>
 
@@ -123,11 +289,11 @@ const html = `
 
 `;
 
-const outputPath = "scripts/render-native/output/rendered-sandbox.html";
+mkdirSync("scripts/render-native/output", { recursive: true });
 
-fs.writeFileSync(outputPath, html);
+writeFileSync(outputPath, html);
 
 console.log("SANDBOX RENDER PASS");
 
-console.log(`Output written to: ${outputPath}`);
+console.log(`Rendered sandbox HTML written to: ${outputPath}`);
 
