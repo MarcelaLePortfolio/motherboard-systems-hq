@@ -1,0 +1,212 @@
+{
+  "schema_version": "phase736.semantic-snapshot.v1",
+  "snapshot_id": "semantic-snapshot-2026-05-22T18-17-26-333Z",
+  "created_at": "2026-05-22T18:17:26.334Z",
+  "corridor": "sandbox-only",
+  "payload_schema_version": "phase736.render-native-payload.v6",
+  "artifact_type": "render_native_visual",
+  "validation": {
+    "deterministic": true,
+    "sandbox_only": true,
+    "scene_composer": true,
+    "list_nodes": true,
+    "status_badge_nodes": true,
+    "semantic_relations": true,
+    "graph_structure": true,
+    "semantic_lineage": true
+  },
+  "lineage": {
+    "generated_from": "phase736-sandbox-validation-seed",
+    "emitted_by": "compile-semantic-intent.mjs",
+    "snapshot_source": "sandbox-semantic-intent",
+    "lineage_scope": "semantic-only"
+  },
+  "semantic_summary": {
+    "node_count": 5,
+    "relation_count": 2,
+    "lineage_enabled": true,
+    "graph_enabled": true
+  },
+  "payload": {
+    "schema_version": "phase736.render-native-payload.v6",
+    "artifact_type": "render_native_visual",
+    "lineage": {
+      "generated_from": "phase736-sandbox-validation-seed",
+      "emitted_by": "compile-semantic-intent.mjs",
+      "snapshot_source": "sandbox-semantic-intent",
+      "lineage_scope": "semantic-only"
+    },
+    "scene": {
+      "id": "phase736-sandbox-validation-seed-scene",
+      "root": "root-node",
+      "pattern": "status_card"
+    },
+    "layout": {
+      "mode": "single-panel"
+    },
+    "layout_tokens": {
+      "stack": {
+        "direction": "vertical",
+        "gap": "medium",
+        "align": "start"
+      },
+      "card": {
+        "padding": "large",
+        "radius": "medium"
+      },
+      "badge": {
+        "padding": "small",
+        "radius": "pill"
+      }
+    },
+    "style_tokens": {
+      "background": "surface-default",
+      "text": "text-primary",
+      "accent": "accent-signal",
+      "evidence": "info-secondary",
+      "warning": "warning-signal",
+      "status-pass": "success-signal",
+      "status-warning": "warning-signal",
+      "status-fail": "danger-signal",
+      "spacing": "comfortable"
+    },
+    "nodes": [
+      {
+        "id": "root-node",
+        "type": "container",
+        "style_token": "background",
+        "layout_token": "stack",
+        "content": {
+          "children": [
+            "title-node",
+            "body-node",
+            "status-node",
+            "evidence-list-node"
+          ]
+        },
+        "meta": {
+          "semantic_role": "scene_root"
+        },
+        "relations": [],
+        "lineage": {
+          "generated_from": "phase736-sandbox-validation-seed",
+          "emitted_by": "compile-semantic-intent.mjs",
+          "snapshot_source": "compiled-scene-root",
+          "lineage_scope": "semantic-only",
+          "node_id": "root-node"
+        }
+      },
+      {
+        "id": "title-node",
+        "type": "text",
+        "style_token": "text",
+        "layout_token": "card",
+        "content": {
+          "value": "Render-Native Sandbox Active"
+        },
+        "meta": {
+          "semantic_role": "text"
+        },
+        "relations": [],
+        "lineage": {
+          "generated_from": "phase736-sandbox-validation-seed",
+          "emitted_by": "compile-semantic-intent.mjs",
+          "snapshot_source": "sandbox-semantic-intent",
+          "lineage_scope": "semantic-only",
+          "node_id": "title-node"
+        }
+      },
+      {
+        "id": "body-node",
+        "type": "text",
+        "style_token": "accent",
+        "layout_token": "card",
+        "content": {
+          "value": "Deterministic payload emission validated outside live Preview."
+        },
+        "meta": {
+          "semantic_role": "accent"
+        },
+        "relations": [],
+        "lineage": {
+          "generated_from": "phase736-sandbox-validation-seed",
+          "emitted_by": "compile-semantic-intent.mjs",
+          "snapshot_source": "sandbox-semantic-intent",
+          "lineage_scope": "semantic-only",
+          "node_id": "body-node"
+        }
+      },
+      {
+        "id": "status-node",
+        "type": "status_badge",
+        "style_token": "status-pass",
+        "layout_token": "badge",
+        "content": {
+          "value": "PASS",
+          "state": "pass"
+        },
+        "meta": {
+          "semantic_role": "state"
+        },
+        "relations": [
+          {
+            "type": "validates",
+            "target": "evidence-list-node"
+          }
+        ],
+        "lineage": {
+          "generated_from": "phase736-sandbox-validation-seed",
+          "emitted_by": "compile-semantic-intent.mjs",
+          "snapshot_source": "sandbox-semantic-intent",
+          "lineage_scope": "semantic-only",
+          "node_id": "status-node",
+          "validation_source": "graph-relations-report"
+        }
+      },
+      {
+        "id": "evidence-list-node",
+        "type": "list",
+        "style_token": "evidence",
+        "layout_token": "card",
+        "content": {
+          "items": [
+            "Sandbox chain passing",
+            "Payload validation verified",
+            "Renderer output deterministic"
+          ]
+        },
+        "meta": {
+          "semantic_role": "evidence_collection"
+        },
+        "relations": [
+          {
+            "type": "validated_by",
+            "target": "status-node"
+          }
+        ],
+        "lineage": {
+          "generated_from": "phase736-sandbox-validation-seed",
+          "emitted_by": "compile-semantic-intent.mjs",
+          "snapshot_source": "sandbox-semantic-intent",
+          "lineage_scope": "semantic-only",
+          "node_id": "evidence-list-node",
+          "validation_source": "graph-relations-report"
+        }
+      }
+    ],
+    "text": {
+      "title": "Render-Native Sandbox Active",
+      "body": "Deterministic payload emission validated outside live Preview."
+    },
+    "validation": {
+      "deterministic": true,
+      "sandbox_only": true,
+      "scene_composer": true,
+      "list_nodes": true,
+      "status_badge_nodes": true,
+      "semantic_relations": true,
+      "graph_structure": true,
+      "semantic_lineage": true
+    }
+  }
+}
