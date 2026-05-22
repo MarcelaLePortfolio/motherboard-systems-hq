@@ -1,0 +1,11 @@
+{
+  "schema_version": "phase736.render-native-payload.v1",
+  "artifact_type": "visual_scene",
+  "node_count": 3,
+  "node_types": {
+    "container": 1,
+    "text": 2
+  },
+  "deterministic": true,
+  "sandbox_only": true
+}
