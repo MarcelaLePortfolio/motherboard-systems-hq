@@ -1,0 +1,91 @@
+
+{
+
+  "schema_version": "phase736.render-native-payload.v1",
+
+  "artifact_type": "visual_scene",
+
+  "scene": {
+
+    "id": "scene-root-001",
+
+    "root": "root-node"
+
+  },
+
+  "layout": {
+
+    "mode": "vertical-stack"
+
+  },
+
+  "nodes": [
+
+    {
+
+      "id": "root-node",
+
+      "type": "container",
+
+      "content": {
+
+        "children": [
+
+          "title-node",
+
+          "body-node"
+
+        ]
+
+      }
+
+    },
+
+    {
+
+      "id": "title-node",
+
+      "type": "text",
+
+      "content": {
+
+        "value": "Render-Native Sandbox Validation"
+
+      }
+
+    },
+
+    {
+
+      "id": "body-node",
+
+      "type": "text",
+
+      "content": {
+
+        "value": "Deterministic payload emitted outside live Preview corridor."
+
+      }
+
+    }
+
+  ],
+
+  "text": {
+
+    "title": "Sandbox Payload",
+
+    "body": "Renderer integration intentionally deferred."
+
+  },
+
+  "validation": {
+
+    "deterministic": true,
+
+    "sandbox_only": true
+
+  }
+
+}
+
