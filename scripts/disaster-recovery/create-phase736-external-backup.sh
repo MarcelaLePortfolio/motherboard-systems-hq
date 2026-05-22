@@ -15,19 +15,23 @@ rm -rf "${SNAPSHOT_ROOT}/full-disaster-recovery-20260522-091609"
 
 mkdir -p "$BACKUP_DIR"
 
-tar \
+ditto \
 
-  --exclude="./node_modules" \
+  --norsrc \
 
-  --exclude="./.next" \
+  --noextattr \
 
-  --exclude="./.git" \
+  --exclude node_modules \
 
-  --exclude="./dist" \
+  --exclude .next \
 
-  --exclude="./coverage" \
+  --exclude .git \
 
-  -cf - . | tar -xf - -C "$BACKUP_DIR"
+  --exclude dist \
+
+  --exclude coverage \
+
+  . "$BACKUP_DIR"
 
 cat > "$BACKUP_DIR/PHASE736_BACKUP_MANIFEST.txt" << 'MANIFEST'
 
@@ -46,6 +50,8 @@ Checkpoint Purpose:
 - Preserve rollback-safe renderer containment state
 
 Protected Stable Commits:
+
+- d117027d Backup script checkpoint
 
 - bed2de45 Sandbox orchestration checkpoint
 
