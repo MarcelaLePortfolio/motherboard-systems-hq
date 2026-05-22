@@ -1,12 +1,12 @@
 {
   "schema_version": "phase736.render-native-payload.v1",
-  "artifact_type": "visual_scene",
+  "artifact_type": "render_native_visual",
   "scene": {
-    "id": "semantic-intent-001-scene",
+    "id": "phase736-sandbox-validation-seed-scene",
     "root": "root-node"
   },
   "layout": {
-    "mode": "vertical-stack"
+    "mode": "single-panel"
   },
   "layout_tokens": {
     "stack": {
@@ -44,7 +44,7 @@
       "style_token": "text",
       "layout_token": "card",
       "content": {
-        "value": "Compiled Semantic Intent"
+        "value": "Render-Native Sandbox Active"
       }
     },
     {
@@ -53,13 +53,13 @@
       "style_token": "accent",
       "layout_token": "card",
       "content": {
-        "value": "Bounded semantic input compiled into deterministic sandbox render-native payload."
+        "value": "Deterministic payload emission validated outside live Preview."
       }
     }
   ],
   "text": {
-    "title": "Compiled Semantic Intent",
-    "body": "Bounded semantic input compiled into deterministic sandbox render-native payload."
+    "title": "Render-Native Sandbox Active",
+    "body": "Deterministic payload emission validated outside live Preview."
   },
   "validation": {
     "deterministic": true,

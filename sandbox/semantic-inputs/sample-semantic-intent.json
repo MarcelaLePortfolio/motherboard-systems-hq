@@ -13,7 +13,9 @@
 
   "layout_mode": "single-panel",
 
-  "style_profile": "accent-signal"
+  "style_profile": "accent-signal",
+
+  "layout_profile": "title-node"
 
 }
 

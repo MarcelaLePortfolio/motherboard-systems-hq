@@ -1,6 +1,6 @@
 {
   "schema_version": "phase736.render-native-payload.v1",
-  "artifact_type": "visual_scene",
+  "artifact_type": "render_native_visual",
   "node_count": 3,
   "node_types": {
     "container": 1,

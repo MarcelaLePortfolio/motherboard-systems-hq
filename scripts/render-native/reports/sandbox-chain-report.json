@@ -1,17 +1,34 @@
 {
   "schema_version": "phase736.render-native-sandbox-chain-report.v1",
-  "started_at": "2026-05-22T16:48:54.559Z",
-  "completed_at": "2026-05-22T16:48:54.587Z",
+  "started_at": "2026-05-22T16:49:18.707Z",
+  "completed_at": "2026-05-22T16:49:18.797Z",
   "corridor": "sandbox-only",
   "live_preview_mutated": false,
-  "status": "fail",
+  "status": "pass",
   "steps": [
     {
       "name": "compile",
-      "status": "fail",
+      "status": "pass",
       "command": "node scripts/render-native/compile-semantic-intent.mjs sandbox/semantic-inputs/sample-semantic-intent.json scripts/render-native/generated/compiled-semantic-payload.json",
-      "output": "",
-      "error": "Missing semantic intent field: layout_profile"
+      "output": "SEMANTIC COMPILE PASS\nCompiled payload written to: scripts/render-native/generated/compiled-semantic-payload.json"
+    },
+    {
+      "name": "validate",
+      "status": "pass",
+      "command": "node scripts/render-native/validate-payload.mjs scripts/render-native/generated/compiled-semantic-payload.json",
+      "output": "VALIDATION PASS\nValidated payload: scripts/render-native/generated/compiled-semantic-payload.json"
+    },
+    {
+      "name": "render",
+      "status": "pass",
+      "command": "node scripts/render-native/render-payload.mjs scripts/render-native/generated/compiled-semantic-payload.json scripts/render-native/output/rendered-sandbox.html",
+      "output": "SANDBOX RENDER PASS\nOutput written to: scripts/render-native/output/rendered-sandbox.html"
+    },
+    {
+      "name": "inspect",
+      "status": "pass",
+      "command": "node scripts/render-native/inspect-payload.mjs scripts/render-native/generated/compiled-semantic-payload.json scripts/render-native/reports/payload-inspection-report.json",
+      "output": "INSPECTION PASS\nInspection report written to: scripts/render-native/reports/payload-inspection-report.json"
     }
   ],
   "artifacts": {
