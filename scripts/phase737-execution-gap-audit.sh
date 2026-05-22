@@ -11,6 +11,8 @@ echo "-- Searching for execution-related infrastructure --"
 
 find . \
 
+  \( -path "./node_modules" -o -path "./.git" \) -prune -o \
+
   -type f \
 
   \( \
@@ -28,6 +30,8 @@ find . \
     -iname "*rollback*" \
 
   \) \
+
+  -print \
 
   | sort
 
