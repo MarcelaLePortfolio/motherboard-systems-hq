@@ -5,43 +5,129 @@ import { execFileSync } from "node:child_process";
 
 const startedAt = new Date().toISOString();
 
-const reportDir = "scripts/render-native/reports";
+const semanticInputPath = "sandbox/semantic-inputs/sample-semantic-intent.json";
 
-mkdirSync(reportDir, { recursive: true });
+const compiledPayloadPath = "scripts/render-native/generated/compiled-semantic-payload.json";
+
+const renderedHtmlPath = "scripts/render-native/output/rendered-sandbox.html";
+
+const payloadInspectionReportPath = "scripts/render-native/reports/payload-inspection-report.json";
+
+const sandboxChainReportPath = "scripts/render-native/reports/sandbox-chain-report.json";
+
+mkdirSync("scripts/render-native/generated", { recursive: true });
+
+mkdirSync("scripts/render-native/output", { recursive: true });
+
+mkdirSync("scripts/render-native/reports", { recursive: true });
 
 const steps = [
 
-  ["compile", "scripts/render-native/compile-semantic-intent.mjs"],
+  {
 
-  ["validate", "scripts/render-native/validate-payload.mjs"],
+    name: "compile",
 
-  ["render", "scripts/render-native/render-payload.mjs"],
+    command: "node",
 
-  ["inspect", "scripts/render-native/inspect-payload.mjs"],
+    args: [
+
+      "scripts/render-native/compile-semantic-intent.mjs",
+
+      semanticInputPath,
+
+      compiledPayloadPath
+
+    ]
+
+  },
+
+  {
+
+    name: "validate",
+
+    command: "node",
+
+    args: [
+
+      "scripts/render-native/validate-payload.mjs",
+
+      compiledPayloadPath
+
+    ]
+
+  },
+
+  {
+
+    name: "render",
+
+    command: "node",
+
+    args: [
+
+      "scripts/render-native/render-payload.mjs",
+
+      compiledPayloadPath,
+
+      renderedHtmlPath
+
+    ]
+
+  },
+
+  {
+
+    name: "inspect",
+
+    command: "node",
+
+    args: [
+
+      "scripts/render-native/inspect-payload.mjs",
+
+      compiledPayloadPath,
+
+      payloadInspectionReportPath
+
+    ]
+
+  }
 
 ];
 
 const results = [];
 
-for (const [name, script] of steps) {
+for (const step of steps) {
 
   try {
 
-    const output = execFileSync("node", [script], { encoding: "utf8" });
+    const output = execFileSync(step.command, step.args, { encoding: "utf8" });
 
-    results.push({ name, status: "pass", output: output.trim() });
+    results.push({
+
+      name: step.name,
+
+      status: "pass",
+
+      command: `${step.command} ${step.args.join(" ")}`,
+
+      output: output.trim()
+
+    });
 
   } catch (error) {
 
     results.push({
 
-      name,
+      name: step.name,
 
       status: "fail",
 
+      command: `${step.command} ${step.args.join(" ")}`,
+
       output: error.stdout?.toString().trim() || "",
 
-      error: error.stderr?.toString().trim() || error.message,
+      error: error.stderr?.toString().trim() || error.message
 
     });
 
@@ -71,29 +157,23 @@ const report = {
 
   artifacts: {
 
-    semantic_input: "sandbox/semantic-inputs/sample-semantic-intent.json",
+    semantic_input: semanticInputPath,
 
-    compiled_payload: "scripts/render-native/generated/compiled-semantic-payload.json",
+    compiled_payload: compiledPayloadPath,
 
-    rendered_html: "scripts/render-native/output/rendered-sandbox.html",
+    rendered_html: renderedHtmlPath,
 
-    payload_inspection_report: "scripts/render-native/reports/payload-inspection-report.json",
+    payload_inspection_report: payloadInspectionReportPath
 
-  },
+  }
 
 };
 
-writeFileSync(
-
-  `${reportDir}/sandbox-chain-report.json`,
-
-  `${JSON.stringify(report, null, 2)}\n`
-
-);
+writeFileSync(sandboxChainReportPath, `${JSON.stringify(report, null, 2)}\n`);
 
 console.log(`Sandbox chain ${passed ? "passed" : "failed"}.`);
 
-console.log(`${reportDir}/sandbox-chain-report.json`);
+console.log(sandboxChainReportPath);
 
 if (!passed) process.exit(1);
 
