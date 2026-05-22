@@ -53,6 +53,28 @@ for (const field of requiredIntentFields) {
 
 const scenePattern = intent.scene_pattern || "status_card";
 
+function createListNode(id, items = []) {
+
+  return {
+
+    id,
+
+    type: "list",
+
+    style_token: "evidence",
+
+    layout_token: "card",
+
+    content: {
+
+      items
+
+    }
+
+  };
+
+}
+
 function createStatusCardNodes(intent) {
 
   return [
@@ -75,7 +97,9 @@ function createStatusCardNodes(intent) {
 
           "body-node",
 
-          "status-node"
+          "status-node",
+
+          "evidence-list-node"
 
         ]
 
@@ -135,7 +159,23 @@ function createStatusCardNodes(intent) {
 
       }
 
-    }
+    },
+
+    createListNode(
+
+      "evidence-list-node",
+
+      intent.evidence_items || [
+
+        "Sandbox chain passing",
+
+        "Payload validation verified",
+
+        "Renderer output deterministic"
+
+      ]
+
+    )
 
   ];
 
@@ -163,7 +203,9 @@ function createEvidenceCardNodes(intent) {
 
           "body-node",
 
-          "evidence-node"
+          "evidence-node",
+
+          "evidence-list-node"
 
         ]
 
@@ -223,7 +265,23 @@ function createEvidenceCardNodes(intent) {
 
       }
 
-    }
+    },
+
+    createListNode(
+
+      "evidence-list-node",
+
+      intent.evidence_items || [
+
+        "Payload contract locked",
+
+        "HTML structure verified",
+
+        "Scene composition stable"
+
+      ]
+
+    )
 
   ];
 
@@ -253,7 +311,9 @@ function createExecutionReadinessNodes(intent) {
 
           "readiness-node",
 
-          "blocking-node"
+          "blocking-node",
+
+          "readiness-list-node"
 
         ]
 
@@ -331,7 +391,23 @@ function createExecutionReadinessNodes(intent) {
 
       }
 
-    }
+    },
+
+    createListNode(
+
+      "readiness-list-node",
+
+      intent.readiness_items || [
+
+        "Sandbox renderer stable",
+
+        "Payload schema locked",
+
+        "External DR backup completed"
+
+      ]
+
+    )
 
   ];
 
@@ -361,7 +437,7 @@ function composeScene(intent) {
 
 const payload = {
 
-  schema_version: "phase736.render-native-payload.v2",
+  schema_version: "phase736.render-native-payload.v3",
 
   artifact_type: intent.artifact_type,
 
@@ -445,7 +521,9 @@ const payload = {
 
     sandbox_only: true,
 
-    scene_composer: true
+    scene_composer: true,
+
+    list_nodes: true
 
   }
 

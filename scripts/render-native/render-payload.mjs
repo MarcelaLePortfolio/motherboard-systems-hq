@@ -95,6 +95,22 @@ function renderNode(nodeId) {
 
   }
 
+  if (node.type === "list") {
+
+    const items = node.content?.items || [];
+
+    return `
+
+      <ul class="rn-node rn-list-node rn-style-${escapeHtml(node.style_token)} rn-layout-${escapeHtml(node.layout_token)}" ${attributes}>
+
+        ${items.map((item) => `<li>${escapeHtml(item)}</li>`).join("\n")}
+
+      </ul>
+
+    `;
+
+  }
+
   return `
 
     <div class="rn-node rn-unknown-node" ${attributes}>
@@ -125,7 +141,7 @@ const html = `<!DOCTYPE html>
 
       color-scheme: dark;
 
-      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      font-family: Inter, ui-sans-serif, system-ui, sans-serif;
 
       background: #0f1117;
 
@@ -165,11 +181,11 @@ const html = `<!DOCTYPE html>
 
     .rn-container-node {
 
-      border: 1px solid rgba(255, 255, 255, 0.12);
+      border: 1px solid rgba(255,255,255,0.12);
 
       border-radius: 24px;
 
-      box-shadow: 0 24px 80px rgba(0, 0, 0, 0.32);
+      box-shadow: 0 24px 80px rgba(0,0,0,0.32);
 
       backdrop-filter: blur(16px);
 
@@ -195,7 +211,7 @@ const html = `<!DOCTYPE html>
 
       padding: 18px 20px;
 
-      background: rgba(255, 255, 255, 0.06);
+      background: rgba(255,255,255,0.06);
 
     }
 
@@ -219,7 +235,7 @@ const html = `<!DOCTYPE html>
 
     .rn-style-background {
 
-      background: rgba(22, 25, 34, 0.86);
+      background: rgba(22,25,34,0.86);
 
     }
 
@@ -247,19 +263,13 @@ const html = `<!DOCTYPE html>
 
       color: #a8d8ff;
 
-      font-size: 0.95rem;
-
-      line-height: 1.5;
+      line-height: 1.6;
 
     }
 
     .rn-style-warning {
 
       color: #ffd28a;
-
-      font-size: 0.95rem;
-
-      line-height: 1.5;
 
     }
 
@@ -271,13 +281,37 @@ const html = `<!DOCTYPE html>
 
     }
 
+    .rn-list-node {
+
+      margin: 0;
+
+      padding-left: 1.4rem;
+
+      background: rgba(255,255,255,0.04);
+
+    }
+
+    .rn-list-node li + li {
+
+      margin-top: 0.6rem;
+
+    }
+
   </style>
 
 </head>
 
 <body>
 
-  <main id="sandbox-render-root" data-schema-version="${escapeHtml(payload.schema_version)}" data-scene-pattern="${escapeHtml(payload.scene.pattern || "unknown")}">
+  <main
+
+    id="sandbox-render-root"
+
+    data-schema-version="${escapeHtml(payload.schema_version)}"
+
+    data-scene-pattern="${escapeHtml(payload.scene.pattern || "unknown")}"
+
+  >
 
     ${rendered}
 

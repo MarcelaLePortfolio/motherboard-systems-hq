@@ -1,5 +1,5 @@
 {
-  "schema_version": "phase736.render-native-payload.v2",
+  "schema_version": "phase736.render-native-payload.v3",
   "artifact_type": "render_native_visual",
   "scene": {
     "id": "phase736-sandbox-validation-seed-scene",
@@ -43,7 +43,8 @@
         "children": [
           "title-node",
           "body-node",
-          "status-node"
+          "status-node",
+          "evidence-list-node"
         ]
       }
     },
@@ -73,6 +74,19 @@
       "content": {
         "value": "PASS"
       }
+    },
+    {
+      "id": "evidence-list-node",
+      "type": "list",
+      "style_token": "evidence",
+      "layout_token": "card",
+      "content": {
+        "items": [
+          "Sandbox chain passing",
+          "Payload validation verified",
+          "Renderer output deterministic"
+        ]
+      }
     }
   ],
   "text": {
@@ -82,6 +96,7 @@
   "validation": {
     "deterministic": true,
     "sandbox_only": true,
-    "scene_composer": true
+    "scene_composer": true,
+    "list_nodes": true
   }
 }
