@@ -5,7 +5,7 @@ import { join } from "node:path";
 
 const roots = [
 
-  "public",
+  "public/js",
 
   "routes",
 
@@ -15,11 +15,7 @@ const roots = [
 
   "app",
 
-  "scripts",
-
-  "worker",
-
-  "docs"
+  "worker"
 
 ];
 
@@ -29,13 +25,15 @@ const patterns = [
 
   "artifact-preview",
 
-  "Preview",
+  "/api/tasks/:task_id/artifact-preview",
 
-  "preview",
+  "data-phase735-single-artifact-render",
 
-  "artifact",
+  "phase530_visible_panels_bridge",
 
-  "render"
+  "artifact_preview",
+
+  "artifactPreview"
 
 ];
 
@@ -56,6 +54,32 @@ const ignoredDirs = new Set([
   "DISASTER_RECOVERY"
 
 ]);
+
+const allowedExtensions = new Set([
+
+  ".js",
+
+  ".mjs",
+
+  ".cjs",
+
+  ".ts",
+
+  ".tsx",
+
+  ".jsx",
+
+  ".html",
+
+  ".json"
+
+]);
+
+function hasAllowedExtension(path) {
+
+  return [...allowedExtensions].some((extension) => path.endsWith(extension));
+
+}
 
 const matches = [];
 
@@ -101,13 +125,7 @@ function walk(dir) {
 
     }
 
-    if (!stats.isFile()) {
-
-      continue;
-
-    }
-
-    if (stats.size > 500_000) {
+    if (!stats.isFile() || !hasAllowedExtension(path) || stats.size > 300_000) {
 
       continue;
 
@@ -177,11 +195,11 @@ const groupedFiles = [...new Set(matches.map((match) => match.file))].sort();
 
 const report = {
 
-  schema_version: "phase736.preview-contract-source-inspection.v1",
+  schema_version: "phase736.preview-contract-source-inspection.v2",
 
   corridor: "read-only",
 
-  purpose: "Identify authoritative Preview artifact contract sources before runtime alignment work.",
+  purpose: "Narrow authoritative Preview artifact contract source inspection.",
 
   inspected_roots: roots,
 
