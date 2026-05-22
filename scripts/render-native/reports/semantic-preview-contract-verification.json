@@ -1,0 +1,53 @@
+{
+  "schema_version": "phase736.semantic-preview-contract-verification.v1",
+  "corridor": "read-only-contract-verification",
+  "verified_file": "server/routes/api-tasks-postgres.mjs",
+  "verification_results": [
+    {
+      "fragment": "/:task_id/semantic-preview",
+      "present": true
+    },
+    {
+      "fragment": "corridor: \"read-only-semantic-inspection\"",
+      "present": true
+    },
+    {
+      "fragment": "outcome_preview",
+      "present": true
+    },
+    {
+      "fragment": "explanation_preview",
+      "present": true
+    },
+    {
+      "fragment": "semantic_artifact",
+      "present": false
+    },
+    {
+      "fragment": "renderer_mutation_disabled",
+      "present": true
+    },
+    {
+      "fragment": "preview_mutation_disabled",
+      "present": true
+    },
+    {
+      "fragment": "execution_authority_disabled",
+      "present": true
+    },
+    {
+      "fragment": "reconciliation_authority_disabled",
+      "present": true
+    }
+  ],
+  "passed": false,
+  "missing_fragments": [
+    "semantic_artifact"
+  ],
+  "validation": {
+    "deterministic_verification": true,
+    "runtime_mutation_disabled": true,
+    "preview_mutation_disabled": true,
+    "renderer_interception_disabled": true
+  }
+}
