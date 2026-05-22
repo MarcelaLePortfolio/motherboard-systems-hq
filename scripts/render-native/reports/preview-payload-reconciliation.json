@@ -1,0 +1,45 @@
+{
+  "schema_version": "phase736.preview-payload-reconciliation.v1",
+  "corridor": "read-only-deterministic-reconciliation",
+  "semantic_adapter": {
+    "node_count": 5,
+    "node_types": [
+      "panel",
+      "text-block",
+      "status-chip",
+      "list-block"
+    ],
+    "semantic_roles": [
+      "scene_root",
+      "text",
+      "accent",
+      "state",
+      "evidence_collection"
+    ]
+  },
+  "runtime_payload": {
+    "artifact_type": "markdown",
+    "semantic_artifact_kind": null,
+    "semantic_schema_version": null,
+    "section_count": 0
+  },
+  "alignment": {
+    "semantic_payload_present": true,
+    "runtime_semantic_artifact_present": true,
+    "runtime_sections_present": false,
+    "semantic_roles_present": true,
+    "semantic_lineage_present": true,
+    "semantic_relations_present": true
+  },
+  "reconciliation_findings": [
+    "Semantic substrate structurally aligns with runtime semantic artifact lifecycle.",
+    "Semantic relationship topology exceeds current runtime artifact structure.",
+    "Semantic lineage infrastructure exists ahead of runtime continuity lifecycle."
+  ],
+  "validation": {
+    "deterministic_reconciliation": true,
+    "runtime_mutation_disabled": true,
+    "live_preview_untouched": true,
+    "renderer_interception_disabled": true
+  }
+}
