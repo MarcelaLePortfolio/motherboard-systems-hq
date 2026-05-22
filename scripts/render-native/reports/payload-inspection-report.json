@@ -1,5 +1,5 @@
 {
-  "schema_version": "phase736.render-native-payload.v4",
+  "schema_version": "phase736.render-native-payload.v5",
   "artifact_type": "render_native_visual",
   "node_count": 5,
   "node_types": {

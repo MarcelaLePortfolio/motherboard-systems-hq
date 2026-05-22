@@ -1,5 +1,5 @@
 {
-  "schema_version": "phase736.render-native-payload.v4",
+  "schema_version": "phase736.render-native-payload.v5",
   "artifact_type": "render_native_visual",
   "scene": {
     "id": "phase736-sandbox-validation-seed-scene",
@@ -48,7 +48,11 @@
           "status-node",
           "evidence-list-node"
         ]
-      }
+      },
+      "meta": {
+        "semantic_role": "scene_root"
+      },
+      "relations": []
     },
     {
       "id": "title-node",
@@ -57,7 +61,11 @@
       "layout_token": "card",
       "content": {
         "value": "Render-Native Sandbox Active"
-      }
+      },
+      "meta": {
+        "semantic_role": "text"
+      },
+      "relations": []
     },
     {
       "id": "body-node",
@@ -66,7 +74,11 @@
       "layout_token": "card",
       "content": {
         "value": "Deterministic payload emission validated outside live Preview."
-      }
+      },
+      "meta": {
+        "semantic_role": "accent"
+      },
+      "relations": []
     },
     {
       "id": "status-node",
@@ -76,7 +88,16 @@
       "content": {
         "value": "PASS",
         "state": "pass"
-      }
+      },
+      "meta": {
+        "semantic_role": "state"
+      },
+      "relations": [
+        {
+          "type": "validates",
+          "target": "evidence-list-node"
+        }
+      ]
     },
     {
       "id": "evidence-list-node",
@@ -89,7 +110,16 @@
           "Payload validation verified",
           "Renderer output deterministic"
         ]
-      }
+      },
+      "meta": {
+        "semantic_role": "evidence_collection"
+      },
+      "relations": [
+        {
+          "type": "validated_by",
+          "target": "status-node"
+        }
+      ]
     }
   ],
   "text": {
@@ -101,6 +131,8 @@
     "sandbox_only": true,
     "scene_composer": true,
     "list_nodes": true,
-    "status_badge_nodes": true
+    "status_badge_nodes": true,
+    "semantic_relations": true,
+    "graph_structure": true
   }
 }

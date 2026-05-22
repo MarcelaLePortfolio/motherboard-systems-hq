@@ -53,115 +53,173 @@ for (const field of requiredIntentFields) {
 
 const scenePattern = intent.scene_pattern || "status_card";
 
-function createStatusBadgeNode(id, value = "PASS", state = "pass") {
+function withGraph(node, meta = {}, relations = []) {
 
   return {
 
-    id,
+    ...node,
 
-    type: "status_badge",
+    meta,
 
-    style_token: `status-${state}`,
+    relations
 
-    layout_token: "badge",
+  };
 
-    content: {
+}
 
-      value,
+function createStatusBadgeNode(id, value = "PASS", state = "pass") {
 
-      state
+  return withGraph(
+
+    {
+
+      id,
+
+      type: "status_badge",
+
+      style_token: `status-${state}`,
+
+      layout_token: "badge",
+
+      content: {
+
+        value,
+
+        state
+
+      }
+
+    },
+
+    {
+
+      semantic_role: "state"
 
     }
 
-  };
+  );
 
 }
 
 function createListNode(id, items = []) {
 
-  return {
+  return withGraph(
 
-    id,
+    {
 
-    type: "list",
+      id,
 
-    style_token: "evidence",
+      type: "list",
 
-    layout_token: "card",
+      style_token: "evidence",
 
-    content: {
+      layout_token: "card",
 
-      items
+      content: {
+
+        items
+
+      }
+
+    },
+
+    {
+
+      semantic_role: "evidence"
 
     }
 
-  };
+  );
 
 }
 
 function createTextNode(id, value, styleToken = "text", layoutToken = "card") {
 
-  return {
+  return withGraph(
 
-    id,
+    {
 
-    type: "text",
+      id,
 
-    style_token: styleToken,
+      type: "text",
 
-    layout_token: layoutToken,
+      style_token: styleToken,
 
-    content: {
+      layout_token: layoutToken,
 
-      value
+      content: {
+
+        value
+
+      }
+
+    },
+
+    {
+
+      semantic_role: styleToken
 
     }
 
-  };
+  );
 
 }
 
 function createRootNode(children) {
 
-  return {
+  return withGraph(
 
-    id: "root-node",
+    {
 
-    type: "container",
+      id: "root-node",
 
-    style_token: "background",
+      type: "container",
 
-    layout_token: "stack",
+      style_token: "background",
 
-    content: {
+      layout_token: "stack",
 
-      children
+      content: {
+
+        children
+
+      }
+
+    },
+
+    {
+
+      semantic_role: "scene_root"
 
     }
 
-  };
+  );
 
 }
 
 function createStatusCardNodes(intent) {
 
-  return [
+  const titleNode = createTextNode(
 
-    createRootNode([
+    "title-node",
 
-      "title-node",
+    intent.title,
 
-      "body-node",
+    "text"
 
-      "status-node",
+  );
 
-      "evidence-list-node"
+  const bodyNode = createTextNode(
 
-    ]),
+    "body-node",
 
-    createTextNode("title-node", intent.title, "text"),
+    intent.body,
 
-    createTextNode("body-node", intent.body, "accent"),
+    "accent"
+
+  );
+
+  const statusNode = withGraph(
 
     createStatusBadgeNode(
 
@@ -172,6 +230,28 @@ function createStatusCardNodes(intent) {
       intent.status_state || "pass"
 
     ),
+
+    {
+
+      semantic_role: "state"
+
+    },
+
+    [
+
+      {
+
+        type: "validates",
+
+        target: "evidence-list-node"
+
+      }
+
+    ]
+
+  );
+
+  const evidenceNode = withGraph(
 
     createListNode(
 
@@ -187,13 +267,27 @@ function createStatusCardNodes(intent) {
 
       ]
 
-    )
+    ),
 
-  ];
+    {
 
-}
+      semantic_role: "evidence_collection"
 
-function createEvidenceCardNodes(intent) {
+    },
+
+    [
+
+      {
+
+        type: "validated_by",
+
+        target: "status-node"
+
+      }
+
+    ]
+
+  );
 
   return [
 
@@ -204,114 +298,18 @@ function createEvidenceCardNodes(intent) {
       "body-node",
 
       "status-node",
-
-      "evidence-node",
 
       "evidence-list-node"
 
     ]),
 
-    createTextNode("title-node", intent.title, "text"),
+    titleNode,
 
-    createTextNode("body-node", intent.body, "accent"),
+    bodyNode,
 
-    createStatusBadgeNode(
+    statusNode,
 
-      "status-node",
-
-      intent.status_label || "VERIFIED",
-
-      intent.status_state || "pass"
-
-    ),
-
-    createTextNode(
-
-      "evidence-node",
-
-      intent.evidence_summary || "Evidence verified.",
-
-      "evidence"
-
-    ),
-
-    createListNode(
-
-      "evidence-list-node",
-
-      intent.evidence_items || [
-
-        "Payload contract locked",
-
-        "HTML structure verified",
-
-        "Scene composition stable"
-
-      ]
-
-    )
-
-  ];
-
-}
-
-function createExecutionReadinessNodes(intent) {
-
-  return [
-
-    createRootNode([
-
-      "title-node",
-
-      "body-node",
-
-      "status-node",
-
-      "blocking-node",
-
-      "readiness-list-node"
-
-    ]),
-
-    createTextNode("title-node", intent.title, "text"),
-
-    createTextNode("body-node", intent.body, "accent"),
-
-    createStatusBadgeNode(
-
-      "status-node",
-
-      intent.readiness_state || "READY",
-
-      intent.status_state || "pass"
-
-    ),
-
-    createTextNode(
-
-      "blocking-node",
-
-      intent.blocking_conditions || "No blocking conditions.",
-
-      "warning"
-
-    ),
-
-    createListNode(
-
-      "readiness-list-node",
-
-      intent.readiness_items || [
-
-        "Sandbox renderer stable",
-
-        "Payload schema locked",
-
-        "External DR backup completed"
-
-      ]
-
-    )
+    evidenceNode
 
   ];
 
@@ -320,14 +318,6 @@ function createExecutionReadinessNodes(intent) {
 function composeScene(intent) {
 
   switch (scenePattern) {
-
-    case "evidence_card":
-
-      return createEvidenceCardNodes(intent);
-
-    case "execution_readiness_card":
-
-      return createExecutionReadinessNodes(intent);
 
     case "status_card":
 
@@ -341,7 +331,7 @@ function composeScene(intent) {
 
 const payload = {
 
-  schema_version: "phase736.render-native-payload.v4",
+  schema_version: "phase736.render-native-payload.v5",
 
   artifact_type: intent.artifact_type,
 
@@ -433,7 +423,11 @@ const payload = {
 
     list_nodes: true,
 
-    status_badge_nodes: true
+    status_badge_nodes: true,
+
+    semantic_relations: true,
+
+    graph_structure: true
 
   }
 
