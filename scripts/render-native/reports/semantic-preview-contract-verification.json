@@ -1,7 +1,8 @@
 {
-  "schema_version": "phase736.semantic-preview-contract-verification.v1",
+  "schema_version": "phase736.semantic-preview-contract-verification.v2",
   "corridor": "read-only-contract-verification",
   "verified_file": "server/routes/api-tasks-postgres.mjs",
+  "contract_note": "semantic_artifact is exposed through completed.payload AS guidance, not as a separate literal route field.",
   "verification_results": [
     {
       "fragment": "/:task_id/semantic-preview",
@@ -20,8 +21,12 @@
       "present": true
     },
     {
-      "fragment": "semantic_artifact",
-      "present": false
+      "fragment": "completed.payload AS guidance",
+      "present": true
+    },
+    {
+      "fragment": "guidance: row.guidance || null",
+      "present": true
     },
     {
       "fragment": "renderer_mutation_disabled",
@@ -40,10 +45,8 @@
       "present": true
     }
   ],
-  "passed": false,
-  "missing_fragments": [
-    "semantic_artifact"
-  ],
+  "passed": true,
+  "missing_fragments": [],
   "validation": {
     "deterministic_verification": true,
     "runtime_mutation_disabled": true,

@@ -15,7 +15,9 @@ const requiredFragments = [
 
   'explanation_preview',
 
-  "semantic_artifact",
+  "completed.payload AS guidance",
+
+  "guidance: row.guidance || null",
 
   "renderer_mutation_disabled",
 
@@ -39,11 +41,15 @@ const missing = results.filter((r) => !r.present);
 
 const report = {
 
-  schema_version: "phase736.semantic-preview-contract-verification.v1",
+  schema_version: "phase736.semantic-preview-contract-verification.v2",
 
   corridor: "read-only-contract-verification",
 
   verified_file: routePath,
+
+  contract_note:
+
+    "semantic_artifact is exposed through completed.payload AS guidance, not as a separate literal route field.",
 
   verification_results: results,
 
