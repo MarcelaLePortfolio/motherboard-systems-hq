@@ -1,21 +1,23 @@
 {
-  "schema_version": "phase736.render-native-payload.v1",
+  "schema_version": "phase736.render-native-payload.v2",
   "artifact_type": "render_native_visual",
-  "node_count": 3,
+  "node_count": 4,
   "node_types": {
     "container": 1,
-    "text": 2
+    "text": 3
   },
-  "style_token_count": 4,
-  "layout_token_count": 2,
+  "style_token_count": 7,
+  "layout_token_count": 3,
   "referenced_style_tokens": {
     "background": 1,
     "text": 1,
-    "accent": 1
+    "accent": 1,
+    "status-pass": 1
   },
   "referenced_layout_tokens": {
     "stack": 1,
-    "card": 2
+    "card": 2,
+    "badge": 1
   },
   "deterministic": true,
   "sandbox_only": true

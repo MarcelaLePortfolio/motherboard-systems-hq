@@ -1,9 +1,10 @@
 {
-  "schema_version": "phase736.render-native-payload.v1",
+  "schema_version": "phase736.render-native-payload.v2",
   "artifact_type": "render_native_visual",
   "scene": {
     "id": "phase736-sandbox-validation-seed-scene",
-    "root": "root-node"
+    "root": "root-node",
+    "pattern": "status_card"
   },
   "layout": {
     "mode": "single-panel"
@@ -17,12 +18,19 @@
     "card": {
       "padding": "large",
       "radius": "medium"
+    },
+    "badge": {
+      "padding": "small",
+      "radius": "pill"
     }
   },
   "style_tokens": {
     "background": "surface-default",
     "text": "text-primary",
     "accent": "accent-signal",
+    "evidence": "info-secondary",
+    "warning": "warning-signal",
+    "status-pass": "success-signal",
     "spacing": "comfortable"
   },
   "nodes": [
@@ -34,7 +42,8 @@
       "content": {
         "children": [
           "title-node",
-          "body-node"
+          "body-node",
+          "status-node"
         ]
       }
     },
@@ -55,6 +64,15 @@
       "content": {
         "value": "Deterministic payload emission validated outside live Preview."
       }
+    },
+    {
+      "id": "status-node",
+      "type": "text",
+      "style_token": "status-pass",
+      "layout_token": "badge",
+      "content": {
+        "value": "PASS"
+      }
     }
   ],
   "text": {
@@ -63,6 +81,7 @@
   },
   "validation": {
     "deterministic": true,
-    "sandbox_only": true
+    "sandbox_only": true,
+    "scene_composer": true
   }
 }

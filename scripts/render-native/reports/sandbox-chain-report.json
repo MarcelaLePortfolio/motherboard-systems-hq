@@ -1,7 +1,7 @@
 {
   "schema_version": "phase736.render-native-sandbox-chain-report.v1",
-  "started_at": "2026-05-22T16:49:18.707Z",
-  "completed_at": "2026-05-22T16:49:18.797Z",
+  "started_at": "2026-05-22T17:04:04.486Z",
+  "completed_at": "2026-05-22T17:04:04.582Z",
   "corridor": "sandbox-only",
   "live_preview_mutated": false,
   "status": "pass",
