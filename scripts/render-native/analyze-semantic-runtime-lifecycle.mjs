@@ -1,13 +1,59 @@
 
 import fs from "fs";
 
-const inputPath =
+import path from "path";
+
+const mapPath =
 
   "scripts/render-native/reports/semantic-runtime-lifecycle-map.json";
 
-const report = JSON.parse(fs.readFileSync(inputPath, "utf8"));
+const runtimeCaptureDir =
 
-const findings = report.findings || [];
+  "scripts/render-native/runtime-captures";
+
+const outputPath =
+
+  "scripts/render-native/reports/semantic-runtime-lifecycle-analysis.json";
+
+const mapReport = JSON.parse(fs.readFileSync(mapPath, "utf8"));
+
+const findings = mapReport.findings || [];
+
+const runtimeCaptureFiles = fs.existsSync(runtimeCaptureDir)
+
+  ? fs.readdirSync(runtimeCaptureDir)
+
+      .filter((file) => file.includes("semantic-preview-route") && file.endsWith(".json"))
+
+      .sort()
+
+  : [];
+
+const latestSemanticCapturePath = runtimeCaptureFiles.length
+
+  ? path.join(runtimeCaptureDir, runtimeCaptureFiles[runtimeCaptureFiles.length - 1])
+
+  : null;
+
+const latestSemanticCapture = latestSemanticCapturePath
+
+  ? JSON.parse(fs.readFileSync(latestSemanticCapturePath, "utf8"))
+
+  : null;
+
+const guidance = latestSemanticCapture?.guidance || null;
+
+const artifactSemantic =
+
+  latestSemanticCapture?.artifact?.semantic_artifact ||
+
+  latestSemanticCapture?.artifacts?.[0]?.semantic_artifact ||
+
+  guidance?.artifact?.semantic_artifact ||
+
+  guidance?.artifacts?.[0]?.semantic_artifact ||
+
+  null;
 
 const classifications = {
 
@@ -21,29 +67,13 @@ const classifications = {
 
   transport_only: [],
 
-  absent: []
+  runtime_capture_preserved: []
 
 };
 
 for (const finding of findings) {
 
   const text = `${finding.pattern} ${finding.text}`.toLowerCase();
-
-  if (
-
-    text.includes("semantic_artifact") ||
-
-    text.includes("semantic_artifact_schema") ||
-
-    text.includes("semantic_artifact_validated")
-
-  ) {
-
-    classifications.preserved.push(finding);
-
-    continue;
-
-  }
 
   if (
 
@@ -99,21 +129,69 @@ for (const finding of findings) {
 
   }
 
+  if (
+
+    text.includes("semantic_artifact") ||
+
+    text.includes("semantic_artifact_schema") ||
+
+    text.includes("semantic_artifact_validated")
+
+  ) {
+
+    classifications.preserved.push(finding);
+
+  }
+
+}
+
+if (artifactSemantic) {
+
+  classifications.runtime_capture_preserved.push({
+
+    source: latestSemanticCapturePath,
+
+    semantic_artifact_present: true,
+
+    schema_version: artifactSemantic.schema_version || null,
+
+    artifact_kind: artifactSemantic.artifact_kind || null,
+
+    section_count: Array.isArray(artifactSemantic.sections)
+
+      ? artifactSemantic.sections.length
+
+      : 0,
+
+    semantic_artifact_validated:
+
+      latestSemanticCapture?.artifact?.semantic_artifact_validated ??
+
+      latestSemanticCapture?.guidance?.artifact?.semantic_artifact_validated ??
+
+      null
+
+  });
+
 }
 
 const analysis = {
 
-  schema_version: "phase737.semantic-runtime-lifecycle-analysis.v1",
+  schema_version: "phase737.semantic-runtime-lifecycle-analysis.v2",
 
   corridor: "read-only-runtime-analysis",
 
-  source_report: inputPath,
+  source_report: mapPath,
+
+  runtime_capture_source: latestSemanticCapturePath,
 
   totals: {
 
     findings: findings.length,
 
-    preserved: classifications.preserved.length,
+    preserved_source_matches: classifications.preserved.length,
+
+    runtime_capture_preserved: classifications.runtime_capture_preserved.length,
 
     reconstructed: classifications.reconstructed.length,
 
@@ -127,13 +205,13 @@ const analysis = {
 
   architectural_findings: [
 
-    "Semantic continuity is preserved in completed payload guidance transport.",
+    "Source-level Preview lifecycle reconstructs sections from markdown.",
 
-    "Preview rendering remains markdown-driven and reconstruction-oriented.",
+    "Runtime semantic-preview capture confirms semantic_artifact is preserved in completed payload/artifact metadata.",
 
-    "Semantic inspection is runtime-adjacent rather than renderer-authoritative.",
+    "Semantic preservation is observable through semantic-preview, not artifact-preview.",
 
-    "Renderer lifecycle intentionally remains minimally coupled to semantic infrastructure."
+    "Preview rendering remains markdown-driven and intentionally separate from semantic inspection."
 
   ],
 
@@ -142,6 +220,8 @@ const analysis = {
   validation: {
 
     deterministic_analysis: true,
+
+    runtime_capture_considered: true,
 
     runtime_mutation_disabled: true,
 
@@ -157,37 +237,15 @@ const analysis = {
 
 fs.mkdirSync("scripts/render-native/reports", { recursive: true });
 
-fs.writeFileSync(
-
-  "scripts/render-native/reports/semantic-runtime-lifecycle-analysis.json",
-
-  `${JSON.stringify(analysis, null, 2)}\n`
-
-);
+fs.writeFileSync(outputPath, `${JSON.stringify(analysis, null, 2)}\n`);
 
 console.log("SEMANTIC RUNTIME LIFECYCLE ANALYSIS PASS");
 
-console.log(
+console.log(outputPath);
 
-  "scripts/render-native/reports/semantic-runtime-lifecycle-analysis.json"
+console.log(`Runtime preserved: ${classifications.runtime_capture_preserved.length}`);
 
-);
+console.log(`Reconstructed: ${classifications.reconstructed.length}`);
 
-console.log(
-
-  `Preserved: ${classifications.preserved.length}`
-
-);
-
-console.log(
-
-  `Reconstructed: ${classifications.reconstructed.length}`
-
-);
-
-console.log(
-
-  `Inspection-only: ${classifications.inspection_only.length}`
-
-);
+console.log(`Inspection-only: ${classifications.inspection_only.length}`);
 

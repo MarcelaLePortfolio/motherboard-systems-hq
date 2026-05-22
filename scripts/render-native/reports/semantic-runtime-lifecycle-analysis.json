@@ -1,20 +1,22 @@
 {
-  "schema_version": "phase737.semantic-runtime-lifecycle-analysis.v1",
+  "schema_version": "phase737.semantic-runtime-lifecycle-analysis.v2",
   "corridor": "read-only-runtime-analysis",
   "source_report": "scripts/render-native/reports/semantic-runtime-lifecycle-map.json",
+  "runtime_capture_source": "scripts/render-native/runtime-captures/semantic-preview-route-t_2b36c623-da32-498f-9436-8158a37ee7e3-20260522-131625.json",
   "totals": {
     "findings": 55,
-    "preserved": 0,
+    "preserved_source_matches": 0,
+    "runtime_capture_preserved": 1,
     "reconstructed": 21,
     "inspection_only": 11,
     "renderer_only": 11,
     "transport_only": 10
   },
   "architectural_findings": [
-    "Semantic continuity is preserved in completed payload guidance transport.",
-    "Preview rendering remains markdown-driven and reconstruction-oriented.",
-    "Semantic inspection is runtime-adjacent rather than renderer-authoritative.",
-    "Renderer lifecycle intentionally remains minimally coupled to semantic infrastructure."
+    "Source-level Preview lifecycle reconstructs sections from markdown.",
+    "Runtime semantic-preview capture confirms semantic_artifact is preserved in completed payload/artifact metadata.",
+    "Semantic preservation is observable through semantic-preview, not artifact-preview.",
+    "Preview rendering remains markdown-driven and intentionally separate from semantic inspection."
   ],
   "classifications": {
     "preserved": [],
@@ -344,10 +346,20 @@
         "text": "completed.payload->'artifacts' AS artifacts,"
       }
     ],
-    "absent": []
+    "runtime_capture_preserved": [
+      {
+        "source": "scripts/render-native/runtime-captures/semantic-preview-route-t_2b36c623-da32-498f-9436-8158a37ee7e3-20260522-131625.json",
+        "semantic_artifact_present": true,
+        "schema_version": "semantic-artifact.v1",
+        "artifact_kind": "launch_card",
+        "section_count": 19,
+        "semantic_artifact_validated": true
+      }
+    ]
   },
   "validation": {
     "deterministic_analysis": true,
+    "runtime_capture_considered": true,
     "runtime_mutation_disabled": true,
     "renderer_mutation_disabled": true,
     "preview_mutation_disabled": true,
