@@ -9,33 +9,43 @@ BACKUP_ROOT="DISASTER_RECOVERY/phase737-governance-seal-${STAMP}"
 
 mkdir -p "${BACKUP_ROOT}"
 
-echo "== Phase 737 Governance Seal Backup =="
-
 mkdir -p "${BACKUP_ROOT}/contracts"
 
 mkdir -p "${BACKUP_ROOT}/audit"
 
 mkdir -p "${BACKUP_ROOT}/validators"
 
-cp EXECUTION_BRIDGE_ELIGIBILITY_CONTRACT.md \
+echo "== Phase 737 Governance Seal Backup =="
 
-  "${BACKUP_ROOT}/contracts/" 2>/dev/null || true
+safe_copy() {
 
-cp DISASTER_RECOVERY/phase737-execution-gap-audit-result.md \
+  local source="$1"
 
-  "${BACKUP_ROOT}/audit/" 2>/dev/null || true
+  local target_dir="$2"
 
-cp DISASTER_RECOVERY/phase737-execution-bridge-eligibility-check.md \
+  if [[ -f "${source}" ]]; then
 
-  "${BACKUP_ROOT}/audit/" 2>/dev/null || true
+    cp "${source}" "${target_dir}/"
 
-cp scripts/phase737-execution-gap-audit.mjs \
+    echo "Copied: ${source}"
 
-  "${BACKUP_ROOT}/validators/" 2>/dev/null || true
+  else
 
-cp scripts/phase737-execution-bridge-eligibility-check.mjs \
+    echo "Skipped missing file: ${source}"
 
-  "${BACKUP_ROOT}/validators/" 2>/dev/null || true
+  fi
+
+}
+
+safe_copy "EXECUTION_BRIDGE_ELIGIBILITY_CONTRACT.md" "${BACKUP_ROOT}/contracts"
+
+safe_copy "DISASTER_RECOVERY/phase737-execution-gap-audit-result.md" "${BACKUP_ROOT}/audit"
+
+safe_copy "DISASTER_RECOVERY/phase737-execution-bridge-eligibility-check.md" "${BACKUP_ROOT}/audit"
+
+safe_copy "scripts/phase737-execution-gap-audit.mjs" "${BACKUP_ROOT}/validators"
+
+safe_copy "scripts/phase737-execution-bridge-eligibility-check.mjs" "${BACKUP_ROOT}/validators"
 
 git rev-parse HEAD > "${BACKUP_ROOT}/GIT_COMMIT.txt"
 
