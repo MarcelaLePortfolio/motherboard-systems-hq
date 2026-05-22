@@ -3,7 +3,13 @@
 
   "schema_version": "phase736.semantic-intent.v1",
 
+  "intent_id": "phase736-sandbox-validation-seed",
+
   "intent": "render_native_validation",
+
+  "title": "Sandbox Validation Artifact",
+
+  "summary": "Deterministic sandbox payload validation artifact.",
 
   "scene": {
 

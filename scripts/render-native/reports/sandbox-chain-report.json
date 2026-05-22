@@ -1,7 +1,7 @@
 {
   "schema_version": "phase736.render-native-sandbox-chain-report.v1",
-  "started_at": "2026-05-22T16:43:20.341Z",
-  "completed_at": "2026-05-22T16:43:20.365Z",
+  "started_at": "2026-05-22T16:45:56.479Z",
+  "completed_at": "2026-05-22T16:45:56.505Z",
   "corridor": "sandbox-only",
   "live_preview_mutated": false,
   "status": "fail",
@@ -11,7 +11,7 @@
       "status": "fail",
       "command": "node scripts/render-native/compile-semantic-intent.mjs sandbox/semantic-inputs/sample-semantic-intent.json scripts/render-native/generated/compiled-semantic-payload.json",
       "output": "",
-      "error": "Missing semantic intent field: intent_id"
+      "error": "Missing semantic intent field: artifact_type"
     }
   ],
   "artifacts": {
