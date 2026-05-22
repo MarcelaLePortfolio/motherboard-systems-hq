@@ -25,19 +25,39 @@ const compilerSource = readFileSync(compilerPath, "utf8");
 
 const semanticInput = JSON.parse(readFileSync(semanticInputPath, "utf8"));
 
-const missingFieldMatches = [...compilerSource.matchAll(/Missing semantic intent field:\s*\$\{field\}|requiredFields\s*=\s*\[([\s\S]*?)\]/g)];
+const compilerLines = compilerSource.split("\n");
 
-const requiredFieldsBlockMatch = compilerSource.match(/requiredFields\s*=\s*\[([\s\S]*?)\]/);
+const relevantCompilerLines = compilerLines
 
-const requiredFields = requiredFieldsBlockMatch
+  .map((line, index) => ({ line_number: index + 1, text: line }))
 
-  ? [...requiredFieldsBlockMatch[1].matchAll(/["'`]([^"'`]+)["'`]/g)].map((match) => match[1])
+  .filter(({ text }) =>
 
-  : [];
+    /semantic|intent|artifact|payload|required|missing|field|validate|schema/i.test(text)
+
+  );
+
+const quotedTokens = [
+
+  ...new Set(
+
+    [...compilerSource.matchAll(/["'`]([a-zA-Z0-9_-]+)["'`]/g)]
+
+      .map((match) => match[1])
+
+      .filter((token) =>
+
+        /schema|intent|artifact|payload|scene|component|title|summary|type|id|layout|style|theme|accent|headline|subheadline/i.test(token)
+
+      )
+
+  )
+
+];
 
 const report = {
 
-  schema_version: "phase736.semantic-intent-contract-diagnostic.v1",
+  schema_version: "phase736.semantic-intent-contract-diagnostic.v2",
 
   corridor: "read-only-diagnostic",
 
@@ -45,23 +65,15 @@ const report = {
 
   semantic_input_path: semanticInputPath,
 
-  required_fields_detected: requiredFields,
-
   present_fields: Object.keys(semanticInput),
 
-  missing_fields: requiredFields.filter((field) => !(field in semanticInput)),
+  quoted_contract_tokens_detected: quotedTokens,
 
-  compiler_mentions_missing_field_message: compilerSource.includes("Missing semantic intent field"),
+  relevant_compiler_lines: relevantCompilerLines,
 
   diagnostic_note: "This script reads compiler and semantic input only. It does not mutate runtime Preview or renderer state."
 
 };
 
 console.log(JSON.stringify(report, null, 2));
-
-if (report.missing_fields.length > 0) {
-
-  process.exit(1);
-
-}
 
