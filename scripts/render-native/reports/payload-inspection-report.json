@@ -7,10 +7,15 @@
     "text": 2
   },
   "style_token_count": 4,
+  "layout_token_count": 2,
   "referenced_style_tokens": {
     "background": 1,
     "text": 1,
     "accent": 1
+  },
+  "referenced_layout_tokens": {
+    "stack": 1,
+    "card": 2
   },
   "deterministic": true,
   "sandbox_only": true

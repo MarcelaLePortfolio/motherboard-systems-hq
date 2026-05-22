@@ -23,15 +23,23 @@ for (const node of payload.nodes) {
 
 }
 
-function tokenAttribute(node) {
+function tokenAttributes(node) {
 
-  if (!node.style_token) {
+  const attributes = [];
 
-    return "";
+  if (node.style_token) {
+
+    attributes.push(`data-style-token="${node.style_token}"`);
 
   }
 
-  return ` data-style-token="${node.style_token}"`;
+  if (node.layout_token) {
+
+    attributes.push(`data-layout-token="${node.layout_token}"`);
+
+  }
+
+  return attributes.length > 0 ? ` ${attributes.join(" ")}` : "";
 
 }
 
@@ -49,7 +57,7 @@ function renderNode(nodeId) {
 
     return `
 
-      <div class="text-node" data-node-id="${node.id}"${tokenAttribute(node)}>
+      <div class="text-node" data-node-id="${node.id}"${tokenAttributes(node)}>
 
         ${node.content.value}
 
@@ -65,7 +73,7 @@ function renderNode(nodeId) {
 
     return `
 
-      <div class="container-node" data-node-id="${node.id}"${tokenAttribute(node)}>
+      <div class="container-node" data-node-id="${node.id}"${tokenAttributes(node)}>
 
         ${children.map(renderNode).join("\n")}
 
@@ -77,7 +85,7 @@ function renderNode(nodeId) {
 
   return `
 
-    <div class="unknown-node" data-node-id="${node.id}"${tokenAttribute(node)}>
+    <div class="unknown-node" data-node-id="${node.id}"${tokenAttributes(node)}>
 
       UNKNOWN NODE TYPE
 

@@ -21,6 +21,28 @@ const payload = {
 
   },
 
+  layout_tokens: {
+
+    stack: {
+
+      direction: "vertical",
+
+      gap: "medium",
+
+      align: "start"
+
+    },
+
+    card: {
+
+      padding: "large",
+
+      radius: "medium"
+
+    }
+
+  },
+
   style_tokens: {
 
     background: "surface-default",
@@ -42,6 +64,8 @@ const payload = {
       type: "container",
 
       style_token: "background",
+
+      layout_token: "stack",
 
       content: {
 
@@ -65,6 +89,8 @@ const payload = {
 
       style_token: "text",
 
+      layout_token: "card",
+
       content: {
 
         value: "Programmatic Render-Native Payload"
@@ -80,6 +106,8 @@ const payload = {
       type: "text",
 
       style_token: "accent",
+
+      layout_token: "card",
 
       content: {
 

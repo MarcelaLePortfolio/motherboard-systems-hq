@@ -27,7 +27,11 @@ const report = {
 
   style_token_count: Object.keys(payload.style_tokens || {}).length,
 
+  layout_token_count: Object.keys(payload.layout_tokens || {}).length,
+
   referenced_style_tokens: {},
+
+  referenced_layout_tokens: {},
 
   deterministic: payload.validation?.deterministic === true,
 
@@ -46,6 +50,14 @@ for (const node of payload.nodes) {
     report.referenced_style_tokens[node.style_token] =
 
       (report.referenced_style_tokens[node.style_token] || 0) + 1;
+
+  }
+
+  if (node.layout_token) {
+
+    report.referenced_layout_tokens[node.layout_token] =
+
+      (report.referenced_layout_tokens[node.layout_token] || 0) + 1;
 
   }
 
