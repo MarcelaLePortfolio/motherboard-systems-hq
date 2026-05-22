@@ -1,0 +1,142 @@
+{
+  "schema_version": "phase736.preview-adapter-simulation.v1",
+  "corridor": "sandbox-only",
+  "source_payload_schema": "phase736.render-native-payload.v6",
+  "simulation_purpose": "preview-boundary-contract-modeling",
+  "preview_contract": {
+    "render_root": "phase719-preview-modal",
+    "artifact_surface": "preview-adapter-simulation",
+    "renderer_mode": "deterministic-read-only"
+  },
+  "adapted_nodes": [
+    {
+      "preview_id": "root-node",
+      "preview_type": "panel",
+      "semantic_role": "scene_root",
+      "render_contract": {
+        "style_token": "background",
+        "layout_token": "stack"
+      },
+      "content": {
+        "children": [
+          "title-node",
+          "body-node",
+          "status-node",
+          "evidence-list-node"
+        ]
+      },
+      "relations": [],
+      "lineage": {
+        "generated_from": "phase736-sandbox-validation-seed",
+        "emitted_by": "compile-semantic-intent.mjs",
+        "snapshot_source": "compiled-scene-root",
+        "lineage_scope": "semantic-only",
+        "node_id": "root-node"
+      }
+    },
+    {
+      "preview_id": "title-node",
+      "preview_type": "text-block",
+      "semantic_role": "text",
+      "render_contract": {
+        "style_token": "text",
+        "layout_token": "card"
+      },
+      "content": {
+        "value": "Render-Native Sandbox Active"
+      },
+      "relations": [],
+      "lineage": {
+        "generated_from": "phase736-sandbox-validation-seed",
+        "emitted_by": "compile-semantic-intent.mjs",
+        "snapshot_source": "sandbox-semantic-intent",
+        "lineage_scope": "semantic-only",
+        "node_id": "title-node"
+      }
+    },
+    {
+      "preview_id": "body-node",
+      "preview_type": "text-block",
+      "semantic_role": "accent",
+      "render_contract": {
+        "style_token": "accent",
+        "layout_token": "card"
+      },
+      "content": {
+        "value": "Deterministic payload emission validated outside live Preview."
+      },
+      "relations": [],
+      "lineage": {
+        "generated_from": "phase736-sandbox-validation-seed",
+        "emitted_by": "compile-semantic-intent.mjs",
+        "snapshot_source": "sandbox-semantic-intent",
+        "lineage_scope": "semantic-only",
+        "node_id": "body-node"
+      }
+    },
+    {
+      "preview_id": "status-node",
+      "preview_type": "status-chip",
+      "semantic_role": "state",
+      "render_contract": {
+        "style_token": "status-pass",
+        "layout_token": "badge"
+      },
+      "content": {
+        "value": "PASS",
+        "state": "pass"
+      },
+      "relations": [
+        {
+          "type": "validates",
+          "target": "evidence-list-node"
+        }
+      ],
+      "lineage": {
+        "generated_from": "phase736-sandbox-validation-seed",
+        "emitted_by": "compile-semantic-intent.mjs",
+        "snapshot_source": "sandbox-semantic-intent",
+        "lineage_scope": "semantic-only",
+        "node_id": "status-node",
+        "validation_source": "graph-relations-report"
+      }
+    },
+    {
+      "preview_id": "evidence-list-node",
+      "preview_type": "list-block",
+      "semantic_role": "evidence_collection",
+      "render_contract": {
+        "style_token": "evidence",
+        "layout_token": "card"
+      },
+      "content": {
+        "items": [
+          "Sandbox chain passing",
+          "Payload validation verified",
+          "Renderer output deterministic"
+        ]
+      },
+      "relations": [
+        {
+          "type": "validated_by",
+          "target": "status-node"
+        }
+      ],
+      "lineage": {
+        "generated_from": "phase736-sandbox-validation-seed",
+        "emitted_by": "compile-semantic-intent.mjs",
+        "snapshot_source": "sandbox-semantic-intent",
+        "lineage_scope": "semantic-only",
+        "node_id": "evidence-list-node",
+        "validation_source": "graph-relations-report"
+      }
+    }
+  ],
+  "validation": {
+    "deterministic_mapping": true,
+    "semantic_to_preview_mapping": true,
+    "renderer_independent": true,
+    "live_preview_untouched": true,
+    "runtime_interception_disabled": true
+  }
+}
