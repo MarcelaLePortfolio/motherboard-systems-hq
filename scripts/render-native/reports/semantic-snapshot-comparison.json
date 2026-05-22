@@ -1,0 +1,28 @@
+{
+  "schema_version": "phase736.semantic-snapshot-comparison.v1",
+  "corridor": "sandbox-only-read-only",
+  "compared_snapshots": {
+    "before": "semantic-snapshot-2026-05-22T18-17-26-333Z",
+    "after": "semantic-snapshot-2026-05-22T18-17-26-333Z"
+  },
+  "compared_payload_versions": {
+    "before": "phase736.render-native-payload.v6",
+    "after": "phase736.render-native-payload.v6"
+  },
+  "summary": {
+    "nodes_before": 5,
+    "nodes_after": 5,
+    "added_node_count": 0,
+    "removed_node_count": 0,
+    "changed_node_count": 0
+  },
+  "added_nodes": [],
+  "removed_nodes": [],
+  "changed_nodes": [],
+  "validation": {
+    "deterministic_comparison": true,
+    "semantic_lineage_compared": true,
+    "semantic_relations_compared": true,
+    "graph_structure_compared": true
+  }
+}
