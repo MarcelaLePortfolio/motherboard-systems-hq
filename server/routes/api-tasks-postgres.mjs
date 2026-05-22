@@ -216,6 +216,144 @@ apiTasksRouter.get("/:task_id/artifact-preview", async (req, res) => {
 });
 
 
+// GET /api/tasks/:task_id/semantic-preview
+
+apiTasksRouter.get("/:task_id/semantic-preview", async (req, res) => {
+
+  try {
+
+    const taskId = String(req.params.task_id || "").trim();
+
+    if (!taskId) {
+
+      return res.status(400).json({
+
+        ok: false,
+
+        error: "task_id_required"
+
+      });
+
+    }
+
+    const q = await globalThis.__DB_POOL.query(
+
+      `
+
+      SELECT
+
+        t.task_id,
+
+        t.status,
+
+        t.updated_at,
+
+        completed.payload->>'outcome_preview' AS outcome_preview,
+
+        completed.payload->>'explanation_preview' AS explanation_preview,
+
+        completed.payload->'artifact' AS artifact,
+
+        completed.payload->'artifacts' AS artifacts,
+
+        completed.payload AS guidance
+
+      FROM tasks t
+
+      LEFT JOIN LATERAL (
+
+        SELECT te.payload
+
+        FROM task_events te
+
+        WHERE te.task_id = t.task_id
+
+          AND te.kind = 'task.completed'
+
+        ORDER BY te.ts DESC
+
+        LIMIT 1
+
+      ) completed ON true
+
+      WHERE t.task_id = $1
+
+      LIMIT 1
+
+      `,
+
+      [taskId]
+
+    );
+
+    const row = q.rows?.[0] || null;
+
+    if (!row) {
+
+      return res.status(404).json({
+
+        ok: false,
+
+        error: "task_not_found"
+
+      });
+
+    }
+
+    return res.status(200).json({
+
+      ok: true,
+
+      corridor: "read-only-semantic-inspection",
+
+      task_id: row.task_id,
+
+      status: row.status,
+
+      updated_at: row.updated_at,
+
+      outcome_preview: row.outcome_preview || null,
+
+      explanation_preview: row.explanation_preview || null,
+
+      artifact: row.artifact || null,
+
+      artifacts: row.artifacts || null,
+
+      guidance: row.guidance || null,
+
+      validation: {
+
+        renderer_mutation_disabled: true,
+
+        preview_mutation_disabled: true,
+
+        execution_authority_disabled: true,
+
+        reconciliation_authority_disabled: true
+
+      }
+
+    });
+
+  } catch (e) {
+
+    console.error("[phase736] semantic preview route error", e);
+
+    return res.status(500).json({
+
+      ok: false,
+
+      error: "semantic_preview_failed"
+
+    });
+
+  }
+
+});
+
+
+
 // POST /api/tasks/create  { task_id?, title?, agent?, run_id?, ... }
 apiTasksRouter.post("/create", async (req, res) => {
   try {
