@@ -1,6 +1,12 @@
 {
-  "schema_version": "phase736.render-native-payload.v5",
+  "schema_version": "phase736.render-native-payload.v6",
   "artifact_type": "render_native_visual",
+  "lineage": {
+    "generated_from": "phase736-sandbox-validation-seed",
+    "emitted_by": "compile-semantic-intent.mjs",
+    "snapshot_source": "sandbox-semantic-intent",
+    "lineage_scope": "semantic-only"
+  },
   "scene": {
     "id": "phase736-sandbox-validation-seed-scene",
     "root": "root-node",
@@ -52,7 +58,14 @@
       "meta": {
         "semantic_role": "scene_root"
       },
-      "relations": []
+      "relations": [],
+      "lineage": {
+        "generated_from": "phase736-sandbox-validation-seed",
+        "emitted_by": "compile-semantic-intent.mjs",
+        "snapshot_source": "compiled-scene-root",
+        "lineage_scope": "semantic-only",
+        "node_id": "root-node"
+      }
     },
     {
       "id": "title-node",
@@ -65,7 +78,14 @@
       "meta": {
         "semantic_role": "text"
       },
-      "relations": []
+      "relations": [],
+      "lineage": {
+        "generated_from": "phase736-sandbox-validation-seed",
+        "emitted_by": "compile-semantic-intent.mjs",
+        "snapshot_source": "sandbox-semantic-intent",
+        "lineage_scope": "semantic-only",
+        "node_id": "title-node"
+      }
     },
     {
       "id": "body-node",
@@ -78,7 +98,14 @@
       "meta": {
         "semantic_role": "accent"
       },
-      "relations": []
+      "relations": [],
+      "lineage": {
+        "generated_from": "phase736-sandbox-validation-seed",
+        "emitted_by": "compile-semantic-intent.mjs",
+        "snapshot_source": "sandbox-semantic-intent",
+        "lineage_scope": "semantic-only",
+        "node_id": "body-node"
+      }
     },
     {
       "id": "status-node",
@@ -97,7 +124,15 @@
           "type": "validates",
           "target": "evidence-list-node"
         }
-      ]
+      ],
+      "lineage": {
+        "generated_from": "phase736-sandbox-validation-seed",
+        "emitted_by": "compile-semantic-intent.mjs",
+        "snapshot_source": "sandbox-semantic-intent",
+        "lineage_scope": "semantic-only",
+        "node_id": "status-node",
+        "validation_source": "graph-relations-report"
+      }
     },
     {
       "id": "evidence-list-node",
@@ -119,7 +154,15 @@
           "type": "validated_by",
           "target": "status-node"
         }
-      ]
+      ],
+      "lineage": {
+        "generated_from": "phase736-sandbox-validation-seed",
+        "emitted_by": "compile-semantic-intent.mjs",
+        "snapshot_source": "sandbox-semantic-intent",
+        "lineage_scope": "semantic-only",
+        "node_id": "evidence-list-node",
+        "validation_source": "graph-relations-report"
+      }
     }
   ],
   "text": {
@@ -133,6 +176,7 @@
     "list_nodes": true,
     "status_badge_nodes": true,
     "semantic_relations": true,
-    "graph_structure": true
+    "graph_structure": true,
+    "semantic_lineage": true
   }
 }

@@ -53,7 +53,25 @@ for (const field of requiredIntentFields) {
 
 const scenePattern = intent.scene_pattern || "status_card";
 
-function withGraph(node, meta = {}, relations = []) {
+function baseLineage(nodeId) {
+
+  return {
+
+    generated_from: intent.intent_id,
+
+    emitted_by: "compile-semantic-intent.mjs",
+
+    snapshot_source: intent.snapshot_source || "sandbox-semantic-intent",
+
+    lineage_scope: "semantic-only",
+
+    node_id: nodeId
+
+  };
+
+}
+
+function withGraph(node, meta = {}, relations = [], lineage = {}) {
 
   return {
 
@@ -61,7 +79,15 @@ function withGraph(node, meta = {}, relations = []) {
 
     meta,
 
-    relations
+    relations,
+
+    lineage: {
+
+      ...baseLineage(node.id),
+
+      ...lineage
+
+    }
 
   };
 
@@ -95,6 +121,14 @@ function createStatusBadgeNode(id, value = "PASS", state = "pass") {
 
       semantic_role: "state"
 
+    },
+
+    [],
+
+    {
+
+      validation_source: "sandbox-chain"
+
     }
 
   );
@@ -126,6 +160,14 @@ function createListNode(id, items = []) {
     {
 
       semantic_role: "evidence"
+
+    },
+
+    [],
+
+    {
+
+      validation_source: "payload-inspection"
 
     }
 
@@ -191,6 +233,14 @@ function createRootNode(children) {
 
       semantic_role: "scene_root"
 
+    },
+
+    [],
+
+    {
+
+      snapshot_source: "compiled-scene-root"
+
     }
 
   );
@@ -247,7 +297,13 @@ function createStatusCardNodes(intent) {
 
       }
 
-    ]
+    ],
+
+    {
+
+      validation_source: "graph-relations-report"
+
+    }
 
   );
 
@@ -285,7 +341,13 @@ function createStatusCardNodes(intent) {
 
       }
 
-    ]
+    ],
+
+    {
+
+      validation_source: "graph-relations-report"
+
+    }
 
   );
 
@@ -331,9 +393,21 @@ function composeScene(intent) {
 
 const payload = {
 
-  schema_version: "phase736.render-native-payload.v5",
+  schema_version: "phase736.render-native-payload.v6",
 
   artifact_type: intent.artifact_type,
+
+  lineage: {
+
+    generated_from: intent.intent_id,
+
+    emitted_by: "compile-semantic-intent.mjs",
+
+    snapshot_source: intent.snapshot_source || "sandbox-semantic-intent",
+
+    lineage_scope: "semantic-only"
+
+  },
 
   scene: {
 
@@ -427,7 +501,9 @@ const payload = {
 
     semantic_relations: true,
 
-    graph_structure: true
+    graph_structure: true,
+
+    semantic_lineage: true
 
   }
 
