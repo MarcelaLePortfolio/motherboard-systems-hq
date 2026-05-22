@@ -1,0 +1,375 @@
+
+import { readFileSync, writeFileSync, mkdirSync } from "node:fs";
+
+const reportPath =
+
+  process.argv[2] ||
+
+  "scripts/render-native/reports/semantic-continuity-report.json";
+
+const outputPath =
+
+  process.argv[3] ||
+
+  "scripts/render-native/output/semantic-continuity-report.html";
+
+const report = JSON.parse(readFileSync(reportPath, "utf8"));
+
+function escapeHtml(value) {
+
+  return String(value)
+
+    .replaceAll("&", "&amp;")
+
+    .replaceAll("<", "&lt;")
+
+    .replaceAll(">", "&gt;")
+
+    .replaceAll('"', "&quot;")
+
+    .replaceAll("'", "&#039;");
+
+}
+
+function continuityClass(state) {
+
+  switch (state) {
+
+    case "critical":
+
+      return "critical";
+
+    case "degraded":
+
+      return "degraded";
+
+    default:
+
+      return "stable";
+
+  }
+
+}
+
+const nodeCards = report.evaluated_nodes.map((node) => `
+
+  <section class="continuity-card continuity-${continuityClass(node.continuity_state)}">
+
+    <div class="card-header">
+
+      <div class="node-id">
+
+        ${escapeHtml(node.id)}
+
+      </div>
+
+      <div class="continuity-state">
+
+        ${escapeHtml(node.continuity_state)}
+
+      </div>
+
+    </div>
+
+    <div class="score">
+
+      ${escapeHtml(node.continuity_score)}
+
+    </div>
+
+    <div class="drift-types">
+
+      ${(node.drift_types || [])
+
+        .map((type) => `
+
+          <span class="drift-chip">
+
+            ${escapeHtml(type)}
+
+          </span>
+
+        `)
+
+        .join("\n")}
+
+    </div>
+
+    <div class="severity">
+
+      Highest severity:
+
+      <strong>${escapeHtml(node.highest_severity)}</strong>
+
+    </div>
+
+  </section>
+
+`).join("\n");
+
+const html = `<!DOCTYPE html>
+
+<html>
+
+<head>
+
+  <meta charset="UTF-8" />
+
+  <title>Semantic Continuity Report</title>
+
+  <style>
+
+    :root {
+
+      color-scheme: dark;
+
+      font-family: Inter, system-ui, sans-serif;
+
+    }
+
+    body {
+
+      margin: 0;
+
+      padding: 48px;
+
+      background:
+
+        radial-gradient(circle at top left, rgba(255, 46, 169, 0.14), transparent 28rem),
+
+        linear-gradient(135deg, #0f1117 0%, #171a23 100%);
+
+      color: #f4f7fb;
+
+    }
+
+    h1 {
+
+      font-size: clamp(2.5rem, 5vw, 4rem);
+
+      line-height: 1;
+
+      font-weight: 900;
+
+      margin-bottom: 10px;
+
+    }
+
+    .subtitle {
+
+      color: #ff8bd3;
+
+      margin-bottom: 40px;
+
+      font-size: 1.05rem;
+
+    }
+
+    .overall-panel {
+
+      margin-bottom: 40px;
+
+      padding: 28px;
+
+      border-radius: 28px;
+
+      background: rgba(255,255,255,0.05);
+
+      border: 1px solid rgba(255,255,255,0.08);
+
+      backdrop-filter: blur(12px);
+
+    }
+
+    .overall-score {
+
+      font-size: 4rem;
+
+      font-weight: 900;
+
+      line-height: 1;
+
+      margin-top: 10px;
+
+    }
+
+    .overall-state {
+
+      margin-top: 12px;
+
+      text-transform: uppercase;
+
+      letter-spacing: 0.08em;
+
+      color: #8ff0b0;
+
+      font-weight: 800;
+
+    }
+
+    .grid {
+
+      display: grid;
+
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+
+      gap: 18px;
+
+    }
+
+    .continuity-card {
+
+      border-radius: 24px;
+
+      padding: 22px;
+
+      border: 1px solid rgba(255,255,255,0.08);
+
+      background: rgba(255,255,255,0.05);
+
+      backdrop-filter: blur(12px);
+
+    }
+
+    .continuity-stable {
+
+      box-shadow: inset 0 0 0 1px rgba(143,240,176,0.25);
+
+    }
+
+    .continuity-degraded {
+
+      box-shadow: inset 0 0 0 1px rgba(255,193,92,0.35);
+
+    }
+
+    .continuity-critical {
+
+      box-shadow: inset 0 0 0 1px rgba(255,107,107,0.4);
+
+    }
+
+    .card-header {
+
+      display: flex;
+
+      justify-content: space-between;
+
+      align-items: center;
+
+      gap: 12px;
+
+    }
+
+    .node-id {
+
+      font-weight: 900;
+
+    }
+
+    .continuity-state {
+
+      text-transform: uppercase;
+
+      letter-spacing: 0.08em;
+
+      font-size: 0.75rem;
+
+      opacity: 0.85;
+
+    }
+
+    .score {
+
+      font-size: 3rem;
+
+      font-weight: 900;
+
+      margin-top: 18px;
+
+      margin-bottom: 18px;
+
+    }
+
+    .drift-types {
+
+      display: flex;
+
+      flex-wrap: wrap;
+
+      gap: 8px;
+
+    }
+
+    .drift-chip {
+
+      background: rgba(255,255,255,0.08);
+
+      border-radius: 999px;
+
+      padding: 6px 10px;
+
+      font-size: 0.74rem;
+
+    }
+
+    .severity {
+
+      margin-top: 18px;
+
+      color: #c6cfdb;
+
+    }
+
+  </style>
+
+</head>
+
+<body>
+
+  <h1>Semantic Continuity</h1>
+
+  <div class="subtitle">
+
+    Deterministic semantic continuity evaluation across snapshot evolution.
+
+  </div>
+
+  <section class="overall-panel">
+
+    <div>Overall continuity score</div>
+
+    <div class="overall-score">
+
+      ${escapeHtml(report.overall_continuity.score)}
+
+    </div>
+
+    <div class="overall-state">
+
+      ${escapeHtml(report.overall_continuity.state)}
+
+    </div>
+
+  </section>
+
+  <div class="grid">
+
+    ${nodeCards}
+
+  </div>
+
+</body>
+
+</html>
+
+`;
+
+mkdirSync("scripts/render-native/output", { recursive: true });
+
+writeFileSync(outputPath, html);
+
+console.log("SEMANTIC CONTINUITY RENDER PASS");
+
+console.log(`Continuity HTML written to: ${outputPath}`);
+
