@@ -1,0 +1,22 @@
+{
+  "schema_version": "phase736.render-native-sandbox-chain-report.v1",
+  "started_at": "2026-05-22T16:41:16.618Z",
+  "completed_at": "2026-05-22T16:41:16.646Z",
+  "corridor": "sandbox-only",
+  "live_preview_mutated": false,
+  "status": "fail",
+  "steps": [
+    {
+      "name": "compile",
+      "status": "fail",
+      "output": "",
+      "error": "Missing semantic intent path."
+    }
+  ],
+  "artifacts": {
+    "semantic_input": "sandbox/semantic-inputs/sample-semantic-intent.json",
+    "compiled_payload": "scripts/render-native/generated/compiled-semantic-payload.json",
+    "rendered_html": "scripts/render-native/output/rendered-sandbox.html",
+    "payload_inspection_report": "scripts/render-native/reports/payload-inspection-report.json"
+  }
+}
