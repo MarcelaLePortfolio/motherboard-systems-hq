@@ -1,0 +1,28 @@
+{
+  "schema_version": "phase736.semantic-drift-report.v1",
+  "corridor": "sandbox-only-read-only",
+  "compared_snapshots": {
+    "before": "semantic-snapshot-2026-05-22T18-17-26-333Z",
+    "after": "semantic-snapshot-2026-05-22T18-17-26-333Z"
+  },
+  "summary": {
+    "added_nodes": 0,
+    "removed_nodes": 0,
+    "changed_nodes": 0
+  },
+  "interpreted_changes": [],
+  "drift_summary": {
+    "topology_drift": 0,
+    "lineage_drift": 0,
+    "semantic_role_drift": 0,
+    "semantic_content_drift": 0,
+    "ontology_drift": 0,
+    "unclassified_drift": 0
+  },
+  "validation": {
+    "deterministic_interpretation": true,
+    "semantic_only": true,
+    "reconciliation_not_enabled": true,
+    "execution_authority_disabled": true
+  }
+}
