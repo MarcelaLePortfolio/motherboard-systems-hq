@@ -9,59 +9,15 @@ TIMESTAMP="$(date +"%Y%m%d-%H%M%S")"
 
 BACKUP_DIR="${SNAPSHOT_ROOT}/full-disaster-recovery-${TIMESTAMP}"
 
-rm -rf "${SNAPSHOT_ROOT}/full-disaster-recovery-20260522-091536"
-
-rm -rf "${SNAPSHOT_ROOT}/full-disaster-recovery-20260522-091609"
+rm -rf "${SNAPSHOT_ROOT}/full-disaster-recovery-20260522-091536" "${SNAPSHOT_ROOT}/full-disaster-recovery-20260522-091609"
 
 mkdir -p "$BACKUP_DIR"
 
-ditto \
-
-  --norsrc \
-
-  --noextattr \
-
-  --exclude node_modules \
-
-  --exclude .next \
-
-  --exclude .git \
-
-  --exclude dist \
-
-  --exclude coverage \
-
-  . "$BACKUP_DIR"
+rsync -a --exclude='node_modules' --exclude='.next' --exclude='.git' --exclude='dist' --exclude='coverage' ./ "$BACKUP_DIR/"
 
 cat > "$BACKUP_DIR/PHASE736_BACKUP_MANIFEST.txt" << 'MANIFEST'
 
 Phase 736 Render-Native Sandbox DR Checkpoint
-
-Checkpoint Purpose:
-
-- Preserve deterministic sandbox render-native corridor
-
-- Preserve semantic compiler chain
-
-- Preserve payload validation/render/inspection stack
-
-- Preserve orchestration chain baseline
-
-- Preserve rollback-safe renderer containment state
-
-Protected Stable Commits:
-
-- d117027d Backup script checkpoint
-
-- bed2de45 Sandbox orchestration checkpoint
-
-- 2b696807 Sandbox orchestration chain
-
-- 4f4f64ab Semantic intent compiler
-
-- d8493fab Layout token schema
-
-- 92029157 Style token schema
 
 Canonical Sandbox Command:
 
