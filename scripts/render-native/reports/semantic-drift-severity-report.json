@@ -1,0 +1,22 @@
+{
+  "schema_version": "phase736.semantic-drift-severity-report.v1",
+  "corridor": "sandbox-only-read-only",
+  "compared_snapshots": {
+    "before": "semantic-snapshot-2026-05-22T18-17-26-333Z",
+    "after": "semantic-snapshot-2026-05-22T18-17-26-333Z"
+  },
+  "interpreted_nodes": [],
+  "severity_summary": {
+    "high": 0,
+    "medium": 0,
+    "low": 0,
+    "unknown": 0
+  },
+  "validation": {
+    "deterministic_severity_classification": true,
+    "semantic_only": true,
+    "reconciliation_disabled": true,
+    "rollback_authority_disabled": true,
+    "execution_authority_disabled": true
+  }
+}
