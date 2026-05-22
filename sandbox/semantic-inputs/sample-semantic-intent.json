@@ -1,19 +1,41 @@
 
 {
 
-  "intent_id": "semantic-intent-001",
+  "schema_version": "phase736.semantic-intent.v1",
 
-  "artifact_type": "visual_scene",
+  "intent": "render_native_validation",
 
-  "title": "Compiled Semantic Intent",
+  "scene": {
 
-  "body": "Bounded semantic input compiled into deterministic sandbox render-native payload.",
+    "title": "Sandbox Validation Artifact",
 
-  "layout_mode": "vertical-stack",
+    "summary": "Deterministic sandbox payload validation artifact.",
 
-  "style_profile": "default",
+    "layout": "single-panel",
 
-  "layout_profile": "stack-card"
+    "style": {
+
+      "theme": "dark",
+
+      "accent": "hot-pink"
+
+    }
+
+  },
+
+  "components": [
+
+    {
+
+      "type": "hero",
+
+      "headline": "Render-Native Sandbox Active",
+
+      "subheadline": "Deterministic payload emission validated outside live Preview."
+
+    }
+
+  ]
 
 }
 
