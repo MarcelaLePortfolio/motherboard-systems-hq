@@ -1,6 +1,4 @@
 
-#!/usr/bin/env node
-
 import fs from "node:fs";
 
 import path from "node:path";
@@ -51,11 +49,7 @@ function walk(dir, files = []) {
 
       walk(fullPath, files);
 
-      continue;
-
-    }
-
-    if (entry.isFile()) {
+    } else if (entry.isFile()) {
 
       files.push(fullPath);
 
@@ -123,13 +117,13 @@ for (const check of contentChecks) {
 
     lines.forEach((line, index) => {
 
+      check.pattern.lastIndex = 0;
+
       if (check.pattern.test(line)) {
 
         console.log(`${relative(file)}:${index + 1}:${line.trim()}`);
 
       }
-
-      check.pattern.lastIndex = 0;
 
     });
 
