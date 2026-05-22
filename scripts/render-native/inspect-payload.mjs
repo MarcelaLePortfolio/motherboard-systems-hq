@@ -25,6 +25,10 @@ const report = {
 
   node_types: {},
 
+  style_token_count: Object.keys(payload.style_tokens || {}).length,
+
+  referenced_style_tokens: {},
+
   deterministic: payload.validation?.deterministic === true,
 
   sandbox_only: payload.validation?.sandbox_only === true
@@ -36,6 +40,14 @@ for (const node of payload.nodes) {
   report.node_types[node.type] =
 
     (report.node_types[node.type] || 0) + 1;
+
+  if (node.style_token) {
+
+    report.referenced_style_tokens[node.style_token] =
+
+      (report.referenced_style_tokens[node.style_token] || 0) + 1;
+
+  }
 
 }
 

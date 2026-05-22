@@ -23,6 +23,18 @@ for (const node of payload.nodes) {
 
 }
 
+function tokenAttribute(node) {
+
+  if (!node.style_token) {
+
+    return "";
+
+  }
+
+  return ` data-style-token="${node.style_token}"`;
+
+}
+
 function renderNode(nodeId) {
 
   const node = nodeMap.get(nodeId);
@@ -37,7 +49,7 @@ function renderNode(nodeId) {
 
     return `
 
-      <div class="text-node" data-node-id="${node.id}">
+      <div class="text-node" data-node-id="${node.id}"${tokenAttribute(node)}>
 
         ${node.content.value}
 
@@ -53,7 +65,7 @@ function renderNode(nodeId) {
 
     return `
 
-      <div class="container-node" data-node-id="${node.id}">
+      <div class="container-node" data-node-id="${node.id}"${tokenAttribute(node)}>
 
         ${children.map(renderNode).join("\n")}
 
@@ -65,7 +77,7 @@ function renderNode(nodeId) {
 
   return `
 
-    <div class="unknown-node" data-node-id="${node.id}">
+    <div class="unknown-node" data-node-id="${node.id}"${tokenAttribute(node)}>
 
       UNKNOWN NODE TYPE
 

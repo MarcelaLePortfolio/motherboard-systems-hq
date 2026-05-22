@@ -8,10 +8,17 @@
   "layout": {
     "mode": "vertical-stack"
   },
+  "style_tokens": {
+    "background": "surface-default",
+    "text": "text-primary",
+    "accent": "accent-signal",
+    "spacing": "comfortable"
+  },
   "nodes": [
     {
       "id": "root-node",
       "type": "container",
+      "style_token": "background",
       "content": {
         "children": [
           "title-node",
@@ -22,6 +29,7 @@
     {
       "id": "title-node",
       "type": "text",
+      "style_token": "text",
       "content": {
         "value": "Programmatic Render-Native Payload"
       }
@@ -29,6 +37,7 @@
     {
       "id": "body-node",
       "type": "text",
+      "style_token": "accent",
       "content": {
         "value": "Payload emitted deterministically through sandbox emitter."
       }

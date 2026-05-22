@@ -6,6 +6,12 @@
     "container": 1,
     "text": 2
   },
+  "style_token_count": 4,
+  "referenced_style_tokens": {
+    "background": 1,
+    "text": 1,
+    "accent": 1
+  },
   "deterministic": true,
   "sandbox_only": true
 }

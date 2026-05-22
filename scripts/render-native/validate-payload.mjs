@@ -25,6 +25,8 @@ const requiredTopLevel = [
 
   "layout",
 
+  "style_tokens",
+
   "nodes",
 
   "text",
@@ -53,6 +55,22 @@ if (!Array.isArray(payload.nodes)) {
 
 }
 
+if (
+
+  !payload.style_tokens ||
+
+  typeof payload.style_tokens !== "object" ||
+
+  Array.isArray(payload.style_tokens)
+
+) {
+
+  console.error("style_tokens must be an object");
+
+  process.exit(1);
+
+}
+
 for (const node of payload.nodes) {
 
   const requiredNodeFields = ["id", "type", "content"];
@@ -66,6 +84,20 @@ for (const node of payload.nodes) {
       process.exit(1);
 
     }
+
+  }
+
+  if (
+
+    "style_token" in node &&
+
+    !(node.style_token in payload.style_tokens)
+
+  ) {
+
+    console.error(`Unknown style_token on node ${node.id}: ${node.style_token}`);
+
+    process.exit(1);
 
   }
 

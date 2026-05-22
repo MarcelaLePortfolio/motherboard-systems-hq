@@ -21,6 +21,18 @@ const payload = {
 
   },
 
+  style_tokens: {
+
+    background: "surface-default",
+
+    text: "text-primary",
+
+    accent: "accent-signal",
+
+    spacing: "comfortable"
+
+  },
+
   nodes: [
 
     {
@@ -28,6 +40,8 @@ const payload = {
       id: "root-node",
 
       type: "container",
+
+      style_token: "background",
 
       content: {
 
@@ -49,6 +63,8 @@ const payload = {
 
       type: "text",
 
+      style_token: "text",
+
       content: {
 
         value: "Programmatic Render-Native Payload"
@@ -62,6 +78,8 @@ const payload = {
       id: "body-node",
 
       type: "text",
+
+      style_token: "accent",
 
       content: {
 
