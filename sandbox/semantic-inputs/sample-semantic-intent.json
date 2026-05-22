@@ -1,0 +1,19 @@
+
+{
+
+  "intent_id": "semantic-intent-001",
+
+  "artifact_type": "visual_scene",
+
+  "title": "Compiled Semantic Intent",
+
+  "body": "Bounded semantic input compiled into deterministic sandbox render-native payload.",
+
+  "layout_mode": "vertical-stack",
+
+  "style_profile": "default",
+
+  "layout_profile": "stack-card"
+
+}
+
