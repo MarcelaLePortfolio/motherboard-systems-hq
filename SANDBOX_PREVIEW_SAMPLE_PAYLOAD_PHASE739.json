@@ -1,0 +1,83 @@
+
+{
+
+  "schema_version": "sandbox-preview-payload.v1",
+
+  "artifact_id": "phase739-sample-001",
+
+  "intent_summary": "Sample inspected-intent sandbox payload for deterministic visual composition planning.",
+
+  "components": [
+
+    {
+
+      "component_id": "component-001",
+
+      "component_type": "artifact_summary",
+
+      "semantic_role": "artifact_summary",
+
+      "props": {
+
+        "title": "Phase 739 Sandbox Preview Payload",
+
+        "body": "This sample demonstrates deterministic inspected-intent composition without runtime or Preview authority."
+
+      },
+
+      "children": []
+
+    }
+
+  ],
+
+  "interaction_annotations": [
+
+    {
+
+      "annotation_id": "annotation-001",
+
+      "target_component_id": "component-001",
+
+      "annotation_type": "semantic_trace",
+
+      "annotation_payload": {
+
+        "source_intent": "summarize",
+
+        "mapping_reference": "semantic-component-registry.v1"
+
+      }
+
+    }
+
+  ],
+
+  "inspection_metadata": {
+
+    "generated_at": "2026-05-24T23:59:00-07:00",
+
+    "semantic_schema_version": "semantic-artifact.v1",
+
+    "sandbox_only": true,
+
+    "runtime_authority": false,
+
+    "preview_authority": false,
+
+    "execution_authority": false
+
+  },
+
+  "validation_state": {
+
+    "validation_status": "UNVALIDATED",
+
+    "failure_reasons": [],
+
+    "schema_reference": "sandbox-preview-payload.v1"
+
+  }
+
+}
+
