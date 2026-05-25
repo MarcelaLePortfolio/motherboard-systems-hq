@@ -1,0 +1,155 @@
+
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+
+  <meta charset="UTF-8" />
+
+  <title>Phase 740 Multi-Component Sandbox Render</title>
+
+  <style>
+
+    body {
+
+      font-family: Arial, sans-serif;
+
+      background: #f4f4f4;
+
+      padding: 40px;
+
+    }
+
+    .layout {
+
+      display: grid;
+
+      grid-template-columns: 2fr 1fr;
+
+      gap: 20px;
+
+      max-width: 960px;
+
+    }
+
+    .panel {
+
+      background: white;
+
+      border-radius: 12px;
+
+      padding: 24px;
+
+      box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+
+    }
+
+    .title {
+
+      font-size: 24px;
+
+      margin-bottom: 12px;
+
+    }
+
+    .body {
+
+      color: #444;
+
+      line-height: 1.5;
+
+    }
+
+    .annotation {
+
+      border-left: 4px solid #999;
+
+      padding-left: 12px;
+
+      font-size: 14px;
+
+      color: #555;
+
+    }
+
+    .trace {
+
+      font-size: 13px;
+
+      color: #666;
+
+      line-height: 1.5;
+
+    }
+
+    .meta {
+
+      margin-top: 20px;
+
+      font-size: 12px;
+
+      color: #888;
+
+    }
+
+  </style>
+
+</head>
+
+<body>
+
+  <div class="layout">
+
+    <section class="panel">
+
+      <div class="title">Phase 740 Multi-Component Sandbox Render</div>
+
+      <div class="body">
+
+        This mock output represents a deterministic grouped render composition derived from the validated sandbox payload, validated composition graph, and validated multi-component render artifact.
+
+      </div>
+
+      <div class="meta">
+
+        render-node-001 / primary_panel / deterministic_grouped
+
+      </div>
+
+    </section>
+
+    <aside class="panel">
+
+      <div class="title">Inspection Surfaces</div>
+
+      <div class="annotation">
+
+        Annotation Surface: semantic trace and attachment metadata remain inspection-only.
+
+      </div>
+
+      <br />
+
+      <div class="trace">
+
+        Inspection Trace:<br />
+
+        Payload → Composition Graph → Mock Render Artifact → Static Sandbox Output
+
+      </div>
+
+      <div class="meta">
+
+        render-node-002 + render-node-003 / sandbox-only / non-authoritative
+
+      </div>
+
+    </aside>
+
+  </div>
+
+</body>
+
+</html>
+
