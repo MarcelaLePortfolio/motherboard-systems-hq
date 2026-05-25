@@ -1,0 +1,57 @@
+
+{
+
+  "graph_version": "sandbox-composition-graph.v1",
+
+  "payload_reference": "SANDBOX_PREVIEW_SAMPLE_PAYLOAD_PHASE739.json",
+
+  "root_nodes": [
+
+    {
+
+      "node_id": "node-001",
+
+      "component_id": "component-001",
+
+      "children": [],
+
+      "layout_role": "primary_panel"
+
+    }
+
+  ],
+
+  "relationships": [
+
+    {
+
+      "relationship_id": "relationship-001",
+
+      "source_node_id": "node-001",
+
+      "target_node_id": "node-001",
+
+      "relationship_type": "inspection_reference"
+
+    }
+
+  ],
+
+  "layout_metadata": {
+
+    "composition_order": [
+
+      "node-001"
+
+    ],
+
+    "inspection_mode": "static",
+
+    "sandbox_only": true
+
+  },
+
+  "sandbox_only": true
+
+}
+
