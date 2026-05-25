@@ -1,0 +1,107 @@
+
+{
+
+  "artifact_version": "sandbox-mock-render.v1",
+
+  "payload_reference": "SANDBOX_PREVIEW_SAMPLE_PAYLOAD_PHASE739.json",
+
+  "composition_graph_reference": "SANDBOX_COMPOSITION_GRAPH_SAMPLE_PHASE739.json",
+
+  "render_nodes": [
+
+    {
+
+      "render_node_id": "render-node-001",
+
+      "component_id": "component-001",
+
+      "render_type": "card",
+
+      "layout_role": "primary_panel",
+
+      "children": [
+
+        "render-node-002",
+
+        "render-node-003"
+
+      ]
+
+    },
+
+    {
+
+      "render_node_id": "render-node-002",
+
+      "component_id": "component-001",
+
+      "render_type": "annotation_surface",
+
+      "layout_role": "annotation_surface",
+
+      "children": []
+
+    },
+
+    {
+
+      "render_node_id": "render-node-003",
+
+      "component_id": "component-001",
+
+      "render_type": "inspection_trace",
+
+      "layout_role": "inspection_panel",
+
+      "children": []
+
+    }
+
+  ],
+
+  "render_relationships": [
+
+    {
+
+      "relationship_id": "render-relationship-001",
+
+      "source_render_node_id": "render-node-001",
+
+      "target_render_node_id": "render-node-002",
+
+      "relationship_type": "annotation_attachment"
+
+    },
+
+    {
+
+      "relationship_id": "render-relationship-002",
+
+      "source_render_node_id": "render-node-001",
+
+      "target_render_node_id": "render-node-003",
+
+      "relationship_type": "inspection_reference"
+
+    }
+
+  ],
+
+  "render_metadata": {
+
+    "inspection_mode": "layered",
+
+    "composition_strategy": "deterministic_grouped",
+
+    "sandbox_only": true,
+
+    "runtime_authority": false,
+
+    "preview_authority": false
+
+  },
+
+  "sandbox_only": true
+
+}
+
