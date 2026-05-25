@@ -1,6 +1,4 @@
 
-#!/usr/bin/env node
-
 import fs from "fs";
 
 const payloadPath = "SANDBOX_PREVIEW_SAMPLE_PAYLOAD_PHASE739.json";
@@ -61,11 +59,7 @@ if (!fs.existsSync(payloadPath)) {
 
     for (const field of requiredTopLevelFields) {
 
-      if (!(field in payload)) {
-
-        failures.push(`Missing top-level field: ${field}`);
-
-      }
+      if (!(field in payload)) failures.push(`Missing top-level field: ${field}`);
 
     }
 
@@ -75,13 +69,13 @@ if (!fs.existsSync(payloadPath)) {
 
     }
 
+    const componentIds = new Set();
+
     if (!Array.isArray(payload.components)) {
 
       failures.push("components must be an array");
 
     } else {
-
-      const componentIds = new Set();
 
       for (const component of payload.components) {
 
@@ -112,8 +106,6 @@ if (!fs.existsSync(payloadPath)) {
       failures.push("interaction_annotations must be an array");
 
     } else {
-
-      const componentIds = new Set((payload.components || []).map((component) => component.component_id));
 
       for (const annotation of payload.interaction_annotations) {
 
@@ -159,11 +151,7 @@ if (failures.length > 0) {
 
   console.log("❌ Phase 739 sample payload validation FAILED");
 
-  for (const failure of failures) {
-
-    console.log(`- ${failure}`);
-
-  }
+  for (const failure of failures) console.log(`- ${failure}`);
 
   process.exit(1);
 
