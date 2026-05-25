@@ -2132,7 +2132,7 @@ function phase736RenderNativeDashboardHtml(renderNativePayload) {
 
 }
 
-phase735DecodeVisualArtifactHtmlTransport(html) {
+function phase735DecodeVisualArtifactHtmlTransport(html) {
 
     const source = phase733NormalizePreviewTransportText(html || "")
 
