@@ -1,0 +1,45 @@
+
+{
+
+  "artifact_version": "sandbox-mock-render.v1",
+
+  "payload_reference": "SANDBOX_PREVIEW_SAMPLE_PAYLOAD_PHASE739.json",
+
+  "composition_graph_reference": "SANDBOX_COMPOSITION_GRAPH_SAMPLE_PHASE739.json",
+
+  "render_nodes": [
+
+    {
+
+      "render_node_id": "render-node-001",
+
+      "component_id": "component-001",
+
+      "render_type": "card",
+
+      "layout_role": "primary_panel",
+
+      "children": []
+
+    }
+
+  ],
+
+  "render_metadata": {
+
+    "inspection_mode": "static",
+
+    "composition_strategy": "deterministic_linear",
+
+    "sandbox_only": true,
+
+    "runtime_authority": false,
+
+    "preview_authority": false
+
+  },
+
+  "sandbox_only": true
+
+}
+
