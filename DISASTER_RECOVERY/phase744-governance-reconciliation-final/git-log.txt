@@ -1,0 +1,60 @@
+f8c7582c (HEAD -> phase730-semantic-section-extraction, origin/phase730-semantic-section-extraction) Add governance architecture reconciliation index
+4f9e06a8 (tag: phase744-audit-lineage-integrity-sealed-20260526) Seal Phase 744 audit lineage integrity
+01ad8f07 Define governance audit lineage integrity protocol
+56ab436b (tag: phase744-rollback-lineage-integrity-sealed-20260526) Seal Phase 744 rollback lineage integrity
+49ae4e18 Define governance rollback lineage integrity protocol
+d594ca55 (tag: phase744-seal-integrity-sealed-20260526) Seal Phase 744 governance seal integrity
+12f0db24 Define governance seal integrity protocol
+63ffaafb (tag: phase744-checkpoint-reconciliation-sealed-20260526) Seal Phase 744 checkpoint reconciliation
+a8046c56 Define governance checkpoint reconciliation protocol
+f2d32a53 (tag: phase744-drift-reconciliation-preservation-sealed-20260526) Seal Phase 744 drift reconciliation preservation
+5e6d11a3 Define governance drift reconciliation preservation protocol
+a17dbf63 (tag: phase744-lineage-reconciliation-sealed-20260526) Seal Phase 744 governance lineage reconciliation
+ab6777e7 Define governance lineage reconciliation protocol
+b9a30473 (tag: phase744-lineage-verification-sealed-20260526) Seal Phase 744 governance lineage verification
+05d9d27e Define governance lineage verification protocol
+b00dd05d Seal Phase 744 invariant preservation governance
+7821d674 Define governance invariant preservation protocol
+8527d581 (tag: phase744-governance-continuity-sealed-20260526) Seal Phase 744 governance continuity
+3749eb25 Define sealed governance continuity rule
+01ce1117 (tag: phase744-governance-state-machine-sealed-20260526) Seal Phase 744 governance state machine
+c325272d Define governance state machine
+c48e4c3b Seal Phase 744 governance resume protocol
+f1a15990 Define governance resume protocol
+a631b9f1 Seal Phase 744 governance freeze protocol
+e9a50a85 Define governance freeze protocol
+c4c24571 Seal Phase 744 escalation governance
+52880202 Define governance corridor escalation protocol
+91ebd5c7 Seal Phase 744 documentation governance corridor
+3ab90505 Define documentation-only governance corridor
+afc61de6 Seal Phase 744 documentation review governance
+fffc64e7 Define documentation mutation review protocol
+d90d6c18 Checkpoint Phase 744 scope boundary
+265bdb13 Define repository mutation scope boundary
+6218e50e Pause Phase 744 review for scope boundary definition
+508ec6a7 Define repository mutation boundary for Phase 744
+f9fbdcdd Select first mutation target class for Phase 744 review
+22d1eee5 Define Phase 744 implementation readiness gate
+17491c90 (tag: phase743-planning-sealed-20260526) Seal Phase 743 execution bridge planning corpus
+2f21d9df Add Phase 743 governance index
+d3ed5693 Define Phase 743 recovery interruption model
+6b8dd0e1 Define Phase 743 drift detection model
+a3aaa017 Define Phase 743 safe execution abort model
+8fe9a113 Define Phase 743 failure containment model
+8334db0c Define Phase 743 audit logging contract
+ed9403ca Define Phase 743 reconciliation verification contract
+93eb3dde Define Phase 743 rollback enforcement architecture
+a8ce5239 Define Phase 743 Matilda approval contract
+7b5e6105 Define Phase 743 mutation authorization lifecycle
+50ff4d23 Define Phase 743 execution bridge boundary
+3d2136be Initialize Phase 743 execution bridge planning scope
+7f4e3b8b (tag: phase742d-terminal-seal-20260526) Add Phase 742D terminal state manifest
+941e3588 Add Phase 742D lineage index manifest
+a591f9a4 Add Phase 742D authoritative state manifest
+9dd04035 (tag: phase742d-final-verification-20260526) Add Phase 742D final verification manifest
+2fe56a47 (tag: phase742d-sealed-20260526) Add Phase 742D seal checkpoint state manifest
+d9d45b3e Seal Phase 742D canonical preservation handoff
+b1304359 Add canonical Phase 742D handoff baseline
+8e5f625b Add Phase 746 external seal propagation script
+509d92d4 Add Phase 746 external propagation verifier
+927cb8ad Seal Phase 746 governance survivability consolidation
