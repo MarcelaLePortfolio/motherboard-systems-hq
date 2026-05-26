@@ -1,0 +1,87 @@
+
+PHASE 742D LINEAGE INDEX
+
+ACTIVE BRANCH
+
+phase730-semantic-section-extraction
+
+CURRENT AUTHORITATIVE HEAD
+
+a591f9a4
+
+LINEAGE COMMITS
+
+b1304359
+
+Add canonical Phase 742D handoff baseline
+
+d9d45b3e
+
+Seal Phase 742D canonical preservation handoff
+
+2fe56a47
+
+Add Phase 742D seal checkpoint state manifest
+
+9dd04035
+
+Add Phase 742D final verification manifest
+
+a591f9a4
+
+Add Phase 742D authoritative state manifest
+
+TAG LINEAGE
+
+phase742d-sealed-20260526
+
+→ 2fe56a47
+
+phase742d-final-verification-20260526
+
+→ 9dd04035
+
+AUTHORITATIVE DOCUMENTS
+
+docs/canonical-system-handoff-phase-742d.md
+
+DISASTER_RECOVERY/phase742d-seal-checkpoints/phase742d-seal-state.txt
+
+DISASTER_RECOVERY/phase742d-seal-checkpoints/phase742d-final-verification.txt
+
+DISASTER_RECOVERY/phase742d-seal-checkpoints/phase742d-authoritative-state.txt
+
+SYSTEM STATUS
+
+WORKING TREE:
+
+CLEAN
+
+REMOTE:
+
+SYNCHRONIZED
+
+TOPOLOGY:
+
+SEALED
+
+EXECUTION:
+
+NOT IMPLEMENTED
+
+MATILDA:
+
+VALIDATION ONLY
+
+PREVIEW:
+
+READ-ONLY
+
+SANDBOX:
+
+ISOLATED
+
+PRESERVATION:
+
+COMPLETE
+
