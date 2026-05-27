@@ -1,88 +1,101 @@
-/*
-Phase 31.6 — Recent Tasks empty-state helper
 
-Why this exists:
+document.addEventListener("DOMContentLoaded", () => {
 
-The dashboard "Recent Tasks" panel is driven by task-events (SSE) + mb.task.event bridge.
+  const delegateBtn =
 
-When the worker is intentionally scaled to 0, /events/task-events will usually stream only
-hello/heartbeat frames (cursor advances) but no task.* events — leaving the panel blank.
+    document.getElementById("delegate-btn") ||
 
-This helper renders a friendly empty-state until a task.* event arrives.
+    document.getElementById("delegateButton") ||
 
-Notes:
+    document.getElementById("delegation-submit");
 
-This file is intentionally lightweight and non-invasive.
+  const input =
 
-It does NOT alter the core renderer; it only adds/removes an empty-state message.
-*/
-(() => {
-const container = document.getElementById("recentTasks");
-if (!container) {
-try { console.warn("⚠️ No #recentTasks container found."); } catch {}
-return;
-}
+    document.getElementById("delegation-input") ||
 
-const EMPTY_SEL = '[data-empty="recent-tasks"]';
-let sawTask = false;
+    document.getElementById("task-input");
 
-function ensureEmpty() {
-if (container.querySelector(EMPTY_SEL)) return;
+  const responsePanel =
 
-const box = document.createElement("div");
-box.dataset.empty = "recent-tasks";
-box.className =
-"text-sm text-slate-300/90 border border-white/10 rounded-2xl p-4 bg-white/5";
+    document.getElementById("delegation-response") ||
 
-const title = document.createElement("div");
-title.className = "font-semibold text-slate-100";
-title.textContent = "No task events yet";
+    document.getElementById("delegation-status-panel");
 
-const body = document.createElement("div");
-body.className = "mt-2 leading-relaxed";
-body.innerHTML =
-'You are connected to <code class="px-1 py-0.5 rounded bg-black/30 border border-white/10">/events/task-events</code>, but only <span class="opacity-90">heartbeats</span> are arriving. ' +
-'If the worker is intentionally scaled to <code class="px-1 py-0.5 rounded bg-black/30 border border-white/10">0</code>, this is expected.';
+  async function delegateTask() {
 
-const cursorRow = document.createElement("div");
-cursorRow.id = "recentTasksCursor";
-cursorRow.className = "mt-3 opacity-80";
-cursorRow.textContent = "";
+    try {
 
-box.appendChild(title);
-box.appendChild(body);
-box.appendChild(cursorRow);
+      const prompt = input ? input.value.trim() : "";
 
-container.appendChild(box);
-}
+      if (!prompt) {
 
-function clearEmpty() {
-const el = container.querySelector(EMPTY_SEL);
-if (el) el.remove();
-}
+        alert("Please enter a task prompt before delegating.");
 
-window.addEventListener("mb.task.event", (e) => {
-try {
-const ev = e?.detail || {};
-const kind = String(ev.kind || "");
-if (kind.startsWith("task.")) {
-sawTask = true;
-clearEmpty();
-}
-} catch {}
+        return;
+
+      }
+
+      const res = await fetch("/tasks/delegate", {
+
+        method: "POST",
+
+        headers: {
+
+          "Content-Type": "application/json"
+
+        },
+
+        body: JSON.stringify({ prompt })
+
+      });
+
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+
+      const data = await res.json().catch(() => ({}));
+
+      alert("✅ Task delegated successfully!");
+
+      if (responsePanel) {
+
+        responsePanel.innerText =
+
+          data.message || "Task delegation completed successfully.";
+
+      }
+
+    } catch (err) {
+
+      console.error(err);
+
+      alert("❌ Failed to delegate task.");
+
+      if (responsePanel) {
+
+        responsePanel.innerText =
+
+          "Error submitting delegation task.";
+
+      }
+
+    }
+
+  }
+
+  if (delegateBtn) {
+
+    delegateBtn.addEventListener("click", delegateTask);
+
+  }
+
+  // Optional fallback binding for older DOM variants
+
+  const legacyBtn = document.querySelector("#delegateButton");
+
+  if (legacyBtn && legacyBtn !== delegateBtn) {
+
+    legacyBtn.addEventListener("click", delegateTask);
+
+  }
+
 });
 
-setTimeout(() => {
-if (sawTask) return;
-ensureEmpty();
-
-try {
-const snap = window.__taskEventsSnap || null; // set by task-events SSE client (if present)
-const cursor = snap?.cursor ?? null;
-if (cursor != null) {
-const el = document.getElementById("recentTasksCursor");
-if (el) el.textContent = last heartbeat cursor: ${cursor};
-}
-} catch {}
-}, 1500);
-})();
