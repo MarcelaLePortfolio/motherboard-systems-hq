@@ -21,15 +21,7 @@ echo "CREATING LOCAL BACKUP: $TIMESTAMP"
 
 git bundle create "$BACKUP_ROOT/repo_$TIMESTAMP.bundle" --all
 
-rsync -a \
-
-  --exclude="backups" \
-
-  --exclude=".git" \
-
-  --exclude="_staging" \
-
-  "$ROOT_DIR/" "$STAGING_DIR/"
+rsync -a --exclude="backups" --exclude=".git" --exclude="_staging" "$ROOT_DIR/" "$STAGING_DIR/"
 
 tar -czf "$BACKUP_ROOT/source_$TIMESTAMP.tar.gz" -C "$STAGING_DIR" .
 
