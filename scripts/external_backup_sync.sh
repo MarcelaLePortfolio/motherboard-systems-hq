@@ -1,7 +1,7 @@
 
 #!/usr/bin/env bash
 
-set -e
+set -euo pipefail
 
 BACKUP_ROOT="./backups"
 
@@ -9,13 +9,17 @@ EXTERNAL_ROOT="/Volumes/EXTERNAL_BACKUP_DRIVE/motherboard-systems-hq"
 
 echo "SYNCING TO EXTERNAL DRIVE..."
 
-if [ ! -d "$EXTERNAL_ROOT" ]; then
+# HARD GUARD: never attempt rsync if mount is invalid
 
-  echo "ERROR: External drive not mounted"
+if [ ! -d "$EXTERNAL_ROOT" ] || ! mount | grep -q "EXTERNAL_BACKUP_DRIVE"; then
 
-  exit 1
+  echo "WARNING: External drive not mounted. Skipping sync safely."
+
+  exit 0
 
 fi
+
+mkdir -p "$EXTERNAL_ROOT"
 
 rsync -av --delete "$BACKUP_ROOT/" "$EXTERNAL_ROOT/"
 
