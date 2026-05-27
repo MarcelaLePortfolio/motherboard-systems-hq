@@ -7,7 +7,9 @@ ROOT_DIR="$(git rev-parse --show-toplevel 2>/dev/null || pwd)"
 
 BACKUP_ROOT="$ROOT_DIR/backups"
 
-EXTERNAL="/Volumes/DRIVE"
+DRIVE_NAME="DRIVE"
+
+EXTERNAL="/Volumes/$DRIVE_NAME"
 
 STAGING="$BACKUP_ROOT/staging"
 
@@ -17,7 +19,7 @@ echo "RUNNING DR SYSTEM (EXTERNAL DRIVE ONLY)"
 
 # -------------------------
 
-# HARD REQUIREMENT: EXTERNAL DRIVE MUST EXIST
+# HARD REQUIREMENT: DRIVE MUST BE MOUNTED
 
 # -------------------------
 
@@ -25,13 +27,21 @@ if [ ! -d "$EXTERNAL" ]; then
 
   echo "❌ CRITICAL: EXTERNAL DRIVE NOT MOUNTED"
 
-  echo "ABORTING - NO BACKUP CREATED"
+  echo "ABORTING BACKUP"
 
   exit 1
 
 fi
 
-echo "✔ External drive detected: $EXTERNAL"
+if ! mount | grep -q "$EXTERNAL"; then
+
+  echo "❌ CRITICAL: INVALID MOUNT STATE"
+
+  exit 1
+
+fi
+
+echo "✔ External drive verified: $EXTERNAL"
 
 # -------------------------
 
@@ -79,7 +89,7 @@ rm -rf "$STAGING"
 
 # -------------------------
 
-# RETENTION (14 DAYS)
+# RETENTION POLICY
 
 # -------------------------
 
@@ -87,5 +97,5 @@ find "$EXTERNAL/backups" -type f -mtime +14 -delete || true
 
 echo "✔ DR COMPLETE: $TIMESTAMP"
 
-echo "✔ ALL BACKUPS STORED ON EXTERNAL DRIVE"
+echo "✔ STORED ONLY ON EXTERNAL DRIVE"
 
