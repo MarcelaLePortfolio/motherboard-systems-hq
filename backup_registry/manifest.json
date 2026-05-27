@@ -1,0 +1,25 @@
+
+{
+
+  "system": "motherboard-systems-hq",
+
+  "type": "backup-registry",
+
+  "version": "v1",
+
+  "layers": {
+
+    "git": true,
+
+    "local_backup_dir": true,
+
+    "external_backup_dir": true
+
+  },
+
+  "retention_days": 14,
+
+  "created_at": "$(date)"
+
+}
+
