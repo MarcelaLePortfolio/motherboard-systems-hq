@@ -1,0 +1,38 @@
+services:
+  postgres:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: ${PGUSER:-postgres}
+      POSTGRES_PASSWORD: ${PGPASSWORD:-postgres}
+      POSTGRES_DB: ${PGDATABASE:-postgres}
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+  dashboard:
+    env_file:
+      - .env
+    build:
+      context: .
+      dockerfile: Dockerfile.dashboard
+      args:
+        GIT_SHA: ${GIT_SHA:-unknown}
+        BUILD_TIME: ${BUILD_TIME:-unknown}
+    environment:
+      POLICY_SHADOW_ENABLED: ${POLICY_SHADOW_ENABLED:-0}
+      POLICY_ENFORCE_ENABLED: ${POLICY_ENFORCE_ENABLED:-0}
+      BUILD_TIME: ${BUILD_TIME:-unknown}
+      GIT_SHA: ${GIT_SHA:-unknown}
+      PGDATABASE: ${PGDATABASE:-postgres}
+      PGHOST: ${PGHOST:-postgres}
+      PGPASSWORD: ${PGPASSWORD:-postgres}
+      PGPORT: ${PGPORT:-5432}
+      PGUSER: ${PGUSER:-postgres}
+    depends_on:
+      - postgres
+    ports:
+      - "8080:3000"
+
+volumes:
+  pgdata:

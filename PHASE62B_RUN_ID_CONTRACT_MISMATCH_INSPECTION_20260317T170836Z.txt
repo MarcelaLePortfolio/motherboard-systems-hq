@@ -1,0 +1,391 @@
+PHASE 62B — RUN_ID CONTRACT MISMATCH INSPECTION
+generated_at=2026-03-17T17:08:36Z
+base_url=http://127.0.0.1:8080
+
+== branch ==
+phase65b-running-tasks-hydration
+
+== create route implementation ==
+
+// POST /api/tasks/create  { task_id?, title?, agent?, run_id?, ... }
+apiTasksRouter.post("/create", async (req, res) => {
+  try {
+    const pool = _getPoolOrFail(res);
+    if (!pool) return;
+
+    console.log("[phase25] /api/tasks/create pool snapshot", {
+      hasLocal: !!pool,
+      localType: pool?.constructor?.name,
+      hasGlobal: !!globalThis.__DB_POOL,
+      globalType: globalThis.__DB_POOL?.constructor?.name,
+    });
+
+    const b = _asJson(req);
+
+    // Accept caller-provided task_id; otherwise create a task row + mint a stable string task_id.
+    let task_id = b.task_id ?? b.taskId ?? b.id ?? null;
+
+    // Phase52: schema-compat — task_id must never be null (tasks.task_id is NOT NULL)
+    if (!task_id) task_id = `t_${crypto.randomUUID()}`;
+
+    // Normalize to string for lifecycle events
+    task_id = String(task_id);
+
+    // phase25: ensure tasks row exists even when caller provides task_id
+    // (workers claim from tasks, not task_events)
+    await pool.query(
+      `
+      INSERT INTO tasks (task_id, title, status, run_id, action_tier, notes)
+      VALUES ($1, $2, $3, $4, $5, $6)
+      ON CONFLICT (task_id) DO UPDATE
+      SET title       = COALESCE(EXCLUDED.title, tasks.title),
+          status      = COALESCE(EXCLUDED.status, tasks.status),
+          run_id      = COALESCE(EXCLUDED.run_id, tasks.run_id),
+          action_tier = COALESCE(EXCLUDED.action_tier, tasks.action_tier),
+          notes       = COALESCE(EXCLUDED.notes, tasks.notes),
+          updated_at  = now()
+      `,
+      [
+        task_id,
+        b.title ?? null,
+        b.status ?? "queued",
+        b.run_id ?? b.runId ?? null,
+        b.action_tier ?? "A",
+        b.notes ?? null,
+      ]
+    );
+
+    const evt = await emitTaskEvent({
+      pool,
+      kind: "task.created",
+      task_id,
+      run_id: b.run_id ?? b.runId ?? null,
+      actor: b.actor ?? b.agent ?? "api",
+      payload: {
+        title: b.title ?? null,
+        agent: b.agent ?? null,
+        status: b.status ?? "delegated",
+        source: b.source ?? "api",
+        meta: b.meta ?? null,
+      },
+    });
+
+    res.status(201).json({ ok: true, task_id, event: evt });
+  } catch (e) {
+    console.error("[phase25] /api/tasks error", e);
+
+    if (e instanceof PolicyEnforcedError || e?.code === "POLICY_ENFORCED" || e?.name === "PolicyEnforcedError") {
+      return res.status(403).json({ ok: false, error: "policy.enforced", detail: e?.message || String(e) });
+    }
+
+    res.status(500).json({ ok: false, error: e?.message || String(e) });
+  }
+});
+
+
+== complete route implementation ==
+// POST /api/tasks/complete  { task_id, status?, run_id?, ... }
+apiTasksRouter.post("/complete", async (req, res) => {
+  try {
+    // Phase53: enforce gate BEFORE any DB writes
+    assertNotEnforced("http:/api/tasks/create");
+
+    const pool = _getPoolOrFail(res);
+    if (!pool) return;
+
+    const b = _asJson(req);
+    const task_id = b.task_id ?? b.taskId ?? b.id ?? null;
+    if (!task_id) return res.status(400).json({ ok: false, error: "task_id_required" });
+
+    const evt = await emitTaskEvent({
+      pool,
+      kind: "task.completed",
+      task_id,
+      run_id: b.run_id ?? b.runId ?? null,
+      actor: b.actor ?? b.agent ?? "api",
+      payload: {
+        status: b.status ?? "complete",
+        result: b.result ?? null,
+        source: b.source ?? "api",
+      },
+    });
+
+    res.status(200).json({ ok: true, task_id, event: evt });
+  } catch (e) {
+    console.error("[phase25] /api/tasks error", e);
+
+    if (e instanceof PolicyEnforcedError || e?.code === "POLICY_ENFORCED" || e?.name === "PolicyEnforcedError") {
+      return res.status(403).json({ ok: false, error: "policy.enforced", detail: e?.message || String(e) });
+    }
+
+    res.status(500).json({ ok: false, error: e?.message || String(e) });
+  }
+});
+
+// POST /api/tasks/fail  { task_id, error?, status?, run_id?, ... }
+apiTasksRouter.post("/fail", async (req, res) => {
+  try {
+
+== fail route implementation ==
+// POST /api/tasks/fail  { task_id, error?, status?, run_id?, ... }
+apiTasksRouter.post("/fail", async (req, res) => {
+  try {
+    // Phase53: enforce gate BEFORE any DB writes
+    assertNotEnforced("http:/api/tasks/complete");
+
+    const pool = _getPoolOrFail(res);
+    if (!pool) return;
+
+    const b = _asJson(req);
+    const task_id = b.task_id ?? b.taskId ?? b.id ?? null;
+    if (!task_id) return res.status(400).json({ ok: false, error: "task_id_required" });
+
+    const evt = await emitTaskEvent({
+      pool,
+      kind: "task.failed",
+      task_id,
+      run_id: b.run_id ?? b.runId ?? null,
+      actor: b.actor ?? b.agent ?? "api",
+      payload: {
+        status: b.status ?? "failed",
+        error: b.error ?? b.err ?? null,
+        source: b.source ?? "api",
+      },
+    });
+
+    res.status(200).json({ ok: true, task_id, event: evt });
+  } catch (e) {
+    console.error("[phase25] /api/tasks error", e);
+
+    if (e instanceof PolicyEnforcedError || e?.code === "POLICY_ENFORCED" || e?.name === "PolicyEnforcedError") {
+      return res.status(403).json({ ok: false, error: "policy.enforced", detail: e?.message || String(e) });
+    }
+
+    res.status(500).json({ ok: false, error: e?.message || String(e) });
+  }
+});
+
+// POST /api/tasks/cancel  { task_id, run_id?, ... }
+apiTasksRouter.post("/cancel", async (req, res) => {
+  try {
+
+== appendTaskEvent run_id enforcement ==
+import { assertNotEnforced } from "./policy/enforce.mjs";
+/**
+ * Legacy task_events schema in your docker DB:
+ *   task_events(id bigint, kind text, payload text, created_at text)
+ *
+ * So we store payload as JSON string into the text column.
+ *
+ * SINGLE AUTHORITATIVE TASK EVENT WRITER — Phase 25 contract enforced.
+ */
+
+const __PHASE25_LIFECYCLE_KINDS = new Set([
+  "task.created",
+  "task.queued",
+  "task.started",
+  "task.progress",
+  "task.completed",
+  "task.failed",
+  "task.canceled",
+]);
+
+const __PHASE25_TERMINAL_KINDS = new Set([
+  "task.completed",
+  "task.failed",
+  "task.canceled",
+]);
+
+function __phase25_taskIdFromObj(obj) {
+  return obj?.task_id ?? obj?.taskId ?? obj?.task?.id ?? null;
+}
+export async function appendTaskEvent(pool, kind, task_id, payload, opts = undefined) {
+  // Phase50: DB write-path enforcement (task_events)
+  assertNotEnforced("task_events.append");
+
+  pool = pool || globalThis.__DB_POOL;
+  if (!pool) throw new Error("appendTaskEvent: missing pool");
+  // Phase25 contract: server is the single authoritative writer of task_events.
+  // IMPORTANT: callers historically pass (pool, kind, payloadObj). We keep that shape.
+  // - If `task_id` is actually the payload (object/string) we treat it as payload and infer task_id.
+  // - pool may be omitted; we fall back to globalThis.__DB_POOL.
+
+  const o = (opts && typeof opts === "object") ? opts : {};
+  const now = Date.now();
+
+  // Back-compat: appendTaskEvent(pool, kind, payloadObj)
+  let payloadIn = payload;
+  let taskIdIn = task_id;
+
+  
+
+  // Back-compat: appendTaskEvent(pool, kind, payloadObj, optsObj)
+  // If caller passes 3rd arg as payload and 4th arg as opts, detect + normalize.
+  if (
+    opts === undefined &&
+    payloadIn !== undefined &&
+    payloadIn !== null &&
+    typeof payloadIn === "object" &&
+    (("actor" in payloadIn) || ("run_id" in payloadIn) || ("runId" in payloadIn) || ("ts" in payloadIn)) &&
+    taskIdIn !== undefined &&
+    taskIdIn !== null &&
+    typeof taskIdIn === "object"
+  ) {
+    opts = payloadIn;      // 4th arg was actually opts
+    payloadIn = taskIdIn;  // 3rd arg was actually payload
+    taskIdIn = null;
+  }
+if (payload === undefined && task_id !== undefined && task_id !== null) {
+    // called as (pool, kind, payload)
+    payloadIn = task_id;
+    taskIdIn = null;
+  }
+
+  // pool resolution
+  if (!pool || typeof pool.query !== "function") {
+    throw new Error("phase25: appendTaskEvent missing pool");
+  }
+
+  const actor =
+    (o.actor && String(o.actor)) ||
+    process.env.PHASE26_WORKER_ACTOR ||
+    process.env.WORKER_OWNER ||
+    "server";
+
+  const run_id = (o.run_id === undefined) ? null : o.run_id;
+  
+
+  // DB constraint: run_id required for non-created events.
+  // Try to infer from payload if missing.
+  let __run_id = run_id;
+  // Prefer normalized opts (after call-shape shim) if present.
+  if (__run_id == null && opts && typeof opts === "object") {
+    __run_id = opts.run_id ?? opts.runId ?? null;
+  }
+  // Fallback: infer from payload if caller embedded it there.
+  if (__run_id == null && payloadIn && typeof payloadIn === "object") {
+    __run_id = payloadIn.run_id ?? payloadIn.runId ?? null;
+  }
+  const __k_for_runid = String(kind || "");
+  if (__k_for_runid !== "task.created" && __run_id == null) {
+    throw new Error(`appendTaskEvent: run_id is required for kind=${__k_for_runid}`);
+  }
+const ts = Number.isFinite(o.ts) ? Number(o.ts) : now;
+
+  // Normalize kind + task_id
+  const k = String(kind || "");
+
+  function __phase25_taskIdFromObj(obj) {
+    return obj?.task_id ?? obj?.taskId ?? obj?.task?.id ?? null;
+  }
+
+  const inferredTaskId =
+    (taskIdIn == null ? __phase25_taskIdFromObj(payloadIn) : taskIdIn);
+
+  // payload text + jsonb (best-effort parse)
+  let payloadText = "";
+  let payloadJson = null;
+
+  try {
+    if (payloadIn === null || payloadIn === undefined) payloadText = "";
+    else if (typeof payloadIn === "string") payloadText = payloadIn;
+    else payloadText = JSON.stringify(payloadIn);
+  } catch {
+    payloadText = String(payloadIn);
+  }
+
+  if (o.payload_json !== undefined) {
+    payloadJson = o.payload_json;
+  } else if (payloadIn && typeof payloadIn === "object") {
+    payloadJson = payloadIn;
+  } else if (typeof payloadText === "string" && payloadText.length) {
+    try { payloadJson = JSON.parse(payloadText); } catch { payloadJson = null; }
+  }
+  if (payloadJson === undefined) payloadJson = null;
+
+  
+
+    // Ensure payload is JSONB-safe when task_events.payload is jsonb.
+    if (payloadJson === null && typeof payloadText === "string" && payloadText.length) {
+      payloadJson = { text: payloadText };
+    }
+// Phase 25: Exact-dupe idempotency — if exact (kind,payload) already exists, do nothing.
+  try {
+    const dup = await pool.query(
+        "select 1 as ok from task_events where kind=$1::text and payload=$2::jsonb limit 1",
+        [k, payloadJson]
+      );
+    if (dup && (dup.rowCount || dup.rows?.length)) return;
+  } catch (_) {
+    // If dedupe query fails, continue (do not block writes).
+  }
+
+  // Phase 25: Terminal lockout — reject non-terminal lifecycle events after terminal.
+  const __PHASE25_LIFECYCLE_KINDS = new Set([
+    "task.created","task.queued","task.started","task.progress","task.completed","task.failed","task.canceled",
+  ]);
+  const __PHASE25_TERMINAL_KINDS = new Set(["task.completed","task.failed","task.canceled"]);
+
+  if (__PHASE25_LIFECYCLE_KINDS.has(k) && inferredTaskId && !__PHASE25_TERMINAL_KINDS.has(k)) {
+    try {
+      const like = `%\\\"task_id\\\":\\\"${String(inferredTaskId)}\\\"%`;
+      const term = await pool.query(
+        "select kind from task_events where kind = any($1::text[]) and payload like $2 order by id desc limit 1",
+        [Array.from(__PHASE25_TERMINAL_KINDS), like]
+      );
+      const tk = term?.rows?.[0]?.kind;
+      if (tk) throw new Error(`phase25: reject post-terminal event kind=${k} after=${tk}`);
+    } catch (e) {
+      if (String(e?.message || "").startsWith("phase25:")) throw e;
+    }
+  }
+
+  await pool.query(
+      "insert into task_events(kind, task_id, run_id, actor, ts, payload) values ($1::text, $2::text, $3::text, $4::text, $5::bigint, $6::jsonb)",
+      [k, (inferredTaskId == null ? null : String(inferredTaskId)), __run_id, actor, ts, payloadJson]
+    );
+}
+
+
+
+
+== create a fresh task and capture raw response ==
+{"ok":true,"task_id":"t_e1420d16-2691-47a2-9ae2-bfb49430d34b"}
+-- create response pretty --
+{
+    "ok": true,
+    "task_id": "t_e1420d16-2691-47a2-9ae2-bfb49430d34b"
+}
+
+task_id=t_e1420d16-2691-47a2-9ae2-bfb49430d34b
+
+run_id_from_create=<missing>
+
+== recent tasks probe for created task ==
+{"ok":true,"tasks":[{"id":"10","task_id":"t_e1420d16-2691-47a2-9ae2-bfb49430d34b","title":"phase62b run_id contract inspection task","status":"queued","updated_at":"2026-03-17T17:08:36.337Z"},{"id":"9","task_id":"t_d34825a7-79ed-4722-bb5a-b982e1d359be","title":"phase62b complete 500 inspection task","status":"queued","updated_at":"2026-03-17T16:58:43.487Z"},{"id":"8","task_id":"t_e02a0e4c-1979-4312-a6f4-73387926e224","title":"phase62b runtime success candidate","status":"queued","updated_at":"2026-03-17T16:56:36.933Z"},{"id":"7","task_id":"t_9e9ba3d9-7599-4dcd-959d-048d5a918708","title":"phase64 named-agent smoke","status":"queued","updated_at":"2026-03-13T21:54:17.484Z"},{"id":"6","task_id":"t_d04ee557-b313-4d28-b5a5-e11503c35d14","title":"phase64 named-agent smoke","status":"queued","updated_at":"2026-03-13T21:48:47.323Z"},{"id":"5","task_id":"t_b0d27280-1eae-4966-a622-8a3ba7cb1b74","title":"phase64 named-agent smoke","status":"queued","updated_at":"2026-03-13T21:45:29.503Z"},{"id":"4","task_id":"t_459cff5d-2285-4389-8182-70f81655532b","title":"phase64 named-agent probe","status":"queued","updated_at":"2026-03-13T21:44:12.463Z"},{"id":"3","task_id":"task.ac67065d-fcb6-4248-97d6-5837ddf9494e","title":"test after schema alignment","status":"queued","updated_at":"2026-03-13T16:27:15.559Z"},{"id":"1","task_id":"policy.probe.task","title":"policy.probe","status":"running","updated_at":"2026-03-06T04:08:31.692Z"}]}
+
+== verbose complete call without run_id ==
+HTTP/1.1 500 Internal Server Error
+X-Powered-By: Express
+Content-Type: application/json; charset=utf-8
+Content-Length: 82
+ETag: W/"52-gRWR6Mqx0qIw6Lvb8cvABzZii2s"
+Date: Tue, 17 Mar 2026 17:08:36 GMT
+Connection: keep-alive
+Keep-Alive: timeout=5
+
+{"ok":false,"error":"appendTaskEvent: run_id is required for kind=task.completed"}
+== verbose fail call without run_id ==
+HTTP/1.1 500 Internal Server Error
+X-Powered-By: Express
+Content-Type: application/json; charset=utf-8
+Content-Length: 79
+ETag: W/"4f-K9/eP9VKqMW/SNRKfN492iN4Sfo"
+Date: Tue, 17 Mar 2026 17:08:36 GMT
+Connection: keep-alive
+Keep-Alive: timeout=5
+
+{"ok":false,"error":"appendTaskEvent: run_id is required for kind=task.failed"}
+== discovered run_id unavailable from create path ==
+run_id remains absent from create response
+

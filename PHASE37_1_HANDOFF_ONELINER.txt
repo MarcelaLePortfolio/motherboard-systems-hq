@@ -1,0 +1,1 @@
+Phase 37.1 ✅ Planning-only complete: documented provenance for run_view.terminal_event_{kind,ts,id} and is_terminal, and captured the acceptance-lens mismatch (acceptance expects task.* kinds; view uses bare completed/failed/canceled/cancelled). Protocols: no schema/view/worker changes; stop here.

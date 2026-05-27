@@ -1,0 +1,449 @@
+FULL OUTPUT
+
+== public/js/telemetry/success_rate_metric.js ==
+     1	/*
+     2	PHASE 65C TELEMETRY HYDRATION
+     3	Success Rate Metric
+     4	Telemetry now sole writer.
+     5	*/
+     6	
+     7	(function () {
+     8	  const TERMINAL_SUCCESS_TYPES = new Set([
+     9	    "task.completed",
+    10	    "task.complete",
+    11	    "task.done",
+    12	    "task.success",
+    13	    "completed",
+    14	    "complete",
+    15	    "done",
+    16	    "success",
+    17	  ]);
+    18	
+    19	  const TERMINAL_FAILURE_TYPES = new Set([
+    20	    "task.failed",
+    21	    "task.error",
+    22	    "task.cancelled",
+    23	    "task.canceled",
+    24	    "task.timed_out",
+    25	    "task.timeout",
+    26	    "failed",
+    27	    "error",
+    28	    "cancelled",
+    29	    "canceled",
+    30	    "timed_out",
+    31	    "timeout",
+    32	    "terminated",
+    33	    "aborted",
+    34	  ]);
+    35	
+    36	  const seenTerminalEvents = new Set();
+    37	  let completedCount = 0;
+    38	  let failedCount = 0;
+    39	
+    40	  function getMetricNode() {
+    41	    return document.getElementById("metric-success");
+    42	  }
+    43	
+    44	  function render() {
+    45	    const node = getMetricNode();
+    46	    if (!node) return;
+    47	
+    48	    const total = completedCount + failedCount;
+    49	    const value = total > 0 ? `${Math.round((completedCount / total) * 100)}%` : "—";
+    50	
+    51	    if (window.__phase65bMetricWrite) {
+    52	      window.__phase65bMetricWrite(() => {
+    53	        node.textContent = value;
+    54	      });
+    55	    } else {
+    56	      node.textContent = value;
+    57	    }
+    58	  }
+    59	
+    60	  function getEventType(payload) {
+    61	    return String(payload?.type || payload?.event || payload?.name || payload?.status || payload?.state || "")
+    62	      .trim()
+    63	      .toLowerCase();
+    64	  }
+    65	
+    66	  function getTaskId(payload) {
+    67	    return String(
+    68	      payload?.task_id ??
+    69	      payload?.taskId ??
+    70	      payload?.id ??
+    71	      payload?.data?.task_id ??
+    72	      payload?.data?.taskId ??
+    73	      ""
+    74	    ).trim();
+    75	  }
+    76	
+    77	  function getEventTs(payload) {
+    78	    const raw =
+    79	      payload?.ts ??
+    80	      payload?.timestamp ??
+    81	      payload?.at ??
+    82	      payload?.time ??
+    83	      payload?.created_at ??
+    84	      payload?.updated_at ??
+    85	      Date.now();
+    86	
+    87	    if (typeof raw === "number" && Number.isFinite(raw)) {
+    88	      return raw > 1e12 ? raw : raw * 1000;
+    89	    }
+    90	
+    91	    if (typeof raw === "string" && raw.trim()) {
+    92	      const asNum = Number(raw);
+    93	      if (Number.isFinite(asNum)) return asNum > 1e12 ? asNum : asNum * 1000;
+    94	      const parsed = Date.parse(raw);
+    95	      if (Number.isFinite(parsed)) return parsed;
+    96	    }
+    97	
+    98	    return Date.now();
+    99	  }
+   100	
+   101	  function processPayload(payload) {
+   102	    const type = getEventType(payload);
+   103	    const taskId = getTaskId(payload);
+   104	    const ts = getEventTs(payload);
+   105	
+   106	    if (!type) {
+   107	      render();
+   108	      return;
+   109	    }
+   110	
+   111	    const isSuccess = TERMINAL_SUCCESS_TYPES.has(type);
+   112	    const isFailure = TERMINAL_FAILURE_TYPES.has(type);
+   113	
+   114	    if (!isSuccess && !isFailure) {
+   115	      render();
+   116	      return;
+   117	    }
+   118	
+   119	    const dedupeKey = `${taskId || "no-task"}|${type}|${ts}`;
+   120	    if (seenTerminalEvents.has(dedupeKey)) {
+   121	      render();
+   122	      return;
+   123	    }
+   124	
+   125	    seenTerminalEvents.add(dedupeKey);
+   126	
+   127	    if (isSuccess) completedCount += 1;
+   128	    if (isFailure) failedCount += 1;
+   129	
+   130	    render();
+   131	  }
+   132	
+   133	  function attach(source) {
+   134	    if (!source || source.__phase65cSuccessBound) return;
+   135	
+   136	    source.__phase65cSuccessBound = true;
+   137	
+   138	    source.addEventListener("message", (e) => {
+   139	      try {
+   140	        const parsed = JSON.parse(e.data);
+   141	        if (Array.isArray(parsed)) {
+   142	          parsed.forEach(processPayload);
+   143	        } else {
+   144	          processPayload(parsed);
+   145	        }
+   146	      } catch {
+   147	        console.warn("success_rate_metric parse error");
+   148	      }
+   149	    });
+   150	  }
+   151	
+   152	  function patchEventSource() {
+   153	    if (window.__phase65cSuccessPatched) return;
+   154	
+   155	    const Native = window.EventSource;
+   156	    if (typeof Native !== "function") return;
+   157	
+   158	    function Wrapped(url, config) {
+   159	      const es = new Native(url, config);
+   160	
+   161	      try {
+   162	        if (String(url).includes("/events/task-events")) {
+   163	          attach(es);
+   164	        }
+   165	      } catch {}
+   166	
+   167	      return es;
+   168	    }
+   169	
+   170	    Wrapped.prototype = Native.prototype;
+   171	    window.EventSource = Wrapped;
+   172	    window.__phase65cSuccessPatched = true;
+   173	  }
+   174	
+   175	  function bootstrap() {
+   176	    patchEventSource();
+   177	    render();
+   178	  }
+   179	
+   180	  if (document.readyState === "loading") {
+   181	    document.addEventListener("DOMContentLoaded", bootstrap);
+   182	  } else {
+   183	    bootstrap();
+   184	  }
+   185	})();
+
+== public/js/task-events-sse-client.js relevant area ==
+   300	
+   301	  let es = null;
+   302	  let attempt = 0;
+   303	
+   304	  function connect() {
+   305	    ensurePanel();
+   306	
+   307	    if (es) {
+   308	      try { es.close(); } catch {}
+   309	      es = null;
+   310	    }
+   311	
+   312	    const url = SSE_URL;
+   313	    es = new EventSource(url);
+   314	
+   315	    es.onopen = () => {
+   316	      attempt = 0;
+   317	      setDot("open");
+   318	      appendEvent({ ts: Date.now(), kind: "sse.open", message: `url=${url}` }, "sse.open");
+   319	      console.log("[phase22] task-events SSE open", url);
+   320	    };
+   321	
+   322	    es.onerror = () => {
+   323	      setDot("error");
+   324	      try { es.close(); } catch {}
+   325	      es = null;
+   326	
+   327	      attempt += 1;
+   328	      const delay = Math.min(15000, 500 * Math.pow(2, Math.min(6, attempt)));
+   329	      appendEvent({ ts: Date.now(), kind: "sse.error", message: `reconnect_in=${delay}ms` }, "sse.error");
+   330	      console.log("[phase22] task-events SSE error; reconnect in", delay);
+   331	      setTimeout(connect, delay);
+   332	    };
+   333	
+   334	    es.onmessage = (msg) => handleFrame("message", msg.data);
+   335	
+   336	    const names = [
+   337	      "hello",
+   338	      "heartbeat",
+   339	      "task.event",
+   340	      "task.created",
+   341	      "task.completed",
+   342	      "task.failed",
+   343	      "task.updated",
+   344	      "task.status",
+   345	    ];
+   346	    for (const name of names) {
+   347	      es.addEventListener(name, (e) => handleFrame(name, e.data));
+   348	    }
+   349	  }
+   350	
+   351	  function boot() {
+   352	    connect();
+   353	    setInterval(() => {
+   354	      if (!document.getElementById(PANEL_ID)) {
+   355	        try { connect(); } catch {}
+   356	      }
+   357	    }, 2000);
+   358	  }
+   359	
+   360	  if (document.readyState === "loading") {
+   361	    document.addEventListener("DOMContentLoaded", boot, { once: true });
+   362	  } else {
+   363	    boot();
+   364	  }
+   365	
+   366	  window.__MB_TASK_EVENTS = { url: SSE_URL, reconnect: () => connect() };
+   367	})();
+
+== public/js/agent-status-row.js relevant area ==
+   360	    // Legacy direct write removed intentionally.
+   361	  };
+   362	})();
+   363	;/* PHASE63_SHARED_TASK_EVENTS_METRICS */
+   364	(() => {
+   365	  if (typeof window === 'undefined') return;
+   366	  if (window.__PHASE63_SHARED_TASK_EVENTS_METRICS__) return;
+   367	  window.__PHASE63_SHARED_TASK_EVENTS_METRICS__ = true;
+   368	
+   369	  const tasksNode = document.getElementById('metric-tasks');
+   370	  const successNode = null; // Phase 62B: success writer neutralized; telemetry module remains sole writer
+   371	  const latencyNode = document.getElementById('metric-latency');
+   372	
+   373	  const runningTaskIds = new Set();
+   374	  const taskStartTimes = new Map();
+   375	  const seenTerminalEvents = new Set();
+   376	  const recentDurationsMs = [];
+   377	  const maxSamples = 50;
+   378	
+   379	  let completedCount = 0;
+   380	  let failedCount = 0;
+   381	
+   382	  const runningTypes = new Set([
+   383	    'created',
+   384	    'queued',
+   385	    'leased',
+   386	    'started',
+   387	    'running',
+   388	    'in_progress',
+   389	    'delegated',
+   390	    'retrying'
+   391	  ]);
+   392	
+   393	  const terminalSuccessTypes = new Set([
+   394	    'completed',
+   395	    'complete',
+   396	    'done',
+   397	    'success'
+   398	  ]);
+   399	
+   400	  const terminalFailureTypes = new Set([
+   401	    'failed',
+   402	    'error',
+   403	    'cancelled',
+   404	    'canceled',
+   405	    'timed_out',
+   406	    'timeout',
+   407	    'terminated',
+   408	    'aborted'
+   409	  ]);
+   410	
+   411	  const terminalTypes = new Set([
+   412	    ...terminalSuccessTypes,
+   413	    ...terminalFailureTypes
+   414	  ]);
+   415	
+   416	  const normalize = (value) =>
+   417	    String(value || '')
+   418	      .trim()
+   419	      .toLowerCase()
+   420	      .replace(/\s+/g, '_');
+   421	
+   422	  const safeJsonParse = (value) => {
+   423	    try {
+   424	      return JSON.parse(value);
+   425	    } catch {
+   426	      return null;
+   427	    }
+   428	  };
+   429	
+   430	  const getTaskId = (payload) =>
+   431	    payload?.task_id ??
+   432	    payload?.taskId ??
+   433	    payload?.id ??
+   434	    payload?.data?.task_id ??
+   435	    payload?.data?.taskId ??
+   436	    null;
+   437	
+   438	  const getEventType = (eventName, payload) =>
+   439	    normalize(
+   440	      payload?.type ??
+   441	      payload?.event ??
+   442	      payload?.status ??
+   443	      payload?.state ??
+   444	      eventName
+   445	    );
+   446	
+   447	  const toMs = (value) => {
+   448	    if (typeof value === 'number' && Number.isFinite(value)) {
+   449	      return value > 1e12 ? value : value * 1000;
+   450	    }
+   451	
+   452	    if (typeof value === 'string' && value.trim()) {
+   453	      const asNum = Number(value);
+   454	      if (Number.isFinite(asNum)) {
+   455	        return asNum > 1e12 ? asNum : asNum * 1000;
+   456	      }
+   457	
+   458	      const parsed = Date.parse(value);
+   459	      if (Number.isFinite(parsed)) return parsed;
+   460	    }
+   461	
+   462	    return Date.now();
+   463	  };
+   464	
+   465	  const getEventTs = (payload) =>
+   466	    toMs(
+   467	      payload?.ts ??
+   468	      payload?.timestamp ??
+   469	      payload?.at ??
+   470	      payload?.time ??
+   471	      payload?.created_at ??
+   472	      payload?.updated_at ??
+   473	      Date.now()
+   474	    );
+   475	
+   476	  const formatLatency = (ms) => {
+   477	    if (!Number.isFinite(ms) || ms <= 0) return '—';
+   478	    if (ms < 1000) return `${Math.round(ms)}ms`;
+   479	    const seconds = ms / 1000;
+   480	    if (seconds < 60) return `${seconds.toFixed(seconds >= 10 ? 0 : 1)}s`;
+   481	    const minutes = seconds / 60;
+   482	    return `${minutes.toFixed(minutes >= 10 ? 0 : 1)}m`;
+   483	  };
+   484	
+   485	  const render = () => {
+   486	    if (tasksNode) {
+   487	      // Phase 65B.2: metric-tasks ownership transferred to telemetry reducer
+   488	      // Legacy direct write removed intentionally.
+   489	    }
+   490	    if (successNode) {
+   491	      // Phase 65C: metric-success ownership transferred to telemetry reducer
+   492	      // Legacy direct write removed intentionally.
+   493	    }
+   494	    if (latencyNode) {
+   495	      // Phase 65C: metric-latency ownership transferred to telemetry reducer
+   496	      // Legacy direct write removed intentionally.
+   497	    }
+   498	    };
+   499	
+   500	  const ingestEvent = (eventName, payload) => {
+   501	    const taskId = getTaskId(payload);
+   502	    const eventType = getEventType(eventName, payload);
+   503	    const eventTs = getEventTs(payload);
+   504	
+   505	    if (!taskId) {
+   506	      render();
+   507	      return;
+   508	    }
+   509	
+   510	    if (runningTypes.has(eventType)) {
+   511	      runningTaskIds.add(taskId);
+   512	      if (!taskStartTimes.has(taskId)) {
+   513	        taskStartTimes.set(taskId, eventTs);
+   514	      }
+   515	    }
+   516	
+   517	    if (terminalTypes.has(eventType)) {
+   518	      runningTaskIds.delete(taskId);
+   519	
+   520	      const dedupeKey = `${taskId}|${eventType}|${eventTs}`;
+   521	      if (!seenTerminalEvents.has(dedupeKey)) {
+   522	        seenTerminalEvents.add(dedupeKey);
+   523	
+   524	        if (terminalSuccessTypes.has(eventType)) completedCount += 1; // observer-only state retained
+   525	        if (terminalFailureTypes.has(eventType)) failedCount += 1; // observer-only state retained
+   526	
+   527	        const startTs = taskStartTimes.get(taskId);
+   528	        if (Number.isFinite(startTs)) {
+   529	          const duration = Math.max(0, eventTs - startTs);
+   530	          recentDurationsMs.push(duration);
+   531	          if (recentDurationsMs.length > maxSamples) {
+   532	            recentDurationsMs.splice(0, recentDurationsMs.length - maxSamples);
+   533	          }
+   534	        }
+   535	      }
+   536	
+   537	      taskStartTimes.delete(taskId);
+   538	    }
+   539	
+   540	    render();
+
+== public/bundle.js focused excerpts ==
+649:    const successNode = null;
+656:    let completedCount = 0;
+657:    let failedCount = 0;
+728:      if (successNode) {
+752:          if (terminalSuccessTypes.has(eventType)) completedCount += 1;
+753:          if (terminalFailureTypes.has(eventType)) failedCount += 1;

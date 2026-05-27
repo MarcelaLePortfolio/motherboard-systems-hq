@@ -1,0 +1,26 @@
+name: dashboard-layout-contract
+
+on:
+  pull_request:
+    paths:
+      - "public/dashboard.html"
+      - "scripts/verify-dashboard-layout-contract.sh"
+      - ".github/workflows/dashboard-layout-contract.yml"
+  push:
+    branches:
+      - main
+      - phase61-cherry-pick-recovery
+    paths:
+      - "public/dashboard.html"
+      - "scripts/verify-dashboard-layout-contract.sh"
+      - ".github/workflows/dashboard-layout-contract.yml"
+
+jobs:
+  verify-dashboard-layout:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Verify dashboard layout contract
+        run: scripts/verify-dashboard-layout-contract.sh public/dashboard.html

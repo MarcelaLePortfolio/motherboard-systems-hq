@@ -1,0 +1,2 @@
+/* eslint-disable import/no-commonjs */
+import '../../src/scripts/agents/matilda.mts';console.log(" Launching Matilda agent with heartbeat...");

@@ -1,0 +1,4 @@
+/* eslint-disable import/no-commonjs */
+✅ Confirming current working directory: $(pwd)
+📂 Verifying existence of: ui/dashboard/agent-status.json
+📂 Full path: $(realpath ui/dashboard/agent-status.json)

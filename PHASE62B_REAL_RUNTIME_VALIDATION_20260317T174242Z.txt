@@ -1,0 +1,56 @@
+PHASE 62B — REAL SUCCESS RATE RUNTIME VALIDATION
+generated_at=2026-03-17T17:42:42Z
+base_url=http://127.0.0.1:8080
+
+== precheck routes ==
+ok: GET /api/tasks reachable
+
+== step 1: create success candidate ==
+{"ok":true,"task_id":"t_3065467d-00af-4bcb-8125-acd7a085229f","run_id":"run_f2d0e3cb-1b5f-40bf-8042-ae2ef5083750"}{"ok":true,"task_id":"t_3065467d-00af-4bcb-8125-acd7a085229f","run_id":"run_f2d0e3cb-1b5f-40bf-8042-ae2ef5083750"}
+
+success_task_id=t_3065467d-00af-4bcb-8125-acd7a085229f
+success_task_id=t_3065467d-00af-4bcb-8125-acd7a085229f
+success_run_id=run_f2d0e3cb-1b5f-40bf-8042-ae2ef5083750
+success_run_id=run_f2d0e3cb-1b5f-40bf-8042-ae2ef5083750
+
+
+== step 2: complete success candidate ==
+{"ok":true,"task_id":"t_3065467d-00af-4bcb-8125-acd7a085229f"}{"ok":true,"task_id":"t_3065467d-00af-4bcb-8125-acd7a085229f"}
+
+== step 3: create failure candidate ==
+{"ok":true,"task_id":"t_aabbf43c-5102-4d76-b80c-a75243f07582","run_id":"run_58deafb4-be85-4aec-be58-0141d73ef3a7"}{"ok":true,"task_id":"t_aabbf43c-5102-4d76-b80c-a75243f07582","run_id":"run_58deafb4-be85-4aec-be58-0141d73ef3a7"}
+
+failure_task_id=t_aabbf43c-5102-4d76-b80c-a75243f07582
+failure_task_id=t_aabbf43c-5102-4d76-b80c-a75243f07582
+failure_run_id=run_58deafb4-be85-4aec-be58-0141d73ef3a7
+failure_run_id=run_58deafb4-be85-4aec-be58-0141d73ef3a7
+
+
+== step 4: fail failure candidate ==
+{"ok":true,"task_id":"t_aabbf43c-5102-4d76-b80c-a75243f07582"}{"ok":true,"task_id":"t_aabbf43c-5102-4d76-b80c-a75243f07582"}
+
+== step 5: recent tasks probe ==
+{"ok":true,"tasks":[{"id":"17","task_id":"t_aabbf43c-5102-4d76-b80c-a75243f07582","title":"phase62b runtime failure candidate","status":"queued","updated_at":"2026-03-17T17:42:44.392Z"},{"id":"16","task_id":"t_3065467d-00af-4bcb-8125-acd7a085229f","title":"phase62b runtime success candidate","status":"queued","updated_at":"2026-03-17T17:42:42.288Z"},{"id":"15","task_id":"t_0ec3817c-933a-4106-9cd7-a01ac1bd8263","title":"phase62b live create route restart check post-refresh","status":"queued","updated_at":"2026-03-17T17:42:42.216Z"},{"id":"14","task_id":"t_11574f78-6511-4d47-b22a-e5bf120966c4","title":"phase62b live create route restart check","status":"queued","updated_at":"2026-03-17T17:42:42.138Z"},{"id":"13","task_id":"t_2b928083-d81b-468a-a260-697a3e8b32be","title":"phase62b live create route restart check post-refresh","status":"queued","updated_at":"2026-03-17T17:30:28.013Z"},{"id":"12","task_id":"t_3e7f064e-c110-446a-be88-b2261bdf3c38","title":"phase62b live create route restart check","status":"queued","updated_at":"2026-03-17T17:30:14.696Z"},{"id":"11","task_id":"t_e66489d5-33f8-4d17-88d5-522a912e2d9c","title":"phase62b runtime success candidate","status":"queued","updated_at":"2026-03-17T17:28:05.492Z"},{"id":"10","task_id":"t_e1420d16-2691-47a2-9ae2-bfb49430d34b","title":"phase62b run_id contract inspection task","status":"queued","updated_at":"2026-03-17T17:08:36.337Z"},{"id":"9","task_id":"t_d34825a7-79ed-4722-bb5a-b982e1d359be","title":"phase62b complete 500 inspection task","status":"queued","updated_at":"2026-03-17T16:58:43.487Z"},{"id":"8","task_id":"t_e02a0e4c-1979-4312-a6f4-73387926e224","title":"phase62b runtime success candidate","status":"queued","updated_at":"2026-03-17T16:56:36.933Z"}]}{"ok":true,"tasks":[{"id":"17","task_id":"t_aabbf43c-5102-4d76-b80c-a75243f07582","title":"phase62b runtime failure candidate","status":"queued","updated_at":"2026-03-17T17:42:44.392Z"},{"id":"16","task_id":"t_3065467d-00af-4bcb-8125-acd7a085229f","title":"phase62b runtime success candidate","status":"queued","updated_at":"2026-03-17T17:42:42.288Z"},{"id":"15","task_id":"t_0ec3817c-933a-4106-9cd7-a01ac1bd8263","title":"phase62b live create route restart check post-refresh","status":"queued","updated_at":"2026-03-17T17:42:42.216Z"},{"id":"14","task_id":"t_11574f78-6511-4d47-b22a-e5bf120966c4","title":"phase62b live create route restart check","status":"queued","updated_at":"2026-03-17T17:42:42.138Z"},{"id":"13","task_id":"t_2b928083-d81b-468a-a260-697a3e8b32be","title":"phase62b live create route restart check post-refresh","status":"queued","updated_at":"2026-03-17T17:30:28.013Z"},{"id":"12","task_id":"t_3e7f064e-c110-446a-be88-b2261bdf3c38","title":"phase62b live create route restart check","status":"queued","updated_at":"2026-03-17T17:30:14.696Z"},{"id":"11","task_id":"t_e66489d5-33f8-4d17-88d5-522a912e2d9c","title":"phase62b runtime success candidate","status":"queued","updated_at":"2026-03-17T17:28:05.492Z"},{"id":"10","task_id":"t_e1420d16-2691-47a2-9ae2-bfb49430d34b","title":"phase62b run_id contract inspection task","status":"queued","updated_at":"2026-03-17T17:08:36.337Z"},{"id":"9","task_id":"t_d34825a7-79ed-4722-bb5a-b982e1d359be","title":"phase62b complete 500 inspection task","status":"queued","updated_at":"2026-03-17T16:58:43.487Z"},{"id":"8","task_id":"t_e02a0e4c-1979-4312-a6f4-73387926e224","title":"phase62b runtime success candidate","status":"queued","updated_at":"2026-03-17T16:56:36.933Z"}]}
+
+== operator instructions ==
+== operator instructions ==
+1. Keep http://127.0.0.1:8080/dashboard open during this run.
+1. Keep http://127.0.0.1:8080/dashboard open during this run.
+2. Record initial Success Rate before running script.
+2. Record initial Success Rate before running script.
+3. After step 2, note post-success Success Rate.
+3. After step 2, note post-success Success Rate.
+4. After step 4, note post-failure Success Rate.
+4. After step 4, note post-failure Success Rate.
+5. Confirm Running Tasks returns to prior baseline after each terminal event.
+5. Confirm Running Tasks returns to prior baseline after each terminal event.
+6. Confirm Latency still updates and no layout drift appears.
+6. Confirm Latency still updates and no layout drift appears.
+7. If any ambiguity appears, stop and record findings only.
+7. If any ambiguity appears, stop and record findings only.
+
+
+validation_log=PHASE62B_REAL_RUNTIME_VALIDATION_20260317T174242Z.txt
+validation_log=PHASE62B_REAL_RUNTIME_VALIDATION_20260317T174242Z.txt
+PASS GATE NOT AUTOMATIC: dashboard movement must be visually confirmed.
+PASS GATE NOT AUTOMATIC: dashboard movement must be visually confirmed.

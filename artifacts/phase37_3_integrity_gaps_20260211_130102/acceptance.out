@@ -1,0 +1,54 @@
+Pager usage is off.
+Timing is on.
+       check       | n  
+-------------------+----
+ run_view rowcount | 15
+(1 row)
+
+Time: 2.961 ms
+ check | run_id | last_event_ts | last_event_id | expected_last_event_ts | expected_last_event_id | last_event_kind | expected_last_event_kind 
+-------+--------+---------------+---------------+------------------------+------------------------+-----------------+--------------------------
+(0 rows)
+
+Time: 1.429 ms
+ check | run_id | ts | n 
+-------+--------+----+---
+(0 rows)
+
+Time: 0.431 ms
+ section | id | ts | kind | task_id | run_id | actor 
+---------+----+----+------+---------+--------+-------
+(0 rows)
+
+Time: 0.260 ms
+ section | run_id | task_id | actor | lease_expires_at | lease_fresh | lease_ttl_ms | last_heartbeat_ts | heartbeat_age_ms | last_event_id | last_event_ts | last_event_kind | task_status | is_terminal | terminal_event_kind | terminal_event_ts | terminal_event_id 
+---------+--------+---------+-------+------------------+-------------+--------------+-------------------+------------------+---------------+---------------+-----------------+-------------+-------------+---------------------+-------------------+-------------------
+(0 rows)
+
+Time: 0.889 ms
+ check | run_id | terminal_event_kind | terminal_event_ts | terminal_event_id | expected_terminal_kind | expected_terminal_ts | expected_terminal_id 
+-------+--------+---------------------+-------------------+-------------------+------------------------+----------------------+----------------------
+(0 rows)
+
+Time: 0.717 ms
+               check                |             run_id              | is_terminal | terminal_event_kind | terminal_event_ts | terminal_event_id 
+------------------------------------+---------------------------------+-------------+---------------------+-------------------+-------------------
+ is_terminal_without_terminal_event | run-1770230918944-5cba86c718dda | t           |                     |                   |                  
+ is_terminal_without_terminal_event | run-1770231068596-ee66e3b5d20df | t           |                     |                   |                  
+ is_terminal_without_terminal_event | run-1770234846688-2e40cffc4ae86 | t           |                     |                   |                  
+ is_terminal_without_terminal_event | run-1770399741086-b9a6bed9fe2c9 | t           |                     |                   |                  
+ is_terminal_without_terminal_event | run-1770399741087-c4e09fe3ba3de | t           |                     |                   |                  
+(5 rows)
+
+Time: 0.775 ms
+ check | run_id | lease_expires_at | lease_fresh | lease_ttl_ms 
+-------+--------+------------------+-------------+--------------
+(0 rows)
+
+Time: 0.545 ms
+ check | run_id | last_heartbeat_ts | heartbeat_age_ms 
+-------+--------+-------------------+------------------
+(0 rows)
+
+Time: 0.595 ms
+Timing is off.

@@ -1,0 +1,82 @@
+PHASE 62B — LIVE CREATE ROUTE RESTART CHECK
+generated_at=2026-03-17T17:30:14Z
+base_url=http://127.0.0.1:8080
+
+== source proof ==
+86:    let run_id = b.run_id ?? b.runId ?? null;
+138:    res.status(201).json({ ok: true, task_id, run_id, event: evt });
+
+== initial live create probe ==
+{"ok":true,"task_id":"t_3e7f064e-c110-446a-be88-b2261bdf3c38"}
+
+initial_run_id=missing
+
+== runtime appears stale: attempting docker compose refresh ==
+NAME                                 IMAGE                              COMMAND                  SERVICE     CREATED        STATUS        PORTS
+motherboard_systems_hq-dashboard-1   motherboard_systems_hq-dashboard   "docker-entrypoint.s…"   dashboard   20 hours ago   Up 20 hours   0.0.0.0:8080->3000/tcp, [::]:8080->3000/tcp
+motherboard_systems_hq-postgres-1    postgres:16-alpine                 "docker-entrypoint.s…"   postgres    3 days ago     Up 3 days     0.0.0.0:5432->5432/tcp, [::]:5432->5432/tcp
+#1 [internal] load local bake definitions
+#1 reading from stdin 692B done
+#1 DONE 0.0s
+
+#2 [internal] load build definition from Dockerfile.dashboard
+#2 transferring dockerfile: 741B done
+#2 DONE 0.0s
+
+#3 [internal] load metadata for docker.io/library/node:20-alpine
+#3 DONE 0.8s
+
+#4 [internal] load .dockerignore
+#4 transferring context: 129B 0.0s done
+#4 DONE 0.0s
+
+#5 [1/7] FROM docker.io/library/node:20-alpine@sha256:b88333c42c23fbd91596ebd7fd10de239cedab9617de04142dde7315e3bc0afa
+#5 resolve docker.io/library/node:20-alpine@sha256:b88333c42c23fbd91596ebd7fd10de239cedab9617de04142dde7315e3bc0afa 0.0s done
+#5 DONE 0.0s
+
+#6 [internal] load build context
+#6 transferring context: 7.54MB 0.1s done
+#6 DONE 0.1s
+
+#7 [3/7] COPY package*.json ./
+#7 CACHED
+
+#8 [4/7] COPY package-lock.json* ./
+#8 CACHED
+
+#9 [2/7] WORKDIR /app
+#9 CACHED
+
+#10 [5/7] RUN npm config set fetch-retries 5     && npm config set fetch-retry-factor 2     && npm config set fetch-retry-mintimeout 10000     && npm config set fetch-retry-maxtimeout 60000     && (npm config set registry https://registry.npmmirror.com/         && npm ci --no-audit --no-fund       || npm config set registry https://registry.npmjs.org/         && npm ci --no-audit --no-fund)     && apk add --no-cache curl ripgrep
+#10 CACHED
+
+#11 [6/7] COPY . .
+#11 DONE 0.5s
+
+#12 [7/7] COPY public/ ./public/
+#12 DONE 0.0s
+
+#13 exporting to image
+#13 exporting layers
+#13 exporting layers 0.7s done
+#13 exporting manifest sha256:83ab62a89adcc09e5b5291e26b7fe8d305dfba31884e90f7c6b80af7bac0e4e5 done
+#13 exporting config sha256:7ad64e57463e94cc68d9cac3c7455d5ea4ed883d929de05ac550942dbe3c61db done
+#13 exporting attestation manifest sha256:b7dac601bc01b6b710506fbdc028050abf6230e823af47981fe0673a587e3ab6 done
+#13 exporting manifest list sha256:4817996f9c32af29a2bf1419a35c1726a773b7c4b80016859167c0a125de9d43 done
+#13 naming to docker.io/library/motherboard_systems_hq-dashboard:latest done
+#13 unpacking to docker.io/library/motherboard_systems_hq-dashboard:latest
+#13 unpacking to docker.io/library/motherboard_systems_hq-dashboard:latest 0.6s done
+#13 DONE 1.3s
+
+#14 resolving provenance for metadata file
+#14 DONE 0.0s
+
+== waiting for runtime ==
+
+== post-refresh live create probe ==
+{"ok":true,"task_id":"t_2b928083-d81b-468a-a260-697a3e8b32be","run_id":"run_aef97786-7ca4-4eec-8531-60c811f7af42"}
+
+final_run_id=run_aef97786-7ca4-4eec-8531-60c811f7af42
+
+== decision ==
+live_create_route_run_id_present=yes

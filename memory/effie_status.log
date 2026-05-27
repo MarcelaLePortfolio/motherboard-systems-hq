@@ -1,0 +1,5 @@
+/* eslint-disable import/no-commonjs */
+<0065effie> [auto:cade] Effie routing now active.
+- Receives delegated ops via delegateToEffie().
+- Commands logged to memory/effie_routed_commands.log.
+- Next: validate multi-agent orchestration (Matilda ↔ Effie ↔ Cade).

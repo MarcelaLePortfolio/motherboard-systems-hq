@@ -1,0 +1,245 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+# Phase 54: ensure every compose call uses the same -f set (up/logs/down/ps).
+COMPOSE_FILES=(
+  -f docker-compose.yml
+  -f docker-compose.workers.yml
+  -f docker-compose.phase54.postgres_bootstrap.override.yml
+  -f docker-compose.phase47.postgres_url.override.yml
+  -f docker-compose.phase54.postgres_bootstrap.override.yml
+)
+DC() { docker compose "${COMPOSE_FILES[@]}" "$@"; }
+
+KEEP_STACK="${KEEP_STACK:-0}"
+want_keep_stack() { [[ "${KEEP_STACK}" == "1" ]]; }
+
+
+
+
+cd "$(git rev-parse --show-toplevel)"
+
+if ! want_keep_stack; then
+  DC -f docker-compose.yml -f docker-compose.workers.yml down --remove-orphans >/dev/null 2>&1 || true
+  docker network rm motherboard_systems_hq_default >/dev/null 2>&1 || true
+fi
+
+
+BASE_URL="${BASE_URL:-http://127.0.0.1:8080}"
+PROBE_PATH="${PROBE_PATH:-/api/policy/probe}"
+WAIT_PATH="${WAIT_PATH:-/api/runs}"
+
+ensure_default_network() {
+  local net="motherboard_systems_hq_default"
+  local lbl
+
+  if docker network inspect "$net" >/dev/null 2>&1; then
+    lbl="$(docker network inspect -f '{{ index .Labels "com.docker.compose.network" }}' "$net" 2>/dev/null || true)"
+    if [[ "$lbl" != "default" ]]; then
+      docker network rm "$net" >/dev/null 2>&1 || true
+    fi
+  fi
+
+  if ! docker network inspect "$net" >/dev/null 2>&1; then
+    docker network create --label com.docker.compose.network=default --label com.docker.compose.project=motherboard_systems_hq "$net" >/dev/null
+  fi
+}
+
+compose_up() {
+  local mode="$1"
+  if ! want_keep_stack; then
+    DC down --remove-orphans >/dev/null 2>&1 || true
+  fi
+
+  ensure_default_network
+
+  if [[ "$mode" == "shadow" ]]; then
+    DC -f docker-compose.yml -f docker-compose.workers.yml -f docker-compose.phase54.shadow.override.yml -f docker-compose.phase47.postgres_url.override.yml up -d --build
+  elif [[ "$mode" == "enforce" ]]; then
+    DC -f docker-compose.yml -f docker-compose.workers.yml -f docker-compose.phase54.enforce.override.yml -f docker-compose.phase47.postgres_url.override.yml up -d --build
+  else
+    echo "ERROR: unknown mode: $mode" >&2
+    exit 2
+  fi
+
+  if [[ -x scripts/_lib/wait_http.sh ]]; then
+    scripts/_lib/wait_http.sh "${BASE_URL}${WAIT_PATH}" 90
+  else
+    ok=0
+    for _ in {1..90}; do
+      code="$(curl -sS -o /dev/null -w "%{http_code}" "${BASE_URL}${WAIT_PATH}" || true)"
+      if [[ "$code" == "200" ]]; then
+        ok=$((ok+1))
+        [[ $ok -ge 2 ]] && break
+      else
+        ok=0
+      fi
+      sleep 1
+    done
+  fi
+}
+
+compose_down() {
+  if want_keep_stack; then
+    echo "KEEP_STACK=1: skipping compose down"
+    return 0
+  fi
+  DC down --remove-orphans
+}
+
+pg_container() {
+  local id
+  id="$(docker compose ps -q postgres 2>/dev/null || true)"
+  if [[ -n "${id}" ]]; then
+    echo "${id}"
+    return 0
+  fi
+  if docker ps --format '{{.Names}}' | grep -q '^motherboard_systems_hq-postgres-1$'; then
+    echo "motherboard_systems_hq-postgres-1"
+    return 0
+  fi
+  echo "ERROR: cannot locate postgres container" >&2
+  DC ps >&2 || true
+  exit 3
+}
+
+pg_defaults() {
+  local pgc="$1"
+  local user db
+  user="$(docker exec "${pgc}" sh -lc 'printf "%s" "${POSTGRES_USER:-postgres}"')"
+  db="$(docker exec "${pgc}" sh -lc 'printf "%s" "${POSTGRES_DB:-postgres}"')"
+  echo "${user} ${db}"
+}
+
+pg_count_table() {
+  local table="$1"
+  local pgc user db
+  pgc="$(pg_container)"
+  read -r user db < <(pg_defaults "${pgc}")
+  docker exec "${pgc}" sh -lc "psql -U \"${user}\" -d \"${db}\" -Atc \"select count(*) from ${table};\""
+}
+
+assert_num_eq() {
+  local a="$1" b="$2" label="$3"
+  if ! [[ "$a" =~ ^[0-9]+$ && "$b" =~ ^[0-9]+$ ]]; then
+    echo "ERROR: non-numeric compare for ${label}: a=${a} b=${b}" >&2
+    exit 6
+  fi
+  if (( a != b )); then
+    echo "ERROR: expected ${label} (${a}) == (${b})" >&2
+    exit 7
+  fi
+}
+
+http_code_of_probe() {
+  local tries="${PROBE_TRIES:-30}"
+  local sleep_s="${PROBE_SLEEP_S:-1}"
+  local code="000"
+
+  for _ in $(seq 1 "${tries}"); do
+    # tolerate transient connection resets/000 during early boot in CI
+    code="$(curl -s -o /dev/null -w "%{http_code}" -X POST "${BASE_URL}${PROBE_PATH}" 2>/dev/null || true)"
+    if [[ "${code}" != "000" && "${code}" != "" ]]; then
+      echo "${code}"
+      return 0
+    fi
+    sleep "${sleep_s}"
+  done
+
+  # last observed code (likely 000)
+  echo "${code:-000}"
+  return 0
+}
+run_mode_case() {
+  local mode="$1"
+  local expect_code="$2"
+  local expect_writes="$3"
+
+  echo "=== Phase 54: ${mode} case ==="
+  compose_up "${mode}"
+
+  local before_tasks before_events after_tasks after_events code
+  before_tasks="$(pg_count_table "tasks")"
+  before_events="$(pg_count_table "task_events")"
+
+  code="$(http_code_of_probe)"
+  echo "probe_http_code=${code}"
+
+  if [[ "${code}" != "${expect_code}" ]]; then
+    echo "ERROR: expected probe HTTP ${expect_code}, got ${code} (mode=${mode})" >&2
+      compose_down
+    exit 10
+  fi
+
+  after_tasks="$(pg_count_table "tasks")"
+  after_events="$(pg_count_table "task_events")"
+
+  echo "tasks_before=${before_tasks} tasks_after=${after_tasks}"
+  echo "task_events_before=${before_events} task_events_after=${after_events}"
+
+  if [[ "${expect_writes}" == "writes" ]]; then
+    if (( after_tasks <= before_tasks && after_events <= before_events )); then
+      echo "ERROR: expected writes in shadow mode (no increase in tasks or task_events)" >&2
+      compose_down
+      exit 11
+    fi
+  elif [[ "${expect_writes}" == "no_writes" ]]; then
+    assert_num_eq "${after_tasks}" "${before_tasks}" "tasks_count_no_change (${mode})"
+    assert_num_eq "${after_events}" "${before_events}" "task_events_count_no_change (${mode})"
+  else
+    echo "ERROR: unknown expect_writes: ${expect_writes}" >&2
+    compose_down
+    exit 12
+  fi
+
+  echo "=== Phase 55: run lifecycle immutability (terminal_event precedence) ==="
+
+  # Host-side invariants need a DB URL in CI.
+  # Compose maps postgres -> localhost:5432, and CI runs with trust auth.
+  export POSTGRES_URL="${POSTGRES_URL:-${DATABASE_URL:-postgres://postgres:postgres@127.0.0.1:5432/postgres?sslmode=disable}}"
+  export DATABASE_URL="${DATABASE_URL:-${POSTGRES_URL}}"
+  export PGPASSWORD="${PGPASSWORD:-postgres}"
+
+# Apply Phase 55 migration (idempotent) before invariants
+DC exec -T postgres psql -U postgres -d postgres -v ON_ERROR_STOP=1 < scripts/sql/migrations/phase55_run_lifecycle_immutability.sql
+
+  bash scripts/phase55_terminal_event_precedence.sh
+
+  compose_down
+}
+main() {
+  run_mode_case "shadow" "201" "writes"
+  run_mode_case "enforce" "403" "no_writes"
+  echo "OK: Phase 54 regression harness passed (shadow=201+writes, enforce=403+no-writes)."
+}
+
+dump_phase54_debug() {
+  echo
+  echo "=== Phase 54 debug: docker compose ps ==="
+  DC ps || true
+  echo
+  echo "=== Phase 54 debug: dashboard logs ==="
+  DC logs --no-color --tail=250 dashboard || true
+  echo
+  echo "=== Phase 54 debug: postgres logs ==="
+  DC logs --no-color --tail=200 postgres || true
+  echo
+  echo "=== Phase 54 debug: workerA logs ==="
+  DC logs --no-color --tail=200 workerA || true
+  echo
+  echo "=== Phase 54 debug: workerB logs ==="
+  DC logs --no-color --tail=200 workerB || true
+}
+
+on_exit() {
+  rc=$?
+  if [[ $rc -ne 0 ]]; then
+    echo
+    echo "=== Phase 54 DEBUG (failure rc=$rc) ==="
+    dump_phase54_debug
+  fi
+  return $rc
+}
+trap on_exit EXIT
+
+main "$@"

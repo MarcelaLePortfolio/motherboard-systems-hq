@@ -1,0 +1,8 @@
+{
+  "schema": ["./db/task_events.schema.ts"],
+  "out": "./drizzle_pg",
+  "dialect": "postgresql",
+  "dbCredentials": {
+    "url": "postgres://postgres:postgres@127.0.0.1:5432/postgres"
+  }
+}

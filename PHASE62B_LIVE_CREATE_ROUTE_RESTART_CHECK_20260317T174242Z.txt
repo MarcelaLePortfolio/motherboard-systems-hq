@@ -1,0 +1,25 @@
+PHASE 62B — LIVE CREATE ROUTE RESTART CHECK
+generated_at=2026-03-17T17:42:42Z
+base_url=http://127.0.0.1:8080
+
+== source proof ==
+86:    let run_id = b.run_id ?? b.runId ?? null;
+138:    res.status(201).json({ ok: true, task_id, run_id, event: evt });
+
+== initial live create probe ==
+{"ok":true,"task_id":"t_11574f78-6511-4d47-b22a-e5bf120966c4","run_id":"run_02c47b86-b6f9-4679-9db0-ef8e074d7cbd"}
+
+initial_run_id=run_02c47b86-b6f9-4679-9db0-ef8e074d7cbd
+
+== runtime already serving run_id-enabled create route ==
+
+== post-refresh live create probe ==
+{"ok":true,"task_id":"t_0ec3817c-933a-4106-9cd7-a01ac1bd8263","run_id":"run_b3b59d91-855c-49b3-a802-516282aef43e"}
+
+final_run_id=run_b3b59d91-855c-49b3-a802-516282aef43e
+
+== decision ==
+live_create_route_run_id_present=yes
+
+summary_written=PHASE62B_LIVE_CREATE_ROUTE_RESTART_SUMMARY_20260317T174242Z.md
+inspection_log=PHASE62B_LIVE_CREATE_ROUTE_RESTART_CHECK_20260317T174242Z.txt

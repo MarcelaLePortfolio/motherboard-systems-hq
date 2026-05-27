@@ -1,0 +1,7 @@
+/* eslint-disable import/no-commonjs */
+<0072matilda.ag> ✅ In-chat Visual Preview support committed.
+- Visuals from Cade can now appear inline in Matilda’s UI messages
+- Assets stored in: public/visual_previews/
+- Mapped with: visual_previews/preview_registry.json
+
+📌 Full UI-ready preview structure in place for enhanced transparency and feedback.

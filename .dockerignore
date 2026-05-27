@@ -1,0 +1,11 @@
+.git
+.gitignore
+node_modules
+.artifacts
+*.tar
+*.tar.gz
+*.log
+.DS_Store
+coverage
+dist
+tmp

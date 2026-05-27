@@ -1,0 +1,9 @@
+/* eslint-disable import/no-commonjs */
+{
+  "effie": {
+    "invisible_mode": false
+  },
+  "cade": {
+    "invisible_mode": false
+  }
+}

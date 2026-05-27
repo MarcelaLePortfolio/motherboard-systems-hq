@@ -1,0 +1,1478 @@
+PHASE 62B — LIVE VALIDATION BLOCKER ROUTE INSPECTION
+generated_at=2026-03-17T16:49:56Z
+
+== server routes likely relevant ==
+server.mjs:18:import taskEventsSSE from "./server/routes/task-events-sse.mjs";
+server.mjs:20:import { handleDelegateTaskSpec as phase23HandleDelegateTaskSpec } from "./server/api/tasks-mutations/delegate-taskspec.mjs";
+server.mjs:73:// Phase 20: task-events SSE (event-sourced)
+server.mjs:85:app.post("/api/phase16-beacon", (req, res) => {
+server.mjs:170:app.post("/api/tasks-mutations/delegate-taskspec", async (req, res) => phase23HandleDelegateTaskSpec(req, res, { db: pool, dbDelegateTask }));
+server.mjs:181:app.post("/api/dev/emit-reflection", (req, res) => {
+server.mjs:224:app.post("/api/dev/emit-ops", (req, res) => {
+server.mjs:329:app.get("/api/runs", getRunsList);
+server.mjs:335:app.get("/api/tasks", async (req, res) => {
+server.mjs:355:app.post("/api/delegate-task", async (req, res) => {
+server.mjs:373:app.post("/api/complete-task", async (req, res) => {
+server.mjs:457:app.get("/api/ops-heartbeat", (req, res) => {
+server.mjs:463:app.get("/api/heartbeat", (req, res) => {
+server.mjs:555:  app.post("/api/ops/heartbeat", (req, res) => {
+server.mjs:565:  app.post("/api/ops/agent-status", (req, res) => {
+server.mjs:576:  app.get("/api/ops/state", (req, res) => {
+server.mjs:591:  app.post("/api/reflections/signal", (req, res) => {
+server/task_events_emit.mjs:1:import { appendTaskEvent } from "./task-events.mjs";
+server/artifacts.mjs:54:  app.post("/api/artifacts", (req, res) => {
+server/task-events.mjs:16:  "task.completed",
+server/task-events.mjs:17:  "task.failed",
+server/task-events.mjs:22:  "task.completed",
+server/task-events.mjs:23:  "task.failed",
+server/task-events.mjs:153:    "task.created","task.queued","task.started","task.progress","task.completed","task.failed","task.canceled",
+server/task-events.mjs:155:  const __PHASE25_TERMINAL_KINDS = new Set(["task.completed","task.failed","task.canceled"]);
+server/api/tasks-mutations/delegate-taskspec.mjs:20: * POST /api/tasks-mutations/delegate-taskspec
+server/api/tasks-mutations/delegate-taskspec.mjs:28: * - Inserts into task_events(kind="task.created") so /events/task-events advances
+server/worker/phase26_task_worker.mjs:197:              kind: failedRow.status === "failed" ? "task.failed" : "task.retry_scheduled",
+server/worker/phase26_task_worker.mjs:220:            kind: "task.completed",
+server/routes/api-tasks-postgres.mjs:161:      kind: "task.completed",
+server/routes/api-tasks-postgres.mjs:199:      kind: "task.failed",
+server/routes/api-tasks-mutations.mjs:34:        kind: b.kind ?? b.event_kind ?? b.eventKind ?? "task.completed",
+server/routes/api-tasks-mutations.mjs:49:        kind: b.kind ?? b.event_kind ?? b.eventKind ?? "task.failed",
+server/routes/phase40_6_shadow_audit_task_events.mjs:5:  app.get("/api/shadow/audit/task-events", async (req, res) => {
+server/routes/phase40_6_shadow_audit_task_events.mjs:39:        scope: "phase40.6.shadow-audit.task-events",
+server/routes/phase40_6_shadow_audit_task_events.mjs:48:        scope: "phase40.6.shadow-audit.task-events",
+server/routes/task-events-sse.mjs:30:router.get("/api/task-events-sse", (req, res) => {
+server/routes/task-events-sse.mjs:31:    res.redirect(307, "/events/task-events");
+server/routes/task-events-sse.mjs:34:  router.get("/events/task-events", async (req, res) => {
+server/routes/task-events-sse.mjs:47:    console.log("[task-events] pool cfg", {
+server/routes/task-events-sse.mjs:90:    _sseWrite(res, { event: "hello", data: { kind: "task-events", cursor, ts: Date.now() } });
+server/routes/task-events-sse.mjs:158:        data: { msg: "task-events stream error", detail: e?.message || String(e), ts: Date.now() },
+server/routes/phase48_policy_probe.mjs:15:  app.post("/api/policy/probe", async (req, res) => {
+server/routes/api-health.mjs:2:  app.get("/api/health", (_req, res) => {
+server/routes/phase36_run_view.mjs:44:  app.get("/api/runs", async (req, res) => {
+server/routes/phase36_run_view.mjs:133:  app.get("/api/runs/:run_id", async (req, res) => {
+public/js/delegation-wire.js:28:  var res = await fetch("/api/delegate-task", {
+public/js/delegation-wire.js:40:    data = { error: "Non-JSON response from /api/delegate-task" };
+public/js/telemetry_queue_depth_reducer.js:17:      state === "task.completed" ||
+public/js/telemetry_queue_depth_reducer.js:18:      state === "task.failed" ||
+public/js/telemetry_queue_depth_reducer.js:54:    window.telemetryBus.subscribe("task-events", processEvent);
+public/js/dashboard-bundle-entry.js:30:// Phase 22: task-events live UI
+public/js/dashboard-bundle-entry.js:31:import "./task-events-sse-client.js";
+public/js/dashboard-delegation.js:143:        res = await safeFetch("/api/delegate-task", {
+public/js/dashboard-delegation.js:169:        data = { error: "Non-JSON response from /api/delegate-task", raw: rawText || "" };
+public/js/task-delegation.js:2:    const delegateBtn = document.getElementById('delegate-task-btn');
+public/js/task-delegation.js:11:            const response = await fetch('/api/delegate-task', {
+public/js/telemetry_failed_tasks_reducer.js:25:    if (!evt || evt.state !== "task.failed" || !evt.task_id) {
+public/js/telemetry_failed_tasks_reducer.js:48:    window.telemetryBus.subscribe("task-events", processEvent);
+public/js/agent-status-row.js:586:      es = new EventSource('/events/task-events');
+public/js/phase31_6_seed_task_button.js:2:Phase 31.6 — Manual seed task button (dev-only UX)
+public/js/phase31_6_seed_task_button.js:48:      name: "phase31.6 seed task",
+public/js/phase31_6_seed_task_button.js:49:      title: "phase31.6 seed task",
+public/js/phase31_6_seed_task_button.js:53:        source: "public/js/phase31_6_seed_task_button.js",
+public/js/phase31_6_seed_task_button.js:58:        note: "manual seed task",
+public/js/phase64_agent_activity_wire.js:221:        source: "task-events",
+public/js/phase64_agent_activity_wire.js:239:        source: "task-events",
+public/js/phase64_agent_activity_wire.js:326:      ownedTaskEventsStream = new EventSource("/events/task-events");
+public/js/task-events-sse-client.js:2:  const SSE_URL = "/events/task-events";
+public/js/task-events-sse-client.js:4:  const PANEL_ID = "mb-task-events-panel";
+public/js/task-events-sse-client.js:5:  const FEED_ID = "mb-task-events-feed";
+public/js/task-events-sse-client.js:6:  const COUNTS_ID = "mb-task-events-counts";
+public/js/task-events-sse-client.js:7:  const ANCHOR_ID = "mb-task-events-panel-anchor";
+public/js/task-events-sse-client.js:74:    dot.setAttribute("aria-label", "task-events connection");
+public/js/task-events-sse-client.js:75:    dot.title = "task-events connection";
+public/js/task-events-sse-client.js:117:    console.log("[phase22] task-events panel mounted (anchored=%s)", anchored);
+public/js/task-events-sse-client.js:134:    if (kind === "task.completed") tally.completed += 1;
+public/js/task-events-sse-client.js:135:    if (kind === "task.failed") tally.failed += 1;
+public/js/task-events-sse-client.js:292:    if (ev.kind === "task.created" || ev.kind === "task.completed" || ev.kind === "task.failed") {
+public/js/task-events-sse-client.js:297:    if (window.__UI_DEBUG) try { console.log("[task-events] mb.task.event", ev); } catch {}
+public/js/task-events-sse-client.js:319:      console.log("[phase22] task-events SSE open", url);
+public/js/task-events-sse-client.js:330:      console.log("[phase22] task-events SSE error; reconnect in", delay);
+public/js/task-events-sse-client.js:341:      "task.completed",
+public/js/task-events-sse-client.js:342:      "task.failed",
+public/js/matilda-chat-console.js:38:      // Phase23: expose append API for other modules (task-events bridge, ops, etc.)
+public/js/telemetry/success_rate_metric.js:9:    "task.completed",
+public/js/telemetry/success_rate_metric.js:20:    "task.failed",
+public/js/telemetry/success_rate_metric.js:187:      "task.completed",
+public/js/telemetry/success_rate_metric.js:188:      "task.failed",
+public/js/telemetry/success_rate_metric.js:208:        if (String(url).includes("/events/task-events")) {
+public/js/telemetry/latency_metric.js:28:    "task.completed",
+public/js/telemetry/latency_metric.js:32:    "task.failed",
+public/js/telemetry/latency_metric.js:210:        if (String(url).includes("/events/task-events")) {
+public/js/telemetry/running_tasks_metric.js:15:    "task.completed",
+public/js/telemetry/running_tasks_metric.js:16:    "task.failed",
+public/js/telemetry/running_tasks_metric.js:80:        if (String(url).includes("/events/task-events")) {
+public/js/sse-heartbeat-shim.js:39:    if (u.includes("/events/task-events") || u.includes("/events/tasks")) return "tasks";
+public/js/phase22_task_delegation_live_bindings.js:2:  // Phase 22: bind task-events SSE -> Task Delegation + status UI (best-effort)
+public/js/phase22_task_delegation_live_bindings.js:28:      v === "task.completed" ||
+public/js/phase22_task_delegation_live_bindings.js:29:      v === "task.failed" ||
+public/js/phase22_task_delegation_live_bindings.js:46:    return v === "task.completed";
+public/js/phase22_task_delegation_live_bindings.js:52:      v === "task.failed" ||
+public/js/phase22_task_delegation_live_bindings.js:259:      if (ev.kind === "task.completed") t.status = "done";
+public/js/phase22_task_delegation_live_bindings.js:260:      if (ev.kind === "task.failed") t.status = "failed";
+scripts/phase35_fix_appendTaskEvent_pool_signature.sh:8:p = Path("server/task-events.mjs")
+scripts/phase35_fix_appendTaskEvent_pool_signature.sh:14:    raise SystemExit("patch_failed: appendTaskEvent export not found in server/task-events.mjs")
+scripts/phase35_fix_appendTaskEvent_pool_signature.sh:113:    "task.created","task.queued","task.started","task.progress","task.completed","task.failed","task.canceled",
+scripts/phase35_fix_appendTaskEvent_pool_signature.sh:115:  const __PHASE25_TERMINAL_KINDS = new Set(["task.completed","task.failed","task.canceled"]);
+scripts/smoke/phase34_reclaim_proof.zsh:85: where task_id='$TASK_ID' and kind in ('task.completed','task.failed');"
+scripts/smoke/phase35_epoch_owner_proof.zsh:208:completed = int(psql(f"SELECT count(*) FROM {table} WHERE {task_col}::text='{TASK_ID}' AND kind='task.completed';") or "0")
+scripts/smoke/phase35_epoch_owner_proof.zsh:209:failed    = int(psql(f"SELECT count(*) FROM {table} WHERE {task_col}::text='{TASK_ID}' AND kind='task.failed';") or "0")
+scripts/smoke/phase35_epoch_owner_proof.zsh:216:    raise SystemExit(f"FAIL: expected 1 task.completed, got {completed}")
+scripts/smoke/phase35_epoch_owner_proof.zsh:218:    raise SystemExit(f"FAIL: expected 0 task.failed, got {failed}")
+scripts/phase25_writer_smoke.mjs:3: * Emits task.created/task.completed/task.failed using UNIQUE task_ids.
+scripts/phase25_writer_smoke.mjs:41:  console.log("2) insert task.completed via writer", { task_id: tCompleted });
+scripts/phase25_writer_smoke.mjs:42:  await emitTaskEvent({ pool, kind: "task.completed", task_id: tCompleted, ...base });
+scripts/phase25_writer_smoke.mjs:44:  console.log("3) insert task.failed via writer", { task_id: tFailed });
+scripts/phase25_writer_smoke.mjs:47:    kind: "task.failed",
+scripts/phase31_7_verify_container_reclaim.sh:46:         min(id) filter (where kind='task.completed') as c,
+scripts/phase31_7_verify_container_reclaim.sh:47:         min(id) filter (where kind='task.failed')    as f
+scripts/phase35_patch_direct_task_events_inserts_to_append.sh:63:        # Ensure file references appendTaskEvent; if not, add import from task-events.mjs when safe.
+scripts/phase35_patch_direct_task_events_inserts_to_append.sh:67:        if "appendTaskEvent" in s2 and "from \"./task-events.mjs\"" not in s2 and "from \"../task-events.mjs\"" not in s2 and "from \"./task-events\"" not in s2:
+scripts/phase35_patch_direct_task_events_inserts_to_append.sh:68:            # Attempt to add a local import only if file is in server/ (same dir as task-events.mjs may vary).
+scripts/phase35_patch_direct_task_events_inserts_to_append.sh:74:            imp = f'import {{ appendTaskEvent }} from "{prefix}task-events.mjs";\n'
+scripts/phase46_probe_endpoints.sh:15:  for p in / /api /api/runs /api/tasks /api/task-events /api/health; do
+scripts/phase28_smoke_one.sh:106:echo "=== phase28: assert task.failed event exists with persisted task_id ==="
+scripts/phase28_smoke_one.sh:110:where kind='task.failed' and task_id = (${TASK_ID}::text)
+scripts/phase28_smoke_one.sh:111:" | awk -F'|' '{ if($1 < 1) { print "FAIL: missing task.failed event"; exit 1 } }'
+scripts/phase16_add_reflections_api_route.sh:34:  app.post("/api/reflections/signal", (req, res) => {
+scripts/phase50_patch_db_writepath_enforce.sh:67:  p = Path("server/task-events.mjs")
+scripts/phase50_patch_db_writepath_enforce.sh:69:    print("ERROR: missing server/task-events.mjs", file=sys.stderr)
+scripts/phase50_patch_db_writepath_enforce.sh:73:    print("OK: task-events already patched")
+scripts/phase50_patch_db_writepath_enforce.sh:82:    print("ERROR: could not find export async function appendTaskEvent(...) in server/task-events.mjs", file=sys.stderr)
+scripts/phase50_patch_db_writepath_enforce.sh:99:  print("OK: patched server/task-events.mjs")
+scripts/phase21_wire_task_events_sse.mjs:4:const INJECT = 'import "./task-events-sse-listener.js";\n';
+scripts/phase21_wire_task_events_sse.mjs:24:  if (s.includes("task-events-sse-listener.js")) return { fp, changed: false, why: "already" };
+scripts/phase21_wire_task_events_sse.mjs:43:  const shim = `\n;(()=>{try{import("./task-events-sse-listener.js")}catch(e){}})();\n`;
+scripts/phase35_fix_appendTaskEvent_pool_ref.sh:7:p = Path("server/task-events.mjs")
+scripts/phase41_revert_to_v40_6_if_fail.sh:13:git checkout -f "v40.6-shadow-audit-task-events-green"
+scripts/phase41_revert_to_v40_6_if_fail.sh:14:echo "Reverted to v40.6-shadow-audit-task-events-green"
+scripts/phase22_wire_task_events_ui.sh:6:echo "=== Phase 22: wire /events/task-events into dashboard UI ==="
+scripts/phase22_wire_task_events_ui.sh:9:cat > public/js/task-events-sse-client.js <<'JS'
+scripts/phase22_wire_task_events_ui.sh:11:  const SSE_URL = "/events/task-events";
+scripts/phase22_wire_task_events_ui.sh:14:  const PANEL_ID = "mb-task-events-panel";
+scripts/phase22_wire_task_events_ui.sh:15:  const FEED_ID = "mb-task-events-feed";
+scripts/phase22_wire_task_events_ui.sh:16:  const COUNTS_ID = "mb-task-events-counts";
+scripts/phase22_wire_task_events_ui.sh:65:    dot.setAttribute("aria-label", "task-events connection");
+scripts/phase22_wire_task_events_ui.sh:66:    dot.title = "task-events connection";
+scripts/phase22_wire_task_events_ui.sh:125:    if (kind === "task.completed") tally.completed += 1;
+scripts/phase22_wire_task_events_ui.sh:126:    if (kind === "task.failed") tally.failed += 1;
+scripts/phase22_wire_task_events_ui.sh:161:    if (kind === "task.completed") row.style.borderColor = "rgba(80,200,120,0.35)";
+scripts/phase22_wire_task_events_ui.sh:162:    if (kind === "task.failed") row.style.borderColor = "rgba(240,90,90,0.35)";
+scripts/phase22_wire_task_events_ui.sh:193:    if (ev.kind === "task.completed") node.classList?.add("task-completed");
+scripts/phase22_wire_task_events_ui.sh:194:    if (ev.kind === "task.failed") node.classList?.add("task-failed");
+scripts/phase22_wire_task_events_ui.sh:269:  if rg -n 'task-events-sse-client\.js' "$DASH_HTML" >/dev/null 2>&1; then
+scripts/phase22_wire_task_events_ui.sh:270:    echo "dashboard.html already loads task-events-sse-client.js"
+scripts/phase22_wire_task_events_ui.sh:272:    echo "Injecting <script> for task-events-sse-client.js into public/dashboard.html"
+scripts/phase22_wire_task_events_ui.sh:273:    perl -0777 -i -pe 's@</body>@  <script src="/js/task-events-sse-client.js"></script>\n</body>@s' "$DASH_HTML"
+scripts/phase22_wire_task_events_ui.sh:290:    if rg -n 'task-events-sse-client' "$f" >/dev/null 2>&1; then
+scripts/phase22_wire_task_events_ui.sh:291:      echo "bundle entry already references task-events-sse-client: $f"
+scripts/phase22_wire_task_events_ui.sh:293:      echo "Appending import for task-events-sse-client into: $f"
+scripts/phase22_wire_task_events_ui.sh:294:      printf '\n// Phase 22: task-events live UI\nimport "./task-events-sse-client.js";\n' >> "$f"
+scripts/phase14_2_verify_task_contract.sh:35:DELEGATE=$(curl -fsS -X POST http://127.0.0.1:8080/api/delegate-task \
+scripts/phase46_task_events_sse_smoke.sh:16:echo "=== 1) alias endpoint returns 307 w/ Location: /events/task-events ==="
+scripts/phase46_task_events_sse_smoke.sh:17:HDRS="$(curl -sS -D- --max-time 2 "${BASE}/api/task-events-sse" -o /dev/null || true)"
+scripts/phase46_task_events_sse_smoke.sh:19:echo "$HDRS" | head -n 1 | rg -q ' 307 ' || { echo "ERR: expected 307 from /api/task-events-sse" >&2; exit 10; }
+scripts/phase46_task_events_sse_smoke.sh:20:echo "$HDRS" | rg -q '^Location:\s*/events/task-events\s*$' || { echo "ERR: expected Location: /events/task-events" >&2; exit 11; }
+scripts/phase46_task_events_sse_smoke.sh:24:OUT="$(curl -sS -N 2>/dev/null --max-time 2 "${BASE}/events/task-events" | head -n 8 || true)"
+scripts/phase46_task_events_sse_smoke.sh:27:printf "%s\n" "$OUT" | rg -q '"kind"\s*:\s*"task-events"' || { echo "ERR: expected kind=task-events in hello payload" >&2; exit 13; }
+scripts/phase16_ops_reflections_wiring_patch.sh:120:  app.post("/api/ops/heartbeat", (req, res) => {
+scripts/phase16_ops_reflections_wiring_patch.sh:132:  app.post("/api/ops/agent-status", (req, res) => {
+scripts/phase16_ops_reflections_wiring_patch.sh:145:  app.get("/api/ops/state", (req, res) => {
+scripts/phase16_ops_reflections_wiring_patch.sh:166:  app.post("/api/reflections/signal", (req, res) => {
+scripts/phase46_recovery_primitives.sh:13:curl -fsS "http://127.0.0.1:8080/api/task-events" > "${bundle_dir}/api_task_events.json" || true
+scripts/phase26_thread_starter_v25_worker_ok.sh:5:git checkout -B feature/phase26-task-worker-min v25.0-task-events-single-writer-ok
+scripts/phase26_thread_starter_v25_worker_ok.sh:6:echo "OK: feature/phase26-task-worker-min @ v25.0-task-events-single-writer-ok"
+scripts/phase44_postmerge_verify.sh:22:rg -n "assertActionTierInvariant|RUNTIME_INTEGRITY_GUARD|phase44_runtime_integrity_guard" server/api/tasks-mutations/delegate-taskspec.mjs server/guards/phase44_runtime_integrity_guard.mjs
+scripts/phase33_smoke.sh:40:_timeout 2 bash -lc "curl -sS -N -H 'Accept: text/event-stream' '$BASE_URL/events/task-events' | sed -n '1,25p'" || true
+scripts/phase36_4_inject_run_list_route.py:37:    print("ERROR: expected exactly 1 route file containing router.get('/api/runs/:run_id', ...).", file=sys.stderr)
+scripts/phase36_4_inject_run_list_route.py:70:router.get("/api/runs", async (req, res) => {{
+scripts/phase14_1_task_contract.sh:20:echo "→ Trying POST /api/delegate-task"
+scripts/phase14_1_task_contract.sh:21:curl -fsS -X POST "$BASE/api/delegate-task" \
+scripts/phase14_1_task_contract.sh:30:  echo "⚠️ /api/delegate-task failed. Trying legacy POST /api/tasks."
+scripts/phase31_7_fix_task_events_contract.sh:5:rg -n --hidden --no-ignore-vcs -S "(/events/task-events|task-events|task_events|task\.event)" server || true
+scripts/phase31_7_fix_task_events_contract.sh:31:mapper = pick(r"/events/task-events|task-events|task_events|task\.event", [server])[0]
+scripts/phase31_7_fix_task_events_contract.sh:90:curl -sS -N --max-time 6 -H 'Accept: text/event-stream' http://127.0.0.1:8080/events/task-events | sed -n '1,120p' | tee tmp/phase31_7_sse.log || true
+scripts/phase32_verify.sh:15:  "http://127.0.0.1:8080/events/task-events?cursor=$CURSOR" >"$LOG" &
+scripts/_local/phase64_6_workspace_interactivity_contract_guard.sh:19:echo "== required upstream task-events guard =="
+scripts/_local/phase64_6_workspace_interactivity_contract_guard.sh:33:    "task-events-card": r'id="task-events-card"',
+scripts/_local/phase64_6_workspace_interactivity_contract_guard.sh:34:    "task-events-anchor": r'id="mb-task-events-panel-anchor"',
+scripts/_local/phase64_6_workspace_interactivity_contract_guard.sh:73:'document.querySelector("[data-tab=\"task-events\"], [data-target=\"task-events\"], button[aria-controls=\"obs-panel-events\"]")?.click()' \
+scripts/_local/phase64_6_workspace_interactivity_contract_guard.sh:74:'document.querySelector("[data-tab-panel=\"task-events\"], #task-events-panel, #obs-panel-events")?.outerHTML'
+scripts/_local/phase64_agent_signal_audit.sh:44:echo "-- live task-events endpoint headers"
+scripts/_local/phase64_agent_signal_audit.sh:45:curl -fsSI "$BASE_URL/events/task-events" || true
+scripts/_local/phase61_4_task_events_render_path_patch.sh:8:TARGET_JS="public/js/task-events-sse-client.js"
+scripts/_local/phase61_4_task_events_render_path_patch.sh:31:  const SSE_URL = "/events/task-events";
+scripts/_local/phase61_4_task_events_render_path_patch.sh:33:  const PANEL_ID = "mb-task-events-panel";
+scripts/_local/phase61_4_task_events_render_path_patch.sh:34:  const FEED_ID = "mb-task-events-feed";
+scripts/_local/phase61_4_task_events_render_path_patch.sh:35:  const COUNTS_ID = "mb-task-events-counts";
+scripts/_local/phase61_4_task_events_render_path_patch.sh:36:  const ANCHOR_ID = "mb-task-events-panel-anchor";
+scripts/_local/phase61_4_task_events_render_path_patch.sh:103:    dot.setAttribute("aria-label", "task-events connection");
+scripts/_local/phase61_4_task_events_render_path_patch.sh:104:    dot.title = "task-events connection";
+scripts/_local/phase61_4_task_events_render_path_patch.sh:146:    console.log("[phase22] task-events panel mounted (anchored=%s)", anchored);
+scripts/_local/phase61_4_task_events_render_path_patch.sh:163:    if (kind === "task.completed") tally.completed += 1;
+scripts/_local/phase61_4_task_events_render_path_patch.sh:164:    if (kind === "task.failed") tally.failed += 1;
+scripts/_local/phase61_4_task_events_render_path_patch.sh:321:    if (ev.kind === "task.created" || ev.kind === "task.completed" || ev.kind === "task.failed") {
+scripts/_local/phase61_4_task_events_render_path_patch.sh:326:    if (window.__UI_DEBUG) try { console.log("[task-events] mb.task.event", ev); } catch {}
+scripts/_local/phase61_4_task_events_render_path_patch.sh:348:      console.log("[phase22] task-events SSE open", url);
+scripts/_local/phase61_4_task_events_render_path_patch.sh:359:      console.log("[phase22] task-events SSE error; reconnect in", delay);
+scripts/_local/phase61_4_task_events_render_path_patch.sh:370:      "task.completed",
+scripts/_local/phase61_4_task_events_render_path_patch.sh:371:      "task.failed",
+scripts/_local/phase61_4_task_events_render_path_patch.sh:401:echo "Phase 61.4 task-events render-path patch applied safely."
+scripts/_local/phase62b_tasks_failed_local_verification.sh:14:      { kind: "task.failed", task_id: "a", status: "failed" },
+scripts/_local/phase62b_tasks_failed_local_verification.sh:22:      { kind: "task.failed", task_id: "b", status: "failed" },
+scripts/_local/phase62b_tasks_failed_local_verification.sh:29:      { kind: "task.failed", task_id: "c", status: "failed" },
+scripts/_local/phase62b_tasks_failed_local_verification.sh:38:      { kind: "task.failed", task_id: "d", status: "failed" },
+scripts/_local/phase62b_tasks_failed_local_verification.sh:39:      { kind: "task.failed", task_id: "d", status: "failed" },
+scripts/_local/phase62b_tasks_failed_local_verification.sh:47:      { kind: "task.completed", task_id: "e", status: "done" },
+scripts/_local/phase62b_tasks_failed_local_verification.sh:62:      { kind: "task.completed", task_id: "g", status: "done" },
+scripts/_local/phase62b_tasks_failed_local_verification.sh:63:      { kind: "task.failed", task_id: "g", status: "failed" },
+scripts/_local/phase62b_tasks_failed_local_verification.sh:72:      { kind: "task.failed", task_id: "h", status: "failed" },
+scripts/_local/phase62b_tasks_failed_local_verification.sh:81:      { kind: "task.failed", task_id: "i1", status: "failed" },
+scripts/_local/phase62b_tasks_failed_local_verification.sh:82:      { kind: "task.completed", task_id: "i2", status: "done" },
+scripts/_local/phase62b_tasks_failed_local_verification.sh:99:  return v === "task.completed";
+scripts/_local/phase62b_tasks_failed_local_verification.sh:104:  return v === "task.failed" || v === "task.cancelled" || v === "task.canceled";
+scripts/_local/phase67_runtime_compat_check.sh:37:TASK_STREAM_REFERENCES="$(grep -R --line-number --exclude-dir=.git '/events/task-events\|task-events' public/js || true)"
+scripts/_local/phase67_runtime_compat_check.sh:39:  echo "No task-events stream references found in public/js"
+scripts/_local/phase67_runtime_compat_check.sh:43:echo "-- task-events stream references found"
+scripts/_local/phase64_3_restore_and_apply_minimal_telemetry_fix.sh:73:    #task-events-card {
+scripts/_local/phase64_3_restore_and_apply_minimal_telemetry_fix.sh:105:    #task-events-card,
+scripts/_local/phase64_3_restore_and_apply_minimal_telemetry_fix.sh:106:    #mb-task-events-panel-anchor {
+scripts/_local/phase64_3_restore_and_apply_minimal_telemetry_fix.sh:112:    #mb-task-events-panel-anchor {
+scripts/_local/phase64_3_restore_and_apply_minimal_telemetry_fix.sh:125:      #task-events-card,
+scripts/_local/phase64_3_restore_and_apply_minimal_telemetry_fix.sh:126:      #mb-task-events-panel-anchor,
+scripts/_local/phase64_3_restore_and_apply_minimal_telemetry_fix.sh:138:      #mb-task-events-panel-anchor {
+scripts/_local/phase64_3_restore_and_apply_minimal_telemetry_fix.sh:150:      .task-events-panel .task-event,
+scripts/_local/phase64_3_restore_and_apply_minimal_telemetry_fix.sh:151:      [data-phase61-task-events] .task-event,
+scripts/_local/phase64_3_restore_and_apply_minimal_telemetry_fix.sh:152:      [data-tab-panel="task-events"] .task-event,
+scripts/_local/phase64_3_restore_and_apply_minimal_telemetry_fix.sh:153:      #task-events-panel .task-event,
+scripts/_local/phase64_3_restore_and_apply_minimal_telemetry_fix.sh:154:      #task-events .task-event,
+scripts/_local/phase64_3_restore_and_apply_minimal_telemetry_fix.sh:155:      .task-events .task-event,
+scripts/_local/phase64_3_restore_and_apply_minimal_telemetry_fix.sh:156:      .task-events-panel li,
+scripts/_local/phase64_3_restore_and_apply_minimal_telemetry_fix.sh:157:      [data-phase61-task-events] li,
+scripts/_local/phase64_3_restore_and_apply_minimal_telemetry_fix.sh:158:      [data-tab-panel="task-events"] li,
+scripts/_local/phase64_3_restore_and_apply_minimal_telemetry_fix.sh:159:      #task-events-panel li,
+scripts/_local/phase64_3_restore_and_apply_minimal_telemetry_fix.sh:160:      #task-events li,
+scripts/_local/phase64_3_restore_and_apply_minimal_telemetry_fix.sh:161:      .task-events li {
+scripts/_local/phase64_4_probe_task_events_endpoint_and_mount.sh:7:TASK_EVENTS_SAMPLE="${TMP_DIR}/task-events.sample"
+scripts/_local/phase64_4_probe_task_events_endpoint_and_mount.sh:22:echo "== search repo for task-events frontend mounts =="
+scripts/_local/phase64_4_probe_task_events_endpoint_and_mount.sh:24:  -E '/events/task-events|task-events|EventSource\(' \
+scripts/_local/phase64_4_probe_task_events_endpoint_and_mount.sh:59:echo "== sample /events/task-events for 8s =="
+scripts/_local/phase64_4_probe_task_events_endpoint_and_mount.sh:60:python3 - <<'PY' "${BASE_URL}/events/task-events" "${TASK_EVENTS_SAMPLE}"
+scripts/_local/phase64_4_probe_task_events_endpoint_and_mount.sh:90:echo "== event names from /events/task-events =="
+scripts/_local/phase64_4_audit_task_events_replay_source.sh:7:TASK_EVENTS_SAMPLE="${TMP_DIR}/task-events.sample"
+scripts/_local/phase64_4_audit_task_events_replay_source.sh:27:grep -nE 'router\.get\("/events/task-events"|_sseWrite|cursor|Last-Event-ID|setInterval|while |for \(|SELECT|task_events|ORDER BY|LIMIT' server/routes/task-events-sse.mjs || true
+scripts/_local/phase64_4_audit_task_events_replay_source.sh:31:sed -n '1,260p' server/routes/task-events-sse.mjs
+scripts/_local/phase64_4_audit_task_events_replay_source.sh:35:sed -n '261,520p' server/routes/task-events-sse.mjs
+scripts/_local/phase64_4_audit_task_events_replay_source.sh:38:echo "== sample /events/task-events for 5s =="
+scripts/_local/phase64_4_audit_task_events_replay_source.sh:39:python3 - <<'PY' "${BASE_URL}/events/task-events" "${TASK_EVENTS_SAMPLE}"
+scripts/_local/phase64_4_audit_task_events_replay_source.sh:69:echo "== event names from /events/task-events =="
+scripts/_local/phase64_4_audit_task_events_replay_source.sh:86:shasum server/routes/task-events-sse.mjs
+scripts/_local/phase64_3_fix_tab_panel_isolation.sh:71:    #task-events-card {
+scripts/_local/phase64_3_fix_tab_panel_isolation.sh:109:      #task-events-card,
+scripts/_local/phase64_3_fix_tab_panel_isolation.sh:132:      .task-events-panel .task-event,
+scripts/_local/phase64_3_fix_tab_panel_isolation.sh:133:      [data-phase61-task-events] .task-event,
+scripts/_local/phase64_3_fix_tab_panel_isolation.sh:134:      [data-tab-panel="task-events"] .task-event,
+scripts/_local/phase64_3_fix_tab_panel_isolation.sh:135:      #task-events-panel .task-event,
+scripts/_local/phase64_3_fix_tab_panel_isolation.sh:136:      #task-events .task-event,
+scripts/_local/phase64_3_fix_tab_panel_isolation.sh:137:      .task-events .task-event,
+scripts/_local/phase64_3_fix_tab_panel_isolation.sh:138:      .task-events-panel li,
+scripts/_local/phase64_3_fix_tab_panel_isolation.sh:139:      [data-phase61-task-events] li,
+scripts/_local/phase64_3_fix_tab_panel_isolation.sh:140:      [data-tab-panel="task-events"] li,
+scripts/_local/phase64_3_fix_tab_panel_isolation.sh:141:      #task-events-panel li,
+scripts/_local/phase64_3_fix_tab_panel_isolation.sh:142:      #task-events li,
+scripts/_local/phase64_3_fix_tab_panel_isolation.sh:143:      .task-events li {
+scripts/_local/fix_task_events_db_logging_signal.sh:10:path = Path("server/routes/task-events-sse.mjs")
+scripts/_local/fix_task_events_db_logging_signal.sh:14:    r'(\s*)console\.log\("\[task-events\] pool cfg",\s*\{.*?\n\1\}\);',
+scripts/_local/fix_task_events_db_logging_signal.sh:20:\\1console.log("[task-events] pool cfg", {
+scripts/_local/fix_task_events_db_logging_signal.sh:34:    raise SystemExit("failed to replace [task-events] pool cfg logger block")
+scripts/_local/fix_task_events_db_logging_signal.sh:37:print("patched server/routes/task-events-sse.mjs")
+scripts/_local/hydrate_phase62b_success_rate_metric.sh:219:      es = new EventSource('/events/task-events');
+scripts/_local/hydrate_phase62b_tasks_running_metric.sh:207:      es = new EventSource('/events/task-events');
+scripts/_local/phase64_4_rebuild_and_verify_task_events_writer_hotfix.sh:6:TASK_EVENTS_SAMPLE="${TMP_DIR}/task-events.sample"
+scripts/_local/phase64_4_rebuild_and_verify_task_events_writer_hotfix.sh:21:echo "== sample /events/task-events for 8s =="
+scripts/_local/phase64_4_rebuild_and_verify_task_events_writer_hotfix.sh:22:python3 - <<'PY' "${BASE_URL}/events/task-events" "${TASK_EVENTS_SAMPLE}"
+scripts/_local/phase64_4_rebuild_and_verify_task_events_writer_hotfix.sh:52:echo "== event names from /events/task-events =="
+scripts/_local/phase64_4_rebuild_and_verify_task_events_writer_hotfix.sh:74:'document.querySelector("[data-tab=\"task-events\"], [data-target=\"task-events\"], button[aria-controls=\"obs-panel-events\"]")?.click()' \
+scripts/_local/phase64_4_rebuild_and_verify_task_events_writer_hotfix.sh:75:'document.querySelector("[data-tab-panel=\"task-events\"], #task-events-panel, #obs-panel-events")?.outerHTML'
+scripts/_local/phase62b_fix_success_rate_terminal_listener_verification.sh:19:  grep -n '"task.completed"\|"task.failed"\|"task.event"\|"task.updated"\|"task.status"' public/js/telemetry/success_rate_metric.js || true
+scripts/_local/phase62b_fix_success_rate_terminal_listener_verification.sh:49:  if grep -q '"task.completed"' public/js/telemetry/success_rate_metric.js 2>/dev/null && \
+scripts/_local/phase62b_fix_success_rate_terminal_listener_verification.sh:50:     grep -q '"task.failed"' public/js/telemetry/success_rate_metric.js 2>/dev/null && \
+scripts/_local/phase62b_fix_success_rate_terminal_listener_verification.sh:74:  grep -n 'phase65b_metric_bootstrap\|successNode\|task.completed\|task.failed\|eventNames' public/bundle.js | head -200 || true
+scripts/_local/phase64_3_equalize_telemetry_height.sh:62:    #task-events-card {
+scripts/_local/phase64_3_equalize_telemetry_height.sh:84:    #mb-task-events-panel-anchor,
+scripts/_local/phase64_3_equalize_telemetry_height.sh:103:      .task-events-panel .task-event,
+scripts/_local/phase64_3_equalize_telemetry_height.sh:104:      [data-phase61-task-events] .task-event,
+scripts/_local/phase64_3_equalize_telemetry_height.sh:105:      [data-tab-panel="task-events"] .task-event,
+scripts/_local/phase64_3_equalize_telemetry_height.sh:106:      #task-events-panel .task-event,
+scripts/_local/phase64_3_equalize_telemetry_height.sh:107:      #task-events .task-event,
+scripts/_local/phase64_3_equalize_telemetry_height.sh:108:      .task-events .task-event,
+scripts/_local/phase64_3_equalize_telemetry_height.sh:109:      .task-events-panel li,
+scripts/_local/phase64_3_equalize_telemetry_height.sh:110:      [data-phase61-task-events] li,
+scripts/_local/phase64_3_equalize_telemetry_height.sh:111:      [data-tab-panel="task-events"] li,
+scripts/_local/phase64_3_equalize_telemetry_height.sh:112:      #task-events-panel li,
+scripts/_local/phase64_3_equalize_telemetry_height.sh:113:      #task-events li,
+scripts/_local/phase64_3_equalize_telemetry_height.sh:114:      .task-events li {
+scripts/_local/phase66a_reducer_replay_check.sh:52:assertEqual(queueReducer.subscription.channel, "task-events", "queue reducer channel");
+scripts/_local/phase66a_reducer_replay_check.sh:53:assertEqual(failedReducer.subscription.channel, "task-events", "failed reducer channel");
+scripts/_local/phase66a_reducer_replay_check.sh:61:  { task_id: "t2", state: "task.failed", ts: 6 },
+scripts/_local/phase66a_reducer_replay_check.sh:75:queueReducer.subscription.fn({ task_id: "ghost", state: "task.completed", ts: 8 });
+scripts/_local/phase66a_reducer_replay_check.sh:90:  { task_id: "f1", run_id: "r1", state: "task.failed", ts: 10 },
+scripts/_local/phase66a_reducer_replay_check.sh:91:  { task_id: "f1", run_id: "r1", state: "task.failed", ts: 10 },
+scripts/_local/phase66a_reducer_replay_check.sh:92:  { task_id: "f1", run_id: "r1", state: "task.failed", ts: 11 },
+scripts/_local/phase66a_reducer_replay_check.sh:93:  { task_id: "f2", run_id: "r2", state: "task.completed", ts: 12 },
+scripts/_local/phase66a_reducer_replay_check.sh:94:  { task_id: "f3", run_id: "r3", state: "task.failed", ts: 13 },
+scripts/_local/phase66a_reducer_replay_check.sh:95:  { run_id: "r4", state: "task.failed", ts: 14 },
+scripts/_local/phase64_3_rebuild_telemetry_css_contract.sh:66:    #task-events-card {
+scripts/_local/phase64_3_rebuild_telemetry_css_contract.sh:79:    #task-events-card,
+scripts/_local/phase64_3_rebuild_telemetry_css_contract.sh:80:    #mb-task-events-panel-anchor {
+scripts/_local/phase64_3_rebuild_telemetry_css_contract.sh:86:    #mb-task-events-panel-anchor {
+scripts/_local/phase64_3_rebuild_telemetry_css_contract.sh:118:      #task-events-card,
+scripts/_local/phase64_3_rebuild_telemetry_css_contract.sh:119:      #mb-task-events-panel-anchor,
+scripts/_local/phase64_3_rebuild_telemetry_css_contract.sh:131:      #mb-task-events-panel-anchor {
+scripts/_local/repair_phase61_layout_now.sh:30:# Remove all ad-hoc inline phase61/atlas/matilda/task-events style injections from head.
+scripts/_local/repair_phase61_layout_now.sh:37:    r'\n\s*<style>\s*#task-events-card\s*\{.*?</style>',
+scripts/_local/repair_phase61_layout_now.sh:79:      #task-events-card {
+scripts/_local/repair_phase61_layout_now.sh:104:      #task-events-card #mb-task-events-panel-anchor {
+scripts/_local/repair_phase61_layout_now.sh:243:                  <section id="task-events-card" class="obs-surface">
+scripts/_local/repair_phase61_layout_now.sh:244:                    <div id="mb-task-events-panel-anchor"></div>
+scripts/_local/phase65c_inspect_queue_depth_target.sh:46:echo "== task-events consumers touching metrics =="
+scripts/_local/phase65c_inspect_queue_depth_target.sh:47:grep -RInE '/events/task-events|EventSource|metric-tasks|metric-success|metric-latency|telemetry' public/js | sort || true
+scripts/_local/phase62b_running_tasks_candidate_extract.sh:27:  echo "• task-events ingestion"
+scripts/_local/phase62b_running_tasks_candidate_extract.sh:39:    grep -Ei 'task-events|task\.created|task\.started|task\.running|task\.completed|task\.failed|task\.cancelled|runningTasks|tasksRunning|telemetry|metric|reducer|dashboard|EventSource|SSE' "$SRC" \
+scripts/_local/phase62b_running_tasks_candidate_extract.sh:53:    grep -Ei 'task-events|task\.created|task\.started|task\.running|task\.completed|task\.failed|task\.cancelled|runningTasks|tasksRunning|telemetry|metric|reducer|dashboard|EventSource|SSE' "$SRC" \
+scripts/_local/phase64_8_pre_push_contract_guard.sh:23:echo "== guard 2: task-events regression guard =="
+scripts/_local/phase64_8_pre_push_contract_guard.sh:27:echo "== guard 3: task-events contract guard =="
+scripts/_local/phase64_8_pre_push_contract_guard.sh:45:'Manual UI verification still required before pushing risky dashboard/task-events changes:' \
+scripts/_local/phase62b_hydrate_tasks_running.sh:14:old = 'let k=new Set,l={created:0,completed:0,failed:0};function I(n){n==="task.created"&&(l.created+=1),n==="task.completed"&&(l.completed+=1),n==="task.failed"&&(l.failed+=1);let o=document.getElementById(S);o&&(o.textContent=`created:${l.created}  completed:${l.completed}  failed:${l.failed}`)}'
+scripts/_local/phase62b_hydrate_tasks_running.sh:15:new = 'let k=new Set,l={created:0,completed:0,failed:0},Q=new Set,F=document.getElementById("metric-running");function U(){F||(F=document.getElementById("metric-running")),F&&(F.textContent=String(Q.size))}function z(n){return n&&typeof n=="object"?String(n.task_id??n.taskId??n.meta?.task_id??n.meta?.taskId??"").trim():""}function G(n,o){let g=String(n?.kind??o??"").toLowerCase(),e=String(n?.status??n?.meta?.status??"").toLowerCase(),m=z(n);if(!m)return;/task\\.created|task\\.started|task\\.running|task\\.queued|task\\.resumed/.test(g)||/created|started|running|queued|pending|active/.test(e)?Q.add(m):(/task\\.completed|task\\.failed|task\\.cancelled|task\\.canceled|task\\.done/.test(g)||/completed|failed|cancelled|canceled|done|error/.test(e))&&Q.delete(m),U()}function I(n){n==="task.created"&&(l.created+=1),n==="task.completed"&&(l.completed+=1),n==="task.failed"&&(l.failed+=1);let o=document.getElementById(S);o&&(o.textContent=`created:${l.created}  completed:${l.completed}  failed:${l.failed}`),U()}'
+scripts/_local/phase62b_hydrate_tasks_running.sh:22:old2 = 'if(!k.has(m)){if(k.add(m),(e.kind==="task.created"||e.kind==="task.completed"||e.kind==="task.failed")&&I(String(e.kind)),E(e,n),window.__UI_DEBUG)try{console.log("[task-events] mb.task.event",e)}catch{}T(e)}}'
+scripts/_local/phase62b_hydrate_tasks_running.sh:23:new2 = 'if(!k.has(m)){if(k.add(m),(e.kind==="task.created"||e.kind==="task.completed"||e.kind==="task.failed")&&I(String(e.kind)),G(e,n),E(e,n),window.__UI_DEBUG)try{console.log("[task-events] mb.task.event",e)}catch{}T(e)}}'
+scripts/_local/phase64_6_run_safe_contract_corridor.sh:27:echo "== step 3: task-events regression guard =="
+scripts/_local/phase64_6_run_safe_contract_corridor.sh:31:echo "== step 4: task-events contract guard =="
+scripts/_local/phase61_task_events_wiring_audit_and_capture.sh:20:  grep -RniE 'task events|task-events|Task Events|EventSource|SSE|telemetry|recent tasks|task history' public src scripts server . 2>/dev/null || true
+scripts/_local/phase61_task_events_wiring_audit_and_capture.sh:24:  grep -nE 'task-events|Task Events|telemetry|observational-workspace|workspace-card' public/dashboard.html 2>/dev/null || true
+scripts/_local/phase61_task_events_wiring_audit_and_capture.sh:36:  grep -RniE '/api/.*event|/events|EventSource\\(|text/event-stream|task-events|telemetry' public src server . 2>/dev/null || true
+scripts/_local/phase62b_tasks_completed_local_verification.sh:14:      { kind: "task.completed", task_id: "a", status: "done" },
+scripts/_local/phase62b_tasks_completed_local_verification.sh:22:      { kind: "task.completed", task_id: "b", status: "done" },
+scripts/_local/phase62b_tasks_completed_local_verification.sh:29:      { kind: "task.completed", task_id: "c", status: "done" },
+scripts/_local/phase62b_tasks_completed_local_verification.sh:38:      { kind: "task.completed", task_id: "d", status: "done" },
+scripts/_local/phase62b_tasks_completed_local_verification.sh:39:      { kind: "task.completed", task_id: "d", status: "done" },
+scripts/_local/phase62b_tasks_completed_local_verification.sh:47:      { kind: "task.failed", task_id: "e", status: "failed" },
+scripts/_local/phase62b_tasks_completed_local_verification.sh:62:      { kind: "task.failed", task_id: "g", status: "failed" },
+scripts/_local/phase62b_tasks_completed_local_verification.sh:63:      { kind: "task.completed", task_id: "g", status: "done" },
+scripts/_local/phase62b_tasks_completed_local_verification.sh:72:      { kind: "task.completed", task_id: "h", status: "done" },
+scripts/_local/phase62b_tasks_completed_local_verification.sh:81:      { kind: "task.completed", task_id: "i1", status: "done" },
+scripts/_local/phase62b_tasks_completed_local_verification.sh:82:      { kind: "task.failed", task_id: "i2", status: "failed" },
+scripts/_local/phase62b_tasks_completed_local_verification.sh:83:      { kind: "task.completed", task_id: "i3", status: "done" },
+scripts/_local/phase62b_tasks_completed_local_verification.sh:99:  return v === "task.completed";
+scripts/_local/phase62b_tasks_completed_local_verification.sh:104:  return v === "task.failed" || v === "task.cancelled" || v === "task.canceled";
+scripts/_local/phase64_4_hotfix_dedupe_task_events_sse.sh:8:path = Path("server/routes/task-events-sse.mjs")
+scripts/_local/phase64_4_hotfix_dedupe_task_events_sse.sh:33:        raise SystemExit("could not find hello SSE write in server/routes/task-events-sse.mjs")
+scripts/_local/phase64_4_hotfix_dedupe_task_events_sse.sh:57:    raise SystemExit("no task.event SSE writes found to patch in server/routes/task-events-sse.mjs")
+scripts/_local/phase64_4_hotfix_dedupe_task_events_sse.sh:60:    raise SystemExit("no changes applied to server/routes/task-events-sse.mjs")
+scripts/_local/phase64_4_hotfix_dedupe_task_events_sse.sh:63:print(f"patched server/routes/task-events-sse.mjs with duplicate SSE guard; replacements={count}")
+scripts/_local/phase61_left_workspace_focus_scan.sh:10:rg -n 'observational-tabs|obs-tab|obs-panel|data-target|aria-controls|aria-selected|mb-task-events-panel-anchor' \
+scripts/_local/phase62b_running_tasks_local_verification.sh:14:      { kind: "task.completed", task_id: "a", status: "done" },
+scripts/_local/phase62b_running_tasks_local_verification.sh:22:      { kind: "task.completed", task_id: "b", status: "done" },
+scripts/_local/phase62b_running_tasks_local_verification.sh:29:      { kind: "task.completed", task_id: "c", status: "done" },
+scripts/_local/phase62b_running_tasks_local_verification.sh:39:      { kind: "task.completed", task_id: "d", status: "done" },
+scripts/_local/phase62b_running_tasks_local_verification.sh:47:      { kind: "task.completed", task_id: "e", status: "done" },
+scripts/_local/phase62b_running_tasks_local_verification.sh:48:      { kind: "task.completed", task_id: "e", status: "done" },
+scripts/_local/phase62b_running_tasks_local_verification.sh:56:      { kind: "task.failed", task_id: "f", status: "failed" },
+scripts/_local/phase62b_running_tasks_local_verification.sh:73:      { kind: "task.completed", task_id: "h", status: "done" },
+scripts/_local/phase62b_running_tasks_local_verification.sh:82:      { kind: "task.completed", task_id: "i1", status: "done" },
+scripts/_local/phase62b_running_tasks_local_verification.sh:83:      { kind: "task.failed", task_id: "i2", status: "failed" },
+scripts/_local/phase62b_running_tasks_local_verification.sh:99:  return v === "task.completed" || v === "task.failed" || v === "task.cancelled" || v === "task.canceled";
+scripts/_local/phase62b_running_tasks_surface_shortlist.sh:40:      'task-events|task\.created|task\.started|task\.running|task\.completed|task\.failed|task\.cancelled|runningTasks|tasksRunning|telemetry|metric|reducer|EventSource|SSE|dashboard' . \
+scripts/_local/phase62b_running_tasks_surface_shortlist.sh:48:      'task-events|task\.created|task\.started|task\.running|task\.completed|task\.failed|task\.cancelled|runningTasks|tasksRunning|telemetry|metric|reducer|EventSource|SSE|dashboard' . \
+scripts/_local/phase64_4_restore_after_safe_dedupe_regression.sh:7:git checkout "$BASE_COMMIT" -- server/routes/task-events-sse.mjs
+scripts/_local/phase64_4_restore_after_safe_dedupe_regression.sh:24:echo "== task-events sample =="
+scripts/_local/phase64_4_restore_after_safe_dedupe_regression.sh:25:python3 - <<'PY' "${BASE_URL}/events/task-events"
+scripts/_local/phase64_4_restore_after_safe_dedupe_regression.sh:57:echo "restored server/routes/task-events-sse.mjs from ${BASE_COMMIT}"
+scripts/_local/phase65b_inspect_metric_targets.sh:12:grep -RInE 'data-metric|running-tasks|task-events|metric|telemetry' public/js || true
+scripts/_local/phase66a_determinism_check.sh:64:  { task_id: "q2", state: "task.failed", ts: 4 },
+scripts/_local/phase66a_determinism_check.sh:67:  { task_id: "ghost", state: "task.completed", ts: 6 },
+scripts/_local/phase66a_determinism_check.sh:72:  { task_id: "f1", run_id: "r1", state: "task.failed", ts: 10 },
+scripts/_local/phase66a_determinism_check.sh:73:  { task_id: "f1", run_id: "r1", state: "task.failed", ts: 10 },
+scripts/_local/phase66a_determinism_check.sh:74:  { task_id: "f2", run_id: "r2", state: "task.failed", ts: 11 },
+scripts/_local/phase66a_determinism_check.sh:75:  { task_id: "f2", run_id: "r2", state: "task.failed", ts: 11 },
+scripts/_local/phase66a_determinism_check.sh:76:  { task_id: "f3", run_id: "r3", state: "task.completed", ts: 12 },
+scripts/_local/phase66a_determinism_check.sh:77:  { task_id: "f4", run_id: "r4", state: "task.failed", ts: 13 },
+scripts/_local/phase66a_determinism_check.sh:78:  { state: "task.failed", run_id: "bad", ts: 14 },
+scripts/_local/phase62b_running_tasks_discovery.sh:40:      'task-events|task\.created|task\.started|task\.running|task\.completed|task\.failed|task\.cancelled|EventSource|SSE|telemetry|metrics|reducer|runningTasks|tasksRunning|dashboard' . || true
+scripts/_local/phase62b_running_tasks_discovery.sh:42:    grep -RInE 'task-events|task\.created|task\.started|task\.running|task\.completed|task\.failed|task\.cancelled|EventSource|SSE|telemetry|metrics|reducer|runningTasks|tasksRunning|dashboard' . \
+scripts/_local/phase62b_running_tasks_discovery.sh:69:  echo "1. Identify the single file that currently derives dashboard telemetry from task-events."
+scripts/_local/phase64_5_task_events_contract_guard.sh:42:'document.querySelector("[data-tab=\"task-events\"], [data-target=\"task-events\"], button[aria-controls=\"obs-panel-events\"]")?.click()' \
+scripts/_local/phase64_5_task_events_contract_guard.sh:43:'document.querySelector("[data-tab-panel=\"task-events\"], #task-events-panel, #obs-panel-events")?.outerHTML'
+scripts/_local/phase65b_audit_remaining_metric_writers.sh:19:echo "4 task-events consumers that may influence remaining metrics"
+scripts/_local/phase65b_audit_remaining_metric_writers.sh:20:grep -RInE '/events/task-events|EventSource' public/js | grep -E 'agent-status-row|phase64_agent_activity_wire|task-events-sse-client|telemetry' || true
+scripts/_local/phase65b_audit_metric_agents_ownership.sh:16:grep -RInE 'metric-agents|agent-status|agent activity|task-events|EventSource|OPS_SSE_URL|/events/task-events|/events/ops' public/js | grep -E 'agent-status-row|phase64_agent_activity_wire|telemetry|dashboard-status|ops-globals-bridge' || true
+scripts/_local/phase61_cleanup_workspace_debug_artifacts.sh:11:rm -f public/js/task-events-sse-client.js.bak.phase58a.* || true
+scripts/_local/phase64_4_rebuild_and_verify_task_events_hotfix.sh:6:SAMPLE="${TMP_DIR}/task-events.sample"
+scripts/_local/phase64_4_rebuild_and_verify_task_events_hotfix.sh:21:echo "== sample /events/task-events for 8s after hotfix =="
+scripts/_local/phase64_4_rebuild_and_verify_task_events_hotfix.sh:22:python3 - <<'PY' "${BASE_URL}/events/task-events" "${SAMPLE}"
+scripts/_local/phase64_4_rebuild_and_verify_task_events_hotfix.sh:72:'document.querySelector("[data-tab=\"task-events\"], [data-target=\"task-events\"], button[aria-controls=\"obs-panel-events\"]")?.click()' \
+scripts/_local/phase64_4_rebuild_and_verify_task_events_hotfix.sh:73:'document.querySelector("[data-tab-panel=\"task-events\"], #task-events-panel, #obs-panel-events")?.outerHTML'
+scripts/_local/phase61_repair_workspace_regions_v2.py:132:                  <section id="task-events-card" class="obs-surface">
+scripts/_local/phase61_repair_workspace_regions_v2.py:137:                    <div id="mb-task-events-panel-anchor"></div>
+scripts/_local/phase64_4_restore_task_events_sse_after_bad_hotfix.sh:7:git checkout "$BASE_COMMIT" -- server/routes/task-events-sse.mjs
+scripts/_local/phase64_4_restore_task_events_sse_after_bad_hotfix.sh:21:echo "== task-events endpoint sample =="
+scripts/_local/phase64_4_restore_task_events_sse_after_bad_hotfix.sh:22:python3 - <<'PY' "${BASE_URL}/events/task-events"
+scripts/_local/phase64_4_restore_task_events_sse_after_bad_hotfix.sh:54:echo "restored server/routes/task-events-sse.mjs from ${BASE_COMMIT}"
+scripts/_local/phase64_3_restore_stable_ui_then_reapply_scroll.sh:104:      .task-events-panel .task-event,
+scripts/_local/phase64_3_restore_stable_ui_then_reapply_scroll.sh:105:      [data-phase61-task-events] .task-event,
+scripts/_local/phase64_3_restore_stable_ui_then_reapply_scroll.sh:106:      [data-tab-panel="task-events"] .task-event,
+scripts/_local/phase64_3_restore_stable_ui_then_reapply_scroll.sh:107:      #task-events-panel .task-event,
+scripts/_local/phase64_3_restore_stable_ui_then_reapply_scroll.sh:108:      #task-events .task-event,
+scripts/_local/phase64_3_restore_stable_ui_then_reapply_scroll.sh:109:      .task-events .task-event,
+scripts/_local/phase64_3_restore_stable_ui_then_reapply_scroll.sh:110:      .task-events-panel li,
+scripts/_local/phase64_3_restore_stable_ui_then_reapply_scroll.sh:111:      [data-phase61-task-events] li,
+scripts/_local/phase64_3_restore_stable_ui_then_reapply_scroll.sh:112:      [data-tab-panel="task-events"] li,
+scripts/_local/phase64_3_restore_stable_ui_then_reapply_scroll.sh:113:      #task-events-panel li,
+scripts/_local/phase64_3_restore_stable_ui_then_reapply_scroll.sh:114:      #task-events li,
+scripts/_local/phase64_3_restore_stable_ui_then_reapply_scroll.sh:115:      .task-events li {
+scripts/_local/phase62b_success_rate_surface_inspect.sh:36:  echo "== task-events signal references =="
+scripts/_local/phase62b_success_rate_surface_inspect.sh:37:  grep -RIn 'task.completed\|task.failed\|success rate\|metric-success\|successNode' public/js public/bundle.js 2>/dev/null || true
+scripts/_local/phase65_3_metrics_runtime_verify.sh:75:      timeout ${seconds}s curl -NfsS http://127.0.0.1:3000/events/task-events || true
+scripts/_local/phase65_3_metrics_runtime_verify.sh:77:      curl -NfsS http://127.0.0.1:3000/events/task-events &
+scripts/_local/phase65_3_metrics_runtime_verify.sh:138:  echo "-- task-events SSE probe (host if reachable) --"
+scripts/_local/phase65_3_metrics_runtime_verify.sh:139:  sample_task_events_host "$BASE_URL_RESOLVED/events/task-events" 12
+scripts/_local/phase65_3_metrics_runtime_verify.sh:142:  echo "-- task-events SSE probe (container fallback) --"
+scripts/_local/phase61_recent_tasks_and_history_wiring_audit.sh:64:    'dashboard-tasks-widget|task-events-sse-client|history|recent tasks|task history' \
+scripts/_local/phase64_4_patch_task_events_sse_writer_dedupe_minimal.sh:7:path = Path("server/routes/task-events-sse.mjs")
+scripts/_local/phase64_4_patch_task_events_sse_writer_dedupe_minimal.sh:14:    raise SystemExit("could not find function _sseWrite(res, payload = {}) in server/routes/task-events-sse.mjs")
+scripts/_local/phase64_4_patch_task_events_sse_writer_dedupe_minimal.sh:91:print("patched server/routes/task-events-sse.mjs")
+scripts/_local/phase64_4_rebuild_and_verify_task_events_sse_writer_dedupe_minimal.sh:6:TASK_EVENTS_SAMPLE="${TMP_DIR}/task-events.sample"
+scripts/_local/phase64_4_rebuild_and_verify_task_events_sse_writer_dedupe_minimal.sh:20:echo "== sample /events/task-events for 5s =="
+scripts/_local/phase64_4_rebuild_and_verify_task_events_sse_writer_dedupe_minimal.sh:21:python3 - <<'PY' "${BASE_URL}/events/task-events" "${TASK_EVENTS_SAMPLE}"
+scripts/_local/phase64_4_rebuild_and_verify_task_events_sse_writer_dedupe_minimal.sh:51:echo "== event names from /events/task-events =="
+scripts/_local/phase64_4_rebuild_and_verify_task_events_sse_writer_dedupe_minimal.sh:74:'document.querySelector("[data-tab=\"task-events\"], [data-target=\"task-events\"], button[aria-controls=\"obs-panel-events\"]")?.click()' \
+scripts/_local/phase64_4_rebuild_and_verify_task_events_sse_writer_dedupe_minimal.sh:75:'document.querySelector("[data-tab-panel=\"task-events\"], #task-events-panel, #obs-panel-events")?.outerHTML'
+scripts/_local/phase64_4_rebuild_and_verify_task_events_sse_writer_dedupe_signature_agnostic.sh:6:TASK_EVENTS_SAMPLE="${TMP_DIR}/task-events.sample"
+scripts/_local/phase64_4_rebuild_and_verify_task_events_sse_writer_dedupe_signature_agnostic.sh:20:echo "== sample /events/task-events for 5s =="
+scripts/_local/phase64_4_rebuild_and_verify_task_events_sse_writer_dedupe_signature_agnostic.sh:21:python3 - <<'PY' "${BASE_URL}/events/task-events" "${TASK_EVENTS_SAMPLE}"
+scripts/_local/phase64_4_rebuild_and_verify_task_events_sse_writer_dedupe_signature_agnostic.sh:51:echo "== event names from /events/task-events =="
+scripts/_local/phase64_4_rebuild_and_verify_task_events_sse_writer_dedupe_signature_agnostic.sh:74:'document.querySelector("[data-tab=\"task-events\"], [data-target=\"task-events\"], button[aria-controls=\"obs-panel-events\"]")?.click()' \
+scripts/_local/phase64_4_rebuild_and_verify_task_events_sse_writer_dedupe_signature_agnostic.sh:75:'document.querySelector("[data-tab-panel=\"task-events\"], #task-events-panel, #obs-panel-events")?.outerHTML'
+scripts/_local/phase62b_success_rate_live_hydration_readiness_check.sh:30:  grep -n "task.completed\\|task.failed\\|task.complete\\|task.done\\|task.success" public/js/telemetry/success_rate_metric.js || true
+scripts/_local/phase62b_success_rate_live_hydration_readiness_check.sh:33:  echo "== task-events client named events =="
+scripts/_local/phase62b_success_rate_live_hydration_readiness_check.sh:34:  grep -n "\"task.event\"\\|\"task.created\"\\|\"task.completed\"\\|\"task.failed\"\\|\"task.updated\"\\|\"task.status\"" public/js/task-events-sse-client.js || true
+scripts/_local/phase62b_success_rate_live_hydration_readiness_check.sh:54:  if grep -q '"task.completed"' public/js/task-events-sse-client.js 2>/dev/null && grep -q '"task.failed"' public/js/task-events-sse-client.js 2>/dev/null; then
+scripts/_local/phase62b_success_rate_live_hydration_readiness_check.sh:69:  echo "== public/js/task-events-sse-client.js relevant area =="
+scripts/_local/phase62b_success_rate_live_hydration_readiness_check.sh:70:  nl -ba public/js/task-events-sse-client.js | sed -n '300,380p'
+scripts/_local/phase61_5_3_delegation_status_panel_patch.sh:180:        res = await safeFetch("/api/delegate-task", {
+scripts/_local/phase61_5_3_delegation_status_panel_patch.sh:206:        data = { error: "Non-JSON response from /api/delegate-task", raw: rawText || "" };
+scripts/_local/phase67b_event_shape_inspection.sh:9:TASK_EVENT_REFERENCES="$(grep -R --line-number --exclude-dir=.git 'task-events\|/events/task-events' public/js || true)"
+scripts/_local/phase67b_event_shape_inspection.sh:11:  echo "No task-events references found in public/js"
+scripts/_local/phase67b_event_shape_inspection.sh:15:echo "-- task-events references found"
+scripts/_local/phase61_dashboard_ui_contract.sh:22:grep -q 'id="task-events-card"' "$HTML"
+scripts/_local/phase61_dashboard_ui_contract.sh:31:grep -q '/api/delegate-task' "$DELEGATION_JS"
+scripts/_local/phase31_6_recent_tasks_debug.sh:7:SSE="tmp/task-events-sse.${TS}.log"
+scripts/_local/phase31_6_recent_tasks_debug.sh:9:GREP2="tmp/task-events-wiring-grep.${TS}.txt"
+scripts/_local/phase31_6_recent_tasks_debug.sh:41:curl -sS -N --max-time 6 -H "Accept: text/event-stream" "http://127.0.0.1:8080/events/task-events
+scripts/_local/phase31_6_recent_tasks_debug.sh:59:'(Recent Tasks|recent[-_ ]tasks|recentTasks|renderRecent|tasks-table|TaskEvents|task-events|/events/task-events|EventSource(|connectSSE|SSE)'
+scripts/_local/phase31_6_recent_tasks_debug.sh:62:echo "=== focus task-events wiring in dashboard JS ===" | tee -a "$LOG" >/dev/null
+scripts/_local/phase31_6_recent_tasks_debug.sh:64:'(/events/task-events|task-events|task.event|task_events|taskEvents|TaskEvents|cursor|heartbeat|EventSource(|addEventListener(|message|event:\s*)'
+scripts/_local/phase64_3_force_equal_workspace_height_v2.sh:58:    #task-events-card {
+scripts/_local/phase64_3_force_equal_workspace_height_v2.sh:69:    #mb-task-events-panel-anchor {
+scripts/_local/phase64_3_force_equal_workspace_height_v2.sh:111:      #task-events-card,
+scripts/_local/phase31_6_seed_task_curl.sh:13:  "name": "phase31.6 seed task",
+scripts/_local/phase31_6_seed_task_curl.sh:14:  "title": "phase31.6 seed task",
+scripts/_local/phase31_6_seed_task_curl.sh:16:  "meta": { "actor": "curl", "note": "manual seed task" }
+scripts/_local/phase64_4_fix_task_events_cursor_precision.sh:7:path = Path("server/routes/task-events-sse.mjs")
+scripts/_local/phase64_4_fix_task_events_cursor_precision.sh:63:print("patched server/routes/task-events-sse.mjs")
+scripts/_local/normalize_phase63_shared_task_events_metric_corridor.sh:254:      es = new EventSource('/events/task-events');
+scripts/_local/hydrate_phase62b_latency_metric.sh:278:      es = new EventSource('/events/task-events');
+scripts/_local/phase61_3_task_events_polish_patch.sh:41:  <style id="phase61-task-events-polish">
+scripts/_local/phase61_3_task_events_polish_patch.sh:42:    .task-events-panel,
+scripts/_local/phase61_3_task_events_polish_patch.sh:43:    [data-phase61-task-events],
+scripts/_local/phase61_3_task_events_polish_patch.sh:44:    [data-tab-panel="task-events"],
+scripts/_local/phase61_3_task_events_polish_patch.sh:45:    #task-events-panel,
+scripts/_local/phase61_3_task_events_polish_patch.sh:46:    #task-events,
+scripts/_local/phase61_3_task_events_polish_patch.sh:47:    .task-events {
+scripts/_local/phase61_3_task_events_polish_patch.sh:51:    .task-events-panel .task-events-list,
+scripts/_local/phase61_3_task_events_polish_patch.sh:52:    [data-phase61-task-events] .task-events-list,
+scripts/_local/phase61_3_task_events_polish_patch.sh:53:    [data-tab-panel="task-events"] .task-events-list,
+scripts/_local/phase61_3_task_events_polish_patch.sh:54:    #task-events-panel .task-events-list,
+scripts/_local/phase61_3_task_events_polish_patch.sh:55:    #task-events .task-events-list,
+scripts/_local/phase61_3_task_events_polish_patch.sh:56:    .task-events .task-events-list,
+scripts/_local/phase61_3_task_events_polish_patch.sh:57:    .task-events-panel ul,
+scripts/_local/phase61_3_task_events_polish_patch.sh:58:    [data-phase61-task-events] ul,
+scripts/_local/phase61_3_task_events_polish_patch.sh:59:    [data-tab-panel="task-events"] ul,
+scripts/_local/phase61_3_task_events_polish_patch.sh:60:    #task-events-panel ul,
+scripts/_local/phase61_3_task_events_polish_patch.sh:61:    #task-events ul,
+scripts/_local/phase61_3_task_events_polish_patch.sh:62:    .task-events ul {
+scripts/_local/phase61_3_task_events_polish_patch.sh:70:    .task-events-panel .task-event,
+scripts/_local/phase61_3_task_events_polish_patch.sh:71:    [data-phase61-task-events] .task-event,
+scripts/_local/phase61_3_task_events_polish_patch.sh:72:    [data-tab-panel="task-events"] .task-event,
+scripts/_local/phase61_3_task_events_polish_patch.sh:73:    #task-events-panel .task-event,
+scripts/_local/phase61_3_task_events_polish_patch.sh:74:    #task-events .task-event,
+scripts/_local/phase61_3_task_events_polish_patch.sh:75:    .task-events .task-event,
+scripts/_local/phase61_3_task_events_polish_patch.sh:76:    .task-events-panel li,
+scripts/_local/phase61_3_task_events_polish_patch.sh:77:    [data-phase61-task-events] li,
+scripts/_local/phase61_3_task_events_polish_patch.sh:78:    [data-tab-panel="task-events"] li,
+scripts/_local/phase61_3_task_events_polish_patch.sh:79:    #task-events-panel li,
+scripts/_local/phase61_3_task_events_polish_patch.sh:80:    #task-events li,
+scripts/_local/phase61_3_task_events_polish_patch.sh:81:    .task-events li {
+scripts/_local/phase61_3_task_events_polish_patch.sh:96:    .task-events-panel .task-event::before,
+scripts/_local/phase61_3_task_events_polish_patch.sh:97:    [data-phase61-task-events] .task-event::before,
+scripts/_local/phase61_3_task_events_polish_patch.sh:98:    [data-tab-panel="task-events"] .task-event::before,
+scripts/_local/phase61_3_task_events_polish_patch.sh:99:    #task-events-panel .task-event::before,
+scripts/_local/phase61_3_task_events_polish_patch.sh:100:    #task-events .task-event::before,
+scripts/_local/phase61_3_task_events_polish_patch.sh:101:    .task-events .task-event::before,
+scripts/_local/phase61_3_task_events_polish_patch.sh:102:    .task-events-panel li::before,
+scripts/_local/phase61_3_task_events_polish_patch.sh:103:    [data-phase61-task-events] li::before,
+scripts/_local/phase61_3_task_events_polish_patch.sh:104:    [data-tab-panel="task-events"] li::before,
+scripts/_local/phase61_3_task_events_polish_patch.sh:105:    #task-events-panel li::before,
+scripts/_local/phase61_3_task_events_polish_patch.sh:106:    #task-events li::before,
+scripts/_local/phase61_3_task_events_polish_patch.sh:107:    .task-events li::before {
+scripts/_local/phase61_3_task_events_polish_patch.sh:118:    .task-events-panel .task-event.phase61-event-terminal::before,
+scripts/_local/phase61_3_task_events_polish_patch.sh:119:    [data-phase61-task-events] .task-event.phase61-event-terminal::before,
+scripts/_local/phase61_3_task_events_polish_patch.sh:120:    [data-tab-panel="task-events"] .task-event.phase61-event-terminal::before,
+scripts/_local/phase61_3_task_events_polish_patch.sh:121:    #task-events-panel .task-event.phase61-event-terminal::before,
+scripts/_local/phase61_3_task_events_polish_patch.sh:122:    #task-events .task-event.phase61-event-terminal::before,
+scripts/_local/phase61_3_task_events_polish_patch.sh:123:    .task-events .task-event.phase61-event-terminal::before,
+scripts/_local/phase61_3_task_events_polish_patch.sh:124:    .task-events-panel li.phase61-event-terminal::before,
+scripts/_local/phase61_3_task_events_polish_patch.sh:125:    [data-phase61-task-events] li.phase61-event-terminal::before,
+scripts/_local/phase61_3_task_events_polish_patch.sh:126:    [data-tab-panel="task-events"] li.phase61-event-terminal::before,
+scripts/_local/phase61_3_task_events_polish_patch.sh:127:    #task-events-panel li.phase61-event-terminal::before,
+scripts/_local/phase61_3_task_events_polish_patch.sh:128:    #task-events li.phase61-event-terminal::before,
+scripts/_local/phase61_3_task_events_polish_patch.sh:129:    .task-events li.phase61-event-terminal::before {
+scripts/_local/phase61_3_task_events_polish_patch.sh:133:    .task-events-panel .task-event.phase61-event-active::before,
+scripts/_local/phase61_3_task_events_polish_patch.sh:134:    [data-phase61-task-events] .task-event.phase61-event-active::before,
+scripts/_local/phase61_3_task_events_polish_patch.sh:135:    [data-tab-panel="task-events"] .task-event.phase61-event-active::before,
+scripts/_local/phase61_3_task_events_polish_patch.sh:136:    #task-events-panel .task-event.phase61-event-active::before,
+scripts/_local/phase61_3_task_events_polish_patch.sh:137:    #task-events .task-event.phase61-event-active::before,
+scripts/_local/phase61_3_task_events_polish_patch.sh:138:    .task-events .task-event.phase61-event-active::before,
+scripts/_local/phase61_3_task_events_polish_patch.sh:139:    .task-events-panel li.phase61-event-active::before,
+scripts/_local/phase61_3_task_events_polish_patch.sh:140:    [data-phase61-task-events] li.phase61-event-active::before,
+scripts/_local/phase61_3_task_events_polish_patch.sh:141:    [data-tab-panel="task-events"] li.phase61-event-active::before,
+scripts/_local/phase61_3_task_events_polish_patch.sh:142:    #task-events-panel li.phase61-event-active::before,
+scripts/_local/phase61_3_task_events_polish_patch.sh:143:    #task-events li.phase61-event-active::before,
+scripts/_local/phase61_3_task_events_polish_patch.sh:144:    .task-events li.phase61-event-active::before {
+scripts/_local/phase61_3_task_events_polish_patch.sh:148:    .task-events-panel .task-event.phase61-event-waiting::before,
+scripts/_local/phase61_3_task_events_polish_patch.sh:149:    [data-phase61-task-events] .task-event.phase61-event-waiting::before,
+scripts/_local/phase61_3_task_events_polish_patch.sh:150:    [data-tab-panel="task-events"] .task-event.phase61-event-waiting::before,
+scripts/_local/phase61_3_task_events_polish_patch.sh:151:    #task-events-panel .task-event.phase61-event-waiting::before,
+scripts/_local/phase61_3_task_events_polish_patch.sh:152:    #task-events .task-event.phase61-event-waiting::before,
+scripts/_local/phase61_3_task_events_polish_patch.sh:153:    .task-events .task-event.phase61-event-waiting::before,
+scripts/_local/phase61_3_task_events_polish_patch.sh:154:    .task-events-panel li.phase61-event-waiting::before,
+scripts/_local/phase61_3_task_events_polish_patch.sh:155:    [data-phase61-task-events] li.phase61-event-waiting::before,
+scripts/_local/phase61_3_task_events_polish_patch.sh:156:    [data-tab-panel="task-events"] li.phase61-event-waiting::before,
+scripts/_local/phase61_3_task_events_polish_patch.sh:157:    #task-events-panel li.phase61-event-waiting::before,
+scripts/_local/phase61_3_task_events_polish_patch.sh:158:    #task-events li.phase61-event-waiting::before,
+scripts/_local/phase61_3_task_events_polish_patch.sh:159:    .task-events li.phase61-event-waiting::before {
+scripts/_local/phase61_3_task_events_polish_patch.sh:188:      .task-events-panel .task-event,
+scripts/_local/phase61_3_task_events_polish_patch.sh:189:      [data-phase61-task-events] .task-event,
+scripts/_local/phase61_3_task_events_polish_patch.sh:190:      [data-tab-panel="task-events"] .task-event,
+scripts/_local/phase61_3_task_events_polish_patch.sh:191:      #task-events-panel .task-event,
+scripts/_local/phase61_3_task_events_polish_patch.sh:192:      #task-events .task-event,
+scripts/_local/phase61_3_task_events_polish_patch.sh:193:      .task-events .task-event,
+scripts/_local/phase61_3_task_events_polish_patch.sh:194:      .task-events-panel li,
+scripts/_local/phase61_3_task_events_polish_patch.sh:195:      [data-phase61-task-events] li,
+scripts/_local/phase61_3_task_events_polish_patch.sh:196:      [data-tab-panel="task-events"] li,
+scripts/_local/phase61_3_task_events_polish_patch.sh:197:      #task-events-panel li,
+scripts/_local/phase61_3_task_events_polish_patch.sh:198:      #task-events li,
+scripts/_local/phase61_3_task_events_polish_patch.sh:199:      .task-events li {
+scripts/_local/phase61_3_task_events_polish_patch.sh:208:  <script id="phase61-task-events-polish-script">
+scripts/_local/phase61_3_task_events_polish_patch.sh:211:        '[data-tab-panel="task-events"]',
+scripts/_local/phase61_3_task_events_polish_patch.sh:212:        '[data-phase61-task-events]',
+scripts/_local/phase61_3_task_events_polish_patch.sh:213:        '#task-events-panel',
+scripts/_local/phase61_3_task_events_polish_patch.sh:214:        '#task-events',
+scripts/_local/phase61_3_task_events_polish_patch.sh:215:        '.task-events-panel',
+scripts/_local/phase61_3_task_events_polish_patch.sh:216:        '.task-events'
+scripts/_local/phase61_3_task_events_polish_patch.sh:265:        panel.setAttribute('data-phase61-task-events', 'true');
+scripts/_local/phase61_3_task_events_polish_patch.sh:296:if 'id="phase61-task-events-polish"' not in html:
+scripts/_local/phase61_3_task_events_polish_patch.sh:302:if 'id="phase61-task-events-polish-script"' not in html:
+scripts/_local/phase65b_audit_metric_ownership.sh:11:echo "2 EventSource consumers touching task-events:"
+scripts/_local/phase65b_audit_metric_ownership.sh:12:grep -RInE 'EventSource|/events/task-events' public/js || true
+scripts/_local/fixtures/telemetry/task_events_contract_invalid_sample.json:9:    "event_type": "task.completed",
+scripts/_local/fixtures/telemetry/task_events_contract_sample.json:22:    "event_type": "task.completed",
+scripts/_local/phase65_4_patch_shared_metrics_bootstrap.sh:88:        es = new EventSource('/events/task-events');
+scripts/_local/phase68_event_schema_validator.ts:30:  "task.completed",
+scripts/_local/phase68_event_schema_validator.ts:31:  "task.failed",
+scripts/_local/phase68_event_schema_validator.ts:160:  if (eventType === "task.completed" && state !== "completed") {
+scripts/_local/phase68_event_schema_validator.ts:163:      message: `event_type/state mismatch: task.completed requires state=completed`,
+scripts/_local/phase68_event_schema_validator.ts:167:  if (eventType === "task.failed" && state !== "failed") {
+scripts/_local/phase68_event_schema_validator.ts:170:      message: `event_type/state mismatch: task.failed requires state=failed`,
+scripts/_local/phase65_1_tasks_running_inspect.sh:17:rg -n 'task\.|task-events|EventSource|SSE|recent history|recent tasks|running|queued|completed|failed|cancelled|started' \
+scripts/_local/phase61_final_touchups.sh:78:      #task-events-card {
+scripts/_local/phase64_3_fix_telemetry_scroll_css.sh:48:    #task-events-card,
+scripts/_local/phase64_3_fix_telemetry_scroll_css.sh:63:    #task-events-card > #mb-task-events-panel-anchor {
+scripts/_local/phase64_3_fix_telemetry_scroll_css.sh:94:      #task-events-card,
+scripts/_local/phase64_3_fix_telemetry_scroll_css.sh:119:      .task-events-panel .task-event,
+scripts/_local/phase64_3_fix_telemetry_scroll_css.sh:120:      [data-phase61-task-events] .task-event,
+scripts/_local/phase64_3_fix_telemetry_scroll_css.sh:121:      [data-tab-panel="task-events"] .task-event,
+scripts/_local/phase64_3_fix_telemetry_scroll_css.sh:122:      #task-events-panel .task-event,
+scripts/_local/phase64_3_fix_telemetry_scroll_css.sh:123:      #task-events .task-event,
+scripts/_local/phase64_3_fix_telemetry_scroll_css.sh:124:      .task-events .task-event,
+scripts/_local/phase64_3_fix_telemetry_scroll_css.sh:125:      .task-events-panel li,
+scripts/_local/phase64_3_fix_telemetry_scroll_css.sh:126:      [data-phase61-task-events] li,
+scripts/_local/phase64_3_fix_telemetry_scroll_css.sh:127:      [data-tab-panel="task-events"] li,
+scripts/_local/phase64_3_fix_telemetry_scroll_css.sh:128:      #task-events-panel li,
+scripts/_local/phase64_3_fix_telemetry_scroll_css.sh:129:      #task-events li,
+scripts/_local/phase64_3_fix_telemetry_scroll_css.sh:130:      .task-events li {
+scripts/_local/phase64_4_probe_ops_stream_task_events.sh:109:'document.querySelector("[data-tab-panel=\"task-events\"], #task-events-panel, #obs-panel-events")?.outerHTML'
+scripts/_local/phase64_4_hotfix_dedupe_task_events_sse_writer.sh:7:path = Path("server/routes/task-events-sse.mjs")
+scripts/_local/phase64_4_hotfix_dedupe_task_events_sse_writer.sh:99:    raise SystemExit("no changes applied to server/routes/task-events-sse.mjs")
+scripts/_local/phase64_4_hotfix_dedupe_task_events_sse_writer.sh:102:print("patched server/routes/task-events-sse.mjs by deduping task.event writes inside _sseWrite")
+scripts/_local/phase64_4_task_events_regression_guard.sh:7:TASK_EVENTS_SAMPLE="${TMP_DIR}/task-events.sample"
+scripts/_local/phase64_4_task_events_regression_guard.sh:14:echo "== sampling /events/task-events for ${SAMPLE_SECS}s =="
+scripts/_local/phase64_4_task_events_regression_guard.sh:15:python3 - <<'PY' "${BASE_URL}/events/task-events" "${TASK_EVENTS_SAMPLE}" "${SAMPLE_SECS}"
+scripts/_local/phase64_4_task_events_regression_guard.sh:46:echo "== task-events replay guard summary =="
+scripts/_local/phase64_4_task_events_regression_guard.sh:81:    raise SystemExit("FAIL: missing hello event from /events/task-events")
+scripts/_local/phase64_4_task_events_regression_guard.sh:102:    raise SystemExit("FAIL: suspicious duplicate replay ratio detected in /events/task-events")
+scripts/_local/phase64_4_task_events_regression_guard.sh:104:print("PASS: task-events stream passed replay guard")
+scripts/_local/phase62b_record_live_validation_blocker_and_inspect_routes.sh:17:  echo "attempted_endpoint_1=/api/tasks/test-success"
+scripts/_local/phase62b_record_live_validation_blocker_and_inspect_routes.sh:18:  echo "attempted_endpoint_2=/api/tasks/test-failure"
+scripts/_local/phase62b_record_live_validation_blocker_and_inspect_routes.sh:29:  grep -RIn "app\\.\(get\\|post\\|put\\|delete\\).*api\\|router\\.\(get\\|post\\|put\\|delete\\).*api\\|task\\.completed\\|task\\.failed\\|task-events\\|delegate-task\\|seed task\\|seed_task\\|test-success\\|test-failure" \
+scripts/_local/phase62b_record_live_validation_blocker_and_inspect_routes.sh:33:  grep -RIn "/api/tasks\\|/api/task\\|delegate-task\\|task-events\\|seed" \
+scripts/_local/phase61_task_events_wiring_audit.sh:11:grep -RniE 'task events|task-events|Task Events|EventSource|SSE|telemetry|recent tasks|task history' public src scripts server . 2>/dev/null || true
+scripts/_local/phase61_task_events_wiring_audit.sh:15:grep -nE 'task-events|Task Events|telemetry|observational-workspace|workspace-card' public/dashboard.html 2>/dev/null || true
+scripts/_local/phase64_4_patch_task_events_sse_writer_dedupe_signature_agnostic.sh:8:path = Path("server/routes/task-events-sse.mjs")
+scripts/_local/phase64_4_patch_task_events_sse_writer_dedupe_signature_agnostic.sh:14:    raise SystemExit("could not find _sseWrite function in server/routes/task-events-sse.mjs")
+scripts/_local/phase64_4_patch_task_events_sse_writer_dedupe_signature_agnostic.sh:101:print("patched server/routes/task-events-sse.mjs")
+scripts/_local/phase61_tab_cleanup_pass.py:29:    '<section id="task-events-card" class="obs-surface">',
+scripts/_local/phase61_tab_cleanup_pass.py:30:    '<section id="task-events-card" class="obs-surface phase61-events-fill">',
+scripts/_local/phase61_tab_cleanup_pass.py:87:      #task-events-card {
+scripts/_local/phase61_tab_cleanup_pass.py:134:      #task-events-card.phase61-events-fill {
+scripts/_local/phase61_tab_cleanup_pass.py:139:      #task-events-card.phase61-events-fill #mb-task-events-panel-anchor {
+scripts/_local/phase64_7_dashboard_layout_script_mount_guard.sh:20:'id="mb-task-events-panel-anchor"' \
+scripts/_local/phase64_7_dashboard_layout_script_mount_guard.sh:46:echo "== task-events mount uniqueness =="
+scripts/_local/phase64_7_dashboard_layout_script_mount_guard.sh:47:COUNT="$(grep -o 'id="mb-task-events-panel-anchor"' "$HTML" | wc -l | tr -d ' ')"
+scripts/_local/phase64_7_dashboard_layout_script_mount_guard.sh:49:  echo "FAIL task-events mounted $COUNT times"
+scripts/_local/phase64_7_dashboard_layout_script_mount_guard.sh:52:echo "PASS task-events single mount"
+scripts/_local/phase62b_verify_success_rate_bootstrap_and_terminal_attach.sh:23:  grep -n 'task.event\|task.completed\|task.failed\|task.updated\|task.status' public/js/telemetry/success_rate_metric.js || true
+scripts/_local/phase62b_verify_success_rate_bootstrap_and_terminal_attach.sh:49:  if grep -q 'source.addEventListener("task.completed"' public/js/telemetry/success_rate_metric.js 2>/dev/null; then
+scripts/_local/phase62b_verify_success_rate_bootstrap_and_terminal_attach.sh:66:  grep -n 'phase65b_metric_bootstrap\|successNode\|task.completed\|task.failed' public/bundle.js | head -160 || true
+scripts/phase35_fix_task_events_append_v3.sh:10:p = Path("server/task-events.mjs")
+scripts/phase35_fix_task_events_append_v3.sh:12:    raise SystemExit("patch_failed: missing server/task-events.mjs")
+scripts/phase11_delegate_task_curl.sh:4:# Phase 11 – Helper script to run the delegate-task curl against the container backend
+scripts/phase11_delegate_task_curl.sh:10:echo "🔹 Running delegate-task curl against http://127.0.0.1:3000/api/delegate-task ..."
+scripts/phase11_delegate_task_curl.sh:13:curl -i -X POST http://127.0.0.1:3000/api/delegate-task \
+scripts/phase31_7_fix_task_events_sse_route.sh:5:ROUTE_FILE="$(rg -n --hidden --no-ignore-vcs -S '/events/task-events|events/task-events' server -l \
+scripts/phase31_7_fix_task_events_sse_route.sh:9:  echo "ERR: could not locate canonical /events/task-events route (non-bak) under server/" >&2
+scripts/phase31_7_fix_task_events_sse_route.sh:19:cmd = r"""rg -n --hidden --no-ignore-vcs -S '/events/task-events|events/task-events' server -l | rg -v '\.bak(\.|$)' | head -n 1"""
+scripts/phase27_wire_worker_backoff.sh:26:  echo "Hint: ensure the worker loop lives under server/ or scripts/ and emits task.running + task.completed/failed."
+scripts/phase27_wire_worker_backoff.sh:199:    kind: "task.completed",
+scripts/phase27_wire_worker_backoff.sh:234:    kind: "task.failed",
+
+== api task route candidates ==
+server.mjs:18:import taskEventsSSE from "./server/routes/task-events-sse.mjs";
+server.mjs:20:import { handleDelegateTaskSpec as phase23HandleDelegateTaskSpec } from "./server/api/tasks-mutations/delegate-taskspec.mjs";
+server.mjs:53:    if (req.path.startsWith("/api/tasks")) {
+server.mjs:73:// Phase 20: task-events SSE (event-sourced)
+server.mjs:170:app.post("/api/tasks-mutations/delegate-taskspec", async (req, res) => phase23HandleDelegateTaskSpec(req, res, { db: pool, dbDelegateTask }));
+server.mjs:177:app.use("/api/tasks", apiTasksRouter);
+server.mjs:178:app.use("/api/tasks-mutations", apiTasksMutationsRouter);
+server.mjs:335:app.get("/api/tasks", async (req, res) => {
+server.mjs:336:  console.log("[phase57c-live] /api/tasks probe", {
+server.mjs:355:app.post("/api/delegate-task", async (req, res) => {
+server/task_events_emit.mjs:1:import { appendTaskEvent } from "./task-events.mjs";
+server/api/tasks-mutations/delegate-taskspec.mjs:20: * POST /api/tasks-mutations/delegate-taskspec
+server/api/tasks-mutations/delegate-taskspec.mjs:28: * - Inserts into task_events(kind="task.created") so /events/task-events advances
+server/enforcement/phase44_mutation_allowlist.mjs:6: *   { method: "POST", path: "/api/tasks" }
+server/enforcement/phase44_mutation_allowlist.mjs:7: *   { method: "POST", path: "/api/tasks/:task_id/cancel" }
+server/enforcement/phase44_mutation_allowlist.mjs:14:  // { method: "POST", path: "/api/tasks" },
+server/enforcement/phase44_mutation_enforcer.mjs:26: * - "/api/tasks/:id/cancel" => /^\/api\/tasks\/[^/]+\/cancel$/
+server/enforcement/phase44_mutation_enforcer.mjs:27: * - "/api/tasks" => /^\/api\/tasks$/
+server/routes/api-tasks-postgres.mjs:38:// GET /api/tasks?limit=25  -> recent tasks for dashboard widget
+server/routes/api-tasks-postgres.mjs:40:  console.log("[phase57c-router] /api/tasks probe", {
+server/routes/api-tasks-postgres.mjs:66:    console.error("[phase25] /api/tasks list error", e);
+server/routes/api-tasks-postgres.mjs:71:// POST /api/tasks/create  { task_id?, title?, agent?, run_id?, ... }
+server/routes/api-tasks-postgres.mjs:77:    console.log("[phase25] /api/tasks/create pool snapshot", {
+server/routes/api-tasks-postgres.mjs:136:    console.error("[phase25] /api/tasks error", e);
+server/routes/api-tasks-postgres.mjs:146:// POST /api/tasks/complete  { task_id, status?, run_id?, ... }
+server/routes/api-tasks-postgres.mjs:150:    assertNotEnforced("http:/api/tasks/create");
+server/routes/api-tasks-postgres.mjs:174:    console.error("[phase25] /api/tasks error", e);
+server/routes/api-tasks-postgres.mjs:184:// POST /api/tasks/fail  { task_id, error?, status?, run_id?, ... }
+server/routes/api-tasks-postgres.mjs:188:    assertNotEnforced("http:/api/tasks/complete");
+server/routes/api-tasks-postgres.mjs:212:    console.error("[phase25] /api/tasks error", e);
+server/routes/api-tasks-postgres.mjs:222:// POST /api/tasks/cancel  { task_id, run_id?, ... }
+server/routes/api-tasks-postgres.mjs:226:    assertNotEnforced("http:/api/tasks/cancel");
+server/routes/api-tasks-postgres.mjs:229:    assertNotEnforced("http:/api/tasks/fail");
+server/routes/api-tasks-postgres.mjs:252:    console.error("[phase25] /api/tasks error", e);
+server/routes/phase40_6_shadow_audit_task_events.mjs:5:  app.get("/api/shadow/audit/task-events", async (req, res) => {
+server/routes/phase40_6_shadow_audit_task_events.mjs:39:        scope: "phase40.6.shadow-audit.task-events",
+server/routes/phase40_6_shadow_audit_task_events.mjs:48:        scope: "phase40.6.shadow-audit.task-events",
+server/routes/task-events-sse.mjs:30:router.get("/api/task-events-sse", (req, res) => {
+server/routes/task-events-sse.mjs:31:    res.redirect(307, "/events/task-events");
+server/routes/task-events-sse.mjs:34:  router.get("/events/task-events", async (req, res) => {
+server/routes/task-events-sse.mjs:47:    console.log("[task-events] pool cfg", {
+server/routes/task-events-sse.mjs:90:    _sseWrite(res, { event: "hello", data: { kind: "task-events", cursor, ts: Date.now() } });
+server/routes/task-events-sse.mjs:158:        data: { msg: "task-events stream error", detail: e?.message || String(e), ts: Date.now() },
+server/orchestrator/README.md:7:- `phase18_orchestration.mjs`: interval loop + boot queue seed
+server/policy/policy_audit.mjs:42:  const seed = env?.POLICY_AUDIT_SAMPLE_SEED ? String(env.POLICY_AUDIT_SAMPLE_SEED) : "";
+server/policy/policy_audit.mjs:43:  const key = `${seed}::${task_id}::${run_id}`;
+public/js/dashboard-tasks-widget.js:10:    list: "/api/tasks",
+public/js/dashboard-tasks-widget.js:11:    complete: "/api/tasks/complete",
+public/js/delegation-wire.js:28:  var res = await fetch("/api/delegate-task", {
+public/js/delegation-wire.js:40:    data = { error: "Non-JSON response from /api/delegate-task" };
+public/js/telemetry_queue_depth_reducer.js:54:    window.telemetryBus.subscribe("task-events", processEvent);
+public/js/dashboard-bundle-entry.js:20:// TEMP phase57c isolate /api/tasks loop
+public/js/dashboard-bundle-entry.js:30:// Phase 22: task-events live UI
+public/js/dashboard-bundle-entry.js:31:import "./task-events-sse-client.js";
+public/js/dashboard-delegation.js:143:        res = await safeFetch("/api/delegate-task", {
+public/js/dashboard-delegation.js:169:        data = { error: "Non-JSON response from /api/delegate-task", raw: rawText || "" };
+public/js/task-delegation.js:2:    const delegateBtn = document.getElementById('delegate-task-btn');
+public/js/task-delegation.js:11:            const response = await fetch('/api/delegate-task', {
+public/js/telemetry_failed_tasks_reducer.js:48:    window.telemetryBus.subscribe("task-events", processEvent);
+public/js/agent-status-row.js:586:      es = new EventSource('/events/task-events');
+public/js/phase31_6_seed_task_button.js:2:Phase 31.6 — Manual seed task button (dev-only UX)
+public/js/phase31_6_seed_task_button.js:4:- Looks for #seedTaskBtn; no-op if absent.
+public/js/phase31_6_seed_task_button.js:10:  const btn = $("seedTaskBtn");
+public/js/phase31_6_seed_task_button.js:14:    "/api/tasks",
+public/js/phase31_6_seed_task_button.js:15:    "/api/tasks-postgres",
+public/js/phase31_6_seed_task_button.js:16:    "/api/tasks/create",
+public/js/phase31_6_seed_task_button.js:43:  async function seedOnce() {
+public/js/phase31_6_seed_task_button.js:46:      kind: "demo.seed",
+public/js/phase31_6_seed_task_button.js:47:      type: "demo.seed",
+public/js/phase31_6_seed_task_button.js:48:      name: "phase31.6 seed task",
+public/js/phase31_6_seed_task_button.js:49:      title: "phase31.6 seed task",
+public/js/phase31_6_seed_task_button.js:52:        msg: "seeded from dashboard button",
+public/js/phase31_6_seed_task_button.js:53:        source: "public/js/phase31_6_seed_task_button.js",
+public/js/phase31_6_seed_task_button.js:58:        note: "manual seed task",
+public/js/phase31_6_seed_task_button.js:78:    try { console.warn("[phase31.6] seed failed details:", last); } catch {}
+public/js/phase31_6_seed_task_button.js:88:      await seedOnce();
+public/js/phase64_agent_activity_wire.js:221:        source: "task-events",
+public/js/phase64_agent_activity_wire.js:239:        source: "task-events",
+public/js/phase64_agent_activity_wire.js:326:      ownedTaskEventsStream = new EventSource("/events/task-events");
+public/js/task-events-sse-client.js:2:  const SSE_URL = "/events/task-events";
+public/js/task-events-sse-client.js:4:  const PANEL_ID = "mb-task-events-panel";
+public/js/task-events-sse-client.js:5:  const FEED_ID = "mb-task-events-feed";
+public/js/task-events-sse-client.js:6:  const COUNTS_ID = "mb-task-events-counts";
+public/js/task-events-sse-client.js:7:  const ANCHOR_ID = "mb-task-events-panel-anchor";
+public/js/task-events-sse-client.js:74:    dot.setAttribute("aria-label", "task-events connection");
+public/js/task-events-sse-client.js:75:    dot.title = "task-events connection";
+public/js/task-events-sse-client.js:117:    console.log("[phase22] task-events panel mounted (anchored=%s)", anchored);
+public/js/task-events-sse-client.js:297:    if (window.__UI_DEBUG) try { console.log("[task-events] mb.task.event", ev); } catch {}
+public/js/task-events-sse-client.js:319:      console.log("[phase22] task-events SSE open", url);
+public/js/task-events-sse-client.js:330:      console.log("[phase22] task-events SSE error; reconnect in", delay);
+public/js/matilda-chat-console.js:38:      // Phase23: expose append API for other modules (task-events bridge, ops, etc.)
+public/js/telemetry/success_rate_metric.js:208:        if (String(url).includes("/events/task-events")) {
+public/js/telemetry/latency_metric.js:210:        if (String(url).includes("/events/task-events")) {
+public/js/telemetry/running_tasks_metric.js:80:        if (String(url).includes("/events/task-events")) {
+public/js/sse-heartbeat-shim.js:39:    if (u.includes("/events/task-events") || u.includes("/events/tasks")) return "tasks";
+public/js/phase61_recent_history_wire.js:2:  const RECENT_ENDPOINT = "/api/tasks?limit=12";
+public/js/phase22_task_delegation_live_bindings.js:2:  // Phase 22: bind task-events SSE -> Task Delegation + status UI (best-effort)
+scripts/phase35_fix_appendTaskEvent_pool_signature.sh:8:p = Path("server/task-events.mjs")
+scripts/phase35_fix_appendTaskEvent_pool_signature.sh:14:    raise SystemExit("patch_failed: appendTaskEvent export not found in server/task-events.mjs")
+scripts/phase19_patch_mount_tasks_mutations.mjs:27:  // Prefer mounting after existing /api/tasks router if present; else after last app.use(...)
+scripts/phase45_grant_determinism_smoke.sh:12:# that may or may not exist (POST /api/tasks is 404, and /api/policy/evaluate is not exposed).
+scripts/phase35_patch_direct_task_events_inserts_to_append.sh:63:        # Ensure file references appendTaskEvent; if not, add import from task-events.mjs when safe.
+scripts/phase35_patch_direct_task_events_inserts_to_append.sh:67:        if "appendTaskEvent" in s2 and "from \"./task-events.mjs\"" not in s2 and "from \"../task-events.mjs\"" not in s2 and "from \"./task-events\"" not in s2:
+scripts/phase35_patch_direct_task_events_inserts_to_append.sh:68:            # Attempt to add a local import only if file is in server/ (same dir as task-events.mjs may vary).
+scripts/phase35_patch_direct_task_events_inserts_to_append.sh:74:            imp = f'import {{ appendTaskEvent }} from "{prefix}task-events.mjs";\n'
+scripts/phase46_probe_endpoints.sh:15:  for p in / /api /api/runs /api/tasks /api/task-events /api/health; do
+scripts/phase28_smoke_one.sh:16:echo "=== phase28: seed failing task ==="
+scripts/phase28_smoke_one.sh:47:[ -n "${TASK_ID}" ] || { echo "FAIL: seed returned empty task id"; exit 1; }
+scripts/phase28_smoke_one.sh:48:echo "seeded TASK_ID=${TASK_ID}"
+scripts/phase49_smoke_task_path_enforce.sh:13:curl -sS -o /dev/null -w "POST /api/tasks => %{http_code}\n" -X POST "$BASE_URL/api/tasks" \
+scripts/phase49_smoke_task_path_enforce.sh:25:curl -sS -o /dev/null -w "POST /api/tasks => %{http_code}\n" -X POST "$BASE_URL/api/tasks" \
+scripts/phase50_patch_db_writepath_enforce.sh:67:  p = Path("server/task-events.mjs")
+scripts/phase50_patch_db_writepath_enforce.sh:69:    print("ERROR: missing server/task-events.mjs", file=sys.stderr)
+scripts/phase50_patch_db_writepath_enforce.sh:73:    print("OK: task-events already patched")
+scripts/phase50_patch_db_writepath_enforce.sh:82:    print("ERROR: could not find export async function appendTaskEvent(...) in server/task-events.mjs", file=sys.stderr)
+scripts/phase50_patch_db_writepath_enforce.sh:99:  print("OK: patched server/task-events.mjs")
+scripts/phase21_wire_task_events_sse.mjs:4:const INJECT = 'import "./task-events-sse-listener.js";\n';
+scripts/phase21_wire_task_events_sse.mjs:24:  if (s.includes("task-events-sse-listener.js")) return { fp, changed: false, why: "already" };
+scripts/phase21_wire_task_events_sse.mjs:43:  const shim = `\n;(()=>{try{import("./task-events-sse-listener.js")}catch(e){}})();\n`;
+scripts/phase36_2_run_observability_smoke.sh:25:echo "=== seed: heartbeat ==="
+scripts/phase36_2_run_observability_smoke.sh:31:echo "=== seed: task.started ==="
+scripts/phase36_2_run_observability_smoke.sh:38:echo "=== seed: completed (terminal event) ==="
+scripts/phase36_2_run_observability_smoke.sh:45:echo "=== seed: tasks row -> completed (partial unique index-safe) ==="
+scripts/verify-backend-contract.sh:21:check_code "/api/tasks" "200"
+scripts/phase35_fix_appendTaskEvent_pool_ref.sh:7:p = Path("server/task-events.mjs")
+scripts/phase41_revert_to_v40_6_if_fail.sh:13:git checkout -f "v40.6-shadow-audit-task-events-green"
+scripts/phase41_revert_to_v40_6_if_fail.sh:14:echo "Reverted to v40.6-shadow-audit-task-events-green"
+scripts/phase51_smoke_http_enforce_403.sh:25:echo "=== POST /api/tasks/create under enforce (expect 403) ==="
+scripts/phase51_smoke_http_enforce_403.sh:26:code="$(curl -sS -o /dev/null -w "%{http_code}" -X POST "$BASE_URL/api/tasks/create" \
+scripts/phase22_wire_task_events_ui.sh:6:echo "=== Phase 22: wire /events/task-events into dashboard UI ==="
+scripts/phase22_wire_task_events_ui.sh:9:cat > public/js/task-events-sse-client.js <<'JS'
+scripts/phase22_wire_task_events_ui.sh:11:  const SSE_URL = "/events/task-events";
+scripts/phase22_wire_task_events_ui.sh:14:  const PANEL_ID = "mb-task-events-panel";
+scripts/phase22_wire_task_events_ui.sh:15:  const FEED_ID = "mb-task-events-feed";
+scripts/phase22_wire_task_events_ui.sh:16:  const COUNTS_ID = "mb-task-events-counts";
+scripts/phase22_wire_task_events_ui.sh:65:    dot.setAttribute("aria-label", "task-events connection");
+scripts/phase22_wire_task_events_ui.sh:66:    dot.title = "task-events connection";
+scripts/phase22_wire_task_events_ui.sh:269:  if rg -n 'task-events-sse-client\.js' "$DASH_HTML" >/dev/null 2>&1; then
+scripts/phase22_wire_task_events_ui.sh:270:    echo "dashboard.html already loads task-events-sse-client.js"
+scripts/phase22_wire_task_events_ui.sh:272:    echo "Injecting <script> for task-events-sse-client.js into public/dashboard.html"
+scripts/phase22_wire_task_events_ui.sh:273:    perl -0777 -i -pe 's@</body>@  <script src="/js/task-events-sse-client.js"></script>\n</body>@s' "$DASH_HTML"
+scripts/phase22_wire_task_events_ui.sh:290:    if rg -n 'task-events-sse-client' "$f" >/dev/null 2>&1; then
+scripts/phase22_wire_task_events_ui.sh:291:      echo "bundle entry already references task-events-sse-client: $f"
+scripts/phase22_wire_task_events_ui.sh:293:      echo "Appending import for task-events-sse-client into: $f"
+scripts/phase22_wire_task_events_ui.sh:294:      printf '\n// Phase 22: task-events live UI\nimport "./task-events-sse-client.js";\n' >> "$f"
+scripts/phase14_2_verify_task_contract.sh:32:curl -fsS http://127.0.0.1:8080/api/tasks | (have jq && jq || cat)
+scripts/phase14_2_verify_task_contract.sh:35:DELEGATE=$(curl -fsS -X POST http://127.0.0.1:8080/api/delegate-task \
+scripts/phase14_2_verify_task_contract.sh:48:TASKS=$(curl -fsS http://127.0.0.1:8080/api/tasks)
+scripts/phase46_task_events_sse_smoke.sh:16:echo "=== 1) alias endpoint returns 307 w/ Location: /events/task-events ==="
+scripts/phase46_task_events_sse_smoke.sh:17:HDRS="$(curl -sS -D- --max-time 2 "${BASE}/api/task-events-sse" -o /dev/null || true)"
+scripts/phase46_task_events_sse_smoke.sh:19:echo "$HDRS" | head -n 1 | rg -q ' 307 ' || { echo "ERR: expected 307 from /api/task-events-sse" >&2; exit 10; }
+scripts/phase46_task_events_sse_smoke.sh:20:echo "$HDRS" | rg -q '^Location:\s*/events/task-events\s*$' || { echo "ERR: expected Location: /events/task-events" >&2; exit 11; }
+scripts/phase46_task_events_sse_smoke.sh:24:OUT="$(curl -sS -N 2>/dev/null --max-time 2 "${BASE}/events/task-events" | head -n 8 || true)"
+scripts/phase46_task_events_sse_smoke.sh:27:printf "%s\n" "$OUT" | rg -q '"kind"\s*:\s*"task-events"' || { echo "ERR: expected kind=task-events in hello payload" >&2; exit 13; }
+scripts/phase52_smoke_api_tasks_create_201.sh:25:echo "=== POST /api/tasks/create (expect 201) ==="
+scripts/phase52_smoke_api_tasks_create_201.sh:26:code="$(curl -sS -o /dev/null -w "%{http_code}" -X POST "$BASE_URL/api/tasks/create" \
+scripts/phase52_smoke_api_tasks_create_201.sh:39:echo "OK: /api/tasks/create works and schema is compatible."
+scripts/phase15_tasks_widget_smoke.sh:25:echo "2) /api/tasks should return JSON and include tasks array ..."
+scripts/phase15_tasks_widget_smoke.sh:26:tasks_json="$(curl -sS "$BASE_URL/api/tasks")"
+scripts/phase46_recovery_primitives.sh:12:curl -fsS "http://127.0.0.1:8080/api/tasks" > "${bundle_dir}/api_tasks.json" || true
+scripts/phase46_recovery_primitives.sh:13:curl -fsS "http://127.0.0.1:8080/api/task-events" > "${bundle_dir}/api_task_events.json" || true
+scripts/phase25_fix_pool_pass_through_create_route.sh:6:ROUTE_FILE="$(rg -n '/api/tasks/create|api/tasks/create' -S server public . \
+scripts/phase25_fix_pool_pass_through_create_route.sh:10:  echo "ERROR: could not locate file defining /api/tasks/create"
+scripts/phase25_fix_pool_pass_through_create_route.sh:11:  echo "Try: rg -n '/api/tasks/create|api/tasks/create' -S server"
+scripts/phase25_fix_pool_pass_through_create_route.sh:18:rg -n 'emitTaskEvent\(|/api/tasks/create|api/tasks/create' "$ROUTE_FILE" || true
+scripts/phase25_fix_pool_pass_through_create_route.sh:26:    }{$1."const __pool = (globalThis.__DB_POOL || req.app?.locals?.pool || req.app?.locals?.__DB_POOL || null);\n$1"."console.log(\"[phase25] route /api/tasks/create pool\", { hasGlobal: !!globalThis.__DB_POOL, hasLocalsPool: !!req.app?.locals?.pool, hasLocalsDBPool: !!req.app?.locals?.__DB_POOL });\n$1$2"}gex;
+scripts/phase25_fix_pool_pass_through_create_route.sh:57:rg -n '\[phase25\] route /api/tasks/create pool|const __pool|pool:\s*__pool|emitTaskEvent\(' "$ROUTE_FILE" || true
+scripts/phase26_thread_starter_v25_worker_ok.sh:5:git checkout -B feature/phase26-task-worker-min v25.0-task-events-single-writer-ok
+scripts/phase26_thread_starter_v25_worker_ok.sh:6:echo "OK: feature/phase26-task-worker-min @ v25.0-task-events-single-writer-ok"
+scripts/phase40_5_shadow_audit_sample_smoke.sh:19:export POLICY_AUDIT_SAMPLE_SEED="seed1"
+scripts/dev/demo-reset.sh:5:SEED_SQL="$ROOT_DIR/db/seeds/phase4_demo_seed.sql"
+scripts/dev/demo-reset.sh:9:echo "✅ Demo reflections reseeded successfully."
+scripts/phase14_resume_from_v13_5_7.sh:23:curl -fsS "[http://127.0.0.1:8080/api/tasks](http://127.0.0.1:8080/api/tasks)" >/dev/null && echo "✅ /api/tasks ok" || echo "⚠️ /api/tasks not reachable"
+scripts/phase44_postmerge_verify.sh:22:rg -n "assertActionTierInvariant|RUNTIME_INTEGRITY_GUARD|phase44_runtime_integrity_guard" server/api/tasks-mutations/delegate-taskspec.mjs server/guards/phase44_runtime_integrity_guard.mjs
+scripts/phase33_smoke.sh:40:_timeout 2 bash -lc "curl -sS -N -H 'Accept: text/event-stream' '$BASE_URL/events/task-events' | sed -n '1,25p'" || true
+scripts/phase33_smoke.sh:44:curl -sS -X POST "$BASE_URL/api/tasks/create" \
+scripts/phase14_1_task_contract.sh:13:echo "1) GET /api/tasks"
+scripts/phase14_1_task_contract.sh:14:curl -fsS "$BASE/api/tasks" | head -c 800 || true
+scripts/phase14_1_task_contract.sh:20:echo "→ Trying POST /api/delegate-task"
+scripts/phase14_1_task_contract.sh:21:curl -fsS -X POST "$BASE/api/delegate-task" \
+scripts/phase14_1_task_contract.sh:30:  echo "⚠️ /api/delegate-task failed. Trying legacy POST /api/tasks."
+scripts/phase14_1_task_contract.sh:32:  curl -fsS -X POST "$BASE/api/tasks" \
+scripts/phase14_1_task_contract.sh:41:echo "3) GET /api/tasks (after delegate)"
+scripts/phase14_1_task_contract.sh:42:curl -fsS "$BASE/api/tasks" | head -c 1200 || true
+scripts/phase31_7_fix_task_events_contract.sh:5:rg -n --hidden --no-ignore-vcs -S "(/events/task-events|task-events|task_events|task\.event)" server || true
+scripts/phase31_7_fix_task_events_contract.sh:31:mapper = pick(r"/events/task-events|task-events|task_events|task\.event", [server])[0]
+scripts/phase31_7_fix_task_events_contract.sh:90:curl -sS -N --max-time 6 -H 'Accept: text/event-stream' http://127.0.0.1:8080/events/task-events | sed -n '1,120p' | tee tmp/phase31_7_sse.log || true
+scripts/phase32_verify.sh:15:  "http://127.0.0.1:8080/events/task-events?cursor=$CURSOR" >"$LOG" &
+scripts/phase32_verify.sh:19:RESP="$(curl -sS -X POST "http://127.0.0.1:8080/api/tasks/create" \
+scripts/_local/phase64_6_workspace_interactivity_contract_guard.sh:19:echo "== required upstream task-events guard =="
+scripts/_local/phase64_6_workspace_interactivity_contract_guard.sh:33:    "task-events-card": r'id="task-events-card"',
+scripts/_local/phase64_6_workspace_interactivity_contract_guard.sh:34:    "task-events-anchor": r'id="mb-task-events-panel-anchor"',
+scripts/_local/phase64_6_workspace_interactivity_contract_guard.sh:73:'document.querySelector("[data-tab=\"task-events\"], [data-target=\"task-events\"], button[aria-controls=\"obs-panel-events\"]")?.click()' \
+scripts/_local/phase64_6_workspace_interactivity_contract_guard.sh:74:'document.querySelector("[data-tab-panel=\"task-events\"], #task-events-panel, #obs-panel-events")?.outerHTML'
+scripts/_local/phase64_agent_signal_audit.sh:37:curl -fsS "$BASE_URL/api/tasks?limit=20" | python3 -m json.tool || true
+scripts/_local/phase64_agent_signal_audit.sh:44:echo "-- live task-events endpoint headers"
+scripts/_local/phase64_agent_signal_audit.sh:45:curl -fsSI "$BASE_URL/events/task-events" || true
+scripts/_local/phase61_4_task_events_render_path_patch.sh:8:TARGET_JS="public/js/task-events-sse-client.js"
+scripts/_local/phase61_4_task_events_render_path_patch.sh:31:  const SSE_URL = "/events/task-events";
+scripts/_local/phase61_4_task_events_render_path_patch.sh:33:  const PANEL_ID = "mb-task-events-panel";
+scripts/_local/phase61_4_task_events_render_path_patch.sh:34:  const FEED_ID = "mb-task-events-feed";
+scripts/_local/phase61_4_task_events_render_path_patch.sh:35:  const COUNTS_ID = "mb-task-events-counts";
+scripts/_local/phase61_4_task_events_render_path_patch.sh:36:  const ANCHOR_ID = "mb-task-events-panel-anchor";
+scripts/_local/phase61_4_task_events_render_path_patch.sh:103:    dot.setAttribute("aria-label", "task-events connection");
+scripts/_local/phase61_4_task_events_render_path_patch.sh:104:    dot.title = "task-events connection";
+scripts/_local/phase61_4_task_events_render_path_patch.sh:146:    console.log("[phase22] task-events panel mounted (anchored=%s)", anchored);
+scripts/_local/phase61_4_task_events_render_path_patch.sh:326:    if (window.__UI_DEBUG) try { console.log("[task-events] mb.task.event", ev); } catch {}
+scripts/_local/phase61_4_task_events_render_path_patch.sh:348:      console.log("[phase22] task-events SSE open", url);
+scripts/_local/phase61_4_task_events_render_path_patch.sh:359:      console.log("[phase22] task-events SSE error; reconnect in", delay);
+scripts/_local/phase61_4_task_events_render_path_patch.sh:401:echo "Phase 61.4 task-events render-path patch applied safely."
+scripts/_local/phase67_runtime_compat_check.sh:37:TASK_STREAM_REFERENCES="$(grep -R --line-number --exclude-dir=.git '/events/task-events\|task-events' public/js || true)"
+scripts/_local/phase67_runtime_compat_check.sh:39:  echo "No task-events stream references found in public/js"
+scripts/_local/phase67_runtime_compat_check.sh:43:echo "-- task-events stream references found"
+scripts/_local/phase64_3_restore_and_apply_minimal_telemetry_fix.sh:73:    #task-events-card {
+scripts/_local/phase64_3_restore_and_apply_minimal_telemetry_fix.sh:105:    #task-events-card,
+scripts/_local/phase64_3_restore_and_apply_minimal_telemetry_fix.sh:106:    #mb-task-events-panel-anchor {
+scripts/_local/phase64_3_restore_and_apply_minimal_telemetry_fix.sh:112:    #mb-task-events-panel-anchor {
+scripts/_local/phase64_3_restore_and_apply_minimal_telemetry_fix.sh:125:      #task-events-card,
+scripts/_local/phase64_3_restore_and_apply_minimal_telemetry_fix.sh:126:      #mb-task-events-panel-anchor,
+scripts/_local/phase64_3_restore_and_apply_minimal_telemetry_fix.sh:138:      #mb-task-events-panel-anchor {
+scripts/_local/phase64_3_restore_and_apply_minimal_telemetry_fix.sh:150:      .task-events-panel .task-event,
+scripts/_local/phase64_3_restore_and_apply_minimal_telemetry_fix.sh:151:      [data-phase61-task-events] .task-event,
+scripts/_local/phase64_3_restore_and_apply_minimal_telemetry_fix.sh:152:      [data-tab-panel="task-events"] .task-event,
+scripts/_local/phase64_3_restore_and_apply_minimal_telemetry_fix.sh:153:      #task-events-panel .task-event,
+scripts/_local/phase64_3_restore_and_apply_minimal_telemetry_fix.sh:154:      #task-events .task-event,
+scripts/_local/phase64_3_restore_and_apply_minimal_telemetry_fix.sh:155:      .task-events .task-event,
+scripts/_local/phase64_3_restore_and_apply_minimal_telemetry_fix.sh:156:      .task-events-panel li,
+scripts/_local/phase64_3_restore_and_apply_minimal_telemetry_fix.sh:157:      [data-phase61-task-events] li,
+scripts/_local/phase64_3_restore_and_apply_minimal_telemetry_fix.sh:158:      [data-tab-panel="task-events"] li,
+scripts/_local/phase64_3_restore_and_apply_minimal_telemetry_fix.sh:159:      #task-events-panel li,
+scripts/_local/phase64_3_restore_and_apply_minimal_telemetry_fix.sh:160:      #task-events li,
+scripts/_local/phase64_3_restore_and_apply_minimal_telemetry_fix.sh:161:      .task-events li {
+scripts/_local/phase64_4_probe_task_events_endpoint_and_mount.sh:7:TASK_EVENTS_SAMPLE="${TMP_DIR}/task-events.sample"
+scripts/_local/phase64_4_probe_task_events_endpoint_and_mount.sh:22:echo "== search repo for task-events frontend mounts =="
+scripts/_local/phase64_4_probe_task_events_endpoint_and_mount.sh:24:  -E '/events/task-events|task-events|EventSource\(' \
+scripts/_local/phase64_4_probe_task_events_endpoint_and_mount.sh:59:echo "== sample /events/task-events for 8s =="
+scripts/_local/phase64_4_probe_task_events_endpoint_and_mount.sh:60:python3 - <<'PY' "${BASE_URL}/events/task-events" "${TASK_EVENTS_SAMPLE}"
+scripts/_local/phase64_4_probe_task_events_endpoint_and_mount.sh:90:echo "== event names from /events/task-events =="
+scripts/_local/phase64_4_audit_task_events_replay_source.sh:7:TASK_EVENTS_SAMPLE="${TMP_DIR}/task-events.sample"
+scripts/_local/phase64_4_audit_task_events_replay_source.sh:27:grep -nE 'router\.get\("/events/task-events"|_sseWrite|cursor|Last-Event-ID|setInterval|while |for \(|SELECT|task_events|ORDER BY|LIMIT' server/routes/task-events-sse.mjs || true
+scripts/_local/phase64_4_audit_task_events_replay_source.sh:31:sed -n '1,260p' server/routes/task-events-sse.mjs
+scripts/_local/phase64_4_audit_task_events_replay_source.sh:35:sed -n '261,520p' server/routes/task-events-sse.mjs
+scripts/_local/phase64_4_audit_task_events_replay_source.sh:38:echo "== sample /events/task-events for 5s =="
+scripts/_local/phase64_4_audit_task_events_replay_source.sh:39:python3 - <<'PY' "${BASE_URL}/events/task-events" "${TASK_EVENTS_SAMPLE}"
+scripts/_local/phase64_4_audit_task_events_replay_source.sh:69:echo "== event names from /events/task-events =="
+scripts/_local/phase64_4_audit_task_events_replay_source.sh:86:shasum server/routes/task-events-sse.mjs
+scripts/_local/phase64_3_fix_tab_panel_isolation.sh:71:    #task-events-card {
+scripts/_local/phase64_3_fix_tab_panel_isolation.sh:109:      #task-events-card,
+scripts/_local/phase64_3_fix_tab_panel_isolation.sh:132:      .task-events-panel .task-event,
+scripts/_local/phase64_3_fix_tab_panel_isolation.sh:133:      [data-phase61-task-events] .task-event,
+scripts/_local/phase64_3_fix_tab_panel_isolation.sh:134:      [data-tab-panel="task-events"] .task-event,
+scripts/_local/phase64_3_fix_tab_panel_isolation.sh:135:      #task-events-panel .task-event,
+scripts/_local/phase64_3_fix_tab_panel_isolation.sh:136:      #task-events .task-event,
+scripts/_local/phase64_3_fix_tab_panel_isolation.sh:137:      .task-events .task-event,
+scripts/_local/phase64_3_fix_tab_panel_isolation.sh:138:      .task-events-panel li,
+scripts/_local/phase64_3_fix_tab_panel_isolation.sh:139:      [data-phase61-task-events] li,
+scripts/_local/phase64_3_fix_tab_panel_isolation.sh:140:      [data-tab-panel="task-events"] li,
+scripts/_local/phase64_3_fix_tab_panel_isolation.sh:141:      #task-events-panel li,
+scripts/_local/phase64_3_fix_tab_panel_isolation.sh:142:      #task-events li,
+scripts/_local/phase64_3_fix_tab_panel_isolation.sh:143:      .task-events li {
+scripts/_local/phase61_5_1_recent_history_takeover_patch.sh:16:  const RECENT_ENDPOINT = "/api/tasks?limit=12";
+scripts/_local/fix_task_events_db_logging_signal.sh:10:path = Path("server/routes/task-events-sse.mjs")
+scripts/_local/fix_task_events_db_logging_signal.sh:14:    r'(\s*)console\.log\("\[task-events\] pool cfg",\s*\{.*?\n\1\}\);',
+scripts/_local/fix_task_events_db_logging_signal.sh:20:\\1console.log("[task-events] pool cfg", {
+scripts/_local/fix_task_events_db_logging_signal.sh:34:    raise SystemExit("failed to replace [task-events] pool cfg logger block")
+scripts/_local/fix_task_events_db_logging_signal.sh:37:print("patched server/routes/task-events-sse.mjs")
+scripts/_local/hydrate_phase62b_success_rate_metric.sh:219:      es = new EventSource('/events/task-events');
+scripts/_local/hydrate_phase62b_tasks_running_metric.sh:207:      es = new EventSource('/events/task-events');
+scripts/_local/phase64_4_rebuild_and_verify_task_events_writer_hotfix.sh:6:TASK_EVENTS_SAMPLE="${TMP_DIR}/task-events.sample"
+scripts/_local/phase64_4_rebuild_and_verify_task_events_writer_hotfix.sh:21:echo "== sample /events/task-events for 8s =="
+scripts/_local/phase64_4_rebuild_and_verify_task_events_writer_hotfix.sh:22:python3 - <<'PY' "${BASE_URL}/events/task-events" "${TASK_EVENTS_SAMPLE}"
+scripts/_local/phase64_4_rebuild_and_verify_task_events_writer_hotfix.sh:52:echo "== event names from /events/task-events =="
+scripts/_local/phase64_4_rebuild_and_verify_task_events_writer_hotfix.sh:74:'document.querySelector("[data-tab=\"task-events\"], [data-target=\"task-events\"], button[aria-controls=\"obs-panel-events\"]")?.click()' \
+scripts/_local/phase64_4_rebuild_and_verify_task_events_writer_hotfix.sh:75:'document.querySelector("[data-tab-panel=\"task-events\"], #task-events-panel, #obs-panel-events")?.outerHTML'
+scripts/_local/phase64_3_equalize_telemetry_height.sh:62:    #task-events-card {
+scripts/_local/phase64_3_equalize_telemetry_height.sh:84:    #mb-task-events-panel-anchor,
+scripts/_local/phase64_3_equalize_telemetry_height.sh:103:      .task-events-panel .task-event,
+scripts/_local/phase64_3_equalize_telemetry_height.sh:104:      [data-phase61-task-events] .task-event,
+scripts/_local/phase64_3_equalize_telemetry_height.sh:105:      [data-tab-panel="task-events"] .task-event,
+scripts/_local/phase64_3_equalize_telemetry_height.sh:106:      #task-events-panel .task-event,
+scripts/_local/phase64_3_equalize_telemetry_height.sh:107:      #task-events .task-event,
+scripts/_local/phase64_3_equalize_telemetry_height.sh:108:      .task-events .task-event,
+scripts/_local/phase64_3_equalize_telemetry_height.sh:109:      .task-events-panel li,
+scripts/_local/phase64_3_equalize_telemetry_height.sh:110:      [data-phase61-task-events] li,
+scripts/_local/phase64_3_equalize_telemetry_height.sh:111:      [data-tab-panel="task-events"] li,
+scripts/_local/phase64_3_equalize_telemetry_height.sh:112:      #task-events-panel li,
+scripts/_local/phase64_3_equalize_telemetry_height.sh:113:      #task-events li,
+scripts/_local/phase64_3_equalize_telemetry_height.sh:114:      .task-events li {
+scripts/_local/phase66a_reducer_replay_check.sh:52:assertEqual(queueReducer.subscription.channel, "task-events", "queue reducer channel");
+scripts/_local/phase66a_reducer_replay_check.sh:53:assertEqual(failedReducer.subscription.channel, "task-events", "failed reducer channel");
+scripts/_local/phase64_3_rebuild_telemetry_css_contract.sh:66:    #task-events-card {
+scripts/_local/phase64_3_rebuild_telemetry_css_contract.sh:79:    #task-events-card,
+scripts/_local/phase64_3_rebuild_telemetry_css_contract.sh:80:    #mb-task-events-panel-anchor {
+scripts/_local/phase64_3_rebuild_telemetry_css_contract.sh:86:    #mb-task-events-panel-anchor {
+scripts/_local/phase64_3_rebuild_telemetry_css_contract.sh:118:      #task-events-card,
+scripts/_local/phase64_3_rebuild_telemetry_css_contract.sh:119:      #mb-task-events-panel-anchor,
+scripts/_local/phase64_3_rebuild_telemetry_css_contract.sh:131:      #mb-task-events-panel-anchor {
+scripts/_local/repair_phase61_layout_now.sh:30:# Remove all ad-hoc inline phase61/atlas/matilda/task-events style injections from head.
+scripts/_local/repair_phase61_layout_now.sh:37:    r'\n\s*<style>\s*#task-events-card\s*\{.*?</style>',
+scripts/_local/repair_phase61_layout_now.sh:79:      #task-events-card {
+scripts/_local/repair_phase61_layout_now.sh:104:      #task-events-card #mb-task-events-panel-anchor {
+scripts/_local/repair_phase61_layout_now.sh:243:                  <section id="task-events-card" class="obs-surface">
+scripts/_local/repair_phase61_layout_now.sh:244:                    <div id="mb-task-events-panel-anchor"></div>
+scripts/_local/phase65c_inspect_queue_depth_target.sh:46:echo "== task-events consumers touching metrics =="
+scripts/_local/phase65c_inspect_queue_depth_target.sh:47:grep -RInE '/events/task-events|EventSource|metric-tasks|metric-success|metric-latency|telemetry' public/js | sort || true
+scripts/_local/phase62b_running_tasks_candidate_extract.sh:27:  echo "• task-events ingestion"
+scripts/_local/phase62b_running_tasks_candidate_extract.sh:39:    grep -Ei 'task-events|task\.created|task\.started|task\.running|task\.completed|task\.failed|task\.cancelled|runningTasks|tasksRunning|telemetry|metric|reducer|dashboard|EventSource|SSE' "$SRC" \
+scripts/_local/phase62b_running_tasks_candidate_extract.sh:53:    grep -Ei 'task-events|task\.created|task\.started|task\.running|task\.completed|task\.failed|task\.cancelled|runningTasks|tasksRunning|telemetry|metric|reducer|dashboard|EventSource|SSE' "$SRC" \
+scripts/_local/phase64_8_pre_push_contract_guard.sh:23:echo "== guard 2: task-events regression guard =="
+scripts/_local/phase64_8_pre_push_contract_guard.sh:27:echo "== guard 3: task-events contract guard =="
+scripts/_local/phase64_8_pre_push_contract_guard.sh:45:'Manual UI verification still required before pushing risky dashboard/task-events changes:' \
+scripts/_local/phase62b_hydrate_tasks_running.sh:22:old2 = 'if(!k.has(m)){if(k.add(m),(e.kind==="task.created"||e.kind==="task.completed"||e.kind==="task.failed")&&I(String(e.kind)),E(e,n),window.__UI_DEBUG)try{console.log("[task-events] mb.task.event",e)}catch{}T(e)}}'
+scripts/_local/phase62b_hydrate_tasks_running.sh:23:new2 = 'if(!k.has(m)){if(k.add(m),(e.kind==="task.created"||e.kind==="task.completed"||e.kind==="task.failed")&&I(String(e.kind)),G(e,n),E(e,n),window.__UI_DEBUG)try{console.log("[task-events] mb.task.event",e)}catch{}T(e)}}'
+scripts/_local/phase64_6_run_safe_contract_corridor.sh:27:echo "== step 3: task-events regression guard =="
+scripts/_local/phase64_6_run_safe_contract_corridor.sh:31:echo "== step 4: task-events contract guard =="
+scripts/_local/phase63_live_http_probe.sh:21:curl -fsSL "${BASE_URL}/api/tasks?limit=12" | python3 -m json.tool
+scripts/_local/phase61_task_events_wiring_audit_and_capture.sh:20:  grep -RniE 'task events|task-events|Task Events|EventSource|SSE|telemetry|recent tasks|task history' public src scripts server . 2>/dev/null || true
+scripts/_local/phase61_task_events_wiring_audit_and_capture.sh:24:  grep -nE 'task-events|Task Events|telemetry|observational-workspace|workspace-card' public/dashboard.html 2>/dev/null || true
+scripts/_local/phase61_task_events_wiring_audit_and_capture.sh:36:  grep -RniE '/api/.*event|/events|EventSource\\(|text/event-stream|task-events|telemetry' public src server . 2>/dev/null || true
+scripts/_local/phase64_4_hotfix_dedupe_task_events_sse.sh:8:path = Path("server/routes/task-events-sse.mjs")
+scripts/_local/phase64_4_hotfix_dedupe_task_events_sse.sh:33:        raise SystemExit("could not find hello SSE write in server/routes/task-events-sse.mjs")
+scripts/_local/phase64_4_hotfix_dedupe_task_events_sse.sh:57:    raise SystemExit("no task.event SSE writes found to patch in server/routes/task-events-sse.mjs")
+scripts/_local/phase64_4_hotfix_dedupe_task_events_sse.sh:60:    raise SystemExit("no changes applied to server/routes/task-events-sse.mjs")
+scripts/_local/phase64_4_hotfix_dedupe_task_events_sse.sh:63:print(f"patched server/routes/task-events-sse.mjs with duplicate SSE guard; replacements={count}")
+scripts/_local/phase61_left_workspace_focus_scan.sh:10:rg -n 'observational-tabs|obs-tab|obs-panel|data-target|aria-controls|aria-selected|mb-task-events-panel-anchor' \
+scripts/_local/phase62b_running_tasks_surface_shortlist.sh:40:      'task-events|task\.created|task\.started|task\.running|task\.completed|task\.failed|task\.cancelled|runningTasks|tasksRunning|telemetry|metric|reducer|EventSource|SSE|dashboard' . \
+scripts/_local/phase62b_running_tasks_surface_shortlist.sh:48:      'task-events|task\.created|task\.started|task\.running|task\.completed|task\.failed|task\.cancelled|runningTasks|tasksRunning|telemetry|metric|reducer|EventSource|SSE|dashboard' . \
+scripts/_local/phase64_4_restore_after_safe_dedupe_regression.sh:7:git checkout "$BASE_COMMIT" -- server/routes/task-events-sse.mjs
+scripts/_local/phase64_4_restore_after_safe_dedupe_regression.sh:24:echo "== task-events sample =="
+scripts/_local/phase64_4_restore_after_safe_dedupe_regression.sh:25:python3 - <<'PY' "${BASE_URL}/events/task-events"
+scripts/_local/phase64_4_restore_after_safe_dedupe_regression.sh:57:echo "restored server/routes/task-events-sse.mjs from ${BASE_COMMIT}"
+scripts/_local/phase65b_inspect_metric_targets.sh:12:grep -RInE 'data-metric|running-tasks|task-events|metric|telemetry' public/js || true
+scripts/_local/phase62b_running_tasks_discovery.sh:40:      'task-events|task\.created|task\.started|task\.running|task\.completed|task\.failed|task\.cancelled|EventSource|SSE|telemetry|metrics|reducer|runningTasks|tasksRunning|dashboard' . || true
+scripts/_local/phase62b_running_tasks_discovery.sh:42:    grep -RInE 'task-events|task\.created|task\.started|task\.running|task\.completed|task\.failed|task\.cancelled|EventSource|SSE|telemetry|metrics|reducer|runningTasks|tasksRunning|dashboard' . \
+scripts/_local/phase62b_running_tasks_discovery.sh:69:  echo "1. Identify the single file that currently derives dashboard telemetry from task-events."
+scripts/_local/phase64_5_task_events_contract_guard.sh:42:'document.querySelector("[data-tab=\"task-events\"], [data-target=\"task-events\"], button[aria-controls=\"obs-panel-events\"]")?.click()' \
+scripts/_local/phase64_5_task_events_contract_guard.sh:43:'document.querySelector("[data-tab-panel=\"task-events\"], #task-events-panel, #obs-panel-events")?.outerHTML'
+scripts/_local/phase65b_audit_remaining_metric_writers.sh:19:echo "4 task-events consumers that may influence remaining metrics"
+scripts/_local/phase65b_audit_remaining_metric_writers.sh:20:grep -RInE '/events/task-events|EventSource' public/js | grep -E 'agent-status-row|phase64_agent_activity_wire|task-events-sse-client|telemetry' || true
+scripts/_local/phase65b_audit_metric_agents_ownership.sh:16:grep -RInE 'metric-agents|agent-status|agent activity|task-events|EventSource|OPS_SSE_URL|/events/task-events|/events/ops' public/js | grep -E 'agent-status-row|phase64_agent_activity_wire|telemetry|dashboard-status|ops-globals-bridge' || true
+scripts/_local/phase61_cleanup_workspace_debug_artifacts.sh:11:rm -f public/js/task-events-sse-client.js.bak.phase58a.* || true
+scripts/_local/phase64_4_rebuild_and_verify_task_events_hotfix.sh:6:SAMPLE="${TMP_DIR}/task-events.sample"
+scripts/_local/phase64_4_rebuild_and_verify_task_events_hotfix.sh:21:echo "== sample /events/task-events for 8s after hotfix =="
+scripts/_local/phase64_4_rebuild_and_verify_task_events_hotfix.sh:22:python3 - <<'PY' "${BASE_URL}/events/task-events" "${SAMPLE}"
+scripts/_local/phase64_4_rebuild_and_verify_task_events_hotfix.sh:72:'document.querySelector("[data-tab=\"task-events\"], [data-target=\"task-events\"], button[aria-controls=\"obs-panel-events\"]")?.click()' \
+scripts/_local/phase64_4_rebuild_and_verify_task_events_hotfix.sh:73:'document.querySelector("[data-tab-panel=\"task-events\"], #task-events-panel, #obs-panel-events")?.outerHTML'
+scripts/_local/phase61_repair_workspace_regions_v2.py:132:                  <section id="task-events-card" class="obs-surface">
+scripts/_local/phase61_repair_workspace_regions_v2.py:137:                    <div id="mb-task-events-panel-anchor"></div>
+scripts/_local/phase64_4_restore_task_events_sse_after_bad_hotfix.sh:7:git checkout "$BASE_COMMIT" -- server/routes/task-events-sse.mjs
+scripts/_local/phase64_4_restore_task_events_sse_after_bad_hotfix.sh:21:echo "== task-events endpoint sample =="
+scripts/_local/phase64_4_restore_task_events_sse_after_bad_hotfix.sh:22:python3 - <<'PY' "${BASE_URL}/events/task-events"
+scripts/_local/phase64_4_restore_task_events_sse_after_bad_hotfix.sh:54:echo "restored server/routes/task-events-sse.mjs from ${BASE_COMMIT}"
+scripts/_local/phase64_3_restore_stable_ui_then_reapply_scroll.sh:104:      .task-events-panel .task-event,
+scripts/_local/phase64_3_restore_stable_ui_then_reapply_scroll.sh:105:      [data-phase61-task-events] .task-event,
+scripts/_local/phase64_3_restore_stable_ui_then_reapply_scroll.sh:106:      [data-tab-panel="task-events"] .task-event,
+scripts/_local/phase64_3_restore_stable_ui_then_reapply_scroll.sh:107:      #task-events-panel .task-event,
+scripts/_local/phase64_3_restore_stable_ui_then_reapply_scroll.sh:108:      #task-events .task-event,
+scripts/_local/phase64_3_restore_stable_ui_then_reapply_scroll.sh:109:      .task-events .task-event,
+scripts/_local/phase64_3_restore_stable_ui_then_reapply_scroll.sh:110:      .task-events-panel li,
+scripts/_local/phase64_3_restore_stable_ui_then_reapply_scroll.sh:111:      [data-phase61-task-events] li,
+scripts/_local/phase64_3_restore_stable_ui_then_reapply_scroll.sh:112:      [data-tab-panel="task-events"] li,
+scripts/_local/phase64_3_restore_stable_ui_then_reapply_scroll.sh:113:      #task-events-panel li,
+scripts/_local/phase64_3_restore_stable_ui_then_reapply_scroll.sh:114:      #task-events li,
+scripts/_local/phase64_3_restore_stable_ui_then_reapply_scroll.sh:115:      .task-events li {
+scripts/_local/phase62b_success_rate_surface_inspect.sh:36:  echo "== task-events signal references =="
+scripts/_local/phase65_3_metrics_runtime_verify.sh:75:      timeout ${seconds}s curl -NfsS http://127.0.0.1:3000/events/task-events || true
+scripts/_local/phase65_3_metrics_runtime_verify.sh:77:      curl -NfsS http://127.0.0.1:3000/events/task-events &
+scripts/_local/phase65_3_metrics_runtime_verify.sh:138:  echo "-- task-events SSE probe (host if reachable) --"
+scripts/_local/phase65_3_metrics_runtime_verify.sh:139:  sample_task_events_host "$BASE_URL_RESOLVED/events/task-events" 12
+scripts/_local/phase65_3_metrics_runtime_verify.sh:142:  echo "-- task-events SSE probe (container fallback) --"
+scripts/_local/phase65_3_metrics_runtime_verify.sh:149:  curl -fsS "$BASE_URL_RESOLVED/api/tasks?limit=12" || true
+scripts/_local/phase65_3_metrics_runtime_verify.sh:154:    docker exec "$CID" sh -lc "curl -fsS http://127.0.0.1:3000/api/tasks?limit=12" || true
+scripts/_local/phase61_recent_tasks_and_history_wiring_audit.sh:54:    '/api/tasks|/api/runs|/api/history|recent tasks|task history|fetchTasks|loadTasks|loadHistory|fetchHistory' \
+scripts/_local/phase61_recent_tasks_and_history_wiring_audit.sh:64:    'dashboard-tasks-widget|task-events-sse-client|history|recent tasks|task history' \
+scripts/_local/phase64_4_patch_task_events_sse_writer_dedupe_minimal.sh:7:path = Path("server/routes/task-events-sse.mjs")
+scripts/_local/phase64_4_patch_task_events_sse_writer_dedupe_minimal.sh:14:    raise SystemExit("could not find function _sseWrite(res, payload = {}) in server/routes/task-events-sse.mjs")
+scripts/_local/phase64_4_patch_task_events_sse_writer_dedupe_minimal.sh:91:print("patched server/routes/task-events-sse.mjs")
+scripts/_local/phase64_4_rebuild_and_verify_task_events_sse_writer_dedupe_minimal.sh:6:TASK_EVENTS_SAMPLE="${TMP_DIR}/task-events.sample"
+scripts/_local/phase64_4_rebuild_and_verify_task_events_sse_writer_dedupe_minimal.sh:20:echo "== sample /events/task-events for 5s =="
+scripts/_local/phase64_4_rebuild_and_verify_task_events_sse_writer_dedupe_minimal.sh:21:python3 - <<'PY' "${BASE_URL}/events/task-events" "${TASK_EVENTS_SAMPLE}"
+scripts/_local/phase64_4_rebuild_and_verify_task_events_sse_writer_dedupe_minimal.sh:51:echo "== event names from /events/task-events =="
+scripts/_local/phase64_4_rebuild_and_verify_task_events_sse_writer_dedupe_minimal.sh:74:'document.querySelector("[data-tab=\"task-events\"], [data-target=\"task-events\"], button[aria-controls=\"obs-panel-events\"]")?.click()' \
+scripts/_local/phase64_4_rebuild_and_verify_task_events_sse_writer_dedupe_minimal.sh:75:'document.querySelector("[data-tab-panel=\"task-events\"], #task-events-panel, #obs-panel-events")?.outerHTML'
+scripts/_local/phase64_4_rebuild_and_verify_task_events_sse_writer_dedupe_signature_agnostic.sh:6:TASK_EVENTS_SAMPLE="${TMP_DIR}/task-events.sample"
+scripts/_local/phase64_4_rebuild_and_verify_task_events_sse_writer_dedupe_signature_agnostic.sh:20:echo "== sample /events/task-events for 5s =="
+scripts/_local/phase64_4_rebuild_and_verify_task_events_sse_writer_dedupe_signature_agnostic.sh:21:python3 - <<'PY' "${BASE_URL}/events/task-events" "${TASK_EVENTS_SAMPLE}"
+scripts/_local/phase64_4_rebuild_and_verify_task_events_sse_writer_dedupe_signature_agnostic.sh:51:echo "== event names from /events/task-events =="
+scripts/_local/phase64_4_rebuild_and_verify_task_events_sse_writer_dedupe_signature_agnostic.sh:74:'document.querySelector("[data-tab=\"task-events\"], [data-target=\"task-events\"], button[aria-controls=\"obs-panel-events\"]")?.click()' \
+scripts/_local/phase64_4_rebuild_and_verify_task_events_sse_writer_dedupe_signature_agnostic.sh:75:'document.querySelector("[data-tab-panel=\"task-events\"], #task-events-panel, #obs-panel-events")?.outerHTML'
+scripts/_local/phase62b_success_rate_live_hydration_readiness_check.sh:33:  echo "== task-events client named events =="
+scripts/_local/phase62b_success_rate_live_hydration_readiness_check.sh:34:  grep -n "\"task.event\"\\|\"task.created\"\\|\"task.completed\"\\|\"task.failed\"\\|\"task.updated\"\\|\"task.status\"" public/js/task-events-sse-client.js || true
+scripts/_local/phase62b_success_rate_live_hydration_readiness_check.sh:54:  if grep -q '"task.completed"' public/js/task-events-sse-client.js 2>/dev/null && grep -q '"task.failed"' public/js/task-events-sse-client.js 2>/dev/null; then
+scripts/_local/phase62b_success_rate_live_hydration_readiness_check.sh:69:  echo "== public/js/task-events-sse-client.js relevant area =="
+scripts/_local/phase62b_success_rate_live_hydration_readiness_check.sh:70:  nl -ba public/js/task-events-sse-client.js | sed -n '300,380p'
+scripts/_local/phase61_5_3_delegation_status_panel_patch.sh:180:        res = await safeFetch("/api/delegate-task", {
+scripts/_local/phase61_5_3_delegation_status_panel_patch.sh:206:        data = { error: "Non-JSON response from /api/delegate-task", raw: rawText || "" };
+scripts/_local/phase67b_event_shape_inspection.sh:9:TASK_EVENT_REFERENCES="$(grep -R --line-number --exclude-dir=.git 'task-events\|/events/task-events' public/js || true)"
+scripts/_local/phase67b_event_shape_inspection.sh:11:  echo "No task-events references found in public/js"
+scripts/_local/phase67b_event_shape_inspection.sh:15:echo "-- task-events references found"
+scripts/_local/phase61_dashboard_ui_contract.sh:22:grep -q 'id="task-events-card"' "$HTML"
+scripts/_local/phase61_dashboard_ui_contract.sh:31:grep -q '/api/delegate-task' "$DELEGATION_JS"
+scripts/_local/phase31_6_recent_tasks_debug.sh:7:SSE="tmp/task-events-sse.${TS}.log"
+scripts/_local/phase31_6_recent_tasks_debug.sh:9:GREP2="tmp/task-events-wiring-grep.${TS}.txt"
+scripts/_local/phase31_6_recent_tasks_debug.sh:41:curl -sS -N --max-time 6 -H "Accept: text/event-stream" "http://127.0.0.1:8080/events/task-events
+scripts/_local/phase31_6_recent_tasks_debug.sh:59:'(Recent Tasks|recent[-_ ]tasks|recentTasks|renderRecent|tasks-table|TaskEvents|task-events|/events/task-events|EventSource(|connectSSE|SSE)'
+scripts/_local/phase31_6_recent_tasks_debug.sh:62:echo "=== focus task-events wiring in dashboard JS ===" | tee -a "$LOG" >/dev/null
+scripts/_local/phase31_6_recent_tasks_debug.sh:64:'(/events/task-events|task-events|task.event|task_events|taskEvents|TaskEvents|cursor|heartbeat|EventSource(|addEventListener(|message|event:\s*)'
+scripts/_local/phase64_3_force_equal_workspace_height_v2.sh:58:    #task-events-card {
+scripts/_local/phase64_3_force_equal_workspace_height_v2.sh:69:    #mb-task-events-panel-anchor {
+scripts/_local/phase64_3_force_equal_workspace_height_v2.sh:111:      #task-events-card,
+scripts/_local/phase31_6_seed_task_curl.sh:4:ENDPOINT="${1:-/api/tasks/create}"
+scripts/_local/phase31_6_seed_task_curl.sh:6:curl -sS -D - -o /tmp/seed.out \
+scripts/_local/phase31_6_seed_task_curl.sh:11:  "kind": "demo.seed",
+scripts/_local/phase31_6_seed_task_curl.sh:12:  "type": "demo.seed",
+scripts/_local/phase31_6_seed_task_curl.sh:13:  "name": "phase31.6 seed task",
+scripts/_local/phase31_6_seed_task_curl.sh:14:  "title": "phase31.6 seed task",
+scripts/_local/phase31_6_seed_task_curl.sh:15:  "payload": { "msg": "seeded via curl" },
+scripts/_local/phase31_6_seed_task_curl.sh:16:  "meta": { "actor": "curl", "note": "manual seed task" }
+scripts/_local/phase31_6_seed_task_curl.sh:21:sed -n '1,220p' /tmp/seed.out
+scripts/_local/phase64_4_fix_task_events_cursor_precision.sh:7:path = Path("server/routes/task-events-sse.mjs")
+scripts/_local/phase64_4_fix_task_events_cursor_precision.sh:63:print("patched server/routes/task-events-sse.mjs")
+scripts/_local/normalize_phase63_shared_task_events_metric_corridor.sh:254:      es = new EventSource('/events/task-events');
+scripts/_local/hydrate_phase62b_latency_metric.sh:278:      es = new EventSource('/events/task-events');
+scripts/_local/phase61_3_task_events_polish_patch.sh:41:  <style id="phase61-task-events-polish">
+scripts/_local/phase61_3_task_events_polish_patch.sh:42:    .task-events-panel,
+scripts/_local/phase61_3_task_events_polish_patch.sh:43:    [data-phase61-task-events],
+scripts/_local/phase61_3_task_events_polish_patch.sh:44:    [data-tab-panel="task-events"],
+scripts/_local/phase61_3_task_events_polish_patch.sh:45:    #task-events-panel,
+scripts/_local/phase61_3_task_events_polish_patch.sh:46:    #task-events,
+scripts/_local/phase61_3_task_events_polish_patch.sh:47:    .task-events {
+scripts/_local/phase61_3_task_events_polish_patch.sh:51:    .task-events-panel .task-events-list,
+scripts/_local/phase61_3_task_events_polish_patch.sh:52:    [data-phase61-task-events] .task-events-list,
+scripts/_local/phase61_3_task_events_polish_patch.sh:53:    [data-tab-panel="task-events"] .task-events-list,
+scripts/_local/phase61_3_task_events_polish_patch.sh:54:    #task-events-panel .task-events-list,
+scripts/_local/phase61_3_task_events_polish_patch.sh:55:    #task-events .task-events-list,
+scripts/_local/phase61_3_task_events_polish_patch.sh:56:    .task-events .task-events-list,
+scripts/_local/phase61_3_task_events_polish_patch.sh:57:    .task-events-panel ul,
+scripts/_local/phase61_3_task_events_polish_patch.sh:58:    [data-phase61-task-events] ul,
+scripts/_local/phase61_3_task_events_polish_patch.sh:59:    [data-tab-panel="task-events"] ul,
+scripts/_local/phase61_3_task_events_polish_patch.sh:60:    #task-events-panel ul,
+scripts/_local/phase61_3_task_events_polish_patch.sh:61:    #task-events ul,
+scripts/_local/phase61_3_task_events_polish_patch.sh:62:    .task-events ul {
+scripts/_local/phase61_3_task_events_polish_patch.sh:70:    .task-events-panel .task-event,
+scripts/_local/phase61_3_task_events_polish_patch.sh:71:    [data-phase61-task-events] .task-event,
+scripts/_local/phase61_3_task_events_polish_patch.sh:72:    [data-tab-panel="task-events"] .task-event,
+scripts/_local/phase61_3_task_events_polish_patch.sh:73:    #task-events-panel .task-event,
+scripts/_local/phase61_3_task_events_polish_patch.sh:74:    #task-events .task-event,
+scripts/_local/phase61_3_task_events_polish_patch.sh:75:    .task-events .task-event,
+scripts/_local/phase61_3_task_events_polish_patch.sh:76:    .task-events-panel li,
+scripts/_local/phase61_3_task_events_polish_patch.sh:77:    [data-phase61-task-events] li,
+scripts/_local/phase61_3_task_events_polish_patch.sh:78:    [data-tab-panel="task-events"] li,
+scripts/_local/phase61_3_task_events_polish_patch.sh:79:    #task-events-panel li,
+scripts/_local/phase61_3_task_events_polish_patch.sh:80:    #task-events li,
+scripts/_local/phase61_3_task_events_polish_patch.sh:81:    .task-events li {
+scripts/_local/phase61_3_task_events_polish_patch.sh:96:    .task-events-panel .task-event::before,
+scripts/_local/phase61_3_task_events_polish_patch.sh:97:    [data-phase61-task-events] .task-event::before,
+scripts/_local/phase61_3_task_events_polish_patch.sh:98:    [data-tab-panel="task-events"] .task-event::before,
+scripts/_local/phase61_3_task_events_polish_patch.sh:99:    #task-events-panel .task-event::before,
+scripts/_local/phase61_3_task_events_polish_patch.sh:100:    #task-events .task-event::before,
+scripts/_local/phase61_3_task_events_polish_patch.sh:101:    .task-events .task-event::before,
+scripts/_local/phase61_3_task_events_polish_patch.sh:102:    .task-events-panel li::before,
+scripts/_local/phase61_3_task_events_polish_patch.sh:103:    [data-phase61-task-events] li::before,
+scripts/_local/phase61_3_task_events_polish_patch.sh:104:    [data-tab-panel="task-events"] li::before,
+scripts/_local/phase61_3_task_events_polish_patch.sh:105:    #task-events-panel li::before,
+scripts/_local/phase61_3_task_events_polish_patch.sh:106:    #task-events li::before,
+scripts/_local/phase61_3_task_events_polish_patch.sh:107:    .task-events li::before {
+scripts/_local/phase61_3_task_events_polish_patch.sh:118:    .task-events-panel .task-event.phase61-event-terminal::before,
+scripts/_local/phase61_3_task_events_polish_patch.sh:119:    [data-phase61-task-events] .task-event.phase61-event-terminal::before,
+scripts/_local/phase61_3_task_events_polish_patch.sh:120:    [data-tab-panel="task-events"] .task-event.phase61-event-terminal::before,
+scripts/_local/phase61_3_task_events_polish_patch.sh:121:    #task-events-panel .task-event.phase61-event-terminal::before,
+scripts/_local/phase61_3_task_events_polish_patch.sh:122:    #task-events .task-event.phase61-event-terminal::before,
+scripts/_local/phase61_3_task_events_polish_patch.sh:123:    .task-events .task-event.phase61-event-terminal::before,
+scripts/_local/phase61_3_task_events_polish_patch.sh:124:    .task-events-panel li.phase61-event-terminal::before,
+scripts/_local/phase61_3_task_events_polish_patch.sh:125:    [data-phase61-task-events] li.phase61-event-terminal::before,
+scripts/_local/phase61_3_task_events_polish_patch.sh:126:    [data-tab-panel="task-events"] li.phase61-event-terminal::before,
+scripts/_local/phase61_3_task_events_polish_patch.sh:127:    #task-events-panel li.phase61-event-terminal::before,
+scripts/_local/phase61_3_task_events_polish_patch.sh:128:    #task-events li.phase61-event-terminal::before,
+scripts/_local/phase61_3_task_events_polish_patch.sh:129:    .task-events li.phase61-event-terminal::before {
+scripts/_local/phase61_3_task_events_polish_patch.sh:133:    .task-events-panel .task-event.phase61-event-active::before,
+scripts/_local/phase61_3_task_events_polish_patch.sh:134:    [data-phase61-task-events] .task-event.phase61-event-active::before,
+scripts/_local/phase61_3_task_events_polish_patch.sh:135:    [data-tab-panel="task-events"] .task-event.phase61-event-active::before,
+scripts/_local/phase61_3_task_events_polish_patch.sh:136:    #task-events-panel .task-event.phase61-event-active::before,
+scripts/_local/phase61_3_task_events_polish_patch.sh:137:    #task-events .task-event.phase61-event-active::before,
+scripts/_local/phase61_3_task_events_polish_patch.sh:138:    .task-events .task-event.phase61-event-active::before,
+scripts/_local/phase61_3_task_events_polish_patch.sh:139:    .task-events-panel li.phase61-event-active::before,
+scripts/_local/phase61_3_task_events_polish_patch.sh:140:    [data-phase61-task-events] li.phase61-event-active::before,
+scripts/_local/phase61_3_task_events_polish_patch.sh:141:    [data-tab-panel="task-events"] li.phase61-event-active::before,
+scripts/_local/phase61_3_task_events_polish_patch.sh:142:    #task-events-panel li.phase61-event-active::before,
+scripts/_local/phase61_3_task_events_polish_patch.sh:143:    #task-events li.phase61-event-active::before,
+scripts/_local/phase61_3_task_events_polish_patch.sh:144:    .task-events li.phase61-event-active::before {
+scripts/_local/phase61_3_task_events_polish_patch.sh:148:    .task-events-panel .task-event.phase61-event-waiting::before,
+scripts/_local/phase61_3_task_events_polish_patch.sh:149:    [data-phase61-task-events] .task-event.phase61-event-waiting::before,
+scripts/_local/phase61_3_task_events_polish_patch.sh:150:    [data-tab-panel="task-events"] .task-event.phase61-event-waiting::before,
+scripts/_local/phase61_3_task_events_polish_patch.sh:151:    #task-events-panel .task-event.phase61-event-waiting::before,
+scripts/_local/phase61_3_task_events_polish_patch.sh:152:    #task-events .task-event.phase61-event-waiting::before,
+scripts/_local/phase61_3_task_events_polish_patch.sh:153:    .task-events .task-event.phase61-event-waiting::before,
+scripts/_local/phase61_3_task_events_polish_patch.sh:154:    .task-events-panel li.phase61-event-waiting::before,
+scripts/_local/phase61_3_task_events_polish_patch.sh:155:    [data-phase61-task-events] li.phase61-event-waiting::before,
+scripts/_local/phase61_3_task_events_polish_patch.sh:156:    [data-tab-panel="task-events"] li.phase61-event-waiting::before,
+scripts/_local/phase61_3_task_events_polish_patch.sh:157:    #task-events-panel li.phase61-event-waiting::before,
+scripts/_local/phase61_3_task_events_polish_patch.sh:158:    #task-events li.phase61-event-waiting::before,
+scripts/_local/phase61_3_task_events_polish_patch.sh:159:    .task-events li.phase61-event-waiting::before {
+scripts/_local/phase61_3_task_events_polish_patch.sh:188:      .task-events-panel .task-event,
+scripts/_local/phase61_3_task_events_polish_patch.sh:189:      [data-phase61-task-events] .task-event,
+scripts/_local/phase61_3_task_events_polish_patch.sh:190:      [data-tab-panel="task-events"] .task-event,
+scripts/_local/phase61_3_task_events_polish_patch.sh:191:      #task-events-panel .task-event,
+scripts/_local/phase61_3_task_events_polish_patch.sh:192:      #task-events .task-event,
+scripts/_local/phase61_3_task_events_polish_patch.sh:193:      .task-events .task-event,
+scripts/_local/phase61_3_task_events_polish_patch.sh:194:      .task-events-panel li,
+scripts/_local/phase61_3_task_events_polish_patch.sh:195:      [data-phase61-task-events] li,
+scripts/_local/phase61_3_task_events_polish_patch.sh:196:      [data-tab-panel="task-events"] li,
+scripts/_local/phase61_3_task_events_polish_patch.sh:197:      #task-events-panel li,
+scripts/_local/phase61_3_task_events_polish_patch.sh:198:      #task-events li,
+scripts/_local/phase61_3_task_events_polish_patch.sh:199:      .task-events li {
+scripts/_local/phase61_3_task_events_polish_patch.sh:208:  <script id="phase61-task-events-polish-script">
+scripts/_local/phase61_3_task_events_polish_patch.sh:211:        '[data-tab-panel="task-events"]',
+scripts/_local/phase61_3_task_events_polish_patch.sh:212:        '[data-phase61-task-events]',
+scripts/_local/phase61_3_task_events_polish_patch.sh:213:        '#task-events-panel',
+scripts/_local/phase61_3_task_events_polish_patch.sh:214:        '#task-events',
+scripts/_local/phase61_3_task_events_polish_patch.sh:215:        '.task-events-panel',
+scripts/_local/phase61_3_task_events_polish_patch.sh:216:        '.task-events'
+scripts/_local/phase61_3_task_events_polish_patch.sh:265:        panel.setAttribute('data-phase61-task-events', 'true');
+scripts/_local/phase61_3_task_events_polish_patch.sh:296:if 'id="phase61-task-events-polish"' not in html:
+scripts/_local/phase61_3_task_events_polish_patch.sh:302:if 'id="phase61-task-events-polish-script"' not in html:
+scripts/_local/phase65b_audit_metric_ownership.sh:11:echo "2 EventSource consumers touching task-events:"
+scripts/_local/phase65b_audit_metric_ownership.sh:12:grep -RInE 'EventSource|/events/task-events' public/js || true
+scripts/_local/phase64_named_agent_path_audit.sh:21:  -E 'task_id|run_id|actor|agent|assignedAgent|assigned_agent|agentName|agent_name|delegate|delegation|/api/tasks|/api/runs|task_events|emit' \
+scripts/_local/phase64_named_agent_path_audit.sh:43:curl -fsS "$BASE_URL/api/tasks?limit=20" | python3 -m json.tool || true
+scripts/_local/phase65_4_patch_shared_metrics_bootstrap.sh:31:        const res = await fetch('/api/tasks?limit=200', {
+scripts/_local/phase65_4_patch_shared_metrics_bootstrap.sh:88:        es = new EventSource('/events/task-events');
+scripts/_local/phase65_1_tasks_running_inspect.sh:17:rg -n 'task\.|task-events|EventSource|SSE|recent history|recent tasks|running|queued|completed|failed|cancelled|started' \
+scripts/_local/phase65_1_tasks_running_inspect.sh:24:rg -n '/api/tasks|task_id|run_id|state|status|queued|running|completed|failed|cancelled|started' \
+scripts/_local/phase61_final_touchups.sh:78:      #task-events-card {
+scripts/_local/phase64_3_fix_telemetry_scroll_css.sh:48:    #task-events-card,
+scripts/_local/phase64_3_fix_telemetry_scroll_css.sh:63:    #task-events-card > #mb-task-events-panel-anchor {
+scripts/_local/phase64_3_fix_telemetry_scroll_css.sh:94:      #task-events-card,
+scripts/_local/phase64_3_fix_telemetry_scroll_css.sh:119:      .task-events-panel .task-event,
+scripts/_local/phase64_3_fix_telemetry_scroll_css.sh:120:      [data-phase61-task-events] .task-event,
+scripts/_local/phase64_3_fix_telemetry_scroll_css.sh:121:      [data-tab-panel="task-events"] .task-event,
+scripts/_local/phase64_3_fix_telemetry_scroll_css.sh:122:      #task-events-panel .task-event,
+scripts/_local/phase64_3_fix_telemetry_scroll_css.sh:123:      #task-events .task-event,
+scripts/_local/phase64_3_fix_telemetry_scroll_css.sh:124:      .task-events .task-event,
+scripts/_local/phase64_3_fix_telemetry_scroll_css.sh:125:      .task-events-panel li,
+scripts/_local/phase64_3_fix_telemetry_scroll_css.sh:126:      [data-phase61-task-events] li,
+scripts/_local/phase64_3_fix_telemetry_scroll_css.sh:127:      [data-tab-panel="task-events"] li,
+scripts/_local/phase64_3_fix_telemetry_scroll_css.sh:128:      #task-events-panel li,
+scripts/_local/phase64_3_fix_telemetry_scroll_css.sh:129:      #task-events li,
+scripts/_local/phase64_3_fix_telemetry_scroll_css.sh:130:      .task-events li {
+scripts/_local/phase64_4_probe_ops_stream_task_events.sh:109:'document.querySelector("[data-tab-panel=\"task-events\"], #task-events-panel, #obs-panel-events")?.outerHTML'
+scripts/_local/phase64_named_agent_smoke.sh:10:TASK_JSON="$(curl -fsS -X POST "$BASE_URL/api/tasks/create" \
+scripts/_local/phase64_named_agent_smoke.sh:25:curl -fsS "$BASE_URL/api/tasks?limit=5" | python3 -m json.tool
+scripts/_local/phase64_4_hotfix_dedupe_task_events_sse_writer.sh:7:path = Path("server/routes/task-events-sse.mjs")
+scripts/_local/phase64_4_hotfix_dedupe_task_events_sse_writer.sh:99:    raise SystemExit("no changes applied to server/routes/task-events-sse.mjs")
+scripts/_local/phase64_4_hotfix_dedupe_task_events_sse_writer.sh:102:print("patched server/routes/task-events-sse.mjs by deduping task.event writes inside _sseWrite")
+scripts/_local/phase64_4_task_events_regression_guard.sh:7:TASK_EVENTS_SAMPLE="${TMP_DIR}/task-events.sample"
+scripts/_local/phase64_4_task_events_regression_guard.sh:14:echo "== sampling /events/task-events for ${SAMPLE_SECS}s =="
+scripts/_local/phase64_4_task_events_regression_guard.sh:15:python3 - <<'PY' "${BASE_URL}/events/task-events" "${TASK_EVENTS_SAMPLE}" "${SAMPLE_SECS}"
+scripts/_local/phase64_4_task_events_regression_guard.sh:46:echo "== task-events replay guard summary =="
+scripts/_local/phase64_4_task_events_regression_guard.sh:81:    raise SystemExit("FAIL: missing hello event from /events/task-events")
+scripts/_local/phase64_4_task_events_regression_guard.sh:102:    raise SystemExit("FAIL: suspicious duplicate replay ratio detected in /events/task-events")
+scripts/_local/phase64_4_task_events_regression_guard.sh:104:print("PASS: task-events stream passed replay guard")
+scripts/_local/phase62b_record_live_validation_blocker_and_inspect_routes.sh:17:  echo "attempted_endpoint_1=/api/tasks/test-success"
+scripts/_local/phase62b_record_live_validation_blocker_and_inspect_routes.sh:18:  echo "attempted_endpoint_2=/api/tasks/test-failure"
+scripts/_local/phase62b_record_live_validation_blocker_and_inspect_routes.sh:29:  grep -RIn "app\\.\(get\\|post\\|put\\|delete\\).*api\\|router\\.\(get\\|post\\|put\\|delete\\).*api\\|task\\.completed\\|task\\.failed\\|task-events\\|delegate-task\\|seed task\\|seed_task\\|test-success\\|test-failure" \
+scripts/_local/phase62b_record_live_validation_blocker_and_inspect_routes.sh:33:  grep -RIn "/api/tasks\\|/api/task\\|delegate-task\\|task-events\\|seed" \
+scripts/_local/phase61_5_wire_recent_tasks_and_history.sh:14:  const RECENT_ENDPOINT = "/api/tasks?limit=12";
+scripts/_local/phase61_task_events_wiring_audit.sh:11:grep -RniE 'task events|task-events|Task Events|EventSource|SSE|telemetry|recent tasks|task history' public src scripts server . 2>/dev/null || true
+scripts/_local/phase61_task_events_wiring_audit.sh:15:grep -nE 'task-events|Task Events|telemetry|observational-workspace|workspace-card' public/dashboard.html 2>/dev/null || true
+scripts/_local/phase64_4_patch_task_events_sse_writer_dedupe_signature_agnostic.sh:8:path = Path("server/routes/task-events-sse.mjs")
+scripts/_local/phase64_4_patch_task_events_sse_writer_dedupe_signature_agnostic.sh:14:    raise SystemExit("could not find _sseWrite function in server/routes/task-events-sse.mjs")
+scripts/_local/phase64_4_patch_task_events_sse_writer_dedupe_signature_agnostic.sh:101:print("patched server/routes/task-events-sse.mjs")
+scripts/_local/phase61_tab_cleanup_pass.py:29:    '<section id="task-events-card" class="obs-surface">',
+scripts/_local/phase61_tab_cleanup_pass.py:30:    '<section id="task-events-card" class="obs-surface phase61-events-fill">',
+scripts/_local/phase61_tab_cleanup_pass.py:87:      #task-events-card {
+scripts/_local/phase61_tab_cleanup_pass.py:134:      #task-events-card.phase61-events-fill {
+scripts/_local/phase61_tab_cleanup_pass.py:139:      #task-events-card.phase61-events-fill #mb-task-events-panel-anchor {
+scripts/_local/phase64_7_dashboard_layout_script_mount_guard.sh:20:'id="mb-task-events-panel-anchor"' \
+scripts/_local/phase64_7_dashboard_layout_script_mount_guard.sh:46:echo "== task-events mount uniqueness =="
+scripts/_local/phase64_7_dashboard_layout_script_mount_guard.sh:47:COUNT="$(grep -o 'id="mb-task-events-panel-anchor"' "$HTML" | wc -l | tr -d ' ')"
+scripts/_local/phase64_7_dashboard_layout_script_mount_guard.sh:49:  echo "FAIL task-events mounted $COUNT times"
+scripts/_local/phase64_7_dashboard_layout_script_mount_guard.sh:52:echo "PASS task-events single mount"
+scripts/phase49_patch_task_path_enforce.sh:112:    if (req.path.startsWith("/api/tasks")) {{
+scripts/phase35_fix_task_events_append_v3.sh:10:p = Path("server/task-events.mjs")
+scripts/phase35_fix_task_events_append_v3.sh:12:    raise SystemExit("patch_failed: missing server/task-events.mjs")
+scripts/phase11_delegate_task_curl.sh:4:# Phase 11 – Helper script to run the delegate-task curl against the container backend
+scripts/phase11_delegate_task_curl.sh:10:echo "🔹 Running delegate-task curl against http://127.0.0.1:3000/api/delegate-task ..."
+scripts/phase11_delegate_task_curl.sh:13:curl -i -X POST http://127.0.0.1:3000/api/delegate-task \
+scripts/phase31_7_fix_task_events_sse_route.sh:5:ROUTE_FILE="$(rg -n --hidden --no-ignore-vcs -S '/events/task-events|events/task-events' server -l \
+scripts/phase31_7_fix_task_events_sse_route.sh:9:  echo "ERR: could not locate canonical /events/task-events route (non-bak) under server/" >&2
+scripts/phase31_7_fix_task_events_sse_route.sh:19:cmd = r"""rg -n --hidden --no-ignore-vcs -S '/events/task-events|events/task-events' server -l | rg -v '\.bak(\.|$)' | head -n 1"""
+
+== task event emit clues ==
+server/tasks-mutations.mjs:81:    kind: "task.created",
+server/task-events.mjs:12:  "task.created",
+server/task-events.mjs:16:  "task.completed",
+server/task-events.mjs:17:  "task.failed",
+server/task-events.mjs:22:  "task.completed",
+server/task-events.mjs:23:  "task.failed",
+server/task-events.mjs:98:  if (__k_for_runid !== "task.created" && __run_id == null) {
+server/task-events.mjs:153:    "task.created","task.queued","task.started","task.progress","task.completed","task.failed","task.canceled",
+server/task-events.mjs:155:  const __PHASE25_TERMINAL_KINDS = new Set(["task.completed","task.failed","task.canceled"]);
+server/api/tasks-mutations/delegate-taskspec.mjs:28: * - Inserts into task_events(kind="task.created") so /events/task-events advances
+server/worker/phase26_task_worker.mjs:197:              kind: failedRow.status === "failed" ? "task.failed" : "task.retry_scheduled",
+server/worker/phase26_task_worker.mjs:220:            kind: "task.completed",
+server/routes/api-tasks-postgres.mjs:121:      kind: "task.created",
+server/routes/api-tasks-postgres.mjs:161:      kind: "task.completed",
+server/routes/api-tasks-postgres.mjs:199:      kind: "task.failed",
+server/routes/api-tasks-mutations.mjs:34:        kind: b.kind ?? b.event_kind ?? b.eventKind ?? "task.completed",
+server/routes/api-tasks-mutations.mjs:49:        kind: b.kind ?? b.event_kind ?? b.eventKind ?? "task.failed",
+public/js/dashboard-tasks-widget.js:420:  window.addEventListener("mb.task.event", (e) => {
+public/js/telemetry_queue_depth_reducer.js:11:    return state === "task.created" || state === "task.queued";
+public/js/telemetry_queue_depth_reducer.js:17:      state === "task.completed" ||
+public/js/telemetry_queue_depth_reducer.js:18:      state === "task.failed" ||
+public/js/telemetry_failed_tasks_reducer.js:25:    if (!evt || evt.state !== "task.failed" || !evt.task_id) {
+public/js/task-events-sse-client.js:4:  const PANEL_ID = "mb-task-events-panel";
+public/js/task-events-sse-client.js:5:  const FEED_ID = "mb-task-events-feed";
+public/js/task-events-sse-client.js:6:  const COUNTS_ID = "mb-task-events-counts";
+public/js/task-events-sse-client.js:7:  const ANCHOR_ID = "mb-task-events-panel-anchor";
+public/js/task-events-sse-client.js:133:    if (kind === "task.created") tally.created += 1;
+public/js/task-events-sse-client.js:134:    if (kind === "task.completed") tally.completed += 1;
+public/js/task-events-sse-client.js:135:    if (kind === "task.failed") tally.failed += 1;
+public/js/task-events-sse-client.js:259:    try { window.dispatchEvent(new CustomEvent("mb.task.event", { detail: ev })); } catch {}
+public/js/task-events-sse-client.js:292:    if (ev.kind === "task.created" || ev.kind === "task.completed" || ev.kind === "task.failed") {
+public/js/task-events-sse-client.js:297:    if (window.__UI_DEBUG) try { console.log("[task-events] mb.task.event", ev); } catch {}
+public/js/task-events-sse-client.js:340:      "task.created",
+public/js/task-events-sse-client.js:341:      "task.completed",
+public/js/task-events-sse-client.js:342:      "task.failed",
+public/js/telemetry/success_rate_metric.js:9:    "task.completed",
+public/js/telemetry/success_rate_metric.js:20:    "task.failed",
+public/js/telemetry/success_rate_metric.js:187:      "task.completed",
+public/js/telemetry/success_rate_metric.js:188:      "task.failed",
+public/js/telemetry/latency_metric.js:9:    "task.created",
+public/js/telemetry/latency_metric.js:28:    "task.completed",
+public/js/telemetry/latency_metric.js:32:    "task.failed",
+public/js/telemetry/running_tasks_metric.js:9:    "task.created",
+public/js/telemetry/running_tasks_metric.js:15:    "task.completed",
+public/js/telemetry/running_tasks_metric.js:16:    "task.failed",
+public/js/phase61_recent_history_wire.js:303:    window.addEventListener("mb.task.event", debounceRefresh);
+public/js/phase22_task_delegation_live_bindings.js:4:  const TASK_EVENT_NAME = "mb.task.event";
+public/js/phase22_task_delegation_live_bindings.js:28:      v === "task.completed" ||
+public/js/phase22_task_delegation_live_bindings.js:29:      v === "task.failed" ||
+public/js/phase22_task_delegation_live_bindings.js:38:      v === "task.created" ||
+public/js/phase22_task_delegation_live_bindings.js:46:    return v === "task.completed";
+public/js/phase22_task_delegation_live_bindings.js:52:      v === "task.failed" ||
+public/js/phase22_task_delegation_live_bindings.js:175:      (ev?.kind === "task.created" ? "queued" : null);
+public/js/phase22_task_delegation_live_bindings.js:259:      if (ev.kind === "task.completed") t.status = "done";
+public/js/phase22_task_delegation_live_bindings.js:260:      if (ev.kind === "task.failed") t.status = "failed";
+public/js/phase22_task_delegation_live_bindings.js:278:          console.log("[phase22] mb.task.event", e.detail);
+scripts/phase35_fix_appendTaskEvent_pool_signature.sh:113:    "task.created","task.queued","task.started","task.progress","task.completed","task.failed","task.canceled",
+scripts/phase35_fix_appendTaskEvent_pool_signature.sh:115:  const __PHASE25_TERMINAL_KINDS = new Set(["task.completed","task.failed","task.canceled"]);
+scripts/smoke/phase34_reclaim_proof.zsh:85: where task_id='$TASK_ID' and kind in ('task.completed','task.failed');"
+scripts/smoke/phase35_epoch_owner_proof.zsh:208:completed = int(psql(f"SELECT count(*) FROM {table} WHERE {task_col}::text='{TASK_ID}' AND kind='task.completed';") or "0")
+scripts/smoke/phase35_epoch_owner_proof.zsh:209:failed    = int(psql(f"SELECT count(*) FROM {table} WHERE {task_col}::text='{TASK_ID}' AND kind='task.failed';") or "0")
+scripts/smoke/phase35_epoch_owner_proof.zsh:216:    raise SystemExit(f"FAIL: expected 1 task.completed, got {completed}")
+scripts/smoke/phase35_epoch_owner_proof.zsh:218:    raise SystemExit(f"FAIL: expected 0 task.failed, got {failed}")
+scripts/phase25_writer_smoke.mjs:3: * Emits task.created/task.completed/task.failed using UNIQUE task_ids.
+scripts/phase25_writer_smoke.mjs:38:  console.log("1) insert task.created via writer", { task_id: tCreated });
+scripts/phase25_writer_smoke.mjs:39:  await emitTaskEvent({ pool, kind: "task.created", task_id: tCreated, ...base });
+scripts/phase25_writer_smoke.mjs:41:  console.log("2) insert task.completed via writer", { task_id: tCompleted });
+scripts/phase25_writer_smoke.mjs:42:  await emitTaskEvent({ pool, kind: "task.completed", task_id: tCompleted, ...base });
+scripts/phase25_writer_smoke.mjs:44:  console.log("3) insert task.failed via writer", { task_id: tFailed });
+scripts/phase25_writer_smoke.mjs:47:    kind: "task.failed",
+scripts/phase31_7_verify_container_reclaim.sh:46:         min(id) filter (where kind='task.completed') as c,
+scripts/phase31_7_verify_container_reclaim.sh:47:         min(id) filter (where kind='task.failed')    as f
+scripts/phase28_smoke_one.sh:106:echo "=== phase28: assert task.failed event exists with persisted task_id ==="
+scripts/phase28_smoke_one.sh:110:where kind='task.failed' and task_id = (${TASK_ID}::text)
+scripts/phase28_smoke_one.sh:111:" | awk -F'|' '{ if($1 < 1) { print "FAIL: missing task.failed event"; exit 1 } }'
+scripts/phase22_wire_task_events_ui.sh:14:  const PANEL_ID = "mb-task-events-panel";
+scripts/phase22_wire_task_events_ui.sh:15:  const FEED_ID = "mb-task-events-feed";
+scripts/phase22_wire_task_events_ui.sh:16:  const COUNTS_ID = "mb-task-events-counts";
+scripts/phase22_wire_task_events_ui.sh:124:    if (kind === "task.created") tally.created += 1;
+scripts/phase22_wire_task_events_ui.sh:125:    if (kind === "task.completed") tally.completed += 1;
+scripts/phase22_wire_task_events_ui.sh:126:    if (kind === "task.failed") tally.failed += 1;
+scripts/phase22_wire_task_events_ui.sh:161:    if (kind === "task.completed") row.style.borderColor = "rgba(80,200,120,0.35)";
+scripts/phase22_wire_task_events_ui.sh:162:    if (kind === "task.failed") row.style.borderColor = "rgba(240,90,90,0.35)";
+scripts/phase22_wire_task_events_ui.sh:192:    if (ev.kind === "task.created") node.classList?.add("task-created");
+scripts/phase22_wire_task_events_ui.sh:193:    if (ev.kind === "task.completed") node.classList?.add("task-completed");
+scripts/phase22_wire_task_events_ui.sh:194:    if (ev.kind === "task.failed") node.classList?.add("task-failed");
+scripts/phase22_wire_task_events_ui.sh:199:      window.dispatchEvent(new CustomEvent("mb.task.event", { detail: ev }));
+scripts/phase31_7_fix_task_events_contract.sh:75:    t=t.replace("mb.task.events","mb.task.event")
+scripts/phase31_7_fix_task_events_contract.sh:76:    t=re.sub(r'addEventListener\(["\']task(\.|_)event["\']','addEventListener("mb.task.event"',t)
+scripts/phase31_7_fix_task_events_contract.sh:77:    t=re.sub(r'new\s+CustomEvent\(["\']task(\.|_)event["\']','new CustomEvent("mb.task.event"',t)
+scripts/phase31_7_fix_task_events_contract.sh:79:             r'new CustomEvent("mb.task.event",{detail:__mbNormalizeTaskEvent(\1)})',t)
+scripts/phase31_7_fix_task_events_contract.sh:81:             r'window.dispatchEvent(new CustomEvent("mb.task.event",{detail:__mbNormalizeTaskEvent(\1)}))',t)
+scripts/_local/phase64_6_workspace_interactivity_contract_guard.sh:34:    "task-events-anchor": r'id="mb-task-events-panel-anchor"',
+scripts/_local/phase61_4_task_events_render_path_patch.sh:33:  const PANEL_ID = "mb-task-events-panel";
+scripts/_local/phase61_4_task_events_render_path_patch.sh:34:  const FEED_ID = "mb-task-events-feed";
+scripts/_local/phase61_4_task_events_render_path_patch.sh:35:  const COUNTS_ID = "mb-task-events-counts";
+scripts/_local/phase61_4_task_events_render_path_patch.sh:36:  const ANCHOR_ID = "mb-task-events-panel-anchor";
+scripts/_local/phase61_4_task_events_render_path_patch.sh:162:    if (kind === "task.created") tally.created += 1;
+scripts/_local/phase61_4_task_events_render_path_patch.sh:163:    if (kind === "task.completed") tally.completed += 1;
+scripts/_local/phase61_4_task_events_render_path_patch.sh:164:    if (kind === "task.failed") tally.failed += 1;
+scripts/_local/phase61_4_task_events_render_path_patch.sh:288:    try { window.dispatchEvent(new CustomEvent("mb.task.event", { detail: ev })); } catch {}
+scripts/_local/phase61_4_task_events_render_path_patch.sh:321:    if (ev.kind === "task.created" || ev.kind === "task.completed" || ev.kind === "task.failed") {
+scripts/_local/phase61_4_task_events_render_path_patch.sh:326:    if (window.__UI_DEBUG) try { console.log("[task-events] mb.task.event", ev); } catch {}
+scripts/_local/phase61_4_task_events_render_path_patch.sh:369:      "task.created",
+scripts/_local/phase61_4_task_events_render_path_patch.sh:370:      "task.completed",
+scripts/_local/phase61_4_task_events_render_path_patch.sh:371:      "task.failed",
+scripts/_local/phase62b_tasks_failed_local_verification.sh:12:      { kind: "task.created", task_id: "a" },
+scripts/_local/phase62b_tasks_failed_local_verification.sh:14:      { kind: "task.failed", task_id: "a", status: "failed" },
+scripts/_local/phase62b_tasks_failed_local_verification.sh:22:      { kind: "task.failed", task_id: "b", status: "failed" },
+scripts/_local/phase62b_tasks_failed_local_verification.sh:29:      { kind: "task.failed", task_id: "c", status: "failed" },
+scripts/_local/phase62b_tasks_failed_local_verification.sh:38:      { kind: "task.failed", task_id: "d", status: "failed" },
+scripts/_local/phase62b_tasks_failed_local_verification.sh:39:      { kind: "task.failed", task_id: "d", status: "failed" },
+scripts/_local/phase62b_tasks_failed_local_verification.sh:46:      { kind: "task.created", task_id: "e" },
+scripts/_local/phase62b_tasks_failed_local_verification.sh:47:      { kind: "task.completed", task_id: "e", status: "done" },
+scripts/_local/phase62b_tasks_failed_local_verification.sh:54:      { kind: "task.created", task_id: "f" },
+scripts/_local/phase62b_tasks_failed_local_verification.sh:62:      { kind: "task.completed", task_id: "g", status: "done" },
+scripts/_local/phase62b_tasks_failed_local_verification.sh:63:      { kind: "task.failed", task_id: "g", status: "failed" },
+scripts/_local/phase62b_tasks_failed_local_verification.sh:72:      { kind: "task.failed", task_id: "h", status: "failed" },
+scripts/_local/phase62b_tasks_failed_local_verification.sh:79:      { kind: "task.created", task_id: "i1" },
+scripts/_local/phase62b_tasks_failed_local_verification.sh:81:      { kind: "task.failed", task_id: "i1", status: "failed" },
+scripts/_local/phase62b_tasks_failed_local_verification.sh:82:      { kind: "task.completed", task_id: "i2", status: "done" },
+scripts/_local/phase62b_tasks_failed_local_verification.sh:99:  return v === "task.completed";
+scripts/_local/phase62b_tasks_failed_local_verification.sh:104:  return v === "task.failed" || v === "task.cancelled" || v === "task.canceled";
+scripts/_local/phase64_3_restore_and_apply_minimal_telemetry_fix.sh:106:    #mb-task-events-panel-anchor {
+scripts/_local/phase64_3_restore_and_apply_minimal_telemetry_fix.sh:112:    #mb-task-events-panel-anchor {
+scripts/_local/phase64_3_restore_and_apply_minimal_telemetry_fix.sh:126:      #mb-task-events-panel-anchor,
+scripts/_local/phase64_3_restore_and_apply_minimal_telemetry_fix.sh:138:      #mb-task-events-panel-anchor {
+scripts/_local/phase61_5_1_recent_history_takeover_patch.sh:247:    window.addEventListener("mb.task.event", () => {
+scripts/_local/phase62b_fix_success_rate_terminal_listener_verification.sh:19:  grep -n '"task.completed"\|"task.failed"\|"task.event"\|"task.updated"\|"task.status"' public/js/telemetry/success_rate_metric.js || true
+scripts/_local/phase62b_fix_success_rate_terminal_listener_verification.sh:49:  if grep -q '"task.completed"' public/js/telemetry/success_rate_metric.js 2>/dev/null && \
+scripts/_local/phase62b_fix_success_rate_terminal_listener_verification.sh:50:     grep -q '"task.failed"' public/js/telemetry/success_rate_metric.js 2>/dev/null && \
+scripts/_local/phase62b_fix_success_rate_terminal_listener_verification.sh:74:  grep -n 'phase65b_metric_bootstrap\|successNode\|task.completed\|task.failed\|eventNames' public/bundle.js | head -200 || true
+scripts/_local/phase64_3_equalize_telemetry_height.sh:84:    #mb-task-events-panel-anchor,
+scripts/_local/phase66a_reducer_replay_check.sh:56:  { task_id: "t1", state: "task.created", ts: 1 },
+scripts/_local/phase66a_reducer_replay_check.sh:58:  { task_id: "t2", state: "task.created", ts: 3 },
+scripts/_local/phase66a_reducer_replay_check.sh:61:  { task_id: "t2", state: "task.failed", ts: 6 },
+scripts/_local/phase66a_reducer_replay_check.sh:75:queueReducer.subscription.fn({ task_id: "ghost", state: "task.completed", ts: 8 });
+scripts/_local/phase66a_reducer_replay_check.sh:82:queueReducer.subscription.fn({ state: "task.created", ts: 9 });
+scripts/_local/phase66a_reducer_replay_check.sh:90:  { task_id: "f1", run_id: "r1", state: "task.failed", ts: 10 },
+scripts/_local/phase66a_reducer_replay_check.sh:91:  { task_id: "f1", run_id: "r1", state: "task.failed", ts: 10 },
+scripts/_local/phase66a_reducer_replay_check.sh:92:  { task_id: "f1", run_id: "r1", state: "task.failed", ts: 11 },
+scripts/_local/phase66a_reducer_replay_check.sh:93:  { task_id: "f2", run_id: "r2", state: "task.completed", ts: 12 },
+scripts/_local/phase66a_reducer_replay_check.sh:94:  { task_id: "f3", run_id: "r3", state: "task.failed", ts: 13 },
+scripts/_local/phase66a_reducer_replay_check.sh:95:  { run_id: "r4", state: "task.failed", ts: 14 },
+scripts/_local/phase64_3_rebuild_telemetry_css_contract.sh:80:    #mb-task-events-panel-anchor {
+scripts/_local/phase64_3_rebuild_telemetry_css_contract.sh:86:    #mb-task-events-panel-anchor {
+scripts/_local/phase64_3_rebuild_telemetry_css_contract.sh:119:      #mb-task-events-panel-anchor,
+scripts/_local/phase64_3_rebuild_telemetry_css_contract.sh:131:      #mb-task-events-panel-anchor {
+scripts/_local/repair_phase61_layout_now.sh:104:      #task-events-card #mb-task-events-panel-anchor {
+scripts/_local/repair_phase61_layout_now.sh:244:                    <div id="mb-task-events-panel-anchor"></div>
+scripts/_local/phase62b_hydrate_tasks_running.sh:14:old = 'let k=new Set,l={created:0,completed:0,failed:0};function I(n){n==="task.created"&&(l.created+=1),n==="task.completed"&&(l.completed+=1),n==="task.failed"&&(l.failed+=1);let o=document.getElementById(S);o&&(o.textContent=`created:${l.created}  completed:${l.completed}  failed:${l.failed}`)}'
+scripts/_local/phase62b_hydrate_tasks_running.sh:15:new = 'let k=new Set,l={created:0,completed:0,failed:0},Q=new Set,F=document.getElementById("metric-running");function U(){F||(F=document.getElementById("metric-running")),F&&(F.textContent=String(Q.size))}function z(n){return n&&typeof n=="object"?String(n.task_id??n.taskId??n.meta?.task_id??n.meta?.taskId??"").trim():""}function G(n,o){let g=String(n?.kind??o??"").toLowerCase(),e=String(n?.status??n?.meta?.status??"").toLowerCase(),m=z(n);if(!m)return;/task\\.created|task\\.started|task\\.running|task\\.queued|task\\.resumed/.test(g)||/created|started|running|queued|pending|active/.test(e)?Q.add(m):(/task\\.completed|task\\.failed|task\\.cancelled|task\\.canceled|task\\.done/.test(g)||/completed|failed|cancelled|canceled|done|error/.test(e))&&Q.delete(m),U()}function I(n){n==="task.created"&&(l.created+=1),n==="task.completed"&&(l.completed+=1),n==="task.failed"&&(l.failed+=1);let o=document.getElementById(S);o&&(o.textContent=`created:${l.created}  completed:${l.completed}  failed:${l.failed}`),U()}'
+scripts/_local/phase62b_hydrate_tasks_running.sh:22:old2 = 'if(!k.has(m)){if(k.add(m),(e.kind==="task.created"||e.kind==="task.completed"||e.kind==="task.failed")&&I(String(e.kind)),E(e,n),window.__UI_DEBUG)try{console.log("[task-events] mb.task.event",e)}catch{}T(e)}}'
+scripts/_local/phase62b_hydrate_tasks_running.sh:23:new2 = 'if(!k.has(m)){if(k.add(m),(e.kind==="task.created"||e.kind==="task.completed"||e.kind==="task.failed")&&I(String(e.kind)),G(e,n),E(e,n),window.__UI_DEBUG)try{console.log("[task-events] mb.task.event",e)}catch{}T(e)}}'
+scripts/_local/phase62b_tasks_completed_local_verification.sh:12:      { kind: "task.created", task_id: "a" },
+scripts/_local/phase62b_tasks_completed_local_verification.sh:14:      { kind: "task.completed", task_id: "a", status: "done" },
+scripts/_local/phase62b_tasks_completed_local_verification.sh:22:      { kind: "task.completed", task_id: "b", status: "done" },
+scripts/_local/phase62b_tasks_completed_local_verification.sh:29:      { kind: "task.completed", task_id: "c", status: "done" },
+scripts/_local/phase62b_tasks_completed_local_verification.sh:38:      { kind: "task.completed", task_id: "d", status: "done" },
+scripts/_local/phase62b_tasks_completed_local_verification.sh:39:      { kind: "task.completed", task_id: "d", status: "done" },
+scripts/_local/phase62b_tasks_completed_local_verification.sh:46:      { kind: "task.created", task_id: "e" },
+scripts/_local/phase62b_tasks_completed_local_verification.sh:47:      { kind: "task.failed", task_id: "e", status: "failed" },
+scripts/_local/phase62b_tasks_completed_local_verification.sh:54:      { kind: "task.created", task_id: "f" },
+scripts/_local/phase62b_tasks_completed_local_verification.sh:62:      { kind: "task.failed", task_id: "g", status: "failed" },
+scripts/_local/phase62b_tasks_completed_local_verification.sh:63:      { kind: "task.completed", task_id: "g", status: "done" },
+scripts/_local/phase62b_tasks_completed_local_verification.sh:72:      { kind: "task.completed", task_id: "h", status: "done" },
+scripts/_local/phase62b_tasks_completed_local_verification.sh:79:      { kind: "task.created", task_id: "i1" },
+scripts/_local/phase62b_tasks_completed_local_verification.sh:81:      { kind: "task.completed", task_id: "i1", status: "done" },
+scripts/_local/phase62b_tasks_completed_local_verification.sh:82:      { kind: "task.failed", task_id: "i2", status: "failed" },
+scripts/_local/phase62b_tasks_completed_local_verification.sh:83:      { kind: "task.completed", task_id: "i3", status: "done" },
+scripts/_local/phase62b_tasks_completed_local_verification.sh:99:  return v === "task.completed";
+scripts/_local/phase62b_tasks_completed_local_verification.sh:104:  return v === "task.failed" || v === "task.cancelled" || v === "task.canceled";
+scripts/_local/phase61_left_workspace_focus_scan.sh:10:rg -n 'observational-tabs|obs-tab|obs-panel|data-target|aria-controls|aria-selected|mb-task-events-panel-anchor' \
+scripts/_local/phase62b_running_tasks_local_verification.sh:12:      { kind: "task.created", task_id: "a" },
+scripts/_local/phase62b_running_tasks_local_verification.sh:14:      { kind: "task.completed", task_id: "a", status: "done" },
+scripts/_local/phase62b_running_tasks_local_verification.sh:22:      { kind: "task.completed", task_id: "b", status: "done" },
+scripts/_local/phase62b_running_tasks_local_verification.sh:29:      { kind: "task.completed", task_id: "c", status: "done" },
+scripts/_local/phase62b_running_tasks_local_verification.sh:39:      { kind: "task.completed", task_id: "d", status: "done" },
+scripts/_local/phase62b_running_tasks_local_verification.sh:47:      { kind: "task.completed", task_id: "e", status: "done" },
+scripts/_local/phase62b_running_tasks_local_verification.sh:48:      { kind: "task.completed", task_id: "e", status: "done" },
+scripts/_local/phase62b_running_tasks_local_verification.sh:55:      { kind: "task.created", task_id: "f" },
+scripts/_local/phase62b_running_tasks_local_verification.sh:56:      { kind: "task.failed", task_id: "f", status: "failed" },
+scripts/_local/phase62b_running_tasks_local_verification.sh:63:      { kind: "task.created", task_id: "g" },
+scripts/_local/phase62b_running_tasks_local_verification.sh:73:      { kind: "task.completed", task_id: "h", status: "done" },
+scripts/_local/phase62b_running_tasks_local_verification.sh:80:      { kind: "task.created", task_id: "i1" },
+scripts/_local/phase62b_running_tasks_local_verification.sh:82:      { kind: "task.completed", task_id: "i1", status: "done" },
+scripts/_local/phase62b_running_tasks_local_verification.sh:83:      { kind: "task.failed", task_id: "i2", status: "failed" },
+scripts/_local/phase62b_running_tasks_local_verification.sh:99:  return v === "task.completed" || v === "task.failed" || v === "task.cancelled" || v === "task.canceled";
+scripts/_local/phase62b_running_tasks_local_verification.sh:104:  return v === "task.created" || v === "task.started" || v === "task.running";
+scripts/_local/phase66a_determinism_check.sh:61:  { task_id: "q1", state: "task.created", ts: 1 },
+scripts/_local/phase66a_determinism_check.sh:64:  { task_id: "q2", state: "task.failed", ts: 4 },
+scripts/_local/phase66a_determinism_check.sh:67:  { task_id: "ghost", state: "task.completed", ts: 6 },
+scripts/_local/phase66a_determinism_check.sh:68:  { task_id: "q4", state: "task.created", ts: 7 },
+scripts/_local/phase66a_determinism_check.sh:72:  { task_id: "f1", run_id: "r1", state: "task.failed", ts: 10 },
+scripts/_local/phase66a_determinism_check.sh:73:  { task_id: "f1", run_id: "r1", state: "task.failed", ts: 10 },
+scripts/_local/phase66a_determinism_check.sh:74:  { task_id: "f2", run_id: "r2", state: "task.failed", ts: 11 },
+scripts/_local/phase66a_determinism_check.sh:75:  { task_id: "f2", run_id: "r2", state: "task.failed", ts: 11 },
+scripts/_local/phase66a_determinism_check.sh:76:  { task_id: "f3", run_id: "r3", state: "task.completed", ts: 12 },
+scripts/_local/phase66a_determinism_check.sh:77:  { task_id: "f4", run_id: "r4", state: "task.failed", ts: 13 },
+scripts/_local/phase66a_determinism_check.sh:78:  { state: "task.failed", run_id: "bad", ts: 14 },
+scripts/_local/phase61_repair_workspace_regions_v2.py:137:                    <div id="mb-task-events-panel-anchor"></div>
+scripts/_local/phase62b_success_rate_surface_inspect.sh:37:  grep -RIn 'task.completed\|task.failed\|success rate\|metric-success\|successNode' public/js public/bundle.js 2>/dev/null || true
+scripts/_local/phase62b_success_rate_live_hydration_readiness_check.sh:30:  grep -n "task.completed\\|task.failed\\|task.complete\\|task.done\\|task.success" public/js/telemetry/success_rate_metric.js || true
+scripts/_local/phase62b_success_rate_live_hydration_readiness_check.sh:34:  grep -n "\"task.event\"\\|\"task.created\"\\|\"task.completed\"\\|\"task.failed\"\\|\"task.updated\"\\|\"task.status\"" public/js/task-events-sse-client.js || true
+scripts/_local/phase62b_success_rate_live_hydration_readiness_check.sh:54:  if grep -q '"task.completed"' public/js/task-events-sse-client.js 2>/dev/null && grep -q '"task.failed"' public/js/task-events-sse-client.js 2>/dev/null; then
+scripts/_local/phase64_3_force_equal_workspace_height_v2.sh:69:    #mb-task-events-panel-anchor {
+scripts/_local/fixtures/telemetry/task_events_contract_invalid_sample.json:3:    "event_type": "task.created",
+scripts/_local/fixtures/telemetry/task_events_contract_invalid_sample.json:9:    "event_type": "task.completed",
+scripts/_local/fixtures/telemetry/task_events_contract_sample.json:3:    "event_type": "task.created",
+scripts/_local/fixtures/telemetry/task_events_contract_sample.json:22:    "event_type": "task.completed",
+scripts/_local/phase68_event_schema_validator.ts:27:  "task.created",
+scripts/_local/phase68_event_schema_validator.ts:30:  "task.completed",
+scripts/_local/phase68_event_schema_validator.ts:31:  "task.failed",
+scripts/_local/phase68_event_schema_validator.ts:160:  if (eventType === "task.completed" && state !== "completed") {
+scripts/_local/phase68_event_schema_validator.ts:163:      message: `event_type/state mismatch: task.completed requires state=completed`,
+scripts/_local/phase68_event_schema_validator.ts:167:  if (eventType === "task.failed" && state !== "failed") {
+scripts/_local/phase68_event_schema_validator.ts:170:      message: `event_type/state mismatch: task.failed requires state=failed`,
+scripts/_local/fix_phase62_safe_metric_label_rehydration.sh:116:  window.addEventListener('mb.task.event', apply);
+scripts/_local/phase64_3_fix_telemetry_scroll_css.sh:63:    #task-events-card > #mb-task-events-panel-anchor {
+scripts/_local/phase62b_record_live_validation_blocker_and_inspect_routes.sh:37:  grep -RIn "task\\.completed\\|task\\.failed\\|task\\.created\\|broadcast.*task\\|mb.task.event" \
+scripts/_local/phase61_5_wire_recent_tasks_and_history.sh:211:    window.addEventListener("mb.task.event", () => {
+scripts/_local/phase61_tab_cleanup_pass.py:139:      #task-events-card.phase61-events-fill #mb-task-events-panel-anchor {
+scripts/_local/phase64_7_dashboard_layout_script_mount_guard.sh:20:'id="mb-task-events-panel-anchor"' \
+scripts/_local/phase64_7_dashboard_layout_script_mount_guard.sh:47:COUNT="$(grep -o 'id="mb-task-events-panel-anchor"' "$HTML" | wc -l | tr -d ' ')"
+scripts/_local/phase62b_verify_success_rate_bootstrap_and_terminal_attach.sh:23:  grep -n 'task.event\|task.completed\|task.failed\|task.updated\|task.status' public/js/telemetry/success_rate_metric.js || true
+scripts/_local/phase62b_verify_success_rate_bootstrap_and_terminal_attach.sh:49:  if grep -q 'source.addEventListener("task.completed"' public/js/telemetry/success_rate_metric.js 2>/dev/null; then
+scripts/_local/phase62b_verify_success_rate_bootstrap_and_terminal_attach.sh:66:  grep -n 'phase65b_metric_bootstrap\|successNode\|task.completed\|task.failed' public/bundle.js | head -160 || true
+scripts/phase27_wire_worker_backoff.sh:26:  echo "Hint: ensure the worker loop lives under server/ or scripts/ and emits task.running + task.completed/failed."
+scripts/phase27_wire_worker_backoff.sh:199:    kind: "task.completed",
+scripts/phase27_wire_worker_backoff.sh:234:    kind: "task.failed",

@@ -1,0 +1,116 @@
+const statusMap = { Matilda: { status: "offline" }, Cade: { status: "offline" }, Effie: { status: "offline" } };
+app.use(bodyParser.json());
+app.post("/tasks/delegate", (req, res) => { console.log("📥 Delegate POST received:", req.body); res.json({ status: "ok", taskId: req.body.taskId }); });
+app.post("/api/chat", async (req, res) => { try { const userMessage = req.body?.message || ""; const reply = "(response placeholder)"; fs.appendFileSync(path.join(__dirname, "ui/dashboard/ticker-events.log"), JSON.stringify({ timestamp: Math.floor(Date.now()/1000), agent: "matilda", event: "chat: " + userMessage + " -> " + reply }) + "
+app.get("/api/agent-status", (req, res) => { exec("pm2 jlist", (err, stdout) => { if (err) return res.json(statusMap); try { const list = JSON.parse(stdout); const map = { ...statusMap }; list.forEach(proc => { const name = proc.name.toLowerCase(); const online = proc.pm2_env.status === "online"; if (name.includes("matilda")) map.Matilda.status = online ? "online" : "offline"; if (name.includes("cade")) map.Cade.status = online ? "online" : "offline"; if (name.includes("effie")) map.Effie.status = online ? "online" : "offline"; }); res.json(map); } catch (err) { console.error("❌ Error:", err); res.json(statusMap); } }); });
+"); res.json({ reply }); } catch (err) { console.error("❌ Error:", err); res.status(500).json({ reply: "(error)" }); } });
+const PORT = process.env.PORT || 3000;
+
+app.use(express.json());
+app.use(express.static(path.join(__dirname, "ui/dashboard")));
+app.use(express.static(path.join(__dirname, "public")));
+
+// --- 1️⃣ Agent Status via PM2 ---
+app.get("/api/agent-status", (req, res) => {
+  exec("pm2 jlist", (err, stdout) => {
+    if (err) {
+      return res.json({
+        Matilda: { status: "offline" },
+        Cade: { status: "offline" },
+        Effie: { status: "offline" }
+      });
+    }
+
+    try {
+      const list = JSON.parse(stdout);
+      list.forEach(proc => {
+        const name = proc.name.toLowerCase();
+        const online = proc.pm2_env.status === "online";
+        if (name.includes("matilda")) statusMap.Matilda.status = online ? "online" : "offline";
+        if (name.includes("cade")) statusMap.Cade.status = online ? "online" : "offline";
+        if (name.includes("effie")) statusMap.Effie.status = online ? "online" : "offline";
+      });
+      res.json(statusMap);
+    } catch {
+      res.json({
+        Matilda: { status: "offline" },
+        Cade: { status: "offline" },
+        Effie: { status: "offline" }
+      });
+    }
+  });
+});
+
+// --- 2️⃣ Chat Endpoint: Send input to Ollama ---
+// --- 3️⃣ Ops Stream & Project Tracker Endpoints (Unchanged) ---
+app.get("/api/ops-stream", (req, res) => {
+  const logFile = path.join(__dirname, "ui/dashboard/ticker-events.log");
+  if (!fs.existsSync(logFile)) return res.json([]);
+  const events = logs.slice(-20).map(line => {
+    try {
+      const obj = JSON.parse(line);
+      return { message: `${obj.agent} | ${obj.event}` };
+    } catch {
+      return { message: line };
+    }
+  });
+  res.json(events);
+});
+
+app.listen(PORT, () => console.log(`✅ Dashboard live on port ${PORT}`));
+
+// --- 4️⃣ Chat Endpoint for Matilda ---
+
+// Middleware to parse JSON bodies
+app.use(bodyParser.json());
+
+    res.json({ reply });
+
+    // Optional: Log chat to ticker-events.log for auditing
+    console.error("❌ Chat error:", err);
+    res.status(500).json({ reply: "(error)" });
+  }
+});
+});
+  console.log("📥 Delegate POST received:", req.body);
+  res.json({ status: "ok", taskId: req.body.taskId });
+});
+  console.log("📥 Delegate POST received:", req.body);
+  res.json({ status: "ok", taskId: req.body.taskId });
+});
+  console.log("📥 Delegate POST received:", req.body);
+  res.json({ status: "ok", taskId: req.body.taskId });
+});
+  console.log("📥 Delegate POST received:", req.body);
+  res.json({ status: "ok", taskId: req.body.taskId });
+});
+  console.log("📥 Delegate POST received:", req.body);
+  res.json({ status: "ok", taskId: req.body.taskId });
+});
+  console.log("📥 Delegate POST received:", req.body);
+  res.json({ status: "ok", taskId: req.body.taskId });
+});
+  console.log("📥 Delegate POST received:", req.body);
+  res.json({ status: "ok", taskId: req.body.taskId });
+});
+  console.log("📥 Delegate POST received:", req.body);
+  res.json({ status: "ok", taskId: req.body.taskId });
+});
+  console.log("📥 Delegate POST received:", req.body);
+  res.json({ status: "ok", taskId: req.body.taskId });
+});
+  console.log("📥 Delegate POST received:", req.body);
+  res.json({ status: "ok", taskId: req.body.taskId });
+});
+  console.log("📥 Delegate POST received:", req.body);
+  res.json({ status: "ok", taskId: req.body.taskId });
+});
+  console.log("📥 Delegate POST received:", req.body);
+  res.json({ status: "ok", taskId: req.body.taskId });
+});
+  console.log("📥 Delegate POST received:", req.body);
+  res.json({ status: "ok", taskId: req.body.taskId });
+});
+
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => console.log(`✅ Dashboard live on port ${PORT}`));

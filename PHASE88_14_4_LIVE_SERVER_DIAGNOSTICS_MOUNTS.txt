@@ -1,0 +1,623 @@
+PHASE 88.14.4 LIVE SERVER DIAGNOSTICS MOUNTS
+Generated: 2026-03-19T17:51:33Z
+Branch: phase65b-running-tasks-hydration
+Commit: 5b9bed411517a2bab3626007f6d3a717cc32308b
+Repo: /Users/marcela-dev/Projects/Motherboard_Systems_HQ
+────────────────────────────────
+SECTION: server.mjs diagnostics references
+43:app.use((req, res, next) => {
+69:app.use(createMutationEnforcementMiddleware());
+71:app.use(express.json());
+74:app.use(taskEventsSSE);
+84:app.use(express.text({ type: "*/*", limit: "64kb" }));
+90:app.use((req,res,next)=>{ console.log("[HTTP] " + req.method + " " + req.url); next(); });
+165:app.use(express.static(path.join(__dirname, "public")));
+166:app.use("/css", express.static(path.join(__dirname, "public", "css")));
+167:app.use("/js", express.static(path.join(__dirname, "public", "js")));
+168:app.use("/img", express.static(path.join(__dirname, "public", "img")));
+177:app.use("/api/tasks", apiTasksRouter);
+178:app.use("/api/tasks-mutations", apiTasksMutationsRouter);
+326:app.use("/public", express.static(path.join(__dirname, "public")));
+────────────────────────────────
+SECTION: diagnostics files present
+./.git/logs/refs/heads/feature/diagnostics-repair
+./.git/logs/refs/heads/phase2-diagnostics-sandbox
+./.git/logs/refs/heads/phase4.1-diagnostics-restore
+./.git/logs/refs/heads/phase4.4-dashboard-diagnostics
+./.git/logs/refs/heads/phase4.4-dashboard-diagnostics-rollback
+./.git/logs/refs/heads/recovery/v0.3.2-diagnostics-stable
+./.git/logs/refs/remotes/origin/feature/diagnostics-repair
+./.git/logs/refs/remotes/origin/phase4.4-dashboard-diagnostics
+./dist/routes/diagnostics/autonomicAdaptation.js
+./dist/routes/diagnostics/introspectiveSim.js
+./dist/routes/diagnostics/persistentInsight.js
+./dist/routes/diagnostics/systemChronicle.js
+./dist/routes/diagnostics/systemHealth.js
+./dist/scripts/diagnostics/test-rehydration.js
+./docs/checkpoints/PHASE70B_DIAGNOSTICS_REPORT_COMPLETE.md
+./node_modules/@types/node/diagnostics_channel.d.ts
+./node_modules/undici-types/diagnostics-channel.d.ts
+./PHASE88_1_SYSTEM_HEALTH_ATTACHMENT_SMOKE_EVIDENCE.txt
+./PHASE88_12_SERVED_DASHBOARD_DIAGNOSTICS_SURFACE.txt
+./PHASE88_13_SERVED_DASHBOARD_SYSTEM_HEALTH_PANEL_EVIDENCE.txt
+./PHASE88_14_2_PUBLIC_DASHBOARD_SYSTEM_HEALTH_RESPONSE.json
+./PHASE88_14_4_LIVE_SERVER_DIAGNOSTICS_MOUNTS.txt
+./PHASE88_14_LIVE_SYSTEM_HEALTH_RESPONSE.json
+./PHASE88_2_SYSTEM_HEALTH_ROUTE_INSPECTION.txt
+./PHASE88_3_AUTHORITATIVE_SYSTEM_HEALTH_ROUTE.txt
+./PHASE88_4_SYSTEM_HEALTH_ROUTE_SMOKE_EVIDENCE.txt
+./PHASE88_5_SYSTEM_HEALTH_ROUTE_PAYLOAD_EVIDENCE.txt
+./PHASE88_5_SYSTEM_HEALTH_ROUTE_PAYLOAD.json
+./PHASE88_6_SYSTEM_HEALTH_ROUTE_REGISTRATION.txt
+./PHASE88_7_SYSTEM_HEALTH_JS_ROUTE_SMOKE_EVIDENCE.txt
+./PHASE88_8_SYSTEM_HEALTH_JS_ROUTE_PAYLOAD_EVIDENCE.txt
+./PHASE88_8_SYSTEM_HEALTH_JS_ROUTE_PAYLOAD.json
+./PHASE88_9_DASHBOARD_SYSTEM_HEALTH_CONSUMER_INSPECTION.txt
+./routes_backup/diagnostics/autonomicAdaptation.js
+./routes_backup/diagnostics/autonomicAdaptation.ts
+./routes_backup/diagnostics/introspectiveSim.js
+./routes_backup/diagnostics/introspectiveSim.ts
+./routes_backup/diagnostics/persistentInsight.js
+./routes_backup/diagnostics/persistentInsight.ts
+./routes_backup/diagnostics/systemChronicle.js
+./routes_backup/diagnostics/systemChronicle.ts
+./routes_backup/diagnostics/systemHealth.js
+./routes_backup/diagnostics/systemHealth.ts
+./routes/diagnostics/autonomicAdaptation.js
+./routes/diagnostics/autonomicAdaptation.ts
+./routes/diagnostics/introspectiveSim.js
+./routes/diagnostics/introspectiveSim.ts
+./routes/diagnostics/persistentInsight.js
+./routes/diagnostics/persistentInsight.ts
+./routes/diagnostics/systemChronicle.js
+./routes/diagnostics/systemChronicle.ts
+./routes/diagnostics/systemHealth.js
+./routes/diagnostics/systemHealth.js.route.smoke.ts
+./routes/diagnostics/systemHealth.route.smoke.ts
+./routes/diagnostics/systemHealth.ts
+./routes/diagnostics/systemHealthSituationSummary.smoke.ts
+./routes/diagnostics/systemHealthSituationSummary.ts
+./routes/routes/diagnostics/autonomicAdaptation.js
+./routes/routes/diagnostics/autonomicAdaptation.ts
+./routes/routes/diagnostics/introspectiveSim.js
+./routes/routes/diagnostics/introspectiveSim.ts
+./routes/routes/diagnostics/persistentInsight.js
+./routes/routes/diagnostics/persistentInsight.ts
+./routes/routes/diagnostics/systemChronicle.js
+./routes/routes/diagnostics/systemChronicle.ts
+./routes/routes/diagnostics/systemHealth.js
+./routes/routes/diagnostics/systemHealth.ts
+./scripts_backup_2/diagnostics/test-rehydration.ts
+./scripts_backup/diagnostics/test-rehydration.ts
+./scripts_backup/scripts/diagnostics/test-rehydration.ts
+./scripts/_local/phase70b_generate_diagnostics_report.sh
+./scripts/_local/phase70b_operator_diagnostics.sh
+./scripts/diagnostics/test-rehydration.ts
+./scripts/phase88_1_run_system_health_attachment_smoke.sh
+./scripts/phase88_10_patch_dashboard_bad_structure_system_health_panel.mjs
+./scripts/phase88_12_inspect_served_dashboard_diagnostics_surface.sh
+./scripts/phase88_13_patch_served_dashboard_system_health_panel.mjs
+./scripts/phase88_13_verify_served_dashboard_system_health_panel.sh
+./scripts/phase88_14_2_verify_public_dashboard_system_health_attachment.sh
+./scripts/phase88_14_4_inspect_live_server_diagnostics_mounts.sh
+./scripts/phase88_14_verify_live_dashboard_system_health_attachment.sh
+./scripts/phase88_2_inspect_system_health_route.sh
+./scripts/phase88_3_find_authoritative_system_health_route.sh
+./scripts/phase88_4_run_system_health_route_smoke.sh
+./scripts/phase88_5_capture_system_health_route_payload.ts
+./scripts/phase88_5_run_system_health_route_payload_capture.sh
+./scripts/phase88_6_find_system_health_route_registration.sh
+./scripts/phase88_7_run_system_health_js_route_smoke.sh
+./scripts/phase88_8_capture_system_health_js_route_payload.ts
+./scripts/phase88_8_run_system_health_js_route_payload_capture.sh
+./scripts/phase88_9_inspect_dashboard_system_health_consumer.sh
+./snapshots/20251114-114707/routes/diagnostics/autonomicAdaptation.js
+./snapshots/20251114-114707/routes/diagnostics/autonomicAdaptation.ts
+./snapshots/20251114-114707/routes/diagnostics/introspectiveSim.js
+./snapshots/20251114-114707/routes/diagnostics/introspectiveSim.ts
+./snapshots/20251114-114707/routes/diagnostics/persistentInsight.js
+./snapshots/20251114-114707/routes/diagnostics/persistentInsight.ts
+./snapshots/20251114-114707/routes/diagnostics/systemChronicle.js
+./snapshots/20251114-114707/routes/diagnostics/systemChronicle.ts
+./snapshots/20251114-114707/routes/diagnostics/systemHealth.js
+./snapshots/20251114-114707/routes/diagnostics/systemHealth.ts
+./snapshots/20251114-114821/routes/diagnostics/autonomicAdaptation.js
+./snapshots/20251114-114821/routes/diagnostics/autonomicAdaptation.ts
+./snapshots/20251114-114821/routes/diagnostics/introspectiveSim.js
+./snapshots/20251114-114821/routes/diagnostics/introspectiveSim.ts
+./snapshots/20251114-114821/routes/diagnostics/persistentInsight.js
+./snapshots/20251114-114821/routes/diagnostics/persistentInsight.ts
+./snapshots/20251114-114821/routes/diagnostics/systemChronicle.js
+./snapshots/20251114-114821/routes/diagnostics/systemChronicle.ts
+./snapshots/20251114-114821/routes/diagnostics/systemHealth.js
+./snapshots/20251114-114821/routes/diagnostics/systemHealth.ts
+./systemHealth.ts
+./ts-backup/systemHealth.ts
+────────────────────────────────
+SECTION: route directory structure
+routes/agentsStatus.js
+routes/agentsStatus.ts
+routes/api-chat.ts
+routes/api/delegate.ts
+routes/api/logs.ts
+routes/api/tasks.ts
+routes/cade.ts
+routes/delegate.ts
+routes/delegations-result-stub.ts
+routes/delegations.ts
+routes/diagnostics/autonomicAdaptation.js
+routes/diagnostics/autonomicAdaptation.ts
+routes/diagnostics/introspectiveSim.js
+routes/diagnostics/introspectiveSim.ts
+routes/diagnostics/persistentInsight.js
+routes/diagnostics/persistentInsight.ts
+routes/diagnostics/systemChronicle.js
+routes/diagnostics/systemChronicle.ts
+routes/diagnostics/systemHealth.js
+routes/diagnostics/systemHealth.js.route.smoke.ts
+routes/diagnostics/systemHealth.route.smoke.ts
+routes/diagnostics/systemHealth.ts
+routes/diagnostics/systemHealthSituationSummary.smoke.ts
+routes/diagnostics/systemHealthSituationSummary.ts
+routes/events.ts
+routes/eventsAgents.ts
+routes/eventsAgents.ts.bak
+routes/logs.ts
+routes/matilda.ts
+routes/reflections.ts
+routes/reset.ts
+routes/routes/agentsStatus.js
+routes/routes/agentsStatus.ts
+routes/routes/cade.ts
+routes/routes/delegate.ts
+routes/routes/delegations.ts
+routes/routes/diagnostics/autonomicAdaptation.js
+routes/routes/diagnostics/autonomicAdaptation.ts
+routes/routes/diagnostics/introspectiveSim.js
+routes/routes/diagnostics/introspectiveSim.ts
+routes/routes/diagnostics/persistentInsight.js
+routes/routes/diagnostics/persistentInsight.ts
+routes/routes/diagnostics/systemChronicle.js
+routes/routes/diagnostics/systemChronicle.ts
+routes/routes/diagnostics/systemHealth.js
+routes/routes/diagnostics/systemHealth.ts
+routes/routes/events.ts
+routes/routes/eventsAgents.ts
+routes/routes/logs.ts
+routes/routes/matilda.ts
+routes/routes/reflections.ts
+routes/routes/reset.ts
+routes/routes/tasks.ts
+routes/tasks.ts
+────────────────────────────────
+SECTION: diagnostics route file previews
+FILE: ./PHASE88_9_DASHBOARD_SYSTEM_HEALTH_CONSUMER_INSPECTION.txt
+PHASE 88.9 DASHBOARD SYSTEM HEALTH CONSUMER INSPECTION
+Generated: 2026-03-19T17:35:17Z
+Branch: phase65b-running-tasks-hydration
+Commit: 0bef3c5769ca4ca707f43cd9a6d9ba23e39b680f
+Repo: /Users/marcela-dev/Projects/Motherboard_Systems_HQ
+────────────────────────────────
+SECTION: public/dashboard.html hits
+────────────────────────────────
+SECTION: public/dashboard.html relevant slice
+      #obs-panel-activity .obs-surface,
+      #obs-panel-events .obs-surface {
+        min-height: 100%;
+      }
+
+      #matilda-chat-card,
+      #delegation-card,
+      #recent-tasks-card,
+      #task-activity-card,
+      #task-events-card {
+        display: flex;
+        flex-direction: column;
+      }
+
+      #operator-tabs,
+      #observational-tabs {
+        margin-bottom: 1.1rem;
+      }
+
+      #op-panel-chat,
+      #op-panel-delegation,
+      #obs-panel-recent,
+      #obs-panel-activity,
+      #obs-panel-events {
+        padding-top: 0.1rem;
+      }
+
+      #matilda-chat-root {
+        flex: 1 1 auto;
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+      }
+
+      #matilda-chat-transcript {
+        min-height: 14rem;
+        height: 14rem;
+      }
+
+      #matilda-chat-root > .flex.space-x-3.items-end {
+        margin-top: auto;
+      }
+
+      #delegation-card {
+        justify-content: flex-start;
+      }
+
+      #delegation-input {
+        min-height: 8rem;
+      }
+
+      #task-activity-card .h-64 {
+        height: 100%;
+        min-height: 18rem;
+      }
+
+      #task-events-card.phase61-events-fill {
+        min-height: 100%;
+        height: 100%;
+      }
+
+      #task-events-card.phase61-events-fill #mb-task-events-panel-anchor {
+        flex: 1 1 auto;
+        min-height: 18rem;
+      }
+
+      #atlas-status-card {
+        width: 100%;
+      }
+
+      @media (max-width: 1023px) {
+────────────────────────────────
+FILE: ./PHASE88_3_AUTHORITATIVE_SYSTEM_HEALTH_ROUTE.txt
+PHASE 88.3 AUTHORITATIVE SYSTEM HEALTH ROUTE
+Generated: 2026-03-19T17:29:27Z
+Branch: phase65b-running-tasks-hydration
+Commit: 5c8ed3a9e55a57db4eaa1eff50373b514134ffbc
+Repo: /Users/marcela-dev/Projects/Motherboard_Systems_HQ
+────────────────────────────────
+FILE: routes/diagnostics/systemHealth.ts
+EXISTS: yes
+BYTES: 0
+LINES: 0
+HEAD:
+────────────────────────────────
+FILE: routes/diagnostics/systemHealth.js
+EXISTS: yes
+BYTES: 267
+LINES: 13
+HEAD:
+import express from "express";
+const router = express.Router();
+
+router.get("/", (req, res) => {
+  res.json({
+    status: "OK",
+    uptime: process.uptime(),
+    memory: process.memoryUsage(),
+    timestamp: new Date().toISOString()
+  });
+});
+
+export default router;
+────────────────────────────────
+FILE: routes/routes/diagnostics/systemHealth.ts
+EXISTS: yes
+BYTES: 242
+LINES: 10
+HEAD:
+import express from "express";
+export const systemHealth = express.Router();
+
+systemHealth.get("/", (_req, res) => {
+  res.json({
+    ok: true,
+    timestamp: new Date().toISOString(),
+    message: "🩺 System Health route active"
+  });
+});
+────────────────────────────────
+FILE: routes/routes/diagnostics/systemHealth.js
+EXISTS: yes
+BYTES: 267
+LINES: 13
+HEAD:
+import express from "express";
+const router = express.Router();
+
+router.get("/", (req, res) => {
+  res.json({
+    status: "OK",
+    uptime: process.uptime(),
+    memory: process.memoryUsage(),
+    timestamp: new Date().toISOString()
+  });
+});
+
+export default router;
+────────────────────────────────
+FILE: routes_backup/diagnostics/systemHealth.ts
+EXISTS: yes
+BYTES: 259
+LINES: 17
+HEAD:
+import express, { Request, Response } from "express";
+const router = express.Router();
+
+
+
+
+
+
+
+────────────────────────────────
+FILE: ./PHASE88_12_SERVED_DASHBOARD_DIAGNOSTICS_SURFACE.txt
+PHASE 88.12 SERVED DASHBOARD DIAGNOSTICS SURFACE
+Generated: 2026-03-19T17:38:11Z
+Branch: phase65b-running-tasks-hydration
+Commit: a49765bb58d5434a5ce8d246a2eff514f63810ab
+Target: public/dashboard.html
+────────────────────────────────
+SECTION: KEY HITS
+34:  #agent-status-container.phase62-agent-pool {
+90:  <link rel="stylesheet" href="css/agent-status-row.css" />
+122:      #operator-panels,
+123:      #observational-panels {
+129:      #op-panel-chat,
+130:      #op-panel-delegation,
+131:      #obs-panel-recent,
+132:      #obs-panel-activity,
+133:      #obs-panel-events {
+137:      #op-panel-chat .obs-surface,
+138:      #op-panel-delegation .obs-surface,
+139:      #obs-panel-recent .obs-surface,
+140:      #obs-panel-activity .obs-surface,
+141:      #obs-panel-events .obs-surface {
+159:      #op-panel-chat,
+160:      #op-panel-delegation,
+161:      #obs-panel-recent,
+162:      #obs-panel-activity,
+163:      #obs-panel-events {
+201:      #task-events-card.phase61-events-fill #mb-task-events-panel-anchor {
+206:      #atlas-status-card {
+230:#atlas-status-card {
+235:      #phase61-atlas-band #atlas-status-card {
+241:    .task-events-panel,
+243:    [data-tab-panel="task-events"],
+244:    #task-events-panel,
+250:    .task-events-panel .task-events-list,
+252:    [data-tab-panel="task-events"] .task-events-list,
+253:    #task-events-panel .task-events-list,
+256:    .task-events-panel ul,
+258:    [data-tab-panel="task-events"] ul,
+259:    #task-events-panel ul,
+269:    .task-events-panel .task-event,
+271:    [data-tab-panel="task-events"] .task-event,
+272:    #task-events-panel .task-event,
+275:    .task-events-panel li,
+277:    [data-tab-panel="task-events"] li,
+278:    #task-events-panel li,
+295:    .task-events-panel .task-event::before,
+297:    [data-tab-panel="task-events"] .task-event::before,
+298:    #task-events-panel .task-event::before,
+301:    .task-events-panel li::before,
+303:    [data-tab-panel="task-events"] li::before,
+304:    #task-events-panel li::before,
+317:    .task-events-panel .task-event.phase61-event-terminal::before,
+319:    [data-tab-panel="task-events"] .task-event.phase61-event-terminal::before,
+320:    #task-events-panel .task-event.phase61-event-terminal::before,
+323:    .task-events-panel li.phase61-event-terminal::before,
+325:    [data-tab-panel="task-events"] li.phase61-event-terminal::before,
+326:    #task-events-panel li.phase61-event-terminal::before,
+332:    .task-events-panel .task-event.phase61-event-active::before,
+334:    [data-tab-panel="task-events"] .task-event.phase61-event-active::before,
+335:    #task-events-panel .task-event.phase61-event-active::before,
+338:    .task-events-panel li.phase61-event-active::before,
+340:    [data-tab-panel="task-events"] li.phase61-event-active::before,
+341:    #task-events-panel li.phase61-event-active::before,
+347:    .task-events-panel .task-event.phase61-event-waiting::before,
+349:    [data-tab-panel="task-events"] .task-event.phase61-event-waiting::before,
+350:    #task-events-panel .task-event.phase61-event-waiting::before,
+353:    .task-events-panel li.phase61-event-waiting::before,
+355:    [data-tab-panel="task-events"] li.phase61-event-waiting::before,
+356:    #task-events-panel li.phase61-event-waiting::before,
+387:      .task-events-panel .task-event,
+389:      [data-tab-panel="task-events"] .task-event,
+390:      #task-events-panel .task-event,
+393:      .task-events-panel li,
+395:      [data-tab-panel="task-events"] li,
+396:      #task-events-panel li,
+415:      id="global-status"
+423:        <div id="system-health-indicator" class="w-3 h-3 rounded-full bg-red-500 animate-pulse"></div>
+426:          <span id="health-status">Critical</span>
+441:    id="agent-status-container" class="phase59-shell phase62-agent-pool bg-gray-800 p-4 rounded-2xl shadow-2xl flex flex-wrap gap-4 items-center border border-gray-700"
+486:                <button id="op-tab-chat" class="obs-tab active" type="button" data-workspace-tab data-target="op-panel-chat" role="tab" aria-selected="true" aria-controls="op-panel-chat">
+────────────────────────────────
+FILE: ./dist/scripts/diagnostics/test-rehydration.js
+// <0001fadf> Phase 9.5.1 — Rehydration & Delegation Verification
+import { execSync } from "child_process";
+function log(msg) {
+    console.log(`🧩 ${new Date().toISOString()} — ${msg}`);
+}
+try {
+    log("Starting rehydration test: restarting all agents...");
+    execSync("pm2 restart all", { stdio: "inherit" });
+    log("Sleeping 5s for agents to settle...");
+    execSync("sleep 5");
+    log("Listing active processes...");
+    execSync("pm2 list", { stdio: "inherit" });
+    log("Verifying reflections heartbeat...");
+    execSync("grep '�� Atlas heartbeat' logs/reflections/atlas.log | tail -n 3", { stdio: "inherit" });
+    log("Triggering Matilda → Cade → Atlas delegation test...");
+    execSync("curl -s -X POST http://localhost:3001/matilda -H 'Content-Type: application/json' -d '{\"message\":\"Matilda, re-delegate a simple status check through Cade to Atlas.\"}'", { stdio: "inherit" });
+    log("✅ Rehydration and delegation validation sequence complete.");
+}
+catch (err) {
+    console.error("❌ Rehydration test encountered an error:", err);
+    process.exit(1);
+}
+────────────────────────────────
+FILE: ./dist/routes/diagnostics/introspectiveSim.js
+export {};
+────────────────────────────────
+FILE: ./dist/routes/diagnostics/systemHealth.js
+export {};
+────────────────────────────────
+FILE: ./dist/routes/diagnostics/autonomicAdaptation.js
+export {};
+────────────────────────────────
+FILE: ./dist/routes/diagnostics/persistentInsight.js
+export {};
+────────────────────────────────
+FILE: ./dist/routes/diagnostics/systemChronicle.js
+export {};
+────────────────────────────────
+FILE: ./snapshots/20251114-114821/routes/diagnostics/autonomicAdaptation.ts
+import express from "express";
+export const autonomicAdaptation = express.Router();
+
+autonomicAdaptation.get("/", (_req, res) => {
+  res.json({
+    ok: true,
+    timestamp: new Date().toISOString(),
+    message: "<0001fa7c> Autonomic Adaptation route active"
+  });
+});
+────────────────────────────────
+FILE: ./snapshots/20251114-114821/routes/diagnostics/introspectiveSim.js
+import express from "express";
+const router = express.Router();
+
+router.get("/", (req, res) => {
+  res.json({
+    reflection: "Self-check complete.",
+    outcomes: [],
+    timestamp: new Date().toISOString()
+  });
+});
+
+export default router;
+────────────────────────────────
+FILE: ./snapshots/20251114-114821/routes/diagnostics/systemHealth.js
+import express from "express";
+const router = express.Router();
+
+router.get("/", (req, res) => {
+  res.json({
+    status: "OK",
+    uptime: process.uptime(),
+    memory: process.memoryUsage(),
+    timestamp: new Date().toISOString()
+  });
+});
+
+export default router;
+────────────────────────────────
+FILE: ./snapshots/20251114-114821/routes/diagnostics/persistentInsight.ts
+import express from "express";
+export const persistentInsight = express.Router();
+
+persistentInsight.get("/", (_req, res) => {
+  res.json({
+    ok: true,
+    timestamp: new Date().toISOString(),
+    message: "<0001fa7b> Persistent Insight route active"
+  });
+});
+────────────────────────────────
+FILE: ./snapshots/20251114-114821/routes/diagnostics/systemChronicle.ts
+import express from "express";
+export const systemChronicle = express.Router();
+
+systemChronicle.get("/", (_req, res) => {
+  res.json({
+    ok: true,
+    timestamp: new Date().toISOString(),
+    message: "<0001fa7e> System Chronicle route active"
+  });
+});
+────────────────────────────────
+FILE: ./snapshots/20251114-114821/routes/diagnostics/autonomicAdaptation.js
+import express from "express";
+const router = express.Router();
+
+router.get("/", (req, res) => {
+  res.json({
+    adaptation: "All subsystems nominal.",
+    adjustments: [],
+    timestamp: new Date().toISOString()
+  });
+});
+
+export default router;
+────────────────────────────────
+FILE: ./snapshots/20251114-114821/routes/diagnostics/systemHealth.ts
+import express from "express";
+export const systemHealth = express.Router();
+
+systemHealth.get("/", (_req, res) => {
+  res.json({
+    ok: true,
+    timestamp: new Date().toISOString(),
+    message: "🩺 System Health route active"
+  });
+});
+────────────────────────────────
+FILE: ./snapshots/20251114-114821/routes/diagnostics/persistentInsight.js
+import express from "express";
+const router = express.Router();
+
+router.get("/", (req, res) => {
+  res.json({
+    insights: ["Matilda is stable and responsive."],
+    timestamp: new Date().toISOString()
+  });
+});
+
+export default router;
+────────────────────────────────
+FILE: ./snapshots/20251114-114821/routes/diagnostics/systemChronicle.js
+import express from "express";
+const router = express.Router();
+
+router.get("/", (req, res) => {
+  res.json({
+    entries: [
+      { id: 1, event: "System initialized", level: "info", at: new Date().toISOString() }
+    ]
+  });
+});
+
+export default router;
+────────────────────────────────
+FILE: ./snapshots/20251114-114821/routes/diagnostics/introspectiveSim.ts
+import express from "express";
+export const introspectiveSim = express.Router();
+
+introspectiveSim.get("/", (_req, res) => {
+  res.json({
+    ok: true,
+    timestamp: new Date().toISOString(),
+    message: "<0001fa7d> Introspective Simulation route active"
+  });
+});
+────────────────────────────────
+FILE: ./snapshots/20251114-114707/routes/diagnostics/autonomicAdaptation.ts
+import express from "express";
+export const autonomicAdaptation = express.Router();
+
+autonomicAdaptation.get("/", (_req, res) => {
+  res.json({
+    ok: true,
+    timestamp: new Date().toISOString(),
+    message: "<0001fa7c> Autonomic Adaptation route active"
+  });
+});
+────────────────────────────────
+LIKELY ISSUE:
+Diagnostics route exists but is NOT mounted in server.mjs
+Next step will be mounting route if confirmed.

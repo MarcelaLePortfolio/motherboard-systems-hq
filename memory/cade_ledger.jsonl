@@ -1,0 +1,8 @@
+
+{"status":"error","error":"Cannot read properties of undefined (reading '_zod')","when":1755123729776}
+{"status":"error","error":"Cannot read properties of undefined (reading '_zod')","when":1755124015079}
+{"status":"error","error":"Cannot read properties of undefined (reading '_zod')","when":1755124214054}
+{"status":"error","error":"Cannot read properties of undefined (reading '_zod')","when":1755124267613}
+{"status":"error","error":"taskPath is not defined","when":1755124626441}
+{"status":"error","error":"ENOENT: no such file or directory, open '/Users/marcela-dev/Desktop/Motherboard_Systems_HQ/memory/queue/test-http-task.json'","when":1755124652642}
+{"taskId":"test-shell-001","status":"success","type":"shell","result":{"exitCode":0,"stdout":"Hello from Cade <0001f9e0>\n","stderr":""},"startedAt":1755124674954,"finishedAt":1755124674958}

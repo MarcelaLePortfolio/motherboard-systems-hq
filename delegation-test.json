@@ -1,0 +1,8 @@
+/* eslint-disable import/no-commonjs */
+{
+  "description": "Delegation Test",
+  "steps": [
+    { "to": "cade", "command": "/Users/marcela-dev/Desktop/Motherboard_Systems_HQ/tools/backup-now.sh" },
+    { "to": "effie", "command": "ls -lh /Users/marcela-dev/Desktop/Motherboard_Systems_HQ/Backups/Archive" }
+  ]
+}

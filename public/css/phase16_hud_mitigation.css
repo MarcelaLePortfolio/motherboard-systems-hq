@@ -1,0 +1,42 @@
+/* Phase 16 – Temporary HUD mitigation (non-destructive)
+   Goal: keep HUD bubbles visible for wiring, but stop them from obscuring layout.
+   This file is intentionally minimal and reversible.
+*/
+
+/* Dock floating HUDs to bottom edge */
+.phase16-floating,
+.phase16-hud,
+.phase16-bubble,
+.hud,
+.corner-bubble {
+  position: fixed !important;
+  bottom: 12px !important;
+  top: auto !important;
+  max-height: 28vh !important;
+  overflow-y: auto !important;
+  opacity: 0.85;
+  z-index: 20;
+}
+
+/* Reduce visual dominance */
+.phase16-floating *,
+.phase16-hud *,
+.phase16-bubble * {
+  font-size: 0.75rem;
+  line-height: 1.2;
+}
+
+/* Do not block clicks on underlying UI */
+.phase16-floating,
+.phase16-hud,
+.phase16-bubble {
+  pointer-events: none;
+}
+
+/* Allow interaction only on explicit header/handle if present */
+.phase16-floating .header,
+.phase16-hud .header,
+.phase16-bubble .header {
+  pointer-events: auto;
+  cursor: grab;
+}

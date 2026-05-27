@@ -1,0 +1,20 @@
+/* eslint-disable import/no-commonjs */
+SQLite format 3@  .r¢&'’!&Åx))É+tablecompiled_taskscompiled_tasksCREATE TABLE compiled_tasks (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  input TEXT NOT NULL,
+  step TEXT NOT NULL,
+  agent TEXT,
+  executed BOOLEAN DEFAULT 0,
+  timestamp DATETIME DEFAULT CURRENT_TIMESTAMP
+)Å1ÇEtablelogslogsCREATE TABLE logs (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  agent TEXT NOT NULL,
+  message TEXT NOT NULL,
+  timestamp DATETIME DEFAULT CURRENT_TIMESTAMP
+)P++Ytablesqlite_sequencesqlite_sequenceCREATE TABLE sqlite_sequence(name,seq)ÅJÇotablememorymemoryCREATE TABLE memory (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  agent TEXT NOT NULL,
+  key TEXT NOT NULL,
+  value TEXT NOT NULL,
+  timestamp DATETIME DEFAULT CURRENT_TIMESTAMP
+)ÙÿƒƒÍ)compiled_tasks	logs	complogs		∑î4‡é&Àk∑R	q3stryxx-1Queued task: "check my disk space" with priority 12025-07-22 00:52:39^Å3stryxx-1Queued task: "archive last week's recordings" with priority 22025-07-22 00:52:39^Å3stryxx-1Queued task: "organize my screenshots folder" with priority 32025-07-22 00:52:39YÅ3effieüíæ Effie: Disk check complete. Root size approx 704 bytes2025-07-22 00:26:37fÅ3effie‚ö†Ô∏è Effie: No handler for "archive last week's recordings". Skipping.2025-07-22 00:26:37Ps3effieüóÇ Effie: Simulated organizing screenshots folder2025-07-22 00:26:37Rq3stryxx-1Queued task: "check my disk space" with priority 12025-07-22 00:17:04^Å3stryxx-1Queued task: "archive last week's recordings" with priority 22025-07-22 00:17:04^Å3stryxx-1Queued task: "organize my screenshots folder" with priority 32025-07-22 00:17:04bXº+èÛbÅÅ=33organize my screenshots folder, archive last week's recordings, then check my disk spacecheck my disk spacestryxx-12025-07-22 00:52:39ÅÅ=I3organize my screenshots folder, archive last week's recordings, then check my disk spacearchive last week's recordingsstryxx-12025-07-22 00:52:39ÅÅ=I3organize my screenshots folder, archive last week's recordings, then check my disk spaceorganize my screenshots folderstryxx-12025-07-22 00:52:39ÅÅ=3	3organize my screenshots folder, archive last week's recordings, then check my disk spacecheck my disk spacestryxx-12025-07-22 00:17:04ÅÅ=I	3organize my screenshots folder, archive last week's recordings, then check my disk spacearchive last week's recordingsstryxx-12025-07-22 00:17:04ÅÅ=I	3organize my screenshots folder, archive last week's recordings, then check my disk spaceorganize my screenshots folderstryxx-12025-07-22 00:17:04

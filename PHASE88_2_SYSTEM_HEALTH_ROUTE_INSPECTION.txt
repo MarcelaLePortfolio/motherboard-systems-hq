@@ -1,0 +1,28 @@
+PHASE 88.2 SYSTEM HEALTH ROUTE INSPECTION
+Generated: 2026-03-19T17:28:57Z
+Branch: phase65b-running-tasks-hydration
+Commit: 84eb8d2fa1fd8a40aab290866fecfff7094d4135
+Target: routes/diagnostics/systemHealth.ts
+────────────────────────────────
+SECTION: FILE HEAD (first 220 lines)
+────────────────────────────────
+SECTION: EXPORTED SYMBOLS
+────────────────────────────────
+SECTION: SITUATION SUMMARY ATTACHMENT HELPER
+import { getSystemSituationSummary } from "../../src/cognition";
+import type { SystemSituationSignals } from "../../src/cognition";
+
+export type SystemHealthSituationSummaryPayload = {
+  situationSummary: string;
+};
+
+export function buildSystemHealthSituationSummaryPayload(
+  signals: SystemSituationSignals
+): SystemHealthSituationSummaryPayload {
+  return {
+    situationSummary: getSystemSituationSummary(signals),
+  };
+}
+────────────────────────────────
+NEXT ACTION
+Use this inspection to patch routes/diagnostics/systemHealth.ts with the narrowest possible read-only situationSummary attachment.

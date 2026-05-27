@@ -1,0 +1,13 @@
+/* eslint-disable import/no-commonjs */
+[
+  {
+    "name": "Task A",
+    "status": "active",
+    "priority": 2
+  },
+  {
+    "name": "Task C",
+    "status": "active",
+    "priority": 3
+  }
+]

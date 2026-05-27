@@ -1,0 +1,338 @@
+<header style="text-align:center; padding:1rem 0; font-family:Inter, sans-serif; font-size:1.8rem; font-weight:600; letter-spacing:0.5px; color:#222; border-bottom:2px solid #eee;">🖥️ Motherboard Systems</header>
+<link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <meta charset="UTF-8">
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<link rel="stylesheet" href="dashboard.css?v=darkmode">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 20px; background: #f7f7f7; }
+    h1 { color: #333; }
+    .card { background: #fff; padding: 15px; margin-bottom: 20px;
+            border-radius: 6px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+    #chatLog {
+      height: 200px;
+      overflow-y: auto;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      background: #f9f9f9;
+      padding: 1rem;
+      margin-bottom: 1rem;
+    }
+    .chat-input {
+      background: #fff;
+      border: 2px solid #ddd;
+      padding: 1rem;
+      margin-top: 1rem;
+      display: flex;
+      gap: 0.5rem;
+    }
+    input[type="text"] {
+      flex: 1;
+      padding: 0.5rem;
+      font-size: 1rem;
+      border: 1px solid #aaa;
+      border-radius: 4px;
+    }
+    button {
+      padding: 0.5rem 1rem;
+      font-size: 1rem;
+      background: #0b5394;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    button:hover { background: #073763; }
+  </style>
+  <style id="dark-patch-override">
+    :root{color-scheme:dark}
+    html,body{background:#111 !important;color:#fff !important}
+    #app, .container, .wrapper{background:#111 !important;color:#fff !important}
+    /* Panels */
+    .panel, .card, .box, .module{background:#1a1a1a !important;color:#f5f5f5 !important;border-color:#333 !important}
+    /* Chat */
+    #chatFeed, .chat-feed{background:#121212 !important;color:#f0f0f0 !important}
+    .chat-message.user{background:#1e1e1e !important;color:#fff !important;border-color:#333 !important}
+    .chat-message.bot{background:#161616 !important;color:#eaeaea !important;border-color:#2a2a2a !important}
+    #userInput, input[type=text], textarea{background:#171717 !important;color:#fff !important;border:1px solid #333 !important}
+    #sendButton, #delegateButton, .action-button{background:#222 !important;color:#fff !important;border:1px solid #3a3a3a !important}
+    /* Tables */
+    table{background:#141414 !important;color:#f0f0f0 !important}
+    th,td{border-color:#333 !important}
+    /* Links */
+    a{color:#9ecbff !important}
+  </style>
+<style id="chatlog-darkfix">
+  #chatLog {
+    background-color: #0b0b0b !important;
+    color: #ffffff !important;
+    -webkit-text-fill-color: #ffffff !important;
+    border: 1px solid #1f2937 !important;
+    border-radius: 8px !important;
+    padding: 12px !important;
+    overflow-y: auto !important;
+    max-height: 40vh !important;
+  }
+  #chatLog .chat-message {
+    background-color: #111827 !important;
+    color: #ffffff !important;
+    border: 1px solid #374151 !important;
+    border-radius: 8px !important;
+    padding: 8px 10px !important;
+    margin: 6px 0 !important;
+    line-height: 1.4 !important;
+    display: inline-block !important;
+    max-width: 90% !important;
+    word-wrap: break-word !important;
+    white-space: pre-wrap !important;
+  }
+  #chatLog .chat-message.user {
+    background-color: #1e3a8a !important;
+    border-color: #3b82f6 !important;
+  }
+  #chatLog .chat-message.matilda {
+    background-color: #065f46 !important;
+    border-color: #10b981 !important;
+  }
+  #chatLog .chat-message.system {
+    background-color: #3f3f46 !important;
+    color: #e5e7eb !important;
+    font-style: italic !important;
+  }
+</style>
+</head>
+<body>
+  <div id="debugBanner" style="background:#e6f7ff; border:1px solid #91d5ff; padding:8px; margin:10px 0; border-radius:6px; color:#0050b3; font-size:0.9em;">
+    ⚡ Dashboard v2.0.3 — unified chat + diagnostics layout loaded
+  </div>
+
+<div id="agentStatusContainer" style="font-family:monospace;padding:10px 14px;margin:8px 0;background:rgba(40,40,40,0.85);border:1px solid #444;border-radius:8px;color:#ddd;box-shadow:0 0 8px rgba(0,0,0,0.3);"></div>
+    </ul>
+  </header>
+
+  <!-- Chat Section -->
+  <div class="card">
+    <h2>💬 Chat with Matilda</h2>
+    <div id="chatLog"></div>
+    <div class="chat-input">
+      <input type="text" id="userInput" placeholder="Type a message..." />
+      <button id="sendBtn">Send</button>
+    <button id="delegateButton" class="action-button" title="Delegate Task">🚀</button>
+    </div>
+  </div>
+  <section id="recent-activity" style="background:#111;padding:12px;border-radius:8px;margin-top:16px;">
+    <h2 style="color:#eee;">🧾 Recent Tasks</h2>
+    <div id="recentTasks" style="padding:8px;font-family:monospace;color:#ccc;"></div>
+    <h2 style="color:#eee;margin-top:16px;">📜 Recent Logs</h2>
+    <div id="recentLogs" style="padding:8px;font-family:monospace;color:#ccc;"></div>
+<section id="activityGraph"><canvas id="taskActivityCanvas" width="600" height="300"></canvas></section>
+  </section>
+
+
+<details id="diagnosticsSection" open style="margin:1rem 0;border:1px solid #ddd;border-radius:10px;padding:0.6rem;background:#fafafa;">
+  <summary style="cursor:pointer;font-weight:bold;font-size:1.1em;color:#c87b36;">Diagnostics Overview</summary>
+  <div style="padding-left:10px;">
+  <section id="autonomic-adaptation" style="margin:1rem;padding:1rem;background:#fff;border-radius:10px;box-shadow:0 2px 6px rgba(0,0,0,0.08);">
+    <h3>🤖 Autonomic Adaptation</h3>
+    <pre id="autonomic-adaptation-content">Awaiting data...</pre>
+<section id="activityGraph"><canvas id="taskActivityCanvas" width="600" height="300"></canvas></section>
+  </section>
+  <!-- Core Diagnostic Panels -->
+  <section id="system-health" style="margin:0.6rem 1rem;padding:1rem;background:#fff;border-radius:10px;box-shadow:0 2px 6px rgba(0,0,0,0.08);">
+    <h3>⚙️ System Health & Verification</h3>
+    <pre id="system-health-content">Loading...</pre>
+<section id="activityGraph"><canvas id="taskActivityCanvas" width="600" height="300"></canvas></section>
+  </section>
+
+  <section id="matilda-insights" style="margin:0.6rem 1rem;padding:1rem;background:#fff;border-radius:10px;box-shadow:0 2px 6px rgba(0,0,0,0.08);">
+    <h3>🧠 Matilda Insights</h3>
+    <pre id="persistent-insight">Loading insights...</pre>
+<section id="activityGraph"><canvas id="taskActivityCanvas" width="600" height="300"></canvas></section>
+  </section>
+
+
+  <!-- Collapsible Deep Diagnostics -->
+<details id="diagnosticsSection" open style="margin:1rem 0;border:1px solid #ddd;border-radius:10px;padding:0.6rem;background:#fafafa;">
+  <summary style="cursor:pointer;font-weight:bold;font-size:1.1em;color:#c87b36;">Deep Diagnostics</summary>
+  <div style="padding:8px 0 0 12px;">
+  <details style="margin:1rem;padding:1rem;background:#fafafa;border-radius:8px;box-shadow:inset 0 0 4px #ddd;">
+    <summary style="cursor:pointer;font-weight:bold;">🔮 Introspective Simulation</summary>
+    <pre id="introspective-sim">Simulation logs will appear here...</pre>
+  </details>
+
+  <details style="margin:1rem;padding:1rem;background:#fafafa;border-radius:8px;box-shadow:inset 0 0 4px #ddd;">
+    <summary style="cursor:pointer;font-weight:bold;">📜 System Chronicle</summary>
+    <pre id="system-chronicle">Chronicle data will appear here...</pre>
+  </details>
+
+  <!-- === Core Scripts === -->
+  <script src="/dashboard.js?v=1.2.0" defer></script>
+  <script>
+    async function updatePanel(id, endpoint) {
+      const el = document.getElementById(id);
+      if (!el) return;
+      try {
+        const res = await fetch(endpoint);
+        const data = await res.json();
+        el.textContent = JSON.stringify(data, null, 2);
+      } catch {
+        el.textContent = "⚠️ Unavailable: " + endpoint;
+      }
+    }
+
+    async function refreshAllDiagnostics() {
+      await updatePanel("system-health-content", "/diagnostics/system-health");
+      await updatePanel("persistent-insight", "/diagnostics/persistent-insight");
+      await updatePanel("autonomic-adaptation-content", "/diagnostics/autonomic-adaptation");
+      await updatePanel("introspective-sim", "/diagnostics/introspective-sim");
+      await updatePanel("system-chronicle", "/diagnostics/system-chronicle");
+      await updatePanel("tasks", "/tasks/recent");
+      await updatePanel("logs", "/logs/recent");
+    }
+
+    window.addEventListener("load", () => {
+      refreshAllDiagnostics();
+      setInterval(refreshAllDiagnostics, 15000);
+  </div>
+</details>
+    });
+
+    // Chat Logic
+    const chatLog = document.getElementById("chatLog");
+    const userInput = document.getElementById("userInput");
+    const sendBtn = document.getElementById("sendBtn");
+
+    async function sendMessage() {
+      const message = userInput.value.trim();
+      if (!message) return;
+      appendMessage("You", message);
+      userInput.value = "";
+
+      try {
+        const res = await fetch("/matilda", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ message })
+        });
+        const data = await res.json();
+        appendMessage("Matilda", data.reply || data.reply || "(no response)");
+      } catch (err) {
+        appendMessage("Matilda", "❌ Connection error.");
+        console.error("Chat send error:", err);
+      }
+    }
+
+    function appendMessage(sender, text) {
+      const msg = document.createElement("div");
+      msg.innerHTML = `<b>${sender}:</b> ${text}`;
+      chatLog.appendChild(msg);
+      chatLog.scrollTop = chatLog.scrollHeight;
+    }
+
+    sendBtn.addEventListener("click", sendMessage);
+    userInput.addEventListener("keydown", (e) => {
+      if (e.key === "Enter" && !e.shiftKey) {
+        e.preventDefault();
+        sendMessage();
+      }
+    });
+  </script>
+
+
+<script defer src="dashboard.js"></script>
+<script src="dashboard-status.js?v=1761345479?v=1761342950?v=1761340126?v=1761340061?v=1761339985?v=1761339943?v=1761339524?v=1761338898"></script>
+<script src="js/dashboard-ops.js"></script>
+
+
+<script src="dashboard-stream.js" defer></script>
+  <style id="dark-patch-override">
+    :root{color-scheme:dark}
+    html,body{background:#111 !important;color:#fff !important}
+    #app, .container, .wrapper{background:#111 !important;color:#fff !important}
+    /* Panels */
+    .panel, .card, .box, .module{background:#1a1a1a !important;color:#f5f5f5 !important;border-color:#333 !important}
+    /* Chat */
+    #chatFeed, .chat-feed{background:#121212 !important;color:#f0f0f0 !important}
+    .chat-message.user{background:#1e1e1e !important;color:#fff !important;border-color:#333 !important}
+    .chat-message.bot{background:#161616 !important;color:#eaeaea !important;border-color:#2a2a2a !important}
+    #userInput, input[type=text], textarea{background:#171717 !important;color:#fff !important;border:1px solid #333 !important}
+    #sendButton, #delegateButton, .action-button{background:#222 !important;color:#fff !important;border:1px solid #3a3a3a !important}
+    /* Tables */
+    table{background:#141414 !important;color:#f0f0f0 !important}
+    th,td{border-color:#333 !important}
+    /* Links */
+    a{color:#9ecbff !important}
+  </style>
+<style id="chatlog-darkfix">
+  #chatLog {
+    background-color: #0b0b0b !important;
+    color: #ffffff !important;
+    -webkit-text-fill-color: #ffffff !important;
+    border: 1px solid #1f2937 !important;
+    border-radius: 8px !important;
+    padding: 12px !important;
+    overflow-y: auto !important;
+    max-height: 40vh !important;
+  }
+  #chatLog .chat-message {
+    background-color: #111827 !important;
+    color: #ffffff !important;
+    border: 1px solid #374151 !important;
+    border-radius: 8px !important;
+    padding: 8px 10px !important;
+    margin: 6px 0 !important;
+    line-height: 1.4 !important;
+    display: inline-block !important;
+    max-width: 90% !important;
+    word-wrap: break-word !important;
+    white-space: pre-wrap !important;
+  }
+  #chatLog .chat-message.user {
+    background-color: #1e3a8a !important;
+    border-color: #3b82f6 !important;
+  }
+  #chatLog .chat-message.matilda {
+    background-color: #065f46 !important;
+    border-color: #10b981 !important;
+  }
+  #chatLog .chat-message.system {
+    background-color: #3f3f46 !important;
+    color: #e5e7eb !important;
+    font-style: italic !important;
+  }
+</style>
+</head>
+<script src="js/dashboard-reflections.js"></script>
+</html>
+<script>
+  async function sendMessage() {
+    const input = document.getElementById("userInput");
+    const log = document.getElementById("chatLog");
+    const message = input.value.trim();
+    if (!message) return;
+    log.innerHTML += `<div><b>You:</b> ${message}</div>`;
+    try {
+      const res = await fetch("/matilda", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ message })
+      });
+      const data = await res.json();
+      log.innerHTML += `<div style="color:green;"><b>Matilda:</b> ${data.reply}</div>`;
+    }
+      catch (err) {
+        console.error("Matilda fetch failed:", err);
+        log.innerHTML += `<div style="color:red;"><b>Error:</b> Unable to reach Matilda</div>`;
+      }
+  }
+  document.getElementById("userInput").addEventListener("keypress", e => {
+    if (e.key === "Enter") sendMessage();
+  });
+</script>
+<script src="/js/reflections-viewer.js"></script>
+<PASTE ABOVE CODE>

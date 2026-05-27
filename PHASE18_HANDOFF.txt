@@ -1,0 +1,10 @@
+Start from tag: v17.0-orchestration-pure-scaffolds (commit 745cab0d)
+Phase 18 added:
+- In-memory orchestrator store: server/orchestrator/phase18_store.mjs
+- Minimal orchestration tick: server/orchestrator/phase18_tick.mjs
+- Runtime + interval loop: server/orchestrator/phase18_orchestration.mjs
+Wiring:
+- Server entrypoint dynamically imports runtime when PHASE18_ENABLE_ORCHESTRATION=1
+Env:
+- PHASE18_ENABLE_ORCHESTRATION=1 enables
+- PHASE18_TICK_MS (optional) tick interval (default 1000)

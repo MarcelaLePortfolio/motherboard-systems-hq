@@ -1,0 +1,96 @@
+/* eslint-disable import/no-commonjs */
+/**
+ * Dev server with strict agent status:
+ * Shows green ONLY if PM2 online + HTTP heartbeat responds
+ */
+
+import { createServer } from "http";
+import { execSync } from "child_process";
+import { join } from "path";
+import { existsSync, readFileSync } from "fs";
+import http from "http";
+
+const PORT = 3000;
+const UI_DIR = join(process.cwd(), "ui", "dashboard");
+
+const HEARTBEAT_PORTS: Record<string, number> = {
+  matilda: 3014,
+  cade: 3012,
+  effie: 3013,
+};
+
+function pingAgent(port: number): Promise<boolean> {
+  return new Promise((resolve) => {
+    const req = http.get({ hostname: "127.0.0.1", port, path: "/", timeout: 1000 }, (res) => {
+      resolve(res.statusCode === 200);
+    });
+    req.on("error", () => resolve(false));
+    req.on("timeout", () => {
+      req.destroy();
+      resolve(false);
+    });
+  });
+}
+
+async function getAgentStatus() {
+  const statusMap: Record<string, string> = {
+    matilda: "offline",
+    cade: "offline",
+    effie: "offline",
+  };
+
+  try {
+    const raw = execSync("pm2 jlist").toString();
+    const list = JSON.parse(raw);
+
+    // Step 1: Mark online if PM2 shows status as "online"
+    const pm2Online: Record<string, boolean> = {};
+    for (const proc of list) {
+      if (proc.pm2_env?.status === "online") {
+        pm2Online[proc.name.toLowerCase()] = true;
+      }
+    }
+
+    // Step 2: Strict check — only mark green if PM2 online AND heartbeat responds
+    for (const agent of Object.keys(statusMap)) {
+      const port = HEARTBEAT_PORTS[agent];
+      if (pm2Online[agent] && port && await pingAgent(port)) {
+        statusMap[agent] = "online";
+      }
+    }
+
+    return statusMap;
+  } catch (err) {
+    console.error("❌ Failed to fetch PM2 status:", err);
+    return statusMap;
+  }
+}
+
+createServer(async (req, res) => {
+  if (req.url === "/agent-status.json") {
+    const status = await getAgentStatus();
+    res.writeHead(200, { "Content-Type": "application/json" });
+    res.end(JSON.stringify(status));
+    return;
+  }
+
+  let filePath = join(UI_DIR, req.url || "/");
+  if (filePath.endsWith("/")) filePath += "index.html";
+
+  if (existsSync(filePath)) {
+    const ext = filePath.split(".").pop()?.toLowerCase() || "";
+    const mime =
+      ext === "html" ? "text/html" :
+      ext === "js"   ? "application/javascript" :
+      ext === "css"  ? "text/css" :
+      "text/plain";
+
+    res.writeHead(200, { "Content-Type": mime });
+    res.end(readFileSync(filePath));
+  } else {
+    res.writeHead(404);
+    res.end("Not Found");
+  }
+}).listen(PORT, () => {
+  console.log(`✅ Dev server with STRICT agent checks running at http://localhost:${PORT}`);
+});

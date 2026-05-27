@@ -1,0 +1,46 @@
+PHASE 63.3 OPS HEARTBEAT NAMED EVENT PROBE
+Date: 2026-03-12
+
+== bounded consumer dependency audit ==
+
+== live SSE capture ==
+event: hello
+data: {"kind":"ops","ts":1773341388958,"msg":"SSE ops connected"}
+
+event: ops.state
+data: {"status":"unknown","lastHeartbeatAt":null,"agents":{}}
+
+event: ops.heartbeat
+data: {"source":"phase63_3_probe","at":1773341389968,"meta":{"reason":"named-event-audit"}}
+
+event: heartbeat
+data: {"ts":1773341391958}
+
+
+== heartbeat POST response ==
+{"ok":true,"status":"live","at":1773341389968}
+
+== first 40 SSE lines ==
+PHASE 63.3 OPS HEARTBEAT NAMED EVENT PROBE
+Date: 2026-03-12
+
+== bounded consumer dependency audit ==
+
+== live SSE capture ==
+event: hello
+data: {"kind":"ops","ts":1773341388958,"msg":"SSE ops connected"}
+
+event: ops.state
+data: {"status":"unknown","lastHeartbeatAt":null,"agents":{}}
+
+event: ops.heartbeat
+data: {"source":"phase63_3_probe","at":1773341389968,"meta":{"reason":"named-event-audit"}}
+
+event: heartbeat
+data: {"ts":1773341391958}
+
+
+== heartbeat POST response ==
+{"ok":true,"status":"live","at":1773341389968}
+
+== first 40 SSE lines ==

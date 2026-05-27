@@ -1,0 +1,127 @@
+/* Phase 61 — Observational Workspace Tabs
+   Consolidates telemetry into a single observational workspace surface.
+*/
+
+#observational-workspace-card {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  min-height: 32rem;
+}
+
+#observational-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.625rem;
+  margin-bottom: 0.75rem;
+}
+
+.obs-tab {
+  appearance: none;
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 999px;
+  background: rgba(255,255,255,0.06);
+  color: rgba(255,255,255,0.9);
+  padding: 0.5rem 0.95rem;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  line-height: 1;
+  cursor: pointer;
+  transition: background 140ms ease, border-color 140ms ease, transform 140ms ease;
+}
+
+.obs-tab:hover {
+  background: rgba(255,255,255,0.1);
+  border-color: rgba(255,255,255,0.14);
+}
+
+.obs-tab:focus-visible {
+  outline: 2px solid rgba(99,102,241,0.9);
+  outline-offset: 2px;
+}
+
+.obs-tab.active {
+  background: linear-gradient(135deg, #6366f1, #4f46e5);
+  border-color: rgba(129,140,248,0.75);
+  color: white;
+}
+
+#observational-panels {
+  min-width: 0;
+  min-height: 22rem;
+}
+
+.obs-panel {
+  display: none;
+}
+
+.obs-panel.active {
+  display: block;
+}
+
+.obs-surface {
+  min-width: 0;
+  min-height: 22rem;
+}
+
+#obs-panel-recent .obs-surface,
+#obs-panel-activity .obs-surface,
+#obs-panel-events .obs-surface {
+  background: transparent;
+  border: 0;
+  border-radius: 0;
+  box-shadow: none;
+  padding: 0;
+}
+
+#obs-panel-events #mb-task-events-panel-anchor {
+  display: block !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+#obs-panel-events #mb-task-events-panel {
+  width: 100% !important;
+  max-width: 100% !important;
+  margin-top: 0 !important;
+}
+
+#obs-panel-events #mb-task-events-feed {
+  max-height: 18rem !important;
+}
+
+/* Phase 61 polish — match observational workspace height to Matilda chat console only */
+#phase61-workspace-grid {
+  align-items: start;
+}
+
+#phase61-operator-column,
+#phase61-telemetry-column {
+  align-self: start;
+}
+
+#phase61-telemetry-column {
+  display: block;
+}
+
+@media (max-width: 767px) {
+  #observational-tabs {
+    gap: 0.5rem;
+  }
+
+  .obs-tab {
+    padding: 0.5rem 0.8rem;
+    font-size: 0.75rem;
+  }
+
+  #observational-workspace-card {
+    min-height: auto;
+  }
+
+  .obs-surface,
+  #observational-panels {
+    min-height: 20rem;
+  }
+}

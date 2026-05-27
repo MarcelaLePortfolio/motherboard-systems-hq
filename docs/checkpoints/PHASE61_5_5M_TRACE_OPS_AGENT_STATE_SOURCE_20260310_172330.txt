@@ -1,0 +1,183 @@
+== Phase 61.5.5m ops agent state trace ==
+timestamp: 2026-03-11T00:23:30Z
+
+== branch / head ==
+phase61-cherry-pick-recovery
+ddca71e9
+
+== latest bounded /events/ops capture ==
+file: docs/checkpoints/PHASE61_5_5I_OPS_EVENT_SCHEMA_20260310_171734.txt
+== /events/ops bounded capture ==
+event: hello
+data: {"kind":"ops","ts":1773188254220,"msg":"SSE ops connected"}
+
+event: ops.state
+data: {"status":"unknown","lastHeartbeatAt":null,"agents":{}}
+
+event: heartbeat
+data: {"ts":1773188257221}
+
+event: heartbeat
+data: {"ts":1773188260221}
+
+
+== grep ops/state sources ==
+
+== candidate ops route files ==
+server/optional-sse.mjs
+server/orchestrator_state_route.mjs
+server/orchestrator/phase18_orchestration.mjs
+server/orchestrator/phase18_store.mjs
+server/orchestrator/phase18_tick.mjs
+server/orchestrator/README.md
+server/routes/task-events-sse.mjs
+server/routes/task-events-sse.mjs.bak.1767986674
+server/routes/task-events-sse.mjs.bak.2026-02-20T193433370Z
+server/routes/task-events-sse.mjs.bak.20260218_095842
+server/routes/task-events-sse.mjs.bak.20260220_100613
+server/routes/task-events-sse.mjs.bak.20260220_100822
+server/routes/task-events-sse.mjs.bak.20260220_104706
+server/routes/task-events-sse.mjs.bak.20260220_105100
+server/routes/task-events-sse.mjs.bak.20260220_105321
+server/routes/task-events-sse.mjs.bak.20260220_105342
+server/routes/task-events-sse.mjs.bak.20260220_105744
+server/routes/task-events-sse.mjs.bak.20260220_114549
+server/worker/phase34_heartbeat_pg.sql
+server/worker/phase34_heartbeat.sql
+
+== dashboard logs tail ==
+  baseUrl: '/api/tasks',
+  path: '/',
+  referer: 'http://127.0.0.1:8080/dashboard',
+  userAgent: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36',
+  accept: 'application/json'
+}
+[HTTP] GET /api/runs?limit=20
+[HTTP] GET /api/tasks?limit=12
+[phase57c-router] /api/tasks probe {
+  originalUrl: '/api/tasks?limit=12',
+  baseUrl: '/api/tasks',
+  path: '/',
+  referer: 'http://127.0.0.1:8080/dashboard',
+  userAgent: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36',
+  accept: 'application/json'
+}
+[HTTP] GET /api/runs?limit=20
+[HTTP] GET /api/tasks?limit=12
+[phase57c-router] /api/tasks probe {
+  originalUrl: '/api/tasks?limit=12',
+  baseUrl: '/api/tasks',
+  path: '/',
+  referer: 'http://127.0.0.1:8080/dashboard',
+  userAgent: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36',
+  accept: 'application/json'
+}
+[HTTP] GET /api/runs?limit=20
+[HTTP] GET /api/tasks?limit=12
+[phase57c-router] /api/tasks probe {
+  originalUrl: '/api/tasks?limit=12',
+  baseUrl: '/api/tasks',
+  path: '/',
+  referer: 'http://127.0.0.1:8080/dashboard',
+  userAgent: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36',
+  accept: 'application/json'
+}
+[HTTP] GET /api/runs?limit=20
+[HTTP] GET /api/runs?limit=20
+[HTTP] GET /api/tasks?limit=12
+[phase57c-router] /api/tasks probe {
+  originalUrl: '/api/tasks?limit=12',
+  baseUrl: '/api/tasks',
+  path: '/',
+  referer: 'http://127.0.0.1:8080/dashboard',
+  userAgent: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36',
+  accept: 'application/json'
+}
+[HTTP] GET /api/runs?limit=20
+[HTTP] GET /api/tasks?limit=12
+[phase57c-router] /api/tasks probe {
+  originalUrl: '/api/tasks?limit=12',
+  baseUrl: '/api/tasks',
+  path: '/',
+  referer: 'http://127.0.0.1:8080/dashboard',
+  userAgent: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36',
+  accept: 'application/json'
+}
+[task-events] pool cfg {
+  host: null,
+  port: null,
+  user: null,
+  database: null,
+  password_type: 'undefined',
+  password_len: null,
+  has_password: false
+}
+[HTTP] GET /events/ops
+[HTTP] GET /events/ops
+[HTTP] GET /events/ops
+[HTTP] GET /events/reflections
+[HTTP] GET /api/runs?limit=20
+[HTTP] GET /api/tasks?limit=12
+[phase57c-router] /api/tasks probe {
+  originalUrl: '/api/tasks?limit=12',
+  baseUrl: '/api/tasks',
+  path: '/',
+  referer: 'http://127.0.0.1:8080/dashboard',
+  userAgent: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36',
+  accept: 'application/json'
+}
+[HTTP] GET /api/tasks?limit=12
+[phase57c-router] /api/tasks probe {
+  originalUrl: '/api/tasks?limit=12',
+  baseUrl: '/api/tasks',
+  path: '/',
+  referer: 'http://127.0.0.1:8080/dashboard',
+  userAgent: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36',
+  accept: 'application/json'
+}
+[HTTP] GET /api/runs?limit=20
+[HTTP] GET /api/tasks?limit=12
+[phase57c-router] /api/tasks probe {
+  originalUrl: '/api/tasks?limit=12',
+  baseUrl: '/api/tasks',
+  path: '/',
+  referer: 'http://127.0.0.1:8080/dashboard',
+  userAgent: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36',
+  accept: 'application/json'
+}
+[HTTP] GET /api/runs?limit=20
+[HTTP] GET /api/tasks?limit=12
+[phase57c-router] /api/tasks probe {
+  originalUrl: '/api/tasks?limit=12',
+  baseUrl: '/api/tasks',
+  path: '/',
+  referer: 'http://127.0.0.1:8080/dashboard',
+  userAgent: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36',
+  accept: 'application/json'
+}
+[HTTP] GET /api/runs?limit=20
+[HTTP] GET /api/tasks?limit=12
+[phase57c-router] /api/tasks probe {
+  originalUrl: '/api/tasks?limit=12',
+  baseUrl: '/api/tasks',
+  path: '/',
+  referer: 'http://127.0.0.1:8080/dashboard',
+  userAgent: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36',
+  accept: 'application/json'
+}
+[HTTP] GET /api/runs?limit=20
+
+== live bounded /events/ops sample ==
+event: hello
+data: {"kind":"ops","ts":1773188610314,"msg":"SSE ops connected"}
+
+event: ops.state
+data: {"status":"unknown","lastHeartbeatAt":null,"agents":{}}
+
+event: heartbeat
+data: {"ts":1773188613314}
+
+event: heartbeat
+data: {"ts":1773188616314}
+
+

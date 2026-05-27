@@ -1,0 +1,16 @@
+services:
+  dashboard:
+    environment:
+      POLICY_MODE: "shadow"
+      POLICY_SHADOW_MODE: "1"
+      POLICY_ENFORCE_MODE: "0"
+  workerA:
+    environment:
+      POLICY_MODE: "shadow"
+      POLICY_SHADOW_MODE: "1"
+      POLICY_ENFORCE_MODE: "0"
+  workerB:
+    environment:
+      POLICY_MODE: "shadow"
+      POLICY_SHADOW_MODE: "1"
+      POLICY_ENFORCE_MODE: "0"

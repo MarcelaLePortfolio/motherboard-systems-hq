@@ -1,0 +1,4 @@
+services:
+  dashboard:
+    environment:
+      POSTGRES_URL: "postgres://postgres:postgres@postgres:5432/postgres"

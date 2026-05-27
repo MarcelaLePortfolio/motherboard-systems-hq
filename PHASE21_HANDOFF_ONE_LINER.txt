@@ -1,0 +1,1 @@
+Start from tag v21.0-task-events-sse-golden. Task-events SSE is live (hello+heartbeat) and streams task.event frames (task.created/task.completed) from Postgres; /api/tasks-mutations/* writes task_events and updates tasks.

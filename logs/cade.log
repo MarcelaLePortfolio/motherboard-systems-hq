@@ -1,0 +1,10 @@
+
+[2025-08-13T22:22:09.776Z] ❌ Error: Cannot read properties of undefined (reading '_zod')
+[2025-08-13T22:26:55.080Z] ❌ Error: Cannot read properties of undefined (reading '_zod')
+[2025-08-13T22:30:14.055Z] ❌ Error: Cannot read properties of undefined (reading '_zod')
+[2025-08-13T22:31:07.614Z] ❌ Error: Cannot read properties of undefined (reading '_zod')
+[2025-08-13T22:37:06.441Z] ❌ Error: taskPath is not defined
+[2025-08-13T22:37:32.643Z] ❌ Error: ENOENT: no such file or directory, open '/Users/marcela-dev/Desktop/Motherboard_Systems_HQ/memory/queue/test-http-task.json'
+[2025-08-13T22:37:54.954Z] 📥 Task test-shell-001 (shell)
+[2025-08-13T22:37:54.954Z] 🛠️ shell: echo 'Hello from Cade <0001f9e0>' (cwd=/Users/marcela-dev/Desktop/Motherboard_Systems_HQ)
+[2025-08-13T22:37:54.958Z] ✅ Done test-shell-001

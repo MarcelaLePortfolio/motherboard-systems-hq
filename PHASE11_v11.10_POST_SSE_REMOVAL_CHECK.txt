@@ -1,0 +1,37 @@
+Phase 11 v11.10 – Post-OPS SSE Removal Check
+
+Current expectation:
+
+OPS pill: visible, static "OPS: Unknown" (no SSE).
+
+No EventSource or MIME-type errors in DevTools console.
+
+Matilda chat + task delegation wired through dashboard-bundle-entry.js.
+
+Manual check:
+
+Open http://127.0.0.1:8080/dashboard
+
+Confirm:
+
+OPS pill shows "OPS: Unknown" and there are no SSE-related errors.
+
+Matilda chat:
+
+Typing + submit shows "Matilda is thinking…"
+
+Then shows reply or JSON in the Project Visual Output area.
+
+Task delegation:
+
+Shows "Delegating: …" then "Delegated ✓ (id: …, status: …)" in the log.
+
+May mirror JSON into the Project Visual Output area.
+
+If anything differs, capture:
+
+A screenshot of the dashboard
+
+The full DevTools console output
+
+Then describe both in the next ChatGPT message for targeted fixes.

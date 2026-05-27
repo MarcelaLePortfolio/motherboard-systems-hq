@@ -1,0 +1,16 @@
+import { log } from "../utils/log";
+/**
+ * Stubbed Effie command handler
+ */
+export async function effieCommandRouter(command, args) {
+    await log("Effie received command:", command, args);
+    return { status: "ok", result: `Effie stub executed: ${command}` };
+}
+/**
+ * Named export for Effie agent
+ */
+export const effie = {
+    name: "Effie",
+    role: "Desktop/Local Ops Assistant",
+    handler: effieCommandRouter
+};

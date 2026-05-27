@@ -1,0 +1,7 @@
+node_modules/
+dist/
+build/
+coverage/
+.artifacts/docker/*.tar
+.artifacts/docker/*.tar.gz
+.artifacts/docker/*.tgz

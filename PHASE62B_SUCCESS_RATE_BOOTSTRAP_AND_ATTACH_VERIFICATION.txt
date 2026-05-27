@@ -1,0 +1,286 @@
+FULL OUTPUT
+
+== public/js/dashboard-bundle-entry.js ==
+     1	import "./sse-heartbeat-shim.js";
+     2	import "./heartbeat-stale-indicator.js";
+     3	// Phase 11 – Unified dashboard bundle entrypoint
+     4	
+     5	// Core dashboard status + tiles
+     6	import "./dashboard-status.js";
+     7	
+     8	// Phase 15/16 boundary: disable optional SSE (OPS + Reflections) until backends exist
+     9	if (typeof window !== "undefined" && typeof window.__DISABLE_OPTIONAL_SSE === "undefined") {
+    10	  window.__DISABLE_OPTIONAL_SSE = false;
+    11	}
+    12	
+    13	import "./agent-status-row.js";
+    14	
+    15	// OPS / PM2 status + SSE wiring
+    16	import "./dashboard-broadcast.js";
+    17	import "./ops-status-widget.js";
+    18	import "./ops-globals-bridge.js";
+    19	import "./ops-pill-state.js";
+    20	// TEMP phase57c isolate /api/tasks loop
+    21	// import "./dashboard-tasks-widget.js";
+    22	
+    23	// Matilda chat console wiring
+    24	import "./matilda-chat-console.js";
+    25	import "./dashboard-delegation.js";
+    26	
+    27	// TEMP: dashboard graph disabled until canvas is present on all pages
+    28	// import "./dashboard-graph.js";
+    29	
+    30	// Phase 22: task-events live UI
+    31	import "./task-events-sse-client.js";
+    32	import "./phase22_task_delegation_live_bindings.js";
+    33	
+    34	// Phase 62B/65C: telemetry metric ownership bootstrap
+    35	import "./telemetry/phase65b_metric_bootstrap.js";
+
+== public/js/telemetry/success_rate_metric.js ==
+     1	/*
+     2	PHASE 65C TELEMETRY HYDRATION
+     3	Success Rate Metric
+     4	Telemetry now sole writer.
+     5	*/
+     6	
+     7	(function () {
+     8	  const TERMINAL_SUCCESS_TYPES = new Set([
+     9	    "task.completed",
+    10	    "task.complete",
+    11	    "task.done",
+    12	    "task.success",
+    13	    "completed",
+    14	    "complete",
+    15	    "done",
+    16	    "success",
+    17	  ]);
+    18	
+    19	  const TERMINAL_FAILURE_TYPES = new Set([
+    20	    "task.failed",
+    21	    "task.error",
+    22	    "task.cancelled",
+    23	    "task.canceled",
+    24	    "task.timed_out",
+    25	    "task.timeout",
+    26	    "failed",
+    27	    "error",
+    28	    "cancelled",
+    29	    "canceled",
+    30	    "timed_out",
+    31	    "timeout",
+    32	    "terminated",
+    33	    "aborted",
+    34	  ]);
+    35	
+    36	  const seenTerminalEvents = new Set();
+    37	  let completedCount = 0;
+    38	  let failedCount = 0;
+    39	
+    40	  function getMetricNode() {
+    41	    return document.getElementById("metric-success");
+    42	  }
+    43	
+    44	  function render() {
+    45	    const node = getMetricNode();
+    46	    if (!node) return;
+    47	
+    48	    const total = completedCount + failedCount;
+    49	    const value = total > 0 ? `${Math.round((completedCount / total) * 100)}%` : "—";
+    50	
+    51	    if (window.__phase65bMetricWrite) {
+    52	      window.__phase65bMetricWrite(() => {
+    53	        node.textContent = value;
+    54	      });
+    55	    } else {
+    56	      node.textContent = value;
+    57	    }
+    58	  }
+    59	
+    60	  function getEventType(payload, fallbackEventName) {
+    61	    return String(
+    62	      payload?.type ||
+    63	        payload?.event ||
+    64	        payload?.name ||
+    65	        payload?.kind ||
+    66	        payload?.status ||
+    67	        payload?.state ||
+    68	        fallbackEventName ||
+    69	        ""
+    70	    )
+    71	      .trim()
+    72	      .toLowerCase();
+    73	  }
+    74	
+    75	  function getTaskId(payload) {
+    76	    return String(
+    77	      payload?.task_id ??
+    78	        payload?.taskId ??
+    79	        payload?.id ??
+    80	        payload?.data?.task_id ??
+    81	        payload?.data?.taskId ??
+    82	        payload?.meta?.task_id ??
+    83	        payload?.meta?.taskId ??
+    84	        ""
+    85	    ).trim();
+    86	  }
+    87	
+    88	  function getEventTs(payload) {
+    89	    const raw =
+    90	      payload?.ts ??
+    91	      payload?.timestamp ??
+    92	      payload?.at ??
+    93	      payload?.time ??
+    94	      payload?.created_at ??
+    95	      payload?.updated_at ??
+    96	      Date.now();
+    97	
+    98	    if (typeof raw === "number" && Number.isFinite(raw)) {
+    99	      return raw > 1e12 ? raw : raw * 1000;
+   100	    }
+   101	
+   102	    if (typeof raw === "string" && raw.trim()) {
+   103	      const asNum = Number(raw);
+   104	      if (Number.isFinite(asNum)) return asNum > 1e12 ? asNum : asNum * 1000;
+   105	      const parsed = Date.parse(raw);
+   106	      if (Number.isFinite(parsed)) return parsed;
+   107	    }
+   108	
+   109	    return Date.now();
+   110	  }
+   111	
+   112	  function normalizePayload(payload, fallbackEventName) {
+   113	    const value = payload && typeof payload === "object" ? { ...payload } : {};
+   114	    const meta = value.meta && typeof value.meta === "object" ? value.meta : null;
+   115	
+   116	    if (value.kind === "task.event" && value.type) {
+   117	      value.kind = value.type;
+   118	    }
+   119	
+   120	    if (meta) {
+   121	      if (value.task_id == null && meta.task_id != null) value.task_id = meta.task_id;
+   122	      if (value.taskId == null && meta.taskId != null) value.taskId = meta.taskId;
+   123	      if (value.status == null && meta.status != null) value.status = meta.status;
+   124	      if (value.state == null && meta.state != null) value.state = meta.state;
+   125	      if (value.event == null && meta.event != null) value.event = meta.event;
+   126	      if (value.type == null && meta.type != null) value.type = meta.type;
+   127	    }
+   128	
+   129	    value.__phase62bFallbackEventName = fallbackEventName || "";
+   130	    return value;
+   131	  }
+   132	
+   133	  function processPayload(payload, fallbackEventName) {
+   134	    const normalized = normalizePayload(payload, fallbackEventName);
+   135	    const type = getEventType(normalized, fallbackEventName);
+   136	    const taskId = getTaskId(normalized);
+   137	    const ts = getEventTs(normalized);
+   138	
+   139	    if (!type) {
+   140	      render();
+   141	      return;
+   142	    }
+   143	
+   144	    const isSuccess = TERMINAL_SUCCESS_TYPES.has(type);
+   145	    const isFailure = TERMINAL_FAILURE_TYPES.has(type);
+   146	
+   147	    if (!isSuccess && !isFailure) {
+   148	      render();
+   149	      return;
+   150	    }
+   151	
+   152	    const dedupeKey = `${taskId || "no-task"}|${type}|${ts}`;
+   153	    if (seenTerminalEvents.has(dedupeKey)) {
+   154	      render();
+   155	      return;
+   156	    }
+   157	
+   158	    seenTerminalEvents.add(dedupeKey);
+   159	
+   160	    if (isSuccess) completedCount += 1;
+   161	    if (isFailure) failedCount += 1;
+   162	
+   163	    render();
+   164	  }
+   165	
+   166	  function attach(source) {
+   167	    if (!source || source.__phase65cSuccessBound) return;
+   168	
+   169	    source.__phase65cSuccessBound = true;
+   170	
+   171	    const handle = (fallbackEventName, e) => {
+   172	      try {
+   173	        const parsed = JSON.parse(e.data);
+   174	        if (Array.isArray(parsed)) {
+   175	          parsed.forEach((item) => processPayload(item, fallbackEventName));
+   176	        } else {
+   177	          processPayload(parsed, fallbackEventName);
+   178	        }
+   179	      } catch {
+   180	        console.warn("success_rate_metric parse error");
+   181	      }
+   182	    };
+   183	
+   184	    const eventNames = [
+   185	      "message",
+   186	      "task.event",
+   187	      "task.completed",
+   188	      "task.failed",
+   189	      "task.updated",
+   190	      "task.status",
+   191	    ];
+   192	
+   193	    eventNames.forEach((eventName) => {
+   194	      source.addEventListener(eventName, (e) => handle(eventName, e));
+   195	    });
+   196	  }
+   197	
+   198	  function patchEventSource() {
+   199	    if (window.__phase65cSuccessPatched) return;
+   200	
+   201	    const Native = window.EventSource;
+   202	    if (typeof Native !== "function") return;
+   203	
+   204	    function Wrapped(url, config) {
+   205	      const es = new Native(url, config);
+   206	
+   207	      try {
+   208	        if (String(url).includes("/events/task-events")) {
+   209	          attach(es);
+   210	        }
+   211	      } catch {}
+   212	
+   213	      return es;
+   214	    }
+   215	
+   216	    Wrapped.prototype = Native.prototype;
+   217	    window.EventSource = Wrapped;
+   218	    window.__phase65cSuccessPatched = true;
+   219	  }
+   220	
+   221	  function bootstrap() {
+   222	    patchEventSource();
+   223	    render();
+   224	  }
+   225	
+   226	  if (document.readyState === "loading") {
+   227	    document.addEventListener("DOMContentLoaded", bootstrap);
+   228	  } else {
+   229	    bootstrap();
+   230	  }
+   231	})();
+
+== public/bundle.js focused excerpts ==
+649:    const successNode = null;
+728:      if (successNode) {
+1360:      if (kind === "task.completed") tally.completed += 1;
+1361:      if (kind === "task.failed") tally.failed += 1;
+1498:      if (ev.kind === "task.created" || ev.kind === "task.completed" || ev.kind === "task.failed") {
+1546:        "task.completed",
+1547:        "task.failed",
+1596:      return v === "task.completed" || v === "task.failed" || v === "task.cancelled" || v === "task.canceled";
+1604:      return v === "task.completed";
+1608:      return v === "task.failed" || v === "task.cancelled" || v === "task.canceled";
+1735:        if (ev.kind === "task.completed") t.status = "done";
+1736:        if (ev.kind === "task.failed") t.status = "failed";
+1775:  // public/js/telemetry/phase65b_metric_bootstrap.js

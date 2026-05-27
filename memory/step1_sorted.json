@@ -1,0 +1,15 @@
+/* eslint-disable import/no-commonjs */
+[
+  {
+    "name": "Cade",
+    "role": "backend"
+  },
+  {
+    "name": "Effie",
+    "role": "desktop"
+  },
+  {
+    "name": "Matilda",
+    "role": "delegator"
+  }
+]

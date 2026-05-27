@@ -1,0 +1,87 @@
+/* Phase 59 demo focus — structural console composition
+   Goal for this pass:
+   - center the operator shell
+   - keep Agent Pool and main console aligned
+   - present metrics directly under Agent Pool
+   - hide legacy compatibility roots from view only
+*/
+
+:root {
+  --phase59-max: 1280px;
+  --phase59-gap: 1.5rem;
+}
+
+.phase59-shell,
+body > #agent-status-container,
+body > main,
+body > #reflections,
+body > #mb-task-events-panel-anchor {
+  width: min(100%, var(--phase59-max));
+  margin-left: auto;
+  margin-right: auto;
+}
+
+#agent-status-container {
+  box-sizing: border-box;
+  align-items: stretch;
+}
+
+#agent-status-container > h2,
+#agent-status-container > h3 {
+  flex: 0 0 100%;
+  margin: 0 0 0.25rem 0;
+}
+
+#agent-status-container .flex,
+#agent-status-container [class*="flex-wrap"] {
+  width: 100%;
+}
+
+#agent-status-container [data-agent],
+#agent-status-container .agent,
+#agent-status-container .rounded-full {
+  min-height: 2.5rem;
+}
+
+#metrics-row > div,
+#operator-tools-grid > section,
+#activity-panels-grid > section,
+#atlas-status-card {
+  min-width: 0;
+}
+
+#operator-tools-grid,
+#activity-panels-grid {
+  align-items: stretch;
+}
+
+#recent-tasks-card,
+#task-activity-card,
+#atlas-status-card,
+#matilda-chat-card,
+#delegation-card {
+  min-height: 100%;
+}
+
+#reflections,
+#mb-task-events-panel-anchor,
+#phase16-sse-indicator,
+#phase16_reflections_panel,
+#phase59-compat-roots {
+  display: none !important;
+}
+
+@media (max-width: 1279px) {
+  .phase59-shell,
+  body > #agent-status-container,
+  body > main {
+    width: min(100%, 1080px);
+  }
+}
+
+@media (max-width: 1023px) {
+  body {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+}

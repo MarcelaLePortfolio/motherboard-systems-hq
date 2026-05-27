@@ -1,0 +1,29 @@
+PHASE 62B — SUCCESS RATE BOOTSTRAP + TERMINAL ATTACH VERIFICATION
+generated_at=2026-03-17T16:37:41Z
+
+== branch ==
+phase65b-running-tasks-hydration
+
+== bundle entry telemetry bootstrap import ==
+35:import "./telemetry/phase65b_metric_bootstrap.js";
+
+== success metric terminal event listeners ==
+9:    "task.completed",
+20:    "task.failed",
+116:    if (value.kind === "task.event" && value.type) {
+186:      "task.event",
+187:      "task.completed",
+188:      "task.failed",
+189:      "task.updated",
+190:      "task.status",
+208:        if (String(url).includes("/events/task-events")) {
+
+== bundle direct success writer check ==
+bundle_direct_success_writer_present=no
+
+== bundle bootstrap presence check ==
+bundle_bootstrap_present=yes
+
+== key decision summary ==
+dashboard_bundle_imports_bootstrap=yes
+success_metric_listens_named_terminal_events=no

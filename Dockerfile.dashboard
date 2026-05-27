@@ -1,0 +1,26 @@
+FROM node:20-alpine
+
+WORKDIR /app
+ARG GIT_SHA="unknown"
+ARG BUILD_TIME="unknown"
+ENV GIT_SHA=$GIT_SHA
+ENV BUILD_TIME=$BUILD_TIME
+
+COPY package*.json ./
+COPY package-lock.json* ./
+
+RUN npm config set fetch-retries 5 \
+    && npm config set fetch-retry-factor 2 \
+    && npm config set fetch-retry-mintimeout 10000 \
+    && npm config set fetch-retry-maxtimeout 60000 \
+    && (npm config set registry https://registry.npmmirror.com/ \
+        && npm ci --no-audit --no-fund \
+      || npm config set registry https://registry.npmjs.org/ \
+        && npm ci --no-audit --no-fund) \
+    && apk add --no-cache curl ripgrep
+
+COPY . .
+
+EXPOSE 3000
+COPY public/ ./public/
+CMD ["node", "server.mjs"]

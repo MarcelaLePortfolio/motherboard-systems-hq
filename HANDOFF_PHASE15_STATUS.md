@@ -1,0 +1,1 @@
+Dashboard UI is stable and task polling is confirmed working end-to-end; OPS and Reflections SSE endpoints are not implemented yet, so current 404s are cosmetic only and should be resolved next by either standing up /events/ops and /events/reflections servers or explicitly disabling those listeners until Phase 16.

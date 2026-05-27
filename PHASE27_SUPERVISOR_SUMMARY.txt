@@ -1,0 +1,25 @@
+Phase 27 — Supervisor Summary (current state)
+
+What we shipped:
+- Worker loop (phase26_task_worker.mjs) claims queued tasks via phase27_claim_one.sql and marks success/failure via phase27 markers.
+- Markers aligned to use worker identity (owner) as the run_id/worker_id contract.
+- Phase 25 single-writer now persists task_events.task_id (insert includes task_id column).
+
+What we verified:
+- End-to-end success path: queued -> running -> completed, with task.running + task.completed events written to task_events.
+- task_events.task_id is populated and queryable by task_id (e.g., task_id=92 returned running+completed).
+- Failure path smoke: phase27.fail_smoke forces execTask throw; task row updated with backoff/last_error and events include task_id.
+
+Artifacts / files:
+- server/worker/phase27_claim_one.sql
+- server/worker/phase27_mark_success.sql
+- server/worker/phase27_mark_failure.sql
+- server/worker/phase27_markers.mjs
+- server/worker/phase26_task_worker.mjs
+- server/task-events.mjs (Phase 25 writer inserts task_id)
+
+Exit criteria met:
+- Worker can claim tasks, transition task rows, and write lifecycle events with persisted task_id.
+
+Next:
+- Phase 28: wire worker into compose/service + provide a single-command smoke script that seeds + runs WORKER_MAX_CLAIMS=1 + asserts events.
