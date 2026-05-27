@@ -11,21 +11,9 @@ MEGA_REMOTE="MEGA:/motherboard-systems-hq"
 
 echo "MEGA OFFSITE SYNC START"
 
-if ! command -v mega-put >/dev/null 2>&1; then
+command -v mega-put >/dev/null 2>&1 || { echo "MEGA CMD NOT FOUND"; exit 1; }
 
-  echo "MEGA CMD NOT FOUND (install megacmd)"
-
-  exit 1
-
-fi
-
-if [ ! -d "$BACKUP_DIR" ]; then
-
-  echo "NO BACKUP DIR FOUND"
-
-  exit 1
-
-fi
+[ -d "$BACKUP_DIR" ] || { echo "NO BACKUP DIR FOUND"; exit 1; }
 
 MAX_SIZE_MB=500
 
@@ -33,13 +21,7 @@ TOTAL_SIZE_MB=$(du -sm "$BACKUP_DIR" | awk '{print $1}')
 
 echo "BACKUP SIZE: ${TOTAL_SIZE_MB}MB"
 
-if [ "$TOTAL_SIZE_MB" -gt "$MAX_SIZE_MB" ]; then
-
-  echo "ABORT: EXCEEDS FREE TIER SAFE LIMIT"
-
-  exit 1
-
-fi
+[ "$TOTAL_SIZE_MB" -le "$MAX_SIZE_MB" ] || { echo "ABORT: EXCEEDS FREE TIER LIMIT"; exit 1; }
 
 echo "UPLOADING TO MEGA OFFSITE..."
 
