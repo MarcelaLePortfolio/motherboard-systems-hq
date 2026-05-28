@@ -1,0 +1,393 @@
+
+
+==================================================================
+FILE: scripts/_local/agent-runtime/launch-cade.ts
+==================================================================
+
+ 
+import { createAgentRuntime } from "../../mirror/agent";
+import { cade } from "../../agents/cade";
+import { readChainState, writeChainState } from "../utils/chainState";
+import { routeTask } from "../handlers/taskRouter";
+
+async function checkAndRunTaskFromState() {
+  const state = await readChainState();
+  if (state?.agent !== "Cade" || state?.status !== "Assigned") return;
+
+  console.log("🎯 [CADE] Assigned task received:", state);
+
+  try {
+    const result = await routeTask(state);
+    const updated = {
+      ...state,
+      status: "Completed",
+      result,
+      ts: Date.now()
+    };
+    await writeChainState(updated);
+    console.log("✅ [CADE] Task completed:", result);
+  } catch (err) {
+    const failed = {
+      ...state,
+      status: "Failed",
+      error: String(err),
+      ts: Date.now()
+    };
+    await writeChainState(failed);
+    console.error("❌ [CADE] Task failed:", err);
+  }
+}
+
+checkAndRunTaskFromState(); // fire once per startup for now
+
+createAgentRuntime(cade);
+
+==================================================================
+FILE: scripts/_local/agent-runtime/cade-processor.ts
+==================================================================
+
+ 
+import { startCadeTaskProcessor } from "./utils/cade_task_processor.js";startCadeTaskProcessor();console.log(" Cade Task Processor started.");// --- Keep the process alive ---setInterval(() => {}, 1 << 30);
+
+==================================================================
+FILE: scripts/_local/agent-runtime/utils/cade_task_processor.ts
+==================================================================
+
+/* eslint-disable import/no-commonjs */
+import { readFileSync, writeFileSync } from "fs";
+import { exec } from "child_process";
+
+const filePath = "./memory/agent_chain_state.json";
+
+function loadTasks(): any[] {
+  try {
+    const data = JSON.parse(readFileSync(filePath, "utf-8"));
+    return Array.isArray(data) ? data : [];
+  } catch {
+    return [];
+  }
+}
+
+function saveTasks(tasks: any[]) {
+  writeFileSync(filePath, JSON.stringify(tasks, null, 2));
+}
+
+function runShellCommand(command: string): Promise<void> {
+  return new Promise((resolve, reject) => {
+    exec(command, (error, stdout, stderr) => {
+      if (error) {
+        console.error("❌ Shell command error (Cade):", command, error);
+        reject(error);
+      } else {
+        console.log(`✅ Shell command success (Cade): ${command}`);
+        console.log(`📤 Output:\n${stdout}`);
+        resolve();
+      }
+    });
+  });
+}
+
+async function processTasks() {
+  const tasks = loadTasks();
+  let changed = false;
+
+  for (const task of tasks) {
+    if (task.status === "Pending" && task.agent === "Cade" && task.type === "run_shell") {
+      try {
+        await runShellCommand(task.command);
+        task.status = "Completed";
+        changed = true;
+      } catch {
+        task.status = "Failed";
+        changed = true;
+      }
+    }
+  }
+
+  if (changed) saveTasks(tasks);
+}
+
+export function startCadeTaskProcessor() {
+  console.log("⚙️ Cade Task Processor: Started, polling every 3 seconds...");
+  setInterval(() => {
+    processTasks().catch(console.error);
+  }, 3000);
+}
+
+==================================================================
+FILE: scripts/_local/handlers/taskRouter.ts
+==================================================================
+
+ 
+import { handleInstallTask } from "./install.js";
+import { handleBuildUITask } from "./buildUI.js";
+
+export async function routeTask(task: any): Promise<string> {
+  const type = task?.type;
+
+  switch (type) {
+    case "install":
+      return await handleInstallTask(task.package);
+    default:
+      return "⚠️ Unknown task type: \"" + type + "\"";
+  }
+}
+
+==================================================================
+FILE: scripts/_local/agent-runtime/handlers/handleTask.ts
+==================================================================
+
+import fs from "fs";
+import path from "path";
+import { execSync } from "child_process";
+
+interface Task {
+  type: string;
+  path?: string;
+  content?: string;
+  command?: string;
+}
+
+function handleTask(task: Task): void {
+  const log = (msg: string) =>
+    console.log(`[\${new Date().toISOString()}] \${msg}`);
+
+  if (!task?.type) {
+    log("❌ No task type found.");
+    return;
+  }
+
+  if (task.type === "generate_file") {
+    const isCustomPath = !!task.path;
+    const filePath = isCustomPath
+      ? path.join(process.cwd(), task.path!)
+      : path.join(process.cwd(), "scripts/_local/agent-runtime/output/output.txt");
+
+    const dirPath = path.dirname(filePath);
+    const content = task.content || "";
+    try {
+      fs.mkdirSync(dirPath, { recursive: true });
+      fs.writeFileSync(filePath, content, "utf8");
+      log(`📄 File generated: \${filePath}`);
+    } catch (err: any) {
+      log(`❌ File write error: \${err.message}`);
+    }
+  }
+
+  if (task.type === "run_shell") {
+    try {
+      const result = execSync(task.command!, { encoding: "utf8" });
+      log(`💻 Shell result:\\n\${result}`);
+    } catch (err: any) {
+      log(`❌ Shell execution error:\\n\${err.message}`);
+    }
+  }
+
+  const dbPath = path.join(
+    process.cwd(),
+    "scripts/_local/agent-runtime/memory/agent_brain.db"
+  );
+  fs.appendFileSync(
+    dbPath,
+    `[\${new Date().toISOString()}] ✅ Task recorded in DB.\\n`
+  );
+}
+
+export { handleTask };
+
+==================================================================
+FILE: scripts/_local/agent-runtime/submit-task.ts
+==================================================================
+
+ 
+/**
+ * submit-task.ts
+ * Post a task to memory/agent_chain_state.json without fragile heredocs.
+ *
+ * Usage examples:
+ *   tsx scripts/_local/agent-runtime/submit-task.ts run_shell --cmd "echo hello
+ *   tsx scripts/_local/agent-runtime/submit-task.ts generate_file --path tmp/cade-proof.txt --content "hi
+ *   tsx scripts/_local/agent-runtime/submit-task.ts run_shell --id custom-123 --cmd "date
+ */
+
+//import * as fs from 'fs';";
+import * as fsp from 'fs/promises';
+import * as path from 'path';
+
+type Params = Record<string, string | number | boolean>;
+const PROJECT_ROOT = process.cwd();
+const STATE_FILE = path.join(PROJECT_ROOT, 'memory', 'agent_chain_state.json');
+
+function parseArgs(argv: string[]) {
+  const out: Params = {};
+  for (let i = 0; i < argv.length; i++) {
+    const a = argv[i];
+    if (a.startsWith('--')) {
+      const k = a.slice(2);
+      const v = argv[i + 1] && !argv[i + 1].startsWith('--') ? argv[++i] : 'true';
+      out[k] = v;
+    } else if (!out['_']) {
+      out['_'] = a;
+    } else {
+if (!Array.isArray((out as any)["_args"])) { (out as any)["_args"] = [] as string[]; } ((out as any)["_args"] as string[]).push(String(a));
+    }
+  }
+  return out;
+}
+
+async function ensureDir(p: string) {
+  await fsp.mkdir(p, { recursive: true }).catch(() => {});
+}
+
+async function writeJson(file: string, data: any) {
+  await ensureDir(path.dirname(file));
+  const tmp = `${file}.tmp-${Date.now()}`;
+  await fsp.writeFile(tmp, JSON.stringify(data, null, 2), 'utf8');
+  await fsp.rename(tmp, file);
+}
+
+async function main() {
+  const args = parseArgs(process.argv.slice(2));
+  const type = String(args._ || '');
+  if (!type) {
+    console.error('Usage: tsx scripts/_local/agent-runtime/submit-task.ts <run_shell|generate_file> [--id ID] [--cmd "echo hi"] [--path FILE --content TEXT]');
+    process.exit(2);
+  }
+
+  const id = String(args.id || `task-${Date.now()}`);
+  const ts = Math.floor(Date.now() / 1000);
+
+  let params: Record<string, any> = {};
+  if (type === 'run_shell') {
+    const cmd = String(args.cmd || args.command || '');
+    if (!cmd) {
+      console.error('run_shell requires --cmd "<command>"');
+      process.exit(2);
+    }
+    params = { command: cmd };
+  } else if (type === 'generate_file') {
+    const filePath = String(args.path || args.file || '');
+    const content = String(args.content ?? '');
+    if (!filePath) {
+      console.error('generate_file requires --path "<relative/file.txt>"');
+      process.exit(2);
+    }
+    const abs = path.resolve(PROJECT_ROOT, filePath);
+    if (!abs.startsWith(PROJECT_ROOT)) {
+      console.error(`Refusing to write outside project root: ${filePath}`);
+      process.exit(2);
+    }
+    params = { path: filePath, content };
+  } else {
+    console.error(`Unknown task type "${type}". Supported: run_shell, generate_file`);
+    process.exit(2);
+  }
+
+  const stateBody = {
+    agent: 'Matilda',
+    status: 'Delegating',
+    ts,
+    task: { id, type, params }
+  };
+
+  await writeJson(STATE_FILE, stateBody);
+  console.log(`✅ Wrote task ${id}: ${type}`);
+  console.log(`→ ${path.relative(PROJECT_ROOT, STATE_FILE)}`);
+}
+
+main().catch(err => {
+  console.error('❌ submit-task failed:', String(err) || err);
+  process.exit(1);
+});
+
+==================================================================
+FILE: mirror/agent.ts
+==================================================================
+
+/* eslint-disable import/no-commonjs */
+/**
+ * Mirror Agent stub with HTTP heartbeat on fixed ports + all-path response
+ */
+import http from "http";
+
+const PORT_MAP: Record<string, number> = {
+  cade: 3012,
+  effie: 3013,
+};
+
+export function createAgentRuntime(agent: any) {
+  const name = agent?.name?.toLowerCase() || "agent";
+  const port = PORT_MAP[name] || 0;
+
+  console.log(`Mirror stub: Launching agent runtime for ${name} on port ${port || "no-port"}`);
+
+  // Heartbeat log to keep process alive
+  setInterval(() => {
+    console.log(`✅ ${name} heartbeat...`);
+  }, 10000);
+
+  if (port) {
+    http.createServer((req, res) => {
+      // Respond OK for any path
+      res.writeHead(200, { "Content-Type": "application/json" });
+      res.end(JSON.stringify({ status: "online", agent: name, path: req.url }));
+    }).listen(port, () => {
+      console.log(`🌐 ${name} stub server listening on port ${port}`);
+    });
+  }
+}
+
+==================================================================
+FILE: scripts/system/toggle_agents.sh
+==================================================================
+
+/* eslint-disable import/no-commonjs */
+#!/bin/bash
+# 🔄 Motherboard Systems HQ - Toggle Agents
+# Usage: bash scripts/system/toggle_agents.sh [stub|full]
+
+MODE="$1"
+
+if [[ "$MODE" == "stub" ]]; then
+  echo "🔹 Switching to stub agents..."
+  cp scripts/agents_stub/*.ts scripts/agents/
+elif [[ "$MODE" == "full" ]]; then
+  echo "🔹 Switching to full agents..."
+  cp scripts/agents_full/*.ts scripts/agents/
+else
+  echo "Usage: $0 [stub|full]"
+  exit 1
+fi
+
+# Restart PM2
+pm2 delete all
+pm2 flush
+rm -rf ~/.tsx
+
+NODE_BIN=$(which node)
+pm2 start "$NODE_BIN" --name cade --interpreter none -- --import tsx ./scripts/_local/agent-runtime/launch-cade.ts
+pm2 start "$NODE_BIN" --name effie --interpreter none -- --import tsx ./scripts/_local/agent-runtime/launch-effie.ts
+pm2 start "$NODE_BIN" --name matilda --interpreter none -- --import tsx ./scripts/_local/agent-runtime/launch-matilda.ts
+pm2 start "$NODE_BIN" --name cade-processor --interpreter none -- --import tsx ./scripts/_local/agent-runtime/cade-processor.ts
+
+# Start watchdog
+pm2 start scripts/system/watchdog_agents.sh --name watchdog-agents
+
+pm2 save
+
+==================================================================
+FILE: start_all.sh
+==================================================================
+
+/* eslint-disable import/no-commonjs */
+#!/bin/bash
+pm2 delete all
+
+pm2 start server.js --name dashboard-server
+pm2 start --name cade -- node --loader tsx ./scripts/_local/agent-runtime/launch-cade.ts
+pm2 start --name effie -- node --loader tsx ./scripts/_local/agent-runtime/launch-effie.ts
+pm2 start --name matilda -- node --loader tsx ./scripts/_local/agent-runtime/launch-matilda.ts
+pm2 start --name cade-processor -- node --loader tsx ./scripts/_local/agent-runtime/cade-processor.ts
+
+pm2 save
+pm2 ls
