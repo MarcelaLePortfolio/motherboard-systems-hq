@@ -1,0 +1,188 @@
+===== RESTORE LATEST DASHBOARD UI FROM GIT =====
+Thu May 28 01:33:03 PDT 2026
+
+===== TARGET UI COMMIT =====
+4c55719f fix phase 90.8 operator guidance visibility in matilda workspace
+
+===== RESTORE DASHBOARD UI FILES =====
+Restored public/dashboard.html, public/css, and public/js from 4c55719f
+
+===== REBUILD DASHBOARD BUNDLE =====
+
+===== REBUILD DASHBOARD IMAGE =====
+#1 [internal] load local bake definitions
+#1 reading from stdin 716B done
+#1 DONE 0.0s
+
+#2 [internal] load build definition from Dockerfile.dashboard
+#2 transferring dockerfile: 741B done
+#2 DONE 0.0s
+
+#3 [internal] load metadata for docker.io/library/node:20-alpine
+#3 DONE 0.4s
+
+#4 [internal] load .dockerignore
+#4 transferring context: 508B done
+#4 DONE 0.0s
+
+#5 [1/7] FROM docker.io/library/node:20-alpine@sha256:fb4cd12c85ee03686f6af5362a0b0d56d50c58a04632e6c0fb8363f609372293
+#5 resolve docker.io/library/node:20-alpine@sha256:fb4cd12c85ee03686f6af5362a0b0d56d50c58a04632e6c0fb8363f609372293 0.0s done
+#5 DONE 0.0s
+
+#6 [internal] load build context
+#6 transferring context: 243.81kB 0.1s done
+#6 DONE 0.1s
+
+#7 [2/7] WORKDIR /app
+#7 CACHED
+
+#8 [3/7] COPY package*.json ./
+#8 CACHED
+
+#9 [4/7] COPY package-lock.json* ./
+#9 CACHED
+
+#10 [5/7] RUN npm config set fetch-retries 5     && npm config set fetch-retry-factor 2     && npm config set fetch-retry-mintimeout 10000     && npm config set fetch-retry-maxtimeout 60000     && (npm config set registry https://registry.npmmirror.com/         && npm ci --no-audit --no-fund       || npm config set registry https://registry.npmjs.org/         && npm ci --no-audit --no-fund)     && apk add --no-cache curl ripgrep
+#10 CACHED
+
+#11 [6/7] COPY . .
+#11 DONE 0.1s
+
+#12 [7/7] COPY public/ ./public/
+#12 DONE 0.0s
+
+#13 exporting to image
+#13 exporting layers
+#13 exporting layers 0.4s done
+#13 exporting manifest sha256:5e297c57e5e263a7c3c9a25a80db3fd8918ed2c59117878c2c119f028156f9e4
+#13 exporting manifest sha256:5e297c57e5e263a7c3c9a25a80db3fd8918ed2c59117878c2c119f028156f9e4 done
+#13 exporting config sha256:d79f38928608c8a7c17cc559b7f5bc2e7e25066ad6c3f7d66e5209c0c25300a1 done
+#13 exporting attestation manifest sha256:08dafcbeb9e1885495c8aab9a4b03cc3c54c9b824721f6caae530e9e852beeb2 done
+#13 exporting manifest list sha256:211b89ada7d389e2b2c3656b4908b4e633f6e97a8cb6d9086c3c15be3526e071 done
+#13 naming to docker.io/library/motherboard-systems-hq-clean-dashboard:latest done
+#13 unpacking to docker.io/library/motherboard-systems-hq-clean-dashboard:latest 0.1s done
+#13 DONE 0.5s
+
+#14 resolving provenance for metadata file
+#14 DONE 0.0s
+
+===== RESTART DASHBOARD =====
+
+===== COMPOSE PS =====
+NAME                                       IMAGE                                    COMMAND                  SERVICE     CREATED          STATUS          PORTS
+motherboard-systems-hq-clean-dashboard-1   motherboard-systems-hq-clean-dashboard   "docker-entrypoint.s…"   dashboard   9 seconds ago    Up 8 seconds    0.0.0.0:8080->3000/tcp, [::]:8080->3000/tcp
+motherboard-systems-hq-clean-postgres-1    postgres:16-alpine                       "docker-entrypoint.s…"   postgres    25 minutes ago   Up 25 minutes   0.0.0.0:5432->5432/tcp, [::]:5432->5432/tcp
+
+===== DASHBOARD ROOT =====
+HTTP/1.1 200 OK
+X-Powered-By: Express
+Accept-Ranges: bytes
+Cache-Control: public, max-age=0
+Last-Modified: Wed, 27 May 2026 21:35:48 GMT
+ETag: W/"282b-19e6b5d7720"
+Content-Type: text/html; charset=utf-8
+Content-Length: 10283
+Date: Thu, 28 May 2026 08:33:14 GMT
+Connection: keep-alive
+Keep-Alive: timeout=5
+
+
+===== HEALTH =====
+HTTP/1.1 200 OK
+X-Powered-By: Express
+Content-Type: application/json; charset=utf-8
+Content-Length: 11
+ETag: W/"b-Ai2R8hgEarLmHKwesT1qcY913ys"
+Date: Thu, 28 May 2026 08:33:14 GMT
+Connection: keep-alive
+Keep-Alive: timeout=5
+
+{"ok":true}
+===== AGENT STATUS JSON =====
+HTTP/1.1 200 OK
+X-Powered-By: Express
+Accept-Ranges: bytes
+Cache-Control: public, max-age=0
+Last-Modified: Thu, 28 May 2026 08:28:21 GMT
+ETag: W/"187-19e6db2e488"
+Content-Type: application/json; charset=utf-8
+Content-Length: 391
+Date: Thu, 28 May 2026 08:33:14 GMT
+Connection: keep-alive
+Keep-Alive: timeout=5
+
+
+{
+
+  "agents": {
+
+    "matilda": {
+
+      "status": "restored",
+
+      "mode": "dashboard-ui-runtime"
+
+    },
+
+    "atlas": {
+
+      "status": "restored",
+
+      "mode": "dashboard-ui-runtime"
+
+    },
+
+    "cade": {
+
+      "status": "restored",
+
+      "mode": "dashboard-ui-runtime"
+
+    },
+
+    "effie": {
+
+      "status": "restored",
+
+      "mode": "dashboard-ui-runtime"
+
+    }
+
+  }
+
+}
+
+
+===== TASKS API =====
+{"ok":true,"tasks":[]}
+===== WORKTREE =====
+ M public/bundle.js
+M  public/js/dashboard-bundle-entry.js
+?? .backup_excludes
+?? CADE_RUNTIME_DISCOVERY.txt
+?? CADE_RUNTIME_HIGH_SIGNAL_CONTENTS.txt
+?? DASHBOARD_UI_AFTER_RUNTIME_RESTORE_DIAGNOSIS.txt
+?? EXECUTION_IMPLEMENTATION_SURFACES.txt
+?? EXTERNAL_DB_BACKUP_SEARCH_BEFORE_DOCKER_RESET.txt
+?? GOVERNED_ROUTE_AFTER_RUNTIME_RESTORE_SMOKE.txt
+?? LATEST_DASHBOARD_UI_RESTORE_FROM_GIT.txt
+?? backups/
+?? diagnose-dashboard-ui-after-runtime-restore.py
+?? diagnose-dashboard-ui-after-runtime-restore.sh
+?? discover-execution-implementation-surfaces.sh
+?? extract-matilda-delegation-docs.sh
+?? inspect-latest-source-backups-for-db-assets.sh
+?? restore-latest-dashboard-ui-from-git.sh
+?? scripts/dr
+?? scripts/dr_autonomous_wrapper.sh
+?? scripts/dr_daemon.sh
+?? scripts/dr_daemon_self_healing.sh
+?? scripts/dr_watchdog.sh
+?? scripts/offsite_r2_sync.sh
+?? scripts/retention_engine.sh
+?? scripts/storage_guard.sh
+?? scripts/storage_monitor.sh
+?? scripts/storage_policy.sh
+?? scripts/vault_layer.sh
+?? search-external-db-backups-before-docker-reset.sh
+?? smoke-governed-route-after-runtime-restore.sh
