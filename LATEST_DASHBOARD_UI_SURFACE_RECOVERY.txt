@@ -1,0 +1,47 @@
+===== LATEST DASHBOARD UI SURFACE RECOVERY =====
+Thu May 28 01:32:11 PDT 2026
+
+===== CURRENT BRANCH =====
+feature/backup-system-v2
+
+===== RECENT DASHBOARD.HTML COMMITS =====
+4c55719f fix phase 90.8 operator guidance visibility in matilda workspace
+a180b0d0 phase 90 UX alignment: reposition matilda note above operator guidance
+5617ea98 mount phase 90.8 operator guidance panel in matilda workspace
+e124d480 Phase 88.13 — attach system health situation summary to served dashboard
+ee8ea4f8 Phase 65: restore dashboard layout-bearing files from v63 golden checkpoint
+e190b90d Phase 64.4 restore interactive dashboard baseline and remove broken recovery hook
+1434df1e Phase 64.4 force mount task events recovery script with cache bust
+58a17956 Phase 64.4 restore live task events with independent recovery stream
+0a13d9ff Phase 64.3 restore stable telemetry baseline and apply minimal per-tab scroll fix
+b2f4be55 Phase 64.3 rebuild telemetry css contract for equal height and per-tab scroll
+8ed526dc Phase 64.3 isolate workspace tabs and keep telemetry scroll internal
+8cd23b08 Phase 64.3 force equal fixed workspace height and internal telemetry scroll
+d29dc543 Phase 64.3 restore stable telemetry UI baseline and apply scroll-only height lock
+2b98a518 Phase 64.3 enforce telemetry fixed height with internal scroll via CSS
+da6f41a7 Phase 64.3 lock telemetry workspace to operator height with internal scroll
+f736365b Add Phase 64 browser debug helpers
+ba84c092 Mount Phase 64 bootstrap directly in dashboard html
+8049baef Phase 63 — restore stable dashboard html and lock dark background
+bc7a2f09 Phase 63 — hard lock dashboard dark background
+d41f40df Phase 63 — restore dark dashboard background
+c7d8d103 Phase 63 — cache bust dashboard telemetry workspace scripts
+0c22cb3a Fix Phase 62B metric label disappearance at binding layer
+cf733432 Restore Phase 62B observational workspace wiring
+44580988 Correct Phase 62B metric anchor IDs
+83299fcf Bind Phase 62B metric renderers to dedicated value nodes
+f02a6cfe Isolate Phase 62B dashboard OOM by disabling recent history probe
+c553c743 Phase 62: consolidate metrics CSS into authoritative telemetry tile styling
+d41c383c Phase 62: promote metric values in telemetry tiles
+5bcc1a34 Phase 62: refine System Metrics into telemetry tiles
+0bb2a7be Phase 62: compact System Metrics into 2x2 cards
+3e320f1b Phase 62: move Agent Pool beside System Metrics
+32802117 Phase 61.5.4: restore agent status dot + humanize recent/history loading text
+126287bf Phase 61.5.3: add visible delegation status panel feedback
+d20238e0 Phase 61.5: wire Recent Tasks and Task History into telemetry workspace
+da663892 Phase 61.3: polish Task Events presentation without changing locked layout contract
+c7c57820 Fix dashboard layout contract verifier execution
+9e389ece Restore Atlas subsystem status full-width layout from stable tag
+52368fe8 Move Atlas subsystem card to full-width bottom band
+5a1faecd Restore Atlas full-width with CSS-only change
+9c68c540 Restore Phase 61 dashboard to last good visual state
