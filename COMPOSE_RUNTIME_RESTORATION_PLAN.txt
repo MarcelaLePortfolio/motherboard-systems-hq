@@ -1,0 +1,125 @@
+===== COMPOSE RUNTIME RESTORATION PLAN =====
+Thu May 28 00:09:39 PDT 2026
+
+===== DOCKER CONTEXT =====
+desktop-linux
+
+===== COMPOSE CONFIG SERVICES =====
+postgres
+dashboard
+
+===== COMPOSE CONFIG PORTS / DASHBOARD REFERENCES =====
+3:  dashboard:
+6:      dockerfile: Dockerfile.dashboard
+30:        target: 3000
+31:        published: "8080"
+
+===== DOCKER COMPOSE FILE HEAD =====
+services:
+  postgres:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: ${PGUSER:-postgres}
+      POSTGRES_PASSWORD: ${PGPASSWORD:-postgres}
+      POSTGRES_DB: ${PGDATABASE:-postgres}
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+  dashboard:
+    env_file:
+      - .env
+    build:
+      context: .
+      dockerfile: Dockerfile.dashboard
+      args:
+        GIT_SHA: ${GIT_SHA:-unknown}
+        BUILD_TIME: ${BUILD_TIME:-unknown}
+    environment:
+      POLICY_SHADOW_ENABLED: ${POLICY_SHADOW_ENABLED:-0}
+      POLICY_ENFORCE_ENABLED: ${POLICY_ENFORCE_ENABLED:-0}
+      BUILD_TIME: ${BUILD_TIME:-unknown}
+      GIT_SHA: ${GIT_SHA:-unknown}
+      PGDATABASE: ${PGDATABASE:-postgres}
+      PGHOST: ${PGHOST:-postgres}
+      PGPASSWORD: ${PGPASSWORD:-postgres}
+      PGPORT: ${PGPORT:-5432}
+      PGUSER: ${PGUSER:-postgres}
+    depends_on:
+      - postgres
+    ports:
+      - "8080:3000"
+
+volumes:
+  pgdata:
+
+===== DOCKER COMPOSE OVERRIDE HEAD =====
+services:
+  dashboard:
+    environment:
+      POLICY_ENFORCE_MODE: ${POLICY_ENFORCE_MODE:-}
+      POSTGRES_URL: "postgres://postgres:postgres@postgres:5432/postgres"
+    ports:
+      - "8080:3000"
+
+===== DOCKERFILE DASHBOARD HEAD =====
+FROM node:20-alpine
+
+WORKDIR /app
+ARG GIT_SHA="unknown"
+ARG BUILD_TIME="unknown"
+ENV GIT_SHA=$GIT_SHA
+ENV BUILD_TIME=$BUILD_TIME
+
+COPY package*.json ./
+COPY package-lock.json* ./
+
+RUN npm config set fetch-retries 5 \
+    && npm config set fetch-retry-factor 2 \
+    && npm config set fetch-retry-mintimeout 10000 \
+    && npm config set fetch-retry-maxtimeout 60000 \
+    && (npm config set registry https://registry.npmmirror.com/ \
+        && npm ci --no-audit --no-fund \
+      || npm config set registry https://registry.npmjs.org/ \
+        && npm ci --no-audit --no-fund) \
+    && apk add --no-cache curl ripgrep
+
+COPY . .
+
+EXPOSE 3000
+COPY public/ ./public/
+CMD ["node", "server.mjs"]
+
+===== CURRENT CONTAINERS =====
+EOF
+
+===== CURRENT PORT OWNERS =====
+COMMAND    PID        USER   FD   TYPE             DEVICE SIZE/OFF NODE NAME
+com.docke 7569 marcela-dev  181u  IPv6 0x93dfa532d0d01e1e      0t0  TCP *:3000 (LISTEN)
+
+===== RECOMMENDED NEXT COMMAND =====
+docker compose up -d dashboard
+Then validate: docker compose ps && curl -i http://localhost:8080/api/health
+
+===== WORKTREE =====
+?? .backup_excludes
+?? CADE_RUNTIME_DISCOVERY.txt
+?? CADE_RUNTIME_HIGH_SIGNAL_CONTENTS.txt
+?? COMPOSE_RUNTIME_RESTORATION_PLAN.txt
+?? EXECUTION_IMPLEMENTATION_SURFACES.txt
+?? backups/
+?? discover-execution-implementation-surfaces.sh
+?? extract-matilda-delegation-docs.sh
+?? inspect-compose-runtime-plan.sh
+?? scripts/dr
+?? scripts/dr_autonomous_wrapper.sh
+?? scripts/dr_daemon.sh
+?? scripts/dr_daemon_self_healing.sh
+?? scripts/dr_watchdog.sh
+?? scripts/offsite_r2_sync.sh
+?? scripts/retention_engine.sh
+?? scripts/storage_guard.sh
+?? scripts/storage_monitor.sh
+?? scripts/storage_policy.sh
+?? scripts/vault_layer.sh
