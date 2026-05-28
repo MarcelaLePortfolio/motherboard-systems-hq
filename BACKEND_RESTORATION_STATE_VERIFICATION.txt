@@ -1,0 +1,706 @@
+===== BACKEND RESTORATION STATE VERIFICATION =====
+Thu May 28 09:49:18 PDT 2026
+
+===== CURRENT HEAD =====
+d89044f9 Checkpoint phase740 bridge restore
+1a82382c Restore phase740 bridge surface surgically
+3cd60108 Inspect phase530 bridge lineage candidates
+b3b71866 Inspect Rio Drive runtime dashboard artifacts
+a4974f07 Inspect all Rio Drive dashboard surfaces
+9718fed4 Record latest full snapshot dashboard finding
+8f0bb4d6 Inspect Rio Drive latest full snapshot dashboard candidates
+f77c4598 Record Rio Drive repo bundle dashboard candidate result
+70567be8 Inspect Rio Drive repo bundle dashboard candidates v2
+10495513 Inspect Rio Drive repo bundle dashboard candidates
+
+===== DOCKER STATUS =====
+NAME                                       IMAGE                                    COMMAND                  SERVICE     CREATED              STATUS              PORTS
+motherboard-systems-hq-clean-dashboard-1   motherboard-systems-hq-clean-dashboard   "docker-entrypoint.s…"   dashboard   About a minute ago   Up About a minute   0.0.0.0:8080->3000/tcp, [::]:8080->3000/tcp
+motherboard-systems-hq-clean-postgres-1    postgres:16-alpine                       "docker-entrypoint.s…"   postgres    9 hours ago          Up 9 hours          0.0.0.0:5432->5432/tcp, [::]:5432->5432/tcp
+
+===== DASHBOARD LOGS =====
+[HTTP] GET /api/tasks?limit=50
+[phase57c-router] /api/tasks probe {
+  originalUrl: '/api/tasks?limit=50',
+  baseUrl: '/api/tasks',
+  path: '/',
+  referer: 'http://localhost:8080/?v=phase740-bridge-surgical',
+  userAgent: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/148.0.0.0 Safari/537.36',
+  accept: '*/*'
+}
+[HTTP] GET /api/tasks?limit=12
+[phase57c-router] /api/tasks probe {
+  originalUrl: '/api/tasks?limit=12',
+  baseUrl: '/api/tasks',
+  path: '/',
+  referer: 'http://localhost:8080/?v=phase740-bridge-surgical',
+  userAgent: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/148.0.0.0 Safari/537.36',
+  accept: '*/*'
+}
+[HTTP] GET /api/guidance-history
+[HTTP] GET /api/tasks?limit=50
+[phase57c-router] /api/tasks probe {
+  originalUrl: '/api/tasks?limit=50',
+  baseUrl: '/api/tasks',
+  path: '/',
+  referer: 'http://localhost:8080/?v=phase740-bridge-surgical',
+  userAgent: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/148.0.0.0 Safari/537.36',
+  accept: '*/*'
+}
+[HTTP] GET /api/agent-status
+[HTTP] GET /api/tasks?limit=50
+[phase57c-router] /api/tasks probe {
+  originalUrl: '/api/tasks?limit=50',
+  baseUrl: '/api/tasks',
+  path: '/',
+  referer: 'http://localhost:8080/?v=phase740-bridge-surgical',
+  userAgent: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/148.0.0.0 Safari/537.36',
+  accept: '*/*'
+}
+[HTTP] GET /api/tasks?limit=12
+[phase57c-router] /api/tasks probe {
+  originalUrl: '/api/tasks?limit=12',
+  baseUrl: '/api/tasks',
+  path: '/',
+  referer: 'http://localhost:8080/?v=phase740-bridge-surgical',
+  userAgent: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/148.0.0.0 Safari/537.36',
+  accept: '*/*'
+}
+[HTTP] GET /api/guidance-history
+[HTTP] GET /api/tasks?limit=50
+[phase57c-router] /api/tasks probe {
+  originalUrl: '/api/tasks?limit=50',
+  baseUrl: '/api/tasks',
+  path: '/',
+  referer: 'http://localhost:8080/?v=phase740-bridge-surgical',
+  userAgent: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/148.0.0.0 Safari/537.36',
+  accept: '*/*'
+}
+[HTTP] GET /api/tasks?limit=50
+[phase57c-router] /api/tasks probe {
+  originalUrl: '/api/tasks?limit=50',
+  baseUrl: '/api/tasks',
+  path: '/',
+  referer: 'http://localhost:8080/?v=phase740-bridge-surgical',
+  userAgent: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/148.0.0.0 Safari/537.36',
+  accept: '*/*'
+}
+[HTTP] GET /api/agent-status
+[HTTP] GET /api/tasks?limit=12
+[phase57c-router] /api/tasks probe {
+  originalUrl: '/api/tasks?limit=12',
+  baseUrl: '/api/tasks',
+  path: '/',
+  referer: 'http://localhost:8080/?v=phase740-bridge-surgical',
+  userAgent: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/148.0.0.0 Safari/537.36',
+  accept: '*/*'
+}
+[HTTP] GET /api/guidance-history
+[HTTP] GET /api/tasks?limit=50
+[phase57c-router] /api/tasks probe {
+  originalUrl: '/api/tasks?limit=50',
+  baseUrl: '/api/tasks',
+  path: '/',
+  referer: 'http://localhost:8080/?v=phase740-bridge-surgical',
+  userAgent: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/148.0.0.0 Safari/537.36',
+  accept: '*/*'
+}
+[HTTP] GET /api/tasks?limit=50
+[phase57c-router] /api/tasks probe {
+  originalUrl: '/api/tasks?limit=50',
+  baseUrl: '/api/tasks',
+  path: '/',
+  referer: 'http://localhost:8080/?v=phase740-bridge-surgical',
+  userAgent: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/148.0.0.0 Safari/537.36',
+  accept: '*/*'
+}
+[HTTP] GET /api/tasks?limit=12
+[phase57c-router] /api/tasks probe {
+  originalUrl: '/api/tasks?limit=12',
+  baseUrl: '/api/tasks',
+  path: '/',
+  referer: 'http://localhost:8080/?v=phase740-bridge-surgical',
+  userAgent: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/148.0.0.0 Safari/537.36',
+  accept: '*/*'
+}
+[HTTP] GET /api/guidance-history
+[HTTP] GET /api/tasks?limit=50
+[phase57c-router] /api/tasks probe {
+  originalUrl: '/api/tasks?limit=50',
+  baseUrl: '/api/tasks',
+  path: '/',
+  referer: 'http://localhost:8080/?v=phase740-bridge-surgical',
+  userAgent: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/148.0.0.0 Safari/537.36',
+  accept: '*/*'
+}
+[HTTP] GET /api/agent-status
+[HTTP] GET /api/tasks?limit=50
+[phase57c-router] /api/tasks probe {
+  originalUrl: '/api/tasks?limit=50',
+  baseUrl: '/api/tasks',
+  path: '/',
+  referer: 'http://localhost:8080/?v=phase740-bridge-surgical',
+  userAgent: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/148.0.0.0 Safari/537.36',
+  accept: '*/*'
+}
+[HTTP] GET /api/tasks?limit=12
+[phase57c-router] /api/tasks probe {
+  originalUrl: '/api/tasks?limit=12',
+  baseUrl: '/api/tasks',
+  path: '/',
+  referer: 'http://localhost:8080/?v=phase740-bridge-surgical',
+  userAgent: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/148.0.0.0 Safari/537.36',
+  accept: '*/*'
+}
+[HTTP] GET /api/guidance-history
+[HTTP] GET /api/tasks?limit=50
+[phase57c-router] /api/tasks probe {
+  originalUrl: '/api/tasks?limit=50',
+  baseUrl: '/api/tasks',
+  path: '/',
+  referer: 'http://localhost:8080/?v=phase740-bridge-surgical',
+  userAgent: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/148.0.0.0 Safari/537.36',
+  accept: '*/*'
+}
+[HTTP] GET /api/tasks?limit=50
+[phase57c-router] /api/tasks probe {
+  originalUrl: '/api/tasks?limit=50',
+  baseUrl: '/api/tasks',
+  path: '/',
+  referer: 'http://localhost:8080/?v=phase740-bridge-surgical',
+  userAgent: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/148.0.0.0 Safari/537.36',
+  accept: '*/*'
+}
+[HTTP] GET /api/agent-status
+[HTTP] GET /api/tasks?limit=12
+[phase57c-router] /api/tasks probe {
+  originalUrl: '/api/tasks?limit=12',
+  baseUrl: '/api/tasks',
+  path: '/',
+  referer: 'http://localhost:8080/?v=phase740-bridge-surgical',
+  userAgent: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/148.0.0.0 Safari/537.36',
+  accept: '*/*'
+}
+[HTTP] GET /api/guidance-history
+[HTTP] GET /api/tasks?limit=50
+[phase57c-router] /api/tasks probe {
+  originalUrl: '/api/tasks?limit=50',
+  baseUrl: '/api/tasks',
+  path: '/',
+  referer: 'http://localhost:8080/?v=phase740-bridge-surgical',
+  userAgent: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/148.0.0.0 Safari/537.36',
+  accept: '*/*'
+}
+[HTTP] GET /api/tasks?limit=50
+[phase57c-router] /api/tasks probe {
+  originalUrl: '/api/tasks?limit=50',
+  baseUrl: '/api/tasks',
+  path: '/',
+  referer: 'http://localhost:8080/?v=phase740-bridge-surgical',
+  userAgent: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/148.0.0.0 Safari/537.36',
+  accept: '*/*'
+}
+[HTTP] GET /api/tasks?limit=12
+[phase57c-router] /api/tasks probe {
+  originalUrl: '/api/tasks?limit=12',
+  baseUrl: '/api/tasks',
+  path: '/',
+  referer: 'http://localhost:8080/?v=phase740-bridge-surgical',
+  userAgent: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/148.0.0.0 Safari/537.36',
+  accept: '*/*'
+}
+[HTTP] GET /api/guidance-history
+[HTTP] GET /api/tasks?limit=50
+[phase57c-router] /api/tasks probe {
+  originalUrl: '/api/tasks?limit=50',
+  baseUrl: '/api/tasks',
+  path: '/',
+  referer: 'http://localhost:8080/?v=phase740-bridge-surgical',
+  userAgent: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/148.0.0.0 Safari/537.36',
+  accept: '*/*'
+}
+
+===== API HEALTH =====
+HTTP/1.1 200 OK
+X-Powered-By: Express
+Content-Type: application/json; charset=utf-8
+Content-Length: 11
+ETag: W/"b-Ai2R8hgEarLmHKwesT1qcY913ys"
+Date: Thu, 28 May 2026 16:49:18 GMT
+Connection: keep-alive
+Keep-Alive: timeout=5
+
+{"ok":true}
+===== TASKS API =====
+{"ok":true,"tasks":[]}
+===== KNOWN BACKEND ROUTES =====
+routes/agentsStatus.js
+routes/agentsStatus.ts
+routes/api-chat.ts
+routes/api/delegate.ts
+routes/api/logs.ts
+routes/api/tasks.ts
+routes/cade.ts
+routes/delegate.ts
+routes/delegations-result-stub.ts
+routes/delegations.ts
+routes/diagnostics/autonomicAdaptation.js
+routes/diagnostics/autonomicAdaptation.ts
+routes/diagnostics/introspectiveSim.js
+routes/diagnostics/introspectiveSim.ts
+routes/diagnostics/operatorGuidanceRuntime.js
+routes/diagnostics/persistentInsight.js
+routes/diagnostics/persistentInsight.ts
+routes/diagnostics/systemChronicle.js
+routes/diagnostics/systemChronicle.ts
+routes/diagnostics/systemHealth.js
+routes/diagnostics/systemHealth.js.route.smoke.ts
+routes/diagnostics/systemHealth.route.smoke.ts
+routes/diagnostics/systemHealth.ts
+routes/diagnostics/systemHealthSituationSummary.smoke.ts
+routes/diagnostics/systemHealthSituationSummary.ts
+routes/events.ts
+routes/eventsAgents.ts
+routes/eventsAgents.ts.bak
+routes/logs.ts
+routes/matilda.ts
+routes/reflections.ts
+routes/reset.ts
+routes/routes/agentsStatus.js
+routes/routes/agentsStatus.ts
+routes/routes/cade.ts
+routes/routes/delegate.ts
+routes/routes/delegations.ts
+routes/routes/diagnostics/autonomicAdaptation.js
+routes/routes/diagnostics/autonomicAdaptation.ts
+routes/routes/diagnostics/introspectiveSim.js
+routes/routes/diagnostics/introspectiveSim.ts
+routes/routes/diagnostics/persistentInsight.js
+routes/routes/diagnostics/persistentInsight.ts
+routes/routes/diagnostics/systemChronicle.js
+routes/routes/diagnostics/systemChronicle.ts
+routes/routes/diagnostics/systemHealth.js
+routes/routes/diagnostics/systemHealth.ts
+routes/routes/events.ts
+routes/routes/eventsAgents.ts
+routes/routes/logs.ts
+routes/routes/matilda.ts
+routes/routes/reflections.ts
+routes/routes/reset.ts
+routes/routes/tasks.ts
+routes/tasks.ts
+server/api/tasks-mutations/delegate-taskspec.mjs
+server/contracts/execution-envelope.v1.mjs
+server/db_bootstrap_tasks_retry_semantics.mjs
+server/db_bootstrap_tasks_task_id.mjs
+server/execution/build-approval-artifact.mjs
+server/execution/build-execution-envelope-draft.mjs
+server/execution/build-governance-audit-ledger.mjs
+server/execution/build-governed-planning-artifact-bundle.mjs
+server/execution/build-reconciliation-summary.mjs
+server/execution/cade-engineer-adapter.mjs
+server/execution/execution-approval-gate.mjs
+server/execution/execution-phase-state-machine.mjs
+server/execution/governance-validator.mjs
+server/execution/governed-phase-runner.mjs
+server/execution/governed-planning-pipeline.mjs
+server/execution/normalize-execution-intent.mjs
+server/execution/normalize-governed-response.mjs
+server/execution/normalize-reconciliation-artifact.mjs
+server/execution/smoke-test-approval-gate.mjs
+server/execution/smoke-test-envelope-draft.mjs
+server/execution/smoke-test-governance-audit-ledger.mjs
+server/execution/smoke-test-governed-phase-runner.mjs
+server/execution/smoke-test-governed-planning-pipeline.mjs
+server/execution/smoke-test-governed-route-fail-closed.mjs
+server/execution/smoke-test-governed-route-inprocess.mjs
+server/execution/smoke-test-governed-route-payload.json
+server/execution/smoke-test-governed-route.mjs
+server/execution/smoke-test-intent-normalization.mjs
+server/execution/smoke-test-phase-state-machine.mjs
+server/execution/smoke-test-planning-artifact-bundle.mjs
+server/execution/smoke-test-reconciliation-normalization.mjs
+server/execution/smoke-test-response-normalization.mjs
+server/guards/validate-execution-envelope.mjs
+server/orchestration/deps.test.ts
+server/orchestration/deps.ts
+server/orchestration/operator-commands.test.ts
+server/orchestration/operator-commands.ts
+server/orchestration/policy-pipeline.ts
+server/orchestration/policy.ts
+server/orchestration/router.test.ts
+server/orchestration/router.ts
+server/orchestration/scheduler.test.ts
+server/orchestration/scheduler.ts
+server/orchestration/task-state-machine.test.ts
+server/orchestration/task-state-machine.ts
+server/orchestrator_state_route.mjs
+server/orchestrator/phase18_orchestration.mjs
+server/orchestrator/phase18_store.mjs
+server/orchestrator/phase18_tick.mjs
+server/orchestrator/README.md
+server/phase19_debug_routes_dump.mjs
+server/routes/api-health.mjs
+server/routes/api-tasks-mutations.mjs
+server/routes/api-tasks-postgres.mjs
+server/routes/governed-planning-route.mjs
+server/routes/phase36_run_view.mjs
+server/routes/phase40_6_shadow_audit_task_events.mjs
+server/routes/phase48_policy_probe.mjs
+server/routes/task-events-sse.mjs
+server/sql/phase40_6_shadow_audit_task_events.sql
+server/task_events_emit.mjs
+server/task-events.mjs
+server/task-lifecycle.ts
+server/taskContract.mjs
+server/tasks-mutations.mjs
+server/worker/backoff.mjs
+server/worker/phase26_task_worker.mjs
+server/worker/phase27_claim_one.sql
+server/worker/phase27_mark_failure.sql
+server/worker/phase27_mark_success.sql
+server/worker/phase27_markers.mjs
+server/worker/phase28_claim_one.sql
+server/worker/phase28_mark_failure.sql
+server/worker/phase28_mark_success.sql
+server/worker/phase29_db_doctor.sh
+server/worker/phase29_db_migrate_to_phase27.sql
+server/worker/phase30_contract_check.sql
+server/worker/phase30_db_doctor_pretty.sh
+server/worker/phase32_claim_one.sql
+server/worker/phase32_mark_failure.sql
+server/worker/phase32_mark_success.sql
+server/worker/phase34_claim_one_pg.sql
+server/worker/phase34_claim_one.sql
+server/worker/phase34_claim_task_id_for_test.sql
+server/worker/phase34_extend_lease_pg.sql
+server/worker/phase34_heartbeat_pg.sql
+server/worker/phase34_heartbeat.sql
+server/worker/phase34_kill_owner_for_test.sql
+server/worker/phase34_mark_failure_pg.sql
+server/worker/phase34_mark_failure.sql
+server/worker/phase34_mark_success_pg.sql
+server/worker/phase34_mark_success.sql
+server/worker/phase34_reclaim_stale_pg.sql
+server/worker/phase34_reclaim_stale.sql
+server/worker/phase35_claim_one_pg.sql
+server/worker/phase35_mark_failure_pg.sql
+server/worker/phase35_mark_failure.sql
+server/worker/phase35_mark_success_pg.sql
+server/worker/phase35_mark_success.sql
+server/worker/phase35_reclaim_expired.sql
+
+===== BACKEND KEYWORD SCAN =====
+server/orchestrator_state_route.mjs:2: * Phase 19 — Orchestrator State Route (read-only)
+server/orchestrator_state_route.mjs:16: *   - GET /orchestrator/state         (gated JSON snapshot)
+server/orchestrator_state_route.mjs:17: *   - GET /orchestrator/state._debug  (always 200; shows snapshot vs live env)
+server/orchestrator_state_route.mjs:42:      g.__orchestratorStore,
+server/orchestrator_state_route.mjs:44:      g.__orchestrator?.store,
+server/orchestrator_state_route.mjs:45:      g.__orchestrator?.orchestratorStore,
+server/orchestrator_state_route.mjs:46:      g.__orchestrator?.stateStore
+server/orchestrator_state_route.mjs:56:  const orch = pickFirstDefined(g.__orchestrator, g.__orch, g.__orchestratorRuntime);
+server/orchestrator_state_route.mjs:67:export function registerOrchestratorStateRoute(app) {
+server/orchestrator_state_route.mjs:77:    throw new Error("registerOrchestratorStateRoute(app) requires an Express app");
+server/orchestrator_state_route.mjs:80:  console.log("[phase19] orchestrator_state_route mounted", {
+server/orchestrator_state_route.mjs:89:  app.get("/orchestrator/state._debug", (req, res) => {
+server/orchestrator_state_route.mjs:112:  app.get("/orchestrator/state", (req, res) => {
+server/orchestrator_state_route.mjs:137:      note: ok ? undefined : "orchestrator state not found on expected globals",
+server/phase19_debug_routes_dump.mjs:41:      note: "If routes is empty, Express internals differ; still proves handler execution + env visibility.",
+server/contracts/execution-envelope.v1.mjs:2:export const EXECUTION_ENVELOPE_VERSION = "matilda.cade.exec.v1";
+server/contracts/execution-envelope.v1.mjs:42:export const EXECUTION_ACTIONS = [
+server/contracts/execution-envelope.v1.mjs:60:export function createExecutionEnvelope(input = {}) {
+server/contracts/execution-envelope.v1.mjs:64:    envelope_version: EXECUTION_ENVELOPE_VERSION,
+server/contracts/execution-envelope.v1.mjs:74:      origin: "matilda",
+server/contracts/execution-envelope.v1.mjs:76:      target: "cade",
+server/contracts/execution-envelope.v1.mjs:122:    execution_plan: {
+server/contracts/execution-envelope.v1.mjs:124:      summary: input?.execution_plan?.summary ?? "",
+server/contracts/execution-envelope.v1.mjs:126:      steps: input?.execution_plan?.steps ?? [],
+server/contracts/execution-envelope.v1.mjs:198:          "execution_trace_summary",
+server/contracts/execution-envelope.v1.mjs:220:    delegation_authorization: {
+server/contracts/execution-envelope.v1.mjs:226:        input?.delegation_authorization?.state ??
+server/contracts/execution-envelope.v1.mjs:230:      delegated_by: "matilda",
+server/contracts/execution-envelope.v1.mjs:234:        input?.delegation_authorization?.notes ?? "",
+server/contracts/execution-envelope.v1.mjs:238:    cade_execution_constraints: {
+server/task_events_emit.mjs:2:console.log("[phase25] task_events_emit loaded", new Date().toISOString(), "file=", import.meta.url);
+server/execution/smoke-test-governed-route-payload.json:4:  "actor": "Matilda",
+server/execution/smoke-test-governed-route-payload.json:6:  "target": "Cade",
+server/execution/smoke-test-governed-route-payload.json:8:  "objective": "Prepare governed engineering plan",
+server/execution/smoke-test-governance-audit-ledger.mjs:14:      "matilda.cade.exec.v1",
+server/execution/smoke-test-governance-audit-ledger.mjs:24:    cade_plan_ok: true,
+server/execution/smoke-test-governance-audit-ledger.mjs:28:      "governed_reconciliation_artifact.v1",
+server/execution/smoke-test-governance-audit-ledger.mjs:32:    shell_execution_performed: false,
+server/execution/smoke-test-governance-audit-ledger.mjs:34:    autonomous_execution_performed: false,
+server/execution/smoke-test-governance-audit-ledger.mjs:72:          "cade_engineering_plan_generated",
+server/execution/smoke-test-governance-audit-ledger.mjs:88:    "canonical_governed_execution_audit",
+server/execution/smoke-test-governed-phase-runner.mjs:4:  createGovernedPhaseRunner,
+server/execution/smoke-test-governed-phase-runner.mjs:6:  runGovernedPlanningPhases,
+server/execution/smoke-test-governed-phase-runner.mjs:8:} from "./governed-phase-runner.mjs";
+server/execution/smoke-test-governed-phase-runner.mjs:10:const runner = createGovernedPhaseRunner();
+server/execution/smoke-test-governed-phase-runner.mjs:12:const result = runGovernedPlanningPhases({
+server/execution/smoke-test-governed-phase-runner.mjs:40:  shell_execution_performed: result.shell_execution_performed,
+server/execution/smoke-test-governed-phase-runner.mjs:42:  autonomous_execution_performed: result.autonomous_execution_performed,
+server/execution/smoke-test-governed-route-inprocess.mjs:2:import governedPlanningRouter from "../routes/governed-planning-route.mjs";
+server/execution/smoke-test-governed-route-inprocess.mjs:68:  governedPlanningRouter,
+server/execution/smoke-test-governed-route-inprocess.mjs:70:  "/api/governed-planning/dry-run",
+server/execution/smoke-test-governed-route-inprocess.mjs:76:  throw new Error("governed planning POST route not found");
+server/execution/smoke-test-governed-route-inprocess.mjs:84:  throw new Error("governed planning POST handler not found");
+server/execution/smoke-test-governed-route-inprocess.mjs:92:    actor: "Matilda",
+server/execution/smoke-test-governed-route-inprocess.mjs:94:    target: "Cade",
+server/execution/smoke-test-governed-route-inprocess.mjs:96:    objective: "Prepare governed engineering plan",
+server/execution/smoke-test-governed-route-inprocess.mjs:132:  bundle?.execution_authority ||
+server/execution/smoke-test-governed-route-inprocess.mjs:134:  bundle?.response?.execution_authority ||
+server/execution/smoke-test-governed-route-inprocess.mjs:136:  bundle?.artifacts?.response?.execution_authority ||
+server/execution/smoke-test-governed-route-inprocess.mjs:148:  authority.shell_execution_performed === true ||
+server/execution/smoke-test-governed-route-inprocess.mjs:150:  authority.autonomous_execution_performed === true;
+server/execution/smoke-test-governed-route-inprocess.mjs:156:  route_smoke: "inprocess_governed_planning_route",
+server/execution/smoke-test-governed-route-inprocess.mjs:164:  shell_execution_performed: authority.shell_execution_performed === true,
+server/execution/smoke-test-governed-route-inprocess.mjs:166:  autonomous_execution_performed: authority.autonomous_execution_performed === true,
+server/execution/governed-phase-runner.mjs:4:  validateExecutionPhaseTransition,
+server/execution/governed-phase-runner.mjs:6:  getExecutionPhaseCapabilities,
+server/execution/governed-phase-runner.mjs:8:} from "./execution-phase-state-machine.mjs";
+server/execution/governed-phase-runner.mjs:10:export function createGovernedPhaseRunner() {
+server/execution/governed-phase-runner.mjs:14:    runner: "governed_phase_runner",
+server/execution/governed-phase-runner.mjs:22:export function runGovernedPlanningPhases({
+server/execution/governed-phase-runner.mjs:36:    const transition = validateExecutionPhaseTransition({
+server/execution/governed-phase-runner.mjs:44:    const capabilities = getExecutionPhaseCapabilities(
+server/execution/governed-phase-runner.mjs:62:      shell_execution_allowed: capabilities.shell_execution_allowed,
+server/execution/governed-phase-runner.mjs:64:      autonomous_execution_allowed: capabilities.autonomous_execution_allowed,
+server/execution/governed-phase-runner.mjs:78:    runner: "governed_phase_runner",
+server/execution/governed-phase-runner.mjs:84:    shell_execution_performed: false,
+server/execution/governed-phase-runner.mjs:86:    autonomous_execution_performed: false,
+server/execution/smoke-test-governed-planning-pipeline.mjs:2:import { runGovernedPlanningPipeline } from "./governed-planning-pipeline.mjs";
+server/execution/smoke-test-governed-planning-pipeline.mjs:4:const result = runGovernedPlanningPipeline({
+server/execution/smoke-test-governed-planning-pipeline.mjs:8:    actor: "Matilda",
+server/execution/smoke-test-governed-planning-pipeline.mjs:10:    target: "Cade",
+server/execution/smoke-test-governed-planning-pipeline.mjs:12:    objective: "Prepare governed documentation plan through full planning pipeline",
+server/execution/smoke-test-governed-planning-pipeline.mjs:14:    requested_outcome: "Dry-run Cade plan with governance and approval artifacts",
+server/execution/smoke-test-governed-planning-pipeline.mjs:36:  execution_plan: {
+server/execution/smoke-test-governed-planning-pipeline.mjs:38:    summary: "Prepare governed documentation plan through full planning pipeline",
+server/execution/smoke-test-governed-planning-pipeline.mjs:52:        expected_output: "Dry-run governed plan",
+server/execution/smoke-test-governed-planning-pipeline.mjs:96:  cade_plan_ok: result.cade_plan.ok,
+server/execution/smoke-test-governed-planning-pipeline.mjs:100:  shell_execution_performed: result.shell_execution_performed,
+server/execution/smoke-test-governed-planning-pipeline.mjs:102:  autonomous_execution_performed: result.autonomous_execution_performed,
+server/execution/smoke-test-governed-route-fail-closed.mjs:2:import { runGovernedPlanningPipeline }
+server/execution/smoke-test-governed-route-fail-closed.mjs:4:  from "./governed-planning-pipeline.mjs";
+server/execution/smoke-test-governed-route-fail-closed.mjs:8:  await runGovernedPlanningPipeline({
+server/execution/smoke-test-governed-route-fail-closed.mjs:12:      actor: "Matilda",
+server/execution/smoke-test-governed-route-fail-closed.mjs:14:      target: "Cade",
+server/execution/smoke-test-governed-route-fail-closed.mjs:20:        "Attempt invalid governed request",
+server/execution/smoke-test-governed-route-fail-closed.mjs:44:    execution_plan: {
+server/execution/smoke-test-governed-route-fail-closed.mjs:80:    shell_execution_performed: false,
+server/execution/smoke-test-governed-route-fail-closed.mjs:82:    autonomous_execution_performed: false,
+server/execution/build-reconciliation-summary.mjs:6:  executionResult,
+server/execution/build-reconciliation-summary.mjs:32:      envelope?.execution_plan?.summary ?? null,
+server/execution/build-reconciliation-summary.mjs:36:      executionResult?.summary ?? null,
+server/execution/build-reconciliation-summary.mjs:44:    execution_trace:
+server/execution/build-reconciliation-summary.mjs:46:      executionResult?.trace ?? [],
+server/execution/build-reconciliation-summary.mjs:50:      executionResult?.drift_detected ?? false,
+server/execution/cade-engineer-adapter.mjs:2:import { validateGovernedExecutionEnvelope } from "./governance-validator.mjs";
+server/execution/cade-engineer-adapter.mjs:8:  const steps = envelope?.execution_plan?.steps;
+server/execution/cade-engineer-adapter.mjs:36:    execution_mode: "dry_run_only",
+server/execution/cade-engineer-adapter.mjs:60:export function planCadeEngineeringExecution(envelope = {}) {
+server/execution/cade-engineer-adapter.mjs:62:  const governance = validateGovernedExecutionEnvelope(envelope);
+server/execution/cade-engineer-adapter.mjs:72:  const executionResult = {
+server/execution/cade-engineer-adapter.mjs:76:    adapter: "cade_engineer_adapter",
+server/execution/cade-engineer-adapter.mjs:82:    summary: envelope?.execution_plan?.summary ?? "Cade engineering plan prepared",
+server/execution/cade-engineer-adapter.mjs:86:    shell_execution_performed: false,
+server/execution/cade-engineer-adapter.mjs:100:        event: "cade_engineering_plan_generated",
+server/execution/cade-engineer-adapter.mjs:116:    executionResult,
+server/execution/cade-engineer-adapter.mjs:128:    execution: executionResult,
+server/execution/build-approval-artifact.mjs:4:  requested_by = "Matilda",
+server/execution/build-approval-artifact.mjs:8:  justification = "Governed planning validation",
+server/execution/build-approval-artifact.mjs:22:    shell_execution_authorized: false,
+server/execution/build-approval-artifact.mjs:24:    autonomous_execution_authorized: false,
+server/execution/smoke-test-approval-gate.mjs:2:import { validateGovernedExecutionEnvelope } from "./governance-validator.mjs";
+server/execution/smoke-test-approval-gate.mjs:4:import { evaluateExecutionApproval } from "./execution-approval-gate.mjs";
+server/execution/smoke-test-approval-gate.mjs:8:import { EXECUTION_ENVELOPE_VERSION } from "../contracts/execution-envelope.v1.mjs";
+server/execution/smoke-test-approval-gate.mjs:12:  envelope_version: EXECUTION_ENVELOPE_VERSION,
+server/execution/smoke-test-approval-gate.mjs:22:    origin: "matilda",
+server/execution/smoke-test-approval-gate.mjs:24:    target: "cade",
+server/execution/smoke-test-approval-gate.mjs:38:  delegation_authorization: {
+server/execution/smoke-test-approval-gate.mjs:54:  execution_mode: {
+server/execution/smoke-test-approval-gate.mjs:58:    shell_execution_allowed: false,
+server/execution/smoke-test-approval-gate.mjs:60:    autonomous_execution_allowed: false,
+server/execution/smoke-test-approval-gate.mjs:100:  execution_plan: {
+server/execution/smoke-test-approval-gate.mjs:102:    summary: "Governed approval gate planning validation",
+server/execution/smoke-test-approval-gate.mjs:146:const governance = validateGovernedExecutionEnvelope(envelope);
+server/execution/smoke-test-approval-gate.mjs:150:  requested_by: "Matilda",
+server/execution/smoke-test-approval-gate.mjs:154:const result = evaluateExecutionApproval({
+server/execution/smoke-test-planning-artifact-bundle.mjs:4:  runGovernedPlanningPipeline,
+server/execution/smoke-test-planning-artifact-bundle.mjs:6:} from "./governed-planning-pipeline.mjs";
+server/execution/smoke-test-planning-artifact-bundle.mjs:10:  buildGovernedPlanningArtifactBundle,
+server/execution/smoke-test-planning-artifact-bundle.mjs:12:} from "./build-governed-planning-artifact-bundle.mjs";
+server/execution/smoke-test-planning-artifact-bundle.mjs:16:  runGovernedPlanningPipeline({
+server/execution/smoke-test-planning-artifact-bundle.mjs:20:      actor: "Matilda",
+server/execution/smoke-test-planning-artifact-bundle.mjs:22:      target: "Cade",
+server/execution/smoke-test-planning-artifact-bundle.mjs:26:        "Prepare governed bundled planning artifact",
+server/execution/smoke-test-planning-artifact-bundle.mjs:34:        "Bundle governed planning artifacts",
+server/execution/smoke-test-planning-artifact-bundle.mjs:64:    execution_plan: {
+server/execution/smoke-test-planning-artifact-bundle.mjs:68:        "Prepare governed bundled planning artifact",
+server/execution/smoke-test-planning-artifact-bundle.mjs:126:  buildGovernedPlanningArtifactBundle({
+server/execution/smoke-test-planning-artifact-bundle.mjs:162:    bundle.execution_authority.mutation_performed,
+server/execution/smoke-test-planning-artifact-bundle.mjs:164:  shell_execution_performed:
+server/execution/smoke-test-planning-artifact-bundle.mjs:166:    bundle.execution_authority.shell_execution_performed,
+server/execution/smoke-test-planning-artifact-bundle.mjs:168:  autonomous_execution_performed:
+server/execution/smoke-test-planning-artifact-bundle.mjs:170:    bundle.execution_authority.autonomous_execution_performed,
+server/execution/smoke-test-governed-route.mjs:4:import { runGovernedPlanningPipeline }
+server/execution/smoke-test-governed-route.mjs:6:  from "./governed-planning-pipeline.mjs";
+server/execution/smoke-test-governed-route.mjs:14:      "./smoke-test-governed-route-payload.json",
+server/execution/smoke-test-governed-route.mjs:26:const result = await runGovernedPlanningPipeline({
+server/execution/smoke-test-governed-route.mjs:30:    actor: payload.actor || "Matilda",
+server/execution/smoke-test-governed-route.mjs:32:    target: payload.target || "Cade",
+server/execution/smoke-test-governed-route.mjs:38:      "Prepare governed engineering plan",
+server/execution/smoke-test-governed-route.mjs:52:      "Prepare governed engineering plan",
+server/execution/smoke-test-governed-route.mjs:72:    scope_constraints: "Governed planning route smoke is docs-only",
+server/execution/smoke-test-governed-route.mjs:76:  execution_plan: {
+server/execution/smoke-test-governed-route.mjs:82:      "Prepare governed engineering plan",
+server/execution/smoke-test-governed-route.mjs:122:  route_validation: "governed_planning_route_smoke",
+server/execution/smoke-test-governed-route.mjs:138:  cade_plan_ok:
+server/execution/smoke-test-governed-route.mjs:140:    result.cade_plan.ok,
+server/execution/smoke-test-governed-route.mjs:146:  shell_execution_performed:
+server/execution/smoke-test-governed-route.mjs:148:    result.shell_execution_performed,
+server/execution/smoke-test-governed-route.mjs:150:  autonomous_execution_performed:
+server/execution/smoke-test-governed-route.mjs:152:    result.autonomous_execution_performed,
+server/execution/smoke-test-response-normalization.mjs:4:  normalizeGovernedResponse,
+server/execution/smoke-test-response-normalization.mjs:6:} from "./normalize-governed-response.mjs";
+server/execution/smoke-test-response-normalization.mjs:8:const success = normalizeGovernedResponse({
+server/execution/smoke-test-response-normalization.mjs:16:    "matilda.cade.exec.v1",
+server/execution/smoke-test-response-normalization.mjs:22:  cade_plan_ok: true,
+server/execution/smoke-test-response-normalization.mjs:26:  shell_execution_performed: false,
+server/execution/smoke-test-response-normalization.mjs:28:  autonomous_execution_performed: false,
+server/execution/smoke-test-response-normalization.mjs:44:const failure = normalizeGovernedResponse({
+server/execution/smoke-test-response-normalization.mjs:52:    "matilda.cade.exec.v1",
+server/execution/smoke-test-response-normalization.mjs:58:  cade_plan_ok: false,
+server/execution/smoke-test-response-normalization.mjs:62:  shell_execution_performed: false,
+server/execution/smoke-test-response-normalization.mjs:64:  autonomous_execution_performed: false,
+server/execution/smoke-test-response-normalization.mjs:68:    code: "MISSING_EXECUTION_OBJECTIVE",
+server/execution/smoke-test-response-normalization.mjs:72:      "execution intent requires objective",
+server/execution/smoke-test-response-normalization.mjs:84:    "governed_response_normalizer",
+server/execution/normalize-execution-intent.mjs:18:export function normalizeExecutionIntent(intent = {}) {
+server/execution/normalize-execution-intent.mjs:20:  const actor = normalizeText(intent.actor || "Matilda");
+server/execution/normalize-execution-intent.mjs:22:  const target = normalizeText(intent.target || "Cade");
+server/execution/normalize-execution-intent.mjs:32:      "MISSING_EXECUTION_OBJECTIVE",
+server/execution/normalize-execution-intent.mjs:34:      "execution intent requires objective",
+server/execution/normalize-execution-intent.mjs:46:      "execution intent requires requested outcome",
+server/execution/normalize-execution-intent.mjs:64:    execution_mode: {
+server/execution/normalize-execution-intent.mjs:70:      shell_execution_allowed: false,
+server/execution/normalize-execution-intent.mjs:72:      autonomous_execution_allowed: false,
+server/execution/normalize-execution-intent.mjs:78:      requires_delegation: true,
+server/execution/normalize-execution-intent.mjs:110:        event: "execution_intent_normalized",
+server/execution/normalize-execution-intent.mjs:126:        event: "execution_authority_removed",
+server/execution/smoke-test-reconciliation-normalization.mjs:14:      "matilda.cade.exec.v1",
+server/execution/smoke-test-reconciliation-normalization.mjs:24:    cade_plan_ok: true,
+server/execution/smoke-test-reconciliation-normalization.mjs:28:    shell_execution_performed: false,
+server/execution/smoke-test-reconciliation-normalization.mjs:30:    autonomous_execution_performed: false,
+server/execution/smoke-test-reconciliation-normalization.mjs:76:    "governed_reconciliation_normalizer",
+server/execution/normalize-reconciliation-artifact.mjs:18:  cade_plan_ok = false,
+server/execution/normalize-reconciliation-artifact.mjs:22:  shell_execution_performed = false,
+server/execution/normalize-reconciliation-artifact.mjs:24:  autonomous_execution_performed = false,
+server/execution/normalize-reconciliation-artifact.mjs:36:      "governed_reconciliation_artifact.v1",
+server/execution/normalize-reconciliation-artifact.mjs:58:    cade_planning: {
+server/execution/normalize-reconciliation-artifact.mjs:60:      ok: cade_plan_ok,
+server/execution/normalize-reconciliation-artifact.mjs:64:    execution_authority: {
+server/execution/normalize-reconciliation-artifact.mjs:68:      shell_execution_performed,
+server/execution/normalize-reconciliation-artifact.mjs:70:      autonomous_execution_performed,
+server/execution/smoke-test-phase-state-machine.mjs:4:  buildExecutionStateMachine,
+server/execution/smoke-test-phase-state-machine.mjs:6:  validateExecutionPhaseTransition,
+server/execution/smoke-test-phase-state-machine.mjs:8:  getExecutionPhaseCapabilities,
+server/execution/smoke-test-phase-state-machine.mjs:10:} from "./execution-phase-state-machine.mjs";
+server/execution/smoke-test-phase-state-machine.mjs:12:const machine = buildExecutionStateMachine();
+server/execution/smoke-test-phase-state-machine.mjs:14:const transition = validateExecutionPhaseTransition({
+server/execution/smoke-test-phase-state-machine.mjs:22:const capabilities = getExecutionPhaseCapabilities(
+server/execution/smoke-test-phase-state-machine.mjs:40:  shell_execution_allowed: capabilities.shell_execution_allowed,
+server/execution/smoke-test-phase-state-machine.mjs:42:  autonomous_execution_allowed: capabilities.autonomous_execution_allowed,
+server/execution/build-governance-audit-ledger.mjs:40:  cade_plan_ok = false,
+server/execution/build-governance-audit-ledger.mjs:46:  shell_execution_performed = false,
+server/execution/build-governance-audit-ledger.mjs:48:  autonomous_execution_performed = false,
+server/execution/build-governance-audit-ledger.mjs:58:      "governed_execution_audit_ledger.v1",
+server/execution/build-governance-audit-ledger.mjs:80:    cade_planning: {
+server/execution/build-governance-audit-ledger.mjs:82:      ok: cade_plan_ok,
+server/execution/build-governance-audit-ledger.mjs:94:    execution_authority: {
+server/execution/build-governance-audit-ledger.mjs:98:      shell_execution_performed,
+server/execution/build-governance-audit-ledger.mjs:100:      autonomous_execution_performed,
+server/execution/execution-approval-gate.mjs:24:    shell_execution_authorized: approval?.shell_execution_authorized === true,
+server/execution/execution-approval-gate.mjs:26:    autonomous_execution_authorized:
+server/execution/execution-approval-gate.mjs:28:      approval?.autonomous_execution_authorized === true,
+server/execution/execution-approval-gate.mjs:40:export function evaluateExecutionApproval({
+server/execution/execution-approval-gate.mjs:70:      "mutation authority remains disabled in current execution phase",
+server/execution/execution-approval-gate.mjs:76:  if (normalized.shell_execution_authorized === true) {
+server/execution/execution-approval-gate.mjs:82:      "shell execution authority remains disabled in current execution phase",
+server/execution/execution-approval-gate.mjs:88:  if (normalized.autonomous_execution_authorized === true) {
+server/execution/execution-approval-gate.mjs:94:      "autonomous execution authority remains disabled in current execution phase",
+server/execution/execution-approval-gate.mjs:104:    approval_gate: "canonical_execution_approval_gate",
+server/execution/execution-approval-gate.mjs:106:    execution_phase: "governed_planning_only",
+server/execution/execution-approval-gate.mjs:108:    delegated: envelope?.delegation_authorization?.state === "delegated",
+server/execution/execution-approval-gate.mjs:114:    shell_execution_authorized: false,
+server/execution/execution-approval-gate.mjs:116:    autonomous_execution_authorized: false,
+server/execution/build-governed-planning-artifact-bundle.mjs:4:  normalizeGovernedResponse,
+server/execution/build-governed-planning-artifact-bundle.mjs:6:} from "./normalize-governed-response.mjs";
+server/execution/build-governed-planning-artifact-bundle.mjs:20:export function buildGovernedPlanningArtifactBundle({
+server/execution/build-governed-planning-artifact-bundle.mjs:46:    normalizeGovernedResponse({
+server/execution/build-governed-planning-artifact-bundle.mjs:66:      cade_plan_ok:
+server/execution/build-governed-planning-artifact-bundle.mjs:68:        pipelineResult?.cade_plan?.ok === true,
+server/execution/build-governed-planning-artifact-bundle.mjs:72:      shell_execution_performed: false,
+server/execution/build-governed-planning-artifact-bundle.mjs:74:      autonomous_execution_performed: false,
+server/execution/build-governed-planning-artifact-bundle.mjs:100:      cade_plan_ok:
+server/execution/build-governed-planning-artifact-bundle.mjs:102:        pipelineResult?.cade_plan?.ok === true,
+server/execution/build-governed-planning-artifact-bundle.mjs:106:      shell_execution_performed: false,
+server/execution/build-governed-planning-artifact-bundle.mjs:108:      autonomous_execution_performed: false,
+server/execution/build-governed-planning-artifact-bundle.mjs:112:        pipelineResult?.cade_plan?.execution?.planned_patches || [],
+server/execution/build-governed-planning-artifact-bundle.mjs:138:      cade_plan_ok:
+server/execution/build-governed-planning-artifact-bundle.mjs:140:        pipelineResult?.cade_plan?.ok === true,
+server/execution/build-governed-planning-artifact-bundle.mjs:148:      shell_execution_performed: false,
+server/execution/build-governed-planning-artifact-bundle.mjs:150:      autonomous_execution_performed: false,
+server/execution/build-governed-planning-artifact-bundle.mjs:162:      "governed_planning_artifact_bundle.v1",
+server/execution/build-governed-planning-artifact-bundle.mjs:180:    execution_authority: {
+server/execution/build-governed-planning-artifact-bundle.mjs:184:      shell_execution_performed: false,
+server/execution/build-governed-planning-artifact-bundle.mjs:186:      autonomous_execution_performed: false,
+server/execution/governance-validator.mjs:2:import { validateExecutionEnvelope } from "../guards/validate-execution-envelope.mjs";
+server/execution/governance-validator.mjs:18:  const steps = envelope?.execution_plan?.steps;
+server/execution/governance-validator.mjs:60:function assertNoExecutionEscalation(envelope = {}) {
+server/execution/governance-validator.mjs:62:  const mode = envelope?.execution_mode ?? {};
+server/execution/governance-validator.mjs:76:  if (mode?.shell_execution_allowed === true) {
+server/execution/governance-validator.mjs:80:      "GOVERNANCE_REFUSES_SHELL_EXECUTION",
+server/execution/governance-validator.mjs:82:      "current governance phase refuses shell execution",
+server/execution/governance-validator.mjs:88:  if (mode?.autonomous_execution_allowed === true) {
+server/execution/governance-validator.mjs:92:      "GOVERNANCE_REFUSES_AUTONOMOUS_EXECUTION",
+server/execution/governance-validator.mjs:94:      "current governance phase refuses autonomous execution",
+server/execution/governance-validator.mjs:150:export function validateGovernedExecutionEnvelope(envelope = {}) {
+server/execution/governance-validator.mjs:152:  const structural = validateExecutionEnvelope(envelope);
+server/execution/governance-validator.mjs:156:  assertNoExecutionEscalation(envelope);
+server/execution/governance-validator.mjs:172:    delegated: envelope?.delegation_authorization?.state === "delegated",
+server/execution/governance-validator.mjs:180:    shell_execution_allowed: false,
+server/execution/governance-validator.mjs:182:    autonomous_execution_allowed: false,
+server/execution/governance-validator.mjs:206:        event: "execution_escalation_refused",
+server/execution/smoke-test-envelope-draft.mjs:2:import { buildExecutionEnvelopeDraft } from "./build-execution-envelope-draft.mjs";
+server/execution/smoke-test-envelope-draft.mjs:4:import { validateGovernedExecutionEnvelope } from "./governance-validator.mjs";
+server/execution/smoke-test-envelope-draft.mjs:6:const draft = buildExecutionEnvelopeDraft({
+server/execution/smoke-test-envelope-draft.mjs:10:    actor: "Matilda",
+server/execution/smoke-test-envelope-draft.mjs:12:    target: "Cade",
+server/execution/smoke-test-envelope-draft.mjs:14:    objective: "Prepare governed documentation plan",
+server/execution/smoke-test-envelope-draft.mjs:18:    raw_user_intent: "Update execution documentation safely",
+server/execution/smoke-test-envelope-draft.mjs:38:  execution_plan: {
+server/execution/smoke-test-envelope-draft.mjs:40:    summary: "Prepare governed documentation plan",
+server/execution/smoke-test-envelope-draft.mjs:84:const validation = validateGovernedExecutionEnvelope(draft.envelope);
+server/execution/smoke-test-envelope-draft.mjs:100:  mutation_allowed: draft.envelope.execution_mode.mutation_allowed,
+server/execution/smoke-test-envelope-draft.mjs:102:  shell_execution_allowed: draft.envelope.execution_mode.shell_execution_allowed,
+server/execution/smoke-test-envelope-draft.mjs:104:  autonomous_execution_allowed: draft.envelope.execution_mode.autonomous_execution_allowed,
+server/execution/normalize-governed-response.mjs:8:export function normalizeGovernedResponse({
+server/execution/normalize-governed-response.mjs:20:  cade_plan_ok = false,
+server/execution/normalize-governed-response.mjs:24:  shell_execution_performed = false,
+server/execution/normalize-governed-response.mjs:26:  autonomous_execution_performed = false,
+server/execution/normalize-governed-response.mjs:38:      "governed_planning_response.v1",
+server/execution/normalize-governed-response.mjs:62:    cade_planning: {
+
+===== PACKAGE SCRIPTS =====
+{
+  "build:dashboard-bundle": "esbuild public/js/dashboard-bundle-entry.js --bundle --outfile=public/bundle.js --sourcemap",
+  "test:orchestration": "node --import tsx --test server/orchestration/*.test.ts",
+  "test": "bash ./scripts/phase42_scope_gate.sh && (echo \"(no test script)\" && exit 0)"
+}
+
+===== DB TABLES IF AVAILABLE =====
+
+===== BACKEND RESTORATION CONCLUSION =====
+We can confirm the dashboard container, health endpoint, and tasks API are alive.
+We cannot yet claim all backend work is restored until routes, DB schema, worker/orchestrator paths, and external DR backend files are compared against the intended latest backend baseline.
