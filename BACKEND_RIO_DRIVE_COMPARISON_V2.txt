@@ -1,0 +1,593 @@
+===== BACKEND RIO DRIVE COMPARISON V2 =====
+Thu May 28 09:52:03 PDT 2026
+
+===== CURRENT HEAD =====
+d453d19c Verify backend restoration state
+d89044f9 Checkpoint phase740 bridge restore
+1a82382c Restore phase740 bridge surface surgically
+3cd60108 Inspect phase530 bridge lineage candidates
+b3b71866 Inspect Rio Drive runtime dashboard artifacts
+a4974f07 Inspect all Rio Drive dashboard surfaces
+9718fed4 Record latest full snapshot dashboard finding
+8f0bb4d6 Inspect Rio Drive latest full snapshot dashboard candidates
+f77c4598 Record Rio Drive repo bundle dashboard candidate result
+70567be8 Inspect Rio Drive repo bundle dashboard candidates v2
+
+===== RIO DRIVE STATUS =====
+Rio Drive exists: True
+Rio project root exists: True
+
+===== LOCAL BACKEND FILE COUNT =====
+221
+server/_lib/retry.mjs
+server/api/tasks-mutations/delegate-taskspec.mjs
+server/artifacts.mjs
+server/contracts/execution-envelope.v1.mjs
+server/db.js
+server/db_bootstrap_tasks_retry_semantics.mjs
+server/db_bootstrap_tasks_task_id.mjs
+server/db_wait_ready.mjs
+server/emit-after-response.mjs
+server/enforcement/phase44_mutation_allowlist.mjs
+server/enforcement/phase44_mutation_enforcer.mjs
+server/enforcement/phase44_reason_codes.mjs
+server/execution/build-approval-artifact.mjs
+server/execution/build-execution-envelope-draft.mjs
+server/execution/build-governance-audit-ledger.mjs
+server/execution/build-governed-planning-artifact-bundle.mjs
+server/execution/build-reconciliation-summary.mjs
+server/execution/cade-engineer-adapter.mjs
+server/execution/execution-approval-gate.mjs
+server/execution/execution-phase-state-machine.mjs
+server/execution/governance-validator.mjs
+server/execution/governed-phase-runner.mjs
+server/execution/governed-planning-pipeline.mjs
+server/execution/normalize-execution-intent.mjs
+server/execution/normalize-governed-response.mjs
+server/execution/normalize-reconciliation-artifact.mjs
+server/execution/smoke-test-approval-gate.mjs
+server/execution/smoke-test-envelope-draft.mjs
+server/execution/smoke-test-governance-audit-ledger.mjs
+server/execution/smoke-test-governed-phase-runner.mjs
+server/execution/smoke-test-governed-planning-pipeline.mjs
+server/execution/smoke-test-governed-route-fail-closed.mjs
+server/execution/smoke-test-governed-route-inprocess.mjs
+server/execution/smoke-test-governed-route-payload.json
+server/execution/smoke-test-governed-route.mjs
+server/execution/smoke-test-intent-normalization.mjs
+server/execution/smoke-test-phase-state-machine.mjs
+server/execution/smoke-test-planning-artifact-bundle.mjs
+server/execution/smoke-test-reconciliation-normalization.mjs
+server/execution/smoke-test-response-normalization.mjs
+server/guards/mutation-scope-guard.mjs
+server/guards/phase44_runtime_integrity_guard.mjs
+server/guards/phase44_structural_auth_allowlist.json
+server/guards/validate-execution-envelope.mjs
+server/optional-sse.mjs
+server/orchestration/deps.test.ts
+server/orchestration/deps.ts
+server/orchestration/operator-commands.test.ts
+server/orchestration/operator-commands.ts
+server/orchestration/policy-pipeline.ts
+server/orchestration/policy.ts
+server/orchestration/router.test.ts
+server/orchestration/router.ts
+server/orchestration/scheduler.test.ts
+server/orchestration/scheduler.ts
+server/orchestration/task-state-machine.test.ts
+server/orchestration/task-state-machine.ts
+server/orchestrator/README.md
+server/orchestrator/phase18_orchestration.mjs
+server/orchestrator/phase18_store.mjs
+server/orchestrator/phase18_tick.mjs
+server/orchestrator_state_route.mjs
+server/phase19_debug_routes_dump.mjs
+server/policy/__tests__/combine.test.mjs
+server/policy/__tests__/determinism_regression.test.mjs
+server/policy/__tests__/evaluate.test.mjs
+server/policy/__tests__/grants.test.mjs
+server/policy/__tests__/load_default_policy.test.mjs
+server/policy/combine.mjs
+server/policy/enforce.mjs
+server/policy/evaluate.legacy.mjs
+server/policy/evaluate.mjs
+server/policy/grants.mjs
+server/policy/grants/resolvePolicyGrant.mjs
+server/policy/policy_audit.mjs
+server/policy/policy_audit_shape.mjs
+server/policy/policy_eval.mjs
+server/policy/policy_flags.mjs
+server/policy/policy_grants.ts
+server/policy/resolvePolicyGrant.mjs
+server/policy/stable_json.mjs
+server/routes/api-health.mjs
+server/routes/api-tasks-mutations.mjs
+server/routes/api-tasks-postgres.mjs
+server/routes/governed-planning-route.mjs
+server/routes/phase36_run_view.mjs
+server/routes/phase40_6_shadow_audit_task_events.mjs
+server/routes/phase48_policy_probe.mjs
+server/routes/task-events-sse.mjs
+server/sql/phase39_claim_one_with_value_gate.sql
+server/sql/phase40_6_shadow_audit_task_events.sql
+server/sql/phase45_policy_grants.sql
+server/sql/phase47_decision_correctness_invariants.sql
+server/sql/phase54_bootstrap.sql
+server/task-events.mjs
+server/task-lifecycle.ts
+server/taskContract.mjs
+server/task_events_emit.mjs
+server/tasks-mutations.mjs
+server/worker/backoff.mjs
+server/worker/phase26_task_worker.mjs
+server/worker/phase27_claim_one.sql
+server/worker/phase27_mark_failure.sql
+server/worker/phase27_mark_success.sql
+server/worker/phase27_markers.mjs
+server/worker/phase28_claim_one.sql
+server/worker/phase28_mark_failure.sql
+server/worker/phase28_mark_success.sql
+server/worker/phase29_db_doctor.sh
+server/worker/phase29_db_migrate_to_phase27.sql
+server/worker/phase30_contract_check.sql
+server/worker/phase30_db_doctor_pretty.sh
+server/worker/phase32_claim_one.sql
+server/worker/phase32_mark_failure.sql
+server/worker/phase32_mark_success.sql
+server/worker/phase34_claim_one.sql
+server/worker/phase34_claim_one_pg.sql
+server/worker/phase34_claim_task_id_for_test.sql
+server/worker/phase34_extend_lease_pg.sql
+server/worker/phase34_heartbeat.sql
+server/worker/phase34_heartbeat_pg.sql
+server/worker/phase34_kill_owner_for_test.sql
+server/worker/phase34_mark_failure.sql
+server/worker/phase34_mark_failure_pg.sql
+server/worker/phase34_mark_success.sql
+server/worker/phase34_mark_success_pg.sql
+server/worker/phase34_reclaim_stale.sql
+server/worker/phase34_reclaim_stale_pg.sql
+server/worker/phase35_claim_one_pg.sql
+server/worker/phase35_mark_failure.sql
+server/worker/phase35_mark_failure_pg.sql
+server/worker/phase35_mark_success.sql
+server/worker/phase35_mark_success_pg.sql
+server/worker/phase35_reclaim_expired.sql
+routes/agentsStatus.js
+routes/agentsStatus.ts
+routes/api-chat.ts
+routes/api/delegate.ts
+routes/api/logs.ts
+routes/api/tasks.ts
+routes/cade.ts
+routes/delegate.ts
+routes/delegations-result-stub.ts
+routes/delegations.ts
+routes/diagnostics/autonomicAdaptation.js
+routes/diagnostics/autonomicAdaptation.ts
+routes/diagnostics/introspectiveSim.js
+routes/diagnostics/introspectiveSim.ts
+routes/diagnostics/operatorGuidanceRuntime.js
+routes/diagnostics/persistentInsight.js
+routes/diagnostics/persistentInsight.ts
+routes/diagnostics/systemChronicle.js
+routes/diagnostics/systemChronicle.ts
+routes/diagnostics/systemHealth.js
+routes/diagnostics/systemHealth.js.route.smoke.ts
+routes/diagnostics/systemHealth.route.smoke.ts
+routes/diagnostics/systemHealth.ts
+routes/diagnostics/systemHealthSituationSummary.smoke.ts
+routes/diagnostics/systemHealthSituationSummary.ts
+routes/events.ts
+routes/eventsAgents.ts
+routes/eventsAgents.ts.bak
+routes/logs.ts
+routes/matilda.ts
+routes/reflections.ts
+routes/reset.ts
+routes/routes/agentsStatus.js
+routes/routes/agentsStatus.ts
+routes/routes/cade.ts
+routes/routes/delegate.ts
+routes/routes/delegations.ts
+routes/routes/diagnostics/autonomicAdaptation.js
+routes/routes/diagnostics/autonomicAdaptation.ts
+routes/routes/diagnostics/introspectiveSim.js
+routes/routes/diagnostics/introspectiveSim.ts
+routes/routes/diagnostics/persistentInsight.js
+routes/routes/diagnostics/persistentInsight.ts
+routes/routes/diagnostics/systemChronicle.js
+routes/routes/diagnostics/systemChronicle.ts
+routes/routes/diagnostics/systemHealth.js
+routes/routes/diagnostics/systemHealth.ts
+routes/routes/events.ts
+routes/routes/eventsAgents.ts
+routes/routes/logs.ts
+routes/routes/matilda.ts
+routes/routes/reflections.ts
+routes/routes/reset.ts
+routes/routes/tasks.ts
+routes/tasks.ts
+src/cognition/buildRenderedSituationSummary.smoke.ts
+src/cognition/buildRenderedSituationSummary.ts
+src/cognition/buildSituationSummary.ts
+src/cognition/getSituationSummary.degraded.smoke.ts
+src/cognition/getSituationSummary.smoke.ts
+src/cognition/getSituationSummary.ts
+src/cognition/getSituationSummary.unknown.smoke.ts
+src/cognition/getSituationSummarySnapshot.smoke.ts
+src/cognition/getSituationSummarySnapshot.ts
+src/cognition/getSystemSituationSummary.smoke.ts
+src/cognition/getSystemSituationSummary.ts
+src/cognition/index.smoke.ts
+src/cognition/index.ts
+src/cognition/operatorGuidance.live.ts
+src/cognition/operatorGuidance.smoke.ts
+src/cognition/operatorGuidance.ts
+src/cognition/operatorGuidanceConfidence.ts
+src/cognition/operatorGuidanceMapping.ts
+src/cognition/operatorGuidanceReducer.ts
+src/cognition/operatorGuidanceSafety.ts
+src/cognition/renderSituationSummary.ts
+src/cognition/situationSummaryCli.smoke.ts
+src/cognition/situationSummaryComposer.ts
+src/cognition/situationSummaryInputAdapter.ts
+src/cognition/situationSummaryIntegration.smoke.ts
+src/cognition/situationSummaryRender.smoke.ts
+src/cognition/systemSituationSummaryCli.smoke.ts
+src/telemetry/computeQueuePressure.test.ts
+src/telemetry/computeQueuePressure.ts
+src/telemetry/computeQueueThroughput.test.ts
+src/telemetry/computeQueueThroughput.ts
+src/telemetry/queueThroughputHarness.ts
+
+===== KEY BACKEND FILE COMPARISON =====
+--- server/contracts/execution-envelope.v1.mjs ---
+current exists: True
+rio exists: False
+
+--- server/routes/governed-planning-route.mjs ---
+current exists: True
+rio exists: False
+
+--- server/execution/governed-planning-pipeline.mjs ---
+current exists: True
+rio exists: False
+
+--- server/execution/cade-engineer-adapter.mjs ---
+current exists: True
+rio exists: False
+
+--- server/execution/governance-validator.mjs ---
+current exists: True
+rio exists: False
+
+--- server/guards/validate-execution-envelope.mjs ---
+current exists: True
+rio exists: False
+
+--- server/routes/api-tasks-postgres.mjs ---
+current exists: True
+rio exists: True
+DIFFERS
+
+--- server/worker/phase26_task_worker.mjs ---
+current exists: True
+rio exists: True
+DIFFERS
+
+--- package.json ---
+current exists: True
+rio exists: True
+DIFFERS
+
+--- docker-compose.yml ---
+current exists: True
+rio exists: True
+DIFFERS
+
+===== NEWEST RIO BACKEND FILES =====
+1779916726 size=37080 /Volumes/Rio Drive/Motherboard_External_Backup/logs/cade.log
+1779916726 size=20634 /Volumes/Rio Drive/Motherboard_External_Backup/logs/cade_runtime.log
+1779916725 size=974 /Volumes/Rio Drive/Motherboard_External_Backup/logs/matilda_sync.log
+1779916725 size=623 /Volumes/Rio Drive/Motherboard_External_Backup/logs/matilda_status.log
+1779916725 size=28464 /Volumes/Rio Drive/Motherboard_External_Backup/logs/cade_runtime_backup.log
+1779916725 size=41 /Volumes/Rio Drive/Motherboard_External_Backup/logs/matilda_orchestration.log
+1779909214 size=10328 /Volumes/Rio Drive/Motherboard_External_Backup/snapshots/20260527_141840/project/server/worker/phase26_task_worker.mjs
+1779909214 size=8368 /Volumes/Rio Drive/Motherboard_External_Backup/snapshots/20260527_141840/project/server/routes/api-tasks-postgres.mjs
+1779909214 size=8054 /Volumes/Rio Drive/Motherboard_External_Backup/snapshots/20260527_141840/project/scripts/phase27_wire_worker_backoff.sh
+1779909214 size=7998 /Volumes/Rio Drive/Motherboard_External_Backup/snapshots/20260527_141840/project/server/optional-sse.mjs
+1779909214 size=7773 /Volumes/Rio Drive/Motherboard_External_Backup/snapshots/20260527_141840/project/src/cognition/operatorGuidanceMapping.ts
+1779909214 size=6403 /Volumes/Rio Drive/Motherboard_External_Backup/snapshots/20260527_141840/project/scripts/_ops/phase40_1_patch_execution_path.mjs
+1779909214 size=6284 /Volumes/Rio Drive/Motherboard_External_Backup/snapshots/20260527_141840/project/server/task-events.mjs
+1779909214 size=6075 /Volumes/Rio Drive/Motherboard_External_Backup/snapshots/20260527_141840/project/docs/PHASE62B_RUNNING_TASKS_EXECUTION_PROTOCOL.md
+1779909214 size=5626 /Volumes/Rio Drive/Motherboard_External_Backup/snapshots/20260527_141840/project/src/cognition/operatorGuidanceSafety.ts
+1779909214 size=5484 /Volumes/Rio Drive/Motherboard_External_Backup/snapshots/20260527_141840/project/server/routes/phase36_run_view.mjs
+1779909214 size=5396 /Volumes/Rio Drive/Motherboard_External_Backup/snapshots/20260527_141840/project/server/policy/evaluate.mjs
+1779909214 size=5326 /Volumes/Rio Drive/Motherboard_External_Backup/snapshots/20260527_141840/project/server/routes/task-events-sse.mjs
+1779909214 size=5139 /Volumes/Rio Drive/Motherboard_External_Backup/snapshots/20260527_141840/project/routes/diagnostics/operatorGuidanceRuntime.js
+1779909214 size=5114 /Volumes/Rio Drive/Motherboard_External_Backup/snapshots/20260527_141840/project/dashboard/src/cognition/operatorGuidance/operatorGuidanceRenderContract.ts
+1779909214 size=4897 /Volumes/Rio Drive/Motherboard_External_Backup/snapshots/20260527_141840/project/src/cognition/operatorGuidance.smoke.ts
+1779909214 size=4828 /Volumes/Rio Drive/Motherboard_External_Backup/snapshots/20260527_141840/project/scripts/phase39_patch_worker_gate.py
+1779909214 size=4785 /Volumes/Rio Drive/Motherboard_External_Backup/snapshots/20260527_141840/project/server/orchestrator_state_route.mjs
+1779909214 size=4781 /Volumes/Rio Drive/Motherboard_External_Backup/snapshots/20260527_141840/project/server/orchestration/operator-commands.ts
+1779909214 size=4760 /Volumes/Rio Drive/Motherboard_External_Backup/snapshots/20260527_141840/project/server/policy/grants/resolvePolicyGrant.mjs
+1779909214 size=4672 /Volumes/Rio Drive/Motherboard_External_Backup/snapshots/20260527_141840/project/scripts/debug/phase35_worker_no_complete_probe.zsh
+1779909214 size=4650 /Volumes/Rio Drive/Motherboard_External_Backup/snapshots/20260527_141840/project/server/sql/phase47_decision_correctness_invariants.sql
+1779909214 size=4609 /Volumes/Rio Drive/Motherboard_External_Backup/snapshots/20260527_141840/project/scripts/phase19_add_orchestrator_state_endpoint.sh
+1779909214 size=4030 /Volumes/Rio Drive/Motherboard_External_Backup/snapshots/20260527_141840/project/server/enforcement/phase44_mutation_enforcer.mjs
+1779909214 size=3762 /Volumes/Rio Drive/Motherboard_External_Backup/snapshots/20260527_141840/project/public/js/matilda-chat-console.js
+1779909214 size=3720 /Volumes/Rio Drive/Motherboard_External_Backup/snapshots/20260527_141840/project/server/api/tasks-mutations/delegate-taskspec.mjs
+1779909214 size=3672 /Volumes/Rio Drive/Motherboard_External_Backup/snapshots/20260527_141840/project/PHASE25_AUTHORITY_ORCHESTRATION_CONTRACT.md
+1779909214 size=3637 /Volumes/Rio Drive/Motherboard_External_Backup/snapshots/20260527_141840/project/server/sql/phase40_6_shadow_audit_task_events.sql
+1779909214 size=3596 /Volumes/Rio Drive/Motherboard_External_Backup/snapshots/20260527_141840/project/server/policy/evaluate.legacy.mjs
+1779909214 size=3578 /Volumes/Rio Drive/Motherboard_External_Backup/snapshots/20260527_141840/project/server/policy/policy_audit.mjs
+1779909214 size=3501 /Volumes/Rio Drive/Motherboard_External_Backup/snapshots/20260527_141840/project/src/cognition/situationSummaryComposer.ts
+1779909214 size=3494 /Volumes/Rio Drive/Motherboard_External_Backup/snapshots/20260527_141840/project/server/tasks-mutations.mjs
+1779909214 size=3349 /Volumes/Rio Drive/Motherboard_External_Backup/snapshots/20260527_141840/project/docs/checkpoints/PHASE62B_TASKS_FAILED_EXECUTION_PROTOCOL_20260316.md
+1779909214 size=3290 /Volumes/Rio Drive/Motherboard_External_Backup/snapshots/20260527_141840/project/PHASE_82_7_TASK_EXECUTION_DURATION_TELEMETRY_DOCUMENTATION_UPDATE.md
+1779909214 size=3272 /Volumes/Rio Drive/Motherboard_External_Backup/snapshots/20260527_141840/project/docs/checkpoints/PHASE62B_TASKS_COMPLETED_EXECUTION_PROTOCOL_20260316.md
+1779909214 size=3270 /Volumes/Rio Drive/Motherboard_External_Backup/snapshots/20260527_141840/project/PHASE_82_1_TASK_EXECUTION_DURATION_DEFINITION.md
+1779909214 size=3238 /Volumes/Rio Drive/Motherboard_External_Backup/snapshots/20260527_141840/project/PHASE_82_3_TASK_EXECUTION_DURATION_EXPOSURE_SAFETY_REVIEW.md
+1779909214 size=3235 /Volumes/Rio Drive/Motherboard_External_Backup/snapshots/20260527_141840/project/PHASE_82_4_TASK_EXECUTION_DURATION_REGISTRY_ENTRY.md
+1779909214 size=3186 /Volumes/Rio Drive/Motherboard_External_Backup/snapshots/20260527_141840/project/dashboard/src/cognition/operatorGuidance/operatorGuidancePanel.tsx
+1779909214 size=3180 /Volumes/Rio Drive/Motherboard_External_Backup/snapshots/20260527_141840/project/server/orchestration/task-state-machine.ts
+1779909214 size=3102 /Volumes/Rio Drive/Motherboard_External_Backup/snapshots/20260527_141840/project/PHASE_82_6_TASK_EXECUTION_DURATION_DASHBOARD_EXPOSURE_PLAN.md
+1779909214 size=2936 /Volumes/Rio Drive/Motherboard_External_Backup/snapshots/20260527_141840/project/server/orchestration/scheduler.test.ts
+1779909214 size=2932 /Volumes/Rio Drive/Motherboard_External_Backup/snapshots/20260527_141840/project/PHASE_82_2_TASK_EXECUTION_DURATION_PURE_FUNCTION.md
+1779909214 size=2902 /Volumes/Rio Drive/Motherboard_External_Backup/snapshots/20260527_141840/project/server/policy/grants.mjs
+1779909214 size=2872 /Volumes/Rio Drive/Motherboard_External_Backup/snapshots/20260527_141840/project/docker-compose.worker.phase34.yml
+1779909214 size=2788 /Volumes/Rio Drive/Motherboard_External_Backup/snapshots/20260527_141840/project/PHASE_82_8_TASK_EXECUTION_DURATION_PHASE_CLOSEOUT.md
+1779909214 size=2780 /Volumes/Rio Drive/Motherboard_External_Backup/snapshots/20260527_141840/project/server/taskContract.mjs
+1779909214 size=2751 /Volumes/Rio Drive/Motherboard_External_Backup/snapshots/20260527_141840/project/server/orchestration/scheduler.ts
+1779909214 size=2732 /Volumes/Rio Drive/Motherboard_External_Backup/snapshots/20260527_141840/project/docker-compose.workers.yml
+1779909214 size=2601 /Volumes/Rio Drive/Motherboard_External_Backup/snapshots/20260527_141840/project/server/worker/phase29_db_migrate_to_phase27.sql
+1779909214 size=2593 /Volumes/Rio Drive/Motherboard_External_Backup/snapshots/20260527_141840/project/PHASE_82_5_TASK_EXECUTION_DURATION_VERIFICATION_HARNESS.md
+1779909214 size=2473 /Volumes/Rio Drive/Motherboard_External_Backup/snapshots/20260527_141840/project/src/cognition/operatorGuidanceReducer.ts
+1779909214 size=2423 /Volumes/Rio Drive/Motherboard_External_Backup/snapshots/20260527_141840/project/server/policy/policy_grants.ts
+1779909214 size=2364 /Volumes/Rio Drive/Motherboard_External_Backup/snapshots/20260527_141840/project/dashboard/src/cognition/operatorGuidance/operatorGuidance.ts
+1779909214 size=2299 /Volumes/Rio Drive/Motherboard_External_Backup/snapshots/20260527_141840/project/server/worker/phase30_db_doctor_pretty.sh
+1779909214 size=2275 /Volumes/Rio Drive/Motherboard_External_Backup/snapshots/20260527_141840/project/dashboard/src/components/QueueLatencyCard.tsx
+1779909214 size=2260 /Volumes/Rio Drive/Motherboard_External_Backup/snapshots/20260527_141840/project/dashboard/src/cognition/operatorGuidance/operatorGuidanceReducer.ts
+1779909214 size=2252 /Volumes/Rio Drive/Motherboard_External_Backup/snapshots/20260527_141840/project/src/cognition/operatorGuidance.live.ts
+1779909214 size=2196 /Volumes/Rio Drive/Motherboard_External_Backup/snapshots/20260527_141840/project/src/cognition/index.smoke.ts
+1779909214 size=2080 /Volumes/Rio Drive/Motherboard_External_Backup/snapshots/20260527_141840/project/scripts/_ops/phase40_1_patch_worker_shadow.mjs
+1779909214 size=2049 /Volumes/Rio Drive/Motherboard_External_Backup/snapshots/20260527_141840/project/server/guards/phase44_runtime_integrity_guard.mjs
+1779909214 size=2046 /Volumes/Rio Drive/Motherboard_External_Backup/snapshots/20260527_141840/project/server/artifacts.mjs
+1779909214 size=2023 /Volumes/Rio Drive/Motherboard_External_Backup/snapshots/20260527_141840/project/dashboard/src/operator/runbooks/operatorRunbookCatalog.ts
+1779909214 size=1992 /Volumes/Rio Drive/Motherboard_External_Backup/snapshots/20260527_141840/project/dashboard/src/cognition/operatorGuidance/guidanceRenderStability.test.ts
+1779909214 size=1984 /Volumes/Rio Drive/Motherboard_External_Backup/snapshots/20260527_141840/project/server/routes/api-tasks-mutations.mjs
+1779909214 size=1936 /Volumes/Rio Drive/Motherboard_External_Backup/snapshots/20260527_141840/project/src/cognition/operatorGuidanceConfidence.ts
+1779909214 size=1929 /Volumes/Rio Drive/Motherboard_External_Backup/snapshots/20260527_141840/project/PHASE_84_22_TASK_EXECUTION_DURATION_WORKSTREAM_CLOSEOUT.md
+1779909214 size=1923 /Volumes/Rio Drive/Motherboard_External_Backup/snapshots/20260527_141840/project/dashboard/src/cognition/operatorGuidance/guidanceOrdering.proof.ts
+1779909214 size=1917 /Volumes/Rio Drive/Motherboard_External_Backup/snapshots/20260527_141840/project/PHASE_84_15_TASK_EXECUTION_DURATION_DESIGN.md
+1779909214 size=1916 /Volumes/Rio Drive/Motherboard_External_Backup/snapshots/20260527_141840/project/server/routes/phase48_policy_probe.mjs
+1779909214 size=1895 /Volumes/Rio Drive/Motherboard_External_Backup/snapshots/20260527_141840/project/dashboard/src/cognition/operatorGuidance/guidanceSafetyConfirmation.test.ts
+1779909214 size=1890 /Volumes/Rio Drive/Motherboard_External_Backup/snapshots/20260527_141840/project/scripts/_local/phase61_5_6c_trace_phase34_worker_heartbeat_path.sh
+1779909214 size=1876 /Volumes/Rio Drive/Motherboard_External_Backup/snapshots/20260527_141840/project/PHASE_84_21_TASK_EXECUTION_DURATION_VERIFICATION_RESULTS.md
+1779909214 size=1851 /Volumes/Rio Drive/Motherboard_External_Backup/snapshots/20260527_141840/project/src/cognition/operatorGuidance.ts
+1779909214 size=1848 /Volumes/Rio Drive/Motherboard_External_Backup/snapshots/20260527_141840/project/routes/diagnostics/systemHealth.js.route.smoke.ts
+1779909214 size=1834 /Volumes/Rio Drive/Motherboard_External_Backup/snapshots/20260527_141840/project/src/cognition/situationSummaryInputAdapter.ts
+1779909214 size=1825 /Volumes/Rio Drive/Motherboard_External_Backup/snapshots/20260527_141840/project/server/orchestration/router.ts
+1779909214 size=1813 /Volumes/Rio Drive/Motherboard_External_Backup/snapshots/20260527_141840/project/server/policy/resolvePolicyGrant.mjs
+1779909214 size=1804 /Volumes/Rio Drive/Motherboard_External_Backup/snapshots/20260527_141840/project/src/cognition/situationSummaryCli.smoke.ts
+1779909214 size=1804 /Volumes/Rio Drive/Motherboard_External_Backup/snapshots/20260527_141840/project/PHASE_84_16_TASK_EXECUTION_DURATION_SAFETY_REVIEW.md
+1779909214 size=1789 /Volumes/Rio Drive/Motherboard_External_Backup/snapshots/20260527_141840/project/PHASE_84_19_TASK_EXECUTION_DURATION_VERIFICATION_IMPLEMENTATION.md
+1779909214 size=1785 /Volumes/Rio Drive/Motherboard_External_Backup/snapshots/20260527_141840/project/PHASE_84_18_TASK_EXECUTION_DURATION_VERIFICATION_HARNESS.md
+1779909214 size=1783 /Volumes/Rio Drive/Motherboard_External_Backup/snapshots/20260527_141840/project/server/task_events_emit.mjs
+1779909214 size=1771 /Volumes/Rio Drive/Motherboard_External_Backup/snapshots/20260527_141840/project/server/orchestration/policy-pipeline.ts
+1779909214 size=1769 /Volumes/Rio Drive/Motherboard_External_Backup/snapshots/20260527_141840/project/routes/diagnostics/systemHealth.route.smoke.ts
+1779909214 size=1763 /Volumes/Rio Drive/Motherboard_External_Backup/snapshots/20260527_141840/project/server/routes/phase40_6_shadow_audit_task_events.mjs
+1779909214 size=1680 /Volumes/Rio Drive/Motherboard_External_Backup/snapshots/20260527_141840/project/PHASE_84_20_TASK_EXECUTION_DURATION_VERIFICATION_EXECUTION.md
+1779909214 size=1612 /Volumes/Rio Drive/Motherboard_External_Backup/snapshots/20260527_141840/project/server/policy/__tests__/evaluate.test.mjs
+1779909214 size=1597 /Volumes/Rio Drive/Motherboard_External_Backup/snapshots/20260527_141840/project/dashboard/src/cognition/operatorGuidance/guidanceGrouping.model.ts
+1779909214 size=1585 /Volumes/Rio Drive/Motherboard_External_Backup/snapshots/20260527_141840/project/server/sql/phase54_bootstrap.sql
+1779909214 size=1570 /Volumes/Rio Drive/Motherboard_External_Backup/snapshots/20260527_141840/project/server/policy/combine.mjs
+1779909214 size=1514 /Volumes/Rio Drive/Motherboard_External_Backup/snapshots/20260527_141840/project/PHASE_84_9_TASK_TOTAL_LIFECYCLE_DURATION_VERIFICATION_EXECUTION.md
+1779909214 size=1509 /Volumes/Rio Drive/Motherboard_External_Backup/snapshots/20260527_141840/project/server/policy/policy_eval.mjs
+1779909214 size=1492 /Volumes/Rio Drive/Motherboard_External_Backup/snapshots/20260527_141840/project/server/orchestrator/phase18_store.mjs
+1779909214 size=1480 /Volumes/Rio Drive/Motherboard_External_Backup/snapshots/20260527_141840/project/server/sql/phase39_claim_one_with_value_gate.sql
+1779909214 size=1479 /Volumes/Rio Drive/Motherboard_External_Backup/snapshots/20260527_141840/project/dashboard/src/cognition/operatorGuidance/useOperatorGuidance.ts
+1779909214 size=1474 /Volumes/Rio Drive/Motherboard_External_Backup/snapshots/20260527_141840/project/src/cognition/getSituationSummarySnapshot.smoke.ts
+1779909214 size=1473 /Volumes/Rio Drive/Motherboard_External_Backup/snapshots/20260527_141840/project/docs/checkpoints/PHASE65_TASKS_RUNNING_EXECUTION_START_20260314.md
+1779909214 size=1471 /Volumes/Rio Drive/Motherboard_External_Backup/snapshots/20260527_141840/project/PHASE_84_17_TASK_EXECUTION_DURATION_REGISTRY_ENTRY.md
+1779909214 size=1451 /Volumes/Rio Drive/Motherboard_External_Backup/snapshots/20260527_141840/project/server/orchestration/deps.test.ts
+1779909214 size=1440 /Volumes/Rio Drive/Motherboard_External_Backup/snapshots/20260527_141840/project/server/orchestration/deps.ts
+1779909214 size=1429 /Volumes/Rio Drive/Motherboard_External_Backup/snapshots/20260527_141840/project/routes/diagnostics/systemHealth.js
+1779909214 size=1426 /Volumes/Rio Drive/Motherboard_External_Backup/snapshots/20260527_141840/project/server/worker/phase29_db_doctor.sh
+1779909214 size=1401 /Volumes/Rio Drive/Motherboard_External_Backup/snapshots/20260527_141840/project/docker-compose.worker.phase32.yml
+1779909214 size=1395 /Volumes/Rio Drive/Motherboard_External_Backup/snapshots/20260527_141840/project/server/orchestration/router.test.ts
+1779909214 size=1369 /Volumes/Rio Drive/Motherboard_External_Backup/snapshots/20260527_141840/project/server/phase19_debug_routes_dump.mjs
+1779909214 size=1365 /Volumes/Rio Drive/Motherboard_External_Backup/snapshots/20260527_141840/project/dashboard/src/cognition/operatorGuidance/guidanceUIClassification.model.ts
+1779909214 size=1364 /Volumes/Rio Drive/Motherboard_External_Backup/snapshots/20260527_141840/project/server/policy/policy_audit_shape.mjs
+1779909214 size=1359 /Volumes/Rio Drive/Motherboard_External_Backup/snapshots/20260527_141840/project/dashboard/src/telemetry/queueLatency.ts
+1779909214 size=1353 /Volumes/Rio Drive/Motherboard_External_Backup/snapshots/20260527_141840/project/scripts/_local/patch_dockerfile_copy_public.py
+1779909214 size=1339 /Volumes/Rio Drive/Motherboard_External_Backup/snapshots/20260527_141840/project/server/orchestration/operator-commands.test.ts
+1779909214 size=1299 /Volumes/Rio Drive/Motherboard_External_Backup/snapshots/20260527_141840/project/server/db_wait_ready.mjs
+1779909214 size=1294 /Volumes/Rio Drive/Motherboard_External_Backup/snapshots/20260527_141840/project/docs/phase17/PHASE17_ORCHESTRATION_SPEC.md
+1779909214 size=1293 /Volumes/Rio Drive/Motherboard_External_Backup/snapshots/20260527_141840/project/src/cognition/situationSummaryIntegration.smoke.ts
+1779909214 size=1273 /Volumes/Rio Drive/Motherboard_External_Backup/snapshots/20260527_141840/project/PHASE62B_TASKS_QUEUED_EXECUTION_PLAN.md
+1779909214 size=1269 /Volumes/Rio Drive/Motherboard_External_Backup/snapshots/20260527_141840/project/server/worker/phase27_markers.mjs
+1779909214 size=1263 /Volumes/Rio Drive/Motherboard_External_Backup/snapshots/20260527_141840/project/server/policy/__tests__/grants.test.mjs
+1779909214 size=1254 /Volumes/Rio Drive/Motherboard_External_Backup/snapshots/20260527_141840/project/dashboard/src/cognition/operatorGuidance/operatorGuidanceSelectors.ts
+1779909214 size=1213 /Volumes/Rio Drive/Motherboard_External_Backup/snapshots/20260527_141840/project/server/task-lifecycle.ts
+1779909214 size=1189 /Volumes/Rio Drive/Motherboard_External_Backup/snapshots/20260527_141840/project/server/db_bootstrap_tasks_retry_semantics.mjs
+1779909214 size=1149 /Volumes/Rio Drive/Motherboard_External_Backup/snapshots/20260527_141840/project/dashboard/src/cognition/operatorGuidance/guidanceGrouping.test.ts
+1779909214 size=1095 /Volumes/Rio Drive/Motherboard_External_Backup/snapshots/20260527_141840/project/server/policy/__tests__/combine.test.mjs
+1779909214 size=1079 /Volumes/Rio Drive/Motherboard_External_Backup/snapshots/20260527_141840/project/server/sql/phase45_policy_grants.sql
+1779909214 size=1050 /Volumes/Rio Drive/Motherboard_External_Backup/snapshots/20260527_141840/project/src/telemetry/queueThroughputHarness.ts
+1779909214 size=1040 /Volumes/Rio Drive/Motherboard_External_Backup/snapshots/20260527_141840/project/scripts/README-workers.md
+1779909214 size=1035 /Volumes/Rio Drive/Motherboard_External_Backup/snapshots/20260527_141840/project/dashboard/src/cognition/operatorGuidance/guidanceConfidence.test.ts
+1779909214 size=1014 /Volumes/Rio Drive/Motherboard_External_Backup/snapshots/20260527_141840/project/dashboard/src/cognition/operatorGuidance/guidancePriority.test.ts
+1779909214 size=1005 /Volumes/Rio Drive/Motherboard_External_Backup/snapshots/20260527_141840/project/server/orchestrator/phase18_orchestration.mjs
+1779909214 size=991 /Volumes/Rio Drive/Motherboard_External_Backup/snapshots/20260527_141840/project/server/orchestrator/phase18_tick.mjs
+1779909214 size=978 /Volumes/Rio Drive/Motherboard_External_Backup/snapshots/20260527_141840/project/server/orchestration/task-state-machine.test.ts
+1779909214 size=978 /Volumes/Rio Drive/Motherboard_External_Backup/snapshots/20260527_141840/project/package.json
+1779909214 size=961 /Volumes/Rio Drive/Motherboard_External_Backup/snapshots/20260527_141840/project/docker-compose.yml
+1779909214 size=960 /Volumes/Rio Drive/Motherboard_External_Backup/snapshots/20260527_141840/project/src/cognition/systemSituationSummaryCli.smoke.ts
+1779909214 size=950 /Volumes/Rio Drive/Motherboard_External_Backup/snapshots/20260527_141840/project/dashboard/src/cognition/operatorGuidance/guidanceUIClassification.test.ts
+1779909214 size=939 /Volumes/Rio Drive/Motherboard_External_Backup/snapshots/20260527_141840/project/dashboard/src/cognition/operatorGuidance/guidanceConfidence.model.ts
+1779909214 size=935 /Volumes/Rio Drive/Motherboard_External_Backup/snapshots/20260527_141840/project/scripts/worker_up.sh
+1779909214 size=928 /Volumes/Rio Drive/Motherboard_External_Backup/snapshots/20260527_141840/project/src/telemetry/computeQueueThroughput.test.ts
+1779909214 size=908 /Volumes/Rio Drive/Motherboard_External_Backup/snapshots/20260527_141840/project/server/worker/phase34_reclaim_stale_pg.sql
+1779909214 size=903 /Volumes/Rio Drive/Motherboard_External_Backup/snapshots/20260527_141840/project/docs/checkpoints/PHASE63_3_AGENT_HEARTBEAT_CADENCE_FINDINGS_20260312.md
+1779909214 size=900 /Volumes/Rio Drive/Motherboard_External_Backup/snapshots/20260527_141840/project/src/cognition/situationSummaryRender.smoke.ts
+1779909214 size=898 /Volumes/Rio Drive/Motherboard_External_Backup/snapshots/20260527_141840/project/src/telemetry/computeQueuePressure.test.ts
+1779909214 size=894 /Volumes/Rio Drive/Motherboard_External_Backup/snapshots/20260527_141840/project/routes/diagnostics/systemHealthSituationSummary.smoke.ts
+1779909214 size=881 /Volumes/Rio Drive/Motherboard_External_Backup/snapshots/20260527_141840/project/PHASE24_ORCHESTRATION_NEXT.md
+1779909214 size=862 /Volumes/Rio Drive/Motherboard_External_Backup/snapshots/20260527_141840/project/scripts/phase28_worker_watch.sh
+1779909214 size=839 /Volumes/Rio Drive/Motherboard_External_Backup/snapshots/20260527_141840/project/server/worker/phase30_contract_check.sql
+1779909214 size=837 /Volumes/Rio Drive/Motherboard_External_Backup/snapshots/20260527_141840/project/src/cognition/index.ts
+1779909214 size=834 /Volumes/Rio Drive/Motherboard_External_Backup/snapshots/20260527_141840/project/server/worker/phase27_mark_failure.sql
+1779909214 size=814 /Volumes/Rio Drive/Motherboard_External_Backup/snapshots/20260527_141840/project/src/cognition/buildRenderedSituationSummary.smoke.ts
+1779909214 size=809 /Volumes/Rio Drive/Motherboard_External_Backup/snapshots/20260527_141840/project/src/cognition/getSystemSituationSummary.smoke.ts
+1779909214 size=797 /Volumes/Rio Drive/Motherboard_External_Backup/snapshots/20260527_141840/project/dashboard/src/cognition/operatorGuidance/guidancePriority.model.ts
+1779909214 size=784 /Volumes/Rio Drive/Motherboard_External_Backup/snapshots/20260527_141840/project/server/policy/__tests__/determinism_regression.test.mjs
+1779909214 size=777 /Volumes/Rio Drive/Motherboard_External_Backup/snapshots/20260527_141840/project/src/cognition/getSituationSummary.degraded.smoke.ts
+1779909214 size=773 /Volumes/Rio Drive/Motherboard_External_Backup/snapshots/20260527_141840/project/src/cognition/getSituationSummary.smoke.ts
+1779909214 size=767 /Volumes/Rio Drive/Motherboard_External_Backup/snapshots/20260527_141840/project/server/worker/phase34_reclaim_stale.sql
+1779909214 size=734 /Volumes/Rio Drive/Motherboard_External_Backup/snapshots/20260527_141840/project/server/_lib/retry.mjs
+1779909214 size=702 /Volumes/Rio Drive/Motherboard_External_Backup/snapshots/20260527_141840/project/scripts/worker_down.sh
+1779909214 size=695 /Volumes/Rio Drive/Motherboard_External_Backup/snapshots/20260527_141840/project/server/orchestration/policy.ts
+1779909214 size=692 /Volumes/Rio Drive/Motherboard_External_Backup/snapshots/20260527_141840/project/server/policy/enforce.mjs
+1779909214 size=692 /Volumes/Rio Drive/Motherboard_External_Backup/snapshots/20260527_141840/project/Dockerfile.dashboard
+1779909214 size=685 /Volumes/Rio Drive/Motherboard_External_Backup/snapshots/20260527_141840/project/server/worker/phase27_claim_one.sql
+1779909214 size=656 /Volumes/Rio Drive/Motherboard_External_Backup/snapshots/20260527_141840/project/docs/checkpoints/PHASE63_3_AGENT_HEARTBEAT_CADENCE_AUDIT_STARTED_20260312.md
+1779909214 size=653 /Volumes/Rio Drive/Motherboard_External_Backup/snapshots/20260527_141840/project/server/worker/backoff.mjs
+1779909214 size=637 /Volumes/Rio Drive/Motherboard_External_Backup/snapshots/20260527_141840/project/src/cognition/getSituationSummary.unknown.smoke.ts
+1779909214 size=630 /Volumes/Rio Drive/Motherboard_External_Backup/snapshots/20260527_141840/project/src/cognition/getSituationSummarySnapshot.ts
+1779909214 size=622 /Volumes/Rio Drive/Motherboard_External_Backup/snapshots/20260527_141840/project/routes/diagnostics/systemHealth.ts
+1779909214 size=615 /Volumes/Rio Drive/Motherboard_External_Backup/snapshots/20260527_141840/project/dashboard/src/operator/runbooks/operatorRunbookResolver.ts
+1779909214 size=614 /Volumes/Rio Drive/Motherboard_External_Backup/snapshots/20260527_141840/project/server/worker/phase35_claim_one_pg.sql
+1779909214 size=614 /Volumes/Rio Drive/Motherboard_External_Backup/snapshots/20260527_141840/project/scripts/worker_logs.sh
+1779909214 size=605 /Volumes/Rio Drive/Motherboard_External_Backup/snapshots/20260527_141840/project/Dockerfile.worker
+1779909214 size=591 /Volumes/Rio Drive/Motherboard_External_Backup/snapshots/20260527_141840/project/server/enforcement/phase44_reason_codes.mjs
+1779909214 size=577 /Volumes/Rio Drive/Motherboard_External_Backup/snapshots/20260527_141840/project/server/worker/phase34_claim_one_pg.sql
+1779909214 size=569 /Volumes/Rio Drive/Motherboard_External_Backup/snapshots/20260527_141840/project/src/telemetry/computeQueueThroughput.ts
+1779909214 size=556 /Volumes/Rio Drive/Motherboard_External_Backup/snapshots/20260527_141840/project/docker-compose.phase31.7-worker.yml
+1779909214 size=553 /Volumes/Rio Drive/Motherboard_External_Backup/snapshots/20260527_141840/project/server/orchestrator/README.md
+1779909214 size=543 /Volumes/Rio Drive/Motherboard_External_Backup/snapshots/20260527_141840/project/server/worker/phase28_claim_one.sql
+1779909214 size=523 /Volumes/Rio Drive/Motherboard_External_Backup/snapshots/20260527_141840/project/server/worker/phase32_claim_one.sql
+1779909214 size=517 /Volumes/Rio Drive/Motherboard_External_Backup/snapshots/20260527_141840/project/server/policy/__tests__/load_default_policy.test.mjs
+1779909214 size=517 /Volumes/Rio Drive/Motherboard_External_Backup/snapshots/20260527_141840/project/server/enforcement/phase44_mutation_allowlist.mjs
+1779909214 size=503 /Volumes/Rio Drive/Motherboard_External_Backup/snapshots/20260527_141840/project/src/telemetry/computeQueuePressure.ts
+1779909214 size=476 /Volumes/Rio Drive/Motherboard_External_Backup/snapshots/20260527_141840/project/scripts/_local/phase31_6_worker_profile_probe.sh
+1779909214 size=471 /Volumes/Rio Drive/Motherboard_External_Backup/snapshots/20260527_141840/project/server/worker/phase28_mark_failure.sql
+1779909214 size=465 /Volumes/Rio Drive/Motherboard_External_Backup/snapshots/20260527_141840/project/server/worker/phase34_claim_one.sql
+1779909214 size=460 /Volumes/Rio Drive/Motherboard_External_Backup/snapshots/20260527_141840/project/dashboard/src/operator/runbooks/operatorRunbookFormatter.ts
+1779909214 size=426 /Volumes/Rio Drive/Motherboard_External_Backup/snapshots/20260527_141840/project/routes/diagnostics/systemHealthSituationSummary.ts
+1779909214 size=416 /Volumes/Rio Drive/Motherboard_External_Backup/snapshots/20260527_141840/project/server/policy/stable_json.mjs
+1779909214 size=405 /Volumes/Rio Drive/Motherboard_External_Backup/snapshots/20260527_141840/project/src/cognition/buildSituationSummary.ts
+1779909214 size=401 /Volumes/Rio Drive/Motherboard_External_Backup/snapshots/20260527_141840/project/dashboard/src/operator/runbooks/operatorRunbookTypes.ts
+1779909214 size=400 /Volumes/Rio Drive/Motherboard_External_Backup/snapshots/20260527_141840/project/docker-compose.phase54.enforce.override.yml
+1779909214 size=398 /Volumes/Rio Drive/Motherboard_External_Backup/snapshots/20260527_141840/project/src/cognition/buildRenderedSituationSummary.ts
+1779909214 size=395 /Volumes/Rio Drive/Motherboard_External_Backup/snapshots/20260527_141840/project/server/worker/phase34_claim_task_id_for_test.sql
+1779909214 size=394 /Volumes/Rio Drive/Motherboard_External_Backup/snapshots/20260527_141840/project/server/worker/phase35_mark_failure_pg.sql
+1779909214 size=394 /Volumes/Rio Drive/Motherboard_External_Backup/snapshots/20260527_141840/project/dashboard/src/cognition/operatorGuidance/guidancePriority.thresholds.ts
+1779909214 size=365 /Volumes/Rio Drive/Motherboard_External_Backup/snapshots/20260527_141840/project/server/worker/phase32_mark_failure.sql
+1779909214 size=363 /Volumes/Rio Drive/Motherboard_External_Backup/snapshots/20260527_141840/project/docker-compose.phase54.shadow.override.yml
+1779909214 size=343 /Volumes/Rio Drive/Motherboard_External_Backup/snapshots/20260527_141840/project/server/worker/phase27_mark_success.sql
+1779909214 size=342 /Volumes/Rio Drive/Motherboard_External_Backup/snapshots/20260527_141840/project/server/worker/phase34_extend_lease_pg.sql
+1779909214 size=327 /Volumes/Rio Drive/Motherboard_External_Backup/snapshots/20260527_141840/project/server/policy/policy_flags.mjs
+1779909214 size=319 /Volumes/Rio Drive/Motherboard_External_Backup/snapshots/20260527_141840/project/server/emit-after-response.mjs
+1779909214 size=317 /Volumes/Rio Drive/Motherboard_External_Backup/snapshots/20260527_141840/project/server/worker/phase35_mark_success_pg.sql
+1779909214 size=317 /Volumes/Rio Drive/Motherboard_External_Backup/snapshots/20260527_141840/project/docker-compose.phase45_1.startup_determinism.yml
+1779909214 size=312 /Volumes/Rio Drive/Motherboard_External_Backup/snapshots/20260527_141840/project/server/db.js
+1779909214 size=311 /Volumes/Rio Drive/Motherboard_External_Backup/snapshots/20260527_141840/project/server/worker/phase32_mark_success.sql
+1779909214 size=296 /Volumes/Rio Drive/Motherboard_External_Backup/snapshots/20260527_141840/project/src/cognition/getSituationSummary.ts
+1779909214 size=292 /Volumes/Rio Drive/Motherboard_External_Backup/snapshots/20260527_141840/project/server/db_bootstrap_tasks_task_id.mjs
+1779909214 size=279 /Volumes/Rio Drive/Motherboard_External_Backup/snapshots/20260527_141840/project/docker-compose.phase57.shadow.env.override.yml
+1779909214 size=279 /Volumes/Rio Drive/Motherboard_External_Backup/snapshots/20260527_141840/project/docker-compose.phase47.enforce.override.yml
+1779909214 size=276 /Volumes/Rio Drive/Motherboard_External_Backup/snapshots/20260527_141840/project/server/worker/phase35_reclaim_expired.sql
+1779909214 size=266 /Volumes/Rio Drive/Motherboard_External_Backup/snapshots/20260527_141840/project/src/cognition/getSystemSituationSummary.ts
+1779909214 size=259 /Volumes/Rio Drive/Motherboard_External_Backup/snapshots/20260527_141840/project/scripts/phase26_thread_starter_v25_worker_ok.sh
+1779909214 size=254 /Volumes/Rio Drive/Motherboard_External_Backup/snapshots/20260527_141840/project/dashboard/src/cognition/operatorGuidance/index.ts
+1779909214 size=246 /Volumes/Rio Drive/Motherboard_External_Backup/snapshots/20260527_141840/project/server/worker/phase35_mark_success.sql
+1779909214 size=246 /Volumes/Rio Drive/Motherboard_External_Backup/snapshots/20260527_141840/project/server/worker/phase34_mark_failure_pg.sql
+1779909214 size=240 /Volumes/Rio Drive/Motherboard_External_Backup/snapshots/20260527_141840/project/server/worker/phase35_mark_failure.sql
+1779909214 size=231 /Volumes/Rio Drive/Motherboard_External_Backup/snapshots/20260527_141840/project/server/worker/phase28_mark_success.sql
+1779909214 size=228 /Volumes/Rio Drive/Motherboard_External_Backup/snapshots/20260527_141840/project/docker-compose.phase54.postgres_bootstrap.override.yml
+1779909214 size=201 /Volumes/Rio Drive/Motherboard_External_Backup/snapshots/20260527_141840/project/server/worker/phase34_heartbeat.sql
+1779909214 size=197 /Volumes/Rio Drive/Motherboard_External_Backup/snapshots/20260527_141840/project/server/worker/phase34_heartbeat_pg.sql
+1779909214 size=197 /Volumes/Rio Drive/Motherboard_External_Backup/snapshots/20260527_141840/project/docker-compose.override.yml
+1779909214 size=193 /Volumes/Rio Drive/Motherboard_External_Backup/snapshots/20260527_141840/project/src/cognition/renderSituationSummary.ts
+1779909214 size=193 /Volumes/Rio Drive/Motherboard_External_Backup/snapshots/20260527_141840/project/server/worker/phase34_mark_success_pg.sql
+1779909214 size=163 /Volumes/Rio Drive/Motherboard_External_Backup/snapshots/20260527_141840/project/docker-compose.phase46.dashboard_heap.override.yml
+1779909214 size=162 /Volumes/Rio Drive/Motherboard_External_Backup/snapshots/20260527_141840/project/scripts/phase26_run_worker.sh
+1779909214 size=148 /Volumes/Rio Drive/Motherboard_External_Backup/snapshots/20260527_141840/project/server/worker/phase34_mark_success.sql
+1779909214 size=145 /Volumes/Rio Drive/Motherboard_External_Backup/snapshots/20260527_141840/project/server/worker/phase34_mark_failure.sql
+1779909214 size=141 /Volumes/Rio Drive/Motherboard_External_Backup/snapshots/20260527_141840/project/Dockerfile
+1779909214 size=134 /Volumes/Rio Drive/Motherboard_External_Backup/snapshots/20260527_141840/project/public/js/phase23_matilda_task_events_bridge.js
+1779909214 size=133 /Volumes/Rio Drive/Motherboard_External_Backup/snapshots/20260527_141840/project/public/js/phase23_matilda_delegate_taskspec.js
+1779909214 size=125 /Volumes/Rio Drive/Motherboard_External_Backup/snapshots/20260527_141840/project/public/js/phase23_matilda_chat_hook.js
+1779909214 size=119 /Volumes/Rio Drive/Motherboard_External_Backup/snapshots/20260527_141840/project/server/routes/api-health.mjs
+1779909214 size=114 /Volumes/Rio Drive/Motherboard_External_Backup/snapshots/20260527_141840/project/docker-compose.phase47.postgres_url.override.yml
+1779909214 size=109 /Volumes/Rio Drive/Motherboard_External_Backup/snapshots/20260527_141840/project/dashboard/src/telemetry/index.ts
+1779909214 size=76 /Volumes/Rio Drive/Motherboard_External_Backup/snapshots/20260527_141840/project/server/guards/phase44_structural_auth_allowlist.json
+1779909214 size=70 /Volumes/Rio Drive/Motherboard_External_Backup/snapshots/20260527_141840/project/server/worker/phase34_kill_owner_for_test.sql
+1779909214 size=65 /Volumes/Rio Drive/Motherboard_External_Backup/snapshots/20260527_141840/project/dashboard/src/components/index.ts
+1779906589 size=0 /Volumes/Rio Drive/Motherboard_Systems_HQ/.git/logs/refs/remotes/origin/feature/phase26-task-worker-min
+1779906589 size=0 /Volumes/Rio Drive/Motherboard_Systems_HQ/.git/logs/refs/remotes/origin/feature/phase19-orchestrator-state
+1779906589 size=0 /Volumes/Rio Drive/Motherboard_Systems_HQ/.git/logs/refs/remotes/origin/feature/phase24-orchestration-polish
+1779906589 size=0 /Volumes/Rio Drive/Motherboard_Systems_HQ/.git/logs/refs/remotes/origin/feature/phase23-matilda-delegation-loop
+1779906589 size=0 /Volumes/Rio Drive/Motherboard_Systems_HQ/.git/logs/refs/remotes/origin/feature/phase18-orchestration-tick
+1779906589 size=0 /Volumes/Rio Drive/Motherboard_Systems_HQ/.git/logs/refs/remotes/origin/feature/phase17-orchestration
+1779906589 size=0 /Volumes/Rio Drive/Motherboard_Systems_HQ/.git/logs/refs/remotes/origin/feature/matilda-chat-ui
+1779906589 size=0 /Volumes/Rio Drive/Motherboard_Systems_HQ/.git/logs/refs/remotes/origin/phase9.0-matilda-convo-restore
+1779906589 size=2340 /Volumes/Rio Drive/Motherboard_Systems_HQ/.git/logs/refs/remotes/origin/phase716-execution-evidence-surfacing
+1779906589 size=156 /Volumes/Rio Drive/Motherboard_Systems_HQ/.git/logs/refs/remotes/origin/archive/feature/matilda-chat-ui
+1779906589 size=312 /Volumes/Rio Drive/Motherboard_Systems_HQ/.git/logs/refs/remotes/origin/temp-fix-worker-heartbeat
+1779906589 size=0 /Volumes/Rio Drive/Motherboard_Systems_HQ/.git/logs/refs/remotes/origin/safe/matilda-hybrid
+1779906589 size=0 /Volumes/Rio Drive/Motherboard_Systems_HQ/.git/logs/refs/heads/restore/v0.2.1-matilda-chat-ui
+1779906589 size=0 /Volumes/Rio Drive/Motherboard_Systems_HQ/.git/logs/refs/heads/feature/phase18-orchestration-tick
+1779906589 size=3023 /Volumes/Rio Drive/Motherboard_Systems_HQ/.git/logs/refs/heads/phase716-execution-evidence-surfacing
+1779906589 size=238 /Volumes/Rio Drive/Motherboard_Systems_HQ/.git/logs/refs/heads/archive/feature/matilda-chat-ui
+1779906589 size=0 /Volumes/Rio Drive/Motherboard_Systems_HQ/.git/logs/refs/heads/phase9.0-matilda-convo-restore
+1779906589 size=394 /Volumes/Rio Drive/Motherboard_Systems_HQ/.git/logs/refs/heads/temp-fix-worker-heartbeat
+1779906589 size=0 /Volumes/Rio Drive/Motherboard_Systems_HQ/.git/logs/refs/heads/safe/matilda-hybrid
+1779899654 size=3064 /Volumes/Rio Drive/Motherboard_Systems_HQ/server/routes/task-events-sse.mjs
+1779899198 size=414 /Volumes/Rio Drive/Motherboard_Systems_HQ/server/core/contracts/EVENT_INGRESS_CONTRACT.md
+1779899193 size=431 /Volumes/Rio Drive/Motherboard_Systems_HQ/server/core/contracts/UI_PROJECTION_CONTRACT.md
+1779899187 size=705 /Volumes/Rio Drive/Motherboard_Systems_HQ/server/core/contracts/EVENT_NORMALIZATION_CONTRACT.md
+1779854297 size=514 /Volumes/Rio Drive/Motherboard_Systems_HQ/backups/matilda_thinking_rule_20260526_205817/MATILDA_THINKING_RULE.md
+1779854284 size=514 /Volumes/Rio Drive/Motherboard_Systems_HQ/backups/matilda_thinking_rule_20260526_205804/MATILDA_THINKING_RULE.md
+1779854225 size=514 /Volumes/Rio Drive/Motherboard_Systems_HQ/MATILDA_THINKING_RULE.md
+1779851997 size=1446 /Volumes/Rio Drive/Motherboard_Systems_HQ/server/core/task_event_normalizer.mjs
+1779851615 size=3092 /Volumes/Rio Drive/Motherboard_Systems_HQ/backups/contracts_20260526_201335/EXECUTION_VISIBILITY_CONTRACT.md
+1779851555 size=3092 /Volumes/Rio Drive/Motherboard_Systems_HQ/EXECUTION_VISIBILITY_CONTRACT.md
+1779831890 size=3134 /Volumes/Rio Drive/Motherboard_Systems_HQ/docs/phase743-execution-bridge/GOVERNANCE_ARCHITECTURE_RECONCILIATION_INDEX.md
+1779831725 size=3226 /Volumes/Rio Drive/Motherboard_Systems_HQ/docs/phase743-execution-bridge/GOVERNANCE_AUDIT_LINEAGE_INTEGRITY_PROTOCOL.md
+1779831662 size=3289 /Volumes/Rio Drive/Motherboard_Systems_HQ/docs/phase743-execution-bridge/GOVERNANCE_ROLLBACK_LINEAGE_INTEGRITY_PROTOCOL.md
+1779831616 size=3042 /Volumes/Rio Drive/Motherboard_Systems_HQ/docs/phase743-execution-bridge/GOVERNANCE_SEAL_INTEGRITY_PROTOCOL.md
+1779831457 size=3229 /Volumes/Rio Drive/Motherboard_Systems_HQ/docs/phase743-execution-bridge/GOVERNANCE_CHECKPOINT_RECONCILIATION_PROTOCOL.md
+1779831406 size=3122 /Volumes/Rio Drive/Motherboard_Systems_HQ/docs/phase743-execution-bridge/GOVERNANCE_DRIFT_RECONCILIATION_PRESERVATION_PROTOCOL.md
+1779831244 size=3213 /Volumes/Rio Drive/Motherboard_Systems_HQ/docs/phase743-execution-bridge/GOVERNANCE_LINEAGE_RECONCILIATION_PROTOCOL.md
+1779831146 size=2913 /Volumes/Rio Drive/Motherboard_Systems_HQ/docs/phase743-execution-bridge/GOVERNANCE_LINEAGE_VERIFICATION_PROTOCOL.md
+1779830835 size=2874 /Volumes/Rio Drive/Motherboard_Systems_HQ/docs/phase743-execution-bridge/GOVERNANCE_INVARIANT_PRESERVATION_PROTOCOL.md
+1779830748 size=2706 /Volumes/Rio Drive/Motherboard_Systems_HQ/docs/phase743-execution-bridge/SEALED_GOVERNANCE_CONTINUITY_RULE.md
+1779830678 size=3073 /Volumes/Rio Drive/Motherboard_Systems_HQ/docs/phase743-execution-bridge/GOVERNANCE_STATE_MACHINE.md
+1779830638 size=2219 /Volumes/Rio Drive/Motherboard_Systems_HQ/docs/phase743-execution-bridge/GOVERNANCE_RESUME_PROTOCOL.md
+1779830613 size=2660 /Volumes/Rio Drive/Motherboard_Systems_HQ/docs/phase743-execution-bridge/GOVERNANCE_FREEZE_PROTOCOL.md
+1779830327 size=2575 /Volumes/Rio Drive/Motherboard_Systems_HQ/docs/phase743-execution-bridge/GOVERNANCE_CORRIDOR_ESCALATION_PROTOCOL.md
+1779830245 size=2294 /Volumes/Rio Drive/Motherboard_Systems_HQ/docs/phase743-execution-bridge/DOCUMENTATION_ONLY_GOVERNANCE_CORRIDOR.md
+1779830070 size=2550 /Volumes/Rio Drive/Motherboard_Systems_HQ/docs/phase743-execution-bridge/DOCUMENTATION_MUTATION_REVIEW_PROTOCOL.md
+1779829933 size=1873 /Volumes/Rio Drive/Motherboard_Systems_HQ/docs/phase743-execution-bridge/REPOSITORY_MUTATION_SCOPE_BOUNDARY.md
+1779829916 size=1430 /Volumes/Rio Drive/Motherboard_Systems_HQ/docs/phase743-execution-bridge/SCOPE_BOUNDARY_PAUSE.md
+1779829880 size=2288 /Volumes/Rio Drive/Motherboard_Systems_HQ/docs/phase743-execution-bridge/REPOSITORY_MUTATION_BOUNDARY.md
+1779829864 size=1868 /Volumes/Rio Drive/Motherboard_Systems_HQ/docs/phase743-execution-bridge/FIRST_MUTATION_TARGET_SELECTION.md
+1779829434 size=1429 /Volumes/Rio Drive/Motherboard_Systems_HQ/docs/phase743-execution-bridge/PHASE744_IMPLEMENTATION_READINESS_GATE.md
+1779829374 size=1325 /Volumes/Rio Drive/Motherboard_Systems_HQ/DISASTER_RECOVERY/phase743-execution-bridge-planning-seal.txt
+1779829345 size=2389 /Volumes/Rio Drive/Motherboard_Systems_HQ/docs/phase743-execution-bridge/PHASE743_GOVERNANCE_INDEX.md
+1779829328 size=2930 /Volumes/Rio Drive/Motherboard_Systems_HQ/docs/phase743-execution-bridge/RECOVERY_INTERRUPTION_MODEL.md
+1779829309 size=2828 /Volumes/Rio Drive/Motherboard_Systems_HQ/docs/phase743-execution-bridge/DRIFT_DETECTION_MODEL.md
+1779829287 size=2715 /Volumes/Rio Drive/Motherboard_Systems_HQ/docs/phase743-execution-bridge/SAFE_EXECUTION_ABORT_MODEL.md
+1779829270 size=2943 /Volumes/Rio Drive/Motherboard_Systems_HQ/docs/phase743-execution-bridge/FAILURE_CONTAINMENT_MODEL.md
+1779829122 size=2778 /Volumes/Rio Drive/Motherboard_Systems_HQ/docs/phase743-execution-bridge/AUDIT_LOGGING_CONTRACT.md
+1779829105 size=2951 /Volumes/Rio Drive/Motherboard_Systems_HQ/docs/phase743-execution-bridge/RECONCILIATION_VERIFICATION_CONTRACT.md
+1779829086 size=2534 /Volumes/Rio Drive/Motherboard_Systems_HQ/docs/phase743-execution-bridge/ROLLBACK_ENFORCEMENT_ARCHITECTURE.md
+1779829054 size=2362 /Volumes/Rio Drive/Motherboard_Systems_HQ/docs/phase743-execution-bridge/MATILDA_APPROVAL_CONTRACT.md
+1779828937 size=2293 /Volumes/Rio Drive/Motherboard_Systems_HQ/docs/phase743-execution-bridge/MUTATION_AUTHORIZATION_LIFECYCLE.md
+
+===== CONCLUSION =====
+Backend comparison completed without shell pipe parsing.
+Use the DIFFERS/MATCH results above before claiming full backend restoration.
