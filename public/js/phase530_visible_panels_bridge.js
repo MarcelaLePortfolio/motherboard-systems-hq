@@ -2737,81 +2737,77 @@ function phase735DecodeVisualArtifactHtmlTransport(html) {
 
 
 
-  /* phase740 operator workspace grid-row stretch */
+  /* phase740 operator workspace height balance */
 
-  function phase740OperatorWorkspaceGridRowStretch() {
-
-    const operatorColumn = document.getElementById("phase61-telemetry-column")?.previousElementSibling;
+  function phase740OperatorWorkspaceHeightBalance() {
 
     const operatorCard = document.getElementById("operator-workspace-card");
 
-    const telemetryCard = document.getElementById("observational-workspace-card");
-
-    if (operatorColumn) {
-
-      operatorColumn.style.display = "flex";
-
-      operatorColumn.style.flexDirection = "column";
-
-      operatorColumn.style.height = "100%";
-
-      operatorColumn.style.minHeight = "0";
-
-      operatorColumn.style.alignSelf = "stretch";
-
-    }
+    const opPanelChat = document.getElementById("op-panel-chat");
 
     if (operatorCard) {
-
-      operatorCard.style.flex = "1 1 auto";
-
-      operatorCard.style.height = "100%";
-
-      operatorCard.style.minHeight = "0";
 
       operatorCard.style.display = "flex";
 
       operatorCard.style.flexDirection = "column";
 
-      operatorCard.style.alignSelf = "stretch";
+      operatorCard.style.height = "683px";
+
+      operatorCard.style.minHeight = "683px";
 
     }
 
-    if (telemetryCard && operatorCard) {
+    if (opPanelChat) {
 
-      const telemetryHeight = telemetryCard.getBoundingClientRect().height;
+      opPanelChat.style.flex = "1 1 auto";
 
-      const operatorHeight = operatorCard.getBoundingClientRect().height;
+      opPanelChat.style.display = "flex";
 
-      if (telemetryHeight > 0 && Math.abs(telemetryHeight - operatorHeight) > 2) {
+      opPanelChat.style.flexDirection = "column";
 
-        operatorCard.style.minHeight = Math.round(telemetryHeight) + "px";
+      opPanelChat.style.minHeight = "0";
 
-      }
+      opPanelChat.style.height = "100%";
+
+    }
+
+    const firstShell = opPanelChat
+
+      ? opPanelChat.querySelector("section, article, div")
+
+      : null;
+
+    if (firstShell) {
+
+      firstShell.style.flex = "1 1 auto";
+
+      firstShell.style.minHeight = "0";
+
+      firstShell.style.height = "100%";
 
     }
 
   }
 
-  const phase740RunOperatorWorkspaceGridRowStretch = () => {
+  const phase740RunOperatorWorkspaceHeightBalance = () => {
 
     try {
 
-      phase740OperatorWorkspaceGridRowStretch();
+      phase740OperatorWorkspaceHeightBalance();
 
     } catch (error) {
 
-      console.warn("[phase740] operator workspace grid-row stretch failed", error);
+      console.warn("[phase740] operator workspace height balance failed", error);
 
     }
 
   };
 
-  phase740RunOperatorWorkspaceGridRowStretch();
+  phase740RunOperatorWorkspaceHeightBalance();
 
-  setInterval(phase740RunOperatorWorkspaceGridRowStretch, 1500);
+  setInterval(phase740RunOperatorWorkspaceHeightBalance, 1500);
 
-  new MutationObserver(phase740RunOperatorWorkspaceGridRowStretch).observe(document.documentElement, {
+  new MutationObserver(phase740RunOperatorWorkspaceHeightBalance).observe(document.documentElement, {
 
     childList: true,
 
