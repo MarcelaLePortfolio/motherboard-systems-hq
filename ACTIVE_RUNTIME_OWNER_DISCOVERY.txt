@@ -1,0 +1,356 @@
+===== ACTIVE RUNTIME OWNER DISCOVERY =====
+Wed May 27 23:56:26 PDT 2026
+
+===== PORT OWNER =====
+COMMAND    PID        USER   FD   TYPE             DEVICE SIZE/OFF NODE NAME
+com.docke 7569 marcela-dev  181u  IPv6 0x93dfa532d0d01e1e      0t0  TCP *:3000 (LISTEN)
+
+===== DOCKER CONTEXT =====
+NAME              DESCRIPTION                               DOCKER ENDPOINT                                     ERROR
+default           Current DOCKER_HOST based configuration   unix:///var/run/docker.sock                         
+desktop-linux *   Docker Desktop                            unix:///Users/marcela-dev/.docker/run/docker.sock   
+
+===== DOCKER PS =====
+EOF
+
+===== DOCKER COMPOSE FILES =====
+./backups/_restore_test/docker-compose.override.yml
+./backups/_restore_test/docker-compose.phase31.7-worker.yml
+./backups/_restore_test/docker-compose.phase45_1.startup_determinism.yml
+./backups/_restore_test/docker-compose.phase46.dashboard_heap.override.yml
+./backups/_restore_test/docker-compose.phase47.enforce.override.yml
+./backups/_restore_test/docker-compose.phase47.postgres_url.override.yml
+./backups/_restore_test/docker-compose.phase54.enforce.override.yml
+./backups/_restore_test/docker-compose.phase54.postgres_bootstrap.override.yml
+./backups/_restore_test/docker-compose.phase54.shadow.override.yml
+./backups/_restore_test/docker-compose.phase57.shadow.env.override.yml
+./backups/_restore_test/docker-compose.worker.phase32.yml
+./backups/_restore_test/docker-compose.worker.phase34.yml
+./backups/_restore_test/docker-compose.workers.yml
+./backups/_restore_test/docker-compose.yml
+./docker-compose.override.yml
+./docker-compose.phase31.7-worker.yml
+./docker-compose.phase45_1.startup_determinism.yml
+./docker-compose.phase46.dashboard_heap.override.yml
+./docker-compose.phase47.enforce.override.yml
+./docker-compose.phase47.postgres_url.override.yml
+./docker-compose.phase54.enforce.override.yml
+./docker-compose.phase54.postgres_bootstrap.override.yml
+./docker-compose.phase54.shadow.override.yml
+./docker-compose.phase57.shadow.env.override.yml
+./docker-compose.worker.phase32.yml
+./docker-compose.worker.phase34.yml
+./docker-compose.workers.yml
+./docker-compose.yml
+
+===== COMPOSE PORT REFERENCES =====
+docker-compose.override.yml:7:      - "8080:3000"
+docker-compose.yml:35:      - "8080:3000"
+./PHASE11_MATILDA_CHAT_UX_PLAN.md:96:- `server.mjs` (Express app on localhost:3000)
+./PHASE11_NEXT_RUNTIME_AFTER_STUBS.md:21:- dashboard-1 → Server running on http://0.0.0.0:3000
+./PHASE88_14_SERVER_BOOT.log:24:Server running on http://0.0.0.0:3000
+./PHASE11_TASK_DELEGATION_RUN_SEQUENCE.md:21:- dashboard-1  | Server running on http://0.0.0.0:3000
+./PHASE11_TASK_DELEGATION_RUN_SEQUENCE.md:30:curl -i -X POST http://127.0.0.1:3000/api/delegate-task \
+./PHASE11_TASK_DELEGATION_RUN_SEQUENCE.md:58:curl -i -X POST http://127.0.0.1:3000/api/complete-task \
+./PHASE11_BUNDLING_STEP3B_TASK_GRAPH_STATUS.md:43:   * [http://127.0.0.1:3000/dashboard](http://127.0.0.1:3000/dashboard)
+./PHASE11_BUNDLING_STEP3B_TASK_GRAPH_STATUS.md:44:   * or [http://localhost:3000/dashboard](http://localhost:3000/dashboard)
+./PHASE62B_LIVE_VALIDATION_BLOCKER_ROUTE_INSPECTION_20260317.txt:432:scripts/_local/phase65_3_metrics_runtime_verify.sh:75:      timeout ${seconds}s curl -NfsS http://127.0.0.1:3000/events/task-events || true
+./PHASE62B_LIVE_VALIDATION_BLOCKER_ROUTE_INSPECTION_20260317.txt:433:scripts/_local/phase65_3_metrics_runtime_verify.sh:77:      curl -NfsS http://127.0.0.1:3000/events/task-events &
+./PHASE62B_LIVE_VALIDATION_BLOCKER_ROUTE_INSPECTION_20260317.txt:647:scripts/phase11_delegate_task_curl.sh:10:echo "🔹 Running delegate-task curl against http://127.0.0.1:3000/api/delegate-task ..."
+./PHASE62B_LIVE_VALIDATION_BLOCKER_ROUTE_INSPECTION_20260317.txt:648:scripts/phase11_delegate_task_curl.sh:13:curl -i -X POST http://127.0.0.1:3000/api/delegate-task \
+./PHASE62B_LIVE_VALIDATION_BLOCKER_ROUTE_INSPECTION_20260317.txt:1022:scripts/_local/phase65_3_metrics_runtime_verify.sh:75:      timeout ${seconds}s curl -NfsS http://127.0.0.1:3000/events/task-events || true
+./PHASE62B_LIVE_VALIDATION_BLOCKER_ROUTE_INSPECTION_20260317.txt:1023:scripts/_local/phase65_3_metrics_runtime_verify.sh:77:      curl -NfsS http://127.0.0.1:3000/events/task-events &
+./PHASE62B_LIVE_VALIDATION_BLOCKER_ROUTE_INSPECTION_20260317.txt:1028:scripts/_local/phase65_3_metrics_runtime_verify.sh:154:    docker exec "$CID" sh -lc "curl -fsS http://127.0.0.1:3000/api/tasks?limit=12" || true
+./PHASE62B_LIVE_VALIDATION_BLOCKER_ROUTE_INSPECTION_20260317.txt:1242:scripts/phase11_delegate_task_curl.sh:10:echo "🔹 Running delegate-task curl against http://127.0.0.1:3000/api/delegate-task ..."
+./PHASE62B_LIVE_VALIDATION_BLOCKER_ROUTE_INSPECTION_20260317.txt:1243:scripts/phase11_delegate_task_curl.sh:13:curl -i -X POST http://127.0.0.1:3000/api/delegate-task \
+./smoke-mounted-governed-planning-route.sh:10:PORT="${PORT:-3000}"
+./PHASE11_CONTAINER_STATUS_AFTER_REBUILD.md:12:  - Dashboard container: "Server running on http://0.0.0.0:3000"
+./PHASE11_CONTAINER_STATUS_AFTER_REBUILD.md:61:- “Continue Phase 11 from the point where the container was rebuilt and the dashboard server was running on 0.0.0.0:3000.”
+./cade_task_processor_clean.ts:61:  }, 3000);
+./PHASE11_STUBBED_TASK_ENDPOINTS_STATUS.md:30:- dashboard-1 → "Server running on http://0.0.0.0:3000"
+./tools/restore-motherboard.sh:56:echo "🌐 Dashboard: http://127.0.0.1:3000/"
+./tools/restore-motherboard.sh:58:curl -s http://127.0.0.1:3000/agent-status.json || echo "⚠️ Dashboard not responding"
+./tools/restore-from-latest.sh:47:open http://localhost:3000
+./tools/restore-ui.sh:43:echo "🌐 Dashboard available at: http://127.0.0.1:3000/"
+./tools/restore-ui.sh:44:curl -s http://127.0.0.1:3000/agent-status.json || true
+./tools/start-ui-dashboard.sh:4:exec npx serve -l 3000
+./PHASE11_OPS_EVENT_STREAM_VERIFICATION.md:86:## 2) Local Dashboard Verification (Port 3000)
+./PHASE11_OPS_EVENT_STREAM_VERIFICATION.md:98:   * URL: `http://localhost:3000`
+./PHASE11_SESSION_WRAPUP.md:17:Port mapping: Host 8080 → Container 3000
+./docker-compose.override.yml:7:      - "8080:3000"
+./PHASE88_14_10_SERVER_RESTART.log:24:Server running on http://0.0.0.0:3000
+./EXECUTION_IMPLEMENTATION_SURFACES.txt:81:./.git/objects/c2/f3000b0da8977fe25ea2568597c9a67ee306e8
+./archive/old_tasks/cade_task_processor.old.txt:81:  }, 3000);
+./dist/scripts/server.cjs:5:const PORT = 3000;
+./dist/scripts/sequences/prewarm-demo.js:8:    execSync("curl -s -X POST http://localhost:3000/matilda -H 'Content-Type: application/json' -d '{\"message\":\"Matilda status check\"}'");
+./dist/scripts/sequences/prewarm-demo.js:9:    execSync("curl -s -X POST http://localhost:3000/delegate -H 'Content-Type: application/json' -d '{\"instruction\":\"Matilda, perform system warmup\"}'");
+./dist/scripts/sequences/prewarm-all-agents.js:13:pingAgent("Matilda", "curl -s -X POST http://localhost:3000/matilda -H 'Content-Type: application/json' -d '{\"message\":\"ping\"}'");
+./dist/scripts/_local/submit-task.js:9:    timeoutMs: 3000,
+./dist/scripts/_local/dev-server.js:5:const PORT = 3000;
+./dist/scripts/_local/agent-runtime/matilda_runtime.mjs:60:    }, 3000);
+./dist/scripts/_local/agent-runtime/utils/matilda_task_processor.js:33:setInterval(processTasks, 3000);
+./dist/scripts/_local/agent-runtime/utils/cade_task_processor.js:55:    }, 3000);
+./dist/scripts/_local/agent-runtime/utils/cade_task_processor_clean.js:55:    }, 3000);
+./dist/scripts/_local/agent-runtime/utils/effie_task_processor.js:55:    }, 3000);
+./dist/scripts/_local/agent-runtime/utils/cade_task_processor.bak.js:75:    }, 3000);
+./dist/scripts/_local/agent-runtime/effie_runtime.js:69:setInterval(scanAndExecuteTasks, 3000);
+./snapshots/20251114-114821/public/dashboard.backup.js:105:setInterval(fetchOpsStream, 3000);
+./snapshots/20251114-114821/public/js/dashboard-graph.js:46:setInterval(renderGraph, 3000);
+./snapshots/20251114-114821/scripts/restore-visual-display.sh:7:open http://localhost:3000/dashboard.html
+./snapshots/20251114-114821/scripts/server.cjs:6:const PORT = 3000;
+./snapshots/20251114-114821/scripts/_local/route-loader/reflection-sse-server.bak:26:    "Access-Control-Allow-Origin": "http://localhost:3000",
+./snapshots/20251114-114821/scripts/_local/route-loader/reflection-sse-server.bak:30:    "Access-Control-Allow-Origin": "http://localhost:3000",
+./snapshots/20251114-114821/scripts/_local/submit-task.ts:12:  timeoutMs: 3000,
+./snapshots/20251114-114821/scripts/_local/dev-server.ts:13:const PORT = 3000;
+./snapshots/20251114-114821/scripts/_local/agent-runtime/utils/cade_task_processor_clean.ts:61:  }, 3000);
+./snapshots/20251114-114821/scripts/_local/agent-runtime/utils/cade_task_processor.bak:81:  }, 3000);
+./snapshots/20251114-114821/scripts/_local/agent-runtime/utils/effie_task_processor.ts:60:  }, 3000);
+./snapshots/20251114-114821/scripts/_local/agent-runtime/utils/cade_task_processor.bak.ts:79:  }, 3000);
+./snapshots/20251114-114821/scripts/_local/agent-runtime/utils/cade_task_processor.backup.txt:79:  }, 3000);
+./snapshots/20251114-114821/scripts/_local/agent-runtime/utils/cade_task_processor.ts:59:  }, 3000);
+./snapshots/20251114-114821/scripts/_local/agent-runtime/utils/matilda_task_processor.ts:38:setInterval(processTasks, 3000);
+./snapshots/20251114-114821/scripts/_local/agent-runtime/matilda_runtime.mts:67:  }, 3000);
+./snapshots/20251114-114821/scripts/_local/agent-runtime/effie_runtime.js:78:setInterval(scanAndExecuteTasks, 3000);
+./snapshots/20251114-114707/public/dashboard.backup.js:105:setInterval(fetchOpsStream, 3000);
+./snapshots/20251114-114707/public/js/dashboard-graph.js:46:setInterval(renderGraph, 3000);
+./snapshots/20251114-114707/scripts/restore-visual-display.sh:7:open http://localhost:3000/dashboard.html
+./snapshots/20251114-114707/scripts/server.cjs:6:const PORT = 3000;
+./snapshots/20251114-114707/scripts/_local/route-loader/reflection-sse-server.bak:26:    "Access-Control-Allow-Origin": "http://localhost:3000",
+./snapshots/20251114-114707/scripts/_local/route-loader/reflection-sse-server.bak:30:    "Access-Control-Allow-Origin": "http://localhost:3000",
+./snapshots/20251114-114707/scripts/_local/submit-task.ts:12:  timeoutMs: 3000,
+./snapshots/20251114-114707/scripts/_local/dev-server.ts:13:const PORT = 3000;
+./snapshots/20251114-114707/scripts/_local/agent-runtime/utils/cade_task_processor_clean.ts:61:  }, 3000);
+./snapshots/20251114-114707/scripts/_local/agent-runtime/utils/cade_task_processor.bak:81:  }, 3000);
+./snapshots/20251114-114707/scripts/_local/agent-runtime/utils/effie_task_processor.ts:60:  }, 3000);
+./snapshots/20251114-114707/scripts/_local/agent-runtime/utils/cade_task_processor.bak.ts:79:  }, 3000);
+./snapshots/20251114-114707/scripts/_local/agent-runtime/utils/cade_task_processor.backup.txt:79:  }, 3000);
+./snapshots/20251114-114707/scripts/_local/agent-runtime/utils/cade_task_processor.ts:59:  }, 3000);
+./snapshots/20251114-114707/scripts/_local/agent-runtime/utils/matilda_task_processor.ts:38:setInterval(processTasks, 3000);
+./snapshots/20251114-114707/scripts/_local/agent-runtime/matilda_runtime.mts:67:  }, 3000);
+./snapshots/20251114-114707/scripts/_local/agent-runtime/effie_runtime.js:78:setInterval(scanAndExecuteTasks, 3000);
+./config/ports.ts:3:  DASHBOARD: 3000,
+./diagnose-mounted-route-docker-runtime.sh:8:PORT="${PORT:-3000}"
+./Dockerfile:6:EXPOSE 3000
+./PHASE11_DASHBOARD_VISUAL_CHECK_STATUS.md:18:   * [http://127.0.0.1:3000/dashboard](http://127.0.0.1:3000/dashboard)
+./PHASE11_DASHBOARD_VISUAL_CHECK_STATUS.md:19:   * or [http://localhost:3000/dashboard](http://localhost:3000/dashboard)
+./EXECUTION_SURFACE_CONTENTS.txt:431:  }, 3000);
+./PHASE11_CONTAINER_STATUS.md:10:  * Host `8080` → Container `3000`
+./PHASE11_CONTAINER_STATUS.md:13:  * `Server running on http://0.0.0.0:3000`
+./PHASE11_DASHBOARD_VISUAL_CHECK_HANDOFF.md:38:   * [http://127.0.0.1:3000/dashboard](http://127.0.0.1:3000/dashboard)
+./PHASE11_DASHBOARD_VISUAL_CHECK_HANDOFF.md:39:   * or [http://localhost:3000/dashboard](http://localhost:3000/dashboard)
+./prewarm-all-agents.ts:14:pingAgent("Matilda", "curl -s -X POST http://localhost:3000/matilda -H 'Content-Type: application/json' -d '{\"message\":\"ping\"}'");
+./PHASE62B_LIVE_CREATE_ROUTE_RESTART_CHECK_20260317T173014Z.txt:16:motherboard_systems_hq-dashboard-1   motherboard_systems_hq-dashboard   "docker-entrypoint.s…"   dashboard   20 hours ago   Up 20 hours   0.0.0.0:8080->3000/tcp, [::]:8080->3000/tcp
+./GOVERNED_ROUTE_SERVER_RESET_DIAGNOSIS.txt:5:http://localhost:3000/api/governed-planning/dry-run
+./GOVERNED_ROUTE_SERVER_RESET_DIAGNOSIS.txt:30:com.docke 7569 marcela-dev  181u  IPv6 0x93dfa532d0d01e1e      0t0  TCP *:3000 (LISTEN)
+./GOVERNED_ROUTE_SERVER_RESET_DIAGNOSIS.txt:45:[34mPM2        | [39m2026-05-05T14:57:33: PM2 log: Worker Interval      : 30000
+./GOVERNED_ROUTE_SERVER_RESET_DIAGNOSIS.txt:64:[34mPM2        | [39m2026-05-17T20:38:18: PM2 log: Worker Interval      : 30000
+./GOVERNED_ROUTE_SERVER_RESET_DIAGNOSIS.txt:93:[34mPM2        | [39m2026-05-24T23:40:49: PM2 log: Worker Interval      : 30000
+./GOVERNED_ROUTE_SERVER_RESET_DIAGNOSIS.txt:114:[34mPM2        | [39m2026-05-27T23:36:39: PM2 log: Worker Interval      : 30000
+./discover-active-runtime-owner.sh:8:PORT="${PORT:-3000}"
+./PHASE11_DB_ENDPOINTS_STATUS.md:56:Server running on http://0.0.0.0:3000
+./PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:614:./tools/restore-ui.sh:44:curl -s http://127.0.0.1:3000/agent-status.json || true
+./PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:618:./tools/restore-motherboard.sh:58:curl -s http://127.0.0.1:3000/agent-status.json || echo "⚠️ Dashboard not responding"
+./PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:1589:./PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:614:./tools/restore-ui.sh:44:curl -s http://127.0.0.1:3000/agent-status.json || true
+./PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:1593:./PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:618:./tools/restore-motherboard.sh:58:curl -s http://127.0.0.1:3000/agent-status.json || echo "⚠️ Dashboard not responding"
+./PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:2687:./import_check.log:18:scripts/_local/dev-server.ts:1:/** * Dev server with strict agent status: *  Shows green ONLY if PM2 online + HTTP heartbeat responds */import { createServer } from "http";import { execSync } from "child_process";import { join } from "path";import { existsSync, readFileSync } from "fs";import http from "http";const PORT = 3000;const UI_DIR = join(process.cwd(), "ui", "dashboard");const HEARTBEAT_PORTS: Record<string, number> = {  matilda: 3014,  cade: 3012,  effie: 3013,};function pingAgent(port: number): Promise<boolean> {  return new Promise((resolve) => {    const req = http.get({ hostname: "127.0.0.1", port, path: "/", timeout: 1000 }, (res) => {      resolve(res.statusCode === 200);    });    req.on("error", () => resolve(false));    req.on("timeout", () => {      req.destroy();      resolve(false);    });  });}async function getAgentStatus() {  const statusMap: Record<string, string> = { matilda: "offline", cade: "offline", effie: "offline" };  try {    const raw = execSync("pm2 jlist").toString();    const list = JSON.parse(raw);    // Step 1: Mark online if PM2 shows status as "online"    const pm2Online: Record<string, boolean> = {};    for (const proc of list) {      if (proc.pm2_env?.status === "online") {        pm2Online[proc.name.toLowerCase()] = true;      }    }    // Step 2: Strict check  only mark green if PM2 online AND heartbeat responds    for (const agent of Object.keys(statusMap)) {      const port = HEARTBEAT_PORTS[agent];      if (pm2Online[agent] && port && await pingAgent(port)) {        statusMap[agent] = "online";      }    }    return statusMap;  } catch (err) {    console.error(" Failed to fetch PM2 status:", err);    return statusMap;  }}createServer(async (req, res) => {  if (req.url === "/agent-status.json") {    const status = await getAgentStatus();    res.writeHead(200, { "Content-Type": "application/json" });    res.end(JSON.stringify(status));    return;  }  let filePath = join(UI_DIR, req.url || "/");  if (filePath.endsWith("/")) filePath += "index.html";  if (existsSync(filePath)) {    const ext = filePath.split(".").pop()?.toLowerCase() || "";    const mime =      ext === "html" ? "text/html" :      ext === "js"   ? "application/javascript" :      ext === "css"  ? "text/css" :      "text/plain";    res.writeHead(200, { "Content-Type": mime });    res.end(readFileSync(filePath));  } else {    res.writeHead(404);    res.end("Not Found");  }}).listen(PORT, () => {  console.log(` Dev server with STRICT agent checks running at http://localhost:${PORT}`);});
+./PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:3877:./scripts_backup/sequences/prewarm-demo.ts:10:  execSync("curl -s -X POST http://localhost:3000/matilda -H 'Content-Type: application/json' -d '{\"message\":\"Matilda status check\"}'");
+./PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:4015:./scripts_backup/scripts/sequences/prewarm-demo.ts:10:  execSync("curl -s -X POST http://localhost:3000/matilda -H 'Content-Type: application/json' -d '{\"message\":\"Matilda status check\"}'");
+./PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:4396:./scripts_backup_2/sequences/prewarm-demo.ts:10:  execSync("curl -s -X POST http://localhost:3000/matilda -H 'Content-Type: application/json' -d '{\"message\":\"Matilda status check\"}'");
+./PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:4623:./docs/checkpoints/PHASE62B_RUNNING_TASKS_CODE_DISCOVERY_20260316.md:858:./import_check.log:18:scripts/_local/dev-server.ts:1:/** * Dev server with strict agent status: *  Shows green ONLY if PM2 online + HTTP heartbeat responds */import { createServer } from "http";import { execSync } from "child_process";import { join } from "path";import { existsSync, readFileSync } from "fs";import http from "http";const PORT = 3000;const UI_DIR = join(process.cwd(), "ui", "dashboard");const HEARTBEAT_PORTS: Record<string, number> = {  matilda: 3014,  cade: 3012,  effie: 3013,};function pingAgent(port: number): Promise<boolean> {  return new Promise((resolve) => {    const req = http.get({ hostname: "127.0.0.1", port, path: "/", timeout: 1000 }, (res) => {      resolve(res.statusCode === 200);    });    req.on("error", () => resolve(false));    req.on("timeout", () => {      req.destroy();      resolve(false);    });  });}async function getAgentStatus() {  const statusMap: Record<string, string> = { matilda: "offline", cade: "offline", effie: "offline" };  try {    const raw = execSync("pm2 jlist").toString();    const list = JSON.parse(raw);    // Step 1: Mark online if PM2 shows status as "online"    const pm2Online: Record<string, boolean> = {};    for (const proc of list) {      if (proc.pm2_env?.status === "online") {        pm2Online[proc.name.toLowerCase()] = true;      }    }    // Step 2: Strict check  only mark green if PM2 online AND heartbeat responds    for (const agent of Object.keys(statusMap)) {      const port = HEARTBEAT_PORTS[agent];      if (pm2Online[agent] && port && await pingAgent(port)) {        statusMap[agent] = "online";      }    }    return statusMap;  } catch (err) {    console.error(" Failed to fetch PM2 status:", err);    return statusMap;  }}createServer(async (req, res) => {  if (req.url === "/agent-status.json") {    const status = await getAgentStatus();    res.writeHead(200, { "Content-Type": "application/json" });    res.end(JSON.stringify(status));    return;  }  let filePath = join(UI_DIR, req.url || "/");  if (filePath.endsWith("/")) filePath += "index.html";  if (existsSync(filePath)) {    const ext = filePath.split(".").pop()?.toLowerCase() || "";    const mime =      ext === "html" ? "text/html" :      ext === "js"   ? "application/javascript" :      ext === "css"  ? "text/css" :      "text/plain";    res.writeHead(200, { "Content-Type": mime });    res.end(readFileSync(filePath));  } else {    res.writeHead(404);    res.end("Not Found");  }}).listen(PORT, () => {  console.log(` Dev server with STRICT agent checks running at http://localhost:${PORT}`);});
+./PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:4711:./docs/checkpoints/PHASE62B_RUNNING_TASKS_CODE_DISCOVERY_20260316.md:1690:./docs/v11-dashboard-bundle-thread-summary-2025-11-27.md:124:     - `http://localhost:3000/dashboard.html`
+./PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:5025:./docs/checkpoints/PHASE62B_RUNNING_TASKS_CODE_DISCOVERY_20260316.md:5121:./scripts/phase57_snapshot_smoke.sh:109:  code="$(docker compose exec -T dashboard sh -lc 'curl -sS -o /dev/null -w "%{http_code}" http://127.0.0.1:3000/api/health || true')"
+./PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:5546:./docs/checkpoints/PHASE62B_RUNNING_TASKS_CANDIDATE_SURFACES_20260316.md:1952:./docs/v11-dashboard-bundle-thread-summary-2025-11-27.md:124:     - `http://localhost:3000/dashboard.html`
+./PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:5614:./docs/checkpoints/PHASE62B_RUNNING_TASKS_CANDIDATE_SURFACES_20260316.md:2087:./import_check.log:18:scripts/_local/dev-server.ts:1:/** * Dev server with strict agent status: *  Shows green ONLY if PM2 online + HTTP heartbeat responds */import { createServer } from "http";import { execSync } from "child_process";import { join } from "path";import { existsSync, readFileSync } from "fs";import http from "http";const PORT = 3000;const UI_DIR = join(process.cwd(), "ui", "dashboard");const HEARTBEAT_PORTS: Record<string, number> = {  matilda: 3014,  cade: 3012,  effie: 3013,};function pingAgent(port: number): Promise<boolean> {  return new Promise((resolve) => {    const req = http.get({ hostname: "127.0.0.1", port, path: "/", timeout: 1000 }, (res) => {      resolve(res.statusCode === 200);    });    req.on("error", () => resolve(false));    req.on("timeout", () => {      req.destroy();      resolve(false);    });  });}async function getAgentStatus() {  const statusMap: Record<string, string> = { matilda: "offline", cade: "offline", effie: "offline" };  try {    const raw = execSync("pm2 jlist").toString();    const list = JSON.parse(raw);    // Step 1: Mark online if PM2 shows status as "online"    const pm2Online: Record<string, boolean> = {};    for (const proc of list) {      if (proc.pm2_env?.status === "online") {        pm2Online[proc.name.toLowerCase()] = true;      }    }    // Step 2: Strict check  only mark green if PM2 online AND heartbeat responds    for (const agent of Object.keys(statusMap)) {      const port = HEARTBEAT_PORTS[agent];      if (pm2Online[agent] && port && await pingAgent(port)) {        statusMap[agent] = "online";      }    }    return statusMap;  } catch (err) {    console.error(" Failed to fetch PM2 status:", err);    return statusMap;  }}createServer(async (req, res) => {  if (req.url === "/agent-status.json") {    const status = await getAgentStatus();    res.writeHead(200, { "Content-Type": "application/json" });    res.end(JSON.stringify(status));    return;  }  let filePath = join(UI_DIR, req.url || "/");  if (filePath.endsWith("/")) filePath += "index.html";  if (existsSync(filePath)) {    const ext = filePath.split(".").pop()?.toLowerCase() || "";    const mime =      ext === "html" ? "text/html" :      ext === "js"   ? "application/javascript" :      ext === "css"  ? "text/css" :      "text/plain";    res.writeHead(200, { "Content-Type": mime });    res.end(readFileSync(filePath));  } else {    res.writeHead(404);    res.end("Not Found");  }}).listen(PORT, () => {  console.log(` Dev server with STRICT agent checks running at http://localhost:${PORT}`);});
+./PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:5977:./docs/checkpoints/PHASE62B_RUNNING_TASKS_CANDIDATE_SURFACES_20260316.md:6201:./scripts/phase57_snapshot_smoke.sh:109:  code="$(docker compose exec -T dashboard sh -lc 'curl -sS -o /dev/null -w "%{http_code}" http://127.0.0.1:3000/api/health || true')"
+./PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:7237:./scripts/sequences/prewarm-demo.ts:10:  execSync("curl -s -X POST http://localhost:3000/matilda -H 'Content-Type: application/json' -d '{\"message\":\"Matilda status check\"}'");
+./PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:7325:./scripts/phase57_snapshot_smoke.sh:109:  code="$(docker compose exec -T dashboard sh -lc 'curl -sS -o /dev/null -w "%{http_code}" http://127.0.0.1:3000/api/health || true')"
+
+===== PACKAGE / START REFERENCES =====
+package.json:5:    "test:orchestration": "node --import tsx --test server/orchestration/*.test.ts",
+package.json:15:    "tsx": "^4.21.0",
+Dockerfile.dashboard:26:CMD ["node", "server.mjs"]
+scripts/demo/run-demo-playback.ts:22:    execSync("npx tsx scripts/demo/run-create-atlas.ts", { stdio: "inherit" });
+scripts/demo/run-phase9-checks.sh:11:pnpm tsx "$ROOT_DIR/scripts/ops/run-create-atlas.ts"
+scripts/phase87_5_run_pipeline_smoke.sh:13:  npx tsx src/cognition/situationSummaryIntegration.smoke.ts
+scripts/phase88_14_10_restart_and_verify_live_system_health_and_dashboard.sh:55:nohup node server.mjs > "$BOOT_LOG" 2>&1 &
+scripts/phase16_ops_broadcast_state_snapshot_patch.sh:4:FILE="server.mjs"
+scripts/phase16_ops_broadcast_state_snapshot_patch.sh:5:[[ -f "$FILE" ]] || { echo "ERROR: server.mjs not found"; exit 1; }
+scripts/phase16_ops_broadcast_state_snapshot_patch.sh:44:echo "✅ Patched server.mjs: OPS now broadcasts ops.state snapshots on heartbeat + agent-status"
+scripts/phase87_12_run_cognition_index_smoke.sh:13:  npx tsx src/cognition/index.smoke.ts
+scripts/matilda-chat-phase2-resume.sh:24:NODE_ENV=development PORT=3000 node server.mjs &
+scripts/matilda-chat-phase2-resume.sh:27:echo "   ↳ server.mjs started with PID $DEV_PID"
+scripts/monitor/monitor-agents.sh:23:  tsx scripts/sequences/prewarm-all-agents.ts || echo "⚠️ Prewarm sequence failed during self-heal."
+scripts/phase26_run_worker.sh:5:node server/worker/phase26_task_worker.mjs
+scripts/phase44_list_mutation_routes.sh:18:  server server.mjs 2>/dev/null \
+scripts/phase14_6_no_store_html_headers.mjs:3:const file = "server.mjs";
+scripts/phase14_6_no_store_html_headers.mjs:36:  console.log("✅ Patched server.mjs (no-store headers for HTML sendFile routes)");
+scripts/phase87_11_run_snapshot_smoke.sh:13:  npx tsx src/cognition/getSituationSummarySnapshot.smoke.ts
+scripts/phase88_14_8_force_restart_and_verify_system_health_routes.sh:49:nohup node server.mjs > "$BOOT_LOG" 2>&1 &
+scripts/phase88_14_8_force_restart_and_verify_system_health_routes.sh:107:  rg -n 'systemHealthRouter|diagnostics/system-health|diagnostics/systemHealth' server.mjs
+scripts/phase87_18_run_print_system_summary_wrapper_smoke.sh:24:  npx tsx scripts/phase87_17_system_situation_summary_cli.ts --file "$TMP_JSON_FILE"
+scripts/phase87_14_print_situation_summary.sh:11:  npx tsx scripts/phase87_13_situation_summary_cli.ts --file "$JSON_FILE"
+scripts/phase87_14_print_situation_summary.sh:25:npx tsx scripts/phase87_13_situation_summary_cli.ts --file "$TMP_FILE"
+scripts/phase19_debug_env_gate.sh:11:' server.mjs
+scripts/phase19_debug_env_gate.sh:21:rg -n "\\[phase19\\] env|PHASE19_DEBUG" server.mjs server/orchestrator_state_route.mjs
+scripts/phase80_2_find_dashboard_entrypoints.sh:15:  find dashboard -type f \( -name "page.tsx" -o -name "layout.tsx" -o -name "App.tsx" -o -name "index.tsx" \) | sort
+scripts/phase88_1_run_system_health_attachment_smoke.sh:13:  npx tsx routes/diagnostics/systemHealthSituationSummary.smoke.ts
+scripts/phase88_14_verify_live_dashboard_system_health_attachment.sh:30:  nohup node server.mjs > "$OUT_BOOT_LOG" 2>&1 &
+scripts/phase45_fix_task_events_uuid_cursor.sh:6:CANDIDATES="$(rg -l --no-heading --glob 'server/**/*.mjs' --glob 'server/**/*.ts' --glob 'server.mjs' \
+scripts/phase45_fix_task_events_uuid_cursor.sh:26:rg -n --no-heading 'max\(id\)\s+as\s+max_id\s+from\s+task_events' server server.mjs || true
+scripts/phase45_fix_task_events_uuid_cursor.sh:27:rg -n --no-heading 'where\s+id\s*>\s*\$1' server server.mjs || true
+scripts/phase88_7_run_system_health_js_route_smoke.sh:13:  npx tsx routes/diagnostics/systemHealth.js.route.smoke.ts
+scripts/phase45_autopatch_policy_grants_integration.mjs:51:    .filter(f => /\.(ts|tsx|js)$/.test(f))
+scripts/phase88_0_find_operator_surface_candidates.sh:17:    \( -type f \( -name "*.ts" -o -name "*.tsx" -o -name "*.js" -o -name "*.jsx" -o -name "*.md" \) \) -print \
+scripts/phase28_smoke_one.sh:84:node server/worker/phase26_task_worker.mjs >/dev/null
+scripts/run-create-atlas.ts:43:      `pm2 start scripts/_local/agent-runtime/launch-${agentName}.ts --name ${agentName} --interpreter $(which tsx)`,
+scripts/_ops/phase40_1_patch_execution_path.mjs:15:    .filter((f) => /\.(mjs|js|ts|tsx)$/.test(f))
+scripts/phase16_add_reflections_api_route.sh:5:FILE="server.mjs"
+scripts/phase16_add_reflections_api_route.sh:6:[[ -f "$FILE" ]] || { echo "ERROR: server.mjs not found"; exit 1; }
+scripts/phase16_add_reflections_api_route.sh:52:echo "✅ Patched server.mjs with /api/reflections/signal"
+scripts/phase88_14_5_restart_and_verify_system_health_mount.sh:20:nohup node server.mjs > "$BOOT_LOG" 2>&1 &
+scripts/phase88_14_5_restart_and_verify_system_health_mount.sh:66:  rg -n 'systemHealthRouter|diagnostics/system-health|diagnostics/systemHealth' server.mjs
+scripts/phase25_fix_db_pool_propagation.sh:6:TARGET="server.mjs"
+scripts/v11-dashboard-bundle-inspect.sh:13:grep -n "bundle.js" server.mjs public/dashboard.html 2>/dev/null || echo "No direct bundle.js references in these files."
+scripts/cli/matilda.ts:1:#!/usr/bin/env tsx
+scripts/phase87_6_run_render_smoke.sh:12:  npx tsx src/cognition/situationSummaryRender.smoke.ts
+scripts/phase16_verify_sse_frontend.sh:38:    npm run build:dashboard-bundle
+scripts/phase19_fix_orch_state_route_registration_order.sh:7:SERVER_FILE="server.mjs"
+scripts/phase87_13_run_cli_smoke.sh:13:  npx tsx src/cognition/situationSummaryCli.smoke.ts
+scripts/phase87_18_print_system_situation_summary.sh:5:  npx tsx scripts/phase87_17_system_situation_summary_cli.ts --stdin
+scripts/phase87_18_print_system_situation_summary.sh:16:  npx tsx scripts/phase87_17_system_situation_summary_cli.ts --file "$JSON_FILE"
+scripts/phase87_18_print_system_situation_summary.sh:30:npx tsx scripts/phase87_17_system_situation_summary_cli.ts --file "$TMP_FILE"
+scripts/system/toggle_agents.sh:22:rm -rf ~/.tsx
+scripts/system/toggle_agents.sh:25:pm2 start "$NODE_BIN" --name cade --interpreter none -- --import tsx ./scripts/_local/agent-runtime/launch-cade.ts
+scripts/system/toggle_agents.sh:26:pm2 start "$NODE_BIN" --name effie --interpreter none -- --import tsx ./scripts/_local/agent-runtime/launch-effie.ts
+scripts/system/toggle_agents.sh:27:pm2 start "$NODE_BIN" --name matilda --interpreter none -- --import tsx ./scripts/_local/agent-runtime/launch-matilda.ts
+scripts/system/toggle_agents.sh:28:pm2 start "$NODE_BIN" --name cade-processor --interpreter none -- --import tsx ./scripts/_local/agent-runtime/cade-processor.ts
+scripts/phase22_wire_task_events_ui.sh:282:  "public/js/dashboard-bundle-entry.tsx"
+scripts/phase80_2_find_queue_latency_mount.sh:14:  find dashboard -type f \( -name "*.tsx" -o -name "*.ts" -o -name "*.jsx" -o -name "*.js" \) \
+scripts/phase80_2_find_queue_latency_mount.sh:21:    --include="*.tsx" --include="*.ts" --include="*.jsx" --include="*.js" || true
+scripts/phase80_2_find_queue_latency_mount.sh:26:    --include="*.tsx" --include="*.ts" --include="*.jsx" --include="*.js" || true
+scripts/phase80_2_find_queue_latency_mount.sh:31:    --include="*.tsx" --include="*.ts" --include="*.jsx" --include="*.js" || true
+scripts/phase16_ops_reflections_wiring_patch.sh:7:FILE="server.mjs"
+scripts/phase16_ops_reflections_wiring_patch.sh:9:  echo "ERROR: server.mjs not found at repo root: $ROOT" >&2
+scripts/phase16_ops_reflections_wiring_patch.sh:184:echo "✅ Phase16 patch applied to server.mjs"
+scripts/phase19_add_orchestrator_state_endpoint.sh:111:SERVER_FILE="server.mjs"
+scripts/phase80_2_find_external_dashboard_consumers.sh:20:    \( -name "App.tsx" -o -name "App.ts" -o -name "index.tsx" -o -name "index.ts" -o -name "page.tsx" -o -name "page.ts" -o -name "layout.tsx" -o -name "layout.ts" \) \
+scripts/phase80_2_find_external_dashboard_consumers.sh:30:    --include="*.ts" --include="*.tsx" --include="*.js" --include="*.jsx" 2>/dev/null || true
+scripts/phase80_2_find_external_dashboard_consumers.sh:39:    --include="*.ts" --include="*.tsx" --include="*.js" --include="*.jsx" 2>/dev/null || true
+scripts/phase80_2_find_external_dashboard_consumers.sh:47:    --include="*.ts" --include="*.tsx" --include="*.js" --include="*.jsx" 2>/dev/null || true
+scripts/phase80_2_find_external_dashboard_consumers.sh:55:    --include="*.ts" --include="*.tsx" --include="*.js" --include="*.jsx" 2>/dev/null || true
+scripts/phase88_14_4_inspect_live_server_diagnostics_mounts.sh:14:  echo "SECTION: server.mjs diagnostics references"
+scripts/phase88_14_4_inspect_live_server_diagnostics_mounts.sh:15:  if [[ -f server.mjs ]]; then
+scripts/phase88_14_4_inspect_live_server_diagnostics_mounts.sh:16:    rg -n 'diagnostics|systemHealth|system-health|app\.use|router\.use|express\.Router' server.mjs || true
+scripts/phase88_14_4_inspect_live_server_diagnostics_mounts.sh:18:    echo "server.mjs not found"
+scripts/phase88_14_4_inspect_live_server_diagnostics_mounts.sh:45:  echo "Diagnostics route exists but is NOT mounted in server.mjs"
+scripts/phase88_14_6_inspect_mount_failure_state.sh:17:  echo "SECTION: server.mjs mount lines"
+scripts/phase88_14_6_inspect_mount_failure_state.sh:18:  rg -n 'systemHealthRouter|diagnostics/system-health|diagnostics/systemHealth|apiTasksMutationsRouter' server.mjs || true
+scripts/phase88_14_6_inspect_mount_failure_state.sh:21:  echo "SECTION: server.mjs import block head"
+scripts/phase88_14_6_inspect_mount_failure_state.sh:22:  sed -n '1,80p' server.mjs
+scripts/phase88_14_6_inspect_mount_failure_state.sh:25:  echo "SECTION: server.mjs mount area"
+scripts/phase88_14_6_inspect_mount_failure_state.sh:26:  sed -n '168,190p' server.mjs
+scripts/phase88_4_run_system_health_route_smoke.sh:13:  npx tsx routes/diagnostics/systemHealth.route.smoke.ts
+scripts/phase87_14_run_print_wrapper_smoke.sh:24:  npx tsx scripts/phase87_13_situation_summary_cli.ts --file "$TMP_JSON_FILE"
+scripts/phase80_2_deep_dashboard_inventory.sh:25:  find dashboard -type f \( -name "*.ts" -o -name "*.tsx" -o -name "*.js" -o -name "*.jsx" -o -name "*.json" -o -name "*.md" \) | sort
+scripts/phase80_2_deep_dashboard_inventory.sh:31:    --include="*.ts" --include="*.tsx" --include="*.js" --include="*.jsx" 2>/dev/null || true
+scripts/phase80_2_deep_dashboard_inventory.sh:37:    --include="*.ts" --include="*.tsx" --include="*.js" --include="*.jsx" 2>/dev/null || true
+scripts/phase87_9_run_degraded_getter_smoke.sh:13:  npx tsx src/cognition/getSituationSummary.degraded.smoke.ts
+scripts/run-dashboard-local.sh:10:node server.mjs
+scripts/phase25_fix_pool_pass_through_create_route.sh:38:echo "=== patch server.mjs: also stash pool on app.locals.pool (for req.app.locals.pool fallback) ==="
+scripts/phase25_fix_pool_pass_through_create_route.sh:39:TARGET="server.mjs"
+scripts/phase25_fix_pool_pass_through_create_route.sh:49:  echo "WARN: server.mjs does not contain globalThis.__DB_POOL = pool; (skipping locals patch)"
+scripts/phase25_fix_pool_pass_through_create_route.sh:53:echo "--- server.mjs ---"
+scripts/phase25_fix_pool_pass_through_create_route.sh:54:rg -n 'globalThis\.__DB_POOL|app\.locals\.pool' server.mjs || true
+scripts/phase88_14_5_patch_server_mount_system_health.mjs:3:const target = "server.mjs";
+scripts/phase88_14_5_patch_server_mount_system_health.mjs:31:    throw new Error('Mount anchor app.use("/api/tasks-mutations", apiTasksMutationsRouter); not found in server.mjs');
+scripts/phase88_14_5_patch_server_mount_system_health.mjs:41:console.log("Patched server.mjs");
+scripts/phase87_7_run_rendered_pipeline_smoke.sh:12:  npx tsx src/cognition/buildRenderedSituationSummary.smoke.ts
+scripts/phase87_16_run_cognition_index_smoke.sh:13:  npx tsx src/cognition/index.smoke.ts
+scripts/phase87_10_run_unknown_getter_smoke.sh:13:  npx tsx src/cognition/getSituationSummary.unknown.smoke.ts
+scripts/ops/create-entity.ts:68:    kindFiles[path.join(stagingDir, "src/App.tsx")] =
+scripts/phase87_21_run_system_summary_stdin_smoke.sh:15:  printf '%s\n' "$SIGNALS_JSON" | npx tsx scripts/phase87_17_system_situation_summary_cli.ts --stdin
+scripts/phase87_8_run_getter_smoke.sh:13:  npx tsx src/cognition/getSituationSummary.smoke.ts
+scripts/phase80_3_verify_queue_pressure_metric.sh:7:  if npx --yes tsx --version >/dev/null 2>&1; then
+scripts/phase80_3_verify_queue_pressure_metric.sh:8:    npx --yes tsx src/telemetry/computeQueuePressure.test.ts
+scripts/phase80_3_verify_queue_pressure_metric.sh:9:    echo "Queue Pressure metric verified locally via tsx"
+scripts/phase80_3_verify_queue_pressure_metric.sh:28:echo "  - npx tsx" >&2
+scripts/phase36_4_inject_run_list_route.py:15:  exts = {".ts", ".tsx", ".js", ".mjs", ".cjs"}
+scripts/phase88_5_run_system_health_route_payload_capture.sh:7:npx tsx scripts/phase88_5_capture_system_health_route_payload.ts > "$OUTPUT_FILE"
+scripts/phase61_workspace_inventory.sh:22:    \( -name '*.html' -o -name '*.css' -o -name '*.js' -o -name '*.ts' -o -name '*.tsx' \) \
+scripts/phase87_15_run_system_summary_smoke.sh:13:  npx tsx src/cognition/getSystemSituationSummary.smoke.ts
+scripts/phase87_17_run_system_summary_cli_smoke.sh:13:  npx tsx src/cognition/systemSituationSummaryCli.smoke.ts
+scripts/phase16_ops_sse_connect_primer_patch_SAFE.sh:5:FILE="server.mjs"
+scripts/phase16_ops_sse_connect_primer_patch_SAFE.sh:6:[[ -f "$FILE" ]] || { echo "ERROR: server.mjs not found"; exit 1; }
+scripts/phase11_rebuild_dashboard_container.sh:4:# Phase 11 – Rebuild & restart dashboard container after server.mjs changes
+scripts/phase88_8_run_system_health_js_route_payload_capture.sh:7:npx tsx scripts/phase88_8_capture_system_health_js_route_payload.ts > "$OUTPUT_FILE"
+scripts/phase11_step2_safe_bundling.sh:20:npm run build:dashboard-bundle
+scripts/phase31_7_fix_task_events_contract.sh:22:            if p.is_file() and p.suffix.lower() in {".js",".mjs",".ts",".tsx",".html"}:
+scripts/_local/phase62b_next_safe_metric_discovery.sh:14:server.mjs \
+scripts/_local/phase62b_next_safe_metric_discovery.sh:23:server.mjs \
+scripts/_local/phase62b_next_safe_metric_discovery.sh:31:server.mjs \
+scripts/_local/phase62b_running_tasks_validation_pass.sh:72:      run_cmd "telemetry:replay-check" npm run telemetry:replay-check
+scripts/_local/phase62b_running_tasks_validation_pass.sh:79:      run_cmd "telemetry:drift-check" npm run telemetry:drift-check
+scripts/_local/phase62b_running_tasks_validation_pass.sh:86:      run_cmd "layout:contract-check" npm run layout:contract-check
+scripts/_local/phase61_4_task_events_render_path_patch.sh:237:    row.style.alignItems = "start";
+scripts/_local/phase61_5_5_force_agent_dot_colors_inline.sh:123:npm run build:dashboard-bundle
+scripts/_local/matilda_tasks/onboard_agent.mjs:5://   npx tsx scripts/_local/matilda_tasks/onboard_agent.mjs <Name> "<Role>"
+scripts/_local/matilda_tasks/onboard_agent.mjs:6://   npx tsx scripts/_local/matilda_tasks/onboard_agent.mjs Brandy "Copywriting Specialist" --config
+scripts/_local/matilda_tasks/onboard_agent.mjs:7://   npx tsx scripts/_local/matilda_tasks/onboard_agent.mjs   # (interactive prompts)
+scripts/_local/matilda_tasks/onboard_agent.mjs:15:// - Designed for Node ESM, executed via `npx tsx`.
+scripts/_local/matilda_tasks/onboard_agent.mjs:77:    `Usage:\n  npx tsx ${path.relative(process.cwd(), __filename)} <Name> "<Role>" [--config|--no-config]\n\n` +
+scripts/_local/matilda_tasks/onboard_agent.mjs:78:    `Examples:\n  npx tsx ${path.relative(process.cwd(), __filename)} Brandy "Copywriting Specialist" --config\n  npx tsx ${path.relative(process.cwd(), __filename)}\n`);
+scripts/_local/phase77_run_signal_severity_smoke.sh:7:tsx scripts/_local/phase77_signal_severity_model_smoke.ts
+scripts/_local/phase62b_server_metrics_surface_inspect.sh:16:  echo "== server.mjs: lines 320-470 =="
+scripts/_local/phase62b_server_metrics_surface_inspect.sh:17:  if [ -f server.mjs ]; then
+scripts/_local/phase62b_server_metrics_surface_inspect.sh:18:    nl -ba server.mjs | sed -n '320,470p'
+scripts/_local/phase62b_server_metrics_surface_inspect.sh:20:    echo "server.mjs not found"
+scripts/_local/phase62b_server_metrics_surface_inspect.sh:24:  echo "== server.mjs: metric-related grep =="
+scripts/_local/phase62b_server_metrics_surface_inspect.sh:25:  if [ -f server.mjs ]; then
+scripts/_local/phase62b_server_metrics_surface_inspect.sh:26:    grep -nE "runningTasks|completedTasks|failedTasks|queuedTasks|Tasks Running|Tasks Completed|Tasks Failed|metric-running|metric-completed|metric-failed|select count|from tasks|where status" server.mjs || true
+scripts/_local/phase62b_server_metrics_surface_inspect.sh:28:    echo "server.mjs not found"
+scripts/_local/phase61_5_5u_trace_ops_state_writers.sh:21:  grep -RniE '__OPS_STATE|lastHeartbeatAt|agents[[:space:]]*:|broadcast\\(state, "ops\\.state"|__SSE_BROADCAST\\.ops|ops\\.broadcast\\(' server.mjs server 2>/dev/null || true
+scripts/_local/phase61_5_5u_trace_ops_state_writers.sh:24:  echo "== server.mjs focused snippet around __OPS_STATE =="
+scripts/_local/phase61_5_5u_trace_ops_state_writers.sh:25:  sed -n '140,270p' server.mjs
+scripts/_local/phase61_5_5u_trace_ops_state_writers.sh:27:  sed -n '480,570p' server.mjs
+scripts/_local/phase61_5_5q_truthful_agent_status_from_named_ops_events.sh:154:npm run build:dashboard-bundle
+scripts/_local/phase73_run_safety_gates_smoke.sh:7:tsx scripts/_local/phase73_operator_safety_gates_smoke.ts
+scripts/_local/phase61_5_5b_force_agent_dot_inline_fix.sh:60:npm run build:dashboard-bundle
+scripts/_local/phase68_telemetry_contract_check.sh:51:if command -v tsx >/dev/null 2>&1; then
+scripts/_local/phase68_telemetry_contract_check.sh:52:  tsx "$VALIDATOR_FILE" "$(cat "$SAMPLE_FILE")"
+scripts/_local/phase68_telemetry_contract_check.sh:54:  pnpm exec tsx "$VALIDATOR_FILE" "$(cat "$SAMPLE_FILE")"
+scripts/_local/phase68_telemetry_contract_check.sh:56:  npx tsx "$VALIDATOR_FILE" "$(cat "$SAMPLE_FILE")"
+scripts/_local/phase68_telemetry_contract_check.sh:58:  echo "FAIL: tsx runtime not available"
+scripts/_local/phase62b_running_tasks_candidate_extract.sh:40:      | grep -E '\.(ts|tsx|js|jsx|mjs|cjs|json|md):[0-9]+|^\./|^[A-Za-z0-9_./-]+\.(ts|tsx|js|jsx|mjs|cjs|json|md)$' \
+scripts/_local/phase62b_running_tasks_candidate_extract.sh:54:      | grep -Eo '([A-Za-z0-9_./-]+\.(ts|tsx|js|jsx|mjs|cjs|json|md))(:[0-9]+)?' \
+scripts/_local/phase62b_apply_tasks_queued_metric.py:8:TARGET = Path("server.mjs")
+scripts/_local/phase62b_apply_tasks_queued_metric.py:11:    print("ERROR: server.mjs not found", file=sys.stderr)
+scripts/_local/phase62b_apply_tasks_queued_metric.py:74:# If there is a frontend metrics descriptor block in server.mjs, add queued entry.
+scripts/_local/phase62b_apply_tasks_queued_metric.py:96:print("Patched server.mjs for queuedTasks metric.")
+
+===== PM2 STATUS =====
+┌────┬───────────┬─────────────┬─────────┬─────────┬──────────┬────────┬──────┬───────────┬──────────┬──────────┬──────────┬──────────┐
+│ id │ name      │ namespace   │ version │ mode    │ pid      │ uptime │ ↺    │ status    │ cpu      │ mem      │ user     │ watching │
+└────┴───────────┴─────────────┴─────────┴─────────┴──────────┴────────┴──────┴───────────┴──────────┴──────────┴──────────┴──────────┘
+
+===== WORKTREE =====
+?? .backup_excludes
+?? ACTIVE_RUNTIME_OWNER_DISCOVERY.txt
+?? CADE_RUNTIME_DISCOVERY.txt
+?? CADE_RUNTIME_HIGH_SIGNAL_CONTENTS.txt
+?? EXECUTION_IMPLEMENTATION_SURFACES.txt
+?? backups/
+?? discover-active-runtime-owner.sh
+?? discover-execution-implementation-surfaces.sh
+?? docs/contracts/GOVERNED_ROUTE_INPROCESS_VALIDATION_CHECKPOINT.md
+?? extract-matilda-delegation-docs.sh
+?? scripts/dr
+?? scripts/dr_autonomous_wrapper.sh
+?? scripts/dr_daemon.sh
+?? scripts/dr_daemon_self_healing.sh
+?? scripts/dr_watchdog.sh
+?? scripts/offsite_r2_sync.sh
+?? scripts/retention_engine.sh
+?? scripts/storage_guard.sh
+?? scripts/storage_monitor.sh
+?? scripts/storage_policy.sh
+?? scripts/vault_layer.sh
