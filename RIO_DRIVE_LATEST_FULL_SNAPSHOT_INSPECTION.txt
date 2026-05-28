@@ -1,0 +1,221 @@
+===== RIO DRIVE LATEST FULL SNAPSHOT INSPECTION =====
+2026-05-28 09:25:08.973260
+
+===== CURRENT HEAD =====
+f77c4598 Record Rio Drive repo bundle dashboard candidate result
+70567be8 Inspect Rio Drive repo bundle dashboard candidates v2
+10495513 Inspect Rio Drive repo bundle dashboard candidates
+466098de Inspect Rio Drive source archive dashboard candidates
+df310122 Record Rio Drive latest dashboard preview next step
+9f871af0 Inspect Rio Drive disaster backup dashboard candidate v3
+5f1b2064 Inspect latest snapshot dashboard candidate v2
+07773bd9 Add dashboard candidate preview server
+
+Rio Drive found: /Volumes/Rio Drive
+
+===== NEWEST FULL SNAPSHOT DIRECTORIES =====
+1779916720 /Volumes/Rio Drive/Motherboard_External_Backup/snapshots/20260527_141840
+1779909214 /Volumes/Rio Drive/Motherboard_External_Backup/snapshots/20260527_141840/project
+1779814795 /Volumes/Rio Drive/Motherboard_Storage/snapshots/full-disaster-recovery-20260526-phase744-architecture-494f61b3
+1779814015 /Volumes/Rio Drive/Motherboard_Storage/snapshots/full-disaster-recovery-20260526-phase743-sealed-13f8eb4a
+1779812691 /Volumes/Rio Drive/Motherboard_Storage/snapshots/full-disaster-recovery-20260526-phase744-architecture-494f61b3/Motherboard_Systems_HQ
+1779812691 /Volumes/Rio Drive/Motherboard_Storage/snapshots/full-disaster-recovery-20260526-phase743-sealed-13f8eb4a/Motherboard_Systems_HQ
+1777853712 /Volumes/Rio Drive/Motherboard_Systems_HQ/_snapshots/phase631-live-runtime-proof-containerized
+1777853712 /Volumes/Rio Drive/Motherboard_Storage/snapshots/full-disaster-recovery-20260526-phase744-architecture-494f61b3/Motherboard_Systems_HQ/_snapshots/phase631-live-runtime-proof-containerized
+1777853712 /Volumes/Rio Drive/Motherboard_Storage/snapshots/full-disaster-recovery-20260526-phase743-sealed-13f8eb4a/Motherboard_Systems_HQ/_snapshots/phase631-live-runtime-proof-containerized
+1777853391 /Volumes/Rio Drive/Motherboard_Systems_HQ/_snapshots/phase630-runtime-proof-ready-containerized
+1777853391 /Volumes/Rio Drive/Motherboard_Storage/snapshots/full-disaster-recovery-20260526-phase744-architecture-494f61b3/Motherboard_Systems_HQ/_snapshots/phase630-runtime-proof-ready-containerized
+1777853391 /Volumes/Rio Drive/Motherboard_Storage/snapshots/full-disaster-recovery-20260526-phase743-sealed-13f8eb4a/Motherboard_Systems_HQ/_snapshots/phase630-runtime-proof-ready-containerized
+1777704682 /Volumes/Rio Drive/Motherboard_Storage/snapshots/full-disaster-recovery-20260526-phase744-architecture-494f61b3/Motherboard_Systems_HQ/_snapshots/phase618-ui-communication-tier-surfacing-complete-20260501_235622
+1777704682 /Volumes/Rio Drive/Motherboard_Storage/snapshots/full-disaster-recovery-20260526-phase743-sealed-13f8eb4a/Motherboard_Systems_HQ/_snapshots/phase618-ui-communication-tier-surfacing-complete-20260501_235622
+1777704682 /Volumes/Rio Drive/Motherboard_Systems_HQ/_snapshots/phase618-ui-communication-tier-surfacing-complete-20260501_235622
+1777702424 /Volumes/Rio Drive/Motherboard_Systems_HQ/_snapshots/phase617-pre-result-surfacing-wire-stable-20260501_233350
+1777702424 /Volumes/Rio Drive/Motherboard_Storage/snapshots/full-disaster-recovery-20260526-phase743-sealed-13f8eb4a/Motherboard_Systems_HQ/_snapshots/phase617-pre-result-surfacing-wire-stable-20260501_233350
+1777702424 /Volumes/Rio Drive/Motherboard_Storage/snapshots/full-disaster-recovery-20260526-phase744-architecture-494f61b3/Motherboard_Systems_HQ/_snapshots/phase617-pre-result-surfacing-wire-stable-20260501_233350
+
+===== CANDIDATE SNAPSHOT DASHBOARDS =====
+--- candidate-01-20260527_141840 ---
+snapshot_dir: /Volumes/Rio Drive/Motherboard_External_Backup/snapshots/20260527_141840
+project_root: /Volumes/Rio Drive/Motherboard_External_Backup/snapshots/20260527_141840/project
+index: /Volumes/Rio Drive/Motherboard_External_Backup/snapshots/20260527_141840/project/public/index.html
+index size: 10283
+index title: <title>Motherboard Systems Operator Console</title>
+index markers: Recent Tasks=1, Matilda=17, Agent Pool=1
+dashboard: /Volumes/Rio Drive/Motherboard_External_Backup/snapshots/20260527_141840/project/public/dashboard.html
+dashboard size: 31026
+dashboard title: <title>Motherboard Systems Operator Console</title>
+dashboard markers: Recent Tasks=1, Task History=1, Matilda=24, Operator Guidance=2, Agent Pool=2, telemetry=4, retry=1
+bundle: /Volumes/Rio Drive/Motherboard_External_Backup/snapshots/20260527_141840/project/public/bundle.js
+bundle size: 69049
+open: http://localhost:8099/_dashboard_candidate_previews/rio-drive-latest-full-snapshot/candidate-01-20260527_141840/index.html
+
+--- candidate-02-project ---
+snapshot_dir: /Volumes/Rio Drive/Motherboard_External_Backup/snapshots/20260527_141840/project
+project_root: /Volumes/Rio Drive/Motherboard_External_Backup/snapshots/20260527_141840/project
+index: /Volumes/Rio Drive/Motherboard_External_Backup/snapshots/20260527_141840/project/public/index.html
+index size: 10283
+index title: <title>Motherboard Systems Operator Console</title>
+index markers: Recent Tasks=1, Matilda=17, Agent Pool=1
+dashboard: /Volumes/Rio Drive/Motherboard_External_Backup/snapshots/20260527_141840/project/public/dashboard.html
+dashboard size: 31026
+dashboard title: <title>Motherboard Systems Operator Console</title>
+dashboard markers: Recent Tasks=1, Task History=1, Matilda=24, Operator Guidance=2, Agent Pool=2, telemetry=4, retry=1
+bundle: /Volumes/Rio Drive/Motherboard_External_Backup/snapshots/20260527_141840/project/public/bundle.js
+bundle size: 69049
+open: http://localhost:8099/_dashboard_candidate_previews/rio-drive-latest-full-snapshot/candidate-02-project/index.html
+
+--- candidate-03-full-disaster-recovery-20260526-phase744-architecture-494f61b3 ---
+snapshot_dir: /Volumes/Rio Drive/Motherboard_Storage/snapshots/full-disaster-recovery-20260526-phase744-architecture-494f61b3
+project_root: /Volumes/Rio Drive/Motherboard_Storage/snapshots/full-disaster-recovery-20260526-phase744-architecture-494f61b3/Motherboard_Systems_HQ
+index: /Volumes/Rio Drive/Motherboard_Storage/snapshots/full-disaster-recovery-20260526-phase744-architecture-494f61b3/Motherboard_Systems_HQ/public/index.html
+index size: 45658
+index title: <title>Motherboard Systems Operator Console</title>
+index markers: Recent Tasks=3, Task History=1, Matilda=24, Operator Guidance=3, Agent Pool=3, telemetry=7, phase719=5, phase530=2, retry=2, requeue=1
+dashboard: /Volumes/Rio Drive/Motherboard_Storage/snapshots/full-disaster-recovery-20260526-phase744-architecture-494f61b3/Motherboard_Systems_HQ/public/dashboard.html
+dashboard size: 36216
+dashboard title: <title>Motherboard Systems Operator Console</title>
+dashboard markers: Recent Tasks=2, Task History=1, Matilda=12, Operator Guidance=3, Agent Pool=1, telemetry=2, phase719=1, phase530=1
+bundle: /Volumes/Rio Drive/Motherboard_Storage/snapshots/full-disaster-recovery-20260526-phase744-architecture-494f61b3/Motherboard_Systems_HQ/public/bundle.js
+bundle size: 69049
+open: http://localhost:8099/_dashboard_candidate_previews/rio-drive-latest-full-snapshot/candidate-03-full-disaster-recovery-20260526-phase744-architecture-494f61b3/index.html
+
+--- candidate-04-full-disaster-recovery-20260526-phase743-sealed-13f8eb4a ---
+snapshot_dir: /Volumes/Rio Drive/Motherboard_Storage/snapshots/full-disaster-recovery-20260526-phase743-sealed-13f8eb4a
+project_root: /Volumes/Rio Drive/Motherboard_Storage/snapshots/full-disaster-recovery-20260526-phase743-sealed-13f8eb4a/Motherboard_Systems_HQ
+index: /Volumes/Rio Drive/Motherboard_Storage/snapshots/full-disaster-recovery-20260526-phase743-sealed-13f8eb4a/Motherboard_Systems_HQ/public/index.html
+index size: 45658
+index title: <title>Motherboard Systems Operator Console</title>
+index markers: Recent Tasks=3, Task History=1, Matilda=24, Operator Guidance=3, Agent Pool=3, telemetry=7, phase719=5, phase530=2, retry=2, requeue=1
+dashboard: /Volumes/Rio Drive/Motherboard_Storage/snapshots/full-disaster-recovery-20260526-phase743-sealed-13f8eb4a/Motherboard_Systems_HQ/public/dashboard.html
+dashboard size: 36216
+dashboard title: <title>Motherboard Systems Operator Console</title>
+dashboard markers: Recent Tasks=2, Task History=1, Matilda=12, Operator Guidance=3, Agent Pool=1, telemetry=2, phase719=1, phase530=1
+bundle: /Volumes/Rio Drive/Motherboard_Storage/snapshots/full-disaster-recovery-20260526-phase743-sealed-13f8eb4a/Motherboard_Systems_HQ/public/bundle.js
+bundle size: 69049
+open: http://localhost:8099/_dashboard_candidate_previews/rio-drive-latest-full-snapshot/candidate-04-full-disaster-recovery-20260526-phase743-sealed-13f8eb4a/index.html
+
+--- candidate-05-Motherboard_Systems_HQ ---
+snapshot_dir: /Volumes/Rio Drive/Motherboard_Storage/snapshots/full-disaster-recovery-20260526-phase744-architecture-494f61b3/Motherboard_Systems_HQ
+project_root: /Volumes/Rio Drive/Motherboard_Storage/snapshots/full-disaster-recovery-20260526-phase744-architecture-494f61b3/Motherboard_Systems_HQ
+index: /Volumes/Rio Drive/Motherboard_Storage/snapshots/full-disaster-recovery-20260526-phase744-architecture-494f61b3/Motherboard_Systems_HQ/public/index.html
+index size: 45658
+index title: <title>Motherboard Systems Operator Console</title>
+index markers: Recent Tasks=3, Task History=1, Matilda=24, Operator Guidance=3, Agent Pool=3, telemetry=7, phase719=5, phase530=2, retry=2, requeue=1
+dashboard: /Volumes/Rio Drive/Motherboard_Storage/snapshots/full-disaster-recovery-20260526-phase744-architecture-494f61b3/Motherboard_Systems_HQ/public/dashboard.html
+dashboard size: 36216
+dashboard title: <title>Motherboard Systems Operator Console</title>
+dashboard markers: Recent Tasks=2, Task History=1, Matilda=12, Operator Guidance=3, Agent Pool=1, telemetry=2, phase719=1, phase530=1
+bundle: /Volumes/Rio Drive/Motherboard_Storage/snapshots/full-disaster-recovery-20260526-phase744-architecture-494f61b3/Motherboard_Systems_HQ/public/bundle.js
+bundle size: 69049
+open: http://localhost:8099/_dashboard_candidate_previews/rio-drive-latest-full-snapshot/candidate-05-Motherboard_Systems_HQ/index.html
+
+--- candidate-06-Motherboard_Systems_HQ ---
+snapshot_dir: /Volumes/Rio Drive/Motherboard_Storage/snapshots/full-disaster-recovery-20260526-phase743-sealed-13f8eb4a/Motherboard_Systems_HQ
+project_root: /Volumes/Rio Drive/Motherboard_Storage/snapshots/full-disaster-recovery-20260526-phase743-sealed-13f8eb4a/Motherboard_Systems_HQ
+index: /Volumes/Rio Drive/Motherboard_Storage/snapshots/full-disaster-recovery-20260526-phase743-sealed-13f8eb4a/Motherboard_Systems_HQ/public/index.html
+index size: 45658
+index title: <title>Motherboard Systems Operator Console</title>
+index markers: Recent Tasks=3, Task History=1, Matilda=24, Operator Guidance=3, Agent Pool=3, telemetry=7, phase719=5, phase530=2, retry=2, requeue=1
+dashboard: /Volumes/Rio Drive/Motherboard_Storage/snapshots/full-disaster-recovery-20260526-phase743-sealed-13f8eb4a/Motherboard_Systems_HQ/public/dashboard.html
+dashboard size: 36216
+dashboard title: <title>Motherboard Systems Operator Console</title>
+dashboard markers: Recent Tasks=2, Task History=1, Matilda=12, Operator Guidance=3, Agent Pool=1, telemetry=2, phase719=1, phase530=1
+bundle: /Volumes/Rio Drive/Motherboard_Storage/snapshots/full-disaster-recovery-20260526-phase743-sealed-13f8eb4a/Motherboard_Systems_HQ/public/bundle.js
+bundle size: 69049
+open: http://localhost:8099/_dashboard_candidate_previews/rio-drive-latest-full-snapshot/candidate-06-Motherboard_Systems_HQ/index.html
+
+--- candidate-07-phase631-live-runtime-proof-containerized ---
+snapshot_dir: /Volumes/Rio Drive/Motherboard_Systems_HQ/_snapshots/phase631-live-runtime-proof-containerized
+project_root: /Volumes/Rio Drive/Motherboard_Systems_HQ/_snapshots/phase631-live-runtime-proof-containerized
+index: /Volumes/Rio Drive/Motherboard_Systems_HQ/_snapshots/phase631-live-runtime-proof-containerized/public/index.html
+index size: 46141
+index title: <title>Motherboard Systems Operator Console</title>
+index markers: Recent Tasks=3, Task History=1, Execution Inspector=1, Matilda=24, Operator Guidance=3, Agent Pool=3, telemetry=7, phase530=2, retry=2, requeue=1
+dashboard: /Volumes/Rio Drive/Motherboard_Systems_HQ/_snapshots/phase631-live-runtime-proof-containerized/public/dashboard.html
+dashboard size: 36138
+dashboard title: <title>Motherboard Systems Operator Console</title>
+dashboard markers: Recent Tasks=2, Task History=1, Matilda=12, Operator Guidance=3, Agent Pool=1, telemetry=2
+bundle: /Volumes/Rio Drive/Motherboard_Systems_HQ/_snapshots/phase631-live-runtime-proof-containerized/public/bundle.js
+bundle size: 69049
+open: http://localhost:8099/_dashboard_candidate_previews/rio-drive-latest-full-snapshot/candidate-07-phase631-live-runtime-proof-containerized/index.html
+
+--- candidate-08-phase631-live-runtime-proof-containerized ---
+snapshot_dir: /Volumes/Rio Drive/Motherboard_Storage/snapshots/full-disaster-recovery-20260526-phase744-architecture-494f61b3/Motherboard_Systems_HQ/_snapshots/phase631-live-runtime-proof-containerized
+project_root: /Volumes/Rio Drive/Motherboard_Storage/snapshots/full-disaster-recovery-20260526-phase744-architecture-494f61b3/Motherboard_Systems_HQ/_snapshots/phase631-live-runtime-proof-containerized
+index: /Volumes/Rio Drive/Motherboard_Storage/snapshots/full-disaster-recovery-20260526-phase744-architecture-494f61b3/Motherboard_Systems_HQ/_snapshots/phase631-live-runtime-proof-containerized/public/index.html
+index size: 46141
+index title: <title>Motherboard Systems Operator Console</title>
+index markers: Recent Tasks=3, Task History=1, Execution Inspector=1, Matilda=24, Operator Guidance=3, Agent Pool=3, telemetry=7, phase530=2, retry=2, requeue=1
+dashboard: /Volumes/Rio Drive/Motherboard_Storage/snapshots/full-disaster-recovery-20260526-phase744-architecture-494f61b3/Motherboard_Systems_HQ/_snapshots/phase631-live-runtime-proof-containerized/public/dashboard.html
+dashboard size: 36138
+dashboard title: <title>Motherboard Systems Operator Console</title>
+dashboard markers: Recent Tasks=2, Task History=1, Matilda=12, Operator Guidance=3, Agent Pool=1, telemetry=2
+bundle: /Volumes/Rio Drive/Motherboard_Storage/snapshots/full-disaster-recovery-20260526-phase744-architecture-494f61b3/Motherboard_Systems_HQ/_snapshots/phase631-live-runtime-proof-containerized/public/bundle.js
+bundle size: 69049
+open: http://localhost:8099/_dashboard_candidate_previews/rio-drive-latest-full-snapshot/candidate-08-phase631-live-runtime-proof-containerized/index.html
+
+--- candidate-09-phase631-live-runtime-proof-containerized ---
+snapshot_dir: /Volumes/Rio Drive/Motherboard_Storage/snapshots/full-disaster-recovery-20260526-phase743-sealed-13f8eb4a/Motherboard_Systems_HQ/_snapshots/phase631-live-runtime-proof-containerized
+project_root: /Volumes/Rio Drive/Motherboard_Storage/snapshots/full-disaster-recovery-20260526-phase743-sealed-13f8eb4a/Motherboard_Systems_HQ/_snapshots/phase631-live-runtime-proof-containerized
+index: /Volumes/Rio Drive/Motherboard_Storage/snapshots/full-disaster-recovery-20260526-phase743-sealed-13f8eb4a/Motherboard_Systems_HQ/_snapshots/phase631-live-runtime-proof-containerized/public/index.html
+index size: 46141
+index title: <title>Motherboard Systems Operator Console</title>
+index markers: Recent Tasks=3, Task History=1, Execution Inspector=1, Matilda=24, Operator Guidance=3, Agent Pool=3, telemetry=7, phase530=2, retry=2, requeue=1
+dashboard: /Volumes/Rio Drive/Motherboard_Storage/snapshots/full-disaster-recovery-20260526-phase743-sealed-13f8eb4a/Motherboard_Systems_HQ/_snapshots/phase631-live-runtime-proof-containerized/public/dashboard.html
+dashboard size: 36138
+dashboard title: <title>Motherboard Systems Operator Console</title>
+dashboard markers: Recent Tasks=2, Task History=1, Matilda=12, Operator Guidance=3, Agent Pool=1, telemetry=2
+bundle: /Volumes/Rio Drive/Motherboard_Storage/snapshots/full-disaster-recovery-20260526-phase743-sealed-13f8eb4a/Motherboard_Systems_HQ/_snapshots/phase631-live-runtime-proof-containerized/public/bundle.js
+bundle size: 69049
+open: http://localhost:8099/_dashboard_candidate_previews/rio-drive-latest-full-snapshot/candidate-09-phase631-live-runtime-proof-containerized/index.html
+
+--- candidate-10-phase630-runtime-proof-ready-containerized ---
+snapshot_dir: /Volumes/Rio Drive/Motherboard_Systems_HQ/_snapshots/phase630-runtime-proof-ready-containerized
+project_root: /Volumes/Rio Drive/Motherboard_Systems_HQ/_snapshots/phase630-runtime-proof-ready-containerized
+index: /Volumes/Rio Drive/Motherboard_Systems_HQ/_snapshots/phase630-runtime-proof-ready-containerized/public/index.html
+index size: 46141
+index title: <title>Motherboard Systems Operator Console</title>
+index markers: Recent Tasks=3, Task History=1, Execution Inspector=1, Matilda=24, Operator Guidance=3, Agent Pool=3, telemetry=7, phase530=2, retry=2, requeue=1
+dashboard: /Volumes/Rio Drive/Motherboard_Systems_HQ/_snapshots/phase630-runtime-proof-ready-containerized/public/dashboard.html
+dashboard size: 36138
+dashboard title: <title>Motherboard Systems Operator Console</title>
+dashboard markers: Recent Tasks=2, Task History=1, Matilda=12, Operator Guidance=3, Agent Pool=1, telemetry=2
+bundle: /Volumes/Rio Drive/Motherboard_Systems_HQ/_snapshots/phase630-runtime-proof-ready-containerized/public/bundle.js
+bundle size: 69049
+open: http://localhost:8099/_dashboard_candidate_previews/rio-drive-latest-full-snapshot/candidate-10-phase630-runtime-proof-ready-containerized/index.html
+
+--- candidate-11-phase630-runtime-proof-ready-containerized ---
+snapshot_dir: /Volumes/Rio Drive/Motherboard_Storage/snapshots/full-disaster-recovery-20260526-phase744-architecture-494f61b3/Motherboard_Systems_HQ/_snapshots/phase630-runtime-proof-ready-containerized
+project_root: /Volumes/Rio Drive/Motherboard_Storage/snapshots/full-disaster-recovery-20260526-phase744-architecture-494f61b3/Motherboard_Systems_HQ/_snapshots/phase630-runtime-proof-ready-containerized
+index: /Volumes/Rio Drive/Motherboard_Storage/snapshots/full-disaster-recovery-20260526-phase744-architecture-494f61b3/Motherboard_Systems_HQ/_snapshots/phase630-runtime-proof-ready-containerized/public/index.html
+index size: 46141
+index title: <title>Motherboard Systems Operator Console</title>
+index markers: Recent Tasks=3, Task History=1, Execution Inspector=1, Matilda=24, Operator Guidance=3, Agent Pool=3, telemetry=7, phase530=2, retry=2, requeue=1
+dashboard: /Volumes/Rio Drive/Motherboard_Storage/snapshots/full-disaster-recovery-20260526-phase744-architecture-494f61b3/Motherboard_Systems_HQ/_snapshots/phase630-runtime-proof-ready-containerized/public/dashboard.html
+dashboard size: 36138
+dashboard title: <title>Motherboard Systems Operator Console</title>
+dashboard markers: Recent Tasks=2, Task History=1, Matilda=12, Operator Guidance=3, Agent Pool=1, telemetry=2
+bundle: /Volumes/Rio Drive/Motherboard_Storage/snapshots/full-disaster-recovery-20260526-phase744-architecture-494f61b3/Motherboard_Systems_HQ/_snapshots/phase630-runtime-proof-ready-containerized/public/bundle.js
+bundle size: 69049
+open: http://localhost:8099/_dashboard_candidate_previews/rio-drive-latest-full-snapshot/candidate-11-phase630-runtime-proof-ready-containerized/index.html
+
+--- candidate-12-phase630-runtime-proof-ready-containerized ---
+snapshot_dir: /Volumes/Rio Drive/Motherboard_Storage/snapshots/full-disaster-recovery-20260526-phase743-sealed-13f8eb4a/Motherboard_Systems_HQ/_snapshots/phase630-runtime-proof-ready-containerized
+project_root: /Volumes/Rio Drive/Motherboard_Storage/snapshots/full-disaster-recovery-20260526-phase743-sealed-13f8eb4a/Motherboard_Systems_HQ/_snapshots/phase630-runtime-proof-ready-containerized
+index: /Volumes/Rio Drive/Motherboard_Storage/snapshots/full-disaster-recovery-20260526-phase743-sealed-13f8eb4a/Motherboard_Systems_HQ/_snapshots/phase630-runtime-proof-ready-containerized/public/index.html
+index size: 46141
+index title: <title>Motherboard Systems Operator Console</title>
+index markers: Recent Tasks=3, Task History=1, Execution Inspector=1, Matilda=24, Operator Guidance=3, Agent Pool=3, telemetry=7, phase530=2, retry=2, requeue=1
+dashboard: /Volumes/Rio Drive/Motherboard_Storage/snapshots/full-disaster-recovery-20260526-phase743-sealed-13f8eb4a/Motherboard_Systems_HQ/_snapshots/phase630-runtime-proof-ready-containerized/public/dashboard.html
+dashboard size: 36138
+dashboard title: <title>Motherboard Systems Operator Console</title>
+dashboard markers: Recent Tasks=2, Task History=1, Matilda=12, Operator Guidance=3, Agent Pool=1, telemetry=2
+bundle: /Volumes/Rio Drive/Motherboard_Storage/snapshots/full-disaster-recovery-20260526-phase743-sealed-13f8eb4a/Motherboard_Systems_HQ/_snapshots/phase630-runtime-proof-ready-containerized/public/bundle.js
+bundle size: 69049
+open: http://localhost:8099/_dashboard_candidate_previews/rio-drive-latest-full-snapshot/candidate-12-phase630-runtime-proof-ready-containerized/index.html
+
+===== SAFE NEXT ACTION =====
+Open the latest full snapshot preview candidates under:
+http://localhost:8099/_dashboard_candidate_previews/rio-drive-latest-full-snapshot/
+
+Do not restore yet. First visually confirm the matching dashboard candidate.
