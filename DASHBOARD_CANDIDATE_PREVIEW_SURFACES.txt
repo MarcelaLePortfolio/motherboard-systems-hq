@@ -1,0 +1,46 @@
+===== DASHBOARD CANDIDATE PREVIEW SURFACES =====
+2026-05-28T01:54:22.171479
+
+This command creates static preview HTML files only.
+It does not change the served dashboard runtime.
+
+phase742d-final-verification-20260526
+  commit: 9dd04035 Add Phase 742D final verification manifest
+  preview: _dashboard_candidate_previews/phase742d-final-verification-20260526.html
+  size: 45658 bytes
+
+phase744-governance-continuity-sealed-20260526
+  commit: 8527d581 Seal Phase 744 governance continuity
+  preview: _dashboard_candidate_previews/phase744-governance-continuity-sealed-20260526.html
+  size: 45658 bytes
+
+phase731-expanded-semantic-analysis-state
+  commit: 4c06d575 Phase 731 establish expanded semantic analysis state
+  preview: _dashboard_candidate_previews/phase731-expanded-semantic-analysis-state.html
+  size: 45658 bytes
+
+phase728-continuation-sealed-20260517
+  commit: 3e96a305 Seal Phase 728 deterministic recovery anchor
+  preview: _dashboard_candidate_previews/phase728-continuation-sealed-20260517.html
+  size: 45658 bytes
+
+phase719-artifact-layer-baseline
+  commit: 5f162952 Phase 719: add Matilda console filter helper
+  preview: _dashboard_candidate_previews/phase719-artifact-layer-baseline.html
+  size: 45793 bytes
+
+phase719-inspect-pill-restored
+  commit: 3746fbe9 Phase 719: restore inspect details pill
+  preview: _dashboard_candidate_previews/phase719-inspect-pill-restored.html
+  size: 45793 bytes
+
+phase717-restored-telemetry-console
+  commit: f66f81e6 Phase 717: restore telemetry console from stable checkpoint
+  preview: _dashboard_candidate_previews/phase717-restored-telemetry-console.html
+  size: 46385 bytes
+
+phase715-pre-execution-evidence-ui
+  commit: af4209be Create Phase 715 pre-execution-evidence-ui checkpoint
+  preview: _dashboard_candidate_previews/phase715-pre-execution-evidence-ui.html
+  size: 46640 bytes
+
