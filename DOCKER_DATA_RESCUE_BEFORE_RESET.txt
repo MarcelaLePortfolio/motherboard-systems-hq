@@ -1,0 +1,50 @@
+===== DOCKER DATA RESCUE BEFORE RESET =====
+Thu May 28 00:56:14 PDT 2026
+
+===== REMOVE EMPTY FAILED PG DUMP IF PRESENT =====
+Removed empty postgres_backup_before_docker_reset.sql
+
+===== CONTAINER LIST =====
+CONTAINER ID   IMAGE          COMMAND                  CREATED       STATUS                        PORTS                                         NAMES
+cf1b9e4d12ae   41328bbb5e59   "docker-entrypoint.s…"   3 days ago    Up 16 minutes                 0.0.0.0:3000->3000/tcp, [::]:3000->3000/tcp   motherboard_systems_hq-dashboard-1
+81679bbf8d15   76f8427e2693   "docker-entrypoint.s…"   8 days ago    Exited (255) 22 minutes ago                                                 motherboard_systems_hq-worker-1
+e37a3b84baf0   4e6e670bb069   "docker-entrypoint.s…"   3 weeks ago   Up 16 minutes (unhealthy)     5432/tcp                                      motherboard_systems_hq-postgres-1
+
+===== CONTAINER MOUNT INSPECTION =====
+[{"Type":"bind","Source":"/host_mnt/Users/marcela-dev/Projects/Motherboard_Systems_HQ/migrations","Destination":"/migrations","Mode":"ro","RW":false,"Propagation":"rprivate"},{"Type":"volume","Name":"motherboard_systems_hq_pgdata","Source":"/var/lib/docker/volumes/motherboard_systems_hq_pgdata/_data","Destination":"/var/lib/postgresql/data","Driver":"local","Mode":"rw","RW":true,"Propagation":""},{"Type":"bind","Source":"/host_mnt/Users/marcela-dev/Projects/Motherboard_Systems_HQ/docker-entrypoint-initdb.d","Destination":"/docker-entrypoint-initdb.d","Mode":"ro","RW":false,"Propagation":"rprivate"}]
+[{"Type":"volume","Name":"motherboard_systems_hq_guidance_data","Source":"/var/lib/docker/volumes/motherboard_systems_hq_guidance_data/_data","Destination":"/app/data","Driver":"local","Mode":"rw","RW":true,"Propagation":""},{"Type":"volume","Name":"motherboard_systems_hq_worker_artifacts","Source":"/var/lib/docker/volumes/motherboard_systems_hq_worker_artifacts/_data","Destination":"/app/data/artifacts","Driver":"local","Mode":"ro","RW":false,"Propagation":""}]
+
+===== ATTEMPT RAW POSTGRES DATA COPY =====
+Error response from daemon: chown /var/lib/docker/containers/e37a3b84baf0939ca5f2a79be3734d7e62924c89d92fd6340e5433ae30e75b0a/resolv.conf: input/output error
+
+===== ATTEMPT APP COPY =====
+Error response from daemon: chown /var/lib/docker/containers/cf1b9e4d12ae9367772bdb4708794ea24eb3f03a96cf7fa04cf245b5fe8e0746/resolv.conf: input/output error
+
+===== RESCUE DIRECTORY CONTENTS =====
+  0B	/Users/marcela-dev/Desktop/docker-rescue-20260528_005614
+
+===== RESULT =====
+Rescue directory: /Users/marcela-dev/Desktop/docker-rescue-20260528_005614
+If this directory is empty or copy failed with input/output error, Docker data is not recoverable through normal CLI.
+
+===== WORKTREE =====
+?? .backup_excludes
+?? CADE_RUNTIME_DISCOVERY.txt
+?? CADE_RUNTIME_HIGH_SIGNAL_CONTENTS.txt
+?? DOCKER_DATA_RESCUE_BEFORE_RESET.txt
+?? EXECUTION_IMPLEMENTATION_SURFACES.txt
+?? backups/
+?? discover-execution-implementation-surfaces.sh
+?? extract-matilda-delegation-docs.sh
+?? rescue-docker-data-before-reset.sh
+?? scripts/dr
+?? scripts/dr_autonomous_wrapper.sh
+?? scripts/dr_daemon.sh
+?? scripts/dr_daemon_self_healing.sh
+?? scripts/dr_watchdog.sh
+?? scripts/offsite_r2_sync.sh
+?? scripts/retention_engine.sh
+?? scripts/storage_guard.sh
+?? scripts/storage_monitor.sh
+?? scripts/storage_policy.sh
+?? scripts/vault_layer.sh
