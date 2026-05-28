@@ -1,0 +1,251 @@
+===== RIO DRIVE SOURCE ARCHIVE DASHBOARD CANDIDATES =====
+2026-05-28 02:11:41.405157
+
+===== CURRENT HEAD =====
+df310122 Record Rio Drive latest dashboard preview next step
+9f871af0 Inspect Rio Drive disaster backup dashboard candidate v3
+5f1b2064 Inspect latest snapshot dashboard candidate v2
+07773bd9 Add dashboard candidate preview server
+88215e45 Create dashboard candidate preview surfaces
+8b383f2a Discover post phase 715 dashboard candidates
+121b6f8e Checkpoint phase 715 dashboard candidate
+bf001184 Verify and seal phase 715 dashboard candidate surface
+
+===== ARCHIVES SCANNED =====
+1779952371 /Volumes/Rio Drive/backups/source_20260528_001238.tar.gz
+1779952352 /Volumes/Rio Drive/backups/source_20260528_001220.tar.gz
+1779952119 /Volumes/Rio Drive/backups/source_20260528_000826.tar.gz
+1779951640 /Volumes/Rio Drive/backups/source_20260528_000027.tar.gz
+1779945190 /Volumes/Rio Drive/backups/source_20260527_221257.tar.gz
+1779945171 /Volumes/Rio Drive/backups/source_20260527_221201.tar.gz
+1779944922 /Volumes/Rio Drive/backups/source_20260527_220829.tar.gz
+1779943952 /Volumes/Rio Drive/backups/source_20260527_215219.tar.gz
+1779941247 /Volumes/Rio Drive/backups/source_20260527_210714.tar.gz
+1779935130 /Volumes/Rio Drive/backups/source_20260527_192518.tar.gz
+
+===== ARCHIVE: source_20260528_001238.tar.gz =====
+/Volumes/Rio Drive/backups/source_20260528_001238.tar.gz
+index candidates:
+./files/public/index.html
+dashboard candidates:
+./files/snapshots/20251114-114821/public/dashboard.html
+./files/snapshots/20251114-114707/public/dashboard.html
+./files/public/dashboard.html
+bundle candidates:
+./files/public/bundle.js
+preview index: _dashboard_candidate_previews/rio-drive-source-archives/source_20260528_001238/index.html
+index size: 10283
+index title: <title>Motherboard Systems Operator Console</title>
+index markers: Recent Tasks=1, Matilda=17, Agent Pool=1
+preview dashboard: _dashboard_candidate_previews/rio-drive-source-archives/source_20260528_001238/dashboard.html
+dashboard size: 13651
+dashboard title: 
+dashboard markers: Recent Tasks=1, Matilda=12
+preview bundle: _dashboard_candidate_previews/rio-drive-source-archives/source_20260528_001238/bundle.js
+bundle size: 69049
+open: http://localhost:8099/_dashboard_candidate_previews/rio-drive-source-archives/source_20260528_001238/index.html
+
+===== ARCHIVE: source_20260528_001220.tar.gz =====
+/Volumes/Rio Drive/backups/source_20260528_001220.tar.gz
+index candidates:
+./files/public/index.html
+dashboard candidates:
+./files/snapshots/20251114-114821/public/dashboard.html
+./files/snapshots/20251114-114707/public/dashboard.html
+./files/public/dashboard.html
+bundle candidates:
+./files/public/bundle.js
+preview index: _dashboard_candidate_previews/rio-drive-source-archives/source_20260528_001220/index.html
+index size: 10283
+index title: <title>Motherboard Systems Operator Console</title>
+index markers: Recent Tasks=1, Matilda=17, Agent Pool=1
+preview dashboard: _dashboard_candidate_previews/rio-drive-source-archives/source_20260528_001220/dashboard.html
+dashboard size: 13651
+dashboard title: 
+dashboard markers: Recent Tasks=1, Matilda=12
+preview bundle: _dashboard_candidate_previews/rio-drive-source-archives/source_20260528_001220/bundle.js
+bundle size: 69049
+open: http://localhost:8099/_dashboard_candidate_previews/rio-drive-source-archives/source_20260528_001220/index.html
+
+===== ARCHIVE: source_20260528_000826.tar.gz =====
+/Volumes/Rio Drive/backups/source_20260528_000826.tar.gz
+index candidates:
+./files/public/index.html
+dashboard candidates:
+./files/snapshots/20251114-114821/public/dashboard.html
+./files/snapshots/20251114-114707/public/dashboard.html
+./files/public/dashboard.html
+bundle candidates:
+./files/public/bundle.js
+preview index: _dashboard_candidate_previews/rio-drive-source-archives/source_20260528_000826/index.html
+index size: 10283
+index title: <title>Motherboard Systems Operator Console</title>
+index markers: Recent Tasks=1, Matilda=17, Agent Pool=1
+preview dashboard: _dashboard_candidate_previews/rio-drive-source-archives/source_20260528_000826/dashboard.html
+dashboard size: 13651
+dashboard title: 
+dashboard markers: Recent Tasks=1, Matilda=12
+preview bundle: _dashboard_candidate_previews/rio-drive-source-archives/source_20260528_000826/bundle.js
+bundle size: 69049
+open: http://localhost:8099/_dashboard_candidate_previews/rio-drive-source-archives/source_20260528_000826/index.html
+
+===== ARCHIVE: source_20260528_000027.tar.gz =====
+/Volumes/Rio Drive/backups/source_20260528_000027.tar.gz
+index candidates:
+./files/public/index.html
+dashboard candidates:
+./files/snapshots/20251114-114821/public/dashboard.html
+./files/snapshots/20251114-114707/public/dashboard.html
+./files/public/dashboard.html
+bundle candidates:
+./files/public/bundle.js
+preview index: _dashboard_candidate_previews/rio-drive-source-archives/source_20260528_000027/index.html
+index size: 10283
+index title: <title>Motherboard Systems Operator Console</title>
+index markers: Recent Tasks=1, Matilda=17, Agent Pool=1
+preview dashboard: _dashboard_candidate_previews/rio-drive-source-archives/source_20260528_000027/dashboard.html
+dashboard size: 13651
+dashboard title: 
+dashboard markers: Recent Tasks=1, Matilda=12
+preview bundle: _dashboard_candidate_previews/rio-drive-source-archives/source_20260528_000027/bundle.js
+bundle size: 69049
+open: http://localhost:8099/_dashboard_candidate_previews/rio-drive-source-archives/source_20260528_000027/index.html
+
+===== ARCHIVE: source_20260527_221257.tar.gz =====
+/Volumes/Rio Drive/backups/source_20260527_221257.tar.gz
+index candidates:
+./files/public/index.html
+dashboard candidates:
+./files/snapshots/20251114-114821/public/dashboard.html
+./files/snapshots/20251114-114707/public/dashboard.html
+./files/public/dashboard.html
+bundle candidates:
+./files/public/bundle.js
+preview index: _dashboard_candidate_previews/rio-drive-source-archives/source_20260527_221257/index.html
+index size: 10283
+index title: <title>Motherboard Systems Operator Console</title>
+index markers: Recent Tasks=1, Matilda=17, Agent Pool=1
+preview dashboard: _dashboard_candidate_previews/rio-drive-source-archives/source_20260527_221257/dashboard.html
+dashboard size: 13651
+dashboard title: 
+dashboard markers: Recent Tasks=1, Matilda=12
+preview bundle: _dashboard_candidate_previews/rio-drive-source-archives/source_20260527_221257/bundle.js
+bundle size: 69049
+open: http://localhost:8099/_dashboard_candidate_previews/rio-drive-source-archives/source_20260527_221257/index.html
+
+===== ARCHIVE: source_20260527_221201.tar.gz =====
+/Volumes/Rio Drive/backups/source_20260527_221201.tar.gz
+index candidates:
+./files/public/index.html
+dashboard candidates:
+./files/snapshots/20251114-114821/public/dashboard.html
+./files/snapshots/20251114-114707/public/dashboard.html
+./files/public/dashboard.html
+bundle candidates:
+./files/public/bundle.js
+preview index: _dashboard_candidate_previews/rio-drive-source-archives/source_20260527_221201/index.html
+index size: 10283
+index title: <title>Motherboard Systems Operator Console</title>
+index markers: Recent Tasks=1, Matilda=17, Agent Pool=1
+preview dashboard: _dashboard_candidate_previews/rio-drive-source-archives/source_20260527_221201/dashboard.html
+dashboard size: 13651
+dashboard title: 
+dashboard markers: Recent Tasks=1, Matilda=12
+preview bundle: _dashboard_candidate_previews/rio-drive-source-archives/source_20260527_221201/bundle.js
+bundle size: 69049
+open: http://localhost:8099/_dashboard_candidate_previews/rio-drive-source-archives/source_20260527_221201/index.html
+
+===== ARCHIVE: source_20260527_220829.tar.gz =====
+/Volumes/Rio Drive/backups/source_20260527_220829.tar.gz
+index candidates:
+./files/public/index.html
+dashboard candidates:
+./files/snapshots/20251114-114821/public/dashboard.html
+./files/snapshots/20251114-114707/public/dashboard.html
+./files/public/dashboard.html
+bundle candidates:
+./files/public/bundle.js
+preview index: _dashboard_candidate_previews/rio-drive-source-archives/source_20260527_220829/index.html
+index size: 10283
+index title: <title>Motherboard Systems Operator Console</title>
+index markers: Recent Tasks=1, Matilda=17, Agent Pool=1
+preview dashboard: _dashboard_candidate_previews/rio-drive-source-archives/source_20260527_220829/dashboard.html
+dashboard size: 13651
+dashboard title: 
+dashboard markers: Recent Tasks=1, Matilda=12
+preview bundle: _dashboard_candidate_previews/rio-drive-source-archives/source_20260527_220829/bundle.js
+bundle size: 69049
+open: http://localhost:8099/_dashboard_candidate_previews/rio-drive-source-archives/source_20260527_220829/index.html
+
+===== ARCHIVE: source_20260527_215219.tar.gz =====
+/Volumes/Rio Drive/backups/source_20260527_215219.tar.gz
+index candidates:
+./files/public/index.html
+dashboard candidates:
+./files/snapshots/20251114-114821/public/dashboard.html
+./files/snapshots/20251114-114707/public/dashboard.html
+./files/public/dashboard.html
+bundle candidates:
+./files/public/bundle.js
+preview index: _dashboard_candidate_previews/rio-drive-source-archives/source_20260527_215219/index.html
+index size: 10283
+index title: <title>Motherboard Systems Operator Console</title>
+index markers: Recent Tasks=1, Matilda=17, Agent Pool=1
+preview dashboard: _dashboard_candidate_previews/rio-drive-source-archives/source_20260527_215219/dashboard.html
+dashboard size: 13651
+dashboard title: 
+dashboard markers: Recent Tasks=1, Matilda=12
+preview bundle: _dashboard_candidate_previews/rio-drive-source-archives/source_20260527_215219/bundle.js
+bundle size: 69049
+open: http://localhost:8099/_dashboard_candidate_previews/rio-drive-source-archives/source_20260527_215219/index.html
+
+===== ARCHIVE: source_20260527_210714.tar.gz =====
+/Volumes/Rio Drive/backups/source_20260527_210714.tar.gz
+index candidates:
+./files/public/index.html
+dashboard candidates:
+./files/snapshots/20251114-114821/public/dashboard.html
+./files/snapshots/20251114-114707/public/dashboard.html
+./files/public/dashboard.html
+bundle candidates:
+./files/public/bundle.js
+preview index: _dashboard_candidate_previews/rio-drive-source-archives/source_20260527_210714/index.html
+index size: 10283
+index title: <title>Motherboard Systems Operator Console</title>
+index markers: Recent Tasks=1, Matilda=17, Agent Pool=1
+preview dashboard: _dashboard_candidate_previews/rio-drive-source-archives/source_20260527_210714/dashboard.html
+dashboard size: 13651
+dashboard title: 
+dashboard markers: Recent Tasks=1, Matilda=12
+preview bundle: _dashboard_candidate_previews/rio-drive-source-archives/source_20260527_210714/bundle.js
+bundle size: 69049
+open: http://localhost:8099/_dashboard_candidate_previews/rio-drive-source-archives/source_20260527_210714/index.html
+
+===== ARCHIVE: source_20260527_192518.tar.gz =====
+/Volumes/Rio Drive/backups/source_20260527_192518.tar.gz
+index candidates:
+./files/public/index.html
+dashboard candidates:
+./files/snapshots/20251114-114821/public/dashboard.html
+./files/snapshots/20251114-114707/public/dashboard.html
+./files/public/dashboard.html
+bundle candidates:
+./files/public/bundle.js
+preview index: _dashboard_candidate_previews/rio-drive-source-archives/source_20260527_192518/index.html
+index size: 10283
+index title: <title>Motherboard Systems Operator Console</title>
+index markers: Recent Tasks=1, Matilda=17, Agent Pool=1
+preview dashboard: _dashboard_candidate_previews/rio-drive-source-archives/source_20260527_192518/dashboard.html
+dashboard size: 13651
+dashboard title: 
+dashboard markers: Recent Tasks=1, Matilda=12
+preview bundle: _dashboard_candidate_previews/rio-drive-source-archives/source_20260527_192518/bundle.js
+bundle size: 69049
+open: http://localhost:8099/_dashboard_candidate_previews/rio-drive-source-archives/source_20260527_192518/index.html
+
+===== NEXT SAFE ACTION =====
+Open the newest source-archive preview candidates under:
+http://localhost:8099/_dashboard_candidate_previews/rio-drive-source-archives/
+
+Do not restore yet. Pick the exact visually matching dashboard first.
+candidate_count=10
