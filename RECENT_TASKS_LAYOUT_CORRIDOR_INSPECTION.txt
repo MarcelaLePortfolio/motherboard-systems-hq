@@ -1,0 +1,1781 @@
+===== RECENT TASKS LAYOUT CORRIDOR INSPECTION =====
+2026-05-28T10:52:03.312313
+
+===== FILE: public/index.html =====
+size=46640
+recent-tasks-card: 4
+recentTasks: 4
+recentLogs: 4
+1fr 1fr: 1
+Recent Logs: 1
+Task History: 1
+
+--- context for recent-tasks-card ---
+-tab-events" class="obs-tab" type="button" data-workspace-tab data-target="obs-panel-events" role="tab" aria-selected="false" aria-controls="obs-panel-events">
+                Execution Inspector
+              </button>
+            </div>
+
+            <div id="observational-panels">
+              <div id="obs-panel-recent" class="obs-panel active" data-workspace-panel role="tabpanel" aria-labelledby="obs-tab-recent">
+                <section id="recent-tasks-card" class="obs-surface space-y-3">
+                  <div>
+                    <h3 class="text-sm uppercase tracking-[0.2em] text-gray-400 mb-2">Recent Tasks</h3>
+                    <div id="recentTasks" class="bg-gray-900 border border-gray-700 rounded-xl p-3 text-sm text-gray-300"></div>
+                  </div>
+                  <div>
+                    <h3 class="text-sm uppercase tracking-[0.2em] text-gray-400 mb-2">Recent Logs</h3>
+                    <div id="recentLogs" class="bg-gray-900 border border-gray-700 rounded-xl p-3 text-sm text-gray-300"></div>
+                  </div>
+                </section>
+              </div>
+
+      
+-----
+;right:10px;bottom:10px;z-index:9999;font:12px ui-monospace;opacity:.7;pointer-events:none">
+    <span id="phase16-sse-indicator-text" style="padding:4px 8px;border-radius:9999px;border:1px solid rgba(255,255,255,.18);background:rgba(0,0,0,.25)">SSE: …</span>
+  </div>
+
+
+
+
+<style id="phase489-unified-panel-heights">
+  /* Match all right-side panels + delegation to chat pane height */
+  #observational-workspace-card,
+  #delegation-status-panel,
+  #recent-tasks-card,
+  #task-activity-card,
+  #task-events-card {
+    height: 100%;
+    min-height: 0;
+  }
+
+  /* Make telemetry + delegation containers flex correctly */
+  #observational-panels,
+  [data-workspace-root],
+  #phase61-telemetry-column {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    min-height: 0;
+  }
+
+  /* Panels stretch evenly */
+  .obs-panel {
+    flex: 1 1 auto;
+    min-height: 0;
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* Scrollable content areas */
+  #recentTasks,
+  #recentLogs,
+  #mb-task-events-panel-anchor {
+    flex: 1 1 auto;
+    overflow-y: auto;
+    min-height: 0;
+  }
+
+  /* Task Activity graph fills 
+-----
+ivity-card > div {
+    flex: 1 1 auto;
+    min-height: 0;
+    display: flex;
+  }
+
+  #task-activity-graph {
+    flex: 1 1 auto !important;
+    height: 100% !important;
+  }
+</style>
+\n
+<style id="phase490-evidence-based-height-fix">
+  /* Phase 490 — evidence-based fix:
+     telemetry cards showed non-zero bottom margin and flex: 0 1 auto.
+     Normalize workspace surface cards without mutating outer layout. */
+
+  #chat-card,
+  #delegation-card,
+  #recent-tasks-card,
+  #task-activity-card,
+  #task-events-card {
+    margin-bottom: 0 !important;
+    flex: 1 1 auto !important;
+    min-height: 0 !important;
+    box-sizing: border-box !important;
+  }
+
+  #op-panel-chat,
+  #op-panel-delegation,
+  #obs-panel-recent,
+  #obs-panel-activity,
+  #obs-panel-events {
+    min-height: 0 !important;
+  }
+
+  #chat-card,
+  #delegation-card,
+  #recent-tasks-card,
+  #task-activity-card,
+  #task-events-card,
+  #observational-panels > .obs-panel:not([hidden]),
+  #operator-panels > *:not([hidden]) {
+    display: flex !important;
+    flex-direction: column !important;
+  }
+
+  #matilda-chat-transcript,
+  #delegation-status-panel,
+ 
+-----
+out mutating outer layout. */
+
+  #chat-card,
+  #delegation-card,
+  #recent-tasks-card,
+  #task-activity-card,
+  #task-events-card {
+    margin-bottom: 0 !important;
+    flex: 1 1 auto !important;
+    min-height: 0 !important;
+    box-sizing: border-box !important;
+  }
+
+  #op-panel-chat,
+  #op-panel-delegation,
+  #obs-panel-recent,
+  #obs-panel-activity,
+  #obs-panel-events {
+    min-height: 0 !important;
+  }
+
+  #chat-card,
+  #delegation-card,
+  #recent-tasks-card,
+  #task-activity-card,
+  #task-events-card,
+  #observational-panels > .obs-panel:not([hidden]),
+  #operator-panels > *:not([hidden]) {
+    display: flex !important;
+    flex-direction: column !important;
+  }
+
+  #matilda-chat-transcript,
+  #delegation-status-panel,
+  #mb-task-events-panel-anchor {
+    flex: 1 1 auto !important;
+    min-height: 0 !important;
+    overflow-y: auto !important;
+  }
+
+  #task-activity-card > div,
+  #task-activity-graph {
+    flex: 1 1 auto !important;
+    min-height: 0 !important;
+    height: 100% !important;
+    max-height: 100% !important;
+  }
+</style>
+
+<style id="phase489-task-activity-scroll">
+  [data-phase61-s
+-----
+--- context for recentTasks ---
+2px rgba(139, 92, 246, 0.28);
+    }
+
+      background: rgb(13, 148, 136);
+      border-color: rgb(45, 212, 191);
+      box-shadow: 0 10px 22px rgba(13, 148, 136, 0.24);
+    }
+
+    .obs-panel[hidden] {
+      display: none !important;
+    }
+
+    .obs-panel.active:not([hidden]) {
+      display: block;
+    }
+
+    .obs-surface {
+      min-height: 16.5rem;
+    }
+
+    #matilda-chat-transcript {
+      height: 11.5rem;
+      overflow-y: auto;
+    }
+
+    #recentTasks,
+    #recentLogs,
+    #mb-task-events-panel-anchor {
+      min-height: 9.5rem;
+    }
+
+    #task-activity-graph {
+      width: 100% !important;
+      height: 100% !important;
+    }
+
+    #operator-guidance-panel,
+    #delegation-status-panel {
+      min-height: 7.5rem !important;
+    }
+
+    textarea,
+    button,
+    .obs-tab {
+      -webkit-font-smoothing: antialiased;
+    }
+
+    @media (max-width: 1279px) {
+      html {
+        font-size: 13px;
+      }
+
+      .phase62-top-row,
+      #phase61-workspace-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+
+  <script defer src="js/dashboard-status.js"></script>
+  <script defer src
+-----
+   </button>
+            </div>
+
+            <div id="observational-panels">
+              <div id="obs-panel-recent" class="obs-panel active" data-workspace-panel role="tabpanel" aria-labelledby="obs-tab-recent">
+                <section id="recent-tasks-card" class="obs-surface space-y-3">
+                  <div>
+                    <h3 class="text-sm uppercase tracking-[0.2em] text-gray-400 mb-2">Recent Tasks</h3>
+                    <div id="recentTasks" class="bg-gray-900 border border-gray-700 rounded-xl p-3 text-sm text-gray-300"></div>
+                  </div>
+                  <div>
+                    <h3 class="text-sm uppercase tracking-[0.2em] text-gray-400 mb-2">Recent Logs</h3>
+                    <div id="recentLogs" class="bg-gray-900 border border-gray-700 rounded-xl p-3 text-sm text-gray-300"></div>
+                  </div>
+                </section>
+              </div>
+
+              <div id="obs-panel-activity" class="obs-panel" data-workspace-panel role="tabpanel" aria-labelledby="obs-tab-activity" hidden>
+                <section id="task-activity-card" class="obs-surfac
+-----
+rd {
+    height: 100%;
+    min-height: 0;
+  }
+
+  /* Make telemetry + delegation containers flex correctly */
+  #observational-panels,
+  [data-workspace-root],
+  #phase61-telemetry-column {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    min-height: 0;
+  }
+
+  /* Panels stretch evenly */
+  .obs-panel {
+    flex: 1 1 auto;
+    min-height: 0;
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* Scrollable content areas */
+  #recentTasks,
+  #recentLogs,
+  #mb-task-events-panel-anchor {
+    flex: 1 1 auto;
+    overflow-y: auto;
+    min-height: 0;
+  }
+
+  /* Task Activity graph fills available space */
+  #task-activity-card > div {
+    flex: 1 1 auto;
+    min-height: 0;
+    display: flex;
+  }
+
+  #task-activity-graph {
+    flex: 1 1 auto !important;
+    height: 100% !important;
+  }
+</style>
+\n
+<style id="phase490-evidence-based-height-fix">
+  /* Phase 490 — evidence-based fix:
+     telemetry cards showed non-zero bottom margin and flex: 0 1 auto.
+     Normalize workspace surface cards without mutating outer layout. */
+
+  #chat-card,
+  #delegation-card,
+  #recent-tasks-card,
+  #t
+-----
+portant;
+  }
+
+  #operator-workspace-card,
+  #observational-workspace-card,
+  #atlas-status-card,
+  #agent-status-container,
+  #metrics-row > div {
+    box-shadow:
+      0 10px 24px rgba(0, 0, 0, 0.18),
+      inset 0 1px 0 rgba(255, 255, 255, 0.02) !important;
+  }
+
+  #operator-workspace-card > div:first-child,
+  #observational-workspace-card > div:first-child,
+  #atlas-status-card > h2 {
+    border-color: rgba(75, 85, 99, 0.9) !important;
+  }
+
+  #recentTasks,
+  #recentLogs,
+  #mb-task-events-panel-anchor,
+  #matilda-chat-transcript,
+  #operator-guidance-panel,
+  #delegation-status-panel {
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.02) !important;
+  }
+
+  #operator-workspace-card > div:first-child h2,
+  #observational-workspace-card > div:first-child h2,
+  #atlas-status-card > h2 {
+    font-weight: 700 !important;
+  }
+
+/* Phase 549 — Execution Activity visual upgrade */
+#task-events-card {
+  background: linear-gradient(180deg, rgba(2,6,23,0.85) 0%, rgba(2,6,23,0.65) 100%) !important;
+  border: 1px solid rgba(51,65,85,0.9) !important;
+  border-radius: 0.9rem !important;
+  box-shadow: 0 10p
+-----
+--- context for recentLogs ---
+246, 0.28);
+    }
+
+      background: rgb(13, 148, 136);
+      border-color: rgb(45, 212, 191);
+      box-shadow: 0 10px 22px rgba(13, 148, 136, 0.24);
+    }
+
+    .obs-panel[hidden] {
+      display: none !important;
+    }
+
+    .obs-panel.active:not([hidden]) {
+      display: block;
+    }
+
+    .obs-surface {
+      min-height: 16.5rem;
+    }
+
+    #matilda-chat-transcript {
+      height: 11.5rem;
+      overflow-y: auto;
+    }
+
+    #recentTasks,
+    #recentLogs,
+    #mb-task-events-panel-anchor {
+      min-height: 9.5rem;
+    }
+
+    #task-activity-graph {
+      width: 100% !important;
+      height: 100% !important;
+    }
+
+    #operator-guidance-panel,
+    #delegation-status-panel {
+      min-height: 7.5rem !important;
+    }
+
+    textarea,
+    button,
+    .obs-tab {
+      -webkit-font-smoothing: antialiased;
+    }
+
+    @media (max-width: 1279px) {
+      html {
+        font-size: 13px;
+      }
+
+      .phase62-top-row,
+      #phase61-workspace-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+
+  <script defer src="js/dashboard-status.js"></script>
+  <script defer src="js/agent-status
+-----
+space-y-3">
+                  <div>
+                    <h3 class="text-sm uppercase tracking-[0.2em] text-gray-400 mb-2">Recent Tasks</h3>
+                    <div id="recentTasks" class="bg-gray-900 border border-gray-700 rounded-xl p-3 text-sm text-gray-300"></div>
+                  </div>
+                  <div>
+                    <h3 class="text-sm uppercase tracking-[0.2em] text-gray-400 mb-2">Recent Logs</h3>
+                    <div id="recentLogs" class="bg-gray-900 border border-gray-700 rounded-xl p-3 text-sm text-gray-300"></div>
+                  </div>
+                </section>
+              </div>
+
+              <div id="obs-panel-activity" class="obs-panel" data-workspace-panel role="tabpanel" aria-labelledby="obs-tab-activity" hidden>
+                <section id="task-activity-card" class="obs-surface">
+                  <div class="h-64 bg-slate-950 border-2 border-blue-500 rounded-xl p-3 shadow-[0_0_0_1px_rgba(59,130,246,0.35),0_20px_50px_rgba(2,6,23,0.8)]" style="background:#020617 !important; border:3px solid #3b82f6 !important; border-radius:1rem !important; box-shadow:
+-----
+ 100%;
+    min-height: 0;
+  }
+
+  /* Make telemetry + delegation containers flex correctly */
+  #observational-panels,
+  [data-workspace-root],
+  #phase61-telemetry-column {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    min-height: 0;
+  }
+
+  /* Panels stretch evenly */
+  .obs-panel {
+    flex: 1 1 auto;
+    min-height: 0;
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* Scrollable content areas */
+  #recentTasks,
+  #recentLogs,
+  #mb-task-events-panel-anchor {
+    flex: 1 1 auto;
+    overflow-y: auto;
+    min-height: 0;
+  }
+
+  /* Task Activity graph fills available space */
+  #task-activity-card > div {
+    flex: 1 1 auto;
+    min-height: 0;
+    display: flex;
+  }
+
+  #task-activity-graph {
+    flex: 1 1 auto !important;
+    height: 100% !important;
+  }
+</style>
+\n
+<style id="phase490-evidence-based-height-fix">
+  /* Phase 490 — evidence-based fix:
+     telemetry cards showed non-zero bottom margin and flex: 0 1 auto.
+     Normalize workspace surface cards without mutating outer layout. */
+
+  #chat-card,
+  #delegation-card,
+  #recent-tasks-card,
+  #task-activity-ca
+-----
+#operator-workspace-card,
+  #observational-workspace-card,
+  #atlas-status-card,
+  #agent-status-container,
+  #metrics-row > div {
+    box-shadow:
+      0 10px 24px rgba(0, 0, 0, 0.18),
+      inset 0 1px 0 rgba(255, 255, 255, 0.02) !important;
+  }
+
+  #operator-workspace-card > div:first-child,
+  #observational-workspace-card > div:first-child,
+  #atlas-status-card > h2 {
+    border-color: rgba(75, 85, 99, 0.9) !important;
+  }
+
+  #recentTasks,
+  #recentLogs,
+  #mb-task-events-panel-anchor,
+  #matilda-chat-transcript,
+  #operator-guidance-panel,
+  #delegation-status-panel {
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.02) !important;
+  }
+
+  #operator-workspace-card > div:first-child h2,
+  #observational-workspace-card > div:first-child h2,
+  #atlas-status-card > h2 {
+    font-weight: 700 !important;
+  }
+
+/* Phase 549 — Execution Activity visual upgrade */
+#task-events-card {
+  background: linear-gradient(180deg, rgba(2,6,23,0.85) 0%, rgba(2,6,23,0.65) 100%) !important;
+  border: 1px solid rgba(51,65,85,0.9) !important;
+  border-radius: 0.9rem !important;
+  box-shadow: 0 10px 30px rgba(2,6
+-----
+--- context for renderRecent ---
+none
+--- context for gridTemplateRows ---
+none
+--- context for Recent Logs ---
+ion id="recent-tasks-card" class="obs-surface space-y-3">
+                  <div>
+                    <h3 class="text-sm uppercase tracking-[0.2em] text-gray-400 mb-2">Recent Tasks</h3>
+                    <div id="recentTasks" class="bg-gray-900 border border-gray-700 rounded-xl p-3 text-sm text-gray-300"></div>
+                  </div>
+                  <div>
+                    <h3 class="text-sm uppercase tracking-[0.2em] text-gray-400 mb-2">Recent Logs</h3>
+                    <div id="recentLogs" class="bg-gray-900 border border-gray-700 rounded-xl p-3 text-sm text-gray-300"></div>
+                  </div>
+                </section>
+              </div>
+
+              <div id="obs-panel-activity" class="obs-panel" data-workspace-panel role="tabpanel" aria-labelledby="obs-tab-activity" hidden>
+                <section id="task-activity-card" class="obs-surface">
+                  <div class="h-64 bg-slate-950 border-2 border-blue-500 rounded-xl p-3 shadow-[0_0_0_1px_rgba(59,130,246,0.35),0_20px_50px_rgba(2,6,23,0.8)]" style="background:#020617 !important; border:3px solid #3b82f6 !importan
+-----
+
+===== FILE: public/dashboard.html =====
+size=36138
+recent-tasks-card: 1
+recentLogs: 1
+Task History: 1
+
+--- context for recent-tasks-card ---
+-events" class="obs-tab" type="button" data-workspace-tab data-target="obs-panel-events" role="tab" aria-selected="false" aria-controls="obs-panel-events">
+                  Task Events
+                </button>
+              </div>
+
+              <div id="observational-panels">
+                <div id="obs-panel-recent" class="obs-panel active" data-workspace-panel role="tabpanel" aria-labelledby="obs-tab-recent">
+                  <section id="recent-tasks-card" class="obs-surface">
+                    <div class="flex items-center justify-between mb-4 border-b border-gray-700 pb-2">
+                    </div>
+                    <div id="tasks-widget"></div>
+                  </section>
+                </div>
+
+                <div id="obs-panel-activity" class="obs-panel" data-workspace-panel role="tabpanel" aria-labelledby="obs-tab-activity" hidden>
+                  <section id="task-activity-card" class="obs-surface">
+                    
+                    <div class="h-64">
+                      <canvas id="task-activity-graph" class="w-full h-full"></canvas>
+                    </div>
+     
+-----
+--- context for recentTasks ---
+none
+--- context for recentLogs ---
+nded-full bg-orange-500 text-white"
+          >
+            Degraded
+          </span>
+        </h2>
+        <div id="atlas-status-details" class="space-y-2 text-gray-300">
+          <p>
+            Core Engine:
+            <span class="text-yellow-400">Initializing...</span>
+          </p>
+        </div>
+      </section>
+
+</main>
+
+  <div id="phase59-compat-roots" hidden aria-hidden="true">
+    <div id="project-visual-output"></div>
+    <div id="recentLogs"></div>
+    <ul id="ops-alerts-list"></ul>
+  </div>
+
+  <div id="reflections" data-panel="reflections">
+    <ul id="reflections-list" data-role="reflections-list"></ul>
+  </div>
+
+  <div id="phase16-sse-indicator" style="position:fixed;right:10px;bottom:10px;z-index:9999;font:12px ui-monospace;opacity:.7;pointer-events:none">
+    <span id="phase16-sse-indicator-text" style="padding:4px 8px;border-radius:9999px;border:1px solid rgba(255,255,255,.18);background:rgba(0,0,0,.25)">SSE: …</span>
+  </div>
+
+  
+  
+  
+  
+
+    
+<!-- phase471.4 temporary neutralization: bundle.js removed to isolate browser freeze to JS boot layer -->
+  
+  
+    <!-- phase4
+-----
+--- context for renderRecent ---
+none
+--- context for gridTemplateRows ---
+none
+--- context for Recent Logs ---
+none
+
+===== FILE: public/js/phase530_visible_panels_bridge.js =====
+size=67431
+recent-tasks-card: 2
+recentTasks: 20
+recentLogs: 11
+renderRecent: 2
+taskRows: 2
+
+--- context for recent-tasks-card ---
+left:6px;cursor:pointer;border:1px solid rgba(45,212,191,.38);background:rgba(20,83,45,.14);color:#5eead4;border-radius:999px;padding:4px 9px;font-size:11px;">Inspect logs</button>` : ""}
+
+        </article>
+
+      `;
+
+    }).join("");
+
+  }
+
+
+  function renderRecent(tasks) {
+    const recentTasks = document.getElementById("recentTasks");
+    const recentLogs = document.getElementById("recentLogs");
+    const recentCard = document.getElementById("recent-tasks-card");
+
+    if (recentCard) {
+      recentCard.style.display = "block";
+      recentCard.style.minHeight = "0";
+      recentCard.style.height = "100%";
+    }
+
+    if (recentTasks) {
+      recentTasks.style.minHeight = "0";
+      recentTasks.style.height = "100%";
+      recentTasks.style.overflow = "auto";
+      recentTasks.style.display = "block";
+    }
+
+    if (recentLogs) {
+      recentLogs.style.display = "none";
+    }
+
+    if (recentTasks) recentTasks.innerHTML = taskRows(tasks);
+
+    if (recentLogs) recentLogs.innerHTML = "";
+  }
+
+  function renderActivity(rows) {
+    const canvas = document.getElementById("task-activity-graph");
+    if (!c
+-----
+
+
+    const button = event.target.closest("[data-phase719-preview-artifact]");
+
+    if (!button) return;
+
+    event.preventDefault();
+
+    phase719OpenPreviewModal(button);
+
+  });
+
+
+
+
+  /* phase740 telemetry console polish */
+
+  function phase740TelemetryConsolePolish() {
+
+    const recentTasks = document.getElementById("recentTasks");
+
+    const recentLogs = document.getElementById("recentLogs");
+
+    const recentCard = document.getElementById("recent-tasks-card") || (recentTasks ? recentTasks.closest("section, article, div") : null);
+
+    document.querySelectorAll("button, [role='tab'], .tab, h2, h3, h4, .uppercase, .tracking-wide").forEach((el) => {
+
+      const label = String(el.textContent || "").trim().toLowerCase();
+
+      if (label === "execution inspector" || label === "recent logs" || label === "recent tasks") {
+
+        el.style.display = "none";
+
+        el.setAttribute("aria-hidden", "true");
+
+      }
+
+    });
+
+    if (recentLogs) {
+
+      recentLogs.style.display = "none";
+
+      recentLogs.setAttribute("aria-hidden", "true");
+
+    }
+
+    if (recentCard) {
+
+      recentCard.style.displa
+-----
+--- context for recentTasks ---
+button" data-phase717-inspect-logs="true" data-phase717-inspect-title="${title} — Logs" data-phase717-inspect-content="${logContent}" style="margin-top:10px;margin-left:6px;cursor:pointer;border:1px solid rgba(45,212,191,.38);background:rgba(20,83,45,.14);color:#5eead4;border-radius:999px;padding:4px 9px;font-size:11px;">Inspect logs</button>` : ""}
+
+        </article>
+
+      `;
+
+    }).join("");
+
+  }
+
+
+  function renderRecent(tasks) {
+    const recentTasks = document.getElementById("recentTasks");
+    const recentLogs = document.getElementById("recentLogs");
+    const recentCard = document.getElementById("recent-tasks-card");
+
+    if (recentCard) {
+      recentCard.style.display = "block";
+      recentCard.style.minHeight = "0";
+      recentCard.style.height = "100%";
+    }
+
+    if (recentTasks) {
+      recentTasks.style.minHeight = "0";
+      recentTasks.style.height = "100%";
+      recentTasks.style.overflow = "auto";
+      recentTasks.style.display = "block";
+    }
+
+    if (recentLogs) {
+      recentLogs.style.display = "none";
+    }
+
+    if (recentTasks) recentTasks.innerHTML = taskRows(ta
+-----
+e" data-phase717-inspect-title="${title} — Logs" data-phase717-inspect-content="${logContent}" style="margin-top:10px;margin-left:6px;cursor:pointer;border:1px solid rgba(45,212,191,.38);background:rgba(20,83,45,.14);color:#5eead4;border-radius:999px;padding:4px 9px;font-size:11px;">Inspect logs</button>` : ""}
+
+        </article>
+
+      `;
+
+    }).join("");
+
+  }
+
+
+  function renderRecent(tasks) {
+    const recentTasks = document.getElementById("recentTasks");
+    const recentLogs = document.getElementById("recentLogs");
+    const recentCard = document.getElementById("recent-tasks-card");
+
+    if (recentCard) {
+      recentCard.style.display = "block";
+      recentCard.style.minHeight = "0";
+      recentCard.style.height = "100%";
+    }
+
+    if (recentTasks) {
+      recentTasks.style.minHeight = "0";
+      recentTasks.style.height = "100%";
+      recentTasks.style.overflow = "auto";
+      recentTasks.style.display = "block";
+    }
+
+    if (recentLogs) {
+      recentLogs.style.display = "none";
+    }
+
+    if (recentTasks) recentTasks.innerHTML = taskRows(tasks);
+
+    if (recentLogs) recentLogs.i
+-----
+ : ""}
+
+        </article>
+
+      `;
+
+    }).join("");
+
+  }
+
+
+  function renderRecent(tasks) {
+    const recentTasks = document.getElementById("recentTasks");
+    const recentLogs = document.getElementById("recentLogs");
+    const recentCard = document.getElementById("recent-tasks-card");
+
+    if (recentCard) {
+      recentCard.style.display = "block";
+      recentCard.style.minHeight = "0";
+      recentCard.style.height = "100%";
+    }
+
+    if (recentTasks) {
+      recentTasks.style.minHeight = "0";
+      recentTasks.style.height = "100%";
+      recentTasks.style.overflow = "auto";
+      recentTasks.style.display = "block";
+    }
+
+    if (recentLogs) {
+      recentLogs.style.display = "none";
+    }
+
+    if (recentTasks) recentTasks.innerHTML = taskRows(tasks);
+
+    if (recentLogs) recentLogs.innerHTML = "";
+  }
+
+  function renderActivity(rows) {
+    const canvas = document.getElementById("task-activity-graph");
+    if (!canvas || !window.Chart) return;
+
+    const card = document.getElementById("task-activity-card");
+    const shell = canvas.parentElement;
+
+    if (card) {
+      card.style.heig
+-----
+icle>
+
+      `;
+
+    }).join("");
+
+  }
+
+
+  function renderRecent(tasks) {
+    const recentTasks = document.getElementById("recentTasks");
+    const recentLogs = document.getElementById("recentLogs");
+    const recentCard = document.getElementById("recent-tasks-card");
+
+    if (recentCard) {
+      recentCard.style.display = "block";
+      recentCard.style.minHeight = "0";
+      recentCard.style.height = "100%";
+    }
+
+    if (recentTasks) {
+      recentTasks.style.minHeight = "0";
+      recentTasks.style.height = "100%";
+      recentTasks.style.overflow = "auto";
+      recentTasks.style.display = "block";
+    }
+
+    if (recentLogs) {
+      recentLogs.style.display = "none";
+    }
+
+    if (recentTasks) recentTasks.innerHTML = taskRows(tasks);
+
+    if (recentLogs) recentLogs.innerHTML = "";
+  }
+
+  function renderActivity(rows) {
+    const canvas = document.getElementById("task-activity-graph");
+    if (!canvas || !window.Chart) return;
+
+    const card = document.getElementById("task-activity-card");
+    const shell = canvas.parentElement;
+
+    if (card) {
+      card.style.height = "100%";
+      ca
+-----
+  function renderRecent(tasks) {
+    const recentTasks = document.getElementById("recentTasks");
+    const recentLogs = document.getElementById("recentLogs");
+    const recentCard = document.getElementById("recent-tasks-card");
+
+    if (recentCard) {
+      recentCard.style.display = "block";
+      recentCard.style.minHeight = "0";
+      recentCard.style.height = "100%";
+    }
+
+    if (recentTasks) {
+      recentTasks.style.minHeight = "0";
+      recentTasks.style.height = "100%";
+      recentTasks.style.overflow = "auto";
+      recentTasks.style.display = "block";
+    }
+
+    if (recentLogs) {
+      recentLogs.style.display = "none";
+    }
+
+    if (recentTasks) recentTasks.innerHTML = taskRows(tasks);
+
+    if (recentLogs) recentLogs.innerHTML = "";
+  }
+
+  function renderActivity(rows) {
+    const canvas = document.getElementById("task-activity-graph");
+    if (!canvas || !window.Chart) return;
+
+    const card = document.getElementById("task-activity-card");
+    const shell = canvas.parentElement;
+
+    if (card) {
+      card.style.height = "100%";
+      card.style.minHeight = "0";
+      card.styl
+-----
+t recentTasks = document.getElementById("recentTasks");
+    const recentLogs = document.getElementById("recentLogs");
+    const recentCard = document.getElementById("recent-tasks-card");
+
+    if (recentCard) {
+      recentCard.style.display = "block";
+      recentCard.style.minHeight = "0";
+      recentCard.style.height = "100%";
+    }
+
+    if (recentTasks) {
+      recentTasks.style.minHeight = "0";
+      recentTasks.style.height = "100%";
+      recentTasks.style.overflow = "auto";
+      recentTasks.style.display = "block";
+    }
+
+    if (recentLogs) {
+      recentLogs.style.display = "none";
+    }
+
+    if (recentTasks) recentTasks.innerHTML = taskRows(tasks);
+
+    if (recentLogs) recentLogs.innerHTML = "";
+  }
+
+  function renderActivity(rows) {
+    const canvas = document.getElementById("task-activity-graph");
+    if (!canvas || !window.Chart) return;
+
+    const card = document.getElementById("task-activity-card");
+    const shell = canvas.parentElement;
+
+    if (card) {
+      card.style.height = "100%";
+      card.style.minHeight = "0";
+      card.style.display = "flex";
+      card.style.flex
+-----
+centTasks");
+    const recentLogs = document.getElementById("recentLogs");
+    const recentCard = document.getElementById("recent-tasks-card");
+
+    if (recentCard) {
+      recentCard.style.display = "block";
+      recentCard.style.minHeight = "0";
+      recentCard.style.height = "100%";
+    }
+
+    if (recentTasks) {
+      recentTasks.style.minHeight = "0";
+      recentTasks.style.height = "100%";
+      recentTasks.style.overflow = "auto";
+      recentTasks.style.display = "block";
+    }
+
+    if (recentLogs) {
+      recentLogs.style.display = "none";
+    }
+
+    if (recentTasks) recentTasks.innerHTML = taskRows(tasks);
+
+    if (recentLogs) recentLogs.innerHTML = "";
+  }
+
+  function renderActivity(rows) {
+    const canvas = document.getElementById("task-activity-graph");
+    if (!canvas || !window.Chart) return;
+
+    const card = document.getElementById("task-activity-card");
+    const shell = canvas.parentElement;
+
+    if (card) {
+      card.style.height = "100%";
+      card.style.minHeight = "0";
+      card.style.display = "flex";
+      card.style.flexDirection = "column";
+    }
+
+    if (shell)
+-----
+"recent-tasks-card");
+
+    if (recentCard) {
+      recentCard.style.display = "block";
+      recentCard.style.minHeight = "0";
+      recentCard.style.height = "100%";
+    }
+
+    if (recentTasks) {
+      recentTasks.style.minHeight = "0";
+      recentTasks.style.height = "100%";
+      recentTasks.style.overflow = "auto";
+      recentTasks.style.display = "block";
+    }
+
+    if (recentLogs) {
+      recentLogs.style.display = "none";
+    }
+
+    if (recentTasks) recentTasks.innerHTML = taskRows(tasks);
+
+    if (recentLogs) recentLogs.innerHTML = "";
+  }
+
+  function renderActivity(rows) {
+    const canvas = document.getElementById("task-activity-graph");
+    if (!canvas || !window.Chart) return;
+
+    const card = document.getElementById("task-activity-card");
+    const shell = canvas.parentElement;
+
+    if (card) {
+      card.style.height = "100%";
+      card.style.minHeight = "0";
+      card.style.display = "flex";
+      card.style.flexDirection = "column";
+    }
+
+    if (shell) {
+      shell.style.flex = "1 1 auto";
+      shell.style.height = "100%";
+      shell.style.minHeight = "0";
+      shell.
+-----
+--- context for recentLogs ---
+title="${title} — Logs" data-phase717-inspect-content="${logContent}" style="margin-top:10px;margin-left:6px;cursor:pointer;border:1px solid rgba(45,212,191,.38);background:rgba(20,83,45,.14);color:#5eead4;border-radius:999px;padding:4px 9px;font-size:11px;">Inspect logs</button>` : ""}
+
+        </article>
+
+      `;
+
+    }).join("");
+
+  }
+
+
+  function renderRecent(tasks) {
+    const recentTasks = document.getElementById("recentTasks");
+    const recentLogs = document.getElementById("recentLogs");
+    const recentCard = document.getElementById("recent-tasks-card");
+
+    if (recentCard) {
+      recentCard.style.display = "block";
+      recentCard.style.minHeight = "0";
+      recentCard.style.height = "100%";
+    }
+
+    if (recentTasks) {
+      recentTasks.style.minHeight = "0";
+      recentTasks.style.height = "100%";
+      recentTasks.style.overflow = "auto";
+      recentTasks.style.display = "block";
+    }
+
+    if (recentLogs) {
+      recentLogs.style.display = "none";
+    }
+
+    if (recentTasks) recentTasks.innerHTML = taskRows(tasks);
+
+    if (recentLogs) recentLogs.innerHTML = "";
+  }
+
+  fu
+-----
+inspect-content="${logContent}" style="margin-top:10px;margin-left:6px;cursor:pointer;border:1px solid rgba(45,212,191,.38);background:rgba(20,83,45,.14);color:#5eead4;border-radius:999px;padding:4px 9px;font-size:11px;">Inspect logs</button>` : ""}
+
+        </article>
+
+      `;
+
+    }).join("");
+
+  }
+
+
+  function renderRecent(tasks) {
+    const recentTasks = document.getElementById("recentTasks");
+    const recentLogs = document.getElementById("recentLogs");
+    const recentCard = document.getElementById("recent-tasks-card");
+
+    if (recentCard) {
+      recentCard.style.display = "block";
+      recentCard.style.minHeight = "0";
+      recentCard.style.height = "100%";
+    }
+
+    if (recentTasks) {
+      recentTasks.style.minHeight = "0";
+      recentTasks.style.height = "100%";
+      recentTasks.style.overflow = "auto";
+      recentTasks.style.display = "block";
+    }
+
+    if (recentLogs) {
+      recentLogs.style.display = "none";
+    }
+
+    if (recentTasks) recentTasks.innerHTML = taskRows(tasks);
+
+    if (recentLogs) recentLogs.innerHTML = "";
+  }
+
+  function renderActivity(rows) {
+    cons
+-----
+entById("recentLogs");
+    const recentCard = document.getElementById("recent-tasks-card");
+
+    if (recentCard) {
+      recentCard.style.display = "block";
+      recentCard.style.minHeight = "0";
+      recentCard.style.height = "100%";
+    }
+
+    if (recentTasks) {
+      recentTasks.style.minHeight = "0";
+      recentTasks.style.height = "100%";
+      recentTasks.style.overflow = "auto";
+      recentTasks.style.display = "block";
+    }
+
+    if (recentLogs) {
+      recentLogs.style.display = "none";
+    }
+
+    if (recentTasks) recentTasks.innerHTML = taskRows(tasks);
+
+    if (recentLogs) recentLogs.innerHTML = "";
+  }
+
+  function renderActivity(rows) {
+    const canvas = document.getElementById("task-activity-graph");
+    if (!canvas || !window.Chart) return;
+
+    const card = document.getElementById("task-activity-card");
+    const shell = canvas.parentElement;
+
+    if (card) {
+      card.style.height = "100%";
+      card.style.minHeight = "0";
+      card.style.display = "flex";
+      card.style.flexDirection = "column";
+    }
+
+    if (shell) {
+      shell.style.flex = "1 1 auto";
+      shell
+-----
+);
+    const recentCard = document.getElementById("recent-tasks-card");
+
+    if (recentCard) {
+      recentCard.style.display = "block";
+      recentCard.style.minHeight = "0";
+      recentCard.style.height = "100%";
+    }
+
+    if (recentTasks) {
+      recentTasks.style.minHeight = "0";
+      recentTasks.style.height = "100%";
+      recentTasks.style.overflow = "auto";
+      recentTasks.style.display = "block";
+    }
+
+    if (recentLogs) {
+      recentLogs.style.display = "none";
+    }
+
+    if (recentTasks) recentTasks.innerHTML = taskRows(tasks);
+
+    if (recentLogs) recentLogs.innerHTML = "";
+  }
+
+  function renderActivity(rows) {
+    const canvas = document.getElementById("task-activity-graph");
+    if (!canvas || !window.Chart) return;
+
+    const card = document.getElementById("task-activity-card");
+    const shell = canvas.parentElement;
+
+    if (card) {
+      card.style.height = "100%";
+      card.style.minHeight = "0";
+      card.style.display = "flex";
+      card.style.flexDirection = "column";
+    }
+
+    if (shell) {
+      shell.style.flex = "1 1 auto";
+      shell.style.height = "100
+-----
+tyle.display = "block";
+      recentCard.style.minHeight = "0";
+      recentCard.style.height = "100%";
+    }
+
+    if (recentTasks) {
+      recentTasks.style.minHeight = "0";
+      recentTasks.style.height = "100%";
+      recentTasks.style.overflow = "auto";
+      recentTasks.style.display = "block";
+    }
+
+    if (recentLogs) {
+      recentLogs.style.display = "none";
+    }
+
+    if (recentTasks) recentTasks.innerHTML = taskRows(tasks);
+
+    if (recentLogs) recentLogs.innerHTML = "";
+  }
+
+  function renderActivity(rows) {
+    const canvas = document.getElementById("task-activity-graph");
+    if (!canvas || !window.Chart) return;
+
+    const card = document.getElementById("task-activity-card");
+    const shell = canvas.parentElement;
+
+    if (card) {
+      card.style.height = "100%";
+      card.style.minHeight = "0";
+      card.style.display = "flex";
+      card.style.flexDirection = "column";
+    }
+
+    if (shell) {
+      shell.style.flex = "1 1 auto";
+      shell.style.height = "100%";
+      shell.style.minHeight = "0";
+      shell.style.display = "flex";
+      shell.style.padding = "0.75rem";
+-----
+ = "block";
+      recentCard.style.minHeight = "0";
+      recentCard.style.height = "100%";
+    }
+
+    if (recentTasks) {
+      recentTasks.style.minHeight = "0";
+      recentTasks.style.height = "100%";
+      recentTasks.style.overflow = "auto";
+      recentTasks.style.display = "block";
+    }
+
+    if (recentLogs) {
+      recentLogs.style.display = "none";
+    }
+
+    if (recentTasks) recentTasks.innerHTML = taskRows(tasks);
+
+    if (recentLogs) recentLogs.innerHTML = "";
+  }
+
+  function renderActivity(rows) {
+    const canvas = document.getElementById("task-activity-graph");
+    if (!canvas || !window.Chart) return;
+
+    const card = document.getElementById("task-activity-card");
+    const shell = canvas.parentElement;
+
+    if (card) {
+      card.style.height = "100%";
+      card.style.minHeight = "0";
+      card.style.display = "flex";
+      card.style.flexDirection = "column";
+    }
+
+    if (shell) {
+      shell.style.flex = "1 1 auto";
+      shell.style.height = "100%";
+      shell.style.minHeight = "0";
+      shell.style.display = "flex";
+      shell.style.padding = "0.75rem";
+    }
+
+    
+-----
+  ].filter(Boolean).join("\n");
+
+    }
+
+  }
+
+
+  document.addEventListener("click", function (event) {
+
+    const button = event.target.closest("[data-phase719-preview-artifact]");
+
+    if (!button) return;
+
+    event.preventDefault();
+
+    phase719OpenPreviewModal(button);
+
+  });
+
+
+
+
+  /* phase740 telemetry console polish */
+
+  function phase740TelemetryConsolePolish() {
+
+    const recentTasks = document.getElementById("recentTasks");
+
+    const recentLogs = document.getElementById("recentLogs");
+
+    const recentCard = document.getElementById("recent-tasks-card") || (recentTasks ? recentTasks.closest("section, article, div") : null);
+
+    document.querySelectorAll("button, [role='tab'], .tab, h2, h3, h4, .uppercase, .tracking-wide").forEach((el) => {
+
+      const label = String(el.textContent || "").trim().toLowerCase();
+
+      if (label === "execution inspector" || label === "recent logs" || label === "recent tasks") {
+
+        el.style.display = "none";
+
+        el.setAttribute("aria-hidden", "true");
+
+      }
+
+    });
+
+    if (recentLogs) {
+
+      recentLogs.style.display = "none";
+
+      
+-----
+
+
+  }
+
+
+  document.addEventListener("click", function (event) {
+
+    const button = event.target.closest("[data-phase719-preview-artifact]");
+
+    if (!button) return;
+
+    event.preventDefault();
+
+    phase719OpenPreviewModal(button);
+
+  });
+
+
+
+
+  /* phase740 telemetry console polish */
+
+  function phase740TelemetryConsolePolish() {
+
+    const recentTasks = document.getElementById("recentTasks");
+
+    const recentLogs = document.getElementById("recentLogs");
+
+    const recentCard = document.getElementById("recent-tasks-card") || (recentTasks ? recentTasks.closest("section, article, div") : null);
+
+    document.querySelectorAll("button, [role='tab'], .tab, h2, h3, h4, .uppercase, .tracking-wide").forEach((el) => {
+
+      const label = String(el.textContent || "").trim().toLowerCase();
+
+      if (label === "execution inspector" || label === "recent logs" || label === "recent tasks") {
+
+        el.style.display = "none";
+
+        el.setAttribute("aria-hidden", "true");
+
+      }
+
+    });
+
+    if (recentLogs) {
+
+      recentLogs.style.display = "none";
+
+      recentLogs.setAttribute("aria-hidden",
+-----
+--- context for renderRecent ---
+  ${logContent ? `<button type="button" data-phase717-inspect-logs="true" data-phase717-inspect-title="${title} — Logs" data-phase717-inspect-content="${logContent}" style="margin-top:10px;margin-left:6px;cursor:pointer;border:1px solid rgba(45,212,191,.38);background:rgba(20,83,45,.14);color:#5eead4;border-radius:999px;padding:4px 9px;font-size:11px;">Inspect logs</button>` : ""}
+
+        </article>
+
+      `;
+
+    }).join("");
+
+  }
+
+
+  function renderRecent(tasks) {
+    const recentTasks = document.getElementById("recentTasks");
+    const recentLogs = document.getElementById("recentLogs");
+    const recentCard = document.getElementById("recent-tasks-card");
+
+    if (recentCard) {
+      recentCard.style.display = "block";
+      recentCard.style.minHeight = "0";
+      recentCard.style.height = "100%";
+    }
+
+    if (recentTasks) {
+      recentTasks.style.minHeight = "0";
+      recentTasks.style.height = "100%";
+      recentTasks.style.overflow = "auto";
+      recentTasks.style.display = "block";
+    }
+
+    if (recentLogs) {
+      recentLogs.style.display = "none";
+    }
+
+    if (recentTasks) rece
+-----
+ta-task-title");
+
+    const mode = retryDifferently ? "fresh-context" : "standard";
+
+    phase717RetryTask(taskId, mode, button, taskTitle);
+
+  });
+
+  async function refresh() {
+    // Phase 719: /api/agents is retired in this runtime.
+    // Stale fetch disabled to preserve console clarity.
+    // Agent Pool intentionally preserved during refresh; /api/agents is retired.
+
+
+    try {
+      const data = await getJson("/api/tasks?limit=12");
+      renderRecent(data.tasks || []);
+    } catch (e) {
+      console.warn("[phase530] recent tasks render failed", e);
+    }
+
+    // Phase 719: /api/activity-graph is retired in this runtime.
+    // Stale fetch disabled to preserve console clarity.
+    renderActivity([]);
+  }
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", refresh, { once: true });
+  } else {
+    refresh();
+  }
+
+  setInterval(refresh, POLL_MS);
+
+
+  // Phase 719 — Preview artifact modal (frontend-only, read-only)
+
+  function phase719EnsurePreviewModal() {
+
+    let modal = document.getElementById("phase719-preview-modal");
+
+    if (modal) return mod
+-----
+--- context for gridTemplateRows ---
+none
+--- context for Recent Logs ---
+none
+
+===== FILE: public/bundle.js =====
+size=69049
+
+--- context for recent-tasks-card ---
+none
+--- context for recentTasks ---
+none
+--- context for recentLogs ---
+none
+--- context for renderRecent ---
+none
+--- context for gridTemplateRows ---
+none
+--- context for Recent Logs ---
+none
+
+===== EXTRACTED renderRecent FUNCTION CANDIDATE =====
+function renderRecent(tasks) {
+    const recentTasks = document.getElementById("recentTasks");
+    const recentLogs = document.getElementById("recentLogs");
+    const recentCard = document.getElementById("recent-tasks-card");
+
+    if (recentCard) {
+      recentCard.style.display = "block";
+      recentCard.style.minHeight = "0";
+      recentCard.style.height = "100%";
+    }
+
+    if (recentTasks) {
+      recentTasks.style.minHeight = "0";
+      recentTasks.style.height = "100%";
+      recentTasks.style.overflow = "auto";
+      recentTasks.style.display = "block";
+    }
+
+    if (recentLogs) {
+      recentLogs.style.display = "none";
+    }
+
+    if (recentTasks) recentTasks.innerHTML = taskRows(tasks);
+
+    if (recentLogs) recentLogs.innerHTML = "";
+  }
+
+  function renderActivity(rows) {
+    const canvas = document.getElementById("task-activity-graph");
+    if (!canvas || !window.Chart) return;
+
+    const card = document.getElementById("task-activity-card");
+    const shell = canvas.parentElement;
+
+    if (card) {
+      card.style.height = "100%";
+      card.style.minHeight = "0";
+      card.style.display = "flex";
+      card.style.flexDirection = "column";
+    }
+
+    if (shell) {
+      shell.style.flex = "1 1 auto";
+      shell.style.height = "100%";
+      shell.style.minHeight = "0";
+      shell.style.display = "flex";
+      shell.style.padding = "0.75rem";
+    }
+
+    canvas.style.flex = "1 1 auto";
+    canvas.style.width = "100%";
+    canvas.style.height = "100%";
+    canvas.style.minHeight = "0";
+
+    const labels = (rows || []).map((row) => {
+      const d = new Date(row.timestamp || Date.now());
+      return Number.isNaN(d.getTime()) ? "now" : d.toLocaleTimeString();
+    });
+
+    const created = (rows || []).map((row) => Number(row.created_count || 0));
+    const completed = (rows || []).map((row) => Number(row.completed_count || 0));
+    const failed = (rows || []).map((row) => Number(row.failed_count || 0));
+
+    if (window.__PHASE530_ACTIVITY_CHART__) {
+      window.__PHASE530_ACTIVITY_CHART__.data.labels = labels;
+      window.__PHASE530_ACTIVITY_CHART__.data.datasets[0].data = created;
+      window.__PHASE530_ACTIVITY_CHART__.data.datasets[1].data = completed;
+      window.__PHASE530_ACTIVITY_CHART__.data.datasets[2].data = failed;
+      window.__PHASE530_ACTIVITY_CHART__.resize();
+      window.__PHASE530_ACTIVITY_CHART__.update();
+      return;
+    }
+
+    window.__PHASE530_ACTIVITY_CHART__ = new Chart(canvas, {
+      type: "line",
+      data: {
+        labels,
+        datasets: [
+          { label: "Created", data: created },
+          { label: "Completed", data: completed },
+          { label: "Failed", data: failed }
+        ]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        resizeDelay: 0,
+        layout: {
+          padding: 8
+        },
+        scales: {
+          y: {
+            beginAtZero: true,
+            ticks: {
+              precision: 0
+            }
+          }
+        }
+      }
+    });
+  }
+
+  function phase717EscapeModalText(value) {
+
+    return String(value ?? "")
+
+      .replace(/&/g, "&amp;")
+
+      .replace(/</g, "&lt;")
+
+      .replace(/>/g, "&gt;")
+
+      .replace(/"/g, "&quot;")
+
+      .replace(/'/g, "&#39;");
+
+  }
+
+
+
+  function phase717InspectionModal(options) {
+
+    return new Promise((resolve) => {
+
+      const rootId = "phase717-inspection-modal-root";
+
+      let root = document.getElementById(rootId);
+
+      if (!root) {
+
+        root = document.createElement("div");
+
+        root.id = rootId;
+
+        document.body.appendChild(root);
+
+      }
+
+      const title = String(options.title || "Read-only inspection");
+
+      const content = String(options.content || "No inspection content available.");
+
+      root.innerHTML = `
+
+        <div data-phase717-inspection-overlay="true" style="position:fixed;inset:0;z-index:9998;display:flex;align-items:center;justify-content:center;padding:18px;background:rgba(2,6,23,.72);backdrop-filter:blur(6px);">
+
+          <section role="dialog" aria-modal="true" aria-labelledby="phase717-inspection-modal-title" style="width:min(760px,calc(100vw - 28px));max-height:min(760px,calc(100vh - 36px));display:flex;flex-direction:column;border:1px solid rgba(148,163,184,.36);border-radius:16px;background:rgba(15,23,42,.98);box-shadow:0 24px 80px rgba(0,0,0,.45);padding:16px;color:#e5e7eb;">
+
+            <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:10px;">
+
+              <div>
+
+                <div id="phase717-inspection-modal-title" style="font-size:14px;font-weight:800;color:#dbeafe;letter-spacing:.01em;"></div>
+
+                <div style="margin-top:4px;color:#94a3b8;font-size:11px;">Read-only inspection. No execution, retry, or mutation is triggered from this view.</div>
+
+              </div>
+
+              <button type="button" data-phase717-inspection-close="true" style="cursor:pointer;border:1px solid rgba(148,163,184,.35);background:rgba(15,23,42,.85);color:#cbd5e1;border-radius:10px;padding:6px 9px;font-size:12px;">Close</button>
+
+            </div>
+
+            <pre data-phase717-inspection-content="true" style="display:block;box-sizing:border-box;width:100%;max-width:100%;min-height:140px;max-height:560px;overflow:auto;margin-top:12px;padding:10px;border-radius:10px;border:1px solid rgba(51,65,85,.7);background:#020617;color:#e5e7eb;font-size:11px;line-height:1.45;white-space:pre-wrap;overflow-wrap:anywhere;word-break:break-word;"></pre>
+
+          </section>
+
+        </div>
+
+      `;
+
+      const titleNode = root.querySelector("#phase717-inspection-modal-title");
+
+      const contentNode = root.querySelector("[data-phase717-inspection-content]");
+
+      const closeButton = root.querySelector("[data-phase717-inspection-close]");
+
+      const overlay = root.querySelector("[data-phase717-inspection-overlay]");
+
+      if (titleNode) titleNode.textContent = title;
+
+      if (contentNode) contentNode.textContent = content;
+
+      const close = () => {
+
+        root.innerHTML = "";
+
+        resolve(true);
+
+      };
+
+      if (closeButton) closeButton.focus();
+
+      if (closeButton) closeButton.addEventListener("click", close, { once: true });
+
+      if (overlay) {
+
+        overlay.addEventListener("click", (event) => {
+
+          if (event.target === overlay) close();
+
+        });
+
+      }
+
+    });
+
+  }
+
+
+  function phase717RetryModal(options) {
+
+    return new Promise((resolve) => {
+
+      const rootId = "phase717-retry-modal-root";
+
+      let root = document.getElementById(rootId);
+
+      if (!root) {
+
+        root = document.createElement("div");
+
+        root.id = rootId;
+
+        document.body.appendChild(root);
+
+      }
+
+      const title = phase717EscapeModalText(options.title || "Confirm action");
+
+      const message = phase717EscapeModalText(options.message || "");
+
+      const confirmLabel = phase717EscapeModalText(options.confirmLabel || "Confirm");
+
+      const cancelLabel = options.cancelLabel === null ? null
+
+===== SERVED RUNTIME HTML CHECK =====
+--- http://localhost:8080/?v=layout-inspection ---
+status=ok bytes=46564
+recent-tasks-card: 4
+recentTasks: 4
+recentLogs: 4
+1fr 1fr: 1
+Recent Logs: 1
+Task History: 1
+
+--- http://localhost:8080/dashboard.html?v=layout-inspection ---
+status=ok bytes=36064
+recent-tasks-card: 1
+recentLogs: 1
+Task History: 1
+
+===== SAFE CONCLUSION PROMPT =====
+Use this report to identify the smallest source-level patch.
+Do not apply another layout force patch until the exact constraining wrapper is identified.
