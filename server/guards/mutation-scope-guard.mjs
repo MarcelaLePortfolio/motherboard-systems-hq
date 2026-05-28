@@ -63,3 +63,17 @@ export function assertPathAllowed({
 
 }
 
+export function assertMutationScopeAllowed(envelope, candidatePath) {
+
+  return assertPathAllowed({
+
+    candidatePath,
+
+    allowedPaths: envelope?.mutation_scope?.allowed_paths ?? [],
+
+    forbiddenPaths: envelope?.mutation_scope?.forbidden_paths ?? [],
+
+  });
+
+}
+
