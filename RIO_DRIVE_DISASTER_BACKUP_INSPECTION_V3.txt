@@ -1,0 +1,104 @@
+===== RIO DRIVE DISASTER BACKUP INSPECTION V3 =====
+2026-05-28 02:08:49.011916
+
+Rio Drive found: /Volumes/Rio Drive
+
+===== NEWEST ARCHIVES =====
+1779952371 /Volumes/Rio Drive/backups/source_20260528_001238.tar.gz
+1779952352 /Volumes/Rio Drive/backups/source_20260528_001220.tar.gz
+1779952119 /Volumes/Rio Drive/backups/source_20260528_000826.tar.gz
+1779951640 /Volumes/Rio Drive/backups/source_20260528_000027.tar.gz
+1779945190 /Volumes/Rio Drive/backups/source_20260527_221257.tar.gz
+1779945171 /Volumes/Rio Drive/backups/source_20260527_221201.tar.gz
+1779944922 /Volumes/Rio Drive/backups/source_20260527_220829.tar.gz
+1779943952 /Volumes/Rio Drive/backups/source_20260527_215219.tar.gz
+1779941247 /Volumes/Rio Drive/backups/source_20260527_210714.tar.gz
+1779935130 /Volumes/Rio Drive/backups/source_20260527_192518.tar.gz
+
+===== NEWEST DASHBOARD FILES =====
+1779909214 /Volumes/Rio Drive/Motherboard_External_Backup/snapshots/20260527_141840/project/public/index.html
+1779909214 /Volumes/Rio Drive/Motherboard_External_Backup/snapshots/20260527_141840/project/public/dashboard.html
+1779909214 /Volumes/Rio Drive/Motherboard_External_Backup/snapshots/20260527_141840/project/public/bundle.js
+1778893698 /Volumes/Rio Drive/Motherboard_Systems_HQ/public/index.html
+1778893698 /Volumes/Rio Drive/Motherboard_Storage/snapshots/full-disaster-recovery-20260526-phase743-sealed-13f8eb4a/Motherboard_Systems_HQ/public/index.html
+1778893698 /Volumes/Rio Drive/Motherboard_Storage/snapshots/full-disaster-recovery-20260526-phase744-architecture-494f61b3/Motherboard_Systems_HQ/public/index.html
+1778620879 /Volumes/Rio Drive/Motherboard_Systems_HQ/public/dashboard.html
+1778620879 /Volumes/Rio Drive/Motherboard_Storage/snapshots/full-disaster-recovery-20260526-phase743-sealed-13f8eb4a/Motherboard_Systems_HQ/public/dashboard.html
+1778620879 /Volumes/Rio Drive/Motherboard_Storage/snapshots/full-disaster-recovery-20260526-phase744-architecture-494f61b3/Motherboard_Systems_HQ/public/dashboard.html
+1777853712 /Volumes/Rio Drive/Motherboard_Systems_HQ/_snapshots/phase631-live-runtime-proof-containerized/public/dashboard.html
+1777853712 /Volumes/Rio Drive/Motherboard_Systems_HQ/_snapshots/phase631-live-runtime-proof-containerized/public/bundle.js
+1777853712 /Volumes/Rio Drive/Motherboard_Systems_HQ/_snapshots/phase631-live-runtime-proof-containerized/public/index.html
+1777853712 /Volumes/Rio Drive/Motherboard_Storage/snapshots/full-disaster-recovery-20260526-phase743-sealed-13f8eb4a/Motherboard_Systems_HQ/_snapshots/phase631-live-runtime-proof-containerized/public/index.html
+1777853712 /Volumes/Rio Drive/Motherboard_Storage/snapshots/full-disaster-recovery-20260526-phase744-architecture-494f61b3/Motherboard_Systems_HQ/_snapshots/phase631-live-runtime-proof-containerized/public/index.html
+1777853712 /Volumes/Rio Drive/Motherboard_Storage/snapshots/full-disaster-recovery-20260526-phase743-sealed-13f8eb4a/Motherboard_Systems_HQ/_snapshots/phase631-live-runtime-proof-containerized/public/dashboard.html
+1777853712 /Volumes/Rio Drive/Motherboard_Storage/snapshots/full-disaster-recovery-20260526-phase744-architecture-494f61b3/Motherboard_Systems_HQ/_snapshots/phase631-live-runtime-proof-containerized/public/dashboard.html
+1777853712 /Volumes/Rio Drive/Motherboard_Storage/snapshots/full-disaster-recovery-20260526-phase743-sealed-13f8eb4a/Motherboard_Systems_HQ/_snapshots/phase631-live-runtime-proof-containerized/public/bundle.js
+1777853712 /Volumes/Rio Drive/Motherboard_Storage/snapshots/full-disaster-recovery-20260526-phase744-architecture-494f61b3/Motherboard_Systems_HQ/_snapshots/phase631-live-runtime-proof-containerized/public/bundle.js
+1777853391 /Volumes/Rio Drive/Motherboard_Systems_HQ/_snapshots/phase630-runtime-proof-ready-containerized/public/dashboard.html
+1777853391 /Volumes/Rio Drive/Motherboard_Systems_HQ/_snapshots/phase630-runtime-proof-ready-containerized/public/bundle.js
+1777853391 /Volumes/Rio Drive/Motherboard_Systems_HQ/_snapshots/phase630-runtime-proof-ready-containerized/public/index.html
+1777853391 /Volumes/Rio Drive/Motherboard_Storage/snapshots/full-disaster-recovery-20260526-phase743-sealed-13f8eb4a/Motherboard_Systems_HQ/_snapshots/phase630-runtime-proof-ready-containerized/public/index.html
+1777853391 /Volumes/Rio Drive/Motherboard_Storage/snapshots/full-disaster-recovery-20260526-phase744-architecture-494f61b3/Motherboard_Systems_HQ/_snapshots/phase630-runtime-proof-ready-containerized/public/index.html
+1777853391 /Volumes/Rio Drive/Motherboard_Storage/snapshots/full-disaster-recovery-20260526-phase743-sealed-13f8eb4a/Motherboard_Systems_HQ/_snapshots/phase630-runtime-proof-ready-containerized/public/dashboard.html
+1777853391 /Volumes/Rio Drive/Motherboard_Storage/snapshots/full-disaster-recovery-20260526-phase744-architecture-494f61b3/Motherboard_Systems_HQ/_snapshots/phase630-runtime-proof-ready-containerized/public/dashboard.html
+1777853391 /Volumes/Rio Drive/Motherboard_Storage/snapshots/full-disaster-recovery-20260526-phase743-sealed-13f8eb4a/Motherboard_Systems_HQ/_snapshots/phase630-runtime-proof-ready-containerized/public/bundle.js
+1777853391 /Volumes/Rio Drive/Motherboard_Storage/snapshots/full-disaster-recovery-20260526-phase744-architecture-494f61b3/Motherboard_Systems_HQ/_snapshots/phase630-runtime-proof-ready-containerized/public/bundle.js
+1777659155 /Volumes/Rio Drive/Motherboard_Storage/snapshots/full-disaster-recovery-20260526-phase743-sealed-13f8eb4a/Motherboard_Systems_HQ/_snapshots/phase617-pre-result-surfacing-wire-stable-20260501_233350/public/dashboard.html
+1777659155 /Volumes/Rio Drive/Motherboard_Storage/snapshots/full-disaster-recovery-20260526-phase743-sealed-13f8eb4a/Motherboard_Systems_HQ/_snapshots/phase618-ui-communication-tier-surfacing-complete-20260501_235622/public/dashboard.html
+1777659155 /Volumes/Rio Drive/Motherboard_Storage/snapshots/full-disaster-recovery-20260526-phase744-architecture-494f61b3/Motherboard_Systems_HQ/_snapshots/phase617-pre-result-surfacing-wire-stable-20260501_233350/public/dashboard.html
+1777659155 /Volumes/Rio Drive/Motherboard_Storage/snapshots/full-disaster-recovery-20260526-phase744-architecture-494f61b3/Motherboard_Systems_HQ/_snapshots/phase618-ui-communication-tier-surfacing-complete-20260501_235622/public/dashboard.html
+1777659155 /Volumes/Rio Drive/Motherboard_Systems_HQ/_snapshots/phase617-pre-result-surfacing-wire-stable-20260501_233350/public/dashboard.html
+1777659155 /Volumes/Rio Drive/Motherboard_Systems_HQ/_snapshots/phase618-ui-communication-tier-surfacing-complete-20260501_235622/public/dashboard.html
+1777610091 /Volumes/Rio Drive/Motherboard_Storage/snapshots/full-disaster-recovery-20260526-phase743-sealed-13f8eb4a/Motherboard_Systems_HQ/_snapshots/phase617-pre-result-surfacing-wire-stable-20260501_233350/public/index.html
+1777610091 /Volumes/Rio Drive/Motherboard_Storage/snapshots/full-disaster-recovery-20260526-phase743-sealed-13f8eb4a/Motherboard_Systems_HQ/_snapshots/phase618-ui-communication-tier-surfacing-complete-20260501_235622/public/index.html
+1777610091 /Volumes/Rio Drive/Motherboard_Storage/snapshots/full-disaster-recovery-20260526-phase744-architecture-494f61b3/Motherboard_Systems_HQ/_snapshots/phase617-pre-result-surfacing-wire-stable-20260501_233350/public/index.html
+1777610091 /Volumes/Rio Drive/Motherboard_Storage/snapshots/full-disaster-recovery-20260526-phase744-architecture-494f61b3/Motherboard_Systems_HQ/_snapshots/phase618-ui-communication-tier-surfacing-complete-20260501_235622/public/index.html
+1777610091 /Volumes/Rio Drive/Motherboard_Systems_HQ/_snapshots/phase617-pre-result-surfacing-wire-stable-20260501_233350/public/index.html
+1777610091 /Volumes/Rio Drive/Motherboard_Systems_HQ/_snapshots/phase618-ui-communication-tier-surfacing-complete-20260501_235622/public/index.html
+1777596121 /Volumes/Rio Drive/Motherboard_Systems_HQ/public/bundle.js
+1777596121 /Volumes/Rio Drive/Motherboard_Systems_HQ/exports/dashboard_phase6.8/dashboard.html
+1777596121 /Volumes/Rio Drive/Motherboard_Storage/snapshots/full-disaster-recovery-20260526-phase743-sealed-13f8eb4a/Motherboard_Systems_HQ/_snapshots/phase617-pre-result-surfacing-wire-stable-20260501_233350/exports/dashboard_phase6.8/dashboard.html
+1777596121 /Volumes/Rio Drive/Motherboard_Storage/snapshots/full-disaster-recovery-20260526-phase743-sealed-13f8eb4a/Motherboard_Systems_HQ/_snapshots/phase618-ui-communication-tier-surfacing-complete-20260501_235622/exports/dashboard_phase6.8/dashboard.html
+1777596121 /Volumes/Rio Drive/Motherboard_Storage/snapshots/full-disaster-recovery-20260526-phase743-sealed-13f8eb4a/Motherboard_Systems_HQ/exports/dashboard_phase6.8/dashboard.html
+1777596121 /Volumes/Rio Drive/Motherboard_Storage/snapshots/full-disaster-recovery-20260526-phase744-architecture-494f61b3/Motherboard_Systems_HQ/_snapshots/phase617-pre-result-surfacing-wire-stable-20260501_233350/exports/dashboard_phase6.8/dashboard.html
+1777596121 /Volumes/Rio Drive/Motherboard_Storage/snapshots/full-disaster-recovery-20260526-phase744-architecture-494f61b3/Motherboard_Systems_HQ/_snapshots/phase618-ui-communication-tier-surfacing-complete-20260501_235622/exports/dashboard_phase6.8/dashboard.html
+1777596121 /Volumes/Rio Drive/Motherboard_Storage/snapshots/full-disaster-recovery-20260526-phase744-architecture-494f61b3/Motherboard_Systems_HQ/exports/dashboard_phase6.8/dashboard.html
+1777596121 /Volumes/Rio Drive/Motherboard_Systems_HQ/_snapshots/phase617-pre-result-surfacing-wire-stable-20260501_233350/exports/dashboard_phase6.8/dashboard.html
+1777596121 /Volumes/Rio Drive/Motherboard_Systems_HQ/_snapshots/phase618-ui-communication-tier-surfacing-complete-20260501_235622/exports/dashboard_phase6.8/dashboard.html
+1777596121 /Volumes/Rio Drive/Motherboard_Storage/snapshots/full-disaster-recovery-20260526-phase743-sealed-13f8eb4a/Motherboard_Systems_HQ/_snapshots/phase617-pre-result-surfacing-wire-stable-20260501_233350/public/bundle.js
+1777596121 /Volumes/Rio Drive/Motherboard_Storage/snapshots/full-disaster-recovery-20260526-phase743-sealed-13f8eb4a/Motherboard_Systems_HQ/_snapshots/phase618-ui-communication-tier-surfacing-complete-20260501_235622/public/bundle.js
+1777596121 /Volumes/Rio Drive/Motherboard_Storage/snapshots/full-disaster-recovery-20260526-phase743-sealed-13f8eb4a/Motherboard_Systems_HQ/public/bundle.js
+1777596121 /Volumes/Rio Drive/Motherboard_Storage/snapshots/full-disaster-recovery-20260526-phase744-architecture-494f61b3/Motherboard_Systems_HQ/_snapshots/phase617-pre-result-surfacing-wire-stable-20260501_233350/public/bundle.js
+1777596121 /Volumes/Rio Drive/Motherboard_Storage/snapshots/full-disaster-recovery-20260526-phase744-architecture-494f61b3/Motherboard_Systems_HQ/_snapshots/phase618-ui-communication-tier-surfacing-complete-20260501_235622/public/bundle.js
+1777596121 /Volumes/Rio Drive/Motherboard_Storage/snapshots/full-disaster-recovery-20260526-phase744-architecture-494f61b3/Motherboard_Systems_HQ/public/bundle.js
+1777596121 /Volumes/Rio Drive/Motherboard_Systems_HQ/_snapshots/phase617-pre-result-surfacing-wire-stable-20260501_233350/public/bundle.js
+1777596121 /Volumes/Rio Drive/Motherboard_Systems_HQ/_snapshots/phase618-ui-communication-tier-surfacing-complete-20260501_235622/public/bundle.js
+1777570116 /Volumes/Rio Drive/Motherboard_Systems_HQ/public_broken_rollback_1762824556/dashboard.html
+1777570116 /Volumes/Rio Drive/Motherboard_Storage/snapshots/full-disaster-recovery-20260526-phase743-sealed-13f8eb4a/Motherboard_Systems_HQ/_snapshots/phase617-pre-result-surfacing-wire-stable-20260501_233350/public_broken_rollback_1762824556/dashboard.html
+1777570116 /Volumes/Rio Drive/Motherboard_Storage/snapshots/full-disaster-recovery-20260526-phase743-sealed-13f8eb4a/Motherboard_Systems_HQ/_snapshots/phase618-ui-communication-tier-surfacing-complete-20260501_235622/public_broken_rollback_1762824556/dashboard.html
+1777570116 /Volumes/Rio Drive/Motherboard_Storage/snapshots/full-disaster-recovery-20260526-phase743-sealed-13f8eb4a/Motherboard_Systems_HQ/public_broken_rollback_1762824556/dashboard.html
+1777570116 /Volumes/Rio Drive/Motherboard_Storage/snapshots/full-disaster-recovery-20260526-phase744-architecture-494f61b3/Motherboard_Systems_HQ/_snapshots/phase617-pre-result-surfacing-wire-stable-20260501_233350/public_broken_rollback_1762824556/dashboard.html
+1777570116 /Volumes/Rio Drive/Motherboard_Storage/snapshots/full-disaster-recovery-20260526-phase744-architecture-494f61b3/Motherboard_Systems_HQ/_snapshots/phase618-ui-communication-tier-surfacing-complete-20260501_235622/public_broken_rollback_1762824556/dashboard.html
+1777570116 /Volumes/Rio Drive/Motherboard_Storage/snapshots/full-disaster-recovery-20260526-phase744-architecture-494f61b3/Motherboard_Systems_HQ/public_broken_rollback_1762824556/dashboard.html
+1777570116 /Volumes/Rio Drive/Motherboard_Systems_HQ/_snapshots/phase617-pre-result-surfacing-wire-stable-20260501_233350/public_broken_rollback_1762824556/dashboard.html
+1777570116 /Volumes/Rio Drive/Motherboard_Systems_HQ/_snapshots/phase618-ui-communication-tier-surfacing-complete-20260501_235622/public_broken_rollback_1762824556/dashboard.html
+1766103437 /Volumes/Rio Drive/Motherboard_External_Backup/snapshots/20260527_135824_snapshot/20251114-114707/public/dashboard.html
+1766103437 /Volumes/Rio Drive/Motherboard_External_Backup/snapshots/20260527_135824_snapshot/20251114-114821/public/dashboard.html
+1766103437 /Volumes/Rio Drive/Motherboard_External_Backup/snapshots/20260527_140933_snapshot/20251114-114707/public/dashboard.html
+1766103437 /Volumes/Rio Drive/Motherboard_External_Backup/snapshots/20260527_140933_snapshot/20251114-114821/public/dashboard.html
+1766103437 /Volumes/Rio Drive/Motherboard_External_Backup/snapshots/20260527_141840/project/exports/dashboard_phase6.8/dashboard.html
+1766103437 /Volumes/Rio Drive/Motherboard_External_Backup/snapshots/20260527_141840/project/public_broken_rollback_1762824556/dashboard.html
+1766103437 /Volumes/Rio Drive/Motherboard_External_Backup/snapshots/20260527_141840/project/snapshots/20251114-114707/public/dashboard.html
+1766103437 /Volumes/Rio Drive/Motherboard_External_Backup/snapshots/20260527_141840/project/snapshots/20251114-114821/public/dashboard.html
+1766103437 /Volumes/Rio Drive/Motherboard_External_Backup/snapshots/20260527_141942_snapshot/20251114-114707/public/dashboard.html
+1766103437 /Volumes/Rio Drive/Motherboard_External_Backup/snapshots/20260527_141942_snapshot/20251114-114821/public/dashboard.html
+
+===== PREVIEW COPY =====
+Copied index: /Volumes/Rio Drive/Motherboard_External_Backup/snapshots/20260527_141840/project/public/index.html
+Copied dashboard: /Volumes/Rio Drive/Motherboard_External_Backup/snapshots/20260527_141840/project/public/dashboard.html
+Copied bundle: /Volumes/Rio Drive/Motherboard_External_Backup/snapshots/20260527_141840/project/public/bundle.js
+
+Open preview:
+http://localhost:8099/_dashboard_candidate_previews/rio-drive-latest/index.html
+
+Do not restore yet. First confirm this preview visually matches the latest dashboard.
