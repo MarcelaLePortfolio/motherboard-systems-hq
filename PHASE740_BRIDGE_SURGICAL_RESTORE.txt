@@ -1,0 +1,260 @@
+===== PHASE740 BRIDGE SURGICAL RESTORE =====
+Thu May 28 09:40:48 PDT 2026
+
+===== CURRENT HEAD =====
+3cd60108 Inspect phase530 bridge lineage candidates
+b3b71866 Inspect Rio Drive runtime dashboard artifacts
+a4974f07 Inspect all Rio Drive dashboard surfaces
+9718fed4 Record latest full snapshot dashboard finding
+8f0bb4d6 Inspect Rio Drive latest full snapshot dashboard candidates
+f77c4598 Record Rio Drive repo bundle dashboard candidate result
+70567be8 Inspect Rio Drive repo bundle dashboard candidates v2
+10495513 Inspect Rio Drive repo bundle dashboard candidates
+
+===== VERIFY SOURCE =====
+   65543 _dashboard_candidate_previews/phase530-bridge-lineage/01-Motherboard_Systems_HQ__DISASTER_RECOVERY__phase740-post-recovery-backup-2026-05-25T01-01-37__phase530_visible_panels_bridge.js
+44:  function taskRows(tasks) {
+191:            ${artifactRaw ? `<button type="button" data-phase719-preview-artifact="true" data-task-id="${taskId}" data-task-title="${title}" data-artifact-name="${artifactName}" data-artifact-type="${artifactType}" data-artifact-size="${artifactSize}" data-artifact-path="${artifactPath}" data-artifact-outcome="${outcome}" data-artifact-explanation="${explanation}" title="Preview completed artifact" style="flex:0 0 auto;cursor:pointer;color:#93c5fd;border:1px solid rgba(147,197,253,.35);border-radius:999px;padding:2px 7px;font-size:10px;line-height:1.4;background:rgba(30,64,175,.18);">Preview</button>` : ""}
+213:              <button type="button" data-phase717-requeue="true" data-task-id="${taskId}" data-task-title="${title}" title="Explicit operator action: requeue this task" style="cursor:pointer;border:1px solid rgba(148,163,184,.35);background:rgba(15,23,42,.8);color:#cbd5e1;border-radius:8px;padding:5px 8px;font-size:11px;">Requeue</button>
+215:              <button type="button" data-phase717-retry-differently="true" data-task-id="${taskId}" data-task-title="${title}" title="Explicit operator action: retry this task differently" style="cursor:pointer;border:1px solid rgba(96,165,250,.45);background:rgba(30,41,59,.92);color:#dbeafe;border-radius:8px;padding:5px 8px;font-size:11px;">Retry differently</button>
+223:          ${explanation ? `<button type="button" data-phase717-inspect-details="true" data-phase717-inspect-title="${title} — Details" data-phase717-inspect-content="${explanation}" style="margin-top:10px;cursor:pointer;border:1px solid rgba(147,197,253,.35);background:rgba(30,64,175,.14);color:#93c5fd;border-radius:999px;padding:4px 9px;font-size:11px;">Inspect details</button>` : ""}
+225:          ${traceJson ? `<button type="button" data-phase717-inspect-trace="true" data-phase717-inspect-title="${title} — Advanced trace" data-phase717-inspect-content="${traceJson}" style="margin-top:10px;margin-left:6px;cursor:pointer;border:1px solid rgba(251,191,36,.38);background:rgba(120,53,15,.14);color:#fbbf24;border-radius:999px;padding:4px 9px;font-size:11px;">Inspect trace</button>` : ""}
+227:          ${logContent ? `<button type="button" data-phase717-inspect-logs="true" data-phase717-inspect-title="${title} — Logs" data-phase717-inspect-content="${logContent}" style="margin-top:10px;margin-left:6px;cursor:pointer;border:1px solid rgba(45,212,191,.38);background:rgba(20,83,45,.14);color:#5eead4;border-radius:999px;padding:4px 9px;font-size:11px;">Inspect logs</button>` : ""}
+238:  function renderRecent(tasks) {
+260:    if (recentTasks) recentTasks.innerHTML = taskRows(tasks);
+651:    const requeue = event.target.closest("[data-phase717-requeue]");
+653:    const retryDifferently = event.target.closest("[data-phase717-retry-differently]");
+677:      renderRecent(data.tasks || []);
+2450:    const button = event.target.closest("[data-phase719-preview-artifact]");
+
+===== BACKUP CURRENT BRIDGE =====
+backup: backups/phase530-bridge-before-phase740-surgical-restore/phase530_visible_panels_bridge.js
+
+===== RESTORE BRIDGE ONLY =====
+   65543 public/js/phase530_visible_panels_bridge.js
+
+===== REBUILD DASHBOARD IMAGE =====
+#1 [internal] load local bake definitions
+#1 reading from stdin 716B done
+#1 DONE 0.0s
+
+#2 [internal] load build definition from Dockerfile.dashboard
+#2 transferring dockerfile: 741B done
+#2 DONE 0.0s
+
+#3 [internal] load metadata for docker.io/library/node:20-alpine
+#3 DONE 0.8s
+
+#4 [internal] load .dockerignore
+#4 transferring context: 508B 0.0s done
+#4 DONE 0.0s
+
+#5 [1/7] FROM docker.io/library/node:20-alpine@sha256:fb4cd12c85ee03686f6af5362a0b0d56d50c58a04632e6c0fb8363f609372293
+#5 resolve docker.io/library/node:20-alpine@sha256:fb4cd12c85ee03686f6af5362a0b0d56d50c58a04632e6c0fb8363f609372293 0.0s done
+#5 DONE 0.0s
+
+#6 [internal] load build context
+#6 transferring context: 9.79MB 0.1s done
+#6 DONE 0.1s
+
+#7 [2/7] WORKDIR /app
+#7 CACHED
+
+#8 [3/7] COPY package*.json ./
+#8 CACHED
+
+#9 [4/7] COPY package-lock.json* ./
+#9 CACHED
+
+#10 [5/7] RUN npm config set fetch-retries 5     && npm config set fetch-retry-factor 2     && npm config set fetch-retry-mintimeout 10000     && npm config set fetch-retry-maxtimeout 60000     && (npm config set registry https://registry.npmmirror.com/         && npm ci --no-audit --no-fund       || npm config set registry https://registry.npmjs.org/         && npm ci --no-audit --no-fund)     && apk add --no-cache curl ripgrep
+#10 CACHED
+
+#11 [6/7] COPY . .
+#11 DONE 0.3s
+
+#12 [7/7] COPY public/ ./public/
+#12 DONE 0.0s
+
+#13 exporting to image
+#13 exporting layers
+#13 exporting layers 0.5s done
+#13 exporting manifest sha256:a43ef12cce4e3f2a2ef819678bcb2499b195791bb824bdb464933f9615fae7bc
+#13 exporting manifest sha256:a43ef12cce4e3f2a2ef819678bcb2499b195791bb824bdb464933f9615fae7bc done
+#13 exporting config sha256:e9fa429e9c072395bd02ff08a92860efcf220ae7b2eae8dfa239874496b5f5ea done
+#13 exporting attestation manifest sha256:b90d18cdd4693df6d13fa57c5ef3f5fd0173c3f9724fb927b3fafe0ab5ada9bd done
+#13 exporting manifest list sha256:e73fcf47eddc195131568ce9b7c21f9dcee27c2df551e00bfd7b3c4ecd69a525 done
+#13 naming to docker.io/library/motherboard-systems-hq-clean-dashboard:latest done
+#13 unpacking to docker.io/library/motherboard-systems-hq-clean-dashboard:latest
+#13 unpacking to docker.io/library/motherboard-systems-hq-clean-dashboard:latest 0.2s done
+#13 DONE 0.7s
+
+#14 resolving provenance for metadata file
+#14 DONE 0.0s
+
+===== RESTART DASHBOARD =====
+
+===== VERIFY RUNTIME =====
+NAME                                       IMAGE                                    COMMAND                  SERVICE     CREATED         STATUS         PORTS
+motherboard-systems-hq-clean-dashboard-1   motherboard-systems-hq-clean-dashboard   "docker-entrypoint.s…"   dashboard   5 seconds ago   Up 3 seconds   0.0.0.0:8080->3000/tcp, [::]:8080->3000/tcp
+motherboard-systems-hq-clean-postgres-1    postgres:16-alpine                       "docker-entrypoint.s…"   postgres    9 hours ago     Up 9 hours     0.0.0.0:5432->5432/tcp, [::]:5432->5432/tcp
+
+===== ROOT HEALTH =====
+HTTP/1.1 200 OK
+X-Powered-By: Express
+Accept-Ranges: bytes
+Cache-Control: public, max-age=0
+Last-Modified: Thu, 28 May 2026 08:49:04 GMT
+ETag: W/"b630-19e6dc5dc00"
+Content-Type: text/html; charset=utf-8
+Content-Length: 46640
+Date: Thu, 28 May 2026 16:40:55 GMT
+Connection: keep-alive
+Keep-Alive: timeout=5
+
+
+===== API HEALTH =====
+HTTP/1.1 200 OK
+X-Powered-By: Express
+Content-Type: application/json; charset=utf-8
+Content-Length: 11
+ETag: W/"b-Ai2R8hgEarLmHKwesT1qcY913ys"
+Date: Thu, 28 May 2026 16:40:55 GMT
+Connection: keep-alive
+Keep-Alive: timeout=5
+
+{"ok":true}
+===== TASKS API =====
+{"ok":true,"tasks":[]}
+===== BRIDGE MARKER CHECK =====
+44:  function taskRows(tasks) {
+191:            ${artifactRaw ? `<button type="button" data-phase719-preview-artifact="true" data-task-id="${taskId}" data-task-title="${title}" data-artifact-name="${artifactName}" data-artifact-type="${artifactType}" data-artifact-size="${artifactSize}" data-artifact-path="${artifactPath}" data-artifact-outcome="${outcome}" data-artifact-explanation="${explanation}" title="Preview completed artifact" style="flex:0 0 auto;cursor:pointer;color:#93c5fd;border:1px solid rgba(147,197,253,.35);border-radius:999px;padding:2px 7px;font-size:10px;line-height:1.4;background:rgba(30,64,175,.18);">Preview</button>` : ""}
+213:              <button type="button" data-phase717-requeue="true" data-task-id="${taskId}" data-task-title="${title}" title="Explicit operator action: requeue this task" style="cursor:pointer;border:1px solid rgba(148,163,184,.35);background:rgba(15,23,42,.8);color:#cbd5e1;border-radius:8px;padding:5px 8px;font-size:11px;">Requeue</button>
+215:              <button type="button" data-phase717-retry-differently="true" data-task-id="${taskId}" data-task-title="${title}" title="Explicit operator action: retry this task differently" style="cursor:pointer;border:1px solid rgba(96,165,250,.45);background:rgba(30,41,59,.92);color:#dbeafe;border-radius:8px;padding:5px 8px;font-size:11px;">Retry differently</button>
+223:          ${explanation ? `<button type="button" data-phase717-inspect-details="true" data-phase717-inspect-title="${title} — Details" data-phase717-inspect-content="${explanation}" style="margin-top:10px;cursor:pointer;border:1px solid rgba(147,197,253,.35);background:rgba(30,64,175,.14);color:#93c5fd;border-radius:999px;padding:4px 9px;font-size:11px;">Inspect details</button>` : ""}
+225:          ${traceJson ? `<button type="button" data-phase717-inspect-trace="true" data-phase717-inspect-title="${title} — Advanced trace" data-phase717-inspect-content="${traceJson}" style="margin-top:10px;margin-left:6px;cursor:pointer;border:1px solid rgba(251,191,36,.38);background:rgba(120,53,15,.14);color:#fbbf24;border-radius:999px;padding:4px 9px;font-size:11px;">Inspect trace</button>` : ""}
+227:          ${logContent ? `<button type="button" data-phase717-inspect-logs="true" data-phase717-inspect-title="${title} — Logs" data-phase717-inspect-content="${logContent}" style="margin-top:10px;margin-left:6px;cursor:pointer;border:1px solid rgba(45,212,191,.38);background:rgba(20,83,45,.14);color:#5eead4;border-radius:999px;padding:4px 9px;font-size:11px;">Inspect logs</button>` : ""}
+238:  function renderRecent(tasks) {
+260:    if (recentTasks) recentTasks.innerHTML = taskRows(tasks);
+651:    const requeue = event.target.closest("[data-phase717-requeue]");
+653:    const retryDifferently = event.target.closest("[data-phase717-retry-differently]");
+677:      renderRecent(data.tasks || []);
+2450:    const button = event.target.closest("[data-phase719-preview-artifact]");
+
+===== DASHBOARD LOGS =====
+[phase25] task_events_emit loaded 2026-05-28T16:40:52.527Z file= file:///app/server/task_events_emit.mjs
+[phase25] api-tasks-postgres loaded 2026-05-28T16:40:52.529Z file= file:///app/server/routes/api-tasks-postgres.mjs
+[phase19] orchestrator_state_route mounted {
+  file: 'file:///app/server/orchestrator_state_route.mjs',
+  envSnapshot: {
+    PHASE18_ENABLE_ORCHESTRATION: undefined,
+    PHASE19_ENABLE_ORCH_STATE: undefined
+  }
+}
+[SSE] /events/ops + /events/reflections registered
+[db] effective pool config {
+  mode: 'url',
+  DB_URL_present: true,
+  host: null,
+  port: null,
+  user: null,
+  database: null,
+  password_type: 'url-hidden',
+  password_len: 'hidden',
+  has_password: true
+}
+Database pool initialized
+[phase25] __DB_POOL set { has: true, type: 'BoundPool' }
+Server running on http://0.0.0.0:3000
+[HTTP] HEAD /
+[HTTP] GET /api/tasks/health
+[HTTP] GET /api/tasks?limit=12
+[phase57c-router] /api/tasks probe {
+  originalUrl: '/api/tasks?limit=12',
+  baseUrl: '/api/tasks',
+  path: '/',
+  referer: null,
+  userAgent: 'curl/8.7.1',
+  accept: '*/*'
+}
+
+===== WORKTREE =====
+ M public/js/phase530_visible_panels_bridge.js
+?? .backup_excludes
+?? CADE_RUNTIME_DISCOVERY.txt
+?? CADE_RUNTIME_HIGH_SIGNAL_CONTENTS.txt
+?? DASHBOARD_UI_AFTER_RUNTIME_RESTORE_DIAGNOSIS.txt
+?? EXECUTION_IMPLEMENTATION_SURFACES.txt
+?? EXTERNAL_DB_BACKUP_SEARCH_BEFORE_DOCKER_RESET.txt
+?? GOVERNED_ROUTE_AFTER_RUNTIME_RESTORE_SMOKE.txt
+?? LATEST_SNAPSHOT_DASHBOARD_CANDIDATE_INSPECTION.txt
+?? PHASE715_DASHBOARD_CANDIDATE_RESTORE.txt
+?? PHASE740_BRIDGE_SURGICAL_RESTORE.txt
+?? PHASE_90_91_DASHBOARD_SURFACE_INSPECTION.txt
+?? backups/_restore_test/
+?? backups/backup_index.json
+?? backups/checksums_20260527_150058.txt
+?? backups/checksums_20260527_150206.txt
+?? backups/dr_daemon.log
+?? backups/phase530-bridge-before-phase740-surgical-restore/
+?? backups/repo_20260527_145245.bundle
+?? backups/repo_20260527_145315.bundle
+?? backups/repo_20260527_145331.bundle
+?? backups/repo_20260527_145349.bundle
+?? backups/repo_20260527_145411.bundle
+?? backups/repo_20260527_145427.bundle
+?? backups/repo_20260527_145443.bundle
+?? backups/repo_20260527_145503.bundle
+?? backups/repo_20260527_145520.bundle
+?? backups/repo_20260527_145623.bundle
+?? backups/repo_20260527_145651.bundle
+?? backups/repo_20260527_145722.bundle
+?? backups/repo_20260527_145748.bundle
+?? backups/repo_20260527_150058.bundle
+?? backups/repo_20260527_150206.bundle
+?? backups/repo_20260527_153113.bundle
+?? backups/repo_20260527_154040.bundle
+?? backups/repo_20260527_154104.bundle
+?? backups/repo_20260527_154121.bundle
+?? backups/repo_20260527_154139.bundle
+?? backups/repo_20260527_154158.bundle
+?? backups/repo_20260527_154230.bundle
+?? backups/repo_20260527_154251.bundle
+?? backups/repo_20260527_154345.bundle
+?? backups/repo_20260527_154630.bundle
+?? backups/repo_20260527_154717.bundle
+?? backups/source_20260527_145245.tar.gz
+?? backups/source_20260527_145520.tar.gz
+?? backups/source_20260527_145623.tar.gz
+?? backups/source_20260527_145748.tar.gz
+?? backups/source_20260527_150058.tar.gz
+?? backups/source_20260527_150206.tar.gz
+?? backups/source_20260527_153200.tar.gz
+?? backups/source_20260527_154251.tar.gz
+?? backups/source_20260527_154345.tar.gz
+?? backups/source_20260527_154630.tar.gz
+?? backups/source_20260527_154717.tar.gz
+?? diagnose-dashboard-ui-after-runtime-restore.py
+?? diagnose-dashboard-ui-after-runtime-restore.sh
+?? discover-dashboard-recovery-candidates.sh
+?? discover-execution-implementation-surfaces.sh
+?? extract-matilda-delegation-docs.sh
+?? inspect-latest-snapshot-dashboard-candidate.sh
+?? inspect-latest-source-backups-for-db-assets.sh
+?? inspect-phase-90-and-91-dashboard-surfaces.sh
+?? inspect-rio-drive-disaster-backups-v2.sh
+?? restore-phase740-bridge-surgical.sh
+?? scripts/dr
+?? scripts/dr_autonomous_wrapper.sh
+?? scripts/dr_daemon.sh
+?? scripts/dr_daemon_self_healing.sh
+?? scripts/dr_watchdog.sh
+?? scripts/offsite_r2_sync.sh
+?? scripts/retention_engine.sh
+?? scripts/storage_guard.sh
+?? scripts/storage_monitor.sh
+?? scripts/storage_policy.sh
+?? scripts/vault_layer.sh
+?? search-external-db-backups-before-docker-reset.sh
+?? smoke-governed-route-after-runtime-restore.sh
+
+Open: http://localhost:8080/?v=phase740-bridge-surgical
