@@ -1,0 +1,148 @@
+===== NEWER DASHBOARD LINEAGE DISCOVERY =====
+Thu May 28 01:39:22 PDT 2026
+
+===== CURRENT BRANCH =====
+feature/backup-system-v2
+
+===== COMMITS AFTER 4c55719f TOUCHING DASHBOARD SURFACES =====
+bc20464e (HEAD -> feature/backup-system-v2, origin/feature/backup-system-v2) Record dashboard version drift finding
+e42a6f19 Create dashboard recovery checkpoint c75e9756
+c75e9756 Seal final dashboard runtime recovery state
+cab5622b Record dashboard browser cache finding
+99ac9b4c Verify latest dashboard runtime surface
+5aee4ed4 Promote latest dashboard UI to served root
+91129400 Restore latest dashboard UI surface from git history
+684c450b Inspect latest dashboard UI surface lineage
+47a6fa7b Record dashboard UI version mismatch
+e4a07d44 Seal dashboard UI data surfaces restoration
+535c84fe Restore dashboard UI data surfaces
+05c21597 Inspect dashboard UI surface restoration
+5bd437a8 Seal dashboard UI runtime restore
+dd2e273a Repair fresh task events schema for dashboard
+dca281c8 Diagnose dashboard UI with nonblocking route checks
+9d78745f Seal runtime restore and governed route validation
+11400024 Confirm governed route after runtime restore
+ee7fcd7e Bootstrap fresh Postgres schema for runtime restore
+a32c0399 Validate compose runtime after Postgres wait
+bbd61a87 Verify Docker reset completion
+a09457d5 Record Docker reset database asset precheck
+a6253ac5 Inspect latest source backups for DB assets
+8f5abc9b Attempt Docker data rescue before reset
+2cc958b1 Exclude backup artifacts from Docker build context
+282a2570 Diagnose compose image JSON failure
+01ee8edc Inspect compose runtime restoration plan
+2be5bdd0 Record container visibility runtime finding
+05f2ba94 Verify container visibility for runtime restoration
+4cee6cdb Verify latest DR after runtime checkpoint
+119208a2 Checkpoint governed execution phase after HTTP pause
+29ba4805 Pause governed route live HTTP validation
+e830c18c Checkpoint governed route validation and discover runtime owner
+9dcd0902 Add in-process governed route smoke
+41999004 Diagnose governed route Docker runtime reset
+4e12cef0 Diagnose governed route server reset
+2bd56299 Mount governed planning dry-run route
+3c3c13c1 Inspect server route mount surface
+696eaecc Replace governed route discovery with Python scanner
+742f232e Fix governed route registration discovery
+a9479ee8 Discover governed route registration surfaces
+f78f96a0 Clean accidental pasted shell artifact
+856d7f5c Document governed planning route bundle response
+e5d08008 Return canonical bundle from governed planning route
+34376f97 Add governed planning artifact bundle
+b35ee739 Add governed execution audit ledger
+9c17133e Add governed reconciliation normalization
+e39b9296 Add governed response normalization
+2a255642 Add governed route fail-closed smoke
+ee560064 Record governed planning route smoke correction
+d6e58b7c Fix governed planning route smoke payload shape
+50dd539b Add governed planning route smoke validation
+427b1c59 Add governed planning dry-run route
+03456b30 Checkpoint governed execution corridor
+fc9c49b8 Record governed phase runner smoke results
+c5a7b793 Add governed execution phase runner
+95ba88c9 Add canonical execution phase state machine
+066abf47 Record governed planning pipeline smoke results
+cff12ad5 Add governed planning pipeline
+1f49d4b5 Add Matilda execution envelope draft builder
+2b49855f Add canonical execution intent normalization
+ea806569 Record execution approval gate smoke results
+effcdf4e Add canonical execution approval gate
+04c38409 Centralize governed execution validation
+ed244b31 Verify Rio Drive DR backup state
+f6dbb5e7 Define canonical execution envelope schema
+5e83d5c2 Define canonical governed execution lifecycle
+055b5cfb Lock Cade engineer adapter invariants
+9bdfd5a9 Document stabilized Cade governance bridge phase
+285f5fa0 Record Cade engineer adapter smoke results
+bbd3c00c Add dry-run Cade engineer adapter
+c6cdc5de Classify Cade engineer surface against governance corridor
+b66528ae Capture Cade engineer surface contents
+71a68998 Map Cade runtime compatibility with governance corridor
+7faea4c1 Audit active Cade runtime references
+a99002e0 Record Cade runtime archaeology findings
+fd3d5f5d Convert execution checkpoint to fixed baseline
+06d70e49 Align execution governance checkpoint with sealed head
+4fc67f81 Seal execution governance checkpoint metadata
+fcb0a998 Finalize execution governance checkpoint metadata
+22bfd127 Update execution governance checkpoint metadata
+aec50cdf Checkpoint execution governance corridor
+7b5f368b Add envelope-aware mutation scope guard
+3a9614eb Record execution envelope validation smoke results
+cc4ac3c6 Wire execution envelope validation into delegation route
+aa2858f4 Add canonical execution envelope governance corridor
+cc16ebaf Capture execution surface contents
+1f591ce6 Document next execution implementation slice
+78afca4b Add canonical execution doctrine v1
+cbaf3820 Extract authoritative execution corridor
+f23785cd Capture Matilda delegation matching files
+14c43389 Add Delegation Envelope v1 execution contract
+0139b201 finalize external-drive-only DR system with enforced mount validation
+b9bdda95 refactor: simplify DR system to external-drive-only deterministic backup model
+ca300549 feat: finalize MEGA offsite sync layer (safe limits + hardened guards)
+a2e1f13a fix: stabilize MEGA offsite sync filter logic and safety conditions
+c54626fb feat: add MEGA offsite sync layer with free-tier safety limits and throttling
+d52ded06 feat: finalize enterprise DR system with restore validation + vault + external redundancy
+fb6d1d41 feat: add offsite mirror layer (final redundancy boundary)
+beed20de feat: enforce fail-fast DR policy (remove false-positive success states)
+40800817 feat: add DR proof report (final system audit snapshot)
+5ddcc3bb feat: add final DR gate (unified system-wide validation layer)
+41ae7df3 feat: add DR alerting layer for failure detection and observability
+a8fda255 feat: add automated DR scheduler (cron enforcement layer)
+117d11a3 feat: add DR preflight dependency enforcement gate
+1eba53b8 feat: add external mount enforcement guard for DR integrity
+52ee8d3f feat: add unified enterprise DR pipeline (backup + verify + health + disk + external)
+d203a329 feat: add backup health verification gate
+91f01535 feat: add disk usage monitoring for backup safety thresholds
+9e4fab17 feat: add restore validation system for disaster recovery testing
+f082d2c8 feat: add indexed restore-ready backup system with checksum tracking
+76cab0ac fix: eliminate rsync parsing failure by removing multiline continuation
+91936060 fix: stabilize rsync execution on macOS (line + exclude hardening)
+73ace492 fix: eliminate tar recursion via staging isolation layer
+447deeeb fix: add safe mount validation for external DR sync
+4da0a729 feat: add full DR orchestrator (backup + verify + external sync)
+0f2de387 feat: add external backup sync layer (off-machine redundancy)
+39e2e2ab feat: add backup orchestration schedule pipeline (backup + verify)
+ed13aede feat: add backup integrity verification (sha256 audit layer)
+95a04ea7 (origin/fix/dr-manifest, main, fix/dr-manifest) feat: initialize backup registry manifest for DR system
+d65c2b10 (origin/main) Merge pull request #110 from MarcelaLePortfolio/fix/gitignore-cleanup
+4f20b589 chore: ignore local remote bootstrap helpers
+c324c85f Merge branch 'main' of https://github.com/MarcelaLePortfolio/motherboard-systems-hq
+a84f98a5 auto-bootstrap: system sync 20260527_142833
+4932d05b reinitialize: restore motherboard-systems-hq-clean after repo loss
+07e739d9 (tag: v91.0-guidance-intelligence-refinement-golden) Merge pull request #109 from MarcelaLePortfolio/phase-91-priority-model
+aeec540d phase-91: pre-pr validation checkpoint
+6f9b017f phase-91.8: guidance intelligence documentation
+a9e5d98a phase-91.7: safety confirmation for bounded guidance classification
+7d659ef5 phase-91.6: render stability verification for guidance surface
+54f26062 phase-91.5: deterministic ordering proof for grouped guidance
+930e8d11 phase-91.4: deterministic UI classification verification harness
+35007747 phase-91.4: UI classification model for guidance display intent
+e46f17b5 phase-91.3: deterministic grouping verification harness
+21ccbc9c phase-91.3: guidance grouping by type with deterministic sorting
+c6a49b58 phase-91.2: deterministic confidence tier verification harness
+147d6ac2 phase-91.2: add confidence tier model from agreement and stability
+efc72727 phase-91.1: deterministic priority scoring verification harness
+4643cb92 phase-91.1: priority model aligned to threshold classifier
+72847c8c phase-91.1: priority threshold separation for deterministic classification
+39b2964a (origin/phase-90-1-operator-guidance-panel-shell) phase-91.1: guidance priority model (severity + confidence scoring)
+a67adeef (tag: v90.0-operator-guidance-surface-golden) trace active 8080 dashboard runtime source
