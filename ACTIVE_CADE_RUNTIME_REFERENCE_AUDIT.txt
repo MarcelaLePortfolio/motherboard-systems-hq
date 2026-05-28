@@ -1,0 +1,734 @@
+ACTIVE CADE RUNTIME REFERENCE AUDIT
+Generated: 2026-05-27T21:12:55.698578
+
+==================================================================
+TARGET: cade_task_processor
+==================================================================
+
+broken_eslint_files.txt:10:/Users/marcela-dev/Desktop/Motherboard_Systems_HQ/scripts/_local/agent-runtime/utils/cade_task_processor.ts
+cade-processor.ts:2:import { startCadeTaskProcessor } from "./utils/cade_task_processor.js";startCadeTaskProcessor();console.log(" Cade Task Processor started.");// --- Keep the process alive ---setInterval(() => {}, 1 << 30);
+ACTIVE_CADE_RUNTIME_REFERENCE_AUDIT.py:36:    "cade_task_processor",
+ACTIVE_CADE_RUNTIME_REFERENCE_AUDIT.py:38:    "cade_task_processor_clean",
+PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:203:./cade_task_processor_clean.ts:40:    if (task.status === "Pending" && task.type === "run_shell") {
+PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:204:./cade_task_processor_clean.ts:43:        task.status = "Completed";
+PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:205:./cade_task_processor_clean.ts:46:        task.status = "Failed";
+PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:695:./archive/old_tasks/cade_task_processor.old.txt:40:    if (task.status === "Pending") {
+PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:696:./archive/old_tasks/cade_task_processor.old.txt:62:        task.status = "Completed";
+PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:697:./archive/old_tasks/cade_task_processor.old.txt:66:        task.status = "Failed";
+PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:980:./snapshots/20251114-114707/scripts/_local/agent-runtime/utils/cade_task_processor.ts:40:    if (task.status === "Pending" && task.agent === "Cade" && task.type === "run_shell") {
+PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:981:./snapshots/20251114-114707/scripts/_local/agent-runtime/utils/cade_task_processor.ts:43:        task.status = "Completed";
+PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:982:./snapshots/20251114-114707/scripts/_local/agent-runtime/utils/cade_task_processor.ts:46:        task.status = "Failed";
+PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:987:./snapshots/20251114-114707/scripts/_local/agent-runtime/utils/cade_task_processor.backup.txt:38:    if (task.status === "Pending") {
+PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:988:./snapshots/20251114-114707/scripts/_local/agent-runtime/utils/cade_task_processor.backup.txt:60:        task.status = "Completed";
+PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:989:./snapshots/20251114-114707/scripts/_local/agent-runtime/utils/cade_task_processor.backup.txt:64:        task.status = "Failed";
+PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:1004:./snapshots/20251114-114707/scripts/_local/agent-runtime/utils/cade_task_processor.bak.ts:38:    if (task.status === "Pending") {
+PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:1005:./snapshots/20251114-114707/scripts/_local/agent-runtime/utils/cade_task_processor.bak.ts:60:        task.status = "Completed";
+PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:1006:./snapshots/20251114-114707/scripts/_local/agent-runtime/utils/cade_task_processor.bak.ts:64:        task.status = "Failed";
+PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:1178:./PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:203:./cade_task_processor_clean.ts:40:    if (task.status === "Pending" && task.type === "run_shell") {
+PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:1179:./PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:204:./cade_task_processor_clean.ts:43:        task.status = "Completed";
+PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:1180:./PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:205:./cade_task_processor_clean.ts:46:        task.status = "Failed";
+PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:1670:./PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:695:./archive/old_tasks/cade_task_processor.old.txt:40:    if (task.status === "Pending") {
+PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:1671:./PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:696:./archive/old_tasks/cade_task_processor.old.txt:62:        task.status = "Completed";
+PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:1672:./PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:697:./archive/old_tasks/cade_task_processor.old.txt:66:        task.status = "Failed";
+PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:1825:./snapshots/20251114-114707/scripts/_local/agent-runtime/utils/cade_task_processor.bak:40:    if (task.status === "Pending") {
+PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:1826:./snapshots/20251114-114707/scripts/_local/agent-runtime/utils/cade_task_processor.bak:62:        task.status = "Completed";
+PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:1827:./snapshots/20251114-114707/scripts/_local/agent-runtime/utils/cade_task_processor.bak:66:        task.status = "Failed";
+PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:1838:./snapshots/20251114-114707/scripts/_local/agent-runtime/utils/cade_task_processor_clean.ts:40:    if (task.status === "Pending" && task.type === "run_shell") {
+PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:1839:./snapshots/20251114-114707/scripts/_local/agent-runtime/utils/cade_task_processor_clean.ts:43:        task.status = "Completed";
+PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:1840:./snapshots/20251114-114707/scripts/_local/agent-runtime/utils/cade_task_processor_clean.ts:46:        task.status = "Failed";
+PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:2228:./cade_task_processor.bak.ts:38:    if (task.status === "Pending") {
+PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:2229:./cade_task_processor.bak.ts:60:        task.status = "Completed";
+PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:2230:./cade_task_processor.bak.ts:64:        task.status = "Failed";
+PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:2883:./scripts_backup/_local/agent-runtime/utils/cade_task_processor.ts:40:    if (task.status === "Pending" && task.agent === "Cade" && task.type === "run_shell") {
+PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:2884:./scripts_backup/_local/agent-runtime/utils/cade_task_processor.ts:43:        task.status = "Completed";
+PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:2885:./scripts_backup/_local/agent-runtime/utils/cade_task_processor.ts:46:        task.status = "Failed";
+PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:2899:./scripts_backup/_local/agent-runtime/utils/cade_task_processor.backup.txt:38:    if (task.status === "Pending") {
+PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:2900:./scripts_backup/_local/agent-runtime/utils/cade_task_processor.backup.txt:60:        task.status = "Completed";
+PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:2901:./scripts_backup/_local/agent-runtime/utils/cade_task_processor.backup.txt:64:        task.status = "Failed";
+PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:2939:./scripts_backup/_local/agent-runtime/utils/cade_task_processor.bak.ts:38:    if (task.status === "Pending") {
+PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:2940:./scripts_backup/_local/agent-runtime/utils/cade_task_processor.bak.ts:60:        task.status = "Completed";
+PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:2941:./scripts_backup/_local/agent-runtime/utils/cade_task_processor.bak.ts:64:        task.status = "Failed";
+PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:2972:./scripts_backup/_local/agent-runtime/utils/cade_task_processor.bak:40:    if (task.status === "Pending") {
+PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:2973:./scripts_backup/_local/agent-runtime/utils/cade_task_processor.bak:62:        task.status = "Completed";
+PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:2974:./scripts_backup/_local/agent-runtime/utils/cade_task_processor.bak:66:        task.status = "Failed";
+PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:2981:./scripts_backup/_local/agent-runtime/utils/cade_task_processor_clean.ts:40:    if (task.status === "Pending" && task.type === "run_shell") {
+PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:2982:./scripts_backup/_local/agent-runtime/utils/cade_task_processor_clean.ts:43:        task.status = "Completed";
+PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:2983:./scripts_backup/_local/agent-runtime/utils/cade_task_processor_clean.ts:46:        task.status = "Failed";
+PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:3009:./snapshots/20251114-114821/scripts/_local/agent-runtime/utils/cade_task_processor.ts:40:    if (task.status === "Pending" && task.agent === "Cade" && task.type === "run_shell") {
+PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:3010:./snapshots/20251114-114821/scripts/_local/agent-runtime/utils/cade_task_processor.ts:43:        task.status = "Completed";
+PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:3011:./snapshots/20251114-114821/scripts/_local/agent-runtime/utils/cade_task_processor.ts:46:        task.status = "Failed";
+PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:3013:./snapshots/20251114-114821/scripts/_local/agent-runtime/utils/cade_task_processor.backup.txt:38:    if (task.status === "Pending") {
+PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:3014:./snapshots/20251114-114821/scripts/_local/agent-runtime/utils/cade_task_processor.backup.txt:60:        task.status = "Completed";
+PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:3015:./snapshots/20251114-114821/scripts/_local/agent-runtime/utils/cade_task_processor.backup.txt:64:        task.status = "Failed";
+PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:3031:./snapshots/20251114-114821/scripts/_local/agent-runtime/utils/cade_task_processor.bak.ts:38:    if (task.status === "Pending") {
+PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:3032:./snapshots/20251114-114821/scripts/_local/agent-runtime/utils/cade_task_processor.bak.ts:60:        task.status = "Completed";
+PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:3033:./snapshots/20251114-114821/scripts/_local/agent-runtime/utils/cade_task_processor.bak.ts:64:        task.status = "Failed";
+PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:3119:./snapshots/20251114-114821/scripts/_local/agent-runtime/utils/cade_task_processor.bak:40:    if (task.status === "Pending") {
+PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:3120:./snapshots/20251114-114821/scripts/_local/agent-runtime/utils/cade_task_processor.bak:62:        task.status = "Completed";
+PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:3121:./snapshots/20251114-114821/scripts/_local/agent-runtime/utils/cade_task_processor.bak:66:        task.status = "Failed";
+PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:3125:./snapshots/20251114-114821/scripts/_local/agent-runtime/utils/cade_task_processor_clean.ts:40:    if (task.status === "Pending" && task.type === "run_shell") {
+PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:3126:./snapshots/20251114-114821/scripts/_local/agent-runtime/utils/cade_task_processor_clean.ts:43:        task.status = "Completed";
+PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:3127:./snapshots/20251114-114821/scripts/_local/agent-runtime/utils/cade_task_processor_clean.ts:46:        task.status = "Failed";
+PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:3384:./scripts_backup_2/_local/agent-runtime/utils/cade_task_processor.ts:40:    if (task.status === "Pending" && task.agent === "Cade" && task.type === "run_shell") {
+PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:3385:./scripts_backup_2/_local/agent-runtime/utils/cade_task_processor.ts:43:        task.status = "Completed";
+PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:3386:./scripts_backup_2/_local/agent-runtime/utils/cade_task_processor.ts:46:        task.status = "Failed";
+PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:3416:./scripts_backup_2/_local/agent-runtime/utils/cade_task_processor.backup.txt:38:    if (task.status === "Pending") {
+PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:3417:./scripts_backup_2/_local/agent-runtime/utils/cade_task_processor.backup.txt:60:        task.status = "Completed";
+PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:3418:./scripts_backup_2/_local/agent-runtime/utils/cade_task_processor.backup.txt:64:        task.status = "Failed";
+PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:3448:./scripts_backup_2/_local/agent-runtime/utils/cade_task_processor.bak.ts:38:    if (task.status === "Pending") {
+PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:3449:./scripts_backup_2/_local/agent-runtime/utils/cade_task_processor.bak.ts:60:        task.status = "Completed";
+PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:3450:./scripts_backup_2/_local/agent-runtime/utils/cade_task_processor.bak.ts:64:        task.status = "Failed";
+PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:3466:./scripts_backup_2/_local/agent-runtime/utils/cade_task_processor.bak:40:    if (task.status === "Pending") {
+PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:3467:./scripts_backup_2/_local/agent-runtime/utils/cade_task_processor.bak:62:        task.status = "Completed";
+PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:3468:./scripts_backup_2/_local/agent-runtime/utils/cade_task_processor.bak:66:        task.status = "Failed";
+PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:3469:./scripts_backup_2/_local/agent-runtime/utils/cade_task_processor_clean.ts:40:    if (task.status === "Pending" && task.type === "run_shell") {
+PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:3470:./scripts_backup_2/_local/agent-runtime/utils/cade_task_processor_clean.ts:43:        task.status = "Completed";
+PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:3471:./scripts_backup_2/_local/agent-runtime/utils/cade_task_processor_clean.ts:46:        task.status = "Failed";
+PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:3647:./scripts_backup/scripts/_local/agent-runtime/utils/cade_task_processor.ts:40:    if (task.status === "Pending" && task.agent === "Cade" && task.type === "run_shell") {
+PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:3648:./scripts_backup/scripts/_local/agent-runtime/utils/cade_task_processor.ts:43:        task.status = "Completed";
+PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:3649:./scripts_backup/scripts/_local/agent-runtime/utils/cade_task_processor.ts:46:        task.status = "Failed";
+PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:3673:./scripts_backup/scripts/_local/agent-runtime/utils/cade_task_processor.backup.txt:38:    if (task.status === "Pending") {
+PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:3674:./scripts_backup/scripts/_local/agent-runtime/utils/cade_task_processor.backup.txt:60:        task.status = "Completed";
+PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:3675:./scripts_backup/scripts/_local/agent-runtime/utils/cade_task_processor.backup.txt:64:        task.status = "Failed";
+PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:3679:./scripts_backup/scripts/_local/agent-runtime/utils/cade_task_processor.bak.ts:38:    if (task.status === "Pending") {
+PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:3680:./scripts_backup/scripts/_local/agent-runtime/utils/cade_task_processor.bak.ts:60:        task.status = "Completed";
+PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:3681:./scripts_backup/scripts/_local/agent-runtime/utils/cade_task_processor.bak.ts:64:        task.status = "Failed";
+PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:3699:./scripts_backup/scripts/_local/agent-runtime/utils/cade_task_processor.bak:40:    if (task.status === "Pending") {
+PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:3700:./scripts_backup/scripts/_local/agent-runtime/utils/cade_task_processor.bak:62:        task.status = "Completed";
+PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:3701:./scripts_backup/scripts/_local/agent-runtime/utils/cade_task_processor.bak:66:        task.status = "Failed";
+PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:3708:./scripts_backup/scripts/_local/agent-runtime/utils/cade_task_processor_clean.ts:40:    if (task.status === "Pending" && task.type === "run_shell") {
+PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:3709:./scripts_backup/scripts/_local/agent-runtime/utils/cade_task_processor_clean.ts:43:        task.status = "Completed";
+PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:3710:./scripts_backup/scripts/_local/agent-runtime/utils/cade_task_processor_clean.ts:46:        task.status = "Failed";
+PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:8125:./scripts/_local/agent-runtime/utils/cade_task_processor.ts:40:    if (task.status === "Pending" && task.agent === "Cade" && task.type === "run_shell") {
+PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:8126:./scripts/_local/agent-runtime/utils/cade_task_processor.ts:43:        task.status = "Completed";
+PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:8127:./scripts/_local/agent-runtime/utils/cade_task_processor.ts:46:        task.status = "Failed";
+PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:8167:./scripts/_local/agent-runtime/utils/cade_task_processor.backup.txt:38:    if (task.status === "Pending") {
+PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:8168:./scripts/_local/agent-runtime/utils/cade_task_processor.backup.txt:60:        task.status = "Completed";
+PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:8169:./scripts/_local/agent-runtime/utils/cade_task_processor.backup.txt:64:        task.status = "Failed";
+PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:8176:./scripts/_local/agent-runtime/utils/cade_task_processor_clean.ts:40:    if (task.status === "Pending" && task.type === "run_shell") {
+PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:8177:./scripts/_local/agent-runtime/utils/cade_task_processor_clean.ts:43:        task.status = "Completed";
+PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:8178:./scripts/_local/agent-runtime/utils/cade_task_processor_clean.ts:46:        task.status = "Failed";
+PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:8574:./cade_task_processor.ts:40:    if (task.status === "Pending" && task.agent === "Cade" && task.type === "run_shell") {
+PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:8575:./cade_task_processor.ts:43:        task.status = "Completed";
+PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:8576:./cade_task_processor.ts:46:        task.status = "Failed";
+PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:9286:./ts-backup/cade_task_processor_clean.ts:40:    if (task.status === "Pending" && task.type === "run_shell") {
+PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:9287:./ts-backup/cade_task_processor_clean.ts:43:        task.status = "Completed";
+PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:9288:./ts-backup/cade_task_processor_clean.ts:46:        task.status = "Failed";
+PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:9324:./ts-backup/cade_task_processor.bak.ts:38:    if (task.status === "Pending") {
+PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:9325:./ts-backup/cade_task_processor.bak.ts:60:        task.status = "Completed";
+PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:9326:./ts-backup/cade_task_processor.bak.ts:64:        task.status = "Failed";
+PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:9347:./ts-backup/cade_task_processor.ts:40:    if (task.status === "Pending" && task.agent === "Cade" && task.type === "run_shell") {
+PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:9348:./ts-backup/cade_task_processor.ts:43:        task.status = "Completed";
+PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:9349:./ts-backup/cade_task_processor.ts:46:        task.status = "Failed";
+PHASE62B_TASKS_QUEUED_DISCOVERY_OUTPUT.txt:14:./cade_task_processor_clean.ts
+PHASE62B_TASKS_QUEUED_DISCOVERY_OUTPUT.txt:94:./snapshots/20251114-114821/scripts/_local/agent-runtime/utils/cade_task_processor_clean.ts
+PHASE62B_TASKS_QUEUED_DISCOVERY_OUTPUT.txt:96:./snapshots/20251114-114821/scripts/_local/agent-runtime/utils/cade_task_processor.bak.ts
+PHASE62B_TASKS_QUEUED_DISCOVERY_OUTPUT.txt:99:./snapshots/20251114-114821/scripts/_local/agent-runtime/utils/cade_task_processor.ts
+PHASE62B_TASKS_QUEUED_DISCOVERY_OUTPUT.txt:226:./snapshots/20251114-114707/scripts/_local/agent-runtime/utils/cade_task_processor_clean.ts
+PHASE62B_TASKS_QUEUED_DISCOVERY_OUTPUT.txt:228:./snapshots/20251114-114707/scripts/_local/agent-runtime/utils/cade_task_processor.bak.ts
+PHASE62B_TASKS_QUEUED_DISCOVERY_OUTPUT.txt:231:./snapshots/20251114-114707/scripts/_local/agent-runtime/utils/cade_task_processor.ts
+PHASE62B_TASKS_QUEUED_DISCOVERY_OUTPUT.txt:307:./cade_task_processor.bak.ts
+PHASE62B_TASKS_QUEUED_DISCOVERY_OUTPUT.txt:318:./scripts_backup/scripts/_local/agent-runtime/utils/cade_task_processor_clean.ts
+PHASE62B_TASKS_QUEUED_DISCOVERY_OUTPUT.txt:320:./scripts_backup/scripts/_local/agent-runtime/utils/cade_task_processor.bak.ts
+PHASE62B_TASKS_QUEUED_DISCOVERY_OUTPUT.txt:321:./scripts_backup/scripts/_local/agent-runtime/utils/cade_task_processor.ts
+PHASE62B_TASKS_QUEUED_DISCOVERY_OUTPUT.txt:330:./scripts_backup/_local/agent-runtime/utils/cade_task_processor_clean.ts
+PHASE62B_TASKS_QUEUED_DISCOVERY_OUTPUT.txt:332:./scripts_backup/_local/agent-runtime/utils/cade_task_processor.bak.ts
+PHASE62B_TASKS_QUEUED_DISCOVERY_OUTPUT.txt:333:./scripts_backup/_local/agent-runtime/utils/cade_task_processor.ts
+PHASE62B_TASKS_QUEUED_DISCOVERY_OUTPUT.txt:437:./scripts/_local/agent-runtime/utils/cade_task_processor_clean.ts
+PHASE62B_TASKS_QUEUED_DISCOVERY_OUTPUT.txt:439:./scripts/_local/agent-runtime/utils/cade_task_processor.ts
+PHASE62B_TASKS_QUEUED_DISCOVERY_OUTPUT.txt:449:./cade_task_processor.ts
+PHASE62B_TASKS_QUEUED_DISCOVERY_OUTPUT.txt:451:./ts-backup/cade_task_processor_clean.ts
+PHASE62B_TASKS_QUEUED_DISCOVERY_OUTPUT.txt:455:./ts-backup/cade_task_processor.bak.ts
+PHASE62B_TASKS_QUEUED_DISCOVERY_OUTPUT.txt:459:./ts-backup/cade_task_processor.ts
+PHASE62B_TASKS_QUEUED_DISCOVERY_OUTPUT.txt:495:./scripts_backup_2/_local/agent-runtime/utils/cade_task_processor_clean.ts
+PHASE62B_TASKS_QUEUED_DISCOVERY_OUTPUT.txt:497:./scripts_backup_2/_local/agent-runtime/utils/cade_task_processor.bak.ts
+PHASE62B_TASKS_QUEUED_DISCOVERY_OUTPUT.txt:498:./scripts_backup_2/_local/agent-runtime/utils/cade_task_processor.ts
+PHASE62B_TASKS_QUEUED_DISCOVERY_OUTPUT.txt:1739:FILE: ./cade_task_processor_clean.ts
+PHASE62B_TASKS_QUEUED_DISCOVERY_OUTPUT.txt:1798:FILE: ./snapshots/20251114-114821/scripts/_local/agent-runtime/utils/cade_task_processor_clean.ts
+PHASE62B_TASKS_QUEUED_DISCOVERY_OUTPUT.txt:1810:FILE: ./snapshots/20251114-114821/scripts/_local/agent-runtime/utils/cade_task_processor.bak.ts
+PHASE62B_TASKS_QUEUED_DISCOVERY_OUTPUT.txt:1816:FILE: ./snapshots/20251114-114821/scripts/_local/agent-runtime/utils/cade_task_processor.ts
+PHASE62B_TASKS_QUEUED_DISCOVERY_OUTPUT.txt:1860:FILE: ./snapshots/20251114-114707/scripts/_local/agent-runtime/utils/cade_task_processor_clean.ts
+PHASE62B_TASKS_QUEUED_DISCOVERY_OUTPUT.txt:1872:FILE: ./snapshots/20251114-114707/scripts/_local/agent-runtime/utils/cade_task_processor.bak.ts
+PHASE62B_TASKS_QUEUED_DISCOVERY_OUTPUT.txt:1878:FILE: ./snapshots/20251114-114707/scripts/_local/agent-runtime/utils/cade_task_processor.ts
+PHASE62B_TASKS_QUEUED_DISCOVERY_OUTPUT.txt:1940:FILE: ./cade_task_processor.bak.ts
+PHASE62B_TASKS_QUEUED_DISCOVERY_OUTPUT.txt:1958:FILE: ./scripts_backup/scripts/_local/agent-runtime/utils/cade_task_processor_clean.ts
+PHASE62B_TASKS_QUEUED_DISCOVERY_OUTPUT.txt:1970:FILE: ./scripts_backup/scripts/_local/agent-runtime/utils/cade_task_processor.bak.ts
+PHASE62B_TASKS_QUEUED_DISCOVERY_OUTPUT.txt:1976:FILE: ./scripts_backup/scripts/_local/agent-runtime/utils/cade_task_processor.ts
+PHASE62B_TASKS_QUEUED_DISCOVERY_OUTPUT.txt:1991:FILE: ./scripts_backup/_local/agent-runtime/utils/cade_task_processor_clean.ts
+PHASE62B_TASKS_QUEUED_DISCOVERY_OUTPUT.txt:2003:FILE: ./scripts_backup/_local/agent-runtime/utils/cade_task_processor.bak.ts
+PHASE62B_TASKS_QUEUED_DISCOVERY_OUTPUT.txt:2009:FILE: ./scripts_backup/_local/agent-runtime/utils/cade_task_processor.ts
+PHASE62B_TASKS_QUEUED_DISCOVERY_OUTPUT.txt:2210:FILE: ./scripts/_local/agent-runtime/utils/cade_task_processor_clean.ts
+PHASE62B_TASKS_QUEUED_DISCOVERY_OUTPUT.txt:2222:FILE: ./scripts/_local/agent-runtime/utils/cade_task_processor.ts
+PHASE62B_TASKS_QUEUED_DISCOVERY_OUTPUT.txt:2244:FILE: ./cade_task_processor.ts
+PHASE62B_TASKS_QUEUED_DISCOVERY_OUTPUT.txt:2250:FILE: ./ts-backup/cade_task_processor_clean.ts
+PHASE62B_TASKS_QUEUED_DISCOVERY_OUTPUT.txt:2262:FILE: ./ts-backup/cade_task_processor.bak.ts
+PHASE62B_TASKS_QUEUED_DISCOVERY_OUTPUT.txt:2272:FILE: ./ts-backup/cade_task_processor.ts
+PHASE62B_TASKS_QUEUED_DISCOVERY_OUTPUT.txt:2298:FILE: ./scripts_backup_2/_local/agent-runtime/utils/cade_task_processor_clean.ts
+PHASE62B_TASKS_QUEUED_DISCOVERY_OUTPUT.txt:2310:FILE: ./scripts_backup_2/_local/agent-runtime/utils/cade_task_processor.bak.ts
+PHASE62B_TASKS_QUEUED_DISCOVERY_OUTPUT.txt:2316:FILE: ./scripts_backup_2/_local/agent-runtime/utils/cade_task_processor.ts
+snapshots/20251114-114821/scripts/_local/agent-runtime/cade-processor.ts:2:import { startCadeTaskProcessor } from "./utils/cade_task_processor.js";startCadeTaskProcessor();console.log(" Cade Task Processor started.");// --- Keep the process alive ---setInterval(() => {}, 1 << 30);
+snapshots/20251114-114821/scripts/_local/agent-runtime/run-cade-task-processor.js:2:import { startCadeTaskProcessor } from './utils/cade_task_processor.js';
+snapshots/20251114-114707/scripts/_local/agent-runtime/cade-processor.ts:2:import { startCadeTaskProcessor } from "./utils/cade_task_processor.js";startCadeTaskProcessor();console.log(" Cade Task Processor started.");// --- Keep the process alive ---setInterval(() => {}, 1 << 30);
+snapshots/20251114-114707/scripts/_local/agent-runtime/run-cade-task-processor.js:2:import { startCadeTaskProcessor } from './utils/cade_task_processor.js';
+scripts_backup/scripts/_local/agent-runtime/cade-processor.ts:2:import { startCadeTaskProcessor } from "./utils/cade_task_processor.js";startCadeTaskProcessor();console.log(" Cade Task Processor started.");// --- Keep the process alive ---setInterval(() => {}, 1 << 30);
+scripts_backup/scripts/_local/agent-runtime/run-cade-task-processor.js:2:import { startCadeTaskProcessor } from './utils/cade_task_processor.js';
+scripts_backup/_local/agent-runtime/cade-processor.ts:2:import { startCadeTaskProcessor } from "./utils/cade_task_processor.js";startCadeTaskProcessor();console.log(" Cade Task Processor started.");// --- Keep the process alive ---setInterval(() => {}, 1 << 30);
+scripts_backup/_local/agent-runtime/run-cade-task-processor.js:2:import { startCadeTaskProcessor } from './utils/cade_task_processor.js';
+docs/contracts/CADE_RUNTIME_ARCHAEOLOGY_FINDINGS.md:18:- cade_task_processor.ts
+docs/contracts/CADE_RUNTIME_ARCHAEOLOGY_FINDINGS.md:20:- cade_task_processor_clean.ts
+docs/contracts/CADE_RUNTIME_ARCHAEOLOGY_FINDINGS.md:34:### cade_task_processor.ts
+docs/contracts/CADE_RUNTIME_ARCHAEOLOGY_FINDINGS.md:48:### cade_task_processor_clean.ts
+docs/contracts/CADE_RUNTIME_ARCHAEOLOGY_FINDINGS.md:50:- Similar to `cade_task_processor.ts`
+docs/ops/Merge_Resolution_SUMMARY.md:13:  - scripts/_local/agent-runtime/utils/cade_task_processor.ts
+scripts/_local/agent-runtime/cade-processor.ts:2:import { startCadeTaskProcessor } from "./utils/cade_task_processor.js";startCadeTaskProcessor();console.log(" Cade Task Processor started.");// --- Keep the process alive ---setInterval(() => {}, 1 << 30);
+scripts/_local/agent-runtime/run-cade-task-processor.js:2:import { startCadeTaskProcessor } from './utils/cade_task_processor.js';
+ts-backup/cade-processor.ts:2:import { startCadeTaskProcessor } from "./utils/cade_task_processor.js";startCadeTaskProcessor();console.log(" Cade Task Processor started.");// --- Keep the process alive ---setInterval(() => {}, 1 << 30);
+
+==================================================================
+TARGET: cade_task_processor_clean
+==================================================================
+
+ACTIVE_CADE_RUNTIME_REFERENCE_AUDIT.py:38:    "cade_task_processor_clean",
+PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:203:./cade_task_processor_clean.ts:40:    if (task.status === "Pending" && task.type === "run_shell") {
+PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:204:./cade_task_processor_clean.ts:43:        task.status = "Completed";
+PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:205:./cade_task_processor_clean.ts:46:        task.status = "Failed";
+PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:1178:./PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:203:./cade_task_processor_clean.ts:40:    if (task.status === "Pending" && task.type === "run_shell") {
+PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:1179:./PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:204:./cade_task_processor_clean.ts:43:        task.status = "Completed";
+PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:1180:./PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:205:./cade_task_processor_clean.ts:46:        task.status = "Failed";
+PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:1838:./snapshots/20251114-114707/scripts/_local/agent-runtime/utils/cade_task_processor_clean.ts:40:    if (task.status === "Pending" && task.type === "run_shell") {
+PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:1839:./snapshots/20251114-114707/scripts/_local/agent-runtime/utils/cade_task_processor_clean.ts:43:        task.status = "Completed";
+PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:1840:./snapshots/20251114-114707/scripts/_local/agent-runtime/utils/cade_task_processor_clean.ts:46:        task.status = "Failed";
+PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:2981:./scripts_backup/_local/agent-runtime/utils/cade_task_processor_clean.ts:40:    if (task.status === "Pending" && task.type === "run_shell") {
+PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:2982:./scripts_backup/_local/agent-runtime/utils/cade_task_processor_clean.ts:43:        task.status = "Completed";
+PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:2983:./scripts_backup/_local/agent-runtime/utils/cade_task_processor_clean.ts:46:        task.status = "Failed";
+PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:3125:./snapshots/20251114-114821/scripts/_local/agent-runtime/utils/cade_task_processor_clean.ts:40:    if (task.status === "Pending" && task.type === "run_shell") {
+PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:3126:./snapshots/20251114-114821/scripts/_local/agent-runtime/utils/cade_task_processor_clean.ts:43:        task.status = "Completed";
+PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:3127:./snapshots/20251114-114821/scripts/_local/agent-runtime/utils/cade_task_processor_clean.ts:46:        task.status = "Failed";
+PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:3469:./scripts_backup_2/_local/agent-runtime/utils/cade_task_processor_clean.ts:40:    if (task.status === "Pending" && task.type === "run_shell") {
+PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:3470:./scripts_backup_2/_local/agent-runtime/utils/cade_task_processor_clean.ts:43:        task.status = "Completed";
+PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:3471:./scripts_backup_2/_local/agent-runtime/utils/cade_task_processor_clean.ts:46:        task.status = "Failed";
+PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:3708:./scripts_backup/scripts/_local/agent-runtime/utils/cade_task_processor_clean.ts:40:    if (task.status === "Pending" && task.type === "run_shell") {
+PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:3709:./scripts_backup/scripts/_local/agent-runtime/utils/cade_task_processor_clean.ts:43:        task.status = "Completed";
+PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:3710:./scripts_backup/scripts/_local/agent-runtime/utils/cade_task_processor_clean.ts:46:        task.status = "Failed";
+PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:8176:./scripts/_local/agent-runtime/utils/cade_task_processor_clean.ts:40:    if (task.status === "Pending" && task.type === "run_shell") {
+PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:8177:./scripts/_local/agent-runtime/utils/cade_task_processor_clean.ts:43:        task.status = "Completed";
+PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:8178:./scripts/_local/agent-runtime/utils/cade_task_processor_clean.ts:46:        task.status = "Failed";
+PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:9286:./ts-backup/cade_task_processor_clean.ts:40:    if (task.status === "Pending" && task.type === "run_shell") {
+PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:9287:./ts-backup/cade_task_processor_clean.ts:43:        task.status = "Completed";
+PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:9288:./ts-backup/cade_task_processor_clean.ts:46:        task.status = "Failed";
+PHASE62B_TASKS_QUEUED_DISCOVERY_OUTPUT.txt:14:./cade_task_processor_clean.ts
+PHASE62B_TASKS_QUEUED_DISCOVERY_OUTPUT.txt:94:./snapshots/20251114-114821/scripts/_local/agent-runtime/utils/cade_task_processor_clean.ts
+PHASE62B_TASKS_QUEUED_DISCOVERY_OUTPUT.txt:226:./snapshots/20251114-114707/scripts/_local/agent-runtime/utils/cade_task_processor_clean.ts
+PHASE62B_TASKS_QUEUED_DISCOVERY_OUTPUT.txt:318:./scripts_backup/scripts/_local/agent-runtime/utils/cade_task_processor_clean.ts
+PHASE62B_TASKS_QUEUED_DISCOVERY_OUTPUT.txt:330:./scripts_backup/_local/agent-runtime/utils/cade_task_processor_clean.ts
+PHASE62B_TASKS_QUEUED_DISCOVERY_OUTPUT.txt:437:./scripts/_local/agent-runtime/utils/cade_task_processor_clean.ts
+PHASE62B_TASKS_QUEUED_DISCOVERY_OUTPUT.txt:451:./ts-backup/cade_task_processor_clean.ts
+PHASE62B_TASKS_QUEUED_DISCOVERY_OUTPUT.txt:495:./scripts_backup_2/_local/agent-runtime/utils/cade_task_processor_clean.ts
+PHASE62B_TASKS_QUEUED_DISCOVERY_OUTPUT.txt:1739:FILE: ./cade_task_processor_clean.ts
+PHASE62B_TASKS_QUEUED_DISCOVERY_OUTPUT.txt:1798:FILE: ./snapshots/20251114-114821/scripts/_local/agent-runtime/utils/cade_task_processor_clean.ts
+PHASE62B_TASKS_QUEUED_DISCOVERY_OUTPUT.txt:1860:FILE: ./snapshots/20251114-114707/scripts/_local/agent-runtime/utils/cade_task_processor_clean.ts
+PHASE62B_TASKS_QUEUED_DISCOVERY_OUTPUT.txt:1958:FILE: ./scripts_backup/scripts/_local/agent-runtime/utils/cade_task_processor_clean.ts
+PHASE62B_TASKS_QUEUED_DISCOVERY_OUTPUT.txt:1991:FILE: ./scripts_backup/_local/agent-runtime/utils/cade_task_processor_clean.ts
+PHASE62B_TASKS_QUEUED_DISCOVERY_OUTPUT.txt:2210:FILE: ./scripts/_local/agent-runtime/utils/cade_task_processor_clean.ts
+PHASE62B_TASKS_QUEUED_DISCOVERY_OUTPUT.txt:2250:FILE: ./ts-backup/cade_task_processor_clean.ts
+PHASE62B_TASKS_QUEUED_DISCOVERY_OUTPUT.txt:2298:FILE: ./scripts_backup_2/_local/agent-runtime/utils/cade_task_processor_clean.ts
+docs/contracts/CADE_RUNTIME_ARCHAEOLOGY_FINDINGS.md:20:- cade_task_processor_clean.ts
+docs/contracts/CADE_RUNTIME_ARCHAEOLOGY_FINDINGS.md:48:### cade_task_processor_clean.ts
+
+==================================================================
+TARGET: cade-processor
+==================================================================
+
+toggle_agents.sh:44:pm2 start "$NODE_BIN" --name cade-processor --interpreter none -- --import tsx ./scripts/_local/agent-runtime/cade-processor.ts
+ACTIVE_CADE_RUNTIME_REFERENCE_AUDIT.py:40:    "cade-processor",
+start_all.sh:9:pm2 start --name cade-processor -- node --loader tsx ./scripts/_local/agent-runtime/cade-processor.ts
+PHASE62B_TASKS_QUEUED_DISCOVERY_OUTPUT.txt:91:./snapshots/20251114-114821/scripts/_local/agent-runtime/cade-processor.ts
+PHASE62B_TASKS_QUEUED_DISCOVERY_OUTPUT.txt:223:./snapshots/20251114-114707/scripts/_local/agent-runtime/cade-processor.ts
+snapshots/20251114-114821/scripts/system/toggle_agents.sh:28:pm2 start "$NODE_BIN" --name cade-processor --interpreter none -- --import tsx ./scripts/_local/agent-runtime/cade-processor.ts
+snapshots/20251114-114707/scripts/system/toggle_agents.sh:28:pm2 start "$NODE_BIN" --name cade-processor --interpreter none -- --import tsx ./scripts/_local/agent-runtime/cade-processor.ts
+scripts_backup/system/toggle_agents.sh:28:pm2 start "$NODE_BIN" --name cade-processor --interpreter none -- --import tsx ./scripts/_local/agent-runtime/cade-processor.ts
+scripts_backup/scripts/system/toggle_agents.sh:28:pm2 start "$NODE_BIN" --name cade-processor --interpreter none -- --import tsx ./scripts/_local/agent-runtime/cade-processor.ts
+docs/contracts/CADE_RUNTIME_ARCHAEOLOGY_FINDINGS.md:22:- cade-processor.ts
+docs/contracts/CADE_RUNTIME_ARCHAEOLOGY_FINDINGS.md:58:### cade-processor.ts
+scripts/system/toggle_agents.sh:28:pm2 start "$NODE_BIN" --name cade-processor --interpreter none -- --import tsx ./scripts/_local/agent-runtime/cade-processor.ts
+
+==================================================================
+TARGET: launch-cade
+==================================================================
+
+toggle_agents.sh:41:pm2 start "$NODE_BIN" --name cade --interpreter none -- --import tsx ./scripts/_local/agent-runtime/launch-cade.ts
+ACTIVE_CADE_RUNTIME_REFERENCE_AUDIT.py:42:    "launch-cade",
+package.json.backup.20251118043553:6:    "start": "pm2 start scripts/_local/agent-runtime/launch-cade.ts --interpreter tsx --name cade",
+PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:1806:./snapshots/20251114-114707/scripts/_local/agent-runtime/launch-cade.ts:9:  if (state?.agent !== "Cade" || state?.status !== "Assigned") return;
+PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:1807:./snapshots/20251114-114707/scripts/_local/agent-runtime/launch-cade.ts:17:      status: "Completed",
+PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:1808:./snapshots/20251114-114707/scripts/_local/agent-runtime/launch-cade.ts:26:      status: "Failed",
+PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:2665:./scripts_backup/_local/agent-runtime/launch-cade.ts:9:  if (state?.agent !== "Cade" || state?.status !== "Assigned") return;
+PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:2666:./scripts_backup/_local/agent-runtime/launch-cade.ts:17:      status: "Completed",
+PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:2667:./scripts_backup/_local/agent-runtime/launch-cade.ts:26:      status: "Failed",
+PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:2919:./snapshots/20251114-114821/scripts/_local/agent-runtime/launch-cade.ts:9:  if (state?.agent !== "Cade" || state?.status !== "Assigned") return;
+PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:2920:./snapshots/20251114-114821/scripts/_local/agent-runtime/launch-cade.ts:17:      status: "Completed",
+PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:2921:./snapshots/20251114-114821/scripts/_local/agent-runtime/launch-cade.ts:26:      status: "Failed",
+PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:3148:./scripts_backup_2/_local/agent-runtime/launch-cade.ts:9:  if (state?.agent !== "Cade" || state?.status !== "Assigned") return;
+PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:3149:./scripts_backup_2/_local/agent-runtime/launch-cade.ts:17:      status: "Completed",
+PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:3150:./scripts_backup_2/_local/agent-runtime/launch-cade.ts:26:      status: "Failed",
+PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:3452:./scripts_backup/scripts/_local/agent-runtime/launch-cade.ts:9:  if (state?.agent !== "Cade" || state?.status !== "Assigned") return;
+PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:3453:./scripts_backup/scripts/_local/agent-runtime/launch-cade.ts:17:      status: "Completed",
+PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:3454:./scripts_backup/scripts/_local/agent-runtime/launch-cade.ts:26:      status: "Failed",
+PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:6901:./launch-cade.ts:9:  if (state?.agent !== "Cade" || state?.status !== "Assigned") return;
+PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:6902:./launch-cade.ts:17:      status: "Completed",
+PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:6903:./launch-cade.ts:26:      status: "Failed",
+PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:7902:./scripts/_local/agent-runtime/launch-cade.ts:9:  if (state?.agent !== "Cade" || state?.status !== "Assigned") return;
+PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:7903:./scripts/_local/agent-runtime/launch-cade.ts:17:      status: "Completed",
+PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:7904:./scripts/_local/agent-runtime/launch-cade.ts:26:      status: "Failed",
+PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:9321:./ts-backup/launch-cade.ts:9:  if (state?.agent !== "Cade" || state?.status !== "Assigned") return;
+PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:9322:./ts-backup/launch-cade.ts:17:      status: "Completed",
+PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:9323:./ts-backup/launch-cade.ts:26:      status: "Failed",
+start_all.sh:6:pm2 start --name cade -- node --loader tsx ./scripts/_local/agent-runtime/launch-cade.ts
+PHASE80_2_DEEP_DASHBOARD_INVENTORY_20260317T183521Z.md:347:./dist/scripts/_local/agent-runtime/launch-cade.js:4:import { routeTask } from "../handlers/taskRouter";
+PHASE80_2_DEEP_DASHBOARD_INVENTORY_20260317T183521Z.md:370:./snapshots/20251114-114821/scripts/_local/agent-runtime/launch-cade.ts:5:import { routeTask } from "../handlers/taskRouter";
+PHASE80_2_DEEP_DASHBOARD_INVENTORY_20260317T183521Z.md:425:./snapshots/20251114-114707/scripts/_local/agent-runtime/launch-cade.ts:5:import { routeTask } from "../handlers/taskRouter";
+PHASE80_2_DEEP_DASHBOARD_INVENTORY_20260317T183521Z.md:1450:./scripts_backup/scripts/_local/agent-runtime/launch-cade.ts:5:import { routeTask } from "../handlers/taskRouter";
+PHASE80_2_DEEP_DASHBOARD_INVENTORY_20260317T183521Z.md:1454:./scripts_backup/_local/agent-runtime/launch-cade.ts:5:import { routeTask } from "../handlers/taskRouter";
+PHASE80_2_DEEP_DASHBOARD_INVENTORY_20260317T183521Z.md:1508:./launch-cade.ts:5:import { routeTask } from "../handlers/taskRouter";
+PHASE80_2_DEEP_DASHBOARD_INVENTORY_20260317T183521Z.md:1529:./scripts/_local/agent-runtime/launch-cade.ts:5:import { routeTask } from "../handlers/taskRouter";
+PHASE80_2_DEEP_DASHBOARD_INVENTORY_20260317T183521Z.md:1560:./ts-backup/launch-cade.ts:5:import { routeTask } from "../handlers/taskRouter";
+PHASE80_2_DEEP_DASHBOARD_INVENTORY_20260317T183521Z.md:1649:./scripts_backup_2/_local/agent-runtime/launch-cade.ts:5:import { routeTask } from "../handlers/taskRouter";
+PHASE62B_TASKS_QUEUED_DISCOVERY_OUTPUT.txt:107:./snapshots/20251114-114821/scripts/_local/agent-runtime/launch-cade.ts
+PHASE62B_TASKS_QUEUED_DISCOVERY_OUTPUT.txt:239:./snapshots/20251114-114707/scripts/_local/agent-runtime/launch-cade.ts
+tools/restore-motherboard.sh:48:pm2 start scripts/_local/agent-runtime/launch-cade.ts --interpreter "$TSX" --name cade --cwd "$PWD"
+tools/restore-from-latest.sh:40:pm2 start "./node_modules/.bin/tsx" scripts/_local/launch-cade.ts --name cade
+tools/restore-ui.sh:35:pm2 start scripts/_local/agent-runtime/launch-cade.ts --interpreter "$TSX" --name cade --cwd "$PWD"
+tools/verify-critical.sh:44:  "scripts/_local/agent-runtime/launch-cade.ts"
+snapshots/20251114-114821/package.json:6:    "start": "pm2 start scripts/_local/agent-runtime/launch-cade.ts --interpreter tsx --name cade",
+snapshots/20251114-114821/scripts/system/toggle_agents.sh:25:pm2 start "$NODE_BIN" --name cade --interpreter none -- --import tsx ./scripts/_local/agent-runtime/launch-cade.ts
+snapshots/20251114-114707/package.json:6:    "start": "pm2 start scripts/_local/agent-runtime/launch-cade.ts --interpreter tsx --name cade",
+snapshots/20251114-114707/scripts/system/toggle_agents.sh:25:pm2 start "$NODE_BIN" --name cade --interpreter none -- --import tsx ./scripts/_local/agent-runtime/launch-cade.ts
+scripts_backup/system/toggle_agents.sh:25:pm2 start "$NODE_BIN" --name cade --interpreter none -- --import tsx ./scripts/_local/agent-runtime/launch-cade.ts
+scripts_backup/scripts/system/toggle_agents.sh:25:pm2 start "$NODE_BIN" --name cade --interpreter none -- --import tsx ./scripts/_local/agent-runtime/launch-cade.ts
+docs/contracts/CADE_RUNTIME_ARCHAEOLOGY_FINDINGS.md:24:- launch-cade.ts
+docs/contracts/CADE_RUNTIME_ARCHAEOLOGY_FINDINGS.md:64:### launch-cade.ts
+docs/ops/Merge_Resolution_SUMMARY.md:11:  - scripts/_local/agent-runtime/launch-cade.ts
+scripts/system/toggle_agents.sh:25:pm2 start "$NODE_BIN" --name cade --interpreter none -- --import tsx ./scripts/_local/agent-runtime/launch-cade.ts
+
+==================================================================
+TARGET: cade-delegation-watcher
+==================================================================
+
+ACTIVE_CADE_RUNTIME_REFERENCE_AUDIT.py:44:    "cade-delegation-watcher",
+PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:2066:./snapshots/20251114-114707/scripts/agents/cade-delegation-watcher.ts:21:    "UPDATE task_events SET status = 'completed' WHERE id = ?"
+PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:2067:./snapshots/20251114-114707/scripts/agents/cade-delegation-watcher.ts:33:    "SELECT id, description FROM task_events WHERE event_type = 'delegation' AND status = 'pending'"
+PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:2761:./scripts_backup/agents/cade-delegation-watcher.ts:21:    "UPDATE task_events SET status = 'completed' WHERE id = ?"
+PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:2762:./scripts_backup/agents/cade-delegation-watcher.ts:33:    "SELECT id, description FROM task_events WHERE event_type = 'delegation' AND status = 'pending'"
+PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:2787:./cade-delegation-watcher.ts:21:    "UPDATE task_events SET status = 'completed' WHERE id = ?"
+PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:2788:./cade-delegation-watcher.ts:33:    "SELECT id, description FROM task_events WHERE event_type = 'delegation' AND status = 'pending'"
+PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:3520:./scripts_backup/scripts/agents/cade-delegation-watcher.ts:21:    "UPDATE task_events SET status = 'completed' WHERE id = ?"
+PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:3521:./scripts_backup/scripts/agents/cade-delegation-watcher.ts:33:    "SELECT id, description FROM task_events WHERE event_type = 'delegation' AND status = 'pending'"
+PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:4184:./snapshots/20251114-114821/scripts/agents/cade-delegation-watcher.ts:21:    "UPDATE task_events SET status = 'completed' WHERE id = ?"
+PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:4185:./snapshots/20251114-114821/scripts/agents/cade-delegation-watcher.ts:33:    "SELECT id, description FROM task_events WHERE event_type = 'delegation' AND status = 'pending'"
+PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:6831:./scripts_backup_2/agents/cade-delegation-watcher.ts:21:    "UPDATE task_events SET status = 'completed' WHERE id = ?"
+PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:6832:./scripts_backup_2/agents/cade-delegation-watcher.ts:33:    "SELECT id, description FROM task_events WHERE event_type = 'delegation' AND status = 'pending'"
+PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:7021:./scripts/agents/cade-delegation-watcher.ts:21:    "UPDATE task_events SET status = 'completed' WHERE id = ?"
+PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:7022:./scripts/agents/cade-delegation-watcher.ts:33:    "SELECT id, description FROM task_events WHERE event_type = 'delegation' AND status = 'pending'"
+PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:8747:./PHASE62B_TASKS_QUEUED_DISCOVERY_OUTPUT.txt:1189:./snapshots/20251114-114821/scripts/agents/cade-delegation-watcher.ts:33:    "SELECT id, description FROM task_events WHERE event_type = 'delegation' AND status = 'pending'"
+PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:8753:./PHASE62B_TASKS_QUEUED_DISCOVERY_OUTPUT.txt:1197:./snapshots/20251114-114707/scripts/agents/cade-delegation-watcher.ts:33:    "SELECT id, description FROM task_events WHERE event_type = 'delegation' AND status = 'pending'"
+PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:8778:./PHASE62B_TASKS_QUEUED_DISCOVERY_OUTPUT.txt:1248:./scripts_backup/agents/cade-delegation-watcher.ts:33:    "SELECT id, description FROM task_events WHERE event_type = 'delegation' AND status = 'pending'"
+PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:8782:./PHASE62B_TASKS_QUEUED_DISCOVERY_OUTPUT.txt:1254:./scripts_backup/scripts/agents/cade-delegation-watcher.ts:33:    "SELECT id, description FROM task_events WHERE event_type = 'delegation' AND status = 'pending'"
+PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:8837:./PHASE62B_TASKS_QUEUED_DISCOVERY_OUTPUT.txt:1374:./cade-delegation-watcher.ts:33:    "SELECT id, description FROM task_events WHERE event_type = 'delegation' AND status = 'pending'"
+PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:8850:./PHASE62B_TASKS_QUEUED_DISCOVERY_OUTPUT.txt:1430:./scripts/agents/cade-delegation-watcher.ts:33:    "SELECT id, description FROM task_events WHERE event_type = 'delegation' AND status = 'pending'"
+PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:8877:./PHASE62B_TASKS_QUEUED_DISCOVERY_OUTPUT.txt:1524:./ts-backup/cade-delegation-watcher.ts:33:    "SELECT id, description FROM task_events WHERE event_type = 'delegation' AND status = 'pending'"
+PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:8883:./PHASE62B_TASKS_QUEUED_DISCOVERY_OUTPUT.txt:1539:./scripts_backup_2/agents/cade-delegation-watcher.ts:33:    "SELECT id, description FROM task_events WHERE event_type = 'delegation' AND status = 'pending'"
+PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:9343:./ts-backup/cade-delegation-watcher.ts:21:    "UPDATE task_events SET status = 'completed' WHERE id = ?"
+PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:9344:./ts-backup/cade-delegation-watcher.ts:33:    "SELECT id, description FROM task_events WHERE event_type = 'delegation' AND status = 'pending'"
+PHASE62B_TASKS_QUEUED_DISCOVERY_OUTPUT.txt:49:./snapshots/20251114-114821/scripts/agents/cade-delegation-watcher.ts
+PHASE62B_TASKS_QUEUED_DISCOVERY_OUTPUT.txt:181:./snapshots/20251114-114707/scripts/agents/cade-delegation-watcher.ts
+PHASE62B_TASKS_QUEUED_DISCOVERY_OUTPUT.txt:1188:./snapshots/20251114-114821/scripts/agents/cade-delegation-watcher.ts:32:  const pending = sqlite.prepare(
+PHASE62B_TASKS_QUEUED_DISCOVERY_OUTPUT.txt:1189:./snapshots/20251114-114821/scripts/agents/cade-delegation-watcher.ts:33:    "SELECT id, description FROM task_events WHERE event_type = 'delegation' AND status = 'pending'"
+PHASE62B_TASKS_QUEUED_DISCOVERY_OUTPUT.txt:1190:./snapshots/20251114-114821/scripts/agents/cade-delegation-watcher.ts:36:  for (const task of pending) executeDelegation(task);
+PHASE62B_TASKS_QUEUED_DISCOVERY_OUTPUT.txt:1196:./snapshots/20251114-114707/scripts/agents/cade-delegation-watcher.ts:32:  const pending = sqlite.prepare(
+PHASE62B_TASKS_QUEUED_DISCOVERY_OUTPUT.txt:1197:./snapshots/20251114-114707/scripts/agents/cade-delegation-watcher.ts:33:    "SELECT id, description FROM task_events WHERE event_type = 'delegation' AND status = 'pending'"
+PHASE62B_TASKS_QUEUED_DISCOVERY_OUTPUT.txt:1198:./snapshots/20251114-114707/scripts/agents/cade-delegation-watcher.ts:36:  for (const task of pending) executeDelegation(task);
+PHASE62B_TASKS_QUEUED_DISCOVERY_OUTPUT.txt:1247:./scripts_backup/agents/cade-delegation-watcher.ts:32:  const pending = sqlite.prepare(
+PHASE62B_TASKS_QUEUED_DISCOVERY_OUTPUT.txt:1248:./scripts_backup/agents/cade-delegation-watcher.ts:33:    "SELECT id, description FROM task_events WHERE event_type = 'delegation' AND status = 'pending'"
+PHASE62B_TASKS_QUEUED_DISCOVERY_OUTPUT.txt:1249:./scripts_backup/agents/cade-delegation-watcher.ts:36:  for (const task of pending) executeDelegation(task);
+PHASE62B_TASKS_QUEUED_DISCOVERY_OUTPUT.txt:1253:./scripts_backup/scripts/agents/cade-delegation-watcher.ts:32:  const pending = sqlite.prepare(
+PHASE62B_TASKS_QUEUED_DISCOVERY_OUTPUT.txt:1254:./scripts_backup/scripts/agents/cade-delegation-watcher.ts:33:    "SELECT id, description FROM task_events WHERE event_type = 'delegation' AND status = 'pending'"
+PHASE62B_TASKS_QUEUED_DISCOVERY_OUTPUT.txt:1255:./scripts_backup/scripts/agents/cade-delegation-watcher.ts:36:  for (const task of pending) executeDelegation(task);
+PHASE62B_TASKS_QUEUED_DISCOVERY_OUTPUT.txt:1373:./cade-delegation-watcher.ts:32:  const pending = sqlite.prepare(
+PHASE62B_TASKS_QUEUED_DISCOVERY_OUTPUT.txt:1374:./cade-delegation-watcher.ts:33:    "SELECT id, description FROM task_events WHERE event_type = 'delegation' AND status = 'pending'"
+PHASE62B_TASKS_QUEUED_DISCOVERY_OUTPUT.txt:1375:./cade-delegation-watcher.ts:36:  for (const task of pending) executeDelegation(task);
+PHASE62B_TASKS_QUEUED_DISCOVERY_OUTPUT.txt:1429:./scripts/agents/cade-delegation-watcher.ts:32:  const pending = sqlite.prepare(
+PHASE62B_TASKS_QUEUED_DISCOVERY_OUTPUT.txt:1430:./scripts/agents/cade-delegation-watcher.ts:33:    "SELECT id, description FROM task_events WHERE event_type = 'delegation' AND status = 'pending'"
+PHASE62B_TASKS_QUEUED_DISCOVERY_OUTPUT.txt:1431:./scripts/agents/cade-delegation-watcher.ts:36:  for (const task of pending) executeDelegation(task);
+PHASE62B_TASKS_QUEUED_DISCOVERY_OUTPUT.txt:1523:./ts-backup/cade-delegation-watcher.ts:32:  const pending = sqlite.prepare(
+PHASE62B_TASKS_QUEUED_DISCOVERY_OUTPUT.txt:1524:./ts-backup/cade-delegation-watcher.ts:33:    "SELECT id, description FROM task_events WHERE event_type = 'delegation' AND status = 'pending'"
+PHASE62B_TASKS_QUEUED_DISCOVERY_OUTPUT.txt:1525:./ts-backup/cade-delegation-watcher.ts:36:  for (const task of pending) executeDelegation(task);
+PHASE62B_TASKS_QUEUED_DISCOVERY_OUTPUT.txt:1538:./scripts_backup_2/agents/cade-delegation-watcher.ts:32:  const pending = sqlite.prepare(
+PHASE62B_TASKS_QUEUED_DISCOVERY_OUTPUT.txt:1539:./scripts_backup_2/agents/cade-delegation-watcher.ts:33:    "SELECT id, description FROM task_events WHERE event_type = 'delegation' AND status = 'pending'"
+PHASE62B_TASKS_QUEUED_DISCOVERY_OUTPUT.txt:1540:./scripts_backup_2/agents/cade-delegation-watcher.ts:36:  for (const task of pending) executeDelegation(task);
+docs/contracts/CADE_RUNTIME_ARCHAEOLOGY_FINDINGS.md:26:- cade-delegation-watcher.ts
+docs/contracts/CADE_RUNTIME_ARCHAEOLOGY_FINDINGS.md:78:### cade-delegation-watcher.ts
+
+==================================================================
+TARGET: agent-to-cade
+==================================================================
+
+broken_eslint_files.txt:35:/Users/marcela-dev/Desktop/Motherboard_Systems_HQ/scripts/relay/agent-to-cade.ts
+broken_eslint_files.txt:44:/Users/marcela-dev/Desktop/Motherboard_Systems_HQ/src/scripts/relay/agent-to-cade.ts
+ACTIVE_CADE_RUNTIME_REFERENCE_AUDIT.py:46:    "agent-to-cade",
+PHASE62B_TASKS_QUEUED_DISCOVERY_OUTPUT.txt:74:./snapshots/20251114-114821/scripts/relay/agent-to-cade.ts
+PHASE62B_TASKS_QUEUED_DISCOVERY_OUTPUT.txt:206:./snapshots/20251114-114707/scripts/relay/agent-to-cade.ts
+snapshots/20251114-114821/scripts/agents_full/matilda.ts.bak:1:import { delegateToCadeV2 } from "../relay/agent-to-cade.ts";
+snapshots/20251114-114707/scripts/agents_full/matilda.ts.bak:1:import { delegateToCadeV2 } from "../relay/agent-to-cade.ts";
+scripts_backup/agents_full/matilda.ts.bak:1:import { delegateToCadeV2 } from "../relay/agent-to-cade.ts";
+scripts_backup/scripts/agents_full/matilda.ts.bak:1:import { delegateToCadeV2 } from "../relay/agent-to-cade.ts";
+docs/contracts/CADE_RUNTIME_ARCHAEOLOGY_FINDINGS.md:28:- agent-to-cade.ts
+docs/contracts/CADE_RUNTIME_ARCHAEOLOGY_FINDINGS.md:90:### agent-to-cade.ts
+scripts/agents_full/matilda.ts.bak:1:import { delegateToCadeV2 } from "../relay/agent-to-cade.ts";
+
+==================================================================
+TARGET: routeTask
+==================================================================
+
+ACTIVE_CADE_RUNTIME_REFERENCE_AUDIT.py:48:    "routeTask",
+taskRouter.ts:5:export async function routeTask(task: any): Promise<string> {
+launch-cade.ts:5:import { routeTask } from "../handlers/taskRouter";
+launch-cade.ts:14:    const result = await routeTask(state);
+PHASE80_2_DEEP_DASHBOARD_INVENTORY_20260317T183521Z.md:347:./dist/scripts/_local/agent-runtime/launch-cade.js:4:import { routeTask } from "../handlers/taskRouter";
+PHASE80_2_DEEP_DASHBOARD_INVENTORY_20260317T183521Z.md:370:./snapshots/20251114-114821/scripts/_local/agent-runtime/launch-cade.ts:5:import { routeTask } from "../handlers/taskRouter";
+PHASE80_2_DEEP_DASHBOARD_INVENTORY_20260317T183521Z.md:425:./snapshots/20251114-114707/scripts/_local/agent-runtime/launch-cade.ts:5:import { routeTask } from "../handlers/taskRouter";
+PHASE80_2_DEEP_DASHBOARD_INVENTORY_20260317T183521Z.md:1421:./server/orchestration/router.ts:36:export function routeTask(ctx: PolicyContext, req: RouteRequest, agents: AgentSnapshot[]): RouteResult {
+PHASE80_2_DEEP_DASHBOARD_INVENTORY_20260317T183521Z.md:1450:./scripts_backup/scripts/_local/agent-runtime/launch-cade.ts:5:import { routeTask } from "../handlers/taskRouter";
+PHASE80_2_DEEP_DASHBOARD_INVENTORY_20260317T183521Z.md:1454:./scripts_backup/_local/agent-runtime/launch-cade.ts:5:import { routeTask } from "../handlers/taskRouter";
+PHASE80_2_DEEP_DASHBOARD_INVENTORY_20260317T183521Z.md:1508:./launch-cade.ts:5:import { routeTask } from "../handlers/taskRouter";
+PHASE80_2_DEEP_DASHBOARD_INVENTORY_20260317T183521Z.md:1529:./scripts/_local/agent-runtime/launch-cade.ts:5:import { routeTask } from "../handlers/taskRouter";
+PHASE80_2_DEEP_DASHBOARD_INVENTORY_20260317T183521Z.md:1560:./ts-backup/launch-cade.ts:5:import { routeTask } from "../handlers/taskRouter";
+PHASE80_2_DEEP_DASHBOARD_INVENTORY_20260317T183521Z.md:1649:./scripts_backup_2/_local/agent-runtime/launch-cade.ts:5:import { routeTask } from "../handlers/taskRouter";
+snapshots/20251114-114821/scripts/_local/agent-runtime/launch-cade.ts:5:import { routeTask } from "../handlers/taskRouter";
+snapshots/20251114-114821/scripts/_local/agent-runtime/launch-cade.ts:14:    const result = await routeTask(state);
+snapshots/20251114-114821/scripts/_local/handlers/taskRouter.ts:5:export async function routeTask(task: any): Promise<string> {
+snapshots/20251114-114707/scripts/_local/agent-runtime/launch-cade.ts:5:import { routeTask } from "../handlers/taskRouter";
+snapshots/20251114-114707/scripts/_local/agent-runtime/launch-cade.ts:14:    const result = await routeTask(state);
+snapshots/20251114-114707/scripts/_local/handlers/taskRouter.ts:5:export async function routeTask(task: any): Promise<string> {
+server/orchestration/router.ts:36:export function routeTask(ctx: PolicyContext, req: RouteRequest, agents: AgentSnapshot[]): RouteResult {
+server/orchestration/router.test.ts:3:import { routeTask, type AgentSnapshot } from "./router";
+server/orchestration/router.test.ts:14:  const r = routeTask(ctxPause, { taskId: "t1", kind: "demo", requiredCaps: [] }, [agent("cade", true, false, [])]);
+server/orchestration/router.test.ts:24:  const r = routeTask(ctxNormal, { taskId: "t1", kind: "db_task", requiredCaps: ["db"] }, agents);
+server/orchestration/router.test.ts:31:  const r = routeTask(ctxNormal, { taskId: "t1", kind: "db_task", requiredCaps: ["db"] }, agents);
+scripts_backup/scripts/_local/agent-runtime/launch-cade.ts:5:import { routeTask } from "../handlers/taskRouter";
+scripts_backup/scripts/_local/agent-runtime/launch-cade.ts:14:    const result = await routeTask(state);
+scripts_backup/scripts/_local/handlers/taskRouter.ts:5:export async function routeTask(task: any): Promise<string> {
+scripts_backup/_local/agent-runtime/launch-cade.ts:5:import { routeTask } from "../handlers/taskRouter";
+scripts_backup/_local/agent-runtime/launch-cade.ts:14:    const result = await routeTask(state);
+scripts_backup/_local/handlers/taskRouter.ts:5:export async function routeTask(task: any): Promise<string> {
+docs/contracts/CADE_RUNTIME_ARCHAEOLOGY_FINDINGS.md:72:- Routes assigned task through `routeTask`
+scripts/_local/agent-runtime/launch-cade.ts:5:import { routeTask } from "../handlers/taskRouter";
+scripts/_local/agent-runtime/launch-cade.ts:14:    const result = await routeTask(state);
+scripts/_local/handlers/taskRouter.ts:5:export async function routeTask(task: any): Promise<string> {
+ts-backup/taskRouter.ts:5:export async function routeTask(task: any): Promise<string> {
+ts-backup/launch-cade.ts:5:import { routeTask } from "../handlers/taskRouter";
+ts-backup/launch-cade.ts:14:    const result = await routeTask(state);
+
+==================================================================
+TARGET: createAgentRuntime
+==================================================================
+
+atlas.ts:2:import { createAgentRuntime } from "../mirror/agent";
+atlas.ts:10:createAgentRuntime(atlas);
+ACTIVE_CADE_RUNTIME_REFERENCE_AUDIT.py:50:    "createAgentRuntime",
+agent.ts:12:export function createAgentRuntime(agent: any) {
+PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:2688:./import_check.log:29:scripts/mirror/agent.ts:1:/** * Mirror Agent stub with HTTP heartbeat on fixed ports + all-path response */import http from "http";const PORT_MAP: Record<string, number> = {  cade: 3012,  effie: 3013,};export function createAgentRuntime(agent: any) {  const name = agent?.name?.toLowerCase() || "agent";  const port = PORT_MAP[name] || 0;  console.log(`Mirror stub: Launching agent runtime for ${name} on port ${port || "no-port"}`);  // Heartbeat log to keep process alive  setInterval(() => {    console.log(` ${name} heartbeat...`);  }, 10000);  if (port) {    http.createServer((req, res) => {      // Respond OK for any path      res.writeHead(200, { "Content-Type": "application/json" });      res.end(JSON.stringify({ status: "online", agent: name, path: req.url }));    }).listen(port, () => {      console.log(` ${name} stub server listening on port ${port}`);    });  }}
+launch-cade.ts:2:import { createAgentRuntime } from "../../mirror/agent;
+launch-cade.ts:37:createAgentRuntime(cade);
+launch-effie.ts:2:import { createAgentRuntime } from "../../mirror/agent;
+launch-effie.ts:7:createAgentRuntime(effie);
+launch-matilda.ts:2:import { createAgentRuntime } from "../../../mirror/agent";
+launch-matilda.ts:5:createAgentRuntime(matilda);
+launch-atlas.ts:2:import { createAgentRuntime } from "../../../mirror/agent";
+launch-atlas.ts:5:createAgentRuntime(atlas);
+snapshots/20251114-114821/scripts/agents_backup_empty_20250805_1210/cade.ts.bak:2:import { createAgentRuntime } from "../../\1.ts";export const cade = { name: "Cade", port: 3012 };createAgentRuntime(cade);
+snapshots/20251114-114821/scripts/agents_backup_empty_20250805_1210/effie.ts.bak:2:import { createAgentRuntime } from "../../\1.ts";export const effie = { name: "Effie", port: 3013 };createAgentRuntime(effie);
+snapshots/20251114-114821/scripts/_local/agent-runtime/launch-cade.ts:2:import { createAgentRuntime } from "../../mirror/agent.mjs";
+snapshots/20251114-114821/scripts/_local/agent-runtime/launch-cade.ts:37:createAgentRuntime(cade);
+snapshots/20251114-114821/scripts/_local/agent-runtime/launch-effie.ts:2:import { createAgentRuntime } from "../../mirror/agent.mjs";
+snapshots/20251114-114821/scripts/_local/agent-runtime/launch-effie.ts:7:createAgentRuntime(effie);
+snapshots/20251114-114821/scripts/_local/agent-runtime/launch-matilda.ts:2:import { createAgentRuntime } from "../../mirror/agent";
+snapshots/20251114-114821/scripts/_local/agent-runtime/launch-matilda.ts:5:createAgentRuntime(matilda);
+snapshots/20251114-114821/scripts/mirror/agent.mjs:12:export function createAgentRuntime(agent) {
+snapshots/20251114-114707/scripts/agents_backup_empty_20250805_1210/cade.ts.bak:2:import { createAgentRuntime } from "../../\1.ts";export const cade = { name: "Cade", port: 3012 };createAgentRuntime(cade);
+snapshots/20251114-114707/scripts/agents_backup_empty_20250805_1210/effie.ts.bak:2:import { createAgentRuntime } from "../../\1.ts";export const effie = { name: "Effie", port: 3013 };createAgentRuntime(effie);
+snapshots/20251114-114707/scripts/_local/agent-runtime/launch-cade.ts:2:import { createAgentRuntime } from "../../mirror/agent.mjs";
+snapshots/20251114-114707/scripts/_local/agent-runtime/launch-cade.ts:37:createAgentRuntime(cade);
+snapshots/20251114-114707/scripts/_local/agent-runtime/launch-effie.ts:2:import { createAgentRuntime } from "../../mirror/agent.mjs";
+snapshots/20251114-114707/scripts/_local/agent-runtime/launch-effie.ts:7:createAgentRuntime(effie);
+snapshots/20251114-114707/scripts/_local/agent-runtime/launch-matilda.ts:2:import { createAgentRuntime } from "../../mirror/agent";
+snapshots/20251114-114707/scripts/_local/agent-runtime/launch-matilda.ts:5:createAgentRuntime(matilda);
+snapshots/20251114-114707/scripts/mirror/agent.mjs:12:export function createAgentRuntime(agent) {
+agents/matilda.ts~HEAD:2:import { createAgentRuntime } from "../mirror/agent";
+agents/matilda.ts~HEAD:10:createAgentRuntime(matilda);
+agents/atlas.ts:2:import { createAgentRuntime } from "../mirror/agent";
+agents/atlas.ts:10:createAgentRuntime(atlas);
+scripts_backup/run-create-atlas.ts:29:import { createAgentRuntime } from "../mirror/agent";
+scripts_backup/run-create-atlas.ts:35:createAgentRuntime(atlas);
+scripts_backup/agents_backup_empty_20250805_1210/cade.ts.bak:2:import { createAgentRuntime } from "../../\1.ts";export const cade = { name: "Cade", port: 3012 };createAgentRuntime(cade);
+scripts_backup/agents_backup_empty_20250805_1210/effie.ts.bak:2:import { createAgentRuntime } from "../../\1.ts";export const effie = { name: "Effie", port: 3013 };createAgentRuntime(effie);
+scripts_backup/scripts/run-create-atlas.ts:29:import { createAgentRuntime } from "../mirror/agent";
+scripts_backup/scripts/run-create-atlas.ts:35:createAgentRuntime(atlas);
+scripts_backup/scripts/agents_backup_empty_20250805_1210/cade.ts.bak:2:import { createAgentRuntime } from "../../\1.ts";export const cade = { name: "Cade", port: 3012 };createAgentRuntime(cade);
+scripts_backup/scripts/agents_backup_empty_20250805_1210/effie.ts.bak:2:import { createAgentRuntime } from "../../\1.ts";export const effie = { name: "Effie", port: 3013 };createAgentRuntime(effie);
+scripts_backup/scripts/_local/agent-runtime/launch-cade.ts:2:import { createAgentRuntime } from "../../mirror/agent";
+scripts_backup/scripts/_local/agent-runtime/launch-cade.ts:37:createAgentRuntime(cade);
+scripts_backup/scripts/_local/agent-runtime/launch-effie.ts:2:import { createAgentRuntime } from "../../mirror/agent";
+scripts_backup/scripts/_local/agent-runtime/launch-effie.ts:7:createAgentRuntime(effie);
+scripts_backup/scripts/_local/agent-runtime/launch-matilda.ts:2:import { createAgentRuntime } from "../../../mirror/agent";
+scripts_backup/scripts/_local/agent-runtime/launch-matilda.ts:5:createAgentRuntime(matilda);
+scripts_backup/scripts/_local/agent-runtime/launch-atlas.ts:2:import { createAgentRuntime } from "../../../mirror/agent";
+scripts_backup/scripts/_local/agent-runtime/launch-atlas.ts:5:createAgentRuntime(atlas);
+scripts_backup/scripts/mirror/agent.ts:1:export function createAgentRuntime(agent: any) {
+scripts_backup/scripts/mirror/agent.mjs:12:export function createAgentRuntime(agent) {
+scripts_backup/_local/agent-runtime/launch-cade.ts:2:import { createAgentRuntime } from "../../mirror/agent";
+scripts_backup/_local/agent-runtime/launch-cade.ts:37:createAgentRuntime(cade);
+scripts_backup/_local/agent-runtime/launch-effie.ts:2:import { createAgentRuntime } from "../../mirror/agent";
+scripts_backup/_local/agent-runtime/launch-effie.ts:7:createAgentRuntime(effie);
+scripts_backup/_local/agent-runtime/launch-matilda.ts:2:import { createAgentRuntime } from "../../../mirror/agent";
+scripts_backup/_local/agent-runtime/launch-matilda.ts:5:createAgentRuntime(matilda);
+scripts_backup/_local/agent-runtime/launch-atlas.ts:2:import { createAgentRuntime } from "../../../mirror/agent";
+scripts_backup/_local/agent-runtime/launch-atlas.ts:5:createAgentRuntime(atlas);
+scripts_backup/mirror/agent.ts:1:export function createAgentRuntime(agent: any) {
+scripts_backup/mirror/agent.mjs:12:export function createAgentRuntime(agent) {
+scripts/run-create-atlas.ts:29:import { createAgentRuntime } from "../mirror/agent";
+scripts/run-create-atlas.ts:35:createAgentRuntime(atlas);
+scripts/launch-matilda.ts:2:import { createAgentRuntime } from "../../../mirror/agent";
+scripts/launch-matilda.ts:5:createAgentRuntime(matilda);
+scripts/agents_backup_empty_20250805_1210/cade.ts.bak:2:import { createAgentRuntime } from "../../\1.ts";export const cade = { name: "Cade", port: 3012 };createAgentRuntime(cade);
+scripts/agents_backup_empty_20250805_1210/effie.ts.bak:2:import { createAgentRuntime } from "../../\1.ts";export const effie = { name: "Effie", port: 3013 };createAgentRuntime(effie);
+scripts/_local/agent-runtime/launch-matilda.mjs:1:import { createAgentRuntime } from "../mirror/agent.mjs";  # adjust path relative to launch-matilda.mjs
+scripts/_local/agent-runtime/launch-matilda.mjs:4:createAgentRuntime(matilda);
+scripts/_local/agent-runtime/launch-cade.ts:2:import { createAgentRuntime } from "../../mirror/agent";
+scripts/_local/agent-runtime/launch-cade.ts:37:createAgentRuntime(cade);
+scripts/_local/agent-runtime/launch-effie.ts:2:import { createAgentRuntime } from "../../mirror/agent";
+scripts/_local/agent-runtime/launch-effie.ts:7:createAgentRuntime(effie);
+scripts/_local/agent-runtime/launch-matilda.ts:2:import { createAgentRuntime } from "../../../mirror/agent";
+scripts/_local/agent-runtime/launch-matilda.ts:5:createAgentRuntime(matilda);
+scripts/_local/agent-runtime/launch-atlas.ts:2:import { createAgentRuntime } from "../../../mirror/agent";
+scripts/_local/agent-runtime/launch-atlas.ts:5:createAgentRuntime(atlas);
+scripts/mirror/agent.ts:1:export function createAgentRuntime(agent: any) {
+scripts/mirror/agent.mjs:12:export function createAgentRuntime(agent) {
+ts-backup/atlas.ts:2:import { createAgentRuntime } from "../mirror/agent";
+ts-backup/atlas.ts:10:createAgentRuntime(atlas);
+ts-backup/agent.ts:12:export function createAgentRuntime(agent: any) {
+ts-backup/launch-cade.ts:2:import { createAgentRuntime } from "../../mirror/agent;
+ts-backup/launch-cade.ts:37:createAgentRuntime(cade);
+ts-backup/launch-effie.ts:2:import { createAgentRuntime } from "../../mirror/agent;
+ts-backup/launch-effie.ts:7:createAgentRuntime(effie);
+ts-backup/launch-matilda.ts:2:import { createAgentRuntime } from "../../../mirror/agent";
+ts-backup/launch-matilda.ts:5:createAgentRuntime(matilda);
+ts-backup/launch-atlas.ts:2:import { createAgentRuntime } from "../../../mirror/agent";
+ts-backup/launch-atlas.ts:5:createAgentRuntime(atlas);
+mirror/agent.ts:12:export function createAgentRuntime(agent: any) {
+
+==================================================================
+TARGET: run_shell
+==================================================================
+
+cade_task_processor_clean.ts:40:    if (task.status === "Pending" && task.type === "run_shell") {
+ACTIVE_CADE_RUNTIME_REFERENCE_AUDIT.py:52:    "run_shell",
+PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:203:./cade_task_processor_clean.ts:40:    if (task.status === "Pending" && task.type === "run_shell") {
+PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:980:./snapshots/20251114-114707/scripts/_local/agent-runtime/utils/cade_task_processor.ts:40:    if (task.status === "Pending" && task.agent === "Cade" && task.type === "run_shell") {
+PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:1178:./PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:203:./cade_task_processor_clean.ts:40:    if (task.status === "Pending" && task.type === "run_shell") {
+PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:1775:./snapshots/20251114-114707/scripts/_local/agent-runtime/utils/effie_task_processor.ts:41:    if (task.status === "Pending" && task.agent === "Effie" && task.type === "run_shell") {
+PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:1838:./snapshots/20251114-114707/scripts/_local/agent-runtime/utils/cade_task_processor_clean.ts:40:    if (task.status === "Pending" && task.type === "run_shell") {
+PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:2128:./effie_task_processor.ts:41:    if (task.status === "Pending" && task.agent === "Effie" && task.type === "run_shell") {
+PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:2883:./scripts_backup/_local/agent-runtime/utils/cade_task_processor.ts:40:    if (task.status === "Pending" && task.agent === "Cade" && task.type === "run_shell") {
+PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:2952:./scripts_backup/_local/agent-runtime/utils/effie_task_processor.ts:41:    if (task.status === "Pending" && task.agent === "Effie" && task.type === "run_shell") {
+PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:2981:./scripts_backup/_local/agent-runtime/utils/cade_task_processor_clean.ts:40:    if (task.status === "Pending" && task.type === "run_shell") {
+PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:3009:./snapshots/20251114-114821/scripts/_local/agent-runtime/utils/cade_task_processor.ts:40:    if (task.status === "Pending" && task.agent === "Cade" && task.type === "run_shell") {
+PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:3035:./snapshots/20251114-114821/scripts/_local/agent-runtime/utils/effie_task_processor.ts:41:    if (task.status === "Pending" && task.agent === "Effie" && task.type === "run_shell") {
+PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:3125:./snapshots/20251114-114821/scripts/_local/agent-runtime/utils/cade_task_processor_clean.ts:40:    if (task.status === "Pending" && task.type === "run_shell") {
+PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:3384:./scripts_backup_2/_local/agent-runtime/utils/cade_task_processor.ts:40:    if (task.status === "Pending" && task.agent === "Cade" && task.type === "run_shell") {
+PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:3459:./scripts_backup_2/_local/agent-runtime/utils/effie_task_processor.ts:41:    if (task.status === "Pending" && task.agent === "Effie" && task.type === "run_shell") {
+PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:3469:./scripts_backup_2/_local/agent-runtime/utils/cade_task_processor_clean.ts:40:    if (task.status === "Pending" && task.type === "run_shell") {
+PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:3647:./scripts_backup/scripts/_local/agent-runtime/utils/cade_task_processor.ts:40:    if (task.status === "Pending" && task.agent === "Cade" && task.type === "run_shell") {
+PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:3690:./scripts_backup/scripts/_local/agent-runtime/utils/effie_task_processor.ts:41:    if (task.status === "Pending" && task.agent === "Effie" && task.type === "run_shell") {
+PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:3708:./scripts_backup/scripts/_local/agent-runtime/utils/cade_task_processor_clean.ts:40:    if (task.status === "Pending" && task.type === "run_shell") {
+PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:8125:./scripts/_local/agent-runtime/utils/cade_task_processor.ts:40:    if (task.status === "Pending" && task.agent === "Cade" && task.type === "run_shell") {
+PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:8176:./scripts/_local/agent-runtime/utils/cade_task_processor_clean.ts:40:    if (task.status === "Pending" && task.type === "run_shell") {
+PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:8201:./scripts/_local/agent-runtime/utils/effie_task_processor.ts:41:    if (task.status === "Pending" && task.agent === "Effie" && task.type === "run_shell") {
+PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:8574:./cade_task_processor.ts:40:    if (task.status === "Pending" && task.agent === "Cade" && task.type === "run_shell") {
+PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:8934:./PHASE62B_TASKS_QUEUED_DISCOVERY_OUTPUT.txt:1741:40:    if (task.status === "Pending" && task.type === "run_shell") {
+PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:8963:./PHASE62B_TASKS_QUEUED_DISCOVERY_OUTPUT.txt:1800:40:    if (task.status === "Pending" && task.type === "run_shell") {
+PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:8966:./PHASE62B_TASKS_QUEUED_DISCOVERY_OUTPUT.txt:1806:41:    if (task.status === "Pending" && task.agent === "Effie" && task.type === "run_shell") {
+PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:8972:./PHASE62B_TASKS_QUEUED_DISCOVERY_OUTPUT.txt:1818:40:    if (task.status === "Pending" && task.agent === "Cade" && task.type === "run_shell") {
+PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:8992:./PHASE62B_TASKS_QUEUED_DISCOVERY_OUTPUT.txt:1862:40:    if (task.status === "Pending" && task.type === "run_shell") {
+PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:8995:./PHASE62B_TASKS_QUEUED_DISCOVERY_OUTPUT.txt:1868:41:    if (task.status === "Pending" && task.agent === "Effie" && task.type === "run_shell") {
+PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:9001:./PHASE62B_TASKS_QUEUED_DISCOVERY_OUTPUT.txt:1880:40:    if (task.status === "Pending" && task.agent === "Cade" && task.type === "run_shell") {
+PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:9009:./PHASE62B_TASKS_QUEUED_DISCOVERY_OUTPUT.txt:1903:41:    if (task.status === "Pending" && task.agent === "Effie" && task.type === "run_shell") {
+PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:9029:./PHASE62B_TASKS_QUEUED_DISCOVERY_OUTPUT.txt:1960:40:    if (task.status === "Pending" && task.type === "run_shell") {
+PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:9032:./PHASE62B_TASKS_QUEUED_DISCOVERY_OUTPUT.txt:1966:41:    if (task.status === "Pending" && task.agent === "Effie" && task.type === "run_shell") {
+PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:9038:./PHASE62B_TASKS_QUEUED_DISCOVERY_OUTPUT.txt:1978:40:    if (task.status === "Pending" && task.agent === "Cade" && task.type === "run_shell") {
+PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:9043:./PHASE62B_TASKS_QUEUED_DISCOVERY_OUTPUT.txt:1993:40:    if (task.status === "Pending" && task.type === "run_shell") {
+PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:9046:./PHASE62B_TASKS_QUEUED_DISCOVERY_OUTPUT.txt:1999:41:    if (task.status === "Pending" && task.agent === "Effie" && task.type === "run_shell") {
+PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:9052:./PHASE62B_TASKS_QUEUED_DISCOVERY_OUTPUT.txt:2011:40:    if (task.status === "Pending" && task.agent === "Cade" && task.type === "run_shell") {
+PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:9170:./PHASE62B_TASKS_QUEUED_DISCOVERY_OUTPUT.txt:2212:40:    if (task.status === "Pending" && task.type === "run_shell") {
+PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:9173:./PHASE62B_TASKS_QUEUED_DISCOVERY_OUTPUT.txt:2218:41:    if (task.status === "Pending" && task.agent === "Effie" && task.type === "run_shell") {
+PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:9176:./PHASE62B_TASKS_QUEUED_DISCOVERY_OUTPUT.txt:2224:40:    if (task.status === "Pending" && task.agent === "Cade" && task.type === "run_shell") {
+PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:9181:./PHASE62B_TASKS_QUEUED_DISCOVERY_OUTPUT.txt:2246:40:    if (task.status === "Pending" && task.agent === "Cade" && task.type === "run_shell") {
+PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:9184:./PHASE62B_TASKS_QUEUED_DISCOVERY_OUTPUT.txt:2252:40:    if (task.status === "Pending" && task.type === "run_shell") {
+PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:9187:./PHASE62B_TASKS_QUEUED_DISCOVERY_OUTPUT.txt:2258:41:    if (task.status === "Pending" && task.agent === "Effie" && task.type === "run_shell") {
+PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:9195:./PHASE62B_TASKS_QUEUED_DISCOVERY_OUTPUT.txt:2274:40:    if (task.status === "Pending" && task.agent === "Cade" && task.type === "run_shell") {
+PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:9204:./PHASE62B_TASKS_QUEUED_DISCOVERY_OUTPUT.txt:2300:40:    if (task.status === "Pending" && task.type === "run_shell") {
+PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:9207:./PHASE62B_TASKS_QUEUED_DISCOVERY_OUTPUT.txt:2306:41:    if (task.status === "Pending" && task.agent === "Effie" && task.type === "run_shell") {
+PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:9213:./PHASE62B_TASKS_QUEUED_DISCOVERY_OUTPUT.txt:2318:40:    if (task.status === "Pending" && task.agent === "Cade" && task.type === "run_shell") {
+PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:9225:./ts-backup/effie_task_processor.ts:41:    if (task.status === "Pending" && task.agent === "Effie" && task.type === "run_shell") {
+PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:9286:./ts-backup/cade_task_processor_clean.ts:40:    if (task.status === "Pending" && task.type === "run_shell") {
+PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:9347:./ts-backup/cade_task_processor.ts:40:    if (task.status === "Pending" && task.agent === "Cade" && task.type === "run_shell") {
+effie_task_processor.ts:41:    if (task.status === "Pending" && task.agent === "Effie" && task.type === "run_shell") {
+cade_task_processor.bak.ts:41:          case "run_shell":
+handleTask.ts:38:  if (task.type === "run_shell") {
+submit-task.ts:7: *   tsx scripts/_local/agent-runtime/submit-task.ts run_shell --cmd "echo hello
+submit-task.ts:9: *   tsx scripts/_local/agent-runtime/submit-task.ts run_shell --id custom-123 --cmd "date
+submit-task.ts:52:    console.error('Usage: tsx scripts/_local/agent-runtime/submit-task.ts <run_shell|generate_file> [--id ID] [--cmd "echo hi"] [--path FILE --content TEXT]');
+submit-task.ts:60:  if (type === 'run_shell') {
+submit-task.ts:63:      console.error('run_shell requires --cmd "<command>"');
+submit-task.ts:81:    console.error(`Unknown task type "${type}". Supported: run_shell, generate_file`);
+PHASE62B_TASKS_QUEUED_DISCOVERY_OUTPUT.txt:1741:40:    if (task.status === "Pending" && task.type === "run_shell") {
+PHASE62B_TASKS_QUEUED_DISCOVERY_OUTPUT.txt:1800:40:    if (task.status === "Pending" && task.type === "run_shell") {
+PHASE62B_TASKS_QUEUED_DISCOVERY_OUTPUT.txt:1806:41:    if (task.status === "Pending" && task.agent === "Effie" && task.type === "run_shell") {
+PHASE62B_TASKS_QUEUED_DISCOVERY_OUTPUT.txt:1818:40:    if (task.status === "Pending" && task.agent === "Cade" && task.type === "run_shell") {
+PHASE62B_TASKS_QUEUED_DISCOVERY_OUTPUT.txt:1862:40:    if (task.status === "Pending" && task.type === "run_shell") {
+PHASE62B_TASKS_QUEUED_DISCOVERY_OUTPUT.txt:1868:41:    if (task.status === "Pending" && task.agent === "Effie" && task.type === "run_shell") {
+PHASE62B_TASKS_QUEUED_DISCOVERY_OUTPUT.txt:1880:40:    if (task.status === "Pending" && task.agent === "Cade" && task.type === "run_shell") {
+PHASE62B_TASKS_QUEUED_DISCOVERY_OUTPUT.txt:1903:41:    if (task.status === "Pending" && task.agent === "Effie" && task.type === "run_shell") {
+PHASE62B_TASKS_QUEUED_DISCOVERY_OUTPUT.txt:1960:40:    if (task.status === "Pending" && task.type === "run_shell") {
+PHASE62B_TASKS_QUEUED_DISCOVERY_OUTPUT.txt:1966:41:    if (task.status === "Pending" && task.agent === "Effie" && task.type === "run_shell") {
+PHASE62B_TASKS_QUEUED_DISCOVERY_OUTPUT.txt:1978:40:    if (task.status === "Pending" && task.agent === "Cade" && task.type === "run_shell") {
+PHASE62B_TASKS_QUEUED_DISCOVERY_OUTPUT.txt:1993:40:    if (task.status === "Pending" && task.type === "run_shell") {
+PHASE62B_TASKS_QUEUED_DISCOVERY_OUTPUT.txt:1999:41:    if (task.status === "Pending" && task.agent === "Effie" && task.type === "run_shell") {
+PHASE62B_TASKS_QUEUED_DISCOVERY_OUTPUT.txt:2011:40:    if (task.status === "Pending" && task.agent === "Cade" && task.type === "run_shell") {
+PHASE62B_TASKS_QUEUED_DISCOVERY_OUTPUT.txt:2212:40:    if (task.status === "Pending" && task.type === "run_shell") {
+PHASE62B_TASKS_QUEUED_DISCOVERY_OUTPUT.txt:2218:41:    if (task.status === "Pending" && task.agent === "Effie" && task.type === "run_shell") {
+PHASE62B_TASKS_QUEUED_DISCOVERY_OUTPUT.txt:2224:40:    if (task.status === "Pending" && task.agent === "Cade" && task.type === "run_shell") {
+PHASE62B_TASKS_QUEUED_DISCOVERY_OUTPUT.txt:2246:40:    if (task.status === "Pending" && task.agent === "Cade" && task.type === "run_shell") {
+PHASE62B_TASKS_QUEUED_DISCOVERY_OUTPUT.txt:2252:40:    if (task.status === "Pending" && task.type === "run_shell") {
+PHASE62B_TASKS_QUEUED_DISCOVERY_OUTPUT.txt:2258:41:    if (task.status === "Pending" && task.agent === "Effie" && task.type === "run_shell") {
+PHASE62B_TASKS_QUEUED_DISCOVERY_OUTPUT.txt:2274:40:    if (task.status === "Pending" && task.agent === "Cade" && task.type === "run_shell") {
+PHASE62B_TASKS_QUEUED_DISCOVERY_OUTPUT.txt:2300:40:    if (task.status === "Pending" && task.type === "run_shell") {
+PHASE62B_TASKS_QUEUED_DISCOVERY_OUTPUT.txt:2306:41:    if (task.status === "Pending" && task.agent === "Effie" && task.type === "run_shell") {
+PHASE62B_TASKS_QUEUED_DISCOVERY_OUTPUT.txt:2318:40:    if (task.status === "Pending" && task.agent === "Cade" && task.type === "run_shell") {
+cade_task_processor.ts:40:    if (task.status === "Pending" && task.agent === "Cade" && task.type === "run_shell") {
+archive/legacy_cade_helpers/cade_planner.cjs:44:    tasks.push({ type: 'run_shell', command: 'ls -la' });
+archive/old_tasks/cade_task_processor.old.txt:43:          case "run_shell":
+snapshots/20251114-114821/scripts/_local/agent-runtime/submit-task.ts:7: *   tsx scripts/_local/agent-runtime/submit-task.ts run_shell --cmd "echo hello
+snapshots/20251114-114821/scripts/_local/agent-runtime/submit-task.ts:9: *   tsx scripts/_local/agent-runtime/submit-task.ts run_shell --id custom-123 --cmd "date
+snapshots/20251114-114821/scripts/_local/agent-runtime/submit-task.ts:52:    console.error('Usage: tsx scripts/_local/agent-runtime/submit-task.ts <run_shell|generate_file> [--id ID] [--cmd "echo hi"] [--path FILE --content TEXT]');
+snapshots/20251114-114821/scripts/_local/agent-runtime/submit-task.ts:60:  if (type === 'run_shell') {
+snapshots/20251114-114821/scripts/_local/agent-runtime/submit-task.ts:63:      console.error('run_shell requires --cmd "<command>"');
+snapshots/20251114-114821/scripts/_local/agent-runtime/submit-task.ts:81:    console.error(`Unknown task type "${type}". Supported: run_shell, generate_file`);
+snapshots/20251114-114821/scripts/_local/agent-runtime/utils/cade_task_processor_clean.ts:40:    if (task.status === "Pending" && task.type === "run_shell") {
+snapshots/20251114-114821/scripts/_local/agent-runtime/utils/cade_task_processor.bak:43:          case "run_shell":
+snapshots/20251114-114821/scripts/_local/agent-runtime/utils/effie_task_processor.ts:41:    if (task.status === "Pending" && task.agent === "Effie" && task.type === "run_shell") {
+snapshots/20251114-114821/scripts/_local/agent-runtime/utils/cade_task_processor.bak.ts:41:          case "run_shell":
+snapshots/20251114-114821/scripts/_local/agent-runtime/utils/cade_task_processor.backup.txt:41:          case "run_shell":
+snapshots/20251114-114821/scripts/_local/agent-runtime/utils/cade_task_processor.ts:40:    if (task.status === "Pending" && task.agent === "Cade" && task.type === "run_shell") {
+snapshots/20251114-114821/scripts/_local/agent-runtime/handlers/handleTask.ts:38:  if (task.type === "run_shell") {
+snapshots/20251114-114707/scripts/_local/agent-runtime/submit-task.ts:7: *   tsx scripts/_local/agent-runtime/submit-task.ts run_shell --cmd "echo hello
+snapshots/20251114-114707/scripts/_local/agent-runtime/submit-task.ts:9: *   tsx scripts/_local/agent-runtime/submit-task.ts run_shell --id custom-123 --cmd "date
+snapshots/20251114-114707/scripts/_local/agent-runtime/submit-task.ts:52:    console.error('Usage: tsx scripts/_local/agent-runtime/submit-task.ts <run_shell|generate_file> [--id ID] [--cmd "echo hi"] [--path FILE --content TEXT]');
+snapshots/20251114-114707/scripts/_local/agent-runtime/submit-task.ts:60:  if (type === 'run_shell') {
+snapshots/20251114-114707/scripts/_local/agent-runtime/submit-task.ts:63:      console.error('run_shell requires --cmd "<command>"');
+snapshots/20251114-114707/scripts/_local/agent-runtime/submit-task.ts:81:    console.error(`Unknown task type "${type}". Supported: run_shell, generate_file`);
+snapshots/20251114-114707/scripts/_local/agent-runtime/utils/cade_task_processor_clean.ts:40:    if (task.status === "Pending" && task.type === "run_shell") {
+snapshots/20251114-114707/scripts/_local/agent-runtime/utils/cade_task_processor.bak:43:          case "run_shell":
+snapshots/20251114-114707/scripts/_local/agent-runtime/utils/effie_task_processor.ts:41:    if (task.status === "Pending" && task.agent === "Effie" && task.type === "run_shell") {
+snapshots/20251114-114707/scripts/_local/agent-runtime/utils/cade_task_processor.bak.ts:41:          case "run_shell":
+snapshots/20251114-114707/scripts/_local/agent-runtime/utils/cade_task_processor.backup.txt:41:          case "run_shell":
+snapshots/20251114-114707/scripts/_local/agent-runtime/utils/cade_task_processor.ts:40:    if (task.status === "Pending" && task.agent === "Cade" && task.type === "run_shell") {
+snapshots/20251114-114707/scripts/_local/agent-runtime/handlers/handleTask.ts:38:  if (task.type === "run_shell") {
+scripts_backup/scripts/_local/agent-runtime/submit-task.ts:7: *   tsx scripts/_local/agent-runtime/submit-task.ts run_shell --cmd "echo hello
+scripts_backup/scripts/_local/agent-runtime/submit-task.ts:9: *   tsx scripts/_local/agent-runtime/submit-task.ts run_shell --id custom-123 --cmd "date
+scripts_backup/scripts/_local/agent-runtime/submit-task.ts:52:    console.error('Usage: tsx scripts/_local/agent-runtime/submit-task.ts <run_shell|generate_file> [--id ID] [--cmd "echo hi"] [--path FILE --content TEXT]');
+scripts_backup/scripts/_local/agent-runtime/submit-task.ts:60:  if (type === 'run_shell') {
+scripts_backup/scripts/_local/agent-runtime/submit-task.ts:63:      console.error('run_shell requires --cmd "<command>"');
+scripts_backup/scripts/_local/agent-runtime/submit-task.ts:81:    console.error(`Unknown task type "${type}". Supported: run_shell, generate_file`);
+scripts_backup/scripts/_local/agent-runtime/utils/cade_task_processor_clean.ts:40:    if (task.status === "Pending" && task.type === "run_shell") {
+scripts_backup/scripts/_local/agent-runtime/utils/cade_task_processor.bak:43:          case "run_shell":
+scripts_backup/scripts/_local/agent-runtime/utils/effie_task_processor.ts:41:    if (task.status === "Pending" && task.agent === "Effie" && task.type === "run_shell") {
+scripts_backup/scripts/_local/agent-runtime/utils/cade_task_processor.bak.ts:41:          case "run_shell":
+scripts_backup/scripts/_local/agent-runtime/utils/cade_task_processor.backup.txt:41:          case "run_shell":
+scripts_backup/scripts/_local/agent-runtime/utils/cade_task_processor.ts:40:    if (task.status === "Pending" && task.agent === "Cade" && task.type === "run_shell") {
+scripts_backup/scripts/_local/agent-runtime/handlers/handleTask.ts:38:  if (task.type === "run_shell") {
+scripts_backup/_local/agent-runtime/submit-task.ts:7: *   tsx scripts/_local/agent-runtime/submit-task.ts run_shell --cmd "echo hello
+scripts_backup/_local/agent-runtime/submit-task.ts:9: *   tsx scripts/_local/agent-runtime/submit-task.ts run_shell --id custom-123 --cmd "date
+scripts_backup/_local/agent-runtime/submit-task.ts:52:    console.error('Usage: tsx scripts/_local/agent-runtime/submit-task.ts <run_shell|generate_file> [--id ID] [--cmd "echo hi"] [--path FILE --content TEXT]');
+scripts_backup/_local/agent-runtime/submit-task.ts:60:  if (type === 'run_shell') {
+scripts_backup/_local/agent-runtime/submit-task.ts:63:      console.error('run_shell requires --cmd "<command>"');
+scripts_backup/_local/agent-runtime/submit-task.ts:81:    console.error(`Unknown task type "${type}". Supported: run_shell, generate_file`);
+scripts_backup/_local/agent-runtime/utils/cade_task_processor_clean.ts:40:    if (task.status === "Pending" && task.type === "run_shell") {
+scripts_backup/_local/agent-runtime/utils/cade_task_processor.bak:43:          case "run_shell":
+scripts_backup/_local/agent-runtime/utils/effie_task_processor.ts:41:    if (task.status === "Pending" && task.agent === "Effie" && task.type === "run_shell") {
+scripts_backup/_local/agent-runtime/utils/cade_task_processor.bak.ts:41:          case "run_shell":
+scripts_backup/_local/agent-runtime/utils/cade_task_processor.backup.txt:41:          case "run_shell":
+scripts_backup/_local/agent-runtime/utils/cade_task_processor.ts:40:    if (task.status === "Pending" && task.agent === "Cade" && task.type === "run_shell") {
+scripts_backup/_local/agent-runtime/handlers/handleTask.ts:38:  if (task.type === "run_shell") {
+docs/contracts/CADE_RUNTIME_ARCHAEOLOGY_FINDINGS.md:42:- Executes tasks of type `run_shell`
+docs/contracts/CADE_RUNTIME_ARCHAEOLOGY_FINDINGS.md:52:- Executes pending `run_shell` tasks
+scripts/_local/agent-runtime/submit-task.ts:7: *   tsx scripts/_local/agent-runtime/submit-task.ts run_shell --cmd "echo hello
+scripts/_local/agent-runtime/submit-task.ts:9: *   tsx scripts/_local/agent-runtime/submit-task.ts run_shell --id custom-123 --cmd "date
+scripts/_local/agent-runtime/submit-task.ts:52:    console.error('Usage: tsx scripts/_local/agent-runtime/submit-task.ts <run_shell|generate_file> [--id ID] [--cmd "echo hi"] [--path FILE --content TEXT]');
+scripts/_local/agent-runtime/submit-task.ts:60:  if (type === 'run_shell') {
+scripts/_local/agent-runtime/submit-task.ts:63:      console.error('run_shell requires --cmd "<command>"');
+scripts/_local/agent-runtime/submit-task.ts:81:    console.error(`Unknown task type "${type}". Supported: run_shell, generate_file`);
+scripts/_local/agent-runtime/utils/cade_task_processor_clean.ts:40:    if (task.status === "Pending" && task.type === "run_shell") {
+scripts/_local/agent-runtime/utils/effie_task_processor.ts:41:    if (task.status === "Pending" && task.agent === "Effie" && task.type === "run_shell") {
+scripts/_local/agent-runtime/utils/cade_task_processor.backup.txt:41:          case "run_shell":
+scripts/_local/agent-runtime/utils/cade_task_processor.ts:40:    if (task.status === "Pending" && task.agent === "Cade" && task.type === "run_shell") {
+scripts/_local/agent-runtime/handlers/handleTask.ts:38:  if (task.type === "run_shell") {
+ts-backup/cade_task_processor_clean.ts:40:    if (task.status === "Pending" && task.type === "run_shell") {
+ts-backup/effie_task_processor.ts:41:    if (task.status === "Pending" && task.agent === "Effie" && task.type === "run_shell") {
+ts-backup/cade_task_processor.bak.ts:41:          case "run_shell":
+ts-backup/handleTask.ts:38:  if (task.type === "run_shell") {
+ts-backup/submit-task.ts:7: *   tsx scripts/_local/agent-runtime/submit-task.ts run_shell --cmd "echo hello
+ts-backup/submit-task.ts:9: *   tsx scripts/_local/agent-runtime/submit-task.ts run_shell --id custom-123 --cmd "date
+ts-backup/submit-task.ts:52:    console.error('Usage: tsx scripts/_local/agent-runtime/submit-task.ts <run_shell|generate_file> [--id ID] [--cmd "echo hi"] [--path FILE --content TEXT]');
+ts-backup/submit-task.ts:60:  if (type === 'run_shell') {
+ts-backup/submit-task.ts:63:      console.error('run_shell requires --cmd "<command>"');
+ts-backup/submit-task.ts:81:    console.error(`Unknown task type "${type}". Supported: run_shell, generate_file`);
+ts-backup/cade_task_processor.ts:40:    if (task.status === "Pending" && task.agent === "Cade" && task.type === "run_shell") {
+
+==================================================================
+TARGET: delegateToCadeV2
+==================================================================
+
+agent-to-cade.ts:1:export async function delegateToCadeV2(payload: { command: string; args?: Record<string, any>; sourceAgent?: string }) {
+ACTIVE_CADE_RUNTIME_REFERENCE_AUDIT.py:54:    "delegateToCadeV2",
+snapshots/20251114-114821/scripts/agents_full/matilda.ts.bak:1:import { delegateToCadeV2 } from "../relay/agent-to-cade.ts";
+snapshots/20251114-114821/scripts/agents_full/matilda.ts.bak:20:    result = await delegateToCadeV2({ command, args, sourceAgent: "matilda" });
+snapshots/20251114-114821/scripts/agents_full/matilda.ts.bak:31:        result = await delegateToCadeV2({ command: step.command, args: step.args, sourceAgent: "matilda" });
+snapshots/20251114-114821/scripts/relay/agent-to-cade.ts:1:export async function delegateToCadeV2(payload: { command: string; args?: Record<string, any>; sourceAgent?: string }) {
+snapshots/20251114-114707/scripts/agents_full/matilda.ts.bak:1:import { delegateToCadeV2 } from "../relay/agent-to-cade.ts";
+snapshots/20251114-114707/scripts/agents_full/matilda.ts.bak:20:    result = await delegateToCadeV2({ command, args, sourceAgent: "matilda" });
+snapshots/20251114-114707/scripts/agents_full/matilda.ts.bak:31:        result = await delegateToCadeV2({ command: step.command, args: step.args, sourceAgent: "matilda" });
+snapshots/20251114-114707/scripts/relay/agent-to-cade.ts:1:export async function delegateToCadeV2(payload: { command: string; args?: Record<string, any>; sourceAgent?: string }) {
+scripts_backup/agents_full/matilda.ts.bak:1:import { delegateToCadeV2 } from "../relay/agent-to-cade.ts";
+scripts_backup/agents_full/matilda.ts.bak:20:    result = await delegateToCadeV2({ command, args, sourceAgent: "matilda" });
+scripts_backup/agents_full/matilda.ts.bak:31:        result = await delegateToCadeV2({ command: step.command, args: step.args, sourceAgent: "matilda" });
+scripts_backup/scripts/agents_full/matilda.ts.bak:1:import { delegateToCadeV2 } from "../relay/agent-to-cade.ts";
+scripts_backup/scripts/agents_full/matilda.ts.bak:20:    result = await delegateToCadeV2({ command, args, sourceAgent: "matilda" });
+scripts_backup/scripts/agents_full/matilda.ts.bak:31:        result = await delegateToCadeV2({ command: step.command, args: step.args, sourceAgent: "matilda" });
+scripts_backup/scripts/relay/agent-to-cade.ts:1:export async function delegateToCadeV2(payload: { command: string; args?: Record<string, any>; sourceAgent?: string }) {
+scripts_backup/relay/agent-to-cade.ts:1:export async function delegateToCadeV2(payload: { command: string; args?: Record<string, any>; sourceAgent?: string }) {
+docs/contracts/CADE_RUNTIME_ARCHAEOLOGY_FINDINGS.md:92:- Contains a stubbed `delegateToCadeV2`
+scripts/agents_full/matilda.ts.bak:1:import { delegateToCadeV2 } from "../relay/agent-to-cade.ts";
+scripts/agents_full/matilda.ts.bak:20:    result = await delegateToCadeV2({ command, args, sourceAgent: "matilda" });
+scripts/agents_full/matilda.ts.bak:31:        result = await delegateToCadeV2({ command: step.command, args: step.args, sourceAgent: "matilda" });
+scripts/relay/agent-to-cade.ts:1:export async function delegateToCadeV2(payload: { command: string; args?: Record<string, any>; sourceAgent?: string }) {
+ts-backup/agent-to-cade.ts:1:export async function delegateToCadeV2(payload: { command: string; args?: Record<string, any>; sourceAgent?: string }) {
+
+==================================================================
+PACKAGE SCRIPTS
+==================================================================
+
+  "scripts": {
+    "build:dashboard-bundle": "esbuild public/js/dashboard-bundle-entry.js --bundle --outfile=public/bundle.js --sourcemap",
+    "test:orchestration": "node --import tsx --test server/orchestration/*.test.ts",
+    "test": "bash ./scripts/phase42_scope_gate.sh && (echo \"(no test script)\" && exit 0)"
+  },
