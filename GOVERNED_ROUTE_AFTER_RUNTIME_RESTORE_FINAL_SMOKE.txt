@@ -1,0 +1,76 @@
+===== GOVERNED ROUTE AFTER RUNTIME RESTORE FINAL SMOKE =====
+Thu May 28 01:12:34 PDT 2026
+
+===== COMPOSE PS =====
+NAME                                       IMAGE                                    COMMAND                  SERVICE     CREATED         STATUS              PORTS
+motherboard-systems-hq-clean-dashboard-1   motherboard-systems-hq-clean-dashboard   "docker-entrypoint.s…"   dashboard   4 minutes ago   Up About a minute   0.0.0.0:8080->3000/tcp, [::]:8080->3000/tcp
+motherboard-systems-hq-clean-postgres-1    postgres:16-alpine                       "docker-entrypoint.s…"   postgres    4 minutes ago   Up 4 minutes        0.0.0.0:5432->5432/tcp, [::]:5432->5432/tcp
+
+===== BASELINE HEALTH =====
+HTTP/1.1 200 OK
+X-Powered-By: Express
+Content-Type: application/json; charset=utf-8
+Content-Length: 11
+ETag: W/"b-Ai2R8hgEarLmHKwesT1qcY913ys"
+Date: Thu, 28 May 2026 08:12:34 GMT
+Connection: keep-alive
+Keep-Alive: timeout=5
+
+{"ok":true}
+===== GOVERNED ROUTE HTTP RESPONSE =====
+HTTP/1.1 200 OK
+X-Powered-By: Express
+Content-Type: application/json; charset=utf-8
+Content-Length: 2731
+ETag: W/"aab-+u3o14JXN/q7cdS3D2q12jNNspQ"
+Date: Thu, 28 May 2026 08:12:34 GMT
+Connection: keep-alive
+Keep-Alive: timeout=5
+
+{"ok":true,"route":"governed_planning_dry_run","mode":"planning_only","bundle":{"ok":true,"bundle_schema":"governed_planning_artifact_bundle.v1","phase":"planning_completed","envelope_version":"matilda.cade.exec.v1","response":{"response_schema":"governed_planning_response.v1","normalized_at":"2026-05-28T08:12:34.245Z","ok":true,"phase":"planning_only","envelope_version":"matilda.cade.exec.v1","governance":{"ok":true},"approval_gate":{"ok":true},"cade_planning":{"ok":true},"execution_authority":{"mutation_performed":false,"shell_execution_performed":false,"autonomous_execution_performed":false},"trace":[{"event":"intent_to_envelope_draft","ok":true},{"event":"canonical_governance_validated","ok":true},{"event":"approval_gate_evaluated","ok":true},{"event":"cade_engineering_plan_generated","ok":true}],"error":null},"reconciliation":{"reconciliation_schema":"governed_reconciliation_artifact.v1","generated_at":"2026-05-28T08:12:34.245Z","envelope_version":"matilda.cade.exec.v1","phase":"planning_completed","governance":{"ok":true},"approval_gate":{"ok":true},"cade_planning":{"ok":true},"execution_authority":{"mutation_performed":false,"shell_execution_performed":false,"autonomous_execution_performed":false},"reconciliation_entries":[{"file":"docs/contracts/example.md","operation":"modify","format":"planned_only","mutation_performed":false}],"trace":[{"event":"intent_to_envelope_draft","ok":true},{"event":"canonical_governance_validated","ok":true},{"event":"approval_gate_evaluated","ok":true},{"event":"cade_engineering_plan_generated","ok":true}]},"audit_ledger":{"ledger_schema":"governed_execution_audit_ledger.v1","generated_at":"2026-05-28T08:12:34.245Z","envelope_version":"matilda.cade.exec.v1","phase":"planning_completed","governance":{"ok":true},"approval_gate":{"ok":true},"cade_planning":{"ok":true},"reconciliation":{"schema":"governed_reconciliation_artifact.v1"},"execution_authority":{"mutation_performed":false,"shell_execution_performed":false,"autonomous_execution_performed":false},"audit_trace":[{"sequence":1,"event":"intent_to_envelope_draft","ok":true,"recorded_at":"2026-05-28T08:12:34.245Z"},{"sequence":2,"event":"canonical_governance_validated","ok":true,"recorded_at":"2026-05-28T08:12:34.245Z"},{"sequence":3,"event":"approval_gate_evaluated","ok":true,"recorded_at":"2026-05-28T08:12:34.245Z"},{"sequence":4,"event":"cade_engineering_plan_generated","ok":true,"recorded_at":"2026-05-28T08:12:34.245Z"}],"immutable_constraints":{"append_only":true,"mutation_authority_granted":false,"shell_authority_granted":false,"autonomous_authority_granted":false}},"execution_authority":{"mutation_performed":false,"shell_execution_performed":false,"autonomous_execution_performed":false}}}
+===== GOVERNED ROUTE AUTHORITY ASSERTION =====
+{
+  "ok": true,
+  "route": "governed_planning_dry_run",
+  "mutation_performed": false,
+  "shell_execution_performed": false,
+  "autonomous_execution_performed": false
+}
+
+===== IN-PROCESS CONTROL =====
+{
+  "ok": true,
+  "route_smoke": "inprocess_governed_planning_route",
+  "status_code": 200,
+  "payload_ok": true,
+  "mutation_performed": false,
+  "shell_execution_performed": false,
+  "autonomous_execution_performed": false
+}
+
+===== WORKTREE =====
+?? .backup_excludes
+?? CADE_RUNTIME_DISCOVERY.txt
+?? CADE_RUNTIME_HIGH_SIGNAL_CONTENTS.txt
+?? EXECUTION_IMPLEMENTATION_SURFACES.txt
+?? EXTERNAL_DB_BACKUP_SEARCH_BEFORE_DOCKER_RESET.txt
+?? GOVERNED_ROUTE_AFTER_RUNTIME_RESTORE_FINAL_SMOKE.txt
+?? GOVERNED_ROUTE_AFTER_RUNTIME_RESTORE_SMOKE.txt
+?? backups/
+?? discover-execution-implementation-surfaces.sh
+?? extract-matilda-delegation-docs.sh
+?? inspect-latest-source-backups-for-db-assets.sh
+?? scripts/dr
+?? scripts/dr_autonomous_wrapper.sh
+?? scripts/dr_daemon.sh
+?? scripts/dr_daemon_self_healing.sh
+?? scripts/dr_watchdog.sh
+?? scripts/offsite_r2_sync.sh
+?? scripts/retention_engine.sh
+?? scripts/storage_guard.sh
+?? scripts/storage_monitor.sh
+?? scripts/storage_policy.sh
+?? scripts/vault_layer.sh
+?? search-external-db-backups-before-docker-reset.sh
+?? smoke-governed-route-after-runtime-restore-final.sh
+?? smoke-governed-route-after-runtime-restore.sh
