@@ -1,0 +1,143 @@
+===== SERVER ROUTE MOUNT INSPECTION =====
+Wed May 27 23:42:16 PDT 2026
+
+===== IMPORT SECTION =====
+import express from "express";
+import { registerApiHealth } from "./server/routes/api-health.mjs";
+import { waitForPostgresReady } from "./server/db_wait_ready.mjs";
+import { registerOptionalSSE } from "./server/optional-sse.mjs";
+import path from "path";
+import { fileURLToPath } from "url";
+import pg from "pg";
+import { ensureTasksTaskIdColumn } from "./server/db_bootstrap_tasks_task_id.mjs";
+import { registerOrchestratorStateRoute } from "./server/orchestrator_state_route.mjs";
+import { registerPhase19DebugRoutes } from "./server/phase19_debug_routes_dump.mjs";
+import { apiTasksRouter } from "./server/routes/api-tasks-postgres.mjs";
+import systemHealthRouter, {
+  buildSystemHealthSnapshot,
+} from "./routes/diagnostics/systemHealth.js";
+import {
+  reduceSystemHealthSnapshotToGuidanceReduction,
+} from "./routes/diagnostics/operatorGuidanceRuntime.js";
+
+// Phase 44 — server HTTP mutation-route enforcement boundary (off/shadow/enforce)
+import { createMutationEnforcementMiddleware } from "./server/enforcement/phase44_mutation_enforcer.mjs";
+
+import { attachArtifacts } from "./server/artifacts.mjs";
+import { dbDelegateTask, dbCompleteTask } from "./server/tasks-mutations.mjs";
+import taskEventsSSE from "./server/routes/task-events-sse.mjs";
+import apiTasksMutationsRouter from "./server/routes/api-tasks-mutations.mjs";
+import { handleDelegateTaskSpec as phase23HandleDelegateTaskSpec } from "./server/api/tasks-mutations/delegate-taskspec.mjs";
+import { registerPhase36RunView } from "./server/routes/phase36_run_view.mjs";
+import { getRunsList } from "./server/routes/phase36_run_view.mjs";
+
+import { registerPhase40_6ShadowAuditTaskEvents } from "./server/routes/phase40_6_shadow_audit_task_events.mjs";
+import { registerPhase48PolicyProbe } from "./server/routes/phase48_policy_probe.mjs";
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+
+const app = express();
+
+
+
+registerApiHealth(app);
+// Phase49: enforce gate on real mutation routes (task path)
+function phase49PolicyEnforceEnabled() {
+  const v = String(process.env.POLICY_ENFORCE_MODE ?? process.env.POLICY_MODE ?? "").trim().toLowerCase();
+  // accept common values without binding to any single previous implementation
+  return v in {"1":1, "true":1, "yes":1, "on":1, "enforce":1, "enabled":1};
+}
+
+app.use((req, res, next) => {
+  try {
+    if (!phase49PolicyEnforceEnabled()) return next();
+    if (req.path === "/api/policy/probe") return next();
+
+    const m = String(req.method || "GET").toUpperCase();
+    const isMut = (m === "POST" || m === "PUT" || m === "PATCH" || m === "DELETE");
+    if (!isMut) return next();
+
+    // Start narrow: enforce on the real task mutation surface.
+    if (req.path.startsWith("/api/tasks")) {
+      return res.status(403).json({
+
+===== MIDDLEWARE / ROUTE MOUNT SECTION =====
+  registerPhase48PolicyProbe(app);
+
+// Phase 16: optional dashboard SSE endpoints (OPS + Reflections)
+try {
+  registerOptionalSSE(app);
+  console.log("[SSE] /events/ops + /events/reflections registered");
+} catch (e) {
+  console.warn("[SSE] Failed to register optional SSE:", e && e.message ? e.message : e);
+}
+
+// Serve static assets from ./public (required for /css/* and /js/* on /dashboard)
+app.use(express.static(path.join(__dirname, "public")));
+app.use("/css", express.static(path.join(__dirname, "public", "css")));
+app.use("/js", express.static(path.join(__dirname, "public", "js")));
+app.use("/img", express.static(path.join(__dirname, "public", "img")));
+// Phase 23: TaskSpec adapter -> create task + emit task_events
+app.post("/api/tasks-mutations/delegate-taskspec", async (req, res) => phase23HandleDelegateTaskSpec(req, res, { db: pool, dbDelegateTask }));
+
+// Phase 23: TaskSpec adapter -> create task + emit task_events
+
+
+// Phase 23: TaskSpec adapter -> existing delegate
+
+app.use("/api/tasks", apiTasksRouter);
+app.use("/api/tasks-mutations", apiTasksMutationsRouter);
+
+
+app.use("/diagnostics/system-health", systemHealthRouter);
+app.use("/diagnostics/systemHealth", systemHealthRouter);
+// --- Phase 16.7: dev-only emit endpoints (local debug) ---
+app.post("/api/dev/emit-reflection", (req, res) => {
+  try {
+    const body = req.body || {};
+    const item = {
+      ts: body.ts != null ? body.ts : Date.now(),
+      title: body.title != null ? String(body.title) : "dev",
+      msg: body.msg != null ? String(body.msg) : "dev reflection",
+      kind: body.kind != null ? String(body.kind) : "dev",
+    };
+
+    // keep snapshot cache in sync for /events/reflections snapshot-on-connect
+    if (!globalThis.__REFLECTIONS_STATE || typeof globalThis.__REFLECTIONS_STATE !== "object") {
+      globalThis.__REFLECTIONS_STATE = { items: [], lastAt: null };
+    }
+    if (!Array.isArray(globalThis.__REFLECTIONS_STATE.items)) globalThis.__REFLECTIONS_STATE.items = [];
+    globalThis.__REFLECTIONS_STATE.items = [item, ...globalThis.__REFLECTIONS_STATE.items].slice(0, 50);
+
+===== GOVERNED ROUTE FILE CHECK =====
+
+===== CURRENT GIT HEAD =====
+696eaecc Replace governed route discovery with Python scanner
+742f232e Fix governed route registration discovery
+a9479ee8 Discover governed route registration surfaces
+f78f96a0 Clean accidental pasted shell artifact
+856d7f5c Document governed planning route bundle response
+
+===== WORKTREE =====
+?? .backup_excludes
+?? CADE_RUNTIME_DISCOVERY.txt
+?? CADE_RUNTIME_HIGH_SIGNAL_CONTENTS.txt
+?? EXECUTION_IMPLEMENTATION_SURFACES.txt
+?? SERVER_ROUTE_MOUNT_INSPECTION.txt
+?? backups/
+?? discover-execution-implementation-surfaces.sh
+?? extract-matilda-delegation-docs.sh
+?? inspect-server-route-mounts.sh
+?? scripts/dr
+?? scripts/dr_autonomous_wrapper.sh
+?? scripts/dr_daemon.sh
+?? scripts/dr_daemon_self_healing.sh
+?? scripts/dr_watchdog.sh
+?? scripts/offsite_r2_sync.sh
+?? scripts/retention_engine.sh
+?? scripts/storage_guard.sh
+?? scripts/storage_monitor.sh
+?? scripts/storage_policy.sh
+?? scripts/vault_layer.sh
