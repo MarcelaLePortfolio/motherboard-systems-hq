@@ -1,0 +1,63 @@
+===== RIO DRIVE REPO BUNDLE DASHBOARD CANDIDATES V2 =====
+2026-05-28 02:14:35.124662
+
+===== CURRENT HEAD =====
+10495513 Inspect Rio Drive repo bundle dashboard candidates
+466098de Inspect Rio Drive source archive dashboard candidates
+df310122 Record Rio Drive latest dashboard preview next step
+9f871af0 Inspect Rio Drive disaster backup dashboard candidate v3
+5f1b2064 Inspect latest snapshot dashboard candidate v2
+07773bd9 Add dashboard candidate preview server
+88215e45 Create dashboard candidate preview surfaces
+8b383f2a Discover post phase 715 dashboard candidates
+
+===== ROOTS SCANNED =====
+/Volumes/Rio Drive/backups: found
+/Volumes/Rio Drive/Motherboard_External_Backup: found
+/Volumes/Rio Drive/Motherboard_Storage: found
+/Volumes/Rio Drive/Motherboard_Systems_HQ: found
+
+===== BUNDLES FOUND =====
+1779923218 /Volumes/Rio Drive/backups/.staging_20260527_160657/repo.bundle
+1779748681 /Volumes/Rio Drive/Motherboard_Storage/snapshots/full-disaster-recovery-20260525-153721/git/motherboard-systems-hq.bundle
+
+===== BUNDLE: repo.bundle =====
+/Volumes/Rio Drive/backups/.staging_20260527_160657/repo.bundle
+head:
+0139b201 finalize external-drive-only DR system with enforced mount validation
+b9bdda95 refactor: simplify DR system to external-drive-only deterministic backup model
+ca300549 feat: finalize MEGA offsite sync layer (safe limits + hardened guards)
+a2e1f13a fix: stabilize MEGA offsite sync filter logic and safety conditions
+c54626fb feat: add MEGA offsite sync layer with free-tier safety limits and throttling
+public/index.html: 10283 bytes
+title: <title>Motherboard Systems Operator Console</title>
+markers: Recent Tasks=1, Matilda=17, Agent Pool=1
+public/dashboard.html: 31026 bytes
+title: <title>Motherboard Systems Operator Console</title>
+markers: Recent Tasks=1, Task History=1, Matilda=24, Operator Guidance=2, telemetry=4, Agent Pool=2
+public/bundle.js: 69049 bytes
+open: http://localhost:8099/_dashboard_candidate_previews/rio-drive-repo-bundles-v2/repo/index.html
+
+===== BUNDLE: motherboard-systems-hq.bundle =====
+/Volumes/Rio Drive/Motherboard_Storage/snapshots/full-disaster-recovery-20260525-153721/git/motherboard-systems-hq.bundle
+head:
+a7fc8054 Seal Phase 743 authoritative operational DR runtime state
+1f6fce52 Record Phase 743 authoritative operational runtime preservation summary
+48649042 Seal Phase 743 operational continuity external DR state
+6ae36508 Record Phase 743 operational continuity terminal summary
+9cfc77ea Record Phase 743 post runtime inactivity seal external DR checkpoint
+public/index.html: 45658 bytes
+title: <title>Motherboard Systems Operator Console</title>
+markers: Recent Tasks=3, Task History=1, Matilda=24, Operator Guidance=3, phase719=5, phase530=2, telemetry=7, Agent Pool=3
+public/dashboard.html: 36216 bytes
+title: <title>Motherboard Systems Operator Console</title>
+markers: Recent Tasks=2, Task History=1, Matilda=12, Operator Guidance=3, phase719=1, phase530=1, telemetry=2, Agent Pool=1
+public/bundle.js: 69049 bytes
+open: http://localhost:8099/_dashboard_candidate_previews/rio-drive-repo-bundles-v2/motherboard-systems-hq/index.html
+
+===== NEXT SAFE ACTION =====
+Open:
+http://localhost:8099/_dashboard_candidate_previews/rio-drive-repo-bundles-v2/
+
+Do not restore yet. Pick the exact visually matching dashboard first.
+candidate_count=2
