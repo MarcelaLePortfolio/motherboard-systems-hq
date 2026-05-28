@@ -1,0 +1,118 @@
+===== APPLY TASK MUTATION SCHEMA MIGRATION V2 =====
+Thu May 28 11:35:54 PDT 2026
+
+===== BEFORE =====
+                                                                   Table "public.tasks"
+    Column    |           Type           | Collation | Nullable |              Default              | Storage  | Compression | Stats target | Description 
+--------------+--------------------------+-----------+----------+-----------------------------------+----------+-------------+--------------+-------------
+ id           | integer                  |           | not null | nextval('tasks_id_seq'::regclass) | plain    |             |              | 
+ task_id      | text                     |           |          |                                   | extended |             |              | 
+ title        | text                     |           |          |                                   | extended |             |              | 
+ description  | text                     |           |          |                                   | extended |             |              | 
+ status       | text                     |           |          | 'queued'::text                    | extended |             |              | 
+ assignee     | text                     |           |          |                                   | extended |             |              | 
+ created_at   | timestamp with time zone |           |          | now()                             | plain    |             |              | 
+ updated_at   | timestamp with time zone |           |          | now()                             | plain    |             |              | 
+ completed_at | timestamp with time zone |           |          |                                   | plain    |             |              | 
+ failed_at    | timestamp with time zone |           |          |                                   | plain    |             |              | 
+ error        | text                     |           |          |                                   | extended |             |              | 
+ metadata     | jsonb                    |           |          | '{}'::jsonb                       | extended |             |              | 
+Indexes:
+    "tasks_pkey" PRIMARY KEY, btree (id)
+    "tasks_task_id_idx" btree (task_id)
+    "tasks_task_id_key" UNIQUE CONSTRAINT, btree (task_id)
+Access method: heap
+
+
+===== ALTER TABLE TASKS =====
+ALTER TABLE
+ALTER TABLE
+ALTER TABLE
+ALTER TABLE
+ALTER TABLE
+
+===== AFTER =====
+                                                                   Table "public.tasks"
+    Column    |           Type           | Collation | Nullable |              Default              | Storage  | Compression | Stats target | Description 
+--------------+--------------------------+-----------+----------+-----------------------------------+----------+-------------+--------------+-------------
+ id           | integer                  |           | not null | nextval('tasks_id_seq'::regclass) | plain    |             |              | 
+ task_id      | text                     |           |          |                                   | extended |             |              | 
+ title        | text                     |           |          |                                   | extended |             |              | 
+ description  | text                     |           |          |                                   | extended |             |              | 
+ status       | text                     |           |          | 'queued'::text                    | extended |             |              | 
+ assignee     | text                     |           |          |                                   | extended |             |              | 
+ created_at   | timestamp with time zone |           |          | now()                             | plain    |             |              | 
+ updated_at   | timestamp with time zone |           |          | now()                             | plain    |             |              | 
+ completed_at | timestamp with time zone |           |          |                                   | plain    |             |              | 
+ failed_at    | timestamp with time zone |           |          |                                   | plain    |             |              | 
+ error        | text                     |           |          |                                   | extended |             |              | 
+ metadata     | jsonb                    |           |          | '{}'::jsonb                       | extended |             |              | 
+ notes        | text                     |           |          |                                   | extended |             |              | 
+ run_id       | text                     |           |          |                                   | extended |             |              | 
+ action_tier  | text                     |           |          | 'A'::text                         | extended |             |              | 
+ kind         | text                     |           |          |                                   | extended |             |              | 
+ payload      | jsonb                    |           |          | '{}'::jsonb                       | extended |             |              | 
+Indexes:
+    "tasks_pkey" PRIMARY KEY, btree (id)
+    "tasks_task_id_idx" btree (task_id)
+    "tasks_task_id_key" UNIQUE CONSTRAINT, btree (task_id)
+Access method: heap
+
+
+===== COLUMN ASSERTION =====
+ column_name | data_type 
+-------------+-----------
+ action_tier | text
+ kind        | text
+ notes       | text
+ payload     | jsonb
+ run_id      | text
+(5 rows)
+
+
+===== RERUN TASK MUTATION SMOKE =====
+===== SMOKE CURRENT TASK MUTATION ENDPOINTS =====
+{
+    "ok": true,
+    "task": {
+        "id": "1",
+        "task_id": "task.22b3a847-83a5-494d-a839-9f152510a935",
+        "title": "Governed execution resume smoke task",
+        "status": "queued",
+        "notes": "Smoke test after Docker reset recovery",
+        "run_id": null,
+        "action_tier": "A",
+        "kind": "delegated",
+        "payload": {
+            "meta": null,
+            "agent": "cade",
+            "source": "resume_validation",
+            "trace_id": null,
+            "delegation_envelope": null
+        },
+        "created_at": "2026-05-28T18:35:55.231Z",
+        "updated_at": "2026-05-28T18:35:55.231Z"
+    }
+}
+
+TASK_ID=task.22b3a847-83a5-494d-a839-9f152510a935
+
+===== COMPLETE SMOKE TASK =====
+{
+    "ok": false,
+    "error": "appendTaskEvent: run_id is required for kind=task.completed"
+}
+
+===== VERIFY TASKS API =====
+{
+    "ok": true,
+    "tasks": [
+        {
+            "id": 1,
+            "task_id": "task.22b3a847-83a5-494d-a839-9f152510a935",
+            "title": "Governed execution resume smoke task",
+            "status": "done",
+            "updated_at": "2026-05-28T18:35:55.319Z"
+        }
+    ]
+}
