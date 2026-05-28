@@ -1,0 +1,191 @@
+===== DASHBOARD UI RUNTIME RESTORE SEAL =====
+Thu May 28 01:25:19 PDT 2026
+
+===== CURRENT HEAD =====
+dd2e273a Repair fresh task events schema for dashboard
+dca281c8 Diagnose dashboard UI with nonblocking route checks
+9d78745f Seal runtime restore and governed route validation
+11400024 Confirm governed route after runtime restore
+ee7fcd7e Bootstrap fresh Postgres schema for runtime restore
+a32c0399 Validate compose runtime after Postgres wait
+
+===== COMPOSE PS =====
+NAME                                       IMAGE                                    COMMAND                  SERVICE     CREATED          STATUS          PORTS
+motherboard-systems-hq-clean-dashboard-1   motherboard-systems-hq-clean-dashboard   "docker-entrypoint.s…"   dashboard   17 minutes ago   Up 3 minutes    0.0.0.0:8080->3000/tcp, [::]:8080->3000/tcp
+motherboard-systems-hq-clean-postgres-1    postgres:16-alpine                       "docker-entrypoint.s…"   postgres    17 minutes ago   Up 17 minutes   0.0.0.0:5432->5432/tcp, [::]:5432->5432/tcp
+
+===== DASHBOARD ROOT =====
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0  0 10283    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0
+HTTP/1.1 200 OK
+X-Powered-By: Express
+Accept-Ranges: bytes
+Cache-Control: public, max-age=0
+Last-Modified: Wed, 27 May 2026 21:35:48 GMT
+ETag: W/"282b-19e6b5d7720"
+Content-Type: text/html; charset=utf-8
+Content-Length: 10283
+Date: Thu, 28 May 2026 08:25:19 GMT
+Connection: keep-alive
+Keep-Alive: timeout=5
+
+
+===== TASKS HEALTH =====
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0100    11  100    11    0     0   6030      0 --:--:-- --:--:-- --:--:-- 11000
+HTTP/1.1 200 OK
+X-Powered-By: Express
+Content-Type: application/json; charset=utf-8
+Content-Length: 11
+ETag: W/"b-Ai2R8hgEarLmHKwesT1qcY913ys"
+Date: Thu, 28 May 2026 08:25:19 GMT
+Connection: keep-alive
+Keep-Alive: timeout=5
+
+{"ok":true}
+===== TASKS API =====
+{"ok":true,"tasks":[]}
+===== TASK EVENTS SSE TIMEBOXED =====
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0100   353    0   353    0     0    325      0 --:--:--  0:00:01 --:--:--   325100   409    0   409    0     0    203      0 --:--:--  0:00:02 --:--:--   203
+curl: (28) Operation timed out after 2006 milliseconds with 409 bytes received
+HTTP/1.1 200 OK
+X-Powered-By: Express
+Content-Type: text/event-stream; charset=utf-8
+Cache-Control: no-cache, no-transform
+Connection: keep-alive
+X-Accel-Buffering: no
+Date: Thu, 28 May 2026 08:25:19 GMT
+Transfer-Encoding: chunked
+
+event: hello
+data: {"kind":"task-events","cursor":0,"ts":1779956719846}
+
+event: heartbeat
+data: {"ts":1779956719846,"cursor":0}
+
+event: heartbeat
+data: {"ts":1779956720005,"cursor":0}
+
+event: heartbeat
+data: {"ts":1779956720237,"cursor":0}
+
+event: heartbeat
+data: {"ts":1779956720541,"cursor":0}
+
+event: heartbeat
+data: {"ts":1779956720926,"cursor":0}
+
+event: heartbeat
+data: {"ts":1779956721384,"cursor":0}
+
+
+===== ARTIFACTS SSE TIMEBOXED =====
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0100   230    0   230    0     0    190      0 --:--:--  0:00:01 --:--:--   190100   230    0   230    0     0    114      0 --:--:--  0:00:02 --:--:--   114
+curl: (28) Operation timed out after 2004 milliseconds with 230 bytes received
+HTTP/1.1 200 OK
+X-Powered-By: Express
+Content-Type: text/event-stream
+Cache-Control: no-cache, no-transform
+Connection: keep-alive
+X-Accel-Buffering: no
+Date: Thu, 28 May 2026 08:25:21 GMT
+Transfer-Encoding: chunked
+
+: connected 2026-05-28T08:25:21.879Z
+
+data: {"type":"build_output","source":"dashboard","timestamp":"2026-05-28T08:22:16.629Z","payload":{"status":"boot","git_sha":"unknown","build_time":"unknown","node":"v20.20.2","port":3000}}
+
+
+===== GOVERNED ROUTE RAW CHECK =====
+{"ok":true,"route":"governed_planning_dry_run","mode":"planning_only","bundle":{"ok":true,"bundle_schema":"governed_planning_artifact_bundle.v1","phase":"planning_completed","envelope_version":"matilda.cade.exec.v1","response":{"response_schema":"governed_planning_response.v1","normalized_at":"2026-05-28T08:25:23.922Z","ok":true,"phase":"planning_only","envelope_version":"matilda.cade.exec.v1","governance":{"ok":true},"approval_gate":{"ok":true},"cade_planning":{"ok":true},"execution_authority":{"mutation_performed":false,"shell_execution_performed":false,"autonomous_execution_performed":false},"trace":[{"event":"intent_to_envelope_draft","ok":true},{"event":"canonical_governance_validated","ok":true},{"event":"approval_gate_evaluated","ok":true},{"event":"cade_engineering_plan_generated","ok":true}],"error":null},"reconciliation":{"reconciliation_schema":"governed_reconciliation_artifact.v1","generated_at":"2026-05-28T08:25:23.922Z","envelope_version":"matilda.cade.exec.v1","phase":"planning_completed","governance":{"ok":true},"approval_gate":{"ok":true},"cade_planning":{"ok":true},"execution_authority":{"mutation_performed":false,"shell_execution_performed":false,"autonomous_execution_performed":false},"reconciliation_entries":[{"file":"docs/contracts/example.md","operation":"modify","format":"planned_only","mutation_performed":false}],"trace":[{"event":"intent_to_envelope_draft","ok":true},{"event":"canonical_governance_validated","ok":true},{"event":"approval_gate_evaluated","ok":true},{"event":"cade_engineering_plan_generated","ok":true}]},"audit_ledger":{"ledger_schema":"governed_execution_audit_ledger.v1","generated_at":"2026-05-28T08:25:23.922Z","envelope_version":"matilda.cade.exec.v1","phase":"planning_completed","governance":{"ok":true},"approval_gate":{"ok":true},"cade_planning":{"ok":true},"reconciliation":{"schema":"governed_reconciliation_artifact.v1"},"execution_authority":{"mutation_performed":false,"shell_execution_performed":false,"autonomous_execution_performed":false},"audit_trace":[{"sequence":1,"event":"intent_to_envelope_draft","ok":true,"recorded_at":"2026-05-28T08:25:23.922Z"},{"sequence":2,"event":"canonical_governance_validated","ok":true,"recorded_at":"2026-05-28T08:25:23.922Z"},{"sequence":3,"event":"approval_gate_evaluated","ok":true,"recorded_at":"2026-05-28T08:25:23.922Z"},{"sequence":4,"event":"cade_engineering_plan_generated","ok":true,"recorded_at":"2026-05-28T08:25:23.922Z"}],"immutable_constraints":{"append_only":true,"mutation_authority_granted":false,"shell_authority_granted":false,"autonomous_authority_granted":false}},"execution_authority":{"mutation_performed":false,"shell_execution_performed":false,"autonomous_execution_performed":false}}}
+===== SEAL DOC =====
+
+# Dashboard UI Runtime Restore Seal
+
+## Status
+
+Dashboard runtime restoration is confirmed after Docker reset and fresh Postgres bootstrap.
+
+## Validated Surfaces
+
+- Docker runtime is clean and rebuilt.
+
+- Postgres container is running.
+
+- Dashboard container is running on `localhost:8080`.
+
+- Dashboard root returns `200 OK`.
+
+- Static dashboard assets return `200 OK`.
+
+- `/api/tasks/health` returns `200 OK`.
+
+- `/api/tasks?limit=12` returns `ok:true`.
+
+- `/events/artifacts` connects as SSE.
+
+- `/events/task-events` connects as SSE and emits heartbeat without the prior missing `kind` column error.
+
+- Governed planning dry-run route remains live-valid and planning-only.
+
+## Fresh DB Compatibility Repair
+
+Because Docker reset recreated an empty Postgres volume, the minimal fresh schema initially lacked legacy dashboard-facing `task_events` compatibility columns.
+
+The repaired compatibility columns are:
+
+- `kind`
+
+- `run_id`
+
+- `actor`
+
+- `ts`
+
+This repair restores the dashboard task-events SSE contract without granting mutation, shell execution, autonomous execution, PM2 mutation, recursive delegation, or legacy `run_shell` promotion.
+
+## Boundary
+
+This seal confirms dashboard/runtime reconstruction only.
+
+It does not restore historical Docker-only Postgres rows lost with the corrupted Docker volume.
+
+It does not authorize new execution authority.
+
+
+===== WORKTREE =====
+?? .backup_excludes
+?? CADE_RUNTIME_DISCOVERY.txt
+?? CADE_RUNTIME_HIGH_SIGNAL_CONTENTS.txt
+?? DASHBOARD_UI_AFTER_RUNTIME_RESTORE_DIAGNOSIS.txt
+?? DASHBOARD_UI_RUNTIME_RESTORE_SEAL.txt
+?? EXECUTION_IMPLEMENTATION_SURFACES.txt
+?? EXTERNAL_DB_BACKUP_SEARCH_BEFORE_DOCKER_RESET.txt
+?? GOVERNED_ROUTE_AFTER_RUNTIME_RESTORE_SMOKE.txt
+?? backups/
+?? diagnose-dashboard-ui-after-runtime-restore.py
+?? diagnose-dashboard-ui-after-runtime-restore.sh
+?? discover-execution-implementation-surfaces.sh
+?? docs/contracts/DASHBOARD_UI_RUNTIME_RESTORE_SEAL.md
+?? extract-matilda-delegation-docs.sh
+?? inspect-latest-source-backups-for-db-assets.sh
+?? scripts/dr
+?? scripts/dr_autonomous_wrapper.sh
+?? scripts/dr_daemon.sh
+?? scripts/dr_daemon_self_healing.sh
+?? scripts/dr_watchdog.sh
+?? scripts/offsite_r2_sync.sh
+?? scripts/retention_engine.sh
+?? scripts/storage_guard.sh
+?? scripts/storage_monitor.sh
+?? scripts/storage_policy.sh
+?? scripts/vault_layer.sh
+?? seal-dashboard-ui-runtime-restore.sh
+?? search-external-db-backups-before-docker-reset.sh
+?? smoke-governed-route-after-runtime-restore.sh
