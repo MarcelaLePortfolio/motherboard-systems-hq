@@ -7,7 +7,7 @@ feature/backup-system-v2
 
 ## Latest Execution-Governance Commit
 
-aec50cdf Checkpoint execution governance corridor
+22bfd127 Update execution governance checkpoint metadata
 
 ## Stabilized Commit Chain
 
@@ -28,6 +28,8 @@ aec50cdf Checkpoint execution governance corridor
 - 7b5f368b Add envelope-aware mutation scope guard
 
 - aec50cdf Checkpoint execution governance corridor
+
+- 22bfd127 Update execution governance checkpoint metadata
 
 ## What Was Added
 
