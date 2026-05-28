@@ -1,0 +1,461 @@
+===== TASK ITEM UI WIRING INSPECTION =====
+Thu May 28 16:20:46 PDT 2026
+
+===== CURRENT HEAD =====
+1c472c1a Pass run id from dbCompleteTask to completion event
+04b61f17 Rebuild before direct db complete task smoke
+b3203878 Run direct db complete task smoke in container
+f1e74eb4 Add direct db complete task smoke
+851403fa Record invalid route-level task event smoke
+f540fd6d Add route-level task completion event smoke
+40860b68 Confirm run id patch reset health
+ec489337 Diagnose run id patch crash
+
+===== TASK API SNAPSHOT =====
+{
+    "ok": true,
+    "tasks": [
+        {
+            "id": 5,
+            "task_id": "task.c8aaaf23-75ac-4946-af7f-ac0bcb964f09",
+            "title": "Governed execution resume smoke task with run_id",
+            "status": "done",
+            "updated_at": "2026-05-28T20:42:37.533Z"
+        },
+        {
+            "id": 4,
+            "task_id": "task.42e70b4e-14a1-4190-b203-52fc052fb2a9",
+            "title": "Direct dbCompleteTask run_id smoke",
+            "status": "done",
+            "updated_at": "2026-05-28T20:41:53.338Z"
+        },
+        {
+            "id": 3,
+            "task_id": "task.248b3b38-2946-4de0-a54e-e87836e559a7",
+            "title": "Direct dbCompleteTask run_id smoke",
+            "status": "done",
+            "updated_at": "2026-05-28T20:37:04.529Z"
+        }
+    ]
+}
+
+===== TASK EVENTS SNAPSHOT =====
+ id |      kind      |                  task_id                  |           run_id            | actor |          created_at           
+----+----------------+-------------------------------------------+-----------------------------+-------+-------------------------------
+  7 | task.completed | task.c8aaaf23-75ac-4946-af7f-ac0bcb964f09 | resume-smoke-20260528134237 | cade  | 2026-05-28 20:42:37.536673+00
+  6 | task.created   | task.c8aaaf23-75ac-4946-af7f-ac0bcb964f09 |                             | cade  | 2026-05-28 20:42:37.454704+00
+  5 | task.completed | task.42e70b4e-14a1-4190-b203-52fc052fb2a9 | direct-smoke-1780000913311  | cade  | 2026-05-28 20:41:53.339817+00
+  4 | task.created   | task.42e70b4e-14a1-4190-b203-52fc052fb2a9 |                             | cade  | 2026-05-28 20:41:53.336539+00
+  3 | task.created   | task.248b3b38-2946-4de0-a54e-e87836e559a7 |                             | cade  | 2026-05-28 20:37:04.528449+00
+(5 rows)
+
+
+===== FRONTEND TASK ACTION WIRING SEARCH =====
+public/index.html:150:    #recentTasks,
+public/index.html:350:                    <button id="complete-task-btn" class="w-full md:w-auto bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded-xl transition duration-200">
+public/index.html:351:                      Complete Task (Alpha)
+public/index.html:381:                Execution Inspector
+public/index.html:390:                    <div id="recentTasks" class="bg-gray-900 border border-gray-700 rounded-xl p-3 text-sm text-gray-300"></div>
+public/index.html:480:  #recentTasks,
+public/index.html:592:  <script defer src="js/phase533_execution_inspector_layout_fix.js"></script>
+public/index.html:593:  <script defer src="js/phase534_execution_inspector_expand.js"></script>
+public/index.html:594:  <script defer src="js/phase535_execution_inspector_requeue.js"></script>
+public/index.html:595:  <script defer src="js/phase537_execution_inspector_retry.js"></script>
+public/index.html:596:  <script defer src="js/phase539_execution_inspector_retry_mode_display.js"></script>
+public/index.html:671:    Confidence remains limited due to missing or incomplete signals.
+public/index.html:683:    const data = await res.json();
+public/index.html:722:    window.__PHASE494_SIGNALS__.explanation_integrity = "complete";
+public/index.html:737:    const data = await res.json();
+public/index.html:774:    const data = await res.json();
+public/index.html:823:    const data = await res.json();
+public/index.html:880:  const trace = {
+public/index.html:895:      trace.rules_applied.push(`missing_or_unknown_${key}`);
+public/index.html:896:      return { confidence: "limited", trace };
+public/index.html:901:  if (signals.explanation_integrity !== "complete") {
+public/index.html:902:    trace.rules_applied.push("explanation_incomplete");
+public/index.html:903:    return { confidence: "limited", trace };
+public/index.html:913:    trace.rules_applied.push("moderate_threshold_met");
+public/index.html:914:    trace.result = "moderate";
+public/index.html:915:    return { confidence: "moderate", trace };
+public/index.html:924:    signals.explanation_integrity === "complete"
+public/index.html:926:    trace.rules_applied.push("high_threshold_met");
+public/index.html:927:    trace.result = "high";
+public/index.html:928:    return { confidence: "high", trace };
+public/index.html:932:  trace.rules_applied.push("default_limited");
+public/index.html:933:  return { confidence: "limited", trace };
+public/index.html:945:  console.log("PHASE501_CONFIDENCE_TRACE", result);
+public/index.html:951:// PHASE 503 — SAFE TRACE SURFACE (READ-ONLY, NO COMPUTATION MUTATION)
+public/index.html:962:    // HARD GUARD — fallback if trace missing
+public/index.html:963:    if (!result || !result.trace) {
+public/index.html:967:        Trace unavailable — system falling back to safe baseline.
+public/index.html:972:    const { confidence, trace } = result;
+public/index.html:974:    const rules = (trace.rules_applied || []).map(r => `• ${r}`).join("<br>");
+public/index.html:976:    const inputs = Object.entries(trace.inputs || {})
+public/index.html:1005:    const data = await res.json();
+public/index.html:1027:  async function safeJson(url) {
+public/index.html:1031:      return await res.json();
+public/index.html:1066:    const guidanceData = await safeJson("/api/guidance");
+public/index.html:1073:    const systemHealth = await safeJson("/diagnostics/system-health");
+public/index.html:1157:      const data = await res.json();
+public/index.html:1172:  <script defer src="/js/phase487_humanize_task_ids.js"></script>
+public/index.html:1198:          headers: { "Content-Type": "application/json" },
+public/index.html:1199:          body: JSON.stringify({ message, agent: "matilda" })
+public/index.html:1202:        const data = await res.json();
+public/index.html:1203:        output.textContent = data.reply || JSON.stringify(data, null, 2);
+public/index.html:1212:  <script defer src="js/phase573_execution_inspector_debug.js"></script>
+public/index.html:1213:  <script defer src="js/phase574_execution_inspector_success_feedback.js"></script>
+public/index.html:1335:  #recentTasks,
+public/dashboard.html:155:                      <button id="complete-task-btn" class="w-full md:w-auto bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded-xl transition duration-200">Complete Task (Alpha)</button>
+public/dashboard.html:290:  async function safeJson(url) {
+public/dashboard.html:294:      return await res.json();
+public/dashboard.html:329:    const guidanceData = await safeJson("/api/guidance");
+public/dashboard.html:336:    const systemHealth = await safeJson("/diagnostics/system-health");
+public/dashboard.html:420:      const data = await res.json();
+public/dashboard.html:435:  <script defer src="/js/phase487_humanize_task_ids.js"></script>
+public/dashboard.html:513:    Confidence remains limited due to missing or incomplete signals.
+public/dashboard.html:525:    const data = await res.json();
+public/dashboard.html:564:    window.__PHASE494_SIGNALS__.explanation_integrity = "complete";
+public/dashboard.html:579:    const data = await res.json();
+public/dashboard.html:616:    const data = await res.json();
+public/dashboard.html:665:    const data = await res.json();
+public/dashboard.html:722:  const trace = {
+public/dashboard.html:737:      trace.rules_applied.push(`missing_or_unknown_${key}`);
+public/dashboard.html:738:      return { confidence: "limited", trace };
+public/dashboard.html:743:  if (signals.explanation_integrity !== "complete") {
+public/dashboard.html:744:    trace.rules_applied.push("explanation_incomplete");
+public/dashboard.html:745:    return { confidence: "limited", trace };
+public/dashboard.html:755:    trace.rules_applied.push("moderate_threshold_met");
+public/dashboard.html:756:    trace.result = "moderate";
+public/dashboard.html:757:    return { confidence: "moderate", trace };
+public/dashboard.html:766:    signals.explanation_integrity === "complete"
+public/dashboard.html:768:    trace.rules_applied.push("high_threshold_met");
+public/dashboard.html:769:    trace.result = "high";
+public/dashboard.html:770:    return { confidence: "high", trace };
+public/dashboard.html:774:  trace.rules_applied.push("default_limited");
+public/dashboard.html:775:  return { confidence: "limited", trace };
+public/dashboard.html:787:  console.log("PHASE501_CONFIDENCE_TRACE", result);
+public/dashboard.html:793:// PHASE 503 — SAFE TRACE SURFACE (READ-ONLY, NO COMPUTATION MUTATION)
+public/dashboard.html:804:    // HARD GUARD — fallback if trace missing
+public/dashboard.html:805:    if (!result || !result.trace) {
+public/dashboard.html:809:        Trace unavailable — system falling back to safe baseline.
+public/dashboard.html:814:    const { confidence, trace } = result;
+public/dashboard.html:816:    const rules = (trace.rules_applied || []).map(r => `• ${r}`).join("<br>");
+public/dashboard.html:818:    const inputs = Object.entries(trace.inputs || {})
+public/dashboard.html:854:    // HARD GUARD — fallback if trace missing or invalid
+public/dashboard.html:855:    if (!result || !result.trace || !result.trace.inputs) {
+public/dashboard.html:863:    const { confidence, trace } = result;
+public/dashboard.html:876:        !trace.inputs[key] ||
+public/dashboard.html:877:        trace.inputs[key] === "unknown"
+public/dashboard.html:887:    // HARD GUARD — explanation must be complete
+public/dashboard.html:888:    if (trace.inputs.explanation_integrity !== "complete") {
+public/dashboard.html:918:    const data = await res.json();
+public/js/phase530_visible_panels_bridge.js:16:  async function getJson(url) {
+public/js/phase530_visible_panels_bridge.js:18:    const data = await res.json();
+public/js/phase530_visible_panels_bridge.js:56:        const readableTitle = String(taskForTitle.title || taskForTitle.task_title || taskForTitle.task_id || taskForTitle.id || "");
+public/js/phase530_visible_panels_bridge.js:60:          taskForTitle.task_id,
+public/js/phase530_visible_panels_bridge.js:84:      const rawTitle = String(t.title || t.task_id || t.id || "Untitled task");
+public/js/phase530_visible_panels_bridge.js:86:      const retryTitleMatch = rawTitle.match(/^(retry differently|requeue)\s+(t_[a-f0-9-]+)$/i);
+public/js/phase530_visible_panels_bridge.js:94:        const nestedRetryMatch = candidate.match(/^(retry differently|requeue)\s+(t_[a-f0-9-]+)$/i);
+public/js/phase530_visible_panels_bridge.js:96:        if (!nestedRetryMatch) return candidate;
+public/js/phase530_visible_panels_bridge.js:98:        const nestedTarget = nestedRetryMatch[2];
+public/js/phase530_visible_panels_bridge.js:108:      const operatorAction = retryTitleMatch
+public/js/phase530_visible_panels_bridge.js:110:        ? (retryTitleMatch[1].toLowerCase() === "requeue" ? "Requeue" : "Retry differently")
+public/js/phase530_visible_panels_bridge.js:114:      const operatorTarget = retryTitleMatch ? retryTitleMatch[2] : "";
+public/js/phase530_visible_panels_bridge.js:134:      const taskId = esc(t.task_id || t.id || "");
+public/js/phase530_visible_panels_bridge.js:149:      const triageLabel = triageStatusRaw === "completed" ? "triage: completed" : "";
+public/js/phase530_visible_panels_bridge.js:155:      const retryOfRaw = t.retry_of_task_id || (t.meta && t.meta.retry_of_task_id) || (t.execution_meta && t.execution_meta.retry_of_task_id) || "";
+public/js/phase530_visible_panels_bridge.js:157:      const retryOf = esc(String(retryOfRaw || ""));
+public/js/phase530_visible_panels_bridge.js:161:      const trace = guidance.communicationResult && guidance.communicationResult.systemTrace
+public/js/phase530_visible_panels_bridge.js:163:        ? guidance.communicationResult.systemTrace.content
+public/js/phase530_visible_panels_bridge.js:167:      const traceJson = trace ? esc(JSON.stringify(trace, null, 2)) : "";
+public/js/phase530_visible_panels_bridge.js:171:        `task_id=${taskId}`,
+public/js/phase530_visible_panels_bridge.js:185:        <article data-phase716-contained-task="true" data-phase717-execution-card="true" style="display:block;width:100%;min-width:0;max-width:100%;box-sizing:border-box;border:1px solid rgba(148,163,184,.24);border-radius:14px;padding:12px;margin:0 0 12px 0;background:rgba(15,23,42,.74);overflow:hidden;">
+public/js/phase530_visible_panels_bridge.js:191:            ${artifactRaw ? `<button type="button" data-phase719-preview-artifact="true" data-task-id="${taskId}" data-task-title="${title}" data-artifact-name="${artifactName}" data-artifact-type="${artifactType}" data-artifact-size="${artifactSize}" data-artifact-path="${artifactPath}" data-artifact-outcome="${outcome}" data-artifact-explanation="${explanation}" title="Preview completed artifact" style="flex:0 0 auto;cursor:pointer;color:#93c5fd;border:1px solid rgba(147,197,253,.35);border-radius:999px;padding:2px 7px;font-size:10px;line-height:1.4;background:rgba(30,64,175,.18);">Preview</button>` : ""}
+public/js/phase530_visible_panels_bridge.js:195:            ${retryOf ? `<div style="flex:0 0 auto;color:#fcd34d;border:1px solid rgba(252,211,77,.35);border-radius:999px;padding:2px 7px;font-size:10px;line-height:1.4;background:rgba(120,53,15,.18);">retry of: ${retryOf}</div>` : ""}
+public/js/phase530_visible_panels_bridge.js:213:              <button type="button" data-phase717-requeue="true" data-task-id="${taskId}" data-task-title="${title}" title="Explicit operator action: requeue this task" style="cursor:pointer;border:1px solid rgba(148,163,184,.35);background:rgba(15,23,42,.8);color:#cbd5e1;border-radius:8px;padding:5px 8px;font-size:11px;">Requeue</button>
+public/js/phase530_visible_panels_bridge.js:215:              <button type="button" data-phase717-retry-differently="true" data-task-id="${taskId}" data-task-title="${title}" title="Explicit operator action: retry this task differently" style="cursor:pointer;border:1px solid rgba(96,165,250,.45);background:rgba(30,41,59,.92);color:#dbeafe;border-radius:8px;padding:5px 8px;font-size:11px;">Retry differently</button>
+public/js/phase530_visible_panels_bridge.js:223:          ${explanation ? `<button type="button" data-phase717-inspect-details="true" data-phase717-inspect-title="${title} — Details" data-phase717-inspect-content="${explanation}" style="margin-top:10px;cursor:pointer;border:1px solid rgba(147,197,253,.35);background:rgba(30,64,175,.14);color:#93c5fd;border-radius:999px;padding:4px 9px;font-size:11px;">Inspect details</button>` : ""}
+public/js/phase530_visible_panels_bridge.js:225:          ${traceJson ? `<button type="button" data-phase717-inspect-trace="true" data-phase717-inspect-title="${title} — Advanced trace" data-phase717-inspect-content="${traceJson}" style="margin-top:10px;margin-left:6px;cursor:pointer;border:1px solid rgba(251,191,36,.38);background:rgba(120,53,15,.14);color:#fbbf24;border-radius:999px;padding:4px 9px;font-size:11px;">Inspect trace</button>` : ""}
+public/js/phase530_visible_panels_bridge.js:227:          ${logContent ? `<button type="button" data-phase717-inspect-logs="true" data-phase717-inspect-title="${title} — Logs" data-phase717-inspect-content="${logContent}" style="margin-top:10px;margin-left:6px;cursor:pointer;border:1px solid rgba(45,212,191,.38);background:rgba(20,83,45,.14);color:#5eead4;border-radius:999px;padding:4px 9px;font-size:11px;">Inspect logs</button>` : ""}
+public/js/phase530_visible_panels_bridge.js:238:  function renderRecent(tasks) {
+public/js/phase530_visible_panels_bridge.js:239:    const recentTasks = document.getElementById("recentTasks");
+public/js/phase530_visible_panels_bridge.js:249:    if (recentTasks) {
+public/js/phase530_visible_panels_bridge.js:250:      recentTasks.style.minHeight = "0";
+public/js/phase530_visible_panels_bridge.js:251:      recentTasks.style.height = "100%";
+public/js/phase530_visible_panels_bridge.js:252:      recentTasks.style.overflow = "auto";
+public/js/phase530_visible_panels_bridge.js:253:      recentTasks.style.display = "block";
+public/js/phase530_visible_panels_bridge.js:260:    if (recentTasks) recentTasks.innerHTML = taskRows(tasks);
+public/js/phase530_visible_panels_bridge.js:298:    const completed = (rows || []).map((row) => Number(row.completed_count || 0));
+public/js/phase530_visible_panels_bridge.js:304:      window.__PHASE530_ACTIVITY_CHART__.data.datasets[1].data = completed;
+public/js/phase530_visible_panels_bridge.js:317:          { label: "Completed", data: completed },
+public/js/phase530_visible_panels_bridge.js:340:  function phase717EscapeModalText(value) {
+public/js/phase530_visible_panels_bridge.js:358:  function phase717InspectionModal(options) {
+public/js/phase530_visible_panels_bridge.js:362:      const rootId = "phase717-inspection-modal-root";
+public/js/phase530_visible_panels_bridge.js:376:      const title = String(options.title || "Read-only inspection");
+public/js/phase530_visible_panels_bridge.js:378:      const content = String(options.content || "No inspection content available.");
+public/js/phase530_visible_panels_bridge.js:382:        <div data-phase717-inspection-overlay="true" style="position:fixed;inset:0;z-index:9998;display:flex;align-items:center;justify-content:center;padding:18px;background:rgba(2,6,23,.72);backdrop-filter:blur(6px);">
+public/js/phase530_visible_panels_bridge.js:384:          <section role="dialog" aria-modal="true" aria-labelledby="phase717-inspection-modal-title" style="width:min(760px,calc(100vw - 28px));max-height:min(760px,calc(100vh - 36px));display:flex;flex-direction:column;border:1px solid rgba(148,163,184,.36);border-radius:16px;background:rgba(15,23,42,.98);box-shadow:0 24px 80px rgba(0,0,0,.45);padding:16px;color:#e5e7eb;">
+public/js/phase530_visible_panels_bridge.js:390:                <div id="phase717-inspection-modal-title" style="font-size:14px;font-weight:800;color:#dbeafe;letter-spacing:.01em;"></div>
+public/js/phase530_visible_panels_bridge.js:392:                <div style="margin-top:4px;color:#94a3b8;font-size:11px;">Read-only inspection. No execution, retry, or mutation is triggered from this view.</div>
+public/js/phase530_visible_panels_bridge.js:396:              <button type="button" data-phase717-inspection-close="true" style="cursor:pointer;border:1px solid rgba(148,163,184,.35);background:rgba(15,23,42,.85);color:#cbd5e1;border-radius:10px;padding:6px 9px;font-size:12px;">Close</button>
+public/js/phase530_visible_panels_bridge.js:400:            <pre data-phase717-inspection-content="true" style="display:block;box-sizing:border-box;width:100%;max-width:100%;min-height:140px;max-height:560px;overflow:auto;margin-top:12px;padding:10px;border-radius:10px;border:1px solid rgba(51,65,85,.7);background:#020617;color:#e5e7eb;font-size:11px;line-height:1.45;white-space:pre-wrap;overflow-wrap:anywhere;word-break:break-word;"></pre>
+public/js/phase530_visible_panels_bridge.js:408:      const titleNode = root.querySelector("#phase717-inspection-modal-title");
+public/js/phase530_visible_panels_bridge.js:410:      const contentNode = root.querySelector("[data-phase717-inspection-content]");
+public/js/phase530_visible_panels_bridge.js:412:      const closeButton = root.querySelector("[data-phase717-inspection-close]");
+public/js/phase530_visible_panels_bridge.js:414:      const overlay = root.querySelector("[data-phase717-inspection-overlay]");
+public/js/phase530_visible_panels_bridge.js:447:  function phase717RetryModal(options) {
+public/js/phase530_visible_panels_bridge.js:451:      const rootId = "phase717-retry-modal-root";
+public/js/phase530_visible_panels_bridge.js:465:      const title = phase717EscapeModalText(options.title || "Confirm action");
+public/js/phase530_visible_panels_bridge.js:467:      const message = phase717EscapeModalText(options.message || "");
+public/js/phase530_visible_panels_bridge.js:469:      const confirmLabel = phase717EscapeModalText(options.confirmLabel || "Confirm");
+public/js/phase530_visible_panels_bridge.js:471:      const cancelLabel = options.cancelLabel === null ? null : phase717EscapeModalText(options.cancelLabel || "Cancel");
+public/js/phase530_visible_panels_bridge.js:479:        <div data-phase717-modal-overlay="true" style="position:fixed;inset:0;z-index:9999;display:flex;align-items:center;justify-content:center;padding:18px;background:rgba(2,6,23,.72);backdrop-filter:blur(6px);">
+public/js/phase530_visible_panels_bridge.js:481:          <section role="dialog" aria-modal="true" aria-labelledby="phase717-retry-modal-title" style="width:min(520px,calc(100vw - 28px));border:1px solid ${border};border-radius:16px;background:rgba(15,23,42,.98);box-shadow:0 24px 80px rgba(0,0,0,.45);padding:16px;color:#e5e7eb;">
+public/js/phase530_visible_panels_bridge.js:483:            <div id="phase717-retry-modal-title" style="font-size:14px;font-weight:800;color:${tone};letter-spacing:.01em;">${title}</div>
+public/js/phase530_visible_panels_bridge.js:489:              ${cancelLabel ? `<button type="button" data-phase717-modal-cancel="true" style="cursor:pointer;border:1px solid rgba(148,163,184,.35);background:rgba(15,23,42,.85);color:#cbd5e1;border-radius:10px;padding:7px 10px;font-size:12px;">${cancelLabel}</button>` : ""}
+public/js/phase530_visible_panels_bridge.js:491:              <button type="button" data-phase717-modal-confirm="true" style="cursor:pointer;border:1px solid ${border};background:rgba(30,41,59,.95);color:${tone};border-radius:10px;padding:7px 10px;font-size:12px;font-weight:700;">${confirmLabel}</button>
+public/js/phase530_visible_panels_bridge.js:509:      const confirm = root.querySelector("[data-phase717-modal-confirm]");
+public/js/phase530_visible_panels_bridge.js:511:      const cancel = root.querySelector("[data-phase717-modal-cancel]");
+public/js/phase530_visible_panels_bridge.js:513:      const overlay = root.querySelector("[data-phase717-modal-overlay]");
+public/js/phase530_visible_panels_bridge.js:535:  async function phase717RetryTask(taskId, mode, button, taskTitle) {
+public/js/phase530_visible_panels_bridge.js:537:    if (!taskId) {
+public/js/phase530_visible_panels_bridge.js:539:      await phase717RetryModal({ title: "Retry not submitted", message: "Missing task id; retry was not submitted.", confirmLabel: "Close", cancelLabel: null, tone: "error" });
+public/js/phase530_visible_panels_bridge.js:545:    const label = mode === "fresh-context" ? "retry differently" : "requeue";
+public/js/phase530_visible_panels_bridge.js:547:    const displayName = taskTitle && taskTitle.trim() ? taskTitle.trim() : taskId;
+public/js/phase530_visible_panels_bridge.js:549:    const modalTitle = mode === "fresh-context" ? "Confirm retry action" : "Confirm requeue";
+public/js/phase530_visible_panels_bridge.js:557:    const ok = await phase717RetryModal({ title: modalTitle, message: `Submit ${label} for “${displayName}”?\n\n${detailMessage}`, confirmLabel: "Submit", cancelLabel: "Cancel" });
+public/js/phase530_visible_panels_bridge.js:577:        headers: { "Content-Type": "application/json" },
+public/js/phase530_visible_panels_bridge.js:579:        body: JSON.stringify({
+public/js/phase530_visible_panels_bridge.js:581:          kind: "retry",
+public/js/phase530_visible_panels_bridge.js:585:          title: `${label} ${taskId}`,
+public/js/phase530_visible_panels_bridge.js:587:          meta: { retry_of_task_id: taskId },
+public/js/phase530_visible_panels_bridge.js:595:      const data = await res.json();
+public/js/phase530_visible_panels_bridge.js:603:      await phase717RetryModal({ title: "Retry submitted", message: `Retry submitted: ${data.task_id || data.id || "created"}`, confirmLabel: "Close", cancelLabel: null, tone: "success" });
+public/js/phase530_visible_panels_bridge.js:609:      await phase717RetryModal({ title: "Retry failed", message: `${err && err.message ? err.message : String(err)}`, confirmLabel: "Close", cancelLabel: null, tone: "error" });
+public/js/phase530_visible_panels_bridge.js:627:    const detailButton = event.target.closest("[data-phase717-inspect-details]");
+public/js/phase530_visible_panels_bridge.js:629:    const traceButton = event.target.closest("[data-phase717-inspect-trace]");
+public/js/phase530_visible_panels_bridge.js:631:    const logsButton = event.target.closest("[data-phase717-inspect-logs]");
+public/js/phase530_visible_panels_bridge.js:633:    const inspectionButton = detailButton || traceButton || logsButton;
+public/js/phase530_visible_panels_bridge.js:635:    if (!inspectionButton) return;
+public/js/phase530_visible_panels_bridge.js:639:    phase717InspectionModal({
+public/js/phase530_visible_panels_bridge.js:641:      title: inspectionButton.getAttribute("data-phase717-inspect-title") || "Read-only inspection",
+public/js/phase530_visible_panels_bridge.js:643:      content: inspectionButton.getAttribute("data-phase717-inspect-content") || "No inspection content available."
+public/js/phase530_visible_panels_bridge.js:651:    const requeue = event.target.closest("[data-phase717-requeue]");
+public/js/phase530_visible_panels_bridge.js:653:    const retryDifferently = event.target.closest("[data-phase717-retry-differently]");
+public/js/phase530_visible_panels_bridge.js:655:    if (!requeue && !retryDifferently) return;
+public/js/phase530_visible_panels_bridge.js:657:    const button = requeue || retryDifferently;
+public/js/phase530_visible_panels_bridge.js:659:    const taskId = button.getAttribute("data-task-id");
+public/js/phase530_visible_panels_bridge.js:661:    const taskTitle = button.getAttribute("data-task-title");
+public/js/phase530_visible_panels_bridge.js:663:    const mode = retryDifferently ? "fresh-context" : "standard";
+public/js/phase530_visible_panels_bridge.js:665:    phase717RetryTask(taskId, mode, button, taskTitle);
+public/js/phase530_visible_panels_bridge.js:676:      const data = await getJson("/api/tasks?limit=12");
+public/js/phase530_visible_panels_bridge.js:677:      renderRecent(data.tasks || []);
+public/js/phase530_visible_panels_bridge.js:698:  function phase719EnsurePreviewModal() {
+public/js/phase530_visible_panels_bridge.js:700:    let modal = document.getElementById("phase719-preview-modal");
+public/js/phase530_visible_panels_bridge.js:706:    modal.id = "phase719-preview-modal";
+public/js/phase530_visible_panels_bridge.js:712:      <div role="dialog" aria-modal="true" aria-labelledby="phase719-preview-title" style="width:min(760px,96vw);max-height:86vh;overflow:auto;background:#020617;border:1px solid rgba(148,163,184,.35);border-radius:16px;box-shadow:0 24px 70px rgba(0,0,0,.55);padding:16px;color:#e5e7eb;">
+public/js/phase530_visible_panels_bridge.js:718:            <div id="phase719-preview-title" style="font-size:14px;font-weight:800;color:#f8fafc;">Artifact Preview</div>
+public/js/phase530_visible_panels_bridge.js:720:            <div id="phase719-preview-subtitle" style="margin-top:4px;font-size:11px;color:#94a3b8;overflow-wrap:anywhere;"></div>
+public/js/phase530_visible_panels_bridge.js:724:          <button type="button" data-phase719-preview-close="true" style="cursor:pointer;border:1px solid rgba(148,163,184,.35);background:rgba(15,23,42,.85);color:#cbd5e1;border-radius:999px;padding:5px 10px;font-size:12px;">Close</button>
+public/js/phase530_visible_panels_bridge.js:728:        <div id="phase719-preview-meta" style="font-size:12px;line-height:1.6;color:#bbf7d0;border:1px solid rgba(134,239,172,.25);background:rgba(20,83,45,.12);border-radius:12px;padding:10px;margin-bottom:12px;"></div>
+public/js/phase530_visible_panels_bridge.js:730:        <div id="phase719-preview-body" style="overflow-wrap:anywhere;font-size:13px;line-height:1.6;color:#dbeafe;border:1px solid rgba(96,165,250,.24);background:linear-gradient(180deg, rgba(15,23,42,.92), rgba(2,6,23,.74));border-radius:16px;padding:18px;margin:0;box-shadow:inset 0 1px 0 rgba(255,255,255,.04);"></div>
+public/js/phase530_visible_panels_bridge.js:740:      if (event.target === modal || event.target.closest("[data-phase719-preview-close]")) {
+public/js/phase530_visible_panels_bridge.js:764:  function phase719EscapePreviewHtml(value) {
+public/js/phase530_visible_panels_bridge.js:902:      const parsed = JSON.parse(match[1].trim());
+public/js/phase530_visible_panels_bridge.js:922:  function phase719ExtractArtifactSections(markdown) {
+public/js/phase530_visible_panels_bridge.js:926:    const withoutTrace = source.replace(/## Execution Trace[\s\S]*$/i, "").trim();
+public/js/phase530_visible_panels_bridge.js:934:    withoutTrace.split(/\r?\n/).forEach((line) => {
+public/js/phase530_visible_panels_bridge.js:972:  function phase719RenderArtifactVisualCard(markdown) {
+public/js/phase530_visible_panels_bridge.js:980:    const sections = phase719ExtractArtifactSections(markdownWithoutEnvelope);
+public/js/phase530_visible_panels_bridge.js:1032:        : semanticSource.includes("completed") || semanticSource.includes("success")
+public/js/phase530_visible_panels_bridge.js:1050:    function phase719CleanRepeatedArtifactText(value) {
+public/js/phase530_visible_panels_bridge.js:1066:    const displaySummary = phase719CleanRepeatedArtifactText(summary);
+public/js/phase530_visible_panels_bridge.js:1068:    const displayDeliverable = phase719CleanRepeatedArtifactText(deliverable);
+public/js/phase530_visible_panels_bridge.js:1070:    const displayOutcome = phase719CleanRepeatedArtifactText(outcome);
+public/js/phase530_visible_panels_bridge.js:1142:      status ? `<span style="display:inline-flex;align-items:center;border:1px solid rgba(134,239,172,.38);background:rgba(20,83,45,.22);color:#bbf7d0;border-radius:999px;padding:5px 10px;font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.08em;">${phase719EscapePreviewHtml(status)}</span>` : "",
+public/js/phase530_visible_panels_bridge.js:1144:      `<span style="display:inline-flex;align-items:center;border:1px solid rgba(147,197,253,.34);background:rgba(30,64,175,.22);color:#bfdbfe;border-radius:999px;padding:5px 10px;font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.08em;">${phase719EscapePreviewHtml(semanticType)}</span>`,
+public/js/phase530_visible_panels_bridge.js:1146:      semanticEnvelope ? `<span style="display:inline-flex;align-items:center;border:1px solid rgba(45,212,191,.34);background:rgba(20,184,166,.14);color:#99f6e4;border-radius:999px;padding:5px 10px;font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.08em;">semantic v${phase719EscapePreviewHtml(semanticEnvelope.semantic_version || "1")}</span>` : "",
+public/js/phase530_visible_panels_bridge.js:1148:      `<span style="display:inline-flex;align-items:center;border:1px solid rgba(251,191,36,.34);background:rgba(120,53,15,.18);color:#fde68a;border-radius:999px;padding:5px 10px;font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.08em;">${phase719EscapePreviewHtml(semanticPriority)}</span>`
+public/js/phase530_visible_panels_bridge.js:1154:      <div data-phase719-rendered-artifact-preview="true" style="max-width:920px;margin:0 auto;">
+public/js/phase530_visible_panels_bridge.js:1162:            <div style="font-size:30px;line-height:1.05;font-weight:900;letter-spacing:-.04em;color:${phase733Theme.heading};margin-bottom:12px;">${phase719EscapePreviewHtml(title)}</div>
+public/js/phase530_visible_panels_bridge.js:1164:            ${task ? `<div style="font-size:15px;line-height:1.55;color:${phase733Theme.secondary};max-width:760px;">${phase719EscapePreviewHtml(task)}</div>` : ""}
+public/js/phase530_visible_panels_bridge.js:1182:                      <div style="font-size:10px;text-transform:uppercase;letter-spacing:.16em;color:#99f6e4;font-weight:900;margin-bottom:5px;">${phase719EscapePreviewHtml(label)}</div>
+public/js/phase530_visible_panels_bridge.js:1184:                      <div style="font-size:14px;line-height:1.55;color:${phase733Theme.insightText};white-space:pre-wrap;">${phase719EscapePreviewHtml(value)}</div>
+public/js/phase530_visible_panels_bridge.js:1204:                <div style="font-size:11px;text-transform:uppercase;letter-spacing:.18em;color:${phase733Theme.accent};font-weight:900;margin-bottom:10px;">${phase719EscapePreviewHtml(label)}</div>
+public/js/phase530_visible_panels_bridge.js:1206:                <div style="font-size:15px;line-height:1.6;color:${phase733Theme.body};white-space:pre-wrap;">${phase719EscapePreviewHtml(value)}</div>
+public/js/phase530_visible_panels_bridge.js:1220:              <div style="font-size:17px;line-height:1.55;color:${phase733Theme.body};font-weight:650;">${phase719EscapePreviewHtml(displayOutcome || "No outcome content available.")}</div>
+public/js/phase530_visible_panels_bridge.js:1228:              <div style="font-size:14px;line-height:1.55;color:${phase733Theme.insightText};white-space:pre-wrap;">${phase719EscapePreviewHtml(explanation || "No explanation available.")}</div>
+public/js/phase530_visible_panels_bridge.js:1242:  function phase719RenderArtifactIframePreview(renderedHtml) {
+public/js/phase530_visible_panels_bridge.js:1284:        srcdoc="${phase719EscapePreviewHtml(srcdoc)}"
+public/js/phase530_visible_panels_bridge.js:1392:    const fallbackPreview = phase719RenderArtifactVisualCard(fallbackMarkdown);
+public/js/phase530_visible_panels_bridge.js:1424:          <template data-phase735-visual-html-template="true">${phase719EscapePreviewHtml(safeVisualHtml)}</template>
+public/js/phase530_visible_panels_bridge.js:1467:    return JSON.parse(trimmed);
+public/js/phase530_visible_panels_bridge.js:2159:  function phase719RenderMarkdownArtifactPreview(markdown) {
+public/js/phase530_visible_panels_bridge.js:2199:          <template data-phase735-visual-html-template="true">${phase719EscapePreviewHtml(safeVisualHtml)}</template>
+public/js/phase530_visible_panels_bridge.js:2249:          <template data-phase735-visual-html-template="true">${phase719EscapePreviewHtml(safeFallbackHtml)}</template>
+public/js/phase530_visible_panels_bridge.js:2285:      >${phase719EscapePreviewHtml(strippedFallback)}</div>
+public/js/phase530_visible_panels_bridge.js:2291:  async function phase719OpenPreviewModal(button) {
+public/js/phase530_visible_panels_bridge.js:2293:    const modal = phase719EnsurePreviewModal();
+public/js/phase530_visible_panels_bridge.js:2295:    const title = modal.querySelector("#phase719-preview-title");
+public/js/phase530_visible_panels_bridge.js:2297:    const subtitle = modal.querySelector("#phase719-preview-subtitle");
+public/js/phase530_visible_panels_bridge.js:2299:    const meta = modal.querySelector("#phase719-preview-meta");
+public/js/phase530_visible_panels_bridge.js:2301:    const body = modal.querySelector("#phase719-preview-body");
+public/js/phase530_visible_panels_bridge.js:2303:    const taskTitle = button.getAttribute("data-task-title") || "Artifact Preview";
+public/js/phase530_visible_panels_bridge.js:2305:    const taskId = button.getAttribute("data-task-id") || "";
+public/js/phase530_visible_panels_bridge.js:2321:    subtitle.textContent = taskId ? "task_id: " + taskId : "";
+public/js/phase530_visible_panels_bridge.js:2339:    if (!taskId) {
+public/js/phase530_visible_panels_bridge.js:2349:      const res = await fetch(`/api/tasks/${encodeURIComponent(taskId)}/artifact-preview`, { cache: "no-store" });
+public/js/phase530_visible_panels_bridge.js:2351:      const data = await res.json().catch(() => null);
+public/js/phase530_visible_panels_bridge.js:2393:      body.innerHTML = phase719RenderMarkdownArtifactPreview(data.content);
+public/js/phase530_visible_panels_bridge.js:2450:    const button = event.target.closest("[data-phase719-preview-artifact]");
+public/js/phase530_visible_panels_bridge.js:2456:    phase719OpenPreviewModal(button);
+public/js/phase530_visible_panels_bridge.js:2467:    const recentTasks = document.getElementById("recentTasks");
+public/js/phase530_visible_panels_bridge.js:2471:    const recentCard = document.getElementById("recent-tasks-card") || (recentTasks ? recentTasks.closest("section, article, div") : null);
+
+===== BACKEND TASK MUTATION ROUTES =====
+import express from "express";
+import { dbDelegateTask, dbCompleteTask } from "../tasks-mutations.mjs";
+
+function _asJson(req) {
+  const b = req.body;
+  if (b == null) return {};
+  if (typeof b === "object") return b;
+  if (typeof b === "string") {
+    try { return JSON.parse(b); } catch (_) { return { _raw: b }; }
+  }
+  return { _raw: b };
+}
+
+export const apiTasksMutationsRouter = express.Router();
+
+apiTasksMutationsRouter.post("/delegate", async (req, res) => {
+  try {
+    const pool = globalThis.__DB_POOL;
+    if (!pool) return res.status(500).json({ ok: false, error: "db_pool_not_initialized" });
+    const row = await dbDelegateTask(pool, _asJson(req));
+    res.status(201).json({ ok: true, task: row });
+  } catch (e) {
+    res.status(500).json({ ok: false, error: e?.message || String(e) });
+  }
+});
+
+apiTasksMutationsRouter.post("/complete", async (req, res) => {
+  try {
+    const pool = globalThis.__DB_POOL;
+    if (!pool) return res.status(500).json({ ok: false, error: "db_pool_not_initialized" });
+      const b = _asJson(req);
+      const row = await dbCompleteTask(pool, {
+        ...b,
+        kind: b.kind ?? b.event_kind ?? b.eventKind ?? "task.completed",
+      });
+    res.status(200).json({ ok: true, task: row });
+  } catch (e) {
+    res.status(500).json({ ok: false, error: e?.message || String(e) });
+  }
+});
+
+apiTasksMutationsRouter.post("/fail", async (req, res) => {
+  try {
+    const pool = globalThis.__DB_POOL;
+    if (!pool) return res.status(500).json({ ok: false, error: "db_pool_not_initialized" });
+      const b = _asJson(req);
+      const row = await dbCompleteTask(pool, {
+      ...b,
+        kind: b.kind ?? b.event_kind ?? b.eventKind ?? "task.failed",
+      status: b.status ?? "failed",
+      error: b.error ?? b.err ?? "unknown_error",
+    });
+    res.status(200).json({ ok: true, task: row });
+  } catch (e) {
+    res.status(500).json({ ok: false, error: e?.message || String(e) });
+  }
+});
+
+export default apiTasksMutationsRouter;
+
+       status,
+
+       notes,
+
+       run_id,
+
+       action_tier,
+
+       kind,
+
+       payload,
+
+       created_at,
+
+       updated_at`,
+
+    [int_id, String(id), status, notePatch],
+
+  );
+
+  if (!r.rows?.[0]) throw new Error(`task not found: ${id}`);
+
+  const row = r.rows[0];
+
+  const k = body?.kind ?? body?.event_kind ?? body?.eventKind ?? "task.event";
+
+  const payload = row?.payload && typeof row.payload === "object" ? row.payload : {};
+
+  await emitTaskEvent({
+
+    pool,
+
+    kind: k,
+
+    task_id: row.task_id ?? row.id,
+
+    run_id: body?.run_id ?? body?.runId ?? row.run_id ?? null,
+
+    actor: body?.actor ?? body?.agent ?? payload.agent ?? body?.source ?? "api",
+
+    payload: {
+
+      status: row.status,
+
+      error: body?.error ?? null,
+
+      source: body?.source || payload.source || "api",
+
+      task: row,
+
+    },
+
+  });
+
+  return row;
+
+}
+
+
+===== MOUNTED ROUTE DISCOVERY =====
+server.mjs:23:import { dbDelegateTask, dbCompleteTask } from "./server/tasks-mutations.mjs";
+server.mjs:25:import apiTasksMutationsRouter from "./server/routes/api-tasks-mutations.mjs";
+server.mjs:27:import { handleDelegateTaskSpec as phase23HandleDelegateTaskSpec } from "./server/api/tasks-mutations/delegate-taskspec.mjs";
+server.mjs:60:    if (req.path.startsWith("/api/tasks")) {
+server.mjs:177:app.post("/api/tasks-mutations/delegate-taskspec", async (req, res) => phase23HandleDelegateTaskSpec(req, res, { db: pool, dbDelegateTask }));
+server.mjs:184:app.use("/api/tasks", apiTasksRouter);
+server.mjs:185:app.use("/api/tasks-mutations", apiTasksMutationsRouter);
+server.mjs:346:app.get("/api/tasks", async (req, res) => {
+server.mjs:347:  console.log("[phase57c-live] /api/tasks probe", {
+server/routes/api-tasks-postgres.mjs:38:// GET /api/tasks?limit=25  -> recent tasks for dashboard widget
+server/routes/api-tasks-postgres.mjs:40:  console.log("[phase57c-router] /api/tasks probe", {
+server/routes/api-tasks-postgres.mjs:66:    console.error("[phase25] /api/tasks list error", e);
+server/routes/api-tasks-postgres.mjs:71:// POST /api/tasks/create  { task_id?, title?, agent?, run_id?, ... }
+server/routes/api-tasks-postgres.mjs:77:    console.log("[phase25] /api/tasks/create pool snapshot", {
+server/routes/api-tasks-postgres.mjs:140:    console.error("[phase25] /api/tasks error", e);
+server/routes/api-tasks-postgres.mjs:150:// POST /api/tasks/complete  { task_id, status?, run_id?, ... }
+server/routes/api-tasks-postgres.mjs:154:    assertNotEnforced("http:/api/tasks/create");
+server/routes/api-tasks-postgres.mjs:178:    console.error("[phase25] /api/tasks error", e);
+server/routes/api-tasks-postgres.mjs:188:// POST /api/tasks/fail  { task_id, error?, status?, run_id?, ... }
+server/routes/api-tasks-postgres.mjs:192:    assertNotEnforced("http:/api/tasks/complete");
+server/routes/api-tasks-postgres.mjs:216:    console.error("[phase25] /api/tasks error", e);
+server/routes/api-tasks-postgres.mjs:226:// POST /api/tasks/cancel  { task_id, run_id?, ... }
+server/routes/api-tasks-postgres.mjs:230:    assertNotEnforced("http:/api/tasks/cancel");
+server/routes/api-tasks-postgres.mjs:233:    assertNotEnforced("http:/api/tasks/fail");
+server/routes/api-tasks-postgres.mjs:256:    console.error("[phase25] /api/tasks error", e);
+server/routes/api-tasks-mutations.mjs:2:import { dbDelegateTask, dbCompleteTask } from "../tasks-mutations.mjs";
