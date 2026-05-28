@@ -1,0 +1,121 @@
+===== COMPOSE RUNTIME AFTER POSTGRES WAIT VALIDATION =====
+Thu May 28 01:08:44 PDT 2026
+
+===== WAIT FOR POSTGRES / DASHBOARD SETTLE =====
+waited 20 seconds
+
+===== COMPOSE PS =====
+NAME                                      IMAGE                COMMAND                  SERVICE    CREATED          STATUS          PORTS
+motherboard-systems-hq-clean-postgres-1   postgres:16-alpine   "docker-entrypoint.s…"   postgres   57 seconds ago   Up 56 seconds   0.0.0.0:5432->5432/tcp, [::]:5432->5432/tcp
+
+===== DASHBOARD LOGS =====
+[phase25] task_events_emit loaded 2026-05-28T08:08:08.130Z file= file:///app/server/task_events_emit.mjs
+[phase25] api-tasks-postgres loaded 2026-05-28T08:08:08.130Z file= file:///app/server/routes/api-tasks-postgres.mjs
+[phase19] orchestrator_state_route mounted {
+  file: 'file:///app/server/orchestrator_state_route.mjs',
+  envSnapshot: {
+    PHASE18_ENABLE_ORCHESTRATION: undefined,
+    PHASE19_ENABLE_ORCH_STATE: undefined
+  }
+}
+[SSE] /events/ops + /events/reflections registered
+[db] effective pool config {
+  mode: 'url',
+  DB_URL_present: true,
+  host: null,
+  port: null,
+  user: null,
+  database: null,
+  password_type: 'url-hidden',
+  password_len: 'hidden',
+  has_password: true
+}
+[db] waiting for postgres... elapsed=7ms code=ECONNREFUSED
+
+===== POSTGRES LOGS =====
+The files belonging to this database system will be owned by user "postgres".
+This user must also own the server process.
+
+The database cluster will be initialized with locale "en_US.utf8".
+The default database encoding has accordingly been set to "UTF8".
+The default text search configuration will be set to "english".
+
+Data page checksums are disabled.
+
+fixing permissions on existing directory /var/lib/postgresql/data ... ok
+creating subdirectories ... ok
+selecting dynamic shared memory implementation ... posix
+selecting default max_connections ... 100
+selecting default shared_buffers ... 128MB
+selecting default time zone ... UTC
+creating configuration files ... ok
+running bootstrap script ... ok
+performing post-bootstrap initialization ... ok
+syncing data to disk ... ok
+
+
+Success. You can now start the database server using:
+
+    pg_ctl -D /var/lib/postgresql/data -l logfile start
+
+waiting for server to start....2026-05-28 08:08:08.326 UTC [41] LOG:  starting PostgreSQL 16.14 on aarch64-unknown-linux-musl, compiled by gcc (Alpine 15.2.0) 15.2.0, 64-bit
+2026-05-28 08:08:08.327 UTC [41] LOG:  listening on Unix socket "/var/run/postgresql/.s.PGSQL.5432"
+2026-05-28 08:08:08.328 UTC [44] LOG:  database system was shut down at 2026-05-28 08:08:08 UTC
+2026-05-28 08:08:08.329 UTC [41] LOG:  database system is ready to accept connections
+ done
+server started
+
+/usr/local/bin/docker-entrypoint.sh: ignoring /docker-entrypoint-initdb.d/*
+
+waiting for server to shut down....2026-05-28 08:08:08.426 UTC [41] LOG:  received fast shutdown request
+2026-05-28 08:08:08.427 UTC [41] LOG:  aborting any active transactions
+2026-05-28 08:08:08.428 UTC [41] LOG:  background worker "logical replication launcher" (PID 47) exited with exit code 1
+2026-05-28 08:08:08.428 UTC [42] LOG:  shutting down
+2026-05-28 08:08:08.428 UTC [42] LOG:  checkpoint starting: shutdown immediate
+2026-05-28 08:08:08.430 UTC [42] LOG:  checkpoint complete: wrote 3 buffers (0.0%); 0 WAL file(s) added, 0 removed, 0 recycled; write=0.001 s, sync=0.001 s, total=0.002 s; sync files=2, longest=0.001 s, average=0.001 s; distance=0 kB, estimate=0 kB; lsn=0/14F2618, redo lsn=0/14F2618
+2026-05-28 08:08:08.431 UTC [41] LOG:  database system is shut down
+ done
+server stopped
+
+PostgreSQL init process complete; ready for start up.
+
+
+===== TASKS HEALTH =====
+
+===== DASHBOARD ROOT =====
+
+===== GOVERNED ROUTE IN-PROCESS CONTROL =====
+{
+  "ok": true,
+  "route_smoke": "inprocess_governed_planning_route",
+  "status_code": 200,
+  "payload_ok": true,
+  "mutation_performed": false,
+  "shell_execution_performed": false,
+  "autonomous_execution_performed": false
+}
+
+===== WORKTREE =====
+?? .backup_excludes
+?? CADE_RUNTIME_DISCOVERY.txt
+?? CADE_RUNTIME_HIGH_SIGNAL_CONTENTS.txt
+?? COMPOSE_RUNTIME_AFTER_POSTGRES_WAIT_VALIDATION.txt
+?? EXECUTION_IMPLEMENTATION_SURFACES.txt
+?? EXTERNAL_DB_BACKUP_SEARCH_BEFORE_DOCKER_RESET.txt
+?? backups/
+?? discover-execution-implementation-surfaces.sh
+?? extract-matilda-delegation-docs.sh
+?? inspect-latest-source-backups-for-db-assets.sh
+?? scripts/dr
+?? scripts/dr_autonomous_wrapper.sh
+?? scripts/dr_daemon.sh
+?? scripts/dr_daemon_self_healing.sh
+?? scripts/dr_watchdog.sh
+?? scripts/offsite_r2_sync.sh
+?? scripts/retention_engine.sh
+?? scripts/storage_guard.sh
+?? scripts/storage_monitor.sh
+?? scripts/storage_policy.sh
+?? scripts/vault_layer.sh
+?? search-external-db-backups-before-docker-reset.sh
+?? validate-compose-runtime-after-postgres-wait.sh
