@@ -1,0 +1,440 @@
+===== FRESH POSTGRES SCHEMA BOOTSTRAP INSPECTION =====
+Thu May 28 01:11:02 PDT 2026
+
+===== COMPOSE PS =====
+NAME                                      IMAGE                COMMAND                  SERVICE    CREATED         STATUS         PORTS
+motherboard-systems-hq-clean-postgres-1   postgres:16-alpine   "docker-entrypoint.s…"   postgres   2 minutes ago   Up 2 minutes   0.0.0.0:5432->5432/tcp, [::]:5432->5432/tcp
+
+===== SQL / MIGRATION CANDIDATES =====
+docker-entrypoint-initdb.d/00_phase54_bootstrap.sql
+drizzle_pg/0001_create_task_events.sql
+drizzle_pg/0001_create_tasks.sql
+drizzle_pg/0001_phase31_7_failed_at_guard.sql
+drizzle_pg/0006_phase32_1_task_events_contract.sql
+drizzle_pg/0007_phase34_lease_heartbeat_reclaim.sql
+drizzle_pg/0007_phase35_lease_epoch.sql
+drizzle_pg/0007_phase36_1_run_view.sql
+drizzle_pg/0007_phase36_2_run_view_contract.sql
+drizzle_pg/0008_phase39_action_tier_scaffolding.sql
+drizzle_pg/0008_phase57_run_snapshot.sql
+drizzle_pg/0009_phase39_db_repair_notes_failedat_taskid.sql
+drizzle_pg/0009_phase57_1_tasks_title.sql
+drizzle/0000_safe_kylun.sql
+drizzle/0002_phase32_retry_backoff_minimal.sql
+drizzle/0003_phase32_tasks_actor_run_id.sql
+server/_lib/retry.mjs
+server/api/tasks-mutations/delegate-taskspec.mjs
+server/artifacts.mjs
+server/contracts/execution-envelope.v1.mjs
+server/db_bootstrap_tasks_retry_semantics.mjs
+server/db_bootstrap_tasks_task_id.mjs
+server/db_wait_ready.mjs
+server/db.js
+server/emit-after-response.mjs
+server/enforcement/phase44_mutation_allowlist.mjs
+server/enforcement/phase44_mutation_enforcer.mjs
+server/enforcement/phase44_reason_codes.mjs
+server/execution/build-approval-artifact.mjs
+server/execution/build-execution-envelope-draft.mjs
+server/execution/build-governance-audit-ledger.mjs
+server/execution/build-governed-planning-artifact-bundle.mjs
+server/execution/build-reconciliation-summary.mjs
+server/execution/cade-engineer-adapter.mjs
+server/execution/execution-approval-gate.mjs
+server/execution/execution-phase-state-machine.mjs
+server/execution/governance-validator.mjs
+server/execution/governed-phase-runner.mjs
+server/execution/governed-planning-pipeline.mjs
+server/execution/normalize-execution-intent.mjs
+server/execution/normalize-governed-response.mjs
+server/execution/normalize-reconciliation-artifact.mjs
+server/execution/smoke-test-approval-gate.mjs
+server/execution/smoke-test-envelope-draft.mjs
+server/execution/smoke-test-governance-audit-ledger.mjs
+server/execution/smoke-test-governed-phase-runner.mjs
+server/execution/smoke-test-governed-planning-pipeline.mjs
+server/execution/smoke-test-governed-route-fail-closed.mjs
+server/execution/smoke-test-governed-route-inprocess.mjs
+server/execution/smoke-test-governed-route.mjs
+server/execution/smoke-test-intent-normalization.mjs
+server/execution/smoke-test-phase-state-machine.mjs
+server/execution/smoke-test-planning-artifact-bundle.mjs
+server/execution/smoke-test-reconciliation-normalization.mjs
+server/execution/smoke-test-response-normalization.mjs
+server/guards/mutation-scope-guard.mjs
+server/guards/phase44_runtime_integrity_guard.mjs
+server/guards/validate-execution-envelope.mjs
+server/optional-sse.mjs
+server/orchestration/deps.test.ts
+server/orchestration/deps.ts
+server/orchestration/operator-commands.test.ts
+server/orchestration/operator-commands.ts
+server/orchestration/policy-pipeline.ts
+server/orchestration/policy.ts
+server/orchestration/router.test.ts
+server/orchestration/router.ts
+server/orchestration/scheduler.test.ts
+server/orchestration/scheduler.ts
+server/orchestration/task-state-machine.test.ts
+server/orchestration/task-state-machine.ts
+server/orchestrator_state_route.mjs
+server/orchestrator/phase18_orchestration.mjs
+server/orchestrator/phase18_store.mjs
+server/orchestrator/phase18_tick.mjs
+server/phase19_debug_routes_dump.mjs
+server/policy/__tests__/combine.test.mjs
+server/policy/__tests__/determinism_regression.test.mjs
+server/policy/__tests__/evaluate.test.mjs
+server/policy/__tests__/grants.test.mjs
+server/policy/__tests__/load_default_policy.test.mjs
+server/policy/combine.mjs
+server/policy/enforce.mjs
+server/policy/evaluate.legacy.mjs
+server/policy/evaluate.mjs
+server/policy/grants.mjs
+server/policy/grants/resolvePolicyGrant.mjs
+server/policy/policy_audit_shape.mjs
+server/policy/policy_audit.mjs
+server/policy/policy_eval.mjs
+server/policy/policy_flags.mjs
+server/policy/policy_grants.ts
+server/policy/resolvePolicyGrant.mjs
+server/policy/stable_json.mjs
+server/routes/api-health.mjs
+server/routes/api-tasks-mutations.mjs
+server/routes/api-tasks-postgres.mjs
+server/routes/governed-planning-route.mjs
+server/routes/phase36_run_view.mjs
+server/routes/phase40_6_shadow_audit_task_events.mjs
+server/routes/phase48_policy_probe.mjs
+server/routes/task-events-sse.mjs
+server/sql/phase39_claim_one_with_value_gate.sql
+server/sql/phase40_6_shadow_audit_task_events.sql
+server/sql/phase45_policy_grants.sql
+server/sql/phase47_decision_correctness_invariants.sql
+server/sql/phase54_bootstrap.sql
+server/task_events_emit.mjs
+server/task-events.mjs
+server/task-lifecycle.ts
+server/taskContract.mjs
+server/tasks-mutations.mjs
+server/worker/backoff.mjs
+server/worker/phase26_task_worker.mjs
+server/worker/phase27_claim_one.sql
+server/worker/phase27_mark_failure.sql
+server/worker/phase27_mark_success.sql
+server/worker/phase27_markers.mjs
+server/worker/phase28_claim_one.sql
+server/worker/phase28_mark_failure.sql
+server/worker/phase28_mark_success.sql
+server/worker/phase29_db_migrate_to_phase27.sql
+server/worker/phase30_contract_check.sql
+server/worker/phase32_claim_one.sql
+server/worker/phase32_mark_failure.sql
+server/worker/phase32_mark_success.sql
+server/worker/phase34_claim_one_pg.sql
+server/worker/phase34_claim_one.sql
+server/worker/phase34_claim_task_id_for_test.sql
+server/worker/phase34_extend_lease_pg.sql
+server/worker/phase34_heartbeat_pg.sql
+server/worker/phase34_heartbeat.sql
+server/worker/phase34_kill_owner_for_test.sql
+server/worker/phase34_mark_failure_pg.sql
+server/worker/phase34_mark_failure.sql
+server/worker/phase34_mark_success_pg.sql
+server/worker/phase34_mark_success.sql
+server/worker/phase34_reclaim_stale_pg.sql
+server/worker/phase34_reclaim_stale.sql
+server/worker/phase35_claim_one_pg.sql
+server/worker/phase35_mark_failure_pg.sql
+server/worker/phase35_mark_failure.sql
+server/worker/phase35_mark_success_pg.sql
+server/worker/phase35_mark_success.sql
+server/worker/phase35_reclaim_expired.sql
+sql/phase40_claim_one_tierA.sql
+sql/phase41_invariants_run_view.sql
+sql/phase41_scenario_matrix_run_view.sql
+sql/policy/action_tier_policy.sql
+sql/policy/action_tier_validate.sql
+
+===== TASK TABLE REFERENCES =====
+docker-entrypoint-initdb.d/00_phase54_bootstrap.sql:7:CREATE TABLE IF NOT EXISTS public.tasks (
+docker-entrypoint-initdb.d/00_phase54_bootstrap.sql:42:-- task_events: ensure table exists, ensure ts is bigint epoch-ms
+docker-entrypoint-initdb.d/00_phase54_bootstrap.sql:43:CREATE TABLE IF NOT EXISTS public.task_events (
+docker-entrypoint-initdb.d/00_phase54_bootstrap.sql:53:CREATE INDEX IF NOT EXISTS task_events_task_id_idx ON public.task_events(task_id);
+docker-entrypoint-initdb.d/00_phase54_bootstrap.sql:54:CREATE INDEX IF NOT EXISTS task_events_created_at_idx ON public.task_events(created_at);
+docker-entrypoint-initdb.d/00_phase54_bootstrap.sql:63:      AND table_name='task_events'
+docker-entrypoint-initdb.d/00_phase54_bootstrap.sql:67:    EXECUTE 'ALTER TABLE public.task_events DROP COLUMN ts';
+docker-entrypoint-initdb.d/00_phase54_bootstrap.sql:74:      AND table_name='task_events'
+docker-entrypoint-initdb.d/00_phase54_bootstrap.sql:77:    EXECUTE 'ALTER TABLE public.task_events ADD COLUMN ts bigint NOT NULL DEFAULT (extract(epoch from now()) * 1000)::bigint';
+drizzle/0002_phase32_retry_backoff_minimal.sql:3:ALTER TABLE tasks
+drizzle/meta/0000_snapshot.json:59:    "task_events": {
+drizzle/meta/0000_snapshot.json:60:      "name": "task_events",
+drizzle/0000_safe_kylun.sql:10:CREATE TABLE IF NOT EXISTS `task_events` (
+drizzle/0003_phase32_tasks_actor_run_id.sql:4:ALTER TABLE tasks
+drizzle_pg/0007_phase36_1_run_view.sql:5:-- - task_events has: id, kind (e.g. 'task.running','task.completed','heartbeat'), task_id(text), run_id(text), actor(text), ts(bigint)
+drizzle_pg/0007_phase36_1_run_view.sql:7:-- - ordering uses task_events.id
+drizzle_pg/0007_phase36_1_run_view.sql:19:  FROM task_events te
+drizzle_pg/0007_phase36_1_run_view.sql:28:  FROM task_events te
+drizzle_pg/0007_phase36_1_run_view.sql:40:  FROM task_events te
+drizzle_pg/meta/_journal.json:8:      "tag": "0001_create_task_events",
+drizzle_pg/meta/_journal.json:22:      "tag": "0006_phase32_1_task_events_contract",
+drizzle_pg/0009_phase39_db_repair_notes_failedat_taskid.sql:4:-- - repair task_events.task_id numeric rows so task_events_task_id_not_numeric can be applied
+drizzle_pg/0009_phase39_db_repair_notes_failedat_taskid.sql:30:UPDATE public.task_events
+drizzle_pg/0009_phase39_db_repair_notes_failedat_taskid.sql:36:  -- task_events_task_id_not_numeric
+drizzle_pg/0009_phase39_db_repair_notes_failedat_taskid.sql:39:    WHERE conname='task_events_task_id_not_numeric'
+drizzle_pg/0009_phase39_db_repair_notes_failedat_taskid.sql:41:    ALTER TABLE public.task_events
+drizzle_pg/0009_phase39_db_repair_notes_failedat_taskid.sql:42:    ADD CONSTRAINT task_events_task_id_not_numeric
+drizzle_pg/0001_phase31_7_failed_at_guard.sql:19:alter table tasks
+drizzle_pg/0001_phase31_7_failed_at_guard.sql:21:alter table tasks
+drizzle_pg/0008_phase39_action_tier_scaffolding.sql:5:ALTER TABLE tasks
+drizzle_pg/0008_phase39_action_tier_scaffolding.sql:15:    ALTER TABLE tasks
+drizzle_pg/0008_phase39_action_tier_scaffolding.sql:21:ALTER TABLE tasks
+drizzle_pg/0001_create_task_events.sql:1:-- Phase 19: ensure task_events exists (idempotent)
+drizzle_pg/0001_create_task_events.sql:4:create table if not exists "task_events" (
+drizzle_pg/0001_create_task_events.sql:11:-- Guard: Phase 36 run_view expects task_events.ts (epoch ms) to exist.
+drizzle_pg/0001_create_task_events.sql:13:ALTER TABLE public.task_events
+drizzle_pg/0009_phase57_1_tasks_title.sql:5:ALTER TABLE tasks
+drizzle_pg/0006_phase32_1_task_events_contract.sql:2:ALTER TABLE public.task_events
+drizzle_pg/0006_phase32_1_task_events_contract.sql:4:ALTER TABLE public.task_events
+drizzle_pg/0006_phase32_1_task_events_contract.sql:6:ALTER TABLE public.task_events
+drizzle_pg/0006_phase32_1_task_events_contract.sql:11:-- 1) Normalize task_events.task_id: if numeric tasks.id, rewrite to tasks.task_id ("tN")
+drizzle_pg/0006_phase32_1_task_events_contract.sql:12:CREATE OR REPLACE FUNCTION task_events_normalize_task_id()
+drizzle_pg/0006_phase32_1_task_events_contract.sql:31:DROP TRIGGER IF EXISTS trg_task_events_normalize_task_id ON task_events;
+drizzle_pg/0006_phase32_1_task_events_contract.sql:32:CREATE TRIGGER trg_task_events_normalize_task_id
+drizzle_pg/0006_phase32_1_task_events_contract.sql:33:BEFORE INSERT ON task_events
+drizzle_pg/0006_phase32_1_task_events_contract.sql:35:EXECUTE FUNCTION task_events_normalize_task_id();
+drizzle_pg/0006_phase32_1_task_events_contract.sql:37:CREATE OR REPLACE FUNCTION task_events_normalize_payload_task_id()
+drizzle_pg/0006_phase32_1_task_events_contract.sql:65:DROP TRIGGER IF EXISTS trg_task_events_normalize_payload_task_id ON task_events;
+drizzle_pg/0006_phase32_1_task_events_contract.sql:66:CREATE TRIGGER trg_task_events_normalize_payload_task_id
+drizzle_pg/0006_phase32_1_task_events_contract.sql:67:BEFORE INSERT ON task_events
+drizzle_pg/0006_phase32_1_task_events_contract.sql:69:EXECUTE FUNCTION task_events_normalize_payload_task_id();
+drizzle_pg/0006_phase32_1_task_events_contract.sql:71:CREATE OR REPLACE FUNCTION task_events_extract_run_actor()
+drizzle_pg/0006_phase32_1_task_events_contract.sql:92:DROP TRIGGER IF EXISTS trg_task_events_extract_run_actor ON task_events;
+drizzle_pg/0006_phase32_1_task_events_contract.sql:93:CREATE TRIGGER trg_task_events_extract_run_actor
+drizzle_pg/0006_phase32_1_task_events_contract.sql:94:BEFORE INSERT ON task_events
+drizzle_pg/0006_phase32_1_task_events_contract.sql:96:EXECUTE FUNCTION task_events_extract_run_actor();
+drizzle_pg/0006_phase32_1_task_events_contract.sql:98:CREATE INDEX IF NOT EXISTS task_events_task_id_id_desc_idx
+drizzle_pg/0006_phase32_1_task_events_contract.sql:99:  ON task_events (task_id, id DESC);
+drizzle_pg/0006_phase32_1_task_events_contract.sql:100:CREATE INDEX IF NOT EXISTS task_events_run_id_id_desc_idx
+drizzle_pg/0006_phase32_1_task_events_contract.sql:101:  ON task_events (run_id, id DESC);
+drizzle_pg/0006_phase32_1_task_events_contract.sql:102:CREATE INDEX IF NOT EXISTS task_events_actor_id_desc_idx
+drizzle_pg/0006_phase32_1_task_events_contract.sql:103:  ON task_events (actor, id DESC);
+drizzle_pg/0006_phase32_1_task_events_contract.sql:105:ALTER TABLE task_events
+drizzle_pg/0006_phase32_1_task_events_contract.sql:106:  DROP CONSTRAINT IF EXISTS task_events_task_id_not_numeric;
+drizzle_pg/0006_phase32_1_task_events_contract.sql:107:ALTER TABLE task_events
+drizzle_pg/0006_phase32_1_task_events_contract.sql:108:  ADD CONSTRAINT task_events_task_id_not_numeric
+drizzle_pg/0006_phase32_1_task_events_contract.sql:110:ALTER TABLE task_events
+drizzle_pg/0006_phase32_1_task_events_contract.sql:111:  DROP CONSTRAINT IF EXISTS task_events_run_id_required_for_non_created;
+drizzle_pg/0006_phase32_1_task_events_contract.sql:112:ALTER TABLE task_events
+drizzle_pg/0006_phase32_1_task_events_contract.sql:113:  ADD CONSTRAINT task_events_run_id_required_for_non_created
+drizzle_pg/0006_phase32_1_task_events_contract.sql:115:ALTER TABLE task_events
+drizzle_pg/0006_phase32_1_task_events_contract.sql:116:  DROP CONSTRAINT IF EXISTS task_events_actor_required;
+drizzle_pg/0006_phase32_1_task_events_contract.sql:117:ALTER TABLE task_events
+drizzle_pg/0006_phase32_1_task_events_contract.sql:118:  ADD CONSTRAINT task_events_actor_required
+drizzle_pg/0007_phase35_lease_epoch.sql:1:ALTER TABLE tasks
+drizzle_pg/0007_phase34_lease_heartbeat_reclaim.sql:6:    ALTER TABLE tasks ADD COLUMN claimed_by TEXT NULL;
+drizzle_pg/0007_phase34_lease_heartbeat_reclaim.sql:10:    ALTER TABLE tasks ADD COLUMN claimed_at BIGINT NULL;
+drizzle_pg/0007_phase34_lease_heartbeat_reclaim.sql:14:    ALTER TABLE tasks ADD COLUMN lease_expires_at BIGINT NULL;
+drizzle_pg/0007_phase34_lease_heartbeat_reclaim.sql:18:    ALTER TABLE tasks ADD COLUMN lease_epoch INT NOT NULL DEFAULT 0;
+drizzle_pg/0008_phase57_run_snapshot.sql:4:--   Deterministic, append-only snapshot rows derived strictly from task_events
+drizzle_pg/0001_create_tasks.sql:6:CREATE TABLE IF NOT EXISTS public.tasks (
+server/db_bootstrap_tasks_task_id.mjs:3:  await pool.query(`alter table tasks add column if not exists task_id text;`);
+server/task_events_emit.mjs:2:console.log("[phase25] task_events_emit loaded", new Date().toISOString(), "file=", import.meta.url);
+server/db_bootstrap_tasks_retry_semantics.mjs:9:  await pool.query(`alter table tasks add column if not exists attempt int not null default 0;`);
+server/db_bootstrap_tasks_retry_semantics.mjs:10:  await pool.query(`alter table tasks add column if not exists max_attempts int not null default 5;`);
+server/db_bootstrap_tasks_retry_semantics.mjs:13:  await pool.query(`alter table tasks add column if not exists available_at timestamptz null;`);
+server/db_bootstrap_tasks_retry_semantics.mjs:14:  await pool.query(`alter table tasks add column if not exists locked_by text null;`);
+server/db_bootstrap_tasks_retry_semantics.mjs:15:  await pool.query(`alter table tasks add column if not exists lock_expires_at timestamptz null;`);
+server/db_bootstrap_tasks_retry_semantics.mjs:18:  await pool.query(`alter table tasks add column if not exists last_error jsonb null;`);
+server/tasks-mutations.mjs:4:import { emitTaskEvent } from "./task_events_emit.mjs";
+server/task-events.mjs:3: * Legacy task_events schema in your docker DB:
+server/task-events.mjs:4: *   task_events(id bigint, kind text, payload text, created_at text)
+server/task-events.mjs:31:  // Phase50: DB write-path enforcement (task_events)
+server/task-events.mjs:32:  assertNotEnforced("task_events.append");
+server/task-events.mjs:36:  // Phase25 contract: server is the single authoritative writer of task_events.
+server/task-events.mjs:136:    // Ensure payload is JSONB-safe when task_events.payload is jsonb.
+server/task-events.mjs:143:        "select 1 as ok from task_events where kind=$1::text and payload=$2::jsonb limit 1",
+server/task-events.mjs:161:        "select kind from task_events where kind = any($1::text[]) and payload like $2 order by id desc limit 1",
+server/task-events.mjs:172:      "insert into task_events(kind, task_id, run_id, actor, ts, payload) values ($1::text, $2::text, $3::text, $4::text, $5::bigint, $6::jsonb)",
+server/api/tasks-mutations/delegate-taskspec.mjs:82: * - Inserts into task_events(kind="task.created") so /events/task-events advances
+server/worker/phase29_db_migrate_to_phase27.sql:4:alter table tasks add column if not exists payload jsonb null;
+server/worker/phase29_db_migrate_to_phase27.sql:5:alter table tasks add column if not exists attempts integer not null default 0;
+server/worker/phase29_db_migrate_to_phase27.sql:6:alter table tasks add column if not exists next_run_at timestamptz null;
+server/worker/phase29_db_migrate_to_phase27.sql:39:-- 5) task_events: ensure columns exist
+server/worker/phase29_db_migrate_to_phase27.sql:40:alter table task_events add column if not exists run_id text null;
+server/worker/phase29_db_migrate_to_phase27.sql:41:alter table task_events add column if not exists actor text null;
+server/worker/phase29_db_migrate_to_phase27.sql:43:-- 6) task_events.payload: if it's TEXT, add payload_jsonb and keep payload text (no destructive alter here)
+server/worker/phase29_db_migrate_to_phase27.sql:47:  if not exists (select 1 from information_schema.columns where table_name='task_events' and column_name='payload_jsonb') then
+server/worker/phase29_db_migrate_to_phase27.sql:48:    alter table task_events add column payload_jsonb jsonb null;
+server/worker/phase29_db_migrate_to_phase27.sql:53:update task_events
+server/worker/phase29_db_migrate_to_phase27.sql:66:create index if not exists idx_task_events_task_id on task_events(task_id);
+server/worker/phase29_db_migrate_to_phase27.sql:67:create index if not exists idx_task_events_kind on task_events(kind);
+server/worker/phase30_db_doctor_pretty.sh:13:  (select data_type from information_schema.columns where table_name='task_events' and column_name='payload')::text as events_payload_type,
+server/worker/phase30_db_doctor_pretty.sh:14:  (select count(*) from information_schema.columns where table_name='task_events' and column_name='payload_jsonb')::int as has_events_payload_jsonb,
+server/worker/phase30_db_doctor_pretty.sh:15:  (select count(*) from information_schema.columns where table_name='task_events' and column_name='run_id')::int as has_events_run_id,
+server/worker/phase30_db_doctor_pretty.sh:16:  (select count(*) from information_schema.columns where table_name='task_events' and column_name='actor')::int as has_events_actor
+server/worker/phase30_db_doctor_pretty.sh:29:echo "task_events.payload type:   ${ev_payload_type:-<missing>}"
+server/worker/phase30_db_doctor_pretty.sh:30:echo "task_events.payload_jsonb:  ${ev_payload_jsonb}"
+server/worker/phase30_db_doctor_pretty.sh:31:echo "task_events.run_id:         ${ev_run}"
+server/worker/phase30_db_doctor_pretty.sh:32:echo "task_events.actor:          ${ev_actor}"
+server/worker/phase30_contract_check.sql:14:  if not exists (select 1 from information_schema.columns where table_name='task_events' and column_name='payload') then
+server/worker/phase30_contract_check.sql:15:    raise exception 'missing task_events.payload';
+server/worker/phase26_task_worker.mjs:5:import { emitTaskEvent } from "../task_events_emit.mjs";
+server/worker/phase29_db_doctor.sh:13:  (select count(*) from information_schema.columns where table_name='task_events' and column_name='payload') as has_events_payload,
+server/worker/phase29_db_doctor.sh:14:  (select data_type from information_schema.columns where table_name='task_events' and column_name='payload') as events_payload_type,
+server/worker/phase29_db_doctor.sh:15:  (select count(*) from information_schema.columns where table_name='task_events' and column_name='run_id') as has_events_run_id,
+server/worker/phase29_db_doctor.sh:16:  (select count(*) from information_schema.columns where table_name='task_events' and column_name='actor') as has_events_actor
+server/routes/api-tasks-postgres.mjs:5:import { emitTaskEvent } from "../task_events_emit.mjs";
+server/routes/api-tasks-postgres.mjs:100:    // (workers claim from tasks, not task_events)
+server/routes/phase40_6_shadow_audit_task_events.mjs:6:    const sqlPath = join(process.cwd(), "server", "sql", "phase40_6_shadow_audit_task_events.sql");
+server/routes/task-events-sse.mjs:45:    const TASK_EVENTS_DB_URL_RAW = process.env.POSTGRES_URL || process.env.DATABASE_URL || "";
+server/routes/task-events-sse.mjs:46:    const TASK_EVENTS_DB_URL_HAS_PASSWORD = /\/\/[^:]+:[^@]+@/.test(TASK_EVENTS_DB_URL_RAW);
+server/routes/task-events-sse.mjs:48:      mode: (TASK_EVENTS_DB_URL_RAW ? "url" : "params"),
+server/routes/task-events-sse.mjs:49:      DB_URL_present: Boolean(TASK_EVENTS_DB_URL_RAW),
+server/routes/task-events-sse.mjs:54:      password_type: (TASK_EVENTS_DB_URL_RAW ? "url-hidden" : typeof o.password),
+server/routes/task-events-sse.mjs:55:      password_len: (TASK_EVENTS_DB_URL_RAW ? "hidden" : (o.password == null ? null : String(o.password).length)),
+server/routes/task-events-sse.mjs:56:      has_password: (TASK_EVENTS_DB_URL_RAW ? TASK_EVENTS_DB_URL_HAS_PASSWORD : (o.password != null)),
+server/routes/task-events-sse.mjs:82:          from task_events
+server/routes/task-events-sse.mjs:99:          from task_events
+server/routes/task-events-sse.mjs:110:          from task_events
+server/routes/phase48_policy_probe.mjs:24:    // task_events(kind, payload, created_at, task_id, run_id, actor, ts, ...)
+server/routes/phase48_policy_probe.mjs:49:      insert into task_events(kind, task_id, run_id, actor, ts, payload)
+server/sql/phase54_bootstrap.sql:7:\i /migrations/drizzle_pg/0001_create_task_events.sql
+server/sql/phase54_bootstrap.sql:8:\i /migrations/drizzle_pg/0006_phase32_1_task_events_contract.sql
+server/sql/phase40_6_shadow_audit_task_events.sql:14:  FROM task_events te
+server/sql/phase47_decision_correctness_invariants.sql:26:  IF to_regclass('public.task_events') IS NULL THEN
+server/sql/phase47_decision_correctness_invariants.sql:27:    RAISE EXCEPTION 'Phase47 invariant failure: missing table public.task_events';
+server/sql/phase47_decision_correctness_invariants.sql:40:  WHERE table_schema='public' AND table_name='task_events' AND column_name='id'
+server/sql/phase47_decision_correctness_invariants.sql:45:  WHERE table_schema='public' AND table_name='task_events' AND column_name='task_id'
+server/sql/phase47_decision_correctness_invariants.sql:50:  WHERE table_schema='public' AND table_name='task_events' AND column_name IN ('ts','created_at')
+server/sql/phase47_decision_correctness_invariants.sql:56:  WHERE table_schema='public' AND table_name='task_events' AND column_name IN ('kind','event_kind')
+server/sql/phase47_decision_correctness_invariants.sql:61:    RAISE EXCEPTION 'Phase47 invariant failure: task_events missing required columns';
+server/sql/phase47_decision_correctness_invariants.sql:115:      FROM public.task_events
+server/sql/phase47_decision_correctness_invariants.sql:124:    RAISE EXCEPTION 'Phase47 invariant failure: task_events ordering violation';
+sql/policy/action_tier_validate.sql:21:  WHERE (table_name ILIKE '%task%event%' OR table_name ILIKE '%task_events%')
+sql/policy/action_tier_validate.sql:23:    (table_name ILIKE '%task_events%') DESC,
+sql/policy/action_tier_validate.sql:81:  WHERE (table_name ILIKE '%task%event%' OR table_name ILIKE '%task_events%')
+sql/policy/action_tier_validate.sql:83:    (table_name ILIKE '%task_events%') DESC,
+
+===== POSTGRES TABLES BEFORE =====
+
+===== APPLY MINIMAL TASKS / TASK_EVENTS SCHEMA IF MISSING =====
+CREATE TABLE
+CREATE TABLE
+ALTER TABLE
+ALTER TABLE
+ALTER TABLE
+ALTER TABLE
+
+===== POSTGRES TABLES AFTER =====
+            List of relations
+ Schema |    Name     | Type  |  Owner   
+--------+-------------+-------+----------
+ public | task_events | table | postgres
+ public | tasks       | table | postgres
+(2 rows)
+
+
+===== RESTART DASHBOARD =====
+NAME                                       IMAGE                                    COMMAND                  SERVICE     CREATED         STATUS          PORTS
+motherboard-systems-hq-clean-dashboard-1   motherboard-systems-hq-clean-dashboard   "docker-entrypoint.s…"   dashboard   3 minutes ago   Up 10 seconds   0.0.0.0:8080->3000/tcp, [::]:8080->3000/tcp
+motherboard-systems-hq-clean-postgres-1    postgres:16-alpine                       "docker-entrypoint.s…"   postgres    3 minutes ago   Up 3 minutes    0.0.0.0:5432->5432/tcp, [::]:5432->5432/tcp
+
+===== DASHBOARD LOGS AFTER RESTART =====
+[phase25] task_events_emit loaded 2026-05-28T08:08:08.130Z file= file:///app/server/task_events_emit.mjs
+[phase25] api-tasks-postgres loaded 2026-05-28T08:08:08.130Z file= file:///app/server/routes/api-tasks-postgres.mjs
+[phase19] orchestrator_state_route mounted {
+  file: 'file:///app/server/orchestrator_state_route.mjs',
+  envSnapshot: {
+    PHASE18_ENABLE_ORCHESTRATION: undefined,
+    PHASE19_ENABLE_ORCH_STATE: undefined
+  }
+}
+[SSE] /events/ops + /events/reflections registered
+[db] effective pool config {
+  mode: 'url',
+  DB_URL_present: true,
+  host: null,
+  port: null,
+  user: null,
+  database: null,
+  password_type: 'url-hidden',
+  password_len: 'hidden',
+  has_password: true
+}
+[db] waiting for postgres... elapsed=7ms code=ECONNREFUSED
+[phase25] task_events_emit loaded 2026-05-28T08:11:03.385Z file= file:///app/server/task_events_emit.mjs
+[phase25] api-tasks-postgres loaded 2026-05-28T08:11:03.386Z file= file:///app/server/routes/api-tasks-postgres.mjs
+[phase19] orchestrator_state_route mounted {
+  file: 'file:///app/server/orchestrator_state_route.mjs',
+  envSnapshot: {
+    PHASE18_ENABLE_ORCHESTRATION: undefined,
+    PHASE19_ENABLE_ORCH_STATE: undefined
+  }
+}
+[SSE] /events/ops + /events/reflections registered
+[db] effective pool config {
+  mode: 'url',
+  DB_URL_present: true,
+  host: null,
+  port: null,
+  user: null,
+  database: null,
+  password_type: 'url-hidden',
+  password_len: 'hidden',
+  has_password: true
+}
+Database pool initialized
+[phase25] __DB_POOL set { has: true, type: 'BoundPool' }
+Server running on http://0.0.0.0:3000
+
+===== BASELINE HEALTH =====
+HTTP/1.1 200 OK
+X-Powered-By: Express
+Content-Type: application/json; charset=utf-8
+Content-Length: 11
+ETag: W/"b-Ai2R8hgEarLmHKwesT1qcY913ys"
+Date: Thu, 28 May 2026 08:11:13 GMT
+Connection: keep-alive
+Keep-Alive: timeout=5
+
+{"ok":true}
+===== DASHBOARD ROOT =====
+HTTP/1.1 200 OK
+X-Powered-By: Express
+Accept-Ranges: bytes
+Cache-Control: public, max-age=0
+Last-Modified: Wed, 27 May 2026 21:35:48 GMT
+ETag: W/"282b-19e6b5d7720"
+Content-Type: text/html; charset=utf-8
+Content-Length: 10283
+Date: Thu, 28 May 2026 08:11:13 GMT
+Connection: keep-alive
+Keep-Alive: timeout=5
+
+
+===== WORKTREE =====
+?? .backup_excludes
+?? CADE_RUNTIME_DISCOVERY.txt
+?? CADE_RUNTIME_HIGH_SIGNAL_CONTENTS.txt
+?? EXECUTION_IMPLEMENTATION_SURFACES.txt
+?? EXTERNAL_DB_BACKUP_SEARCH_BEFORE_DOCKER_RESET.txt
+?? FRESH_POSTGRES_SCHEMA_BOOTSTRAP_INSPECTION.txt
+?? backups/
+?? discover-execution-implementation-surfaces.sh
+?? extract-matilda-delegation-docs.sh
+?? inspect-and-bootstrap-fresh-postgres-schema.sh
+?? inspect-latest-source-backups-for-db-assets.sh
+?? scripts/dr
+?? scripts/dr_autonomous_wrapper.sh
+?? scripts/dr_daemon.sh
+?? scripts/dr_daemon_self_healing.sh
+?? scripts/dr_watchdog.sh
+?? scripts/offsite_r2_sync.sh
+?? scripts/retention_engine.sh
+?? scripts/storage_guard.sh
+?? scripts/storage_monitor.sh
+?? scripts/storage_policy.sh
+?? scripts/vault_layer.sh
+?? search-external-db-backups-before-docker-reset.sh
