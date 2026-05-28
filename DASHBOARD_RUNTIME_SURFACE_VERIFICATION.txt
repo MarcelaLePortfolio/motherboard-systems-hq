@@ -1,0 +1,170 @@
+===== DASHBOARD RUNTIME SURFACE VERIFICATION =====
+Thu May 28 01:34:37 PDT 2026
+
+===== VERIFY SERVED ROOT IS LATEST UI =====
+
+--- ROOT SIZE ---
+   31026 /tmp/dashboard-root.html
+
+--- CHECK FOR MODERN PHASE MARKERS ---
+17:  .phase62-top-row {
+39:    .phase62-top-row {
+445:    <section class="phase62-top-row" data-phase="62">
+5:    #matilda-chat-transcript p {
+9:    #matilda-chat-transcript .user-message {
+12:    #matilda-chat-transcript .matilda-message {
+174:      #matilda-chat-transcript {
+220:        #matilda-chat-transcript {
+505:                      <div id="matilda-chat-transcript" class="bg-gray-900 border border-gray-700 rounded-xl p-3 h-64 overflow-y-auto text-sm">
+798:#matilda-chat-transcript{
+519:                          Live operator guidance will appear here when visibility wiring is active.
+44:  /* Phase 62: consolidated metrics telemetry tile styling */
+108:      #phase61-telemetry-column {
+551:          <section id="phase61-telemetry-column" class="space-y-4" aria-label="Observational workspace">
+
+===== VERIFY BUNDLE LOAD =====
+HTTP/1.1 200 OK
+X-Powered-By: Express
+Accept-Ranges: bytes
+Cache-Control: public, max-age=0
+Last-Modified: Thu, 28 May 2026 08:34:07 GMT
+ETag: W/"10100-19e6db82c18"
+Content-Type: text/javascript; charset=utf-8
+Content-Length: 65792
+Date: Thu, 28 May 2026 08:34:37 GMT
+Connection: keep-alive
+Keep-Alive: timeout=5
+
+
+===== VERIFY AGENT STATUS =====
+
+{
+
+  "agents": {
+
+    "matilda": {
+
+      "status": "restored",
+
+      "mode": "dashboard-ui-runtime"
+
+    },
+
+    "atlas": {
+
+      "status": "restored",
+
+      "mode": "dashboard-ui-runtime"
+
+    },
+
+    "cade": {
+
+      "status": "restored",
+
+      "mode": "dashboard-ui-runtime"
+
+    },
+
+    "effie": {
+
+      "status": "restored",
+
+      "mode": "dashboard-ui-runtime"
+
+    }
+
+  }
+
+}
+
+
+===== VERIFY TASKS API =====
+{"ok":true,"tasks":[]}
+===== VERIFY DASHBOARD CONTAINER LOGS =====
+[phase25] task_events_emit loaded 2026-05-28T08:34:10.833Z file= file:///app/server/task_events_emit.mjs
+[phase25] api-tasks-postgres loaded 2026-05-28T08:34:10.834Z file= file:///app/server/routes/api-tasks-postgres.mjs
+[phase19] orchestrator_state_route mounted {
+  file: 'file:///app/server/orchestrator_state_route.mjs',
+  envSnapshot: {
+    PHASE18_ENABLE_ORCHESTRATION: undefined,
+    PHASE19_ENABLE_ORCH_STATE: undefined
+  }
+}
+[SSE] /events/ops + /events/reflections registered
+[db] effective pool config {
+  mode: 'url',
+  DB_URL_present: true,
+  host: null,
+  port: null,
+  user: null,
+  database: null,
+  password_type: 'url-hidden',
+  password_len: 'hidden',
+  has_password: true
+}
+Database pool initialized
+[phase25] __DB_POOL set { has: true, type: 'BoundPool' }
+Server running on http://0.0.0.0:3000
+[task-events] pool cfg {
+  mode: 'url',
+  DB_URL_present: true,
+  host: null,
+  port: null,
+  user: null,
+  database: null,
+  password_type: 'url-hidden',
+  password_len: 'hidden',
+  has_password: true
+}
+[HTTP] GET /events/ops
+[task-events] pool cfg {
+  mode: 'url',
+  DB_URL_present: true,
+  host: null,
+  port: null,
+  user: null,
+  database: null,
+  password_type: 'url-hidden',
+  password_len: 'hidden',
+  has_password: true
+}
+[HTTP] GET /events/ops
+[HTTP] GET /events/ops
+[HTTP] GET /events/ops
+[HTTP] GET /
+[HTTP] GET /dashboard.html
+[HTTP] GET /api/tasks/health
+[HTTP] GET /api/tasks?limit=12
+[phase57c-router] /api/tasks probe {
+  originalUrl: '/api/tasks?limit=12',
+  baseUrl: '/api/tasks',
+  path: '/',
+  referer: null,
+  userAgent: 'curl/8.7.1',
+  accept: '*/*'
+}
+[HTTP] GET /
+[HTTP] HEAD /bundle.js
+[HTTP] GET /agent-status.json
+[HTTP] GET /api/tasks?limit=12
+[phase57c-router] /api/tasks probe {
+  originalUrl: '/api/tasks?limit=12',
+  baseUrl: '/api/tasks',
+  path: '/',
+  referer: null,
+  userAgent: 'curl/8.7.1',
+  accept: '*/*'
+}
+
+===== VERIFY GIT HEAD =====
+5aee4ed4 Promote latest dashboard UI to served root
+91129400 Restore latest dashboard UI surface from git history
+684c450b Inspect latest dashboard UI surface lineage
+47a6fa7b Record dashboard UI version mismatch
+e4a07d44 Seal dashboard UI data surfaces restoration
+
+===== FINAL FINDING =====
+If browser still shows old UI after this verification,
+the remaining issue is likely browser cache or stale tab state,
+not container runtime or served filesystem state.
