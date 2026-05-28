@@ -1,0 +1,65 @@
+===== PHASE 91 LIVE VISUAL VERIFICATION =====
+Thu May 28 01:43:31 PDT 2026
+
+===== CURRENT HEAD =====
+9fe4055e Restore phase 91 golden dashboard UI surface
+faf79e37 Discover newer dashboard lineage candidates
+bc20464e Record dashboard version drift finding
+e42a6f19 Create dashboard recovery checkpoint c75e9756
+c75e9756 Seal final dashboard runtime recovery state
+
+===== LIVE ROOT TITLE =====
+84:  <title>Motherboard Systems Operator Console</title>
+
+===== LIVE PHASE MARKERS =====
+100:      #phase61-workspace-grid {
+211:        #phase61-workspace-grid {
+485:        <div id="phase61-workspace-grid">
+108:      #phase61-telemetry-column {
+551:          <section id="phase61-telemetry-column" class="space-y-4" aria-label="Observational workspace">
+17:  .phase62-top-row {
+39:    .phase62-top-row {
+445:    <section class="phase62-top-row" data-phase="62">
+516:                        <div class="text-xs uppercase tracking-[0.2em] text-gray-500 mb-3">Operator Guidance</div>
+506:                        <p class="text-gray-500 italic">Chat with Matilda about tasks, status, or next steps...</p>
+509:                        <textarea id="matilda-chat-input" rows="3" class="flex-1 bg-gray-900 border border-gray-700 rounded-xl p-3 text-sm resize-none focus:ring-2 focus:ring-purple-500 focus:border-purple-500" placeholder="Type a message to Matilda and press Enter or click Send..."></textarea>
+513:                      <p id="matilda-helper-text-ops" class="text-xs text-gray-400 mt-1">Matilda is currently using a placeholder /api/chat stub (Phase 11.3 baseline).</p>
+
+===== LIVE CSS ASSET CHECK =====
+css/agent-status-row.css
+css/broadcast.css
+css/dashboard-reflections.css
+css/dashboard.css?v=darkmode
+css/demo_layout_trim.css
+css/matilda-chat.css
+css/phase13_5_operator_ux.css
+css/phase59_demo_focus.css
+css/phase60_live_polish.css
+css/phase61_tabs_observational_workspace.css
+css/phase61_workspace_consolidation.css
+
+===== LIVE JS ASSET CHECK =====
+js/phase60_live_clock.js
+js/phase61_recent_history_wire.js
+js/phase61_tabs_workspace.js
+
+===== FILE SIZE CHECK =====
+   31026 public/index.html
+   31026 public/dashboard.html
+   65792 public/bundle.js
+   31026 /tmp/live-dashboard-phase91.html
+   31026 /tmp/phase91-expected-dashboard.html
+  189896 total
+
+===== VERIFY INDEX SOURCE MATCH =====
+INDEX EXACTLY MATCHES PHASE91 DASHBOARD SOURCE
+
+===== VERIFY DASHBOARD SOURCE MATCH =====
+DASHBOARD EXACTLY MATCHES PHASE91 DASHBOARD SOURCE
+
+===== VERIFY LIVE ROOT MATCH =====
+LIVE ROOT EXACTLY MATCHES PHASE91 DASHBOARD SOURCE
+
+===== CONCLUSION =====
+Phase 91 dashboard source and live root verification complete.
+If visual drift remains, next step is comparing against another candidate lineage, not patching blindly.
