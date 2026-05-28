@@ -5,7 +5,7 @@
 
 feature/backup-system-v2
 
-## Latest Execution-Governance Commit
+## Checkpoint Baseline
 
 4fc67f81 Seal execution governance checkpoint metadata
 
