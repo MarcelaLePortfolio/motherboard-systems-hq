@@ -23,7 +23,97 @@ const payload = JSON.parse(
 
 );
 
-const result = await runGovernedPlanningPipeline(payload);
+const result = await runGovernedPlanningPipeline({
+
+  intent: {
+
+    actor: payload.actor || "Matilda",
+
+    target: payload.target || "Cade",
+
+    objective:
+
+      payload.objective ||
+
+      "Prepare governed engineering plan",
+
+    requested_outcome:
+
+      payload.requested_outcome ||
+
+      "Dry-run reconciliation-ready planning artifact",
+
+    raw_user_intent:
+
+      payload.raw_user_intent ||
+
+      payload.objective ||
+
+      "Prepare governed engineering plan",
+
+    source: payload.source || "route_smoke_test",
+
+    tags: Array.isArray(payload.tags)
+
+      ? payload.tags
+
+      : ["governance", "dry_run"],
+
+  },
+
+  mutation_scope: {
+
+    scope_type: "file",
+
+    allowed_paths: ["docs/contracts/"],
+
+    forbidden_paths: ["secrets/", ".env"],
+
+    scope_constraints: "Governed planning route smoke is docs-only",
+
+  },
+
+  execution_plan: {
+
+    summary:
+
+      payload.objective ||
+
+      "Prepare governed engineering plan",
+
+    steps: [
+
+      {
+
+        step_id: "step-1",
+
+        action: "inspect",
+
+        target: "docs/contracts/example.md",
+
+        instructions: "Plan route smoke only",
+
+        expected_output: "Dry-run route planning artifact",
+
+      },
+
+    ],
+
+  },
+
+  patch_spec: {
+
+    format: "structured_patch",
+
+    patches: Array.isArray(payload.proposed_changes)
+
+      ? payload.proposed_changes
+
+      : [],
+
+  },
+
+});
 
 console.log(JSON.stringify({
 
