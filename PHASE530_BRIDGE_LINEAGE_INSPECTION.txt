@@ -1,0 +1,1940 @@
+===== PHASE530 BRIDGE LINEAGE INSPECTION =====
+Thu May 28 09:38:12 PDT 2026
+
+===== CURRENT HEAD =====
+b3b71866 Inspect Rio Drive runtime dashboard artifacts
+a4974f07 Inspect all Rio Drive dashboard surfaces
+9718fed4 Record latest full snapshot dashboard finding
+8f0bb4d6 Inspect Rio Drive latest full snapshot dashboard candidates
+f77c4598 Record Rio Drive repo bundle dashboard candidate result
+70567be8 Inspect Rio Drive repo bundle dashboard candidates v2
+10495513 Inspect Rio Drive repo bundle dashboard candidates
+466098de Inspect Rio Drive source archive dashboard candidates
+
+===== CURRENT BRIDGE FILE =====
+    6606 public/js/phase530_visible_panels_bridge.js
+23:  function renderAgents(rows) {
+28:      <h2 class="text-xl font-semibold border-b border-gray-700 pb-2 mb-4">Agent Pool</h2>
+45:      return `<div style="color:#94a3b8;font-size:.8rem;">No recent tasks yet.</div>`;
+58:  function renderRecent(tasks) {
+92:  function renderActivity(rows) {
+170:      renderAgents(Array.isArray(agents) ? agents : []);
+172:      console.warn("[phase530] agents render failed", e);
+177:      renderRecent(data.tasks || []);
+179:      console.warn("[phase530] recent tasks render failed", e);
+184:      renderActivity(Array.isArray(activity) ? activity : []);
+186:      console.warn("[phase530] activity graph render failed", e);
+
+===== RIO DRIVE BRIDGE CANDIDATES =====
+candidate_count= 21
+
+01: /Volumes/Rio Drive/Motherboard_Systems_HQ/DISASTER_RECOVERY/phase740-post-recovery-backup-2026-05-25T01-01-37/phase530_visible_panels_bridge.js
+mtime: 1779696097.59
+size: 65543
+score: 454
+copy: _dashboard_candidate_previews/phase530-bridge-lineage/01-Motherboard_Systems_HQ__DISASTER_RECOVERY__phase740-post-recovery-backup-2026-05-25T01-01-37__phase530_visible_panels_bridge.js
+
+02: /Volumes/Rio Drive/Motherboard_Storage/snapshots/full-disaster-recovery-20260526-phase743-sealed-13f8eb4a/Motherboard_Systems_HQ/DISASTER_RECOVERY/phase740-post-recovery-backup-2026-05-25T01-01-37/phase530_visible_panels_bridge.js
+mtime: 1779696097.0
+size: 65543
+score: 454
+copy: _dashboard_candidate_previews/phase530-bridge-lineage/02-Motherboard_Storage__snapshots__full-disaster-recovery-20260526-phase743-sealed-13f8eb4a__Motherboard_Systems_HQ__DISASTER_RECOVERY__phase740-post-recovery-backup-2026-05-25T01-01-37__phase530_visible_panels_bridge.js
+
+03: /Volumes/Rio Drive/Motherboard_Storage/snapshots/full-disaster-recovery-20260526-phase744-architecture-494f61b3/Motherboard_Systems_HQ/DISASTER_RECOVERY/phase740-post-recovery-backup-2026-05-25T01-01-37/phase530_visible_panels_bridge.js
+mtime: 1779696097.0
+size: 65543
+score: 454
+copy: _dashboard_candidate_previews/phase530-bridge-lineage/03-Motherboard_Storage__snapshots__full-disaster-recovery-20260526-phase744-architecture-494f61b3__Motherboard_Systems_HQ__DISASTER_RECOVERY__phase740-post-recovery-backup-2026-05-25T01-01-37__phase530_visible_panels_bridge.js
+
+04: /Volumes/Rio Drive/Motherboard_Systems_HQ/public/js/phase530_visible_panels_bridge.js
+mtime: 1779695891.13
+size: 65543
+score: 454
+copy: _dashboard_candidate_previews/phase530-bridge-lineage/04-Motherboard_Systems_HQ__public__js__phase530_visible_panels_bridge.js
+
+05: /Volumes/Rio Drive/Motherboard_Storage/snapshots/full-disaster-recovery-20260526-phase743-sealed-13f8eb4a/Motherboard_Systems_HQ/public/js/phase530_visible_panels_bridge.js
+mtime: 1779695891.0
+size: 65543
+score: 454
+copy: _dashboard_candidate_previews/phase530-bridge-lineage/05-Motherboard_Storage__snapshots__full-disaster-recovery-20260526-phase743-sealed-13f8eb4a__Motherboard_Systems_HQ__public__js__phase530_visible_panels_bridge.js
+
+06: /Volumes/Rio Drive/Motherboard_Storage/snapshots/full-disaster-recovery-20260526-phase744-architecture-494f61b3/Motherboard_Systems_HQ/public/js/phase530_visible_panels_bridge.js
+mtime: 1779695891.0
+size: 65543
+score: 454
+copy: _dashboard_candidate_previews/phase530-bridge-lineage/06-Motherboard_Storage__snapshots__full-disaster-recovery-20260526-phase744-architecture-494f61b3__Motherboard_Systems_HQ__public__js__phase530_visible_panels_bridge.js
+
+07: /Volumes/Rio Drive/Motherboard_Systems_HQ/checkpoints/phase725_aesthetic_refinement_baseline/phase530_visible_panels_bridge.pre_phase725_visual_polish.js
+mtime: 1778902183.74
+size: 46948
+score: 324
+copy: _dashboard_candidate_previews/phase530-bridge-lineage/07-Motherboard_Systems_HQ__checkpoints__phase725_aesthetic_refinement_baseline__phase530_visible_panels_bridge.pre_phase725_visual_polish.js
+
+08: /Volumes/Rio Drive/Motherboard_Storage/snapshots/full-disaster-recovery-20260526-phase743-sealed-13f8eb4a/Motherboard_Systems_HQ/checkpoints/phase725_aesthetic_refinement_baseline/phase530_visible_panels_bridge.pre_phase725_visual_polish.js
+mtime: 1778902183.0
+size: 46948
+score: 324
+copy: _dashboard_candidate_previews/phase530-bridge-lineage/08-Motherboard_Storage__snapshots__full-disaster-recovery-20260526-phase743-sealed-13f8eb4a__Motherboard_Systems_HQ__checkpoints__phase725_aesthetic_refinement_baseline__phase530_visible_panels_bridge.pre_phase725_visual_polish.js
+
+09: /Volumes/Rio Drive/Motherboard_Storage/snapshots/full-disaster-recovery-20260526-phase744-architecture-494f61b3/Motherboard_Systems_HQ/checkpoints/phase725_aesthetic_refinement_baseline/phase530_visible_panels_bridge.pre_phase725_visual_polish.js
+mtime: 1778902183.0
+size: 46948
+score: 324
+copy: _dashboard_candidate_previews/phase530-bridge-lineage/09-Motherboard_Storage__snapshots__full-disaster-recovery-20260526-phase744-architecture-494f61b3__Motherboard_Systems_HQ__checkpoints__phase725_aesthetic_refinement_baseline__phase530_visible_panels_bridge.pre_phase725_visual_polish.js
+
+10: /Volumes/Rio Drive/Motherboard_Systems_HQ/_snapshots/phase631-live-runtime-proof-containerized/public/js/phase530_visible_panels_bridge.js
+mtime: 1777853712.46
+size: 6606
+score: 27
+copy: _dashboard_candidate_previews/phase530-bridge-lineage/10-Motherboard_Systems_HQ___snapshots__phase631-live-runtime-proof-containerized__public__js__phase530_visible_panels_bridge.js
+
+11: /Volumes/Rio Drive/Motherboard_Storage/snapshots/full-disaster-recovery-20260526-phase743-sealed-13f8eb4a/Motherboard_Systems_HQ/_snapshots/phase631-live-runtime-proof-containerized/public/js/phase530_visible_panels_bridge.js
+mtime: 1777853712.0
+size: 6606
+score: 27
+copy: _dashboard_candidate_previews/phase530-bridge-lineage/11-Motherboard_Storage__snapshots__full-disaster-recovery-20260526-phase743-sealed-13f8eb4a__Motherboard_Systems_HQ___snapshots__phase631-live-runtime-proof-containerized__public__js__phase530_visible_panels_bridge.js
+
+12: /Volumes/Rio Drive/Motherboard_Storage/snapshots/full-disaster-recovery-20260526-phase744-architecture-494f61b3/Motherboard_Systems_HQ/_snapshots/phase631-live-runtime-proof-containerized/public/js/phase530_visible_panels_bridge.js
+mtime: 1777853712.0
+size: 6606
+score: 27
+copy: _dashboard_candidate_previews/phase530-bridge-lineage/12-Motherboard_Storage__snapshots__full-disaster-recovery-20260526-phase744-architecture-494f61b3__Motherboard_Systems_HQ___snapshots__phase631-live-runtime-proof-containerized__public__js__phase530_visible_panels_bridge.js
+
+13: /Volumes/Rio Drive/Motherboard_Systems_HQ/_snapshots/phase630-runtime-proof-ready-containerized/public/js/phase530_visible_panels_bridge.js
+mtime: 1777853391.23
+size: 6606
+score: 27
+copy: _dashboard_candidate_previews/phase530-bridge-lineage/13-Motherboard_Systems_HQ___snapshots__phase630-runtime-proof-ready-containerized__public__js__phase530_visible_panels_bridge.js
+
+14: /Volumes/Rio Drive/Motherboard_Storage/snapshots/full-disaster-recovery-20260526-phase743-sealed-13f8eb4a/Motherboard_Systems_HQ/_snapshots/phase630-runtime-proof-ready-containerized/public/js/phase530_visible_panels_bridge.js
+mtime: 1777853391.0
+size: 6606
+score: 27
+copy: _dashboard_candidate_previews/phase530-bridge-lineage/14-Motherboard_Storage__snapshots__full-disaster-recovery-20260526-phase743-sealed-13f8eb4a__Motherboard_Systems_HQ___snapshots__phase630-runtime-proof-ready-containerized__public__js__phase530_visible_panels_bridge.js
+
+15: /Volumes/Rio Drive/Motherboard_Storage/snapshots/full-disaster-recovery-20260526-phase744-architecture-494f61b3/Motherboard_Systems_HQ/_snapshots/phase630-runtime-proof-ready-containerized/public/js/phase530_visible_panels_bridge.js
+mtime: 1777853391.0
+size: 6606
+score: 27
+copy: _dashboard_candidate_previews/phase530-bridge-lineage/15-Motherboard_Storage__snapshots__full-disaster-recovery-20260526-phase744-architecture-494f61b3__Motherboard_Systems_HQ___snapshots__phase630-runtime-proof-ready-containerized__public__js__phase530_visible_panels_bridge.js
+
+16: /Volumes/Rio Drive/Motherboard_Systems_HQ/_snapshots/phase617-pre-result-surfacing-wire-stable-20260501_233350/public/js/phase530_visible_panels_bridge.js
+mtime: 1777596121.0
+size: 6606
+score: 27
+copy: _dashboard_candidate_previews/phase530-bridge-lineage/16-Motherboard_Systems_HQ___snapshots__phase617-pre-result-surfacing-wire-stable-20260501_233350__public__js__phase530_visible_panels_bridge.js
+
+17: /Volumes/Rio Drive/Motherboard_Systems_HQ/_snapshots/phase618-ui-communication-tier-surfacing-complete-20260501_235622/public/js/phase530_visible_panels_bridge.js
+mtime: 1777596121.0
+size: 6606
+score: 27
+copy: _dashboard_candidate_previews/phase530-bridge-lineage/17-Motherboard_Systems_HQ___snapshots__phase618-ui-communication-tier-surfacing-complete-20260501_235622__public__js__phase530_visible_panels_bridge.js
+
+18: /Volumes/Rio Drive/Motherboard_Storage/snapshots/full-disaster-recovery-20260526-phase743-sealed-13f8eb4a/Motherboard_Systems_HQ/_snapshots/phase617-pre-result-surfacing-wire-stable-20260501_233350/public/js/phase530_visible_panels_bridge.js
+mtime: 1777596121.0
+size: 6606
+score: 27
+copy: _dashboard_candidate_previews/phase530-bridge-lineage/18-Motherboard_Storage__snapshots__full-disaster-recovery-20260526-phase743-sealed-13f8eb4a__Motherboard_Systems_HQ___snapshots__phase617-pre-result-surfacing-wire-stable-20260501_233350__public__js__phase530_visible_panels_bridge.js
+
+19: /Volumes/Rio Drive/Motherboard_Storage/snapshots/full-disaster-recovery-20260526-phase743-sealed-13f8eb4a/Motherboard_Systems_HQ/_snapshots/phase618-ui-communication-tier-surfacing-complete-20260501_235622/public/js/phase530_visible_panels_bridge.js
+mtime: 1777596121.0
+size: 6606
+score: 27
+copy: _dashboard_candidate_previews/phase530-bridge-lineage/19-Motherboard_Storage__snapshots__full-disaster-recovery-20260526-phase743-sealed-13f8eb4a__Motherboard_Systems_HQ___snapshots__phase618-ui-communication-tier-surfacing-complete-20260501_235622__public__js__phase530_visible_panels_bridge.js
+
+20: /Volumes/Rio Drive/Motherboard_Storage/snapshots/full-disaster-recovery-20260526-phase744-architecture-494f61b3/Motherboard_Systems_HQ/_snapshots/phase617-pre-result-surfacing-wire-stable-20260501_233350/public/js/phase530_visible_panels_bridge.js
+mtime: 1777596121.0
+size: 6606
+score: 27
+copy: _dashboard_candidate_previews/phase530-bridge-lineage/20-Motherboard_Storage__snapshots__full-disaster-recovery-20260526-phase744-architecture-494f61b3__Motherboard_Systems_HQ___snapshots__phase617-pre-result-surfacing-wire-stable-20260501_233350__public__js__phase530_visible_panels_bridge.js
+
+
+===== CURRENT VS TOP RIO CANDIDATE DIFFS =====
+--- DIFF AGAINST _dashboard_candidate_previews/phase530-bridge-lineage/01-Motherboard_Systems_HQ__DISASTER_RECOVERY__phase740-post-recovery-backup-2026-05-25T01-01-37__phase530_visible_panels_bridge.js ---
+--- public/js/phase530_visible_panels_bridge.js	2026-05-28 01:49:04
++++ _dashboard_candidate_previews/phase530-bridge-lineage/01-Motherboard_Systems_HQ__DISASTER_RECOVERY__phase740-post-recovery-backup-2026-05-25T01-01-37__phase530_visible_panels_bridge.js	2026-05-25 01:01:37
+@@ -40,158 +40,2422 @@
+     `;
+   }
+ 
+-  function taskRows(tasks) {
+-    if (!tasks || !tasks.length) {
+-      return `<div style="color:#94a3b8;font-size:.8rem;">No recent tasks yet.</div>`;
+-    }
+-
+-    return tasks.map((task) => `
+-      <div style="border-bottom:1px solid rgba(51,65,85,.7);padding:.55rem 0;">
+-        <div style="color:#e5e7eb;font-size:.86rem;font-weight:650;">${esc(task.title || task.task_id || "Untitled task")}</div>
+-        <div style="color:#94a3b8;font-size:.74rem;margin-top:.2rem;">
+-          status=${esc(task.status || "unknown")} · id=${esc(task.task_id || task.id || "—")}
+-        </div>
+-      </div>
+-    `).join("");
+-  }
+-
+-  function renderRecent(tasks) {
+-    const recentTasks = document.getElementById("recentTasks");
+-    const recentLogs = document.getElementById("recentLogs");
+-    const recentCard = document.getElementById("recent-tasks-card");
+-
+-    if (recentCard) {
+-      recentCard.style.display = "grid";
+-      recentCard.style.gridTemplateRows = "1fr 1fr";
+-      recentCard.style.gap = "1rem";
+-      recentCard.style.minHeight = "0";
+-      recentCard.style.height = "100%";
+-    }
+-
+-    [recentTasks, recentLogs].forEach((el) => {
+-      if (!el) return;
+-      el.style.minHeight = "0";
+-      el.style.height = "100%";
+-      el.style.overflow = "auto";
+-      el.style.display = "block";
+-    });
+-
+-    if (recentTasks) recentTasks.innerHTML = taskRows(tasks);
+-
+-    if (recentLogs) {
+-      recentLogs.innerHTML = (tasks && tasks.length)
+-        ? tasks.map((task) => `
+-            <div style="border-bottom:1px solid rgba(51,65,85,.55);padding:.5rem 0;color:#cbd5e1;font-size:.8rem;">
+-              ${esc(task.updated_at || task.created_at || "time unavailable")} · ${esc(task.status || "unknown")} · ${esc(task.title || task.task_id || "Untitled task")}
+-            </div>
+-          `).join("")
+-        : `<div style="color:#94a3b8;font-size:.8rem;">No task history yet.</div>`;
+-    }
+-  }
+-
+-  function renderActivity(rows) {
+-    const canvas = document.getElementById("task-activity-graph");
+-    if (!canvas || !window.Chart) return;
+-
+-    const card = document.getElementById("task-activity-card");
+-    const shell = canvas.parentElement;
+-
+-    if (card) {
+-      card.style.height = "100%";
+-      card.style.minHeight = "0";
+-      card.style.display = "flex";
+-      card.style.flexDirection = "column";
+-    }
+-
+-    if (shell) {
+-      shell.style.flex = "1 1 auto";
+-      shell.style.height = "100%";
+-      shell.style.minHeight = "0";
+-      shell.style.display = "flex";
+-      shell.style.padding = "0.75rem";
+-    }
+-
+-    canvas.style.flex = "1 1 auto";
+-    canvas.style.width = "100%";
+-    canvas.style.height = "100%";
+-    canvas.style.minHeight = "0";
+-
+-    const labels = (rows || []).map((row) => {
+-      const d = new Date(row.timestamp || Date.now());
+-      return Number.isNaN(d.getTime()) ? "now" : d.toLocaleTimeString();
+-    });
+-
+-    const created = (rows || []).map((row) => Number(row.created_count || 0));
+-    const completed = (rows || []).map((row) => Number(row.completed_count || 0));
+-    const failed = (rows || []).map((row) => Number(row.failed_count || 0));
+-
+-    if (window.__PHASE530_ACTIVITY_CHART__) {
+-      window.__PHASE530_ACTIVITY_CHART__.data.labels = labels;
+-      window.__PHASE530_ACTIVITY_CHART__.data.datasets[0].data = created;
+-      window.__PHASE530_ACTIVITY_CHART__.data.datasets[1].data = completed;
+-      window.__PHASE530_ACTIVITY_CHART__.data.datasets[2].data = failed;
+-      window.__PHASE530_ACTIVITY_CHART__.resize();
+-      window.__PHASE530_ACTIVITY_CHART__.update();
+-      return;
+-    }
+-
+-    window.__PHASE530_ACTIVITY_CHART__ = new Chart(canvas, {
+-      type: "line",
+-      data: {
+-        labels,
+-        datasets: [
+-          { label: "Created", data: created },
+-          { label: "Completed", data: completed },
+-          { label: "Failed", data: failed }
+-        ]
+-      },
+-      options: {
+-        responsive: true,
+-        maintainAspectRatio: false,
+-        resizeDelay: 0,
+-        layout: {
+-          padding: 8
+-        },
+-        scales: {
+-          y: {
+-            beginAtZero: true,
+-            ticks: {
+-              precision: 0
+-            }
+-          }
+-        }
+-      }
+-    });
+-  }
+-
+-  async function refresh() {
+-    try {
+-      const agents = await getJson("/api/agents");
+-      renderAgents(Array.isArray(agents) ? agents : []);
+-    } catch (e) {
+-      console.warn("[phase530] agents render failed", e);
+-    }
+-
+-    try {
+-      const data = await getJson("/api/tasks?limit=12");
+-      renderRecent(data.tasks || []);
+-    } catch (e) {
+-      console.warn("[phase530] recent tasks render failed", e);
+-    }
+-
+-    try {
+-      const activity = await getJson("/api/activity-graph");
+-      renderActivity(Array.isArray(activity) ? activity : []);
+-    } catch (e) {
+-      console.warn("[phase530] activity graph render failed", e);
+-    }
+-  }
+-
+-  if (document.readyState === "loading") {
+-    document.addEventListener("DOMContentLoaded", refresh, { once: true });
+-  } else {
+-    refresh();
+-  }
+-
+-  setInterval(refresh, POLL_MS);
++
++  function taskRows(tasks) {
++
++    if (!tasks || !tasks.length) {
++
++      return `<div style="color:#94a3b8;font-size:.8rem;">No recent tasks yet.</div>`;
++
++    }
++
++      const phase718TaskTitleByKey = new Map();
++
++      tasks.forEach((taskForTitle) => {
++
++        const readableTitle = String(taskForTitle.title || taskForTitle.task_title || taskForTitle.task_id || taskForTitle.id || "");
++
++        const keys = [
++
++          taskForTitle.task_id,
++
++          taskForTitle.id,
++
++          taskForTitle.uuid,
++
++          taskForTitle.execution_id
++
++        ].filter(Boolean).map(String);
++
++        keys.forEach((key) => {
++
++          if (key && readableTitle) {
++
++            phase718TaskTitleByKey.set(key, readableTitle);
++
++          }
++
++        });
++
++      });
++
++    return tasks.map((t) => {
++
++      const rawTitle = String(t.title || t.task_id || t.id || "Untitled task");
++
++      const retryTitleMatch = rawTitle.match(/^(retry differently|requeue)\s+(t_[a-f0-9-]+)$/i);
++
++      const phase718ResolveBaseTitle = (candidateTitle, depth = 0) => {
++
++        const candidate = String(candidateTitle || "");
++
++        if (!candidate || depth > 5) return candidate;
++
++        const nestedRetryMatch = candidate.match(/^(retry differently|requeue)\s+(t_[a-f0-9-]+)$/i);
++
++        if (!nestedRetryMatch) return candidate;
++
++        const nestedTarget = nestedRetryMatch[2];
++
++        return phase718TaskTitleByKey.has(nestedTarget)
++
++          ? phase718ResolveBaseTitle(phase718TaskTitleByKey.get(nestedTarget), depth + 1)
+... truncated 2359 more diff lines ...
+
+--- DIFF AGAINST _dashboard_candidate_previews/phase530-bridge-lineage/02-Motherboard_Storage__snapshots__full-disaster-recovery-20260526-phase743-sealed-13f8eb4a__Motherboard_Systems_HQ__DISASTER_RECOVERY__phase740-post-recovery-backup-2026-05-25T01-01-37__phase530_visible_panels_bridge.js ---
+--- public/js/phase530_visible_panels_bridge.js	2026-05-28 01:49:04
++++ _dashboard_candidate_previews/phase530-bridge-lineage/02-Motherboard_Storage__snapshots__full-disaster-recovery-20260526-phase743-sealed-13f8eb4a__Motherboard_Systems_HQ__DISASTER_RECOVERY__phase740-post-recovery-backup-2026-05-25T01-01-37__phase530_visible_panels_bridge.js	2026-05-25 01:01:37
+@@ -40,158 +40,2422 @@
+     `;
+   }
+ 
+-  function taskRows(tasks) {
+-    if (!tasks || !tasks.length) {
+-      return `<div style="color:#94a3b8;font-size:.8rem;">No recent tasks yet.</div>`;
+-    }
+-
+-    return tasks.map((task) => `
+-      <div style="border-bottom:1px solid rgba(51,65,85,.7);padding:.55rem 0;">
+-        <div style="color:#e5e7eb;font-size:.86rem;font-weight:650;">${esc(task.title || task.task_id || "Untitled task")}</div>
+-        <div style="color:#94a3b8;font-size:.74rem;margin-top:.2rem;">
+-          status=${esc(task.status || "unknown")} · id=${esc(task.task_id || task.id || "—")}
+-        </div>
+-      </div>
+-    `).join("");
+-  }
+-
+-  function renderRecent(tasks) {
+-    const recentTasks = document.getElementById("recentTasks");
+-    const recentLogs = document.getElementById("recentLogs");
+-    const recentCard = document.getElementById("recent-tasks-card");
+-
+-    if (recentCard) {
+-      recentCard.style.display = "grid";
+-      recentCard.style.gridTemplateRows = "1fr 1fr";
+-      recentCard.style.gap = "1rem";
+-      recentCard.style.minHeight = "0";
+-      recentCard.style.height = "100%";
+-    }
+-
+-    [recentTasks, recentLogs].forEach((el) => {
+-      if (!el) return;
+-      el.style.minHeight = "0";
+-      el.style.height = "100%";
+-      el.style.overflow = "auto";
+-      el.style.display = "block";
+-    });
+-
+-    if (recentTasks) recentTasks.innerHTML = taskRows(tasks);
+-
+-    if (recentLogs) {
+-      recentLogs.innerHTML = (tasks && tasks.length)
+-        ? tasks.map((task) => `
+-            <div style="border-bottom:1px solid rgba(51,65,85,.55);padding:.5rem 0;color:#cbd5e1;font-size:.8rem;">
+-              ${esc(task.updated_at || task.created_at || "time unavailable")} · ${esc(task.status || "unknown")} · ${esc(task.title || task.task_id || "Untitled task")}
+-            </div>
+-          `).join("")
+-        : `<div style="color:#94a3b8;font-size:.8rem;">No task history yet.</div>`;
+-    }
+-  }
+-
+-  function renderActivity(rows) {
+-    const canvas = document.getElementById("task-activity-graph");
+-    if (!canvas || !window.Chart) return;
+-
+-    const card = document.getElementById("task-activity-card");
+-    const shell = canvas.parentElement;
+-
+-    if (card) {
+-      card.style.height = "100%";
+-      card.style.minHeight = "0";
+-      card.style.display = "flex";
+-      card.style.flexDirection = "column";
+-    }
+-
+-    if (shell) {
+-      shell.style.flex = "1 1 auto";
+-      shell.style.height = "100%";
+-      shell.style.minHeight = "0";
+-      shell.style.display = "flex";
+-      shell.style.padding = "0.75rem";
+-    }
+-
+-    canvas.style.flex = "1 1 auto";
+-    canvas.style.width = "100%";
+-    canvas.style.height = "100%";
+-    canvas.style.minHeight = "0";
+-
+-    const labels = (rows || []).map((row) => {
+-      const d = new Date(row.timestamp || Date.now());
+-      return Number.isNaN(d.getTime()) ? "now" : d.toLocaleTimeString();
+-    });
+-
+-    const created = (rows || []).map((row) => Number(row.created_count || 0));
+-    const completed = (rows || []).map((row) => Number(row.completed_count || 0));
+-    const failed = (rows || []).map((row) => Number(row.failed_count || 0));
+-
+-    if (window.__PHASE530_ACTIVITY_CHART__) {
+-      window.__PHASE530_ACTIVITY_CHART__.data.labels = labels;
+-      window.__PHASE530_ACTIVITY_CHART__.data.datasets[0].data = created;
+-      window.__PHASE530_ACTIVITY_CHART__.data.datasets[1].data = completed;
+-      window.__PHASE530_ACTIVITY_CHART__.data.datasets[2].data = failed;
+-      window.__PHASE530_ACTIVITY_CHART__.resize();
+-      window.__PHASE530_ACTIVITY_CHART__.update();
+-      return;
+-    }
+-
+-    window.__PHASE530_ACTIVITY_CHART__ = new Chart(canvas, {
+-      type: "line",
+-      data: {
+-        labels,
+-        datasets: [
+-          { label: "Created", data: created },
+-          { label: "Completed", data: completed },
+-          { label: "Failed", data: failed }
+-        ]
+-      },
+-      options: {
+-        responsive: true,
+-        maintainAspectRatio: false,
+-        resizeDelay: 0,
+-        layout: {
+-          padding: 8
+-        },
+-        scales: {
+-          y: {
+-            beginAtZero: true,
+-            ticks: {
+-              precision: 0
+-            }
+-          }
+-        }
+-      }
+-    });
+-  }
+-
+-  async function refresh() {
+-    try {
+-      const agents = await getJson("/api/agents");
+-      renderAgents(Array.isArray(agents) ? agents : []);
+-    } catch (e) {
+-      console.warn("[phase530] agents render failed", e);
+-    }
+-
+-    try {
+-      const data = await getJson("/api/tasks?limit=12");
+-      renderRecent(data.tasks || []);
+-    } catch (e) {
+-      console.warn("[phase530] recent tasks render failed", e);
+-    }
+-
+-    try {
+-      const activity = await getJson("/api/activity-graph");
+-      renderActivity(Array.isArray(activity) ? activity : []);
+-    } catch (e) {
+-      console.warn("[phase530] activity graph render failed", e);
+-    }
+-  }
+-
+-  if (document.readyState === "loading") {
+-    document.addEventListener("DOMContentLoaded", refresh, { once: true });
+-  } else {
+-    refresh();
+-  }
+-
+-  setInterval(refresh, POLL_MS);
++
++  function taskRows(tasks) {
++
++    if (!tasks || !tasks.length) {
++
++      return `<div style="color:#94a3b8;font-size:.8rem;">No recent tasks yet.</div>`;
++
++    }
++
++      const phase718TaskTitleByKey = new Map();
++
++      tasks.forEach((taskForTitle) => {
++
++        const readableTitle = String(taskForTitle.title || taskForTitle.task_title || taskForTitle.task_id || taskForTitle.id || "");
++
++        const keys = [
++
++          taskForTitle.task_id,
++
++          taskForTitle.id,
++
++          taskForTitle.uuid,
++
++          taskForTitle.execution_id
++
++        ].filter(Boolean).map(String);
++
++        keys.forEach((key) => {
++
++          if (key && readableTitle) {
++
++            phase718TaskTitleByKey.set(key, readableTitle);
++
++          }
++
++        });
++
++      });
++
++    return tasks.map((t) => {
++
++      const rawTitle = String(t.title || t.task_id || t.id || "Untitled task");
++
++      const retryTitleMatch = rawTitle.match(/^(retry differently|requeue)\s+(t_[a-f0-9-]+)$/i);
++
++      const phase718ResolveBaseTitle = (candidateTitle, depth = 0) => {
++
++        const candidate = String(candidateTitle || "");
++
++        if (!candidate || depth > 5) return candidate;
++
++        const nestedRetryMatch = candidate.match(/^(retry differently|requeue)\s+(t_[a-f0-9-]+)$/i);
++
++        if (!nestedRetryMatch) return candidate;
++
++        const nestedTarget = nestedRetryMatch[2];
++
++        return phase718TaskTitleByKey.has(nestedTarget)
++
++          ? phase718ResolveBaseTitle(phase718TaskTitleByKey.get(nestedTarget), depth + 1)
+... truncated 2359 more diff lines ...
+
+--- DIFF AGAINST _dashboard_candidate_previews/phase530-bridge-lineage/03-Motherboard_Storage__snapshots__full-disaster-recovery-20260526-phase744-architecture-494f61b3__Motherboard_Systems_HQ__DISASTER_RECOVERY__phase740-post-recovery-backup-2026-05-25T01-01-37__phase530_visible_panels_bridge.js ---
+--- public/js/phase530_visible_panels_bridge.js	2026-05-28 01:49:04
++++ _dashboard_candidate_previews/phase530-bridge-lineage/03-Motherboard_Storage__snapshots__full-disaster-recovery-20260526-phase744-architecture-494f61b3__Motherboard_Systems_HQ__DISASTER_RECOVERY__phase740-post-recovery-backup-2026-05-25T01-01-37__phase530_visible_panels_bridge.js	2026-05-25 01:01:37
+@@ -40,158 +40,2422 @@
+     `;
+   }
+ 
+-  function taskRows(tasks) {
+-    if (!tasks || !tasks.length) {
+-      return `<div style="color:#94a3b8;font-size:.8rem;">No recent tasks yet.</div>`;
+-    }
+-
+-    return tasks.map((task) => `
+-      <div style="border-bottom:1px solid rgba(51,65,85,.7);padding:.55rem 0;">
+-        <div style="color:#e5e7eb;font-size:.86rem;font-weight:650;">${esc(task.title || task.task_id || "Untitled task")}</div>
+-        <div style="color:#94a3b8;font-size:.74rem;margin-top:.2rem;">
+-          status=${esc(task.status || "unknown")} · id=${esc(task.task_id || task.id || "—")}
+-        </div>
+-      </div>
+-    `).join("");
+-  }
+-
+-  function renderRecent(tasks) {
+-    const recentTasks = document.getElementById("recentTasks");
+-    const recentLogs = document.getElementById("recentLogs");
+-    const recentCard = document.getElementById("recent-tasks-card");
+-
+-    if (recentCard) {
+-      recentCard.style.display = "grid";
+-      recentCard.style.gridTemplateRows = "1fr 1fr";
+-      recentCard.style.gap = "1rem";
+-      recentCard.style.minHeight = "0";
+-      recentCard.style.height = "100%";
+-    }
+-
+-    [recentTasks, recentLogs].forEach((el) => {
+-      if (!el) return;
+-      el.style.minHeight = "0";
+-      el.style.height = "100%";
+-      el.style.overflow = "auto";
+-      el.style.display = "block";
+-    });
+-
+-    if (recentTasks) recentTasks.innerHTML = taskRows(tasks);
+-
+-    if (recentLogs) {
+-      recentLogs.innerHTML = (tasks && tasks.length)
+-        ? tasks.map((task) => `
+-            <div style="border-bottom:1px solid rgba(51,65,85,.55);padding:.5rem 0;color:#cbd5e1;font-size:.8rem;">
+-              ${esc(task.updated_at || task.created_at || "time unavailable")} · ${esc(task.status || "unknown")} · ${esc(task.title || task.task_id || "Untitled task")}
+-            </div>
+-          `).join("")
+-        : `<div style="color:#94a3b8;font-size:.8rem;">No task history yet.</div>`;
+-    }
+-  }
+-
+-  function renderActivity(rows) {
+-    const canvas = document.getElementById("task-activity-graph");
+-    if (!canvas || !window.Chart) return;
+-
+-    const card = document.getElementById("task-activity-card");
+-    const shell = canvas.parentElement;
+-
+-    if (card) {
+-      card.style.height = "100%";
+-      card.style.minHeight = "0";
+-      card.style.display = "flex";
+-      card.style.flexDirection = "column";
+-    }
+-
+-    if (shell) {
+-      shell.style.flex = "1 1 auto";
+-      shell.style.height = "100%";
+-      shell.style.minHeight = "0";
+-      shell.style.display = "flex";
+-      shell.style.padding = "0.75rem";
+-    }
+-
+-    canvas.style.flex = "1 1 auto";
+-    canvas.style.width = "100%";
+-    canvas.style.height = "100%";
+-    canvas.style.minHeight = "0";
+-
+-    const labels = (rows || []).map((row) => {
+-      const d = new Date(row.timestamp || Date.now());
+-      return Number.isNaN(d.getTime()) ? "now" : d.toLocaleTimeString();
+-    });
+-
+-    const created = (rows || []).map((row) => Number(row.created_count || 0));
+-    const completed = (rows || []).map((row) => Number(row.completed_count || 0));
+-    const failed = (rows || []).map((row) => Number(row.failed_count || 0));
+-
+-    if (window.__PHASE530_ACTIVITY_CHART__) {
+-      window.__PHASE530_ACTIVITY_CHART__.data.labels = labels;
+-      window.__PHASE530_ACTIVITY_CHART__.data.datasets[0].data = created;
+-      window.__PHASE530_ACTIVITY_CHART__.data.datasets[1].data = completed;
+-      window.__PHASE530_ACTIVITY_CHART__.data.datasets[2].data = failed;
+-      window.__PHASE530_ACTIVITY_CHART__.resize();
+-      window.__PHASE530_ACTIVITY_CHART__.update();
+-      return;
+-    }
+-
+-    window.__PHASE530_ACTIVITY_CHART__ = new Chart(canvas, {
+-      type: "line",
+-      data: {
+-        labels,
+-        datasets: [
+-          { label: "Created", data: created },
+-          { label: "Completed", data: completed },
+-          { label: "Failed", data: failed }
+-        ]
+-      },
+-      options: {
+-        responsive: true,
+-        maintainAspectRatio: false,
+-        resizeDelay: 0,
+-        layout: {
+-          padding: 8
+-        },
+-        scales: {
+-          y: {
+-            beginAtZero: true,
+-            ticks: {
+-              precision: 0
+-            }
+-          }
+-        }
+-      }
+-    });
+-  }
+-
+-  async function refresh() {
+-    try {
+-      const agents = await getJson("/api/agents");
+-      renderAgents(Array.isArray(agents) ? agents : []);
+-    } catch (e) {
+-      console.warn("[phase530] agents render failed", e);
+-    }
+-
+-    try {
+-      const data = await getJson("/api/tasks?limit=12");
+-      renderRecent(data.tasks || []);
+-    } catch (e) {
+-      console.warn("[phase530] recent tasks render failed", e);
+-    }
+-
+-    try {
+-      const activity = await getJson("/api/activity-graph");
+-      renderActivity(Array.isArray(activity) ? activity : []);
+-    } catch (e) {
+-      console.warn("[phase530] activity graph render failed", e);
+-    }
+-  }
+-
+-  if (document.readyState === "loading") {
+-    document.addEventListener("DOMContentLoaded", refresh, { once: true });
+-  } else {
+-    refresh();
+-  }
+-
+-  setInterval(refresh, POLL_MS);
++
++  function taskRows(tasks) {
++
++    if (!tasks || !tasks.length) {
++
++      return `<div style="color:#94a3b8;font-size:.8rem;">No recent tasks yet.</div>`;
++
++    }
++
++      const phase718TaskTitleByKey = new Map();
++
++      tasks.forEach((taskForTitle) => {
++
++        const readableTitle = String(taskForTitle.title || taskForTitle.task_title || taskForTitle.task_id || taskForTitle.id || "");
++
++        const keys = [
++
++          taskForTitle.task_id,
++
++          taskForTitle.id,
++
++          taskForTitle.uuid,
++
++          taskForTitle.execution_id
++
++        ].filter(Boolean).map(String);
++
++        keys.forEach((key) => {
++
++          if (key && readableTitle) {
++
++            phase718TaskTitleByKey.set(key, readableTitle);
++
++          }
++
++        });
++
++      });
++
++    return tasks.map((t) => {
++
++      const rawTitle = String(t.title || t.task_id || t.id || "Untitled task");
++
++      const retryTitleMatch = rawTitle.match(/^(retry differently|requeue)\s+(t_[a-f0-9-]+)$/i);
++
++      const phase718ResolveBaseTitle = (candidateTitle, depth = 0) => {
++
++        const candidate = String(candidateTitle || "");
++
++        if (!candidate || depth > 5) return candidate;
++
++        const nestedRetryMatch = candidate.match(/^(retry differently|requeue)\s+(t_[a-f0-9-]+)$/i);
++
++        if (!nestedRetryMatch) return candidate;
++
++        const nestedTarget = nestedRetryMatch[2];
++
++        return phase718TaskTitleByKey.has(nestedTarget)
++
++          ? phase718ResolveBaseTitle(phase718TaskTitleByKey.get(nestedTarget), depth + 1)
+... truncated 2359 more diff lines ...
+
+--- DIFF AGAINST _dashboard_candidate_previews/phase530-bridge-lineage/04-Motherboard_Systems_HQ__public__js__phase530_visible_panels_bridge.js ---
+--- public/js/phase530_visible_panels_bridge.js	2026-05-28 01:49:04
++++ _dashboard_candidate_previews/phase530-bridge-lineage/04-Motherboard_Systems_HQ__public__js__phase530_visible_panels_bridge.js	2026-05-25 00:58:11
+@@ -40,158 +40,2422 @@
+     `;
+   }
+ 
+-  function taskRows(tasks) {
+-    if (!tasks || !tasks.length) {
+-      return `<div style="color:#94a3b8;font-size:.8rem;">No recent tasks yet.</div>`;
+-    }
+-
+-    return tasks.map((task) => `
+-      <div style="border-bottom:1px solid rgba(51,65,85,.7);padding:.55rem 0;">
+-        <div style="color:#e5e7eb;font-size:.86rem;font-weight:650;">${esc(task.title || task.task_id || "Untitled task")}</div>
+-        <div style="color:#94a3b8;font-size:.74rem;margin-top:.2rem;">
+-          status=${esc(task.status || "unknown")} · id=${esc(task.task_id || task.id || "—")}
+-        </div>
+-      </div>
+-    `).join("");
+-  }
+-
+-  function renderRecent(tasks) {
+-    const recentTasks = document.getElementById("recentTasks");
+-    const recentLogs = document.getElementById("recentLogs");
+-    const recentCard = document.getElementById("recent-tasks-card");
+-
+-    if (recentCard) {
+-      recentCard.style.display = "grid";
+-      recentCard.style.gridTemplateRows = "1fr 1fr";
+-      recentCard.style.gap = "1rem";
+-      recentCard.style.minHeight = "0";
+-      recentCard.style.height = "100%";
+-    }
+-
+-    [recentTasks, recentLogs].forEach((el) => {
+-      if (!el) return;
+-      el.style.minHeight = "0";
+-      el.style.height = "100%";
+-      el.style.overflow = "auto";
+-      el.style.display = "block";
+-    });
+-
+-    if (recentTasks) recentTasks.innerHTML = taskRows(tasks);
+-
+-    if (recentLogs) {
+-      recentLogs.innerHTML = (tasks && tasks.length)
+-        ? tasks.map((task) => `
+-            <div style="border-bottom:1px solid rgba(51,65,85,.55);padding:.5rem 0;color:#cbd5e1;font-size:.8rem;">
+-              ${esc(task.updated_at || task.created_at || "time unavailable")} · ${esc(task.status || "unknown")} · ${esc(task.title || task.task_id || "Untitled task")}
+-            </div>
+-          `).join("")
+-        : `<div style="color:#94a3b8;font-size:.8rem;">No task history yet.</div>`;
+-    }
+-  }
+-
+-  function renderActivity(rows) {
+-    const canvas = document.getElementById("task-activity-graph");
+-    if (!canvas || !window.Chart) return;
+-
+-    const card = document.getElementById("task-activity-card");
+-    const shell = canvas.parentElement;
+-
+-    if (card) {
+-      card.style.height = "100%";
+-      card.style.minHeight = "0";
+-      card.style.display = "flex";
+-      card.style.flexDirection = "column";
+-    }
+-
+-    if (shell) {
+-      shell.style.flex = "1 1 auto";
+-      shell.style.height = "100%";
+-      shell.style.minHeight = "0";
+-      shell.style.display = "flex";
+-      shell.style.padding = "0.75rem";
+-    }
+-
+-    canvas.style.flex = "1 1 auto";
+-    canvas.style.width = "100%";
+-    canvas.style.height = "100%";
+-    canvas.style.minHeight = "0";
+-
+-    const labels = (rows || []).map((row) => {
+-      const d = new Date(row.timestamp || Date.now());
+-      return Number.isNaN(d.getTime()) ? "now" : d.toLocaleTimeString();
+-    });
+-
+-    const created = (rows || []).map((row) => Number(row.created_count || 0));
+-    const completed = (rows || []).map((row) => Number(row.completed_count || 0));
+-    const failed = (rows || []).map((row) => Number(row.failed_count || 0));
+-
+-    if (window.__PHASE530_ACTIVITY_CHART__) {
+-      window.__PHASE530_ACTIVITY_CHART__.data.labels = labels;
+-      window.__PHASE530_ACTIVITY_CHART__.data.datasets[0].data = created;
+-      window.__PHASE530_ACTIVITY_CHART__.data.datasets[1].data = completed;
+-      window.__PHASE530_ACTIVITY_CHART__.data.datasets[2].data = failed;
+-      window.__PHASE530_ACTIVITY_CHART__.resize();
+-      window.__PHASE530_ACTIVITY_CHART__.update();
+-      return;
+-    }
+-
+-    window.__PHASE530_ACTIVITY_CHART__ = new Chart(canvas, {
+-      type: "line",
+-      data: {
+-        labels,
+-        datasets: [
+-          { label: "Created", data: created },
+-          { label: "Completed", data: completed },
+-          { label: "Failed", data: failed }
+-        ]
+-      },
+-      options: {
+-        responsive: true,
+-        maintainAspectRatio: false,
+-        resizeDelay: 0,
+-        layout: {
+-          padding: 8
+-        },
+-        scales: {
+-          y: {
+-            beginAtZero: true,
+-            ticks: {
+-              precision: 0
+-            }
+-          }
+-        }
+-      }
+-    });
+-  }
+-
+-  async function refresh() {
+-    try {
+-      const agents = await getJson("/api/agents");
+-      renderAgents(Array.isArray(agents) ? agents : []);
+-    } catch (e) {
+-      console.warn("[phase530] agents render failed", e);
+-    }
+-
+-    try {
+-      const data = await getJson("/api/tasks?limit=12");
+-      renderRecent(data.tasks || []);
+-    } catch (e) {
+-      console.warn("[phase530] recent tasks render failed", e);
+-    }
+-
+-    try {
+-      const activity = await getJson("/api/activity-graph");
+-      renderActivity(Array.isArray(activity) ? activity : []);
+-    } catch (e) {
+-      console.warn("[phase530] activity graph render failed", e);
+-    }
+-  }
+-
+-  if (document.readyState === "loading") {
+-    document.addEventListener("DOMContentLoaded", refresh, { once: true });
+-  } else {
+-    refresh();
+-  }
+-
+-  setInterval(refresh, POLL_MS);
++
++  function taskRows(tasks) {
++
++    if (!tasks || !tasks.length) {
++
++      return `<div style="color:#94a3b8;font-size:.8rem;">No recent tasks yet.</div>`;
++
++    }
++
++      const phase718TaskTitleByKey = new Map();
++
++      tasks.forEach((taskForTitle) => {
++
++        const readableTitle = String(taskForTitle.title || taskForTitle.task_title || taskForTitle.task_id || taskForTitle.id || "");
++
++        const keys = [
++
++          taskForTitle.task_id,
++
++          taskForTitle.id,
++
++          taskForTitle.uuid,
++
++          taskForTitle.execution_id
++
++        ].filter(Boolean).map(String);
++
++        keys.forEach((key) => {
++
++          if (key && readableTitle) {
++
++            phase718TaskTitleByKey.set(key, readableTitle);
++
++          }
++
++        });
++
++      });
++
++    return tasks.map((t) => {
++
++      const rawTitle = String(t.title || t.task_id || t.id || "Untitled task");
++
++      const retryTitleMatch = rawTitle.match(/^(retry differently|requeue)\s+(t_[a-f0-9-]+)$/i);
++
++      const phase718ResolveBaseTitle = (candidateTitle, depth = 0) => {
++
++        const candidate = String(candidateTitle || "");
++
++        if (!candidate || depth > 5) return candidate;
++
++        const nestedRetryMatch = candidate.match(/^(retry differently|requeue)\s+(t_[a-f0-9-]+)$/i);
++
++        if (!nestedRetryMatch) return candidate;
++
++        const nestedTarget = nestedRetryMatch[2];
++
++        return phase718TaskTitleByKey.has(nestedTarget)
++
++          ? phase718ResolveBaseTitle(phase718TaskTitleByKey.get(nestedTarget), depth + 1)
+... truncated 2359 more diff lines ...
+
+--- DIFF AGAINST _dashboard_candidate_previews/phase530-bridge-lineage/05-Motherboard_Storage__snapshots__full-disaster-recovery-20260526-phase743-sealed-13f8eb4a__Motherboard_Systems_HQ__public__js__phase530_visible_panels_bridge.js ---
+--- public/js/phase530_visible_panels_bridge.js	2026-05-28 01:49:04
++++ _dashboard_candidate_previews/phase530-bridge-lineage/05-Motherboard_Storage__snapshots__full-disaster-recovery-20260526-phase743-sealed-13f8eb4a__Motherboard_Systems_HQ__public__js__phase530_visible_panels_bridge.js	2026-05-25 00:58:11
+@@ -40,158 +40,2422 @@
+     `;
+   }
+ 
+-  function taskRows(tasks) {
+-    if (!tasks || !tasks.length) {
+-      return `<div style="color:#94a3b8;font-size:.8rem;">No recent tasks yet.</div>`;
+-    }
+-
+-    return tasks.map((task) => `
+-      <div style="border-bottom:1px solid rgba(51,65,85,.7);padding:.55rem 0;">
+-        <div style="color:#e5e7eb;font-size:.86rem;font-weight:650;">${esc(task.title || task.task_id || "Untitled task")}</div>
+-        <div style="color:#94a3b8;font-size:.74rem;margin-top:.2rem;">
+-          status=${esc(task.status || "unknown")} · id=${esc(task.task_id || task.id || "—")}
+-        </div>
+-      </div>
+-    `).join("");
+-  }
+-
+-  function renderRecent(tasks) {
+-    const recentTasks = document.getElementById("recentTasks");
+-    const recentLogs = document.getElementById("recentLogs");
+-    const recentCard = document.getElementById("recent-tasks-card");
+-
+-    if (recentCard) {
+-      recentCard.style.display = "grid";
+-      recentCard.style.gridTemplateRows = "1fr 1fr";
+-      recentCard.style.gap = "1rem";
+-      recentCard.style.minHeight = "0";
+-      recentCard.style.height = "100%";
+-    }
+-
+-    [recentTasks, recentLogs].forEach((el) => {
+-      if (!el) return;
+-      el.style.minHeight = "0";
+-      el.style.height = "100%";
+-      el.style.overflow = "auto";
+-      el.style.display = "block";
+-    });
+-
+-    if (recentTasks) recentTasks.innerHTML = taskRows(tasks);
+-
+-    if (recentLogs) {
+-      recentLogs.innerHTML = (tasks && tasks.length)
+-        ? tasks.map((task) => `
+-            <div style="border-bottom:1px solid rgba(51,65,85,.55);padding:.5rem 0;color:#cbd5e1;font-size:.8rem;">
+-              ${esc(task.updated_at || task.created_at || "time unavailable")} · ${esc(task.status || "unknown")} · ${esc(task.title || task.task_id || "Untitled task")}
+-            </div>
+-          `).join("")
+-        : `<div style="color:#94a3b8;font-size:.8rem;">No task history yet.</div>`;
+-    }
+-  }
+-
+-  function renderActivity(rows) {
+-    const canvas = document.getElementById("task-activity-graph");
+-    if (!canvas || !window.Chart) return;
+-
+-    const card = document.getElementById("task-activity-card");
+-    const shell = canvas.parentElement;
+-
+-    if (card) {
+-      card.style.height = "100%";
+-      card.style.minHeight = "0";
+-      card.style.display = "flex";
+-      card.style.flexDirection = "column";
+-    }
+-
+-    if (shell) {
+-      shell.style.flex = "1 1 auto";
+-      shell.style.height = "100%";
+-      shell.style.minHeight = "0";
+-      shell.style.display = "flex";
+-      shell.style.padding = "0.75rem";
+-    }
+-
+-    canvas.style.flex = "1 1 auto";
+-    canvas.style.width = "100%";
+-    canvas.style.height = "100%";
+-    canvas.style.minHeight = "0";
+-
+-    const labels = (rows || []).map((row) => {
+-      const d = new Date(row.timestamp || Date.now());
+-      return Number.isNaN(d.getTime()) ? "now" : d.toLocaleTimeString();
+-    });
+-
+-    const created = (rows || []).map((row) => Number(row.created_count || 0));
+-    const completed = (rows || []).map((row) => Number(row.completed_count || 0));
+-    const failed = (rows || []).map((row) => Number(row.failed_count || 0));
+-
+-    if (window.__PHASE530_ACTIVITY_CHART__) {
+-      window.__PHASE530_ACTIVITY_CHART__.data.labels = labels;
+-      window.__PHASE530_ACTIVITY_CHART__.data.datasets[0].data = created;
+-      window.__PHASE530_ACTIVITY_CHART__.data.datasets[1].data = completed;
+-      window.__PHASE530_ACTIVITY_CHART__.data.datasets[2].data = failed;
+-      window.__PHASE530_ACTIVITY_CHART__.resize();
+-      window.__PHASE530_ACTIVITY_CHART__.update();
+-      return;
+-    }
+-
+-    window.__PHASE530_ACTIVITY_CHART__ = new Chart(canvas, {
+-      type: "line",
+-      data: {
+-        labels,
+-        datasets: [
+-          { label: "Created", data: created },
+-          { label: "Completed", data: completed },
+-          { label: "Failed", data: failed }
+-        ]
+-      },
+-      options: {
+-        responsive: true,
+-        maintainAspectRatio: false,
+-        resizeDelay: 0,
+-        layout: {
+-          padding: 8
+-        },
+-        scales: {
+-          y: {
+-            beginAtZero: true,
+-            ticks: {
+-              precision: 0
+-            }
+-          }
+-        }
+-      }
+-    });
+-  }
+-
+-  async function refresh() {
+-    try {
+-      const agents = await getJson("/api/agents");
+-      renderAgents(Array.isArray(agents) ? agents : []);
+-    } catch (e) {
+-      console.warn("[phase530] agents render failed", e);
+-    }
+-
+-    try {
+-      const data = await getJson("/api/tasks?limit=12");
+-      renderRecent(data.tasks || []);
+-    } catch (e) {
+-      console.warn("[phase530] recent tasks render failed", e);
+-    }
+-
+-    try {
+-      const activity = await getJson("/api/activity-graph");
+-      renderActivity(Array.isArray(activity) ? activity : []);
+-    } catch (e) {
+-      console.warn("[phase530] activity graph render failed", e);
+-    }
+-  }
+-
+-  if (document.readyState === "loading") {
+-    document.addEventListener("DOMContentLoaded", refresh, { once: true });
+-  } else {
+-    refresh();
+-  }
+-
+-  setInterval(refresh, POLL_MS);
++
++  function taskRows(tasks) {
++
++    if (!tasks || !tasks.length) {
++
++      return `<div style="color:#94a3b8;font-size:.8rem;">No recent tasks yet.</div>`;
++
++    }
++
++      const phase718TaskTitleByKey = new Map();
++
++      tasks.forEach((taskForTitle) => {
++
++        const readableTitle = String(taskForTitle.title || taskForTitle.task_title || taskForTitle.task_id || taskForTitle.id || "");
++
++        const keys = [
++
++          taskForTitle.task_id,
++
++          taskForTitle.id,
++
++          taskForTitle.uuid,
++
++          taskForTitle.execution_id
++
++        ].filter(Boolean).map(String);
++
++        keys.forEach((key) => {
++
++          if (key && readableTitle) {
++
++            phase718TaskTitleByKey.set(key, readableTitle);
++
++          }
++
++        });
++
++      });
++
++    return tasks.map((t) => {
++
++      const rawTitle = String(t.title || t.task_id || t.id || "Untitled task");
++
++      const retryTitleMatch = rawTitle.match(/^(retry differently|requeue)\s+(t_[a-f0-9-]+)$/i);
++
++      const phase718ResolveBaseTitle = (candidateTitle, depth = 0) => {
++
++        const candidate = String(candidateTitle || "");
++
++        if (!candidate || depth > 5) return candidate;
++
++        const nestedRetryMatch = candidate.match(/^(retry differently|requeue)\s+(t_[a-f0-9-]+)$/i);
++
++        if (!nestedRetryMatch) return candidate;
++
++        const nestedTarget = nestedRetryMatch[2];
++
++        return phase718TaskTitleByKey.has(nestedTarget)
++
++          ? phase718ResolveBaseTitle(phase718TaskTitleByKey.get(nestedTarget), depth + 1)
+... truncated 2359 more diff lines ...
+
+--- DIFF AGAINST _dashboard_candidate_previews/phase530-bridge-lineage/06-Motherboard_Storage__snapshots__full-disaster-recovery-20260526-phase744-architecture-494f61b3__Motherboard_Systems_HQ__public__js__phase530_visible_panels_bridge.js ---
+--- public/js/phase530_visible_panels_bridge.js	2026-05-28 01:49:04
++++ _dashboard_candidate_previews/phase530-bridge-lineage/06-Motherboard_Storage__snapshots__full-disaster-recovery-20260526-phase744-architecture-494f61b3__Motherboard_Systems_HQ__public__js__phase530_visible_panels_bridge.js	2026-05-25 00:58:11
+@@ -40,158 +40,2422 @@
+     `;
+   }
+ 
+-  function taskRows(tasks) {
+-    if (!tasks || !tasks.length) {
+-      return `<div style="color:#94a3b8;font-size:.8rem;">No recent tasks yet.</div>`;
+-    }
+-
+-    return tasks.map((task) => `
+-      <div style="border-bottom:1px solid rgba(51,65,85,.7);padding:.55rem 0;">
+-        <div style="color:#e5e7eb;font-size:.86rem;font-weight:650;">${esc(task.title || task.task_id || "Untitled task")}</div>
+-        <div style="color:#94a3b8;font-size:.74rem;margin-top:.2rem;">
+-          status=${esc(task.status || "unknown")} · id=${esc(task.task_id || task.id || "—")}
+-        </div>
+-      </div>
+-    `).join("");
+-  }
+-
+-  function renderRecent(tasks) {
+-    const recentTasks = document.getElementById("recentTasks");
+-    const recentLogs = document.getElementById("recentLogs");
+-    const recentCard = document.getElementById("recent-tasks-card");
+-
+-    if (recentCard) {
+-      recentCard.style.display = "grid";
+-      recentCard.style.gridTemplateRows = "1fr 1fr";
+-      recentCard.style.gap = "1rem";
+-      recentCard.style.minHeight = "0";
+-      recentCard.style.height = "100%";
+-    }
+-
+-    [recentTasks, recentLogs].forEach((el) => {
+-      if (!el) return;
+-      el.style.minHeight = "0";
+-      el.style.height = "100%";
+-      el.style.overflow = "auto";
+-      el.style.display = "block";
+-    });
+-
+-    if (recentTasks) recentTasks.innerHTML = taskRows(tasks);
+-
+-    if (recentLogs) {
+-      recentLogs.innerHTML = (tasks && tasks.length)
+-        ? tasks.map((task) => `
+-            <div style="border-bottom:1px solid rgba(51,65,85,.55);padding:.5rem 0;color:#cbd5e1;font-size:.8rem;">
+-              ${esc(task.updated_at || task.created_at || "time unavailable")} · ${esc(task.status || "unknown")} · ${esc(task.title || task.task_id || "Untitled task")}
+-            </div>
+-          `).join("")
+-        : `<div style="color:#94a3b8;font-size:.8rem;">No task history yet.</div>`;
+-    }
+-  }
+-
+-  function renderActivity(rows) {
+-    const canvas = document.getElementById("task-activity-graph");
+-    if (!canvas || !window.Chart) return;
+-
+-    const card = document.getElementById("task-activity-card");
+-    const shell = canvas.parentElement;
+-
+-    if (card) {
+-      card.style.height = "100%";
+-      card.style.minHeight = "0";
+-      card.style.display = "flex";
+-      card.style.flexDirection = "column";
+-    }
+-
+-    if (shell) {
+-      shell.style.flex = "1 1 auto";
+-      shell.style.height = "100%";
+-      shell.style.minHeight = "0";
+-      shell.style.display = "flex";
+-      shell.style.padding = "0.75rem";
+-    }
+-
+-    canvas.style.flex = "1 1 auto";
+-    canvas.style.width = "100%";
+-    canvas.style.height = "100%";
+-    canvas.style.minHeight = "0";
+-
+-    const labels = (rows || []).map((row) => {
+-      const d = new Date(row.timestamp || Date.now());
+-      return Number.isNaN(d.getTime()) ? "now" : d.toLocaleTimeString();
+-    });
+-
+-    const created = (rows || []).map((row) => Number(row.created_count || 0));
+-    const completed = (rows || []).map((row) => Number(row.completed_count || 0));
+-    const failed = (rows || []).map((row) => Number(row.failed_count || 0));
+-
+-    if (window.__PHASE530_ACTIVITY_CHART__) {
+-      window.__PHASE530_ACTIVITY_CHART__.data.labels = labels;
+-      window.__PHASE530_ACTIVITY_CHART__.data.datasets[0].data = created;
+-      window.__PHASE530_ACTIVITY_CHART__.data.datasets[1].data = completed;
+-      window.__PHASE530_ACTIVITY_CHART__.data.datasets[2].data = failed;
+-      window.__PHASE530_ACTIVITY_CHART__.resize();
+-      window.__PHASE530_ACTIVITY_CHART__.update();
+-      return;
+-    }
+-
+-    window.__PHASE530_ACTIVITY_CHART__ = new Chart(canvas, {
+-      type: "line",
+-      data: {
+-        labels,
+-        datasets: [
+-          { label: "Created", data: created },
+-          { label: "Completed", data: completed },
+-          { label: "Failed", data: failed }
+-        ]
+-      },
+-      options: {
+-        responsive: true,
+-        maintainAspectRatio: false,
+-        resizeDelay: 0,
+-        layout: {
+-          padding: 8
+-        },
+-        scales: {
+-          y: {
+-            beginAtZero: true,
+-            ticks: {
+-              precision: 0
+-            }
+-          }
+-        }
+-      }
+-    });
+-  }
+-
+-  async function refresh() {
+-    try {
+-      const agents = await getJson("/api/agents");
+-      renderAgents(Array.isArray(agents) ? agents : []);
+-    } catch (e) {
+-      console.warn("[phase530] agents render failed", e);
+-    }
+-
+-    try {
+-      const data = await getJson("/api/tasks?limit=12");
+-      renderRecent(data.tasks || []);
+-    } catch (e) {
+-      console.warn("[phase530] recent tasks render failed", e);
+-    }
+-
+-    try {
+-      const activity = await getJson("/api/activity-graph");
+-      renderActivity(Array.isArray(activity) ? activity : []);
+-    } catch (e) {
+-      console.warn("[phase530] activity graph render failed", e);
+-    }
+-  }
+-
+-  if (document.readyState === "loading") {
+-    document.addEventListener("DOMContentLoaded", refresh, { once: true });
+-  } else {
+-    refresh();
+-  }
+-
+-  setInterval(refresh, POLL_MS);
++
++  function taskRows(tasks) {
++
++    if (!tasks || !tasks.length) {
++
++      return `<div style="color:#94a3b8;font-size:.8rem;">No recent tasks yet.</div>`;
++
++    }
++
++      const phase718TaskTitleByKey = new Map();
++
++      tasks.forEach((taskForTitle) => {
++
++        const readableTitle = String(taskForTitle.title || taskForTitle.task_title || taskForTitle.task_id || taskForTitle.id || "");
++
++        const keys = [
++
++          taskForTitle.task_id,
++
++          taskForTitle.id,
++
++          taskForTitle.uuid,
++
++          taskForTitle.execution_id
++
++        ].filter(Boolean).map(String);
++
++        keys.forEach((key) => {
++
++          if (key && readableTitle) {
++
++            phase718TaskTitleByKey.set(key, readableTitle);
++
++          }
++
++        });
++
++      });
++
++    return tasks.map((t) => {
++
++      const rawTitle = String(t.title || t.task_id || t.id || "Untitled task");
++
++      const retryTitleMatch = rawTitle.match(/^(retry differently|requeue)\s+(t_[a-f0-9-]+)$/i);
++
++      const phase718ResolveBaseTitle = (candidateTitle, depth = 0) => {
++
++        const candidate = String(candidateTitle || "");
++
++        if (!candidate || depth > 5) return candidate;
++
++        const nestedRetryMatch = candidate.match(/^(retry differently|requeue)\s+(t_[a-f0-9-]+)$/i);
++
++        if (!nestedRetryMatch) return candidate;
++
++        const nestedTarget = nestedRetryMatch[2];
++
++        return phase718TaskTitleByKey.has(nestedTarget)
++
++          ? phase718ResolveBaseTitle(phase718TaskTitleByKey.get(nestedTarget), depth + 1)
+... truncated 2359 more diff lines ...
+
+--- DIFF AGAINST _dashboard_candidate_previews/phase530-bridge-lineage/07-Motherboard_Systems_HQ__checkpoints__phase725_aesthetic_refinement_baseline__phase530_visible_panels_bridge.pre_phase725_visual_polish.js ---
+--- public/js/phase530_visible_panels_bridge.js	2026-05-28 01:49:04
++++ _dashboard_candidate_previews/phase530-bridge-lineage/07-Motherboard_Systems_HQ__checkpoints__phase725_aesthetic_refinement_baseline__phase530_visible_panels_bridge.pre_phase725_visual_polish.js	2026-05-15 20:29:43
+@@ -40,53 +40,226 @@
+     `;
+   }
+ 
++
+   function taskRows(tasks) {
++
+     if (!tasks || !tasks.length) {
++
+       return `<div style="color:#94a3b8;font-size:.8rem;">No recent tasks yet.</div>`;
++
+     }
+ 
+-    return tasks.map((task) => `
+-      <div style="border-bottom:1px solid rgba(51,65,85,.7);padding:.55rem 0;">
+-        <div style="color:#e5e7eb;font-size:.86rem;font-weight:650;">${esc(task.title || task.task_id || "Untitled task")}</div>
+-        <div style="color:#94a3b8;font-size:.74rem;margin-top:.2rem;">
+-          status=${esc(task.status || "unknown")} · id=${esc(task.task_id || task.id || "—")}
+-        </div>
+-      </div>
+-    `).join("");
++      const phase718TaskTitleByKey = new Map();
++
++      tasks.forEach((taskForTitle) => {
++
++        const readableTitle = String(taskForTitle.title || taskForTitle.task_title || taskForTitle.task_id || taskForTitle.id || "");
++
++        const keys = [
++
++          taskForTitle.task_id,
++
++          taskForTitle.id,
++
++          taskForTitle.uuid,
++
++          taskForTitle.execution_id
++
++        ].filter(Boolean).map(String);
++
++        keys.forEach((key) => {
++
++          if (key && readableTitle) {
++
++            phase718TaskTitleByKey.set(key, readableTitle);
++
++          }
++
++        });
++
++      });
++
++    return tasks.map((t) => {
++
++      const rawTitle = String(t.title || t.task_id || t.id || "Untitled task");
++
++      const retryTitleMatch = rawTitle.match(/^(retry differently|requeue)\s+(t_[a-f0-9-]+)$/i);
++
++      const phase718ResolveBaseTitle = (candidateTitle, depth = 0) => {
++
++        const candidate = String(candidateTitle || "");
++
++        if (!candidate || depth > 5) return candidate;
++
++        const nestedRetryMatch = candidate.match(/^(retry differently|requeue)\s+(t_[a-f0-9-]+)$/i);
++
++        if (!nestedRetryMatch) return candidate;
++
++        const nestedTarget = nestedRetryMatch[2];
++
++        return phase718TaskTitleByKey.has(nestedTarget)
++
++          ? phase718ResolveBaseTitle(phase718TaskTitleByKey.get(nestedTarget), depth + 1)
++
++          : nestedTarget;
++
++      };
++
++      const operatorAction = retryTitleMatch
++
++        ? (retryTitleMatch[1].toLowerCase() === "requeue" ? "Requeue" : "Retry differently")
++
++        : "";
++
++      const operatorTarget = retryTitleMatch ? retryTitleMatch[2] : "";
++
++      const resolvedTargetTitleRaw = operatorTarget && phase718TaskTitleByKey.has(operatorTarget)
++
++        ? phase718ResolveBaseTitle(phase718TaskTitleByKey.get(operatorTarget))
++
++        : operatorTarget;
++
++      const operatorTitle = operatorAction && resolvedTargetTitleRaw
++
++        ? `${operatorAction}: ${resolvedTargetTitleRaw}`
++
++        : (operatorAction || phase718ResolveBaseTitle(rawTitle));
++
++      const title = esc(operatorTitle);
++
++      const targetTitle = esc(operatorTarget);
++
++      const status = esc(t.status || "unknown");
++
++      const taskId = esc(t.task_id || t.id || "");
++
++      const updated = esc(t.updated_at || "");
++
++      const outcome = esc(t.outcome_preview || "");
++
++      const explanation = esc(t.explanation_preview || "");
++      const artifactRaw = t.artifact || (Array.isArray(t.artifacts) ? t.artifacts[0] : null) || null;
++      const artifactName = artifactRaw ? esc(artifactRaw.filename || artifactRaw.path || "artifact") : "";
++      const artifactType = artifactRaw ? esc(artifactRaw.type || "artifact") : "";
++      const artifactSize = artifactRaw && artifactRaw.size_bytes ? esc(String(artifactRaw.size_bytes) + " bytes") : "";
++      const artifactPath = artifactRaw ? esc(artifactRaw.path || "") : "";
++
++      const triageStatusRaw = String(t.status || "").toLowerCase();
++
++      const triageLabel = triageStatusRaw === "completed" ? "triage: completed" : "";
++
++      const executionStrategyRaw = t.strategy || t.execution_strategy || t.execution_mode || t.executionMode || "";
++
++      const executionStrategy = esc(String(executionStrategyRaw || ""));
++
++      const retryOfRaw = t.retry_of_task_id || (t.meta && t.meta.retry_of_task_id) || (t.execution_meta && t.execution_meta.retry_of_task_id) || "";
++
++      const retryOf = esc(String(retryOfRaw || ""));
++
++      const guidance = t.guidance || {};
++
++      const trace = guidance.communicationResult && guidance.communicationResult.systemTrace
++
++        ? guidance.communicationResult.systemTrace.content
++
++        : null;
++
++      const traceJson = trace ? esc(JSON.stringify(trace, null, 2)) : "";
++
++      const logContent = esc([
++
++        `task_id=${taskId}`,
++
++        `status=${status}`,
++
++        updated ? `updated=${updated}` : "",
++
++        outcome ? `outcome=${outcome}` : "",
++
++        ""
++
++      ].filter(Boolean).join("\n"));
++
++      return `
++
++        <article data-phase716-contained-task="true" data-phase717-execution-card="true" style="display:block;width:100%;min-width:0;max-width:100%;box-sizing:border-box;border:1px solid rgba(148,163,184,.24);border-radius:14px;padding:12px;margin:0 0 12px 0;background:rgba(15,23,42,.74);overflow:hidden;">
++
++          <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:8px;min-width:0;">
++
++            <div style="font-weight:600;color:#e5e7eb;overflow-wrap:anywhere;word-break:break-word;min-width:0;">${title}</div>
++
++            ${artifactRaw ? `<button type="button" data-phase719-preview-artifact="true" data-task-id="${taskId}" data-task-title="${title}" data-artifact-name="${artifactName}" data-artifact-type="${artifactType}" data-artifact-size="${artifactSize}" data-artifact-path="${artifactPath}" data-artifact-outcome="${outcome}" data-artifact-explanation="${explanation}" title="Preview completed artifact" style="flex:0 0 auto;cursor:pointer;color:#93c5fd;border:1px solid rgba(147,197,253,.35);border-radius:999px;padding:2px 7px;font-size:10px;line-height:1.4;background:rgba(30,64,175,.18);">Preview</button>` : ""}
++
++            ${executionStrategy ? `<div style="flex:0 0 auto;color:#c4b5fd;border:1px solid rgba(196,181,253,.35);border-radius:999px;padding:2px 7px;font-size:10px;line-height:1.4;background:rgba(88,28,135,.18);">strategy: ${executionStrategy}</div>` : ""}
++
++            ${retryOf ? `<div style="flex:0 0 auto;color:#fcd34d;border:1px solid rgba(252,211,77,.35);border-radius:999px;padding:2px 7px;font-size:10px;line-height:1.4;background:rgba(120,53,15,.18);">retry of: ${retryOf}</div>` : ""}
++
++            ${triageLabel ? `<div style="flex:0 0 auto;color:#86efac;border:1px solid rgba(134,239,172,.35);border-radius:999px;padding:2px 7px;font-size:10px;line-height:1.4;background:rgba(22,101,52,.18);">${triageLabel}</div>` : ""}
++
++          </div>
++            ${""}
++
++          ${""}
++
++          ${""}
++
++          <div style="margin-top:10px;border:1px solid rgba(71,85,105,.55);border-radius:12px;padding:9px;background:rgba(2,6,23,.24);">
++
++              ${artifactRaw ? `<div style="margin-bottom:8px;color:#86efac;font-size:11px;line-height:1.5;overflow-wrap:anywhere;border:1px solid rgba(134,239,172,.28);border-radius:10px;padding:7px;background:rgba(20,83,45,.14);">Artifact: ${artifactName}${artifactType ? ` · ${artifactType}` : ""}${artifactSize ? ` · ${artifactSize}` : ""}</div>` : ""}
++            <div style="color:#cbd5e1;font-size:11px;font-weight:700;margin-bottom:7px;letter-spacing:.02em;">Operator actions</div>
++
++            <div style="display:flex;flex-wrap:wrap;gap:7px;align-items:center;">
++
++              <button type="button" data-phase717-requeue="true" data-task-id="${taskId}" data-task-title="${title}" title="Explicit operator action: requeue this task" style="cursor:pointer;border:1px solid rgba(148,163,184,.35);background:rgba(15,23,42,.8);color:#cbd5e1;border-radius:8px;padding:5px 8px;font-size:11px;">Requeue</button>
++
++              <button type="button" data-phase717-retry-differently="true" data-task-id="${taskId}" data-task-title="${title}" title="Explicit operator action: retry this task differently" style="cursor:pointer;border:1px solid rgba(96,165,250,.45);background:rgba(30,41,59,.92);color:#dbeafe;border-radius:8px;padding:5px 8px;font-size:11px;">Retry differently</button>
++
++            </div>
++
++          </div>
++
++          ${outcome ? "" : ""}
++
++          ${explanation ? `<button type="button" data-phase717-inspect-details="true" data-phase717-inspect-title="${title} — Details" data-phase717-inspect-content="${explanation}" style="margin-top:10px;cursor:pointer;border:1px solid rgba(147,197,253,.35);background:rgba(30,64,175,.14);color:#93c5fd;border-radius:999px;padding:4px 9px;font-size:11px;">Inspect details</button>` : ""}
++
++          ${traceJson ? `<button type="button" data-phase717-inspect-trace="true" data-phase717-inspect-title="${title} — Advanced trace" data-phase717-inspect-content="${traceJson}" style="margin-top:10px;margin-left:6px;cursor:pointer;border:1px solid rgba(251,191,36,.38);background:rgba(120,53,15,.14);color:#fbbf24;border-radius:999px;padding:4px 9px;font-size:11px;">Inspect trace</button>` : ""}
++
++          ${logContent ? `<button type="button" data-phase717-inspect-logs="true" data-phase717-inspect-title="${title} — Logs" data-phase717-inspect-content="${logContent}" style="margin-top:10px;margin-left:6px;cursor:pointer;border:1px solid rgba(45,212,191,.38);background:rgba(20,83,45,.14);color:#5eead4;border-radius:999px;padding:4px 9px;font-size:11px;">Inspect logs</button>` : ""}
++
++        </article>
++
++      `;
++
++    }).join("");
++
+   }
+ 
++
+   function renderRecent(tasks) {
+     const recentTasks = document.getElementById("recentTasks");
+     const recentLogs = document.getElementById("recentLogs");
+     const recentCard = document.getElementById("recent-tasks-card");
+ 
+     if (recentCard) {
+-      recentCard.style.display = "grid";
+-      recentCard.style.gridTemplateRows = "1fr 1fr";
+-      recentCard.style.gap = "1rem";
++      recentCard.style.display = "block";
+       recentCard.style.minHeight = "0";
+... truncated 1203 more diff lines ...
+
+--- DIFF AGAINST _dashboard_candidate_previews/phase530-bridge-lineage/08-Motherboard_Storage__snapshots__full-disaster-recovery-20260526-phase743-sealed-13f8eb4a__Motherboard_Systems_HQ__checkpoints__phase725_aesthetic_refinement_baseline__phase530_visible_panels_bridge.pre_phase725_visual_polish.js ---
+--- public/js/phase530_visible_panels_bridge.js	2026-05-28 01:49:04
++++ _dashboard_candidate_previews/phase530-bridge-lineage/08-Motherboard_Storage__snapshots__full-disaster-recovery-20260526-phase743-sealed-13f8eb4a__Motherboard_Systems_HQ__checkpoints__phase725_aesthetic_refinement_baseline__phase530_visible_panels_bridge.pre_phase725_visual_polish.js	2026-05-15 20:29:43
+@@ -40,53 +40,226 @@
+     `;
+   }
+ 
++
+   function taskRows(tasks) {
++
+     if (!tasks || !tasks.length) {
++
+       return `<div style="color:#94a3b8;font-size:.8rem;">No recent tasks yet.</div>`;
++
+     }
+ 
+-    return tasks.map((task) => `
+-      <div style="border-bottom:1px solid rgba(51,65,85,.7);padding:.55rem 0;">
+-        <div style="color:#e5e7eb;font-size:.86rem;font-weight:650;">${esc(task.title || task.task_id || "Untitled task")}</div>
+-        <div style="color:#94a3b8;font-size:.74rem;margin-top:.2rem;">
+-          status=${esc(task.status || "unknown")} · id=${esc(task.task_id || task.id || "—")}
+-        </div>
+-      </div>
+-    `).join("");
++      const phase718TaskTitleByKey = new Map();
++
++      tasks.forEach((taskForTitle) => {
++
++        const readableTitle = String(taskForTitle.title || taskForTitle.task_title || taskForTitle.task_id || taskForTitle.id || "");
++
++        const keys = [
++
++          taskForTitle.task_id,
++
++          taskForTitle.id,
++
++          taskForTitle.uuid,
++
++          taskForTitle.execution_id
++
++        ].filter(Boolean).map(String);
++
++        keys.forEach((key) => {
++
++          if (key && readableTitle) {
++
++            phase718TaskTitleByKey.set(key, readableTitle);
++
++          }
++
++        });
++
++      });
++
++    return tasks.map((t) => {
++
++      const rawTitle = String(t.title || t.task_id || t.id || "Untitled task");
++
++      const retryTitleMatch = rawTitle.match(/^(retry differently|requeue)\s+(t_[a-f0-9-]+)$/i);
++
++      const phase718ResolveBaseTitle = (candidateTitle, depth = 0) => {
++
++        const candidate = String(candidateTitle || "");
++
++        if (!candidate || depth > 5) return candidate;
++
++        const nestedRetryMatch = candidate.match(/^(retry differently|requeue)\s+(t_[a-f0-9-]+)$/i);
++
++        if (!nestedRetryMatch) return candidate;
++
++        const nestedTarget = nestedRetryMatch[2];
++
++        return phase718TaskTitleByKey.has(nestedTarget)
++
++          ? phase718ResolveBaseTitle(phase718TaskTitleByKey.get(nestedTarget), depth + 1)
++
++          : nestedTarget;
++
++      };
++
++      const operatorAction = retryTitleMatch
++
++        ? (retryTitleMatch[1].toLowerCase() === "requeue" ? "Requeue" : "Retry differently")
++
++        : "";
++
++      const operatorTarget = retryTitleMatch ? retryTitleMatch[2] : "";
++
++      const resolvedTargetTitleRaw = operatorTarget && phase718TaskTitleByKey.has(operatorTarget)
++
++        ? phase718ResolveBaseTitle(phase718TaskTitleByKey.get(operatorTarget))
++
++        : operatorTarget;
++
++      const operatorTitle = operatorAction && resolvedTargetTitleRaw
++
++        ? `${operatorAction}: ${resolvedTargetTitleRaw}`
++
++        : (operatorAction || phase718ResolveBaseTitle(rawTitle));
++
++      const title = esc(operatorTitle);
++
++      const targetTitle = esc(operatorTarget);
++
++      const status = esc(t.status || "unknown");
++
++      const taskId = esc(t.task_id || t.id || "");
++
++      const updated = esc(t.updated_at || "");
++
++      const outcome = esc(t.outcome_preview || "");
++
++      const explanation = esc(t.explanation_preview || "");
++      const artifactRaw = t.artifact || (Array.isArray(t.artifacts) ? t.artifacts[0] : null) || null;
++      const artifactName = artifactRaw ? esc(artifactRaw.filename || artifactRaw.path || "artifact") : "";
++      const artifactType = artifactRaw ? esc(artifactRaw.type || "artifact") : "";
++      const artifactSize = artifactRaw && artifactRaw.size_bytes ? esc(String(artifactRaw.size_bytes) + " bytes") : "";
++      const artifactPath = artifactRaw ? esc(artifactRaw.path || "") : "";
++
++      const triageStatusRaw = String(t.status || "").toLowerCase();
++
++      const triageLabel = triageStatusRaw === "completed" ? "triage: completed" : "";
++
++      const executionStrategyRaw = t.strategy || t.execution_strategy || t.execution_mode || t.executionMode || "";
++
++      const executionStrategy = esc(String(executionStrategyRaw || ""));
++
++      const retryOfRaw = t.retry_of_task_id || (t.meta && t.meta.retry_of_task_id) || (t.execution_meta && t.execution_meta.retry_of_task_id) || "";
++
++      const retryOf = esc(String(retryOfRaw || ""));
++
++      const guidance = t.guidance || {};
++
++      const trace = guidance.communicationResult && guidance.communicationResult.systemTrace
++
++        ? guidance.communicationResult.systemTrace.content
++
++        : null;
++
++      const traceJson = trace ? esc(JSON.stringify(trace, null, 2)) : "";
++
++      const logContent = esc([
++
++        `task_id=${taskId}`,
++
++        `status=${status}`,
++
++        updated ? `updated=${updated}` : "",
++
++        outcome ? `outcome=${outcome}` : "",
++
++        ""
++
++      ].filter(Boolean).join("\n"));
++
++      return `
++
++        <article data-phase716-contained-task="true" data-phase717-execution-card="true" style="display:block;width:100%;min-width:0;max-width:100%;box-sizing:border-box;border:1px solid rgba(148,163,184,.24);border-radius:14px;padding:12px;margin:0 0 12px 0;background:rgba(15,23,42,.74);overflow:hidden;">
++
++          <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:8px;min-width:0;">
++
++            <div style="font-weight:600;color:#e5e7eb;overflow-wrap:anywhere;word-break:break-word;min-width:0;">${title}</div>
++
++            ${artifactRaw ? `<button type="button" data-phase719-preview-artifact="true" data-task-id="${taskId}" data-task-title="${title}" data-artifact-name="${artifactName}" data-artifact-type="${artifactType}" data-artifact-size="${artifactSize}" data-artifact-path="${artifactPath}" data-artifact-outcome="${outcome}" data-artifact-explanation="${explanation}" title="Preview completed artifact" style="flex:0 0 auto;cursor:pointer;color:#93c5fd;border:1px solid rgba(147,197,253,.35);border-radius:999px;padding:2px 7px;font-size:10px;line-height:1.4;background:rgba(30,64,175,.18);">Preview</button>` : ""}
++
++            ${executionStrategy ? `<div style="flex:0 0 auto;color:#c4b5fd;border:1px solid rgba(196,181,253,.35);border-radius:999px;padding:2px 7px;font-size:10px;line-height:1.4;background:rgba(88,28,135,.18);">strategy: ${executionStrategy}</div>` : ""}
++
++            ${retryOf ? `<div style="flex:0 0 auto;color:#fcd34d;border:1px solid rgba(252,211,77,.35);border-radius:999px;padding:2px 7px;font-size:10px;line-height:1.4;background:rgba(120,53,15,.18);">retry of: ${retryOf}</div>` : ""}
++
++            ${triageLabel ? `<div style="flex:0 0 auto;color:#86efac;border:1px solid rgba(134,239,172,.35);border-radius:999px;padding:2px 7px;font-size:10px;line-height:1.4;background:rgba(22,101,52,.18);">${triageLabel}</div>` : ""}
++
++          </div>
++            ${""}
++
++          ${""}
++
++          ${""}
++
++          <div style="margin-top:10px;border:1px solid rgba(71,85,105,.55);border-radius:12px;padding:9px;background:rgba(2,6,23,.24);">
++
++              ${artifactRaw ? `<div style="margin-bottom:8px;color:#86efac;font-size:11px;line-height:1.5;overflow-wrap:anywhere;border:1px solid rgba(134,239,172,.28);border-radius:10px;padding:7px;background:rgba(20,83,45,.14);">Artifact: ${artifactName}${artifactType ? ` · ${artifactType}` : ""}${artifactSize ? ` · ${artifactSize}` : ""}</div>` : ""}
++            <div style="color:#cbd5e1;font-size:11px;font-weight:700;margin-bottom:7px;letter-spacing:.02em;">Operator actions</div>
++
++            <div style="display:flex;flex-wrap:wrap;gap:7px;align-items:center;">
++
++              <button type="button" data-phase717-requeue="true" data-task-id="${taskId}" data-task-title="${title}" title="Explicit operator action: requeue this task" style="cursor:pointer;border:1px solid rgba(148,163,184,.35);background:rgba(15,23,42,.8);color:#cbd5e1;border-radius:8px;padding:5px 8px;font-size:11px;">Requeue</button>
++
++              <button type="button" data-phase717-retry-differently="true" data-task-id="${taskId}" data-task-title="${title}" title="Explicit operator action: retry this task differently" style="cursor:pointer;border:1px solid rgba(96,165,250,.45);background:rgba(30,41,59,.92);color:#dbeafe;border-radius:8px;padding:5px 8px;font-size:11px;">Retry differently</button>
++
++            </div>
++
++          </div>
++
++          ${outcome ? "" : ""}
++
++          ${explanation ? `<button type="button" data-phase717-inspect-details="true" data-phase717-inspect-title="${title} — Details" data-phase717-inspect-content="${explanation}" style="margin-top:10px;cursor:pointer;border:1px solid rgba(147,197,253,.35);background:rgba(30,64,175,.14);color:#93c5fd;border-radius:999px;padding:4px 9px;font-size:11px;">Inspect details</button>` : ""}
++
++          ${traceJson ? `<button type="button" data-phase717-inspect-trace="true" data-phase717-inspect-title="${title} — Advanced trace" data-phase717-inspect-content="${traceJson}" style="margin-top:10px;margin-left:6px;cursor:pointer;border:1px solid rgba(251,191,36,.38);background:rgba(120,53,15,.14);color:#fbbf24;border-radius:999px;padding:4px 9px;font-size:11px;">Inspect trace</button>` : ""}
++
++          ${logContent ? `<button type="button" data-phase717-inspect-logs="true" data-phase717-inspect-title="${title} — Logs" data-phase717-inspect-content="${logContent}" style="margin-top:10px;margin-left:6px;cursor:pointer;border:1px solid rgba(45,212,191,.38);background:rgba(20,83,45,.14);color:#5eead4;border-radius:999px;padding:4px 9px;font-size:11px;">Inspect logs</button>` : ""}
++
++        </article>
++
++      `;
++
++    }).join("");
++
+   }
+ 
++
+   function renderRecent(tasks) {
+     const recentTasks = document.getElementById("recentTasks");
+     const recentLogs = document.getElementById("recentLogs");
+     const recentCard = document.getElementById("recent-tasks-card");
+ 
+     if (recentCard) {
+-      recentCard.style.display = "grid";
+-      recentCard.style.gridTemplateRows = "1fr 1fr";
+-      recentCard.style.gap = "1rem";
++      recentCard.style.display = "block";
+       recentCard.style.minHeight = "0";
+... truncated 1203 more diff lines ...
+
+
+===== SAFE NEXT ACTION =====
+Review the copied bridge candidates and diffs.
+Do not restore yet; select the bridge file whose behavior matches the remembered dashboard.
