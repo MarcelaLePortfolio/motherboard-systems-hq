@@ -1,7 +1,5 @@
 
-import { validateExecutionEnvelope } from "../guards/validate-execution-envelope.mjs";
-
-import { assertMutationScopeAllowed } from "../guards/mutation-scope-guard.mjs";
+import { validateGovernedExecutionEnvelope } from "./governance-validator.mjs";
 
 import { buildReconciliationSummary } from "./build-reconciliation-summary.mjs";
 
@@ -18,30 +16,6 @@ function normalizePatches(envelope = {}) {
   const patches = envelope?.patch_spec?.patches;
 
   return Array.isArray(patches) ? patches : [];
-
-}
-
-function assertDryRunOnly(envelope = {}) {
-
-  if (envelope?.sandbox?.dry_run_required !== true) {
-
-    const err = new Error("Cade engineer adapter currently requires dry-run execution");
-
-    err.code = "CADE_ENGINEER_REQUIRES_DRY_RUN";
-
-    throw err;
-
-  }
-
-  if (envelope?.sandbox?.allow_external_side_effects === true) {
-
-    const err = new Error("Cade engineer adapter refuses external side effects");
-
-    err.code = "CADE_ENGINEER_REFUSES_SIDE_EFFECTS";
-
-    throw err;
-
-  }
 
 }
 
@@ -85,33 +59,11 @@ function plannedPatchSummary(patch = {}) {
 
 export function planCadeEngineeringExecution(envelope = {}) {
 
-  const validation = validateExecutionEnvelope(envelope);
-
-  assertDryRunOnly(envelope);
+  const governance = validateGovernedExecutionEnvelope(envelope);
 
   const steps = normalizeSteps(envelope);
 
   const patches = normalizePatches(envelope);
-
-  for (const patch of patches) {
-
-    if (patch?.file) {
-
-      assertMutationScopeAllowed(envelope, patch.file);
-
-    }
-
-  }
-
-  for (const step of steps) {
-
-    if (step?.target && typeof step.target === "string") {
-
-      assertMutationScopeAllowed(envelope, step.target);
-
-    }
-
-  }
 
   const plannedSteps = steps.map(plannedStepSummary);
 
@@ -122,6 +74,8 @@ export function planCadeEngineeringExecution(envelope = {}) {
     ok: true,
 
     adapter: "cade_engineer_adapter",
+
+    governance_validator: governance.validator,
 
     mode: "dry_run_only",
 
@@ -139,33 +93,11 @@ export function planCadeEngineeringExecution(envelope = {}) {
 
     trace: [
 
-      {
-
-        event: "envelope_validated",
-
-        ok: true,
-
-      },
+      ...governance.trace,
 
       {
 
-        event: "dry_run_enforced",
-
-        ok: true,
-
-      },
-
-      {
-
-        event: "mutation_scope_checked",
-
-        ok: true,
-
-      },
-
-      {
-
-        event: "execution_planned",
+        event: "cade_engineering_plan_generated",
 
         ok: true,
 
@@ -183,7 +115,7 @@ export function planCadeEngineeringExecution(envelope = {}) {
 
     executionResult,
 
-    validationResult: validation,
+    validationResult: governance,
 
   });
 
@@ -191,7 +123,7 @@ export function planCadeEngineeringExecution(envelope = {}) {
 
     ok: true,
 
-    validation,
+    governance,
 
     execution: executionResult,
 
