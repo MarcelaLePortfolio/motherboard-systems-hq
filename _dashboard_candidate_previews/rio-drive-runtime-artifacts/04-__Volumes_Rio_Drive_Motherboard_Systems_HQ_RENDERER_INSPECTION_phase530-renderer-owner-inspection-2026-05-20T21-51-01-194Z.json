@@ -1,0 +1,856 @@
+{
+  "schemaVersion": "phase736.phase530-renderer-owner-inspection.v1",
+  "generatedAt": "2026-05-20T21:51:01.193Z",
+  "mode": "read-only",
+  "targetFile": "public/js/phase530_visible_panels_bridge.js",
+  "grouped": [
+    {
+      "pattern": "artifact-preview",
+      "count": 3
+    },
+    {
+      "pattern": "semantic-artifact",
+      "count": 0
+    },
+    {
+      "pattern": "visual-artifact",
+      "count": 4
+    },
+    {
+      "pattern": "innerHTML",
+      "count": 12
+    },
+    {
+      "pattern": "insertAdjacentHTML",
+      "count": 0
+    },
+    {
+      "pattern": "markdown",
+      "count": 27
+    },
+    {
+      "pattern": "preview",
+      "count": 70
+    },
+    {
+      "pattern": "render",
+      "count": 33
+    },
+    {
+      "pattern": "phase719-preview-modal",
+      "count": 2
+    },
+    {
+      "pattern": "phase723SanitizeVisualArtifactHtml",
+      "count": 5
+    },
+    {
+      "pattern": "phase735DecodeVisualArtifactHtmlTransport",
+      "count": 4
+    }
+  ],
+  "findingCount": 160,
+  "findings": [
+    {
+      "pattern": "artifact-preview",
+      "index": 36249,
+      "context": "transform:uppercase;letter-spacing:.08em;\">${phase719EscapePreviewHtml(semanticPriority)}</span>`\n\n    ].filter(Boolean).join(\"\");\n\n    return `\n\n      <div data-phase719-rendered-artifact-preview=\"true\" style=\"max-width:920px;margin:0 auto;\">\n\n        <div style=\"border:1px solid ${phase733Theme.border};border-radius:22px;overflow:hidden;background:${phase733Theme.shell};b"
+    },
+    {
+      "pattern": "artifact-preview",
+      "index": 43961,
+      "context": "alHtml = phase723SanitizeVisualArtifactHtml(extracted.visualHtml);\n\n    if (!safeVisualHtml) {\n\n      return fallbackPreview;\n\n    }\n\n    return `\n\n      <div data-phase723-visual-artifact-preview=\"true\" style=\"max-width:960px;margin:0 auto 22px auto;border:1px solid rgba(45,212,191,.32);background:linear-gradient(135deg,rgba(15,23,42,.78),rgba(8,47,73,.46));border-radius:2"
+    },
+    {
+      "pattern": "artifact-preview",
+      "index": 50127,
+      "context": "{\n\n      body.textContent = \"No task id available for artifact preview.\";\n\n      return;\n\n    }\n\n    try {\n\n      const res = await fetch(`/api/tasks/${encodeURIComponent(taskId)}/artifact-preview`, { cache: \"no-store\" });\n\n      const data = await res.json().catch(() => null);\n\n      if (!res.ok || !data || data.ok !== true) {\n\n        body.textContent = [\n\n          \"Rend"
+    },
+    {
+      "pattern": "visual-artifact",
+      "index": 42475,
+      "context": "(markdown) {\n\n    const normalized = phase733NormalizePreviewTransportText(markdown);\n\n    const source = phase720StripSemanticEnvelope(normalized);\n\n    const startMarker = \"<!-- visual-artifact:start -->\";\n\n    const endMarker = \"<!-- visual-artifact:end -->\";\n\n    const startIndex = source.indexOf(startMarker);\n\n    const endIndex = source.indexOf(endMarker);\n\n    if (s"
+    },
+    {
+      "pattern": "visual-artifact",
+      "index": 42532,
+      "context": "viewTransportText(markdown);\n\n    const source = phase720StripSemanticEnvelope(normalized);\n\n    const startMarker = \"<!-- visual-artifact:start -->\";\n\n    const endMarker = \"<!-- visual-artifact:end -->\";\n\n    const startIndex = source.indexOf(startMarker);\n\n    const endIndex = source.indexOf(endMarker);\n\n    if (startIndex === -1 || endIndex === -1 || endIndex <= startI"
+    },
+    {
+      "pattern": "visual-artifact",
+      "index": 43954,
+      "context": "afeVisualHtml = phase723SanitizeVisualArtifactHtml(extracted.visualHtml);\n\n    if (!safeVisualHtml) {\n\n      return fallbackPreview;\n\n    }\n\n    return `\n\n      <div data-phase723-visual-artifact-preview=\"true\" style=\"max-width:960px;margin:0 auto 22px auto;border:1px solid rgba(45,212,191,.32);background:linear-gradient(135deg,rgba(15,23,42,.78),rgba(8,47,73,.46));border-"
+    },
+    {
+      "pattern": "visual-artifact",
+      "index": 44872,
+      "context": "dius:999px;padding:5px 10px;background:rgba(30,64,175,.22);box-shadow:inset 0 1px 0 rgba(255,255,255,.05);\">sanitized html subset</div>\n\n        </div>\n\n        <div data-phase723-visual-artifact-body=\"true\" style=\"overflow:auto;border-radius:20px;background:rgba(2,6,23,.46);border:1px solid rgba(148,163,184,.24);padding:18px;color:#e5e7eb;box-shadow:inset 0 1px 0 rgba(255"
+    },
+    {
+      "pattern": "innerHTML",
+      "index": 717,
+      "context": "or || \"Request failed\");\n    return data;\n  }\n\n  function renderAgents(rows) {\n    const root = document.getElementById(\"agent-status-container\");\n    if (!root) return;\n\n    root.innerHTML = `\n      <h2 class=\"text-xl font-semibold border-b border-gray-700 pb-2 mb-4\">Agent Pool</h2>\n      <div style=\"display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:0.9"
+    },
+    {
+      "pattern": "innerHTML",
+      "index": 11093,
+      "context": "s.style.overflow = \"auto\";\n      recentTasks.style.display = \"block\";\n    }\n\n    if (recentLogs) {\n      recentLogs.style.display = \"none\";\n    }\n\n    if (recentTasks) recentTasks.innerHTML = taskRows(tasks);\n\n    if (recentLogs) recentLogs.innerHTML = \"\";\n  }\n\n  function renderActivity(rows) {\n    const canvas = document.getElementById(\"task-activity-graph\");\n    if"
+    },
+    {
+      "pattern": "innerHTML",
+      "index": 11154,
+      "context": "\"block\";\n    }\n\n    if (recentLogs) {\n      recentLogs.style.display = \"none\";\n    }\n\n    if (recentTasks) recentTasks.innerHTML = taskRows(tasks);\n\n    if (recentLogs) recentLogs.innerHTML = \"\";\n  }\n\n  function renderActivity(rows) {\n    const canvas = document.getElementById(\"task-activity-graph\");\n    if (!canvas || !window.Chart) return;\n\n    const card = documen"
+    },
+    {
+      "pattern": "innerHTML",
+      "index": 14174,
+      "context": ");\n\n      }\n\n      const title = String(options.title || \"Read-only inspection\");\n\n      const content = String(options.content || \"No inspection content available.\");\n\n      root.innerHTML = `\n\n        <div data-phase717-inspection-overlay=\"true\" style=\"position:fixed;inset:0;z-index:9998;display:flex;align-items:center;justify-content:center;padding:18px;background"
+    },
+    {
+      "pattern": "innerHTML",
+      "index": 16438,
+      "context": "7-inspection-overlay]\");\n\n      if (titleNode) titleNode.textContent = title;\n\n      if (contentNode) contentNode.textContent = content;\n\n      const close = () => {\n\n        root.innerHTML = \"\";\n\n        resolve(true);\n\n      };\n\n      if (closeButton) closeButton.focus();\n\n      if (closeButton) closeButton.addEventListener(\"click\", close, { once: true });\n\n      i"
+    },
+    {
+      "pattern": "innerHTML",
+      "index": 17751,
+      "context": "\" : \"#dbeafe\";\n\n      const border = options.tone === \"error\" ? \"rgba(248,113,113,.45)\" : options.tone === \"success\" ? \"rgba(74,222,128,.42)\" : \"rgba(96,165,250,.45)\";\n\n      root.innerHTML = `\n\n        <div data-phase717-modal-overlay=\"true\" style=\"position:fixed;inset:0;z-index:9999;display:flex;align-items:center;justify-content:center;padding:18px;background:rgba"
+    },
+    {
+      "pattern": "innerHTML",
+      "index": 19297,
+      "context": " 10px;font-size:12px;font-weight:700;\">${confirmLabel}</button>\n\n            </div>\n\n          </section>\n\n        </div>\n\n      `;\n\n      const close = (value) => {\n\n        root.innerHTML = \"\";\n\n        resolve(value);\n\n      };\n\n      const confirm = root.querySelector(\"[data-phase717-modal-confirm]\");\n\n      const cancel = root.querySelector(\"[data-phase717-modal"
+    },
+    {
+      "pattern": "innerHTML",
+      "index": 24859,
+      "context": "Text = \"display:none;position:fixed;inset:0;z-index:9999;background:rgba(2,6,23,.72);backdrop-filter:blur(5px);align-items:center;justify-content:center;padding:18px;\";\n\n    modal.innerHTML = `\n\n      <div role=\"dialog\" aria-modal=\"true\" aria-labelledby=\"phase719-preview-title\" style=\"width:min(760px,96vw);max-height:86vh;overflow:auto;background:#020617;border:1px s"
+    },
+    {
+      "pattern": "innerHTML",
+      "index": 45713,
+      "context": ")\n\n      .replace(/style=\"\\\\+\"/g, 'style=\"')\n\n      .replace(/;\\\\+\"/g, ';')\n\n      .replace(/\\\\+\"=/g, '=');\n\n    const textarea = document.createElement(\"textarea\");\n\n    textarea.innerHTML = source;\n\n    return textarea.value;\n\n  }\n\n  function phase719RenderMarkdownArtifactPreview(markdown) {\n\n    const extractedVisual = phase723ExtractVisualArtifactBlock(markdown);"
+    },
+    {
+      "pattern": "innerHTML",
+      "index": 49795,
+      "context": "? \"type: \" + fallbackType : \"\",\n\n      fallbackSize ? \"size: \" + fallbackSize : \"\",\n\n      fallbackPath ? \"path: \" + fallbackPath : \"\"\n\n    ].filter(Boolean).join(\"\\n\");\n\n    body.innerHTML = `<div style=\"color:#93c5fd;font-size:14px;\">Loading rendered artifact preview…</div>`;\n\n    modal.style.display = \"flex\";\n\n    if (!taskId) {\n\n      body.textContent = \"No task "
+    },
+    {
+      "pattern": "innerHTML",
+      "index": 51253,
+      "context": "eredType : \"\",\n\n        renderedSize ? \"size: \" + renderedSize : \"\",\n\n        renderedCreated ? \"created: \" + renderedCreated : \"\"\n\n      ].filter(Boolean).join(\"\\n\");\n\n      body.innerHTML = phase719RenderMarkdownArtifactPreview(data.content);\n\n      body.querySelectorAll(\"[data-phase735-visual-html-mount]\").forEach((phase735Mount) => {\n\n        const template = pha"
+    },
+    {
+      "pattern": "innerHTML",
+      "index": 51773,
+      "context": "st templateHtml = template ? template.textContent : \"\";\n\n        try {\n\n          const decoded = phase735DecodeVisualArtifactHtmlTransport(templateHtml);\n\n          phase735Mount.innerHTML = phase723SanitizeVisualArtifactHtml(decoded);\n\n          if (template) template.remove();\n\n        } catch (error) {\n\n          phase735Mount.textContent = \"Unable to render arti"
+    },
+    {
+      "pattern": "markdown",
+      "index": 29094,
+      "context": "32)\",\n\n      insightText: \"#35523f\",\n\n      shadow: \"0 22px 55px rgba(126,75,92,.16), inset 0 1px 0 rgba(255,255,255,.72)\"\n\n    };\n\n  }\n\n  function phase720ExtractSemanticEnvelope(markdown) {\n\n    const source = phase733NormalizePreviewTransportText(markdown);\n\n    const match = source.match(/<!--\\s*MB_SEMANTIC_ARTIFACT_V1\\s*([\\s\\S]*?)\\s*-->/);\n\n    if (!match || !m"
+    },
+    {
+      "pattern": "markdown",
+      "index": 29164,
+      "context": "126,75,92,.16), inset 0 1px 0 rgba(255,255,255,.72)\"\n\n    };\n\n  }\n\n  function phase720ExtractSemanticEnvelope(markdown) {\n\n    const source = phase733NormalizePreviewTransportText(markdown);\n\n    const match = source.match(/<!--\\s*MB_SEMANTIC_ARTIFACT_V1\\s*([\\s\\S]*?)\\s*-->/);\n\n    if (!match || !match[1]) return null;\n\n    try {\n\n      const parsed = JSON.parse(matc"
+    },
+    {
+      "pattern": "markdown",
+      "index": 29545,
+      "context": "\n\n      if (!parsed || typeof parsed !== \"object\") return null;\n\n      return parsed;\n\n    } catch (_e) {\n\n      return null;\n\n    }\n\n  }\n\n  function phase720StripSemanticEnvelope(markdown) {\n\n    return phase733NormalizePreviewTransportText(markdown).replace(/<!--\\s*MB_SEMANTIC_ARTIFACT_V1\\s*[\\s\\S]*?\\s*-->\\s*/g, \"\");\n\n  }\n\n  function phase719ExtractArtifactSections"
+    },
+    {
+      "pattern": "markdown",
+      "index": 29607,
+      "context": ";\n\n      return parsed;\n\n    } catch (_e) {\n\n      return null;\n\n    }\n\n  }\n\n  function phase720StripSemanticEnvelope(markdown) {\n\n    return phase733NormalizePreviewTransportText(markdown).replace(/<!--\\s*MB_SEMANTIC_ARTIFACT_V1\\s*[\\s\\S]*?\\s*-->\\s*/g, \"\");\n\n  }\n\n  function phase719ExtractArtifactSections(markdown) {\n\n    const source = phase733NormalizePreviewTrans"
+    },
+    {
+      "pattern": "markdown",
+      "index": 29734,
+      "context": " {\n\n    return phase733NormalizePreviewTransportText(markdown).replace(/<!--\\s*MB_SEMANTIC_ARTIFACT_V1\\s*[\\s\\S]*?\\s*-->\\s*/g, \"\");\n\n  }\n\n  function phase719ExtractArtifactSections(markdown) {\n\n    const source = phase733NormalizePreviewTransportText(markdown);\n\n    const withoutTrace = source.replace(/## Execution Trace[\\s\\S]*$/i, \"\").trim();\n\n    const sections = {"
+    },
+    {
+      "pattern": "markdown",
+      "index": 29804,
+      "context": "(/<!--\\s*MB_SEMANTIC_ARTIFACT_V1\\s*[\\s\\S]*?\\s*-->\\s*/g, \"\");\n\n  }\n\n  function phase719ExtractArtifactSections(markdown) {\n\n    const source = phase733NormalizePreviewTransportText(markdown);\n\n    const withoutTrace = source.replace(/## Execution Trace[\\s\\S]*$/i, \"\").trim();\n\n    const sections = {};\n\n    let current = \"intro\";\n\n    sections[current] = [];\n\n    witho"
+    },
+    {
+      "pattern": "markdown",
+      "index": 30612,
+      "context": "  Object.keys(sections).forEach((key) => {\n\n      sections[key] = sections[key].join(\"\\n\").trim();\n\n    });\n\n    return sections;\n\n  }\n\n  function phase719RenderArtifactVisualCard(markdown) {\n\n    const semanticEnvelope = phase720ExtractSemanticEnvelope(markdown);\n\n    const markdownWithoutEnvelope = phase720StripSemanticEnvelope(markdown);\n\n    const phase733Theme "
+    },
+    {
+      "pattern": "markdown",
+      "index": 30686,
+      "context": "[key].join(\"\\n\").trim();\n\n    });\n\n    return sections;\n\n  }\n\n  function phase719RenderArtifactVisualCard(markdown) {\n\n    const semanticEnvelope = phase720ExtractSemanticEnvelope(markdown);\n\n    const markdownWithoutEnvelope = phase720StripSemanticEnvelope(markdown);\n\n    const phase733Theme = phase733BuildPreviewThemeFromStyleIntent(semanticEnvelope && semanticEnv"
+    },
+    {
+      "pattern": "markdown",
+      "index": 30708,
+      "context": ");\n\n    });\n\n    return sections;\n\n  }\n\n  function phase719RenderArtifactVisualCard(markdown) {\n\n    const semanticEnvelope = phase720ExtractSemanticEnvelope(markdown);\n\n    const markdownWithoutEnvelope = phase720StripSemanticEnvelope(markdown);\n\n    const phase733Theme = phase733BuildPreviewThemeFromStyleIntent(semanticEnvelope && semanticEnvelope.style_intent);\n\n"
+    },
+    {
+      "pattern": "markdown",
+      "index": 30764,
+      "context": "719RenderArtifactVisualCard(markdown) {\n\n    const semanticEnvelope = phase720ExtractSemanticEnvelope(markdown);\n\n    const markdownWithoutEnvelope = phase720StripSemanticEnvelope(markdown);\n\n    const phase733Theme = phase733BuildPreviewThemeFromStyleIntent(semanticEnvelope && semanticEnvelope.style_intent);\n\n    const sections = phase719ExtractArtifactSections(mar"
+    },
+    {
+      "pattern": "markdown",
+      "index": 30949,
+      "context": "own);\n\n    const phase733Theme = phase733BuildPreviewThemeFromStyleIntent(semanticEnvelope && semanticEnvelope.style_intent);\n\n    const sections = phase719ExtractArtifactSections(markdownWithoutEnvelope);\n\n    const title = sections.title || \"Task Artifact\";\n\n    const task = sections.task || \"\";\n\n    const status = sections.status || \"\";\n\n    const summary = secti"
+    },
+    {
+      "pattern": "markdown",
+      "index": 42296,
+      "context": "replace(/\\s+(href|src)\\s*=\\s*javascript:[^\\s>]+/gi, \"\");\n\n  }\n\n  // Phase 723 — visual artifact block extraction helper (non-active)\n\n  function phase723ExtractVisualArtifactBlock(markdown) {\n\n    const normalized = phase733NormalizePreviewTransportText(markdown);\n\n    const source = phase720StripSemanticEnvelope(normalized);\n\n    const startMarker = \"<!-- visual-ar"
+    },
+    {
+      "pattern": "markdown",
+      "index": 42370,
+      "context": "723 — visual artifact block extraction helper (non-active)\n\n  function phase723ExtractVisualArtifactBlock(markdown) {\n\n    const normalized = phase733NormalizePreviewTransportText(markdown);\n\n    const source = phase720StripSemanticEnvelope(normalized);\n\n    const startMarker = \"<!-- visual-artifact:start -->\";\n\n    const endMarker = \"<!-- visual-artifact:end -->\";\n"
+    },
+    {
+      "pattern": "markdown",
+      "index": 42820,
+      "context": "indexOf(endMarker);\n\n    if (startIndex === -1 || endIndex === -1 || endIndex <= startIndex) {\n\n      return {\n\n        hasVisualArtifact: false,\n\n        visualHtml: \"\",\n\n        markdownWithoutVisualArtifact: source\n\n      };\n\n    }\n\n    const visualStart = startIndex + startMarker.length;\n\n    const visualHtml = source.slice(visualStart, endIndex).trim();\n\n    co"
+    },
+    {
+      "pattern": "markdown",
+      "index": 43012,
+      "context": "outVisualArtifact: source\n\n      };\n\n    }\n\n    const visualStart = startIndex + startMarker.length;\n\n    const visualHtml = source.slice(visualStart, endIndex).trim();\n\n    const markdownWithoutVisualArtifact = (\n\n      source.slice(0, startIndex) + source.slice(endIndex + endMarker.length)\n\n    ).trim();\n\n    return {\n\n      hasVisualArtifact: Boolean(visualHtml),"
+    },
+    {
+      "pattern": "markdown",
+      "index": 43227,
+      "context": "      source.slice(0, startIndex) + source.slice(endIndex + endMarker.length)\n\n    ).trim();\n\n    return {\n\n      hasVisualArtifact: Boolean(visualHtml),\n\n      visualHtml,\n\n      markdownWithoutVisualArtifact\n\n    };\n\n  }\n\n  // Phase 723 — embedded visual artifact preview wrapper (non-active)\n\n  function phase723RenderVisualArtifactPreviewCandidate(markdown) {\n\n   "
+    },
+    {
+      "pattern": "markdown",
+      "index": 43399,
+      "context": "\n\n      markdownWithoutVisualArtifact\n\n    };\n\n  }\n\n  // Phase 723 — embedded visual artifact preview wrapper (non-active)\n\n  function phase723RenderVisualArtifactPreviewCandidate(markdown) {\n\n    const extracted = phase723ExtractVisualArtifactBlock(markdown);\n\n    const fallbackMarkdown = extracted.markdownWithoutVisualArtifact || phase733NormalizePreviewTransportT"
+    },
+    {
+      "pattern": "markdown",
+      "index": 43469,
+      "context": "mbedded visual artifact preview wrapper (non-active)\n\n  function phase723RenderVisualArtifactPreviewCandidate(markdown) {\n\n    const extracted = phase723ExtractVisualArtifactBlock(markdown);\n\n    const fallbackMarkdown = extracted.markdownWithoutVisualArtifact || phase733NormalizePreviewTransportText(markdown);\n\n    const fallbackPreview = phase719RenderArtifactVisu"
+    },
+    {
+      "pattern": "markdown",
+      "index": 43499,
+      "context": "w wrapper (non-active)\n\n  function phase723RenderVisualArtifactPreviewCandidate(markdown) {\n\n    const extracted = phase723ExtractVisualArtifactBlock(markdown);\n\n    const fallbackMarkdown = extracted.markdownWithoutVisualArtifact || phase733NormalizePreviewTransportText(markdown);\n\n    const fallbackPreview = phase719RenderArtifactVisualCard(fallbackMarkdown);\n\n   "
+    },
+    {
+      "pattern": "markdown",
+      "index": 43520,
+      "context": ")\n\n  function phase723RenderVisualArtifactPreviewCandidate(markdown) {\n\n    const extracted = phase723ExtractVisualArtifactBlock(markdown);\n\n    const fallbackMarkdown = extracted.markdownWithoutVisualArtifact || phase733NormalizePreviewTransportText(markdown);\n\n    const fallbackPreview = phase719RenderArtifactVisualCard(fallbackMarkdown);\n\n    if (!extracted.hasVi"
+    },
+    {
+      "pattern": "markdown",
+      "index": 43591,
+      "context": "\n    const extracted = phase723ExtractVisualArtifactBlock(markdown);\n\n    const fallbackMarkdown = extracted.markdownWithoutVisualArtifact || phase733NormalizePreviewTransportText(markdown);\n\n    const fallbackPreview = phase719RenderArtifactVisualCard(fallbackMarkdown);\n\n    if (!extracted.hasVisualArtifact) {\n\n      return fallbackPreview;\n\n    }\n\n    const safeVi"
+    },
+    {
+      "pattern": "markdown",
+      "index": 43672,
+      "context": "allbackMarkdown = extracted.markdownWithoutVisualArtifact || phase733NormalizePreviewTransportText(markdown);\n\n    const fallbackPreview = phase719RenderArtifactVisualCard(fallbackMarkdown);\n\n    if (!extracted.hasVisualArtifact) {\n\n      return fallbackPreview;\n\n    }\n\n    const safeVisualHtml = phase723SanitizeVisualArtifactHtml(extracted.visualHtml);\n\n    if (!sa"
+    },
+    {
+      "pattern": "markdown",
+      "index": 45792,
+      "context": "    .replace(/\\\\+\"=/g, '=');\n\n    const textarea = document.createElement(\"textarea\");\n\n    textarea.innerHTML = source;\n\n    return textarea.value;\n\n  }\n\n  function phase719RenderMarkdownArtifactPreview(markdown) {\n\n    const extractedVisual = phase723ExtractVisualArtifactBlock(markdown);\n\n    if (extractedVisual.hasVisualArtifact) {\n\n      const decodedVisualHtml "
+    },
+    {
+      "pattern": "markdown",
+      "index": 45816,
+      "context": "=');\n\n    const textarea = document.createElement(\"textarea\");\n\n    textarea.innerHTML = source;\n\n    return textarea.value;\n\n  }\n\n  function phase719RenderMarkdownArtifactPreview(markdown) {\n\n    const extractedVisual = phase723ExtractVisualArtifactBlock(markdown);\n\n    if (extractedVisual.hasVisualArtifact) {\n\n      const decodedVisualHtml = phase735DecodeVisualAr"
+    },
+    {
+      "pattern": "markdown",
+      "index": 45892,
+      "context": ".innerHTML = source;\n\n    return textarea.value;\n\n  }\n\n  function phase719RenderMarkdownArtifactPreview(markdown) {\n\n    const extractedVisual = phase723ExtractVisualArtifactBlock(markdown);\n\n    if (extractedVisual.hasVisualArtifact) {\n\n      const decodedVisualHtml = phase735DecodeVisualArtifactHtmlTransport(extractedVisual.visualHtml);\n\n      const safeVisualHtml"
+    },
+    {
+      "pattern": "markdown",
+      "index": 46874,
+      "context": "35-visual-html-template=\"true\">${phase719EscapePreviewHtml(safeVisualHtml)}</template>\n\n        </div>\n\n      `;\n\n    }\n\n    const strippedFallback = phase720StripSemanticEnvelope(markdown);\n\n    const decodedFallback = phase735DecodeVisualArtifactHtmlTransport(strippedFallback);\n\n    const fallbackLooksLikeHtml = /<\\s*div\\b|<\\s*section\\b|<\\s*article\\b/i.test(decode"
+    },
+    {
+      "pattern": "markdown",
+      "index": 51279,
+      "context": "nderedSize ? \"size: \" + renderedSize : \"\",\n\n        renderedCreated ? \"created: \" + renderedCreated : \"\"\n\n      ].filter(Boolean).join(\"\\n\");\n\n      body.innerHTML = phase719RenderMarkdownArtifactPreview(data.content);\n\n      body.querySelectorAll(\"[data-phase735-visual-html-mount]\").forEach((phase735Mount) => {\n\n        const template = phase735Mount.parentElement\n"
+    },
+    {
+      "pattern": "preview",
+      "index": 4053,
+      "context": "const status = esc(t.status || \"unknown\");\n\n      const taskId = esc(t.task_id || t.id || \"\");\n\n      const updated = esc(t.updated_at || \"\");\n\n      const outcome = esc(t.outcome_preview || \"\");\n\n      const explanation = esc(t.explanation_preview || \"\");\n      const artifactRaw = t.artifact || (Array.isArray(t.artifacts) ? t.artifacts[0] : null) || null;\n      co"
+    },
+    {
+      "pattern": "preview",
+      "index": 4114,
+      "context": "d = esc(t.task_id || t.id || \"\");\n\n      const updated = esc(t.updated_at || \"\");\n\n      const outcome = esc(t.outcome_preview || \"\");\n\n      const explanation = esc(t.explanation_preview || \"\");\n      const artifactRaw = t.artifact || (Array.isArray(t.artifacts) ? t.artifacts[0] : null) || null;\n      const artifactName = artifactRaw ? esc(artifactRaw.filename || "
+    },
+    {
+      "pattern": "preview",
+      "index": 6321,
+      "context": "iv style=\"font-weight:600;color:#e5e7eb;overflow-wrap:anywhere;word-break:break-word;min-width:0;\">${title}</div>\n\n            ${artifactRaw ? `<button type=\"button\" data-phase719-preview-artifact=\"true\" data-task-id=\"${taskId}\" data-task-title=\"${title}\" data-artifact-name=\"${artifactName}\" data-artifact-type=\"${artifactType}\" data-artifact-size=\"${artifactSize}\" "
+    },
+    {
+      "pattern": "preview",
+      "index": 6630,
+      "context": "pe=\"${artifactType}\" data-artifact-size=\"${artifactSize}\" data-artifact-path=\"${artifactPath}\" data-artifact-outcome=\"${outcome}\" data-artifact-explanation=\"${explanation}\" title=\"Preview completed artifact\" style=\"flex:0 0 auto;cursor:pointer;color:#93c5fd;border:1px solid rgba(147,197,253,.35);border-radius:999px;padding:2px 7px;font-size:10px;line-height:1.4;bac"
+    },
+    {
+      "pattern": "preview",
+      "index": 6847,
+      "context": "ex:0 0 auto;cursor:pointer;color:#93c5fd;border:1px solid rgba(147,197,253,.35);border-radius:999px;padding:2px 7px;font-size:10px;line-height:1.4;background:rgba(30,64,175,.18);\">Preview</button>` : \"\"}\n\n            ${executionStrategy ? `<div style=\"flex:0 0 auto;color:#c4b5fd;border:1px solid rgba(196,181,253,.35);border-radius:999px;padding:2px 7px;font-size:10"
+    },
+    {
+      "pattern": "preview",
+      "index": 24382,
+      "context": "ate === \"loading\") {\n    document.addEventListener(\"DOMContentLoaded\", refresh, { once: true });\n  } else {\n    refresh();\n  }\n\n  setInterval(refresh, POLL_MS);\n\n\n  // Phase 719 — Preview artifact modal (frontend-only, read-only)\n\n  function phase719EnsurePreviewModal() {\n\n    let modal = document.getElementById(\"phase719-preview-modal\");\n\n    if (modal) return mod"
+    },
+    {
+      "pattern": "preview",
+      "index": 24458,
+      "context": "sh, { once: true });\n  } else {\n    refresh();\n  }\n\n  setInterval(refresh, POLL_MS);\n\n\n  // Phase 719 — Preview artifact modal (frontend-only, read-only)\n\n  function phase719EnsurePreviewModal() {\n\n    let modal = document.getElementById(\"phase719-preview-modal\");\n\n    if (modal) return modal;\n\n    modal = document.createElement(\"div\");\n\n    modal.id = \"phase719-pr"
+    },
+    {
+      "pattern": "preview",
+      "index": 24526,
+      "context": "fresh, POLL_MS);\n\n\n  // Phase 719 — Preview artifact modal (frontend-only, read-only)\n\n  function phase719EnsurePreviewModal() {\n\n    let modal = document.getElementById(\"phase719-preview-modal\");\n\n    if (modal) return modal;\n\n    modal = document.createElement(\"div\");\n\n    modal.id = \"phase719-preview-modal\";\n\n    modal.style.cssText = \"display:none;position:fixe"
+    },
+    {
+      "pattern": "preview",
+      "index": 24643,
+      "context": "ewModal() {\n\n    let modal = document.getElementById(\"phase719-preview-modal\");\n\n    if (modal) return modal;\n\n    modal = document.createElement(\"div\");\n\n    modal.id = \"phase719-preview-modal\";\n\n    modal.style.cssText = \"display:none;position:fixed;inset:0;z-index:9999;background:rgba(2,6,23,.72);backdrop-filter:blur(5px);align-items:center;justify-content:cente"
+    },
+    {
+      "pattern": "preview",
+      "index": 24943,
+      "context": ";backdrop-filter:blur(5px);align-items:center;justify-content:center;padding:18px;\";\n\n    modal.innerHTML = `\n\n      <div role=\"dialog\" aria-modal=\"true\" aria-labelledby=\"phase719-preview-title\" style=\"width:min(760px,96vw);max-height:86vh;overflow:auto;background:#020617;border:1px solid rgba(148,163,184,.35);border-radius:16px;box-shadow:0 24px 70px rgba(0,0,0,.5"
+    },
+    {
+      "pattern": "preview",
+      "index": 25329,
+      "context": "or:#e5e7eb;\">\n\n        <div style=\"display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin-bottom:12px;\">\n\n          <div>\n\n            <div id=\"phase719-preview-title\" style=\"font-size:14px;font-weight:800;color:#f8fafc;\">Artifact Preview</div>\n\n            <div id=\"phase719-preview-subtitle\" style=\"margin-top:4px;font-size:11px;color:#94"
+    },
+    {
+      "pattern": "preview",
+      "index": 25407,
+      "context": "-content:space-between;gap:12px;margin-bottom:12px;\">\n\n          <div>\n\n            <div id=\"phase719-preview-title\" style=\"font-size:14px;font-weight:800;color:#f8fafc;\">Artifact Preview</div>\n\n            <div id=\"phase719-preview-subtitle\" style=\"margin-top:4px;font-size:11px;color:#94a3b8;overflow-wrap:anywhere;\"></div>\n\n          </div>\n\n          <button type"
+    },
+    {
+      "pattern": "preview",
+      "index": 25452,
+      "context": ":12px;\">\n\n          <div>\n\n            <div id=\"phase719-preview-title\" style=\"font-size:14px;font-weight:800;color:#f8fafc;\">Artifact Preview</div>\n\n            <div id=\"phase719-preview-subtitle\" style=\"margin-top:4px;font-size:11px;color:#94a3b8;overflow-wrap:anywhere;\"></div>\n\n          </div>\n\n          <button type=\"button\" data-phase719-preview-close=\"true\" "
+    },
+    {
+      "pattern": "preview",
+      "index": 25618,
+      "context": " id=\"phase719-preview-subtitle\" style=\"margin-top:4px;font-size:11px;color:#94a3b8;overflow-wrap:anywhere;\"></div>\n\n          </div>\n\n          <button type=\"button\" data-phase719-preview-close=\"true\" style=\"cursor:pointer;border:1px solid rgba(148,163,184,.35);background:rgba(15,23,42,.85);color:#cbd5e1;border-radius:999px;padding:5px 10px;font-size:12px;\">Close</"
+    },
+    {
+      "pattern": "preview",
+      "index": 25856,
+      "context": "d rgba(148,163,184,.35);background:rgba(15,23,42,.85);color:#cbd5e1;border-radius:999px;padding:5px 10px;font-size:12px;\">Close</button>\n\n        </div>\n\n        <div id=\"phase719-preview-meta\" style=\"font-size:12px;line-height:1.6;color:#bbf7d0;border:1px solid rgba(134,239,172,.25);background:rgba(20,83,45,.12);border-radius:12px;padding:10px;margin-bottom:12px;\""
+    },
+    {
+      "pattern": "preview",
+      "index": 26078,
+      "context": "eight:1.6;color:#bbf7d0;border:1px solid rgba(134,239,172,.25);background:rgba(20,83,45,.12);border-radius:12px;padding:10px;margin-bottom:12px;\"></div>\n\n        <div id=\"phase719-preview-body\" style=\"overflow-wrap:anywhere;font-size:13px;line-height:1.6;color:#dbeafe;border:1px solid rgba(96,165,250,.24);background:linear-gradient(180deg, rgba(15,23,42,.92), rgba("
+    },
+    {
+      "pattern": "preview",
+      "index": 26566,
+      "context": "v>\n\n    `;\n\n    document.body.appendChild(modal);\n\n    modal.addEventListener(\"click\", function (event) {\n\n      if (event.target === modal || event.target.closest(\"[data-phase719-preview-close]\")) {\n\n        modal.style.display = \"none\";\n\n      }\n\n    });\n\n    document.addEventListener(\"keydown\", function (event) {\n\n      if (event.key === \"Escape\" && modal.style."
+    },
+    {
+      "pattern": "preview",
+      "index": 26884,
+      "context": "\n      if (event.key === \"Escape\" && modal.style.display !== \"none\") {\n\n        modal.style.display = \"none\";\n\n      }\n\n    });\n\n    return modal;\n\n  }\n\n\n\n  function phase719EscapePreviewHtml(value) {\n\n    return String(value || \"\")\n\n      .replace(/&/g, \"&amp;\")\n\n      .replace(/</g, \"&lt;\")\n\n      .replace(/>/g, \"&gt;\")\n\n      .replace(/\"/g, \"&quot;\")\n\n      .rep"
+    },
+    {
+      "pattern": "preview",
+      "index": 27127,
+      "context": "place(/&/g, \"&amp;\")\n\n      .replace(/</g, \"&lt;\")\n\n      .replace(/>/g, \"&gt;\")\n\n      .replace(/\"/g, \"&quot;\")\n\n      .replace(/'/g, \"&#039;\");\n\n  }\n\n  function phase733NormalizePreviewTransportText(value) {\n\n    return String(value || \"\")\n\n      .replace(/\\\\r\\\\n/g, \"\\n\")\n\n      .replace(/\\\\n/g, \"\\n\")\n\n      .replace(/\\\\t/g, \"  \");\n\n  }\n\n  function phase733BuildP"
+    },
+    {
+      "pattern": "preview",
+      "index": 27313,
+      "context": "wTransportText(value) {\n\n    return String(value || \"\")\n\n      .replace(/\\\\r\\\\n/g, \"\\n\")\n\n      .replace(/\\\\n/g, \"\\n\")\n\n      .replace(/\\\\t/g, \"  \");\n\n  }\n\n  function phase733BuildPreviewThemeFromStyleIntent(styleIntent) {\n\n    const baseTheme = {\n\n      shell: \"radial-gradient(circle at top left, rgba(59,130,246,.18), transparent 34%),linear-gradient(180deg, rgba("
+    },
+    {
+      "pattern": "preview",
+      "index": 29143,
+      "context": "w: \"0 22px 55px rgba(126,75,92,.16), inset 0 1px 0 rgba(255,255,255,.72)\"\n\n    };\n\n  }\n\n  function phase720ExtractSemanticEnvelope(markdown) {\n\n    const source = phase733NormalizePreviewTransportText(markdown);\n\n    const match = source.match(/<!--\\s*MB_SEMANTIC_ARTIFACT_V1\\s*([\\s\\S]*?)\\s*-->/);\n\n    if (!match || !match[1]) return null;\n\n    try {\n\n      const pa"
+    },
+    {
+      "pattern": "preview",
+      "index": 29586,
+      "context": "\"object\") return null;\n\n      return parsed;\n\n    } catch (_e) {\n\n      return null;\n\n    }\n\n  }\n\n  function phase720StripSemanticEnvelope(markdown) {\n\n    return phase733NormalizePreviewTransportText(markdown).replace(/<!--\\s*MB_SEMANTIC_ARTIFACT_V1\\s*[\\s\\S]*?\\s*-->\\s*/g, \"\");\n\n  }\n\n  function phase719ExtractArtifactSections(markdown) {\n\n    const source = phase73"
+    },
+    {
+      "pattern": "preview",
+      "index": 29783,
+      "context": "ext(markdown).replace(/<!--\\s*MB_SEMANTIC_ARTIFACT_V1\\s*[\\s\\S]*?\\s*-->\\s*/g, \"\");\n\n  }\n\n  function phase719ExtractArtifactSections(markdown) {\n\n    const source = phase733NormalizePreviewTransportText(markdown);\n\n    const withoutTrace = source.replace(/## Execution Trace[\\s\\S]*$/i, \"\").trim();\n\n    const sections = {};\n\n    let current = \"intro\";\n\n    sections[cur"
+    },
+    {
+      "pattern": "preview",
+      "index": 30815,
+      "context": "semanticEnvelope = phase720ExtractSemanticEnvelope(markdown);\n\n    const markdownWithoutEnvelope = phase720StripSemanticEnvelope(markdown);\n\n    const phase733Theme = phase733BuildPreviewThemeFromStyleIntent(semanticEnvelope && semanticEnvelope.style_intent);\n\n    const sections = phase719ExtractArtifactSections(markdownWithoutEnvelope);\n\n    const title = sections"
+    },
+    {
+      "pattern": "preview",
+      "index": 35132,
+      "context": "38);background:rgba(20,83,45,.22);color:#bbf7d0;border-radius:999px;padding:5px 10px;font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.08em;\">${phase719EscapePreviewHtml(status)}</span>` : \"\",\n\n      `<span style=\"display:inline-flex;align-items:center;border:1px solid rgba(147,197,253,.34);background:rgba(30,64,175,.22);color:#bfdbfe;border-r"
+    },
+    {
+      "pattern": "preview",
+      "index": 35443,
+      "context": "4);background:rgba(30,64,175,.22);color:#bfdbfe;border-radius:999px;padding:5px 10px;font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.08em;\">${phase719EscapePreviewHtml(semanticType)}</span>`,\n\n      semanticEnvelope ? `<span style=\"display:inline-flex;align-items:center;border:1px solid rgba(45,212,191,.34);background:rgba(20,184,166,.14);co"
+    },
+    {
+      "pattern": "preview",
+      "index": 35784,
+      "context": "nd:rgba(20,184,166,.14);color:#99f6e4;border-radius:999px;padding:5px 10px;font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.08em;\">semantic v${phase719EscapePreviewHtml(semanticEnvelope.semantic_version || \"1\")}</span>` : \"\",\n\n      `<span style=\"display:inline-flex;align-items:center;border:1px solid rgba(251,191,36,.34);background:rgba(120,"
+    },
+    {
+      "pattern": "preview",
+      "index": 36128,
+      "context": "4);background:rgba(120,53,15,.18);color:#fde68a;border-radius:999px;padding:5px 10px;font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.08em;\">${phase719EscapePreviewHtml(semanticPriority)}</span>`\n\n    ].filter(Boolean).join(\"\");\n\n    return `\n\n      <div data-phase719-rendered-artifact-preview=\"true\" style=\"max-width:920px;margin:0 auto;\">\n\n "
+    },
+    {
+      "pattern": "preview",
+      "index": 36258,
+      "context": ":uppercase;letter-spacing:.08em;\">${phase719EscapePreviewHtml(semanticPriority)}</span>`\n\n    ].filter(Boolean).join(\"\");\n\n    return `\n\n      <div data-phase719-rendered-artifact-preview=\"true\" style=\"max-width:920px;margin:0 auto;\">\n\n        <div style=\"border:1px solid ${phase733Theme.border};border-radius:22px;overflow:hidden;background:${phase733Theme.shell};b"
+    },
+    {
+      "pattern": "preview",
+      "index": 36842,
+      "context": "\">${chips}</div>\n\n            <div style=\"font-size:30px;line-height:1.05;font-weight:900;letter-spacing:-.04em;color:${phase733Theme.heading};margin-bottom:12px;\">${phase719EscapePreviewHtml(title)}</div>\n\n            ${task ? `<div style=\"font-size:15px;line-height:1.55;color:${phase733Theme.secondary};max-width:760px;\">${phase719EscapePreviewHtml(task)}</div>` :"
+    },
+    {
+      "pattern": "preview",
+      "index": 37002,
+      "context": "x;\">${phase719EscapePreviewHtml(title)}</div>\n\n            ${task ? `<div style=\"font-size:15px;line-height:1.55;color:${phase733Theme.secondary};max-width:760px;\">${phase719EscapePreviewHtml(task)}</div>` : \"\"}\n\n          </div>\n\n          ${semanticOperatorSummary.length ? `\n\n            <div style=\"display:grid;grid-template-columns:minmax(0,1fr);gap:12px;paddin"
+    },
+    {
+      "pattern": "preview",
+      "index": 37908,
+      "context": "dding-top:10px;\">\n\n                      <div style=\"font-size:10px;text-transform:uppercase;letter-spacing:.16em;color:#99f6e4;font-weight:900;margin-bottom:5px;\">${phase719EscapePreviewHtml(label)}</div>\n\n                      <div style=\"font-size:14px;line-height:1.55;color:${phase733Theme.insightText};white-space:pre-wrap;\">${phase719EscapePreviewHtml(value)}<"
+    },
+    {
+      "pattern": "preview",
+      "index": 38075,
+      "context": "hase719EscapePreviewHtml(label)}</div>\n\n                      <div style=\"font-size:14px;line-height:1.55;color:${phase733Theme.insightText};white-space:pre-wrap;\">${phase719EscapePreviewHtml(value)}</div>\n\n                    </div>\n\n                  `).join(\"\")}\n\n                </div>\n\n              </section>\n\n            </div>\n\n          ` : \"\"}\n\n          <"
+    },
+    {
+      "pattern": "preview",
+      "index": 38784,
+      "context": "8px;\">\n\n                <div style=\"font-size:11px;text-transform:uppercase;letter-spacing:.18em;color:${phase733Theme.accent};font-weight:900;margin-bottom:10px;\">${phase719EscapePreviewHtml(label)}</div>\n\n                <div style=\"font-size:15px;line-height:1.6;color:${phase733Theme.body};white-space:pre-wrap;\">${phase719EscapePreviewHtml(value)}</div>\n\n       "
+    },
+    {
+      "pattern": "preview",
+      "index": 38937,
+      "context": "tom:10px;\">${phase719EscapePreviewHtml(label)}</div>\n\n                <div style=\"font-size:15px;line-height:1.6;color:${phase733Theme.body};white-space:pre-wrap;\">${phase719EscapePreviewHtml(value)}</div>\n\n              </section>\n\n            `).join(\"\")}\n\n          </div>\n\n          <div style=\"display:grid;grid-template-columns:minmax(0,1.2fr) minmax(220px,.8fr"
+    },
+    {
+      "pattern": "preview",
+      "index": 39598,
+      "context": "accent};font-weight:900;margin-bottom:10px;\">Outcome</div>\n\n              <div style=\"font-size:17px;line-height:1.55;color:${phase733Theme.body};font-weight:650;\">${phase719EscapePreviewHtml(displayOutcome || \"No outcome content available.\")}</div>\n\n            </section>\n\n            <section style=\"border:1px solid ${phase733Theme.insightBorder};border-radius:18"
+    },
+    {
+      "pattern": "preview",
+      "index": 40129,
+      "context": "ight:900;margin-bottom:10px;\">Build Path</div>\n\n              <div style=\"font-size:14px;line-height:1.55;color:${phase733Theme.insightText};white-space:pre-wrap;\">${phase719EscapePreviewHtml(explanation || \"No explanation available.\")}</div>\n\n            </section>\n\n          </div>\n\n        </div>\n\n      </div>\n\n    `;\n\n  }\n\n  function phase719RenderArtifactIfram"
+    },
+    {
+      "pattern": "preview",
+      "index": 40317,
+      "context": "tml(explanation || \"No explanation available.\")}</div>\n\n            </section>\n\n          </div>\n\n        </div>\n\n      </div>\n\n    `;\n\n  }\n\n  function phase719RenderArtifactIframePreview(renderedHtml) {\n\n    const srcdoc = [\n\n      \"<!DOCTYPE html>\",\n\n      \"<html>\",\n\n      \"<head>\",\n\n      \"<meta charset=\\\"utf-8\\\">\",\n\n      \"<style>\",\n\n      \"html,body{margin:0;p"
+    },
+    {
+      "pattern": "preview",
+      "index": 40941,
+      "context": "  \"</head>\",\n\n      \"<body>\",\n\n      String(renderedHtml || \"\"),\n\n      \"</body>\",\n\n      \"</html>\"\n\n    ].join(\"\");\n\n    return `\n\n      <iframe\n\n        title=\"Artifact rendered preview\"\n\n        sandbox=\"\"\n\n        srcdoc=\"${phase719EscapePreviewHtml(srcdoc)}\"\n\n        style=\"display:block;width:100%;min-height:560px;border:1px solid rgba(148,163,184,.24);border"
+    },
+    {
+      "pattern": "preview",
+      "index": 41003,
+      "context": "),\n\n      \"</body>\",\n\n      \"</html>\"\n\n    ].join(\"\");\n\n    return `\n\n      <iframe\n\n        title=\"Artifact rendered preview\"\n\n        sandbox=\"\"\n\n        srcdoc=\"${phase719EscapePreviewHtml(srcdoc)}\"\n\n        style=\"display:block;width:100%;min-height:560px;border:1px solid rgba(148,163,184,.24);border-radius:16px;background:#020617;\"\n\n      ></iframe>\n\n    `;\n\n "
+    },
+    {
+      "pattern": "preview",
+      "index": 42349,
+      "context": "\");\n\n  }\n\n  // Phase 723 — visual artifact block extraction helper (non-active)\n\n  function phase723ExtractVisualArtifactBlock(markdown) {\n\n    const normalized = phase733NormalizePreviewTransportText(markdown);\n\n    const source = phase720StripSemanticEnvelope(normalized);\n\n    const startMarker = \"<!-- visual-artifact:start -->\";\n\n    const endMarker = \"<!-- visu"
+    },
+    {
+      "pattern": "preview",
+      "index": 43313,
+      "context": "rim();\n\n    return {\n\n      hasVisualArtifact: Boolean(visualHtml),\n\n      visualHtml,\n\n      markdownWithoutVisualArtifact\n\n    };\n\n  }\n\n  // Phase 723 — embedded visual artifact preview wrapper (non-active)\n\n  function phase723RenderVisualArtifactPreviewCandidate(markdown) {\n\n    const extracted = phase723ExtractVisualArtifactBlock(markdown);\n\n    const fallbackM"
+    },
+    {
+      "pattern": "preview",
+      "index": 43382,
+      "context": "      visualHtml,\n\n      markdownWithoutVisualArtifact\n\n    };\n\n  }\n\n  // Phase 723 — embedded visual artifact preview wrapper (non-active)\n\n  function phase723RenderVisualArtifactPreviewCandidate(markdown) {\n\n    const extracted = phase723ExtractVisualArtifactBlock(markdown);\n\n    const fallbackMarkdown = extracted.markdownWithoutVisualArtifact || phase733Normaliz"
+    },
+    {
+      "pattern": "preview",
+      "index": 43570,
+      "context": "andidate(markdown) {\n\n    const extracted = phase723ExtractVisualArtifactBlock(markdown);\n\n    const fallbackMarkdown = extracted.markdownWithoutVisualArtifact || phase733NormalizePreviewTransportText(markdown);\n\n    const fallbackPreview = phase719RenderArtifactVisualCard(fallbackMarkdown);\n\n    if (!extracted.hasVisualArtifact) {\n\n      return fallbackPreview;\n\n "
+    },
+    {
+      "pattern": "preview",
+      "index": 43621,
+      "context": "3ExtractVisualArtifactBlock(markdown);\n\n    const fallbackMarkdown = extracted.markdownWithoutVisualArtifact || phase733NormalizePreviewTransportText(markdown);\n\n    const fallbackPreview = phase719RenderArtifactVisualCard(fallbackMarkdown);\n\n    if (!extracted.hasVisualArtifact) {\n\n      return fallbackPreview;\n\n    }\n\n    const safeVisualHtml = phase723SanitizeVi"
+    },
+    {
+      "pattern": "preview",
+      "index": 43746,
+      "context": "lizePreviewTransportText(markdown);\n\n    const fallbackPreview = phase719RenderArtifactVisualCard(fallbackMarkdown);\n\n    if (!extracted.hasVisualArtifact) {\n\n      return fallbackPreview;\n\n    }\n\n    const safeVisualHtml = phase723SanitizeVisualArtifactHtml(extracted.visualHtml);\n\n    if (!safeVisualHtml) {\n\n      return fallbackPreview;\n\n    }\n\n    return `\n\n    "
+    },
+    {
+      "pattern": "preview",
+      "index": 43898,
+      "context": "ct) {\n\n      return fallbackPreview;\n\n    }\n\n    const safeVisualHtml = phase723SanitizeVisualArtifactHtml(extracted.visualHtml);\n\n    if (!safeVisualHtml) {\n\n      return fallbackPreview;\n\n    }\n\n    return `\n\n      <div data-phase723-visual-artifact-preview=\"true\" style=\"max-width:960px;margin:0 auto 22px auto;border:1px solid rgba(45,212,191,.32);background:line"
+    },
+    {
+      "pattern": "preview",
+      "index": 43970,
+      "context": "phase723SanitizeVisualArtifactHtml(extracted.visualHtml);\n\n    if (!safeVisualHtml) {\n\n      return fallbackPreview;\n\n    }\n\n    return `\n\n      <div data-phase723-visual-artifact-preview=\"true\" style=\"max-width:960px;margin:0 auto 22px auto;border:1px solid rgba(45,212,191,.32);background:linear-gradient(135deg,rgba(15,23,42,.78),rgba(8,47,73,.46));border-radius:2"
+    },
+    {
+      "pattern": "preview",
+      "index": 45225,
+      "context": "inset 0 1px 0 rgba(255,255,255,.04);\">\n\n          <div data-phase735-visual-html-mount=\"true\"></div>\n\n          <template data-phase735-visual-html-template=\"true\">${phase719EscapePreviewHtml(safeVisualHtml)}</template>\n\n        </div>\n\n      </div>\n\n    `;\n\n  }\n\n  function phase735DecodeVisualArtifactHtmlTransport(html) {\n\n    const source = phase733NormalizePrevi"
+    },
+    {
+      "pattern": "preview",
+      "index": 45407,
+      "context": "eviewHtml(safeVisualHtml)}</template>\n\n        </div>\n\n      </div>\n\n    `;\n\n  }\n\n  function phase735DecodeVisualArtifactHtmlTransport(html) {\n\n    const source = phase733NormalizePreviewTransportText(html || \"\")\n\n      .replace(/\\\\\\\\n/g, \"\\n\")\n\n      .replace(/\\\\\\\\\\\"/g, '\"')\n\n      .replace(/\\\\\\\\'/g, \"'\")\n\n      .replace(/style=\"\\\\+\"/g, 'style=\"')\n\n      .replace("
+    },
+    {
+      "pattern": "preview",
+      "index": 45808,
+      "context": "+\"=/g, '=');\n\n    const textarea = document.createElement(\"textarea\");\n\n    textarea.innerHTML = source;\n\n    return textarea.value;\n\n  }\n\n  function phase719RenderMarkdownArtifactPreview(markdown) {\n\n    const extractedVisual = phase723ExtractVisualArtifactBlock(markdown);\n\n    if (extractedVisual.hasVisualArtifact) {\n\n      const decodedVisualHtml = phase735Decod"
+    },
+    {
+      "pattern": "preview",
+      "index": 46741,
+      "context": "overflow:auto;\n\n          \"\n\n        >\n\n          <div data-phase735-visual-html-mount=\"true\"></div>\n\n          <template data-phase735-visual-html-template=\"true\">${phase719EscapePreviewHtml(safeVisualHtml)}</template>\n\n        </div>\n\n      `;\n\n    }\n\n    const strippedFallback = phase720StripSemanticEnvelope(markdown);\n\n    const decodedFallback = phase735Decode"
+    },
+    {
+      "pattern": "preview",
+      "index": 47851,
+      "context": "overflow:auto;\n\n          \"\n\n        >\n\n          <div data-phase735-visual-html-mount=\"true\"></div>\n\n          <template data-phase735-visual-html-template=\"true\">${phase719EscapePreviewHtml(safeFallbackHtml)}</template>\n\n        </div>\n\n      `;\n\n    }\n\n    return `\n\n      <div\n\n        data-phase733-single-artifact-render-fallback=\"true\"\n\n        style=\"\n\n      "
+    },
+    {
+      "pattern": "preview",
+      "index": 48363,
+      "context": "ng:22px;\n\n          background:rgba(15,23,42,.72);\n\n          color:#e5e7eb;\n\n          white-space:pre-wrap;\n\n          overflow-wrap:anywhere;\n\n        \"\n\n      >${phase719EscapePreviewHtml(strippedFallback)}</div>\n\n    `;\n\n  }\n\n  async function phase719OpenPreviewModal(button) {\n\n    const modal = phase719EnsurePreviewModal();\n\n    const title = modal.querySelec"
+    },
+    {
+      "pattern": "preview",
+      "index": 48443,
+      "context": "        white-space:pre-wrap;\n\n          overflow-wrap:anywhere;\n\n        \"\n\n      >${phase719EscapePreviewHtml(strippedFallback)}</div>\n\n    `;\n\n  }\n\n  async function phase719OpenPreviewModal(button) {\n\n    const modal = phase719EnsurePreviewModal();\n\n    const title = modal.querySelector(\"#phase719-preview-title\");\n\n    const subtitle = modal.querySelector(\"#phas"
+    },
+    {
+      "pattern": "preview",
+      "index": 48499,
+      "context": "nywhere;\n\n        \"\n\n      >${phase719EscapePreviewHtml(strippedFallback)}</div>\n\n    `;\n\n  }\n\n  async function phase719OpenPreviewModal(button) {\n\n    const modal = phase719EnsurePreviewModal();\n\n    const title = modal.querySelector(\"#phase719-preview-title\");\n\n    const subtitle = modal.querySelector(\"#phase719-preview-subtitle\");\n\n    const meta = modal.querySe"
+    },
+    {
+      "pattern": "preview",
+      "index": 48565,
+      "context": "llback)}</div>\n\n    `;\n\n  }\n\n  async function phase719OpenPreviewModal(button) {\n\n    const modal = phase719EnsurePreviewModal();\n\n    const title = modal.querySelector(\"#phase719-preview-title\");\n\n    const subtitle = modal.querySelector(\"#phase719-preview-subtitle\");\n\n    const meta = modal.querySelector(\"#phase719-preview-meta\");\n\n    const body = modal.querySel"
+    },
+    {
+      "pattern": "preview",
+      "index": 48635,
+      "context": "(button) {\n\n    const modal = phase719EnsurePreviewModal();\n\n    const title = modal.querySelector(\"#phase719-preview-title\");\n\n    const subtitle = modal.querySelector(\"#phase719-preview-subtitle\");\n\n    const meta = modal.querySelector(\"#phase719-preview-meta\");\n\n    const body = modal.querySelector(\"#phase719-preview-body\");\n\n    const taskTitle = button.getAttr"
+    },
+    {
+      "pattern": "preview",
+      "index": 48704,
+      "context": "t title = modal.querySelector(\"#phase719-preview-title\");\n\n    const subtitle = modal.querySelector(\"#phase719-preview-subtitle\");\n\n    const meta = modal.querySelector(\"#phase719-preview-meta\");\n\n    const body = modal.querySelector(\"#phase719-preview-body\");\n\n    const taskTitle = button.getAttribute(\"data-task-title\") || \"Artifact Preview\";\n\n    const taskId = b"
+    },
+    {
+      "pattern": "preview",
+      "index": 48769,
+      "context": "nst subtitle = modal.querySelector(\"#phase719-preview-subtitle\");\n\n    const meta = modal.querySelector(\"#phase719-preview-meta\");\n\n    const body = modal.querySelector(\"#phase719-preview-body\");\n\n    const taskTitle = button.getAttribute(\"data-task-title\") || \"Artifact Preview\";\n\n    const taskId = button.getAttribute(\"data-task-id\") || \"\";\n\n    const fallbackName"
+    },
+    {
+      "pattern": "preview",
+      "index": 48860,
+      "context": "uerySelector(\"#phase719-preview-meta\");\n\n    const body = modal.querySelector(\"#phase719-preview-body\");\n\n    const taskTitle = button.getAttribute(\"data-task-title\") || \"Artifact Preview\";\n\n    const taskId = button.getAttribute(\"data-task-id\") || \"\";\n\n    const fallbackName = button.getAttribute(\"data-artifact-name\") || \"artifact\";\n\n    const fallbackType = butto"
+    },
+    {
+      "pattern": "preview",
+      "index": 49445,
+      "context": "ackOutcome = button.getAttribute(\"data-artifact-outcome\") || \"\";\n\n    const fallbackExplanation = button.getAttribute(\"data-artifact-explanation\") || \"\";\n\n    title.textContent = \"Preview: \" + taskTitle;\n\n    subtitle.textContent = taskId ? \"task_id: \" + taskId : \"\";\n\n    meta.textContent = [\n\n      \"artifact: \" + fallbackName,\n\n      fallbackType ? \"type: \" + fall"
+    },
+    {
+      "pattern": "preview",
+      "index": 49877,
+      "context": ",\n\n      fallbackPath ? \"path: \" + fallbackPath : \"\"\n\n    ].filter(Boolean).join(\"\\n\");\n\n    body.innerHTML = `<div style=\"color:#93c5fd;font-size:14px;\">Loading rendered artifact preview…</div>`;\n\n    modal.style.display = \"flex\";\n\n    if (!taskId) {\n\n      body.textContent = \"No task id available for artifact preview.\";\n\n      return;\n\n    }\n\n    try {\n\n      con"
+    },
+    {
+      "pattern": "preview",
+      "index": 50010,
+      "context": "5fd;font-size:14px;\">Loading rendered artifact preview…</div>`;\n\n    modal.style.display = \"flex\";\n\n    if (!taskId) {\n\n      body.textContent = \"No task id available for artifact preview.\";\n\n      return;\n\n    }\n\n    try {\n\n      const res = await fetch(`/api/tasks/${encodeURIComponent(taskId)}/artifact-preview`, { cache: \"no-store\" });\n\n      const data = await r"
+    },
+    {
+      "pattern": "preview",
+      "index": 50136,
+      "context": "body.textContent = \"No task id available for artifact preview.\";\n\n      return;\n\n    }\n\n    try {\n\n      const res = await fetch(`/api/tasks/${encodeURIComponent(taskId)}/artifact-preview`, { cache: \"no-store\" });\n\n      const data = await res.json().catch(() => null);\n\n      if (!res.ok || !data || data.ok !== true) {\n\n        body.textContent = [\n\n          \"Rend"
+    },
+    {
+      "pattern": "preview",
+      "index": 51295,
+      "context": "ze: \" + renderedSize : \"\",\n\n        renderedCreated ? \"created: \" + renderedCreated : \"\"\n\n      ].filter(Boolean).join(\"\\n\");\n\n      body.innerHTML = phase719RenderMarkdownArtifactPreview(data.content);\n\n      body.querySelectorAll(\"[data-phase735-visual-html-mount]\").forEach((phase735Mount) => {\n\n        const template = phase735Mount.parentElement\n\n          ? ph"
+    },
+    {
+      "pattern": "preview",
+      "index": 51967,
+      "context": "ase723SanitizeVisualArtifactHtml(decoded);\n\n          if (template) template.remove();\n\n        } catch (error) {\n\n          phase735Mount.textContent = \"Unable to render artifact preview.\";\n\n        }\n\n      });\n\n    } catch (error) {\n\n      body.textContent = [\n\n        \"Preview fetch failed.\",\n\n        error && error.message ? error.message : String(error),\n\n   "
+    },
+    {
+      "pattern": "preview",
+      "index": 52061,
+      "context": "  } catch (error) {\n\n          phase735Mount.textContent = \"Unable to render artifact preview.\";\n\n        }\n\n      });\n\n    } catch (error) {\n\n      body.textContent = [\n\n        \"Preview fetch failed.\",\n\n        error && error.message ? error.message : String(error),\n\n        fallbackOutcome ? \"\\nOutcome:\\n\" + fallbackOutcome : \"\",\n\n        fallbackExplanation ? \""
+    },
+    {
+      "pattern": "preview",
+      "index": 52457,
+      "context": "xplanation : \"\"\n\n      ].filter(Boolean).join(\"\\n\");\n\n    }\n\n  }\n\n\n  document.addEventListener(\"click\", function (event) {\n\n    const button = event.target.closest(\"[data-phase719-preview-artifact]\");\n\n    if (!button) return;\n\n    event.preventDefault();\n\n    phase719OpenPreviewModal(button);\n\n  });\n\n\n})();\n"
+    },
+    {
+      "pattern": "preview",
+      "index": 52550,
+      "context": "r(\"click\", function (event) {\n\n    const button = event.target.closest(\"[data-phase719-preview-artifact]\");\n\n    if (!button) return;\n\n    event.preventDefault();\n\n    phase719OpenPreviewModal(button);\n\n  });\n\n\n})();\n"
+    },
+    {
+      "pattern": "render",
+      "index": 595,
+      "context": "s = await fetch(url, { cache: \"no-store\" });\n    const data = await res.json();\n    if (!res.ok) throw new Error(data?.error || \"Request failed\");\n    return data;\n  }\n\n  function renderAgents(rows) {\n    const root = document.getElementById(\"agent-status-container\");\n    if (!root) return;\n\n    root.innerHTML = `\n      <h2 class=\"text-xl font-semibold border-b bo"
+    },
+    {
+      "pattern": "render",
+      "index": 10423,
+      "context": "gba(20,83,45,.14);color:#5eead4;border-radius:999px;padding:4px 9px;font-size:11px;\">Inspect logs</button>` : \"\"}\n\n        </article>\n\n      `;\n\n    }).join(\"\");\n\n  }\n\n\n  function renderRecent(tasks) {\n    const recentTasks = document.getElementById(\"recentTasks\");\n    const recentLogs = document.getElementById(\"recentLogs\");\n    const recentCard = document.getEle"
+    },
+    {
+      "pattern": "render",
+      "index": 11186,
+      "context": "gs) {\n      recentLogs.style.display = \"none\";\n    }\n\n    if (recentTasks) recentTasks.innerHTML = taskRows(tasks);\n\n    if (recentLogs) recentLogs.innerHTML = \"\";\n  }\n\n  function renderActivity(rows) {\n    const canvas = document.getElementById(\"task-activity-graph\");\n    if (!canvas || !window.Chart) return;\n\n    const card = document.getElementById(\"task-activi"
+    },
+    {
+      "pattern": "render",
+      "index": 23907,
+      "context": "serve console clarity.\n    // Agent Pool intentionally preserved during refresh; /api/agents is retired.\n\n\n    try {\n      const data = await getJson(\"/api/tasks?limit=12\");\n      renderRecent(data.tasks || []);\n    } catch (e) {\n      console.warn(\"[phase530] recent tasks render failed\", e);\n    }\n\n    // Phase 719: /api/activity-graph is retired in this runtime."
+    },
+    {
+      "pattern": "render",
+      "index": 24001,
+      "context": "s retired.\n\n\n    try {\n      const data = await getJson(\"/api/tasks?limit=12\");\n      renderRecent(data.tasks || []);\n    } catch (e) {\n      console.warn(\"[phase530] recent tasks render failed\", e);\n    }\n\n    // Phase 719: /api/activity-graph is retired in this runtime.\n    // Stale fetch disabled to preserve console clarity.\n    renderActivity([]);\n  }\n\n  if (d"
+    },
+    {
+      "pattern": "render",
+      "index": 24155,
+      "context": "(\"[phase530] recent tasks render failed\", e);\n    }\n\n    // Phase 719: /api/activity-graph is retired in this runtime.\n    // Stale fetch disabled to preserve console clarity.\n    renderActivity([]);\n  }\n\n  if (document.readyState === \"loading\") {\n    document.addEventListener(\"DOMContentLoaded\", refresh, { once: true });\n  } else {\n    refresh();\n  }\n\n  setInterv"
+    },
+    {
+      "pattern": "render",
+      "index": 30587,
+      "context": ".push(line);\n\n    });\n\n    Object.keys(sections).forEach((key) => {\n\n      sections[key] = sections[key].join(\"\\n\").trim();\n\n    });\n\n    return sections;\n\n  }\n\n  function phase719RenderArtifactVisualCard(markdown) {\n\n    const semanticEnvelope = phase720ExtractSemanticEnvelope(markdown);\n\n    const markdownWithoutEnvelope = phase720StripSemanticEnvelope(markdown)"
+    },
+    {
+      "pattern": "render",
+      "index": 36240,
+      "context": "800;text-transform:uppercase;letter-spacing:.08em;\">${phase719EscapePreviewHtml(semanticPriority)}</span>`\n\n    ].filter(Boolean).join(\"\");\n\n    return `\n\n      <div data-phase719-rendered-artifact-preview=\"true\" style=\"max-width:920px;margin:0 auto;\">\n\n        <div style=\"border:1px solid ${phase733Theme.border};border-radius:22px;overflow:hidden;background:${pha"
+    },
+    {
+      "pattern": "render",
+      "index": 40297,
+      "context": "ase719EscapePreviewHtml(explanation || \"No explanation available.\")}</div>\n\n            </section>\n\n          </div>\n\n        </div>\n\n      </div>\n\n    `;\n\n  }\n\n  function phase719RenderArtifactIframePreview(renderedHtml) {\n\n    const srcdoc = [\n\n      \"<!DOCTYPE html>\",\n\n      \"<html>\",\n\n      \"<head>\",\n\n      \"<meta charset=\\\"utf-8\\\">\",\n\n      \"<style>\",\n\n      "
+    },
+    {
+      "pattern": "render",
+      "index": 40325,
+      "context": "anation || \"No explanation available.\")}</div>\n\n            </section>\n\n          </div>\n\n        </div>\n\n      </div>\n\n    `;\n\n  }\n\n  function phase719RenderArtifactIframePreview(renderedHtml) {\n\n    const srcdoc = [\n\n      \"<!DOCTYPE html>\",\n\n      \"<html>\",\n\n      \"<head>\",\n\n      \"<meta charset=\\\"utf-8\\\">\",\n\n      \"<style>\",\n\n      \"html,body{margin:0;padding:"
+    },
+    {
+      "pattern": "render",
+      "index": 40805,
+      "context": "rif;}\",\n\n      \"body{padding:18px;overflow-wrap:anywhere;}\",\n\n      \"*{box-sizing:border-box;max-width:100%;}\",\n\n      \"</style>\",\n\n      \"</head>\",\n\n      \"<body>\",\n\n      String(renderedHtml || \"\"),\n\n      \"</body>\",\n\n      \"</html>\"\n\n    ].join(\"\");\n\n    return `\n\n      <iframe\n\n        title=\"Artifact rendered preview\"\n\n        sandbox=\"\"\n\n        srcdoc=\"${ph"
+    },
+    {
+      "pattern": "render",
+      "index": 40932,
+      "context": ">\",\n\n      \"</head>\",\n\n      \"<body>\",\n\n      String(renderedHtml || \"\"),\n\n      \"</body>\",\n\n      \"</html>\"\n\n    ].join(\"\");\n\n    return `\n\n      <iframe\n\n        title=\"Artifact rendered preview\"\n\n        sandbox=\"\"\n\n        srcdoc=\"${phase719EscapePreviewHtml(srcdoc)}\"\n\n        style=\"display:block;width:100%;min-height:560px;border:1px solid rgba(148,163,184,."
+    },
+    {
+      "pattern": "render",
+      "index": 43362,
+      "context": "olean(visualHtml),\n\n      visualHtml,\n\n      markdownWithoutVisualArtifact\n\n    };\n\n  }\n\n  // Phase 723 — embedded visual artifact preview wrapper (non-active)\n\n  function phase723RenderVisualArtifactPreviewCandidate(markdown) {\n\n    const extracted = phase723ExtractVisualArtifactBlock(markdown);\n\n    const fallbackMarkdown = extracted.markdownWithoutVisualArtifac"
+    },
+    {
+      "pattern": "render",
+      "index": 43639,
+      "context": "factBlock(markdown);\n\n    const fallbackMarkdown = extracted.markdownWithoutVisualArtifact || phase733NormalizePreviewTransportText(markdown);\n\n    const fallbackPreview = phase719RenderArtifactVisualCard(fallbackMarkdown);\n\n    if (!extracted.hasVisualArtifact) {\n\n      return fallbackPreview;\n\n    }\n\n    const safeVisualHtml = phase723SanitizeVisualArtifactHtml("
+    },
+    {
+      "pattern": "render",
+      "index": 45786,
+      "context": "')\n\n      .replace(/\\\\+\"=/g, '=');\n\n    const textarea = document.createElement(\"textarea\");\n\n    textarea.innerHTML = source;\n\n    return textarea.value;\n\n  }\n\n  function phase719RenderMarkdownArtifactPreview(markdown) {\n\n    const extractedVisual = phase723ExtractVisualArtifactBlock(markdown);\n\n    if (extractedVisual.hasVisualArtifact) {\n\n      const decodedVis"
+    },
+    {
+      "pattern": "render",
+      "index": 46209,
+      "context": "ctedVisual.visualHtml);\n\n      const safeVisualHtml = phase723SanitizeVisualArtifactHtml(decodedVisualHtml);\n\n      return `\n\n        <div\n\n          data-phase733-single-artifact-render=\"true\"\n\n          style=\"\n\n            max-width:1040px;\n\n            margin:0 auto;\n\n            border:1px solid rgba(148,163,184,.28);\n\n            border-radius:22px;\n\n       "
+    },
+    {
+      "pattern": "render",
+      "index": 47264,
+      "context": "allbackLooksLikeHtml) {\n\n      const safeFallbackHtml = phase723SanitizeVisualArtifactHtml(decodedFallback);\n\n      return `\n\n        <div\n\n          data-phase733-single-artifact-render=\"true\"\n\n          data-phase735-fallback-html-artifact=\"true\"\n\n          style=\"\n\n            max-width:1040px;\n\n            margin:0 auto;\n\n            border:1px solid rgba(148,"
+    },
+    {
+      "pattern": "render",
+      "index": 47991,
+      "context": "al-html-template=\"true\">${phase719EscapePreviewHtml(safeFallbackHtml)}</template>\n\n        </div>\n\n      `;\n\n    }\n\n    return `\n\n      <div\n\n        data-phase733-single-artifact-render-fallback=\"true\"\n\n        style=\"\n\n          max-width:920px;\n\n          margin:0 auto;\n\n          border:1px solid rgba(148,163,184,.28);\n\n          border-radius:22px;\n\n         "
+    },
+    {
+      "pattern": "render",
+      "index": 49859,
+      "context": " fallbackSize : \"\",\n\n      fallbackPath ? \"path: \" + fallbackPath : \"\"\n\n    ].filter(Boolean).join(\"\\n\");\n\n    body.innerHTML = `<div style=\"color:#93c5fd;font-size:14px;\">Loading rendered artifact preview…</div>`;\n\n    modal.style.display = \"flex\";\n\n    if (!taskId) {\n\n      body.textContent = \"No task id available for artifact preview.\";\n\n      return;\n\n    }\n\n "
+    },
+    {
+      "pattern": "render",
+      "index": 50319,
+      "context": "view`, { cache: \"no-store\" });\n\n      const data = await res.json().catch(() => null);\n\n      if (!res.ok || !data || data.ok !== true) {\n\n        body.textContent = [\n\n          \"Rendered artifact content is not available.\",\n\n          data && data.error ? \"Error: \" + data.error : \"\",\n\n          fallbackOutcome ? \"\\nOutcome:\\n\" + fallbackOutcome : \"\",\n\n          "
+    },
+    {
+      "pattern": "render",
+      "index": 50696,
+      "context": "lanation ? \"\\nExplanation:\\n\" + fallbackExplanation : \"\"\n\n        ].filter(Boolean).join(\"\\n\");\n\n        return;\n\n      }\n\n      const artifact = data.artifact || {};\n\n      const renderedName = artifact.filename || fallbackName;\n\n      const renderedType = artifact.type || fallbackType;\n\n      const renderedSize = artifact.size_bytes ? String(artifact.size_bytes)"
+    },
+    {
+      "pattern": "render",
+      "index": 50759,
+      "context": "   ].filter(Boolean).join(\"\\n\");\n\n        return;\n\n      }\n\n      const artifact = data.artifact || {};\n\n      const renderedName = artifact.filename || fallbackName;\n\n      const renderedType = artifact.type || fallbackType;\n\n      const renderedSize = artifact.size_bytes ? String(artifact.size_bytes) + \" bytes\" : fallbackSize;\n\n      const renderedCreated = arti"
+    },
+    {
+      "pattern": "render",
+      "index": 50818,
+      "context": "\n      const artifact = data.artifact || {};\n\n      const renderedName = artifact.filename || fallbackName;\n\n      const renderedType = artifact.type || fallbackType;\n\n      const renderedSize = artifact.size_bytes ? String(artifact.size_bytes) + \" bytes\" : fallbackSize;\n\n      const renderedCreated = artifact.created_at || \"\";\n\n      meta.textContent = [\n\n       "
+    },
+    {
+      "pattern": "render",
+      "index": 50923,
+      "context": "e;\n\n      const renderedType = artifact.type || fallbackType;\n\n      const renderedSize = artifact.size_bytes ? String(artifact.size_bytes) + \" bytes\" : fallbackSize;\n\n      const renderedCreated = artifact.created_at || \"\";\n\n      meta.textContent = [\n\n        \"artifact: \" + renderedName,\n\n        renderedType ? \"type: \" + renderedType : \"\",\n\n        renderedSize"
+    },
+    {
+      "pattern": "render",
+      "index": 51020,
+      "context": "t.size_bytes ? String(artifact.size_bytes) + \" bytes\" : fallbackSize;\n\n      const renderedCreated = artifact.created_at || \"\";\n\n      meta.textContent = [\n\n        \"artifact: \" + renderedName,\n\n        renderedType ? \"type: \" + renderedType : \"\",\n\n        renderedSize ? \"size: \" + renderedSize : \"\",\n\n        renderedCreated ? \"created: \" + renderedCreated : \"\"\n\n "
+    },
+    {
+      "pattern": "render",
+      "index": 51043,
+      "context": "rtifact.size_bytes) + \" bytes\" : fallbackSize;\n\n      const renderedCreated = artifact.created_at || \"\";\n\n      meta.textContent = [\n\n        \"artifact: \" + renderedName,\n\n        renderedType ? \"type: \" + renderedType : \"\",\n\n        renderedSize ? \"size: \" + renderedSize : \"\",\n\n        renderedCreated ? \"created: \" + renderedCreated : \"\"\n\n      ].filter(Boolean)."
+    },
+    {
+      "pattern": "render",
+      "index": 51069,
+      "context": "tes\" : fallbackSize;\n\n      const renderedCreated = artifact.created_at || \"\";\n\n      meta.textContent = [\n\n        \"artifact: \" + renderedName,\n\n        renderedType ? \"type: \" + renderedType : \"\",\n\n        renderedSize ? \"size: \" + renderedSize : \"\",\n\n        renderedCreated ? \"created: \" + renderedCreated : \"\"\n\n      ].filter(Boolean).join(\"\\n\");\n\n      body.in"
+    },
+    {
+      "pattern": "render",
+      "index": 51097,
+      "context": "const renderedCreated = artifact.created_at || \"\";\n\n      meta.textContent = [\n\n        \"artifact: \" + renderedName,\n\n        renderedType ? \"type: \" + renderedType : \"\",\n\n        renderedSize ? \"size: \" + renderedSize : \"\",\n\n        renderedCreated ? \"created: \" + renderedCreated : \"\"\n\n      ].filter(Boolean).join(\"\\n\");\n\n      body.innerHTML = phase719RenderMark"
+    },
+    {
+      "pattern": "render",
+      "index": 51123,
+      "context": "tifact.created_at || \"\";\n\n      meta.textContent = [\n\n        \"artifact: \" + renderedName,\n\n        renderedType ? \"type: \" + renderedType : \"\",\n\n        renderedSize ? \"size: \" + renderedSize : \"\",\n\n        renderedCreated ? \"created: \" + renderedCreated : \"\"\n\n      ].filter(Boolean).join(\"\\n\");\n\n      body.innerHTML = phase719RenderMarkdownArtifactPreview(data.c"
+    },
+    {
+      "pattern": "render",
+      "index": 51151,
+      "context": "    meta.textContent = [\n\n        \"artifact: \" + renderedName,\n\n        renderedType ? \"type: \" + renderedType : \"\",\n\n        renderedSize ? \"size: \" + renderedSize : \"\",\n\n        renderedCreated ? \"created: \" + renderedCreated : \"\"\n\n      ].filter(Boolean).join(\"\\n\");\n\n      body.innerHTML = phase719RenderMarkdownArtifactPreview(data.content);\n\n      body.querySe"
+    },
+    {
+      "pattern": "render",
+      "index": 51183,
+      "context": "  \"artifact: \" + renderedName,\n\n        renderedType ? \"type: \" + renderedType : \"\",\n\n        renderedSize ? \"size: \" + renderedSize : \"\",\n\n        renderedCreated ? \"created: \" + renderedCreated : \"\"\n\n      ].filter(Boolean).join(\"\\n\");\n\n      body.innerHTML = phase719RenderMarkdownArtifactPreview(data.content);\n\n      body.querySelectorAll(\"[data-phase735-visual"
+    },
+    {
+      "pattern": "render",
+      "index": 51273,
+      "context": "    renderedSize ? \"size: \" + renderedSize : \"\",\n\n        renderedCreated ? \"created: \" + renderedCreated : \"\"\n\n      ].filter(Boolean).join(\"\\n\");\n\n      body.innerHTML = phase719RenderMarkdownArtifactPreview(data.content);\n\n      body.querySelectorAll(\"[data-phase735-visual-html-mount]\").forEach((phase735Mount) => {\n\n        const template = phase735Mount.parent"
+    },
+    {
+      "pattern": "render",
+      "index": 51951,
+      "context": "t.innerHTML = phase723SanitizeVisualArtifactHtml(decoded);\n\n          if (template) template.remove();\n\n        } catch (error) {\n\n          phase735Mount.textContent = \"Unable to render artifact preview.\";\n\n        }\n\n      });\n\n    } catch (error) {\n\n      body.textContent = [\n\n        \"Preview fetch failed.\",\n\n        error && error.message ? error.message : St"
+    },
+    {
+      "pattern": "phase719-preview-modal",
+      "index": 24517,
+      "context": "terval(refresh, POLL_MS);\n\n\n  // Phase 719 — Preview artifact modal (frontend-only, read-only)\n\n  function phase719EnsurePreviewModal() {\n\n    let modal = document.getElementById(\"phase719-preview-modal\");\n\n    if (modal) return modal;\n\n    modal = document.createElement(\"div\");\n\n    modal.id = \"phase719-preview-modal\";\n\n    modal.style.cssText = \"display:none;position:fixed;inse"
+    },
+    {
+      "pattern": "phase719-preview-modal",
+      "index": 24634,
+      "context": "surePreviewModal() {\n\n    let modal = document.getElementById(\"phase719-preview-modal\");\n\n    if (modal) return modal;\n\n    modal = document.createElement(\"div\");\n\n    modal.id = \"phase719-preview-modal\";\n\n    modal.style.cssText = \"display:none;position:fixed;inset:0;z-index:9999;background:rgba(2,6,23,.72);backdrop-filter:blur(5px);align-items:center;justify-content:center;padd"
+    },
+    {
+      "pattern": "phase723SanitizeVisualArtifactHtml",
+      "index": 41277,
+      "context": "id rgba(148,163,184,.24);border-radius:16px;background:#020617;\"\n\n      ></iframe>\n\n    `;\n\n  }\n\n  // Phase 723 — minimal visual artifact sanitizer helper (non-active)\n\n  function phase723SanitizeVisualArtifactHtml(html) {\n\n    const source = String(html || \"\");\n\n    const withoutUnsafeBlocks = source\n\n      .replace(/<\\s*script\\b[\\s\\S]*?<\\s*\\/\\s*script\\s*>/gi, \"\")\n\n      .replace(/<\\s*style"
+    },
+    {
+      "pattern": "phase723SanitizeVisualArtifactHtml",
+      "index": 43790,
+      "context": "st fallbackPreview = phase719RenderArtifactVisualCard(fallbackMarkdown);\n\n    if (!extracted.hasVisualArtifact) {\n\n      return fallbackPreview;\n\n    }\n\n    const safeVisualHtml = phase723SanitizeVisualArtifactHtml(extracted.visualHtml);\n\n    if (!safeVisualHtml) {\n\n      return fallbackPreview;\n\n    }\n\n    return `\n\n      <div data-phase723-visual-artifact-preview=\"true\" style=\"max-width:96"
+    },
+    {
+      "pattern": "phase723SanitizeVisualArtifactHtml",
+      "index": 46083,
+      "context": "\n    if (extractedVisual.hasVisualArtifact) {\n\n      const decodedVisualHtml = phase735DecodeVisualArtifactHtmlTransport(extractedVisual.visualHtml);\n\n      const safeVisualHtml = phase723SanitizeVisualArtifactHtml(decodedVisualHtml);\n\n      return `\n\n        <div\n\n          data-phase733-single-artifact-render=\"true\"\n\n          style=\"\n\n            max-width:1040px;\n\n            margin:0 au"
+    },
+    {
+      "pattern": "phase723SanitizeVisualArtifactHtml",
+      "index": 47140,
+      "context": "ppedFallback);\n\n    const fallbackLooksLikeHtml = /<\\s*div\\b|<\\s*section\\b|<\\s*article\\b/i.test(decodedFallback);\n\n    if (fallbackLooksLikeHtml) {\n\n      const safeFallbackHtml = phase723SanitizeVisualArtifactHtml(decodedFallback);\n\n      return `\n\n        <div\n\n          data-phase733-single-artifact-render=\"true\"\n\n          data-phase735-fallback-html-artifact=\"true\"\n\n          style=\"\n\n "
+    },
+    {
+      "pattern": "phase723SanitizeVisualArtifactHtml",
+      "index": 51785,
+      "context": "tml = template ? template.textContent : \"\";\n\n        try {\n\n          const decoded = phase735DecodeVisualArtifactHtmlTransport(templateHtml);\n\n          phase735Mount.innerHTML = phase723SanitizeVisualArtifactHtml(decoded);\n\n          if (template) template.remove();\n\n        } catch (error) {\n\n          phase735Mount.textContent = \"Unable to render artifact preview.\";\n\n        }\n\n      });"
+    },
+    {
+      "pattern": "phase735DecodeVisualArtifactHtmlTransport",
+      "index": 45320,
+      "context": "/div>\n\n          <template data-phase735-visual-html-template=\"true\">${phase719EscapePreviewHtml(safeVisualHtml)}</template>\n\n        </div>\n\n      </div>\n\n    `;\n\n  }\n\n  function phase735DecodeVisualArtifactHtmlTransport(html) {\n\n    const source = phase733NormalizePreviewTransportText(html || \"\")\n\n      .replace(/\\\\\\\\n/g, \"\\n\")\n\n      .replace(/\\\\\\\\\\\"/g, '\"')\n\n      .replace(/\\\\\\\\'/g, \"'\")\n\n     "
+    },
+    {
+      "pattern": "phase735DecodeVisualArtifactHtmlTransport",
+      "index": 45982,
+      "context": "tifactPreview(markdown) {\n\n    const extractedVisual = phase723ExtractVisualArtifactBlock(markdown);\n\n    if (extractedVisual.hasVisualArtifact) {\n\n      const decodedVisualHtml = phase735DecodeVisualArtifactHtmlTransport(extractedVisual.visualHtml);\n\n      const safeVisualHtml = phase723SanitizeVisualArtifactHtml(decodedVisualHtml);\n\n      return `\n\n        <div\n\n          data-phase733-single-art"
+    },
+    {
+      "pattern": "phase735DecodeVisualArtifactHtmlTransport",
+      "index": 46914,
+      "context": "9EscapePreviewHtml(safeVisualHtml)}</template>\n\n        </div>\n\n      `;\n\n    }\n\n    const strippedFallback = phase720StripSemanticEnvelope(markdown);\n\n    const decodedFallback = phase735DecodeVisualArtifactHtmlTransport(strippedFallback);\n\n    const fallbackLooksLikeHtml = /<\\s*div\\b|<\\s*section\\b|<\\s*article\\b/i.test(decodedFallback);\n\n    if (fallbackLooksLikeHtml) {\n\n      const safeFallbackHt"
+    },
+    {
+      "pattern": "phase735DecodeVisualArtifactHtmlTransport",
+      "index": 51691,
+      "context": "rySelector(\"[data-phase735-visual-html-template]\")\n\n          : null;\n\n        const templateHtml = template ? template.textContent : \"\";\n\n        try {\n\n          const decoded = phase735DecodeVisualArtifactHtmlTransport(templateHtml);\n\n          phase735Mount.innerHTML = phase723SanitizeVisualArtifactHtml(decoded);\n\n          if (template) template.remove();\n\n        } catch (error) {\n\n          "
+    }
+  ],
+  "nextRecommendedStep": "Identify exact semantic-card fallback render path before introducing render-native dashboard routing."
+}

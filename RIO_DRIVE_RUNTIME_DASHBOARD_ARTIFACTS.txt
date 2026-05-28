@@ -1,0 +1,510 @@
+===== RIO DRIVE RUNTIME DASHBOARD ARTIFACTS =====
+2026-05-28 09:33:26.842935
+
+===== CURRENT HEAD =====
+a4974f07 Inspect all Rio Drive dashboard surfaces
+9718fed4 Record latest full snapshot dashboard finding
+8f0bb4d6 Inspect Rio Drive latest full snapshot dashboard candidates
+f77c4598 Record Rio Drive repo bundle dashboard candidate result
+70567be8 Inspect Rio Drive repo bundle dashboard candidates v2
+10495513 Inspect Rio Drive repo bundle dashboard candidates
+466098de Inspect Rio Drive source archive dashboard candidates
+df310122 Record Rio Drive latest dashboard preview next step
+
+===== TOP RUNTIME/UI ARTIFACT FILES BY MARKER SCORE =====
+1779385505 size=232887 score=600000 /Volumes/Rio Drive/Motherboard_Systems_HQ/RENDERER_INSPECTION/preview-frontend-consumer-shape-2026-05-21T17-45-05-151Z.json
+markers: Recent Tasks=9, Agent Pool=8, phase719=162, phase530=23, artifact preview=22, Preview=264, Retry=198, Requeue=23, visible_panels_bridge=7
+
+1779385505 size=232887 score=600000 /Volumes/Rio Drive/Motherboard_Storage/snapshots/full-disaster-recovery-20260526-phase743-sealed-13f8eb4a/Motherboard_Systems_HQ/RENDERER_INSPECTION/preview-frontend-consumer-shape-2026-05-21T17-45-05-151Z.json
+markers: Recent Tasks=9, Agent Pool=8, phase719=162, phase530=23, artifact preview=22, Preview=264, Retry=198, Requeue=23, visible_panels_bridge=7
+
+1779385505 size=232887 score=600000 /Volumes/Rio Drive/Motherboard_Storage/snapshots/full-disaster-recovery-20260526-phase744-architecture-494f61b3/Motherboard_Systems_HQ/RENDERER_INSPECTION/preview-frontend-consumer-shape-2026-05-21T17-45-05-151Z.json
+markers: Recent Tasks=9, Agent Pool=8, phase719=162, phase530=23, artifact preview=22, Preview=264, Retry=198, Requeue=23, visible_panels_bridge=7
+
+1779313861 size=77227 score=477227 /Volumes/Rio Drive/Motherboard_Systems_HQ/RENDERER_INSPECTION/phase530-renderer-owner-inspection-2026-05-20T21-51-01-194Z.json
+markers: Recent Tasks=3, Agent Pool=2, phase719=143, phase530=5, artifact preview=25, Preview=314, visible_panels_bridge=1
+
+1779313861 size=77227 score=477227 /Volumes/Rio Drive/Motherboard_Storage/snapshots/full-disaster-recovery-20260526-phase743-sealed-13f8eb4a/Motherboard_Systems_HQ/RENDERER_INSPECTION/phase530-renderer-owner-inspection-2026-05-20T21-51-01-194Z.json
+markers: Recent Tasks=3, Agent Pool=2, phase719=143, phase530=5, artifact preview=25, Preview=314, visible_panels_bridge=1
+
+1779313861 size=77227 score=477227 /Volumes/Rio Drive/Motherboard_Storage/snapshots/full-disaster-recovery-20260526-phase744-architecture-494f61b3/Motherboard_Systems_HQ/RENDERER_INSPECTION/phase530-renderer-owner-inspection-2026-05-20T21-51-01-194Z.json
+markers: Recent Tasks=3, Agent Pool=2, phase719=143, phase530=5, artifact preview=25, Preview=314, visible_panels_bridge=1
+
+1779696097 size=65543 score=465543 /Volumes/Rio Drive/Motherboard_Systems_HQ/DISASTER_RECOVERY/phase740-post-recovery-backup-2026-05-25T01-01-37/phase530_visible_panels_bridge.js
+markers: Recent Tasks=2, Agent Pool=2, phase719=49, phase530=11, artifact preview=6, Preview=70, Retry=48, Requeue=13, visible_panels_bridge=2
+
+1779696097 size=65543 score=465543 /Volumes/Rio Drive/Motherboard_Storage/snapshots/full-disaster-recovery-20260526-phase744-architecture-494f61b3/Motherboard_Systems_HQ/DISASTER_RECOVERY/phase740-post-recovery-backup-2026-05-25T01-01-37/phase530_visible_panels_bridge.js
+markers: Recent Tasks=2, Agent Pool=2, phase719=49, phase530=11, artifact preview=6, Preview=70, Retry=48, Requeue=13, visible_panels_bridge=2
+
+1779696097 size=65543 score=465543 /Volumes/Rio Drive/Motherboard_Storage/snapshots/full-disaster-recovery-20260526-phase743-sealed-13f8eb4a/Motherboard_Systems_HQ/DISASTER_RECOVERY/phase740-post-recovery-backup-2026-05-25T01-01-37/phase530_visible_panels_bridge.js
+markers: Recent Tasks=2, Agent Pool=2, phase719=49, phase530=11, artifact preview=6, Preview=70, Retry=48, Requeue=13, visible_panels_bridge=2
+
+1779695891 size=65543 score=465543 /Volumes/Rio Drive/Motherboard_Systems_HQ/public/js/phase530_visible_panels_bridge.js
+markers: Recent Tasks=2, Agent Pool=2, phase719=49, phase530=11, artifact preview=6, Preview=70, Retry=48, Requeue=13, visible_panels_bridge=2
+
+1779695891 size=65543 score=465543 /Volumes/Rio Drive/Motherboard_Storage/snapshots/full-disaster-recovery-20260526-phase744-architecture-494f61b3/Motherboard_Systems_HQ/public/js/phase530_visible_panels_bridge.js
+markers: Recent Tasks=2, Agent Pool=2, phase719=49, phase530=11, artifact preview=6, Preview=70, Retry=48, Requeue=13, visible_panels_bridge=2
+
+1779695891 size=65543 score=465543 /Volumes/Rio Drive/Motherboard_Storage/snapshots/full-disaster-recovery-20260526-phase743-sealed-13f8eb4a/Motherboard_Systems_HQ/public/js/phase530_visible_panels_bridge.js
+markers: Recent Tasks=2, Agent Pool=2, phase719=49, phase530=11, artifact preview=6, Preview=70, Retry=48, Requeue=13, visible_panels_bridge=2
+
+1779386497 size=58577 score=458577 /Volumes/Rio Drive/Motherboard_Systems_HQ/RENDERER_INSPECTION/frontend-preview-render-branch-exact-shape-2026-05-21T18-01-37-481Z.json
+markers: Recent Tasks=2, Agent Pool=1, phase719=50, phase530=15, artifact preview=9, Preview=78, Retry=13, Requeue=2, visible_panels_bridge=3
+
+1779386497 size=58577 score=458577 /Volumes/Rio Drive/Motherboard_Storage/snapshots/full-disaster-recovery-20260526-phase743-sealed-13f8eb4a/Motherboard_Systems_HQ/RENDERER_INSPECTION/frontend-preview-render-branch-exact-shape-2026-05-21T18-01-37-481Z.json
+markers: Recent Tasks=2, Agent Pool=1, phase719=50, phase530=15, artifact preview=9, Preview=78, Retry=13, Requeue=2, visible_panels_bridge=3
+
+1779386497 size=58577 score=458577 /Volumes/Rio Drive/Motherboard_Storage/snapshots/full-disaster-recovery-20260526-phase744-architecture-494f61b3/Motherboard_Systems_HQ/RENDERER_INSPECTION/frontend-preview-render-branch-exact-shape-2026-05-21T18-01-37-481Z.json
+markers: Recent Tasks=2, Agent Pool=1, phase719=50, phase530=15, artifact preview=9, Preview=78, Retry=13, Requeue=2, visible_panels_bridge=3
+
+1779479795 size=58037 score=458037 /Volumes/Rio Drive/Motherboard_Systems_HQ/scripts/render-native/reports/semantic-artifact-propagation-trace.json
+markers: Recent Tasks=1, Execution Inspector=2, phase719=3, phase530=31, Preview=364, visible_panels_bridge=27
+
+1779479795 size=58037 score=458037 /Volumes/Rio Drive/Motherboard_Storage/snapshots/full-disaster-recovery-20260526-phase744-architecture-494f61b3/Motherboard_Systems_HQ/scripts/render-native/reports/semantic-artifact-propagation-trace.json
+markers: Recent Tasks=1, Execution Inspector=2, phase719=3, phase530=31, Preview=364, visible_panels_bridge=27
+
+1779479795 size=58037 score=458037 /Volumes/Rio Drive/Motherboard_Storage/snapshots/full-disaster-recovery-20260526-phase743-sealed-13f8eb4a/Motherboard_Systems_HQ/scripts/render-native/reports/semantic-artifact-propagation-trace.json
+markers: Recent Tasks=1, Execution Inspector=2, phase719=3, phase530=31, Preview=364, visible_panels_bridge=27
+
+1779386017 size=57913 score=457913 /Volumes/Rio Drive/Motherboard_Systems_HQ/RENDERER_INSPECTION/preview-artifact-content-usage-2026-05-21T17-53-37-697Z.json
+markers: phase719=51, phase530=1, artifact preview=45, Preview=130, visible_panels_bridge=1
+
+1779386017 size=57913 score=457913 /Volumes/Rio Drive/Motherboard_Storage/snapshots/full-disaster-recovery-20260526-phase743-sealed-13f8eb4a/Motherboard_Systems_HQ/RENDERER_INSPECTION/preview-artifact-content-usage-2026-05-21T17-53-37-697Z.json
+markers: phase719=51, phase530=1, artifact preview=45, Preview=130, visible_panels_bridge=1
+
+1779386017 size=57913 score=457913 /Volumes/Rio Drive/Motherboard_Storage/snapshots/full-disaster-recovery-20260526-phase744-architecture-494f61b3/Motherboard_Systems_HQ/RENDERER_INSPECTION/preview-artifact-content-usage-2026-05-21T17-53-37-697Z.json
+markers: phase719=51, phase530=1, artifact preview=45, Preview=130, visible_panels_bridge=1
+
+1779314443 size=56960 score=456960 /Volumes/Rio Drive/Motherboard_Systems_HQ/RENDERER_INSPECTION/phase530-render-path-extraction-2026-05-20T22-00-43-821Z.json
+markers: Recent Tasks=1, Agent Pool=1, phase719=43, phase530=5, artifact preview=14, Preview=95, Retry=9, visible_panels_bridge=3
+
+1779314443 size=56960 score=456960 /Volumes/Rio Drive/Motherboard_Storage/snapshots/full-disaster-recovery-20260526-phase744-architecture-494f61b3/Motherboard_Systems_HQ/RENDERER_INSPECTION/phase530-render-path-extraction-2026-05-20T22-00-43-821Z.json
+markers: Recent Tasks=1, Agent Pool=1, phase719=43, phase530=5, artifact preview=14, Preview=95, Retry=9, visible_panels_bridge=3
+
+1779314443 size=56960 score=456960 /Volumes/Rio Drive/Motherboard_Storage/snapshots/full-disaster-recovery-20260526-phase743-sealed-13f8eb4a/Motherboard_Systems_HQ/RENDERER_INSPECTION/phase530-render-path-extraction-2026-05-20T22-00-43-821Z.json
+markers: Recent Tasks=1, Agent Pool=1, phase719=43, phase530=5, artifact preview=14, Preview=95, Retry=9, visible_panels_bridge=3
+
+1779228252 size=52609 score=452609 /Volumes/Rio Drive/Motherboard_Systems_HQ/DISASTER_RECOVERY/phase735_runtime_alignment/20260519_150412_phase530_visible_panels_bridge.js
+markers: Recent Tasks=2, Agent Pool=2, phase719=49, phase530=11, artifact preview=6, Preview=70, Retry=48, Requeue=13, visible_panels_bridge=2
+
+1779228252 size=52609 score=452609 /Volumes/Rio Drive/Motherboard_Storage/snapshots/full-disaster-recovery-20260526-phase743-sealed-13f8eb4a/Motherboard_Systems_HQ/DISASTER_RECOVERY/phase735_runtime_alignment/20260519_150412_phase530_visible_panels_bridge.js
+markers: Recent Tasks=2, Agent Pool=2, phase719=49, phase530=11, artifact preview=6, Preview=70, Retry=48, Requeue=13, visible_panels_bridge=2
+
+1779228252 size=52609 score=452609 /Volumes/Rio Drive/Motherboard_Storage/snapshots/full-disaster-recovery-20260526-phase744-architecture-494f61b3/Motherboard_Systems_HQ/DISASTER_RECOVERY/phase735_runtime_alignment/20260519_150412_phase530_visible_panels_bridge.js
+markers: Recent Tasks=2, Agent Pool=2, phase719=49, phase530=11, artifact preview=6, Preview=70, Retry=48, Requeue=13, visible_panels_bridge=2
+
+1778902183 size=46948 score=446948 /Volumes/Rio Drive/Motherboard_Systems_HQ/checkpoints/phase725_aesthetic_refinement_baseline/phase530_visible_panels_bridge.pre_phase725_visual_polish.js
+markers: Recent Tasks=2, Agent Pool=2, phase719=47, phase530=11, artifact preview=5, Preview=60, Retry=48, Requeue=13, visible_panels_bridge=2
+
+1778902183 size=46948 score=446948 /Volumes/Rio Drive/Motherboard_Storage/snapshots/full-disaster-recovery-20260526-phase743-sealed-13f8eb4a/Motherboard_Systems_HQ/checkpoints/phase725_aesthetic_refinement_baseline/phase530_visible_panels_bridge.pre_phase725_visual_polish.js
+markers: Recent Tasks=2, Agent Pool=2, phase719=47, phase530=11, artifact preview=5, Preview=60, Retry=48, Requeue=13, visible_panels_bridge=2
+
+1778902183 size=46948 score=446948 /Volumes/Rio Drive/Motherboard_Storage/snapshots/full-disaster-recovery-20260526-phase744-architecture-494f61b3/Motherboard_Systems_HQ/checkpoints/phase725_aesthetic_refinement_baseline/phase530_visible_panels_bridge.pre_phase725_visual_polish.js
+markers: Recent Tasks=2, Agent Pool=2, phase719=47, phase530=11, artifact preview=5, Preview=60, Retry=48, Requeue=13, visible_panels_bridge=2
+
+1778889619 size=40192 score=440192 /Volumes/Rio Drive/Motherboard_Systems_HQ/checkpoints/PHASE721_PRE_SEMANTIC_OPERATOR_SUMMARY.js
+markers: Recent Tasks=2, Agent Pool=2, phase719=45, phase530=11, artifact preview=4, Preview=50, Retry=48, Requeue=13, visible_panels_bridge=2
+
+1778889619 size=40192 score=440192 /Volumes/Rio Drive/Motherboard_Storage/snapshots/full-disaster-recovery-20260526-phase744-architecture-494f61b3/Motherboard_Systems_HQ/checkpoints/PHASE721_PRE_SEMANTIC_OPERATOR_SUMMARY.js
+markers: Recent Tasks=2, Agent Pool=2, phase719=45, phase530=11, artifact preview=4, Preview=50, Retry=48, Requeue=13, visible_panels_bridge=2
+
+1778889619 size=40192 score=440192 /Volumes/Rio Drive/Motherboard_Storage/snapshots/full-disaster-recovery-20260526-phase743-sealed-13f8eb4a/Motherboard_Systems_HQ/checkpoints/PHASE721_PRE_SEMANTIC_OPERATOR_SUMMARY.js
+markers: Recent Tasks=2, Agent Pool=2, phase719=45, phase530=11, artifact preview=4, Preview=50, Retry=48, Requeue=13, visible_panels_bridge=2
+
+1778620879 size=36216 score=436216 /Volumes/Rio Drive/Motherboard_Systems_HQ/public/dashboard.html
+markers: Recent Tasks=2, Task History=1, Matilda=12, Operator Guidance=3, Agent Pool=1, telemetry=2, phase719=1, phase530=1, phase61-workspace-grid=1, phase62-top-row=1, visible_panels_bridge=1
+
+1778620879 size=36216 score=436216 /Volumes/Rio Drive/Motherboard_Storage/snapshots/full-disaster-recovery-20260526-phase744-architecture-494f61b3/Motherboard_Systems_HQ/public/dashboard.html
+markers: Recent Tasks=2, Task History=1, Matilda=12, Operator Guidance=3, Agent Pool=1, telemetry=2, phase719=1, phase530=1, phase61-workspace-grid=1, phase62-top-row=1, visible_panels_bridge=1
+
+1778620879 size=36216 score=436216 /Volumes/Rio Drive/Motherboard_Storage/snapshots/full-disaster-recovery-20260526-phase743-sealed-13f8eb4a/Motherboard_Systems_HQ/public/dashboard.html
+markers: Recent Tasks=2, Task History=1, Matilda=12, Operator Guidance=3, Agent Pool=1, telemetry=2, phase719=1, phase530=1, phase61-workspace-grid=1, phase62-top-row=1, visible_panels_bridge=1
+
+1778798803 size=34780 score=434780 /Volumes/Rio Drive/Motherboard_Systems_HQ/checkpoints/phase719_quarantined_failed_helpers/PHASE719_PHASE530_PRE_HTML_HELPER_MINIMAL.js
+markers: Recent Tasks=2, Agent Pool=1, phase719=32, phase530=13, artifact preview=4, Preview=41, Retry=48, Requeue=13, visible_panels_bridge=2
+
+1778798803 size=34780 score=434780 /Volumes/Rio Drive/Motherboard_Storage/snapshots/full-disaster-recovery-20260526-phase743-sealed-13f8eb4a/Motherboard_Systems_HQ/checkpoints/phase719_quarantined_failed_helpers/PHASE719_PHASE530_PRE_HTML_HELPER_MINIMAL.js
+markers: Recent Tasks=2, Agent Pool=1, phase719=32, phase530=13, artifact preview=4, Preview=41, Retry=48, Requeue=13, visible_panels_bridge=2
+
+1778798803 size=34780 score=434780 /Volumes/Rio Drive/Motherboard_Storage/snapshots/full-disaster-recovery-20260526-phase744-architecture-494f61b3/Motherboard_Systems_HQ/checkpoints/phase719_quarantined_failed_helpers/PHASE719_PHASE530_PRE_HTML_HELPER_MINIMAL.js
+markers: Recent Tasks=2, Agent Pool=1, phase719=32, phase530=13, artifact preview=4, Preview=41, Retry=48, Requeue=13, visible_panels_bridge=2
+
+1778798443 size=34780 score=434780 /Volumes/Rio Drive/Motherboard_Systems_HQ/checkpoints/phase719_quarantined_failed_helpers/PHASE719_PHASE530_PRE_HTML_ARTIFACT_DIRECT_RENDER_V3.js
+markers: Recent Tasks=2, Agent Pool=1, phase719=32, phase530=13, artifact preview=4, Preview=41, Retry=48, Requeue=13, visible_panels_bridge=2
+
+1778798443 size=34780 score=434780 /Volumes/Rio Drive/Motherboard_Storage/snapshots/full-disaster-recovery-20260526-phase744-architecture-494f61b3/Motherboard_Systems_HQ/checkpoints/phase719_quarantined_failed_helpers/PHASE719_PHASE530_PRE_HTML_ARTIFACT_DIRECT_RENDER_V3.js
+markers: Recent Tasks=2, Agent Pool=1, phase719=32, phase530=13, artifact preview=4, Preview=41, Retry=48, Requeue=13, visible_panels_bridge=2
+
+1778798443 size=34780 score=434780 /Volumes/Rio Drive/Motherboard_Storage/snapshots/full-disaster-recovery-20260526-phase743-sealed-13f8eb4a/Motherboard_Systems_HQ/checkpoints/phase719_quarantined_failed_helpers/PHASE719_PHASE530_PRE_HTML_ARTIFACT_DIRECT_RENDER_V3.js
+markers: Recent Tasks=2, Agent Pool=1, phase719=32, phase530=13, artifact preview=4, Preview=41, Retry=48, Requeue=13, visible_panels_bridge=2
+
+1778798239 size=34780 score=434780 /Volumes/Rio Drive/Motherboard_Systems_HQ/checkpoints/phase719_quarantined_failed_helpers/PHASE719_PHASE530_PRE_HTML_ARTIFACT_DIRECT_RENDER_V2.js
+markers: Recent Tasks=2, Agent Pool=1, phase719=32, phase530=13, artifact preview=4, Preview=41, Retry=48, Requeue=13, visible_panels_bridge=2
+
+1778798239 size=34780 score=434780 /Volumes/Rio Drive/Motherboard_Storage/snapshots/full-disaster-recovery-20260526-phase743-sealed-13f8eb4a/Motherboard_Systems_HQ/checkpoints/phase719_quarantined_failed_helpers/PHASE719_PHASE530_PRE_HTML_ARTIFACT_DIRECT_RENDER_V2.js
+markers: Recent Tasks=2, Agent Pool=1, phase719=32, phase530=13, artifact preview=4, Preview=41, Retry=48, Requeue=13, visible_panels_bridge=2
+
+1778798239 size=34780 score=434780 /Volumes/Rio Drive/Motherboard_Storage/snapshots/full-disaster-recovery-20260526-phase744-architecture-494f61b3/Motherboard_Systems_HQ/checkpoints/phase719_quarantined_failed_helpers/PHASE719_PHASE530_PRE_HTML_ARTIFACT_DIRECT_RENDER_V2.js
+markers: Recent Tasks=2, Agent Pool=1, phase719=32, phase530=13, artifact preview=4, Preview=41, Retry=48, Requeue=13, visible_panels_bridge=2
+
+1778798033 size=34780 score=434780 /Volumes/Rio Drive/Motherboard_Systems_HQ/checkpoints/phase719_quarantined_failed_helpers/PHASE719_PHASE530_PRE_HTML_ARTIFACT_DIRECT_RENDER.js
+markers: Recent Tasks=2, Agent Pool=1, phase719=32, phase530=13, artifact preview=4, Preview=41, Retry=48, Requeue=13, visible_panels_bridge=2
+
+1778798033 size=34780 score=434780 /Volumes/Rio Drive/Motherboard_Storage/snapshots/full-disaster-recovery-20260526-phase743-sealed-13f8eb4a/Motherboard_Systems_HQ/checkpoints/phase719_quarantined_failed_helpers/PHASE719_PHASE530_PRE_HTML_ARTIFACT_DIRECT_RENDER.js
+markers: Recent Tasks=2, Agent Pool=1, phase719=32, phase530=13, artifact preview=4, Preview=41, Retry=48, Requeue=13, visible_panels_bridge=2
+
+1778798033 size=34780 score=434780 /Volumes/Rio Drive/Motherboard_Storage/snapshots/full-disaster-recovery-20260526-phase744-architecture-494f61b3/Motherboard_Systems_HQ/checkpoints/phase719_quarantined_failed_helpers/PHASE719_PHASE530_PRE_HTML_ARTIFACT_DIRECT_RENDER.js
+markers: Recent Tasks=2, Agent Pool=1, phase719=32, phase530=13, artifact preview=4, Preview=41, Retry=48, Requeue=13, visible_panels_bridge=2
+
+1778792965 size=34780 score=434780 /Volumes/Rio Drive/Motherboard_Systems_HQ/checkpoints/PHASE719_PHASE530_POST_VISUAL_CARD_ARTIFACT_SURFACE.js
+markers: Recent Tasks=2, Agent Pool=1, phase719=32, phase530=13, artifact preview=4, Preview=41, Retry=48, Requeue=13, visible_panels_bridge=2
+
+1778792965 size=34780 score=434780 /Volumes/Rio Drive/Motherboard_Storage/snapshots/full-disaster-recovery-20260526-phase744-architecture-494f61b3/Motherboard_Systems_HQ/checkpoints/PHASE719_PHASE530_POST_VISUAL_CARD_ARTIFACT_SURFACE.js
+markers: Recent Tasks=2, Agent Pool=1, phase719=32, phase530=13, artifact preview=4, Preview=41, Retry=48, Requeue=13, visible_panels_bridge=2
+
+1778792965 size=34780 score=434780 /Volumes/Rio Drive/Motherboard_Storage/snapshots/full-disaster-recovery-20260526-phase743-sealed-13f8eb4a/Motherboard_Systems_HQ/checkpoints/PHASE719_PHASE530_POST_VISUAL_CARD_ARTIFACT_SURFACE.js
+markers: Recent Tasks=2, Agent Pool=1, phase719=32, phase530=13, artifact preview=4, Preview=41, Retry=48, Requeue=13, visible_panels_bridge=2
+
+1778792965 size=33521 score=433521 /Volumes/Rio Drive/Motherboard_Systems_HQ/checkpoints/PHASE719_PHASE530_PRE_VISUAL_CARD_ARTIFACT_SURFACE.js
+markers: Recent Tasks=2, Agent Pool=1, phase719=29, phase530=13, artifact preview=4, Preview=42, Retry=48, Requeue=13, visible_panels_bridge=2
+
+1778792965 size=33521 score=433521 /Volumes/Rio Drive/Motherboard_Storage/snapshots/full-disaster-recovery-20260526-phase744-architecture-494f61b3/Motherboard_Systems_HQ/checkpoints/PHASE719_PHASE530_PRE_VISUAL_CARD_ARTIFACT_SURFACE.js
+markers: Recent Tasks=2, Agent Pool=1, phase719=29, phase530=13, artifact preview=4, Preview=42, Retry=48, Requeue=13, visible_panels_bridge=2
+
+1778792965 size=33521 score=433521 /Volumes/Rio Drive/Motherboard_Storage/snapshots/full-disaster-recovery-20260526-phase743-sealed-13f8eb4a/Motherboard_Systems_HQ/checkpoints/PHASE719_PHASE530_PRE_VISUAL_CARD_ARTIFACT_SURFACE.js
+markers: Recent Tasks=2, Agent Pool=1, phase719=29, phase530=13, artifact preview=4, Preview=42, Retry=48, Requeue=13, visible_panels_bridge=2
+
+1778792650 size=33521 score=433521 /Volumes/Rio Drive/Motherboard_Systems_HQ/checkpoints/PHASE719_PHASE530_POST_RENDERED_MARKDOWN_PREVIEW.js
+markers: Recent Tasks=2, Agent Pool=1, phase719=29, phase530=13, artifact preview=4, Preview=42, Retry=48, Requeue=13, visible_panels_bridge=2
+
+1778792650 size=33521 score=433521 /Volumes/Rio Drive/Motherboard_Storage/snapshots/full-disaster-recovery-20260526-phase744-architecture-494f61b3/Motherboard_Systems_HQ/checkpoints/PHASE719_PHASE530_POST_RENDERED_MARKDOWN_PREVIEW.js
+markers: Recent Tasks=2, Agent Pool=1, phase719=29, phase530=13, artifact preview=4, Preview=42, Retry=48, Requeue=13, visible_panels_bridge=2
+
+1778792650 size=33521 score=433521 /Volumes/Rio Drive/Motherboard_Storage/snapshots/full-disaster-recovery-20260526-phase743-sealed-13f8eb4a/Motherboard_Systems_HQ/checkpoints/PHASE719_PHASE530_POST_RENDERED_MARKDOWN_PREVIEW.js
+markers: Recent Tasks=2, Agent Pool=1, phase719=29, phase530=13, artifact preview=4, Preview=42, Retry=48, Requeue=13, visible_panels_bridge=2
+
+1779401823 size=33471 score=433471 /Volumes/Rio Drive/Motherboard_Systems_HQ/RENDERER_INSPECTION/preview-artifact-renderability-content-inspection-2026-05-21T22-17-03-303Z.json
+markers: phase719=22, phase530=1, artifact preview=9, Preview=44, visible_panels_bridge=1
+
+1779401823 size=33471 score=433471 /Volumes/Rio Drive/Motherboard_Storage/snapshots/full-disaster-recovery-20260526-phase744-architecture-494f61b3/Motherboard_Systems_HQ/RENDERER_INSPECTION/preview-artifact-renderability-content-inspection-2026-05-21T22-17-03-303Z.json
+markers: phase719=22, phase530=1, artifact preview=9, Preview=44, visible_panels_bridge=1
+
+1779401823 size=33471 score=433471 /Volumes/Rio Drive/Motherboard_Storage/snapshots/full-disaster-recovery-20260526-phase743-sealed-13f8eb4a/Motherboard_Systems_HQ/RENDERER_INSPECTION/preview-artifact-renderability-content-inspection-2026-05-21T22-17-03-303Z.json
+markers: phase719=22, phase530=1, artifact preview=9, Preview=44, visible_panels_bridge=1
+
+1778792650 size=30363 score=430363 /Volumes/Rio Drive/Motherboard_Systems_HQ/checkpoints/PHASE719_PHASE530_PRE_RENDERED_MARKDOWN_PREVIEW.js
+markers: Recent Tasks=2, Agent Pool=1, phase719=19, phase530=13, artifact preview=4, Preview=32, Retry=48, Requeue=13, visible_panels_bridge=2
+
+1778792650 size=30363 score=430363 /Volumes/Rio Drive/Motherboard_Storage/snapshots/full-disaster-recovery-20260526-phase744-architecture-494f61b3/Motherboard_Systems_HQ/checkpoints/PHASE719_PHASE530_PRE_RENDERED_MARKDOWN_PREVIEW.js
+markers: Recent Tasks=2, Agent Pool=1, phase719=19, phase530=13, artifact preview=4, Preview=32, Retry=48, Requeue=13, visible_panels_bridge=2
+
+1778792650 size=30363 score=430363 /Volumes/Rio Drive/Motherboard_Storage/snapshots/full-disaster-recovery-20260526-phase743-sealed-13f8eb4a/Motherboard_Systems_HQ/checkpoints/PHASE719_PHASE530_PRE_RENDERED_MARKDOWN_PREVIEW.js
+markers: Recent Tasks=2, Agent Pool=1, phase719=19, phase530=13, artifact preview=4, Preview=32, Retry=48, Requeue=13, visible_panels_bridge=2
+
+1778792077 size=30363 score=430363 /Volumes/Rio Drive/Motherboard_Systems_HQ/checkpoints/PHASE719_PHASE530_POST_PREVIEW_MODAL_CONTENT_FETCH_V2.js
+markers: Recent Tasks=2, Agent Pool=1, phase719=19, phase530=13, artifact preview=4, Preview=32, Retry=48, Requeue=13, visible_panels_bridge=2
+
+1778792077 size=30363 score=430363 /Volumes/Rio Drive/Motherboard_Storage/snapshots/full-disaster-recovery-20260526-phase743-sealed-13f8eb4a/Motherboard_Systems_HQ/checkpoints/PHASE719_PHASE530_POST_PREVIEW_MODAL_CONTENT_FETCH_V2.js
+markers: Recent Tasks=2, Agent Pool=1, phase719=19, phase530=13, artifact preview=4, Preview=32, Retry=48, Requeue=13, visible_panels_bridge=2
+
+1778792077 size=30363 score=430363 /Volumes/Rio Drive/Motherboard_Storage/snapshots/full-disaster-recovery-20260526-phase744-architecture-494f61b3/Motherboard_Systems_HQ/checkpoints/PHASE719_PHASE530_POST_PREVIEW_MODAL_CONTENT_FETCH_V2.js
+markers: Recent Tasks=2, Agent Pool=1, phase719=19, phase530=13, artifact preview=4, Preview=32, Retry=48, Requeue=13, visible_panels_bridge=2
+
+1778792077 size=28706 score=428706 /Volumes/Rio Drive/Motherboard_Systems_HQ/checkpoints/PHASE719_PHASE530_PRE_PREVIEW_MODAL_CONTENT_FETCH_V2.js
+markers: Recent Tasks=2, Agent Pool=1, phase719=19, phase530=13, artifact preview=2, Preview=28, Retry=48, Requeue=13, visible_panels_bridge=2
+
+1778792077 size=28706 score=428706 /Volumes/Rio Drive/Motherboard_Storage/snapshots/full-disaster-recovery-20260526-phase744-architecture-494f61b3/Motherboard_Systems_HQ/checkpoints/PHASE719_PHASE530_PRE_PREVIEW_MODAL_CONTENT_FETCH_V2.js
+markers: Recent Tasks=2, Agent Pool=1, phase719=19, phase530=13, artifact preview=2, Preview=28, Retry=48, Requeue=13, visible_panels_bridge=2
+
+1778792077 size=28706 score=428706 /Volumes/Rio Drive/Motherboard_Storage/snapshots/full-disaster-recovery-20260526-phase743-sealed-13f8eb4a/Motherboard_Systems_HQ/checkpoints/PHASE719_PHASE530_PRE_PREVIEW_MODAL_CONTENT_FETCH_V2.js
+markers: Recent Tasks=2, Agent Pool=1, phase719=19, phase530=13, artifact preview=2, Preview=28, Retry=48, Requeue=13, visible_panels_bridge=2
+
+1778791908 size=28706 score=428706 /Volumes/Rio Drive/Motherboard_Systems_HQ/checkpoints/phase719_quarantined_failed_helpers/PHASE719_PHASE530_PRE_PREVIEW_MODAL_CONTENT_FETCH.js
+markers: Recent Tasks=2, Agent Pool=1, phase719=19, phase530=13, artifact preview=2, Preview=28, Retry=48, Requeue=13, visible_panels_bridge=2
+
+1778791908 size=28706 score=428706 /Volumes/Rio Drive/Motherboard_Storage/snapshots/full-disaster-recovery-20260526-phase743-sealed-13f8eb4a/Motherboard_Systems_HQ/checkpoints/phase719_quarantined_failed_helpers/PHASE719_PHASE530_PRE_PREVIEW_MODAL_CONTENT_FETCH.js
+markers: Recent Tasks=2, Agent Pool=1, phase719=19, phase530=13, artifact preview=2, Preview=28, Retry=48, Requeue=13, visible_panels_bridge=2
+
+1778791908 size=28706 score=428706 /Volumes/Rio Drive/Motherboard_Storage/snapshots/full-disaster-recovery-20260526-phase744-architecture-494f61b3/Motherboard_Systems_HQ/checkpoints/phase719_quarantined_failed_helpers/PHASE719_PHASE530_PRE_PREVIEW_MODAL_CONTENT_FETCH.js
+markers: Recent Tasks=2, Agent Pool=1, phase719=19, phase530=13, artifact preview=2, Preview=28, Retry=48, Requeue=13, visible_panels_bridge=2
+
+1778790219 size=28706 score=428706 /Volumes/Rio Drive/Motherboard_Systems_HQ/checkpoints/PHASE719_PHASE530_POST_PREVIEW_MODAL.js
+markers: Recent Tasks=2, Agent Pool=1, phase719=19, phase530=13, artifact preview=2, Preview=28, Retry=48, Requeue=13, visible_panels_bridge=2
+
+1778790219 size=28706 score=428706 /Volumes/Rio Drive/Motherboard_Storage/snapshots/full-disaster-recovery-20260526-phase744-architecture-494f61b3/Motherboard_Systems_HQ/checkpoints/PHASE719_PHASE530_POST_PREVIEW_MODAL.js
+markers: Recent Tasks=2, Agent Pool=1, phase719=19, phase530=13, artifact preview=2, Preview=28, Retry=48, Requeue=13, visible_panels_bridge=2
+
+1778790219 size=28706 score=428706 /Volumes/Rio Drive/Motherboard_Storage/snapshots/full-disaster-recovery-20260526-phase743-sealed-13f8eb4a/Motherboard_Systems_HQ/checkpoints/PHASE719_PHASE530_POST_PREVIEW_MODAL.js
+markers: Recent Tasks=2, Agent Pool=1, phase719=19, phase530=13, artifact preview=2, Preview=28, Retry=48, Requeue=13, visible_panels_bridge=2
+
+1779385619 size=20852 score=420852 /Volumes/Rio Drive/Motherboard_Systems_HQ/RENDERER_INSPECTION/preview-fetch-consumer-contexts-2026-05-21T17-46-59-756Z.json
+markers: phase719=29, phase530=1, artifact preview=5, Preview=49, visible_panels_bridge=1
+
+1779385619 size=20852 score=420852 /Volumes/Rio Drive/Motherboard_Storage/snapshots/full-disaster-recovery-20260526-phase743-sealed-13f8eb4a/Motherboard_Systems_HQ/RENDERER_INSPECTION/preview-fetch-consumer-contexts-2026-05-21T17-46-59-756Z.json
+markers: phase719=29, phase530=1, artifact preview=5, Preview=49, visible_panels_bridge=1
+
+1779385619 size=20852 score=420852 /Volumes/Rio Drive/Motherboard_Storage/snapshots/full-disaster-recovery-20260526-phase744-architecture-494f61b3/Motherboard_Systems_HQ/RENDERER_INSPECTION/preview-fetch-consumer-contexts-2026-05-21T17-46-59-756Z.json
+markers: phase719=29, phase530=1, artifact preview=5, Preview=49, visible_panels_bridge=1
+
+1779317617 size=15427 score=415427 /Volumes/Rio Drive/Motherboard_Systems_HQ/RENDERER_INSPECTION/preview-callsite-62769-shape-2026-05-20T22-53-37-435Z.json
+markers: phase719=6, phase530=1, artifact preview=16, Preview=37, visible_panels_bridge=1
+
+1779317617 size=15427 score=415427 /Volumes/Rio Drive/Motherboard_Storage/snapshots/full-disaster-recovery-20260526-phase743-sealed-13f8eb4a/Motherboard_Systems_HQ/RENDERER_INSPECTION/preview-callsite-62769-shape-2026-05-20T22-53-37-435Z.json
+markers: phase719=6, phase530=1, artifact preview=16, Preview=37, visible_panels_bridge=1
+
+1779317617 size=15427 score=415427 /Volumes/Rio Drive/Motherboard_Storage/snapshots/full-disaster-recovery-20260526-phase744-architecture-494f61b3/Motherboard_Systems_HQ/RENDERER_INSPECTION/preview-callsite-62769-shape-2026-05-20T22-53-37-435Z.json
+markers: phase719=6, phase530=1, artifact preview=16, Preview=37, visible_panels_bridge=1
+
+1779400447 size=7115 score=407115 /Volumes/Rio Drive/Motherboard_Systems_HQ/RENDERER_INSPECTION/exact-preview-render-assignment-block-2026-05-21T21-54-07-587Z.json
+markers: phase719=6, phase530=1, artifact preview=6, Preview=19, visible_panels_bridge=1
+
+1779400447 size=7115 score=407115 /Volumes/Rio Drive/Motherboard_Storage/snapshots/full-disaster-recovery-20260526-phase744-architecture-494f61b3/Motherboard_Systems_HQ/RENDERER_INSPECTION/exact-preview-render-assignment-block-2026-05-21T21-54-07-587Z.json
+markers: phase719=6, phase530=1, artifact preview=6, Preview=19, visible_panels_bridge=1
+
+1779400447 size=7115 score=407115 /Volumes/Rio Drive/Motherboard_Storage/snapshots/full-disaster-recovery-20260526-phase743-sealed-13f8eb4a/Motherboard_Systems_HQ/RENDERER_INSPECTION/exact-preview-render-assignment-block-2026-05-21T21-54-07-587Z.json
+markers: phase719=6, phase530=1, artifact preview=6, Preview=19, visible_panels_bridge=1
+
+1779385882 size=6615 score=406615 /Volumes/Rio Drive/Motherboard_Systems_HQ/RENDERER_INSPECTION/preview-consumer-data-fields-2026-05-21T17-51-22-196Z.json
+markers: phase719=2, phase530=1, artifact preview=2, Preview=9, visible_panels_bridge=1
+
+1779385882 size=6615 score=406615 /Volumes/Rio Drive/Motherboard_Storage/snapshots/full-disaster-recovery-20260526-phase743-sealed-13f8eb4a/Motherboard_Systems_HQ/RENDERER_INSPECTION/preview-consumer-data-fields-2026-05-21T17-51-22-196Z.json
+markers: phase719=2, phase530=1, artifact preview=2, Preview=9, visible_panels_bridge=1
+
+1779385882 size=6615 score=406615 /Volumes/Rio Drive/Motherboard_Storage/snapshots/full-disaster-recovery-20260526-phase744-architecture-494f61b3/Motherboard_Systems_HQ/RENDERER_INSPECTION/preview-consumer-data-fields-2026-05-21T17-51-22-196Z.json
+markers: phase719=2, phase530=1, artifact preview=2, Preview=9, visible_panels_bridge=1
+
+1779317499 size=4146 score=404146 /Volumes/Rio Drive/Motherboard_Systems_HQ/RENDERER_INSPECTION/preview-callsite-62769-2026-05-20T22-51-39-522Z.json
+markers: phase719=3, phase530=1, artifact preview=3, Preview=12, visible_panels_bridge=1
+
+1779317499 size=4146 score=404146 /Volumes/Rio Drive/Motherboard_Storage/snapshots/full-disaster-recovery-20260526-phase743-sealed-13f8eb4a/Motherboard_Systems_HQ/RENDERER_INSPECTION/preview-callsite-62769-2026-05-20T22-51-39-522Z.json
+markers: phase719=3, phase530=1, artifact preview=3, Preview=12, visible_panels_bridge=1
+
+1779317499 size=4146 score=404146 /Volumes/Rio Drive/Motherboard_Storage/snapshots/full-disaster-recovery-20260526-phase744-architecture-494f61b3/Motherboard_Systems_HQ/RENDERER_INSPECTION/preview-callsite-62769-2026-05-20T22-51-39-522Z.json
+markers: phase719=3, phase530=1, artifact preview=3, Preview=12, visible_panels_bridge=1
+
+1779488863 size=5138060 score=400000 /Volumes/Rio Drive/Motherboard_Systems_HQ/ARTIFACT_SNAPSHOTS/artifact-snapshot-2026-05-22T22-27-39-992Z.json
+markers: Matilda=149, telemetry=61, phase530=31, Preview=6, Retry=68, Requeue=7, visible_panels_bridge=1
+
+1779488863 size=5138060 score=400000 /Volumes/Rio Drive/Motherboard_Storage/snapshots/full-disaster-recovery-20260526-phase744-architecture-494f61b3/Motherboard_Systems_HQ/ARTIFACT_SNAPSHOTS/artifact-snapshot-2026-05-22T22-27-39-992Z.json
+markers: Matilda=149, telemetry=61, phase530=31, Preview=6, Retry=68, Requeue=7, visible_panels_bridge=1
+
+1779488863 size=5138060 score=400000 /Volumes/Rio Drive/Motherboard_Storage/snapshots/full-disaster-recovery-20260526-phase743-sealed-13f8eb4a/Motherboard_Systems_HQ/ARTIFACT_SNAPSHOTS/artifact-snapshot-2026-05-22T22-27-39-992Z.json
+markers: Matilda=149, telemetry=61, phase530=31, Preview=6, Retry=68, Requeue=7, visible_panels_bridge=1
+
+1779302059 size=5095024 score=400000 /Volumes/Rio Drive/Motherboard_Systems_HQ/ARTIFACT_SNAPSHOTS/artifact-snapshot-2026-05-20T18-34-16-450Z.json
+markers: Matilda=149, telemetry=61, phase530=31, Preview=6, Retry=68, Requeue=7, visible_panels_bridge=1
+
+1779302059 size=5095024 score=400000 /Volumes/Rio Drive/Motherboard_Storage/snapshots/full-disaster-recovery-20260526-phase743-sealed-13f8eb4a/Motherboard_Systems_HQ/ARTIFACT_SNAPSHOTS/artifact-snapshot-2026-05-20T18-34-16-450Z.json
+markers: Matilda=149, telemetry=61, phase530=31, Preview=6, Retry=68, Requeue=7, visible_panels_bridge=1
+
+1779302059 size=5095024 score=400000 /Volumes/Rio Drive/Motherboard_Storage/snapshots/full-disaster-recovery-20260526-phase744-architecture-494f61b3/Motherboard_Systems_HQ/ARTIFACT_SNAPSHOTS/artifact-snapshot-2026-05-20T18-34-16-450Z.json
+markers: Matilda=149, telemetry=61, phase530=31, Preview=6, Retry=68, Requeue=7, visible_panels_bridge=1
+
+1779301501 size=5093425 score=400000 /Volumes/Rio Drive/Motherboard_Systems_HQ/ARTIFACT_SNAPSHOTS/artifact-snapshot-2026-05-20T18-24-58-628Z.json
+markers: Matilda=149, telemetry=61, phase530=31, Preview=7, Retry=68, Requeue=7, visible_panels_bridge=1
+
+1779301501 size=5093425 score=400000 /Volumes/Rio Drive/Motherboard_Storage/snapshots/full-disaster-recovery-20260526-phase744-architecture-494f61b3/Motherboard_Systems_HQ/ARTIFACT_SNAPSHOTS/artifact-snapshot-2026-05-20T18-24-58-628Z.json
+markers: Matilda=149, telemetry=61, phase530=31, Preview=7, Retry=68, Requeue=7, visible_panels_bridge=1
+
+1779301501 size=5093425 score=400000 /Volumes/Rio Drive/Motherboard_Storage/snapshots/full-disaster-recovery-20260526-phase743-sealed-13f8eb4a/Motherboard_Systems_HQ/ARTIFACT_SNAPSHOTS/artifact-snapshot-2026-05-20T18-24-58-628Z.json
+markers: Matilda=149, telemetry=61, phase530=31, Preview=7, Retry=68, Requeue=7, visible_panels_bridge=1
+
+1779249923 size=5089227 score=400000 /Volumes/Rio Drive/Motherboard_Systems_HQ/DISASTER_RECOVERY/phase735_artifact_runtime/2026-05-19_21-05-22/artifact-snapshot-2026-05-20T03-56-17-932Z.json
+markers: Matilda=149, telemetry=61, phase530=31, Preview=6, Retry=68, Requeue=7, visible_panels_bridge=1
+
+1779249923 size=5089227 score=400000 /Volumes/Rio Drive/Motherboard_Storage/snapshots/full-disaster-recovery-20260526-phase743-sealed-13f8eb4a/Motherboard_Systems_HQ/DISASTER_RECOVERY/phase735_artifact_runtime/2026-05-19_21-05-22/artifact-snapshot-2026-05-20T03-56-17-932Z.json
+markers: Matilda=149, telemetry=61, phase530=31, Preview=6, Retry=68, Requeue=7, visible_panels_bridge=1
+
+1779249923 size=5089227 score=400000 /Volumes/Rio Drive/Motherboard_Storage/snapshots/full-disaster-recovery-20260526-phase744-architecture-494f61b3/Motherboard_Systems_HQ/DISASTER_RECOVERY/phase735_artifact_runtime/2026-05-19_21-05-22/artifact-snapshot-2026-05-20T03-56-17-932Z.json
+markers: Matilda=149, telemetry=61, phase530=31, Preview=6, Retry=68, Requeue=7, visible_panels_bridge=1
+
+1779249380 size=5089227 score=400000 /Volumes/Rio Drive/Motherboard_Systems_HQ/ARTIFACT_SNAPSHOTS/artifact-snapshot-2026-05-20T03-56-17-932Z.json
+markers: Matilda=149, telemetry=61, phase530=31, Preview=6, Retry=68, Requeue=7, visible_panels_bridge=1
+
+1779249380 size=5089227 score=400000 /Volumes/Rio Drive/Motherboard_Storage/snapshots/full-disaster-recovery-20260526-phase743-sealed-13f8eb4a/Motherboard_Systems_HQ/ARTIFACT_SNAPSHOTS/artifact-snapshot-2026-05-20T03-56-17-932Z.json
+markers: Matilda=149, telemetry=61, phase530=31, Preview=6, Retry=68, Requeue=7, visible_panels_bridge=1
+
+1779249380 size=5089227 score=400000 /Volumes/Rio Drive/Motherboard_Storage/snapshots/full-disaster-recovery-20260526-phase744-architecture-494f61b3/Motherboard_Systems_HQ/ARTIFACT_SNAPSHOTS/artifact-snapshot-2026-05-20T03-56-17-932Z.json
+markers: Matilda=149, telemetry=61, phase530=31, Preview=6, Retry=68, Requeue=7, visible_panels_bridge=1
+
+1779249160 size=5089266 score=400000 /Volumes/Rio Drive/Motherboard_Systems_HQ/ARTIFACT_SNAPSHOTS/artifact-snapshot-2026-05-20T03-52-37-135Z.json
+markers: Matilda=149, telemetry=61, phase530=31, Preview=6, Retry=68, Requeue=7, visible_panels_bridge=1
+
+1779249160 size=5089266 score=400000 /Volumes/Rio Drive/Motherboard_Storage/snapshots/full-disaster-recovery-20260526-phase743-sealed-13f8eb4a/Motherboard_Systems_HQ/ARTIFACT_SNAPSHOTS/artifact-snapshot-2026-05-20T03-52-37-135Z.json
+markers: Matilda=149, telemetry=61, phase530=31, Preview=6, Retry=68, Requeue=7, visible_panels_bridge=1
+
+1779249160 size=5089266 score=400000 /Volumes/Rio Drive/Motherboard_Storage/snapshots/full-disaster-recovery-20260526-phase744-architecture-494f61b3/Motherboard_Systems_HQ/ARTIFACT_SNAPSHOTS/artifact-snapshot-2026-05-20T03-52-37-135Z.json
+markers: Matilda=149, telemetry=61, phase530=31, Preview=6, Retry=68, Requeue=7, visible_panels_bridge=1
+
+1779215888 size=454975 score=400000 /Volumes/Rio Drive/Motherboard_Systems_HQ/PHASE733_RECENT_ARTIFACT_GARDEN_TASKS.json
+markers: Matilda=272, artifact preview=116, Preview=1375
+
+1779215888 size=454975 score=400000 /Volumes/Rio Drive/Motherboard_Storage/snapshots/full-disaster-recovery-20260526-phase743-sealed-13f8eb4a/Motherboard_Systems_HQ/PHASE733_RECENT_ARTIFACT_GARDEN_TASKS.json
+markers: Matilda=272, artifact preview=116, Preview=1375
+
+1779215888 size=454975 score=400000 /Volumes/Rio Drive/Motherboard_Storage/snapshots/full-disaster-recovery-20260526-phase744-architecture-494f61b3/Motherboard_Systems_HQ/PHASE733_RECENT_ARTIFACT_GARDEN_TASKS.json
+markers: Matilda=272, artifact preview=116, Preview=1375
+
+1779382537 size=88799 score=388799 /Volumes/Rio Drive/Motherboard_Systems_HQ/RENDERER_INSPECTION/artifact-preview-response-methods-2026-05-21T16-55-37-314Z.json
+markers: Recent Tasks=3, phase719=24, artifact preview=23, Preview=123
+
+1779382537 size=88799 score=388799 /Volumes/Rio Drive/Motherboard_Storage/snapshots/full-disaster-recovery-20260526-phase744-architecture-494f61b3/Motherboard_Systems_HQ/RENDERER_INSPECTION/artifact-preview-response-methods-2026-05-21T16-55-37-314Z.json
+markers: Recent Tasks=3, phase719=24, artifact preview=23, Preview=123
+
+1779382537 size=88799 score=388799 /Volumes/Rio Drive/Motherboard_Storage/snapshots/full-disaster-recovery-20260526-phase743-sealed-13f8eb4a/Motherboard_Systems_HQ/RENDERER_INSPECTION/artifact-preview-response-methods-2026-05-21T16-55-37-314Z.json
+markers: Recent Tasks=3, phase719=24, artifact preview=23, Preview=123
+
+1779381699 size=52883 score=352883 /Volumes/Rio Drive/Motherboard_Systems_HQ/RENDERER_INSPECTION/artifact-preview-route-shape-2026-05-21T16-41-39-366Z.json
+markers: Recent Tasks=1, phase719=2, artifact preview=2, Preview=78
+
+1779381699 size=52883 score=352883 /Volumes/Rio Drive/Motherboard_Storage/snapshots/full-disaster-recovery-20260526-phase743-sealed-13f8eb4a/Motherboard_Systems_HQ/RENDERER_INSPECTION/artifact-preview-route-shape-2026-05-21T16-41-39-366Z.json
+markers: Recent Tasks=1, phase719=2, artifact preview=2, Preview=78
+
+1779381699 size=52883 score=352883 /Volumes/Rio Drive/Motherboard_Storage/snapshots/full-disaster-recovery-20260526-phase744-architecture-494f61b3/Motherboard_Systems_HQ/RENDERER_INSPECTION/artifact-preview-route-shape-2026-05-21T16-41-39-366Z.json
+markers: Recent Tasks=1, phase719=2, artifact preview=2, Preview=78
+
+1779382059 size=34047 score=334047 /Volumes/Rio Drive/Motherboard_Systems_HQ/RENDERER_INSPECTION/artifact-preview-response-shape-2026-05-21T16-47-39-211Z.json
+markers: Recent Tasks=4, phase719=4, artifact preview=4, Preview=40
+
+1779382059 size=34047 score=334047 /Volumes/Rio Drive/Motherboard_Storage/snapshots/full-disaster-recovery-20260526-phase743-sealed-13f8eb4a/Motherboard_Systems_HQ/RENDERER_INSPECTION/artifact-preview-response-shape-2026-05-21T16-47-39-211Z.json
+markers: Recent Tasks=4, phase719=4, artifact preview=4, Preview=40
+
+1779382059 size=34047 score=334047 /Volumes/Rio Drive/Motherboard_Storage/snapshots/full-disaster-recovery-20260526-phase744-architecture-494f61b3/Motherboard_Systems_HQ/RENDERER_INSPECTION/artifact-preview-response-shape-2026-05-21T16-47-39-211Z.json
+markers: Recent Tasks=4, phase719=4, artifact preview=4, Preview=40
+
+===== PREVIEW COPIES =====
+01: /Volumes/Rio Drive/Motherboard_Systems_HQ/RENDERER_INSPECTION/preview-frontend-consumer-shape-2026-05-21T17-45-05-151Z.json
+copy: _dashboard_candidate_previews/rio-drive-runtime-artifacts/01-__Volumes_Rio_Drive_Motherboard_Systems_HQ_RENDERER_INSPECTION_preview-frontend-consumer-shape-2026-05-21T17-45-05-151Z.json
+
+02: /Volumes/Rio Drive/Motherboard_Storage/snapshots/full-disaster-recovery-20260526-phase743-sealed-13f8eb4a/Motherboard_Systems_HQ/RENDERER_INSPECTION/preview-frontend-consumer-shape-2026-05-21T17-45-05-151Z.json
+copy: _dashboard_candidate_previews/rio-drive-runtime-artifacts/02-Motherboard_Storage_snapshots_full-disaster-recovery-20260526-phase743-sealed-13f8eb4a_Motherboard_Systems_HQ_RENDERER_INSPECTION_preview-frontend-consumer-shape-2026-05-21T17-45-05-151Z.json
+
+03: /Volumes/Rio Drive/Motherboard_Storage/snapshots/full-disaster-recovery-20260526-phase744-architecture-494f61b3/Motherboard_Systems_HQ/RENDERER_INSPECTION/preview-frontend-consumer-shape-2026-05-21T17-45-05-151Z.json
+copy: _dashboard_candidate_previews/rio-drive-runtime-artifacts/03-Motherboard_Storage_snapshots_full-disaster-recovery-20260526-phase744-architecture-494f61b3_Motherboard_Systems_HQ_RENDERER_INSPECTION_preview-frontend-consumer-shape-2026-05-21T17-45-05-151Z.json
+
+04: /Volumes/Rio Drive/Motherboard_Systems_HQ/RENDERER_INSPECTION/phase530-renderer-owner-inspection-2026-05-20T21-51-01-194Z.json
+copy: _dashboard_candidate_previews/rio-drive-runtime-artifacts/04-__Volumes_Rio_Drive_Motherboard_Systems_HQ_RENDERER_INSPECTION_phase530-renderer-owner-inspection-2026-05-20T21-51-01-194Z.json
+
+05: /Volumes/Rio Drive/Motherboard_Storage/snapshots/full-disaster-recovery-20260526-phase743-sealed-13f8eb4a/Motherboard_Systems_HQ/RENDERER_INSPECTION/phase530-renderer-owner-inspection-2026-05-20T21-51-01-194Z.json
+copy: _dashboard_candidate_previews/rio-drive-runtime-artifacts/05-Motherboard_Storage_snapshots_full-disaster-recovery-20260526-phase743-sealed-13f8eb4a_Motherboard_Systems_HQ_RENDERER_INSPECTION_phase530-renderer-owner-inspection-2026-05-20T21-51-01-194Z.json
+
+06: /Volumes/Rio Drive/Motherboard_Storage/snapshots/full-disaster-recovery-20260526-phase744-architecture-494f61b3/Motherboard_Systems_HQ/RENDERER_INSPECTION/phase530-renderer-owner-inspection-2026-05-20T21-51-01-194Z.json
+copy: _dashboard_candidate_previews/rio-drive-runtime-artifacts/06-Motherboard_Storage_snapshots_full-disaster-recovery-20260526-phase744-architecture-494f61b3_Motherboard_Systems_HQ_RENDERER_INSPECTION_phase530-renderer-owner-inspection-2026-05-20T21-51-01-194Z.json
+
+07: /Volumes/Rio Drive/Motherboard_Systems_HQ/DISASTER_RECOVERY/phase740-post-recovery-backup-2026-05-25T01-01-37/phase530_visible_panels_bridge.js
+copy: _dashboard_candidate_previews/rio-drive-runtime-artifacts/07-Volumes_Rio_Drive_Motherboard_Systems_HQ_DISASTER_RECOVERY_phase740-post-recovery-backup-2026-05-25T01-01-37_phase530_visible_panels_bridge.js
+
+08: /Volumes/Rio Drive/Motherboard_Storage/snapshots/full-disaster-recovery-20260526-phase744-architecture-494f61b3/Motherboard_Systems_HQ/DISASTER_RECOVERY/phase740-post-recovery-backup-2026-05-25T01-01-37/phase530_visible_panels_bridge.js
+copy: _dashboard_candidate_previews/rio-drive-runtime-artifacts/08-snapshots_full-disaster-recovery-20260526-phase744-architecture-494f61b3_Motherboard_Systems_HQ_DISASTER_RECOVERY_phase740-post-recovery-backup-2026-05-25T01-01-37_phase530_visible_panels_bridge.js
+
+09: /Volumes/Rio Drive/Motherboard_Storage/snapshots/full-disaster-recovery-20260526-phase743-sealed-13f8eb4a/Motherboard_Systems_HQ/DISASTER_RECOVERY/phase740-post-recovery-backup-2026-05-25T01-01-37/phase530_visible_panels_bridge.js
+copy: _dashboard_candidate_previews/rio-drive-runtime-artifacts/09-snapshots_full-disaster-recovery-20260526-phase743-sealed-13f8eb4a_Motherboard_Systems_HQ_DISASTER_RECOVERY_phase740-post-recovery-backup-2026-05-25T01-01-37_phase530_visible_panels_bridge.js
+
+10: /Volumes/Rio Drive/Motherboard_Systems_HQ/public/js/phase530_visible_panels_bridge.js
+copy: _dashboard_candidate_previews/rio-drive-runtime-artifacts/10-Volumes_Rio_Drive_Motherboard_Systems_HQ_public_js_phase530_visible_panels_bridge.js
+
+11: /Volumes/Rio Drive/Motherboard_Storage/snapshots/full-disaster-recovery-20260526-phase744-architecture-494f61b3/Motherboard_Systems_HQ/public/js/phase530_visible_panels_bridge.js
+copy: _dashboard_candidate_previews/rio-drive-runtime-artifacts/11-snapshots_full-disaster-recovery-20260526-phase744-architecture-494f61b3_Motherboard_Systems_HQ_public_js_phase530_visible_panels_bridge.js
+
+12: /Volumes/Rio Drive/Motherboard_Storage/snapshots/full-disaster-recovery-20260526-phase743-sealed-13f8eb4a/Motherboard_Systems_HQ/public/js/phase530_visible_panels_bridge.js
+copy: _dashboard_candidate_previews/rio-drive-runtime-artifacts/12-snapshots_full-disaster-recovery-20260526-phase743-sealed-13f8eb4a_Motherboard_Systems_HQ_public_js_phase530_visible_panels_bridge.js
+
+13: /Volumes/Rio Drive/Motherboard_Systems_HQ/RENDERER_INSPECTION/frontend-preview-render-branch-exact-shape-2026-05-21T18-01-37-481Z.json
+copy: _dashboard_candidate_previews/rio-drive-runtime-artifacts/13-__Volumes_Rio_Drive_Motherboard_Systems_HQ_RENDERER_INSPECTION_frontend-preview-render-branch-exact-shape-2026-05-21T18-01-37-481Z.json
+
+14: /Volumes/Rio Drive/Motherboard_Storage/snapshots/full-disaster-recovery-20260526-phase743-sealed-13f8eb4a/Motherboard_Systems_HQ/RENDERER_INSPECTION/frontend-preview-render-branch-exact-shape-2026-05-21T18-01-37-481Z.json
+copy: _dashboard_candidate_previews/rio-drive-runtime-artifacts/14-Motherboard_Storage_snapshots_full-disaster-recovery-20260526-phase743-sealed-13f8eb4a_Motherboard_Systems_HQ_RENDERER_INSPECTION_frontend-preview-render-branch-exact-shape-2026-05-21T18-01-37-481Z.json
+
+15: /Volumes/Rio Drive/Motherboard_Storage/snapshots/full-disaster-recovery-20260526-phase744-architecture-494f61b3/Motherboard_Systems_HQ/RENDERER_INSPECTION/frontend-preview-render-branch-exact-shape-2026-05-21T18-01-37-481Z.json
+copy: _dashboard_candidate_previews/rio-drive-runtime-artifacts/15-Motherboard_Storage_snapshots_full-disaster-recovery-20260526-phase744-architecture-494f61b3_Motherboard_Systems_HQ_RENDERER_INSPECTION_frontend-preview-render-branch-exact-shape-2026-05-21T18-01-37-481Z.json
+
+16: /Volumes/Rio Drive/Motherboard_Systems_HQ/scripts/render-native/reports/semantic-artifact-propagation-trace.json
+copy: _dashboard_candidate_previews/rio-drive-runtime-artifacts/16-Rio_Drive_Motherboard_Systems_HQ_scripts_render-native_reports_semantic-artifact-propagation-trace.json
+
+17: /Volumes/Rio Drive/Motherboard_Storage/snapshots/full-disaster-recovery-20260526-phase744-architecture-494f61b3/Motherboard_Systems_HQ/scripts/render-native/reports/semantic-artifact-propagation-trace.json
+copy: _dashboard_candidate_previews/rio-drive-runtime-artifacts/17-full-disaster-recovery-20260526-phase744-architecture-494f61b3_Motherboard_Systems_HQ_scripts_render-native_reports_semantic-artifact-propagation-trace.json
+
+18: /Volumes/Rio Drive/Motherboard_Storage/snapshots/full-disaster-recovery-20260526-phase743-sealed-13f8eb4a/Motherboard_Systems_HQ/scripts/render-native/reports/semantic-artifact-propagation-trace.json
+copy: _dashboard_candidate_previews/rio-drive-runtime-artifacts/18-full-disaster-recovery-20260526-phase743-sealed-13f8eb4a_Motherboard_Systems_HQ_scripts_render-native_reports_semantic-artifact-propagation-trace.json
+
+19: /Volumes/Rio Drive/Motherboard_Systems_HQ/RENDERER_INSPECTION/preview-artifact-content-usage-2026-05-21T17-53-37-697Z.json
+copy: _dashboard_candidate_previews/rio-drive-runtime-artifacts/19-__Volumes_Rio_Drive_Motherboard_Systems_HQ_RENDERER_INSPECTION_preview-artifact-content-usage-2026-05-21T17-53-37-697Z.json
+
+20: /Volumes/Rio Drive/Motherboard_Storage/snapshots/full-disaster-recovery-20260526-phase743-sealed-13f8eb4a/Motherboard_Systems_HQ/RENDERER_INSPECTION/preview-artifact-content-usage-2026-05-21T17-53-37-697Z.json
+copy: _dashboard_candidate_previews/rio-drive-runtime-artifacts/20-Motherboard_Storage_snapshots_full-disaster-recovery-20260526-phase743-sealed-13f8eb4a_Motherboard_Systems_HQ_RENDERER_INSPECTION_preview-artifact-content-usage-2026-05-21T17-53-37-697Z.json
+
+21: /Volumes/Rio Drive/Motherboard_Storage/snapshots/full-disaster-recovery-20260526-phase744-architecture-494f61b3/Motherboard_Systems_HQ/RENDERER_INSPECTION/preview-artifact-content-usage-2026-05-21T17-53-37-697Z.json
+copy: _dashboard_candidate_previews/rio-drive-runtime-artifacts/21-Motherboard_Storage_snapshots_full-disaster-recovery-20260526-phase744-architecture-494f61b3_Motherboard_Systems_HQ_RENDERER_INSPECTION_preview-artifact-content-usage-2026-05-21T17-53-37-697Z.json
+
+22: /Volumes/Rio Drive/Motherboard_Systems_HQ/RENDERER_INSPECTION/phase530-render-path-extraction-2026-05-20T22-00-43-821Z.json
+copy: _dashboard_candidate_previews/rio-drive-runtime-artifacts/22-__Volumes_Rio_Drive_Motherboard_Systems_HQ_RENDERER_INSPECTION_phase530-render-path-extraction-2026-05-20T22-00-43-821Z.json
+
+23: /Volumes/Rio Drive/Motherboard_Storage/snapshots/full-disaster-recovery-20260526-phase744-architecture-494f61b3/Motherboard_Systems_HQ/RENDERER_INSPECTION/phase530-render-path-extraction-2026-05-20T22-00-43-821Z.json
+copy: _dashboard_candidate_previews/rio-drive-runtime-artifacts/23-Motherboard_Storage_snapshots_full-disaster-recovery-20260526-phase744-architecture-494f61b3_Motherboard_Systems_HQ_RENDERER_INSPECTION_phase530-render-path-extraction-2026-05-20T22-00-43-821Z.json
+
+24: /Volumes/Rio Drive/Motherboard_Storage/snapshots/full-disaster-recovery-20260526-phase743-sealed-13f8eb4a/Motherboard_Systems_HQ/RENDERER_INSPECTION/phase530-render-path-extraction-2026-05-20T22-00-43-821Z.json
+copy: _dashboard_candidate_previews/rio-drive-runtime-artifacts/24-Motherboard_Storage_snapshots_full-disaster-recovery-20260526-phase743-sealed-13f8eb4a_Motherboard_Systems_HQ_RENDERER_INSPECTION_phase530-render-path-extraction-2026-05-20T22-00-43-821Z.json
+
+25: /Volumes/Rio Drive/Motherboard_Systems_HQ/DISASTER_RECOVERY/phase735_runtime_alignment/20260519_150412_phase530_visible_panels_bridge.js
+copy: _dashboard_candidate_previews/rio-drive-runtime-artifacts/25-Volumes_Rio_Drive_Motherboard_Systems_HQ_DISASTER_RECOVERY_phase735_runtime_alignment_20260519_150412_phase530_visible_panels_bridge.js
+
+26: /Volumes/Rio Drive/Motherboard_Storage/snapshots/full-disaster-recovery-20260526-phase743-sealed-13f8eb4a/Motherboard_Systems_HQ/DISASTER_RECOVERY/phase735_runtime_alignment/20260519_150412_phase530_visible_panels_bridge.js
+copy: _dashboard_candidate_previews/rio-drive-runtime-artifacts/26-snapshots_full-disaster-recovery-20260526-phase743-sealed-13f8eb4a_Motherboard_Systems_HQ_DISASTER_RECOVERY_phase735_runtime_alignment_20260519_150412_phase530_visible_panels_bridge.js
+
+27: /Volumes/Rio Drive/Motherboard_Storage/snapshots/full-disaster-recovery-20260526-phase744-architecture-494f61b3/Motherboard_Systems_HQ/DISASTER_RECOVERY/phase735_runtime_alignment/20260519_150412_phase530_visible_panels_bridge.js
+copy: _dashboard_candidate_previews/rio-drive-runtime-artifacts/27-snapshots_full-disaster-recovery-20260526-phase744-architecture-494f61b3_Motherboard_Systems_HQ_DISASTER_RECOVERY_phase735_runtime_alignment_20260519_150412_phase530_visible_panels_bridge.js
+
+28: /Volumes/Rio Drive/Motherboard_Systems_HQ/checkpoints/phase725_aesthetic_refinement_baseline/phase530_visible_panels_bridge.pre_phase725_visual_polish.js
+copy: _dashboard_candidate_previews/rio-drive-runtime-artifacts/28-Volumes_Rio_Drive_Motherboard_Systems_HQ_checkpoints_phase725_aesthetic_refinement_baseline_phase530_visible_panels_bridge.pre_phase725_visual_polish.js
+
+29: /Volumes/Rio Drive/Motherboard_Storage/snapshots/full-disaster-recovery-20260526-phase743-sealed-13f8eb4a/Motherboard_Systems_HQ/checkpoints/phase725_aesthetic_refinement_baseline/phase530_visible_panels_bridge.pre_phase725_visual_polish.js
+copy: _dashboard_candidate_previews/rio-drive-runtime-artifacts/29-snapshots_full-disaster-recovery-20260526-phase743-sealed-13f8eb4a_Motherboard_Systems_HQ_checkpoints_phase725_aesthetic_refinement_baseline_phase530_visible_panels_bridge.pre_phase725_visual_polish.js
+
+30: /Volumes/Rio Drive/Motherboard_Storage/snapshots/full-disaster-recovery-20260526-phase744-architecture-494f61b3/Motherboard_Systems_HQ/checkpoints/phase725_aesthetic_refinement_baseline/phase530_visible_panels_bridge.pre_phase725_visual_polish.js
+copy: _dashboard_candidate_previews/rio-drive-runtime-artifacts/30-snapshots_full-disaster-recovery-20260526-phase744-architecture-494f61b3_Motherboard_Systems_HQ_checkpoints_phase725_aesthetic_refinement_baseline_phase530_visible_panels_bridge.pre_phase725_visual_polish.js
+
+31: /Volumes/Rio Drive/Motherboard_Systems_HQ/checkpoints/PHASE721_PRE_SEMANTIC_OPERATOR_SUMMARY.js
+copy: _dashboard_candidate_previews/rio-drive-runtime-artifacts/31-__Volumes_Rio_Drive_Motherboard_Systems_HQ_checkpoints_PHASE721_PRE_SEMANTIC_OPERATOR_SUMMARY.js
+
+32: /Volumes/Rio Drive/Motherboard_Storage/snapshots/full-disaster-recovery-20260526-phase744-architecture-494f61b3/Motherboard_Systems_HQ/checkpoints/PHASE721_PRE_SEMANTIC_OPERATOR_SUMMARY.js
+copy: _dashboard_candidate_previews/rio-drive-runtime-artifacts/32-Motherboard_Storage_snapshots_full-disaster-recovery-20260526-phase744-architecture-494f61b3_Motherboard_Systems_HQ_checkpoints_PHASE721_PRE_SEMANTIC_OPERATOR_SUMMARY.js
+
+33: /Volumes/Rio Drive/Motherboard_Storage/snapshots/full-disaster-recovery-20260526-phase743-sealed-13f8eb4a/Motherboard_Systems_HQ/checkpoints/PHASE721_PRE_SEMANTIC_OPERATOR_SUMMARY.js
+copy: _dashboard_candidate_previews/rio-drive-runtime-artifacts/33-Motherboard_Storage_snapshots_full-disaster-recovery-20260526-phase743-sealed-13f8eb4a_Motherboard_Systems_HQ_checkpoints_PHASE721_PRE_SEMANTIC_OPERATOR_SUMMARY.js
+
+34: /Volumes/Rio Drive/Motherboard_Systems_HQ/public/dashboard.html
+copy: _dashboard_candidate_previews/rio-drive-runtime-artifacts/34-__Volumes_Rio_Drive_Motherboard_Systems_HQ_public_dashboard.html
+open: http://localhost:8099/_dashboard_candidate_previews/rio-drive-runtime-artifacts/34-__Volumes_Rio_Drive_Motherboard_Systems_HQ_public_dashboard.html
+
+35: /Volumes/Rio Drive/Motherboard_Storage/snapshots/full-disaster-recovery-20260526-phase744-architecture-494f61b3/Motherboard_Systems_HQ/public/dashboard.html
+copy: _dashboard_candidate_previews/rio-drive-runtime-artifacts/35-Motherboard_Storage_snapshots_full-disaster-recovery-20260526-phase744-architecture-494f61b3_Motherboard_Systems_HQ_public_dashboard.html
+open: http://localhost:8099/_dashboard_candidate_previews/rio-drive-runtime-artifacts/35-Motherboard_Storage_snapshots_full-disaster-recovery-20260526-phase744-architecture-494f61b3_Motherboard_Systems_HQ_public_dashboard.html
+
+36: /Volumes/Rio Drive/Motherboard_Storage/snapshots/full-disaster-recovery-20260526-phase743-sealed-13f8eb4a/Motherboard_Systems_HQ/public/dashboard.html
+copy: _dashboard_candidate_previews/rio-drive-runtime-artifacts/36-Motherboard_Storage_snapshots_full-disaster-recovery-20260526-phase743-sealed-13f8eb4a_Motherboard_Systems_HQ_public_dashboard.html
+open: http://localhost:8099/_dashboard_candidate_previews/rio-drive-runtime-artifacts/36-Motherboard_Storage_snapshots_full-disaster-recovery-20260526-phase743-sealed-13f8eb4a_Motherboard_Systems_HQ_public_dashboard.html
+
+37: /Volumes/Rio Drive/Motherboard_Systems_HQ/checkpoints/phase719_quarantined_failed_helpers/PHASE719_PHASE530_PRE_HTML_HELPER_MINIMAL.js
+copy: _dashboard_candidate_previews/rio-drive-runtime-artifacts/37-Volumes_Rio_Drive_Motherboard_Systems_HQ_checkpoints_phase719_quarantined_failed_helpers_PHASE719_PHASE530_PRE_HTML_HELPER_MINIMAL.js
+
+38: /Volumes/Rio Drive/Motherboard_Storage/snapshots/full-disaster-recovery-20260526-phase743-sealed-13f8eb4a/Motherboard_Systems_HQ/checkpoints/phase719_quarantined_failed_helpers/PHASE719_PHASE530_PRE_HTML_HELPER_MINIMAL.js
+copy: _dashboard_candidate_previews/rio-drive-runtime-artifacts/38-snapshots_full-disaster-recovery-20260526-phase743-sealed-13f8eb4a_Motherboard_Systems_HQ_checkpoints_phase719_quarantined_failed_helpers_PHASE719_PHASE530_PRE_HTML_HELPER_MINIMAL.js
+
+39: /Volumes/Rio Drive/Motherboard_Storage/snapshots/full-disaster-recovery-20260526-phase744-architecture-494f61b3/Motherboard_Systems_HQ/checkpoints/phase719_quarantined_failed_helpers/PHASE719_PHASE530_PRE_HTML_HELPER_MINIMAL.js
+copy: _dashboard_candidate_previews/rio-drive-runtime-artifacts/39-snapshots_full-disaster-recovery-20260526-phase744-architecture-494f61b3_Motherboard_Systems_HQ_checkpoints_phase719_quarantined_failed_helpers_PHASE719_PHASE530_PRE_HTML_HELPER_MINIMAL.js
+
+40: /Volumes/Rio Drive/Motherboard_Systems_HQ/checkpoints/phase719_quarantined_failed_helpers/PHASE719_PHASE530_PRE_HTML_ARTIFACT_DIRECT_RENDER_V3.js
+copy: _dashboard_candidate_previews/rio-drive-runtime-artifacts/40-Volumes_Rio_Drive_Motherboard_Systems_HQ_checkpoints_phase719_quarantined_failed_helpers_PHASE719_PHASE530_PRE_HTML_ARTIFACT_DIRECT_RENDER_V3.js
+
+copied=40
+
+===== DOCKER LOCAL IMAGE CHECK =====
+motherboard-systems-hq-clean-dashboard:latest 11748eaa5227 8 hours ago 500MB
+
+===== DOCKER CONTAINER CHECK =====
+motherboard-systems-hq-clean-dashboard-1 motherboard-systems-hq-clean-dashboard Up 8 hours
+motherboard-systems-hq-clean-postgres-1 postgres:16-alpine Up 8 hours
+
+===== NEXT SAFE ACTION =====
+Review the high-scoring runtime/UI artifact report before restoring anything.
+If the remembered UI was runtime-composed, this search is more likely to find the missing surface than public/index.html alone.

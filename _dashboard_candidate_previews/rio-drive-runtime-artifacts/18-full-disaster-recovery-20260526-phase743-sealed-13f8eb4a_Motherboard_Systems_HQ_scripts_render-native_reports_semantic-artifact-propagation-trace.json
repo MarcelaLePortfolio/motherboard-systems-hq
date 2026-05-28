@@ -1,0 +1,1658 @@
+{
+  "schema_version": "phase736.semantic-artifact-propagation-trace.v1",
+  "corridor": "read-only-lifecycle-tracing",
+  "purpose": "Trace where semantic artifact structure is created, stored, transformed, or dropped before Preview route emission.",
+  "inspected_roots": [
+    "server",
+    "worker",
+    "public/js",
+    "scripts",
+    "src",
+    "app",
+    "routes"
+  ],
+  "searched_patterns": [
+    "semantic_artifact",
+    "artifact_kind",
+    "semantic-artifact.v1",
+    "sections",
+    "outcome_preview",
+    "artifact-preview",
+    "api/tasks"
+  ],
+  "matched_file_count": 88,
+  "matched_files": [
+    "app/components/ExecutionInspector.tsx",
+    "app/components/GuidancePanel.tsx",
+    "app/dev/execution-inspector/page.tsx",
+    "public/js/dashboard-tasks-widget.js",
+    "public/js/phase31_6_seed_task_button.js",
+    "public/js/phase487_humanize_task_ids.js",
+    "public/js/phase530_visible_panels_bridge.js",
+    "public/js/phase565_recent_tasks_wire.js",
+    "public/js/phase61_recent_history_wire.js",
+    "scripts/_local/agent-runtime/memory/agent_chain_state.json",
+    "scripts/add-render-native-preview-payload-field.mjs",
+    "scripts/analyze-artifact-preview-response-shape.mjs",
+    "scripts/artifact-preview-overlay-composer.mjs",
+    "scripts/classify-artifact-preview-status-returns.mjs",
+    "scripts/extract-artifact-preview-route-block.mjs",
+    "scripts/extract-artifact-preview-route-function-boundary.mjs",
+    "scripts/extract-artifact-preview-status-return-bodies.mjs",
+    "scripts/extract-decode-token-excerpt-for-review.mjs",
+    "scripts/extract-outcome-preview-chained-json-bodies.mjs",
+    "scripts/extract-outcome-preview-success-response-branch.mjs",
+    "scripts/extract-phase530-render-paths.mjs",
+    "scripts/extract-preview-fetch-consumer-contexts.mjs",
+    "scripts/find-outcome-preview-response-bodies.mjs",
+    "scripts/inspect-artifact-preview-raw-structure.mjs",
+    "scripts/inspect-artifact-preview-response-methods.mjs",
+    "scripts/inspect-artifact-preview-route-shape.mjs",
+    "scripts/inspect-outcome-preview-payload-source.mjs",
+    "scripts/inspect-phase530-renderer-owner.mjs",
+    "scripts/inspect-preview-frontend-consumer-shape.mjs",
+    "scripts/inspect-renderer-consumption-targets.mjs",
+    "scripts/inspect-upstream-render-native-payload-targets.mjs",
+    "scripts/narrow-outcome-preview-success-candidates.mjs",
+    "scripts/phase19_patch_mount_tasks_mutations.mjs",
+    "scripts/phase626-expose-guidance-api.js",
+    "scripts/phase626-fix-guidance-field-map.js",
+    "scripts/phase725_visual_preview_polish_patch.js",
+    "scripts/phase88_14_5_patch_server_mount_system_health.mjs",
+    "scripts/render-native/capture-live-preview-payload.mjs",
+    "scripts/render-native/compare-preview-contracts.mjs",
+    "scripts/render-native/inspect-preview-contract-sources.mjs",
+    "scripts/render-native/reconcile-preview-payloads.mjs",
+    "scripts/render-native/reports/preview-contract-source-inspection.json",
+    "scripts/render-native/reports/preview-payload-reconciliation.json",
+    "scripts/render-native/trace-semantic-artifact-propagation.mjs",
+    "scripts/run-full-preview-pipeline.mjs",
+    "scripts/summarize-artifact-preview-raw-structure.mjs",
+    "server/api/tasks-mutations/delegate-taskspec.mjs",
+    "server/enforcement/phase44_mutation_allowlist.mjs",
+    "server/enforcement/phase44_mutation_enforcer.mjs",
+    "server/routes/api-tasks-postgres.mjs",
+    "server/worker/execute_task_with_contract.mjs",
+    "server/worker/phase26_task_worker.mjs",
+    "src/governance_operator_archive/governance_operator_archive_builder.ts",
+    "src/governance_operator_atlas/governance_operator_atlas_builder.ts",
+    "src/governance_operator_briefing/governance_operator_briefing_builder.ts",
+    "src/governance_operator_bundle/governance_operator_bundle_builder.ts",
+    "src/governance_operator_catalog/governance_operator_catalog_builder.ts",
+    "src/governance_operator_compendium/governance_operator_compendium_builder.ts",
+    "src/governance_operator_console/governance_operator_console_builder.ts",
+    "src/governance_operator_directory/governance_operator_directory_builder.ts",
+    "src/governance_operator_export/governance_operator_export_builder.ts",
+    "src/governance_operator_guide/governance_operator_guide_builder.ts",
+    "src/governance_operator_handbook/governance_operator_handbook_builder.ts",
+    "src/governance_operator_handoff/governance_operator_handoff_builder.ts",
+    "src/governance_operator_index/governance_operator_index_builder.ts",
+    "src/governance_operator_ledger/governance_operator_ledger_builder.ts",
+    "src/governance_operator_logbook/governance_operator_logbook_builder.ts",
+    "src/governance_operator_manifest/governance_operator_manifest_builder.ts",
+    "src/governance_operator_manifest_index/governance_operator_manifest_index_builder.ts",
+    "src/governance_operator_manual/governance_operator_manual_builder.ts",
+    "src/governance_operator_map/governance_operator_map_builder.ts",
+    "src/governance_operator_packet/governance_operator_packet_builder.ts",
+    "src/governance_operator_packet/governance_operator_packet_model.ts",
+    "src/governance_operator_playbook/governance_operator_playbook_builder.ts",
+    "src/governance_operator_record/governance_operator_record_builder.ts",
+    "src/governance_operator_reference/governance_operator_reference_builder.ts",
+    "src/governance_operator_register/governance_operator_register_builder.ts",
+    "src/governance_operator_registry/governance_operator_registry_builder.ts",
+    "src/governance_operator_session/governance_operator_session_builder.ts",
+    "src/governance_operator_snapshot/governance_operator_snapshot_builder.ts",
+    "src/governance_reporting/governance_reporting_builder.ts",
+    "src/governance_reporting/governance_reporting_model.ts",
+    "worker/semantic/classifyArtifact.js",
+    "worker/semantic/composeSemanticArtifact.js",
+    "worker/semantic/extractSections.js",
+    "worker/semantic/extractSections.test.js",
+    "worker/semantic/prepareArtifactSemanticMetadata.js",
+    "worker/semantic/validateSemanticArtifact.js"
+  ],
+  "matches": [
+    {
+      "file": "server/api/tasks-mutations/delegate-taskspec.mjs",
+      "line": 20,
+      "pattern": "api/tasks",
+      "text": "* POST /api/tasks-mutations/delegate-taskspec"
+    },
+    {
+      "file": "server/enforcement/phase44_mutation_allowlist.mjs",
+      "line": 6,
+      "pattern": "api/tasks",
+      "text": "*   { method: \"POST\", path: \"/api/tasks\" }"
+    },
+    {
+      "file": "server/enforcement/phase44_mutation_allowlist.mjs",
+      "line": 7,
+      "pattern": "api/tasks",
+      "text": "*   { method: \"POST\", path: \"/api/tasks/:task_id/cancel\" }"
+    },
+    {
+      "file": "server/enforcement/phase44_mutation_allowlist.mjs",
+      "line": 14,
+      "pattern": "api/tasks",
+      "text": "// { method: \"POST\", path: \"/api/tasks\" },"
+    },
+    {
+      "file": "server/enforcement/phase44_mutation_enforcer.mjs",
+      "line": 26,
+      "pattern": "api/tasks",
+      "text": "* - \"/api/tasks/:id/cancel\" => /^\\/api\\/tasks\\/[^/]+\\/cancel$/"
+    },
+    {
+      "file": "server/enforcement/phase44_mutation_enforcer.mjs",
+      "line": 27,
+      "pattern": "api/tasks",
+      "text": "* - \"/api/tasks\" => /^\\/api\\/tasks$/"
+    },
+    {
+      "file": "server/routes/api-tasks-postgres.mjs",
+      "line": 40,
+      "pattern": "api/tasks",
+      "text": "// GET /api/tasks?limit=25  -> recent tasks for dashboard widget"
+    },
+    {
+      "file": "server/routes/api-tasks-postgres.mjs",
+      "line": 42,
+      "pattern": "api/tasks",
+      "text": "console.log(\"[phase57c-router] /api/tasks probe\", {"
+    },
+    {
+      "file": "server/routes/api-tasks-postgres.mjs",
+      "line": 65,
+      "pattern": "outcome_preview",
+      "text": "completed.payload->>'outcome_preview' AS outcome_preview,"
+    },
+    {
+      "file": "server/routes/api-tasks-postgres.mjs",
+      "line": 87,
+      "pattern": "api/tasks",
+      "text": "console.error(\"[phase25] /api/tasks list error\", e);"
+    },
+    {
+      "file": "server/routes/api-tasks-postgres.mjs",
+      "line": 94,
+      "pattern": "artifact-preview",
+      "text": "// GET /api/tasks/:task_id/artifact-preview"
+    },
+    {
+      "file": "server/routes/api-tasks-postgres.mjs",
+      "line": 94,
+      "pattern": "api/tasks",
+      "text": "// GET /api/tasks/:task_id/artifact-preview"
+    },
+    {
+      "file": "server/routes/api-tasks-postgres.mjs",
+      "line": 96,
+      "pattern": "artifact-preview",
+      "text": "apiTasksRouter.get(\"/:task_id/artifact-preview\", async (req, res) => {"
+    },
+    {
+      "file": "server/routes/api-tasks-postgres.mjs",
+      "line": 219,
+      "pattern": "api/tasks",
+      "text": "// POST /api/tasks/create  { task_id?, title?, agent?, run_id?, ... }"
+    },
+    {
+      "file": "server/routes/api-tasks-postgres.mjs",
+      "line": 225,
+      "pattern": "api/tasks",
+      "text": "console.log(\"[phase25] /api/tasks/create pool snapshot\", {"
+    },
+    {
+      "file": "server/routes/api-tasks-postgres.mjs",
+      "line": 324,
+      "pattern": "api/tasks",
+      "text": "console.error(\"[phase25] /api/tasks error\", e);"
+    },
+    {
+      "file": "server/routes/api-tasks-postgres.mjs",
+      "line": 334,
+      "pattern": "api/tasks",
+      "text": "// POST /api/tasks/complete  { task_id, status?, run_id?, ... }"
+    },
+    {
+      "file": "server/routes/api-tasks-postgres.mjs",
+      "line": 338,
+      "pattern": "api/tasks",
+      "text": "assertNotEnforced(\"http:/api/tasks/create\");"
+    },
+    {
+      "file": "server/routes/api-tasks-postgres.mjs",
+      "line": 362,
+      "pattern": "api/tasks",
+      "text": "console.error(\"[phase25] /api/tasks error\", e);"
+    },
+    {
+      "file": "server/routes/api-tasks-postgres.mjs",
+      "line": 372,
+      "pattern": "api/tasks",
+      "text": "// POST /api/tasks/fail  { task_id, error?, status?, run_id?, ... }"
+    },
+    {
+      "file": "server/routes/api-tasks-postgres.mjs",
+      "line": 376,
+      "pattern": "api/tasks",
+      "text": "assertNotEnforced(\"http:/api/tasks/complete\");"
+    },
+    {
+      "file": "server/routes/api-tasks-postgres.mjs",
+      "line": 400,
+      "pattern": "api/tasks",
+      "text": "console.error(\"[phase25] /api/tasks error\", e);"
+    },
+    {
+      "file": "server/routes/api-tasks-postgres.mjs",
+      "line": 410,
+      "pattern": "api/tasks",
+      "text": "// POST /api/tasks/cancel  { task_id, run_id?, ... }"
+    },
+    {
+      "file": "server/routes/api-tasks-postgres.mjs",
+      "line": 414,
+      "pattern": "api/tasks",
+      "text": "assertNotEnforced(\"http:/api/tasks/cancel\");"
+    },
+    {
+      "file": "server/routes/api-tasks-postgres.mjs",
+      "line": 417,
+      "pattern": "api/tasks",
+      "text": "assertNotEnforced(\"http:/api/tasks/fail\");"
+    },
+    {
+      "file": "server/routes/api-tasks-postgres.mjs",
+      "line": 440,
+      "pattern": "api/tasks",
+      "text": "console.error(\"[phase25] /api/tasks error\", e);"
+    },
+    {
+      "file": "server/worker/execute_task_with_contract.mjs",
+      "line": 24,
+      "pattern": "outcome_preview",
+      "text": "outcome_preview: communicationResult.outcome.content,"
+    },
+    {
+      "file": "server/worker/phase26_task_worker.mjs",
+      "line": 278,
+      "pattern": "artifact_kind",
+      "text": "artifact_kind: \"task_execution_summary\","
+    },
+    {
+      "file": "server/worker/phase26_task_worker.mjs",
+      "line": 426,
+      "pattern": "outcome_preview",
+      "text": "outcome_preview: executionResult?.communicationResult?.outcome?.content ?? null,"
+    },
+    {
+      "file": "worker/semantic/classifyArtifact.js",
+      "line": 142,
+      "pattern": "semantic-artifact.v1",
+      "text": "schema_version: 'semantic-artifact.v1',"
+    },
+    {
+      "file": "worker/semantic/classifyArtifact.js",
+      "line": 144,
+      "pattern": "artifact_kind",
+      "text": "artifact_kind: artifactKind,"
+    },
+    {
+      "file": "worker/semantic/composeSemanticArtifact.js",
+      "line": 38,
+      "pattern": "sections",
+      "text": "const sections = extractSections(input);"
+    },
+    {
+      "file": "worker/semantic/composeSemanticArtifact.js",
+      "line": 40,
+      "pattern": "sections",
+      "text": "const semanticBase = sections.length > 0 ? { ...base, sections } : base;"
+    },
+    {
+      "file": "worker/semantic/extractSections.js",
+      "line": 10,
+      "pattern": "sections",
+      "text": "* Produces optional artifact-scoped sections for observability."
+    },
+    {
+      "file": "worker/semantic/extractSections.js",
+      "line": 58,
+      "pattern": "sections",
+      "text": "const sections = [];"
+    },
+    {
+      "file": "worker/semantic/extractSections.js",
+      "line": 72,
+      "pattern": "sections",
+      "text": "sections.push({"
+    },
+    {
+      "file": "worker/semantic/extractSections.js",
+      "line": 78,
+      "pattern": "sections",
+      "text": "priority: sections.length"
+    },
+    {
+      "file": "worker/semantic/extractSections.js",
+      "line": 106,
+      "pattern": "sections",
+      "text": "sections.push({"
+    },
+    {
+      "file": "worker/semantic/extractSections.js",
+      "line": 112,
+      "pattern": "sections",
+      "text": "priority: sections.length"
+    },
+    {
+      "file": "worker/semantic/extractSections.js",
+      "line": 118,
+      "pattern": "sections",
+      "text": "return sections;"
+    },
+    {
+      "file": "worker/semantic/extractSections.test.js",
+      "line": 10,
+      "pattern": "sections",
+      "text": "'Plain artifact with no explicit sections.'"
+    },
+    {
+      "file": "worker/semantic/prepareArtifactSemanticMetadata.js",
+      "line": 56,
+      "pattern": "semantic_artifact",
+      "text": "semantic_artifact: payload,"
+    },
+    {
+      "file": "worker/semantic/prepareArtifactSemanticMetadata.js",
+      "line": 58,
+      "pattern": "semantic_artifact",
+      "text": "semantic_artifact_validated: true,"
+    },
+    {
+      "file": "worker/semantic/prepareArtifactSemanticMetadata.js",
+      "line": 60,
+      "pattern": "semantic_artifact",
+      "text": "semantic_artifact_schema: payload.schema_version"
+    },
+    {
+      "file": "worker/semantic/validateSemanticArtifact.js",
+      "line": 68,
+      "pattern": "semantic-artifact.v1",
+      "text": "if (payload.schema_version !== 'semantic-artifact.v1') {"
+    },
+    {
+      "file": "worker/semantic/validateSemanticArtifact.js",
+      "line": 70,
+      "pattern": "semantic-artifact.v1",
+      "text": "errors.push('schema_version must be semantic-artifact.v1');"
+    },
+    {
+      "file": "worker/semantic/validateSemanticArtifact.js",
+      "line": 76,
+      "pattern": "artifact_kind",
+      "text": "payload.artifact_kind,"
+    },
+    {
+      "file": "worker/semantic/validateSemanticArtifact.js",
+      "line": 78,
+      "pattern": "artifact_kind",
+      "text": "schema.properties.artifact_kind.enum,"
+    },
+    {
+      "file": "worker/semantic/validateSemanticArtifact.js",
+      "line": 80,
+      "pattern": "artifact_kind",
+      "text": "'artifact_kind'"
+    },
+    {
+      "file": "worker/semantic/validateSemanticArtifact.js",
+      "line": 118,
+      "pattern": "sections",
+      "text": "if ('sections' in payload && !Array.isArray(payload.sections)) {"
+    },
+    {
+      "file": "worker/semantic/validateSemanticArtifact.js",
+      "line": 120,
+      "pattern": "sections",
+      "text": "errors.push('sections must be an array when present');"
+    },
+    {
+      "file": "public/js/dashboard-tasks-widget.js",
+      "line": 10,
+      "pattern": "api/tasks",
+      "text": "list: \"/api/tasks\","
+    },
+    {
+      "file": "public/js/dashboard-tasks-widget.js",
+      "line": 11,
+      "pattern": "api/tasks",
+      "text": "complete: \"/api/tasks/complete\","
+    },
+    {
+      "file": "public/js/phase31_6_seed_task_button.js",
+      "line": 14,
+      "pattern": "api/tasks",
+      "text": "\"/api/tasks\","
+    },
+    {
+      "file": "public/js/phase31_6_seed_task_button.js",
+      "line": 15,
+      "pattern": "api/tasks",
+      "text": "\"/api/tasks-postgres\","
+    },
+    {
+      "file": "public/js/phase31_6_seed_task_button.js",
+      "line": 16,
+      "pattern": "api/tasks",
+      "text": "\"/api/tasks/create\","
+    },
+    {
+      "file": "public/js/phase487_humanize_task_ids.js",
+      "line": 8,
+      "pattern": "api/tasks",
+      "text": "const res = await fetch(\"/api/tasks?limit=50\");"
+    },
+    {
+      "file": "public/js/phase530_visible_panels_bridge.js",
+      "line": 138,
+      "pattern": "outcome_preview",
+      "text": "const outcome = esc(t.outcome_preview || \"\");"
+    },
+    {
+      "file": "public/js/phase530_visible_panels_bridge.js",
+      "line": 676,
+      "pattern": "api/tasks",
+      "text": "const data = await getJson(\"/api/tasks?limit=12\");"
+    },
+    {
+      "file": "public/js/phase530_visible_panels_bridge.js",
+      "line": 928,
+      "pattern": "sections",
+      "text": "const sections = {};"
+    },
+    {
+      "file": "public/js/phase530_visible_panels_bridge.js",
+      "line": 932,
+      "pattern": "sections",
+      "text": "sections[current] = [];"
+    },
+    {
+      "file": "public/js/phase530_visible_panels_bridge.js",
+      "line": 942,
+      "pattern": "sections",
+      "text": "sections[current] = [];"
+    },
+    {
+      "file": "public/js/phase530_visible_panels_bridge.js",
+      "line": 950,
+      "pattern": "sections",
+      "text": "sections.title = [line.replace(/^#\\s+/, \"\").trim()];"
+    },
+    {
+      "file": "public/js/phase530_visible_panels_bridge.js",
+      "line": 956,
+      "pattern": "sections",
+      "text": "if (!sections[current]) sections[current] = [];"
+    },
+    {
+      "file": "public/js/phase530_visible_panels_bridge.js",
+      "line": 958,
+      "pattern": "sections",
+      "text": "sections[current].push(line);"
+    },
+    {
+      "file": "public/js/phase530_visible_panels_bridge.js",
+      "line": 962,
+      "pattern": "sections",
+      "text": "Object.keys(sections).forEach((key) => {"
+    },
+    {
+      "file": "public/js/phase530_visible_panels_bridge.js",
+      "line": 964,
+      "pattern": "sections",
+      "text": "sections[key] = sections[key].join(\"\\n\").trim();"
+    },
+    {
+      "file": "public/js/phase530_visible_panels_bridge.js",
+      "line": 968,
+      "pattern": "sections",
+      "text": "return sections;"
+    },
+    {
+      "file": "public/js/phase530_visible_panels_bridge.js",
+      "line": 980,
+      "pattern": "sections",
+      "text": "const sections = phase719ExtractArtifactSections(markdownWithoutEnvelope);"
+    },
+    {
+      "file": "public/js/phase530_visible_panels_bridge.js",
+      "line": 982,
+      "pattern": "sections",
+      "text": "const title = sections.title || \"Task Artifact\";"
+    },
+    {
+      "file": "public/js/phase530_visible_panels_bridge.js",
+      "line": 984,
+      "pattern": "sections",
+      "text": "const task = sections.task || \"\";"
+    },
+    {
+      "file": "public/js/phase530_visible_panels_bridge.js",
+      "line": 986,
+      "pattern": "sections",
+      "text": "const status = sections.status || \"\";"
+    },
+    {
+      "file": "public/js/phase530_visible_panels_bridge.js",
+      "line": 988,
+      "pattern": "sections",
+      "text": "const summary = sections.summary || \"\";"
+    },
+    {
+      "file": "public/js/phase530_visible_panels_bridge.js",
+      "line": 990,
+      "pattern": "sections",
+      "text": "const deliverable = sections.deliverable || \"\";"
+    },
+    {
+      "file": "public/js/phase530_visible_panels_bridge.js",
+      "line": 992,
+      "pattern": "sections",
+      "text": "const details = sections.details || \"\";"
+    },
+    {
+      "file": "public/js/phase530_visible_panels_bridge.js",
+      "line": 994,
+      "pattern": "sections",
+      "text": "const recommendations = sections.recommendations || \"\";"
+    },
+    {
+      "file": "public/js/phase530_visible_panels_bridge.js",
+      "line": 996,
+      "pattern": "sections",
+      "text": "const nextSteps = sections[\"next steps\"] || sections.nextsteps || \"\";"
+    },
+    {
+      "file": "public/js/phase530_visible_panels_bridge.js",
+      "line": 998,
+      "pattern": "sections",
+      "text": "const outcome = sections.outcome || \"\";"
+    },
+    {
+      "file": "public/js/phase530_visible_panels_bridge.js",
+      "line": 1000,
+      "pattern": "sections",
+      "text": "const explanation = sections.explanation || \"\";"
+    },
+    {
+      "file": "public/js/phase530_visible_panels_bridge.js",
+      "line": 1154,
+      "pattern": "artifact-preview",
+      "text": "<div data-phase719-rendered-artifact-preview=\"true\" style=\"max-width:920px;margin:0 auto;\">"
+    },
+    {
+      "file": "public/js/phase530_visible_panels_bridge.js",
+      "line": 1410,
+      "pattern": "artifact-preview",
+      "text": "<div data-phase723-visual-artifact-preview=\"true\" style=\"max-width:960px;margin:0 auto 22px auto;border:1px solid rgba(45,212,191,.32);background:linear-gradient(135deg,rgba(15,23,42,.78),rgba(8,47,73,.46));border-radius:26px;padding:22px;box-shadow:0 24px 80px rgba(0,0,0,.32), inset 0 1px 0 rgba(255,255,255,.06);\">"
+    },
+    {
+      "file": "public/js/phase530_visible_panels_bridge.js",
+      "line": 2350,
+      "pattern": "artifact-preview",
+      "text": "const res = await fetch(`/api/tasks/${encodeURIComponent(taskId)}/artifact-preview`, { cache: \"no-store\" });"
+    },
+    {
+      "file": "public/js/phase530_visible_panels_bridge.js",
+      "line": 2350,
+      "pattern": "api/tasks",
+      "text": "const res = await fetch(`/api/tasks/${encodeURIComponent(taskId)}/artifact-preview`, { cache: \"no-store\" });"
+    },
+    {
+      "file": "public/js/phase565_recent_tasks_wire.js",
+      "line": 78,
+      "pattern": "api/tasks",
+      "text": "const res = await fetch(\"/api/tasks\", { cache: \"no-store\" });"
+    },
+    {
+      "file": "public/js/phase61_recent_history_wire.js",
+      "line": 7,
+      "pattern": "api/tasks",
+      "text": "const INSPECTOR_ENDPOINT = \"/api/tasks?limit=12\";"
+    },
+    {
+      "file": "public/js/phase61_recent_history_wire.js",
+      "line": 70,
+      "pattern": "outcome_preview",
+      "text": "const outcome = r.outcome_preview || \"\";"
+    },
+    {
+      "file": "scripts/_local/agent-runtime/memory/agent_chain_state.json",
+      "line": 3,
+      "pattern": "sections",
+      "text": "\"path\": \"ui/dashboard/public/partials/project-tracker-sections.html\","
+    },
+    {
+      "file": "scripts/add-render-native-preview-payload-field.mjs",
+      "line": 30,
+      "pattern": "artifact-preview",
+      "text": "original.indexOf(\"artifact-preview\");"
+    },
+    {
+      "file": "scripts/add-render-native-preview-payload-field.mjs",
+      "line": 36,
+      "pattern": "artifact-preview",
+      "text": "\"Unable to locate artifact-preview route.\""
+    },
+    {
+      "file": "scripts/add-render-native-preview-payload-field.mjs",
+      "line": 210,
+      "pattern": "artifact-preview",
+      "text": "\"artifact-preview response payload only\","
+    },
+    {
+      "file": "scripts/analyze-artifact-preview-response-shape.mjs",
+      "line": 46,
+      "pattern": "artifact-preview",
+      "text": "\"artifact-preview-route-block-\""
+    },
+    {
+      "file": "scripts/analyze-artifact-preview-response-shape.mjs",
+      "line": 68,
+      "pattern": "semantic_artifact",
+      "text": "\"semantic_artifact\","
+    },
+    {
+      "file": "scripts/analyze-artifact-preview-response-shape.mjs",
+      "line": 152,
+      "pattern": "artifact-preview",
+      "text": "\"phase736.artifact-preview-response-shape-analysis.v1\","
+    },
+    {
+      "file": "scripts/analyze-artifact-preview-response-shape.mjs",
+      "line": 184,
+      "pattern": "artifact-preview",
+      "text": "`artifact-preview-response-shape-${new Date()"
+    },
+    {
+      "file": "scripts/artifact-preview-overlay-composer.mjs",
+      "line": 170,
+      "pattern": "artifact-preview",
+      "text": "console.error(\"Usage: node scripts/artifact-preview-overlay-composer.mjs <intent-correlation-file.json> [output-file.json]\");"
+    },
+    {
+      "file": "scripts/classify-artifact-preview-status-returns.mjs",
+      "line": 52,
+      "pattern": "artifact-preview",
+      "text": "\"artifact-preview-status-return-bodies-\""
+    },
+    {
+      "file": "scripts/classify-artifact-preview-status-returns.mjs",
+      "line": 196,
+      "pattern": "artifact-preview",
+      "text": "\"phase736.artifact-preview-status-return-classification.v1\","
+    },
+    {
+      "file": "scripts/classify-artifact-preview-status-returns.mjs",
+      "line": 236,
+      "pattern": "artifact-preview",
+      "text": "`artifact-preview-status-return-classification-${new Date()"
+    },
+    {
+      "file": "scripts/extract-artifact-preview-route-block.mjs",
+      "line": 20,
+      "pattern": "artifact-preview",
+      "text": "const token = \"artifact-preview\";"
+    },
+    {
+      "file": "scripts/extract-artifact-preview-route-block.mjs",
+      "line": 50,
+      "pattern": "artifact-preview",
+      "text": "schemaVersion: \"phase736.artifact-preview-route-block-extraction.v1\","
+    },
+    {
+      "file": "scripts/extract-artifact-preview-route-block.mjs",
+      "line": 78,
+      "pattern": "artifact-preview",
+      "text": "`artifact-preview-route-block-${new Date().toISOString().replace(/[:.]/g, \"-\")}.json`"
+    },
+    {
+      "file": "scripts/extract-artifact-preview-route-function-boundary.mjs",
+      "line": 20,
+      "pattern": "artifact-preview",
+      "text": "const token = \"artifact-preview\";"
+    },
+    {
+      "file": "scripts/extract-artifact-preview-route-function-boundary.mjs",
+      "line": 26,
+      "pattern": "artifact-preview",
+      "text": "console.error(\"Unable to locate artifact-preview token.\");"
+    },
+    {
+      "file": "scripts/extract-artifact-preview-route-function-boundary.mjs",
+      "line": 186,
+      "pattern": "artifact-preview",
+      "text": "\"phase736.artifact-preview-route-function-boundary.v1\","
+    },
+    {
+      "file": "scripts/extract-artifact-preview-route-function-boundary.mjs",
+      "line": 232,
+      "pattern": "artifact-preview",
+      "text": "`artifact-preview-route-function-boundary-${new Date()"
+    },
+    {
+      "file": "scripts/extract-artifact-preview-status-return-bodies.mjs",
+      "line": 20,
+      "pattern": "artifact-preview",
+      "text": "const routeToken = \"artifact-preview\";"
+    },
+    {
+      "file": "scripts/extract-artifact-preview-status-return-bodies.mjs",
+      "line": 26,
+      "pattern": "artifact-preview",
+      "text": "console.error(\"Unable to locate artifact-preview route token.\");"
+    },
+    {
+      "file": "scripts/extract-artifact-preview-status-return-bodies.mjs",
+      "line": 76,
+      "pattern": "artifact-preview",
+      "text": "\"phase736.artifact-preview-status-return-body-extraction.v1\","
+    },
+    {
+      "file": "scripts/extract-artifact-preview-status-return-bodies.mjs",
+      "line": 112,
+      "pattern": "artifact-preview",
+      "text": "`artifact-preview-status-return-bodies-${new Date()"
+    },
+    {
+      "file": "scripts/extract-decode-token-excerpt-for-review.mjs",
+      "line": 40,
+      "pattern": "sections",
+      "text": "const sections = ["
+    },
+    {
+      "file": "scripts/extract-decode-token-excerpt-for-review.mjs",
+      "line": 70,
+      "pattern": "sections",
+      "text": "sections.push(`## Token index ${context.index}`);"
+    },
+    {
+      "file": "scripts/extract-decode-token-excerpt-for-review.mjs",
+      "line": 72,
+      "pattern": "sections",
+      "text": "sections.push(\"\");"
+    },
+    {
+      "file": "scripts/extract-decode-token-excerpt-for-review.mjs",
+      "line": 74,
+      "pattern": "sections",
+      "text": "sections.push(\"```js\");"
+    },
+    {
+      "file": "scripts/extract-decode-token-excerpt-for-review.mjs",
+      "line": 76,
+      "pattern": "sections",
+      "text": "sections.push(context.excerpt);"
+    },
+    {
+      "file": "scripts/extract-decode-token-excerpt-for-review.mjs",
+      "line": 78,
+      "pattern": "sections",
+      "text": "sections.push(\"```\");"
+    },
+    {
+      "file": "scripts/extract-decode-token-excerpt-for-review.mjs",
+      "line": 80,
+      "pattern": "sections",
+      "text": "sections.push(\"\");"
+    },
+    {
+      "file": "scripts/extract-decode-token-excerpt-for-review.mjs",
+      "line": 84,
+      "pattern": "sections",
+      "text": "fs.writeFileSync(excerptFile, `${sections.join(\"\\n\")}\\n`);"
+    },
+    {
+      "file": "scripts/extract-outcome-preview-chained-json-bodies.mjs",
+      "line": 204,
+      "pattern": "outcome_preview",
+      "text": "body?.callText?.includes(\"outcome_preview\") || false,"
+    },
+    {
+      "file": "scripts/extract-outcome-preview-success-response-branch.mjs",
+      "line": 22,
+      "pattern": "outcome_preview",
+      "text": "\"completed.payload->>'outcome_preview' AS outcome_preview\";"
+    },
+    {
+      "file": "scripts/extract-outcome-preview-success-response-branch.mjs",
+      "line": 30,
+      "pattern": "outcome_preview",
+      "text": "\"Unable to locate outcome_preview SQL projection.\""
+    },
+    {
+      "file": "scripts/extract-outcome-preview-success-response-branch.mjs",
+      "line": 58,
+      "pattern": "outcome_preview",
+      "text": "\"outcome_preview\","
+    },
+    {
+      "file": "scripts/extract-outcome-preview-success-response-branch.mjs",
+      "line": 140,
+      "pattern": "outcome_preview",
+      "text": "\"outcome_preview\""
+    },
+    {
+      "file": "scripts/extract-outcome-preview-success-response-branch.mjs",
+      "line": 190,
+      "pattern": "outcome_preview",
+      "text": "\"Patch only the res.status(200).json(...) success branch that directly consumes outcome_preview or rows[0].\","
+    },
+    {
+      "file": "scripts/extract-phase530-render-paths.mjs",
+      "line": 30,
+      "pattern": "artifact-preview",
+      "text": "\"artifact-preview\","
+    },
+    {
+      "file": "scripts/extract-preview-fetch-consumer-contexts.mjs",
+      "line": 30,
+      "pattern": "artifact-preview",
+      "text": "const token = \"artifact-preview\";"
+    },
+    {
+      "file": "scripts/find-outcome-preview-response-bodies.mjs",
+      "line": 30,
+      "pattern": "outcome_preview",
+      "text": "const token = \"outcome_preview\";"
+    },
+    {
+      "file": "scripts/find-outcome-preview-response-bodies.mjs",
+      "line": 270,
+      "pattern": "outcome_preview",
+      "text": "\"outcome_preview\""
+    },
+    {
+      "file": "scripts/find-outcome-preview-response-bodies.mjs",
+      "line": 328,
+      "pattern": "outcome_preview",
+      "text": "\"Use the first response object that directly contains outcome_preview in the JSON body as the authoritative upstream payload mutation target.\","
+    },
+    {
+      "file": "scripts/inspect-artifact-preview-raw-structure.mjs",
+      "line": 20,
+      "pattern": "artifact-preview",
+      "text": "const token = \"artifact-preview\";"
+    },
+    {
+      "file": "scripts/inspect-artifact-preview-raw-structure.mjs",
+      "line": 50,
+      "pattern": "artifact-preview",
+      "text": "schemaVersion: \"phase736.artifact-preview-raw-structure-inspection.v1\","
+    },
+    {
+      "file": "scripts/inspect-artifact-preview-raw-structure.mjs",
+      "line": 64,
+      "pattern": "artifact-preview",
+      "text": "\"route boundary extractor assumed router.get/router.post/app.get/app.post but no such marker existed before artifact-preview token\","
+    },
+    {
+      "file": "scripts/inspect-artifact-preview-raw-structure.mjs",
+      "line": 88,
+      "pattern": "artifact-preview",
+      "text": "`artifact-preview-raw-structure-${new Date().toISOString().replace(/[:.]/g, \"-\")}.json`"
+    },
+    {
+      "file": "scripts/inspect-artifact-preview-response-methods.mjs",
+      "line": 20,
+      "pattern": "artifact-preview",
+      "text": "const routeToken = \"artifact-preview\";"
+    },
+    {
+      "file": "scripts/inspect-artifact-preview-response-methods.mjs",
+      "line": 26,
+      "pattern": "artifact-preview",
+      "text": "console.error(\"Unable to locate artifact-preview route token.\");"
+    },
+    {
+      "file": "scripts/inspect-artifact-preview-response-methods.mjs",
+      "line": 108,
+      "pattern": "artifact-preview",
+      "text": "schemaVersion: \"phase736.artifact-preview-response-method-inspection.v1\","
+    },
+    {
+      "file": "scripts/inspect-artifact-preview-response-methods.mjs",
+      "line": 120,
+      "pattern": "artifact-preview",
+      "text": "reason: \"script assumed res.json response shape but route did not contain res.json after artifact-preview token\","
+    },
+    {
+      "file": "scripts/inspect-artifact-preview-response-methods.mjs",
+      "line": 144,
+      "pattern": "artifact-preview",
+      "text": "`artifact-preview-response-methods-${new Date().toISOString().replace(/[:.]/g, \"-\")}.json`"
+    },
+    {
+      "file": "scripts/inspect-artifact-preview-route-shape.mjs",
+      "line": 22,
+      "pattern": "artifact-preview",
+      "text": "\"artifact-preview\","
+    },
+    {
+      "file": "scripts/inspect-artifact-preview-route-shape.mjs",
+      "line": 30,
+      "pattern": "semantic_artifact",
+      "text": "\"semantic_artifact\","
+    },
+    {
+      "file": "scripts/inspect-artifact-preview-route-shape.mjs",
+      "line": 32,
+      "pattern": "semantic_artifact",
+      "text": "\"semantic_artifact_schema\","
+    },
+    {
+      "file": "scripts/inspect-artifact-preview-route-shape.mjs",
+      "line": 34,
+      "pattern": "semantic_artifact",
+      "text": "\"semantic_artifact_validated\","
+    },
+    {
+      "file": "scripts/inspect-artifact-preview-route-shape.mjs",
+      "line": 94,
+      "pattern": "artifact-preview",
+      "text": "[\"artifact-preview\", \"res.json\", \"router.get\"].includes(finding.token)"
+    },
+    {
+      "file": "scripts/inspect-artifact-preview-route-shape.mjs",
+      "line": 116,
+      "pattern": "artifact-preview",
+      "text": "\"phase736.artifact-preview-route-shape-inspection.v1\","
+    },
+    {
+      "file": "scripts/inspect-artifact-preview-route-shape.mjs",
+      "line": 148,
+      "pattern": "artifact-preview",
+      "text": "`artifact-preview-route-shape-${new Date()"
+    },
+    {
+      "file": "scripts/inspect-outcome-preview-payload-source.mjs",
+      "line": 20,
+      "pattern": "outcome_preview",
+      "text": "const token = \"outcome_preview\";"
+    },
+    {
+      "file": "scripts/inspect-outcome-preview-payload-source.mjs",
+      "line": 114,
+      "pattern": "outcome_preview",
+      "text": "\"Identify the exact success payload assembly branch fed by outcome_preview before introducing parallel render-native payload metadata.\","
+    },
+    {
+      "file": "scripts/inspect-phase530-renderer-owner.mjs",
+      "line": 24,
+      "pattern": "artifact-preview",
+      "text": "\"artifact-preview\","
+    },
+    {
+      "file": "scripts/inspect-preview-frontend-consumer-shape.mjs",
+      "line": 32,
+      "pattern": "artifact-preview",
+      "text": "\"artifact-preview\","
+    },
+    {
+      "file": "scripts/inspect-preview-frontend-consumer-shape.mjs",
+      "line": 118,
+      "pattern": "artifact-preview",
+      "text": "(item) => item.token === \"artifact-preview\""
+    },
+    {
+      "file": "scripts/inspect-preview-frontend-consumer-shape.mjs",
+      "line": 144,
+      "pattern": "artifact-preview",
+      "text": "\"Identify what frontend expects from /artifact-preview before deciding whether to shape server response or frontend consumer.\","
+    },
+    {
+      "file": "scripts/inspect-renderer-consumption-targets.mjs",
+      "line": 14,
+      "pattern": "artifact-preview",
+      "text": "\"artifact-preview\","
+    },
+    {
+      "file": "scripts/inspect-upstream-render-native-payload-targets.mjs",
+      "line": 28,
+      "pattern": "artifact-preview",
+      "text": "\"artifact-preview\","
+    },
+    {
+      "file": "scripts/inspect-upstream-render-native-payload-targets.mjs",
+      "line": 32,
+      "pattern": "semantic_artifact",
+      "text": "\"semantic_artifact\","
+    },
+    {
+      "file": "scripts/inspect-upstream-render-native-payload-targets.mjs",
+      "line": 34,
+      "pattern": "semantic_artifact",
+      "text": "\"semantic_artifact_schema\","
+    },
+    {
+      "file": "scripts/inspect-upstream-render-native-payload-targets.mjs",
+      "line": 36,
+      "pattern": "semantic_artifact",
+      "text": "\"semantic_artifact_validated\","
+    },
+    {
+      "file": "scripts/narrow-outcome-preview-success-candidates.mjs",
+      "line": 96,
+      "pattern": "artifact-preview",
+      "text": "excerpt.includes(\"artifact-preview\"),"
+    },
+    {
+      "file": "scripts/narrow-outcome-preview-success-candidates.mjs",
+      "line": 102,
+      "pattern": "outcome_preview",
+      "text": "\"completed.payload->>'outcome_preview'\""
+    },
+    {
+      "file": "scripts/narrow-outcome-preview-success-candidates.mjs",
+      "line": 136,
+      "pattern": "outcome_preview",
+      "text": "/res\\.status\\(200\\)|outcome_preview|artifact|preview|payload|rows|task_id/i.test("
+    },
+    {
+      "file": "scripts/narrow-outcome-preview-success-candidates.mjs",
+      "line": 210,
+      "pattern": "outcome_preview",
+      "text": "? \"Single outcome_preview success candidate isolated.\""
+    },
+    {
+      "file": "scripts/narrow-outcome-preview-success-candidates.mjs",
+      "line": 212,
+      "pattern": "outcome_preview",
+      "text": ": \"Use highest-scoring candidate only if it has artifact-preview, status(200).json, and outcome_preview signals together.\","
+    },
+    {
+      "file": "scripts/narrow-outcome-preview-success-candidates.mjs",
+      "line": 212,
+      "pattern": "artifact-preview",
+      "text": ": \"Use highest-scoring candidate only if it has artifact-preview, status(200).json, and outcome_preview signals together.\","
+    },
+    {
+      "file": "scripts/phase19_patch_mount_tasks_mutations.mjs",
+      "line": 27,
+      "pattern": "api/tasks",
+      "text": "// Prefer mounting after existing /api/tasks router if present; else after last app.use(...)"
+    },
+    {
+      "file": "scripts/phase626-expose-guidance-api.js",
+      "line": 8,
+      "pattern": "outcome_preview",
+      "text": "`        completed.payload->>'outcome_preview' AS outcome_preview,"
+    },
+    {
+      "file": "scripts/phase626-expose-guidance-api.js",
+      "line": 10,
+      "pattern": "outcome_preview",
+      "text": "`        completed.payload->>'outcome_preview' AS outcome_preview,"
+    },
+    {
+      "file": "scripts/phase626-fix-guidance-field-map.js",
+      "line": 10,
+      "pattern": "outcome_preview",
+      "text": "\"const g = t?.guidance || (t?.outcome_preview || t?.explanation_preview ? { classification: 'info', outcome: t?.outcome_preview, explanation: t?.explanation_preview } : null);\""
+    },
+    {
+      "file": "scripts/phase725_visual_preview_polish_patch.js",
+      "line": 12,
+      "pattern": "artifact-preview",
+      "text": "`<div data-phase723-visual-artifact-preview=\"true\" style=\"max-width:920px;margin:0 auto 18px auto;border:1px solid rgba(45,212,191,.28);background:rgba(15,23,42,.62);border-radius:22px;padding:18px;box-shadow:0 18px 60px rgba(0,0,0,.24);\">`,"
+    },
+    {
+      "file": "scripts/phase725_visual_preview_polish_patch.js",
+      "line": 14,
+      "pattern": "artifact-preview",
+      "text": "`<div data-phase723-visual-artifact-preview=\"true\" style=\"max-width:960px;margin:0 auto 22px auto;border:1px solid rgba(45,212,191,.32);background:linear-gradient(135deg,rgba(15,23,42,.78),rgba(8,47,73,.46));border-radius:26px;padding:22px;box-shadow:0 24px 80px rgba(0,0,0,.32), inset 0 1px 0 rgba(255,255,255,.06);\">`"
+    },
+    {
+      "file": "scripts/phase88_14_5_patch_server_mount_system_health.mjs",
+      "line": 31,
+      "pattern": "api/tasks",
+      "text": "throw new Error('Mount anchor app.use(\"/api/tasks-mutations\", apiTasksMutationsRouter); not found in server.mjs');"
+    },
+    {
+      "file": "scripts/render-native/capture-live-preview-payload.mjs",
+      "line": 40,
+      "pattern": "artifact-preview",
+      "text": "const url = `${baseUrl}/api/tasks/${encodeURIComponent(taskId)}/artifact-preview`;"
+    },
+    {
+      "file": "scripts/render-native/capture-live-preview-payload.mjs",
+      "line": 40,
+      "pattern": "api/tasks",
+      "text": "const url = `${baseUrl}/api/tasks/${encodeURIComponent(taskId)}/artifact-preview`;"
+    },
+    {
+      "file": "scripts/render-native/compare-preview-contracts.mjs",
+      "line": 98,
+      "pattern": "artifact-preview",
+      "text": "p.pattern === \"artifact-preview\" ||"
+    },
+    {
+      "file": "scripts/render-native/compare-preview-contracts.mjs",
+      "line": 100,
+      "pattern": "artifact-preview",
+      "text": "p.pattern === \"/api/tasks/:task_id/artifact-preview\""
+    },
+    {
+      "file": "scripts/render-native/compare-preview-contracts.mjs",
+      "line": 100,
+      "pattern": "api/tasks",
+      "text": "p.pattern === \"/api/tasks/:task_id/artifact-preview\""
+    },
+    {
+      "file": "scripts/render-native/inspect-preview-contract-sources.mjs",
+      "line": 26,
+      "pattern": "artifact-preview",
+      "text": "\"artifact-preview\","
+    },
+    {
+      "file": "scripts/render-native/inspect-preview-contract-sources.mjs",
+      "line": 28,
+      "pattern": "artifact-preview",
+      "text": "\"/api/tasks/:task_id/artifact-preview\","
+    },
+    {
+      "file": "scripts/render-native/inspect-preview-contract-sources.mjs",
+      "line": 28,
+      "pattern": "api/tasks",
+      "text": "\"/api/tasks/:task_id/artifact-preview\","
+    },
+    {
+      "file": "scripts/render-native/reconcile-preview-payloads.mjs",
+      "line": 62,
+      "pattern": "semantic_artifact",
+      "text": "runtimeArtifact.semantic_artifact || {};"
+    },
+    {
+      "file": "scripts/render-native/reconcile-preview-payloads.mjs",
+      "line": 66,
+      "pattern": "sections",
+      "text": "runtimeSemanticArtifact.sections || [];"
+    },
+    {
+      "file": "scripts/render-native/reconcile-preview-payloads.mjs",
+      "line": 112,
+      "pattern": "semantic_artifact",
+      "text": "semantic_artifact_kind:"
+    },
+    {
+      "file": "scripts/render-native/reconcile-preview-payloads.mjs",
+      "line": 112,
+      "pattern": "artifact_kind",
+      "text": "semantic_artifact_kind:"
+    },
+    {
+      "file": "scripts/render-native/reconcile-preview-payloads.mjs",
+      "line": 114,
+      "pattern": "artifact_kind",
+      "text": "runtimeSemanticArtifact.artifact_kind || null,"
+    },
+    {
+      "file": "scripts/render-native/reconcile-preview-payloads.mjs",
+      "line": 132,
+      "pattern": "semantic_artifact",
+      "text": "runtime_semantic_artifact_present:"
+    },
+    {
+      "file": "scripts/render-native/reconcile-preview-payloads.mjs",
+      "line": 136,
+      "pattern": "sections",
+      "text": "runtime_sections_present:"
+    },
+    {
+      "file": "scripts/render-native/reconcile-preview-payloads.mjs",
+      "line": 184,
+      "pattern": "semantic_artifact",
+      "text": "reconciliation.alignment.runtime_semantic_artifact_present &&"
+    },
+    {
+      "file": "scripts/render-native/reports/preview-contract-source-inspection.json",
+      "line": 15,
+      "pattern": "artifact-preview",
+      "text": "\"artifact-preview\","
+    },
+    {
+      "file": "scripts/render-native/reports/preview-contract-source-inspection.json",
+      "line": 16,
+      "pattern": "artifact-preview",
+      "text": "\"/api/tasks/:task_id/artifact-preview\","
+    },
+    {
+      "file": "scripts/render-native/reports/preview-contract-source-inspection.json",
+      "line": 16,
+      "pattern": "api/tasks",
+      "text": "\"/api/tasks/:task_id/artifact-preview\","
+    },
+    {
+      "file": "scripts/render-native/reports/preview-contract-source-inspection.json",
+      "line": 51,
+      "pattern": "artifact-preview",
+      "text": "\"pattern\": \"artifact-preview\","
+    },
+    {
+      "file": "scripts/render-native/reports/preview-contract-source-inspection.json",
+      "line": 52,
+      "pattern": "artifact-preview",
+      "text": "\"text\": \"<div data-phase719-rendered-artifact-preview=\\\"true\\\" style=\\\"max-width:920px;margin:0 auto;\\\">\""
+    },
+    {
+      "file": "scripts/render-native/reports/preview-contract-source-inspection.json",
+      "line": 57,
+      "pattern": "artifact-preview",
+      "text": "\"pattern\": \"artifact-preview\","
+    },
+    {
+      "file": "scripts/render-native/reports/preview-contract-source-inspection.json",
+      "line": 58,
+      "pattern": "artifact-preview",
+      "text": "\"text\": \"<div data-phase723-visual-artifact-preview=\\\"true\\\" style=\\\"max-width:960px;margin:0 auto 22px auto;border:1px solid rgba(45,212,191,.32);background:linear-gradient(135deg,rgba(15,23,42,.78),rgba(8,47,73,.46));border-radius:26px;padding:22px;box-shadow:0 24px 80px rgba(0,0,0,.32), inset 0 1px 0 rgba(255,255,255,.06);\\\">\""
+    },
+    {
+      "file": "scripts/render-native/reports/preview-contract-source-inspection.json",
+      "line": 63,
+      "pattern": "artifact-preview",
+      "text": "\"pattern\": \"artifact-preview\","
+    },
+    {
+      "file": "scripts/render-native/reports/preview-contract-source-inspection.json",
+      "line": 64,
+      "pattern": "artifact-preview",
+      "text": "\"text\": \"const res = await fetch(`/api/tasks/${encodeURIComponent(taskId)}/artifact-preview`, { cache: \\\"no-store\\\" });\""
+    },
+    {
+      "file": "scripts/render-native/reports/preview-contract-source-inspection.json",
+      "line": 64,
+      "pattern": "api/tasks",
+      "text": "\"text\": \"const res = await fetch(`/api/tasks/${encodeURIComponent(taskId)}/artifact-preview`, { cache: \\\"no-store\\\" });\""
+    },
+    {
+      "file": "scripts/render-native/reports/preview-contract-source-inspection.json",
+      "line": 75,
+      "pattern": "artifact-preview",
+      "text": "\"pattern\": \"artifact-preview\","
+    },
+    {
+      "file": "scripts/render-native/reports/preview-contract-source-inspection.json",
+      "line": 76,
+      "pattern": "artifact-preview",
+      "text": "\"text\": \"// GET /api/tasks/:task_id/artifact-preview\""
+    },
+    {
+      "file": "scripts/render-native/reports/preview-contract-source-inspection.json",
+      "line": 76,
+      "pattern": "api/tasks",
+      "text": "\"text\": \"// GET /api/tasks/:task_id/artifact-preview\""
+    },
+    {
+      "file": "scripts/render-native/reports/preview-contract-source-inspection.json",
+      "line": 81,
+      "pattern": "artifact-preview",
+      "text": "\"pattern\": \"/api/tasks/:task_id/artifact-preview\","
+    },
+    {
+      "file": "scripts/render-native/reports/preview-contract-source-inspection.json",
+      "line": 81,
+      "pattern": "api/tasks",
+      "text": "\"pattern\": \"/api/tasks/:task_id/artifact-preview\","
+    },
+    {
+      "file": "scripts/render-native/reports/preview-contract-source-inspection.json",
+      "line": 82,
+      "pattern": "artifact-preview",
+      "text": "\"text\": \"// GET /api/tasks/:task_id/artifact-preview\""
+    },
+    {
+      "file": "scripts/render-native/reports/preview-contract-source-inspection.json",
+      "line": 82,
+      "pattern": "api/tasks",
+      "text": "\"text\": \"// GET /api/tasks/:task_id/artifact-preview\""
+    },
+    {
+      "file": "scripts/render-native/reports/preview-contract-source-inspection.json",
+      "line": 87,
+      "pattern": "artifact-preview",
+      "text": "\"pattern\": \"artifact-preview\","
+    },
+    {
+      "file": "scripts/render-native/reports/preview-contract-source-inspection.json",
+      "line": 88,
+      "pattern": "artifact-preview",
+      "text": "\"text\": \"apiTasksRouter.get(\\\"/:task_id/artifact-preview\\\", async (req, res) => {\""
+    },
+    {
+      "file": "scripts/render-native/reports/preview-payload-reconciliation.json",
+      "line": 22,
+      "pattern": "semantic_artifact",
+      "text": "\"semantic_artifact_kind\": null,"
+    },
+    {
+      "file": "scripts/render-native/reports/preview-payload-reconciliation.json",
+      "line": 22,
+      "pattern": "artifact_kind",
+      "text": "\"semantic_artifact_kind\": null,"
+    },
+    {
+      "file": "scripts/render-native/reports/preview-payload-reconciliation.json",
+      "line": 28,
+      "pattern": "semantic_artifact",
+      "text": "\"runtime_semantic_artifact_present\": true,"
+    },
+    {
+      "file": "scripts/render-native/reports/preview-payload-reconciliation.json",
+      "line": 29,
+      "pattern": "sections",
+      "text": "\"runtime_sections_present\": false,"
+    },
+    {
+      "file": "scripts/render-native/trace-semantic-artifact-propagation.mjs",
+      "line": 26,
+      "pattern": "semantic_artifact",
+      "text": "\"semantic_artifact\","
+    },
+    {
+      "file": "scripts/render-native/trace-semantic-artifact-propagation.mjs",
+      "line": 28,
+      "pattern": "artifact_kind",
+      "text": "\"artifact_kind\","
+    },
+    {
+      "file": "scripts/render-native/trace-semantic-artifact-propagation.mjs",
+      "line": 30,
+      "pattern": "semantic-artifact.v1",
+      "text": "\"semantic-artifact.v1\","
+    },
+    {
+      "file": "scripts/render-native/trace-semantic-artifact-propagation.mjs",
+      "line": 32,
+      "pattern": "sections",
+      "text": "\"sections\","
+    },
+    {
+      "file": "scripts/render-native/trace-semantic-artifact-propagation.mjs",
+      "line": 34,
+      "pattern": "outcome_preview",
+      "text": "\"outcome_preview\","
+    },
+    {
+      "file": "scripts/render-native/trace-semantic-artifact-propagation.mjs",
+      "line": 36,
+      "pattern": "artifact-preview",
+      "text": "\"artifact-preview\","
+    },
+    {
+      "file": "scripts/render-native/trace-semantic-artifact-propagation.mjs",
+      "line": 38,
+      "pattern": "api/tasks",
+      "text": "\"api/tasks\""
+    },
+    {
+      "file": "scripts/run-full-preview-pipeline.mjs",
+      "line": 121,
+      "pattern": "artifact-preview",
+      "text": "runNode(\"scripts/artifact-preview-overlay-composer.mjs\", ["
+    },
+    {
+      "file": "scripts/summarize-artifact-preview-raw-structure.mjs",
+      "line": 52,
+      "pattern": "artifact-preview",
+      "text": "\"artifact-preview-raw-structure-\""
+    },
+    {
+      "file": "scripts/summarize-artifact-preview-raw-structure.mjs",
+      "line": 140,
+      "pattern": "artifact-preview",
+      "text": "\"phase736.artifact-preview-raw-structure-summary.v1\","
+    },
+    {
+      "file": "scripts/summarize-artifact-preview-raw-structure.mjs",
+      "line": 168,
+      "pattern": "artifact-preview",
+      "text": "`artifact-preview-raw-structure-summary-${new Date()"
+    },
+    {
+      "file": "src/governance_operator_archive/governance_operator_archive_builder.ts",
+      "line": 34,
+      "pattern": "sections",
+      "text": "key: \"sections\","
+    },
+    {
+      "file": "src/governance_operator_atlas/governance_operator_atlas_builder.ts",
+      "line": 34,
+      "pattern": "sections",
+      "text": "key: \"sections\","
+    },
+    {
+      "file": "src/governance_operator_briefing/governance_operator_briefing_builder.ts",
+      "line": 34,
+      "pattern": "sections",
+      "text": "key: \"sections\","
+    },
+    {
+      "file": "src/governance_operator_bundle/governance_operator_bundle_builder.ts",
+      "line": 34,
+      "pattern": "sections",
+      "text": "key: \"sections\","
+    },
+    {
+      "file": "src/governance_operator_catalog/governance_operator_catalog_builder.ts",
+      "line": 34,
+      "pattern": "sections",
+      "text": "key: \"sections\","
+    },
+    {
+      "file": "src/governance_operator_compendium/governance_operator_compendium_builder.ts",
+      "line": 34,
+      "pattern": "sections",
+      "text": "key: \"sections\","
+    },
+    {
+      "file": "src/governance_operator_console/governance_operator_console_builder.ts",
+      "line": 34,
+      "pattern": "sections",
+      "text": "key: \"sections\","
+    },
+    {
+      "file": "src/governance_operator_directory/governance_operator_directory_builder.ts",
+      "line": 34,
+      "pattern": "sections",
+      "text": "key: \"sections\","
+    },
+    {
+      "file": "src/governance_operator_export/governance_operator_export_builder.ts",
+      "line": 34,
+      "pattern": "sections",
+      "text": "key: \"sections\","
+    },
+    {
+      "file": "src/governance_operator_guide/governance_operator_guide_builder.ts",
+      "line": 34,
+      "pattern": "sections",
+      "text": "key: \"sections\","
+    },
+    {
+      "file": "src/governance_operator_handbook/governance_operator_handbook_builder.ts",
+      "line": 34,
+      "pattern": "sections",
+      "text": "key: \"sections\","
+    },
+    {
+      "file": "src/governance_operator_handoff/governance_operator_handoff_builder.ts",
+      "line": 34,
+      "pattern": "sections",
+      "text": "key: \"sections\","
+    },
+    {
+      "file": "src/governance_operator_index/governance_operator_index_builder.ts",
+      "line": 34,
+      "pattern": "sections",
+      "text": "key: \"sections\","
+    },
+    {
+      "file": "src/governance_operator_ledger/governance_operator_ledger_builder.ts",
+      "line": 34,
+      "pattern": "sections",
+      "text": "key: \"sections\","
+    },
+    {
+      "file": "src/governance_operator_logbook/governance_operator_logbook_builder.ts",
+      "line": 34,
+      "pattern": "sections",
+      "text": "key: \"sections\","
+    },
+    {
+      "file": "src/governance_operator_manifest/governance_operator_manifest_builder.ts",
+      "line": 34,
+      "pattern": "sections",
+      "text": "key: \"sections\","
+    },
+    {
+      "file": "src/governance_operator_manifest_index/governance_operator_manifest_index_builder.ts",
+      "line": 34,
+      "pattern": "sections",
+      "text": "key: \"sections\","
+    },
+    {
+      "file": "src/governance_operator_manual/governance_operator_manual_builder.ts",
+      "line": 34,
+      "pattern": "sections",
+      "text": "key: \"sections\","
+    },
+    {
+      "file": "src/governance_operator_map/governance_operator_map_builder.ts",
+      "line": 34,
+      "pattern": "sections",
+      "text": "key: \"sections\","
+    },
+    {
+      "file": "src/governance_operator_packet/governance_operator_packet_builder.ts",
+      "line": 67,
+      "pattern": "sections",
+      "text": "const sections: GovernanceOperatorPacketSection[] = ["
+    },
+    {
+      "file": "src/governance_operator_packet/governance_operator_packet_builder.ts",
+      "line": 84,
+      "pattern": "sections",
+      "text": "sections,"
+    },
+    {
+      "file": "src/governance_operator_packet/governance_operator_packet_model.ts",
+      "line": 21,
+      "pattern": "sections",
+      "text": "sections: GovernanceOperatorPacketSection[];"
+    },
+    {
+      "file": "src/governance_operator_playbook/governance_operator_playbook_builder.ts",
+      "line": 34,
+      "pattern": "sections",
+      "text": "key: \"sections\","
+    },
+    {
+      "file": "src/governance_operator_record/governance_operator_record_builder.ts",
+      "line": 34,
+      "pattern": "sections",
+      "text": "key: \"sections\","
+    },
+    {
+      "file": "src/governance_operator_reference/governance_operator_reference_builder.ts",
+      "line": 34,
+      "pattern": "sections",
+      "text": "key: \"sections\","
+    },
+    {
+      "file": "src/governance_operator_register/governance_operator_register_builder.ts",
+      "line": 34,
+      "pattern": "sections",
+      "text": "key: \"sections\","
+    },
+    {
+      "file": "src/governance_operator_registry/governance_operator_registry_builder.ts",
+      "line": 34,
+      "pattern": "sections",
+      "text": "key: \"sections\","
+    },
+    {
+      "file": "src/governance_operator_session/governance_operator_session_builder.ts",
+      "line": 34,
+      "pattern": "sections",
+      "text": "key: \"sections\","
+    },
+    {
+      "file": "src/governance_operator_snapshot/governance_operator_snapshot_builder.ts",
+      "line": 34,
+      "pattern": "sections",
+      "text": "key: \"sections\","
+    },
+    {
+      "file": "src/governance_reporting/governance_reporting_builder.ts",
+      "line": 32,
+      "pattern": "sections",
+      "text": "const sections: GovernanceReportSection[] = ["
+    },
+    {
+      "file": "src/governance_reporting/governance_reporting_builder.ts",
+      "line": 80,
+      "pattern": "sections",
+      "text": "sections,"
+    },
+    {
+      "file": "src/governance_reporting/governance_reporting_model.ts",
+      "line": 14,
+      "pattern": "sections",
+      "text": "sections: GovernanceReportSection[];"
+    },
+    {
+      "file": "app/components/ExecutionInspector.tsx",
+      "line": 24,
+      "pattern": "outcome_preview",
+      "text": "outcome_preview?: string;"
+    },
+    {
+      "file": "app/components/ExecutionInspector.tsx",
+      "line": 84,
+      "pattern": "outcome_preview",
+      "text": "outcome_preview?: string;"
+    },
+    {
+      "file": "app/components/ExecutionInspector.tsx",
+      "line": 180,
+      "pattern": "outcome_preview",
+      "text": "outcomePreview: guidance?.outcome_preview || task.outcome_preview,"
+    },
+    {
+      "file": "app/components/GuidancePanel.tsx",
+      "line": 56,
+      "pattern": "api/tasks",
+      "text": "const res = await fetch('/api/tasks/create', {"
+    },
+    {
+      "file": "app/dev/execution-inspector/page.tsx",
+      "line": 36,
+      "pattern": "outcome_preview",
+      "text": "outcome_preview: \"Standard execution prepared for: Phase 704 Execution Inspector live proof\","
+    },
+    {
+      "file": "app/dev/execution-inspector/page.tsx",
+      "line": 58,
+      "pattern": "outcome_preview",
+      "text": "outcome_preview: \"Standard execution prepared for: Phase 704 Execution Inspector live proof\","
+    }
+  ],
+  "constraints": {
+    "runtime_mutated": false,
+    "live_preview_mutated": false,
+    "renderer_intercepted": false,
+    "browser_injected": false
+  }
+}
