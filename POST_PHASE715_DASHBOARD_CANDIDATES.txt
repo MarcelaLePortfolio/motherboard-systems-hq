@@ -1,0 +1,570 @@
+===== POST PHASE715 DASHBOARD CANDIDATES =====
+Thu May 28 01:53:10  2026
+
+===== CURRENT HEAD =====
+121b6f8e Checkpoint phase 715 dashboard candidate
+bf001184 Verify and seal phase 715 dashboard candidate surface
+5d86e1a8 Compare dashboard lineage candidates
+9599bed8 Discover dashboard recovery candidates
+5b0ba9d8 Verify live phase 91 dashboard against expected source
+9fe4055e Restore phase 91 golden dashboard UI surface
+faf79e37 Discover newer dashboard lineage candidates
+bc20464e Record dashboard version drift finding
+
+===== CURRENT SERVED SURFACE =====
+public/index.html: 46640 bytes
+public/dashboard.html: 36138 bytes
+public/bundle.js: 69049 bytes
+
+===== CANDIDATE COMPARISON =====
+
+--- phase716-static-execution-evidence-surface-stable ---
+exists: yes
+commit: c1271fe6 Phase 716: seal static execution evidence surface
+public/index.html: 46640 bytes
+title: <title>Motherboard Systems Operator Console</title>
+markers: Recent Tasks=3, Task History=1, Execution Inspector=1, Inspect=8, Retry=2, Requeue=1, Matilda=24, Operator Guidance=3, Agent Pool=3, telemetry=7, phase530=2
+public/dashboard.html: 36138 bytes
+title: <title>Motherboard Systems Operator Console</title>
+markers: Recent Tasks=2, Task History=1, Matilda=12, Operator Guidance=3, Agent Pool=1, telemetry=2
+public/bundle.js: 69049 bytes
+
+--- phase716-renderer-containment-verified ---
+exists: yes
+commit: 5ed96de9 Phase 716: seal renderer containment verification
+public/index.html: 46640 bytes
+title: <title>Motherboard Systems Operator Console</title>
+markers: Recent Tasks=3, Task History=1, Execution Inspector=1, Inspect=8, Retry=2, Requeue=1, Matilda=24, Operator Guidance=3, Agent Pool=3, telemetry=7, phase530=2
+public/dashboard.html: 36138 bytes
+title: <title>Motherboard Systems Operator Console</title>
+markers: Recent Tasks=2, Task History=1, Matilda=12, Operator Guidance=3, Agent Pool=1, telemetry=2
+public/bundle.js: 69049 bytes
+
+--- phase717-recent-tasks-polished ---
+exists: yes
+commit: 9e4e6dac Phase 717: seal recent tasks polish checkpoint
+public/index.html: 45715 bytes
+title: <title>Motherboard Systems Operator Console</title>
+markers: Recent Tasks=3, Task History=1, Inspect=7, Retry=2, Requeue=1, Matilda=24, Operator Guidance=3, Agent Pool=3, telemetry=7, phase530=2
+public/dashboard.html: 36138 bytes
+title: <title>Motherboard Systems Operator Console</title>
+markers: Recent Tasks=2, Task History=1, Matilda=12, Operator Guidance=3, Agent Pool=1, telemetry=2
+public/bundle.js: 69049 bytes
+
+--- phase717-restored-telemetry-console ---
+exists: yes
+commit: f66f81e6 Phase 717: restore telemetry console from stable checkpoint
+public/index.html: 46385 bytes
+title: <title>Motherboard Systems Operator Console</title>
+markers: Recent Tasks=3, Task History=1, Execution Inspector=1, Inspect=8, Retry=2, Requeue=1, Matilda=24, Operator Guidance=3, Agent Pool=3, telemetry=7, phase530=2
+public/dashboard.html: 36138 bytes
+title: <title>Motherboard Systems Operator Console</title>
+markers: Recent Tasks=2, Task History=1, Matilda=12, Operator Guidance=3, Agent Pool=1, telemetry=2
+public/bundle.js: 69049 bytes
+
+--- phase717-stable-telemetry-console ---
+exists: yes
+commit: 499a3c5a Revert "Phase 717: remove task history tab and panel"
+public/index.html: 45715 bytes
+title: <title>Motherboard Systems Operator Console</title>
+markers: Recent Tasks=3, Task History=1, Inspect=7, Retry=2, Requeue=1, Matilda=24, Operator Guidance=3, Agent Pool=3, telemetry=7, phase530=2
+public/dashboard.html: 36138 bytes
+title: <title>Motherboard Systems Operator Console</title>
+markers: Recent Tasks=2, Task History=1, Matilda=12, Operator Guidance=3, Agent Pool=1, telemetry=2
+public/bundle.js: 69049 bytes
+
+--- phase718-operator-lineage-ui-stable ---
+exists: yes
+commit: 6b7eeb22 Phase 718: collapse retry title chains
+public/index.html: 45715 bytes
+title: <title>Motherboard Systems Operator Console</title>
+markers: Recent Tasks=3, Task History=1, Inspect=7, Retry=2, Requeue=1, Matilda=24, Operator Guidance=3, Agent Pool=3, telemetry=7, phase530=2
+public/dashboard.html: 36138 bytes
+title: <title>Motherboard Systems Operator Console</title>
+markers: Recent Tasks=2, Task History=1, Matilda=12, Operator Guidance=3, Agent Pool=1, telemetry=2
+public/bundle.js: 69049 bytes
+
+--- phase719-artifact-layer-baseline ---
+exists: yes
+commit: 5f162952 Phase 719: add Matilda console filter helper
+public/index.html: 45793 bytes
+title: <title>Motherboard Systems Operator Console</title>
+markers: Recent Tasks=3, Task History=1, Inspect=7, Retry=2, Requeue=1, Matilda=24, Operator Guidance=3, Agent Pool=3, telemetry=7, phase530=3, phase719=1
+public/dashboard.html: 36216 bytes
+title: <title>Motherboard Systems Operator Console</title>
+markers: Recent Tasks=2, Task History=1, Matilda=12, Operator Guidance=3, Agent Pool=1, telemetry=2, phase530=1, phase719=1
+public/bundle.js: 69049 bytes
+
+--- phase719-triage-ui-baseline ---
+exists: yes
+commit: a39ce9e7 Phase 719: add completed triage badge
+public/index.html: 45715 bytes
+title: <title>Motherboard Systems Operator Console</title>
+markers: Recent Tasks=3, Task History=1, Inspect=7, Retry=2, Requeue=1, Matilda=24, Operator Guidance=3, Agent Pool=3, telemetry=7, phase530=2
+public/dashboard.html: 36138 bytes
+title: <title>Motherboard Systems Operator Console</title>
+markers: Recent Tasks=2, Task History=1, Matilda=12, Operator Guidance=3, Agent Pool=1, telemetry=2
+public/bundle.js: 69049 bytes
+
+--- phase719-recent-tasks-single-owner ---
+exists: yes
+commit: 7bf706d2 Phase 719: disable legacy recent tasks renderer
+public/index.html: 45715 bytes
+title: <title>Motherboard Systems Operator Console</title>
+markers: Recent Tasks=3, Task History=1, Inspect=7, Retry=2, Requeue=1, Matilda=24, Operator Guidance=3, Agent Pool=3, telemetry=7, phase530=2
+public/dashboard.html: 36138 bytes
+title: <title>Motherboard Systems Operator Console</title>
+markers: Recent Tasks=2, Task History=1, Matilda=12, Operator Guidance=3, Agent Pool=1, telemetry=2
+public/bundle.js: 69049 bytes
+
+--- phase719-inspect-pill-restored ---
+exists: yes
+commit: 3746fbe9 Phase 719: restore inspect details pill
+public/index.html: 45793 bytes
+title: <title>Motherboard Systems Operator Console</title>
+markers: Recent Tasks=3, Task History=1, Inspect=7, Retry=2, Requeue=1, Matilda=24, Operator Guidance=3, Agent Pool=3, telemetry=7, phase530=3, phase719=1
+public/dashboard.html: 36216 bytes
+title: <title>Motherboard Systems Operator Console</title>
+markers: Recent Tasks=2, Task History=1, Matilda=12, Operator Guidance=3, Agent Pool=1, telemetry=2, phase530=1, phase719=1
+public/bundle.js: 69049 bytes
+
+--- phase719-session-start-clean ---
+exists: yes
+commit: 95941e7e Phase 719: clean leftover Phase 718 helper
+public/index.html: 45715 bytes
+title: <title>Motherboard Systems Operator Console</title>
+markers: Recent Tasks=3, Task History=1, Inspect=7, Retry=2, Requeue=1, Matilda=24, Operator Guidance=3, Agent Pool=3, telemetry=7, phase530=2
+public/dashboard.html: 36138 bytes
+title: <title>Motherboard Systems Operator Console</title>
+markers: Recent Tasks=2, Task History=1, Matilda=12, Operator Guidance=3, Agent Pool=1, telemetry=2
+public/bundle.js: 69049 bytes
+
+--- phase728-continuation-sealed-20260517 ---
+exists: yes
+commit: 3e96a305 Seal Phase 728 deterministic recovery anchor
+public/index.html: 45658 bytes
+title: <title>Motherboard Systems Operator Console</title>
+markers: Recent Tasks=3, Task History=1, Inspect=7, Retry=2, Requeue=1, Matilda=24, Operator Guidance=3, Agent Pool=3, telemetry=7, phase530=2, phase719=5
+public/dashboard.html: 36216 bytes
+title: <title>Motherboard Systems Operator Console</title>
+markers: Recent Tasks=2, Task History=1, Matilda=12, Operator Guidance=3, Agent Pool=1, telemetry=2, phase530=1, phase719=1
+public/bundle.js: 69049 bytes
+
+--- phase728-semantic-observability-sealed ---
+exists: yes
+commit: bb6ee18e Document Phase 728 next safe corridor
+public/index.html: 45658 bytes
+title: <title>Motherboard Systems Operator Console</title>
+markers: Recent Tasks=3, Task History=1, Inspect=7, Retry=2, Requeue=1, Matilda=24, Operator Guidance=3, Agent Pool=3, telemetry=7, phase530=2, phase719=5
+public/dashboard.html: 36216 bytes
+title: <title>Motherboard Systems Operator Console</title>
+markers: Recent Tasks=2, Task History=1, Matilda=12, Operator Guidance=3, Agent Pool=1, telemetry=2, phase530=1, phase719=1
+public/bundle.js: 69049 bytes
+
+--- phase729-preview-aware-classification-sealed ---
+exists: yes
+commit: 2d4698f2 Phase 729 refine preview-aware semantic classification
+public/index.html: 45658 bytes
+title: <title>Motherboard Systems Operator Console</title>
+markers: Recent Tasks=3, Task History=1, Inspect=7, Retry=2, Requeue=1, Matilda=24, Operator Guidance=3, Agent Pool=3, telemetry=7, phase530=2, phase719=5
+public/dashboard.html: 36216 bytes
+title: <title>Motherboard Systems Operator Console</title>
+markers: Recent Tasks=2, Task History=1, Matilda=12, Operator Guidance=3, Agent Pool=1, telemetry=2, phase530=1, phase719=1
+public/bundle.js: 69049 bytes
+
+--- phase730-semantic-section-extraction-sealed ---
+exists: yes
+commit: fb7af102 Phase 730 add semantic section extraction
+public/index.html: 45658 bytes
+title: <title>Motherboard Systems Operator Console</title>
+markers: Recent Tasks=3, Task History=1, Inspect=7, Retry=2, Requeue=1, Matilda=24, Operator Guidance=3, Agent Pool=3, telemetry=7, phase530=2, phase719=5
+public/dashboard.html: 36216 bytes
+title: <title>Motherboard Systems Operator Console</title>
+markers: Recent Tasks=2, Task History=1, Matilda=12, Operator Guidance=3, Agent Pool=1, telemetry=2, phase530=1, phase719=1
+public/bundle.js: 69049 bytes
+
+--- phase731-preview-overlay-mock-validated ---
+exists: yes
+commit: 712704d9 Phase 731 ignore generated Preview overlay mocks
+public/index.html: 45658 bytes
+title: <title>Motherboard Systems Operator Console</title>
+markers: Recent Tasks=3, Task History=1, Inspect=7, Retry=2, Requeue=1, Matilda=24, Operator Guidance=3, Agent Pool=3, telemetry=7, phase530=2, phase719=5
+public/dashboard.html: 36216 bytes
+title: <title>Motherboard Systems Operator Console</title>
+markers: Recent Tasks=2, Task History=1, Matilda=12, Operator Guidance=3, Agent Pool=1, telemetry=2, phase530=1, phase719=1
+public/bundle.js: 69049 bytes
+
+--- phase731-expanded-semantic-analysis-state ---
+exists: yes
+commit: 4c06d575 Phase 731 establish expanded semantic analysis state
+public/index.html: 45658 bytes
+title: <title>Motherboard Systems Operator Console</title>
+markers: Recent Tasks=3, Task History=1, Inspect=7, Retry=2, Requeue=1, Matilda=24, Operator Guidance=3, Agent Pool=3, telemetry=7, phase530=2, phase719=5
+public/dashboard.html: 36216 bytes
+title: <title>Motherboard Systems Operator Console</title>
+markers: Recent Tasks=2, Task History=1, Matilda=12, Operator Guidance=3, Agent Pool=1, telemetry=2, phase530=1, phase719=1
+public/bundle.js: 69049 bytes
+
+--- phase742d-final-verification-20260526 ---
+exists: yes
+commit: 9dd04035 Add Phase 742D final verification manifest
+public/index.html: 45658 bytes
+title: <title>Motherboard Systems Operator Console</title>
+markers: Recent Tasks=3, Task History=1, Inspect=7, Retry=2, Requeue=1, Matilda=24, Operator Guidance=3, Agent Pool=3, telemetry=7, phase530=2, phase719=5
+public/dashboard.html: 36216 bytes
+title: <title>Motherboard Systems Operator Console</title>
+markers: Recent Tasks=2, Task History=1, Matilda=12, Operator Guidance=3, Agent Pool=1, telemetry=2, phase530=1, phase719=1
+public/bundle.js: 69049 bytes
+
+--- phase742d-sealed-20260526 ---
+exists: yes
+commit: 2fe56a47 Add Phase 742D seal checkpoint state manifest
+public/index.html: 45658 bytes
+title: <title>Motherboard Systems Operator Console</title>
+markers: Recent Tasks=3, Task History=1, Inspect=7, Retry=2, Requeue=1, Matilda=24, Operator Guidance=3, Agent Pool=3, telemetry=7, phase530=2, phase719=5
+public/dashboard.html: 36216 bytes
+title: <title>Motherboard Systems Operator Console</title>
+markers: Recent Tasks=2, Task History=1, Matilda=12, Operator Guidance=3, Agent Pool=1, telemetry=2, phase530=1, phase719=1
+public/bundle.js: 69049 bytes
+
+--- phase743-planning-sealed-20260526 ---
+exists: yes
+commit: 17491c90 Seal Phase 743 execution bridge planning corpus
+public/index.html: 45658 bytes
+title: <title>Motherboard Systems Operator Console</title>
+markers: Recent Tasks=3, Task History=1, Inspect=7, Retry=2, Requeue=1, Matilda=24, Operator Guidance=3, Agent Pool=3, telemetry=7, phase530=2, phase719=5
+public/dashboard.html: 36216 bytes
+title: <title>Motherboard Systems Operator Console</title>
+markers: Recent Tasks=2, Task History=1, Matilda=12, Operator Guidance=3, Agent Pool=1, telemetry=2, phase530=1, phase719=1
+public/bundle.js: 69049 bytes
+
+--- phase744-governance-continuity-sealed-20260526 ---
+exists: yes
+commit: 8527d581 Seal Phase 744 governance continuity
+public/index.html: 45658 bytes
+title: <title>Motherboard Systems Operator Console</title>
+markers: Recent Tasks=3, Task History=1, Inspect=7, Retry=2, Requeue=1, Matilda=24, Operator Guidance=3, Agent Pool=3, telemetry=7, phase530=2, phase719=5
+public/dashboard.html: 36216 bytes
+title: <title>Motherboard Systems Operator Console</title>
+markers: Recent Tasks=2, Task History=1, Matilda=12, Operator Guidance=3, Agent Pool=1, telemetry=2, phase530=1, phase719=1
+public/bundle.js: 69049 bytes
+
+===== DASHBOARD COMMITS AFTER PHASE715 =====
+bf001184 Verify and seal phase 715 dashboard candidate surface
+5aee4ed4 Promote latest dashboard UI to served root
+91129400 Restore latest dashboard UI surface from git history
+535c84fe Restore dashboard UI data surfaces
+c76cffe7 Restore phase530 visual transport function declaration
+c67d716c Remove dangling phase530 function fragment
+1fcf5eb1 Activate render-native visual mount branch
+7bc7fde2 Add render-native dashboard HTML renderer
+84b3c746 Add guarded render-native routing detector
+ef1bc797 Use escaped text transport for visual artifact templates
+48b826fa Fix quote-poisoned visual artifact style decoding
+7882ecd9 Render fallback raw HTML artifacts as sanitized DOM
+3c686916 Align single-container preview branch with template mount
+ea7124c5 Apply template mount for visual artifact DOM rendering
+5ce96c3d Mount single-container visual artifacts as decoded sanitized DOM
+5ef4e73a Mount visual artifact HTML after modal render
+2ccefb9f Decode visual artifact HTML before sanitizing
+2ea4d1d0 Extract visual artifact block outside semantic envelope
+e315e5fe Render visual artifacts as single preview container
+61826658 Apply style intent theme to outer preview shell
+8d3ee346 Prefer style intent renderer over generic visual artifact block
+6b56c073 Add request-scoped style intent preview renderer
+682055ec Normalize escaped preview transport newlines
+c0209605 Phase 725: polish visual preview shell
+b8d360da Phase 724: remove fallback from visual candidate renderer
+e2a6ed40 Phase 724: suppress visual artifact fallback stack
+1e343cef Phase 723: cache bust visual renderer script
+da622425 Phase 723: correct visual wrapper activation
+f90766c4 Phase 723: add inactive visual preview wrapper
+6412dfaa Phase 723: add inactive visual artifact sanitizer helper
+2ce383fb Phase 723: add inactive visual artifact block helper
+aa665479 Phase 722: polish semantic artifact readability
+340c3efc Phase 721: add semantic operator summary card
+8b2258c8 Phase 720: add frontend semantic envelope detection v2
+a3a77d4c Phase 720: inspect semantic artifact paths
+f79a279a Phase 719: improve semantic artifact preview readability
+ae96ff34 Phase 719: stop clearing agent pool on refresh
+385c0aa4 Phase 719: make inline semantic artifact preview primary
+6cfc955b Phase 719: add visible fallback for artifact preview rendering
+22e6844c Phase 719: add UI-only semantic artifact classification
+885839d4 Phase 719: expand artifact preview renderer sections
+bb23656a Revert "Phase 719: patch artifact preview constraints"
+3b12dd17 Phase 719: patch artifact preview constraints
+bd05e3a5 Phase 719: disable active stale Phase 530 console calls
+cd77d190 Phase 719: disable stale endpoint console callers
+d4b75e3b Phase 719: disable invalid legacy console scripts
+1a3cee05 Phase 719: disable noisy Phase 530 DOM probe
+436d2fd4 Revert "Phase 719: polish embedded artifact preview containment"
+9e552128 Phase 719: polish embedded artifact preview containment
+4a72fe1f Phase 719: apply isolated iframe artifact preview renderer
+a1cce132 Phase 719: render artifact preview as visual card surface
+bb3feaa4 Phase 719: render markdown artifact preview visually
+858bee50 Phase 719: wire preview modal to artifact content
+49d0e371 Phase 719: add frontend-only artifact preview modal
+3b8f4829 Phase 719: replace lifecycle pill with conditional preview
+51e3bd3b Phase 719: surface artifact metadata in recent tasks
+102bc6cd Phase 719: add Matilda frontend response tracing
+d233cf9e Phase 719: extend Matilda frontend chat timeout
+fcb26a98 Phase 719: remove updated and target inline text
+3746fbe9 Phase 719: restore inspect details pill
+dccf001f Phase 719: remove status and id inline text
+47a65773 Revert "Revert "Phase 719: remove inspect details button""
+144c238e Revert "Phase 719: remove inspect details button"
+d681becf Phase 719: remove inspect details button
+537d2f12 Phase 719: disable tasks widget guidance renderer
+bd5d27ae Phase 719: disable inline recent task metadata
+68a77a25 Phase 719: remove inline outcome hint
+e423f446 Phase 719: remove inline details telemetry
+7bf706d2 Phase 719: disable legacy recent tasks renderer
+4fd5866c Phase 719: remove duplicate status metadata
+a39ce9e7 Phase 719: add completed triage badge
+6b7eeb22 Phase 718: collapse retry title chains
+6db3e863 Phase 718: resolve nested retry titles
+16878edc Phase 718: resolve retry target task titles
+c6156312 Phase 718: normalize retry task titles
+1f96f8ff Phase 718: surface retry lineage labels
+cd40f97e Phase 717: apply minimal recent tasks polish
+499a3c5a Revert "Phase 717: remove task history tab and panel"
+e4c7dd74 Phase 717: remove task history tab and panel
+c29d9add Phase 717: remove execution inspector tab and panel
+f66f81e6 Phase 717: restore telemetry console from stable checkpoint
+461c04c1 Phase 717: remove breakout telemetry workspace surfaces
+e3ed860c Phase 717: remove recent logs HTML wrapper
+6ab28f01 Phase 717: remove recent logs container safely
+810be25f Revert "Phase 717: remove embedded recent logs panel"
+917a1287 Phase 717: remove embedded recent logs panel
+cda0a3f3 Phase 717: move outcome preview to logs modal
+9878bc24 Phase 717: wire inspect logs chip
+1c1510ef Phase 717: add read-only inspection modal chips
+d14c6e81 Phase 717: compact recent tasks evidence density
+4a0cb40b Phase 717: normalize retry modal spacing
+fccf2909 Phase 717: improve requeue modal line spacing
+3bf72050 Phase 717: refine retry modal confirmation copy
+71f1ee29 Phase 717: differentiate retry modal behavior copy
+8dd8de85 Phase 717: humanize retry modal copy
+862996fa Phase 717: replace retry browser prompts with UI modal
+02abd4f1 Phase 717: wire lifecycle retry actions
+59d173fb Phase 717: activate lifecycle retry buttons
+2027bf7d Phase 717: prepare safe retry UI patch
+055ef929 Phase 717: label recent tasks as lifecycle cards
+efaa36dc Phase 716: patch actual recent tasks evidence renderer containment
+3e869030 Revert "Phase 716: fix zero-height recent tasks containment"
+db312a74 Phase 716: fix zero-height recent tasks containment
+80657225 Revert "Phase 716: target recent tasks inspector overflow containment"
+9bc762ff Phase 716: target recent tasks inspector overflow containment
+dc9de38b Revert "Phase 716: contain execution inspector JSON overflow"
+1aff8d4a Revert "Phase 716: fix execution inspector overflow CSS link injection"
+f61a6bae Revert "Phase 716: force serve execution inspector overflow stylesheet"
+ad2715e0 Phase 716: force serve execution inspector overflow stylesheet
+8b838564 Phase 716: fix execution inspector overflow CSS link injection
+bbc15ad9 Phase 716: contain execution inspector JSON overflow
+a7837dc9 Phase 708: add truthful frontend chat timeout fallback
+
+===== BACKUP SOURCE ARCHIVES =====
+backups/_restore_test/backups/repo_20260527_145245.bundle
+backups/_restore_test/backups/repo_20260527_145315.bundle
+backups/_restore_test/backups/repo_20260527_145331.bundle
+backups/_restore_test/backups/repo_20260527_145349.bundle
+backups/_restore_test/backups/repo_20260527_145411.bundle
+backups/_restore_test/backups/repo_20260527_145427.bundle
+backups/_restore_test/backups/repo_20260527_145443.bundle
+backups/_restore_test/backups/repo_20260527_145503.bundle
+backups/_restore_test/backups/repo_20260527_145520.bundle
+backups/_restore_test/backups/repo_20260527_145623.bundle
+backups/_restore_test/backups/repo_20260527_145651.bundle
+backups/_restore_test/backups/repo_20260527_145722.bundle
+backups/_restore_test/backups/repo_20260527_145748.bundle
+backups/_restore_test/backups/repo_20260527_150058.bundle
+backups/_restore_test/backups/repo_20260527_150206.bundle
+backups/_restore_test/backups/repo_20260527_153113.bundle
+backups/_restore_test/backups/source_20260527_145245.tar.gz
+backups/_restore_test/backups/source_20260527_145520.tar.gz
+backups/_restore_test/backups/source_20260527_145623.tar.gz
+backups/_restore_test/backups/source_20260527_145748.tar.gz
+backups/_restore_test/backups/source_20260527_150058.tar.gz
+backups/_restore_test/backups/source_20260527_150206.tar.gz
+backups/_restore_test/docker-compose.phase46.dashboard_heap.override.yml
+backups/_restore_test/Dockerfile.dashboard
+backups/_restore_test/docs/DASHBOARD_SERVER_RESTART_NOTE.md
+backups/_restore_test/docs/DOCKER_DASHBOARD_DEPLOY_NOTES.md
+backups/_restore_test/docs/NEXT_STEP_DASHBOARD_INTEGRATION.md
+backups/_restore_test/docs/v11-dashboard-bundle-handoff-thread3.md
+backups/_restore_test/docs/v11-dashboard-bundle-handoff-v2.md
+backups/_restore_test/docs/v11-dashboard-bundle-handoff-v3.md
+backups/_restore_test/docs/v11-dashboard-bundle-next-steps.md
+backups/_restore_test/docs/v11-dashboard-bundle-next-thread-anchor.md
+backups/_restore_test/docs/v11-dashboard-bundle-status.md
+backups/_restore_test/docs/v11-dashboard-bundle-thread-summary-2025-11-27.md
+backups/_restore_test/docs/v11-dashboard-bundle-thread4-placeholder.md
+backups/_restore_test/docs/v11-dashboard-bundle-todo.md
+backups/_restore_test/PHASE_82_6_TASK_EXECUTION_DURATION_DASHBOARD_EXPOSURE_PLAN.md
+backups/_restore_test/PHASE_83_6_TASK_QUEUE_WAIT_DURATION_DASHBOARD_EXPOSURE_PLAN.md
+backups/_restore_test/PHASE_84_6_TASK_TOTAL_LIFECYCLE_DURATION_DASHBOARD_EXPOSURE_PLAN.md
+backups/_restore_test/PHASE11_DASHBOARD_BROADCAST_REMOVAL_NOTE.txt
+backups/_restore_test/PHASE11_DASHBOARD_PHASE11_SESSION_SUMMARY.md
+backups/_restore_test/PHASE11_DASHBOARD_RENDERING_STATUS.md
+backups/_restore_test/PHASE11_DASHBOARD_RENDERING_VERIFICATION_CHECKLIST.md
+backups/_restore_test/PHASE11_DASHBOARD_RESTORE.md
+backups/_restore_test/PHASE11_DASHBOARD_SERVER_RUN_LOG.md
+backups/_restore_test/PHASE11_DASHBOARD_VISUAL_CHECK_HANDOFF.md
+backups/_restore_test/PHASE11_DASHBOARD_VISUAL_CHECK_NOTES.md
+backups/_restore_test/PHASE11_DASHBOARD_VISUAL_CHECK_RUN_THIS_NEXT.md
+backups/_restore_test/PHASE11_DASHBOARD_VISUAL_CHECK_STATUS.md
+backups/_restore_test/PHASE11_DASHBOARD_VISUAL_CHECK_TODO.md
+backups/_restore_test/PHASE11_OPS_DASHBOARD_VERIFICATION_HANDOFF.md
+backups/_restore_test/PHASE11_OPS_DASHBOARD_VERIFICATION_LOG.md
+backups/_restore_test/PHASE11_STEP3_DASHBOARD_BEHAVIOR_AUDIT.md
+backups/_restore_test/PHASE11_v11.9_NEXT_TASKS_DASHBOARD_CHAT_REFLECTIONS.md
+backups/_restore_test/PHASE62B_DASHBOARD_ASSET_LOAD_PATH_INSPECTION.txt
+backups/_restore_test/PHASE62B_DASHBOARD_ASSET_LOAD_PATH_SUMMARY.txt
+backups/_restore_test/PHASE80_2_DASHBOARD_ENTRY_DISCOVERY_20260317T183312Z.md
+backups/_restore_test/PHASE80_2_DEEP_DASHBOARD_INVENTORY_20260317T183521Z.md
+backups/_restore_test/PHASE80_2_EXTERNAL_DASHBOARD_CONSUMER_DISCOVERY_20260317T183750Z.md
+backups/_restore_test/PHASE88_10_DASHBOARD_BAD_STRUCTURE_PATCH_EVIDENCE.txt
+backups/_restore_test/PHASE88_11_DASHBOARD_ENTRYPOINT_INSPECTION.txt
+backups/_restore_test/PHASE88_12_SERVED_DASHBOARD_DIAGNOSTICS_SURFACE.txt
+backups/_restore_test/PHASE88_13_SERVED_DASHBOARD_SYSTEM_HEALTH_PANEL_EVIDENCE.txt
+backups/_restore_test/PHASE88_14_1_dashboard_body.txt
+backups/_restore_test/PHASE88_14_1_dashboard_headers.txt
+backups/_restore_test/PHASE88_14_1_LIVE_DASHBOARD_ROUTE_DIAGNOSIS.txt
+backups/_restore_test/PHASE88_14_1_public_dashboard_body.html
+backups/_restore_test/PHASE88_14_1_public_dashboard_headers.txt
+backups/_restore_test/PHASE88_14_10_DASHBOARD_HEADERS.txt
+backups/_restore_test/PHASE88_14_10_DASHBOARD.html
+backups/_restore_test/PHASE88_14_10_LIVE_SYSTEM_HEALTH_AND_DASHBOARD_VERIFICATION.txt
+backups/_restore_test/PHASE88_14_2_PUBLIC_DASHBOARD_SYSTEM_HEALTH_RESPONSE.json
+backups/_restore_test/PHASE88_14_3_LIVE_HEALTH_AND_DASHBOARD_CANDIDATES.txt
+backups/_restore_test/PHASE88_9_DASHBOARD_SYSTEM_HEALTH_CONSUMER_INSPECTION.txt
+backups/_restore_test/public_broken_rollback_1762824556/dashboard-chat.js
+backups/_restore_test/public_broken_rollback_1762824556/dashboard-ops.js
+backups/_restore_test/public_broken_rollback_1762824556/dashboard-reflections.js
+backups/_restore_test/public_broken_rollback_1762824556/dashboard.html
+backups/_restore_test/public/.dashboard.html.swk
+backups/_restore_test/public/.dashboard.html.swl
+backups/_restore_test/public/.dashboard.html.swm
+backups/_restore_test/public/.dashboard.html.swn
+backups/_restore_test/public/dashboard-logs.js
+backups/_restore_test/public/dashboard-logs.v3.js
+backups/_restore_test/public/dashboard-status.js
+backups/_restore_test/public/dashboard-stream.js
+backups/_restore_test/public/dashboard-tabs.backup.js
+backups/_restore_test/public/dashboard-tabs.js
+backups/_restore_test/public/dashboard.backup.js
+backups/_restore_test/public/dashboard.css
+backups/_restore_test/public/dashboard.html
+backups/_restore_test/public/dashboard.html.backup-20251204-152244
+backups/_restore_test/public/dashboard.html.backup-20251204-154117
+backups/_restore_test/public/dashboard.html.bad_structure
+backups/_restore_test/public/dashboard.html.bak
+backups/_restore_test/public/dashboard.html.bak_1762904490
+backups/_restore_test/public/dashboard.html.bak_1762905357
+backups/_restore_test/public/dashboard.html.bak_9.7.0b
+backups/_restore_test/public/dashboard.html.bak.1762372376
+backups/_restore_test/public/dashboard.html.bak.1762457360
+backups/_restore_test/public/dashboard.html.bundling-phase11
+backups/_restore_test/public/dashboard.html.phase61_agent_emoji_backup
+backups/_restore_test/public/dashboard.js
+backups/_restore_test/public/dashboard.js.bak
+backups/_restore_test/public/dashboard.js.bak2
+backups/_restore_test/public/dashboard.pre-bundle-tag.html
+backups/_restore_test/scripts/build_dashboard_bundle.sh
+backups/_restore_test/scripts/build-dashboard-bundle.js
+backups/_restore_test/scripts/dashboard_alive_smoke.sh
+backups/_restore_test/scripts/dashboard-chat.js
+backups/_restore_test/scripts/dashboard-ops.js
+backups/_restore_test/scripts/dashboard-reflections.js
+backups/_restore_test/scripts/debug-dashboard-container.sh
+backups/_restore_test/scripts/docker-dashboard-up.sh
+backups/_restore_test/scripts/inspect-dashboard.sh
+backups/_restore_test/scripts/phase11_rebuild_dashboard_container.sh
+backups/_restore_test/scripts/phase11_v11.10_find_dashboard_template.sh
+backups/_restore_test/scripts/phase11_v11.10_rebuild_dashboard.sh
+backups/_restore_test/scripts/phase14_4_fix_dashboard_phase_banner.mjs
+backups/_restore_test/scripts/phase14_4_verify_dashboard_phase_banner.sh
+backups/_restore_test/scripts/phase14_5_patch_dashboard_no_cache.mjs
+backups/_restore_test/scripts/phase36_5_smoke_dashboard_runs.sh
+backups/_restore_test/scripts/phase80_2_deep_dashboard_inventory.sh
+backups/_restore_test/scripts/phase80_2_find_dashboard_entrypoints.sh
+backups/_restore_test/scripts/phase80_2_find_external_dashboard_consumers.sh
+backups/_restore_test/scripts/phase80_2_run_external_dashboard_consumer_discovery.sh
+backups/_restore_test/scripts/phase88_10_patch_dashboard_bad_structure_system_health_panel.mjs
+backups/_restore_test/scripts/phase88_10_verify_dashboard_bad_structure_patch.sh
+backups/_restore_test/scripts/phase88_11_inspect_dashboard_entrypoint.sh
+backups/_restore_test/scripts/phase88_12_inspect_served_dashboard_diagnostics_surface.sh
+backups/_restore_test/scripts/phase88_13_patch_served_dashboard_system_health_panel.mjs
+backups/_restore_test/scripts/phase88_13_verify_served_dashboard_system_health_panel.sh
+backups/_restore_test/scripts/phase88_14_1_diagnose_live_dashboard_route.sh
+backups/_restore_test/scripts/phase88_14_10_restart_and_verify_live_system_health_and_dashboard.sh
+backups/_restore_test/scripts/phase88_14_2_verify_public_dashboard_system_health_attachment.sh
+backups/_restore_test/scripts/phase88_14_3_diagnose_live_health_and_dashboard_candidates.sh
+backups/_restore_test/scripts/phase88_14_verify_live_dashboard_system_health_attachment.sh
+backups/_restore_test/scripts/phase88_9_inspect_dashboard_system_health_consumer.sh
+backups/_restore_test/scripts/rebuild-dashboard-matilda.sh
+backups/_restore_test/scripts/run-dashboard-local.sh
+backups/_restore_test/scripts/v11-dashboard-bundle-inspect.sh
+backups/_restore_test/scripts/verify-dashboard-layout-contract.sh
+backups/_restore_test/scripts/verify-dashboard-two-panel-structure.sh
+backups/_restore_test/scripts/verify-dashboard-two-panel.sh
+backups/_restore_test/scripts/verify-phase62-dashboard-golden.sh
+backups/_restore_test/snapshots/postgres_snapshot_20251120_100809.tar.gz
+backups/_restore_test/tools/start-ui-dashboard.sh
+backups/_restore_test/ts-backup/verify-dashboard-sync.ts
+backups/_restore_test/verify-dashboard-sync.ts
+backups/dashboard-ui-before-phase715-candidate/dashboard.html
+backups/dashboard-ui-before-phase91-restore/dashboard.html
+backups/repo_20260527_145245.bundle
+backups/repo_20260527_145315.bundle
+backups/repo_20260527_145331.bundle
+backups/repo_20260527_145349.bundle
+backups/repo_20260527_145411.bundle
+backups/repo_20260527_145427.bundle
+backups/repo_20260527_145443.bundle
+backups/repo_20260527_145503.bundle
+backups/repo_20260527_145520.bundle
+backups/repo_20260527_145623.bundle
+backups/repo_20260527_145651.bundle
+backups/repo_20260527_145722.bundle
+backups/repo_20260527_145748.bundle
+backups/repo_20260527_150058.bundle
+backups/repo_20260527_150206.bundle
+backups/repo_20260527_153113.bundle
+backups/repo_20260527_154040.bundle
+backups/repo_20260527_154104.bundle
+backups/repo_20260527_154121.bundle
+backups/repo_20260527_154139.bundle
+backups/repo_20260527_154158.bundle
+backups/repo_20260527_154230.bundle
+backups/repo_20260527_154251.bundle
+backups/repo_20260527_154345.bundle
+backups/repo_20260527_154630.bundle
+backups/repo_20260527_154717.bundle
+backups/source_20260527_145245.tar.gz
+backups/source_20260527_145520.tar.gz
+backups/source_20260527_145623.tar.gz
+backups/source_20260527_145748.tar.gz
+backups/source_20260527_150058.tar.gz
+backups/source_20260527_150206.tar.gz
+backups/source_20260527_153200.tar.gz
+backups/source_20260527_154251.tar.gz
+backups/source_20260527_154345.tar.gz
+backups/source_20260527_154630.tar.gz
+backups/source_20260527_154717.tar.gz
+snapshots/20251114-114707/public/dashboard-logs.js
+snapshots/20251114-114707/public/dashboard-logs.v3.js
+snapshots/20251114-114707/public/dashboard-status.js
+snapshots/20251114-114707/public/dashboard-stream.js
+snapshots/20251114-114707/public/dashboard-tabs.backup.js
+snapshots/20251114-114707/public/dashboard-tabs.js
+snapshots/20251114-114707/public/dashboard.backup.js
+snapshots/20251114-114707/public/dashboard.css
+snapshots/20251114-114707/public/dashboard.html
+snapshots/20251114-114707/public/dashboard.html.bak.1762372376
+snapshots/20251114-114707/public/dashboard.js
+snapshots/20251114-114821/public/dashboard-logs.js
+
+===== NEXT SAFE ACTION =====
+Pick the candidate that visually matches the remembered dashboard before restoring another surface.
+Do not patch runtime again until one exact candidate is selected.
