@@ -1,0 +1,409 @@
+===== TASK RESPONSE ENRICHMENT CRASH RECOVERY =====
+Thu May 28 16:41:48 PDT 2026
+
+===== STATUS =====
+ M server/routes/api-tasks-postgres.mjs
+?? .backup_excludes
+?? CADE_RUNTIME_DISCOVERY.txt
+?? CADE_RUNTIME_HIGH_SIGNAL_CONTENTS.txt
+?? CRITICAL_RECOVERY_CORRIDORS_INSPECTION.txt
+?? DASHBOARD_UI_AFTER_RUNTIME_RESTORE_DIAGNOSIS.txt
+?? EXECUTION_IMPLEMENTATION_SURFACES.txt
+?? EXTERNAL_DB_BACKUP_SEARCH_BEFORE_DOCKER_RESET.txt
+?? GOVERNED_ROUTE_AFTER_RUNTIME_RESTORE_SMOKE.txt
+?? LATEST_SNAPSHOT_DASHBOARD_CANDIDATE_INSPECTION.txt
+?? PHASE715_DASHBOARD_CANDIDATE_RESTORE.txt
+?? PHASE_90_91_DASHBOARD_SURFACE_INSPECTION.txt
+?? TASK_RESPONSE_ENRICHMENT_CRASH_RECOVERY.txt
+?? TASK_RESPONSE_ENRICHMENT_V2.txt
+?? backups/_restore_test/
+?? backups/backup_index.json
+?? backups/checksums_20260527_150058.txt
+?? backups/checksums_20260527_150206.txt
+?? backups/dr_daemon.log
+?? backups/repo_20260527_145245.bundle
+?? backups/repo_20260527_145315.bundle
+?? backups/repo_20260527_145331.bundle
+?? backups/repo_20260527_145349.bundle
+?? backups/repo_20260527_145411.bundle
+?? backups/repo_20260527_145427.bundle
+?? backups/repo_20260527_145443.bundle
+?? backups/repo_20260527_145503.bundle
+?? backups/repo_20260527_145520.bundle
+?? backups/repo_20260527_145623.bundle
+?? backups/repo_20260527_145651.bundle
+?? backups/repo_20260527_145722.bundle
+?? backups/repo_20260527_145748.bundle
+?? backups/repo_20260527_150058.bundle
+?? backups/repo_20260527_150206.bundle
+?? backups/repo_20260527_153113.bundle
+?? backups/repo_20260527_154040.bundle
+?? backups/repo_20260527_154104.bundle
+?? backups/repo_20260527_154121.bundle
+?? backups/repo_20260527_154139.bundle
+?? backups/repo_20260527_154158.bundle
+?? backups/repo_20260527_154230.bundle
+?? backups/repo_20260527_154251.bundle
+?? backups/repo_20260527_154345.bundle
+?? backups/repo_20260527_154630.bundle
+?? backups/repo_20260527_154717.bundle
+?? backups/source_20260527_145245.tar.gz
+?? backups/source_20260527_145520.tar.gz
+?? backups/source_20260527_145623.tar.gz
+?? backups/source_20260527_145748.tar.gz
+?? backups/source_20260527_150058.tar.gz
+?? backups/source_20260527_150206.tar.gz
+?? backups/source_20260527_153200.tar.gz
+?? backups/source_20260527_154251.tar.gz
+?? backups/source_20260527_154345.tar.gz
+?? backups/source_20260527_154630.tar.gz
+?? backups/source_20260527_154717.tar.gz
+?? checkpoint-phase740-bridge-restore.sh
+?? compare-backend-against-rio-drive.sh
+?? diagnose-dashboard-ui-after-runtime-restore.py
+?? diagnose-dashboard-ui-after-runtime-restore.sh
+?? discover-dashboard-recovery-candidates.sh
+?? discover-execution-implementation-surfaces.sh
+?? enrich-api-tasks-response-shape-v2.sh
+?? enrich-api-tasks-response-shape.sh
+?? extract-matilda-delegation-docs.sh
+?? inspect-critical-recovery-corridors.sh
+?? inspect-governed-execution-lineage.sh
+?? inspect-latest-snapshot-dashboard-candidate.sh
+?? inspect-latest-source-backups-for-db-assets.sh
+?? inspect-phase-90-and-91-dashboard-surfaces.sh
+?? inspect-rio-drive-disaster-backups-v2.sh
+?? migrate-task-mutation-schema.sh
+?? patch-complete-task-run-id-handoff.sh
+?? record-route-level-smoke-failure-and-clean.sh
+?? recover-task-response-enrichment-crash.sh
+?? scripts/dr
+?? scripts/dr_autonomous_wrapper.sh
+?? scripts/dr_daemon.sh
+?? scripts/dr_daemon_self_healing.sh
+?? scripts/dr_watchdog.sh
+?? scripts/offsite_r2_sync.sh
+?? scripts/retention_engine.sh
+?? scripts/storage_guard.sh
+?? scripts/storage_monitor.sh
+?? scripts/storage_policy.sh
+?? scripts/vault_layer.sh
+?? search-external-db-backups-before-docker-reset.sh
+?? smoke-current-task-mutations-with-runid.sh
+?? smoke-governed-route-after-runtime-restore.sh
+
+===== CURRENT DIFF =====
+diff --git a/server/routes/api-tasks-postgres.mjs b/server/routes/api-tasks-postgres.mjs
+index 5007793b..de0d656a 100644
+--- a/server/routes/api-tasks-postgres.mjs
++++ b/server/routes/api-tasks-postgres.mjs
+@@ -52,13 +52,69 @@ apiTasksRouter.get("/", async (req, res) => {
+ 
+     const limit = Math.max(1, Math.min(200, Number(req.query?.limit ?? 25) || 25));
+     const r = await pool.query(
++
+       `
+-      SELECT id, task_id, title, status, updated_at
++
++      SELECT
++
++        id,
++
++        task_id,
++
++        title,
++
++        status,
++
++        notes,
++
++        run_id,
++
++        action_tier,
++
++        kind,
++
++        payload,
++
++        metadata,
++
++        created_at,
++
++        updated_at,
++
++        coalesce(payload->>'agent', assignee) as agent,
++
++        coalesce(payload->>'source', metadata->>'source') as source,
++
++        coalesce(payload->>'trace_id', metadata->>'trace_id') as trace_id,
++
++        coalesce(payload->'meta', metadata->'meta') as meta,
++
++        coalesce(payload->'delegation_envelope', metadata->'delegation_envelope') as delegation_envelope,
++
++        coalesce(payload->'artifacts', metadata->'artifacts') as artifacts,
++
++        coalesce(payload->'artifact', metadata->'artifact') as artifact,
++
++        coalesce(payload->>'outcome_preview', metadata->>'outcome_preview') as outcome_preview,
++
++        coalesce(payload->>'explanation_preview', notes, metadata->>'explanation_preview') as explanation_preview,
++
++        coalesce(payload->'guidance', metadata->'guidance') as guidance,
++
++        coalesce(payload->>'strategy', metadata->>'strategy') as strategy,
++
++        coalesce(payload->'meta'->>'retry_of_task_id', metadata->'meta'->>'retry_of_task_id') as retry_of_task_id
++
+       FROM tasks
++
+       ORDER BY updated_at DESC NULLS LAST, id DESC
++
+       LIMIT $1
++
+       `,
++
+       [limit]
++
+     );
+ 
+     res.status(200).json({ ok: true, tasks: r.rows || [] });
+
+===== DOCKER STATE =====
+NAME                                       IMAGE                                    COMMAND                  SERVICE     CREATED              STATUS              PORTS
+motherboard-systems-hq-clean-dashboard-1   motherboard-systems-hq-clean-dashboard   "docker-entrypoint.s…"   dashboard   About a minute ago   Up About a minute   0.0.0.0:8080->3000/tcp, [::]:8080->3000/tcp
+motherboard-systems-hq-clean-postgres-1    postgres:16-alpine                       "docker-entrypoint.s…"   postgres    16 hours ago         Up 16 hours         0.0.0.0:5432->5432/tcp, [::]:5432->5432/tcp
+
+===== DASHBOARD LOGS =====
+[HTTP] GET /api/tasks?limit=12
+[phase57c-router] /api/tasks probe {
+  originalUrl: '/api/tasks?limit=12',
+  baseUrl: '/api/tasks',
+  path: '/',
+  referer: 'http://localhost:8080/?v=restore-recent-tasks-label',
+  userAgent: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/148.0.0.0 Safari/537.36',
+  accept: '*/*'
+}
+[HTTP] GET /api/guidance-history
+[HTTP] GET /api/tasks?limit=50
+[phase57c-router] /api/tasks probe {
+  originalUrl: '/api/tasks?limit=50',
+  baseUrl: '/api/tasks',
+  path: '/',
+  referer: 'http://localhost:8080/?v=restore-recent-tasks-label',
+  userAgent: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/148.0.0.0 Safari/537.36',
+  accept: '*/*'
+}
+[HTTP] GET /api/tasks?limit=50
+[phase57c-router] /api/tasks probe {
+  originalUrl: '/api/tasks?limit=50',
+  baseUrl: '/api/tasks',
+  path: '/',
+  referer: 'http://localhost:8080/?v=restore-recent-tasks-label',
+  userAgent: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/148.0.0.0 Safari/537.36',
+  accept: '*/*'
+}
+[HTTP] GET /api/agent-status
+[HTTP] GET /api/tasks?limit=12
+[phase57c-router] /api/tasks probe {
+  originalUrl: '/api/tasks?limit=12',
+  baseUrl: '/api/tasks',
+  path: '/',
+  referer: 'http://localhost:8080/?v=restore-recent-tasks-label',
+  userAgent: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/148.0.0.0 Safari/537.36',
+  accept: '*/*'
+}
+[HTTP] GET /api/guidance-history
+[HTTP] GET /api/tasks?limit=50
+[phase57c-router] /api/tasks probe {
+  originalUrl: '/api/tasks?limit=50',
+  baseUrl: '/api/tasks',
+  path: '/',
+  referer: 'http://localhost:8080/?v=restore-recent-tasks-label',
+  userAgent: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/148.0.0.0 Safari/537.36',
+  accept: '*/*'
+}
+[HTTP] GET /api/tasks?limit=50
+[phase57c-router] /api/tasks probe {
+  originalUrl: '/api/tasks?limit=50',
+  baseUrl: '/api/tasks',
+  path: '/',
+  referer: 'http://localhost:8080/?v=restore-recent-tasks-label',
+  userAgent: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/148.0.0.0 Safari/537.36',
+  accept: '*/*'
+}
+[HTTP] GET /api/tasks?limit=12
+[phase57c-router] /api/tasks probe {
+  originalUrl: '/api/tasks?limit=12',
+  baseUrl: '/api/tasks',
+  path: '/',
+  referer: 'http://localhost:8080/?v=restore-recent-tasks-label',
+  userAgent: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/148.0.0.0 Safari/537.36',
+  accept: '*/*'
+}
+[HTTP] GET /api/guidance-history
+[HTTP] GET /api/tasks?limit=50
+[phase57c-router] /api/tasks probe {
+  originalUrl: '/api/tasks?limit=50',
+  baseUrl: '/api/tasks',
+  path: '/',
+  referer: 'http://localhost:8080/?v=restore-recent-tasks-label',
+  userAgent: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/148.0.0.0 Safari/537.36',
+  accept: '*/*'
+}
+[HTTP] GET /api/agent-status
+[HTTP] GET /api/tasks?limit=50
+[phase57c-router] /api/tasks probe {
+  originalUrl: '/api/tasks?limit=50',
+  baseUrl: '/api/tasks',
+  path: '/',
+  referer: 'http://localhost:8080/?v=restore-recent-tasks-label',
+  userAgent: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/148.0.0.0 Safari/537.36',
+  accept: '*/*'
+}
+[HTTP] GET /api/tasks?limit=12
+[phase57c-router] /api/tasks probe {
+  originalUrl: '/api/tasks?limit=12',
+  baseUrl: '/api/tasks',
+  path: '/',
+  referer: 'http://localhost:8080/?v=restore-recent-tasks-label',
+  userAgent: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/148.0.0.0 Safari/537.36',
+  accept: '*/*'
+}
+[HTTP] GET /api/guidance-history
+[HTTP] GET /api/tasks?limit=50
+[phase57c-router] /api/tasks probe {
+  originalUrl: '/api/tasks?limit=50',
+  baseUrl: '/api/tasks',
+  path: '/',
+  referer: 'http://localhost:8080/?v=restore-recent-tasks-label',
+  userAgent: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/148.0.0.0 Safari/537.36',
+  accept: '*/*'
+}
+[HTTP] GET /api/tasks?limit=50
+[phase57c-router] /api/tasks probe {
+  originalUrl: '/api/tasks?limit=50',
+  baseUrl: '/api/tasks',
+  path: '/',
+  referer: 'http://localhost:8080/?v=restore-recent-tasks-label',
+  userAgent: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/148.0.0.0 Safari/537.36',
+  accept: '*/*'
+}
+[HTTP] GET /api/agent-status
+[HTTP] GET /api/tasks?limit=12
+[phase57c-router] /api/tasks probe {
+  originalUrl: '/api/tasks?limit=12',
+  baseUrl: '/api/tasks',
+  path: '/',
+  referer: 'http://localhost:8080/?v=restore-recent-tasks-label',
+  userAgent: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/148.0.0.0 Safari/537.36',
+  accept: '*/*'
+}
+[HTTP] GET /api/guidance-history
+[HTTP] GET /api/tasks?limit=50
+[phase57c-router] /api/tasks probe {
+  originalUrl: '/api/tasks?limit=50',
+  baseUrl: '/api/tasks',
+  path: '/',
+  referer: 'http://localhost:8080/?v=restore-recent-tasks-label',
+  userAgent: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/148.0.0.0 Safari/537.36',
+  accept: '*/*'
+}
+[HTTP] GET /api/tasks?limit=50
+[phase57c-router] /api/tasks probe {
+  originalUrl: '/api/tasks?limit=50',
+  baseUrl: '/api/tasks',
+  path: '/',
+  referer: 'http://localhost:8080/?v=restore-recent-tasks-label',
+  userAgent: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/148.0.0.0 Safari/537.36',
+  accept: '*/*'
+}
+[HTTP] GET /api/tasks?limit=12
+[phase57c-router] /api/tasks probe {
+  originalUrl: '/api/tasks?limit=12',
+  baseUrl: '/api/tasks',
+  path: '/',
+  referer: 'http://localhost:8080/?v=restore-recent-tasks-label',
+  userAgent: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/148.0.0.0 Safari/537.36',
+  accept: '*/*'
+}
+[HTTP] GET /api/guidance-history
+[HTTP] GET /api/tasks?limit=50
+[phase57c-router] /api/tasks probe {
+  originalUrl: '/api/tasks?limit=50',
+  baseUrl: '/api/tasks',
+  path: '/',
+  referer: 'http://localhost:8080/?v=restore-recent-tasks-label',
+  userAgent: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/148.0.0.0 Safari/537.36',
+  accept: '*/*'
+}
+[HTTP] GET /api/agent-status
+[HTTP] GET /api/tasks?limit=50
+[phase57c-router] /api/tasks probe {
+  originalUrl: '/api/tasks?limit=50',
+  baseUrl: '/api/tasks',
+  path: '/',
+  referer: 'http://localhost:8080/?v=restore-recent-tasks-label',
+  userAgent: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/148.0.0.0 Safari/537.36',
+  accept: '*/*'
+}
+[HTTP] GET /api/tasks?limit=12
+[phase57c-router] /api/tasks probe {
+  originalUrl: '/api/tasks?limit=12',
+  baseUrl: '/api/tasks',
+  path: '/',
+  referer: 'http://localhost:8080/?v=restore-recent-tasks-label',
+  userAgent: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/148.0.0.0 Safari/537.36',
+  accept: '*/*'
+}
+[HTTP] GET /api/guidance-history
+[HTTP] GET /api/tasks?limit=50
+[phase57c-router] /api/tasks probe {
+  originalUrl: '/api/tasks?limit=50',
+  baseUrl: '/api/tasks',
+  path: '/',
+  referer: 'http://localhost:8080/?v=restore-recent-tasks-label',
+  userAgent: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/148.0.0.0 Safari/537.36',
+  accept: '*/*'
+}
+[HTTP] GET /api/tasks?limit=50
+[phase57c-router] /api/tasks probe {
+  originalUrl: '/api/tasks?limit=50',
+  baseUrl: '/api/tasks',
+  path: '/',
+  referer: 'http://localhost:8080/?v=restore-recent-tasks-label',
+  userAgent: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/148.0.0.0 Safari/537.36',
+  accept: '*/*'
+}
+[HTTP] GET /api/agent-status
+[HTTP] GET /api/tasks?limit=12
+[phase57c-router] /api/tasks probe {
+  originalUrl: '/api/tasks?limit=12',
+  baseUrl: '/api/tasks',
+  path: '/',
+  referer: 'http://localhost:8080/?v=restore-recent-tasks-label',
+  userAgent: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/148.0.0.0 Safari/537.36',
+  accept: '*/*'
+}
+[HTTP] GET /api/guidance-history
+[HTTP] GET /api/tasks?limit=50
+[phase57c-router] /api/tasks probe {
+  originalUrl: '/api/tasks?limit=50',
+  baseUrl: '/api/tasks',
+  path: '/',
+  referer: 'http://localhost:8080/?v=restore-recent-tasks-label',
+  userAgent: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/148.0.0.0 Safari/537.36',
+  accept: '*/*'
+}
+
+===== HEALTH CHECK =====
+HTTP/1.1 200 OK
+X-Powered-By: Express
+Content-Type: application/json; charset=utf-8
+Content-Length: 11
+ETag: W/"b-Ai2R8hgEarLmHKwesT1qcY913ys"
+Date: Thu, 28 May 2026 23:41:48 GMT
+Connection: keep-alive
+Keep-Alive: timeout=5
+
+{"ok":true}
