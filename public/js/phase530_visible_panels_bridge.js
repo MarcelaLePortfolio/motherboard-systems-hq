@@ -2551,6 +2551,7 @@ function phase735DecodeVisualArtifactHtmlTransport(html) {
   });
 
 
+<<<<<<< HEAD
 
 
   /* phase740 recent tasks full-card fill */
@@ -2715,6 +2716,89 @@ function phase735DecodeVisualArtifactHtmlTransport(html) {
   setInterval(phase740RunAuthoritativeRecentTasksFill, 1500);
 
   new MutationObserver(phase740RunAuthoritativeRecentTasksFill).observe(document.documentElement, {
+
+    childList: true,
+
+    subtree: true
+
+  });
+
+
+=======
+>>>>>>> a73b1193 (Polish telemetry console recent tasks card)
+
+
+  /* phase740 remove recent logs and inner heading */
+
+  function phase740RemoveRecentLogsAndInnerHeading() {
+
+    const recentLogs = document.getElementById("recentLogs");
+
+    const recentTasks = document.getElementById("recentTasks");
+
+    const recentCard = document.getElementById("recent-tasks-card");
+
+    if (recentLogs) {
+
+      recentLogs.remove();
+
+    }
+
+    if (recentCard) {
+
+      recentCard.querySelectorAll("h2,h3,h4,p").forEach((el) => {
+
+        const txt = (el.textContent || "").trim();
+
+        if (/^recent tasks$/i.test(txt) || /^recent logs$/i.test(txt) || /^task history$/i.test(txt)) {
+
+          el.remove();
+
+        }
+
+      });
+
+    }
+
+    if (recentTasks) {
+
+      recentTasks.style.display = "block";
+
+      recentTasks.style.overflowY = "auto";
+
+      recentTasks.style.overflowX = "hidden";
+
+      recentTasks.style.background = "rgba(2,6,23,.82)";
+
+      recentTasks.style.borderRadius = "14px";
+
+      recentTasks.style.padding = "10px";
+
+      recentTasks.style.boxSizing = "border-box";
+
+    }
+
+  }
+
+  const phase740RunRemoveRecentLogsAndInnerHeading = () => {
+
+    try {
+
+      phase740RemoveRecentLogsAndInnerHeading();
+
+    } catch (error) {
+
+      console.warn("[phase740] remove recent logs/heading failed", error);
+
+    }
+
+  };
+
+  phase740RunRemoveRecentLogsAndInnerHeading();
+
+  setInterval(phase740RunRemoveRecentLogsAndInnerHeading, 1200);
+
+  new MutationObserver(phase740RunRemoveRecentLogsAndInnerHeading).observe(document.documentElement, {
 
     childList: true,
 
