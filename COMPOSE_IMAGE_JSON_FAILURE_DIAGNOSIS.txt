@@ -1,0 +1,105 @@
+===== COMPOSE IMAGE JSON FAILURE DIAGNOSIS =====
+Thu May 28 00:11:32 PDT 2026
+
+===== DOCKER SYSTEM INFO =====
+retrieving disk usage: EOF
+
+===== EXISTING IMAGES MATCHING PROJECT =====
+
+===== EXISTING CONTAINERS =====
+EOF
+
+===== COMPOSE CONFIG CHECK =====
+name: motherboard-systems-hq-clean
+services:
+  dashboard:
+    build:
+      context: /Users/marcela-dev/Projects/motherboard-systems-hq-clean
+      dockerfile: Dockerfile.dashboard
+      args:
+        BUILD_TIME: unknown
+        GIT_SHA: unknown
+    depends_on:
+      postgres:
+        condition: service_started
+        required: true
+    environment:
+      BUILD_TIME: unknown
+      GIT_SHA: unknown
+      PGDATABASE: postgres
+      PGHOST: postgres
+      PGPASSWORD: postgres
+      PGPORT: "5432"
+      PGUSER: postgres
+      POLICY_ENFORCE_ENABLED: "0"
+      POLICY_ENFORCE_MODE: ""
+      POLICY_SHADOW_ENABLED: "0"
+      POSTGRES_URL: postgres://postgres:postgres@postgres:5432/postgres
+    networks:
+      default: null
+    ports:
+      - mode: ingress
+        target: 3000
+        published: "8080"
+        protocol: tcp
+  postgres:
+    environment:
+      POSTGRES_DB: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_USER: postgres
+    image: postgres:16-alpine
+    networks:
+      default: null
+    ports:
+      - mode: ingress
+        target: 5432
+        published: "5432"
+        protocol: tcp
+    volumes:
+      - type: volume
+        source: pgdata
+        target: /var/lib/postgresql/data
+        volume: {}
+networks:
+  default:
+    name: motherboard-systems-hq-clean_default
+volumes:
+  pgdata:
+    name: motherboard-systems-hq-clean_pgdata
+
+===== REMOVE BROKEN DASHBOARD IMAGE IF PRESENT =====
+
+===== BUILDKIT PRUNE STALE CACHE =====
+
+===== CONTROLLED DASHBOARD BUILD =====
+#1 [internal] load local bake definitions
+#1 reading from stdin 740B done
+#1 DONE 0.0s
+EOF
+
+
+===== POST-BUILD IMAGES =====
+
+===== WORKTREE =====
+?? .backup_excludes
+?? CADE_RUNTIME_DISCOVERY.txt
+?? CADE_RUNTIME_HIGH_SIGNAL_CONTENTS.txt
+?? COMPOSE_IMAGE_JSON_FAILURE_DIAGNOSIS.txt
+?? COMPOSE_RUNTIME_BASELINE_VALIDATION.txt
+?? EXECUTION_IMPLEMENTATION_SURFACES.txt
+?? backups/
+?? diagnose-compose-image-json-failure.sh
+?? discover-execution-implementation-surfaces.sh
+?? extract-matilda-delegation-docs.sh
+?? scripts/dr
+?? scripts/dr_autonomous_wrapper.sh
+?? scripts/dr_daemon.sh
+?? scripts/dr_daemon_self_healing.sh
+?? scripts/dr_watchdog.sh
+?? scripts/offsite_r2_sync.sh
+?? scripts/retention_engine.sh
+?? scripts/storage_guard.sh
+?? scripts/storage_monitor.sh
+?? scripts/storage_policy.sh
+?? scripts/vault_layer.sh
+?? start-compose-runtime-and-validate-baseline.sh

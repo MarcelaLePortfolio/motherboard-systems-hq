@@ -1,0 +1,5 @@
+===== COMPOSE RUNTIME BASELINE VALIDATION =====
+Thu May 28 00:10:39 PDT 2026
+
+===== START DASHBOARD STACK =====
+unable to get image 'motherboard-systems-hq-clean-dashboard': unexpected end of JSON input
