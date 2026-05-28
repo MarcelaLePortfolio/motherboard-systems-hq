@@ -1,0 +1,871 @@
+===== DASHBOARD RECOVERY CANDIDATES DISCOVERY =====
+Thu May 28 01:46:59 PDT 2026
+
+===== CURRENT HEAD =====
+5b0ba9d8 Verify live phase 91 dashboard against expected source
+9fe4055e Restore phase 91 golden dashboard UI surface
+faf79e37 Discover newer dashboard lineage candidates
+bc20464e Record dashboard version drift finding
+e42a6f19 Create dashboard recovery checkpoint c75e9756
+
+===== ALL DASHBOARD-RELATED TAGS =====
+checkpoint-dashboard-restored
+checkpoint-phase119-live-agent-routing-20260423
+checkpoint-phase64-agent-pool-restored-20260423-173100
+checkpoint/phase456-definition-complete
+checkpoint/phase456-definition-start
+checkpoint/phase456-repo-protection-20260409T165337Z
+checkpoint/phase456-repo-protection-retry2-20260409T165654Z
+checkpoint/phase456-runtime-restored
+checkpoint/phase457-stable
+checkpoint/phase458-1-determinism-proof
+checkpoint/phase458-intake-start
+checkpoint/phase458-intake-structural-complete
+checkpoint/phase458-sealed
+checkpoint/phase459-1-trace-proof
+checkpoint/phase459-mapping-structural-complete
+checkpoint/phase459-sealed
+checkpoint/phase459-start
+checkpoint/phase460-1-trace-proof
+checkpoint/phase460-integration-structural-complete
+checkpoint/phase460-sealed
+checkpoint/phase460-start
+checkpoint/phase461-1-interface-proof
+checkpoint/phase461-proof-ready
+checkpoint/phase461-sealed
+checkpoint/phase461-start
+checkpoint/phase462-1-acceptRawInput-defined
+checkpoint/phase462-10-runtime-proof
+checkpoint/phase462-11-acceptRawInput-sealed
+checkpoint/phase462-2-runtime-proof-plan
+checkpoint/phase462-3-placement-proof
+checkpoint/phase462-4-placement-repair
+checkpoint/phase462-5-placement-review
+checkpoint/phase462-6-placement-finalization
+checkpoint/phase462-7-site-selected
+checkpoint/phase462-8-surface-proof
+checkpoint/phase462-9-acceptRawInput-implemented
+checkpoint/phase462-final-stable
+checkpoint/phase462-recovered-stable
+checkpoint/phase463-1-normalize-implemented
+checkpoint/phase463-2-normalize-runtime-proof
+checkpoint/phase463-3-normalize-sealed
+checkpoint/phase463-entrypoint-live
+checkpoint/phase463-start
+checkpoint/phase464-1-buildProject-implemented
+checkpoint/phase464-10-bundle-guidance-proof
+checkpoint/phase464-11-guidance-duplicate-writer-fixed
+checkpoint/phase464-12-guidance-post-fix-verification
+checkpoint/phase464-13-manual-retest-gate
+checkpoint/phase464-15-guidance-bugfix-sealed
+checkpoint/phase464-2-buildProject-runtime-proof
+checkpoint/phase464-3-operator-guidance-tab-reentry-proof
+checkpoint/phase464-4-operator-guidance-repro-escalation
+checkpoint/phase464-5-context-clarity
+checkpoint/phase464-5-fix-target
+checkpoint/phase464-6-fix-surface-inspection
+checkpoint/phase464-7-root-cause-classified
+checkpoint/phase464-8-guidance-target-correction
+checkpoint/phase464-9-guidance-runtime-producer-proof
+checkpoint/phase464-entrypoint-hardened
+checkpoint/phase464-start
+checkpoint/phase464-x-fail-captured
+checkpoint/phase464-x-guidance-stream-hardened
+checkpoint/phase464-x-post-hardening-verification
+checkpoint/phase464-x-server-producer-pivot
+checkpoint/phase464-x-stack-probe
+checkpoint/phase465-1-plan-definition
+checkpoint/phase465-2-plan-implemented
+checkpoint/phase465-3-plan-runtime-proof
+checkpoint/phase465-4-plan-sealed
+checkpoint/phase465-prep
+checkpoint/phase465-variation-proven
+checkpoint/phase466-failure-boundary-proven
+checkpoint/phase466-start
+checkpoint/phase467-isolation-proven
+checkpoint/phase468-request-set-expanded
+checkpoint/phase469-normalization-complete
+checkpoint/phase470-governance-decision-live
+checkpoint/phase471-governance-isolation-proven
+checkpoint/phase472-approval-decision-live
+checkpoint/phase473-approval-isolation-proven
+checkpoint/phase474-operator-visibility-live
+checkpoint/phase475-visibility-isolation-proven
+checkpoint/phase476-visibility-normalized
+checkpoint/phase477-visibility-contract-isolated
+checkpoint/phase478.9-stable
+checkpoint/phase480-interactive-approval-live
+checkpoint/phase481-approval-replay-isolated
+checkpoint/phase482-3-stable
+checkpoint/phase482-rule-ordering-stable
+checkpoint/phase483-handoff-stable
+checkpoint/phase483-intake-contract-stable
+checkpoint/phase484-full-flow-stable
+checkpoint/phase485-post-fl3-protected
+checkpoint/phase485-pre-demo-stable
+dashboard-stable-static-ui
+dashboard-two-panel-verified
+local-confirmed-dashboard-good
+local-dashboard-GOLDEN
+milestone/phase482-policy-expansion-complete
+milestone/phase483-intake-complete
+phase-487-stable
+phase-517-worker-claim-lifecycle-validated
+phase-518-clean-worker-claim-lifecycle-validated
+phase-519-post-finalize-confirmed
+phase-525-completion-pipeline-verified
+phase-526-worker-healthcheck-verified
+phase-527-task-event-identity-fixed
+phase-528-matilda-response-restored
+phase-529-ui-delegation-restored
+phase321-governance-cognition-stability
+phase321-governance-extended-cognition-stable
+phase322-governance-enforcement-foundation-stable
+phase323-governance-policy-engine-foundation-stable
+phase423_2_complete
+phase423_3_gate_wired
+phase423_complete
+phase487-correct-dashboard-humanized-agent-pool-stable-20260421
+phase487-docker-hardening-complete
+phase487-observability-bridge-stable-20260421
+phase487-readable-task-surface-stable-20260421
+phase487-restore-proof-complete
+phase490-operator-height-golden
+phase530-sse-telemetry-partial-restore
+phase530-ui-debug-ready
+phase531-recent-tasks-layout-stable
+phase531-ui-lockup-fix-stable
+phase532-task-history-stable
+phase533-execution-inspector-stable
+phase534-execution-inspector-format-stable
+phase535-requeue-stable
+phase536-retry-ui-one-command-restore
+phase536-retry-ui-stable
+phase544-retry-clean-stable
+phase550-checkpoint
+phase552-observability-clean-stable
+phase553-observability-docs-complete
+phase555-observability-foundation-complete
+phase556-observability-guard-enforced
+phase557-observability-module-complete
+phase558-observability-boundary-locked
+phase559-observability-phase-complete
+phase560-stabilized-containerized
+phase564-checkpoint
+phase564-worker-runtime-stable
+phase565-checkpoint
+phase565-telemetry-ui-wired
+phase566-telemetry-ui-polished
+phase567-checkpoint
+phase567-clean-telemetry-runtime
+phase568-live-telemetry-validated
+phase569-checkpoint
+phase569-worker-claim-loop-validated
+phase570-worker-completion-validated
+phase574-execution-inspector-wired-stable
+phase578-completion-events-stable
+phase580-retry-routing-stable
+phase581-execution-inspector-populated-stable
+phase582-context-advanced-json-stable
+phase582-inspector-padding-stable
+phase582-pre-structured-inspector-stable
+phase582-retry-actions-wired-stable
+phase583-retry-contract-active-stable
+phase584-worker-retry-visibility-confirmed
+phase585-requeue-retry-aligned-stable
+phase585-runtime-policy-resolver-verified
+phase586-cache-policy-hook-stable
+phase587-memory-scope-hook-stable
+phase588-execution-mode-hook-stable
+phase590-worker-execution-boundary-stable
+phase598-agent-pool-stable
+phase600-execution-logger-refactor-stable
+phase601-execution-contract-helper-stable
+phase607-response-compiler-stable
+phase608-response-compiler-passive-stable
+phase61-dashboard-stable
+phase61-source-equals-2b467a03-20260309
+phase614-pre-trigger
+phase614-system-led-execution-foundation-complete
+phase614-system-trigger-proof
+phase615-controlled-scheduler-disabled-stable
+phase615-pre-scheduler-runtime
+phase616-controlled-scheduler-proof-complete
+phase616-pre-enable-controlled-scheduler
+phase617-communication-tiers-event-payload-validated
+phase617-pre-result-surfacing-wire-stable
+phase618-ui-communication-tier-surfacing-complete
+phase622-passive-guidance-layer-containerization-deferred
+phase622-passive-guidance-layer-containerized
+phase622-passive-guidance-layer-validated
+phase623-passive-guidance-sse-wiring-verified
+phase624-ui-guidance-plan-containerized
+phase628-inspector-selection-sse-stable
+phase630-runtime-proof-ready-containerized
+phase631-live-runtime-proof-containerized
+phase631-live-runtime-proof-stable
+phase632-schema-guidance-routing-proof
+phase632-schema-guidance-stable-containerized
+phase632-schema-hardening-fresh-boot-proof
+phase658-complete
+phase660-complete
+phase662-complete
+phase663-guidance-history-validated
+phase664-guidance-history-ui-placeholder
+phase665-complete
+phase665-guidance-history-ui-enhanced
+phase666-complete
+phase666-guidance-engine-wired
+phase667-stable-reset
+phase669-complete
+phase669-corrected-complete
+phase669-final
+phase669-task-derived-guidance
+phase670-complete
+phase670-guidance-ui-sse-aligned
+phase671-complete
+phase672-complete
+phase672-guidance-ux-refined
+phase673-complete
+phase674-coherence-adapter-validated
+phase674-coherence-engine-isolated
+phase674-coherence-preview-ready
+phase674-contract-complete
+phase675-coherence-shadow-nonempty-validated
+phase675-coherence-shadow-ready
+phase675-coherence-shadow-validated
+phase675-complete
+phase675-final-seal
+phase675-task-context-bound
+phase676-coherence-ui-preview-validated
+phase676-final-seal
+phase677-final-seal
+phase701-ui-audit-checkpoint
+phase702-sealed
+phase703-local-chat-validated
+phase703-local-stable-handoff
+phase703-sealed-local
+phase704-authoritative-runtime-restored
+phase704-final-authoritative-containerized
+phase705-first-external-backup-20260506_112821
+phase705-runtime-storage-recovery-seal
+phase706-post-guardrail-refinement-20260506_132931
+phase706-post-model-backed-chat-success-20260506_115213
+phase706-post-prompt-repair-stable-20260506_133911
+phase706-pre-advisory-refinement-20260506_113513
+phase706-pre-matilda-model-architecture-20260506_114016
+phase706-pre-model-backed-chat-wiring-20260506_114636
+phase707-pre-context-injection-20260506_134459
+phase708-chat-timeout-diagnostic-stable-20260506_193831
+phase708-frontend-fallback-stable-20260506_201806
+phase710-compact-context-grounding-stable-20260506_210823
+phase711-advisory-status-truthfulness-stable-20260507_000000
+phase712-advisory-variation-stable-20260507_000000
+phase713-evidence-based-advisory-stable-20260507_000000
+phase715-pre-execution-evidence-ui
+phase716-execution-evidence-corridor-start
+phase716-renderer-containment-verified
+phase716-static-execution-evidence-surface-stable
+phase717-recent-tasks-polished
+phase717-restored-telemetry-console
+phase717-stable-telemetry-console
+phase718-operator-lineage-ui-stable
+phase719-artifact-layer-baseline
+phase719-inspect-pill-restored
+phase719-recent-tasks-single-owner
+phase719-session-start-clean
+phase719-triage-ui-baseline
+phase728-continuation-sealed-20260517
+phase728-semantic-observability-sealed
+phase729-preview-aware-classification-sealed
+phase730-semantic-section-extraction-sealed
+phase731-advisory-overlay-boundary-defined
+phase731-advisory-overlay-mock-validated
+phase731-expanded-semantic-analysis-state
+phase731-master-semantic-analysis-state
+phase731-next-visualization-boundary-defined
+phase731-preview-overlay-boundary-defined
+phase731-preview-overlay-mock-validated
+phase731-roadmap-position-established
+phase731-semantic-anomaly-inspection-validated
+phase731-semantic-consistency-scoring-validated
+phase731-semantic-dashboard-snapshots-validated
+phase731-semantic-drift-detection-validated
+phase731-semantic-governance-charter-established
+phase731-semantic-governance-invariants-established
+phase731-semantic-governance-principles-established
+phase731-semantic-governance-state-established
+phase731-semantic-health-metrics-validated
+phase731-semantic-influence-boundary-defined
+phase731-semantic-score-history-validated
+phase731-semantic-trend-analysis-validated
+phase731-semantic-visualization-summary-validated
+phase731-tempfile-semantic-inspection-validated
+phase731-validated-semantic-observability-baseline
+phase742d-final-verification-20260526
+phase742d-sealed-20260526
+phase742d-terminal-seal-20260526
+phase743-planning-sealed-20260526
+phase744-audit-lineage-integrity-sealed-20260526
+phase744-checkpoint-reconciliation-sealed-20260526
+phase744-drift-reconciliation-preservation-sealed-20260526
+phase744-governance-continuity-sealed-20260526
+phase744-governance-state-machine-sealed-20260526
+phase744-lineage-reconciliation-sealed-20260526
+phase744-lineage-verification-sealed-20260526
+phase744-rollback-lineage-integrity-sealed-20260526
+phase744-seal-integrity-sealed-20260526
+v0.0.0-dashboard-pre-clean
+v0.2.0-dashboard-prep
+v0.2.1-dashboard-split
+v0.2.2-wired-dashboard
+v0.2.3-dashboard-clean
+v0.2.6-dashboard-polling
+v0.2.9-dashboard-restored
+v0.2.9b-dashboard-with-mocks
+v0.3.0-phase3-skill-memory
+v0.3.10-dashboard-db-online
+v0.3.10-phase8.2-complete
+v0.3.11-dashboard-ui-table
+v0.3.11-phase8.3-complete
+v0.3.18-stable-dashboard
+v0.3.19-dashboard-restored
+v0.3.20-phase2.3-dashboard-stability
+v0.3.21-phase2.4-sse-stable
+v0.3.3-dashboard-fully-restored
+v0.3.3-pre-phase6
+v0.3.30-phase3.0-delegation-functional
+v0.3.30-phase3.1-matilda-conversational
+v0.3.30-phase3.2-matilda-delegation
+v0.3.4-phase6-ontology-base
+v0.3.40-phase3-golden
+v0.3.5-dashboard-fully-wired
+v0.3.6-phase6-ontology-verified
+v0.3.7-phase7-functional
+v0.3.8-phase8-complete
+v0.3.8-phase8-remote-skill-autonomy
+v0.3.9-phase8.1-complete
+v0.4.0-baseline-dashboard
+v0.4.0-dashboard-stable
+v0.4.0-phase4-dynamic-learning
+v0.4.0-phase4-golden
+v0.4.0-phase4-reflection-complete
+v0.4.0-phase4-reflection-revert
+v0.4.0-phase9.1-complete
+v0.4.1-phase10.1-health-uptime
+v0.4.1-phase4-dashboard-init
+v0.4.2-phase11-introspective-sim
+v0.4.2-phase4-dashboard-complete
+v0.4.3-phase12-autonomic-adaptation
+v0.4.3.3-phase4-gemma-stable
+v0.4.3.4-phase4-gemma-chat-verified
+v0.4.4-phase13-self-verify
+v0.4.4.1-phase4-modular-reflections
+v0.4.4.4-phase4-static-reflections-success
+v0.4.4.5-phase4-static-reflections-reapply
+v0.4.5-golden-reflections-dynamic
+v0.4.6-golden-reflection-watcher
+v0.4.7-golden-reflection-sse
+v0.4.8-checkpoint-dashboard-sse
+v0.4.8-golden-dashboard-sse
+v0.4.8-golden-sse-cors
+v0.5.0-phase5-golden
+v0.5.1-phase4.9-ops-dashboard-live
+v0.5.3-phase5.0-ops-sse-synced
+v0.5.4-phase5.0-ops-sse-broadcast-verified
+v0.5.5-phase5.1-broadcast-visualization
+v0.5.6-phase5.3-backup-system-verified
+v0.6.0-phase6-golden
+v0.6.0-phase6.0-demo-sequence-verified
+v0.6.1-phase6.1-live-delegation-simulation
+v0.6.10-phase6.6.1-animation-loop
+v0.6.10.1-phase6.6.2-animation-sync
+v0.6.12-phase6.8-demo-snapshot
+v0.6.13-phase6.9.5-darkmode-unified
+v0.6.14-phase6.9.6-chatbot-darkmode
+v0.6.15-phase6.9.7-header-glow
+v0.6.15-phase6.9.9-live-delegation-restored
+v0.6.16-phase6.9.8-header-final
+v0.6.3-phase6.1-ops-sse-verified
+v0.6.4-phase6.2-dashboard-sync
+v0.6.7-phase6.3-db-audit-clean
+v0.6.7.1-phase6.3.1-dashboard-sync-stable
+v0.6.8-phase6.4-reset-roundtrip
+v0.6.9.3-phase6.5.1-graph-verified
+v0.7.0-phase7-dashboard-sync
+v0.7.0-phase7-interactive-delegation
+v0.7.0-phase7-verified
+v0.7.1-phase7-dashboard-sync
+v0.9.0-phase9-atlas-live
+v0.9.6-dashboard-rebind-stable
+v0.9.6-dashboard-stable
+v0.9.8.0-dashboard-delegation-online
+v0.9.9.5-phase9-demo-utils
+v1.0.0-golden
+v100.0-cognition-hardening-golden
+v11.0-stable-dashboard
+v11.1-dashboard-bundle-phase1
+v11.1-stable-dashboard
+v11.10-dashboard-bundle-stable
+v11.10-dashboard-delegation-stable
+v11.11-dec16-dashboard-restore-stable
+v11.11-phase59
+v11.12-dec16-dashboard-restore-golden
+v11.13-post-golden-tracker
+v11.14-post-golden-health-meta
+v11.20-next2-dashboard-sse-panels-alive
+v11.28-dashboard-stable
+v11.7-ops-pill-dashboard-stable
+v11.9-dashboard-chat-reflections-shim-stable
+v119.0-dashboard-cognition-contract
+v120-dashboard-consumption-adapter-golden
+v128.0-consumption-registry-enforcement-golden
+v129.0-governance-execution-routing-golden
+v13.5-operator-ux-overlay-wired
+v13.5.1-operator-ux-proofpack-final
+v130.0-governance-outcome-surfaces-golden
+v14.8-dashboard-ux-restored
+v149.5-execution-capability-audited-governance-prelive-summary-corridor-golden
+v15.0-dashboard-stable-no-sse
+v15.1-dashboard-restored-pvo-surgical-guardrails
+v15.1-phase15-confidence-checks-ok
+v15.2-phase15-polish-complete
+v16.1-phase16-ops-reflections-singleton-ok
+v16.2-phase16-verified
+v16.6-phase16-stable
+v18.1-orchestration-phase18-complete
+v19.10-phase19-task-created-hook-ok
+v19.11-phase19-task-created-verified-ok
+v19.12-phase19-task-created-verified-ok
+v19.13-phase19-task-complete-events-ok
+v19.14-phase19-task-complete-events-verified-ok
+v19.15-phase19-task-events-created+complete-ok
+v19.16-phase19-task-events-failed-ok
+v19.4-phase19-task-events-merged-ok
+v19.5-phase19-postgres-task_events-smoke-ok
+v19.6-phase19-postgres-env-helper-ok
+v19.7-phase19-postgres-next-steps-doc-ok
+v19.8-phase19-postgres-app-smoke-ok
+v19.9-phase19-task-created-event-ok
+v2.0.2-partial-dashboard-restore
+v2.0.3-dashboard-stable
+v2.0.3-stable-dashboard
+v21.0-dashboard-task-events-sse-verified
+v21.0-task-events-sse-golden
+v22.0-dashboard-task-events-live-ok
+v251.0-governance-enforcement-architecture-scaffold-golden
+v251.1-governance-enforcement-architecture-protected-golden
+v27.0-phase27-worker-smoke-ok
+v28.0-phase28-failure-routing-smoke-ok
+v28.1-phase28-smoke-deterministic-ok
+v28.2-phase28-handoff-ok
+v29.0-phase29-db-migrate-smoke-ok
+v29.1-phase29-worker-compat-ok
+v29.2-phase29-handoff-ok
+v30.0-phase30-canonical-ready-smoke-ok
+v30.1-phase30-canonical-ready-smoke-ok
+v30.2-phase30-handoff-ok
+v31.0-phase31-smoke-payload-compat-ok
+v31.1-phase31-handoff-ok
+v31.2-phase31-suite-ok
+v31.3-phase31-merged-into-phase26-ok
+v31.4-phase26-phase28-31-merged-clean-ok
+v31.7-golden-container-reclaim-verify
+v31.8-golden-worker-lane
+v31.9-golden-worker-image-fixed-ok
+v31.9-golden-worker-image-ok
+v32.0-golden-retry-backoff-minimal
+v32.1-golden-retry-backoff-verified-hook
+v32.10-golden-phase32-compose-fixed
+v32.2-golden-retry-backoff-schema-aligned
+v32.3-golden-retry-backoff-schema-correct
+v32.4-golden-retry-backoff-hook-compat
+v32.5-golden-retry-backoff-hook-meta-unwrap
+v32.6-golden-retry-backoff-hook-meta-unwrap-fixed
+v32.7-golden-retry-backoff-clean-success
+v32.8-golden-phase32-verify-script-payload-cast
+v32.9-golden-phase32-docker-e2e
+v33.0-phase33-delegated-claim-docker-golden
+v330-governance-invariants-golden
+v331-governance-visibility-foundation-golden
+v332-governance-traceability-foundation-golden
+v333-governance-reporting-foundation-golden
+v334-governance-digest-foundation-golden
+v335-governance-operator-packet-foundation-golden
+v336-governance-operator-manifest-foundation-golden
+v337-governance-operator-briefing-foundation-golden
+v338-governance-operator-console-foundation-golden
+v339-governance-operator-handoff-foundation-golden
+v34.0-phase34-reclaim-stable
+v340-governance-operator-session-foundation-golden
+v341-governance-operator-snapshot-foundation-golden
+v342-governance-operator-bundle-foundation-golden
+v343-governance-operator-export-foundation-golden
+v344-governance-operator-archive-foundation-golden
+v345-governance-operator-record-foundation-golden
+v346-governance-operator-logbook-foundation-golden
+v347-governance-operator-register-foundation-golden
+v348-governance-operator-catalog-foundation-golden
+v349-governance-operator-index-foundation-golden
+v35.0-phase35-golden
+v35.0-phase35-task-events-runid-actor
+v35.1-phase35-merge-golden
+v35.2-phase35-closure-docs
+v35.3-phase35-handoff-docs
+v350-governance-operator-manifest-index-foundation-golden
+v351-governance-operator-map-foundation-golden
+v352-governance-operator-atlas-foundation-golden
+v353-governance-operator-ledger-foundation-golden
+v354-governance-operator-registry-foundation-golden
+v355-governance-operator-directory-foundation-golden
+v356-governance-operator-guide-foundation-golden
+v357-governance-operator-manual-foundation-golden
+v358-governance-operator-playbook-foundation-golden
+v359-governance-operator-handbook-foundation-golden
+v36.1-phase36-2-run-observability-smoke-green
+v36.2-dashboard-api-tasks-schema-compat-golden
+v36.2-phase36-3-planning-locked
+v36.4-phase36-4-run-list-observability
+v36.4-phase36-run-list-observability
+v36.5-run-list-dashboard
+v360-governance-operator-compendium-foundation-golden
+v361-governance-operator-reference-foundation-golden
+v362-governance-operator-glossary-foundation-golden
+v363-governance-operator-lexicon-foundation-golden
+v364-governance-operator-dictionary-foundation-golden
+v37.0-phase37-planning-last_event_provenance
+v37.1-phase37-planning-terminal_provenance
+v37.1-phase37-planning-terminal_provenance-stop
+v37.2-phase37-decisions-recorded
+v37.2-phase37-decisions-recorded2
+v37.2-phase37-planning-terminal_kind_alignment_options
+v37.2-phase37-planning-terminal_kind_alignment_options-stop
+v37.2-phase37-planning-terminal_kind_alignment_options-stop2
+v37.2-phase37-planning-terminal_kind_alignment_options-stop3
+v37.3-phase37-acceptance-terminal_kinds-aligned
+v37.4-phase37-terminal_event-integrity-gaps-planning
+v37.5-run-view-terminal-kind-normalization-golden
+v372.0-replay-investigation-diagnostics-golden
+v38.0-phase38-runs-list-contract-stable
+v382.0-replay-verification-proof-suite-golden
+v386.0-replay-chain-integrity-golden
+v39-action-tier-policy-semantics-golden
+v39-action-tier-policy-semantics-golden-main
+v39-action-tier-policy-semantics-golden-main-merged
+v39.0-phase39-value-gate-golden
+v39.0-value-alignment-foundation-golden
+v390.0-replay-proof-integrity-complete-golden
+v392.0-replay-proof-integrity-handoff-golden
+v397.0-final-operator-stop-golden
+v40-sql-claim-tierA-gate-golden
+v40.1-shadow-mode-wiring-golden
+v40.2-shadow-audit-shape-golden
+v40.3-shadow-audit-capture-golden
+v40.4-shadow-audit-rotate-golden
+v40.5-shadow-mode-wiring-golden
+v401.10-trust-cognition-corridor-golden
+v401.21-trust-cognition-corridor-closed-golden
+v402.0-operator-consumption-boundary-opened
+v402.1-operator-consumption-summary-contract
+v402.2-operator-attention-surface
+v402.3-operator-decision-surface
+v402.5-operator-consumption-foundation-complete
+v41-dashboard-alive-smoke-golden
+v41-tierA-claim-gate-golden
+v423.5-golden-sealed
+v45.1-operational-hardening-golden
+v45.1-startup-determinism-golden
+v456.0-operator-guidance-baseline-stable
+v47.0-decision-correctness-golden
+v47.2-decision-correctness-golden
+v47.3-shadow-to-enforce-local-golden
+v486.34-state-handoff-phase-486-complete
+v486.36-phase-486-fully-closed
+v486.37-phase-lock-confirmed
+v487.1-operator-guidance-diagnosis-defined
+v487.3-post-restart-dashboard-recovered
+v489.1-operator-guidance-rewire-complete
+v53-enforce-http-403-golden
+v54-regression-harness-golden
+v54.0-bootstrap-schema-align-golden
+v55.0-run-lifecycle-immutability-golden
+v56.0-worker-tdz-shadow-audit-golden
+v56.1-phase54-regression-harness-ci-determinism-golden
+v56.2-phase54-harness-ci-fix-postgres-url-golden
+v57.0-demo-hardening-golden
+v60.1-dashboard-hierarchy-polish-preview
+v60.1-recovered-stable-dashboard-checkpoint-20260309
+v60.1-recovered-stable-dashboard-checkpoint-20260309-r2
+v60.2-operator-console-polish-preview
+v61.1-phase61-exact-current-state-20260310
+v61.2-phase61-layout-contract-locked-20260310
+v62.1-phase62-metrics-telemetry-tiles
+v62.2-phase62-layout-contract-protected
+v62.2-phase62b-golden-20260312
+v62.2-phase62b-metrics-and-wiring-stable-20260312
+v63.0-telemetry-integration-golden
+v63.1-phase63-metrics-integrity-golden-20260312
+v63.2-phase63-agent-activity-signals-golden-20260312
+v63.3-phase63-telemetry-semantic-audit-golden-20260312
+v80.0-safe-iteration-engine-golden
+v88.14.11-live-system-health-attachment-golden
+v90.0-operator-guidance-surface-golden
+v91.0-guidance-intelligence-refinement-golden
+v95.0-operator-cognition-interaction-golden
+v96.0-governance-foundation-golden
+v97.0-governance-integration-golden
+v98.0-governance-awareness-golden
+v99.2-operational-confidence-synthesis-golden
+v99.3-situation-summary-confidence-contract-golden
+v99.3-situation-summary-confidence-integration-golden
+v99.6-guidance-confidence-stable
+
+===== POSSIBLE DASHBOARD BRANCHES =====
+  remotes/origin/archive/feature/dashboard-ui
+  remotes/origin/archive/phase41-dashboard-alive-smoke-pr
+  remotes/origin/archive/phase59-dashboard-composition
+  remotes/origin/docs/phase57b-dashboard-polish
+  remotes/origin/emergency/dashboard-rollback-v11.7
+  remotes/origin/feature/dashboard-ui
+  remotes/origin/feature/phase13-operator-polish
+  remotes/origin/feature/phase21-dashboard-task-events-sse
+  remotes/origin/feature/phase22-dashboard-task-events-ui
+  remotes/origin/feature/phase36-5-run-list-dashboard
+  remotes/origin/feature/phase41-dashboard-alive-smoke-pr
+  remotes/origin/feature/phase46-dashboard-heap-headroom
+  remotes/origin/feature/phase59-dashboard-composition
+  remotes/origin/feature/v11-dashboard-bundle
+  remotes/origin/fix/ci-dashboard-npm-ci-retry
+  remotes/origin/fix/dashboard-unresponsive-direct-scripts
+  remotes/origin/fix/phase54-dashboard-db-bootstrap-retry
+  remotes/origin/fix/restore-dashboard-v14_8-and-surgical-pvo-20251225-233007
+  remotes/origin/integrate/phase13-operator-polish-onto-main
+  remotes/origin/phase-89-guidance-schema
+  remotes/origin/phase-90-1-operator-guidance-panel-shell
+  remotes/origin/phase-92-operator-situation-interpretation
+  remotes/origin/phase117-operator-cognition-surfacing
+  remotes/origin/phase118-operator-presentation-contracts
+  remotes/origin/phase119-dashboard-cognition-contract
+  remotes/origin/phase3.3-restored-dashboard
+  remotes/origin/phase4.4-dashboard-diagnostics
+  remotes/origin/phase4.4-dashboard-safe-base
+  remotes/origin/phase4.4.1-dashboard-verified-restore
+  remotes/origin/phase4.8-golden-dashboard-sse-restore
+  remotes/origin/phase4.9-dashboard-ops-integration
+  remotes/origin/phase5.1-dashboard-broadcast-visualization
+  remotes/origin/phase62-dashboard-layout
+  remotes/origin/phase63-telemetry-enrichment
+  remotes/origin/phase9.6-dashboard-reflections
+  remotes/origin/safe/wired-dashboard
+  remotes/origin/stable/v11.12-dec16-dashboard-restore
+
+===== RECENT STASHES =====
+
+
+===== POSSIBLE DASHBOARD HTML FILES =====
+./backups/_restore_test/exports/dashboard_phase6.8/dashboard.html
+./backups/_restore_test/PHASE88_14_1_public_dashboard_body.html
+./backups/_restore_test/PHASE88_14_10_DASHBOARD.html
+./backups/_restore_test/public_broken_rollback_1762824556/dashboard.html
+./backups/_restore_test/public/dashboard.html
+./backups/_restore_test/public/dashboard.pre-bundle-tag.html
+./backups/_restore_test/snapshots/20251114-114707/public/dashboard.html
+./backups/_restore_test/snapshots/20251114-114821/public/dashboard.html
+./backups/dashboard-ui-before-phase91-restore/dashboard.html
+./exports/dashboard_phase6.8/dashboard.html
+./PHASE88_14_1_public_dashboard_body.html
+./PHASE88_14_10_DASHBOARD.html
+./public_broken_rollback_1762824556/dashboard.html
+./public/dashboard.html
+./public/dashboard.pre-bundle-tag.html
+./snapshots/20251114-114707/public/dashboard.html
+./snapshots/20251114-114821/public/dashboard.html
+
+===== POSSIBLE DASHBOARD BACKUPS =====
+./.git/logs/refs/remotes/origin/fix/restore-dashboard-v14_8-and-surgical-pvo-20251225-233007
+./.git/logs/refs/remotes/origin/phase3.3-restored-dashboard
+./.git/logs/refs/remotes/origin/phase4.8-golden-dashboard-sse-restore
+./.git/refs/remotes/origin/fix/restore-dashboard-v14_8-and-surgical-pvo-20251225-233007
+./.git/refs/remotes/origin/phase3.3-restored-dashboard
+./.git/refs/remotes/origin/phase4.8-golden-dashboard-sse-restore
+./.git/refs/tags/v0.4.8-golden-dashboard-sse
+./backups/_restore_test/.git/logs/refs/remotes/origin/fix/restore-dashboard-v14_8-and-surgical-pvo-20251225-233007
+./backups/_restore_test/.git/logs/refs/remotes/origin/phase3.3-restored-dashboard
+./backups/_restore_test/.git/logs/refs/remotes/origin/phase4.8-golden-dashboard-sse-restore
+./backups/_restore_test/.git/refs/remotes/origin/fix/restore-dashboard-v14_8-and-surgical-pvo-20251225-233007
+./backups/_restore_test/.git/refs/remotes/origin/phase3.3-restored-dashboard
+./backups/_restore_test/.git/refs/remotes/origin/phase4.8-golden-dashboard-sse-restore
+./backups/_restore_test/.git/refs/tags/v0.4.8-golden-dashboard-sse
+./backups/_restore_test/scripts/_local/phase61_restore_stable_dashboard_image.sh
+./backups/_restore_test/scripts/_local/phase64_4_restore_interactive_dashboard.sh
+./backups/_restore_test/scripts/_local/restore_recovered_stable_dashboard_checkpoint.sh
+./restore-dashboard-ui-surface.sh
+./restore-latest-dashboard-ui-from-git.sh
+./restore-phase91-dashboard-golden.sh
+./scripts/_local/phase61_restore_stable_dashboard_image.sh
+./scripts/_local/phase64_4_restore_interactive_dashboard.sh
+./scripts/_local/restore_recovered_stable_dashboard_checkpoint.sh
+
+===== POSSIBLE VISUAL SNAPSHOTS =====
+
+
+===== DASHBOARD COMMITS AFTER PHASE 91 =====
+5aee4ed4 Promote latest dashboard UI to served root
+91129400 Restore latest dashboard UI surface from git history
+535c84fe Restore dashboard UI data surfaces
+c76cffe7 Restore phase530 visual transport function declaration
+c67d716c Remove dangling phase530 function fragment
+1fcf5eb1 Activate render-native visual mount branch
+7bc7fde2 Add render-native dashboard HTML renderer
+84b3c746 Add guarded render-native routing detector
+ef1bc797 Use escaped text transport for visual artifact templates
+48b826fa Fix quote-poisoned visual artifact style decoding
+7882ecd9 Render fallback raw HTML artifacts as sanitized DOM
+3c686916 Align single-container preview branch with template mount
+ea7124c5 Apply template mount for visual artifact DOM rendering
+5ce96c3d Mount single-container visual artifacts as decoded sanitized DOM
+5ef4e73a Mount visual artifact HTML after modal render
+2ccefb9f Decode visual artifact HTML before sanitizing
+2ea4d1d0 Extract visual artifact block outside semantic envelope
+e315e5fe Render visual artifacts as single preview container
+61826658 Apply style intent theme to outer preview shell
+8d3ee346 Prefer style intent renderer over generic visual artifact block
+6b56c073 Add request-scoped style intent preview renderer
+682055ec Normalize escaped preview transport newlines
+c0209605 Phase 725: polish visual preview shell
+b8d360da Phase 724: remove fallback from visual candidate renderer
+e2a6ed40 Phase 724: suppress visual artifact fallback stack
+1e343cef Phase 723: cache bust visual renderer script
+da622425 Phase 723: correct visual wrapper activation
+f90766c4 Phase 723: add inactive visual preview wrapper
+6412dfaa Phase 723: add inactive visual artifact sanitizer helper
+2ce383fb Phase 723: add inactive visual artifact block helper
+aa665479 Phase 722: polish semantic artifact readability
+340c3efc Phase 721: add semantic operator summary card
+8b2258c8 Phase 720: add frontend semantic envelope detection v2
+a3a77d4c Phase 720: inspect semantic artifact paths
+f79a279a Phase 719: improve semantic artifact preview readability
+ae96ff34 Phase 719: stop clearing agent pool on refresh
+385c0aa4 Phase 719: make inline semantic artifact preview primary
+6cfc955b Phase 719: add visible fallback for artifact preview rendering
+22e6844c Phase 719: add UI-only semantic artifact classification
+885839d4 Phase 719: expand artifact preview renderer sections
+bb23656a Revert "Phase 719: patch artifact preview constraints"
+3b12dd17 Phase 719: patch artifact preview constraints
+bd05e3a5 Phase 719: disable active stale Phase 530 console calls
+cd77d190 Phase 719: disable stale endpoint console callers
+d4b75e3b Phase 719: disable invalid legacy console scripts
+1a3cee05 Phase 719: disable noisy Phase 530 DOM probe
+436d2fd4 Revert "Phase 719: polish embedded artifact preview containment"
+9e552128 Phase 719: polish embedded artifact preview containment
+4a72fe1f Phase 719: apply isolated iframe artifact preview renderer
+a1cce132 Phase 719: render artifact preview as visual card surface
+bb3feaa4 Phase 719: render markdown artifact preview visually
+858bee50 Phase 719: wire preview modal to artifact content
+49d0e371 Phase 719: add frontend-only artifact preview modal
+3b8f4829 Phase 719: replace lifecycle pill with conditional preview
+51e3bd3b Phase 719: surface artifact metadata in recent tasks
+102bc6cd Phase 719: add Matilda frontend response tracing
+d233cf9e Phase 719: extend Matilda frontend chat timeout
+fcb26a98 Phase 719: remove updated and target inline text
+3746fbe9 Phase 719: restore inspect details pill
+dccf001f Phase 719: remove status and id inline text
+47a65773 Revert "Revert "Phase 719: remove inspect details button""
+144c238e Revert "Phase 719: remove inspect details button"
+d681becf Phase 719: remove inspect details button
+537d2f12 Phase 719: disable tasks widget guidance renderer
+bd5d27ae Phase 719: disable inline recent task metadata
+68a77a25 Phase 719: remove inline outcome hint
+e423f446 Phase 719: remove inline details telemetry
+7bf706d2 Phase 719: disable legacy recent tasks renderer
+4fd5866c Phase 719: remove duplicate status metadata
+a39ce9e7 Phase 719: add completed triage badge
+6b7eeb22 Phase 718: collapse retry title chains
+6db3e863 Phase 718: resolve nested retry titles
+16878edc Phase 718: resolve retry target task titles
+c6156312 Phase 718: normalize retry task titles
+1f96f8ff Phase 718: surface retry lineage labels
+cd40f97e Phase 717: apply minimal recent tasks polish
+499a3c5a Revert "Phase 717: remove task history tab and panel"
+e4c7dd74 Phase 717: remove task history tab and panel
+c29d9add Phase 717: remove execution inspector tab and panel
+f66f81e6 Phase 717: restore telemetry console from stable checkpoint
+461c04c1 Phase 717: remove breakout telemetry workspace surfaces
+e3ed860c Phase 717: remove recent logs HTML wrapper
+6ab28f01 Phase 717: remove recent logs container safely
+810be25f Revert "Phase 717: remove embedded recent logs panel"
+917a1287 Phase 717: remove embedded recent logs panel
+cda0a3f3 Phase 717: move outcome preview to logs modal
+9878bc24 Phase 717: wire inspect logs chip
+1c1510ef Phase 717: add read-only inspection modal chips
+d14c6e81 Phase 717: compact recent tasks evidence density
+4a0cb40b Phase 717: normalize retry modal spacing
+fccf2909 Phase 717: improve requeue modal line spacing
+3bf72050 Phase 717: refine retry modal confirmation copy
+71f1ee29 Phase 717: differentiate retry modal behavior copy
+8dd8de85 Phase 717: humanize retry modal copy
+862996fa Phase 717: replace retry browser prompts with UI modal
+02abd4f1 Phase 717: wire lifecycle retry actions
+59d173fb Phase 717: activate lifecycle retry buttons
+2027bf7d Phase 717: prepare safe retry UI patch
+055ef929 Phase 717: label recent tasks as lifecycle cards
+efaa36dc Phase 716: patch actual recent tasks evidence renderer containment
+3e869030 Revert "Phase 716: fix zero-height recent tasks containment"
+db312a74 Phase 716: fix zero-height recent tasks containment
+80657225 Revert "Phase 716: target recent tasks inspector overflow containment"
+9bc762ff Phase 716: target recent tasks inspector overflow containment
+dc9de38b Revert "Phase 716: contain execution inspector JSON overflow"
+1aff8d4a Revert "Phase 716: fix execution inspector overflow CSS link injection"
+f61a6bae Revert "Phase 716: force serve execution inspector overflow stylesheet"
+ad2715e0 Phase 716: force serve execution inspector overflow stylesheet
+8b838564 Phase 716: fix execution inspector overflow CSS link injection
+bbc15ad9 Phase 716: contain execution inspector JSON overflow
+a7837dc9 Phase 708: add truthful frontend chat timeout fallback
+1df1894f Phase 704: fix Execution Inspector waiting stream state
+a17c1967 Phase 704: fix Execution Inspector SSE endpoint
+42981f26 Enhance guidance history UI summary formatting
+cb7ac7fa Add read-only guidance history UI placeholder
+7421d09b phase629: add safe read-only event title fallback for inspector
+7d9954ed phase628: add read-only task selection bridge for Execution Inspector
+d51927b2 phase627: normalize inspector guidance patch newlines
+daff8935 phase627: safely render guidance in Execution Inspector
+a10a2a73 phase626: align guidance field mapping for dashboard rendering
+
+===== EXTERNAL / BACKUP DIRECTORIES =====
+./_archive
+./_archive/server_backups
+./archive
+./backup_registry
+./backups
+./backups/_restore_test/_archive
+./backups/_restore_test/archive
+./backups/_restore_test/backup_registry
+./backups/_restore_test/backups
+./backups/_restore_test/external_backups
+./backups/_restore_test/routes_backup
+./backups/_restore_test/scripts_backup
+./backups/_restore_test/scripts_backup_2
+./backups/_restore_test/snapshots
+./backups/_restore_test/ts-backup
+./dist/scripts/_archive
+./dist/scripts/agents_backup_empty_20250805_1210
+./external_backups
+./memory/archive_desktop
+./recovery-vault
+./routes_backup
+./scripts_backup
+./scripts_backup_2
+./scripts_backup_2/_archive
+./scripts_backup_2/agents_backup_empty_20250805_1210
+./scripts_backup/_archive
+./scripts_backup/agents_backup_empty_20250805_1210
+./scripts_backup/scripts/_archive
+./scripts_backup/scripts/agents_backup_empty_20250805_1210
+./scripts/_archive
+./scripts/agents_backup_empty_20250805_1210
+./snapshots
+./ts-backup
+
+===== LIKELY NEXT ACTION =====
+Review candidate branches, tags, snapshots, and screenshots.
+Identify the exact remembered dashboard lineage before any further restore.
