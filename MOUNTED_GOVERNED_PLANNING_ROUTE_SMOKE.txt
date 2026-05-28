@@ -1,0 +1,11 @@
+===== MOUNTED GOVERNED PLANNING ROUTE SMOKE =====
+Wed May 27 23:47:57 PDT 2026
+
+===== ROUTE =====
+http://localhost:3000/api/governed-planning/dry-run
+
+===== SERVER SYNTAX =====
+
+===== ROUTE SYNTAX =====
+
+===== HTTP RESPONSE =====

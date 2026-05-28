@@ -1,0 +1,152 @@
+===== GOVERNED ROUTE SERVER RESET DIAGNOSIS =====
+Wed May 27 23:49:11 PDT 2026
+
+===== ROUTE TEST THAT FAILED =====
+http://localhost:3000/api/governed-planning/dry-run
+
+===== SERVER SYNTAX =====
+
+===== GOVERNED ROUTE SYNTAX =====
+
+===== STATIC IMPORT CHECK =====
+IMPORT_OK
+
+===== SERVER IMPORT CHECK =====
+Error [ERR_MODULE_NOT_FOUND]: Cannot find package 'pg' imported from /Users/marcela-dev/Projects/motherboard-systems-hq-clean/server.mjs
+    at Object.getPackageJSONURL (node:internal/modules/package_json_reader:255:9)
+    at packageResolve (node:internal/modules/esm/resolve:767:81)
+    at moduleResolve (node:internal/modules/esm/resolve:853:18)
+    at defaultResolve (node:internal/modules/esm/resolve:983:11)
+    at ModuleLoader.defaultResolve (node:internal/modules/esm/loader:801:12)
+    at #cachedDefaultResolve (node:internal/modules/esm/loader:725:25)
+    at ModuleLoader.resolve (node:internal/modules/esm/loader:708:38)
+    at ModuleLoader.getModuleJobForImport (node:internal/modules/esm/loader:309:38)
+    at #link (node:internal/modules/esm/module_job:208:49) {
+  code: 'ERR_MODULE_NOT_FOUND'
+}
+
+===== PORT CHECK =====
+COMMAND    PID        USER   FD   TYPE             DEVICE SIZE/OFF NODE NAME
+com.docke 7569 marcela-dev  181u  IPv6 0x93dfa532d0d01e1e      0t0  TCP *:3000 (LISTEN)
+
+===== PM2 STATUS =====
+┌────┬───────────┬─────────────┬─────────┬─────────┬──────────┬────────┬──────┬───────────┬──────────┬──────────┬──────────┬──────────┐
+│ id │ name      │ namespace   │ version │ mode    │ pid      │ uptime │ ↺    │ status    │ cpu      │ mem      │ user     │ watching │
+└────┴───────────┴─────────────┴─────────┴─────────┴──────────┴────────┴──────┴───────────┴──────────┴──────────┴──────────┴──────────┘
+
+===== RECENT PM2 LOGS =====
+[1m[90m[TAILING] Tailing last 80 lines for [all] processes (change the value with --lines option)[39m[22m
+[90m/Users/marcela-dev/.pm2/pm2.log last 80 lines:[39m
+[34mPM2        | [39m2026-05-05T14:57:33: PM2 log: PM2 home             : /Users/marcela-dev/.pm2
+[34mPM2        | [39m2026-05-05T14:57:33: PM2 log: PM2 PID file         : /Users/marcela-dev/.pm2/pm2.pid
+[34mPM2        | [39m2026-05-05T14:57:33: PM2 log: RPC socket file      : /Users/marcela-dev/.pm2/rpc.sock
+[34mPM2        | [39m2026-05-05T14:57:33: PM2 log: BUS socket file      : /Users/marcela-dev/.pm2/pub.sock
+[34mPM2        | [39m2026-05-05T14:57:33: PM2 log: Application log path : /Users/marcela-dev/.pm2/logs
+[34mPM2        | [39m2026-05-05T14:57:33: PM2 log: Worker Interval      : 30000
+[34mPM2        | [39m2026-05-05T14:57:33: PM2 log: Process dump file    : /Users/marcela-dev/.pm2/dump.pm2
+[34mPM2        | [39m2026-05-05T14:57:33: PM2 log: Concurrent actions   : 2
+[34mPM2        | [39m2026-05-05T14:57:33: PM2 log: SIGTERM timeout      : 1600
+[34mPM2        | [39m2026-05-05T14:57:33: PM2 log: Runtime Binary       : /opt/homebrew/Cellar/node/24.4.0/bin/node
+[34mPM2        | [39m2026-05-05T14:57:33: PM2 log: ===============================================================================
+[34mPM2        | [39m2026-05-06T11:13:08: PM2 log: pm2 has been killed by signal, dumping process list before exit...
+[34mPM2        | [39m2026-05-06T11:13:08: PM2 log: Exited peacefully
+[34mPM2        | [39m2026-05-17T20:38:18: PM2 log: ===============================================================================
+[34mPM2        | [39m2026-05-17T20:38:18: PM2 log: --- New PM2 Daemon started ----------------------------------------------------
+[34mPM2        | [39m2026-05-17T20:38:18: PM2 log: Time                 : Sun May 17 2026 20:38:18 GMT-0700 (Pacific Daylight Time)
+[34mPM2        | [39m2026-05-17T20:38:18: PM2 log: PM2 version          : 6.0.11
+[34mPM2        | [39m2026-05-17T20:38:18: PM2 log: Node.js version      : 24.4.0
+[34mPM2        | [39m2026-05-17T20:38:18: PM2 log: Current arch         : arm64
+[34mPM2        | [39m2026-05-17T20:38:18: PM2 log: PM2 home             : /Users/marcela-dev/.pm2
+[34mPM2        | [39m2026-05-17T20:38:18: PM2 log: PM2 PID file         : /Users/marcela-dev/.pm2/pm2.pid
+[34mPM2        | [39m2026-05-17T20:38:18: PM2 log: RPC socket file      : /Users/marcela-dev/.pm2/rpc.sock
+[34mPM2        | [39m2026-05-17T20:38:18: PM2 log: BUS socket file      : /Users/marcela-dev/.pm2/pub.sock
+[34mPM2        | [39m2026-05-17T20:38:18: PM2 log: Application log path : /Users/marcela-dev/.pm2/logs
+[34mPM2        | [39m2026-05-17T20:38:18: PM2 log: Worker Interval      : 30000
+[34mPM2        | [39m2026-05-17T20:38:18: PM2 log: Process dump file    : /Users/marcela-dev/.pm2/dump.pm2
+[34mPM2        | [39m2026-05-17T20:38:18: PM2 log: Concurrent actions   : 2
+[34mPM2        | [39m2026-05-17T20:38:18: PM2 log: SIGTERM timeout      : 1600
+[34mPM2        | [39m2026-05-17T20:38:18: PM2 log: Runtime Binary       : /opt/homebrew/Cellar/node/24.4.0/bin/node
+[34mPM2        | [39m2026-05-17T20:38:18: PM2 log: ===============================================================================
+[34mPM2        | [39m2026-05-18T20:41:08: PM2 log: [PM2] This PM2 is not UP TO DATE
+[34mPM2        | [39m2026-05-18T20:41:08: PM2 log: [PM2] Upgrade to version 7.0.1
+[34mPM2        | [39m2026-05-19T20:44:26: PM2 log: [PM2] This PM2 is not UP TO DATE
+[34mPM2        | [39m2026-05-19T20:44:26: PM2 log: [PM2] Upgrade to version 7.0.1
+[34mPM2        | [39m2026-05-20T21:16:36: PM2 log: [PM2] This PM2 is not UP TO DATE
+[34mPM2        | [39m2026-05-20T21:16:36: PM2 log: [PM2] Upgrade to version 7.0.1
+[34mPM2        | [39m2026-05-21T21:21:31: PM2 log: [PM2] This PM2 is not UP TO DATE
+[34mPM2        | [39m2026-05-21T21:21:31: PM2 log: [PM2] Upgrade to version 7.0.1
+[34mPM2        | [39m2026-05-22T21:33:43: PM2 log: [PM2] This PM2 is not UP TO DATE
+[34mPM2        | [39m2026-05-22T21:33:43: PM2 log: [PM2] Upgrade to version 7.0.1
+[34mPM2        | [39m2026-05-23T00:20:35: PM2 log: pm2 has been killed by signal, dumping process list before exit...
+[34mPM2        | [39m2026-05-23T00:20:35: PM2 log: Exited peacefully
+[34mPM2        | [39m2026-05-24T23:40:49: PM2 log: ===============================================================================
+[34mPM2        | [39m2026-05-24T23:40:49: PM2 log: --- New PM2 Daemon started ----------------------------------------------------
+[34mPM2        | [39m2026-05-24T23:40:49: PM2 log: Time                 : Sun May 24 2026 23:40:49 GMT-0700 (Pacific Daylight Time)
+[34mPM2        | [39m2026-05-24T23:40:49: PM2 log: PM2 version          : 6.0.11
+[34mPM2        | [39m2026-05-24T23:40:49: PM2 log: Node.js version      : 24.4.0
+[34mPM2        | [39m2026-05-24T23:40:49: PM2 log: Current arch         : arm64
+[34mPM2        | [39m2026-05-24T23:40:49: PM2 log: PM2 home             : /Users/marcela-dev/.pm2
+[34mPM2        | [39m2026-05-24T23:40:49: PM2 log: PM2 PID file         : /Users/marcela-dev/.pm2/pm2.pid
+[34mPM2        | [39m2026-05-24T23:40:49: PM2 log: RPC socket file      : /Users/marcela-dev/.pm2/rpc.sock
+[34mPM2        | [39m2026-05-24T23:40:49: PM2 log: BUS socket file      : /Users/marcela-dev/.pm2/pub.sock
+[34mPM2        | [39m2026-05-24T23:40:49: PM2 log: Application log path : /Users/marcela-dev/.pm2/logs
+[34mPM2        | [39m2026-05-24T23:40:49: PM2 log: Worker Interval      : 30000
+[34mPM2        | [39m2026-05-24T23:40:49: PM2 log: Process dump file    : /Users/marcela-dev/.pm2/dump.pm2
+[34mPM2        | [39m2026-05-24T23:40:49: PM2 log: Concurrent actions   : 2
+[34mPM2        | [39m2026-05-24T23:40:49: PM2 log: SIGTERM timeout      : 1600
+[34mPM2        | [39m2026-05-24T23:40:49: PM2 log: Runtime Binary       : /opt/homebrew/Cellar/node/24.4.0/bin/node
+[34mPM2        | [39m2026-05-24T23:40:49: PM2 log: ===============================================================================
+[34mPM2        | [39m2026-05-25T23:41:17: PM2 log: [PM2] This PM2 is not UP TO DATE
+[34mPM2        | [39m2026-05-25T23:41:17: PM2 log: [PM2] Upgrade to version 7.0.1
+[34mPM2        | [39m2026-05-26T03:15:49: PM2 log: pm2 has been killed by signal, dumping process list before exit...
+[34mPM2        | [39m2026-05-26T03:15:49: PM2 log: Exited peacefully
+[34mPM2        | [39m2026-05-27T23:36:38: PM2 log: ===============================================================================
+[34mPM2        | [39m2026-05-27T23:36:39: PM2 log: --- New PM2 Daemon started ----------------------------------------------------
+[34mPM2        | [39m2026-05-27T23:36:39: PM2 log: Time                 : Wed May 27 2026 23:36:39 GMT-0700 (Pacific Daylight Time)
+[34mPM2        | [39m2026-05-27T23:36:39: PM2 log: PM2 version          : 6.0.11
+[34mPM2        | [39m2026-05-27T23:36:39: PM2 log: Node.js version      : 24.4.0
+[34mPM2        | [39m2026-05-27T23:36:39: PM2 log: Current arch         : arm64
+[34mPM2        | [39m2026-05-27T23:36:39: PM2 log: PM2 home             : /Users/marcela-dev/.pm2
+[34mPM2        | [39m2026-05-27T23:36:39: PM2 log: PM2 PID file         : /Users/marcela-dev/.pm2/pm2.pid
+[34mPM2        | [39m2026-05-27T23:36:39: PM2 log: RPC socket file      : /Users/marcela-dev/.pm2/rpc.sock
+[34mPM2        | [39m2026-05-27T23:36:39: PM2 log: BUS socket file      : /Users/marcela-dev/.pm2/pub.sock
+[34mPM2        | [39m2026-05-27T23:36:39: PM2 log: Application log path : /Users/marcela-dev/.pm2/logs
+[34mPM2        | [39m2026-05-27T23:36:39: PM2 log: Worker Interval      : 30000
+[34mPM2        | [39m2026-05-27T23:36:39: PM2 log: Process dump file    : /Users/marcela-dev/.pm2/dump.pm2
+[34mPM2        | [39m2026-05-27T23:36:39: PM2 log: Concurrent actions   : 2
+[34mPM2        | [39m2026-05-27T23:36:39: PM2 log: SIGTERM timeout      : 1600
+[34mPM2        | [39m2026-05-27T23:36:39: PM2 log: Runtime Binary       : /opt/homebrew/Cellar/node/24.4.0/bin/node
+[34mPM2        | [39m2026-05-27T23:36:39: PM2 log: ===============================================================================
+
+
+===== SERVER MOUNT LINES =====
+25:import apiTasksMutationsRouter from "./server/routes/api-tasks-mutations.mjs";
+26:import governedPlanningRouter from "./server/routes/governed-planning-route.mjs";
+27:import { handleDelegateTaskSpec as phase23HandleDelegateTaskSpec } from "./server/api/tasks-mutations/delegate-taskspec.mjs";
+177:app.post("/api/tasks-mutations/delegate-taskspec", async (req, res) => phase23HandleDelegateTaskSpec(req, res, { db: pool, dbDelegateTask }));
+185:app.use("/api/tasks-mutations", apiTasksMutationsRouter);
+186:app.use(governedPlanningRouter);
+
+===== WORKTREE =====
+?? .backup_excludes
+?? CADE_RUNTIME_DISCOVERY.txt
+?? CADE_RUNTIME_HIGH_SIGNAL_CONTENTS.txt
+?? EXECUTION_IMPLEMENTATION_SURFACES.txt
+?? GOVERNED_ROUTE_SERVER_RESET_DIAGNOSIS.txt
+?? MOUNTED_GOVERNED_PLANNING_ROUTE_SMOKE.txt
+?? backups/
+?? diagnose-governed-route-server-reset.sh
+?? discover-execution-implementation-surfaces.sh
+?? extract-matilda-delegation-docs.sh
+?? scripts/dr
+?? scripts/dr_autonomous_wrapper.sh
+?? scripts/dr_daemon.sh
+?? scripts/dr_daemon_self_healing.sh
+?? scripts/dr_watchdog.sh
+?? scripts/offsite_r2_sync.sh
+?? scripts/retention_engine.sh
+?? scripts/storage_guard.sh
+?? scripts/storage_monitor.sh
+?? scripts/storage_policy.sh
+?? scripts/vault_layer.sh
+?? smoke-mounted-governed-planning-route.sh
