@@ -1,0 +1,95 @@
+===== RIO DRIVE DR VERIFICATION =====
+Wed May 27 21:59:12 PDT 2026
+
+===== NEWEST SOURCE ARCHIVES =====
+-rwx------  1 marcela-dev  staff   104M May 27 17:24 /Volumes/Rio Drive/backups/source_20260527_172357.tar.gz
+-rwx------  1 marcela-dev  staff   104M May 27 17:24 /Volumes/Rio Drive/backups/source_20260527_172415.tar.gz
+-rwx------  1 marcela-dev  staff   104M May 27 18:21 /Volumes/Rio Drive/backups/source_20260527_182132.tar.gz
+-rwx------  1 marcela-dev  staff   104M May 27 18:24 /Volumes/Rio Drive/backups/source_20260527_182428.tar.gz
+-rwx------  1 marcela-dev  staff   104M May 27 18:24 /Volumes/Rio Drive/backups/source_20260527_182446.tar.gz
+-rwx------  1 marcela-dev  staff   104M May 27 19:21 /Volumes/Rio Drive/backups/source_20260527_192145.tar.gz
+-rwx------  1 marcela-dev  staff   104M May 27 19:25 /Volumes/Rio Drive/backups/source_20260527_192459.tar.gz
+-rwx------  1 marcela-dev  staff   104M May 27 19:25 /Volumes/Rio Drive/backups/source_20260527_192518.tar.gz
+-rwx------  1 marcela-dev  staff   104M May 27 21:07 /Volumes/Rio Drive/backups/source_20260527_210714.tar.gz
+-rwx------  1 marcela-dev  staff   104M May 27 21:52 /Volumes/Rio Drive/backups/source_20260527_215219.tar.gz
+
+===== ANY REPO BUNDLES ANYWHERE =====
+-rwx------  1 marcela-dev  staff   315M May 27 16:06 /Volumes/Rio Drive/backups/.staging_20260527_160657/repo.bundle
+
+===== STAGING DIRECTORIES =====
+drwx------  1 marcela-dev  staff   1.0M May 27 16:06 /Volumes/Rio Drive/backups/.staging_20260527_160657
+
+===== LATEST SOURCE ARCHIVE CONTENT SAMPLE =====
+/Volumes/Rio Drive/backups/source_20260527_215219.tar.gz
+./
+./files/
+./repo.bundle
+./files/.builds/
+./files/.githooks/
+./files/.github/
+./files/_archive/
+./files/agents/
+./files/archive/
+./files/artifacts/
+./files/backup_registry/
+./files/config/
+./files/dashboard/
+./files/db/
+./files/dist/
+./files/docker-entrypoint-initdb.d/
+./files/docs/
+./files/.phase88_14_10_server.pid
+./files/.DS_Store
+./files/.backup_excludes
+./files/.dockerignore
+./files/.env
+./files/.eslintrc.cjs
+./files/.git-remote
+./files/.gitignore
+./files/ACTIVE_CADE_RUNTIME_REFERENCE_AUDIT.py
+./files/.phase88_14_5_server.pid
+./files/.phase88_14_7_server.pid
+./files/.phase88_14_server.pid
+./files/.rgignore
+./files/.server.js.swn
+./files/.server.js.swo
+./files/.ts
+./files/HANDOFF_PHASE62B_SUCCESS_VALIDATION_READY_20260317.md
+./files/ACTIVE_CADE_RUNTIME_REFERENCE_AUDIT.txt
+./files/AUTHORITATIVE_EXECUTION_CORRIDOR.txt
+./files/BRANCH_PROTECTION_PROOF.txt
+./files/CADE_ENGINEER_SURFACE_CONTENTS.txt
+./files/CADE_RUNTIME_DISCOVERY.txt
+./files/CADE_RUNTIME_HIGH_SIGNAL_CONTENTS.txt
+
+===== CURRENT GIT HEAD =====
+f6dbb5e7 Define canonical execution envelope schema
+5e83d5c2 Define canonical governed execution lifecycle
+055b5cfb Lock Cade engineer adapter invariants
+9bdfd5a9 Document stabilized Cade governance bridge phase
+285f5fa0 Record Cade engineer adapter smoke results
+
+===== WORKTREE =====
+ M scripts/enterprise_backup.sh
+ M scripts/full_dr_pipeline.sh
+ M scripts/mega_offsite_sync.sh
+?? .backup_excludes
+?? CADE_RUNTIME_DISCOVERY.txt
+?? CADE_RUNTIME_HIGH_SIGNAL_CONTENTS.txt
+?? EXECUTION_IMPLEMENTATION_SURFACES.txt
+?? RIO_DRIVE_DR_VERIFICATION.txt
+?? backups/
+?? discover-execution-implementation-surfaces.sh
+?? extract-matilda-delegation-docs.sh
+?? scripts/dr
+?? scripts/dr_autonomous_wrapper.sh
+?? scripts/dr_daemon.sh
+?? scripts/dr_daemon_self_healing.sh
+?? scripts/dr_watchdog.sh
+?? scripts/offsite_r2_sync.sh
+?? scripts/retention_engine.sh
+?? scripts/storage_guard.sh
+?? scripts/storage_monitor.sh
+?? scripts/storage_policy.sh
+?? scripts/vault_layer.sh
+?? verify-rio-drive-dr.sh
