@@ -1,0 +1,7 @@
+===== MOUNTED GOVERNED PLANNING ROUTE 8080 SMOKE =====
+Wed May 27 23:57:10 PDT 2026
+
+===== ROUTE =====
+http://localhost:8080/api/governed-planning/dry-run
+
+===== HTTP RESPONSE =====
