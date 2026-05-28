@@ -253,6 +253,8 @@ export async function dbCompleteTask(pool, body = {}) {
 
     task_id: row.task_id ?? row.id,
 
+    run_id: body?.run_id ?? body?.runId ?? row.run_id ?? null,
+
     actor: body?.actor ?? body?.agent ?? payload.agent ?? body?.source ?? "api",
 
     payload: {
