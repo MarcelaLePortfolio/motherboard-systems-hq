@@ -9,29 +9,37 @@ OUTPUT="GOVERNED_ROUTE_REGISTRATION_DISCOVERY.txt"
 
 echo "===== GOVERNED ROUTE REGISTRATION DISCOVERY =====" >> "$OUTPUT"
 
-echo "$(date)" >> "$OUTPUT"
+date >> "$OUTPUT"
 
 echo >> "$OUTPUT"
 
 echo "===== EXPRESS SERVER SURFACES =====" >> "$OUTPUT"
 
-find . \( \
+find . \
 
-  -name "server.js" -o \
+  -path "./.git" -prune -o \
 
-  -name "app.js" -o \
+  -path "./node_modules" -prune -o \
 
-  -name "index.js" -o \
+  -path "./backups" -prune -o \
 
-  -name "*.mjs" -o \
+  -path "./dist" -prune -o \
 
-  -name "*.ts" \
+  -type f \( \
 
-\) \
+    -name "server.js" -o \
 
--type f \
+    -name "app.js" -o \
 
-| grep -v node_modules \
+    -name "index.js" -o \
+
+    -name "*.mjs" -o \
+
+    -name "*.ts" \
+
+  \) -print \
+
+| sort \
 
 | while read -r file; do
 
@@ -61,11 +69,17 @@ echo "===== ROUTE FILE REFERENCES =====" >> "$OUTPUT"
 
 grep -Rni \
 
+  --exclude-dir=.git \
+
+  --exclude-dir=node_modules \
+
+  --exclude-dir=backups \
+
+  --exclude-dir=dist \
+
   "governed-planning-route\|governed_planning\|governed-planning" \
 
   server scripts . \
-
-  --exclude-dir=node_modules \
 
   >> "$OUTPUT" 2>/dev/null || true
 
@@ -75,13 +89,25 @@ echo "===== SERVER ENTRYPOINT CANDIDATES =====" >> "$OUTPUT"
 
 find . \
 
-  \( -name "server.js" -o -name "index.js" -o -name "app.js" \) \
+  -path "./.git" -prune -o \
 
-  -type f \
+  -path "./node_modules" -prune -o \
 
-  | grep -v node_modules \
+  -path "./backups" -prune -o \
 
-  >> "$OUTPUT"
+  -path "./dist" -prune -o \
+
+  -type f \( \
+
+    -name "server.js" -o \
+
+    -name "index.js" -o \
+
+    -name "app.js" \
+
+  \) -print \
+
+| sort >> "$OUTPUT"
 
 echo >> "$OUTPUT"
 
