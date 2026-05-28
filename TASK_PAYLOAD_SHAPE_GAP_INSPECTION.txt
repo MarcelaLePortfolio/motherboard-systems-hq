@@ -1,0 +1,286 @@
+===== TASK PAYLOAD SHAPE GAP INSPECTION =====
+Thu May 28 16:25:45 PDT 2026
+
+===== ACTIVE /api/tasks HANDLER IN server.mjs =====
+app.get("/api/runs", getRunsList);
+app.get("/bundle.js.map", (req, res) => res.sendFile(path.join(__dirname, "public", "bundle.js.map")));
+app.get("/dashboard", (req, res) => res.sendFile(path.join(__dirname, "public", "dashboard.html")));
+app.get("/", (req, res) => res.redirect("/dashboard"));
+
+// ---- Tasks API ----
+app.get("/api/tasks", async (req, res) => {
+  console.log("[phase57c-live] /api/tasks probe", {
+    originalUrl: req.originalUrl,
+    referer: req.get("referer") || null,
+    userAgent: req.get("user-agent") || null,
+    accept: req.get("accept") || null,
+  });
+  try {
+    const r = await pool.query(
+      `select id::text, title, agent, status, notes, source, trace_id, error, meta, created_at, updated_at
+       from tasks
+       order by id::int desc`
+    );
+    res.json({ tasks: r.rows, source: "db-tasks" });
+  } catch (e) {
+    res.status(500).json({ ok: false, error: String(e) });
+  }
+});
+
+// ---- Phase 15: real task mutation endpoints (DB-backed) ----
+app.post("/api/delegate-task", async (req, res) => {
+  try {
+    const row = await dbDelegateTask(pool, req.body || {});
+    const payload = { ok: true, action: "delegate", task: row };
+
+    emitArtifact({
+      type: "task_result",
+      source: "cade",
+      taskId: row.id,
+      payload,
+
+===== ROUTER /api/tasks HANDLER IN server/routes/api-tasks-postgres.mjs =====
+// GET /api/tasks?limit=25  -> recent tasks for dashboard widget
+apiTasksRouter.get("/", async (req, res) => {
+  console.log("[phase57c-router] /api/tasks probe", {
+    originalUrl: req.originalUrl,
+    baseUrl: req.baseUrl,
+    path: req.path,
+    referer: req.get("referer") || null,
+    userAgent: req.get("user-agent") || null,
+    accept: req.get("accept") || null,
+  });
+
+  try {
+    const pool = _getPoolOrFail(res);
+    if (!pool) return;
+
+    const limit = Math.max(1, Math.min(200, Number(req.query?.limit ?? 25) || 25));
+    const r = await pool.query(
+      `
+      SELECT id, task_id, title, status, updated_at
+      FROM tasks
+      ORDER BY updated_at DESC NULLS LAST, id DESC
+      LIMIT $1
+      `,
+      [limit]
+    );
+
+    res.status(200).json({ ok: true, tasks: r.rows || [] });
+  } catch (e) {
+    console.error("[phase25] /api/tasks list error", e);
+    res.status(500).json({ ok: false, error: e?.message || String(e) });
+  }
+});
+
+
+===== CARD RENDERER EXPECTED TASK FIELDS =====
+      });
+
+    return tasks.map((t) => {
+
+      const rawTitle = String(t.title || t.task_id || t.id || "Untitled task");
+
+      const retryTitleMatch = rawTitle.match(/^(retry differently|requeue)\s+(t_[a-f0-9-]+)$/i);
+
+      const phase718ResolveBaseTitle = (candidateTitle, depth = 0) => {
+
+        const candidate = String(candidateTitle || "");
+
+        if (!candidate || depth > 5) return candidate;
+
+        const nestedRetryMatch = candidate.match(/^(retry differently|requeue)\s+(t_[a-f0-9-]+)$/i);
+
+        if (!nestedRetryMatch) return candidate;
+
+        const nestedTarget = nestedRetryMatch[2];
+
+        return phase718TaskTitleByKey.has(nestedTarget)
+
+          ? phase718ResolveBaseTitle(phase718TaskTitleByKey.get(nestedTarget), depth + 1)
+
+          : nestedTarget;
+
+      };
+
+      const operatorAction = retryTitleMatch
+
+        ? (retryTitleMatch[1].toLowerCase() === "requeue" ? "Requeue" : "Retry differently")
+
+        : "";
+
+      const operatorTarget = retryTitleMatch ? retryTitleMatch[2] : "";
+
+      const resolvedTargetTitleRaw = operatorTarget && phase718TaskTitleByKey.has(operatorTarget)
+
+        ? phase718ResolveBaseTitle(phase718TaskTitleByKey.get(operatorTarget))
+
+        : operatorTarget;
+
+      const operatorTitle = operatorAction && resolvedTargetTitleRaw
+
+        ? `${operatorAction}: ${resolvedTargetTitleRaw}`
+
+        : (operatorAction || phase718ResolveBaseTitle(rawTitle));
+
+      const title = esc(operatorTitle);
+
+      const targetTitle = esc(operatorTarget);
+
+      const status = esc(t.status || "unknown");
+
+      const taskId = esc(t.task_id || t.id || "");
+
+      const updated = esc(t.updated_at || "");
+
+      const outcome = esc(t.outcome_preview || "");
+
+      const explanation = esc(t.explanation_preview || "");
+      const artifactRaw = t.artifact || (Array.isArray(t.artifacts) ? t.artifacts[0] : null) || null;
+      const artifactName = artifactRaw ? esc(artifactRaw.filename || artifactRaw.path || "artifact") : "";
+      const artifactType = artifactRaw ? esc(artifactRaw.type || "artifact") : "";
+      const artifactSize = artifactRaw && artifactRaw.size_bytes ? esc(String(artifactRaw.size_bytes) + " bytes") : "";
+      const artifactPath = artifactRaw ? esc(artifactRaw.path || "") : "";
+
+      const triageStatusRaw = String(t.status || "").toLowerCase();
+
+      const triageLabel = triageStatusRaw === "completed" ? "triage: completed" : "";
+
+      const executionStrategyRaw = t.strategy || t.execution_strategy || t.execution_mode || t.executionMode || "";
+
+      const executionStrategy = esc(String(executionStrategyRaw || ""));
+
+      const retryOfRaw = t.retry_of_task_id || (t.meta && t.meta.retry_of_task_id) || (t.execution_meta && t.execution_meta.retry_of_task_id) || "";
+
+      const retryOf = esc(String(retryOfRaw || ""));
+
+      const guidance = t.guidance || {};
+
+      const trace = guidance.communicationResult && guidance.communicationResult.systemTrace
+
+        ? guidance.communicationResult.systemTrace.content
+
+        : null;
+
+      const traceJson = trace ? esc(JSON.stringify(trace, null, 2)) : "";
+
+      const logContent = esc([
+
+        `task_id=${taskId}`,
+
+        `status=${status}`,
+
+        updated ? `updated=${updated}` : "",
+
+        outcome ? `outcome=${outcome}` : "",
+
+        ""
+
+      ].filter(Boolean).join("\n"));
+
+      return `
+
+        <article data-phase716-contained-task="true" data-phase717-execution-card="true" style="display:block;width:100%;min-width:0;max-width:100%;box-sizing:border-box;border:1px solid rgba(148,163,184,.24);border-radius:14px;padding:12px;margin:0 0 12px 0;background:rgba(15,23,42,.74);overflow:hidden;">
+
+          <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:8px;min-width:0;">
+
+            <div style="font-weight:600;color:#e5e7eb;overflow-wrap:anywhere;word-break:break-word;min-width:0;">${title}</div>
+
+            ${artifactRaw ? `<button type="button" data-phase719-preview-artifact="true" data-task-id="${taskId}" data-task-title="${title}" data-artifact-name="${artifactName}" data-artifact-type="${artifactType}" data-artifact-size="${artifactSize}" data-artifact-path="${artifactPath}" data-artifact-outcome="${outcome}" data-artifact-explanation="${explanation}" title="Preview completed artifact" style="flex:0 0 auto;cursor:pointer;color:#93c5fd;border:1px solid rgba(147,197,253,.35);border-radius:999px;padding:2px 7px;font-size:10px;line-height:1.4;background:rgba(30,64,175,.18);">Preview</button>` : ""}
+
+            ${executionStrategy ? `<div style="flex:0 0 auto;color:#c4b5fd;border:1px solid rgba(196,181,253,.35);border-radius:999px;padding:2px 7px;font-size:10px;line-height:1.4;background:rgba(88,28,135,.18);">strategy: ${executionStrategy}</div>` : ""}
+
+            ${retryOf ? `<div style="flex:0 0 auto;color:#fcd34d;border:1px solid rgba(252,211,77,.35);border-radius:999px;padding:2px 7px;font-size:10px;line-height:1.4;background:rgba(120,53,15,.18);">retry of: ${retryOf}</div>` : ""}
+
+            ${triageLabel ? `<div style="flex:0 0 auto;color:#86efac;border:1px solid rgba(134,239,172,.35);border-radius:999px;padding:2px 7px;font-size:10px;line-height:1.4;background:rgba(22,101,52,.18);">${triageLabel}</div>` : ""}
+
+          </div>
+            ${""}
+
+          ${""}
+
+          ${""}
+
+          <div style="margin-top:10px;border:1px solid rgba(71,85,105,.55);border-radius:12px;padding:9px;background:rgba(2,6,23,.24);">
+
+              ${artifactRaw ? `<div style="margin-bottom:8px;color:#86efac;font-size:11px;line-height:1.5;overflow-wrap:anywhere;border:1px solid rgba(134,239,172,.28);border-radius:10px;padding:7px;background:rgba(20,83,45,.14);">Artifact: ${artifactName}${artifactType ? ` · ${artifactType}` : ""}${artifactSize ? ` · ${artifactSize}` : ""}</div>` : ""}
+            <div style="color:#cbd5e1;font-size:11px;font-weight:700;margin-bottom:7px;letter-spacing:.02em;">Operator actions</div>
+
+            <div style="display:flex;flex-wrap:wrap;gap:7px;align-items:center;">
+
+              <button type="button" data-phase717-requeue="true" data-task-id="${taskId}" data-task-title="${title}" title="Explicit operator action: requeue this task" style="cursor:pointer;border:1px solid rgba(148,163,184,.35);background:rgba(15,23,42,.8);color:#cbd5e1;border-radius:8px;padding:5px 8px;font-size:11px;">Requeue</button>
+
+              <button type="button" data-phase717-retry-differently="true" data-task-id="${taskId}" data-task-title="${title}" title="Explicit operator action: retry this task differently" style="cursor:pointer;border:1px solid rgba(96,165,250,.45);background:rgba(30,41,59,.92);color:#dbeafe;border-radius:8px;padding:5px 8px;font-size:11px;">Retry differently</button>
+
+            </div>
+
+          </div>
+
+          ${outcome ? "" : ""}
+
+          ${explanation ? `<button type="button" data-phase717-inspect-details="true" data-phase717-inspect-title="${title} — Details" data-phase717-inspect-content="${explanation}" style="margin-top:10px;cursor:pointer;border:1px solid rgba(147,197,253,.35);background:rgba(30,64,175,.14);color:#93c5fd;border-radius:999px;padding:4px 9px;font-size:11px;">Inspect details</button>` : ""}
+
+          ${traceJson ? `<button type="button" data-phase717-inspect-trace="true" data-phase717-inspect-title="${title} — Advanced trace" data-phase717-inspect-content="${traceJson}" style="margin-top:10px;margin-left:6px;cursor:pointer;border:1px solid rgba(251,191,36,.38);background:rgba(120,53,15,.14);color:#fbbf24;border-radius:999px;padding:4px 9px;font-size:11px;">Inspect trace</button>` : ""}
+
+          ${logContent ? `<button type="button" data-phase717-inspect-logs="true" data-phase717-inspect-title="${title} — Logs" data-phase717-inspect-content="${logContent}" style="margin-top:10px;margin-left:6px;cursor:pointer;border:1px solid rgba(45,212,191,.38);background:rgba(20,83,45,.14);color:#5eead4;border-radius:999px;padding:4px 9px;font-size:11px;">Inspect logs</button>` : ""}
+
+        </article>
+
+      `;
+
+    }).join("");
+
+  }
+
+===== LIVE TASKS FULL DB ROWS =====
+ id |                  task_id                  |                      title                       | status |                     notes                     |           run_id            | action_tier |   kind    |                                                    payload                                                    | metadata | description | assignee |          created_at           |          updated_at           
+----+-------------------------------------------+--------------------------------------------------+--------+-----------------------------------------------+-----------------------------+-------------+-----------+---------------------------------------------------------------------------------------------------------------+----------+-------------+----------+-------------------------------+-------------------------------
+  7 | route-check-mutation                      | route check mutation                             | queued |                                               | route-check                 | A           | delegated | {"meta": null, "agent": "cade", "source": "route_check", "trace_id": null, "delegation_envelope": null}       | {}       |             |          | 2026-05-28 23:21:32.224688+00 | 2026-05-28 23:21:32.224688+00
+  6 | route-check-create                        | route check                                      | queued |                                               | route-check                 | A           |           | {}                                                                                                            | {}       |             |          | 2026-05-28 23:21:32.205893+00 | 2026-05-28 23:24:31.593858+00
+  5 | task.c8aaaf23-75ac-4946-af7f-ac0bcb964f09 | Governed execution resume smoke task with run_id | done   | Smoke test with run_id after schema migration | resume-smoke-20260528134237 | A           | delegated | {"meta": null, "agent": "cade", "source": "resume_validation", "trace_id": null, "delegation_envelope": null} | {}       |             |          | 2026-05-28 20:42:37.446695+00 | 2026-05-28 20:42:37.533349+00
+  4 | task.42e70b4e-14a1-4190-b203-52fc052fb2a9 | Direct dbCompleteTask run_id smoke               | done   | Completed direct smoke                        | direct-smoke-1780000913311  | A           | delegated | {"meta": null, "agent": "cade", "source": "direct_db_smoke", "trace_id": null, "delegation_envelope": null}   | {}       |             |          | 2026-05-28 20:41:53.323722+00 | 2026-05-28 20:41:53.338001+00
+  3 | task.248b3b38-2946-4de0-a54e-e87836e559a7 | Direct dbCompleteTask run_id smoke               | done   | Completed direct smoke                        | direct-smoke-1780000624506  | A           | delegated | {"meta": null, "agent": "cade", "source": "direct_db_smoke", "trace_id": null, "delegation_envelope": null}   | {}       |             |          | 2026-05-28 20:37:04.519796+00 | 2026-05-28 20:37:04.529867+00
+(5 rows)
+
+
+===== LIVE /api/tasks RESPONSE =====
+{
+    "ok": true,
+    "tasks": [
+        {
+            "id": 6,
+            "task_id": "route-check-create",
+            "title": "route check",
+            "status": "queued",
+            "updated_at": "2026-05-28T23:24:31.593Z"
+        },
+        {
+            "id": 7,
+            "task_id": "route-check-mutation",
+            "title": "route check mutation",
+            "status": "queued",
+            "updated_at": "2026-05-28T23:21:32.224Z"
+        },
+        {
+            "id": 5,
+            "task_id": "task.c8aaaf23-75ac-4946-af7f-ac0bcb964f09",
+            "title": "Governed execution resume smoke task with run_id",
+            "status": "done",
+            "updated_at": "2026-05-28T20:42:37.533Z"
+        },
+        {
+            "id": 4,
+            "task_id": "task.42e70b4e-14a1-4190-b203-52fc052fb2a9",
+            "title": "Direct dbCompleteTask run_id smoke",
+            "status": "done",
+            "updated_at": "2026-05-28T20:41:53.338Z"
+        },
+        {
+            "id": 3,
+            "task_id": "task.248b3b38-2946-4de0-a54e-e87836e559a7",
+            "title": "Direct dbCompleteTask run_id smoke",
+            "status": "done",
+            "updated_at": "2026-05-28T20:37:04.529Z"
+        }
+    ]
+}
