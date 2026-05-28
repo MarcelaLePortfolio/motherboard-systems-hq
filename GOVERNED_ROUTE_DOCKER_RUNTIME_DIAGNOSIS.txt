@@ -1,0 +1,88 @@
+===== GOVERNED ROUTE DOCKER RUNTIME DIAGNOSIS =====
+Wed May 27 23:52:18 PDT 2026
+
+===== DOCKER PS =====
+
+===== PORT OWNER =====
+COMMAND    PID        USER   FD   TYPE             DEVICE SIZE/OFF NODE NAME
+com.docke 7569 marcela-dev  181u  IPv6 0x93dfa532d0d01e1e      0t0  TCP *:3000 (LISTEN)
+
+===== SELECTED CONTAINER =====
+NONE
+
+===== HTTP REQUEST =====
+Note: Unnecessary use of -X or --request, POST is already inferred.
+* Host localhost:3000 was resolved.
+* IPv6: ::1
+* IPv4: 127.0.0.1
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0*   Trying [::1]:3000...
+* Connected to localhost (::1) port 3000
+> POST /api/governed-planning/dry-run HTTP/1.1
+> Host: localhost:3000
+> User-Agent: curl/8.7.1
+> Accept: */*
+> Content-Type: application/json
+> Content-Length: 378
+> 
+} [378 bytes data]
+* upload completely sent off: 378 bytes
+100   378    0     0  100   378      0    312  0:00:01  0:00:01 --:--:--   312100   378    0     0  100   378      0    170  0:00:02  0:00:02 --:--:--   170100   378    0     0  100   378      0    117  0:00:03  0:00:03 --:--:--   117100   378    0     0  100   378      0     89  0:00:04  0:00:04 --:--:--    89100   378    0     0  100   378      0     72  0:00:05  0:00:05 --:--:--    72100   378    0     0  100   378      0     60  0:00:06  0:00:06 --:--:--     0100   378    0     0  100   378      0     52  0:00:07  0:00:07 --:--:--     0100   378    0     0  100   378      0     45  0:00:08  0:00:08 --:--:--     0100   378    0     0  100   378      0     40  0:00:09  0:00:09 --:--:--     0100   378    0     0  100   378      0     36  0:00:10  0:00:10 --:--:--     0100   378    0     0  100   378      0     33  0:00:11  0:00:11 --:--:--     0100   378    0     0  100   378      0     30  0:00:12  0:00:12 --:--:--     0100   378    0     0  100   378      0     28  0:00:13  0:00:13 --:--:--     0100   378    0     0  100   378      0     26  0:00:14  0:00:14 --:--:--     0* Recv failure: Connection reset by peer
+100   378    0     0  100   378      0     25  0:00:15  0:00:15 --:--:--     0
+* Closing connection
+curl: (56) Recv failure: Connection reset by peer
+
+===== LOCAL STATIC CHECKS =====
+{
+  "ok": true,
+  "route_validation": "governed_planning_route_smoke",
+  "phase": "planning_only",
+  "envelope_version": "matilda.cade.exec.v1",
+  "governance_ok": true,
+  "approval_gate_ok": true,
+  "cade_plan_ok": true,
+  "mutation_performed": false,
+  "shell_execution_performed": false,
+  "autonomous_execution_performed": false,
+  "trace": [
+    {
+      "event": "intent_to_envelope_draft",
+      "ok": true
+    },
+    {
+      "event": "canonical_governance_validated",
+      "ok": true
+    },
+    {
+      "event": "approval_gate_evaluated",
+      "ok": true
+    },
+    {
+      "event": "cade_engineering_plan_generated",
+      "ok": true
+    }
+  ]
+}
+
+===== WORKTREE =====
+?? .backup_excludes
+?? CADE_RUNTIME_DISCOVERY.txt
+?? CADE_RUNTIME_HIGH_SIGNAL_CONTENTS.txt
+?? EXECUTION_IMPLEMENTATION_SURFACES.txt
+?? GOVERNED_ROUTE_DOCKER_RUNTIME_DIAGNOSIS.txt
+?? backups/
+?? diagnose-mounted-route-docker-runtime.sh
+?? discover-execution-implementation-surfaces.sh
+?? extract-matilda-delegation-docs.sh
+?? scripts/dr
+?? scripts/dr_autonomous_wrapper.sh
+?? scripts/dr_daemon.sh
+?? scripts/dr_daemon_self_healing.sh
+?? scripts/dr_watchdog.sh
+?? scripts/offsite_r2_sync.sh
+?? scripts/retention_engine.sh
+?? scripts/storage_guard.sh
+?? scripts/storage_monitor.sh
+?? scripts/storage_policy.sh
+?? scripts/vault_layer.sh
