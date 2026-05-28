@@ -1,0 +1,37 @@
+
+{
+
+  "actor": "Matilda",
+
+  "target": "Cade",
+
+  "objective": "Prepare governed engineering plan",
+
+  "requested_outcome": "Dry-run reconciliation-ready planning artifact",
+
+  "source": "route_smoke_test",
+
+  "tags": [
+
+    "governance",
+
+    "dry_run"
+
+  ],
+
+  "proposed_changes": [
+
+    {
+
+      "file": "docs/contracts/example.md",
+
+      "operation": "modify",
+
+      "content": "planned only"
+
+    }
+
+  ]
+
+}
+
