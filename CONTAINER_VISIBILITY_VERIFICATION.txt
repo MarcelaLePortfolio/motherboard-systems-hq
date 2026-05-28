@@ -1,0 +1,54 @@
+===== CONTAINER VISIBILITY VERIFICATION =====
+Thu May 28 00:08:03 PDT 2026
+
+===== DOCKER VERSION =====
+Client:
+ Version:           29.1.3
+ API version:       1.52
+ Go version:        go1.25.5
+ Git commit:        f52814d
+ Built:             Fri Dec 12 14:48:46 2025
+ OS/Arch:           darwin/arm64
+ Context:           desktop-linux
+EOF
+
+===== DOCKER CONTEXT =====
+desktop-linux
+NAME              DESCRIPTION                               DOCKER ENDPOINT                                     ERROR
+default           Current DOCKER_HOST based configuration   unix:///var/run/docker.sock                         
+desktop-linux *   Docker Desktop                            unix:///Users/marcela-dev/.docker/run/docker.sock   
+
+===== ALL CONTAINERS =====
+EOF
+
+===== COMPOSE PROJECTS =====
+EOF
+
+===== COMPOSE PS =====
+EOF
+
+===== PORT 3000 / 8080 OWNERS =====
+COMMAND    PID        USER   FD   TYPE             DEVICE SIZE/OFF NODE NAME
+com.docke 7569 marcela-dev  181u  IPv6 0x93dfa532d0d01e1e      0t0  TCP *:3000 (LISTEN)
+
+===== WORKTREE =====
+?? .backup_excludes
+?? CADE_RUNTIME_DISCOVERY.txt
+?? CADE_RUNTIME_HIGH_SIGNAL_CONTENTS.txt
+?? CONTAINER_VISIBILITY_VERIFICATION.txt
+?? EXECUTION_IMPLEMENTATION_SURFACES.txt
+?? backups/
+?? discover-execution-implementation-surfaces.sh
+?? extract-matilda-delegation-docs.sh
+?? scripts/dr
+?? scripts/dr_autonomous_wrapper.sh
+?? scripts/dr_daemon.sh
+?? scripts/dr_daemon_self_healing.sh
+?? scripts/dr_watchdog.sh
+?? scripts/offsite_r2_sync.sh
+?? scripts/retention_engine.sh
+?? scripts/storage_guard.sh
+?? scripts/storage_monitor.sh
+?? scripts/storage_policy.sh
+?? scripts/vault_layer.sh
+?? verify-container-visibility.sh
