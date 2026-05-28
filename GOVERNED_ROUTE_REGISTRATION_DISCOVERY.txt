@@ -1,4 +1,1402 @@
 ===== GOVERNED ROUTE REGISTRATION DISCOVERY =====
-Wed May 27 23:38:08 PDT 2026
+2026-05-27T23:39:00.284104
 
 ===== EXPRESS SERVER SURFACES =====
+
+FILE: agentsStatus.ts
+--------------------------------------------------
+agentsStatus.ts:1:import express from "express";
+agentsStatus.ts:2:export const agentsStatusRouter = express.Router();
+agentsStatus.ts:4:agentsStatusRouter.get("/", (_req, res) => {
+
+FILE: ambient-placeholders.d.ts
+--------------------------------------------------
+ambient-placeholders.d.ts:6:declare const agentsStatusRouter: any;
+ambient-placeholders.d.ts:7:declare const cadeRouter: any;
+ambient-placeholders.d.ts:8:declare const tasksRouter: any;
+
+FILE: autonomicAdaptation.ts
+--------------------------------------------------
+autonomicAdaptation.ts:1:import express from "express";
+autonomicAdaptation.ts:2:export const autonomicAdaptation = express.Router();
+
+FILE: cade.ts
+--------------------------------------------------
+cade.ts:1:import express from "express";
+cade.ts:6:export const cadeRouter = express.Router();
+cade.ts:9:cadeRouter.get("/recent", async (_req, res) => {
+
+FILE: delegate.ts
+--------------------------------------------------
+delegate.ts:1:import express from "express";
+delegate.ts:5:export const router = express.Router();
+
+FILE: delegations.ts
+--------------------------------------------------
+delegations.ts:2:import express from "express";
+delegations.ts:5:const router = express.Router();
+
+FILE: effie.ts
+--------------------------------------------------
+effie.ts:7:export async function effieCommandRouter(command: string, args: any) {
+effie.ts:18:  handler: effieCommandRouter
+
+FILE: events.ts
+--------------------------------------------------
+events.ts:1:import { Router } from "express";
+events.ts:4:const router = Router();
+
+FILE: eventsAgents.ts
+--------------------------------------------------
+eventsAgents.ts:1:import { Router, Request, Response } from "express";
+eventsAgents.ts:31:const router = Router();
+
+FILE: express-stubs.d.ts
+--------------------------------------------------
+express-stubs.d.ts:6:declare const agentsStatusRouter: any;
+express-stubs.d.ts:7:declare const cadeRouter: any;
+express-stubs.d.ts:8:declare const tasksRouter: any;
+
+FILE: introspectiveSim.ts
+--------------------------------------------------
+introspectiveSim.ts:1:import express from "express";
+introspectiveSim.ts:2:export const introspectiveSim = express.Router();
+
+FILE: launch-cade.ts
+--------------------------------------------------
+launch-cade.ts:5:import { routeTask } from "../handlers/taskRouter";
+
+FILE: logs.ts
+--------------------------------------------------
+logs.ts:1:import { Router } from "express";
+logs.ts:6:const router = Router();
+
+FILE: matilda.ts
+--------------------------------------------------
+matilda.ts:1:import express from "express";
+matilda.ts:4:export const router = express.Router();
+
+FILE: ops-sse-server.ts
+--------------------------------------------------
+ops-sse-server.ts:2:import express from "express";
+ops-sse-server.ts:6:const app = express();
+ops-sse-server.ts:7:app.use(cors());
+
+FILE: persistentInsight.ts
+--------------------------------------------------
+persistentInsight.ts:1:import express from "express";
+persistentInsight.ts:2:export const persistentInsight = express.Router();
+
+FILE: reflection-sse-server.ts
+--------------------------------------------------
+reflection-sse-server.ts:2:import express from "express";
+reflection-sse-server.ts:7:const app = express();
+reflection-sse-server.ts:8:app.use(cors());
+
+FILE: reflections-sse-server.ts
+--------------------------------------------------
+reflections-sse-server.ts:2:import express from "express";
+reflections-sse-server.ts:5:const app = express();
+reflections-sse-server.ts:6:app.use(cors());
+
+FILE: reflections.ts
+--------------------------------------------------
+reflections.ts:2:import express from "express";
+reflections.ts:6:const router = express.Router();
+
+FILE: reset.ts
+--------------------------------------------------
+reset.ts:2:import express from "express";
+reset.ts:5:const router = express.Router();
+
+FILE: routes/agentsStatus.js
+--------------------------------------------------
+routes/agentsStatus.js:1:import express from "express";
+routes/agentsStatus.js:2:const router = express.Router();
+
+FILE: routes/api/delegate.ts
+--------------------------------------------------
+routes/api/delegate.ts:1:import express from "express";
+routes/api/delegate.ts:4:const router = express.Router();
+
+FILE: routes/api/logs.ts
+--------------------------------------------------
+routes/api/logs.ts:1:import express from "express";
+routes/api/logs.ts:4:const router = express.Router();
+
+FILE: routes/api/tasks.ts
+--------------------------------------------------
+routes/api/tasks.ts:1:import express from "express";
+routes/api/tasks.ts:4:const router = express.Router();
+
+FILE: routes/api-chat.ts
+--------------------------------------------------
+routes/api-chat.ts:1:import express, { Request, Response } from "express";
+routes/api-chat.ts:4:const router = express.Router();
+
+FILE: routes/cade.ts
+--------------------------------------------------
+routes/cade.ts:1:import express from "express";
+routes/cade.ts:6:export const cadeRouter = express.Router();
+routes/cade.ts:9:cadeRouter.get("/recent", async (_req, res) => {
+
+FILE: routes/delegate.ts
+--------------------------------------------------
+routes/delegate.ts:1:import express from "express";
+routes/delegate.ts:5:export const router = express.Router();
+
+FILE: routes/delegations.ts
+--------------------------------------------------
+routes/delegations.ts:2:import express from "express";
+routes/delegations.ts:5:const router = express.Router();
+
+FILE: routes/diagnostics/autonomicAdaptation.js
+--------------------------------------------------
+routes/diagnostics/autonomicAdaptation.js:1:import express from "express";
+routes/diagnostics/autonomicAdaptation.js:2:const router = express.Router();
+
+FILE: routes/diagnostics/introspectiveSim.js
+--------------------------------------------------
+routes/diagnostics/introspectiveSim.js:1:import express from "express";
+routes/diagnostics/introspectiveSim.js:2:const router = express.Router();
+
+FILE: routes/diagnostics/persistentInsight.js
+--------------------------------------------------
+routes/diagnostics/persistentInsight.js:1:import express from "express";
+routes/diagnostics/persistentInsight.js:2:const router = express.Router();
+
+FILE: routes/diagnostics/systemChronicle.js
+--------------------------------------------------
+routes/diagnostics/systemChronicle.js:1:import express from "express";
+routes/diagnostics/systemChronicle.js:2:const router = express.Router();
+
+FILE: routes/diagnostics/systemHealth.js
+--------------------------------------------------
+routes/diagnostics/systemHealth.js:1:import express from "express";
+routes/diagnostics/systemHealth.js:3:const router = express.Router();
+
+FILE: routes/diagnostics/systemHealth.js.route.smoke.ts
+--------------------------------------------------
+routes/diagnostics/systemHealth.js.route.smoke.ts:25:    throw new Error("Router stack missing");
+
+FILE: routes/diagnostics/systemHealth.route.smoke.ts
+--------------------------------------------------
+routes/diagnostics/systemHealth.route.smoke.ts:15:    throw new Error("Router stack missing");
+
+FILE: routes/diagnostics/systemHealth.ts
+--------------------------------------------------
+routes/diagnostics/systemHealth.ts:1:import express from "express";
+routes/diagnostics/systemHealth.ts:4:const router = express.Router();
+
+FILE: routes/matilda.ts
+--------------------------------------------------
+routes/matilda.ts:1:import express from "express";
+routes/matilda.ts:4:export const router = express.Router();
+
+FILE: routes/reflections.ts
+--------------------------------------------------
+routes/reflections.ts:2:import express from "express";
+routes/reflections.ts:6:const router = express.Router();
+
+FILE: routes/reset.ts
+--------------------------------------------------
+routes/reset.ts:2:import express from "express";
+routes/reset.ts:5:const router = express.Router();
+
+FILE: routes/routes/agentsStatus.js
+--------------------------------------------------
+routes/routes/agentsStatus.js:1:import express from "express";
+routes/routes/agentsStatus.js:2:const router = express.Router();
+
+FILE: routes/routes/agentsStatus.ts
+--------------------------------------------------
+routes/routes/agentsStatus.ts:1:import express from "express";
+routes/routes/agentsStatus.ts:2:export const agentsStatusRouter = express.Router();
+routes/routes/agentsStatus.ts:4:agentsStatusRouter.get("/", (_req, res) => {
+
+FILE: routes/routes/cade.ts
+--------------------------------------------------
+routes/routes/cade.ts:1:import express from "express";
+routes/routes/cade.ts:6:export const cadeRouter = express.Router();
+routes/routes/cade.ts:9:cadeRouter.get("/recent", async (_req, res) => {
+
+FILE: routes/routes/delegate.ts
+--------------------------------------------------
+routes/routes/delegate.ts:1:import express from "express";
+routes/routes/delegate.ts:5:export const router = express.Router();
+
+FILE: routes/routes/delegations.ts
+--------------------------------------------------
+routes/routes/delegations.ts:2:import express from "express";
+routes/routes/delegations.ts:5:const router = express.Router();
+
+FILE: routes/routes/diagnostics/autonomicAdaptation.js
+--------------------------------------------------
+routes/routes/diagnostics/autonomicAdaptation.js:1:import express from "express";
+routes/routes/diagnostics/autonomicAdaptation.js:2:const router = express.Router();
+
+FILE: routes/routes/diagnostics/autonomicAdaptation.ts
+--------------------------------------------------
+routes/routes/diagnostics/autonomicAdaptation.ts:1:import express from "express";
+routes/routes/diagnostics/autonomicAdaptation.ts:2:export const autonomicAdaptation = express.Router();
+
+FILE: routes/routes/diagnostics/introspectiveSim.js
+--------------------------------------------------
+routes/routes/diagnostics/introspectiveSim.js:1:import express from "express";
+routes/routes/diagnostics/introspectiveSim.js:2:const router = express.Router();
+
+FILE: routes/routes/diagnostics/introspectiveSim.ts
+--------------------------------------------------
+routes/routes/diagnostics/introspectiveSim.ts:1:import express from "express";
+routes/routes/diagnostics/introspectiveSim.ts:2:export const introspectiveSim = express.Router();
+
+FILE: routes/routes/diagnostics/persistentInsight.js
+--------------------------------------------------
+routes/routes/diagnostics/persistentInsight.js:1:import express from "express";
+routes/routes/diagnostics/persistentInsight.js:2:const router = express.Router();
+
+FILE: routes/routes/diagnostics/persistentInsight.ts
+--------------------------------------------------
+routes/routes/diagnostics/persistentInsight.ts:1:import express from "express";
+routes/routes/diagnostics/persistentInsight.ts:2:export const persistentInsight = express.Router();
+
+FILE: routes/routes/diagnostics/systemChronicle.js
+--------------------------------------------------
+routes/routes/diagnostics/systemChronicle.js:1:import express from "express";
+routes/routes/diagnostics/systemChronicle.js:2:const router = express.Router();
+
+FILE: routes/routes/diagnostics/systemChronicle.ts
+--------------------------------------------------
+routes/routes/diagnostics/systemChronicle.ts:1:import express from "express";
+routes/routes/diagnostics/systemChronicle.ts:2:export const systemChronicle = express.Router();
+
+FILE: routes/routes/diagnostics/systemHealth.js
+--------------------------------------------------
+routes/routes/diagnostics/systemHealth.js:1:import express from "express";
+routes/routes/diagnostics/systemHealth.js:2:const router = express.Router();
+
+FILE: routes/routes/diagnostics/systemHealth.ts
+--------------------------------------------------
+routes/routes/diagnostics/systemHealth.ts:1:import express from "express";
+routes/routes/diagnostics/systemHealth.ts:2:export const systemHealth = express.Router();
+
+FILE: routes/routes/events.ts
+--------------------------------------------------
+routes/routes/events.ts:1:import { Router } from "express";
+routes/routes/events.ts:4:const router = Router();
+
+FILE: routes/routes/eventsAgents.ts
+--------------------------------------------------
+routes/routes/eventsAgents.ts:1:import { Router, Request, Response } from "express";
+routes/routes/eventsAgents.ts:31:const router = Router();
+
+FILE: routes/routes/logs.ts
+--------------------------------------------------
+routes/routes/logs.ts:1:import { Router } from "express";
+routes/routes/logs.ts:6:const router = Router();
+
+FILE: routes/routes/matilda.ts
+--------------------------------------------------
+routes/routes/matilda.ts:1:import express from "express";
+routes/routes/matilda.ts:4:export const router = express.Router();
+
+FILE: routes/routes/reflections.ts
+--------------------------------------------------
+routes/routes/reflections.ts:2:import express from "express";
+routes/routes/reflections.ts:6:const router = express.Router();
+
+FILE: routes/routes/reset.ts
+--------------------------------------------------
+routes/routes/reset.ts:2:import express from "express";
+routes/routes/reset.ts:5:const router = express.Router();
+
+FILE: routes/routes/tasks.ts
+--------------------------------------------------
+routes/routes/tasks.ts:3:console.log("<0001f9ed> Active tasksRouter loaded from:", import.meta.url);
+routes/routes/tasks.ts:6:import express from "express";
+routes/routes/tasks.ts:13:export const tasksRouter = express.Router();
+routes/routes/tasks.ts:15:tasksRouter.get("/recent", async (_req, res) => {
+
+FILE: routes/tasks.ts
+--------------------------------------------------
+routes/tasks.ts:3:console.log("<0001f9ed> Active tasksRouter loaded from:", import.meta.url);
+routes/tasks.ts:6:import express from "express";
+routes/tasks.ts:13:export const tasksRouter = express.Router();
+routes/tasks.ts:15:tasksRouter.get("/recent", async (_req, res) => {
+
+FILE: routes_backup/agentsStatus.js
+--------------------------------------------------
+routes_backup/agentsStatus.js:1:import express from "express";
+routes_backup/agentsStatus.js:2:const router = express.Router();
+
+FILE: routes_backup/agentsStatus.ts
+--------------------------------------------------
+routes_backup/agentsStatus.ts:1:import express, { Request, Response } from "express";
+routes_backup/agentsStatus.ts:2:const router = express.Router();
+
+FILE: routes_backup/cade.ts
+--------------------------------------------------
+routes_backup/cade.ts:1:import express, { Request, Response } from "express";
+routes_backup/cade.ts:2:const router = express.Router();
+
+FILE: routes_backup/delegate.ts
+--------------------------------------------------
+routes_backup/delegate.ts:1:import express, { Request, Response } from "express";
+routes_backup/delegate.ts:2:const router = express.Router();
+
+FILE: routes_backup/delegations.ts
+--------------------------------------------------
+routes_backup/delegations.ts:1:import express, { Request, Response } from "express";
+routes_backup/delegations.ts:2:const router = express.Router();
+
+FILE: routes_backup/diagnostics/autonomicAdaptation.js
+--------------------------------------------------
+routes_backup/diagnostics/autonomicAdaptation.js:1:import express from "express";
+routes_backup/diagnostics/autonomicAdaptation.js:2:const router = express.Router();
+
+FILE: routes_backup/diagnostics/autonomicAdaptation.ts
+--------------------------------------------------
+routes_backup/diagnostics/autonomicAdaptation.ts:1:import express, { Request, Response } from "express";
+routes_backup/diagnostics/autonomicAdaptation.ts:2:const router = express.Router();
+
+FILE: routes_backup/diagnostics/introspectiveSim.js
+--------------------------------------------------
+routes_backup/diagnostics/introspectiveSim.js:1:import express from "express";
+routes_backup/diagnostics/introspectiveSim.js:2:const router = express.Router();
+
+FILE: routes_backup/diagnostics/introspectiveSim.ts
+--------------------------------------------------
+routes_backup/diagnostics/introspectiveSim.ts:1:import express, { Request, Response } from "express";
+routes_backup/diagnostics/introspectiveSim.ts:2:const router = express.Router();
+
+FILE: routes_backup/diagnostics/persistentInsight.js
+--------------------------------------------------
+routes_backup/diagnostics/persistentInsight.js:1:import express from "express";
+routes_backup/diagnostics/persistentInsight.js:2:const router = express.Router();
+
+FILE: routes_backup/diagnostics/persistentInsight.ts
+--------------------------------------------------
+routes_backup/diagnostics/persistentInsight.ts:1:import express, { Request, Response } from "express";
+routes_backup/diagnostics/persistentInsight.ts:2:const router = express.Router();
+
+FILE: routes_backup/diagnostics/systemChronicle.js
+--------------------------------------------------
+routes_backup/diagnostics/systemChronicle.js:1:import express from "express";
+routes_backup/diagnostics/systemChronicle.js:2:const router = express.Router();
+
+FILE: routes_backup/diagnostics/systemChronicle.ts
+--------------------------------------------------
+routes_backup/diagnostics/systemChronicle.ts:1:import express, { Request, Response } from "express";
+routes_backup/diagnostics/systemChronicle.ts:2:const router = express.Router();
+
+FILE: routes_backup/diagnostics/systemHealth.js
+--------------------------------------------------
+routes_backup/diagnostics/systemHealth.js:1:import express from "express";
+routes_backup/diagnostics/systemHealth.js:2:const router = express.Router();
+
+FILE: routes_backup/diagnostics/systemHealth.ts
+--------------------------------------------------
+routes_backup/diagnostics/systemHealth.ts:1:import express, { Request, Response } from "express";
+routes_backup/diagnostics/systemHealth.ts:2:const router = express.Router();
+
+FILE: routes_backup/events.ts
+--------------------------------------------------
+routes_backup/events.ts:1:import express, { Request, Response } from "express";
+routes_backup/events.ts:2:const router = express.Router();
+
+FILE: routes_backup/eventsAgents.ts
+--------------------------------------------------
+routes_backup/eventsAgents.ts:1:import express, { Request, Response } from "express";
+routes_backup/eventsAgents.ts:2:const router = express.Router();
+
+FILE: routes_backup/logs.ts
+--------------------------------------------------
+routes_backup/logs.ts:1:import express, { Request, Response } from "express";
+routes_backup/logs.ts:2:const router = express.Router();
+
+FILE: routes_backup/matilda.ts
+--------------------------------------------------
+routes_backup/matilda.ts:1:import express, { Request, Response } from "express";
+routes_backup/matilda.ts:2:const router = express.Router();
+
+FILE: routes_backup/reflections.ts
+--------------------------------------------------
+routes_backup/reflections.ts:1:import express, { Request, Response } from "express";
+routes_backup/reflections.ts:2:const router = express.Router();
+
+FILE: routes_backup/reset.ts
+--------------------------------------------------
+routes_backup/reset.ts:1:import express, { Request, Response } from "express";
+routes_backup/reset.ts:2:const router = express.Router();
+
+FILE: routes_backup/tasks.ts
+--------------------------------------------------
+routes_backup/tasks.ts:1:import express, { Request, Response } from "express";
+routes_backup/tasks.ts:2:const router = express.Router();
+
+FILE: scripts/_local/agent-runtime/launch-cade.ts
+--------------------------------------------------
+scripts/_local/agent-runtime/launch-cade.ts:5:import { routeTask } from "../handlers/taskRouter";
+
+FILE: scripts/_local/route-loader/ops-sse-server.ts
+--------------------------------------------------
+scripts/_local/route-loader/ops-sse-server.ts:2:import express from "express";
+scripts/_local/route-loader/ops-sse-server.ts:6:const app = express();
+scripts/_local/route-loader/ops-sse-server.ts:7:app.use(cors());
+scripts/_local/route-loader/ops-sse-server.ts:9:const clients: express.Response[] = [];
+
+FILE: scripts/_local/route-loader/reflection-sse-server.ts
+--------------------------------------------------
+scripts/_local/route-loader/reflection-sse-server.ts:2:import express from "express";
+scripts/_local/route-loader/reflection-sse-server.ts:6:const app = express();
+scripts/_local/route-loader/reflection-sse-server.ts:7:app.use(cors());
+scripts/_local/route-loader/reflection-sse-server.ts:9:const clients: express.Response[] = [];
+
+FILE: scripts/agents/effie.js
+--------------------------------------------------
+scripts/agents/effie.js:39:exports.effie = exports.effieCommandRouter = void 0;
+scripts/agents/effie.js:43:function effieCommandRouter(command, args) {
+scripts/agents/effie.js:107:exports.effieCommandRouter = effieCommandRouter;
+scripts/agents/effie.js:114:    handler: effieCommandRouter
+
+FILE: scripts/agents/effie.ts
+--------------------------------------------------
+scripts/agents/effie.ts:6:export async function effieCommandRouter(command: string, args?: Record<string, any>) {
+scripts/agents/effie.ts:48:  handler: effieCommandRouter
+
+FILE: scripts/agents/reflections.ts
+--------------------------------------------------
+scripts/agents/reflections.ts:2:import express from "express";
+scripts/agents/reflections.ts:6:const router = express.Router();
+
+FILE: scripts/agents_full/cade.ts
+--------------------------------------------------
+scripts/agents_full/cade.ts:29:export async function cadeCommandRouter(command: string, args?: any): Promise<any> {
+scripts/agents_full/cade.ts:121:          const result = await cadeCommandRouter(command, stepArgs);
+scripts/agents_full/cade.ts:143:  handler: cadeCommandRouter
+
+FILE: scripts/agents_full/effie.ts
+--------------------------------------------------
+scripts/agents_full/effie.ts:6:export async function effieCommandRouter(command: string, args?: Record<string, any>) {
+scripts/agents_full/effie.ts:48:  handler: effieCommandRouter
+
+FILE: scripts/agents_stubs/cade.ts
+--------------------------------------------------
+scripts/agents_stubs/cade.ts:7:export async function cadeCommandRouter(command: string, args: any) {
+scripts/agents_stubs/cade.ts:18:  handler: cadeCommandRouter
+
+FILE: scripts/agents_stubs/effie.ts
+--------------------------------------------------
+scripts/agents_stubs/effie.ts:7:export async function effieCommandRouter(command: string, args: any) {
+scripts/agents_stubs/effie.ts:18:  handler: effieCommandRouter
+
+FILE: scripts/cli/matilda.ts
+--------------------------------------------------
+scripts/cli/matilda.ts:2:import { ask } from "../agents/matilda/askRouter";
+
+FILE: scripts/phase19_patch_mount_tasks_mutations.mjs
+--------------------------------------------------
+scripts/phase19_patch_mount_tasks_mutations.mjs:11:const importLine = `import apiTasksMutationsRouter from "./server/routes/api-tasks-mutations.mjs";`;
+scripts/phase19_patch_mount_tasks_mutations.mjs:25:const mountNeedle = "app.use(apiTasksMutationsRouter)";
+scripts/phase19_patch_mount_tasks_mutations.mjs:27:  // Prefer mounting after existing /api/tasks router if present; else after last app.use(...)
+scripts/phase19_patch_mount_tasks_mutations.mjs:28:  const apiTasksUse = src.match(/app\.use\((?:["'`][^"'`]*\/api\/tasks[^"'`]*["'`]\s*,\s*)?apiTasksRouter\);/);
+scripts/phase19_patch_mount_tasks_mutations.mjs:35:      console.error("ERR: no app.use(...) anchors found in", main);
+
+FILE: scripts/phase88_14_5_patch_server_mount_system_health.mjs
+--------------------------------------------------
+scripts/phase88_14_5_patch_server_mount_system_health.mjs:8:const importLine = 'import systemHealthRouter from "./routes/diagnostics/systemHealth.js";';
+scripts/phase88_14_5_patch_server_mount_system_health.mjs:23:  'app.use("/diagnostics/system-health", systemHealthRouter);',
+scripts/phase88_14_5_patch_server_mount_system_health.mjs:24:  'app.use("/diagnostics/systemHealth", systemHealthRouter);',
+scripts/phase88_14_5_patch_server_mount_system_health.mjs:28:  const apiTasksMutationsPattern = /(app\.use\("\/api\/tasks-mutations",\s*apiTasksMutationsRouter\);\s*)/;
+scripts/phase88_14_5_patch_server_mount_system_health.mjs:31:    throw new Error('Mount anchor app.use("/api/tasks-mutations", apiTasksMutationsRouter); not found in server.mjs');
+
+FILE: scripts/phase88_5_capture_system_health_route_payload.ts
+--------------------------------------------------
+scripts/phase88_5_capture_system_health_route_payload.ts:19:    throw new Error("Router stack missing");
+
+FILE: scripts/phase88_8_capture_system_health_js_route_payload.ts
+--------------------------------------------------
+scripts/phase88_8_capture_system_health_js_route_payload.ts:19:    throw new Error("Router stack missing");
+
+FILE: scripts/servers/ops-sse-server.ts
+--------------------------------------------------
+scripts/servers/ops-sse-server.ts:2:import express from "express";
+scripts/servers/ops-sse-server.ts:6:const app = express();
+scripts/servers/ops-sse-server.ts:7:app.use(cors());
+
+FILE: scripts/servers/reflection-sse-server.ts
+--------------------------------------------------
+scripts/servers/reflection-sse-server.ts:2:import express from "express";
+scripts/servers/reflection-sse-server.ts:7:const app = express();
+scripts/servers/reflection-sse-server.ts:8:app.use(cors());
+
+FILE: scripts/sse/reflections-sse-server.ts
+--------------------------------------------------
+scripts/sse/reflections-sse-server.ts:2:import express from "express";
+scripts/sse/reflections-sse-server.ts:5:const app = express();
+scripts/sse/reflections-sse-server.ts:6:app.use(cors());
+
+FILE: scripts_backup/_local/agent-runtime/launch-cade.ts
+--------------------------------------------------
+scripts_backup/_local/agent-runtime/launch-cade.ts:5:import { routeTask } from "../handlers/taskRouter";
+
+FILE: scripts_backup/_local/route-loader/ops-sse-bootstrap.ts
+--------------------------------------------------
+scripts_backup/_local/route-loader/ops-sse-bootstrap.ts:1:import * as express from "express";
+
+FILE: scripts_backup/_local/route-loader/ops-sse-server.ts
+--------------------------------------------------
+scripts_backup/_local/route-loader/ops-sse-server.ts:1:import * as express from "express";
+scripts_backup/_local/route-loader/ops-sse-server.ts:10:const app = express();
+scripts_backup/_local/route-loader/ops-sse-server.ts:11:app.use(cors());
+scripts_backup/_local/route-loader/ops-sse-server.ts:13:const clients: express.Response[] = [];
+
+FILE: scripts_backup/_local/route-loader/reflection-sse-server.ts
+--------------------------------------------------
+scripts_backup/_local/route-loader/reflection-sse-server.ts:1:import * as express from "express";
+scripts_backup/_local/route-loader/reflection-sse-server.ts:10:const app = express();
+scripts_backup/_local/route-loader/reflection-sse-server.ts:11:app.use(cors());
+scripts_backup/_local/route-loader/reflection-sse-server.ts:13:const clients: express.Response[] = [];
+
+FILE: scripts_backup/agents/effie.ts
+--------------------------------------------------
+scripts_backup/agents/effie.ts:6:export async function effieCommandRouter(command: string, args?: Record<string, any>) {
+scripts_backup/agents/effie.ts:48:  handler: effieCommandRouter
+
+FILE: scripts_backup/agents_full/cade.ts
+--------------------------------------------------
+scripts_backup/agents_full/cade.ts:29:export async function cadeCommandRouter(command: string, args?: any): Promise<any> {
+scripts_backup/agents_full/cade.ts:121:          const result = await cadeCommandRouter(command, stepArgs);
+scripts_backup/agents_full/cade.ts:143:  handler: cadeCommandRouter
+
+FILE: scripts_backup/agents_full/effie.ts
+--------------------------------------------------
+scripts_backup/agents_full/effie.ts:6:export async function effieCommandRouter(command: string, args?: Record<string, any>) {
+scripts_backup/agents_full/effie.ts:48:  handler: effieCommandRouter
+
+FILE: scripts_backup/agents_stubs/cade.ts
+--------------------------------------------------
+scripts_backup/agents_stubs/cade.ts:7:export async function cadeCommandRouter(command: string, args: any) {
+scripts_backup/agents_stubs/cade.ts:18:  handler: cadeCommandRouter
+
+FILE: scripts_backup/agents_stubs/effie.ts
+--------------------------------------------------
+scripts_backup/agents_stubs/effie.ts:7:export async function effieCommandRouter(command: string, args: any) {
+scripts_backup/agents_stubs/effie.ts:18:  handler: effieCommandRouter
+
+FILE: scripts_backup/cli/matilda.ts
+--------------------------------------------------
+scripts_backup/cli/matilda.ts:2:import { ask } from "../agents/matilda/askRouter";
+
+FILE: scripts_backup/scripts/_local/agent-runtime/launch-cade.ts
+--------------------------------------------------
+scripts_backup/scripts/_local/agent-runtime/launch-cade.ts:5:import { routeTask } from "../handlers/taskRouter";
+
+FILE: scripts_backup/scripts/_local/route-loader/ops-sse-bootstrap.ts
+--------------------------------------------------
+scripts_backup/scripts/_local/route-loader/ops-sse-bootstrap.ts:1:import express from "express"
+
+FILE: scripts_backup/scripts/_local/route-loader/ops-sse-server.ts
+--------------------------------------------------
+scripts_backup/scripts/_local/route-loader/ops-sse-server.ts:1:import express from "express"
+scripts_backup/scripts/_local/route-loader/ops-sse-server.ts:10:const app = express();
+scripts_backup/scripts/_local/route-loader/ops-sse-server.ts:11:app.use(cors());
+scripts_backup/scripts/_local/route-loader/ops-sse-server.ts:13:const clients: express.Response[] = [];
+scripts_backup/scripts/_local/route-loader/ops-sse-server.ts:16:app.get("/events/ops", (req: express.Request, res: express.Response) => {
+
+FILE: scripts_backup/scripts/_local/route-loader/reflection-sse-server.ts
+--------------------------------------------------
+scripts_backup/scripts/_local/route-loader/reflection-sse-server.ts:1:import express from "express"
+scripts_backup/scripts/_local/route-loader/reflection-sse-server.ts:10:const app = express();
+scripts_backup/scripts/_local/route-loader/reflection-sse-server.ts:11:app.use(cors());
+scripts_backup/scripts/_local/route-loader/reflection-sse-server.ts:13:const clients: express.Response[] = [];
+scripts_backup/scripts/_local/route-loader/reflection-sse-server.ts:16:app.get("/events/reflections", (req: express.Request, res: express.Response) => {
+
+FILE: scripts_backup/scripts/agents/effie.ts
+--------------------------------------------------
+scripts_backup/scripts/agents/effie.ts:6:export async function effieCommandRouter(command: string, args?: Record<string, any>) {
+scripts_backup/scripts/agents/effie.ts:48:  handler: effieCommandRouter
+
+FILE: scripts_backup/scripts/agents_full/cade.ts
+--------------------------------------------------
+scripts_backup/scripts/agents_full/cade.ts:29:export async function cadeCommandRouter(command: string, args?: any): Promise<any> {
+scripts_backup/scripts/agents_full/cade.ts:121:          const result = await cadeCommandRouter(command, stepArgs);
+scripts_backup/scripts/agents_full/cade.ts:143:  handler: cadeCommandRouter
+
+FILE: scripts_backup/scripts/agents_full/effie.ts
+--------------------------------------------------
+scripts_backup/scripts/agents_full/effie.ts:6:export async function effieCommandRouter(command: string, args?: Record<string, any>) {
+scripts_backup/scripts/agents_full/effie.ts:48:  handler: effieCommandRouter
+
+FILE: scripts_backup/scripts/agents_stubs/cade.ts
+--------------------------------------------------
+scripts_backup/scripts/agents_stubs/cade.ts:7:export async function cadeCommandRouter(command: string, args: any) {
+scripts_backup/scripts/agents_stubs/cade.ts:18:  handler: cadeCommandRouter
+
+FILE: scripts_backup/scripts/agents_stubs/effie.ts
+--------------------------------------------------
+scripts_backup/scripts/agents_stubs/effie.ts:7:export async function effieCommandRouter(command: string, args: any) {
+scripts_backup/scripts/agents_stubs/effie.ts:18:  handler: effieCommandRouter
+
+FILE: scripts_backup/scripts/cli/matilda.ts
+--------------------------------------------------
+scripts_backup/scripts/cli/matilda.ts:2:import { ask } from "../agents/matilda/askRouter";
+
+FILE: scripts_backup/scripts/servers/ops-sse-server.ts
+--------------------------------------------------
+scripts_backup/scripts/servers/ops-sse-server.ts:1:import express from "express"
+scripts_backup/scripts/servers/ops-sse-server.ts:10:const app = express();
+scripts_backup/scripts/servers/ops-sse-server.ts:11:app.use(cors());
+scripts_backup/scripts/servers/ops-sse-server.ts:13:app.get("/events/ops", (req: express.Request, res: express.Response) => {
+
+FILE: scripts_backup/scripts/servers/reflection-sse-server.ts
+--------------------------------------------------
+scripts_backup/scripts/servers/reflection-sse-server.ts:1:import express from "express"
+scripts_backup/scripts/servers/reflection-sse-server.ts:11:const app = express();
+scripts_backup/scripts/servers/reflection-sse-server.ts:12:app.use(cors());
+scripts_backup/scripts/servers/reflection-sse-server.ts:14:app.get("/events/reflections", (req: express.Request, res: express.Response) => {
+
+FILE: scripts_backup/scripts/sse/reflections-sse-server.ts
+--------------------------------------------------
+scripts_backup/scripts/sse/reflections-sse-server.ts:1:import express from "express"
+scripts_backup/scripts/sse/reflections-sse-server.ts:9:const app = express();
+scripts_backup/scripts/sse/reflections-sse-server.ts:10:app.use(cors());
+scripts_backup/scripts/sse/reflections-sse-server.ts:21:app.get("/events/reflections", (req: express.Request, res: express.Response) => {
+scripts_backup/scripts/sse/reflections-sse-server.ts:50:app.get("/events/agents", (req: express.Request, res: express.Response) => {
+
+FILE: scripts_backup/servers/ops-sse-server.ts
+--------------------------------------------------
+scripts_backup/servers/ops-sse-server.ts:1:import * as express from "express";
+scripts_backup/servers/ops-sse-server.ts:10:const app = express();
+scripts_backup/servers/ops-sse-server.ts:11:app.use(cors());
+
+FILE: scripts_backup/servers/reflection-sse-server.ts
+--------------------------------------------------
+scripts_backup/servers/reflection-sse-server.ts:1:import * as express from "express";
+scripts_backup/servers/reflection-sse-server.ts:11:const app = express();
+scripts_backup/servers/reflection-sse-server.ts:12:app.use(cors());
+
+FILE: scripts_backup/sse/reflections-sse-server.ts
+--------------------------------------------------
+scripts_backup/sse/reflections-sse-server.ts:1:import * as express from "express";
+scripts_backup/sse/reflections-sse-server.ts:9:const app = express();
+scripts_backup/sse/reflections-sse-server.ts:10:app.use(cors());
+
+FILE: scripts_backup_2/_local/agent-runtime/launch-cade.ts
+--------------------------------------------------
+scripts_backup_2/_local/agent-runtime/launch-cade.ts:5:import { routeTask } from "../handlers/taskRouter";
+
+FILE: scripts_backup_2/_local/route-loader/ops-sse-bootstrap.ts
+--------------------------------------------------
+scripts_backup_2/_local/route-loader/ops-sse-bootstrap.ts:1:import express from "express"
+
+FILE: scripts_backup_2/_local/route-loader/ops-sse-server.ts
+--------------------------------------------------
+scripts_backup_2/_local/route-loader/ops-sse-server.ts:1:import express from "express"
+scripts_backup_2/_local/route-loader/ops-sse-server.ts:10:const app = express();
+scripts_backup_2/_local/route-loader/ops-sse-server.ts:11:app.use(cors());
+scripts_backup_2/_local/route-loader/ops-sse-server.ts:13:const clients: express.Response[] = [];
+scripts_backup_2/_local/route-loader/ops-sse-server.ts:16:app.get("/events/ops", (req: express.Request, res: express.Response) => {
+
+FILE: scripts_backup_2/_local/route-loader/reflection-sse-server.ts
+--------------------------------------------------
+scripts_backup_2/_local/route-loader/reflection-sse-server.ts:1:import express from "express"
+scripts_backup_2/_local/route-loader/reflection-sse-server.ts:10:const app = express();
+scripts_backup_2/_local/route-loader/reflection-sse-server.ts:11:app.use(cors());
+scripts_backup_2/_local/route-loader/reflection-sse-server.ts:13:const clients: express.Response[] = [];
+scripts_backup_2/_local/route-loader/reflection-sse-server.ts:16:app.get("/events/reflections", (req: express.Request, res: express.Response) => {
+
+FILE: scripts_backup_2/agents/effie.ts
+--------------------------------------------------
+scripts_backup_2/agents/effie.ts:6:export async function effieCommandRouter(command: string, args?: Record<string, any>) {
+scripts_backup_2/agents/effie.ts:48:  handler: effieCommandRouter
+
+FILE: scripts_backup_2/agents_full/cade.ts
+--------------------------------------------------
+scripts_backup_2/agents_full/cade.ts:29:export async function cadeCommandRouter(command: string, args?: any): Promise<any> {
+scripts_backup_2/agents_full/cade.ts:121:          const result = await cadeCommandRouter(command, stepArgs);
+scripts_backup_2/agents_full/cade.ts:143:  handler: cadeCommandRouter
+
+FILE: scripts_backup_2/agents_full/effie.ts
+--------------------------------------------------
+scripts_backup_2/agents_full/effie.ts:6:export async function effieCommandRouter(command: string, args?: Record<string, any>) {
+scripts_backup_2/agents_full/effie.ts:48:  handler: effieCommandRouter
+
+FILE: scripts_backup_2/agents_stubs/cade.ts
+--------------------------------------------------
+scripts_backup_2/agents_stubs/cade.ts:7:export async function cadeCommandRouter(command: string, args: any) {
+scripts_backup_2/agents_stubs/cade.ts:18:  handler: cadeCommandRouter
+
+FILE: scripts_backup_2/agents_stubs/effie.ts
+--------------------------------------------------
+scripts_backup_2/agents_stubs/effie.ts:7:export async function effieCommandRouter(command: string, args: any) {
+scripts_backup_2/agents_stubs/effie.ts:18:  handler: effieCommandRouter
+
+FILE: scripts_backup_2/cli/matilda.ts
+--------------------------------------------------
+scripts_backup_2/cli/matilda.ts:2:import { ask } from "../agents/matilda/askRouter";
+
+FILE: scripts_backup_2/servers/ops-sse-server.ts
+--------------------------------------------------
+scripts_backup_2/servers/ops-sse-server.ts:1:import express from "express"
+scripts_backup_2/servers/ops-sse-server.ts:10:const app = express();
+scripts_backup_2/servers/ops-sse-server.ts:11:app.use(cors());
+scripts_backup_2/servers/ops-sse-server.ts:13:app.get("/events/ops", (req: express.Request, res: express.Response) => {
+
+FILE: scripts_backup_2/servers/reflection-sse-server.ts
+--------------------------------------------------
+scripts_backup_2/servers/reflection-sse-server.ts:1:import express from "express"
+scripts_backup_2/servers/reflection-sse-server.ts:11:const app = express();
+scripts_backup_2/servers/reflection-sse-server.ts:12:app.use(cors());
+scripts_backup_2/servers/reflection-sse-server.ts:14:app.get("/events/reflections", (req: express.Request, res: express.Response) => {
+
+FILE: scripts_backup_2/sse/reflections-sse-server.ts
+--------------------------------------------------
+scripts_backup_2/sse/reflections-sse-server.ts:1:import express from "express"
+scripts_backup_2/sse/reflections-sse-server.ts:9:const app = express();
+scripts_backup_2/sse/reflections-sse-server.ts:10:app.use(cors());
+scripts_backup_2/sse/reflections-sse-server.ts:21:app.get("/events/reflections", (req: express.Request, res: express.Response) => {
+scripts_backup_2/sse/reflections-sse-server.ts:50:app.get("/events/agents", (req: express.Request, res: express.Response) => {
+
+FILE: server/routes/api-tasks-mutations.mjs
+--------------------------------------------------
+server/routes/api-tasks-mutations.mjs:1:import express from "express";
+server/routes/api-tasks-mutations.mjs:14:export const apiTasksMutationsRouter = express.Router();
+server/routes/api-tasks-mutations.mjs:16:apiTasksMutationsRouter.post("/delegate", async (req, res) => {
+server/routes/api-tasks-mutations.mjs:27:apiTasksMutationsRouter.post("/complete", async (req, res) => {
+server/routes/api-tasks-mutations.mjs:42:apiTasksMutationsRouter.post("/fail", async (req, res) => {
+server/routes/api-tasks-mutations.mjs:59:export default apiTasksMutationsRouter;
+
+FILE: server/routes/api-tasks-postgres.mjs
+--------------------------------------------------
+server/routes/api-tasks-postgres.mjs:1:import express from "express";
+server/routes/api-tasks-postgres.mjs:8:export const apiTasksRouter = express.Router();
+server/routes/api-tasks-postgres.mjs:30:apiTasksRouter.get("/healthz", async (_req, res) => {
+server/routes/api-tasks-postgres.mjs:34:apiTasksRouter.get("/health", async (_req, res) => {
+server/routes/api-tasks-postgres.mjs:39:apiTasksRouter.get("/", async (req, res) => {
+server/routes/api-tasks-postgres.mjs:72:apiTasksRouter.post("/create", async (req, res) => {
+server/routes/api-tasks-postgres.mjs:151:apiTasksRouter.post("/complete", async (req, res) => {
+server/routes/api-tasks-postgres.mjs:189:apiTasksRouter.post("/fail", async (req, res) => {
+server/routes/api-tasks-postgres.mjs:227:apiTasksRouter.post("/cancel", async (req, res) => {
+
+FILE: server/routes/governed-planning-route.mjs
+--------------------------------------------------
+server/routes/governed-planning-route.mjs:2:import express from "express";
+server/routes/governed-planning-route.mjs:8:} from "../execution/governed-planning-pipeline.mjs";
+server/routes/governed-planning-route.mjs:14:} from "../execution/build-governed-planning-artifact-bundle.mjs";
+server/routes/governed-planning-route.mjs:22:const router = express.Router();
+server/routes/governed-planning-route.mjs:154:  "/api/governed-planning/dry-run",
+
+FILE: server/routes/task-events-sse.mjs
+--------------------------------------------------
+server/routes/task-events-sse.mjs:1:import express from "express";
+server/routes/task-events-sse.mjs:3:const router = express.Router();
+
+FILE: server.mjs
+--------------------------------------------------
+server.mjs:1:import express from "express";
+server.mjs:11:import { apiTasksRouter } from "./server/routes/api-tasks-postgres.mjs";
+server.mjs:12:import systemHealthRouter, {
+server.mjs:25:import apiTasksMutationsRouter from "./server/routes/api-tasks-mutations.mjs";
+server.mjs:37:const app = express();
+server.mjs:49:app.use((req, res, next) => {
+server.mjs:75:app.use(createMutationEnforcementMiddleware());
+server.mjs:77:app.use(express.json());
+server.mjs:80:app.use(taskEventsSSE);
+server.mjs:90:app.use(express.text({ type: "*/*", limit: "64kb" }));
+server.mjs:96:app.use((req,res,next)=>{ console.log("[HTTP] " + req.method + " " + req.url); next(); });
+server.mjs:171:app.use(express.static(path.join(__dirname, "public")));
+server.mjs:172:app.use("/css", express.static(path.join(__dirname, "public", "css")));
+server.mjs:173:app.use("/js", express.static(path.join(__dirname, "public", "js")));
+server.mjs:174:app.use("/img", express.static(path.join(__dirname, "public", "img")));
+server.mjs:183:app.use("/api/tasks", apiTasksRouter);
+server.mjs:184:app.use("/api/tasks-mutations", apiTasksMutationsRouter);
+server.mjs:187:app.use("/diagnostics/system-health", systemHealthRouter);
+server.mjs:188:app.use("/diagnostics/systemHealth", systemHealthRouter);
+server.mjs:335:app.use("/public", express.static(path.join(__dirname, "public")));
+
+FILE: server.ts
+--------------------------------------------------
+server.ts:2:import express from "express";
+server.ts:8:const app = express();
+server.ts:9:app.use(cors());
+server.ts:10:app.use(express.json());
+server.ts:16:app.use(express.static(publicPath));
+server.ts:17:app.use(delegateRoutes); 
+server.ts:18:app.use(tasksRoutes); 
+server.ts:19:app.use(logsRoutes);
+
+FILE: snapshots/20251114-114707/routes/agentsStatus.js
+--------------------------------------------------
+snapshots/20251114-114707/routes/agentsStatus.js:1:import express from "express";
+snapshots/20251114-114707/routes/agentsStatus.js:2:const router = express.Router();
+
+FILE: snapshots/20251114-114707/routes/agentsStatus.ts
+--------------------------------------------------
+snapshots/20251114-114707/routes/agentsStatus.ts:1:import express from "express";
+snapshots/20251114-114707/routes/agentsStatus.ts:2:export const agentsStatusRouter = express.Router();
+snapshots/20251114-114707/routes/agentsStatus.ts:4:agentsStatusRouter.get("/", (_req, res) => {
+
+FILE: snapshots/20251114-114707/routes/api/delegate.ts
+--------------------------------------------------
+snapshots/20251114-114707/routes/api/delegate.ts:1:import express from "express";
+snapshots/20251114-114707/routes/api/delegate.ts:4:const router = express.Router();
+
+FILE: snapshots/20251114-114707/routes/api/logs.ts
+--------------------------------------------------
+snapshots/20251114-114707/routes/api/logs.ts:1:import express from "express";
+snapshots/20251114-114707/routes/api/logs.ts:4:const router = express.Router();
+
+FILE: snapshots/20251114-114707/routes/api/tasks.ts
+--------------------------------------------------
+snapshots/20251114-114707/routes/api/tasks.ts:1:import express from "express";
+snapshots/20251114-114707/routes/api/tasks.ts:4:const router = express.Router();
+
+FILE: snapshots/20251114-114707/routes/cade.ts
+--------------------------------------------------
+snapshots/20251114-114707/routes/cade.ts:1:import express from "express";
+snapshots/20251114-114707/routes/cade.ts:6:export const cadeRouter = express.Router();
+snapshots/20251114-114707/routes/cade.ts:9:cadeRouter.get("/recent", async (_req, res) => {
+
+FILE: snapshots/20251114-114707/routes/delegations.ts
+--------------------------------------------------
+snapshots/20251114-114707/routes/delegations.ts:2:import express from "express";
+snapshots/20251114-114707/routes/delegations.ts:5:const router = express.Router();
+
+FILE: snapshots/20251114-114707/routes/diagnostics/autonomicAdaptation.js
+--------------------------------------------------
+snapshots/20251114-114707/routes/diagnostics/autonomicAdaptation.js:1:import express from "express";
+snapshots/20251114-114707/routes/diagnostics/autonomicAdaptation.js:2:const router = express.Router();
+
+FILE: snapshots/20251114-114707/routes/diagnostics/autonomicAdaptation.ts
+--------------------------------------------------
+snapshots/20251114-114707/routes/diagnostics/autonomicAdaptation.ts:1:import express from "express";
+snapshots/20251114-114707/routes/diagnostics/autonomicAdaptation.ts:2:export const autonomicAdaptation = express.Router();
+
+FILE: snapshots/20251114-114707/routes/diagnostics/introspectiveSim.js
+--------------------------------------------------
+snapshots/20251114-114707/routes/diagnostics/introspectiveSim.js:1:import express from "express";
+snapshots/20251114-114707/routes/diagnostics/introspectiveSim.js:2:const router = express.Router();
+
+FILE: snapshots/20251114-114707/routes/diagnostics/introspectiveSim.ts
+--------------------------------------------------
+snapshots/20251114-114707/routes/diagnostics/introspectiveSim.ts:1:import express from "express";
+snapshots/20251114-114707/routes/diagnostics/introspectiveSim.ts:2:export const introspectiveSim = express.Router();
+
+FILE: snapshots/20251114-114707/routes/diagnostics/persistentInsight.js
+--------------------------------------------------
+snapshots/20251114-114707/routes/diagnostics/persistentInsight.js:1:import express from "express";
+snapshots/20251114-114707/routes/diagnostics/persistentInsight.js:2:const router = express.Router();
+
+FILE: snapshots/20251114-114707/routes/diagnostics/persistentInsight.ts
+--------------------------------------------------
+snapshots/20251114-114707/routes/diagnostics/persistentInsight.ts:1:import express from "express";
+snapshots/20251114-114707/routes/diagnostics/persistentInsight.ts:2:export const persistentInsight = express.Router();
+
+FILE: snapshots/20251114-114707/routes/diagnostics/systemChronicle.js
+--------------------------------------------------
+snapshots/20251114-114707/routes/diagnostics/systemChronicle.js:1:import express from "express";
+snapshots/20251114-114707/routes/diagnostics/systemChronicle.js:2:const router = express.Router();
+
+FILE: snapshots/20251114-114707/routes/diagnostics/systemChronicle.ts
+--------------------------------------------------
+snapshots/20251114-114707/routes/diagnostics/systemChronicle.ts:1:import express from "express";
+snapshots/20251114-114707/routes/diagnostics/systemChronicle.ts:2:export const systemChronicle = express.Router();
+
+FILE: snapshots/20251114-114707/routes/diagnostics/systemHealth.js
+--------------------------------------------------
+snapshots/20251114-114707/routes/diagnostics/systemHealth.js:1:import express from "express";
+snapshots/20251114-114707/routes/diagnostics/systemHealth.js:2:const router = express.Router();
+
+FILE: snapshots/20251114-114707/routes/diagnostics/systemHealth.ts
+--------------------------------------------------
+snapshots/20251114-114707/routes/diagnostics/systemHealth.ts:1:import express from "express";
+snapshots/20251114-114707/routes/diagnostics/systemHealth.ts:2:export const systemHealth = express.Router();
+
+FILE: snapshots/20251114-114707/routes/events.ts
+--------------------------------------------------
+snapshots/20251114-114707/routes/events.ts:1:import { Router } from "express";
+snapshots/20251114-114707/routes/events.ts:4:const router = Router();
+
+FILE: snapshots/20251114-114707/routes/eventsAgents.ts
+--------------------------------------------------
+snapshots/20251114-114707/routes/eventsAgents.ts:1:import { Router, Request, Response } from "express";
+snapshots/20251114-114707/routes/eventsAgents.ts:31:const router = Router();
+
+FILE: snapshots/20251114-114707/routes/logs.ts
+--------------------------------------------------
+snapshots/20251114-114707/routes/logs.ts:1:import { Router } from "express";
+snapshots/20251114-114707/routes/logs.ts:6:const router = Router();
+
+FILE: snapshots/20251114-114707/routes/matilda.ts
+--------------------------------------------------
+snapshots/20251114-114707/routes/matilda.ts:1:import express from "express";
+snapshots/20251114-114707/routes/matilda.ts:3:export const router = express.Router();
+
+FILE: snapshots/20251114-114707/routes/reflections.ts
+--------------------------------------------------
+snapshots/20251114-114707/routes/reflections.ts:1:import express from "express";
+snapshots/20251114-114707/routes/reflections.ts:6:export const reflectionsRouter = express.Router();
+snapshots/20251114-114707/routes/reflections.ts:8:reflectionsRouter.get("/recent", async (_req, res) => {
+snapshots/20251114-114707/routes/reflections.ts:23:export default reflectionsRouter;
+
+FILE: snapshots/20251114-114707/routes/reset.ts
+--------------------------------------------------
+snapshots/20251114-114707/routes/reset.ts:2:import express from "express";
+snapshots/20251114-114707/routes/reset.ts:5:const router = express.Router();
+
+FILE: snapshots/20251114-114707/routes/tasks.ts
+--------------------------------------------------
+snapshots/20251114-114707/routes/tasks.ts:3:console.log("<0001f9ed> Active tasksRouter loaded from:", import.meta.url);
+snapshots/20251114-114707/routes/tasks.ts:6:import express from "express";
+snapshots/20251114-114707/routes/tasks.ts:13:export const tasksRouter = express.Router();
+snapshots/20251114-114707/routes/tasks.ts:15:tasksRouter.get("/recent", async (_req, res) => {
+
+FILE: snapshots/20251114-114707/scripts/_local/agent-runtime/launch-cade.ts
+--------------------------------------------------
+snapshots/20251114-114707/scripts/_local/agent-runtime/launch-cade.ts:5:import { routeTask } from "../handlers/taskRouter";
+
+FILE: snapshots/20251114-114707/scripts/_local/route-loader/ops-sse-server.ts
+--------------------------------------------------
+snapshots/20251114-114707/scripts/_local/route-loader/ops-sse-server.ts:2:import express from "express";
+snapshots/20251114-114707/scripts/_local/route-loader/ops-sse-server.ts:6:const app = express();
+snapshots/20251114-114707/scripts/_local/route-loader/ops-sse-server.ts:7:app.use(cors());
+snapshots/20251114-114707/scripts/_local/route-loader/ops-sse-server.ts:9:const clients: express.Response[] = [];
+
+FILE: snapshots/20251114-114707/scripts/_local/route-loader/reflection-sse-server.ts
+--------------------------------------------------
+snapshots/20251114-114707/scripts/_local/route-loader/reflection-sse-server.ts:2:import express from "express";
+snapshots/20251114-114707/scripts/_local/route-loader/reflection-sse-server.ts:6:const app = express();
+snapshots/20251114-114707/scripts/_local/route-loader/reflection-sse-server.ts:7:app.use(cors());
+snapshots/20251114-114707/scripts/_local/route-loader/reflection-sse-server.ts:9:const clients: express.Response[] = [];
+
+FILE: snapshots/20251114-114707/scripts/agents/effie.ts
+--------------------------------------------------
+snapshots/20251114-114707/scripts/agents/effie.ts:6:export async function effieCommandRouter(command: string, args?: Record<string, any>) {
+snapshots/20251114-114707/scripts/agents/effie.ts:48:  handler: effieCommandRouter
+
+FILE: snapshots/20251114-114707/scripts/agents_full/cade.ts
+--------------------------------------------------
+snapshots/20251114-114707/scripts/agents_full/cade.ts:29:export async function cadeCommandRouter(command: string, args?: any): Promise<any> {
+snapshots/20251114-114707/scripts/agents_full/cade.ts:121:          const result = await cadeCommandRouter(command, stepArgs);
+snapshots/20251114-114707/scripts/agents_full/cade.ts:143:  handler: cadeCommandRouter
+
+FILE: snapshots/20251114-114707/scripts/agents_full/effie.ts
+--------------------------------------------------
+snapshots/20251114-114707/scripts/agents_full/effie.ts:6:export async function effieCommandRouter(command: string, args?: Record<string, any>) {
+snapshots/20251114-114707/scripts/agents_full/effie.ts:48:  handler: effieCommandRouter
+
+FILE: snapshots/20251114-114707/scripts/agents_stubs/cade.ts
+--------------------------------------------------
+snapshots/20251114-114707/scripts/agents_stubs/cade.ts:7:export async function cadeCommandRouter(command: string, args: any) {
+snapshots/20251114-114707/scripts/agents_stubs/cade.ts:18:  handler: cadeCommandRouter
+
+FILE: snapshots/20251114-114707/scripts/agents_stubs/effie.ts
+--------------------------------------------------
+snapshots/20251114-114707/scripts/agents_stubs/effie.ts:7:export async function effieCommandRouter(command: string, args: any) {
+snapshots/20251114-114707/scripts/agents_stubs/effie.ts:18:  handler: effieCommandRouter
+
+FILE: snapshots/20251114-114707/scripts/cli/matilda.ts
+--------------------------------------------------
+snapshots/20251114-114707/scripts/cli/matilda.ts:2:import { ask } from "../agents/matilda/askRouter.ts";
+
+FILE: snapshots/20251114-114707/scripts/servers/ops-sse-server.ts
+--------------------------------------------------
+snapshots/20251114-114707/scripts/servers/ops-sse-server.ts:2:import express from "express";
+snapshots/20251114-114707/scripts/servers/ops-sse-server.ts:6:const app = express();
+snapshots/20251114-114707/scripts/servers/ops-sse-server.ts:7:app.use(cors());
+
+FILE: snapshots/20251114-114707/scripts/servers/reflection-sse-server.ts
+--------------------------------------------------
+snapshots/20251114-114707/scripts/servers/reflection-sse-server.ts:2:import express from "express";
+snapshots/20251114-114707/scripts/servers/reflection-sse-server.ts:6:const app = express();
+snapshots/20251114-114707/scripts/servers/reflection-sse-server.ts:7:app.use(cors());
+
+FILE: snapshots/20251114-114707/server.ts
+--------------------------------------------------
+snapshots/20251114-114707/server.ts:2:import express from "express";
+snapshots/20251114-114707/server.ts:8:const app = express();
+snapshots/20251114-114707/server.ts:9:app.use(cors());
+snapshots/20251114-114707/server.ts:10:app.use(express.json());
+snapshots/20251114-114707/server.ts:13:app.use(express.static(publicPath));
+
+FILE: snapshots/20251114-114821/routes/agentsStatus.js
+--------------------------------------------------
+snapshots/20251114-114821/routes/agentsStatus.js:1:import express from "express";
+snapshots/20251114-114821/routes/agentsStatus.js:2:const router = express.Router();
+
+FILE: snapshots/20251114-114821/routes/agentsStatus.ts
+--------------------------------------------------
+snapshots/20251114-114821/routes/agentsStatus.ts:1:import express from "express";
+snapshots/20251114-114821/routes/agentsStatus.ts:2:export const agentsStatusRouter = express.Router();
+snapshots/20251114-114821/routes/agentsStatus.ts:4:agentsStatusRouter.get("/", (_req, res) => {
+
+FILE: snapshots/20251114-114821/routes/api/delegate.ts
+--------------------------------------------------
+snapshots/20251114-114821/routes/api/delegate.ts:1:import express from "express";
+snapshots/20251114-114821/routes/api/delegate.ts:4:const router = express.Router();
+
+FILE: snapshots/20251114-114821/routes/api/logs.ts
+--------------------------------------------------
+snapshots/20251114-114821/routes/api/logs.ts:1:import express from "express";
+snapshots/20251114-114821/routes/api/logs.ts:4:const router = express.Router();
+
+FILE: snapshots/20251114-114821/routes/api/tasks.ts
+--------------------------------------------------
+snapshots/20251114-114821/routes/api/tasks.ts:1:import express from "express";
+snapshots/20251114-114821/routes/api/tasks.ts:4:const router = express.Router();
+
+FILE: snapshots/20251114-114821/routes/cade.ts
+--------------------------------------------------
+snapshots/20251114-114821/routes/cade.ts:1:import express from "express";
+snapshots/20251114-114821/routes/cade.ts:6:export const cadeRouter = express.Router();
+snapshots/20251114-114821/routes/cade.ts:9:cadeRouter.get("/recent", async (_req, res) => {
+
+FILE: snapshots/20251114-114821/routes/delegations.ts
+--------------------------------------------------
+snapshots/20251114-114821/routes/delegations.ts:2:import express from "express";
+snapshots/20251114-114821/routes/delegations.ts:5:const router = express.Router();
+
+FILE: snapshots/20251114-114821/routes/diagnostics/autonomicAdaptation.js
+--------------------------------------------------
+snapshots/20251114-114821/routes/diagnostics/autonomicAdaptation.js:1:import express from "express";
+snapshots/20251114-114821/routes/diagnostics/autonomicAdaptation.js:2:const router = express.Router();
+
+FILE: snapshots/20251114-114821/routes/diagnostics/autonomicAdaptation.ts
+--------------------------------------------------
+snapshots/20251114-114821/routes/diagnostics/autonomicAdaptation.ts:1:import express from "express";
+snapshots/20251114-114821/routes/diagnostics/autonomicAdaptation.ts:2:export const autonomicAdaptation = express.Router();
+
+FILE: snapshots/20251114-114821/routes/diagnostics/introspectiveSim.js
+--------------------------------------------------
+snapshots/20251114-114821/routes/diagnostics/introspectiveSim.js:1:import express from "express";
+snapshots/20251114-114821/routes/diagnostics/introspectiveSim.js:2:const router = express.Router();
+
+FILE: snapshots/20251114-114821/routes/diagnostics/introspectiveSim.ts
+--------------------------------------------------
+snapshots/20251114-114821/routes/diagnostics/introspectiveSim.ts:1:import express from "express";
+snapshots/20251114-114821/routes/diagnostics/introspectiveSim.ts:2:export const introspectiveSim = express.Router();
+
+FILE: snapshots/20251114-114821/routes/diagnostics/persistentInsight.js
+--------------------------------------------------
+snapshots/20251114-114821/routes/diagnostics/persistentInsight.js:1:import express from "express";
+snapshots/20251114-114821/routes/diagnostics/persistentInsight.js:2:const router = express.Router();
+
+FILE: snapshots/20251114-114821/routes/diagnostics/persistentInsight.ts
+--------------------------------------------------
+snapshots/20251114-114821/routes/diagnostics/persistentInsight.ts:1:import express from "express";
+snapshots/20251114-114821/routes/diagnostics/persistentInsight.ts:2:export const persistentInsight = express.Router();
+
+FILE: snapshots/20251114-114821/routes/diagnostics/systemChronicle.js
+--------------------------------------------------
+snapshots/20251114-114821/routes/diagnostics/systemChronicle.js:1:import express from "express";
+snapshots/20251114-114821/routes/diagnostics/systemChronicle.js:2:const router = express.Router();
+
+FILE: snapshots/20251114-114821/routes/diagnostics/systemChronicle.ts
+--------------------------------------------------
+snapshots/20251114-114821/routes/diagnostics/systemChronicle.ts:1:import express from "express";
+snapshots/20251114-114821/routes/diagnostics/systemChronicle.ts:2:export const systemChronicle = express.Router();
+
+FILE: snapshots/20251114-114821/routes/diagnostics/systemHealth.js
+--------------------------------------------------
+snapshots/20251114-114821/routes/diagnostics/systemHealth.js:1:import express from "express";
+snapshots/20251114-114821/routes/diagnostics/systemHealth.js:2:const router = express.Router();
+
+FILE: snapshots/20251114-114821/routes/diagnostics/systemHealth.ts
+--------------------------------------------------
+snapshots/20251114-114821/routes/diagnostics/systemHealth.ts:1:import express from "express";
+snapshots/20251114-114821/routes/diagnostics/systemHealth.ts:2:export const systemHealth = express.Router();
+
+FILE: snapshots/20251114-114821/routes/events.ts
+--------------------------------------------------
+snapshots/20251114-114821/routes/events.ts:1:import { Router } from "express";
+snapshots/20251114-114821/routes/events.ts:4:const router = Router();
+
+FILE: snapshots/20251114-114821/routes/eventsAgents.ts
+--------------------------------------------------
+snapshots/20251114-114821/routes/eventsAgents.ts:1:import { Router, Request, Response } from "express";
+snapshots/20251114-114821/routes/eventsAgents.ts:31:const router = Router();
+
+FILE: snapshots/20251114-114821/routes/logs.ts
+--------------------------------------------------
+snapshots/20251114-114821/routes/logs.ts:1:import { Router } from "express";
+snapshots/20251114-114821/routes/logs.ts:6:const router = Router();
+
+FILE: snapshots/20251114-114821/routes/matilda.ts
+--------------------------------------------------
+snapshots/20251114-114821/routes/matilda.ts:1:import express from "express";
+snapshots/20251114-114821/routes/matilda.ts:3:export const router = express.Router();
+
+FILE: snapshots/20251114-114821/routes/reflections.ts
+--------------------------------------------------
+snapshots/20251114-114821/routes/reflections.ts:1:import express from "express";
+snapshots/20251114-114821/routes/reflections.ts:6:export const reflectionsRouter = express.Router();
+snapshots/20251114-114821/routes/reflections.ts:8:reflectionsRouter.get("/recent", async (_req, res) => {
+snapshots/20251114-114821/routes/reflections.ts:23:export default reflectionsRouter;
+
+FILE: snapshots/20251114-114821/routes/reset.ts
+--------------------------------------------------
+snapshots/20251114-114821/routes/reset.ts:2:import express from "express";
+snapshots/20251114-114821/routes/reset.ts:5:const router = express.Router();
+
+FILE: snapshots/20251114-114821/routes/tasks.ts
+--------------------------------------------------
+snapshots/20251114-114821/routes/tasks.ts:3:console.log("<0001f9ed> Active tasksRouter loaded from:", import.meta.url);
+snapshots/20251114-114821/routes/tasks.ts:6:import express from "express";
+snapshots/20251114-114821/routes/tasks.ts:13:export const tasksRouter = express.Router();
+snapshots/20251114-114821/routes/tasks.ts:15:tasksRouter.get("/recent", async (_req, res) => {
+
+FILE: snapshots/20251114-114821/scripts/_local/agent-runtime/launch-cade.ts
+--------------------------------------------------
+snapshots/20251114-114821/scripts/_local/agent-runtime/launch-cade.ts:5:import { routeTask } from "../handlers/taskRouter";
+
+FILE: snapshots/20251114-114821/scripts/_local/route-loader/ops-sse-server.ts
+--------------------------------------------------
+snapshots/20251114-114821/scripts/_local/route-loader/ops-sse-server.ts:2:import express from "express";
+snapshots/20251114-114821/scripts/_local/route-loader/ops-sse-server.ts:6:const app = express();
+snapshots/20251114-114821/scripts/_local/route-loader/ops-sse-server.ts:7:app.use(cors());
+snapshots/20251114-114821/scripts/_local/route-loader/ops-sse-server.ts:9:const clients: express.Response[] = [];
+
+FILE: snapshots/20251114-114821/scripts/_local/route-loader/reflection-sse-server.ts
+--------------------------------------------------
+snapshots/20251114-114821/scripts/_local/route-loader/reflection-sse-server.ts:2:import express from "express";
+snapshots/20251114-114821/scripts/_local/route-loader/reflection-sse-server.ts:6:const app = express();
+snapshots/20251114-114821/scripts/_local/route-loader/reflection-sse-server.ts:7:app.use(cors());
+snapshots/20251114-114821/scripts/_local/route-loader/reflection-sse-server.ts:9:const clients: express.Response[] = [];
+
+FILE: snapshots/20251114-114821/scripts/agents/effie.ts
+--------------------------------------------------
+snapshots/20251114-114821/scripts/agents/effie.ts:6:export async function effieCommandRouter(command: string, args?: Record<string, any>) {
+snapshots/20251114-114821/scripts/agents/effie.ts:48:  handler: effieCommandRouter
+
+FILE: snapshots/20251114-114821/scripts/agents_full/cade.ts
+--------------------------------------------------
+snapshots/20251114-114821/scripts/agents_full/cade.ts:29:export async function cadeCommandRouter(command: string, args?: any): Promise<any> {
+snapshots/20251114-114821/scripts/agents_full/cade.ts:121:          const result = await cadeCommandRouter(command, stepArgs);
+snapshots/20251114-114821/scripts/agents_full/cade.ts:143:  handler: cadeCommandRouter
+
+FILE: snapshots/20251114-114821/scripts/agents_full/effie.ts
+--------------------------------------------------
+snapshots/20251114-114821/scripts/agents_full/effie.ts:6:export async function effieCommandRouter(command: string, args?: Record<string, any>) {
+snapshots/20251114-114821/scripts/agents_full/effie.ts:48:  handler: effieCommandRouter
+
+FILE: snapshots/20251114-114821/scripts/agents_stubs/cade.ts
+--------------------------------------------------
+snapshots/20251114-114821/scripts/agents_stubs/cade.ts:7:export async function cadeCommandRouter(command: string, args: any) {
+snapshots/20251114-114821/scripts/agents_stubs/cade.ts:18:  handler: cadeCommandRouter
+
+FILE: snapshots/20251114-114821/scripts/agents_stubs/effie.ts
+--------------------------------------------------
+snapshots/20251114-114821/scripts/agents_stubs/effie.ts:7:export async function effieCommandRouter(command: string, args: any) {
+snapshots/20251114-114821/scripts/agents_stubs/effie.ts:18:  handler: effieCommandRouter
+
+FILE: snapshots/20251114-114821/scripts/cli/matilda.ts
+--------------------------------------------------
+snapshots/20251114-114821/scripts/cli/matilda.ts:2:import { ask } from "../agents/matilda/askRouter.ts";
+
+FILE: snapshots/20251114-114821/scripts/servers/ops-sse-server.ts
+--------------------------------------------------
+snapshots/20251114-114821/scripts/servers/ops-sse-server.ts:2:import express from "express";
+snapshots/20251114-114821/scripts/servers/ops-sse-server.ts:6:const app = express();
+snapshots/20251114-114821/scripts/servers/ops-sse-server.ts:7:app.use(cors());
+
+FILE: snapshots/20251114-114821/scripts/servers/reflection-sse-server.ts
+--------------------------------------------------
+snapshots/20251114-114821/scripts/servers/reflection-sse-server.ts:2:import express from "express";
+snapshots/20251114-114821/scripts/servers/reflection-sse-server.ts:6:const app = express();
+snapshots/20251114-114821/scripts/servers/reflection-sse-server.ts:7:app.use(cors());
+
+FILE: snapshots/20251114-114821/server.ts
+--------------------------------------------------
+snapshots/20251114-114821/server.ts:2:import express from "express";
+snapshots/20251114-114821/server.ts:8:const app = express();
+snapshots/20251114-114821/server.ts:9:app.use(cors());
+snapshots/20251114-114821/server.ts:10:app.use(express.json());
+snapshots/20251114-114821/server.ts:16:app.use(express.static(publicPath));
+snapshots/20251114-114821/server.ts:17:app.use(delegateRoutes); 
+snapshots/20251114-114821/server.ts:18:app.use(tasksRoutes); 
+snapshots/20251114-114821/server.ts:19:app.use(logsRoutes);
+
+FILE: systemChronicle.ts
+--------------------------------------------------
+systemChronicle.ts:1:import express from "express";
+systemChronicle.ts:2:export const systemChronicle = express.Router();
+
+FILE: systemHealth.ts
+--------------------------------------------------
+systemHealth.ts:1:import express from "express";
+systemHealth.ts:2:export const systemHealth = express.Router();
+
+FILE: tasks.ts
+--------------------------------------------------
+tasks.ts:3:console.log("<0001f9ed> Active tasksRouter loaded from:", import.meta.url);
+tasks.ts:6:import express from "express";
+tasks.ts:13:export const tasksRouter = express.Router();
+tasks.ts:15:tasksRouter.get("/recent", async (_req, res) => {
+
+FILE: ts-backup/agentsStatus.ts
+--------------------------------------------------
+ts-backup/agentsStatus.ts:1:import express from "express";
+ts-backup/agentsStatus.ts:2:export const agentsStatusRouter = express.Router();
+ts-backup/agentsStatus.ts:4:agentsStatusRouter.get("/", (_req, res) => {
+
+FILE: ts-backup/ambient-placeholders.d.ts
+--------------------------------------------------
+ts-backup/ambient-placeholders.d.ts:6:declare const agentsStatusRouter: any;
+ts-backup/ambient-placeholders.d.ts:7:declare const cadeRouter: any;
+ts-backup/ambient-placeholders.d.ts:8:declare const tasksRouter: any;
+
+FILE: ts-backup/autonomicAdaptation.ts
+--------------------------------------------------
+ts-backup/autonomicAdaptation.ts:1:import express from "express";
+ts-backup/autonomicAdaptation.ts:2:export const autonomicAdaptation = express.Router();
+
+FILE: ts-backup/cade.ts
+--------------------------------------------------
+ts-backup/cade.ts:1:import express from "express";
+ts-backup/cade.ts:6:export const cadeRouter = express.Router();
+ts-backup/cade.ts:9:cadeRouter.get("/recent", async (_req, res) => {
+
+FILE: ts-backup/delegate.ts
+--------------------------------------------------
+ts-backup/delegate.ts:1:import express from "express";
+ts-backup/delegate.ts:5:export const router = express.Router();
+
+FILE: ts-backup/delegations.ts
+--------------------------------------------------
+ts-backup/delegations.ts:2:import express from "express";
+ts-backup/delegations.ts:5:const router = express.Router();
+
+FILE: ts-backup/effie.ts
+--------------------------------------------------
+ts-backup/effie.ts:7:export async function effieCommandRouter(command: string, args: any) {
+ts-backup/effie.ts:18:  handler: effieCommandRouter
+
+FILE: ts-backup/events.ts
+--------------------------------------------------
+ts-backup/events.ts:1:import { Router } from "express";
+ts-backup/events.ts:4:const router = Router();
+
+FILE: ts-backup/eventsAgents.ts
+--------------------------------------------------
+ts-backup/eventsAgents.ts:1:import { Router, Request, Response } from "express";
+ts-backup/eventsAgents.ts:31:const router = Router();
+
+FILE: ts-backup/express-stubs.d.ts
+--------------------------------------------------
+ts-backup/express-stubs.d.ts:6:declare const agentsStatusRouter: any;
+ts-backup/express-stubs.d.ts:7:declare const cadeRouter: any;
+ts-backup/express-stubs.d.ts:8:declare const tasksRouter: any;
+
+FILE: ts-backup/introspectiveSim.ts
+--------------------------------------------------
+ts-backup/introspectiveSim.ts:1:import express from "express";
+ts-backup/introspectiveSim.ts:2:export const introspectiveSim = express.Router();
+
+FILE: ts-backup/launch-cade.ts
+--------------------------------------------------
+ts-backup/launch-cade.ts:5:import { routeTask } from "../handlers/taskRouter";
+
+FILE: ts-backup/logs.ts
+--------------------------------------------------
+ts-backup/logs.ts:1:import { Router } from "express";
+ts-backup/logs.ts:6:const router = Router();
+
+FILE: ts-backup/matilda.ts
+--------------------------------------------------
+ts-backup/matilda.ts:1:import express from "express";
+ts-backup/matilda.ts:4:export const router = express.Router();
+
+FILE: ts-backup/ops-sse-server.ts
+--------------------------------------------------
+ts-backup/ops-sse-server.ts:2:import express from "express";
+ts-backup/ops-sse-server.ts:6:const app = express();
+ts-backup/ops-sse-server.ts:7:app.use(cors());
+
+FILE: ts-backup/persistentInsight.ts
+--------------------------------------------------
+ts-backup/persistentInsight.ts:1:import express from "express";
+ts-backup/persistentInsight.ts:2:export const persistentInsight = express.Router();
+
+FILE: ts-backup/reflection-sse-server.ts
+--------------------------------------------------
+ts-backup/reflection-sse-server.ts:2:import express from "express";
+ts-backup/reflection-sse-server.ts:7:const app = express();
+ts-backup/reflection-sse-server.ts:8:app.use(cors());
+
+FILE: ts-backup/reflections-sse-server.ts
+--------------------------------------------------
+ts-backup/reflections-sse-server.ts:2:import express from "express";
+ts-backup/reflections-sse-server.ts:5:const app = express();
+ts-backup/reflections-sse-server.ts:6:app.use(cors());
+
+FILE: ts-backup/reflections.ts
+--------------------------------------------------
+ts-backup/reflections.ts:2:import express from "express";
+ts-backup/reflections.ts:6:const router = express.Router();
+
+FILE: ts-backup/reset.ts
+--------------------------------------------------
+ts-backup/reset.ts:2:import express from "express";
+ts-backup/reset.ts:5:const router = express.Router();
+
+FILE: ts-backup/server.ts
+--------------------------------------------------
+ts-backup/server.ts:2:import express from "express";
+ts-backup/server.ts:5:const app = express();
+ts-backup/server.ts:14:app.use(express.static(path.join(process.cwd(), "public")));
+ts-backup/server.ts:22:app.use((_req, res) => {
+
+FILE: ts-backup/systemChronicle.ts
+--------------------------------------------------
+ts-backup/systemChronicle.ts:1:import express from "express";
+ts-backup/systemChronicle.ts:2:export const systemChronicle = express.Router();
+
+FILE: ts-backup/systemHealth.ts
+--------------------------------------------------
+ts-backup/systemHealth.ts:1:import express from "express";
+ts-backup/systemHealth.ts:2:export const systemHealth = express.Router();
+
+FILE: ts-backup/tasks.ts
+--------------------------------------------------
+ts-backup/tasks.ts:3:console.log("<0001f9ed> Active tasksRouter loaded from:", import.meta.url);
+ts-backup/tasks.ts:6:import express from "express";
+ts-backup/tasks.ts:13:export const tasksRouter = express.Router();
+ts-backup/tasks.ts:15:tasksRouter.get("/recent", async (_req, res) => {
+
+FILE: types/ambient-placeholders.d.ts
+--------------------------------------------------
+types/ambient-placeholders.d.ts:6:declare const agentsStatusRouter: any;
+types/ambient-placeholders.d.ts:7:declare const cadeRouter: any;
+types/ambient-placeholders.d.ts:8:declare const tasksRouter: any;
+
+FILE: types/express-stubs.d.ts
+--------------------------------------------------
+types/express-stubs.d.ts:6:declare const agentsStatusRouter: any;
+types/express-stubs.d.ts:7:declare const cadeRouter: any;
+types/express-stubs.d.ts:8:declare const tasksRouter: any;
+
+FILE: types/sse-overrides.d.ts
+--------------------------------------------------
+types/sse-overrides.d.ts:1:declare module "express" {
+
+===== ROUTE FILE REFERENCES =====
+server/execution/build-governed-planning-artifact-bundle.mjs:162:      "governed_planning_artifact_bundle.v1",
+server/execution/execution-approval-gate.mjs:106:    execution_phase: "governed_planning_only",
+server/execution/governed-planning-pipeline.mjs:46:    pipeline: "governed_planning_pipeline",
+server/execution/normalize-governed-response.mjs:38:      "governed_planning_response.v1",
+server/execution/smoke-test-governed-planning-pipeline.mjs:2:import { runGovernedPlanningPipeline } from "./governed-planning-pipeline.mjs";
+server/execution/smoke-test-governed-route-fail-closed.mjs:4:  from "./governed-planning-pipeline.mjs";
+server/execution/smoke-test-governed-route.mjs:6:  from "./governed-planning-pipeline.mjs";
+server/execution/smoke-test-governed-route.mjs:122:  route_validation: "governed_planning_route_smoke",
+server/execution/smoke-test-planning-artifact-bundle.mjs:6:} from "./governed-planning-pipeline.mjs";
+server/execution/smoke-test-planning-artifact-bundle.mjs:12:} from "./build-governed-planning-artifact-bundle.mjs";
+server/routes/governed-planning-route.mjs:8:} from "../execution/governed-planning-pipeline.mjs";
+server/routes/governed-planning-route.mjs:14:} from "../execution/build-governed-planning-artifact-bundle.mjs";
+server/routes/governed-planning-route.mjs:154:  "/api/governed-planning/dry-run",
+server/routes/governed-planning-route.mjs:182:          "governed_planning_dry_run",
+server/routes/governed-planning-route.mjs:234:          "governed_planning_dry_run",
+
+===== SERVER ENTRYPOINT CANDIDATES =====
+
+===== DISCOVERY COMPLETE =====
