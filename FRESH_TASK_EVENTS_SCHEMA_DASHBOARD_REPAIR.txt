@@ -1,0 +1,262 @@
+===== FRESH TASK EVENTS SCHEMA DASHBOARD REPAIR =====
+Thu May 28 01:22:14 PDT 2026
+
+===== CURRENT TASK_EVENTS COLUMNS =====
+                                                                  Table "public.task_events"
+   Column   |           Type           | Collation | Nullable |                 Default                 | Storage  | Compression | Stats target | Description 
+------------+--------------------------+-----------+----------+-----------------------------------------+----------+-------------+--------------+-------------
+ id         | integer                  |           | not null | nextval('task_events_id_seq'::regclass) | plain    |             |              | 
+ task_id    | text                     |           |          |                                         | extended |             |              | 
+ event_type | text                     |           |          |                                         | extended |             |              | 
+ event_name | text                     |           |          |                                         | extended |             |              | 
+ payload    | jsonb                    |           |          | '{}'::jsonb                             | extended |             |              | 
+ created_at | timestamp with time zone |           |          | now()                                   | plain    |             |              | 
+Indexes:
+    "task_events_pkey" PRIMARY KEY, btree (id)
+Access method: heap
+
+
+===== APPLY NARROW COMPATIBILITY REPAIR =====
+ALTER TABLE
+ALTER TABLE
+ALTER TABLE
+ALTER TABLE
+CREATE INDEX
+CREATE INDEX
+CREATE INDEX
+
+===== UPDATED TASK_EVENTS COLUMNS =====
+                                                                        Table "public.task_events"
+   Column   |           Type           | Collation | Nullable |                       Default                       | Storage  | Compression | Stats target | Description 
+------------+--------------------------+-----------+----------+-----------------------------------------------------+----------+-------------+--------------+-------------
+ id         | integer                  |           | not null | nextval('task_events_id_seq'::regclass)             | plain    |             |              | 
+ task_id    | text                     |           |          |                                                     | extended |             |              | 
+ event_type | text                     |           |          |                                                     | extended |             |              | 
+ event_name | text                     |           |          |                                                     | extended |             |              | 
+ payload    | jsonb                    |           |          | '{}'::jsonb                                         | extended |             |              | 
+ created_at | timestamp with time zone |           |          | now()                                               | plain    |             |              | 
+ kind       | text                     |           |          |                                                     | extended |             |              | 
+ run_id     | text                     |           |          |                                                     | extended |             |              | 
+ actor      | text                     |           |          |                                                     | extended |             |              | 
+ ts         | bigint                   |           |          | (EXTRACT(epoch FROM now()) * 1000::numeric)::bigint | plain    |             |              | 
+Indexes:
+    "task_events_pkey" PRIMARY KEY, btree (id)
+    "task_events_kind_idx" btree (kind)
+    "task_events_task_id_idx" btree (task_id)
+    "task_events_ts_idx" btree (ts)
+Access method: heap
+
+
+===== RESTART DASHBOARD =====
+NAME                                       IMAGE                                    COMMAND                  SERVICE     CREATED          STATUS          PORTS
+motherboard-systems-hq-clean-dashboard-1   motherboard-systems-hq-clean-dashboard   "docker-entrypoint.s…"   dashboard   14 minutes ago   Up 8 seconds    0.0.0.0:8080->3000/tcp, [::]:8080->3000/tcp
+motherboard-systems-hq-clean-postgres-1    postgres:16-alpine                       "docker-entrypoint.s…"   postgres    14 minutes ago   Up 14 minutes   0.0.0.0:5432->5432/tcp, [::]:5432->5432/tcp
+
+===== BASELINE HEALTH =====
+HTTP/1.1 200 OK
+X-Powered-By: Express
+Content-Type: application/json; charset=utf-8
+Content-Length: 11
+ETag: W/"b-Ai2R8hgEarLmHKwesT1qcY913ys"
+Date: Thu, 28 May 2026 08:22:24 GMT
+Connection: keep-alive
+Keep-Alive: timeout=5
+
+{"ok":true}
+===== TASK EVENTS SSE TIMEBOXED CHECK =====
+HTTP/1.1 200 OK
+X-Powered-By: Express
+Content-Type: text/event-stream; charset=utf-8
+Cache-Control: no-cache, no-transform
+Connection: keep-alive
+X-Accel-Buffering: no
+Date: Thu, 28 May 2026 08:22:24 GMT
+Transfer-Encoding: chunked
+
+event: hello
+data: {"kind":"task-events","cursor":0,"ts":1779956544690}
+
+event: heartbeat
+data: {"ts":1779956544691,"cursor":0}
+
+event: heartbeat
+data: {"ts":1779956544847,"cursor":0}
+
+event: heartbeat
+data: {"ts":1779956545080,"cursor":0}
+
+event: heartbeat
+data: {"ts":1779956545388,"cursor":0}
+
+event: heartbeat
+data: {"ts":1779956545769,"cursor":0}
+
+event: heartbeat
+data: {"ts":1779956546228,"cursor":0}
+
+
+===== DASHBOARD ROOT =====
+HTTP/1.1 200 OK
+X-Powered-By: Express
+Accept-Ranges: bytes
+Cache-Control: public, max-age=0
+Last-Modified: Wed, 27 May 2026 21:35:48 GMT
+ETag: W/"282b-19e6b5d7720"
+Content-Type: text/html; charset=utf-8
+Content-Length: 10283
+Date: Thu, 28 May 2026 08:22:26 GMT
+Connection: keep-alive
+Keep-Alive: timeout=5
+
+
+===== DASHBOARD LOGS =====
+[db] effective pool config {
+  mode: 'url',
+  DB_URL_present: true,
+  host: null,
+  port: null,
+  user: null,
+  database: null,
+  password_type: 'url-hidden',
+  password_len: 'hidden',
+  has_password: true
+}
+Database pool initialized
+[phase25] __DB_POOL set { has: true, type: 'BoundPool' }
+Server running on http://0.0.0.0:3000
+[HTTP] GET /api/tasks/health
+[HTTP] HEAD /
+[HTTP] GET /api/tasks/health
+[HTTP] POST /api/governed-planning/dry-run
+[HTTP] GET /api/tasks/health
+[HTTP] POST /api/governed-planning/dry-run
+[HTTP] POST /api/governed-planning/dry-run
+[HTTP] GET /api/tasks/health
+[HTTP] POST /api/governed-planning/dry-run
+[HTTP] GET /
+[HTTP] GET /api/tasks/health
+[HTTP] GET /api/tasks?limit=12
+[phase57c-router] /api/tasks probe {
+  originalUrl: '/api/tasks?limit=12',
+  baseUrl: '/api/tasks',
+  path: '/',
+  referer: null,
+  userAgent: 'Python-urllib/3.9',
+  accept: null
+}
+[task-events] pool cfg {
+  mode: 'url',
+  DB_URL_present: true,
+  host: null,
+  port: null,
+  user: null,
+  database: null,
+  password_type: 'url-hidden',
+  password_len: 'hidden',
+  has_password: true
+}
+[HTTP] GET /
+[HTTP] GET /api/tasks/health
+[HTTP] GET /api/tasks?limit=12
+[phase57c-router] /api/tasks probe {
+  originalUrl: '/api/tasks?limit=12',
+  baseUrl: '/api/tasks',
+  path: '/',
+  referer: null,
+  userAgent: 'Python-urllib/3.9',
+  accept: null
+}
+[HTTP] GET /agent-status.json
+[task-events] pool cfg {
+  mode: 'url',
+  DB_URL_present: true,
+  host: null,
+  port: null,
+  user: null,
+  database: null,
+  password_type: 'url-hidden',
+  password_len: 'hidden',
+  has_password: true
+}
+[HTTP] GET /events/artifacts
+[ARTIFACTS] SSE client connected
+[ARTIFACTS] clients= 1
+[ARTIFACTS] SSE client disconnected
+[ARTIFACTS] clients= 1
+[HTTP] HEAD /css/broadcast.css
+[HTTP] HEAD /css/dashboard.css?v=darkmode
+[HTTP] HEAD /css/dashboard-reflections.css
+[HTTP] HEAD /css/agent-status-row.css
+[HTTP] HEAD /css/matilda-chat.css
+[HTTP] HEAD /css/demo_layout_trim.css
+[HTTP] HEAD /css/phase59_demo_focus.css
+[HTTP] HEAD /js/agent-status-row.js
+[HTTP] HEAD /bundle.js
+[HTTP] HEAD /js/phase60_live_clock.js
+[phase25] task_events_emit loaded 2026-05-28T08:22:16.613Z file= file:///app/server/task_events_emit.mjs
+[phase25] api-tasks-postgres loaded 2026-05-28T08:22:16.614Z file= file:///app/server/routes/api-tasks-postgres.mjs
+[phase19] orchestrator_state_route mounted {
+  file: 'file:///app/server/orchestrator_state_route.mjs',
+  envSnapshot: {
+    PHASE18_ENABLE_ORCHESTRATION: undefined,
+    PHASE19_ENABLE_ORCH_STATE: undefined
+  }
+}
+[SSE] /events/ops + /events/reflections registered
+[db] effective pool config {
+  mode: 'url',
+  DB_URL_present: true,
+  host: null,
+  port: null,
+  user: null,
+  database: null,
+  password_type: 'url-hidden',
+  password_len: 'hidden',
+  has_password: true
+}
+Database pool initialized
+[phase25] __DB_POOL set { has: true, type: 'BoundPool' }
+Server running on http://0.0.0.0:3000
+[HTTP] GET /api/tasks/health
+[task-events] pool cfg {
+  mode: 'url',
+  DB_URL_present: true,
+  host: null,
+  port: null,
+  user: null,
+  database: null,
+  password_type: 'url-hidden',
+  password_len: 'hidden',
+  has_password: true
+}
+[HTTP] HEAD /
+
+===== WORKTREE =====
+?? .backup_excludes
+?? CADE_RUNTIME_DISCOVERY.txt
+?? CADE_RUNTIME_HIGH_SIGNAL_CONTENTS.txt
+?? DASHBOARD_UI_AFTER_RUNTIME_RESTORE_DIAGNOSIS.txt
+?? EXECUTION_IMPLEMENTATION_SURFACES.txt
+?? EXTERNAL_DB_BACKUP_SEARCH_BEFORE_DOCKER_RESET.txt
+?? FRESH_TASK_EVENTS_SCHEMA_DASHBOARD_REPAIR.txt
+?? GOVERNED_ROUTE_AFTER_RUNTIME_RESTORE_SMOKE.txt
+?? backups/
+?? diagnose-dashboard-ui-after-runtime-restore.py
+?? diagnose-dashboard-ui-after-runtime-restore.sh
+?? discover-execution-implementation-surfaces.sh
+?? extract-matilda-delegation-docs.sh
+?? inspect-latest-source-backups-for-db-assets.sh
+?? repair-fresh-task-events-schema-for-dashboard.sh
+?? scripts/dr
+?? scripts/dr_autonomous_wrapper.sh
+?? scripts/dr_daemon.sh
+?? scripts/dr_daemon_self_healing.sh
+?? scripts/dr_watchdog.sh
+?? scripts/offsite_r2_sync.sh
+?? scripts/retention_engine.sh
+?? scripts/storage_guard.sh
+?? scripts/storage_monitor.sh
+?? scripts/storage_policy.sh
+?? scripts/vault_layer.sh
+?? search-external-db-backups-before-docker-reset.sh
+?? smoke-governed-route-after-runtime-restore.sh
