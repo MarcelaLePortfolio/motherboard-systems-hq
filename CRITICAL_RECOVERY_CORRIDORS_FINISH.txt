@@ -1,0 +1,192 @@
+===== FINISH CRITICAL RECOVERY CORRIDORS =====
+Thu May 28 10:04:15 PDT 2026
+
+===== TASKS API =====
+{
+    "ok": true,
+    "tasks": []
+}
+
+===== SSE / EVENTS ROUTES =====
+HTTP/1.1 200 OK
+X-Powered-By: Express
+Content-Type: text/event-stream; charset=utf-8
+Cache-Control: no-cache, no-transform
+Connection: keep-alive
+X-Accel-Buffering: no
+Date: Thu, 28 May 2026 17:04:15 GMT
+
+HTTP/1.1 200 OK
+X-Powered-By: Express
+Content-Type: text/event-stream; charset=utf-8
+Cache-Control: no-cache, no-transform
+Connection: keep-alive
+X-Accel-Buffering: no
+Date: Thu, 28 May 2026 17:04:15 GMT
+
+HTTP/1.1 200 OK
+X-Powered-By: Express
+Content-Type: text/event-stream; charset=utf-8
+Cache-Control: no-cache, no-transform
+Connection: keep-alive
+X-Accel-Buffering: no
+Date: Thu, 28 May 2026 17:04:15 GMT
+
+
+===== ORCHESTRATOR ROUTE =====
+{
+    "ok": true,
+    "ts": 1779987855896,
+    "envSnapshot": {},
+    "snapshotKeys": [
+        "PHASE18_ENABLE_ORCHESTRATION",
+        "PHASE19_ENABLE_ORCH_STATE",
+        "PHASE19_DEBUG"
+    ],
+    "snapshotOwnProps": [
+        "PHASE18_ENABLE_ORCHESTRATION",
+        "PHASE19_ENABLE_ORCH_STATE",
+        "PHASE19_DEBUG"
+    ],
+    "gate": {
+        "PHASE19_GATE_ON": false,
+        "PHASE18_ENABLED": false
+    },
+    "envLive": {},
+    "note": "If envLive.* is missing/undefined but envSnapshot has values, something is mutating/clearing process.env after boot; Phase 19 uses envSnapshot for gating."
+}
+
+===== DATABASE TABLES =====
+
+===== TASK TABLE SHAPE =====
+
+===== WORKER FILES PRESENT =====
+-rw-r--r--  1 marcela-dev  staff   8368 May 27 14:35 server/routes/api-tasks-postgres.mjs
+-rw-r--r--  1 marcela-dev  staff   3519 May 27 23:35 server/routes/governed-planning-route.mjs
+-rw-r--r--  1 marcela-dev  staff   1783 May 27 14:35 server/task_events_emit.mjs
+-rw-r--r--  1 marcela-dev  staff  10328 May 27 14:35 server/worker/phase26_task_worker.mjs
+
+===== RECENT DASHBOARD LOGS =====
+  accept: '*/*'
+}
+[HTTP] GET /api/guidance-history
+[HTTP] GET /api/tasks?limit=50
+[phase57c-router] /api/tasks probe {
+  originalUrl: '/api/tasks?limit=50',
+  baseUrl: '/api/tasks',
+  path: '/',
+  referer: 'http://localhost:8080/?v=phase740-bridge-surgical',
+  userAgent: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/148.0.0.0 Safari/537.36',
+  accept: '*/*'
+}
+[HTTP] GET /api/agent-status
+[HTTP] GET /api/tasks?limit=50
+[phase57c-router] /api/tasks probe {
+  originalUrl: '/api/tasks?limit=50',
+  baseUrl: '/api/tasks',
+  path: '/',
+  referer: 'http://localhost:8080/?v=phase740-bridge-surgical',
+  userAgent: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/148.0.0.0 Safari/537.36',
+  accept: '*/*'
+}
+[HTTP] GET /api/tasks?limit=12
+[phase57c-router] /api/tasks probe {
+  originalUrl: '/api/tasks?limit=12',
+  baseUrl: '/api/tasks',
+  path: '/',
+  referer: 'http://localhost:8080/?v=phase740-bridge-surgical',
+  userAgent: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/148.0.0.0 Safari/537.36',
+  accept: '*/*'
+}
+[HTTP] GET /api/guidance-history
+[HTTP] GET /api/tasks?limit=50
+[phase57c-router] /api/tasks probe {
+  originalUrl: '/api/tasks?limit=50',
+  baseUrl: '/api/tasks',
+  path: '/',
+  referer: 'http://localhost:8080/?v=phase740-bridge-surgical',
+  userAgent: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/148.0.0.0 Safari/537.36',
+  accept: '*/*'
+}
+[HTTP] GET /api/tasks?limit=50
+[phase57c-router] /api/tasks probe {
+  originalUrl: '/api/tasks?limit=50',
+  baseUrl: '/api/tasks',
+  path: '/',
+  referer: 'http://localhost:8080/?v=phase740-bridge-surgical',
+  userAgent: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/148.0.0.0 Safari/537.36',
+  accept: '*/*'
+}
+[HTTP] GET /api/agent-status
+[HTTP] GET /api/tasks?limit=12
+[phase57c-router] /api/tasks probe {
+  originalUrl: '/api/tasks?limit=12',
+  baseUrl: '/api/tasks',
+  path: '/',
+  referer: 'http://localhost:8080/?v=phase740-bridge-surgical',
+  userAgent: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/148.0.0.0 Safari/537.36',
+  accept: '*/*'
+}
+[HTTP] GET /api/guidance-history
+[HTTP] GET /api/tasks?limit=50
+[phase57c-router] /api/tasks probe {
+  originalUrl: '/api/tasks?limit=50',
+  baseUrl: '/api/tasks',
+  path: '/',
+  referer: 'http://localhost:8080/?v=phase740-bridge-surgical',
+  userAgent: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/148.0.0.0 Safari/537.36',
+  accept: '*/*'
+}
+[HTTP] GET /api/tasks?limit=50
+[phase57c-router] /api/tasks probe {
+  originalUrl: '/api/tasks?limit=50',
+  baseUrl: '/api/tasks',
+  path: '/',
+  referer: 'http://localhost:8080/?v=phase740-bridge-surgical',
+  userAgent: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/148.0.0.0 Safari/537.36',
+  accept: '*/*'
+}
+[HTTP] GET /api/tasks?limit=12
+[phase57c-router] /api/tasks probe {
+  originalUrl: '/api/tasks?limit=12',
+  baseUrl: '/api/tasks',
+  path: '/',
+  referer: 'http://localhost:8080/?v=phase740-bridge-surgical',
+  userAgent: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/148.0.0.0 Safari/537.36',
+  accept: '*/*'
+}
+[HTTP] GET /api/guidance-history
+[HTTP] GET /api/tasks?limit=50
+[phase57c-router] /api/tasks probe {
+  originalUrl: '/api/tasks?limit=50',
+  baseUrl: '/api/tasks',
+  path: '/',
+  referer: 'http://localhost:8080/?v=phase740-bridge-surgical',
+  userAgent: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/148.0.0.0 Safari/537.36',
+  accept: '*/*'
+}
+[HTTP] GET /api/tasks?limit=12
+[phase57c-router] /api/tasks probe {
+  originalUrl: '/api/tasks?limit=12',
+  baseUrl: '/api/tasks',
+  path: '/',
+  referer: null,
+  userAgent: 'curl/8.7.1',
+  accept: '*/*'
+}
+[HTTP] HEAD /events/ops
+[HTTP] HEAD /events/reflections
+[task-events] pool cfg {
+  mode: 'url',
+  DB_URL_present: true,
+  host: null,
+  port: null,
+  user: null,
+  database: null,
+  password_type: 'url-hidden',
+  password_len: 'hidden',
+  has_password: true
+}
+
+===== CONCLUSION =====
+Governed execution already passed. If these remaining checks are healthy, broad backend inspection can stop.
