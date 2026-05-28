@@ -1,0 +1,41 @@
+
+{
+
+  "agents": {
+
+    "matilda": {
+
+      "status": "restored",
+
+      "mode": "dashboard-ui-runtime"
+
+    },
+
+    "atlas": {
+
+      "status": "restored",
+
+      "mode": "dashboard-ui-runtime"
+
+    },
+
+    "cade": {
+
+      "status": "restored",
+
+      "mode": "dashboard-ui-runtime"
+
+    },
+
+    "effie": {
+
+      "status": "restored",
+
+      "mode": "dashboard-ui-runtime"
+
+    }
+
+  }
+
+}
+
