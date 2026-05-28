@@ -1,0 +1,21 @@
+===== RIO DRIVE REPO BUNDLE DASHBOARD CANDIDATES =====
+2026-05-28 02:13:10.172245
+
+===== CURRENT HEAD =====
+466098de Inspect Rio Drive source archive dashboard candidates
+df310122 Record Rio Drive latest dashboard preview next step
+9f871af0 Inspect Rio Drive disaster backup dashboard candidate v3
+5f1b2064 Inspect latest snapshot dashboard candidate v2
+07773bd9 Add dashboard candidate preview server
+88215e45 Create dashboard candidate preview surfaces
+8b383f2a Discover post phase 715 dashboard candidates
+121b6f8e Checkpoint phase 715 dashboard candidate
+
+===== BUNDLES SCANNED =====
+
+===== NEXT SAFE ACTION =====
+Open the newest repo-bundle preview candidates under:
+http://localhost:8099/_dashboard_candidate_previews/rio-drive-repo-bundles/
+
+Do not restore yet. Pick the exact visually matching dashboard first.
+candidate_count=0
