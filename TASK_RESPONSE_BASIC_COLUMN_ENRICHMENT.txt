@@ -1,0 +1,28 @@
+===== BASIC COLUMN TASK RESPONSE ENRICHMENT =====
+Thu May 28 16:44:41 PDT 2026
+
+diff --git a/server/routes/api-tasks-postgres.mjs b/server/routes/api-tasks-postgres.mjs
+index 5007793b..acf70a37 100644
+--- a/server/routes/api-tasks-postgres.mjs
++++ b/server/routes/api-tasks-postgres.mjs
+@@ -53,7 +53,7 @@ apiTasksRouter.get("/", async (req, res) => {
+     const limit = Math.max(1, Math.min(200, Number(req.query?.limit ?? 25) || 25));
+     const r = await pool.query(
+       `
+-      SELECT id, task_id, title, status, updated_at
++      SELECT id, task_id, title, status, notes, run_id, action_tier, kind, payload, metadata, created_at, updated_at
+       FROM tasks
+       ORDER BY updated_at DESC NULLS LAST, id DESC
+       LIMIT $1
+===== VERIFY /api/tasks =====
+{"ok":true,"tasks":[{"id":6,"task_id":"route-check-create","title":"route check","status":"queued","notes":null,"run_id":"route-check","action_tier":"A","kind":null,"payload":{},"metadata":{},"created_at":"2026-05-28T23:21:32.205Z","updated_at":"2026-05-28T23:24:31.593Z"},{"id":7,"task_id":"route-check-mutation","title":"route check mutation","status":"queued","notes":"","run_id":"route-check","action_tier":"A","kind":"delegated","payload":{"meta":null,"agent":"cade","source":"route_check","trace_id":null,"delegation_envelope":null},"metadata":{},"created_at":"2026-05-28T23:21:32.224Z","updated_at":"2026-05-28T23:21:32.224Z"},{"id":5,"task_id":"task.c8aaaf23-75ac-4946-af7f-ac0bcb964f09","title":"Governed execution resume smoke task with run_id","status":"done","notes":"Smoke test with run_id after schema migration","run_id":"resume-smoke-20260528134237","action_tier":"A","kind":"delegated","payload":{"meta":null,"agent":"cade","source":"resume_validation","trace_id":null,"delegation_envelope":null},"metadata":{},"created_at":"2026-05-28T20:42:37.446Z","updated_at":"2026-05-28T20:42:37.533Z"},{"id":4,"task_id":"task.42e70b4e-14a1-4190-b203-52fc052fb2a9","title":"Direct dbCompleteTask run_id smoke","status":"done","notes":"Completed direct smoke","run_id":"direct-smoke-1780000913311","action_tier":"A","kind":"delegated","payload":{"meta":null,"agent":"cade","source":"direct_db_smoke","trace_id":null,"delegation_envelope":null},"metadata":{},"created_at":"2026-05-28T20:41:53.323Z","updated_at":"2026-05-28T20:41:53.338Z"},{"id":3,"task_id":"task.248b3b38-2946-4de0-a54e-e87836e559a7","title":"Direct dbCompleteTask run_id smoke","status":"done","notes":"Completed direct smoke","run_id":"direct-smoke-1780000624506","action_tier":"A","kind":"delegated","payload":{"meta":null,"agent":"cade","source":"direct_db_smoke","trace_id":null,"delegation_envelope":null},"metadata":{},"created_at":"2026-05-28T20:37:04.519Z","updated_at":"2026-05-28T20:37:04.529Z"}]}===== VERIFY HEALTH =====
+HTTP/1.1 200 OK
+X-Powered-By: Express
+Content-Type: application/json; charset=utf-8
+Content-Length: 11
+ETag: W/"b-Ai2R8hgEarLmHKwesT1qcY913ys"
+Date: Thu, 28 May 2026 23:44:47 GMT
+Connection: keep-alive
+Keep-Alive: timeout=5
+
+{"ok":true}

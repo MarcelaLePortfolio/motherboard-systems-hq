@@ -53,7 +53,7 @@ apiTasksRouter.get("/", async (req, res) => {
     const limit = Math.max(1, Math.min(200, Number(req.query?.limit ?? 25) || 25));
     const r = await pool.query(
       `
-      SELECT id, task_id, title, status, updated_at
+      SELECT id, task_id, title, status, notes, run_id, action_tier, kind, payload, metadata, created_at, updated_at
       FROM tasks
       ORDER BY updated_at DESC NULLS LAST, id DESC
       LIMIT $1
