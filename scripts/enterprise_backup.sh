@@ -7,37 +7,33 @@ ROOT_DIR="$(git rev-parse --show-toplevel 2>/dev/null || pwd)"
 
 BACKUP_ROOT="$ROOT_DIR/backups"
 
-STAGING_DIR="$BACKUP_ROOT/_staging"
-
-INDEX_FILE="$BACKUP_ROOT/backup_index.json"
+STAGING="$BACKUP_ROOT/staging"
 
 mkdir -p "$BACKUP_ROOT"
 
-rm -rf "$STAGING_DIR"
+rm -rf "$STAGING"
 
-mkdir -p "$STAGING_DIR"
+mkdir -p "$STAGING"
 
 TIMESTAMP=$(date +"%Y%m%d_%H%M%S")
 
-echo "CREATING BACKUP: $TIMESTAMP"
+echo "CREATING STABLE BACKUP: $TIMESTAMP"
+
+# git snapshot (immutable source layer)
 
 git bundle create "$BACKUP_ROOT/repo_$TIMESTAMP.bundle" --all
 
-rsync -a --exclude="backups" --exclude=".git" --exclude="_staging" "$ROOT_DIR/" "$STAGING_DIR/"
+# FIX: atomic rsync (NO multiline parsing risk)
 
-tar -czf "$BACKUP_ROOT/source_$TIMESTAMP.tar.gz" -C "$STAGING_DIR" .
+rsync -a --exclude=backups --exclude=.git "$ROOT_DIR/" "$STAGING/"
 
-rm -rf "$STAGING_DIR"
+# compress staging
 
-if command -v pg_dump >/dev/null 2>&1 && [ -n "${DATABASE_URL:-}" ]; then
+tar -czf "$BACKUP_ROOT/source_$TIMESTAMP.tar.gz" -C "$STAGING" .
 
-  pg_dump "$DATABASE_URL" > "$BACKUP_ROOT/db_$TIMESTAMP.sql" || true
+rm -rf "$STAGING"
 
-fi
-
-sha256sum "$BACKUP_ROOT/repo_$TIMESTAMP.bundle" "$BACKUP_ROOT/source_$TIMESTAMP.tar.gz" > "$BACKUP_ROOT/checksums_$TIMESTAMP.txt"
-
-echo "{\"timestamp\":\"$TIMESTAMP\",\"bundle\":\"repo_$TIMESTAMP.bundle\",\"archive\":\"source_$TIMESTAMP.tar.gz\"}" >> "$INDEX_FILE"
+# retention
 
 find "$BACKUP_ROOT" -type f -mtime +14 -delete || true
 

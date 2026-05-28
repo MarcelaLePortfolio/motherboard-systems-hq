@@ -7,11 +7,17 @@ ROOT_DIR="$(git rev-parse --show-toplevel 2>/dev/null || pwd)"
 
 BACKUP_DIR="$ROOT_DIR/backups"
 
-MEGA_REMOTE="MEGA:/motherboard-systems-hq"
+MEGA_REMOTE="/motherboard-systems-hq"
 
 echo "MEGA OFFSITE SYNC START"
 
-command -v mega-put >/dev/null 2>&1 || { echo "MEGA CMD NOT FOUND"; exit 1; }
+command -v mega-put >/dev/null 2>&1 || {
+
+  echo "MEGA CLI NOT AVAILABLE (install MEGAcmd + login)"
+
+  exit 1
+
+}
 
 [ -d "$BACKUP_DIR" ] || { echo "NO BACKUP DIR FOUND"; exit 1; }
 
@@ -21,7 +27,13 @@ TOTAL_SIZE_MB=$(du -sm "$BACKUP_DIR" | awk '{print $1}')
 
 echo "BACKUP SIZE: ${TOTAL_SIZE_MB}MB"
 
-[ "$TOTAL_SIZE_MB" -le "$MAX_SIZE_MB" ] || { echo "ABORT: EXCEEDS FREE TIER LIMIT"; exit 1; }
+[ "$TOTAL_SIZE_MB" -le "$MAX_SIZE_MB" ] || {
+
+  echo "ABORT: FREE TIER LIMIT EXCEEDED"
+
+  exit 1
+
+}
 
 echo "UPLOADING TO MEGA OFFSITE..."
 

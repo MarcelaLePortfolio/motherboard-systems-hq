@@ -5,97 +5,61 @@ set -euo pipefail
 
 ROOT_DIR="$(git rev-parse --show-toplevel 2>/dev/null || pwd)"
 
-BACKUP_ROOT="$ROOT_DIR/backups"
-
-DRIVE_NAME="DRIVE"
+DRIVE_NAME="Rio Drive"
 
 EXTERNAL="/Volumes/$DRIVE_NAME"
 
-STAGING="$BACKUP_ROOT/staging"
+BACKUP_ROOT="$EXTERNAL/backups"
 
 TIMESTAMP=$(date +"%Y%m%d_%H%M%S")
 
-echo "RUNNING DR SYSTEM (EXTERNAL DRIVE ONLY)"
-
-# -------------------------
-
-# HARD REQUIREMENT: DRIVE MUST BE MOUNTED
-
-# -------------------------
+echo "RUNNING SAFE DR SYSTEM"
 
 if [ ! -d "$EXTERNAL" ]; then
 
-  echo "❌ CRITICAL: EXTERNAL DRIVE NOT MOUNTED"
-
-  echo "ABORTING BACKUP"
+  echo "❌ EXTERNAL DRIVE NOT MOUNTED"
 
   exit 1
 
 fi
 
-if ! mount | grep -q "$EXTERNAL"; then
+mkdir -p "$BACKUP_ROOT"
 
-  echo "❌ CRITICAL: INVALID MOUNT STATE"
+USAGE=$(df -H "$EXTERNAL" | awk 'NR==2 {print $5}' | sed 's/%//')
+
+if [ "$USAGE" -ge 85 ]; then
+
+  echo "❌ EXTERNAL DRIVE TOO FULL"
 
   exit 1
 
 fi
 
-echo "✔ External drive verified: $EXTERNAL"
+WORKDIR="$BACKUP_ROOT/.staging_$TIMESTAMP"
 
-# -------------------------
+rm -rf "$WORKDIR"
 
-# PREP
+mkdir -p "$WORKDIR/files"
 
-# -------------------------
+git bundle create "$WORKDIR/repo.bundle" --all
 
-rm -rf "$STAGING"
+# FIXED RSYNC (NO LINE CONTINUATIONS — mac-safe)
 
-mkdir -p "$STAGING"
+rsync -a --exclude="backups" --exclude=".git" "$ROOT_DIR/" "$WORKDIR/files/"
 
-mkdir -p "$EXTERNAL/backups"
+FINAL_TMP="$BACKUP_ROOT/source_$TIMESTAMP.tar.gz.tmp"
 
-# -------------------------
+tar -czf "$FINAL_TMP" -C "$WORKDIR" .
 
-# GIT SNAPSHOT (SOURCE OF TRUTH)
+mv "$FINAL_TMP" "$BACKUP_ROOT/source_$TIMESTAMP.tar.gz"
 
-# -------------------------
+rm -rf "$WORKDIR"
 
-git bundle create "$EXTERNAL/backups/repo_$TIMESTAMP.bundle" --all
+cd "$BACKUP_ROOT"
 
-# -------------------------
+ls -1t source_*.tar.gz 2>/dev/null | tail -n +11 | xargs -r rm -f
 
-# FILE SNAPSHOT
-
-# -------------------------
-
-rsync -a \
-
-  --exclude="backups" \
-
-  --exclude=".git" \
-
-  "$ROOT_DIR/" "$STAGING/"
-
-# -------------------------
-
-# COMPRESS SNAPSHOT
-
-# -------------------------
-
-tar -czf "$EXTERNAL/backups/source_$TIMESTAMP.tar.gz" -C "$STAGING" .
-
-rm -rf "$STAGING"
-
-# -------------------------
-
-# RETENTION POLICY
-
-# -------------------------
-
-find "$EXTERNAL/backups" -type f -mtime +14 -delete || true
+ls -1t repo_*.bundle 2>/dev/null | tail -n +11 | xargs -r rm -f
 
 echo "✔ DR COMPLETE: $TIMESTAMP"
-
-echo "✔ STORED ONLY ON EXTERNAL DRIVE"
 
