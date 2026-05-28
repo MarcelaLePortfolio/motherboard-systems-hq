@@ -1,0 +1,505 @@
+import { randomUUID } from "node:crypto";
+import { emitTaskEvent } from "./task_events_emit.mjs";
+import { assertNotEnforced } from "./policy/enforce.mjs";
+
+function normalizeTaskId(body = {}) {
+  return body?.task_id || body?.taskId || `task.${randomUUID()}`;
+}
+
+function normalizeTitle(body = {}) {
+  return (
+    body?.title ||
+    body?.prompt ||
+    body?.message ||
+    body?.text ||
+    body?.task ||
+    "Delegated task"
+  );
+}
+
+function buildPayload(body = {}) {
+  return {
+    agent: body?.agent || "cade",
+    source: body?.source || "api",
+    trace_id: body?.trace_id || body?.traceId || null,
+    meta: body?.meta || null,
+  };
+}
+
+export async function dbDelegateTask(pool, body = {}) {
+  assertNotEnforced("tasks.mutations");
+
+  const task_id = normalizeTaskId(body);
+  const title = normalizeTitle(body);
+  const status = "queued";
+  const notes = body?.notes || "";
+  const run_id = body?.run_id || body?.runId || null;
+  const action_tier = body?.action_tier || body?.actionTier || "A";
+  const kind = body?.kind || "delegated";
+  const payload = buildPayload(body);
+
+  const r = await pool.query(
+    `insert into tasks (
+      task_id,
+      title,
+      status,
+      notes,
+      run_id,
+      action_tier,
+      kind,
+      payload
+    )
+    values ($1, $2, $3, $4, $5, $6, $7, $8::jsonb)
+    returning
+      id::text,
+      task_id,
+      title,
+      status,
+      notes,
+      run_id,
+      action_tier,
+      kind,
+      payload,
+      created_at,
+      updated_at`,
+    [
+      task_id,
+      title,
+      status,
+      notes,
+      run_id,
+      action_tier,
+      kind,
+      JSON.stringify(payload),
+    ],
+  );
+
+  const row = r.rows?.[0];
+
+  await emitTaskEvent({
+    pool,
+    kind: "task.created",
+    task_id: row?.task_id ?? task_id,
+    actor: body?.actor ?? body?.agent ?? payload.agent ?? payload.source,
+    payload: {
+      source: payload.source,
+      title: row?.title ?? title,
+      target: payload.agent,
+      status: row?.status ?? status,
+      task: row ?? null,
+      meta: payload.meta,
+    },
+  });
+
+  return row;
+}
+
+export async function dbCompleteTask(pool, body = {}) {
+  assertNotEnforced("tasks.mutations");
+
+  const id = body?.task_id ?? body?.taskId ?? body?.id;
+  const int_id = String(id || "").match(/^\d+$/) ? Number(id) : null;
+  if (!id) throw new Error("taskId required");
+
+  const status = body?.status || "done";
+  const notePatch =
+    body?.notes ??
+    body?.error ??
+    body?.message ??
+    null;
+
+  const r = await pool.query(
+    `update tasks
+       set status = $3,
+           notes = coalesce($4, notes),
+           updated_at = now()
+     where (id = $1) or (task_id = $2)
+     returning
+       id::text,
+       task_id,
+       title,
+       status,
+       notes,
+       run_id,
+       action_tier,
+       kind,
+       payload,
+       created_at,
+       updated_at`,
+    [int_id, String(id), status, notePatch],
+  );
+
+  if (!r.rows?.[0]) throw new Error(`task not found: ${id}`);
+
+  const row = r.rows[0];
+  const k = body?.kind ?? body?.event_kind ?? body?.eventKind ?? "task.event";
+  const payload = row?.payload && typeof row.payload === "object" ? row.payload : {};
+
+  await emitTaskEvent({
+    pool,
+    kind: k,
+    task_id: row.task_id ?? row.id,
+    actor: body?.actor ?? body?.agent ?? payload.agent ?? body?.source ?? "api",
+    payload: {
+      status: row.status,
+      error: body?.error ?? null,
+      source: body?.source || payload.source || "api",
+      task: row,
+    },
+  });
+
+  return row;
+}
+
+
+==================================================================
+FILE: server/api/tasks-mutations/delegate-taskspec.mjs
+==================================================================
+
+import { assertActionTierInvariant } from "../../guards/phase44_runtime_integrity_guard.mjs";
+// PHASE39_ACTION_TIER: structural value-alignment scaffolding (A default; B/C require disclosures)
+function __mbNormalizeTier(x) {
+  const v = String(x ?? 'A').trim().toUpperCase();
+  return (v === 'B' || v === 'C') ? v : 'A';
+}
+function __mbRequireDisclosureIfBC(tier, title, body) {
+  if (tier === 'A') return;
+  const t = String(title ?? '').trim();
+  const b = String(body ?? '').trim();
+  if (!t || !b) {
+    const err = new Error('Tier B/C requires tier_disclosure_title and tier_disclosure_body');
+    err.code = 'TIER_DISCLOSURE_REQUIRED';
+    throw err;
+  }
+}
+
+/**
+ * Phase 23: TaskSpec adapter
+ * POST /api/tasks-mutations/delegate-taskspec
+ *
+ * Accepts:
+ * - { task: { target:"cade"|"effie"|"atlas", title?, spec?, task_id? } }
+ * - { task: { agent:"cade"|"effie"|"atlas",  title?, spec?, task_id? } }  (alias)
+ *
+ * Behavior:
+ * - Calls dbDelegateTask(...) to create the task (existing system)
+ * - Inserts into task_events(kind="task.created") so /events/task-events advances
+ */
+export async function handleDelegateTaskSpec(req, res, deps) {
+  try {
+    const body = req.body ?? {};
+    const taskSpec = body.task ?? body;
+
+    
+  // PHASE39_ACTION_TIER
+  const __action_tier = __mbNormalizeTier(taskSpec?.action_tier ?? taskSpec?.actionTier);
+  const __tier_disclosure_title = taskSpec?.tier_disclosure_title ?? taskSpec?.tierDisclosureTitle;
+  const __tier_disclosure_body  = taskSpec?.tier_disclosure_body  ?? taskSpec?.tierDisclosureBody;
+  __mbRequireDisclosureIfBC(__action_tier, __tier_disclosure_title, __tier_disclosure_body);
+const rawTarget = taskSpec?.target ?? taskSpec?.agent ?? "";
+    const target = String(rawTarget).trim().toLowerCase();
+
+    if (!["cade", "effie", "atlas"].includes(target)) {
+      return res.status(400).json({
+        ok: false,
+        error: "invalid_target",
+        details: "target must be cade|effie|atlas",
+        got: String(rawTarget),
+      });
+    }
+
+    const title = String(taskSpec?.title || "(untitled)");
+    const spec = taskSpec?.spec ?? null;
+    const external_task_id = taskSpec?.task_id ?? null;
+
+    const db = deps?.db;
+    const dbDelegateTask = deps?.dbDelegateTask;
+
+    if (!db?.query) return res.status(500).json({ ok: false, error: "missing_db", details: "db pool not available" });
+    if (typeof dbDelegateTask !== "function") {
+      return res.status(500).json({ ok: false, error: "missing_dbDelegateTask", details: "dbDelegateTask not available" });
+    }
+
+    // Create task using existing db mutation
+    const created = await dbDelegateTask(db, {
+      agent: target,
+      title,
+      notes: "",
+        action_tier: __action_tier,
+        tier_disclosure_title: __tier_disclosure_title ?? null,
+        tier_disclosure_body: __tier_disclosure_body ?? null,
+      source: "matilda",
+      meta: { taskspec: spec, external_task_id },
+    });
+
+    const task = created?.task ?? created;
+    // [Phase 44] Runtime integrity guard: enforce action-tier invariants (fail-fast)
+    try {
+      const __tier = (task?.action_tier ?? action_tier ?? actionTier ?? null);
+      const __id = (task?.action_id ?? task?.task_id ?? task_id ?? actionId ?? action_name ?? "<unknown>");
+      assertActionTierInvariant({ actionTier: __tier, actionId: String(__id) });
+    } catch (e) {
+      e.message = `[RUNTIME_INTEGRITY_GUARD] `;
+      throw e;
+    }
+
+    const task_id = task?.id ?? null;
+    return res.status(200).json({ ok: true, task });
+  } catch (err) {
+    return res.status(((err && err.code==='TIER_DISCLOSURE_REQUIRED') ? 400 : 500)).json({ ok: false, error: "delegate_taskspec_failed", details: String(err?.message || err) });
+  }
+}
+
+
+==================================================================
+FILE: server/routes/api-tasks-mutations.mjs
+==================================================================
+
+import express from "express";
+import { dbDelegateTask, dbCompleteTask } from "../tasks-mutations.mjs";
+
+function _asJson(req) {
+  const b = req.body;
+  if (b == null) return {};
+  if (typeof b === "object") return b;
+  if (typeof b === "string") {
+    try { return JSON.parse(b); } catch (_) { return { _raw: b }; }
+  }
+  return { _raw: b };
+}
+
+export const apiTasksMutationsRouter = express.Router();
+
+apiTasksMutationsRouter.post("/delegate", async (req, res) => {
+  try {
+    const pool = globalThis.__DB_POOL;
+    if (!pool) return res.status(500).json({ ok: false, error: "db_pool_not_initialized" });
+    const row = await dbDelegateTask(pool, _asJson(req));
+    res.status(201).json({ ok: true, task: row });
+  } catch (e) {
+    res.status(500).json({ ok: false, error: e?.message || String(e) });
+  }
+});
+
+apiTasksMutationsRouter.post("/complete", async (req, res) => {
+  try {
+    const pool = globalThis.__DB_POOL;
+    if (!pool) return res.status(500).json({ ok: false, error: "db_pool_not_initialized" });
+      const b = _asJson(req);
+      const row = await dbCompleteTask(pool, {
+        ...b,
+        kind: b.kind ?? b.event_kind ?? b.eventKind ?? "task.completed",
+      });
+    res.status(200).json({ ok: true, task: row });
+  } catch (e) {
+    res.status(500).json({ ok: false, error: e?.message || String(e) });
+  }
+});
+
+apiTasksMutationsRouter.post("/fail", async (req, res) => {
+  try {
+    const pool = globalThis.__DB_POOL;
+    if (!pool) return res.status(500).json({ ok: false, error: "db_pool_not_initialized" });
+      const b = _asJson(req);
+      const row = await dbCompleteTask(pool, {
+      ...b,
+        kind: b.kind ?? b.event_kind ?? b.eventKind ?? "task.failed",
+      status: b.status ?? "failed",
+      error: b.error ?? b.err ?? "unknown_error",
+    });
+    res.status(200).json({ ok: true, task: row });
+  } catch (e) {
+    res.status(500).json({ ok: false, error: e?.message || String(e) });
+  }
+});
+
+export default apiTasksMutationsRouter;
+
+
+==================================================================
+FILE: scripts/phase19_delegate_task_runner.mjs
+==================================================================
+
+import pg from "pg";
+import { dbDelegateTask } from "../server/tasks-mutations.mjs";
+
+const url =
+  process.env.DATABASE_URL ||
+  process.env.POSTGRES_URL ||
+  process.env.POSTGRES_URI ||
+  process.env.POSTGRES_CONNECTION_STRING;
+
+if (!url) {
+  console.error("Missing DATABASE_URL/POSTGRES_URL");
+  process.exit(2);
+}
+
+const pool = new pg.Pool({ connectionString: url });
+
+const body = {
+  title: "phase19 delegate runner",
+  agent: "cade",
+  notes: "runner smoke",
+  source: "runner",
+  trace_id: `phase19_${Date.now()}`,
+  meta: { ok: true, step: "delegate_task_runner", ts: Date.now() },
+};
+
+(async () => {
+  try {
+    const row = await dbDelegateTask(pool, body);
+    console.log(JSON.stringify({ ok: true, task: row }, null, 2));
+  } catch (e) {
+    console.error("RUNNER_FAILED:", e?.stack || e);
+    process.exit(2);
+  } finally {
+    await pool.end();
+  }
+})();
+
+
+==================================================================
+FILE: scripts/_local/agent-runtime/matilda_runtime.mts
+==================================================================
+
+import { logEvent, setStatus } from './shared_utils.js';
+
+logEvent('matilda', '💚 Matilda online');
+setStatus('matilda', 'online');
+
+setInterval(() => {
+  setStatus('matilda', 'online');
+}, 5000);
+
+
+function delegateTaskToAgent(task: any, targetAgent = 'cade') {
+  const fs = require('fs');
+  const path = require('path');
+  const { v4: uuidv4 } = require('uuid');
+
+  const taskId = task.taskId || `\${targetAgent}-delegated-\${uuidv4()}`;
+  const taskFilePath = path.resolve(`memory/queue/\${taskId}.json`);
+
+  const delegatedTask = {
+    taskId,
+    ...task,
+    delegatedBy: 'matilda',
+    timestamp: Date.now(),
+  };
+
+  try {
+    fs.writeFileSync(taskFilePath, JSON.stringify(delegatedTask, null, 2));
+    console.log(`📤 Matilda delegated task to \${targetAgent}:`, taskFilePath);
+  } catch (err: any) {
+    console.error(`❌ Failed to delegate task to \${targetAgent}:`, err.message);
+  }
+}
+console.log("🤖 Matilda Runtime Started — Ready for tasks!");
+
+function pollQueue() {
+  const fs = require('fs');
+  const path = require('path');
+
+  setInterval(() => {
+    const queueDir = path.resolve('memory/queue');
+    const files = fs.readdirSync(queueDir).filter((f: string) => f.endsWith('.json'));
+    for (const file of files) {
+      const filePath = path.join(queueDir, file);
+      try {
+        const task = JSON.parse(fs.readFileSync(filePath, 'utf8'));
+        console.log("📦 Task received:", task);
+
+        if (task.type === "shell") {
+          const { exec } = require('child_process');
+          exec(task.command,  (error: any, stdout: any, stderr: any)  => {
+            if (error) {
+              console.error("❌ Shell error:", error.message);
+            } else {
+              console.log("✅ Shell output:", stdout.trim());
+            }
+            fs.unlinkSync(filePath);
+          });
+        } else if (task.type === "delegate") {
+          delegateTaskToAgent(task.payload, task.targetAgent);
+          fs.unlinkSync(filePath);
+        }
+
+      } catch (err: any) {
+        console.error("❌ Failed to process task:", filePath, err.message);
+      }
+    }
+  }, 3000);
+}
+
+pollQueue();
+
+
+==================================================================
+FILE: scripts/_local/agent-runtime/matilda_runtime.cjs
+==================================================================
+
+const fs = require('fs');
+const path = require('path');
+
+function log(message) {
+  const logPath = path.join(__dirname, '../../../memory/matilda_runtime_log.json');
+  const logData = { timestamp: new Date().toISOString(), message };
+  fs.appendFileSync(logPath, JSON.stringify(logData) + '\n');
+}
+
+function delegateTasks() {
+  const chain = [
+    {
+      agent: "cade",
+      type: "transform_json",
+      payload: {
+        input: "memory/source_data.json",
+        output: "memory/step1_sorted.json",
+        operation: "sort_by",
+        key: "name"
+      }
+    },
+    {
+      agent: "cade",
+      type: "transform_json",
+      payload: {
+        input: "memory/step1_sorted.json",
+        output: "memory/step2_roles_upper.json",
+        operation: "transform_values",
+        key: "role",
+        transform: "toUpperCase"
+      }
+    },
+    {
+      agent: "cade",
+      type: "transform_json",
+      payload: {
+        input: "memory/step2_roles_upper.json",
+        output: "memory/step3_only_desktop.json",
+        operation: "filter_values",
+        key: "role",
+        value: "DESKTOP"
+      }
+    },
+    {
+      agent: "cade",
+      type: "transform_json",
+      payload: {
+        input: "memory/step3_only_desktop.json",
+        output: "memory/final_grouped.json",
+        operation: "group_by",
+        key: "role"
+      }
+    }
+  ];
+  const chainPath = path.join(__dirname, '../../../memory/agent_chain_state.json');
+  fs.writeFileSync(chainPath, JSON.stringify({ chain }, null, 2));
+  log('Matilda delegated multi-step JSON transform chain to Cade');
+}
+
+function process() {
+  log('Matilda runtime started');
+  delegateTasks();
+}
+
+process();
