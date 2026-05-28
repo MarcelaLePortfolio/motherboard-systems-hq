@@ -1,0 +1,344 @@
+===== PHASE 91 DASHBOARD GOLDEN RESTORE =====
+Thu May 28 01:42:01 PDT 2026
+
+===== CURRENT HEAD BEFORE =====
+faf79e37 Discover newer dashboard lineage candidates
+bc20464e Record dashboard version drift finding
+e42a6f19 Create dashboard recovery checkpoint c75e9756
+c75e9756 Seal final dashboard runtime recovery state
+cab5622b Record dashboard browser cache finding
+99ac9b4c Verify latest dashboard runtime surface
+5aee4ed4 Promote latest dashboard UI to served root
+91129400 Restore latest dashboard UI surface from git history
+
+===== VERIFY TARGET TAG =====
+5be3065ba0434b1a083be012f6810f6a73e891f1
+
+===== BACKUP CURRENT SERVED DASHBOARD FILES =====
+backup complete
+
+===== RESTORE PHASE 91 PUBLIC DASHBOARD SURFACES =====
+restored public/dashboard.html, public/css, public/js, and promoted dashboard.html to index.html
+
+===== REBUILD DASHBOARD BUNDLE =====
+
+===== REBUILD DASHBOARD IMAGE =====
+#1 [internal] load local bake definitions
+#1 reading from stdin 716B done
+#1 DONE 0.0s
+
+#2 [internal] load build definition from Dockerfile.dashboard
+#2 transferring dockerfile: 40B
+#2 transferring dockerfile: 741B done
+#2 DONE 0.0s
+
+#3 [internal] load metadata for docker.io/library/node:20-alpine
+#3 DONE 0.6s
+
+#4 [internal] load .dockerignore
+#4 transferring context: 508B done
+#4 DONE 0.0s
+
+#5 [1/7] FROM docker.io/library/node:20-alpine@sha256:fb4cd12c85ee03686f6af5362a0b0d56d50c58a04632e6c0fb8363f609372293
+#5 resolve docker.io/library/node:20-alpine@sha256:fb4cd12c85ee03686f6af5362a0b0d56d50c58a04632e6c0fb8363f609372293 0.0s done
+#5 DONE 0.0s
+
+#6 [internal] load build context
+#6 transferring context: 380.78kB 0.1s done
+#6 DONE 0.1s
+
+#7 [3/7] COPY package*.json ./
+#7 CACHED
+
+#8 [4/7] COPY package-lock.json* ./
+#8 CACHED
+
+#9 [2/7] WORKDIR /app
+#9 CACHED
+
+#10 [5/7] RUN npm config set fetch-retries 5     && npm config set fetch-retry-factor 2     && npm config set fetch-retry-mintimeout 10000     && npm config set fetch-retry-maxtimeout 60000     && (npm config set registry https://registry.npmmirror.com/         && npm ci --no-audit --no-fund       || npm config set registry https://registry.npmjs.org/         && npm ci --no-audit --no-fund)     && apk add --no-cache curl ripgrep
+#10 CACHED
+
+#11 [6/7] COPY . .
+#11 DONE 0.1s
+
+#12 [7/7] COPY public/ ./public/
+#12 DONE 0.0s
+
+#13 exporting to image
+#13 exporting layers
+#13 exporting layers 0.4s done
+#13 exporting manifest sha256:5719d915a920a005af95cad510eba8cb40a101ff34423ee91bf6322e1c28695d done
+#13 exporting config sha256:c77adf73bd5cdd42932cc5bd8f11bb46ea4694f5d25f50d236485ed56e0c7cd9 done
+#13 exporting attestation manifest sha256:6a2dc9aea5c4b4a610b7ac2749542b023deca008f73149ff17c36793b760e461 done
+#13 exporting manifest list sha256:d4277933e99c4e96c51d3eaa94c58106459485de5e5c78f5e9f4faa2b2fe3bc2 done
+#13 naming to docker.io/library/motherboard-systems-hq-clean-dashboard:latest done
+#13 unpacking to docker.io/library/motherboard-systems-hq-clean-dashboard:latest 0.1s done
+#13 DONE 0.5s
+
+#14 resolving provenance for metadata file
+#14 DONE 0.0s
+
+===== RESTART DASHBOARD =====
+
+===== COMPOSE PS =====
+NAME                                       IMAGE                                    COMMAND                  SERVICE     CREATED          STATUS          PORTS
+motherboard-systems-hq-clean-dashboard-1   motherboard-systems-hq-clean-dashboard   "docker-entrypoint.s…"   dashboard   10 seconds ago   Up 8 seconds    0.0.0.0:8080->3000/tcp, [::]:8080->3000/tcp
+motherboard-systems-hq-clean-postgres-1    postgres:16-alpine                       "docker-entrypoint.s…"   postgres    34 minutes ago   Up 34 minutes   0.0.0.0:5432->5432/tcp, [::]:5432->5432/tcp
+
+===== ROOT CHECK =====
+HTTP/1.1 200 OK
+X-Powered-By: Express
+Accept-Ranges: bytes
+Cache-Control: public, max-age=0
+Last-Modified: Thu, 28 May 2026 08:42:01 GMT
+ETag: W/"7932-19e6dbf67a8"
+Content-Type: text/html; charset=utf-8
+Content-Length: 31026
+Date: Thu, 28 May 2026 08:42:13 GMT
+Connection: keep-alive
+Keep-Alive: timeout=5
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <style id="matilda-chat-typography-polish">
+    #matilda-chat-transcript p {
+      line-height: 1.45 !important;
+      margin-bottom: 0.55rem !important;
+    }
+    #matilda-chat-transcript .user-message {
+      color: #dbeafe !important;
+    }
+    #matilda-chat-transcript .matilda-message {
+      color: #a7f3d0 !important;
+    }
+  
+  /* Phase 62: Agent Pool + Metrics dual top row */
+  .phase62-top-row {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: 16px;
+    align-items: stretch;
+  }
+
+  .phase62-top-col {
+    min-width: 0;
+  }
+
+  .phase62-top-col > section,
+  .phase62-top-col > div {
+    height: 100%;
+    margin-bottom: 0 !important;
+  }
+
+  #agent-status-container.phase62-agent-pool {
+    margin-bottom: 0 !important;
+  }
+
+  @media (max-width: 1100px) {
+    .phase62-top-row {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  /* Phase 62: consolidated metrics telemetry tile styling */
+  #metrics-row.phase62-metrics-tiles {
+    display: grid !important;
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: 12px !important;
+    align-items: stretch !important;
+  }
+
+  #metrics-row.phase62-metrics-tiles > .phase62-metric-card,
+  #metrics-row.phase62-metrics-tiles > .phase62-metric-tile,
+  #metrics-row.phase62-metrics-tiles > div.phase62-metric-card {
+    min-height: 72px !important;
+    padding: 12px 12px 10px 12px !important;
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: flex-start !important;
+    align-items: flex-start !important;
+    gap: 8px !important;
+  }
+
+  #metrics-row.phase62-metrics-tiles .phase62-metric-value {
+    order: 1 !important;
+    font-size: 2.5rem !important;
+    line-height: 1 !important;
+    letter-spacing: -0.04em !important;
+    margin: 0 !important;
+  }
+
+  #metrics-row.phase62-metrics-tiles .phase62-metric-label {
+    order: 2 !important;
+    font-size: 0.68rem !important;
+    line-height: 0.9rem !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.08em !important;
+    opacity: 0.82 !important;
+    margin: 0 !important;
+  }
+</style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Motherboard Systems Operator Console</title>
+
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet" />
+  <link rel="stylesheet" href="css/broadcast.css" />
+  <link rel="stylesheet" href="css/dashboard.css?v=darkmode" />
+  <link rel="stylesheet" href="css/dashboard-reflections.css" />
+  <link rel="stylesheet" href="css/agent-status-row.css" />
+  <link rel="stylesheet" href="css/matilda-chat.css" />
+  <link rel="stylesheet" href="css/demo_layout_trim.css" />
+  <link rel="stylesheet" href="/css/phase13_5_operator_ux.css" />
+  <link rel="stylesheet" href="css/phase59_demo_focus.css" />
+  <link rel="stylesheet" href="css/phase60_live_polish.css" />
+  <link rel="stylesheet" href="css/phase61_workspace_consolidation.css" />
+  <link rel="stylesheet" href="css/phase61_tabs_observational_workspace.css" />
+
+    <style id="phase61-layout-polish">
+      #phase61-workspace-grid {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+        gap: 1.5rem;
+        align-items: stretch;
+      }
+
+      #phase61-operator-column,
+      #phase61-telemetry-column {
+
+===== DASHBOARD MARKER CHECK =====
+   31026 /tmp/phase91-root.html
+4:  <style id="matilda-chat-typography-polish">
+5:    #matilda-chat-transcript p {
+9:    #matilda-chat-transcript .user-message {
+12:    #matilda-chat-transcript .matilda-message {
+17:  .phase62-top-row {
+39:    .phase62-top-row {
+91:  <link rel="stylesheet" href="css/matilda-chat.css" />
+108:      #phase61-telemetry-column {
+145:      #matilda-chat-card,
+167:      #matilda-chat-root {
+174:      #matilda-chat-transcript {
+179:      #matilda-chat-root > .flex.space-x-3.items-end {
+220:        #matilda-chat-transcript {
+445:    <section class="phase62-top-row" data-phase="62">
+503:                  <section id="matilda-chat-card" class="obs-surface">
+504:                    <div id="matilda-chat-root" class="space-y-3">
+505:                      <div id="matilda-chat-transcript" class="bg-gray-900 border border-gray-700 rounded-xl p-3 h-64 overflow-y-auto text-sm">
+506:                        <p class="text-gray-500 italic">Chat with Matilda about tasks, status, or next steps...</p>
+509:                        <textarea id="matilda-chat-input" rows="3" class="flex-1 bg-gray-900 border border-gray-700 rounded-xl p-3 text-sm resize-none focus:ring-2 focus:ring-purple-500 focus:border-purple-500" placeholder="Type a message to Matilda and press Enter or click Send..."></textarea>
+510:                        <button id="matilda-chat-send" class="px-5 py-2 rounded-xl font-semibold text-sm bg-purple-500 hover:bg-purple-600 focus:outline-none focus:ring-2 focus:ring-purple-400 transition transform hover:-translate-y-0.5 shadow-lg">Send</button>
+511:                        <button id="matilda-chat-quick-check" class="px-3 py-2 rounded-xl font-semibold text-xs bg-gray-700 hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-purple-400 transition shadow-lg">Quick check</button>
+513:                      <p id="matilda-helper-text-ops" class="text-xs text-gray-400 mt-1">Matilda is currently using a placeholder /api/chat stub (Phase 11.3 baseline).</p>
+516:                        <div class="text-xs uppercase tracking-[0.2em] text-gray-500 mb-3">Operator Guidance</div>
+519:                          Live operator guidance will appear here when visibility wiring is active.
+551:          <section id="phase61-telemetry-column" class="space-y-4" aria-label="Observational workspace">
+792:#matilda-chat-root{
+798:#matilda-chat-transcript{
+802:#matilda-helper-text-ops{
+
+===== HEALTH CHECK =====
+HTTP/1.1 200 OK
+X-Powered-By: Express
+Content-Type: application/json; charset=utf-8
+Content-Length: 11
+ETag: W/"b-Ai2R8hgEarLmHKwesT1qcY913ys"
+Date: Thu, 28 May 2026 08:42:13 GMT
+Connection: keep-alive
+Keep-Alive: timeout=5
+
+{"ok":true}
+===== TASKS API =====
+{"ok":true,"tasks":[]}
+===== AGENT STATUS JSON =====
+HTTP/1.1 200 OK
+X-Powered-By: Express
+Accept-Ranges: bytes
+Cache-Control: public, max-age=0
+Last-Modified: Thu, 28 May 2026 08:28:21 GMT
+ETag: W/"187-19e6db2e488"
+Content-Type: application/json; charset=utf-8
+Content-Length: 391
+Date: Thu, 28 May 2026 08:42:13 GMT
+Connection: keep-alive
+Keep-Alive: timeout=5
+
+
+{
+
+  "agents": {
+
+    "matilda": {
+
+      "status": "restored",
+
+      "mode": "dashboard-ui-runtime"
+
+    },
+
+    "atlas": {
+
+      "status": "restored",
+
+      "mode": "dashboard-ui-runtime"
+
+    },
+
+    "cade": {
+
+      "status": "restored",
+
+      "mode": "dashboard-ui-runtime"
+
+    },
+
+    "effie": {
+
+      "status": "restored",
+
+      "mode": "dashboard-ui-runtime"
+
+    }
+
+  }
+
+}
+
+
+===== WORKTREE =====
+?? .backup_excludes
+?? CADE_RUNTIME_DISCOVERY.txt
+?? CADE_RUNTIME_HIGH_SIGNAL_CONTENTS.txt
+?? DASHBOARD_UI_AFTER_RUNTIME_RESTORE_DIAGNOSIS.txt
+?? EXECUTION_IMPLEMENTATION_SURFACES.txt
+?? EXTERNAL_DB_BACKUP_SEARCH_BEFORE_DOCKER_RESET.txt
+?? GOVERNED_ROUTE_AFTER_RUNTIME_RESTORE_SMOKE.txt
+?? PHASE91_DASHBOARD_GOLDEN_RESTORE.txt
+?? PHASE_90_91_DASHBOARD_SURFACE_INSPECTION.txt
+?? backups/
+?? diagnose-dashboard-ui-after-runtime-restore.py
+?? diagnose-dashboard-ui-after-runtime-restore.sh
+?? discover-execution-implementation-surfaces.sh
+?? extract-matilda-delegation-docs.sh
+?? inspect-latest-source-backups-for-db-assets.sh
+?? inspect-phase-90-and-91-dashboard-surfaces.sh
+?? restore-phase91-dashboard-golden.sh
+?? scripts/dr
+?? scripts/dr_autonomous_wrapper.sh
+?? scripts/dr_daemon.sh
+?? scripts/dr_daemon_self_healing.sh
+?? scripts/dr_watchdog.sh
+?? scripts/offsite_r2_sync.sh
+?? scripts/retention_engine.sh
+?? scripts/storage_guard.sh
+?? scripts/storage_monitor.sh
+?? scripts/storage_policy.sh
+?? scripts/vault_layer.sh
+?? search-external-db-backups-before-docker-reset.sh
+?? smoke-governed-route-after-runtime-restore.sh
+
+===== FINDING =====
+Phase 91 golden dashboard public surfaces restored to served root.
+If browser still appears stale, open http://localhost:8080/?v=phase91-golden
