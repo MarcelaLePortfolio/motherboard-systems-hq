@@ -1,0 +1,1467 @@
+
+==================================================================
+FILE: PHASE11_DELEGATE_TASK_QUICKSTART.md
+==================================================================
+
+# Phase 11 – Delegate Task Quickstart
+
+Use this when you just want the next command without re-reading all the planning files.
+
+---
+
+## Next Runtime Command
+
+From repo root, with containers running:
+
+scripts/phase11_delegate_task_curl.sh
+
+Then:
+
+1. Note:
+   - HTTP status
+   - Response body (look for any task identifier, e.g. taskId)
+   - Any relevant lines in printed docker-compose logs
+
+2. Use the identifier with:
+
+   scripts/phase11_complete_task_curl.sh <TASK_ID>
+
+   (Replace <TASK_ID> with the real value.)
+
+3. Based on results:
+   - If both succeed → move on to Task Delegation UI validation in the containerized dashboard.
+   - If either fails → start a new thread with the curl output + logs.
+
+
+==================================================================
+FILE: PHASE11_TASK_DELEGATION_RUN_SEQUENCE.md
+==================================================================
+
+# Phase 11 – Task Delegation Curl Run Sequence (Container)
+
+Use this file as the concrete “do this now” sequence for Task Delegation backend validation.
+
+Baseline:
+- Repo: Motherboard_Systems_HQ
+- Branch: feature/v11-dashboard-bundle
+- Container: dashboard + Postgres running and healthy
+
+---
+
+## 1️⃣ Verify Containers Are Up
+
+If needed, run:
+
+docker-compose up -d
+docker-compose logs -f --tail=50
+
+You should see something like:
+
+- dashboard-1  | Server running on http://0.0.0.0:3000
+- postgres-1   | database system is ready to accept connections
+
+---
+
+## 2️⃣ Run Delegate Task Curl Test
+
+From the host (with containers running), run:
+
+curl -i -X POST http://127.0.0.1:3000/api/delegate-task \
+  -H "Content-Type: application/json" \
+  -d '{
+    "title": "Phase 11 container curl test",
+    "agent": "cade",
+    "notes": "Created via Phase 11 backend validation"
+  }'
+
+Then, in a second terminal:
+
+docker-compose logs -f --tail=50
+
+Capture:
+- HTTP status from curl (aiming for 200 or expected success)
+- Response body (look for any task identifier or status)
+- Any errors or stack traces in dashboard-1 logs
+
+If this fails:
+- Stop and save:
+  - Full curl output (headers + body)
+  - Relevant dashboard-1 log lines
+
+---
+
+## 3️⃣ Run Complete Task Curl Test (After You Have an ID)
+
+Once you know the correct identifier from Step 2 (for example, taskId), run:
+
+curl -i -X POST http://127.0.0.1:3000/api/complete-task \
+  -H "Content-Type: application/json" \
+  -d '{
+    "taskId": 123
+  }'
+
+Replace 123 with the real ID (or whatever identifier your API expects).
+
+Again, check:
+
+docker-compose logs -f --tail=50
+
+Capture:
+- HTTP status
+- Response body
+- Any errors or stack traces in dashboard-1 logs
+
+If this fails:
+- Stop and save:
+  - Full curl output
+  - Relevant dashboard-1 log lines
+
+---
+
+## 4️⃣ What To Do With Results
+
+If both curl tests succeed:
+
+- Next step: validate Task Delegation UI behavior in the containerized dashboard:
+  - Use Task Delegation card to create a test task.
+  - Complete a task if possible from the UI.
+  - Watch browser Network + Console tabs for any issues.
+
+If either curl test fails:
+
+- In your next thread, say:
+
+  "Continue Phase 11 from the point where the curl tests for /api/delegate-task or /api/complete-task failed. I have the curl output and logs."
+
+- Have ready:
+  - The exact curl command(s)
+  - Full responses
+  - Relevant docker-compose logs -f --tail=50 snippets
+
+We will then:
+- Apply a small, focused patch to server.mjs (or related files).
+- Re-run the same curl tests to confirm the fix before touching UI or bundling.
+
+---
+
+## 5️⃣ How to Resume Later
+
+In a fresh ChatGPT thread, you can say:
+
+"Start from PHASE11_TASK_DELEGATION_RUN_SEQUENCE — I’m ready to run the backend curl tests against /api/delegate-task and /api/complete-task."
+
+
+
+==================================================================
+FILE: PHASE14_1_TASK_CONTRACT.md
+==================================================================
+
+# Phase 14.1 — Task lifecycle contract
+
+## Required fields
+- id (string)
+- title (string)
+- agent (string)
+- status (enum)
+- created_at (ISO)
+- updated_at (ISO)
+
+## Optional fields
+- notes
+- source
+- trace_id
+- error
+- meta
+
+## Status enum
+queued | delegated | running | blocked | complete | canceled | failed
+
+## Allowed transitions
+- queued → delegated
+- delegated → running
+- running → complete
+- running → blocked
+- blocked → running
+- queued/delegated/running/blocked → canceled
+- queued/delegated/running/blocked → failed
+
+## Forbidden
+- complete → *
+- canceled → *
+- failed → *
+- any regression
+
+## API rules
+- validate inputs
+- normalize id to string
+- timestamps set server-side
+- enforce transitions
+
+## UI rules
+- never render undefined
+- updated_at preferred, fallback created_at
+
+## SSE rules
+Emit only meaningful changes with canonical task payload.
+
+
+==================================================================
+FILE: PHASE25_AUTHORITY_ORCHESTRATION_CONTRACT.md
+==================================================================
+
+# Phase 25 — Authority & Orchestration Lock (Contract)
+
+Branch baseline: `feature/phase24-orchestration-polish` @ `4e164c6a`
+
+This document is the **contract-first** definition for system authority and orchestration. No Phase-24 cleanup or refactors may proceed until these invariants are accepted and enforced.
+
+---
+
+## 1) Glossary
+
+- **task_events**: The append-only event log table representing the authoritative lifecycle of tasks.
+- **Task**: A logical unit of work with a stable `task_id` and an event-driven lifecycle.
+- **Writer**: The sole component allowed to **mutate** the authoritative state (i.e., insert into `task_events` and any derived authoritative tables, if any).
+- **Consumers**: UI/SSE/dashboard and read-model builders that may **only** derive views from persisted events.
+- **UI inference**: Any lifecycle assumption made by UI without an authoritative persisted event.
+- **Event row id**: DB primary key / row identifier for an event row. **Never** a task identifier.
+
+---
+
+## 2) Authority: Single Source of Truth
+
+### 2.1 Authoritative lifecycle signal
+**task_events is the single authoritative lifecycle signal.**
+
+Allowed authority:
+- Lifecycle truth exists only if supported by persisted `task_events`.
+
+Disallowed authority:
+- UI state, SSE state, process uptime, logs, or any other signal.
+
+### 2.2 UI must not infer lifecycle
+UI must not:
+- invent lifecycle states
+- treat absence as completion
+- treat disconnects as failure
+- create task IDs from row IDs
+
+UI may:
+- render explicit “unknown / awaiting authoritative signal” states
+
+---
+
+## 3) One Writer Rule
+
+### 3.1 Single writer component
+Exactly one component may mutate lifecycle state by inserting into `task_events`.
+
+Forbidden:
+- UI, SSE endpoints, dashboards writing lifecycle events directly.
+
+### 3.2 Determinism & idempotency
+Writer must:
+- support idempotency
+- prevent duplicate semantic events
+
+---
+
+## 4) Identity Rules
+
+### 4.1 Task identifiers
+- `task_id`: logical, stable
+- `run_id`: execution instance
+
+### 4.2 Forbidden identifiers
+Must not be used as `task_id`:
+- event row IDs
+- DOM/UI IDs
+- timestamps
+- SSE message IDs
+
+### 4.3 Required event fields
+Each event must include:
+- `ts`
+- `task_id`
+- `run_id`
+- `kind`
+- `actor`
+- optional `msg`, `meta`
+
+---
+
+## 5) Event Taxonomy
+
+### Canonical kinds
+- `task.created`
+- `task.queued`
+- `task.started`
+- `task.progress`
+- `task.blocked`
+- `task.completed`
+- `task.failed`
+- `task.canceled`
+
+### Terminal rule
+After terminal:
+- no further lifecycle events allowed
+
+---
+
+## 6) Orchestration Invariants
+
+### 6.1 State derivation
+Lifecycle state is derived by folding events in order.
+
+### 6.2 Valid transitions
+- created → queued → started → progress* → terminal
+- queued → started | canceled
+- started ↔ blocked
+
+Invalid:
+- terminal → non-terminal
+- progress before started
+
+### 6.3 Implicit creation
+Optional, but must be consistent if allowed.
+
+### 6.4 Multi-run semantics
+- multiple runs per task
+- UI must respect run boundaries
+
+### 6.5 Ordering
+- `ts` is canonical
+- folds must be deterministic
+
+### 6.6 No UI-driven lifecycles
+UI may request actions, never assert outcomes.
+
+---
+
+## 7) Deduplication
+
+Writer must dedupe semantically identical events.
+
+---
+
+## 8) SSE Contract
+
+- SSE transports persisted events only
+- disconnects never imply lifecycle changes
+
+---
+
+## 9) Phase-24 Cleanup Gate
+
+Blocked until:
+1. Single writer enforced
+2. No UI inference
+3. No row-id task IDs
+4. Deterministic fold exists
+5. Terminal invariants enforced
+6. Idempotency implemented
+
+---
+
+## 10) Acceptance Checklist
+
+- [ ] Contract committed
+- [ ] Writer named
+- [ ] UI audited
+- [ ] Tests encode invariants
+
+
+
+==================================================================
+FILE: docs/contracts/DELEGATION_ENVELOPE_V1.md
+==================================================================
+
+
+# Delegation Envelope v1
+
+## Purpose
+
+The Delegation Envelope is the authoritative execution contract passed from Matilda to Cade.
+
+Delegation itself is the approval event.
+
+Cade may execute immediately upon receipt of a valid delegation envelope, provided execution remains fully inside the defined constraints.
+
+No additional execution confirmation is required after delegation.
+
+---
+
+# Core Principle
+
+Matilda defines constrained execution intent.
+
+Cade performs bounded execution.
+
+Governance constrains both.
+
+---
+
+# Execution Model
+
+Flow:
+
+1. User collaborates with Matilda
+
+2. Matilda produces delegation envelope
+
+3. User delegates task to Cade
+
+4. Delegation becomes execution authorization
+
+5. Cade executes within delegated scope
+
+6. Audit + reconciliation recorded
+
+---
+
+# Required Envelope Fields
+
+## Identity
+
+- delegation_id
+
+- session_id
+
+- project_id
+
+- project_root
+
+- issued_by
+
+- issued_at
+
+---
+
+## Objective
+
+- task_title
+
+- task_summary
+
+- expected_outcome
+
+---
+
+## Execution Scope
+
+Defines what Cade MAY mutate.
+
+Examples:
+
+- app/dashboard/*
+
+- scripts/runtime/*
+
+- docs/contracts/*
+
+Scope must be explicit.
+
+---
+
+## Forbidden Scope
+
+Defines protected surfaces Cade may NOT mutate.
+
+Examples:
+
+- secrets/
+
+- .env
+
+- disaster_recovery/
+
+- protected governance contracts
+
+Forbidden scope overrides execution scope.
+
+---
+
+## Allowed Operations
+
+Examples:
+
+- create_file
+
+- modify_file
+
+- delete_file
+
+- git_commit
+
+- run_tests
+
+- deploy_preview
+
+Operations not explicitly allowed are denied.
+
+---
+
+## Validation Requirements
+
+Defines required verification before completion.
+
+Examples:
+
+- npm run lint
+
+- npm run build
+
+- integration smoke tests
+
+- screenshot verification
+
+Validation failures block completion.
+
+---
+
+## Rollback Expectations
+
+Defines rollback strategy before execution begins.
+
+Examples:
+
+- git revert
+
+- restore checkpoint
+
+- restore snapshot
+
+- manual rollback notes
+
+Rollback pathway must exist before mutation.
+
+---
+
+## Audit Requirements
+
+Execution must record:
+
+- affected files
+
+- commands executed
+
+- validation results
+
+- git commit hashes
+
+- execution start/end timestamps
+
+- rollback references
+
+- failure state if applicable
+
+---
+
+# Governance Rules
+
+## Cade MAY
+
+- mutate files within allowed scope
+
+- run approved commands
+
+- create commits
+
+- execute validation
+
+- produce reconciliation summaries
+
+---
+
+## Cade MAY NOT
+
+- exceed scope boundaries
+
+- self-expand authority
+
+- mutate forbidden surfaces
+
+- silently skip validation
+
+- bypass rollback requirements
+
+- reuse old delegation envelopes
+
+- reinterpret ambiguous instructions
+
+---
+
+# Delegation Validity Rules
+
+Delegation must be:
+
+- explicit
+
+
+==================================================================
+FILE: docs/checkpoints/PHASE79_AUTHORITY_MODEL_CONTRACT_20260316.md
+==================================================================
+
+STATE NOTE — PHASE 79 AUTHORITY MODEL CONTRACT
+Date: 2026-03-16
+
+────────────────────────────────
+
+PURPOSE
+
+Define the exact separation of authority between:
+
+Human operator authority
+Advisory cognition layers
+Forbidden authority domains
+
+This document establishes permanent authority boundaries before any automation discussion can proceed further.
+
+This is a contract definition only.
+
+No runtime behavior changes are introduced.
+
+────────────────────────────────
+
+CORE PRINCIPLE
+
+SYSTEM CONTROL REMAINS HUMAN.
+
+Automation may assist thinking.
+
+Automation may never control execution.
+
+Human remains:
+
+Final decision authority
+Execution authority
+Recovery authority
+Mutation authority
+
+This principle is non-negotiable.
+
+────────────────────────────────
+
+AUTHORITY CLASSIFICATION MODEL
+
+Authority is divided into three classes:
+
+CLASS H — HUMAN AUTHORITY
+CLASS C — COGNITION AUTHORITY
+CLASS F — FORBIDDEN AUTHORITY
+
+Only CLASS H may execute.
+
+CLASS C may only advise.
+
+CLASS F must never exist.
+
+────────────────────────────────
+
+CLASS H — HUMAN AUTHORITY
+
+Human operator retains exclusive authority over:
+
+Checkpoint restoration
+Code changes
+Reducer changes
+Database mutation
+Telemetry wiring
+Dashboard mutation
+Task execution
+Worker triggering
+Policy modification
+Safety override
+Runbook override
+Recovery execution
+Rollback execution
+Automation approval
+Automation rejection
+Authority grants
+Authority revocation
+
+Human authority cannot be delegated.
+
+Human authority cannot be automated.
+
+Human authority cannot be simulated.
+
+────────────────────────────────
+
+CLASS C — COGNITION AUTHORITY
+
+Cognition layers (future or current) may only:
+
+Analyze state
+Interpret telemetry
+Interpret diagnostics
+Interpret signals
+Suggest runbooks
+Suggest priorities
+Propose next actions
+Generate summaries
+Highlight risks
+Highlight uncertainty
+Recommend pause
+Recommend investigation
+Recommend recovery-first
+Generate dry-run plans
+Generate checklists
+
+Cognition authority has ZERO execution power.
+
+Cognition authority cannot:
+
+Trigger actions
+Modify state
+Schedule work
+Persist decisions
+Escalate authority
+Chain execution
+
+Cognition is advisory only.
+
+────────────────────────────────
+
+CLASS F — FORBIDDEN AUTHORITY
+
+The following authority must never exist in any automation layer:
+
+Autonomous execution
+Background mutation
+Silent retries
+Self-healing mutation
+Policy override
+Safety gate bypass
+Reducer mutation
+Database writes
+Telemetry writes
+Worker triggering
+Task creation
+Task cancellation
+Task reassignment
+State rewriting
+Hidden execution
+Authority escalation
+Self-granted authority
+Persistent approval memory
+Cross-session authority reuse
+
+Any proposal introducing any forbidden authority must be rejected immediately.
+
+────────────────────────────────
+
+AUTHORITY ESCALATION RULE
+
+Authority may only move:
+
+Human → Cognition (analysis requests)
+
+Authority may never move:
+
+Human → Automation execution
+Automation → Human authority
+Automation → Automation execution
+
+Authority flow is one direction only:
+
+Human controls.
+Automation observes.
+
+────────────────────────────────
+
+CONFIRMATION GATE PRINCIPLE
+
+Even if future phases introduce controlled execution proposals:
+
+Execution must always require:
+
+Explicit human confirmation
+Explicit scope
+Explicit effect
+Explicit rollback
+Explicit expiration
+
+No execution may occur without a fresh confirmation.
+
+No execution may occur from prior confirmation.
+
+No execution may occur from inferred intent.
+
+Human confirmation must be explicit.
+
+────────────────────────────────
+
+SESSION AUTHORITY LIMITATION
+
+Any future approval must be:
+
+Session scoped
+Single purpose
+Time limited
+Revocable
+Auditable
+
+Approval must never be:
+
+Persistent
+Global
+Reusable
+Silent
+Implicit
+
+Approval must expire automatically.
+
+────────────────────────────────
+
+REVOCATION GUARANTEE
+
+Human operator must always be able to:
+
+Revoke approval instantly
+Downgrade automation instantly
+Force observe-only instantly
+Halt recommendation chains instantly
+
+
+==================================================================
+FILE: docs/checkpoints/PHASE79_CONTROLLED_AUTOMATION_BOUNDARY_SPEC_20260316.md
+==================================================================
+
+STATE NOTE — PHASE 79 CONTROLLED AUTOMATION BOUNDARY SPEC
+Date: 2026-03-16
+
+────────────────────────────────
+
+PURPOSE
+
+Define the absolute structural boundary that any future controlled automation must obey.
+
+This document defines:
+
+What automation may observe  
+What automation may propose  
+What automation may never do  
+What authority always remains human-only  
+
+This is a constraint document, not an implementation document.
+
+────────────────────────────────
+
+DEFINITION — CONTROLLED AUTOMATION
+
+Controlled automation is defined as:
+
+A cognition-only advisory layer capable of:
+• analyzing system state
+• generating recommendations
+• proposing safe next actions
+• producing dry-run plans
+
+Controlled automation is NOT:
+
+Execution authority  
+Mutation authority  
+Background processing  
+Self-directed action  
+Persistent authority  
+
+Automation in this system is advisory only unless a future explicit phase changes this rule.
+
+Current system remains:
+
+HUMAN EXECUTION ONLY.
+
+────────────────────────────────
+
+ABSOLUTE PROHIBITIONS (NON-NEGOTIABLE)
+
+Automation must NEVER:
+
+Execute tasks
+Modify reducers
+Modify UI state
+Modify telemetry
+Write to database
+Trigger workers
+Trigger retries
+Perform restores
+Perform recovery actions
+Create background loops
+Schedule actions
+Self-trigger logic
+Escalate authority
+Override safety gates
+Override runbooks
+Override recovery-first rules
+Act without human confirmation
+Act using stale confirmation
+Reuse prior approval
+Store approval state
+Hide decisions
+Operate silently
+
+Any future proposal violating any item above must be rejected automatically.
+
+────────────────────────────────
+
+ALLOWED AUTOMATION CAPABILITIES (PLANNING CLASS ONLY)
+
+Automation may only:
+
+Analyze telemetry
+Analyze diagnostics
+Analyze operator signals
+Analyze runbook outputs
+Generate summaries
+Propose ranked options
+Suggest runbooks
+Suggest safe next steps
+Generate dry-run plans
+Generate validation checklists
+Highlight risks
+Highlight unknowns
+Recommend pause
+Recommend recovery-first
+
+Automation may never transition from proposal to execution.
+
+That boundary is absolute in Phase 79.
+
+────────────────────────────────
+
+HUMAN-ONLY AUTHORITY (PERMANENT)
+
+The following authority remains permanently human:
+
+Restore checkpoint
+Run mutation scripts
+Change reducers
+Change persistence
+Change telemetry wiring
+Approve execution
+Reject execution
+Approve recovery
+Approve rollback
+Override safety gates
+Change policies
+Grant authority
+Revoke authority
+
+Automation may only recommend.
+Human must always decide.
+
+────────────────────────────────
+
+CONFIRMATION MODEL (FUTURE CONTRACT REQUIREMENT)
+
+Any future approval system must require:
+
+Explicit target
+Explicit scope
+Explicit effect
+Explicit risk statement
+Explicit rollback path
+Explicit expiration
+Explicit confirmation event
+
+Approval must be:
+
+Single use
+Session scoped
+Non persistent
+Revocable
+Auditable
+Narrowly scoped
+
+Disallowed:
+
+Standing approvals
+Global approvals
+Implicit approvals
+Silent approvals
+Reused approvals
+
+────────────────────────────────
+
+FAIL-CLOSED REQUIREMENT
+
+If automation cannot determine safety:
+
+Automation must:
+
+Return NO-OP recommendation
+Return OBSERVE-ONLY
+Return INVESTIGATE recommendation
+Return RECOVERY-FIRST recommendation
+
+Automation must never guess.
+
+Uncertainty must halt recommendation strength.
+
+────────────────────────────────
+
+RECOVERY-FIRST SUPERIORITY RULE
+
+Automation must always defer to:
+
+Structural protection
+Telemetry integrity
+Recovery-first discipline
+Safety gates
+Runbook ordering
+
+If automation recommendation conflicts with recovery-first:
+
+Recovery-first wins automatically.
+
+Automation must downgrade to advisory only.
+
+────────────────────────────────
+
+NO-OP DEFAULT RULE
+
+Default automation output must be:
+
+NO ACTION
+
+Unless explicitly asked for recommendation generation.
+
+Automation must never:
+
+Proactively act
+Proactively trigger
+Proactively schedule
+Proactively execute
+
+Automation is passive cognition only.
+
+────────────────────────────────
+
+DRY-RUN REQUIREMENT
+
+Any future action proposal must support:
+
+Dry-run description
+Expected impact
+Zero side effects
+Rollback explanation
+Failure scenarios
+
+
+
+==================================================================
+FILE: docs/checkpoints/PHASE79_CONFIRMATION_GATE_CONTRACT_20260316.md
+==================================================================
+
+STATE NOTE — PHASE 79 CONFIRMATION GATE CONTRACT
+Date: 2026-03-16
+
+────────────────────────────────
+
+PURPOSE
+
+Define the exact structure required for any future human confirmation interaction before any execution authority could ever be considered.
+
+This phase defines:
+
+What a confirmation must contain  
+How approval must behave  
+What approval can never become  
+How approval expires  
+How approval is revoked  
+
+This is a contract definition only.
+
+No runtime behavior changes are introduced.
+
+────────────────────────────────
+
+CORE PRINCIPLE
+
+NO ACTION WITHOUT EXPLICIT HUMAN CONFIRMATION.
+
+Confirmation must be:
+
+Deliberate  
+Explicit  
+Narrow  
+Temporary  
+Auditable  
+
+Implicit approval is forbidden.
+
+────────────────────────────────
+
+CONFIRMATION STRUCTURE REQUIREMENT
+
+Any future confirmation must require ALL of the following fields:
+
+TARGET
+What system component would be affected.
+
+SCOPE
+Exactly what would change.
+
+EFFECT
+Expected outcome of action.
+
+RISK
+Known possible negative outcomes.
+
+ROLLBACK
+Exact recovery path.
+
+EXPIRATION
+When approval becomes invalid.
+
+These fields must exist before any approval could be considered valid.
+
+If any field is missing:
+
+Approval must fail.
+
+────────────────────────────────
+
+APPROVAL VALIDITY RULES
+
+A valid approval must be:
+
+Single purpose
+Single action
+Single scope
+Time limited
+Session limited
+
+Approval must NOT be:
+
+Reusable
+Persistent
+Global
+Silent
+Transferable
+
+Approval must apply only to the exact described action.
+
+Any deviation invalidates approval.
+
+────────────────────────────────
+
+EXPIRATION REQUIREMENT
+
+All approvals must automatically expire.
+
+Expiration must be based on:
+
+Time window
+Session end
+State change
+Structural change
+Telemetry uncertainty
+
+Expired approval must become invalid automatically.
+
+No manual cleanup required.
+
+No reuse allowed.
+
+────────────────────────────────
+
+REVOCATION REQUIREMENT
+
+Human operator must always be able to revoke approval instantly.
+
+Revocation must:
+
+Terminate scope immediately
+Require no cleanup
+Require no restart
+Require no reconciliation
+
+Revocation must downgrade authority to:
+
+OBSERVE ONLY
+
+Revocation must always win over prior approval.
+
+────────────────────────────────
+
+FAIL-CLOSED CONFIRMATION RULE
+
+If confirmation validity is uncertain:
+
+Approval must be rejected.
+
+If approval cannot be verified:
+
+Approval must be rejected.
+
+If approval scope is ambiguous:
+
+Approval must be rejected.
+
+Default behavior must always be:
+
+NO ACTION.
+
+────────────────────────────────
+
+MULTI-ACTION PROHIBITION
+
+A single approval must never authorize:
+
+Multiple actions
+Chained actions
+Conditional actions
+Future actions
+Background actions
+
+Each action must require its own approval.
+
+Batch approval is forbidden.
+
+────────────────────────────────
+
+CONFIRMATION VISIBILITY RULE
+
+Any approval must expose:
+
+What will happen
+Why it is proposed
+What risks exist
+What rollback exists
+What blocks execution
+What invalidates approval
+
+Approval must never be hidden.
+
+Approval must never be implied.
+
+Approval must never be assumed.
+
+────────────────────────────────
+
+RECOVERY PRIORITY RULE
+
+If recovery-first posture exists:
+
+Approval must not allow execution that conflicts with recovery guidance.
+
+Recovery posture always overrides approval.
+
+Approval must be blocked if conflict exists.
+
+────────────────────────────────
+
+HUMAN AUTHORITY GUARANTEE
+
+Confirmation never transfers authority.
+
+Human remains:
+
+Execution authority
+Recovery authority
+Mutation authority
+
+Approval only allows consideration of a single action.
+
+Approval does not delegate control.
+
+────────────────────────────────
+
+CONFIRMATION SAFETY SUMMARY
+
+Confirmation must be:
+
+Explicit
+
+
+==================================================================
+FILE: docs/checkpoints/PHASE61_5_2_DELEGATION_CONTROLS_WIRED_20260310.md
+==================================================================
+
+# Phase 61.5.2 — Delegation Controls Wired
+Date: 2026-03-10
+
+## Objective
+Reconnect the Delegation tab controls without changing the locked Phase 61 layout structure.
+
+## Root Cause
+The Delegation UI existed in `public/dashboard.html`, but its handler module was not imported by the dashboard bundle entrypoint.
+
+## Fix Applied
+- imported `public/js/dashboard-delegation.js` from `public/js/dashboard-bundle-entry.js`
+- preserved the locked dashboard structure
+- verified layout contract before and after patch
+- rebuilt dashboard through the safe cycle
+
+## Files Changed
+- `public/js/dashboard-bundle-entry.js`
+
+## Expected Result
+The following controls should now be active:
+- `#delegation-input`
+- `#delegation-submit`
+- `#delegation-response`
+
+Submitting delegation text should now call:
+- `POST /api/delegate-task`
+
+## Rule Still In Force
+Never fix forward.
+If structure breaks:
+1. restore checkpoint
+2. verify layout contract
+3. re-apply cleanly
+
+
+==================================================================
+FILE: docs/checkpoints/PHASE80_SAFE_ITERATION_ENGINE_COMPLETE.md
+==================================================================
+
+PHASE 80 — SAFE ITERATION ENGINE COMPLETE
+Date: 2026-03-16
+
+────────────────────────────────
+
+OBJECTIVE
+
+Establish a deterministic safe iteration engine that unifies all operator
+maturity layers into a single controlled development execution surface.
+
+This phase completes the operator acceleration corridor.
+
+────────────────────────────────
+
+DELIVERED COMPONENTS
+
+Safe iteration engine:
+scripts/_local/phase80_safe_iteration_engine.sh
+
+Safe iteration engine smoke:
+scripts/_local/phase80_safe_iteration_engine_smoke.sh
+
+────────────────────────────────
+
+CAPABILITIES INTRODUCED
+
+Single-command safe development execution surface.
+
+Safe iteration engine now orchestrates:
+
+Operator start command
+Operator daily loop
+Operator risk surface
+Change impact preview
+Preflight verification
+All operator smoke contracts
+
+Operator now has a full safe iteration execution engine.
+
+────────────────────────────────
+
+ARCHITECTURE IMPACT
+
+No reducer changes.
+
+No UI changes.
+
+No telemetry changes.
+
+No database changes.
+
+No runtime mutation.
+
+Safe iteration engine operates purely as orchestration across operator
+maturity layers.
+
+────────────────────────────────
+
+SUCCESS CONDITIONS MET
+
+Iteration engine deterministic.
+
+Iteration engine reproducible.
+
+Iteration smoke contract verified.
+
+Safe iteration execution now formalized.
+
+Operator acceleration layer established.
+
+────────────────────────────────
+
+MATURITY PROGRESSION
+
+Protection
+Detection
+Replay
+Diagnostics
+Signals
+Awareness
+Guidance
+Safety Gates
+Workflow Helpers
+Preflight Verification
+Operator Start Command
+Operator Daily Loop
+Operator Risk Surface
+Change Impact Preview
+Safe Iteration Engine  ← NEW
+
+Operator maturity layer now includes full safe iteration execution.
+
+────────────────────────────────
+
+SYSTEM STATUS
+
+Dashboard stable.
+
+Layout protected.
+
+Telemetry stable.
+
+Reducers stable.
+
+Replay validation active.
+
+Drift detection active.
+
+Diagnostics operational.
+
+Operator signals operational.
+
+Operator awareness operational.
+
+Operator guidance operational.
+
+Operator safety gates operational.
+
+Operator workflow helpers operational.
+
+Operator preflight verification operational.
+
+Operator start command operational.
+
+Operator daily loop operational.
+
+Operator risk surface operational.
+
+Change impact preview operational.
+
+Safe iteration engine operational.
+
+Branch clean.
+
+Container reproducible.
+
+System stable.
+
+────────────────────────────────
+
+PHASE RESULT
+
+Safe Iteration Engine established.
+
+Phase 80 COMPLETE.
+
