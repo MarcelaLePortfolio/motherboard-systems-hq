@@ -80,6 +80,12 @@
     };
   }
 
+  function renderGuidance(t) {
+    const g = t?.guidance || (t?.outcome_preview || t?.explanation_preview ? { classification: 'info', outcome: t?.outcome_preview, explanation: t?.explanation_preview } : null);
+    if (!g) return "";
+    return `<div style="margin-top:4px;font-size:12px;opacity:.75"><strong>${esc(g.classification || "guidance")}</strong>${g.outcome ? `: ${esc(g.outcome)}` : ""}${g.explanation ? `<details><summary>details</summary><div>${esc(g.explanation)}</div></details>` : ""}</div>`;
+  }
+
   async function apiJson(url, opts = {}) {
     const res = await fetch(url, {
       method: opts.method || "GET",
@@ -110,7 +116,7 @@
               ? state.tasks
                   .map(
                     (t) => `
-              <div style="display:flex;justify-content:space-between;gap:8px">
+              <div data-task-row="true" data-task-id="${esc(t.id)}" style="display:flex;justify-content:space-between;gap:8px;cursor:pointer">
                 <span>${esc(t.title)}</span>
                 ${
                   ["complete", "completed", "done"].includes(String(t.status || "").toLowerCase())
@@ -118,6 +124,7 @@
                     : `<button data-id="${esc(t.id)}">Complete</button>`
                 }
               </div>
+              ${renderGuidance(t)}
             `
                   )
                   .join("")
@@ -127,6 +134,13 @@
           }
         </div>
       `;
+
+      ui.listEl.querySelectorAll("[data-task-row][data-task-id]").forEach((row) => {
+        row.onclick = () => {
+          window.selectedTaskId = row.getAttribute("data-task-id");
+          window.dispatchEvent(new CustomEvent("execution-inspector:selected-task", { detail: { taskId: window.selectedTaskId } }));
+        };
+      });
 
       ui.listEl.querySelectorAll("button[data-id]").forEach((btn) => {
         btn.onclick = () => completeTask(btn.dataset.id);
@@ -440,4 +454,16 @@
 
     scheduleFetchTasks(0);
   }, TASK_POLL_MS);
+})();
+
+/* HARD GUARD — protect Execution Inspector from DOM wipes */
+(function () {
+  const ORIGINAL = Element.prototype.setAttribute;
+
+  Element.prototype.setAttribute = function (name, value) {
+    try {
+      if (this && this.id === "execution-inspector") return;
+    } catch (_) {}
+    return ORIGINAL.call(this, name, value);
+  };
 })();

@@ -206,15 +206,7 @@
   }
 
   function ingest(raw, type) {
-    if (type === "hello") {
-      render("Connected — watching task stream");
-      return;
-    }
-
-    if (type === "heartbeat") {
-      render("Connected — watching task stream");
-      return;
-    }
+    if (type === "hello" || type === "heartbeat") return;
 
     const e = parse(raw);
     if (!e) return;
@@ -239,13 +231,13 @@
 
     const es = new EventSource(STREAM_URL);
 
-    es.onopen = () => render("Connected — watching task stream");
+    es.onopen = () => render("Connected");
     
     es.onerror = () => {
       if (events.length > 0) {
         render("Connected — stream reconnecting");
       } else {
-        render("Connected — awaiting next task event");
+        render("Waiting for task event stream");
       }
     };
 

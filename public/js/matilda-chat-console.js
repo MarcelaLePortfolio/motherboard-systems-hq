@@ -1,4 +1,6 @@
 (function () {
+  let inFlight = false;
+
   function log(msg) {
     console.log("[matilda-chat]", msg);
   }
@@ -16,101 +18,88 @@
   function setSendingState(sendBtn, input, isSending) {
     if (sendBtn) {
       sendBtn.disabled = isSending;
-      sendBtn.classList.toggle("opacity-60", isSending);
       sendBtn.textContent = isSending ? "Sending..." : "Send";
     }
-    if (input) {
-      input.disabled = isSending;
+    if (input) input.disabled = isSending;
+  }
+
+  async function fetchWithTimeout(url, options, timeoutMs) {
+    const controller = new AbortController();
+    const id = setTimeout(() => controller.abort(), timeoutMs);
+
+    try {
+      console.log("[PHASE488_TIMEOUT] starting fetch");
+      const res = await fetch(url, { ...options, signal: controller.signal });
+      console.log("[PHASE488_TIMEOUT] resolved", res.status);
+      return res;
+    } finally {
+      clearTimeout(id);
     }
   }
 
   async function wireChat() {
-    var root = document.getElementById("matilda-chat-root");
-    if (!root) {
-      log("No #matilda-chat-root found; skipping wiring.");
-      return;
-    }
-
     var transcript = document.getElementById("matilda-chat-transcript");
     var input = document.getElementById("matilda-chat-input");
     var sendBtn = document.getElementById("matilda-chat-send");
 
-      // Phase23: expose append API for other modules (task-events bridge, ops, etc.)
-      // Usage:
-      //   window.appendMessage({role:"system"|"user"|"matilda", content:"..."})
-      //   window.__appendMessage({role:"system", content:"..."})   (alias)
-      window.appendMessage = window.appendMessage || function (msg) {
-        try {
-          var role = (msg && msg.role) ? String(msg.role) : "system";
-          var content = (msg && (msg.content ?? msg.text ?? msg.message)) ? String(msg.content ?? msg.text ?? msg.message) : "";
-          var sender = role === "user" ? "You" : (role === "matilda" ? "Matilda" : "System");
-          appendMessage(transcript, sender, content);
-        } catch (_) {}
-      };
-      window.__appendMessage = window.__appendMessage || window.appendMessage;
-
-    if (!transcript || !input || !sendBtn) {
-      log("Missing one or more Matilda chat elements; aborting wiring.");
-      return;
-    }
-
-    function safeTrim(value) {
-      return (value || "").toString().trim();
-    }
+    if (!transcript || !input || !sendBtn) return;
 
     async function handleSend() {
-      var message = safeTrim(input.value);
+      console.log("[PHASE488_TRACE] handleSend invoked");
+
+      if (inFlight) {
+        console.warn("[PHASE488_GUARD] blocked duplicate send");
+        return;
+      }
+
+      var message = (input.value || "").trim();
       if (!message) return;
+
+      inFlight = true;
 
       appendMessage(transcript, "You", message);
       input.value = "";
       setSendingState(sendBtn, input, true);
 
       try {
-        var res = await fetch("/api/chat", {
+        const res = await fetchWithTimeout("/api/chat", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ message: message, agent: "matilda" }),
-        });
+        }, 5000);
 
-        if (!res.ok) {
-          appendMessage(
-            transcript,
-            "Matilda",
-            "(error talking to /api/chat)"
-          );
-          return;
-        }
+        const data = await res.json();
+        console.log("[PHASE488_TRACE] parsed json", data);
 
-        var data = await res.json();
-        var reply =
+        const reply =
           (data && (data.reply || data.message || data.response)) ||
           "(no reply)";
+
         appendMessage(transcript, "Matilda", reply);
       } catch (err) {
-        console.error(err);
-        appendMessage(transcript, "Matilda", "(network error)");
+        appendMessage(transcript, "Matilda", "I could not reach the chat service from this browser request, but no execution was attempted. You can retry, or use the visible dashboard/context state for advisory interpretation.");
       } finally {
+        inFlight = false;
         setSendingState(sendBtn, input, false);
       }
     }
 
-    sendBtn.addEventListener("click", handleSend);
+    sendBtn.onclick = handleSend;
 
     var quickBtn = document.getElementById("matilda-chat-quick-check");
     if (quickBtn) {
-      quickBtn.addEventListener("click", function () {
-        input.value = "Quick systems check from dashboard Phase 11.4.";
+      quickBtn.onclick = function () {
+        input.value = "Quick systems check from dashboard.";
         handleSend();
-      });
+      };
     }
 
-    input.addEventListener("keydown", function (e) {
+    input.onkeydown = function (e) {
       if (e.key === "Enter" && !e.shiftKey) {
         e.preventDefault();
         handleSend();
       }
-    });
+    };
 
     log("Matilda chat wiring complete.");
   }

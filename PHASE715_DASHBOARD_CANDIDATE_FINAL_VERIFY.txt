@@ -1,0 +1,482 @@
+===== PHASE715 DASHBOARD CANDIDATE FINAL VERIFY =====
+Thu May 28 01:50:05 PDT 2026
+
+===== CURRENT HEAD =====
+5d86e1a8 Compare dashboard lineage candidates
+9599bed8 Discover dashboard recovery candidates
+5b0ba9d8 Verify live phase 91 dashboard against expected source
+9fe4055e Restore phase 91 golden dashboard UI surface
+faf79e37 Discover newer dashboard lineage candidates
+bc20464e Record dashboard version drift finding
+e42a6f19 Create dashboard recovery checkpoint c75e9756
+c75e9756 Seal final dashboard runtime recovery state
+
+===== COMPOSE PS =====
+NAME                                       IMAGE                                    COMMAND                  SERVICE     CREATED          STATUS          PORTS
+motherboard-systems-hq-clean-dashboard-1   motherboard-systems-hq-clean-dashboard   "docker-entrypoint.s…"   dashboard   59 seconds ago   Up 57 seconds   0.0.0.0:8080->3000/tcp, [::]:8080->3000/tcp
+motherboard-systems-hq-clean-postgres-1    postgres:16-alpine                       "docker-entrypoint.s…"   postgres    41 minutes ago   Up 41 minutes   0.0.0.0:5432->5432/tcp, [::]:5432->5432/tcp
+
+===== ROOT HEADERS =====
+HTTP/1.1 200 OK
+X-Powered-By: Express
+Accept-Ranges: bytes
+Cache-Control: public, max-age=0
+Last-Modified: Thu, 28 May 2026 08:49:04 GMT
+ETag: W/"b630-19e6dc5dc00"
+Content-Type: text/html; charset=utf-8
+Content-Length: 46640
+Date: Thu, 28 May 2026 08:50:05 GMT
+Connection: keep-alive
+Keep-Alive: timeout=5
+
+
+===== ROOT SAMPLE =====
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta http-equiv="Cache-Control" content="no-store, no-cache, must-revalidate, max-age=0" />
+  <meta http-equiv="Pragma" content="no-cache" />
+  <meta http-equiv="Expires" content="0" />
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Motherboard Systems Operator Console</title>
+
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet" />
+  <link rel="stylesheet" href="css/broadcast.css" />
+  <link rel="stylesheet" href="css/dashboard.css?v=darkmode" />
+  <link rel="stylesheet" href="css/dashboard-reflections.css" />
+  <link rel="stylesheet" href="css/agent-status-row.css" />
+  <link rel="stylesheet" href="css/matilda-chat.css" />
+  <link rel="stylesheet" href="css/demo_layout_trim.css" />
+  <link rel="stylesheet" href="css/phase59_demo_focus.css" />
+  <link rel="stylesheet" href="css/phase60_live_polish.css" />
+  <link rel="stylesheet" href="css/phase61_workspace_consolidation.css" />
+  <link rel="stylesheet" href="css/phase61_tabs_observational_workspace.css" />
+
+  <style id="matilda-chat-typography-polish">
+    #matilda-chat-transcript p {
+      line-height: 1.4 !important;
+      margin-bottom: 0.5rem !important;
+    }
+    #matilda-chat-transcript .user-message {
+      color: #dbeafe !important;
+    }
+    #matilda-chat-transcript .matilda-message {
+      color: #a7f3d0 !important;
+    }
+  </style>
+
+  <style id="phase487-layout-refinement">
+    html {
+      font-size: 14px;
+    }
+
+    body {
+      overflow-x: hidden;
+    }
+
+    .phase62-top-row {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+      gap: 1rem;
+      align-items: stretch;
+    }
+
+    .phase62-top-col {
+      min-width: 0;
+    }
+
+    #phase61-workspace-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+      gap: 1rem;
+      align-items: stretch;
+    }
+
+    #operator-workspace-card,
+    #observational-workspace-card,
+    #atlas-status-card,
+    #agent-status-container,
+    #metrics-row > div {
+      min-width: 0;
+    }
+
+    #operator-workspace-card,
+    #observational-workspace-card,
+    #atlas-status-card {
+      padding: 1.15rem !important;
+      border-radius: 1rem !important;
+    }
+
+    #agent-status-container {
+      padding: 0.95rem !important;
+      border-radius: 1rem !important;
+      min-height: 100%;
+    }
+
+    #metrics-row {
+      gap: 0.85rem !important;
+      min-height: 100%;
+    }
+
+    #metrics-row > div {
+      padding: 0.95rem !important;
+      border-radius: 1rem !important;
+    }
+
+    #operator-tabs,
+    #observational-tabs {
+      display: flex;
+      gap: 0.55rem;
+      flex-wrap: wrap;
+      margin-bottom: 0.85rem;
+    }
+
+    .obs-tab {
+      border: 1px solid rgba(75, 85, 99, 0.95);
+      background: rgb(55, 65, 81);
+      color: rgb(255, 255, 255);
+      border-radius: 0.75rem;
+      padding: 0.55rem 0.95rem;
+      font-size: 0.85rem;
+      font-weight: 700;
+      line-height: 1;
+      box-shadow: 0 6px 14px rgba(0, 0, 0, 0.18);
+      transition: all 160ms ease;
+    }
+
+    .obs-tab:hover {
+      transform: translateY(-1px);
+      background: rgb(75, 85, 99);
+      box-shadow: 0 10px 18px rgba(0, 0, 0, 0.22);
+    }
+
+
+===== HEALTH CHECK =====
+HTTP/1.1 200 OK
+X-Powered-By: Express
+Content-Type: application/json; charset=utf-8
+Content-Length: 11
+ETag: W/"b-Ai2R8hgEarLmHKwesT1qcY913ys"
+Date: Thu, 28 May 2026 08:50:05 GMT
+Connection: keep-alive
+Keep-Alive: timeout=5
+
+{"ok":true}
+===== TASKS API =====
+{"ok":true,"tasks":[]}
+===== AGENT STATUS JSON =====
+HTTP/1.1 200 OK
+X-Powered-By: Express
+Accept-Ranges: bytes
+Cache-Control: public, max-age=0
+Last-Modified: Thu, 28 May 2026 08:28:21 GMT
+ETag: W/"187-19e6db2e488"
+Content-Type: application/json; charset=utf-8
+Content-Length: 391
+Date: Thu, 28 May 2026 08:50:05 GMT
+Connection: keep-alive
+Keep-Alive: timeout=5
+
+
+{
+
+  "agents": {
+
+    "matilda": {
+
+      "status": "restored",
+
+      "mode": "dashboard-ui-runtime"
+
+    },
+
+    "atlas": {
+
+      "status": "restored",
+
+      "mode": "dashboard-ui-runtime"
+
+    },
+
+    "cade": {
+
+      "status": "restored",
+
+      "mode": "dashboard-ui-runtime"
+
+    },
+
+    "effie": {
+
+      "status": "restored",
+
+      "mode": "dashboard-ui-runtime"
+
+    }
+
+  }
+
+}
+
+
+===== MARKER CHECK =====
+16:  <link rel="stylesheet" href="css/matilda-chat.css" />
+23:  <style id="matilda-chat-typography-polish">
+24:    #matilda-chat-transcript p {
+28:    #matilda-chat-transcript .user-message {
+31:    #matilda-chat-transcript .matilda-message {
+145:    #matilda-chat-transcript {
+187:  <script defer src="js/matilda-chat-console.js"></script>
+280:                <section id="matilda-chat-card" class="obs-surface">
+281:                  <div id="matilda-chat-root" class="space-y-3">
+283:                      id="matilda-chat-transcript"
+287:                        Chat with Matilda about tasks, status, or next steps...
+293:                        id="matilda-chat-input"
+296:                        placeholder="Type a message to Matilda and press Enter or click Send..."
+299:                        id="matilda-chat-send"
+305:                        id="matilda-chat-quick-check"
+312:                    <p id="matilda-helper-text-ops" class="text-xs text-gray-400 mt-1">
+313:                      Matilda is currently using a placeholder /api/chat stub (Phase 11.3 baseline).
+317:                      <div class="text-xs uppercase tracking-[0.2em] text-gray-500 mb-2">Operator Guidance</div>
+320:                        Live operator guidance will appear here when visibility wiring is active.
+375:                Recent Tasks
+378:                Task History
+381:                Execution Inspector
+389:                    <h3 class="text-sm uppercase tracking-[0.2em] text-gray-400 mb-2">Recent Tasks</h3>
+536:  #matilda-chat-transcript,
+580:  <script defer src="js/phase490_matilda_piece_debug.js"></script>
+589:  <script defer src="js/phase530_visible_panels_bridge.js"></script>
+590:  <script defer src="js/phase530_dom_probe.js"></script>
+604:    <div style="font-size:14px;margin-bottom:10px;opacity:0.8;">Operator Guidance — Reasoning</div>
+1123:      empty.textContent = "No recent tasks available.";
+1179:  const input = document.querySelector('input[placeholder*="Matilda"]') || document.querySelector('input');
+1182:  output.id = "matilda-output";
+1199:          body: JSON.stringify({ message, agent: "matilda" })
+1338:  #matilda-chat-transcript,
+
+===== FILE SIZE CHECK =====
+   46640 public/index.html
+   36138 public/dashboard.html
+   69049 public/bundle.js
+  151827 total
+
+===== DASHBOARD LOGS =====
+[phase25] task_events_emit loaded 2026-05-28T08:49:07.997Z file= file:///app/server/task_events_emit.mjs
+[phase25] api-tasks-postgres loaded 2026-05-28T08:49:07.998Z file= file:///app/server/routes/api-tasks-postgres.mjs
+[phase19] orchestrator_state_route mounted {
+  file: 'file:///app/server/orchestrator_state_route.mjs',
+  envSnapshot: {
+    PHASE18_ENABLE_ORCHESTRATION: undefined,
+    PHASE19_ENABLE_ORCH_STATE: undefined
+  }
+}
+[SSE] /events/ops + /events/reflections registered
+[db] effective pool config {
+  mode: 'url',
+  DB_URL_present: true,
+  host: null,
+  port: null,
+  user: null,
+  database: null,
+  password_type: 'url-hidden',
+  password_len: 'hidden',
+  has_password: true
+}
+Database pool initialized
+[phase25] __DB_POOL set { has: true, type: 'BoundPool' }
+Server running on http://0.0.0.0:3000
+[task-events] pool cfg {
+  mode: 'url',
+  DB_URL_present: true,
+  host: null,
+  port: null,
+  user: null,
+  database: null,
+  password_type: 'url-hidden',
+  password_len: 'hidden',
+  has_password: true
+}
+[HTTP] GET /api/tasks?limit=12
+[phase57c-router] /api/tasks probe {
+  originalUrl: '/api/tasks?limit=12',
+  baseUrl: '/api/tasks',
+  path: '/',
+  referer: 'http://localhost:8080/',
+  userAgent: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/148.0.0.0 Safari/537.36',
+  accept: 'application/json'
+}
+[HTTP] GET /api/runs?limit=20
+[HTTP] GET /api/tasks?limit=12
+[HTTP] GET /api/runs?limit=20
+[phase57c-router] /api/tasks probe {
+  originalUrl: '/api/tasks?limit=12',
+  baseUrl: '/api/tasks',
+  path: '/',
+  referer: 'http://localhost:8080/',
+  userAgent: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/148.0.0.0 Safari/537.36',
+  accept: 'application/json'
+}
+[HTTP] GET /events/reflections
+[HTTP] GET /events/ops
+[HTTP] GET /events/ops
+[task-events] pool cfg {
+  mode: 'url',
+  DB_URL_present: true,
+  host: null,
+  port: null,
+  user: null,
+  database: null,
+  password_type: 'url-hidden',
+  password_len: 'hidden',
+  has_password: true
+}
+[HTTP] GET /events/ops
+[HTTP] GET /
+[HTTP] HEAD /
+[HTTP] GET /
+[HTTP] GET /api/tasks/health
+[HTTP] GET /api/tasks?limit=12
+[phase57c-router] /api/tasks probe {
+  originalUrl: '/api/tasks?limit=12',
+  baseUrl: '/api/tasks',
+  path: '/',
+  referer: null,
+  userAgent: 'curl/8.7.1',
+  accept: '*/*'
+}
+[HTTP] GET /agent-status.json
+
+===== WORKTREE =====
+M  public/bundle.js
+A  public/css/phase491_workspace_equal_height.css
+M  public/dashboard.html
+M  public/index.html
+A  public/js/agent-status-health-indicator.js
+A  public/js/agent-status-probe.js
+M  public/js/agent-status-row.js
+M  public/js/dashboard-broadcast.js
+M  public/js/dashboard-bundle-entry.js
+M  public/js/dashboard-graph.js
+M  public/js/dashboard-status.js
+M  public/js/dashboard-tasks-widget.js
+M  public/js/matilda-chat-console.js
+A  public/js/operatorGuidance.sse.js
+M  public/js/phase16_sse_backoff.js
+A  public/js/phase457_controlled_proof.js
+A  public/js/phase457_execution_guard.js
+A  public/js/phase457_neutralize_legacy_observational_consumers.js
+A  public/js/phase457_restore_task_panels.BROKEN_BACKUP.js
+A  public/js/phase457_restore_task_panels.js
+A  public/js/phase487_humanize_task_ids.js
+A  public/js/phase488_fix_sse_singleton.js
+A  public/js/phase488_sse_singleton_safe.js
+A  public/js/phase489_panel_height_sync.js
+A  public/js/phase490_height_evidence_capture.js
+A  public/js/phase490_matilda_piece_debug.js
+A  public/js/phase490_operator_height_beacon.js
+A  public/js/phase490_operator_height_probe.js
+A  public/js/phase490_telemetry_height_probe.js
+A  public/js/phase491_workspace_height_lock.js
+A  public/js/phase530_dom_probe.js
+A  public/js/phase530_visible_panels_bridge.js
+A  public/js/phase531_recent_tasks_layout_fix.js
+A  public/js/phase532_task_history_fill_fix.js
+A  public/js/phase533_execution_inspector_layout_fix.js
+A  public/js/phase534_execution_inspector_expand.js
+A  public/js/phase535_execution_inspector_requeue.js
+A  public/js/phase537_execution_inspector_retry.js
+A  public/js/phase538_execution_inspector_action_groups.js
+A  public/js/phase538_execution_inspector_retry_strategies.js
+A  public/js/phase539_execution_inspector_retry_mode_display.js
+A  public/js/phase565_recent_logs_wire.js
+A  public/js/phase565_recent_tasks_wire.js
+A  public/js/phase573_execution_inspector_debug.js
+A  public/js/phase574_execution_inspector_success_feedback.js
+A  public/js/phase61_inspector_mount.js
+M  public/js/phase61_recent_history_wire.js
+M  public/js/phase61_tabs_workspace.js
+M  public/js/phase64_agent_activity_wire.js
+M  public/js/project-visual-output.js
+M  public/js/sse-heartbeat-shim.js
+M  public/js/task-activity.js
+M  public/js/task-events-sse-client.js
+A  public/js/task-events-sse-client.js.bak_phase704_sse_endpoint
+A  public/js/task-events-sse-client.js.bak_phase704_waiting_state
+?? .backup_excludes
+?? CADE_RUNTIME_DISCOVERY.txt
+?? CADE_RUNTIME_HIGH_SIGNAL_CONTENTS.txt
+?? DASHBOARD_UI_AFTER_RUNTIME_RESTORE_DIAGNOSIS.txt
+?? EXECUTION_IMPLEMENTATION_SURFACES.txt
+?? EXTERNAL_DB_BACKUP_SEARCH_BEFORE_DOCKER_RESET.txt
+?? GOVERNED_ROUTE_AFTER_RUNTIME_RESTORE_SMOKE.txt
+?? PHASE715_DASHBOARD_CANDIDATE_FINAL_VERIFY.txt
+?? PHASE715_DASHBOARD_CANDIDATE_RESTORE.txt
+?? PHASE_90_91_DASHBOARD_SURFACE_INSPECTION.txt
+?? backups/_restore_test/
+?? backups/backup_index.json
+?? backups/checksums_20260527_150058.txt
+?? backups/checksums_20260527_150206.txt
+?? backups/dashboard-ui-before-phase715-candidate/
+?? backups/dr_daemon.log
+?? backups/repo_20260527_145245.bundle
+?? backups/repo_20260527_145315.bundle
+?? backups/repo_20260527_145331.bundle
+?? backups/repo_20260527_145349.bundle
+?? backups/repo_20260527_145411.bundle
+?? backups/repo_20260527_145427.bundle
+?? backups/repo_20260527_145443.bundle
+?? backups/repo_20260527_145503.bundle
+?? backups/repo_20260527_145520.bundle
+?? backups/repo_20260527_145623.bundle
+?? backups/repo_20260527_145651.bundle
+?? backups/repo_20260527_145722.bundle
+?? backups/repo_20260527_145748.bundle
+?? backups/repo_20260527_150058.bundle
+?? backups/repo_20260527_150206.bundle
+?? backups/repo_20260527_153113.bundle
+?? backups/repo_20260527_154040.bundle
+?? backups/repo_20260527_154104.bundle
+?? backups/repo_20260527_154121.bundle
+?? backups/repo_20260527_154139.bundle
+?? backups/repo_20260527_154158.bundle
+?? backups/repo_20260527_154230.bundle
+?? backups/repo_20260527_154251.bundle
+?? backups/repo_20260527_154345.bundle
+?? backups/repo_20260527_154630.bundle
+?? backups/repo_20260527_154717.bundle
+?? backups/source_20260527_145245.tar.gz
+?? backups/source_20260527_145520.tar.gz
+?? backups/source_20260527_145623.tar.gz
+?? backups/source_20260527_145748.tar.gz
+?? backups/source_20260527_150058.tar.gz
+?? backups/source_20260527_150206.tar.gz
+?? backups/source_20260527_153200.tar.gz
+?? backups/source_20260527_154251.tar.gz
+?? backups/source_20260527_154345.tar.gz
+?? backups/source_20260527_154630.tar.gz
+?? backups/source_20260527_154717.tar.gz
+?? diagnose-dashboard-ui-after-runtime-restore.py
+?? diagnose-dashboard-ui-after-runtime-restore.sh
+?? discover-dashboard-recovery-candidates.sh
+?? discover-execution-implementation-surfaces.sh
+?? extract-matilda-delegation-docs.sh
+?? inspect-latest-source-backups-for-db-assets.sh
+?? inspect-phase-90-and-91-dashboard-surfaces.sh
+?? restore-phase715-dashboard-candidate.sh
+?? scripts/dr
+?? scripts/dr_autonomous_wrapper.sh
+?? scripts/dr_daemon.sh
+?? scripts/dr_daemon_self_healing.sh
+?? scripts/dr_watchdog.sh
+?? scripts/offsite_r2_sync.sh
+?? scripts/retention_engine.sh
+?? scripts/storage_guard.sh
+?? scripts/storage_monitor.sh
+?? scripts/storage_policy.sh
+?? scripts/vault_layer.sh
+?? search-external-db-backups-before-docker-reset.sh
+?? smoke-governed-route-after-runtime-restore.sh
+?? verify-and-seal-phase715-dashboard-candidate.sh
+
+Open: http://localhost:8080/?v=phase715-final
