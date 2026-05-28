@@ -1,0 +1,28 @@
+===== RETRY_OF PAYLOAD META RESTORE =====
+Thu May 28 16:49:08 PDT 2026
+
+diff --git a/public/js/phase530_visible_panels_bridge.js b/public/js/phase530_visible_panels_bridge.js
+index 2d340f51..f60b52dc 100644
+--- a/public/js/phase530_visible_panels_bridge.js
++++ b/public/js/phase530_visible_panels_bridge.js
+@@ -152,7 +152,7 @@
+ 
+       const executionStrategy = esc(String(executionStrategyRaw || ""));
+ 
+-      const retryOfRaw = t.retry_of_task_id || (t.meta && t.meta.retry_of_task_id) || (t.execution_meta && t.execution_meta.retry_of_task_id) || "";
++      const retryOfRaw = t.retry_of_task_id || (t.meta && t.meta.retry_of_task_id) || (t.payload && t.payload.meta && t.payload.meta.retry_of_task_id) || (t.execution_meta && t.execution_meta.retry_of_task_id) || "";
+ 
+       const retryOf = esc(String(retryOfRaw || ""));
+ 
+===== VERIFY /api/tasks STILL HEALTHY =====
+{"ok":true,"tasks":[{"id":10,"task_id":"task.e9a2d09f-44e3-46c3-bc12-450b78b7b555","title":"requeue route-check-create","status":"queued","notes":"","run_id":null,"action_tier":"A","kind":"retry","payload":{"meta":{"retry_of_task_id":"route-check-create"},"agent":"cade","source":"operator-guidance-ui","trace_id":null,"delegation_envelope":null},"metadata":{},"created_at":"2026-05-28T23:47:39.459Z","updated_at":"2026-05-28T23:47:39.459Z"},{"id":6,"task_id":"route-check-create","title":"route check","status":"queued","notes":null,"run_id":"route-check","action_tier":"A","kind":null,"payload":{},"metadata":{},"created_at":"2026-05-28T23:21:32.205Z","updated_at":"2026-05-28T23:24:31.593Z"},{"id":7,"task_id":"route-check-mutation","title":"route check mutation","status":"queued","notes":"","run_id":"route-check","action_tier":"A","kind":"delegated","payload":{"meta":null,"agent":"cade","source":"route_check","trace_id":null,"delegation_envelope":null},"metadata":{},"created_at":"2026-05-28T23:21:32.224Z","updated_at":"2026-05-28T23:21:32.224Z"},{"id":5,"task_id":"task.c8aaaf23-75ac-4946-af7f-ac0bcb964f09","title":"Governed execution resume smoke task with run_id","status":"done","notes":"Smoke test with run_id after schema migration","run_id":"resume-smoke-20260528134237","action_tier":"A","kind":"delegated","payload":{"meta":null,"agent":"cade","source":"resume_validation","trace_id":null,"delegation_envelope":null},"metadata":{},"created_at":"2026-05-28T20:42:37.446Z","updated_at":"2026-05-28T20:42:37.533Z"},{"id":4,"task_id":"task.42e70b4e-14a1-4190-b203-52fc052fb2a9","title":"Direct dbCompleteTask run_id smoke","status":"done","notes":"Completed direct smoke","run_id":"direct-smoke-1780000913311","action_tier":"A","kind":"delegated","payload":{"meta":null,"agent":"cade","source":"direct_db_smoke","trace_id":null,"delegation_envelope":null},"metadata":{},"created_at":"2026-05-28T20:41:53.323Z","updated_at":"2026-05-28T20:41:53.338Z"}]}===== DASHBOARD HEALTH =====
+HTTP/1.1 200 OK
+X-Powered-By: Express
+Content-Type: application/json; charset=utf-8
+Content-Length: 11
+ETag: W/"b-Ai2R8hgEarLmHKwesT1qcY913ys"
+Date: Thu, 28 May 2026 23:49:14 GMT
+Connection: keep-alive
+Keep-Alive: timeout=5
+
+{"ok":true}

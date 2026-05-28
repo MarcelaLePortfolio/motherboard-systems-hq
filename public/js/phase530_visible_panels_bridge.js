@@ -152,7 +152,7 @@
 
       const executionStrategy = esc(String(executionStrategyRaw || ""));
 
-      const retryOfRaw = t.retry_of_task_id || (t.meta && t.meta.retry_of_task_id) || (t.execution_meta && t.execution_meta.retry_of_task_id) || "";
+      const retryOfRaw = t.retry_of_task_id || (t.meta && t.meta.retry_of_task_id) || (t.payload && t.payload.meta && t.payload.meta.retry_of_task_id) || (t.execution_meta && t.execution_meta.retry_of_task_id) || "";
 
       const retryOf = esc(String(retryOfRaw || ""));
 
