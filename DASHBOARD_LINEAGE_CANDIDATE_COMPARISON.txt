@@ -1,0 +1,210 @@
+===== DASHBOARD LINEAGE CANDIDATE COMPARISON =====
+Thu May 28 01:47:58 PDT 2026
+
+===== CANDIDATE: phase717-restored-telemetry-console =====
+exists: yes
+public/index.html: 46381 bytes
+title: <title>Motherboard Systems Operator Console</title>
+markers: Recent Tasks=3, Task History=1, Execution Inspector=1, Inspect=8, Retry=2, Requeue=1, Operator Guidance=3, Matilda=24, Agent Pool=3, telemetry=7, phase530=2
+public/dashboard.html: 36136 bytes
+title: <title>Motherboard Systems Operator Console</title>
+markers: Recent Tasks=2, Task History=1, Operator Guidance=3, Matilda=12, Agent Pool=1, telemetry=2
+public/bundle.js: 69048 bytes
+markers: Retry=2, Matilda=19, telemetry=5
+recent commit:
+f66f81e6 Phase 717: restore telemetry console from stable checkpoint
+
+===== CANDIDATE: phase717-stable-telemetry-console =====
+exists: yes
+public/index.html: 45711 bytes
+title: <title>Motherboard Systems Operator Console</title>
+markers: Recent Tasks=3, Task History=1, Inspect=7, Retry=2, Requeue=1, Operator Guidance=3, Matilda=24, Agent Pool=3, telemetry=7, phase530=2
+public/dashboard.html: 36136 bytes
+title: <title>Motherboard Systems Operator Console</title>
+markers: Recent Tasks=2, Task History=1, Operator Guidance=3, Matilda=12, Agent Pool=1, telemetry=2
+public/bundle.js: 69048 bytes
+markers: Retry=2, Matilda=19, telemetry=5
+recent commit:
+499a3c5a Revert "Phase 717: remove task history tab and panel"
+
+===== CANDIDATE: phase718-operator-lineage-ui-stable =====
+exists: yes
+public/index.html: 45711 bytes
+title: <title>Motherboard Systems Operator Console</title>
+markers: Recent Tasks=3, Task History=1, Inspect=7, Retry=2, Requeue=1, Operator Guidance=3, Matilda=24, Agent Pool=3, telemetry=7, phase530=2
+public/dashboard.html: 36136 bytes
+title: <title>Motherboard Systems Operator Console</title>
+markers: Recent Tasks=2, Task History=1, Operator Guidance=3, Matilda=12, Agent Pool=1, telemetry=2
+public/bundle.js: 69048 bytes
+markers: Retry=2, Matilda=19, telemetry=5
+recent commit:
+6b7eeb22 Phase 718: collapse retry title chains
+
+===== CANDIDATE: phase719-artifact-layer-baseline =====
+exists: yes
+public/index.html: 45789 bytes
+title: <title>Motherboard Systems Operator Console</title>
+markers: Recent Tasks=3, Task History=1, Inspect=7, Retry=2, Requeue=1, Operator Guidance=3, Matilda=24, Agent Pool=3, telemetry=7, phase530=3, phase719=1
+public/dashboard.html: 36214 bytes
+title: <title>Motherboard Systems Operator Console</title>
+markers: Recent Tasks=2, Task History=1, Operator Guidance=3, Matilda=12, Agent Pool=1, telemetry=2, phase530=1, phase719=1
+public/bundle.js: 69048 bytes
+markers: Retry=2, Matilda=19, telemetry=5
+recent commit:
+5f162952 Phase 719: add Matilda console filter helper
+
+===== CANDIDATE: phase719-recent-tasks-single-owner =====
+exists: yes
+public/index.html: 45711 bytes
+title: <title>Motherboard Systems Operator Console</title>
+markers: Recent Tasks=3, Task History=1, Inspect=7, Retry=2, Requeue=1, Operator Guidance=3, Matilda=24, Agent Pool=3, telemetry=7, phase530=2
+public/dashboard.html: 36136 bytes
+title: <title>Motherboard Systems Operator Console</title>
+markers: Recent Tasks=2, Task History=1, Operator Guidance=3, Matilda=12, Agent Pool=1, telemetry=2
+public/bundle.js: 69048 bytes
+markers: Retry=2, Matilda=19, telemetry=5
+recent commit:
+7bf706d2 Phase 719: disable legacy recent tasks renderer
+
+===== CANDIDATE: phase719-inspect-pill-restored =====
+exists: yes
+public/index.html: 45789 bytes
+title: <title>Motherboard Systems Operator Console</title>
+markers: Recent Tasks=3, Task History=1, Inspect=7, Retry=2, Requeue=1, Operator Guidance=3, Matilda=24, Agent Pool=3, telemetry=7, phase530=3, phase719=1
+public/dashboard.html: 36214 bytes
+title: <title>Motherboard Systems Operator Console</title>
+markers: Recent Tasks=2, Task History=1, Operator Guidance=3, Matilda=12, Agent Pool=1, telemetry=2, phase530=1, phase719=1
+public/bundle.js: 69048 bytes
+markers: Retry=2, Matilda=19, telemetry=5
+recent commit:
+3746fbe9 Phase 719: restore inspect details pill
+
+===== CANDIDATE: phase530-ui-debug-ready =====
+exists: yes
+public/index.html: 45324 bytes
+title: <title>Motherboard Systems Operator Console</title>
+markers: Recent Tasks=3, Task History=1, Execution Inspector=1, Inspect=1, Operator Guidance=3, Matilda=24, Agent Pool=3, telemetry=7, phase530=2
+public/dashboard.html: 36068 bytes
+title: <title>Motherboard Systems Operator Console</title>
+markers: Recent Tasks=2, Task History=1, Operator Guidance=3, Matilda=12, Agent Pool=1, telemetry=2
+public/bundle.js: 69048 bytes
+markers: Retry=2, Matilda=19, telemetry=5
+recent commit:
+34d020a8 Add Phase 530 UI debug checkpoint
+
+===== CANDIDATE: phase531-recent-tasks-layout-stable =====
+exists: yes
+public/index.html: 45395 bytes
+title: <title>Motherboard Systems Operator Console</title>
+markers: Recent Tasks=3, Task History=1, Execution Inspector=1, Inspect=1, Operator Guidance=3, Matilda=24, Agent Pool=3, telemetry=7, phase530=2
+public/dashboard.html: 36068 bytes
+title: <title>Motherboard Systems Operator Console</title>
+markers: Recent Tasks=2, Task History=1, Operator Guidance=3, Matilda=12, Agent Pool=1, telemetry=2
+public/bundle.js: 69048 bytes
+markers: Retry=2, Matilda=19, telemetry=5
+recent commit:
+5dc08db0 Checkpoint Phase 531 Recent Tasks layout fix
+
+===== CANDIDATE: phase532-task-history-stable =====
+exists: yes
+public/index.html: 45464 bytes
+title: <title>Motherboard Systems Operator Console</title>
+markers: Recent Tasks=3, Task History=1, Execution Inspector=1, Inspect=1, Operator Guidance=3, Matilda=24, Agent Pool=3, telemetry=7, phase530=2
+public/dashboard.html: 36068 bytes
+title: <title>Motherboard Systems Operator Console</title>
+markers: Recent Tasks=2, Task History=1, Operator Guidance=3, Matilda=12, Agent Pool=1, telemetry=2
+public/bundle.js: 69048 bytes
+markers: Retry=2, Matilda=19, telemetry=5
+recent commit:
+ce99166f Checkpoint Phase 532 Task History stable state
+
+===== CANDIDATE: phase533-execution-inspector-stable =====
+exists: yes
+public/index.html: 45542 bytes
+title: <title>Motherboard Systems Operator Console</title>
+markers: Recent Tasks=3, Task History=1, Execution Inspector=1, Inspect=2, Operator Guidance=3, Matilda=24, Agent Pool=3, telemetry=7, phase530=2
+public/dashboard.html: 36068 bytes
+title: <title>Motherboard Systems Operator Console</title>
+markers: Recent Tasks=2, Task History=1, Operator Guidance=3, Matilda=12, Agent Pool=1, telemetry=2
+public/bundle.js: 69048 bytes
+markers: Retry=2, Matilda=19, telemetry=5
+recent commit:
+a09b1511 Checkpoint Phase 533 Execution Inspector stable state
+
+===== CANDIDATE: phase598-agent-pool-stable =====
+exists: yes
+public/index.html: 46137 bytes
+title: <title>Motherboard Systems Operator Console</title>
+markers: Recent Tasks=3, Task History=1, Execution Inspector=1, Inspect=8, Retry=2, Requeue=1, Operator Guidance=3, Matilda=24, Agent Pool=3, telemetry=7, phase530=2
+public/dashboard.html: 36136 bytes
+title: <title>Motherboard Systems Operator Console</title>
+markers: Recent Tasks=2, Task History=1, Operator Guidance=3, Matilda=12, Agent Pool=1, telemetry=2
+public/bundle.js: 69048 bytes
+markers: Retry=2, Matilda=19, telemetry=5
+recent commit:
+c98f4351 phase598: system snapshot after agent pool stabilization
+
+===== CANDIDATE: phase622-passive-guidance-layer-containerized =====
+exists: yes
+public/index.html: 46137 bytes
+title: <title>Motherboard Systems Operator Console</title>
+markers: Recent Tasks=3, Task History=1, Execution Inspector=1, Inspect=8, Retry=2, Requeue=1, Operator Guidance=3, Matilda=24, Agent Pool=3, telemetry=7, phase530=2
+public/dashboard.html: 36136 bytes
+title: <title>Motherboard Systems Operator Console</title>
+markers: Recent Tasks=2, Task History=1, Operator Guidance=3, Matilda=12, Agent Pool=1, telemetry=2
+public/bundle.js: 69048 bytes
+markers: Retry=2, Matilda=19, telemetry=5
+recent commit:
+0a9aec43 Record Docker recovery before Phase 622 containerization retry
+
+===== CANDIDATE: phase623-passive-guidance-sse-wiring-verified =====
+exists: yes
+public/index.html: 46137 bytes
+title: <title>Motherboard Systems Operator Console</title>
+markers: Recent Tasks=3, Task History=1, Execution Inspector=1, Inspect=8, Retry=2, Requeue=1, Operator Guidance=3, Matilda=24, Agent Pool=3, telemetry=7, phase530=2
+public/dashboard.html: 36136 bytes
+title: <title>Motherboard Systems Operator Console</title>
+markers: Recent Tasks=2, Task History=1, Operator Guidance=3, Matilda=12, Agent Pool=1, telemetry=2
+public/bundle.js: 69048 bytes
+markers: Retry=2, Matilda=19, telemetry=5
+recent commit:
+22361d54 Verify Phase 623 passive guidance wiring to completed SSE events
+
+===== CANDIDATE: phase624-ui-guidance-plan-containerized =====
+exists: yes
+public/index.html: 46137 bytes
+title: <title>Motherboard Systems Operator Console</title>
+markers: Recent Tasks=3, Task History=1, Execution Inspector=1, Inspect=8, Retry=2, Requeue=1, Operator Guidance=3, Matilda=24, Agent Pool=3, telemetry=7, phase530=2
+public/dashboard.html: 36136 bytes
+title: <title>Motherboard Systems Operator Console</title>
+markers: Recent Tasks=2, Task History=1, Operator Guidance=3, Matilda=12, Agent Pool=1, telemetry=2
+public/bundle.js: 69048 bytes
+markers: Retry=2, Matilda=19, telemetry=5
+recent commit:
+c60924d8 Snapshot Phase 624 UI guidance plan checkpoint
+
+===== CANDIDATE: phase715-pre-execution-evidence-ui =====
+exists: yes
+public/index.html: 46636 bytes
+title: <title>Motherboard Systems Operator Console</title>
+markers: Recent Tasks=3, Task History=1, Execution Inspector=1, Inspect=8, Retry=2, Requeue=1, Operator Guidance=3, Matilda=24, Agent Pool=3, telemetry=7, phase530=2
+public/dashboard.html: 36136 bytes
+title: <title>Motherboard Systems Operator Console</title>
+markers: Recent Tasks=2, Task History=1, Operator Guidance=3, Matilda=12, Agent Pool=1, telemetry=2
+public/bundle.js: 69048 bytes
+markers: Retry=2, Matilda=19, telemetry=5
+recent commit:
+af4209be Create Phase 715 pre-execution-evidence-ui checkpoint
+
+===== CANDIDATE: phase717-recent-tasks-polished =====
+exists: yes
+public/index.html: 45711 bytes
+title: <title>Motherboard Systems Operator Console</title>
+markers: Recent Tasks=3, Task History=1, Inspect=7, Retry=2, Requeue=1, Operator Guidance=3, Matilda=24, Agent Pool=3, telemetry=7, phase530=2
+public/dashboard.html: 36136 bytes
+title: <title>Motherboard Systems Operator Console</title>
+markers: Recent Tasks=2, Task History=1, Operator Guidance=3, Matilda=12, Agent Pool=1, telemetry=2
+public/bundle.js: 69048 bytes
+markers: Retry=2, Matilda=19, telemetry=5
+recent commit:
+9e4e6dac Phase 717: seal recent tasks polish checkpoint
