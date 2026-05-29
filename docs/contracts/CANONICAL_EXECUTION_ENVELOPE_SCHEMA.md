@@ -17,9 +17,43 @@ The execution envelope is the canonical governance artifact passed between:
 
 - reconciliation systems
 
-The envelope is authoritative over governed execution intent.
+The envelope is authoritative over the bounded delegation contract derived from established user intent.
+
+The envelope preserves interpreted intent.
+
+The envelope does not originate intent.
 
 Historical runtime task payloads are non-authoritative.
+
+## Authority Rules
+
+### User Intent Authority
+
+User remains the sole source of intent authority.
+
+No envelope, agent, validator, runtime process, or reconciliation artifact may create user intent.
+
+### Matilda Interpretation Authority
+
+Matilda may interpret, refine, and clarify established intent.
+
+Matilda may not create intent, invent intent, or expand intent without user authorization.
+
+### Cade Execution Authority
+
+Cade may execute only within the bounded scope preserved by a valid envelope.
+
+Cade may not expand scope, reinterpret missing intent, or treat ambiguity as authorization.
+
+## Intent Evidence Rule
+
+Intent must be supported by evidence.
+
+Interpretation may proceed only from established intent.
+
+Missing intent may not be replaced with inference.
+
+If evidence is insufficient, execution must pause and return to the user.
 
 ## Design Goals
 
@@ -52,6 +86,8 @@ while preventing:
 - execution drift
 
 - governance bypass
+
+- inference-based intent creation
 
 ## Canonical Envelope Structure
 
@@ -203,11 +239,21 @@ Required Structure:
 
   "requested_outcomes": [],
 
+  "intent_evidence": [],
+
   "risk_level": "low|medium|high",
 
   "classification": "planning|mutation|analysis"
 
 }
+
+Intent Evidence Requirement:
+
+intent_evidence must identify the user-provided or governance-supported basis for the interpreted intent.
+
+Validation Rule:
+
+If intent evidence is absent or insufficient, the envelope is not valid for execution.
 
 ## execution_mode
 
@@ -265,9 +311,37 @@ Required Structure:
 
   "fail_closed": true,
 
-  "scope_enforcement_required": true
+  "scope_enforcement_required": true,
+
+  "intent_authority": "user",
+
+  "interpreter": "matilda",
+
+  "executor": "cade",
+
+  "intent_creation_prohibited": true,
+
+  "inference_may_replace_missing_intent": false,
+
+  "ambiguity_policy": {
+
+    "deterministic_ambiguity": "matilda_may_resolve",
+
+    "interpretive_ambiguity": "matilda_may_resolve_with_user_visibility",
+
+    "intent_ambiguity": "escalate_to_user"
+
+  }
 
 }
+
+Validation Rule:
+
+intent_authority must be user.
+
+intent_creation_prohibited must be true.
+
+inference_may_replace_missing_intent must be false.
 
 ## rollback
 
