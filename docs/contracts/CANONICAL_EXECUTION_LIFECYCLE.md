@@ -57,7 +57,67 @@ while preventing:
 
 - runtime ambiguity
 
+- inference-based intent creation
+
+- silent ambiguity resolution
+
 ## Canonical Lifecycle States
+
+### 0A. USER_ESCALATION_REQUIRED
+
+Definition:
+
+Evidence does not establish user intent sufficiently for governed execution.
+
+Characteristics:
+
+- execution prohibited
+
+- mutation prohibited
+
+- delegation prohibited
+
+- internal inference prohibited
+
+Required Action:
+
+- return to user for clarification
+
+- preserve ambiguity in reconciliation or planning record
+
+Exit Condition:
+
+User supplies sufficient intent evidence or the request is abandoned.
+
+### 0B. AMBIGUITY_DETECTED
+
+Definition:
+
+Cade, Matilda, or governance validation detects ambiguity that blocks safe interpretation, planning, or execution.
+
+Characteristics:
+
+- execution pauses
+
+- mutation remains prohibited
+
+- ambiguity must be classified
+
+Required Classification:
+
+- deterministic ambiguity
+
+- interpretive ambiguity
+
+- intent ambiguity
+
+Required Routing:
+
+- deterministic ambiguity may return to Matilda for resolution
+
+- interpretive ambiguity may return to Matilda with user-visible reconciliation
+
+- intent ambiguity must advance to USER_ESCALATION_REQUIRED
 
 ### 1. INTENT_CAPTURED
 
@@ -79,11 +139,21 @@ Required Outputs:
 
 - normalized intent
 
+- intent evidence
+
 - project targeting
 
 - requested outcomes
 
 - initial risk classification
+
+Governance Rule:
+
+Matilda may interpret established user intent.
+
+Matilda may not create intent.
+
+If evidence of intent is insufficient, lifecycle must advance to USER_ESCALATION_REQUIRED instead of envelope construction.
 
 ## 2. ENVELOPE_CONSTRUCTED
 
@@ -103,17 +173,27 @@ Required Components:
 
 - execution target
 
+- intent evidence
+
 - mutation scope
 
 - rollback contract
 
 - reconciliation contract
 
+- ambiguity policy
+
 - delegation authorization state
 
 - sandbox requirements
 
 - execution mode classification
+
+Governance Rule:
+
+An envelope may preserve interpreted intent.
+
+An envelope may not originate intent.
 
 ## 3. VALIDATION_PENDING
 
@@ -133,11 +213,15 @@ Validation Requirements:
 
 - schema validity
 
+- intent evidence validity
+
 - project scope validity
 
 - mutation scope validity
 
 - forbidden path analysis
+
+- ambiguity policy completeness
 
 - rollback completeness
 
@@ -161,9 +245,13 @@ Validation Result Must Include:
 
 - validation trace
 
+- intent evidence assessment
+
 - allowed mutation scope
 
 - forbidden path results
+
+- ambiguity policy result
 
 - governance decision summary
 
@@ -225,6 +313,10 @@ Forbidden Behaviors:
 
 - recursive delegation
 
+- inference-based intent creation
+
+- resolving intent ambiguity without user clarification
+
 ## 7. PLAN_REVIEW_READY
 
 Definition:
@@ -247,6 +339,10 @@ Required Outputs:
 
 - mutation classification
 
+- intent evidence assumptions
+
+- ambiguity findings
+
 - reconciliation summary
 
 - rollback references
@@ -266,6 +362,10 @@ Characteristics:
 Required Before Advancement:
 
 - explicit approval layer
+
+- sufficient intent evidence
+
+- no unresolved intent ambiguity
 
 - mutation authorization phase enabled
 
@@ -304,6 +404,10 @@ Future Requirements:
 - scope enforcement
 
 - mutation verification
+
+- intent evidence preservation
+
+- ambiguity transparency
 
 ## 11. RECONCILIATION_PENDING
 
