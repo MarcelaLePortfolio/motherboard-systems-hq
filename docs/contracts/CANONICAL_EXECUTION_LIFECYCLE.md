@@ -195,6 +195,62 @@ An envelope may preserve interpreted intent.
 
 An envelope may not originate intent.
 
+## 2A. VALIDATOR_REVIEW
+
+Definition:
+
+A validator reviews the envelope contract for structural completeness, governance compliance, intent evidence sufficiency, ambiguity policy presence, rollback completeness, and reconciliation completeness.
+
+Characteristics:
+
+- validator may reject invalid envelopes
+
+- validator may block delegation
+
+- validator may escalate failures
+
+- validator may record findings
+
+- validator may not create intent
+
+- validator may not infer missing intent
+
+- validator may not resolve intent ambiguity
+
+- validator may not execute work
+
+Required Outputs:
+
+- envelope id
+
+- validation result
+
+- findings
+
+- severity
+
+- category
+
+- recommended escalation path
+
+- timestamp
+
+- checks performed
+
+- checks passed
+
+- checks failed
+
+Failure Routing:
+
+- intent evidence failure routes to Matilda and user clarification
+
+- intent ambiguity routes to USER_ESCALATION_REQUIRED
+
+- structural failure blocks delegation
+
+- governance failure blocks delegation
+
 ## 3. VALIDATION_PENDING
 
 Definition:

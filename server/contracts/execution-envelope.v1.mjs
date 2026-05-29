@@ -139,6 +139,70 @@ export function createExecutionEnvelope(input = {}) {
 
     },
 
+    validator_authority: {
+
+      veto_authority: true,
+
+      escalation_authority: true,
+
+      audit_authority: true,
+
+      intent_authority: false,
+
+      authorship_authority: false,
+
+      interpretation_authority: false,
+
+      execution_authority: false,
+
+      may_reject_invalid_envelope: true,
+
+      may_block_delegation: true,
+
+      may_escalate_failures: true,
+
+      may_record_findings: true,
+
+      may_create_intent: false,
+
+      may_modify_intent: false,
+
+      may_invent_intent_evidence: false,
+
+      may_infer_missing_intent: false,
+
+      may_resolve_intent_ambiguity: false,
+
+      may_modify_envelope: false,
+
+      may_execute_work: false,
+
+      required_outputs: [
+
+        "envelope_id",
+
+        "validation_result",
+
+        "findings",
+
+        "severity",
+
+        "category",
+
+        "recommended_escalation_path",
+
+        "timestamp",
+
+        "checks_performed",
+
+        "checks_passed",
+
+        "checks_failed",
+
+      ],
+
+    },
+
     validation_contract: {
 
       pre_checks:

@@ -447,6 +447,76 @@ Required Structure:
 
 }
 
+## Validator Authority Contract
+
+Validators possess:
+
+- veto authority
+
+- escalation authority
+
+- audit authority
+
+Validators do not possess:
+
+- intent authority
+
+- authorship authority
+
+- interpretation authority
+
+- execution authority
+
+Validators may:
+
+- reject invalid envelopes
+
+- block delegation
+
+- escalate intent evidence failures
+
+- escalate ambiguity failures
+
+- record validation findings
+
+Validators may not:
+
+- create intent
+
+- modify intent
+
+- invent intent evidence
+
+- infer missing intent
+
+- resolve intent ambiguity
+
+- modify envelopes
+
+- execute work
+
+Required validator output includes:
+
+- envelope id
+
+- validation result
+
+- findings
+
+- severity
+
+- category
+
+- recommended escalation path
+
+- timestamp
+
+- checks performed
+
+- checks passed
+
+- checks failed
+
 ## Validation Rules
 
 ### Rule 1 — Schema Version Enforcement
