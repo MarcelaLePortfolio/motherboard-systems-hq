@@ -1,0 +1,340 @@
+===== MISSING TASK CARD CONTROLS INSPECTION =====
+Thu May 28 18:52:09 PDT 2026
+
+===== CURRENT HEAD =====
+4bee7f7f Restore retry relationship from payload metadata
+dcaaa322 Smoke UI task action route
+cfeaba52 Enrich task list with basic columns
+6f679be5 Revert uncommitted task response enrichment
+f52d5143 Recover from task response enrichment crash
+87890f57 Inspect task payload shape gap
+1b28570d Inspect task item UI wiring
+1c472c1a Pass run id from dbCompleteTask to completion event
+
+===== CARD RENDER CONDITIONALS =====
+138:      const outcome = esc(t.outcome_preview || "");
+140:      const explanation = esc(t.explanation_preview || "");
+141:      const artifactRaw = t.artifact || (Array.isArray(t.artifacts) ? t.artifacts[0] : null) || null;
+142:      const artifactName = artifactRaw ? esc(artifactRaw.filename || artifactRaw.path || "artifact") : "";
+143:      const artifactType = artifactRaw ? esc(artifactRaw.type || "artifact") : "";
+144:      const artifactSize = artifactRaw && artifactRaw.size_bytes ? esc(String(artifactRaw.size_bytes) + " bytes") : "";
+145:      const artifactPath = artifactRaw ? esc(artifactRaw.path || "") : "";
+147:      const triageStatusRaw = String(t.status || "").toLowerCase();
+149:      const triageLabel = triageStatusRaw === "completed" ? "triage: completed" : "";
+167:      const traceJson = trace ? esc(JSON.stringify(trace, null, 2)) : "";
+191:            ${artifactRaw ? `<button type="button" data-phase719-preview-artifact="true" data-task-id="${taskId}" data-task-title="${title}" data-artifact-name="${artifactName}" data-artifact-type="${artifactType}" data-artifact-size="${artifactSize}" data-artifact-path="${artifactPath}" data-artifact-outcome="${outcome}" data-artifact-explanation="${explanation}" title="Preview completed artifact" style="flex:0 0 auto;cursor:pointer;color:#93c5fd;border:1px solid rgba(147,197,253,.35);border-radius:999px;padding:2px 7px;font-size:10px;line-height:1.4;background:rgba(30,64,175,.18);">Preview</button>` : ""}
+197:            ${triageLabel ? `<div style="flex:0 0 auto;color:#86efac;border:1px solid rgba(134,239,172,.35);border-radius:999px;padding:2px 7px;font-size:10px;line-height:1.4;background:rgba(22,101,52,.18);">${triageLabel}</div>` : ""}
+208:              ${artifactRaw ? `<div style="margin-bottom:8px;color:#86efac;font-size:11px;line-height:1.5;overflow-wrap:anywhere;border:1px solid rgba(134,239,172,.28);border-radius:10px;padding:7px;background:rgba(20,83,45,.14);">Artifact: ${artifactName}${artifactType ? ` · ${artifactType}` : ""}${artifactSize ? ` · ${artifactSize}` : ""}</div>` : ""}
+225:          ${traceJson ? `<button type="button" data-phase717-inspect-trace="true" data-phase717-inspect-title="${title} — Advanced trace" data-phase717-inspect-content="${traceJson}" style="margin-top:10px;margin-left:6px;cursor:pointer;border:1px solid rgba(251,191,36,.38);background:rgba(120,53,15,.14);color:#fbbf24;border-radius:999px;padding:4px 9px;font-size:11px;">Inspect trace</button>` : ""}
+227:          ${logContent ? `<button type="button" data-phase717-inspect-logs="true" data-phase717-inspect-title="${title} — Logs" data-phase717-inspect-content="${logContent}" style="margin-top:10px;margin-left:6px;cursor:pointer;border:1px solid rgba(45,212,191,.38);background:rgba(20,83,45,.14);color:#5eead4;border-radius:999px;padding:4px 9px;font-size:11px;">Inspect logs</button>` : ""}
+696:  // Phase 719 — Preview artifact modal (frontend-only, read-only)
+698:  function phase719EnsurePreviewModal() {
+718:            <div id="phase719-preview-title" style="font-size:14px;font-weight:800;color:#f8fafc;">Artifact Preview</div>
+764:  function phase719EscapePreviewHtml(value) {
+780:  function phase733NormalizePreviewTransportText(value) {
+792:  function phase733BuildPreviewThemeFromStyleIntent(styleIntent) {
+894:    const source = phase733NormalizePreviewTransportText(markdown);
+918:    return phase733NormalizePreviewTransportText(markdown).replace(/<!--\s*MB_SEMANTIC_ARTIFACT_V1\s*[\s\S]*?\s*-->\s*/g, "");
+924:    const source = phase733NormalizePreviewTransportText(markdown);
+978:    const phase733Theme = phase733BuildPreviewThemeFromStyleIntent(semanticEnvelope && semanticEnvelope.style_intent);
+1142:      status ? `<span style="display:inline-flex;align-items:center;border:1px solid rgba(134,239,172,.38);background:rgba(20,83,45,.22);color:#bbf7d0;border-radius:999px;padding:5px 10px;font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.08em;">${phase719EscapePreviewHtml(status)}</span>` : "",
+1144:      `<span style="display:inline-flex;align-items:center;border:1px solid rgba(147,197,253,.34);background:rgba(30,64,175,.22);color:#bfdbfe;border-radius:999px;padding:5px 10px;font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.08em;">${phase719EscapePreviewHtml(semanticType)}</span>`,
+1146:      semanticEnvelope ? `<span style="display:inline-flex;align-items:center;border:1px solid rgba(45,212,191,.34);background:rgba(20,184,166,.14);color:#99f6e4;border-radius:999px;padding:5px 10px;font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.08em;">semantic v${phase719EscapePreviewHtml(semanticEnvelope.semantic_version || "1")}</span>` : "",
+1148:      `<span style="display:inline-flex;align-items:center;border:1px solid rgba(251,191,36,.34);background:rgba(120,53,15,.18);color:#fde68a;border-radius:999px;padding:5px 10px;font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.08em;">${phase719EscapePreviewHtml(semanticPriority)}</span>`
+1162:            <div style="font-size:30px;line-height:1.05;font-weight:900;letter-spacing:-.04em;color:${phase733Theme.heading};margin-bottom:12px;">${phase719EscapePreviewHtml(title)}</div>
+1164:            ${task ? `<div style="font-size:15px;line-height:1.55;color:${phase733Theme.secondary};max-width:760px;">${phase719EscapePreviewHtml(task)}</div>` : ""}
+1182:                      <div style="font-size:10px;text-transform:uppercase;letter-spacing:.16em;color:#99f6e4;font-weight:900;margin-bottom:5px;">${phase719EscapePreviewHtml(label)}</div>
+1184:                      <div style="font-size:14px;line-height:1.55;color:${phase733Theme.insightText};white-space:pre-wrap;">${phase719EscapePreviewHtml(value)}</div>
+1204:                <div style="font-size:11px;text-transform:uppercase;letter-spacing:.18em;color:${phase733Theme.accent};font-weight:900;margin-bottom:10px;">${phase719EscapePreviewHtml(label)}</div>
+1206:                <div style="font-size:15px;line-height:1.6;color:${phase733Theme.body};white-space:pre-wrap;">${phase719EscapePreviewHtml(value)}</div>
+1220:              <div style="font-size:17px;line-height:1.55;color:${phase733Theme.body};font-weight:650;">${phase719EscapePreviewHtml(displayOutcome || "No outcome content available.")}</div>
+1228:              <div style="font-size:14px;line-height:1.55;color:${phase733Theme.insightText};white-space:pre-wrap;">${phase719EscapePreviewHtml(explanation || "No explanation available.")}</div>
+1242:  function phase719RenderArtifactIframePreview(renderedHtml) {
+1284:        srcdoc="${phase719EscapePreviewHtml(srcdoc)}"
+1336:    const normalized = phase733NormalizePreviewTransportText(markdown);
+1386:  function phase723RenderVisualArtifactPreviewCandidate(markdown) {
+1390:    const fallbackMarkdown = extracted.markdownWithoutVisualArtifact || phase733NormalizePreviewTransportText(markdown);
+1392:    const fallbackPreview = phase719RenderArtifactVisualCard(fallbackMarkdown);
+1396:      return fallbackPreview;
+1404:      return fallbackPreview;
+1424:          <template data-phase735-visual-html-template="true">${phase719EscapePreviewHtml(safeVisualHtml)}</template>
+2137:    const source = phase733NormalizePreviewTransportText(html || "")
+2159:  function phase719RenderMarkdownArtifactPreview(markdown) {
+2199:          <template data-phase735-visual-html-template="true">${phase719EscapePreviewHtml(safeVisualHtml)}</template>
+2249:          <template data-phase735-visual-html-template="true">${phase719EscapePreviewHtml(safeFallbackHtml)}</template>
+2285:      >${phase719EscapePreviewHtml(strippedFallback)}</div>
+2291:  async function phase719OpenPreviewModal(button) {
+2293:    const modal = phase719EnsurePreviewModal();
+2303:    const taskTitle = button.getAttribute("data-task-title") || "Artifact Preview";
+2319:    title.textContent = "Preview: " + taskTitle;
+2393:      body.innerHTML = phase719RenderMarkdownArtifactPreview(data.content);
+2433:        "Preview fetch failed.",
+2456:    phase719OpenPreviewModal(button);
+
+===== RENDERER CONTEXT =====
+        : operatorTarget;
+
+      const operatorTitle = operatorAction && resolvedTargetTitleRaw
+
+        ? `${operatorAction}: ${resolvedTargetTitleRaw}`
+
+        : (operatorAction || phase718ResolveBaseTitle(rawTitle));
+
+      const title = esc(operatorTitle);
+
+      const targetTitle = esc(operatorTarget);
+
+      const status = esc(t.status || "unknown");
+
+      const taskId = esc(t.task_id || t.id || "");
+
+      const updated = esc(t.updated_at || "");
+
+      const outcome = esc(t.outcome_preview || "");
+
+      const explanation = esc(t.explanation_preview || "");
+      const artifactRaw = t.artifact || (Array.isArray(t.artifacts) ? t.artifacts[0] : null) || null;
+      const artifactName = artifactRaw ? esc(artifactRaw.filename || artifactRaw.path || "artifact") : "";
+      const artifactType = artifactRaw ? esc(artifactRaw.type || "artifact") : "";
+      const artifactSize = artifactRaw && artifactRaw.size_bytes ? esc(String(artifactRaw.size_bytes) + " bytes") : "";
+      const artifactPath = artifactRaw ? esc(artifactRaw.path || "") : "";
+
+      const triageStatusRaw = String(t.status || "").toLowerCase();
+
+      const triageLabel = triageStatusRaw === "completed" ? "triage: completed" : "";
+
+      const executionStrategyRaw = t.strategy || t.execution_strategy || t.execution_mode || t.executionMode || "";
+
+      const executionStrategy = esc(String(executionStrategyRaw || ""));
+
+      const retryOfRaw = t.retry_of_task_id || (t.meta && t.meta.retry_of_task_id) || (t.payload && t.payload.meta && t.payload.meta.retry_of_task_id) || (t.execution_meta && t.execution_meta.retry_of_task_id) || "";
+
+      const retryOf = esc(String(retryOfRaw || ""));
+
+      const guidance = t.guidance || {};
+
+      const trace = guidance.communicationResult && guidance.communicationResult.systemTrace
+
+        ? guidance.communicationResult.systemTrace.content
+
+        : null;
+
+      const traceJson = trace ? esc(JSON.stringify(trace, null, 2)) : "";
+
+      const logContent = esc([
+
+        `task_id=${taskId}`,
+
+        `status=${status}`,
+
+        updated ? `updated=${updated}` : "",
+
+        outcome ? `outcome=${outcome}` : "",
+
+        ""
+
+      ].filter(Boolean).join("\n"));
+
+      return `
+
+        <article data-phase716-contained-task="true" data-phase717-execution-card="true" style="display:block;width:100%;min-width:0;max-width:100%;box-sizing:border-box;border:1px solid rgba(148,163,184,.24);border-radius:14px;padding:12px;margin:0 0 12px 0;background:rgba(15,23,42,.74);overflow:hidden;">
+
+          <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:8px;min-width:0;">
+
+            <div style="font-weight:600;color:#e5e7eb;overflow-wrap:anywhere;word-break:break-word;min-width:0;">${title}</div>
+
+            ${artifactRaw ? `<button type="button" data-phase719-preview-artifact="true" data-task-id="${taskId}" data-task-title="${title}" data-artifact-name="${artifactName}" data-artifact-type="${artifactType}" data-artifact-size="${artifactSize}" data-artifact-path="${artifactPath}" data-artifact-outcome="${outcome}" data-artifact-explanation="${explanation}" title="Preview completed artifact" style="flex:0 0 auto;cursor:pointer;color:#93c5fd;border:1px solid rgba(147,197,253,.35);border-radius:999px;padding:2px 7px;font-size:10px;line-height:1.4;background:rgba(30,64,175,.18);">Preview</button>` : ""}
+
+            ${executionStrategy ? `<div style="flex:0 0 auto;color:#c4b5fd;border:1px solid rgba(196,181,253,.35);border-radius:999px;padding:2px 7px;font-size:10px;line-height:1.4;background:rgba(88,28,135,.18);">strategy: ${executionStrategy}</div>` : ""}
+
+            ${retryOf ? `<div style="flex:0 0 auto;color:#fcd34d;border:1px solid rgba(252,211,77,.35);border-radius:999px;padding:2px 7px;font-size:10px;line-height:1.4;background:rgba(120,53,15,.18);">retry of: ${retryOf}</div>` : ""}
+
+            ${triageLabel ? `<div style="flex:0 0 auto;color:#86efac;border:1px solid rgba(134,239,172,.35);border-radius:999px;padding:2px 7px;font-size:10px;line-height:1.4;background:rgba(22,101,52,.18);">${triageLabel}</div>` : ""}
+
+          </div>
+            ${""}
+
+          ${""}
+
+          ${""}
+
+          <div style="margin-top:10px;border:1px solid rgba(71,85,105,.55);border-radius:12px;padding:9px;background:rgba(2,6,23,.24);">
+
+              ${artifactRaw ? `<div style="margin-bottom:8px;color:#86efac;font-size:11px;line-height:1.5;overflow-wrap:anywhere;border:1px solid rgba(134,239,172,.28);border-radius:10px;padding:7px;background:rgba(20,83,45,.14);">Artifact: ${artifactName}${artifactType ? ` · ${artifactType}` : ""}${artifactSize ? ` · ${artifactSize}` : ""}</div>` : ""}
+            <div style="color:#cbd5e1;font-size:11px;font-weight:700;margin-bottom:7px;letter-spacing:.02em;">Operator actions</div>
+
+            <div style="display:flex;flex-wrap:wrap;gap:7px;align-items:center;">
+
+              <button type="button" data-phase717-requeue="true" data-task-id="${taskId}" data-task-title="${title}" title="Explicit operator action: requeue this task" style="cursor:pointer;border:1px solid rgba(148,163,184,.35);background:rgba(15,23,42,.8);color:#cbd5e1;border-radius:8px;padding:5px 8px;font-size:11px;">Requeue</button>
+
+              <button type="button" data-phase717-retry-differently="true" data-task-id="${taskId}" data-task-title="${title}" title="Explicit operator action: retry this task differently" style="cursor:pointer;border:1px solid rgba(96,165,250,.45);background:rgba(30,41,59,.92);color:#dbeafe;border-radius:8px;padding:5px 8px;font-size:11px;">Retry differently</button>
+
+            </div>
+
+          </div>
+
+          ${outcome ? "" : ""}
+
+          ${explanation ? `<button type="button" data-phase717-inspect-details="true" data-phase717-inspect-title="${title} — Details" data-phase717-inspect-content="${explanation}" style="margin-top:10px;cursor:pointer;border:1px solid rgba(147,197,253,.35);background:rgba(30,64,175,.14);color:#93c5fd;border-radius:999px;padding:4px 9px;font-size:11px;">Inspect details</button>` : ""}
+
+          ${traceJson ? `<button type="button" data-phase717-inspect-trace="true" data-phase717-inspect-title="${title} — Advanced trace" data-phase717-inspect-content="${traceJson}" style="margin-top:10px;margin-left:6px;cursor:pointer;border:1px solid rgba(251,191,36,.38);background:rgba(120,53,15,.14);color:#fbbf24;border-radius:999px;padding:4px 9px;font-size:11px;">Inspect trace</button>` : ""}
+
+          ${logContent ? `<button type="button" data-phase717-inspect-logs="true" data-phase717-inspect-title="${title} — Logs" data-phase717-inspect-content="${logContent}" style="margin-top:10px;margin-left:6px;cursor:pointer;border:1px solid rgba(45,212,191,.38);background:rgba(20,83,45,.14);color:#5eead4;border-radius:999px;padding:4px 9px;font-size:11px;">Inspect logs</button>` : ""}
+
+        </article>
+
+      `;
+
+    }).join("");
+
+  }
+
+===== CURRENT /api/tasks SHAPE =====
+{
+    "ok": true,
+    "tasks": [
+        {
+            "id": 10,
+            "task_id": "task.e9a2d09f-44e3-46c3-bc12-450b78b7b555",
+            "title": "requeue route-check-create",
+            "status": "queued",
+            "notes": "",
+            "run_id": null,
+            "action_tier": "A",
+            "kind": "retry",
+            "payload": {
+                "meta": {
+                    "retry_of_task_id": "route-check-create"
+                },
+                "agent": "cade",
+                "source": "operator-guidance-ui",
+                "trace_id": null,
+                "delegation_envelope": null
+            },
+            "metadata": {},
+            "created_at": "2026-05-28T23:47:39.459Z",
+            "updated_at": "2026-05-28T23:47:39.459Z"
+        },
+        {
+            "id": 6,
+            "task_id": "route-check-create",
+            "title": "route check",
+            "status": "queued",
+            "notes": null,
+            "run_id": "route-check",
+            "action_tier": "A",
+            "kind": null,
+            "payload": {},
+            "metadata": {},
+            "created_at": "2026-05-28T23:21:32.205Z",
+            "updated_at": "2026-05-28T23:24:31.593Z"
+        },
+        {
+            "id": 7,
+            "task_id": "route-check-mutation",
+            "title": "route check mutation",
+            "status": "queued",
+            "notes": "",
+            "run_id": "route-check",
+            "action_tier": "A",
+            "kind": "delegated",
+            "payload": {
+                "meta": null,
+                "agent": "cade",
+                "source": "route_check",
+                "trace_id": null,
+                "delegation_envelope": null
+            },
+            "metadata": {},
+            "created_at": "2026-05-28T23:21:32.224Z",
+            "updated_at": "2026-05-28T23:21:32.224Z"
+        },
+        {
+            "id": 5,
+            "task_id": "task.c8aaaf23-75ac-4946-af7f-ac0bcb964f09",
+            "title": "Governed execution resume smoke task with run_id",
+            "status": "done",
+            "notes": "Smoke test with run_id after schema migration",
+            "run_id": "resume-smoke-20260528134237",
+            "action_tier": "A",
+            "kind": "delegated",
+            "payload": {
+                "meta": null,
+                "agent": "cade",
+                "source": "resume_validation",
+                "trace_id": null,
+                "delegation_envelope": null
+            },
+            "metadata": {},
+            "created_at": "2026-05-28T20:42:37.446Z",
+            "updated_at": "2026-05-28T20:42:37.533Z"
+        },
+        {
+            "id": 4,
+            "task_id": "task.42e70b4e-14a1-4190-b203-52fc052fb2a9",
+            "title": "Direct dbCompleteTask run_id smoke",
+            "status": "done",
+            "notes": "Completed direct smoke",
+            "run_id": "direct-smoke-1780000913311",
+            "action_tier": "A",
+            "kind": "delegated",
+            "payload": {
+                "meta": null,
+                "agent": "cade",
+                "source": "direct_db_smoke",
+                "trace_id": null,
+                "delegation_envelope": null
+            },
+            "metadata": {},
+            "created_at": "2026-05-28T20:41:53.323Z",
+            "updated_at": "2026-05-28T20:41:53.338Z"
+        },
+        {
+            "id": 3,
+            "task_id": "task.248b3b38-2946-4de0-a54e-e87836e559a7",
+            "title": "Direct dbCompleteTask run_id smoke",
+            "status": "done",
+            "notes": "Completed direct smoke",
+            "run_id": "direct-smoke-1780000624506",
+            "action_tier": "A",
+            "kind": "delegated",
+            "payload": {
+                "meta": null,
+                "agent": "cade",
+                "source": "direct_db_smoke",
+                "trace_id": null,
+                "delegation_envelope": null
+            },
+            "metadata": {},
+            "created_at": "2026-05-28T20:37:04.519Z",
+            "updated_at": "2026-05-28T20:37:04.529Z"
+        }
+    ]
+}
+
+===== DB TASK PAYLOAD / METADATA SHAPE =====
+ id |                  task_id                  |                      title                       | status |   kind    |                                                                        payload                                                                         | metadata 
+----+-------------------------------------------+--------------------------------------------------+--------+-----------+--------------------------------------------------------------------------------------------------------------------------------------------------------+----------
+ 10 | task.e9a2d09f-44e3-46c3-bc12-450b78b7b555 | requeue route-check-create                       | queued | retry     | {"meta": {"retry_of_task_id": "route-check-create"}, "agent": "cade", "source": "operator-guidance-ui", "trace_id": null, "delegation_envelope": null} | {}
+  7 | route-check-mutation                      | route check mutation                             | queued | delegated | {"meta": null, "agent": "cade", "source": "route_check", "trace_id": null, "delegation_envelope": null}                                                | {}
+  6 | route-check-create                        | route check                                      | queued |           | {}                                                                                                                                                     | {}
+  5 | task.c8aaaf23-75ac-4946-af7f-ac0bcb964f09 | Governed execution resume smoke task with run_id | done   | delegated | {"meta": null, "agent": "cade", "source": "resume_validation", "trace_id": null, "delegation_envelope": null}                                          | {}
+  4 | task.42e70b4e-14a1-4190-b203-52fc052fb2a9 | Direct dbCompleteTask run_id smoke               | done   | delegated | {"meta": null, "agent": "cade", "source": "direct_db_smoke", "trace_id": null, "delegation_envelope": null}                                            | {}
+  3 | task.248b3b38-2946-4de0-a54e-e87836e559a7 | Direct dbCompleteTask run_id smoke               | done   | delegated | {"meta": null, "agent": "cade", "source": "direct_db_smoke", "trace_id": null, "delegation_envelope": null}                                            | {}
+(6 rows)
+
+
+===== TASK EVENTS PAYLOAD SHAPE =====
+ id |      kind      |                  task_id                  |           run_id            |                                                                                                                                                                                                                                                                                                                                                                                                       payload                                                                                                                                                                                                                                                                                                                                                                                                       
+----+----------------+-------------------------------------------+-----------------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ 11 | task.created   | task.e9a2d09f-44e3-46c3-bc12-450b78b7b555 |                             | {"ts": 1780012059460, "meta": {"retry_of_task_id": "route-check-create"}, "task": {"id": "10", "kind": "retry", "notes": "", "title": "requeue route-check-create", "run_id": null, "status": "queued", "payload": {"meta": {"retry_of_task_id": "route-check-create"}, "agent": "cade", "source": "operator-guidance-ui", "trace_id": null, "delegation_envelope": null}, "task_id": "task.e9a2d09f-44e3-46c3-bc12-450b78b7b555", "created_at": "2026-05-28T23:47:39.459Z", "updated_at": "2026-05-28T23:47:39.459Z", "action_tier": "A"}, "actor": "cade", "title": "requeue route-check-create", "run_id": null, "source": "operator-guidance-ui", "status": "queued", "target": "cade", "task_id": "task.e9a2d09f-44e3-46c3-bc12-450b78b7b555", "delegation_envelope": null}
+ 10 | task.created   | route-check-create                        | route-check                 | {"ts": 1780010671595, "meta": null, "actor": "cade", "agent": "cade", "title": "route check", "run_id": "route-check", "source": "route_check", "status": "delegated", "task_id": "route-check-create"}
+  9 | task.created   | route-check-mutation                      |                             | {"ts": 1780010492225, "meta": null, "task": {"id": "7", "kind": "delegated", "notes": "", "title": "route check mutation", "run_id": "route-check", "status": "queued", "payload": {"meta": null, "agent": "cade", "source": "route_check", "trace_id": null, "delegation_envelope": null}, "task_id": "route-check-mutation", "created_at": "2026-05-28T23:21:32.224Z", "updated_at": "2026-05-28T23:21:32.224Z", "action_tier": "A"}, "actor": "cade", "title": "route check mutation", "run_id": null, "source": "route_check", "status": "queued", "target": "cade", "task_id": "route-check-mutation", "delegation_envelope": null}
+  8 | task.created   | route-check-create                        | route-check                 | {"ts": 1780010492208, "meta": null, "actor": "cade", "agent": "cade", "title": "route check", "run_id": "route-check", "source": "route_check", "status": "delegated", "task_id": "route-check-create"}
+  7 | task.completed | task.c8aaaf23-75ac-4946-af7f-ac0bcb964f09 | resume-smoke-20260528134237 | {"ts": 1780000957535, "task": {"id": "5", "kind": "delegated", "notes": "Smoke test with run_id after schema migration", "title": "Governed execution resume smoke task with run_id", "run_id": "resume-smoke-20260528134237", "status": "done", "payload": {"meta": null, "agent": "cade", "source": "resume_validation", "trace_id": null, "delegation_envelope": null}, "task_id": "task.c8aaaf23-75ac-4946-af7f-ac0bcb964f09", "created_at": "2026-05-28T20:42:37.446Z", "updated_at": "2026-05-28T20:42:37.533Z", "action_tier": "A"}, "actor": "cade", "error": null, "run_id": "resume-smoke-20260528134237", "source": "resume_validation", "status": "done", "task_id": "task.c8aaaf23-75ac-4946-af7f-ac0bcb964f09"}
+  6 | task.created   | task.c8aaaf23-75ac-4946-af7f-ac0bcb964f09 |                             | {"ts": 1780000957449, "meta": null, "task": {"id": "5", "kind": "delegated", "notes": "Smoke test with run_id after schema migration", "title": "Governed execution resume smoke task with run_id", "run_id": "resume-smoke-20260528134237", "status": "queued", "payload": {"meta": null, "agent": "cade", "source": "resume_validation", "trace_id": null, "delegation_envelope": null}, "task_id": "task.c8aaaf23-75ac-4946-af7f-ac0bcb964f09", "created_at": "2026-05-28T20:42:37.446Z", "updated_at": "2026-05-28T20:42:37.446Z", "action_tier": "A"}, "actor": "cade", "title": "Governed execution resume smoke task with run_id", "run_id": null, "source": "resume_validation", "status": "queued", "target": "cade", "task_id": "task.c8aaaf23-75ac-4946-af7f-ac0bcb964f09", "delegation_envelope": null}
+  5 | task.completed | task.42e70b4e-14a1-4190-b203-52fc052fb2a9 | direct-smoke-1780000913311  | {"ts": 1780000913339, "task": {"id": "4", "kind": "delegated", "notes": "Completed direct smoke", "title": "Direct dbCompleteTask run_id smoke", "run_id": "direct-smoke-1780000913311", "status": "done", "payload": {"meta": null, "agent": "cade", "source": "direct_db_smoke", "trace_id": null, "delegation_envelope": null}, "task_id": "task.42e70b4e-14a1-4190-b203-52fc052fb2a9", "created_at": "2026-05-28T20:41:53.323Z", "updated_at": "2026-05-28T20:41:53.338Z", "action_tier": "A"}, "actor": "cade", "error": null, "run_id": "direct-smoke-1780000913311", "source": "direct_db_smoke", "status": "done", "task_id": "task.42e70b4e-14a1-4190-b203-52fc052fb2a9"}
+  4 | task.created   | task.42e70b4e-14a1-4190-b203-52fc052fb2a9 |                             | {"ts": 1780000913329, "meta": null, "task": {"id": "4", "kind": "delegated", "notes": "Direct smoke for dbCompleteTask run_id propagation", "title": "Direct dbCompleteTask run_id smoke", "run_id": "direct-smoke-1780000913311", "status": "queued", "payload": {"meta": null, "agent": "cade", "source": "direct_db_smoke", "trace_id": null, "delegation_envelope": null}, "task_id": "task.42e70b4e-14a1-4190-b203-52fc052fb2a9", "created_at": "2026-05-28T20:41:53.323Z", "updated_at": "2026-05-28T20:41:53.323Z", "action_tier": "A"}, "actor": "cade", "title": "Direct dbCompleteTask run_id smoke", "run_id": null, "source": "direct_db_smoke", "status": "queued", "target": "cade", "task_id": "task.42e70b4e-14a1-4190-b203-52fc052fb2a9", "delegation_envelope": null}
+  3 | task.created   | task.248b3b38-2946-4de0-a54e-e87836e559a7 |                             | {"ts": 1780000624522, "meta": null, "task": {"id": "3", "kind": "delegated", "notes": "Direct smoke for dbCompleteTask run_id propagation", "title": "Direct dbCompleteTask run_id smoke", "run_id": "direct-smoke-1780000624506", "status": "queued", "payload": {"meta": null, "agent": "cade", "source": "direct_db_smoke", "trace_id": null, "delegation_envelope": null}, "task_id": "task.248b3b38-2946-4de0-a54e-e87836e559a7", "created_at": "2026-05-28T20:37:04.519Z", "updated_at": "2026-05-28T20:37:04.519Z", "action_tier": "A"}, "actor": "cade", "title": "Direct dbCompleteTask run_id smoke", "run_id": null, "source": "direct_db_smoke", "status": "queued", "target": "cade", "task_id": "task.248b3b38-2946-4de0-a54e-e87836e559a7", "delegation_envelope": null}
+(9 rows)
+
