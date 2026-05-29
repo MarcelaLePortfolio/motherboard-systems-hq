@@ -7,25 +7,27 @@ REPO="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
 
 STAMP="$(date +%Y%m%d_%H%M%S)"
 
-DEST="/Volumes/Rio Drive/Motherboard_External_Backup/snapshots/$STAMP"
+SNAPROOT="/Volumes/Rio Drive/Motherboard_External_Backup/snapshots"
+
+DEST="$SNAPROOT/$STAMP"
 
 mkdir -p "$DEST"
 
 git -C "$REPO" bundle create "$DEST/repo.bundle" --all
 
-tar \
+tar -czf "$DEST/source.tar.gz" \
 
-  --exclude="$REPO/node_modules" \
+  --exclude="./node_modules" \
 
-  --exclude="$REPO/.git" \
+  --exclude="./.git" \
 
-  --exclude="$REPO/backups" \
+  --exclude="./backups" \
 
-  --exclude="$REPO/_restore_test" \
+  --exclude="./_restore_test" \
 
-  --exclude="$REPO/.next" \
+  --exclude="./.next" \
 
-  -czf "$DEST/source.tar.gz" \
+  --exclude="./logs" \
 
   -C "$REPO" .
 
@@ -36,4 +38,6 @@ git -C "$REPO" branch --show-current > "$DEST/git_branch.txt"
 find "$DEST" -type f -print0 | xargs -0 shasum -a 256 > "$DEST/checksums.sha256"
 
 echo "Created disaster backup: $DEST"
+
+du -sh "$DEST" || true
 
