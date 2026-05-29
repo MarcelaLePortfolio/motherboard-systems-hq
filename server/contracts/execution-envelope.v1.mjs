@@ -85,7 +85,11 @@ export function createExecutionEnvelope(input = {}) {
 
       intent_type: input?.intent?.intent_type ?? "other",
 
+      intent_evidence: input?.intent?.intent_evidence ?? [],
+
       confidence_score: input?.intent?.confidence_score ?? 0,
+
+      confidence_score_authority: "non_authoritative_metadata",
 
     },
 
@@ -217,6 +221,32 @@ export function createExecutionEnvelope(input = {}) {
 
     },
 
+    governance_authority: {
+
+      intent_authority: "user",
+
+      interpreter: "matilda",
+
+      executor: "cade",
+
+      intent_creation_prohibited: true,
+
+      inference_may_replace_missing_intent: false,
+
+      ambiguity_policy: {
+
+        deterministic_ambiguity: "matilda_may_resolve",
+
+        interpretive_ambiguity:
+
+          "matilda_may_resolve_with_user_visibility",
+
+        intent_ambiguity: "escalate_to_user",
+
+      },
+
+    },
+
     delegation_authorization: {
 
       required: true,
@@ -246,6 +276,12 @@ export function createExecutionEnvelope(input = {}) {
       must_not_override_mutation_scope: true,
 
       must_stop_on_validation_failure: true,
+
+      must_not_create_intent: true,
+
+      must_not_infer_missing_intent: true,
+
+      must_pause_when_intent_evidence_insufficient: true,
 
     },
 
