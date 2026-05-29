@@ -1,0 +1,222 @@
+===== TASK CARD FALLBACK UI STATE VERIFY =====
+Thu May 28 18:55:24 PDT 2026
+
+===== CURRENT HEAD =====
+663d043c Restore task card status trace preview fallbacks
+ca0c8c82 Inspect missing task card controls
+4bee7f7f Restore retry relationship from payload metadata
+dcaaa322 Smoke UI task action route
+cfeaba52 Enrich task list with basic columns
+6f679be5 Revert uncommitted task response enrichment
+f52d5143 Recover from task response enrichment crash
+87890f57 Inspect task payload shape gap
+
+===== VERIFY RENDERER FALLBACKS PRESENT =====
+141:      const artifactRaw = t.artifact || (Array.isArray(t.artifacts) ? t.artifacts[0] : null) || (t.payload && t.payload.artifact) || (t.payload && Array.isArray(t.payload.artifacts) ? t.payload.artifacts[0] : null) || (t.metadata && t.metadata.artifact) || (t.metadata && Array.isArray(t.metadata.artifacts) ? t.metadata.artifacts[0] : null) || null;
+149:      const triageLabel = status ? `status: ${status}` : "";
+155:      const retryOfRaw = t.retry_of_task_id || (t.meta && t.meta.retry_of_task_id) || (t.payload && t.payload.meta && t.payload.meta.retry_of_task_id) || (t.execution_meta && t.execution_meta.retry_of_task_id) || "";
+165:        : ((t.payload && t.payload.trace) || (t.metadata && t.metadata.trace) || null);
+
+===== VERIFY /api/tasks =====
+{
+    "ok": true,
+    "tasks": [
+        {
+            "id": 10,
+            "task_id": "task.e9a2d09f-44e3-46c3-bc12-450b78b7b555",
+            "title": "requeue route-check-create",
+            "status": "queued",
+            "notes": "",
+            "run_id": null,
+            "action_tier": "A",
+            "kind": "retry",
+            "payload": {
+                "meta": {
+                    "retry_of_task_id": "route-check-create"
+                },
+                "agent": "cade",
+                "source": "operator-guidance-ui",
+                "trace_id": null,
+                "delegation_envelope": null
+            },
+            "metadata": {},
+            "created_at": "2026-05-28T23:47:39.459Z",
+            "updated_at": "2026-05-28T23:47:39.459Z"
+        },
+        {
+            "id": 6,
+            "task_id": "route-check-create",
+            "title": "route check",
+            "status": "queued",
+            "notes": null,
+            "run_id": "route-check",
+            "action_tier": "A",
+            "kind": null,
+            "payload": {},
+            "metadata": {},
+            "created_at": "2026-05-28T23:21:32.205Z",
+            "updated_at": "2026-05-28T23:24:31.593Z"
+        },
+        {
+            "id": 7,
+            "task_id": "route-check-mutation",
+            "title": "route check mutation",
+            "status": "queued",
+            "notes": "",
+            "run_id": "route-check",
+            "action_tier": "A",
+            "kind": "delegated",
+            "payload": {
+                "meta": null,
+                "agent": "cade",
+                "source": "route_check",
+                "trace_id": null,
+                "delegation_envelope": null
+            },
+            "metadata": {},
+            "created_at": "2026-05-28T23:21:32.224Z",
+            "updated_at": "2026-05-28T23:21:32.224Z"
+        },
+        {
+            "id": 5,
+            "task_id": "task.c8aaaf23-75ac-4946-af7f-ac0bcb964f09",
+            "title": "Governed execution resume smoke task with run_id",
+            "status": "done",
+            "notes": "Smoke test with run_id after schema migration",
+            "run_id": "resume-smoke-20260528134237",
+            "action_tier": "A",
+            "kind": "delegated",
+            "payload": {
+                "meta": null,
+                "agent": "cade",
+                "source": "resume_validation",
+                "trace_id": null,
+                "delegation_envelope": null
+            },
+            "metadata": {},
+            "created_at": "2026-05-28T20:42:37.446Z",
+            "updated_at": "2026-05-28T20:42:37.533Z"
+        },
+        {
+            "id": 4,
+            "task_id": "task.42e70b4e-14a1-4190-b203-52fc052fb2a9",
+            "title": "Direct dbCompleteTask run_id smoke",
+            "status": "done",
+            "notes": "Completed direct smoke",
+            "run_id": "direct-smoke-1780000913311",
+            "action_tier": "A",
+            "kind": "delegated",
+            "payload": {
+                "meta": null,
+                "agent": "cade",
+                "source": "direct_db_smoke",
+                "trace_id": null,
+                "delegation_envelope": null
+            },
+            "metadata": {},
+            "created_at": "2026-05-28T20:41:53.323Z",
+            "updated_at": "2026-05-28T20:41:53.338Z"
+        }
+    ]
+}
+
+===== VERIFY HEALTH =====
+HTTP/1.1 200 OK
+X-Powered-By: Express
+Content-Type: application/json; charset=utf-8
+Content-Length: 11
+ETag: W/"b-Ai2R8hgEarLmHKwesT1qcY913ys"
+Date: Fri, 29 May 2026 01:55:24 GMT
+Connection: keep-alive
+Keep-Alive: timeout=5
+
+{"ok":true}
+===== GIT STATUS =====
+?? .backup_excludes
+?? CADE_RUNTIME_DISCOVERY.txt
+?? CADE_RUNTIME_HIGH_SIGNAL_CONTENTS.txt
+?? CRITICAL_RECOVERY_CORRIDORS_INSPECTION.txt
+?? DASHBOARD_UI_AFTER_RUNTIME_RESTORE_DIAGNOSIS.txt
+?? EXECUTION_IMPLEMENTATION_SURFACES.txt
+?? EXTERNAL_DB_BACKUP_SEARCH_BEFORE_DOCKER_RESET.txt
+?? GOVERNED_ROUTE_AFTER_RUNTIME_RESTORE_SMOKE.txt
+?? LATEST_SNAPSHOT_DASHBOARD_CANDIDATE_INSPECTION.txt
+?? PHASE715_DASHBOARD_CANDIDATE_RESTORE.txt
+?? PHASE_90_91_DASHBOARD_SURFACE_INSPECTION.txt
+?? TASK_CARD_FALLBACK_UI_STATE_VERIFY.txt
+?? TASK_RESPONSE_ENRICHMENT_V2.txt
+?? backups/_restore_test/
+?? backups/backup_index.json
+?? backups/checksums_20260527_150058.txt
+?? backups/checksums_20260527_150206.txt
+?? backups/dr_daemon.log
+?? backups/repo_20260527_145245.bundle
+?? backups/repo_20260527_145315.bundle
+?? backups/repo_20260527_145331.bundle
+?? backups/repo_20260527_145349.bundle
+?? backups/repo_20260527_145411.bundle
+?? backups/repo_20260527_145427.bundle
+?? backups/repo_20260527_145443.bundle
+?? backups/repo_20260527_145503.bundle
+?? backups/repo_20260527_145520.bundle
+?? backups/repo_20260527_145623.bundle
+?? backups/repo_20260527_145651.bundle
+?? backups/repo_20260527_145722.bundle
+?? backups/repo_20260527_145748.bundle
+?? backups/repo_20260527_150058.bundle
+?? backups/repo_20260527_150206.bundle
+?? backups/repo_20260527_153113.bundle
+?? backups/repo_20260527_154040.bundle
+?? backups/repo_20260527_154104.bundle
+?? backups/repo_20260527_154121.bundle
+?? backups/repo_20260527_154139.bundle
+?? backups/repo_20260527_154158.bundle
+?? backups/repo_20260527_154230.bundle
+?? backups/repo_20260527_154251.bundle
+?? backups/repo_20260527_154345.bundle
+?? backups/repo_20260527_154630.bundle
+?? backups/repo_20260527_154717.bundle
+?? backups/source_20260527_145245.tar.gz
+?? backups/source_20260527_145520.tar.gz
+?? backups/source_20260527_145623.tar.gz
+?? backups/source_20260527_145748.tar.gz
+?? backups/source_20260527_150058.tar.gz
+?? backups/source_20260527_150206.tar.gz
+?? backups/source_20260527_153200.tar.gz
+?? backups/source_20260527_154251.tar.gz
+?? backups/source_20260527_154345.tar.gz
+?? backups/source_20260527_154630.tar.gz
+?? backups/source_20260527_154717.tar.gz
+?? checkpoint-phase740-bridge-restore.sh
+?? compare-backend-against-rio-drive.sh
+?? diagnose-dashboard-ui-after-runtime-restore.py
+?? diagnose-dashboard-ui-after-runtime-restore.sh
+?? discover-dashboard-recovery-candidates.sh
+?? discover-execution-implementation-surfaces.sh
+?? enrich-api-tasks-response-shape-v2.sh
+?? enrich-api-tasks-response-shape.sh
+?? extract-matilda-delegation-docs.sh
+?? inspect-critical-recovery-corridors.sh
+?? inspect-governed-execution-lineage.sh
+?? inspect-latest-snapshot-dashboard-candidate.sh
+?? inspect-latest-source-backups-for-db-assets.sh
+?? inspect-phase-90-and-91-dashboard-surfaces.sh
+?? inspect-rio-drive-disaster-backups-v2.sh
+?? migrate-task-mutation-schema.sh
+?? patch-complete-task-run-id-handoff.sh
+?? record-route-level-smoke-failure-and-clean.sh
+?? scripts/dr
+?? scripts/dr_autonomous_wrapper.sh
+?? scripts/dr_daemon.sh
+?? scripts/dr_daemon_self_healing.sh
+?? scripts/dr_watchdog.sh
+?? scripts/offsite_r2_sync.sh
+?? scripts/retention_engine.sh
+?? scripts/storage_guard.sh
+?? scripts/storage_monitor.sh
+?? scripts/storage_policy.sh
+?? scripts/vault_layer.sh
+?? search-external-db-backups-before-docker-reset.sh
+?? smoke-current-task-mutations-with-runid.sh
+?? smoke-governed-route-after-runtime-restore.sh
+?? verify-task-card-fallback-ui-state.sh
