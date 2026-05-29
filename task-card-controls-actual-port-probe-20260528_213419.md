@@ -1,0 +1,138 @@
+# Task Card Controls Actual Port Probe
+
+Endpoint: http://localhost:8080/api/tasks?limit=50
+
+Task count: 6
+Rows with artifact payloads: 0
+Rows with trace payloads: 0
+Rows with log payloads: 0
+
+## Diagnosis
+
+- Preview pill appears only when a task row includes artifact/artifacts data.
+- Inspect trace appears only when a task row includes trace/status_trace/statusTrace data.
+- Inspect logs appears only when a task row includes log/logs/execution_logs data.
+
+## API Sample
+
+{
+  "ok": true,
+  "tasks": [
+    {
+      "id": 10,
+      "task_id": "task.e9a2d09f-44e3-46c3-bc12-450b78b7b555",
+      "title": "requeue route-check-create",
+      "status": "queued",
+      "notes": "",
+      "run_id": null,
+      "action_tier": "A",
+      "kind": "retry",
+      "payload": {
+        "meta": {
+          "retry_of_task_id": "route-check-create"
+        },
+        "agent": "cade",
+        "source": "operator-guidance-ui",
+        "trace_id": null,
+        "delegation_envelope": null
+      },
+      "metadata": {},
+      "created_at": "2026-05-28T23:47:39.459Z",
+      "updated_at": "2026-05-28T23:47:39.459Z"
+    },
+    {
+      "id": 6,
+      "task_id": "route-check-create",
+      "title": "route check",
+      "status": "queued",
+      "notes": null,
+      "run_id": "route-check",
+      "action_tier": "A",
+      "kind": null,
+      "payload": {},
+      "metadata": {},
+      "created_at": "2026-05-28T23:21:32.205Z",
+      "updated_at": "2026-05-28T23:24:31.593Z"
+    },
+    {
+      "id": 7,
+      "task_id": "route-check-mutation",
+      "title": "route check mutation",
+      "status": "queued",
+      "notes": "",
+      "run_id": "route-check",
+      "action_tier": "A",
+      "kind": "delegated",
+      "payload": {
+        "meta": null,
+        "agent": "cade",
+        "source": "route_check",
+        "trace_id": null,
+        "delegation_envelope": null
+      },
+      "metadata": {},
+      "created_at": "2026-05-28T23:21:32.224Z",
+      "updated_at": "2026-05-28T23:21:32.224Z"
+    },
+    {
+      "id": 5,
+      "task_id": "task.c8aaaf23-75ac-4946-af7f-ac0bcb964f09",
+      "title": "Governed execution resume smoke task with run_id",
+      "status": "done",
+      "notes": "Smoke test with run_id after schema migration",
+      "run_id": "resume-smoke-20260528134237",
+      "action_tier": "A",
+      "kind": "delegated",
+      "payload": {
+        "meta": null,
+        "agent": "cade",
+        "source": "resume_validation",
+        "trace_id": null,
+        "delegation_envelope": null
+      },
+      "metadata": {},
+      "created_at": "2026-05-28T20:42:37.446Z",
+      "updated_at": "2026-05-28T20:42:37.533Z"
+    },
+    {
+      "id": 4,
+      "task_id": "task.42e70b4e-14a1-4190-b203-52fc052fb2a9",
+      "title": "Direct dbCompleteTask run_id smoke",
+      "status": "done",
+      "notes": "Completed direct smoke",
+      "run_id": "direct-smoke-1780000913311",
+      "action_tier": "A",
+      "kind": "delegated",
+      "payload": {
+        "meta": null,
+        "agent": "cade",
+        "source": "direct_db_smoke",
+        "trace_id": null,
+        "delegation_envelope": null
+      },
+      "metadata": {},
+      "created_at": "2026-05-28T20:41:53.323Z",
+      "updated_at": "2026-05-28T20:41:53.338Z"
+    },
+    {
+      "id": 3,
+      "task_id": "task.248b3b38-2946-4de0-a54e-e87836e559a7",
+      "title": "Direct dbCompleteTask run_id smoke",
+      "status": "done",
+      "notes": "Completed direct smoke",
+      "run_id": "direct-smoke-1780000624506",
+      "action_tier": "A",
+      "kind": "delegated",
+      "payload": {
+        "meta": null,
+        "agent": "cade",
+        "source": "direct_db_smoke",
+        "trace_id": null,
+        "delegation_envelope": null
+      },
+      "metadata": {},
+      "created_at": "2026-05-28T20:37:04.519Z",
+      "updated_at": "2026-05-28T20:37:04.529Z"
+    }
+  ]
+}
