@@ -5,27 +5,9 @@ set -euo pipefail
 
 KEEP_COUNT=5
 
-ROOTS=(
+review_root() {
 
-  "/Volumes/Rio Drive/Motherboard_External_Backup/snapshots"
-
-  "/Volumes/Rio Drive/backups"
-
-  "$HOME/Projects/motherboard-systems-hq-clean/backups"
-
-)
-
-echo
-
-echo "========================================"
-
-echo "MOTHERBOARD BACKUP RETENTION REVIEW"
-
-echo "========================================"
-
-echo
-
-for ROOT in "${ROOTS[@]}"; do
+  ROOT="$1"
 
   echo
 
@@ -39,27 +21,13 @@ for ROOT in "${ROOTS[@]}"; do
 
     echo "MISSING"
 
-    echo
-
-    continue
+    return
 
   fi
 
   du -sh "$ROOT" 2>/dev/null || true
 
-  echo
-
-  mapfile -t ITEMS < <(
-
-    find "$ROOT" -mindepth 1 -maxdepth 1 -type d \
-
-      | xargs -I{} stat -f "%m {}" \
-
-      | sort -n
-
-  )
-
-  COUNT=$(find "$ROOT" -mindepth 1 -maxdepth 1 -type d | wc -l | tr -d ' ')
+  COUNT="$(find "$ROOT" -mindepth 1 -maxdepth 1 -type d -print 2>/dev/null | wc -l | tr -d ' ')"
 
   echo "Directory count: $COUNT"
 
@@ -71,9 +39,7 @@ for ROOT in "${ROOTS[@]}"; do
 
     echo "Nothing eligible for cleanup."
 
-    echo
-
-    continue
+    return
 
   fi
 
@@ -81,23 +47,35 @@ for ROOT in "${ROOTS[@]}"; do
 
   echo
 
-  find "$ROOT" -mindepth 1 -maxdepth 1 -type d \
-
-    -exec stat -f "%m %N" {} \; \
+  find "$ROOT" -mindepth 1 -maxdepth 1 -type d -exec stat -f "%m %N" {} \; 2>/dev/null \
 
     | sort -n \
 
-    | head -n $((COUNT - KEEP_COUNT)) \
+    | head -n "$((COUNT - KEEP_COUNT))" \
 
-    | while read -r MTIME PATHNAME; do
+    | while IFS= read -r line; do
 
-        du -sh "$PATHNAME" 2>/dev/null
+        PATHNAME="$(printf '%s\n' "$line" | cut -d' ' -f2-)"
+
+        du -sh "$PATHNAME" 2>/dev/null || true
 
       done
 
-  echo
+}
 
-done
+echo
+
+echo "========================================"
+
+echo "MOTHERBOARD BACKUP RETENTION REVIEW"
+
+echo "========================================"
+
+review_root "/Volumes/Rio Drive/Motherboard_External_Backup/snapshots"
+
+review_root "/Volumes/Rio Drive/backups"
+
+review_root "$HOME/Projects/motherboard-systems-hq-clean/backups"
 
 echo
 
