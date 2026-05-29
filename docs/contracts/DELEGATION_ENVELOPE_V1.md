@@ -5,19 +5,23 @@
 
 The Delegation Envelope is the authoritative execution contract passed from Matilda to Cade.
 
-Delegation itself is the approval event.
+Delegation is a bounded authorization event.
 
-Cade may execute immediately upon receipt of a valid delegation envelope, provided execution remains fully inside the defined constraints.
+Cade may proceed only when the delegation envelope is valid, evidence-backed, scoped, bounded, and fully inside the defined constraints.
 
-No additional execution confirmation is required after delegation.
+Delegation does not authorize scope expansion, intent creation, or inference-based execution.
+
+If intent evidence is insufficient, Cade must pause and return for clarification.
 
 ---
 
 # Core Principle
 
-Matilda defines constrained execution intent.
+Matilda preserves and interprets established user intent.
 
-Cade performs bounded execution.
+Matilda does not create intent.
+
+Cade performs bounded execution only inside evidence-backed delegation scope.
 
 Governance constrains both.
 
@@ -33,9 +37,9 @@ Flow:
 
 3. User delegates task to Cade
 
-4. Delegation becomes execution authorization
+4. Delegation becomes bounded execution authorization only if intent evidence, scope, validation, and rollback requirements are complete
 
-5. Cade executes within delegated scope
+5. Cade executes within delegated scope or pauses if intent evidence is insufficient
 
 6. Audit + reconciliation recorded
 
@@ -66,6 +70,8 @@ Flow:
 - task_summary
 
 - expected_outcome
+
+- intent_evidence
 
 ---
 
@@ -183,7 +189,7 @@ Execution must record:
 
 ## Cade MAY
 
-- mutate files within allowed scope
+- mutate files within allowed scope only when intent evidence is sufficient
 
 - run approved commands
 
@@ -199,6 +205,12 @@ Execution must record:
 
 - exceed scope boundaries
 
+- create intent
+
+- infer missing intent
+
+- treat ambiguity as authorization
+
 - self-expand authority
 
 - mutate forbidden surfaces
@@ -210,6 +222,8 @@ Execution must record:
 - reuse old delegation envelopes
 
 - reinterpret ambiguous instructions
+
+- proceed when intent evidence is insufficient
 
 ---
 
@@ -228,6 +242,8 @@ Delegation must be:
 - session-specific
 
 Delegation becomes invalid if:
+
+- intent evidence is insufficient
 
 - scope changes
 
