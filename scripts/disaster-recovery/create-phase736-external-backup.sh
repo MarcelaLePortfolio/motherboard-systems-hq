@@ -15,21 +15,7 @@ mkdir -p "$DEST"
 
 git -C "$REPO" bundle create "$DEST/repo.bundle" --all
 
-tar -czf "$DEST/source.tar.gz" \
-
-  --exclude="./node_modules" \
-
-  --exclude="./.git" \
-
-  --exclude="./backups" \
-
-  --exclude="./_restore_test" \
-
-  --exclude="./.next" \
-
-  --exclude="./logs" \
-
-  -C "$REPO" .
+tar -czf "$DEST/source.tar.gz" --exclude="./node_modules" --exclude="./.git" --exclude="./backups" --exclude="./_restore_test" --exclude="./.next" --exclude="./logs" -C "$REPO" .
 
 git -C "$REPO" rev-parse HEAD > "$DEST/git_commit.txt"
 
