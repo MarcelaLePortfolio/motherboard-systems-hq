@@ -47,19 +47,21 @@ review_root() {
 
   echo
 
-  find "$ROOT" -mindepth 1 -maxdepth 1 -type d -exec stat -f "%m %N" {} \; 2>/dev/null \
+  CANDIDATE_FILE="$(mktemp)"
 
-    | sort -n \
+  find "$ROOT" -mindepth 1 -maxdepth 1 -type d -exec stat -f "%m %N" {} \; 2>/dev/null > "$CANDIDATE_FILE"
 
-    | head -n "$((COUNT - KEEP_COUNT))" \
+  sort -n "$CANDIDATE_FILE" | head -n "$((COUNT - KEEP_COUNT))" > "$CANDIDATE_FILE.sorted"
 
-    | while IFS= read -r line; do
+  while IFS= read -r line; do
 
-        PATHNAME="$(printf '%s\n' "$line" | cut -d' ' -f2-)"
+    PATHNAME="$(printf '%s\n' "$line" | cut -d' ' -f2-)"
 
-        du -sh "$PATHNAME" 2>/dev/null || true
+    du -sh "$PATHNAME" 2>/dev/null || true
 
-      done
+  done < "$CANDIDATE_FILE.sorted"
+
+  rm -f "$CANDIDATE_FILE" "$CANDIDATE_FILE.sorted"
 
 }
 
