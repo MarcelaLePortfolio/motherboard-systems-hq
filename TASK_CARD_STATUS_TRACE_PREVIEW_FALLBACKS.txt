@@ -1,0 +1,53 @@
+===== TASK CARD STATUS TRACE PREVIEW FALLBACKS =====
+Thu May 28 18:54:11 PDT 2026
+
+diff --git a/public/js/phase530_visible_panels_bridge.js b/public/js/phase530_visible_panels_bridge.js
+index f60b52dc..de3398a5 100644
+--- a/public/js/phase530_visible_panels_bridge.js
++++ b/public/js/phase530_visible_panels_bridge.js
+@@ -138,7 +138,7 @@
+       const outcome = esc(t.outcome_preview || "");
+ 
+       const explanation = esc(t.explanation_preview || "");
+-      const artifactRaw = t.artifact || (Array.isArray(t.artifacts) ? t.artifacts[0] : null) || null;
++      const artifactRaw = t.artifact || (Array.isArray(t.artifacts) ? t.artifacts[0] : null) || (t.payload && t.payload.artifact) || (t.payload && Array.isArray(t.payload.artifacts) ? t.payload.artifacts[0] : null) || (t.metadata && t.metadata.artifact) || (t.metadata && Array.isArray(t.metadata.artifacts) ? t.metadata.artifacts[0] : null) || null;
+       const artifactName = artifactRaw ? esc(artifactRaw.filename || artifactRaw.path || "artifact") : "";
+       const artifactType = artifactRaw ? esc(artifactRaw.type || "artifact") : "";
+       const artifactSize = artifactRaw && artifactRaw.size_bytes ? esc(String(artifactRaw.size_bytes) + " bytes") : "";
+@@ -146,7 +146,7 @@
+ 
+       const triageStatusRaw = String(t.status || "").toLowerCase();
+ 
+-      const triageLabel = triageStatusRaw === "completed" ? "triage: completed" : "";
++      const triageLabel = status ? `status: ${status}` : "";
+ 
+       const executionStrategyRaw = t.strategy || t.execution_strategy || t.execution_mode || t.executionMode || "";
+ 
+@@ -156,13 +156,13 @@
+ 
+       const retryOf = esc(String(retryOfRaw || ""));
+ 
+-      const guidance = t.guidance || {};
++      const guidance = t.guidance || (t.payload && t.payload.guidance) || (t.metadata && t.metadata.guidance) || {};
+ 
+       const trace = guidance.communicationResult && guidance.communicationResult.systemTrace
+ 
+         ? guidance.communicationResult.systemTrace.content
+ 
+-        : null;
++        : ((t.payload && t.payload.trace) || (t.metadata && t.metadata.trace) || null);
+ 
+       const traceJson = trace ? esc(JSON.stringify(trace, null, 2)) : "";
+ 
+===== VERIFY /api/tasks =====
+{"ok":true,"tasks":[{"id":10,"task_id":"task.e9a2d09f-44e3-46c3-bc12-450b78b7b555","title":"requeue route-check-create","status":"queued","notes":"","run_id":null,"action_tier":"A","kind":"retry","payload":{"meta":{"retry_of_task_id":"route-check-create"},"agent":"cade","source":"operator-guidance-ui","trace_id":null,"delegation_envelope":null},"metadata":{},"created_at":"2026-05-28T23:47:39.459Z","updated_at":"2026-05-28T23:47:39.459Z"},{"id":6,"task_id":"route-check-create","title":"route check","status":"queued","notes":null,"run_id":"route-check","action_tier":"A","kind":null,"payload":{},"metadata":{},"created_at":"2026-05-28T23:21:32.205Z","updated_at":"2026-05-28T23:24:31.593Z"},{"id":7,"task_id":"route-check-mutation","title":"route check mutation","status":"queued","notes":"","run_id":"route-check","action_tier":"A","kind":"delegated","payload":{"meta":null,"agent":"cade","source":"route_check","trace_id":null,"delegation_envelope":null},"metadata":{},"created_at":"2026-05-28T23:21:32.224Z","updated_at":"2026-05-28T23:21:32.224Z"},{"id":5,"task_id":"task.c8aaaf23-75ac-4946-af7f-ac0bcb964f09","title":"Governed execution resume smoke task with run_id","status":"done","notes":"Smoke test with run_id after schema migration","run_id":"resume-smoke-20260528134237","action_tier":"A","kind":"delegated","payload":{"meta":null,"agent":"cade","source":"resume_validation","trace_id":null,"delegation_envelope":null},"metadata":{},"created_at":"2026-05-28T20:42:37.446Z","updated_at":"2026-05-28T20:42:37.533Z"},{"id":4,"task_id":"task.42e70b4e-14a1-4190-b203-52fc052fb2a9","title":"Direct dbCompleteTask run_id smoke","status":"done","notes":"Completed direct smoke","run_id":"direct-smoke-1780000913311","action_tier":"A","kind":"delegated","payload":{"meta":null,"agent":"cade","source":"direct_db_smoke","trace_id":null,"delegation_envelope":null},"metadata":{},"created_at":"2026-05-28T20:41:53.323Z","updated_at":"2026-05-28T20:41:53.338Z"}]}===== VERIFY HEALTH =====
+HTTP/1.1 200 OK
+X-Powered-By: Express
+Content-Type: application/json; charset=utf-8
+Content-Length: 11
+ETag: W/"b-Ai2R8hgEarLmHKwesT1qcY913ys"
+Date: Fri, 29 May 2026 01:54:16 GMT
+Connection: keep-alive
+Keep-Alive: timeout=5
+
+{"ok":true}

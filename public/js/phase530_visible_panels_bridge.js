@@ -138,7 +138,7 @@
       const outcome = esc(t.outcome_preview || "");
 
       const explanation = esc(t.explanation_preview || "");
-      const artifactRaw = t.artifact || (Array.isArray(t.artifacts) ? t.artifacts[0] : null) || null;
+      const artifactRaw = t.artifact || (Array.isArray(t.artifacts) ? t.artifacts[0] : null) || (t.payload && t.payload.artifact) || (t.payload && Array.isArray(t.payload.artifacts) ? t.payload.artifacts[0] : null) || (t.metadata && t.metadata.artifact) || (t.metadata && Array.isArray(t.metadata.artifacts) ? t.metadata.artifacts[0] : null) || null;
       const artifactName = artifactRaw ? esc(artifactRaw.filename || artifactRaw.path || "artifact") : "";
       const artifactType = artifactRaw ? esc(artifactRaw.type || "artifact") : "";
       const artifactSize = artifactRaw && artifactRaw.size_bytes ? esc(String(artifactRaw.size_bytes) + " bytes") : "";
@@ -146,7 +146,7 @@
 
       const triageStatusRaw = String(t.status || "").toLowerCase();
 
-      const triageLabel = triageStatusRaw === "completed" ? "triage: completed" : "";
+      const triageLabel = status ? `status: ${status}` : "";
 
       const executionStrategyRaw = t.strategy || t.execution_strategy || t.execution_mode || t.executionMode || "";
 
@@ -156,13 +156,13 @@
 
       const retryOf = esc(String(retryOfRaw || ""));
 
-      const guidance = t.guidance || {};
+      const guidance = t.guidance || (t.payload && t.payload.guidance) || (t.metadata && t.metadata.guidance) || {};
 
       const trace = guidance.communicationResult && guidance.communicationResult.systemTrace
 
         ? guidance.communicationResult.systemTrace.content
 
-        : null;
+        : ((t.payload && t.payload.trace) || (t.metadata && t.metadata.trace) || null);
 
       const traceJson = trace ? esc(JSON.stringify(trace, null, 2)) : "";
 
