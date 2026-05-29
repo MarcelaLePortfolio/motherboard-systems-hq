@@ -1,0 +1,50 @@
+===== FINISH MANUAL DISASTER CHECKPOINT =====
+Thu May 28 19:15:55 PDT 2026
+
+===== CURRENT HEAD =====
+0c04c71d Seal task card fallback recovery
+06c14ef7 Verify task card fallback UI state
+663d043c Restore task card status trace preview fallbacks
+ca0c8c82 Inspect missing task card controls
+4bee7f7f Restore retry relationship from payload metadata
+
+===== CREATE REPO BUNDLE =====
+-rw-r--r--  1 marcela-dev  staff   316M May 28 19:15 backups/manual_repo_checkpoint_20260528_191555_0c04c71d.bundle
+
+===== CREATE SOURCE ARCHIVE =====
+-rw-r--r--  1 marcela-dev  staff    15M May 28 19:15 backups/manual_source_checkpoint_20260528_191555_0c04c71d.tar.gz
+
+===== WRITE CHECKPOINT NOTE =====
+
+Manual disaster checkpoint
+
+Timestamp: 20260528_191555
+
+HEAD: 0c04c71d9f8adb9ca39c746e213f028aeca3fcf0
+
+Branch: feature/backup-system-v2
+
+Validated state:
+
+- Task card fallback recovery sealed.
+
+- Dashboard health OK.
+
+- /api/tasks OK.
+
+- Repo bundle created.
+
+- Source archive created.
+
+Bundle:
+
+backups/manual_repo_checkpoint_20260528_191555_0c04c71d.bundle
+
+Source archive:
+
+backups/manual_source_checkpoint_20260528_191555_0c04c71d.tar.gz
+
+
+===== VERIFY BACKUP ARTIFACTS =====
+-rw-r--r--  1 marcela-dev  staff   316M May 28 19:15 backups/manual_repo_checkpoint_20260528_191555_0c04c71d.bundle
+-rw-r--r--  1 marcela-dev  staff    15M May 28 19:15 backups/manual_source_checkpoint_20260528_191555_0c04c71d.tar.gz
