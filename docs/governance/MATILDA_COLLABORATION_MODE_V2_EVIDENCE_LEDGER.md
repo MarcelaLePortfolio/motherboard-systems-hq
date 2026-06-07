@@ -181,3 +181,48 @@ Continue using Matilda Collaboration Mode v2 by default.
 
 Reassess after approximately 10 reconciled corridors across multiple corridor types.
 
+
+## Evidence Entry — Attention Preservation and Scrutiny Capacity
+
+Date: 2026-06-07
+
+Status: Supporting Evidence Added
+
+### Observation
+
+Reduced constituent attention consumption appears to increase scrutiny capacity.
+
+### Evidence
+
+- User reported being able to read and absorb more content before experiencing fatigue.
+
+- User reported increased ability to identify subtle mistakes.
+
+- User reported increased willingness to challenge findings that seemed questionable.
+
+- User reported reduced tendency to skim or bypass sections due to cognitive load.
+
+### Observed Session Examples
+
+- Correction of gratitude-retention assumptions.
+
+- Correction of attribution requirements for Atlas metadata.
+
+- Correction of Atlas constituency model.
+
+- Expansion of lineage-significance analysis to include contextual significance.
+
+- Identification of interaction-outcome observability requirements.
+
+### Emerging Hypothesis Support
+
+Attention preservation may improve reconciliation quality by preserving constituent capacity for review, challenge, and error detection.
+
+### Current Status
+
+- Supports existing Atlas hypothesis.
+
+- Does not yet prove causation.
+
+- Additional corridor diversity and repeated observations still required.
+
