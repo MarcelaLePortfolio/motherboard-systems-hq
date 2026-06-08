@@ -1,0 +1,270 @@
+==================================================
+PREVIEW SUMMARY GOVERNANCE INSPECTION
+==================================================
+
+==================================================
+docs/governance/COLLABORATION_AND_PACKAGE_LIFECYCLE.md
+==================================================
+2:# Collaboration and Package Lifecycle
+8:This document captures the reconciled lifecycle between user collaboration, intent reconciliation, package creation, and delegation.
+32:Reconciled Intent Summary
+36:Approval
+40:Package Creation
+44:Pending Delegation
+48:Delegation
+70:No Package exists during collaboration.
+72:No Delegation exists during collaboration.
+78:# Reconciled Intent Summary
+80:A Reconciled Intent Summary is a human-readable representation of the current understanding of intent.
+84:- Facilitate user review
+88:- Reduce review burden
+90:- Confirm understanding before Package creation
+92:The Reconciled Intent Summary is not a Package.
+94:The Reconciled Intent Summary is not a governance artifact.
+96:The Reconciled Intent Summary is a collaboration artifact.
+100:# Approval
+102:Approval is distinct from Delegation.
+104:Approval answers:
+108:Approval authorizes Package creation.
+110:Approval does not authorize organizational processing.
+112:Approval does not authorize Governance Validation.
+114:Approval does not authorize routing.
+116:Approval does not authorize execution.
+120:# Package Creation
+122:Upon approval:
+124:A Package is created.
+126:The Package becomes the canonical meaning artifact.
+128:The Package replaces the Reconciled Intent Summary as the authoritative representation of meaning.
+132:# Pending Delegation State
+136:The Package enters Pending Delegation.
+138:Pending Delegation means:
+140:- Package exists
+144:- Delegation has not occurred
+146:No Governance Validation may occur while a Package remains Pending Delegation.
+150:# Multiple Packages
+152:Multiple Packages may coexist.
+154:Each Package represents a distinct approved interpretation.
+156:Package existence does not require Delegation.
+158:Package existence does not require Governance Validation.
+160:Package existence does not require organizational processing.
+164:# Package Comparison
+170:- Packages
+172:Comparison is permitted before Delegation.
+174:Comparison may inform future Delegation decisions.
+178:# Delegation
+180:Delegation is a distinct authority event.
+182:Delegation occurs after Package creation.
+184:Delegation references an existing Package.
+186:Delegation does not create meaning.
+188:Delegation authorizes an existing Package.
+192:# Delegation By Reference
+194:Users delegate Packages by reference.
+196:Delegation does not require copying Package contents.
+198:Delegation applies to a specific Package version.
+200:Package references remain authoritative.
+202:Future interfaces may represent Package selection through cards, lists, dialogs, or other mechanisms.
+204:The delegation authority model remains unchanged regardless of interface representation.
+208:# Separation Of Approval And Delegation
+210:Approval and Delegation are distinct authority events.
+212:Approval:
+214:Creates Package.
+216:Delegation:
+218:Authorizes Package.
+220:Approval is not Delegation.
+222:Delegation is not Approval.
+230:Governance Validation consumes Delegated Packages.
+234:Governance Validation may not evaluate Packages that remain Pending Delegation.
+
+==================================================
+docs/governance/CANONICAL_PACKAGE_SPECIFICATION.md
+==================================================
+2:# Canonical Package Specification
+6:The Package is the canonical meaning artifact of the Motherboard Headquarters operating model.
+8:The Package represents Matilda's authoritative interpretation of user intent.
+10:The Package is the source of truth for meaning.
+12:The Package must remain independent from operationalization, routing, assignment, and execution concerns.
+28:Package
+32:Delegation
+46:Packages own meaning.
+48:Packages do not own operationalization.
+50:Packages do not own routing.
+52:Packages do not own assignment.
+54:Packages do not own execution.
+56:The Package remains the authoritative source of intent throughout the lifecycle.
+62:## package_id
+66:Unique Package identifier.
+108:- Summary cards
+150:- Preserve renderer-authoritative Preview
+214:- Summary-first
+246:# Package Quality Requirements
+248:A valid Package must:
+260:A Package must not require downstream invention of meaning.
+264:# Prohibited Package Content
+266:Packages must not contain:
+332:The Package represents what the CEO wants.
+334:The Package does not determine how the organization fulfills that request.
+
+==================================================
+docs/governance/GOVERNANCE_LIFECYCLE_STATE_MODEL.md
+==================================================
+40:Package
+44:Delegation
+78:## PACKAGE_CREATED
+88:## DELEGATION_AUTHORIZED
+92:The Package has been accepted as an accurate representation of intent.
+100:Governance Validation is evaluating the delegated Package.
+182:PACKAGE_CREATED
+186:DELEGATION_AUTHORIZED
+190:DELEGATION_AUTHORIZED
+264:PACKAGE_CREATED
+272:Delegation and validation missing.
+276:PACKAGE_CREATED
+288:DELEGATION_AUTHORIZED
+360:# Package Mutation Rules
+362:Package modifications invalidate downstream authority.
+366:Package v3
+370:Delegation Authorized
+372:Package Modified
+376:Package v4
+380:Existing Delegation remains attached to v3.
+382:Package v4 requires a new Delegation.
+386:# Delegation Rules
+388:Delegation authorizes a specific Package version.
+390:Delegation may not transfer to a modified Package.
+392:Delegation records are immutable.
+400:- Existing Package
+402:- Existing Delegation
+412:- Authorized Package
+418:- Delegation missing
+
+==================================================
+docs/governance/matilda-package-contract.md
+==================================================
+2:# Matilda Package Contract
+8:The Matilda Package is the canonical interpretation artifact produced by Matilda.
+10:The package exists to preserve Matilda's understanding of established user intent before delegation occurs.
+12:The package allows the user to review the proposed work package before it enters the delegation system.
+14:The package is not an execution artifact.
+16:The package is not an authorization artifact.
+18:The package is not an execution envelope.
+30:Matilda Package
+34:User Delegation
+42:Preview
+46:Preview Approval
+64:The package preserves Matilda's interpretation.
+66:The package does not authorize execution.
+90:- Delegation Authority
+124:Cade receives delegated work only after package delegation and envelope generation.
+128:## Package Definition
+130:A Matilda Package is a governed interpretation artifact.
+132:The package describes:
+144:The package should contain sufficient detail for downstream delegation without requiring Cade to invent missing requirements.
+148:## Required Package Contents
+150:### Intent Summary
+178:### Delegation Target
+180:Defines the intended recipient of delegation.
+192:## Prohibited Package Contents
+194:A Matilda Package must not contain:
+206:The package is an interpretation artifact only.
+210:## Delegation Relationship
+212:The package itself carries no execution authority.
+214:Interpretation Authorization occurs when the user delegates the package.
+216:The act of delegation represents acceptance of Matilda's interpretation.
+218:The package does not contain approval state.
+220:The package does not contain approval controls.
+222:The package does not contain workflow buttons.
+224:Authorization is represented by user delegation behavior.
+230:The package precedes the execution envelope.
+232:The package is not a substitute for the execution envelope.
+234:The execution envelope remains the canonical delegation artifact.
+238:The envelope inherits approved interpretation details from the package.
+242:## Preview Relationship
+244:The package is not a preview.
+246:The package answers:
+250:The preview answers:
+260:Package delegation does not authorize execution.
+262:Execution authorization occurs later through preview approval.
+270:The Matilda Package appears to be the primary artifact produced by Matilda.
+272:The execution envelope appears to be a downstream governance artifact derived from an approved package.
+278:- delegation
+
+==================================================
+docs/governance/milestone-6-lifecycle-reconciliation-finding.md
+==================================================
+12:## Evidence Reviewed
+14:- docs/governance/matilda-package-contract.md
+20:- docs/contracts/DELEGATION_ENVELOPE_V1.md
+24:Potential lifecycle conflict exists between the newer Matilda Package Contract and the previously stabilized Canonical Execution Lifecycle.
+28:Matilda Package Contract establishes:
+30:Package
+34:Delegation
+42:- Package is the canonical interpretation artifact.
+44:- Delegation is Interpretation Authorization.
+46:- Envelope is the canonical delegation artifact.
+48:- Package contains no authorization state.
+50:- Envelope inherits approved interpretation details from the Package.
+60:Validator Review
+74:This ordering implies envelope construction precedes delegation.
+78:Does the Package artifact introduce a new lifecycle stage that was previously implicit?
+86:Package contract requires reconciliation.
+90:Package contract is authoritative.
+98:Package formalizes a previously implicit artifact.
+118:"What information is inherited from Package into Envelope?"
+
+==================================================
+docs/governance/milestone-6-outcome-review-governance-contracts.md
+==================================================
+2:# Milestone 6 — Outcome Review Governance Contracts
+18:This document preserves reconciled governance findings regarding user review of proposed plans, previews, or outcomes.
+20:## Reconciled Finding 1 — Review Outcome and Acceptance Classification Are Distinct
+22:Review Outcome answers:
+24:What happened during review?
+60:## Reconciled Finding 3 — Review Friction Is An Independent Governance Signal
+62:Review history contains information not represented by final acceptance state.
+70:Therefore review_cycle_count is a governance-relevant artifact.
+72:## Reconciled Finding 4 — Preview Confirmation Is Insufficient As A Sole Governance Artifact
+74:PREVIEW_CONFIRMED does not preserve:
+76:- Review Outcome
+80:- Review Friction
+82:These concepts must not be collapsed into a single Preview Confirmation artifact.
+84:## Contract A — Review Outcome Contract
+88:  "review_outcome": "REVISION_REQUESTED | ACCEPTED"
+108:review_outcome = ACCEPTED
+130:## Contract C — Review Friction Contract
+134:  "review_cycle_count": 0
+140:Number of review cycles required before acceptance.
+142:## Contract D — Review Record Contract
+146:  "review_outcome": "ACCEPTED",
+150:  "review_cycle_count": 6
+166:- Review Outcome
+170:- Review Friction
+172:- Review Record Structure
+178:- Approval artifact ownership
+
+==================================================
+docs/contracts/PREVIEW_APPROVAL_RECONCILIATION_FINDING.md
+==================================================
+2:# Preview Approval Reconciliation Finding
+12:## Evidence Reviewed
+14:- docs/contracts/DELEGATION_ENVELOPE_V1.md
+24:- server/execution/execution-approval-gate.mjs
+26:- server/execution/build-approval-artifact.mjs
+32:Motherboard Systems already has a canonical governed delegation object under existing terminology:
+34:- Delegation Envelope
+38:The execution envelope is the canonical governance artifact produced from Matilda-side interpretation and passed through governance validation, approval gating, Cade planning, and future execution phases.
+50:- approval artifact generation
+52:- approval gate evaluation
+62:The existing approval gate confirms the presence of an approval artifact and blocks mutation, shell execution, and autonomous execution by default.
+66:- user-visible preview of interpreted intent before approval
+68:- preview artifact reference
+70:- user confirmation that the previewed interpretation matches intent
+72:- distinction between generic approval artifact and preview-confirmed approval artifact
+84:- fresh, session-bound, action-specific, revocable, fail-closed approval
+88:Earlier reconciliation identified stale wording that treated delegation itself as the approval event.
+96:The correct conclusion is to reconcile the existing approval gate and envelope governance with an explicit preview-confirmation boundary.
+102:1. Delegation envelope construction is not sufficient user approval.
+104:2. Governance validation is not sufficient user approval.
+106:3. Approval artifacts should distinguish planning-only approval from preview-confirmed execution approval.
+108:4. Preview confirmation should be represented as a user-visible confirmation boundary before mutation-capable execution.
+124:- approval panel implementation
+126:- preview panel implementation
