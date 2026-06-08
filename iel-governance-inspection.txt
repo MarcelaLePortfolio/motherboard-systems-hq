@@ -1,0 +1,66 @@
+==================================================
+IEL GOVERNANCE INSPECTION
+==================================================
+
+docs/governance/milestone-6-resolution-checkpoint-contract.md:88:## Candidate Core Fields
+docs/governance/MATILDA_COLLABORATION_MODE_V2_EVIDENCE_LEDGER.md:144:- User retained enough bandwidth to challenge an IEL ambiguity during reconciliation.
+docs/governance/MATILDA_INTERPRETATION_LIFECYCLE_RECONCILIATION.md:16:2. Interpretation Evidence Ledger (IEL)
+docs/governance/MATILDA_INTERPRETATION_LIFECYCLE_RECONCILIATION.md:26:### Interpretation Evidence Ledger (IEL)
+docs/governance/MATILDA_INTERPRETATION_LIFECYCLE_RECONCILIATION.md:28:Matilda maintains an append-only Interpretation Evidence Ledger.
+docs/governance/MATILDA_INTERPRETATION_LIFECYCLE_RECONCILIATION.md:30:The IEL:
+docs/governance/MATILDA_INTERPRETATION_LIFECYCLE_RECONCILIATION.md:52:### IEL Definition
+docs/governance/MATILDA_INTERPRETATION_LIFECYCLE_RECONCILIATION.md:54:The IEL is not a transcript.
+docs/governance/MATILDA_INTERPRETATION_LIFECYCLE_RECONCILIATION.md:56:The IEL is not a collection of conclusions.
+docs/governance/MATILDA_INTERPRETATION_LIFECYCLE_RECONCILIATION.md:58:The IEL is a contextualized interpretation record.
+docs/governance/MATILDA_INTERPRETATION_LIFECYCLE_RECONCILIATION.md:60:Each IEL entry contains:
+docs/governance/MATILDA_INTERPRETATION_LIFECYCLE_RECONCILIATION.md:74:Full transcript preservation inside the IEL is unnecessary.
+docs/governance/MATILDA_INTERPRETATION_LIFECYCLE_RECONCILIATION.md:156:- derived from IEL
+docs/governance/MATILDA_INTERPRETATION_LIFECYCLE_RECONCILIATION.md:176:- derived from a specific IEL state
+docs/governance/MATILDA_INTERPRETATION_LIFECYCLE_RECONCILIATION.md:232:→ IEL
+docs/governance/MATILDA_INTERPRETATION_LIFECYCLE_RECONCILIATION.md:268:Atlas intelligence is derived from the IEL.
+docs/governance/MATILDA_INTERPRETATION_LIFECYCLE_RECONCILIATION.md:270:Atlas does not modify the IEL.
+docs/governance/CANONICAL_DELEGATION_SPECIFICATION.md:76:# Required Fields
+docs/governance/CANONICAL_PACKAGE_SPECIFICATION.md:60:# Required Fields
+docs/governance/CANONICAL_PACKAGE_SPECIFICATION.md:182:# Optional Fields
+docs/governance/CANONICAL_ENVELOPE_SPECIFICATION.md:108:# Required Fields
+docs/governance/CANONICAL_ENVELOPE_SPECIFICATION.md:250:# Assignment Fields
+docs/governance/CANONICAL_ENVELOPE_SPECIFICATION.md:326:# Operational Fields
+docs/governance/CANONICAL_ENVELOPE_SPECIFICATION.md:402:# Completion Fields
+docs/governance/CANONICAL_ENVELOPE_SPECIFICATION.md:456:# Intelligence Fields
+docs/governance/CANONICAL_ENVELOPE_SPECIFICATION.md:514:Fields may only be modified by their owning authority.
+docs/governance/CANONICAL_ENVELOPE_SPECIFICATION.md:516:Departments may not modify fields owned by other departments.
+docs/governance/CANONICAL_ENVELOPE_SPECIFICATION.md:518:Operational departments may enrich the Envelope but may not alter governance-derived fields.
+docs/governance/CANONICAL_ENVELOPE_SPECIFICATION.md:520:Ellis may assign work but may not modify governance-derived fields.
+docs/contracts/MILESTONE_1B_RECONCILIATION_DECISION_LEDGER.md:286:confidence_score Runtime Field
+docs/contracts/MILESTONE_2A_RUNTIME_CONTRACT_PATCH_AUTHORIZATION.md:42:3. Add governance authority fields:
+docs/contracts/MILESTONE_2A_RUNTIME_CONTRACT_PATCH_AUTHORIZATION.md:54:4. Add ambiguity policy fields:
+docs/contracts/MILESTONE_2_RUNTIME_CONTRACT_REVIEW_SCOPE.md:44:- Inspect runtime envelope fields
+docs/contracts/MILESTONE_2_RUNTIME_CONTRACT_REVIEW_SCOPE.md:50:- Identify fields that conflict with intent evidence rules
+docs/contracts/MILESTONE_2_RUNTIME_CONTRACT_REVIEW_SCOPE.md:52:- Identify fields that imply inference-based authorization
+docs/contracts/MILESTONE_2_RUNTIME_CONTRACT_REVIEW_SCOPE.md:54:- Identify fields that require later amendment
+docs/contracts/MILESTONE_2_RUNTIME_CONTRACT_REVIEW_SCOPE.md:112:- aligned runtime fields
+docs/contracts/MILESTONE_2_RUNTIME_CONTRACT_REVIEW_SCOPE.md:114:- conflicting runtime fields
+docs/contracts/MILESTONE_2_RUNTIME_CONTRACT_REVIEW_SCOPE.md:116:- deferred runtime fields
+docs/contracts/PREVIEW_APPROVAL_RECONCILIATION_FINDING.md:64:However, current contracts and runtime fields do not explicitly require:
+docs/contracts/MILESTONE_3C_VALIDATOR_CONTRACT_REVIEW_FINDINGS.md:124:## Finding 006 — Runtime Contract Missing Validator Authority Fields
+docs/contracts/MILESTONE_3C_VALIDATOR_CONTRACT_REVIEW_FINDINGS.md:128:It does not include explicit validator authority fields.
+docs/contracts/MILESTONE_3_VALIDATOR_AUTHORITY_SCOPE.md:62:- validate governance authority fields
+docs/contracts/MILESTONE_3_VALIDATOR_AUTHORITY_SCOPE.md:120:- governance authority fields are missing
+docs/contracts/MILESTONE_3_VALIDATOR_AUTHORITY_SCOPE.md:156:- required field missing
+docs/contracts/MILESTONE_3_VALIDATOR_AUTHORITY_SCOPE.md:182:- authority field violation
+docs/contracts/GOVERNED_ROUTE_FAIL_CLOSED_SMOKE.md:6:Validate that the governed planning corridor fails closed when required execution intent fields are missing.
+docs/contracts/DELEGATION_ENVELOPE_V1.md:48:# Required Envelope Fields
+docs/contracts/MILESTONE_1A_ENVELOPE_GOVERNANCE_REVIEW.md:24:The newly stabilized governance model is therefore an overlay and reconciliation effort, not a greenfield design effort.
+docs/contracts/MILESTONE_1A_ENVELOPE_GOVERNANCE_REVIEW.md:142:This field currently presents the highest governance risk.
+docs/contracts/MILESTONE_1C_CLOSEOUT.md:34:- Added governance authority fields
+docs/contracts/CANONICAL_EXECUTION_ENVELOPE_SCHEMA.pre_m1c_backup.md:92:## Required Fields
+docs/contracts/CANONICAL_EXECUTION_ENVELOPE_SCHEMA.md:128:## Required Fields
+docs/contracts/MILESTONE_2_RUNTIME_CONTRACT_REVIEW.md:20:## Aligned Runtime Fields
+docs/contracts/MILESTONE_2_RUNTIME_CONTRACT_REVIEW.md:54:These fields are broadly aligned with the canonical documentation contracts.
+docs/contracts/MILESTONE_2_RUNTIME_CONTRACT_REVIEW.md:58:## Gap 001 — Missing Intent Evidence Field
+docs/contracts/MILESTONE_2_RUNTIME_CONTRACT_REVIEW.md:152:## Gap 005 — Missing User Intent Authority Field
+docs/contracts/MILESTONE_2_RUNTIME_CONTRACT_REVIEW.md:206:- adding governance authority fields
+docs/contracts/MILESTONE_2_RUNTIME_CONTRACT_REVIEW.md:208:- adding ambiguity policy fields
+docs/contracts/MILESTONE_1_EXECUTION_ENVELOPE_RECONCILIATION_CHECKPOINT.md:34:Milestone 1 is therefore not a greenfield schema creation task.
+docs/contracts/MILESTONE_1_EXECUTION_ENVELOPE_RECONCILIATION_CHECKPOINT.md:206:However, future envelope revisions may need a field or linked artifact for architectural impact findings when a task affects prior assumptions, dependencies, milestones, or roadmap integrity.
+docs/contracts/MILESTONE_3C_VALIDATOR_CONTRACT_AUTHORIZATION_REVIEW.md:56:- identify missing validator fields or rules
