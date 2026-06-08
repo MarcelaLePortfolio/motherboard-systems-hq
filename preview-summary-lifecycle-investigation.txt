@@ -1,0 +1,39 @@
+==================================================
+PREVIEW SUMMARY LIFECYCLE INVESTIGATION
+==================================================
+
+Branch: feature/backup-system-v2
+
+Latest Governance Commits:
+a13a6bb6 Fix reconciled lifecycle verification review
+43bcaf43 Add governance reconciliation verification script
+1674d276 Add V2 evidence: attention preservation improves scrutiny capacity
+80bbe8ae add matilda collaboration mode v2 evidence ledger
+1603584d reconcile matilda interpretation lifecycle corridor
+c6a2062d Document stabilized preview wrapper corridor findings
+2f75ecb5 Document stabilized execution corridor findings
+77f5ed4c Add collaboration and package lifecycle specification
+baeaa655 Add Governance Validation specification foundation
+e6b5c2bd Add Governance Lifecycle State Model
+6774f8cc Add Canonical Delegation Specification
+5a6e848f Add Canonical Package Specification
+ca926930 Add Canonical Envelope Specification
+28551668 Add Capability Routing Model
+1408e6d5 Add Governance Validation Charter
+36e50d1a Add canonical Headquarters Organizational Charter
+fb58d50c Record lifecycle reconciliation finding
+97c090d0 Document Matilda package governance contract
+f41333e1 Document milestone 6 resolution checkpoint contract
+5e85c731 Document milestone 6 outcome review governance contracts
+
+==================================================
+SEARCH: preview summary references
+==================================================
+./scripts/investigate-preview-summary-lifecycle.sh:6:OUTPUT="preview-summary-lifecycle-investigation.txt"
+./scripts/investigate-preview-summary-lifecycle.sh:46:  echo "SEARCH: preview summary references"
+./scripts/investigate-preview-summary-lifecycle.sh:50:  grep -RInE "preview summary|Preview Summary|preview-summary|package preview|Package Preview|Preview Artifact|natural language.*summary|summary.*package|writeup|write-up" docs/governance . \
+./scripts/verify-reconciled-lifecycle.sh:50:  grep -RInE "Package Preview|package preview|Preview Artifact|Package|Delegation|Governance Validation|Envelope|Raw Evidence|IEL|reconciliation|lifecycle" docs/governance || true
+./scripts/verify-governance-reconciliation.sh:32:  -e "package preview" \
+./scripts/verify-governance-reconciliation.sh:34:  -e "Package Preview" \
+./preview-summary-lifecycle-investigation.txt:30:SEARCH: preview summary references
+./.git/COMMIT_EDITMSG:1:Investigate preview summary lifecycle findings
