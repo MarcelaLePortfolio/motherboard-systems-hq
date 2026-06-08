@@ -5,6 +5,7 @@ PREVIEW SUMMARY EVIDENCE EXTRACT
 Branch: feature/backup-system-v2
 
 Latest Governance Commits:
+babc770f Fix preview summary evidence extraction command order
 bac3f487 Fix preview summary evidence extraction
 049d5db6 Investigate preview summary lifecycle findings
 a13a6bb6 Fix reconciled lifecycle verification review
@@ -29,7 +30,6 @@ f41333e1 Document milestone 6 resolution checkpoint contract
 5e85c731 Document milestone 6 outcome review governance contracts
 a19d2459 record preview approval reconciliation finding
 992b6e0a record milestone 5 disaster recovery checkpoint
-cda74417 reconcile milestone 5 execution lineage governance
 
 ==================================================
 HIGH-SIGNAL SEARCHES

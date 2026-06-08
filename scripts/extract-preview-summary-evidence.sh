@@ -79,7 +79,7 @@ FILES=(
 
     --exclude="*.log" \
 
-    "package preview|preview summary|package summary|summary preview|preview artifact|preview write|natural language|plain language|review summary|user review" \
+    -e "package preview|preview summary|package summary|summary preview|preview artifact|preview write|natural language|plain language|review summary|user review" \
 
     docs/governance . || true
 
@@ -99,7 +99,7 @@ FILES=(
 
     --exclude="*.log" \
 
-    "draft package|canonical package|package.*preview|preview.*package|package.*review|review.*package|package.*summary|summary.*package|delegation.*preview|preview.*delegation" \
+    -e "draft package|canonical package|package.*preview|preview.*package|package.*review|review.*package|package.*summary|summary.*package|delegation.*preview|preview.*delegation" \
 
     docs/governance . || true
 
