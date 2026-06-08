@@ -1,0 +1,46 @@
+VERIFYING RECONCILED GOVERNANCE ARTIFACTS
+Branch:
+feature/backup-system-v2
+
+Latest commits:
+1674d276 Add V2 evidence: attention preservation improves scrutiny capacity
+80bbe8ae add matilda collaboration mode v2 evidence ledger
+1603584d reconcile matilda interpretation lifecycle corridor
+c6a2062d Document stabilized preview wrapper corridor findings
+2f75ecb5 Document stabilized execution corridor findings
+77f5ed4c Add collaboration and package lifecycle specification
+baeaa655 Add Governance Validation specification foundation
+e6b5c2bd Add Governance Lifecycle State Model
+6774f8cc Add Canonical Delegation Specification
+5a6e848f Add Canonical Package Specification
+ca926930 Add Canonical Envelope Specification
+28551668 Add Capability Routing Model
+
+Governance docs:
+docs/governance/CANONICAL_DELEGATION_SPECIFICATION.md
+docs/governance/CANONICAL_ENVELOPE_SPECIFICATION.md
+docs/governance/CANONICAL_PACKAGE_SPECIFICATION.md
+docs/governance/CAPABILITY_ROUTING_MODEL.md
+docs/governance/COLLABORATION_AND_PACKAGE_LIFECYCLE.md
+docs/governance/GOVERNANCE_LIFECYCLE_STATE_MODEL.md
+docs/governance/GOVERNANCE_VALIDATION_CHARTER.md
+docs/governance/GOVERNANCE_VALIDATION_SPECIFICATION.md
+docs/governance/HEADQUARTERS_ORGANIZATIONAL_CHARTER.md
+docs/governance/MATILDA_COLLABORATION_MODE_V2_EVIDENCE_LEDGER.md
+docs/governance/MATILDA_INTERPRETATION_LIFECYCLE_RECONCILIATION.md
+docs/governance/matilda-package-contract.md
+docs/governance/milestone-5-execution-lineage/atlas-authority-contract.md
+docs/governance/milestone-5-execution-lineage/atlas-payload-access-contract.md
+docs/governance/milestone-5-execution-lineage/atlas-visibility-contract.md
+docs/governance/milestone-5-execution-lineage/execution-lineage-artifact-contract.md
+docs/governance/milestone-5-execution-lineage/lineage-ambiguity-contract.md
+docs/governance/milestone-5-execution-lineage/lineage-evidence-contract.md
+docs/governance/milestone-5-execution-lineage/lineage-relationship-contract.md
+docs/governance/milestone-5-execution-lineage/milestone-5-dr-checkpoint.md
+docs/governance/milestone-5-execution-lineage/milestone-5-governance-reconciliation.md
+docs/governance/milestone-5-execution-lineage/progressive-disclosure-alignment-contract.md
+docs/governance/milestone-6-lifecycle-reconciliation-finding.md
+docs/governance/milestone-6-outcome-review-governance-contracts.md
+docs/governance/milestone-6-resolution-checkpoint-contract.md
+
+Searching reconciled lifecycle / package / preview / validation references:
