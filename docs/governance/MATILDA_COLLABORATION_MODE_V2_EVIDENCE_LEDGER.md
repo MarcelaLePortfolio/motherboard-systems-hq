@@ -289,3 +289,52 @@ This suggests V2 benefits may extend beyond attention preservation into active a
 
 - Additional corridor diversity and repeated observations still required.
 
+
+## Evidence Entry — Architectural Intuition Preservation
+
+Date: 2026-06-08
+
+Status: Supporting Evidence Added
+
+### Observation
+
+Architectural intuitions appear capable of surviving extended investigation without premature acceptance or rejection.
+
+### Evidence
+
+During the Raw Evidence / IEL / Package lifecycle corridor, multiple user architectural intuitions were preserved through pressure-testing rather than immediately resolved.
+
+Observed examples included:
+
+- One IEL per future Draft Package.
+
+- Same-context versus new-context lifecycle boundaries.
+
+- Active Raw Evidence Artifact lifecycle behavior.
+
+- Corridor continuation versus corridor replacement distinctions.
+
+### Observed Pattern
+
+User architectural intuition
+
+→ Competing explanations introduced
+
+→ Evidence inspection
+
+→ Reconciliation
+
+→ Convergence toward the original architectural shape with increased precision
+
+### Emerging Hypothesis Support
+
+Preserving architectural intuitions as unresolved hypotheses may improve reconciliation quality by preventing premature model collapse.
+
+### Current Status
+
+- Supports scrutiny-preservation findings.
+
+- Supports user-led architectural correction findings.
+
+- Additional corridor observations required.
+
