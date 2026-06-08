@@ -1,0 +1,363 @@
+==================================================
+GOVERNANCE VALIDATION OPERATIONALIZATION INSPECTION
+==================================================
+
+docs/governance/COLLABORATION_AND_PACKAGE_LIFECYCLE.md:52:Governance Validation
+docs/governance/COLLABORATION_AND_PACKAGE_LIFECYCLE.md:112:Approval does not authorize Governance Validation.
+docs/governance/COLLABORATION_AND_PACKAGE_LIFECYCLE.md:114:Approval does not authorize routing.
+docs/governance/COLLABORATION_AND_PACKAGE_LIFECYCLE.md:146:No Governance Validation may occur while a Package remains Pending Delegation.
+docs/governance/COLLABORATION_AND_PACKAGE_LIFECYCLE.md:158:Package existence does not require Governance Validation.
+docs/governance/COLLABORATION_AND_PACKAGE_LIFECYCLE.md:228:# Relationship To Governance Validation
+docs/governance/COLLABORATION_AND_PACKAGE_LIFECYCLE.md:230:Governance Validation consumes Delegated Packages.
+docs/governance/COLLABORATION_AND_PACKAGE_LIFECYCLE.md:232:Governance Validation does not consume Reconciled Intent Summaries.
+docs/governance/COLLABORATION_AND_PACKAGE_LIFECYCLE.md:234:Governance Validation may not evaluate Packages that remain Pending Delegation.
+docs/governance/milestone-6-lifecycle-reconciliation-finding.md:72:Planning
+docs/governance/CANONICAL_DELEGATION_SPECIFICATION.md:12:Delegation does not authorize operationalization, routing, assignment, planning, or execution.
+docs/governance/CANONICAL_DELEGATION_SPECIFICATION.md:36:Governance Validation
+docs/governance/CANONICAL_DELEGATION_SPECIFICATION.md:52:Delegation does not authorize assignment.
+docs/governance/CANONICAL_DELEGATION_SPECIFICATION.md:54:Delegation does not authorize routing.
+docs/governance/CANONICAL_DELEGATION_SPECIFICATION.md:72:That determination belongs to Governance Validation and subsequent operational processes.
+docs/governance/CANONICAL_DELEGATION_SPECIFICATION.md:246:# Relationship To Governance Validation
+docs/governance/CANONICAL_DELEGATION_SPECIFICATION.md:248:Delegation is a prerequisite for Governance Validation.
+docs/governance/CANONICAL_DELEGATION_SPECIFICATION.md:250:Governance Validation may only evaluate authorized interpretations.
+docs/governance/CANONICAL_DELEGATION_SPECIFICATION.md:252:Governance Validation consumes Delegation.
+docs/governance/CANONICAL_DELEGATION_SPECIFICATION.md:254:Governance Validation does not create Delegation.
+docs/governance/CANONICAL_DELEGATION_SPECIFICATION.md:260:Delegation precedes Envelope creation.
+docs/governance/CANONICAL_DELEGATION_SPECIFICATION.md:262:Envelope creation requires:
+docs/governance/CANONICAL_DELEGATION_SPECIFICATION.md:266:- Successful Governance Validation
+docs/governance/CANONICAL_DELEGATION_SPECIFICATION.md:312:Meaning, authority, and operationalization must remain separate.
+docs/governance/CAPABILITY_ROUTING_MODEL.md:2:# Capability Routing Model
+docs/governance/CAPABILITY_ROUTING_MODEL.md:6:This document defines the canonical capability-based routing architecture of the Motherboard Headquarters operating model.
+docs/governance/CAPABILITY_ROUTING_MODEL.md:34:Governance Validation
+docs/governance/CAPABILITY_ROUTING_MODEL.md:54:Assignment
+docs/governance/CAPABILITY_ROUTING_MODEL.md:68:- engineering_planning
+docs/governance/CAPABILITY_ROUTING_MODEL.md:96:- engineering_planning
+docs/governance/CAPABILITY_ROUTING_MODEL.md:132:Atlas does not perform routing.
+docs/governance/CAPABILITY_ROUTING_MODEL.md:138:Governance Validation derives required capabilities during operationalization review.
+docs/governance/CAPABILITY_ROUTING_MODEL.md:150:- engineering_planning
+docs/governance/CAPABILITY_ROUTING_MODEL.md:174:Governance Validation writes required capabilities into the Envelope.
+docs/governance/CAPABILITY_ROUTING_MODEL.md:180:- engineering_planning
+docs/governance/CAPABILITY_ROUTING_MODEL.md:186:The Envelope does not contain actor assignments.
+docs/governance/CAPABILITY_ROUTING_MODEL.md:190:# Routing Responsibility
+docs/governance/CAPABILITY_ROUTING_MODEL.md:192:Ellis owns capability resolution and assignment.
+docs/governance/CAPABILITY_ROUTING_MODEL.md:204:- Assignment
+docs/governance/CAPABILITY_ROUTING_MODEL.md:208:- Routing State
+docs/governance/CAPABILITY_ROUTING_MODEL.md:222:engineering_planning
+docs/governance/CAPABILITY_ROUTING_MODEL.md:238:The routing model must not depend upon specific actor identities.
+docs/governance/CAPABILITY_ROUTING_MODEL.md:242:# Multi-Department Routing
+docs/governance/CAPABILITY_ROUTING_MODEL.md:250:- engineering_planning
+docs/governance/CAPABILITY_ROUTING_MODEL.md:264:The capability model supports sequential and future parallel routing.
+docs/governance/CAPABILITY_ROUTING_MODEL.md:288:- Governance Validation
+docs/governance/CAPABILITY_ROUTING_MODEL.md:296:Capabilities are the routing language of the organization.
+docs/governance/CAPABILITY_ROUTING_MODEL.md:304:Governance Validation derives capabilities.
+docs/governance/CANONICAL_PACKAGE_SPECIFICATION.md:12:The Package must remain independent from operationalization, routing, assignment, and execution concerns.
+docs/governance/CANONICAL_PACKAGE_SPECIFICATION.md:36:Governance Validation
+docs/governance/CANONICAL_PACKAGE_SPECIFICATION.md:48:Packages do not own operationalization.
+docs/governance/CANONICAL_PACKAGE_SPECIFICATION.md:50:Packages do not own routing.
+docs/governance/CANONICAL_PACKAGE_SPECIFICATION.md:52:Packages do not own assignment.
+docs/governance/CANONICAL_PACKAGE_SPECIFICATION.md:84:- Add governance validation support
+docs/governance/CANONICAL_PACKAGE_SPECIFICATION.md:268:## Actor Assignment
+docs/governance/CANONICAL_PACKAGE_SPECIFICATION.md:276:Assignment belongs to Ellis.
+docs/governance/CANONICAL_PACKAGE_SPECIFICATION.md:284:- engineering_planning
+docs/governance/CANONICAL_PACKAGE_SPECIFICATION.md:288:Capabilities are derived by Governance Validation.
+docs/governance/CANONICAL_PACKAGE_SPECIFICATION.md:296:- planning_only
+docs/governance/CANONICAL_PACKAGE_SPECIFICATION.md:300:Operational corridors belong to Governance Validation.
+docs/governance/CANONICAL_PACKAGE_SPECIFICATION.md:306:Governance findings belong to Governance Validation.
+docs/governance/CANONICAL_PACKAGE_SPECIFICATION.md:310:## Routing Information
+docs/governance/CANONICAL_PACKAGE_SPECIFICATION.md:312:Routing belongs to Ellis.
+docs/governance/CANONICAL_PACKAGE_SPECIFICATION.md:336:Meaning must remain separate from operationalization.
+docs/governance/GOVERNANCE_VALIDATION_SPECIFICATION.md:2:# Governance Validation Specification
+docs/governance/GOVERNANCE_VALIDATION_SPECIFICATION.md:8:This document captures reconciled Governance Validation findings and serves as the authoritative foundation for future refinement.
+docs/governance/GOVERNANCE_VALIDATION_SPECIFICATION.md:12:Governance Validation is the Organizational Readiness Analysis Layer.
+docs/governance/GOVERNANCE_VALIDATION_SPECIFICATION.md:62:## Envelope Creation Rule
+docs/governance/GOVERNANCE_VALIDATION_SPECIFICATION.md:64:Envelope creation is prohibited until Governance Validation successfully completes.
+docs/governance/GOVERNANCE_VALIDATION_SPECIFICATION.md:70:Governance Validation does not resolve escalations.
+docs/governance/GOVERNANCE_VALIDATION_SPECIFICATION.md:76:Governance Validation consumes organizational intelligence.
+docs/governance/GOVERNANCE_VALIDATION_SPECIFICATION.md:80:Governance Validation determines requirements.
+docs/governance/GOVERNANCE_VALIDATION_SPECIFICATION.md:86:Governance Validation findings are persistent governance records.
+docs/governance/GOVERNANCE_VALIDATION_SPECIFICATION.md:90:Governance Validation may consult organizational reality and derives conclusions from evidence rather than assumed organizational state.
+docs/governance/HEADQUARTERS_ORGANIZATIONAL_CHARTER.md:42:- Routing
+docs/governance/HEADQUARTERS_ORGANIZATIONAL_CHARTER.md:44:- Planning
+docs/governance/HEADQUARTERS_ORGANIZATIONAL_CHARTER.md:78:- Governance Validation
+docs/governance/HEADQUARTERS_ORGANIZATIONAL_CHARTER.md:80:- Routing
+docs/governance/HEADQUARTERS_ORGANIZATIONAL_CHARTER.md:82:- Assignment
+docs/governance/HEADQUARTERS_ORGANIZATIONAL_CHARTER.md:84:- Engineering Planning
+docs/governance/HEADQUARTERS_ORGANIZATIONAL_CHARTER.md:94:Governance Validation
+docs/governance/HEADQUARTERS_ORGANIZATIONAL_CHARTER.md:98:Operationalization Review
+docs/governance/HEADQUARTERS_ORGANIZATIONAL_CHARTER.md:130:- Actor Assignment
+docs/governance/HEADQUARTERS_ORGANIZATIONAL_CHARTER.md:132:- Engineering Planning
+docs/governance/HEADQUARTERS_ORGANIZATIONAL_CHARTER.md:146:Operational Assignment and Coordination
+docs/governance/HEADQUARTERS_ORGANIZATIONAL_CHARTER.md:162:- Assignment
+docs/governance/HEADQUARTERS_ORGANIZATIONAL_CHARTER.md:166:- Routing State
+docs/governance/HEADQUARTERS_ORGANIZATIONAL_CHARTER.md:174:- Governance Validation
+docs/governance/HEADQUARTERS_ORGANIZATIONAL_CHARTER.md:178:- Engineering Planning
+docs/governance/HEADQUARTERS_ORGANIZATIONAL_CHARTER.md:192:Engineering Planning
+docs/governance/HEADQUARTERS_ORGANIZATIONAL_CHARTER.md:200:- Architecture planning
+docs/governance/HEADQUARTERS_ORGANIZATIONAL_CHARTER.md:202:- Implementation planning
+docs/governance/HEADQUARTERS_ORGANIZATIONAL_CHARTER.md:216:- Governance Validation
+docs/governance/HEADQUARTERS_ORGANIZATIONAL_CHARTER.md:218:- Routing
+docs/governance/HEADQUARTERS_ORGANIZATIONAL_CHARTER.md:256:- Governance Validation
+docs/governance/HEADQUARTERS_ORGANIZATIONAL_CHARTER.md:258:- Routing
+docs/governance/HEADQUARTERS_ORGANIZATIONAL_CHARTER.md:260:- Engineering Planning
+docs/governance/HEADQUARTERS_ORGANIZATIONAL_CHARTER.md:300:- Governance Validation
+docs/governance/HEADQUARTERS_ORGANIZATIONAL_CHARTER.md:302:- Routing
+docs/governance/HEADQUARTERS_ORGANIZATIONAL_CHARTER.md:304:- Engineering Planning
+docs/governance/HEADQUARTERS_ORGANIZATIONAL_CHARTER.md:318:Governance Validation owns operationalization review.
+docs/governance/HEADQUARTERS_ORGANIZATIONAL_CHARTER.md:320:Ellis owns assignment.
+docs/governance/GOVERNANCE_LIFECYCLE_STATE_MODEL.md:48:Governance Validation
+docs/governance/GOVERNANCE_LIFECYCLE_STATE_MODEL.md:56:Assignment
+docs/governance/GOVERNANCE_LIFECYCLE_STATE_MODEL.md:84:No operationalization exists.
+docs/governance/GOVERNANCE_LIFECYCLE_STATE_MODEL.md:94:Operationalization has not yet occurred.
+docs/governance/GOVERNANCE_LIFECYCLE_STATE_MODEL.md:100:Governance Validation is evaluating the delegated Package.
+docs/governance/GOVERNANCE_LIFECYCLE_STATE_MODEL.md:104:No assignment exists.
+docs/governance/GOVERNANCE_LIFECYCLE_STATE_MODEL.md:110:Governance Validation has successfully completed.
+docs/governance/GOVERNANCE_LIFECYCLE_STATE_MODEL.md:116:Envelope creation is permitted.
+docs/governance/GOVERNANCE_LIFECYCLE_STATE_MODEL.md:122:Governance Validation identified unresolved concerns.
+docs/governance/GOVERNANCE_LIFECYCLE_STATE_MODEL.md:124:Operationalization is prohibited.
+docs/governance/GOVERNANCE_LIFECYCLE_STATE_MODEL.md:126:Envelope creation is prohibited.
+docs/governance/GOVERNANCE_LIFECYCLE_STATE_MODEL.md:132:Operationalization artifact exists.
+docs/governance/GOVERNANCE_LIFECYCLE_STATE_MODEL.md:134:Assignment has not yet occurred.
+docs/governance/GOVERNANCE_LIFECYCLE_STATE_MODEL.md:284:Operationalization missing.
+docs/governance/GOVERNANCE_LIFECYCLE_STATE_MODEL.md:308:Operationalization prohibited.
+docs/governance/GOVERNANCE_LIFECYCLE_STATE_MODEL.md:320:Operationalization prohibited.
+docs/governance/GOVERNANCE_LIFECYCLE_STATE_MODEL.md:332:Assignment and operational work missing.
+docs/governance/GOVERNANCE_LIFECYCLE_STATE_MODEL.md:398:Governance Validation requires:
+docs/governance/GOVERNANCE_LIFECYCLE_STATE_MODEL.md:404:Governance Validation may not evaluate unauthorized interpretations.
+docs/governance/GOVERNANCE_LIFECYCLE_STATE_MODEL.md:408:# Envelope Creation Rules
+docs/governance/GOVERNANCE_LIFECYCLE_STATE_MODEL.md:410:Envelope creation requires:
+docs/governance/GOVERNANCE_LIFECYCLE_STATE_MODEL.md:416:Envelope creation is prohibited when:
+docs/governance/GOVERNANCE_LIFECYCLE_STATE_MODEL.md:426:# Assignment Rules
+docs/governance/GOVERNANCE_LIFECYCLE_STATE_MODEL.md:428:Assignment requires:
+docs/governance/GOVERNANCE_LIFECYCLE_STATE_MODEL.md:434:Assignment is owned by Ellis.
+docs/governance/GOVERNANCE_LIFECYCLE_STATE_MODEL.md:436:Governance Validation may not perform assignment.
+docs/governance/GOVERNANCE_LIFECYCLE_STATE_MODEL.md:446:- Existing Assignment
+docs/governance/GOVERNANCE_LIFECYCLE_STATE_MODEL.md:448:Operational departments may not bypass assignment.
+docs/governance/GOVERNANCE_LIFECYCLE_STATE_MODEL.md:478:Governance progresses through operationalization.
+docs/governance/GOVERNANCE_LIFECYCLE_STATE_MODEL.md:480:Operationalization progresses through coordination.
+docs/governance/GOVERNANCE_VALIDATION_CHARTER.md:2:# Governance Validation Charter
+docs/governance/GOVERNANCE_VALIDATION_CHARTER.md:6:Governance Validation exists to determine whether delegated meaning can safely become operational work.
+docs/governance/GOVERNANCE_VALIDATION_CHARTER.md:8:Governance Validation does not determine intent, assign actors, perform engineering planning, or execute work.
+docs/governance/GOVERNANCE_VALIDATION_CHARTER.md:10:Governance Validation reviews delegated Packages and determines whether operationalization may proceed.
+docs/governance/GOVERNANCE_VALIDATION_CHARTER.md:36:Governance Validation receives:
+docs/governance/GOVERNANCE_VALIDATION_CHARTER.md:50:Governance Validation produces:
+docs/governance/GOVERNANCE_VALIDATION_CHARTER.md:86:- engineering_planning
+docs/governance/GOVERNANCE_VALIDATION_CHARTER.md:94:Governance Validation derives capabilities.
+docs/governance/GOVERNANCE_VALIDATION_CHARTER.md:96:Governance Validation does not assign actors.
+docs/governance/GOVERNANCE_VALIDATION_CHARTER.md:106:- planning_only
+docs/governance/GOVERNANCE_VALIDATION_CHARTER.md:236:Required capabilities must be derivable before operationalization.
+docs/governance/GOVERNANCE_VALIDATION_CHARTER.md:242:Governance Validation may issue PASS only when:
+docs/governance/GOVERNANCE_VALIDATION_CHARTER.md:262:Governance Validation must issue RESOLUTION REQUIRED when:
+docs/governance/GOVERNANCE_VALIDATION_CHARTER.md:282:Governance Validation does not own:
+docs/governance/GOVERNANCE_VALIDATION_CHARTER.md:286:- Actor Assignment
+docs/governance/GOVERNANCE_VALIDATION_CHARTER.md:290:- Engineering Planning
+docs/governance/GOVERNANCE_VALIDATION_CHARTER.md:302:Governance Validation sits between:
+docs/governance/GOVERNANCE_VALIDATION_CHARTER.md:308:Operationalization
+docs/governance/GOVERNANCE_VALIDATION_CHARTER.md:320:Governance Validation
+docs/governance/CANONICAL_ENVELOPE_SPECIFICATION.md:8:The Envelope is created after Governance Validation successfully operationalizes a delegated Package.
+docs/governance/CANONICAL_ENVELOPE_SPECIFICATION.md:12:The Envelope preserves lineage, assignment history, operational history, and completion history.
+docs/governance/CANONICAL_ENVELOPE_SPECIFICATION.md:30:Governance Validation
+docs/governance/CANONICAL_ENVELOPE_SPECIFICATION.md:34:Envelope Created
+docs/governance/CANONICAL_ENVELOPE_SPECIFICATION.md:38:Ellis Routing
+docs/governance/CANONICAL_ENVELOPE_SPECIFICATION.md:72:Envelope created by Governance Validation.
+docs/governance/CANONICAL_ENVELOPE_SPECIFICATION.md:136:Governance Validation
+docs/governance/CANONICAL_ENVELOPE_SPECIFICATION.md:154:Governance Validation
+docs/governance/CANONICAL_ENVELOPE_SPECIFICATION.md:172:Governance Validation
+docs/governance/CANONICAL_ENVELOPE_SPECIFICATION.md:176:Governance Validation only
+docs/governance/CANONICAL_ENVELOPE_SPECIFICATION.md:178:Immutable after envelope creation.
+docs/governance/CANONICAL_ENVELOPE_SPECIFICATION.md:186:- engineering_planning
+docs/governance/CANONICAL_ENVELOPE_SPECIFICATION.md:194:Governance Validation
+docs/governance/CANONICAL_ENVELOPE_SPECIFICATION.md:198:Governance Validation only
+docs/governance/CANONICAL_ENVELOPE_SPECIFICATION.md:200:Immutable after envelope creation.
+docs/governance/CANONICAL_ENVELOPE_SPECIFICATION.md:208:- planning_only
+docs/governance/CANONICAL_ENVELOPE_SPECIFICATION.md:216:Governance Validation
+docs/governance/CANONICAL_ENVELOPE_SPECIFICATION.md:220:Governance Validation only
+docs/governance/CANONICAL_ENVELOPE_SPECIFICATION.md:222:Immutable after envelope creation.
+docs/governance/CANONICAL_ENVELOPE_SPECIFICATION.md:250:# Assignment Fields
+docs/governance/CANONICAL_ENVELOPE_SPECIFICATION.md:252:## assignment_state
+docs/governance/CANONICAL_ENVELOPE_SPECIFICATION.md:308:## routing_history
+docs/governance/CANONICAL_ENVELOPE_SPECIFICATION.md:312:Historical routing record.
+docs/governance/CANONICAL_ENVELOPE_SPECIFICATION.md:524:Governance Validation may define operationalization outputs but may not perform assignment.
+docs/contracts/CADE_ENGINEER_ADAPTER_PHASE_STATUS.md:110:- stabilized for planning
+docs/contracts/CADE_ENGINEER_ADAPTER_PHASE_STATUS.md:174:- dry-run engineering planning
+docs/contracts/CADE_ENGINEER_ADAPTER_PHASE_STATUS.md:186:- unsafe shell routing
+docs/contracts/GOVERNED_ROUTE_INPROCESS_VALIDATION_CHECKPOINT.md:6:The governed planning dry-run route is mounted in `server.mjs` and validated in-process.
+docs/contracts/GOVERNED_ROUTE_INPROCESS_VALIDATION_CHECKPOINT.md:14:`POST /api/governed-planning/dry-run`
+docs/contracts/GOVERNED_EXECUTION_CORRIDOR_CHECKPOINT_20260527.md:10:This checkpoint records the governed execution corridor stabilization from canonical envelope validation through deterministic planning-phase state progression.
+docs/contracts/GOVERNED_EXECUTION_CORRIDOR_CHECKPOINT_20260527.md:70:- cff12ad5 Add governed planning pipeline
+docs/contracts/GOVERNED_EXECUTION_CORRIDOR_CHECKPOINT_20260527.md:72:- 066abf47 Record governed planning pipeline smoke results
+docs/contracts/GOVERNED_EXECUTION_CORRIDOR_CHECKPOINT_20260527.md:102:- governed planning pipeline
+docs/contracts/GOVERNED_EXECUTION_CORRIDOR_CHECKPOINT_20260527.md:108:- smoke evidence for the major planning corridor components
+docs/contracts/GOVERNED_EXECUTION_CORRIDOR_CHECKPOINT_20260527.md:120:      -> governance validation
+docs/contracts/GOVERNED_EXECUTION_CORRIDOR_CHECKPOINT_20260527.md:138:- governance validation
+docs/contracts/GOVERNED_EXECUTION_CORRIDOR_CHECKPOINT_20260527.md:144:- Cade planning
+docs/contracts/GOVERNED_EXECUTION_CORRIDOR_CHECKPOINT_20260527.md:164:- execution authority inference from planning success
+docs/contracts/GOVERNED_EXECUTION_CORRIDOR_CHECKPOINT_20260527.md:184:- dry-run planning
+docs/contracts/GOVERNED_EXECUTION_CORRIDOR_CHECKPOINT_20260527.md:212:The next safe implementation slice is API exposure for the governed planning pipeline, but only as a dry-run planning endpoint.
+docs/contracts/CADE_ENGINEER_ADAPTER_INVARIANTS.md:32:Canonical governance envelopes are authoritative over execution planning behavior.
+docs/contracts/CADE_ENGINEER_ADAPTER_INVARIANTS.md:54:- planning-only
+docs/contracts/CADE_ENGINEER_ADAPTER_INVARIANTS.md:150:Every execution planning result must remain capable of producing:
+docs/contracts/CADE_ENGINEER_ADAPTER_INVARIANTS.md:230:- envelope-native planning operational
+docs/contracts/CADE_ENGINEER_ADAPTER_INVARIANTS.md:234:- dry-run planning operational
+docs/contracts/GOVERNED_PLANNING_ROUTE_SMOKE.md:2:# Governed Planning Route Smoke
+docs/contracts/GOVERNED_PLANNING_ROUTE_SMOKE.md:6:Validate that the governed planning API route preserves:
+docs/contracts/GOVERNED_PLANNING_ROUTE_SMOKE.md:10:- fail-closed governance validation
+docs/contracts/GOVERNED_PLANNING_ROUTE_SMOKE.md:12:- approval-gated planning semantics
+docs/contracts/GOVERNED_PLANNING_ROUTE_SMOKE.md:36:- governance validation
+docs/contracts/GOVERNED_PLANNING_ROUTE_SMOKE.md:40:- Cade dry-run planning output
+docs/contracts/GOVERNED_PLANNING_ROUTE_SMOKE.md:42:- reconciliation-ready planning artifacts
+docs/contracts/GOVERNED_PLANNING_ROUTE_SMOKE.md:54:The governed planning route is:
+docs/contracts/GOVERNED_PLANNING_ROUTE_SMOKE.md:56:- planning only
+docs/contracts/GOVERNED_PLANNING_ROUTE_SMOKE.md:70:- a shell routing endpoint
+docs/contracts/GOVERNED_PLANNING_ROUTE_SMOKE_RESULT.md:2:# Governed Planning Route Smoke Result
+docs/contracts/GOVERNED_PLANNING_ROUTE_SMOKE_RESULT.md:6:The initial governed planning route smoke committed in:
+docs/contracts/GOVERNED_PLANNING_ROUTE_SMOKE_RESULT.md:8:    50dd539b Add governed planning route smoke validation
+docs/contracts/GOVERNED_PLANNING_ROUTE_SMOKE_RESULT.md:12:The smoke attempted to pass the flat route payload directly into the governed planning pipeline, but the pipeline expects a structured input containing:
+docs/contracts/GOVERNED_PLANNING_ROUTE_SMOKE_RESULT.md:36:    d6e58b7c Fix governed planning route smoke payload shape
+docs/contracts/GOVERNED_PLANNING_ROUTE_SMOKE_RESULT.md:68:      "route_validation": "governed_planning_route_smoke",
+docs/contracts/GOVERNED_PLANNING_ROUTE_SMOKE_RESULT.md:70:      "phase": "planning_only",
+docs/contracts/GOVERNED_PLANNING_ROUTE_SMOKE_RESULT.md:90:The governed planning route smoke now proves that route-style payloads can be translated into the canonical governed planning pipeline shape.
+docs/contracts/GOVERNED_PLANNING_ROUTE_SMOKE_RESULT.md:102:- governance validation passed
+docs/contracts/GOVERNED_PLANNING_ROUTE_SMOKE_RESULT.md:106:- Cade planning passed
+docs/contracts/PREVIEW_APPROVAL_RECONCILIATION_FINDING.md:38:The execution envelope is the canonical governance artifact produced from Matilda-side interpretation and passed through governance validation, approval gating, Cade planning, and future execution phases.
+docs/contracts/PREVIEW_APPROVAL_RECONCILIATION_FINDING.md:48:- governance validation
+docs/contracts/PREVIEW_APPROVAL_RECONCILIATION_FINDING.md:54:- Cade dry-run planning
+docs/contracts/PREVIEW_APPROVAL_RECONCILIATION_FINDING.md:104:2. Governance validation is not sufficient user approval.
+docs/contracts/PREVIEW_APPROVAL_RECONCILIATION_FINDING.md:106:3. Approval artifacts should distinguish planning-only approval from preview-confirmed execution approval.
+docs/contracts/CANONICAL_EXECUTION_LIFECYCLE.md:16:- execution planning occurs
+docs/contracts/CANONICAL_EXECUTION_LIFECYCLE.md:86:- preserve ambiguity in reconciliation or planning record
+docs/contracts/CANONICAL_EXECUTION_LIFECYCLE.md:96:Cade, Matilda, or governance validation detects ambiguity that blocks safe interpretation, planning, or execution.
+docs/contracts/CANONICAL_EXECUTION_LIFECYCLE.md:114:Required Routing:
+docs/contracts/CANONICAL_EXECUTION_LIFECYCLE.md:244:Failure Routing:
+docs/contracts/CANONICAL_EXECUTION_LIFECYCLE.md:258:The envelope awaits governance validation.
+docs/contracts/CANONICAL_EXECUTION_LIFECYCLE.md:266:- planning prohibited until validation succeeds
+docs/contracts/CANONICAL_EXECUTION_LIFECYCLE.md:290:The envelope passed governance validation.
+docs/contracts/CANONICAL_EXECUTION_LIFECYCLE.md:322:- governance-authorized planning
+docs/contracts/CANONICAL_EXECUTION_LIFECYCLE.md:336:## 6. PLANNING
+docs/contracts/CANONICAL_EXECUTION_LIFECYCLE.md:354:- patch planning
+docs/contracts/CANONICAL_EXECUTION_LIFECYCLE.md:546:- PLANNING
+docs/contracts/CANONICAL_EXECUTION_LIFECYCLE.md:568:- governed planning
+docs/contracts/CANONICAL_EXECUTION_LIFECYCLE.md:594:- canonical governance validation
+docs/contracts/CANONICAL_EXECUTION_LIFECYCLE.md:596:- canonical Cade planning delegation
+docs/contracts/CANONICAL_EXECUTION_LIFECYCLE.md:598:- canonical dry-run engineering planning
+docs/contracts/CANONICAL_EXECUTION_LIFECYCLE.md:604:- planning authority
+docs/contracts/MILESTONE_3C_VALIDATOR_CONTRACT_REVIEW_FINDINGS.md:26:Existing contracts reference governance validation and validator-like behavior.
+docs/contracts/GOVERNED_PLANNING_ARTIFACT_BUNDLE.md:2:# Governed Planning Artifact Bundle
+docs/contracts/GOVERNED_PLANNING_ARTIFACT_BUNDLE.md:6:Define a canonical non-executing artifact bundle for governed planning output.
+docs/contracts/GOVERNED_PLANNING_ARTIFACT_BUNDLE.md:24:- reconciliation-ready planning output
+docs/contracts/GOVERNED_PLANNING_ARTIFACT_BUNDLE.md:48:Governed planning can now produce one canonical handoff object without relying on route internals, planner internals, or legacy Cade runtime behavior.
+docs/contracts/GOVERNED_PLANNING_ARTIFACT_BUNDLE.md:52:The bundle is a planning artifact.
+docs/contracts/RUNTIME_RESTORE_AND_GOVERNED_ROUTE_SEAL.md:32:`POST /api/governed-planning/dry-run`
+docs/contracts/RUNTIME_RESTORE_AND_GOVERNED_ROUTE_SEAL.md:40:- `route: governed_planning_dry_run`
+docs/contracts/RUNTIME_RESTORE_AND_GOVERNED_ROUTE_SEAL.md:42:- `mode: planning_only`
+docs/contracts/RUNTIME_RESTORE_AND_GOVERNED_ROUTE_SEAL.md:50:- Cade planning passed
+docs/contracts/RUNTIME_RESTORE_AND_GOVERNED_ROUTE_SEAL.md:68:The governed planning dry-run route is now validated across:
+docs/contracts/RUNTIME_RESTORE_AND_GOVERNED_ROUTE_SEAL.md:82:Execution remains planning-only unless a future separately governed phase explicitly introduces and validates a narrower authority boundary.
+docs/contracts/MILESTONE_3_VALIDATOR_AUTHORITY_SCOPE.md:236:## Escalation Routing
+docs/contracts/MILESTONE_3_VALIDATOR_AUTHORITY_SCOPE.md:368:Milestone 3 scope is complete when validator authority, validator non-authority, failure categories, escalation routing, and output requirements are documented.
+docs/contracts/GOVERNED_ROUTE_FAIL_CLOSED_SMOKE.md:6:Validate that the governed planning corridor fails closed when required execution intent fields are missing.
+docs/contracts/GOVERNED_ROUTE_FAIL_CLOSED_SMOKE.md:14:from the governed planning pipeline input.
+docs/contracts/GOVERNED_ROUTE_FAIL_CLOSED_SMOKE.md:38:- governance validation
+docs/contracts/GOVERNED_ROUTE_FAIL_CLOSED_SMOKE.md:42:- Cade planning
+docs/contracts/GOVERNED_ROUTE_FAIL_CLOSED_SMOKE.md:46:The governed planning corridor must fail closed on malformed intent input.
+docs/contracts/CADE_ENGINEER_ADAPTER_SMOKE.md:96:This smoke result validates planning only.
+docs/contracts/MILESTONE_1A_ENVELOPE_GOVERNANCE_REVIEW.md:46:- governance validation
+docs/contracts/MILESTONE_1C_CLOSEOUT.md:80:- Added intent evidence routing
+docs/contracts/GOVERNED_PLANNING_PIPELINE_SMOKE.md:2:# Governed Planning Pipeline Smoke Results
+docs/contracts/GOVERNED_PLANNING_PIPELINE_SMOKE.md:6:This smoke test validates the first end-to-end governed planning pipeline.
+docs/contracts/GOVERNED_PLANNING_PIPELINE_SMOKE.md:14:- canonical governance validation
+docs/contracts/GOVERNED_PLANNING_PIPELINE_SMOKE.md:18:- Cade engineer dry-run planning
+docs/contracts/GOVERNED_PLANNING_PIPELINE_SMOKE.md:24:cff12ad5 Add governed planning pipeline
+docs/contracts/GOVERNED_PLANNING_PIPELINE_SMOKE.md:30:    node server/execution/smoke-test-governed-planning-pipeline.mjs
+docs/contracts/GOVERNED_PLANNING_PIPELINE_SMOKE.md:40:      "pipeline": "governed_planning_pipeline",
+docs/contracts/GOVERNED_PLANNING_PIPELINE_SMOKE.md:42:      "phase": "planning_only",
+docs/contracts/GOVERNED_PLANNING_PIPELINE_SMOKE.md:102:Motherboard Systems now has a complete governed planning corridor from interpreted intent to Cade engineering plan.
+docs/contracts/GOVERNED_PLANNING_PIPELINE_SMOKE.md:104:The pipeline proves that Matilda-side intent can become a canonical execution envelope, pass governance, pass approval gating, and reach Cade planning without enabling mutation.
+docs/contracts/GOVERNED_PLANNING_PIPELINE_SMOKE.md:114:- governance validation
+docs/contracts/GOVERNED_PLANNING_PIPELINE_SMOKE.md:118:- Cade engineering planning
+docs/contracts/GOVERNED_PLANNING_PIPELINE_SMOKE.md:146:- dry-run execution planning
+docs/contracts/CANONICAL_EXECUTION_ENVELOPE_SCHEMA.pre_m1c_backup.md:12:- governance validation
+docs/contracts/CANONICAL_EXECUTION_ENVELOPE_SCHEMA.pre_m1c_backup.md:14:- Cade engineering planning
+docs/contracts/CANONICAL_EXECUTION_ENVELOPE_SCHEMA.pre_m1c_backup.md:150:Canonical envelope creation timestamp.
+docs/contracts/CANONICAL_EXECUTION_ENVELOPE_SCHEMA.pre_m1c_backup.md:208:  "classification": "planning|mutation|analysis"
+docs/contracts/CANONICAL_EXECUTION_ENVELOPE_SCHEMA.pre_m1c_backup.md:344:Defines attached planning or reconciliation artifacts.
+docs/contracts/CANONICAL_EXECUTION_ENVELOPE_SCHEMA.pre_m1c_backup.md:384:Only delegated envelopes may enter planning.
+docs/contracts/CANONICAL_EXECUTION_ENVELOPE_SCHEMA.pre_m1c_backup.md:424:Rollback contract must exist before execution planning occurs.
+docs/contracts/CANONICAL_EXECUTION_ENVELOPE_SCHEMA.pre_m1c_backup.md:428:Reconciliation contract must exist before planning occurs.
+docs/contracts/CANONICAL_EXECUTION_ENVELOPE_SCHEMA.pre_m1c_backup.md:434:- planning
+docs/contracts/CANONICAL_EXECUTION_ENVELOPE_SCHEMA.pre_m1c_backup.md:496:    "classification": "planning"
+docs/contracts/CANONICAL_EXECUTION_ENVELOPE_SCHEMA.pre_m1c_backup.md:608:    "phase": "governed_planning_phase"
+docs/contracts/CANONICAL_EXECUTION_ENVELOPE_SCHEMA.pre_m1c_backup.md:624:- canonical dry-run planning contracts
+docs/contracts/CANONICAL_EXECUTION_ENVELOPE_SCHEMA.pre_m1c_backup.md:634:- planning
+docs/contracts/GOVERNED_RESPONSE_NORMALIZATION.md:6:Define a canonical deterministic response structure for governed planning routes.
+docs/contracts/GOVERNED_RESPONSE_NORMALIZATION.md:18:- explicit planning state
+docs/contracts/GOVERNED_RESPONSE_NORMALIZATION.md:46:- Cade planning internals
+docs/contracts/GOVERNED_RESPONSE_NORMALIZATION.md:56:- planning success
+docs/contracts/DASHBOARD_UI_DATA_SURFACES_RESTORED_SEAL.md:42:Governed execution remains planning-only unless a future separately governed phase introduces and validates a narrower execution authority boundary.
+docs/contracts/CANONICAL_EXECUTION_DOCTRINE_V1.md:222:# Project Routing Invariant
+docs/contracts/GOVERNED_EXECUTION_AUDIT_LEDGER.md:6:Define a canonical append-only governance audit ledger for governed planning flows.
+docs/contracts/GOVERNED_EXECUTION_AUDIT_LEDGER.md:38:Governed planning now produces canonical audit artifacts independent of:
+docs/contracts/CANONICAL_EXECUTION_ENVELOPE_SCHEMA.md:12:- governance validation
+docs/contracts/CANONICAL_EXECUTION_ENVELOPE_SCHEMA.md:14:- Cade engineering planning
+docs/contracts/CANONICAL_EXECUTION_ENVELOPE_SCHEMA.md:186:Canonical envelope creation timestamp.
+docs/contracts/CANONICAL_EXECUTION_ENVELOPE_SCHEMA.md:246:  "classification": "planning|mutation|analysis"
+docs/contracts/CANONICAL_EXECUTION_ENVELOPE_SCHEMA.md:418:Defines attached planning or reconciliation artifacts.
+docs/contracts/CANONICAL_EXECUTION_ENVELOPE_SCHEMA.md:528:Only delegated envelopes may enter planning.
+docs/contracts/CANONICAL_EXECUTION_ENVELOPE_SCHEMA.md:568:Rollback contract must exist before execution planning occurs.
+docs/contracts/CANONICAL_EXECUTION_ENVELOPE_SCHEMA.md:572:Reconciliation contract must exist before planning occurs.
+docs/contracts/CANONICAL_EXECUTION_ENVELOPE_SCHEMA.md:578:- planning
+docs/contracts/CANONICAL_EXECUTION_ENVELOPE_SCHEMA.md:640:    "classification": "planning"
+docs/contracts/CANONICAL_EXECUTION_ENVELOPE_SCHEMA.md:752:    "phase": "governed_planning_phase"
+docs/contracts/CANONICAL_EXECUTION_ENVELOPE_SCHEMA.md:768:- canonical dry-run planning contracts
+docs/contracts/CANONICAL_EXECUTION_ENVELOPE_SCHEMA.md:778:- planning
+docs/contracts/MILESTONE_2_RUNTIME_CONTRACT_REVIEW.md:144:Milestone 1C lifecycle now requires ambiguity routing.
+docs/contracts/GOVERNED_PHASE_RUNNER_SMOKE.md:12:- governed planning pipeline
+docs/contracts/GOVERNED_PHASE_RUNNER_SMOKE.md:42:      "final_phase": "planning_completed",
+docs/contracts/GOVERNED_PHASE_RUNNER_SMOKE.md:62:    approval_gated -> planning_completed
+docs/contracts/GOVERNED_PHASE_RUNNER_SMOKE.md:66:- planning allowed
+docs/contracts/GOVERNED_PHASE_RUNNER_SMOKE.md:76:Motherboard Systems now has a deterministic planning-phase progression model.
+docs/contracts/GOVERNED_PHASE_RUNNER_SMOKE.md:80:This prevents downstream components from assuming that successful planning implies execution authority.
+docs/contracts/GOVERNED_PHASE_RUNNER_SMOKE.md:86:- planning phase progression
+docs/contracts/GOVERNED_PHASE_RUNNER_SMOKE.md:124:- governance validation alone
+docs/contracts/GOVERNED_PHASE_RUNNER_SMOKE.md:128:- Cade planning success alone
+docs/contracts/GOVERNED_ROUTE_LIVE_HTTP_PAUSED.md:12:- `localhost:3000` resets the governed planning route request.
+docs/contracts/GOVERNED_RECONCILIATION_NORMALIZATION.md:6:Define a canonical reconciliation artifact format for governed planning flows.
+docs/contracts/GOVERNED_RECONCILIATION_NORMALIZATION.md:18:- explicit planning state
+docs/contracts/GOVERNED_RECONCILIATION_NORMALIZATION.md:38:Governed planning now produces canonical reconciliation artifacts independent of:
+docs/contracts/GOVERNED_RECONCILIATION_NORMALIZATION.md:50:Reconciliation artifacts are observational and planning-oriented only.
+docs/contracts/CONTAINER_VISIBILITY_RUNTIME_FINDING.md:44:- governed planning pipeline
+docs/contracts/CONTAINER_VISIBILITY_RUNTIME_FINDING.md:76:6. Only then run governed planning live HTTP smoke.
+docs/contracts/DASHBOARD_UI_RUNTIME_RESTORE_SEAL.md:28:- Governed planning dry-run route remains live-valid and planning-only.
+docs/contracts/GOVERNED_ROUTE_RUNTIME_AMBIGUITY_AND_INPROCESS_SMOKE.md:6:A live HTTP smoke against `http://localhost:3000/api/governed-planning/dry-run` returned `Recv failure: Connection reset by peer`.
+docs/contracts/GOVERNED_ROUTE_RUNTIME_AMBIGUITY_AND_INPROCESS_SMOKE.md:30:`POST /api/governed-planning/dry-run`
+docs/contracts/GOVERNED_ROUTE_RUNTIME_AMBIGUITY_AND_INPROCESS_SMOKE.md:54:Governed planning route behavior remains valid at the static and in-process route level.
+docs/contracts/GOVERNED_EXECUTION_PHASE_CHECKPOINT_AFTER_HTTP_PAUSE.md:26:- governed planning pipeline
+docs/contracts/GOVERNED_EXECUTION_PHASE_CHECKPOINT_AFTER_HTTP_PAUSE.md:34:- governed planning artifact bundle
+docs/contracts/GOVERNED_EXECUTION_PHASE_CHECKPOINT_AFTER_HTTP_PAUSE.md:36:- mounted governed planning dry-run route
+docs/contracts/GOVERNED_EXECUTION_PHASE_CHECKPOINT_AFTER_HTTP_PAUSE.md:42:`POST /api/governed-planning/dry-run`
+docs/contracts/GOVERNED_PLANNING_ROUTE_SERVER_MOUNT.md:2:# Governed Planning Route Server Mount
+docs/contracts/GOVERNED_PLANNING_ROUTE_SERVER_MOUNT.md:6:The governed planning dry-run route is now mounted in `server.mjs`.
+docs/contracts/GOVERNED_PLANNING_ROUTE_SERVER_MOUNT.md:10:`server/routes/governed-planning-route.mjs`
+docs/contracts/GOVERNED_PLANNING_ROUTE_SERVER_MOUNT.md:14:`POST /api/governed-planning/dry-run`
+docs/contracts/GOVERNED_PLANNING_ROUTE_SERVER_MOUNT.md:18:This mount exposes only the governed planning dry-run route.
+docs/contracts/GOVERNED_PLANNING_ROUTE_SERVER_MOUNT.md:36:The active server now has a registered HTTP surface for the canonical governed planning pipeline.
+docs/contracts/GOVERNED_PLANNING_ROUTE_SERVER_MOUNT.md:38:The route remains planning-only, reconciliation-ready, audit-ready, and fail-closed.
+docs/contracts/MILESTONE_1_EXECUTION_ENVELOPE_RECONCILIATION_CHECKPOINT.md:56:- governance validation
+docs/contracts/MILESTONE_1_EXECUTION_ENVELOPE_RECONCILIATION_CHECKPOINT.md:182:- governance validation
+docs/contracts/MILESTONE_1_EXECUTION_ENVELOPE_RECONCILIATION_CHECKPOINT.md:254:- PLANNING
+docs/contracts/EXECUTION_APPROVAL_GATE_SMOKE.md:10:- canonical governance validation
+docs/contracts/EXECUTION_APPROVAL_GATE_SMOKE.md:12:- dry-run Cade engineering planning
+docs/contracts/EXECUTION_APPROVAL_GATE_SMOKE.md:40:      "execution_phase": "governed_planning_only",
+docs/contracts/EXECUTION_APPROVAL_GATE_SMOKE.md:100:- planning-only authorization
+docs/contracts/EXECUTION_APPROVAL_GATE_SMOKE.md:106:- governed planning only
+docs/contracts/EXECUTION_APPROVAL_GATE_SMOKE.md:132:Future execution-capable phases must explicitly pass through this gate and must not infer execution authority from successful governance validation alone.
+docs/contracts/GOVERNED_PLANNING_ROUTE_BUNDLE_RETURN.md:2:# Governed Planning Route Bundle Return
+docs/contracts/GOVERNED_PLANNING_ROUTE_BUNDLE_RETURN.md:6:The governed planning route now returns the canonical governed planning artifact bundle.
+docs/contracts/GOVERNED_PLANNING_ROUTE_BUNDLE_RETURN.md:10:e5d08008 Return canonical bundle from governed planning route
+docs/contracts/GOVERNED_PLANNING_ROUTE_BUNDLE_RETURN.md:14:    POST /api/governed-planning/dry-run
+docs/contracts/GOVERNED_PLANNING_ROUTE_BUNDLE_RETURN.md:24:      "route": "governed_planning_dry_run",
+docs/contracts/GOVERNED_PLANNING_ROUTE_BUNDLE_RETURN.md:26:      "mode": "planning_only",
+docs/contracts/GOVERNED_PLANNING_ROUTE_BUNDLE_RETURN.md:30:        "bundle_schema": "governed_planning_artifact_bundle.v1",
+docs/contracts/GOVERNED_PLANNING_ROUTE_BUNDLE_RETURN.md:60:      "route": "governed_planning_dry_run",
+docs/contracts/GOVERNED_PLANNING_ROUTE_BUNDLE_RETURN.md:62:      "mode": "planning_only",
+docs/contracts/GOVERNED_PLANNING_ROUTE_BUNDLE_RETURN.md:66:        "response_schema": "governed_planning_response.v1",
+docs/contracts/GOVERNED_PLANNING_ROUTE_BUNDLE_RETURN.md:100:- planning only
