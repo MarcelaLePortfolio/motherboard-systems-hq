@@ -338,3 +338,44 @@ Preserving architectural intuitions as unresolved hypotheses may improve reconci
 
 - Additional corridor observations required.
 
+
+## Hypothesis Entry — Uncertainty Preservation As A Collaboration Mechanism
+
+Date: 2026-06-08
+
+Status: Hypothesis Under Investigation
+
+### Hypothesis
+
+Collaboration quality may improve when architectural uncertainty remains explicitly preserved until evidence can resolve competing models.
+
+### Supporting Observations
+
+- Multiple competing architectural explanations remained active simultaneously.
+
+- Reconciliation was repeatedly delayed pending evidence inspection.
+
+- Evidence gathering preceded convergence.
+
+- Architectural intuitions survived pressure-testing without premature acceptance or rejection.
+
+### Potential Mechanism
+
+Uncertainty Preservation
+
+→ Architectural Intuition Preservation
+
+→ User-Led Architectural Correction Preservation
+
+→ Higher Quality Reconciliation
+
+### Current Status
+
+- Plausible explanatory model.
+
+- Not yet validated.
+
+- Requires additional corridors across multiple corridor types.
+
+- Causation not established.
+
