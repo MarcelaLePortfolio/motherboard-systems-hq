@@ -67,7 +67,7 @@ FILES=(
 
   echo "--- package preview / preview summary ---"
 
-  grep -RInEi "package preview|preview summary|package summary|summary preview|preview artifact|preview write|natural language|plain language|review summary|user review" docs/governance . \
+  grep -RInEi \
 
     --exclude-dir=.git \
 
@@ -75,13 +75,19 @@ FILES=(
 
     --exclude-dir=backups \
 
-    --exclude="*.log" || true
+    --exclude-dir=_dashboard_candidate_previews \
+
+    --exclude="*.log" \
+
+    "package preview|preview summary|package summary|summary preview|preview artifact|preview write|natural language|plain language|review summary|user review" \
+
+    docs/governance . || true
 
   echo
 
   echo "--- lifecycle / package / preview proximity ---"
 
-  grep -RInEi "draft package|canonical package|package.*preview|preview.*package|package.*review|review.*package|package.*summary|summary.*package|delegation.*preview|preview.*delegation" docs/governance . \
+  grep -RInEi \
 
     --exclude-dir=.git \
 
@@ -89,7 +95,13 @@ FILES=(
 
     --exclude-dir=backups \
 
-    --exclude="*.log" || true
+    --exclude-dir=_dashboard_candidate_previews \
+
+    --exclude="*.log" \
+
+    "draft package|canonical package|package.*preview|preview.*package|package.*review|review.*package|package.*summary|summary.*package|delegation.*preview|preview.*delegation" \
+
+    docs/governance . || true
 
   echo
 
