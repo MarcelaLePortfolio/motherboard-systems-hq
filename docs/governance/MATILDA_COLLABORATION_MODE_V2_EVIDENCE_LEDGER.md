@@ -226,3 +226,66 @@ Attention preservation may improve reconciliation quality by preserving constitu
 
 - Additional corridor diversity and repeated observations still required.
 
+
+## Evidence Entry — User-Led Architectural Correction Preservation
+
+Date: 2026-06-08
+
+Status: Supporting Evidence Added
+
+### Observation
+
+Matilda Collaboration Mode v2 appears to preserve user-led architectural correction capacity during extended governance investigation.
+
+### Evidence
+
+During the Raw Evidence / IEL / Package lifecycle corridor, the user repeatedly identified architectural drift before unsupported assumptions hardened into reconciliation.
+
+Observed corrections included:
+
+- Correction of Active Raw Evidence Artifact opening assumptions.
+
+- Correction that context is assigned after capture, not before capture.
+
+- Correction that a closed Active Raw Evidence Artifact cannot continue into a later interaction.
+
+- Correction of Governance Validation lifecycle placement.
+
+- Correction of Reconciled Intent Summary terminology versus Preview Summary terminology.
+
+- Correction of Package / Delegation / Governance Validation / Envelope boundary compression.
+
+- Correction of IEL lineage assumptions toward a future Draft Package boundary model.
+
+### Observed Collaboration Pattern
+
+The corridor repeatedly followed this pattern:
+
+User architectural instinct
+
+→ Assistant pressure test
+
+→ Evidence inspection
+
+→ User correction
+
+→ Refined architecture
+
+→ Return to the user's original architectural shape with stronger supporting rationale
+
+### Emerging Hypothesis Support
+
+Matilda Collaboration Mode v2 may improve governance quality by preserving the user's ability to challenge plausible but unsupported architectural explanations before reconciliation.
+
+This suggests V2 benefits may extend beyond attention preservation into active architectural correction preservation.
+
+### Current Status
+
+- Supports existing Atlas hypothesis regarding scrutiny preservation.
+
+- Adds evidence for user-led correction preservation as a distinct collaboration benefit.
+
+- Does not yet prove causation.
+
+- Additional corridor diversity and repeated observations still required.
+
