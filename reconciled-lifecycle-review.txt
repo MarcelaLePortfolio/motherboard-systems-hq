@@ -1,0 +1,2672 @@
+==================================================
+RECONCILED LIFECYCLE REVIEW
+==================================================
+
+Branch: feature/backup-system-v2
+
+Latest Governance Commits:
+43bcaf43 Add governance reconciliation verification script
+1674d276 Add V2 evidence: attention preservation improves scrutiny capacity
+80bbe8ae add matilda collaboration mode v2 evidence ledger
+1603584d reconcile matilda interpretation lifecycle corridor
+c6a2062d Document stabilized preview wrapper corridor findings
+2f75ecb5 Document stabilized execution corridor findings
+77f5ed4c Add collaboration and package lifecycle specification
+baeaa655 Add Governance Validation specification foundation
+e6b5c2bd Add Governance Lifecycle State Model
+6774f8cc Add Canonical Delegation Specification
+5a6e848f Add Canonical Package Specification
+ca926930 Add Canonical Envelope Specification
+28551668 Add Capability Routing Model
+1408e6d5 Add Governance Validation Charter
+36e50d1a Add canonical Headquarters Organizational Charter
+
+Relevant lifecycle references:
+docs/governance/COLLABORATION_AND_PACKAGE_LIFECYCLE.md:2:# Collaboration and Package Lifecycle
+docs/governance/COLLABORATION_AND_PACKAGE_LIFECYCLE.md:8:This document captures the reconciled lifecycle between user collaboration, intent reconciliation, package creation, and delegation.
+docs/governance/COLLABORATION_AND_PACKAGE_LIFECYCLE.md:40:Package Creation
+docs/governance/COLLABORATION_AND_PACKAGE_LIFECYCLE.md:44:Pending Delegation
+docs/governance/COLLABORATION_AND_PACKAGE_LIFECYCLE.md:48:Delegation
+docs/governance/COLLABORATION_AND_PACKAGE_LIFECYCLE.md:52:Governance Validation
+docs/governance/COLLABORATION_AND_PACKAGE_LIFECYCLE.md:70:No Package exists during collaboration.
+docs/governance/COLLABORATION_AND_PACKAGE_LIFECYCLE.md:72:No Delegation exists during collaboration.
+docs/governance/COLLABORATION_AND_PACKAGE_LIFECYCLE.md:90:- Confirm understanding before Package creation
+docs/governance/COLLABORATION_AND_PACKAGE_LIFECYCLE.md:92:The Reconciled Intent Summary is not a Package.
+docs/governance/COLLABORATION_AND_PACKAGE_LIFECYCLE.md:102:Approval is distinct from Delegation.
+docs/governance/COLLABORATION_AND_PACKAGE_LIFECYCLE.md:108:Approval authorizes Package creation.
+docs/governance/COLLABORATION_AND_PACKAGE_LIFECYCLE.md:112:Approval does not authorize Governance Validation.
+docs/governance/COLLABORATION_AND_PACKAGE_LIFECYCLE.md:120:# Package Creation
+docs/governance/COLLABORATION_AND_PACKAGE_LIFECYCLE.md:124:A Package is created.
+docs/governance/COLLABORATION_AND_PACKAGE_LIFECYCLE.md:126:The Package becomes the canonical meaning artifact.
+docs/governance/COLLABORATION_AND_PACKAGE_LIFECYCLE.md:128:The Package replaces the Reconciled Intent Summary as the authoritative representation of meaning.
+docs/governance/COLLABORATION_AND_PACKAGE_LIFECYCLE.md:132:# Pending Delegation State
+docs/governance/COLLABORATION_AND_PACKAGE_LIFECYCLE.md:136:The Package enters Pending Delegation.
+docs/governance/COLLABORATION_AND_PACKAGE_LIFECYCLE.md:138:Pending Delegation means:
+docs/governance/COLLABORATION_AND_PACKAGE_LIFECYCLE.md:140:- Package exists
+docs/governance/COLLABORATION_AND_PACKAGE_LIFECYCLE.md:144:- Delegation has not occurred
+docs/governance/COLLABORATION_AND_PACKAGE_LIFECYCLE.md:146:No Governance Validation may occur while a Package remains Pending Delegation.
+docs/governance/COLLABORATION_AND_PACKAGE_LIFECYCLE.md:150:# Multiple Packages
+docs/governance/COLLABORATION_AND_PACKAGE_LIFECYCLE.md:152:Multiple Packages may coexist.
+docs/governance/COLLABORATION_AND_PACKAGE_LIFECYCLE.md:154:Each Package represents a distinct approved interpretation.
+docs/governance/COLLABORATION_AND_PACKAGE_LIFECYCLE.md:156:Package existence does not require Delegation.
+docs/governance/COLLABORATION_AND_PACKAGE_LIFECYCLE.md:158:Package existence does not require Governance Validation.
+docs/governance/COLLABORATION_AND_PACKAGE_LIFECYCLE.md:160:Package existence does not require organizational processing.
+docs/governance/COLLABORATION_AND_PACKAGE_LIFECYCLE.md:164:# Package Comparison
+docs/governance/COLLABORATION_AND_PACKAGE_LIFECYCLE.md:170:- Packages
+docs/governance/COLLABORATION_AND_PACKAGE_LIFECYCLE.md:172:Comparison is permitted before Delegation.
+docs/governance/COLLABORATION_AND_PACKAGE_LIFECYCLE.md:174:Comparison may inform future Delegation decisions.
+docs/governance/COLLABORATION_AND_PACKAGE_LIFECYCLE.md:178:# Delegation
+docs/governance/COLLABORATION_AND_PACKAGE_LIFECYCLE.md:180:Delegation is a distinct authority event.
+docs/governance/COLLABORATION_AND_PACKAGE_LIFECYCLE.md:182:Delegation occurs after Package creation.
+docs/governance/COLLABORATION_AND_PACKAGE_LIFECYCLE.md:184:Delegation references an existing Package.
+docs/governance/COLLABORATION_AND_PACKAGE_LIFECYCLE.md:186:Delegation does not create meaning.
+docs/governance/COLLABORATION_AND_PACKAGE_LIFECYCLE.md:188:Delegation authorizes an existing Package.
+docs/governance/COLLABORATION_AND_PACKAGE_LIFECYCLE.md:192:# Delegation By Reference
+docs/governance/COLLABORATION_AND_PACKAGE_LIFECYCLE.md:194:Users delegate Packages by reference.
+docs/governance/COLLABORATION_AND_PACKAGE_LIFECYCLE.md:196:Delegation does not require copying Package contents.
+docs/governance/COLLABORATION_AND_PACKAGE_LIFECYCLE.md:198:Delegation applies to a specific Package version.
+docs/governance/COLLABORATION_AND_PACKAGE_LIFECYCLE.md:200:Package references remain authoritative.
+docs/governance/COLLABORATION_AND_PACKAGE_LIFECYCLE.md:202:Future interfaces may represent Package selection through cards, lists, dialogs, or other mechanisms.
+docs/governance/COLLABORATION_AND_PACKAGE_LIFECYCLE.md:208:# Separation Of Approval And Delegation
+docs/governance/COLLABORATION_AND_PACKAGE_LIFECYCLE.md:210:Approval and Delegation are distinct authority events.
+docs/governance/COLLABORATION_AND_PACKAGE_LIFECYCLE.md:214:Creates Package.
+docs/governance/COLLABORATION_AND_PACKAGE_LIFECYCLE.md:216:Delegation:
+docs/governance/COLLABORATION_AND_PACKAGE_LIFECYCLE.md:218:Authorizes Package.
+docs/governance/COLLABORATION_AND_PACKAGE_LIFECYCLE.md:220:Approval is not Delegation.
+docs/governance/COLLABORATION_AND_PACKAGE_LIFECYCLE.md:222:Delegation is not Approval.
+docs/governance/COLLABORATION_AND_PACKAGE_LIFECYCLE.md:228:# Relationship To Governance Validation
+docs/governance/COLLABORATION_AND_PACKAGE_LIFECYCLE.md:230:Governance Validation consumes Delegated Packages.
+docs/governance/COLLABORATION_AND_PACKAGE_LIFECYCLE.md:232:Governance Validation does not consume Reconciled Intent Summaries.
+docs/governance/COLLABORATION_AND_PACKAGE_LIFECYCLE.md:234:Governance Validation may not evaluate Packages that remain Pending Delegation.
+docs/governance/milestone-6-resolution-checkpoint-contract.md:140:Alignment Resolution appears to be a reusable lifecycle pattern.
+docs/governance/MATILDA_COLLABORATION_MODE_V2_EVIDENCE_LEDGER.md:34:- Faster corridor reconciliation
+docs/governance/MATILDA_COLLABORATION_MODE_V2_EVIDENCE_LEDGER.md:38:- Preserved reconciliation scrutiny
+docs/governance/MATILDA_COLLABORATION_MODE_V2_EVIDENCE_LEDGER.md:40:- Reduced reconciliation-through-fatigue risk
+docs/governance/MATILDA_COLLABORATION_MODE_V2_EVIDENCE_LEDGER.md:78:- Explicit reconciliation
+docs/governance/MATILDA_COLLABORATION_MODE_V2_EVIDENCE_LEDGER.md:144:- User retained enough bandwidth to challenge an IEL ambiguity during reconciliation.
+docs/governance/MATILDA_COLLABORATION_MODE_V2_EVIDENCE_LEDGER.md:148:- Minimum Sufficient Context finding emerged after reconciliation readiness had already been reached.
+docs/governance/MATILDA_COLLABORATION_MODE_V2_EVIDENCE_LEDGER.md:174:- Reduced reconciliation-through-fatigue risk observed.
+docs/governance/MATILDA_COLLABORATION_MODE_V2_EVIDENCE_LEDGER.md:219:Attention preservation may improve reconciliation quality by preserving constituent capacity for review, challenge, and error detection.
+docs/governance/milestone-6-lifecycle-reconciliation-finding.md:24:Potential lifecycle conflict exists between the newer Matilda Package Contract and the previously stabilized Canonical Execution Lifecycle.
+docs/governance/milestone-6-lifecycle-reconciliation-finding.md:28:Matilda Package Contract establishes:
+docs/governance/milestone-6-lifecycle-reconciliation-finding.md:30:Package
+docs/governance/milestone-6-lifecycle-reconciliation-finding.md:34:Delegation
+docs/governance/milestone-6-lifecycle-reconciliation-finding.md:38:Envelope
+docs/governance/milestone-6-lifecycle-reconciliation-finding.md:42:- Package is the canonical interpretation artifact.
+docs/governance/milestone-6-lifecycle-reconciliation-finding.md:44:- Delegation is Interpretation Authorization.
+docs/governance/milestone-6-lifecycle-reconciliation-finding.md:46:- Envelope is the canonical delegation artifact.
+docs/governance/milestone-6-lifecycle-reconciliation-finding.md:48:- Package contains no authorization state.
+docs/governance/milestone-6-lifecycle-reconciliation-finding.md:50:- Envelope inherits approved interpretation details from the Package.
+docs/governance/milestone-6-lifecycle-reconciliation-finding.md:56:Envelope Constructed
+docs/governance/milestone-6-lifecycle-reconciliation-finding.md:78:Does the Package artifact introduce a new lifecycle stage that was previously implicit?
+docs/governance/milestone-6-lifecycle-reconciliation-finding.md:84:Original lifecycle remains authoritative.
+docs/governance/milestone-6-lifecycle-reconciliation-finding.md:86:Package contract requires reconciliation.
+docs/governance/milestone-6-lifecycle-reconciliation-finding.md:90:Package contract is authoritative.
+docs/governance/milestone-6-lifecycle-reconciliation-finding.md:92:Lifecycle requires reconciliation.
+docs/governance/milestone-6-lifecycle-reconciliation-finding.md:96:Original lifecycle omitted an interpretation artifact layer.
+docs/governance/milestone-6-lifecycle-reconciliation-finding.md:98:Package formalizes a previously implicit artifact.
+docs/governance/milestone-6-lifecycle-reconciliation-finding.md:106:No lifecycle replacement authorized.
+docs/governance/milestone-6-lifecycle-reconciliation-finding.md:118:"What information is inherited from Package into Envelope?"
+docs/governance/milestone-6-lifecycle-reconciliation-finding.md:126:- terminology/lifecycle expansion.
+docs/governance/milestone-6-outcome-review-governance-contracts.md:16:Milestone 6 does not currently authorize mutation-capable execution, shell execution, autonomous execution, runner topology implementation, orchestration implementation, validator mutation, lifecycle mutation, or schema mutation.
+docs/governance/MATILDA_INTERPRETATION_LIFECYCLE_RECONCILIATION.md:16:2. Interpretation Evidence Ledger (IEL)
+docs/governance/MATILDA_INTERPRETATION_LIFECYCLE_RECONCILIATION.md:18:3. Draft Package
+docs/governance/MATILDA_INTERPRETATION_LIFECYCLE_RECONCILIATION.md:20:4. Canonical Package
+docs/governance/MATILDA_INTERPRETATION_LIFECYCLE_RECONCILIATION.md:26:### Interpretation Evidence Ledger (IEL)
+docs/governance/MATILDA_INTERPRETATION_LIFECYCLE_RECONCILIATION.md:30:The IEL:
+docs/governance/MATILDA_INTERPRETATION_LIFECYCLE_RECONCILIATION.md:36:- preserves reconciliation history
+docs/governance/MATILDA_INTERPRETATION_LIFECYCLE_RECONCILIATION.md:52:### IEL Definition
+docs/governance/MATILDA_INTERPRETATION_LIFECYCLE_RECONCILIATION.md:54:The IEL is not a transcript.
+docs/governance/MATILDA_INTERPRETATION_LIFECYCLE_RECONCILIATION.md:56:The IEL is not a collection of conclusions.
+docs/governance/MATILDA_INTERPRETATION_LIFECYCLE_RECONCILIATION.md:58:The IEL is a contextualized interpretation record.
+docs/governance/MATILDA_INTERPRETATION_LIFECYCLE_RECONCILIATION.md:60:Each IEL entry contains:
+docs/governance/MATILDA_INTERPRETATION_LIFECYCLE_RECONCILIATION.md:66:- Supporting Raw Evidence
+docs/governance/MATILDA_INTERPRETATION_LIFECYCLE_RECONCILIATION.md:74:Full transcript preservation inside the IEL is unnecessary.
+docs/governance/MATILDA_INTERPRETATION_LIFECYCLE_RECONCILIATION.md:150:### Draft Package
+docs/governance/MATILDA_INTERPRETATION_LIFECYCLE_RECONCILIATION.md:152:Matilda continuously maintains a Draft Package.
+docs/governance/MATILDA_INTERPRETATION_LIFECYCLE_RECONCILIATION.md:154:Draft Package characteristics:
+docs/governance/MATILDA_INTERPRETATION_LIFECYCLE_RECONCILIATION.md:156:- derived from IEL
+docs/governance/MATILDA_INTERPRETATION_LIFECYCLE_RECONCILIATION.md:168:### Canonical Package
+docs/governance/MATILDA_INTERPRETATION_LIFECYCLE_RECONCILIATION.md:170:Canonical Package remains the Canonical Meaning Artifact.
+docs/governance/MATILDA_INTERPRETATION_LIFECYCLE_RECONCILIATION.md:172:Canonical Package:
+docs/governance/MATILDA_INTERPRETATION_LIFECYCLE_RECONCILIATION.md:174:- derived from a reconciled Draft Package
+docs/governance/MATILDA_INTERPRETATION_LIFECYCLE_RECONCILIATION.md:176:- derived from a specific IEL state
+docs/governance/MATILDA_INTERPRETATION_LIFECYCLE_RECONCILIATION.md:190:A corridor becomes reconciliation-ready when:
+docs/governance/MATILDA_INTERPRETATION_LIFECYCLE_RECONCILIATION.md:204:### Package Maturity Rule
+docs/governance/MATILDA_INTERPRETATION_LIFECYCLE_RECONCILIATION.md:206:Package maturity is determined by interpretation stability rather than information completeness.
+docs/governance/MATILDA_INTERPRETATION_LIFECYCLE_RECONCILIATION.md:208:A Draft Package is mature when future evidence is expected to refine the Package rather than fundamentally alter its meaning.
+docs/governance/MATILDA_INTERPRETATION_LIFECYCLE_RECONCILIATION.md:214:Matilda may propose reconciliation.
+docs/governance/MATILDA_INTERPRETATION_LIFECYCLE_RECONCILIATION.md:216:Matilda may not finalize reconciliation.
+docs/governance/MATILDA_INTERPRETATION_LIFECYCLE_RECONCILIATION.md:218:User retains reconciliation authority.
+docs/governance/MATILDA_INTERPRETATION_LIFECYCLE_RECONCILIATION.md:220:Canonical Package creation occurs through explicit user acceptance of reconciliation.
+docs/governance/MATILDA_INTERPRETATION_LIFECYCLE_RECONCILIATION.md:224:### Atlas Participation Before Delegation
+docs/governance/MATILDA_INTERPRETATION_LIFECYCLE_RECONCILIATION.md:226:Atlas participates before Delegation.
+docs/governance/MATILDA_INTERPRETATION_LIFECYCLE_RECONCILIATION.md:232:→ IEL
+docs/governance/MATILDA_INTERPRETATION_LIFECYCLE_RECONCILIATION.md:238:→ Package
+docs/governance/MATILDA_INTERPRETATION_LIFECYCLE_RECONCILIATION.md:240:→ Delegation
+docs/governance/MATILDA_INTERPRETATION_LIFECYCLE_RECONCILIATION.md:242:→ Envelope
+docs/governance/MATILDA_INTERPRETATION_LIFECYCLE_RECONCILIATION.md:268:Atlas intelligence is derived from the IEL.
+docs/governance/MATILDA_INTERPRETATION_LIFECYCLE_RECONCILIATION.md:270:Atlas does not modify the IEL.
+docs/governance/MATILDA_INTERPRETATION_LIFECYCLE_RECONCILIATION.md:290:Atlas recommendations may become increasingly explicit as reconciliation readiness increases.
+docs/governance/MATILDA_INTERPRETATION_LIFECYCLE_RECONCILIATION.md:292:Atlas may recommend reconciliation when evidence indicates diminishing discovery returns.
+docs/governance/MATILDA_INTERPRETATION_LIFECYCLE_RECONCILIATION.md:294:Atlas may not finalize reconciliation.
+docs/governance/MATILDA_INTERPRETATION_LIFECYCLE_RECONCILIATION.md:308:Matilda facilitates reconciliation.
+docs/governance/MATILDA_INTERPRETATION_LIFECYCLE_RECONCILIATION.md:310:Atlas advises reconciliation readiness.
+docs/governance/matilda-package-contract.md:2:# Matilda Package Contract
+docs/governance/matilda-package-contract.md:8:The Matilda Package is the canonical interpretation artifact produced by Matilda.
+docs/governance/matilda-package-contract.md:24:Current lifecycle:
+docs/governance/matilda-package-contract.md:30:Matilda Package
+docs/governance/matilda-package-contract.md:34:User Delegation
+docs/governance/matilda-package-contract.md:38:Execution Envelope
+docs/governance/matilda-package-contract.md:90:- Delegation Authority
+docs/governance/matilda-package-contract.md:128:## Package Definition
+docs/governance/matilda-package-contract.md:130:A Matilda Package is a governed interpretation artifact.
+docs/governance/matilda-package-contract.md:148:## Required Package Contents
+docs/governance/matilda-package-contract.md:178:### Delegation Target
+docs/governance/matilda-package-contract.md:192:## Prohibited Package Contents
+docs/governance/matilda-package-contract.md:194:A Matilda Package must not contain:
+docs/governance/matilda-package-contract.md:210:## Delegation Relationship
+docs/governance/matilda-package-contract.md:228:## Envelope Relationship
+docs/governance/matilda-package-contract.md:260:Package delegation does not authorize execution.
+docs/governance/matilda-package-contract.md:270:The Matilda Package appears to be the primary artifact produced by Matilda.
+docs/governance/CANONICAL_DELEGATION_SPECIFICATION.md:2:# Canonical Delegation Specification
+docs/governance/CANONICAL_DELEGATION_SPECIFICATION.md:6:The Delegation Record is the canonical interpretation authorization artifact of the Motherboard Headquarters operating model.
+docs/governance/CANONICAL_DELEGATION_SPECIFICATION.md:8:The Delegation Record establishes that a Package has been accepted as an authorized representation of intent.
+docs/governance/CANONICAL_DELEGATION_SPECIFICATION.md:10:Delegation authorizes interpretation.
+docs/governance/CANONICAL_DELEGATION_SPECIFICATION.md:12:Delegation does not authorize operationalization, routing, assignment, planning, or execution.
+docs/governance/CANONICAL_DELEGATION_SPECIFICATION.md:28:Package
+docs/governance/CANONICAL_DELEGATION_SPECIFICATION.md:32:Delegation
+docs/governance/CANONICAL_DELEGATION_SPECIFICATION.md:36:Governance Validation
+docs/governance/CANONICAL_DELEGATION_SPECIFICATION.md:40:Envelope
+docs/governance/CANONICAL_DELEGATION_SPECIFICATION.md:46:Delegation authorizes meaning.
+docs/governance/CANONICAL_DELEGATION_SPECIFICATION.md:48:Delegation does not authorize work.
+docs/governance/CANONICAL_DELEGATION_SPECIFICATION.md:50:Delegation does not authorize execution.
+docs/governance/CANONICAL_DELEGATION_SPECIFICATION.md:52:Delegation does not authorize assignment.
+docs/governance/CANONICAL_DELEGATION_SPECIFICATION.md:54:Delegation does not authorize routing.
+docs/governance/CANONICAL_DELEGATION_SPECIFICATION.md:56:Delegation authorizes a specific Package version.
+docs/governance/CANONICAL_DELEGATION_SPECIFICATION.md:62:Delegation is an Interpretation Authorization Record.
+docs/governance/CANONICAL_DELEGATION_SPECIFICATION.md:64:Delegation answers:
+docs/governance/CANONICAL_DELEGATION_SPECIFICATION.md:68:Delegation does not answer:
+docs/governance/CANONICAL_DELEGATION_SPECIFICATION.md:72:That determination belongs to Governance Validation and subsequent operational processes.
+docs/governance/CANONICAL_DELEGATION_SPECIFICATION.md:82:Unique Delegation identifier.
+docs/governance/CANONICAL_DELEGATION_SPECIFICATION.md:100:Reference to the authorized Package.
+docs/governance/CANONICAL_DELEGATION_SPECIFICATION.md:104:Delegation Process
+docs/governance/CANONICAL_DELEGATION_SPECIFICATION.md:118:Identifies the specific Package version being authorized.
+docs/governance/CANONICAL_DELEGATION_SPECIFICATION.md:122:Delegation Process
+docs/governance/CANONICAL_DELEGATION_SPECIFICATION.md:130:Delegation applies only to the referenced Package version.
+docs/governance/CANONICAL_DELEGATION_SPECIFICATION.md:142:Delegation Process
+docs/governance/CANONICAL_DELEGATION_SPECIFICATION.md:186:Delegation Process
+docs/governance/CANONICAL_DELEGATION_SPECIFICATION.md:196:# Delegation Creation Rules
+docs/governance/CANONICAL_DELEGATION_SPECIFICATION.md:198:A Delegation Record may only be created after:
+docs/governance/CANONICAL_DELEGATION_SPECIFICATION.md:200:- A valid Package exists
+docs/governance/CANONICAL_DELEGATION_SPECIFICATION.md:202:- The Package has been reviewed
+docs/governance/CANONICAL_DELEGATION_SPECIFICATION.md:206:A Delegation Record must reference an existing Package version.
+docs/governance/CANONICAL_DELEGATION_SPECIFICATION.md:212:Delegation authorizes a specific Package version.
+docs/governance/CANONICAL_DELEGATION_SPECIFICATION.md:216:Package v3
+docs/governance/CANONICAL_DELEGATION_SPECIFICATION.md:220:Delegation A
+docs/governance/CANONICAL_DELEGATION_SPECIFICATION.md:224:If the Package changes:
+docs/governance/CANONICAL_DELEGATION_SPECIFICATION.md:226:Package v4
+docs/governance/CANONICAL_DELEGATION_SPECIFICATION.md:228:The existing Delegation remains attached to v3.
+docs/governance/CANONICAL_DELEGATION_SPECIFICATION.md:230:Package v4 requires a new Delegation Record.
+docs/governance/CANONICAL_DELEGATION_SPECIFICATION.md:232:Delegations must never automatically transfer between Package versions.
+docs/governance/CANONICAL_DELEGATION_SPECIFICATION.md:238:Delegation Records are immutable.
+docs/governance/CANONICAL_DELEGATION_SPECIFICATION.md:242:Changes to a Package require creation of a new Delegation Record rather than modification of an existing Delegation Record.
+docs/governance/CANONICAL_DELEGATION_SPECIFICATION.md:246:# Relationship To Governance Validation
+docs/governance/CANONICAL_DELEGATION_SPECIFICATION.md:248:Delegation is a prerequisite for Governance Validation.
+docs/governance/CANONICAL_DELEGATION_SPECIFICATION.md:250:Governance Validation may only evaluate authorized interpretations.
+docs/governance/CANONICAL_DELEGATION_SPECIFICATION.md:252:Governance Validation consumes Delegation.
+docs/governance/CANONICAL_DELEGATION_SPECIFICATION.md:254:Governance Validation does not create Delegation.
+docs/governance/CANONICAL_DELEGATION_SPECIFICATION.md:258:# Relationship To Envelope
+docs/governance/CANONICAL_DELEGATION_SPECIFICATION.md:260:Delegation precedes Envelope creation.
+docs/governance/CANONICAL_DELEGATION_SPECIFICATION.md:262:Envelope creation requires:
+docs/governance/CANONICAL_DELEGATION_SPECIFICATION.md:264:- Authorized Package
+docs/governance/CANONICAL_DELEGATION_SPECIFICATION.md:266:- Successful Governance Validation
+docs/governance/CANONICAL_DELEGATION_SPECIFICATION.md:268:Delegation is not part of the Envelope.
+docs/governance/CANONICAL_DELEGATION_SPECIFICATION.md:270:Delegation is an upstream authority artifact.
+docs/governance/CANONICAL_DELEGATION_SPECIFICATION.md:276:Delegation workflow status may be displayed by user interfaces.
+docs/governance/CANONICAL_DELEGATION_SPECIFICATION.md:286:They are not part of the Delegation Record itself.
+docs/governance/CANONICAL_DELEGATION_SPECIFICATION.md:288:The Delegation Record comes into existence only after authorization occurs.
+docs/governance/CANONICAL_DELEGATION_SPECIFICATION.md:294:Package
+docs/governance/CANONICAL_DELEGATION_SPECIFICATION.md:300:Delegation
+docs/governance/CANONICAL_DELEGATION_SPECIFICATION.md:306:Envelope
+docs/governance/CAPABILITY_ROUTING_MODEL.md:26:Package
+docs/governance/CAPABILITY_ROUTING_MODEL.md:30:Delegation
+docs/governance/CAPABILITY_ROUTING_MODEL.md:34:Governance Validation
+docs/governance/CAPABILITY_ROUTING_MODEL.md:42:Envelope
+docs/governance/CAPABILITY_ROUTING_MODEL.md:138:Governance Validation derives required capabilities during operationalization review.
+docs/governance/CAPABILITY_ROUTING_MODEL.md:142:Package:
+docs/governance/CAPABILITY_ROUTING_MODEL.md:154:Package:
+docs/governance/CAPABILITY_ROUTING_MODEL.md:172:# Envelope Contribution
+docs/governance/CAPABILITY_ROUTING_MODEL.md:174:Governance Validation writes required capabilities into the Envelope.
+docs/governance/CAPABILITY_ROUTING_MODEL.md:184:The Envelope contains capability requirements.
+docs/governance/CAPABILITY_ROUTING_MODEL.md:186:The Envelope does not contain actor assignments.
+docs/governance/CAPABILITY_ROUTING_MODEL.md:200:- Envelope State
+docs/governance/CAPABILITY_ROUTING_MODEL.md:244:A Package may require multiple capabilities.
+docs/governance/CAPABILITY_ROUTING_MODEL.md:284:- Package
+docs/governance/CAPABILITY_ROUTING_MODEL.md:286:- Delegation
+docs/governance/CAPABILITY_ROUTING_MODEL.md:288:- Governance Validation
+docs/governance/CAPABILITY_ROUTING_MODEL.md:290:- Envelope structure
+docs/governance/CAPABILITY_ROUTING_MODEL.md:304:Governance Validation derives capabilities.
+docs/governance/CANONICAL_PACKAGE_SPECIFICATION.md:2:# Canonical Package Specification
+docs/governance/CANONICAL_PACKAGE_SPECIFICATION.md:6:The Package is the canonical meaning artifact of the Motherboard Headquarters operating model.
+docs/governance/CANONICAL_PACKAGE_SPECIFICATION.md:8:The Package represents Matilda's authoritative interpretation of user intent.
+docs/governance/CANONICAL_PACKAGE_SPECIFICATION.md:10:The Package is the source of truth for meaning.
+docs/governance/CANONICAL_PACKAGE_SPECIFICATION.md:12:The Package must remain independent from operationalization, routing, assignment, and execution concerns.
+docs/governance/CANONICAL_PACKAGE_SPECIFICATION.md:28:Package
+docs/governance/CANONICAL_PACKAGE_SPECIFICATION.md:32:Delegation
+docs/governance/CANONICAL_PACKAGE_SPECIFICATION.md:36:Governance Validation
+docs/governance/CANONICAL_PACKAGE_SPECIFICATION.md:40:Envelope
+docs/governance/CANONICAL_PACKAGE_SPECIFICATION.md:46:Packages own meaning.
+docs/governance/CANONICAL_PACKAGE_SPECIFICATION.md:48:Packages do not own operationalization.
+docs/governance/CANONICAL_PACKAGE_SPECIFICATION.md:50:Packages do not own routing.
+docs/governance/CANONICAL_PACKAGE_SPECIFICATION.md:52:Packages do not own assignment.
+docs/governance/CANONICAL_PACKAGE_SPECIFICATION.md:54:Packages do not own execution.
+docs/governance/CANONICAL_PACKAGE_SPECIFICATION.md:56:The Package remains the authoritative source of intent throughout the lifecycle.
+docs/governance/CANONICAL_PACKAGE_SPECIFICATION.md:66:Unique Package identifier.
+docs/governance/CANONICAL_PACKAGE_SPECIFICATION.md:246:# Package Quality Requirements
+docs/governance/CANONICAL_PACKAGE_SPECIFICATION.md:248:A valid Package must:
+docs/governance/CANONICAL_PACKAGE_SPECIFICATION.md:260:A Package must not require downstream invention of meaning.
+docs/governance/CANONICAL_PACKAGE_SPECIFICATION.md:264:# Prohibited Package Content
+docs/governance/CANONICAL_PACKAGE_SPECIFICATION.md:266:Packages must not contain:
+docs/governance/CANONICAL_PACKAGE_SPECIFICATION.md:288:Capabilities are derived by Governance Validation.
+docs/governance/CANONICAL_PACKAGE_SPECIFICATION.md:300:Operational corridors belong to Governance Validation.
+docs/governance/CANONICAL_PACKAGE_SPECIFICATION.md:306:Governance findings belong to Governance Validation.
+docs/governance/CANONICAL_PACKAGE_SPECIFICATION.md:332:The Package represents what the CEO wants.
+docs/governance/CANONICAL_PACKAGE_SPECIFICATION.md:334:The Package does not determine how the organization fulfills that request.
+docs/governance/GOVERNANCE_VALIDATION_SPECIFICATION.md:2:# Governance Validation Specification
+docs/governance/GOVERNANCE_VALIDATION_SPECIFICATION.md:8:This document captures reconciled Governance Validation findings and serves as the authoritative foundation for future refinement.
+docs/governance/GOVERNANCE_VALIDATION_SPECIFICATION.md:12:Governance Validation is the Organizational Readiness Analysis Layer.
+docs/governance/GOVERNANCE_VALIDATION_SPECIFICATION.md:16:"Is this Package fully operational as-is within current organizational reality?"
+docs/governance/GOVERNANCE_VALIDATION_SPECIFICATION.md:20:- Package
+docs/governance/GOVERNANCE_VALIDATION_SPECIFICATION.md:22:- Delegation
+docs/governance/GOVERNANCE_VALIDATION_SPECIFICATION.md:62:## Envelope Creation Rule
+docs/governance/GOVERNANCE_VALIDATION_SPECIFICATION.md:64:Envelope creation is prohibited until Governance Validation successfully completes.
+docs/governance/GOVERNANCE_VALIDATION_SPECIFICATION.md:70:Governance Validation does not resolve escalations.
+docs/governance/GOVERNANCE_VALIDATION_SPECIFICATION.md:76:Governance Validation consumes organizational intelligence.
+docs/governance/GOVERNANCE_VALIDATION_SPECIFICATION.md:80:Governance Validation determines requirements.
+docs/governance/GOVERNANCE_VALIDATION_SPECIFICATION.md:86:Governance Validation findings are persistent governance records.
+docs/governance/GOVERNANCE_VALIDATION_SPECIFICATION.md:90:Governance Validation may consult organizational reality and derives conclusions from evidence rather than assumed organizational state.
+docs/governance/HEADQUARTERS_ORGANIZATIONAL_CHARTER.md:36:- Delegation Authorization
+docs/governance/HEADQUARTERS_ORGANIZATIONAL_CHARTER.md:68:- Construct Packages
+docs/governance/HEADQUARTERS_ORGANIZATIONAL_CHARTER.md:74:- Package
+docs/governance/HEADQUARTERS_ORGANIZATIONAL_CHARTER.md:78:- Governance Validation
+docs/governance/HEADQUARTERS_ORGANIZATIONAL_CHARTER.md:94:Governance Validation
+docs/governance/HEADQUARTERS_ORGANIZATIONAL_CHARTER.md:102:- Validate delegated Packages
+docs/governance/HEADQUARTERS_ORGANIZATIONAL_CHARTER.md:150:- Consume Envelope artifacts
+docs/governance/HEADQUARTERS_ORGANIZATIONAL_CHARTER.md:174:- Governance Validation
+docs/governance/HEADQUARTERS_ORGANIZATIONAL_CHARTER.md:216:- Governance Validation
+docs/governance/HEADQUARTERS_ORGANIZATIONAL_CHARTER.md:256:- Governance Validation
+docs/governance/HEADQUARTERS_ORGANIZATIONAL_CHARTER.md:300:- Governance Validation
+docs/governance/HEADQUARTERS_ORGANIZATIONAL_CHARTER.md:316:Packages own meaning.
+docs/governance/HEADQUARTERS_ORGANIZATIONAL_CHARTER.md:318:Governance Validation owns operationalization review.
+docs/governance/GOVERNANCE_LIFECYCLE_STATE_MODEL.md:6:This document defines the canonical lifecycle state model of the Motherboard Headquarters operating model.
+docs/governance/GOVERNANCE_LIFECYCLE_STATE_MODEL.md:8:The lifecycle model governs:
+docs/governance/GOVERNANCE_LIFECYCLE_STATE_MODEL.md:20:This document is the authoritative source of lifecycle transition rules.
+docs/governance/GOVERNANCE_LIFECYCLE_STATE_MODEL.md:40:Package
+docs/governance/GOVERNANCE_LIFECYCLE_STATE_MODEL.md:44:Delegation
+docs/governance/GOVERNANCE_LIFECYCLE_STATE_MODEL.md:48:Governance Validation
+docs/governance/GOVERNANCE_LIFECYCLE_STATE_MODEL.md:52:Envelope
+docs/governance/GOVERNANCE_LIFECYCLE_STATE_MODEL.md:92:The Package has been accepted as an accurate representation of intent.
+docs/governance/GOVERNANCE_LIFECYCLE_STATE_MODEL.md:100:Governance Validation is evaluating the delegated Package.
+docs/governance/GOVERNANCE_LIFECYCLE_STATE_MODEL.md:102:No Envelope exists.
+docs/governance/GOVERNANCE_LIFECYCLE_STATE_MODEL.md:110:Governance Validation has successfully completed.
+docs/governance/GOVERNANCE_LIFECYCLE_STATE_MODEL.md:116:Envelope creation is permitted.
+docs/governance/GOVERNANCE_LIFECYCLE_STATE_MODEL.md:122:Governance Validation identified unresolved concerns.
+docs/governance/GOVERNANCE_LIFECYCLE_STATE_MODEL.md:126:Envelope creation is prohibited.
+docs/governance/GOVERNANCE_LIFECYCLE_STATE_MODEL.md:148:An operational department owns the Envelope.
+docs/governance/GOVERNANCE_LIFECYCLE_STATE_MODEL.md:164:Envelope is preserved as a historical artifact.
+docs/governance/GOVERNANCE_LIFECYCLE_STATE_MODEL.md:172:Atlas has consumed lifecycle information.
+docs/governance/GOVERNANCE_LIFECYCLE_STATE_MODEL.md:272:Delegation and validation missing.
+docs/governance/GOVERNANCE_LIFECYCLE_STATE_MODEL.md:360:# Package Mutation Rules
+docs/governance/GOVERNANCE_LIFECYCLE_STATE_MODEL.md:362:Package modifications invalidate downstream authority.
+docs/governance/GOVERNANCE_LIFECYCLE_STATE_MODEL.md:366:Package v3
+docs/governance/GOVERNANCE_LIFECYCLE_STATE_MODEL.md:370:Delegation Authorized
+docs/governance/GOVERNANCE_LIFECYCLE_STATE_MODEL.md:372:Package Modified
+docs/governance/GOVERNANCE_LIFECYCLE_STATE_MODEL.md:376:Package v4
+docs/governance/GOVERNANCE_LIFECYCLE_STATE_MODEL.md:380:Existing Delegation remains attached to v3.
+docs/governance/GOVERNANCE_LIFECYCLE_STATE_MODEL.md:382:Package v4 requires a new Delegation.
+docs/governance/GOVERNANCE_LIFECYCLE_STATE_MODEL.md:386:# Delegation Rules
+docs/governance/GOVERNANCE_LIFECYCLE_STATE_MODEL.md:388:Delegation authorizes a specific Package version.
+docs/governance/GOVERNANCE_LIFECYCLE_STATE_MODEL.md:390:Delegation may not transfer to a modified Package.
+docs/governance/GOVERNANCE_LIFECYCLE_STATE_MODEL.md:392:Delegation records are immutable.
+docs/governance/GOVERNANCE_LIFECYCLE_STATE_MODEL.md:398:Governance Validation requires:
+docs/governance/GOVERNANCE_LIFECYCLE_STATE_MODEL.md:400:- Existing Package
+docs/governance/GOVERNANCE_LIFECYCLE_STATE_MODEL.md:402:- Existing Delegation
+docs/governance/GOVERNANCE_LIFECYCLE_STATE_MODEL.md:404:Governance Validation may not evaluate unauthorized interpretations.
+docs/governance/GOVERNANCE_LIFECYCLE_STATE_MODEL.md:408:# Envelope Creation Rules
+docs/governance/GOVERNANCE_LIFECYCLE_STATE_MODEL.md:410:Envelope creation requires:
+docs/governance/GOVERNANCE_LIFECYCLE_STATE_MODEL.md:412:- Authorized Package
+docs/governance/GOVERNANCE_LIFECYCLE_STATE_MODEL.md:416:Envelope creation is prohibited when:
+docs/governance/GOVERNANCE_LIFECYCLE_STATE_MODEL.md:418:- Delegation missing
+docs/governance/GOVERNANCE_LIFECYCLE_STATE_MODEL.md:430:- Existing Envelope
+docs/governance/GOVERNANCE_LIFECYCLE_STATE_MODEL.md:436:Governance Validation may not perform assignment.
+docs/governance/GOVERNANCE_LIFECYCLE_STATE_MODEL.md:444:- Existing Envelope
+docs/governance/milestone-5-execution-lineage/atlas-authority-contract.md:34:Atlas possesses authority over lineage relationships, lineage reconciliation, project cartography, and historical preservation.
+docs/governance/milestone-5-execution-lineage/atlas-authority-contract.md:84:Atlas may rely upon artifact identifiers, artifact classifications, ownership metadata, lifecycle state, relationship references, timestamps, and supersession references.
+docs/governance/milestone-5-execution-lineage/lineage-ambiguity-contract.md:142:4. reconciliation review
+docs/governance/milestone-5-execution-lineage/milestone-5-dr-checkpoint.md:14:Latest Milestone 5 governance reconciliation commit:
+docs/governance/milestone-5-execution-lineage/milestone-5-dr-checkpoint.md:40:Milestone 5 governance contracts and reconciliation are preserved in:
+docs/governance/milestone-5-execution-lineage/lineage-evidence-contract.md:134:- reconciliation findings
+docs/governance/milestone-5-execution-lineage/lineage-evidence-contract.md:146:- governance reconciliations
+docs/governance/milestone-5-execution-lineage/lineage-relationship-contract.md:108:### Delegation Relationships
+docs/governance/milestone-5-execution-lineage/atlas-visibility-contract.md:82:- lifecycle state
+docs/governance/milestone-5-execution-lineage/atlas-visibility-contract.md:160:4. reconciliation artifacts
+docs/governance/milestone-5-execution-lineage/execution-lineage-artifact-contract.md:34:- artifact lifecycle states
+docs/governance/milestone-5-execution-lineage/execution-lineage-artifact-contract.md:122:### Execution Envelopes
+docs/governance/milestone-5-execution-lineage/execution-lineage-artifact-contract.md:226:- governance reconciliations
+docs/governance/milestone-5-execution-lineage/execution-lineage-artifact-contract.md:364:- change lifecycle state
+docs/governance/milestone-5-execution-lineage/atlas-payload-access-contract.md:86:- lineage reconciliation requirements
+docs/governance/milestone-5-execution-lineage/milestone-5-governance-reconciliation.md:20:This reconciliation artifact records the governance findings, authority boundaries, lineage principles, privacy protections, and stabilization outcomes established during Milestone 5.
+docs/governance/milestone-5-execution-lineage/milestone-5-governance-reconciliation.md:58:- lifecycle states
+docs/governance/GOVERNANCE_VALIDATION_CHARTER.md:2:# Governance Validation Charter
+docs/governance/GOVERNANCE_VALIDATION_CHARTER.md:6:Governance Validation exists to determine whether delegated meaning can safely become operational work.
+docs/governance/GOVERNANCE_VALIDATION_CHARTER.md:8:Governance Validation does not determine intent, assign actors, perform engineering planning, or execute work.
+docs/governance/GOVERNANCE_VALIDATION_CHARTER.md:10:Governance Validation reviews delegated Packages and determines whether operationalization may proceed.
+docs/governance/GOVERNANCE_VALIDATION_CHARTER.md:36:Governance Validation receives:
+docs/governance/GOVERNANCE_VALIDATION_CHARTER.md:38:- Delegated Package
+docs/governance/GOVERNANCE_VALIDATION_CHARTER.md:40:- Delegation Authorization
+docs/governance/GOVERNANCE_VALIDATION_CHARTER.md:50:Governance Validation produces:
+docs/governance/GOVERNANCE_VALIDATION_CHARTER.md:82:Capabilities required to operationalize the Package.
+docs/governance/GOVERNANCE_VALIDATION_CHARTER.md:94:Governance Validation derives capabilities.
+docs/governance/GOVERNANCE_VALIDATION_CHARTER.md:96:Governance Validation does not assign actors.
+docs/governance/GOVERNANCE_VALIDATION_CHARTER.md:122:Does the Package accurately and consistently represent the delegated intent?
+docs/governance/GOVERNANCE_VALIDATION_CHARTER.md:242:Governance Validation may issue PASS only when:
+docs/governance/GOVERNANCE_VALIDATION_CHARTER.md:262:Governance Validation must issue RESOLUTION REQUIRED when:
+docs/governance/GOVERNANCE_VALIDATION_CHARTER.md:282:Governance Validation does not own:
+docs/governance/GOVERNANCE_VALIDATION_CHARTER.md:302:Governance Validation sits between:
+docs/governance/GOVERNANCE_VALIDATION_CHARTER.md:304:Delegation
+docs/governance/GOVERNANCE_VALIDATION_CHARTER.md:312:Package
+docs/governance/GOVERNANCE_VALIDATION_CHARTER.md:316:Delegation
+docs/governance/GOVERNANCE_VALIDATION_CHARTER.md:320:Governance Validation
+docs/governance/GOVERNANCE_VALIDATION_CHARTER.md:324:Envelope
+docs/governance/CANONICAL_ENVELOPE_SPECIFICATION.md:2:# Canonical Envelope Specification
+docs/governance/CANONICAL_ENVELOPE_SPECIFICATION.md:6:The Envelope is the canonical work authorization artifact of the Motherboard Headquarters operating model.
+docs/governance/CANONICAL_ENVELOPE_SPECIFICATION.md:8:The Envelope is created after Governance Validation successfully operationalizes a delegated Package.
+docs/governance/CANONICAL_ENVELOPE_SPECIFICATION.md:10:The Envelope is a living artifact that accumulates operational state as work progresses through the organization.
+docs/governance/CANONICAL_ENVELOPE_SPECIFICATION.md:12:The Envelope preserves lineage, assignment history, operational history, and completion history.
+docs/governance/CANONICAL_ENVELOPE_SPECIFICATION.md:14:The Envelope is the authoritative lifecycle record of operational work.
+docs/governance/CANONICAL_ENVELOPE_SPECIFICATION.md:22:Package
+docs/governance/CANONICAL_ENVELOPE_SPECIFICATION.md:26:Delegation
+docs/governance/CANONICAL_ENVELOPE_SPECIFICATION.md:30:Governance Validation
+docs/governance/CANONICAL_ENVELOPE_SPECIFICATION.md:34:Envelope Created
+docs/governance/CANONICAL_ENVELOPE_SPECIFICATION.md:56:Packages own meaning.
+docs/governance/CANONICAL_ENVELOPE_SPECIFICATION.md:58:Envelopes own operational lifecycle.
+docs/governance/CANONICAL_ENVELOPE_SPECIFICATION.md:60:The Envelope must never become the authoritative source of intent.
+docs/governance/CANONICAL_ENVELOPE_SPECIFICATION.md:62:The Package remains the authoritative source of meaning throughout the lifecycle.
+docs/governance/CANONICAL_ENVELOPE_SPECIFICATION.md:72:Envelope created by Governance Validation.
+docs/governance/CANONICAL_ENVELOPE_SPECIFICATION.md:80:Envelope routed and assigned by Ellis.
+docs/governance/CANONICAL_ENVELOPE_SPECIFICATION.md:88:Envelope actively owned by one or more operational departments.
+docs/governance/CANONICAL_ENVELOPE_SPECIFICATION.md:104:Envelope preserved for lineage, telemetry, intelligence, and audit purposes.
+docs/governance/CANONICAL_ENVELOPE_SPECIFICATION.md:132:Reference to authoritative Package.
+docs/governance/CANONICAL_ENVELOPE_SPECIFICATION.md:136:Governance Validation
+docs/governance/CANONICAL_ENVELOPE_SPECIFICATION.md:154:Governance Validation
+docs/governance/CANONICAL_ENVELOPE_SPECIFICATION.md:172:Governance Validation
+docs/governance/CANONICAL_ENVELOPE_SPECIFICATION.md:176:Governance Validation only
+docs/governance/CANONICAL_ENVELOPE_SPECIFICATION.md:194:Governance Validation
+docs/governance/CANONICAL_ENVELOPE_SPECIFICATION.md:198:Governance Validation only
+docs/governance/CANONICAL_ENVELOPE_SPECIFICATION.md:216:Governance Validation
+docs/governance/CANONICAL_ENVELOPE_SPECIFICATION.md:220:Governance Validation only
+docs/governance/CANONICAL_ENVELOPE_SPECIFICATION.md:226:## lifecycle_state
+docs/governance/CANONICAL_ENVELOPE_SPECIFICATION.md:242:Current Envelope Owner
+docs/governance/CANONICAL_ENVELOPE_SPECIFICATION.md:518:Operational departments may enrich the Envelope but may not alter governance-derived fields.
+docs/governance/CANONICAL_ENVELOPE_SPECIFICATION.md:524:Governance Validation may define operationalization outputs but may not perform assignment.
+docs/governance/CANONICAL_ENVELOPE_SPECIFICATION.md:530:The Envelope is a historical artifact.
+docs/governance/CANONICAL_ENVELOPE_SPECIFICATION.md:536:The Envelope should maintain an auditable lifecycle history.
+docs/governance/CANONICAL_ENVELOPE_SPECIFICATION.md:542:The Envelope is the authoritative operational lifecycle artifact.
+docs/governance/CANONICAL_ENVELOPE_SPECIFICATION.md:544:The Package is the authoritative meaning artifact.
+
+
+==================================================
+docs/governance/COLLABORATION_AND_PACKAGE_LIFECYCLE.md
+==================================================
+
+# Collaboration and Package Lifecycle
+
+## Status
+
+DRAFT
+
+This document captures the reconciled lifecycle between user collaboration, intent reconciliation, package creation, and delegation.
+
+---
+
+# Purpose
+
+Collaboration exists to reconcile meaning before organizational processing begins.
+
+The goal of collaboration is not execution.
+
+The goal of collaboration is convergence upon an accurate representation of user intent.
+
+---
+
+# Lifecycle Overview
+
+User Intent
+
+↓
+
+Collaboration
+
+↓
+
+Reconciled Intent Summary
+
+↓
+
+Approval
+
+↓
+
+Package Creation
+
+↓
+
+Pending Delegation
+
+↓
+
+Delegation
+
+↓
+
+Governance Validation
+
+---
+
+# Collaboration Phase
+
+During collaboration:
+
+- Meaning is explored
+
+- Scope is clarified
+
+- Ambiguities are resolved
+
+- Constraints are identified
+
+- Success criteria are refined
+
+No Package exists during collaboration.
+
+No Delegation exists during collaboration.
+
+No organizational processing occurs during collaboration.
+
+---
+
+# Reconciled Intent Summary
+
+A Reconciled Intent Summary is a human-readable representation of the current understanding of intent.
+
+Purpose:
+
+- Facilitate user review
+
+- Facilitate user comprehension
+
+- Reduce review burden
+
+- Confirm understanding before Package creation
+
+The Reconciled Intent Summary is not a Package.
+
+The Reconciled Intent Summary is not a governance artifact.
+
+The Reconciled Intent Summary is a collaboration artifact.
+
+---
+
+# Approval
+
+Approval is distinct from Delegation.
+
+Approval answers:
+
+"Is this an accurate representation of my intent?"
+
+Approval authorizes Package creation.
+
+Approval does not authorize organizational processing.
+
+Approval does not authorize Governance Validation.
+
+Approval does not authorize routing.
+
+Approval does not authorize execution.
+
+---
+
+# Package Creation
+
+Upon approval:
+
+A Package is created.
+
+The Package becomes the canonical meaning artifact.
+
+The Package replaces the Reconciled Intent Summary as the authoritative representation of meaning.
+
+---
+
+# Pending Delegation State
+
+After creation:
+
+The Package enters Pending Delegation.
+
+Pending Delegation means:
+
+- Package exists
+
+- Meaning is approved
+
+- Delegation has not occurred
+
+No Governance Validation may occur while a Package remains Pending Delegation.
+
+---
+
+# Multiple Packages
+
+Multiple Packages may coexist.
+
+Each Package represents a distinct approved interpretation.
+
+Package existence does not require Delegation.
+
+Package existence does not require Governance Validation.
+
+Package existence does not require organizational processing.
+
+---
+
+# Package Comparison
+
+Users may compare:
+
+- Reconciled Intent Summaries
+
+- Packages
+
+Comparison is permitted before Delegation.
+
+Comparison may inform future Delegation decisions.
+
+---
+
+# Delegation
+
+Delegation is a distinct authority event.
+
+Delegation occurs after Package creation.
+
+Delegation references an existing Package.
+
+Delegation does not create meaning.
+
+Delegation authorizes an existing Package.
+
+---
+
+# Delegation By Reference
+
+Users delegate Packages by reference.
+
+Delegation does not require copying Package contents.
+
+Delegation applies to a specific Package version.
+
+Package references remain authoritative.
+
+Future interfaces may represent Package selection through cards, lists, dialogs, or other mechanisms.
+
+The delegation authority model remains unchanged regardless of interface representation.
+
+---
+
+# Separation Of Approval And Delegation
+
+Approval and Delegation are distinct authority events.
+
+Approval:
+
+Creates Package.
+
+Delegation:
+
+Authorizes Package.
+
+Approval is not Delegation.
+
+Delegation is not Approval.
+
+Neither authority event implies the other.
+
+---
+
+# Relationship To Governance Validation
+
+Governance Validation consumes Delegated Packages.
+
+Governance Validation does not consume Reconciled Intent Summaries.
+
+Governance Validation may not evaluate Packages that remain Pending Delegation.
+
+
+
+==================================================
+docs/governance/CANONICAL_PACKAGE_SPECIFICATION.md
+==================================================
+
+# Canonical Package Specification
+
+## Purpose
+
+The Package is the canonical meaning artifact of the Motherboard Headquarters operating model.
+
+The Package represents Matilda's authoritative interpretation of user intent.
+
+The Package is the source of truth for meaning.
+
+The Package must remain independent from operationalization, routing, assignment, and execution concerns.
+
+---
+
+# Organizational Position
+
+Lifecycle:
+
+User
+
+↓
+
+Matilda
+
+↓
+
+Package
+
+↓
+
+Delegation
+
+↓
+
+Governance Validation
+
+↓
+
+Envelope
+
+---
+
+# Core Principle
+
+Packages own meaning.
+
+Packages do not own operationalization.
+
+Packages do not own routing.
+
+Packages do not own assignment.
+
+Packages do not own execution.
+
+The Package remains the authoritative source of intent throughout the lifecycle.
+
+---
+
+# Required Fields
+
+## package_id
+
+Purpose:
+
+Unique Package identifier.
+
+Owner:
+
+Matilda
+
+Immutable after creation.
+
+---
+
+## requested_outcome
+
+Purpose:
+
+The outcome the user wishes to achieve.
+
+Examples:
+
+- Add governance validation support
+
+- Back up repository to Rio Drive
+
+- Create executive dashboard
+
+Owner:
+
+Matilda
+
+---
+
+## scope
+
+Purpose:
+
+Defines what work is included.
+
+Examples:
+
+Included:
+
+- Dashboard UI
+
+- Summary cards
+
+Owner:
+
+Matilda
+
+---
+
+## containment
+
+Purpose:
+
+Defines protected boundaries.
+
+Examples:
+
+Allowed:
+
+- Dashboard UI
+
+Excluded:
+
+- Database schema
+
+- Backup engine
+
+- Authentication system
+
+Owner:
+
+Matilda
+
+---
+
+## constraints
+
+Purpose:
+
+Defines conditions that must remain true.
+
+Examples:
+
+- Preserve renderer-authoritative Preview
+
+- Preserve existing SSE behavior
+
+- Maintain current governance boundaries
+
+Owner:
+
+Matilda
+
+---
+
+## success_criteria
+
+Purpose:
+
+Defines how completion is evaluated.
+
+Examples:
+
+- Dashboard renders successfully
+
+- Existing functionality preserved
+
+- Required information visible
+
+Owner:
+
+Matilda
+
+---
+
+# Optional Fields
+
+## context
+
+Purpose:
+
+Relevant contextual information required to understand the request.
+
+Examples:
+
+- Existing architecture references
+
+- Prior decisions
+
+- Relevant project state
+
+Owner:
+
+Matilda
+
+---
+
+## style_presentation_intent
+
+Purpose:
+
+Defines presentation expectations.
+
+Examples:
+
+- Executive audience
+
+- Summary-first
+
+- Low information density
+
+- Technical audience
+
+- Detailed operational view
+
+Owner:
+
+Matilda
+
+---
+
+## exclusions
+
+Purpose:
+
+Explicitly identifies work that is not requested.
+
+Examples:
+
+- Do not modify backend services
+
+- Do not redesign existing workflows
+
+Owner:
+
+Matilda
+
+---
+
+# Package Quality Requirements
+
+A valid Package must:
+
+- Clearly define the requested outcome
+
+- Clearly define scope
+
+- Clearly define containment
+
+- Clearly define constraints
+
+- Clearly define success criteria
+
+A Package must not require downstream invention of meaning.
+
+---
+
+# Prohibited Package Content
+
+Packages must not contain:
+
+## Actor Assignment
+
+Examples:
+
+- Assign to Cade
+
+- Assign to Effie
+
+Assignment belongs to Ellis.
+
+---
+
+## Required Capabilities
+
+Examples:
+
+- engineering_planning
+
+- desktop_operations
+
+Capabilities are derived by Governance Validation.
+
+---
+
+## Operational Corridor
+
+Examples:
+
+- planning_only
+
+- execution_authorized
+
+Operational corridors belong to Governance Validation.
+
+---
+
+## Governance Findings
+
+Governance findings belong to Governance Validation.
+
+---
+
+## Routing Information
+
+Routing belongs to Ellis.
+
+---
+
+## Execution Strategy
+
+Examples:
+
+- Use React
+
+
+==================================================
+docs/governance/CANONICAL_DELEGATION_SPECIFICATION.md
+==================================================
+
+# Canonical Delegation Specification
+
+## Purpose
+
+The Delegation Record is the canonical interpretation authorization artifact of the Motherboard Headquarters operating model.
+
+The Delegation Record establishes that a Package has been accepted as an authorized representation of intent.
+
+Delegation authorizes interpretation.
+
+Delegation does not authorize operationalization, routing, assignment, planning, or execution.
+
+---
+
+# Organizational Position
+
+Lifecycle:
+
+User
+
+↓
+
+Matilda
+
+↓
+
+Package
+
+↓
+
+Delegation
+
+↓
+
+Governance Validation
+
+↓
+
+Envelope
+
+---
+
+# Core Principle
+
+Delegation authorizes meaning.
+
+Delegation does not authorize work.
+
+Delegation does not authorize execution.
+
+Delegation does not authorize assignment.
+
+Delegation does not authorize routing.
+
+Delegation authorizes a specific Package version.
+
+---
+
+# Organizational Definition
+
+Delegation is an Interpretation Authorization Record.
+
+Delegation answers:
+
+"Has this interpretation been authorized as an accurate representation of intent?"
+
+Delegation does not answer:
+
+"Should this work be executed?"
+
+That determination belongs to Governance Validation and subsequent operational processes.
+
+---
+
+# Required Fields
+
+## delegation_id
+
+Purpose:
+
+Unique Delegation identifier.
+
+Owner:
+
+System
+
+Mutation Authority:
+
+None
+
+Immutable after creation.
+
+---
+
+## package_id
+
+Purpose:
+
+Reference to the authorized Package.
+
+Owner:
+
+Delegation Process
+
+Mutation Authority:
+
+None
+
+Immutable after creation.
+
+---
+
+## package_version
+
+Purpose:
+
+Identifies the specific Package version being authorized.
+
+Owner:
+
+Delegation Process
+
+Mutation Authority:
+
+None
+
+Immutable after creation.
+
+Delegation applies only to the referenced Package version.
+
+---
+
+## authorization_state
+
+Valid Values:
+
+- authorized
+
+Owner:
+
+Delegation Process
+
+Mutation Authority:
+
+None
+
+Immutable after creation.
+
+---
+
+## authorization_timestamp
+
+Purpose:
+
+Records when interpretation authorization occurred.
+
+Owner:
+
+System
+
+Mutation Authority:
+
+System only
+
+Immutable after creation.
+
+---
+
+## delegated_by
+
+Purpose:
+
+Records the authority granting authorization.
+
+Current Expected Value:
+
+User
+
+Future Expansion:
+
+May support additional authorized delegation authorities.
+
+Owner:
+
+Delegation Process
+
+Mutation Authority:
+
+None
+
+Immutable after creation.
+
+---
+
+# Delegation Creation Rules
+
+A Delegation Record may only be created after:
+
+- A valid Package exists
+
+- The Package has been reviewed
+
+- Interpretation authorization has been granted
+
+A Delegation Record must reference an existing Package version.
+
+---
+
+# Versioning Rules
+
+Delegation authorizes a specific Package version.
+
+Example:
+
+Package v3
+
+↓
+
+Delegation A
+
+Authorized
+
+If the Package changes:
+
+Package v4
+
+The existing Delegation remains attached to v3.
+
+Package v4 requires a new Delegation Record.
+
+Delegations must never automatically transfer between Package versions.
+
+---
+
+# Mutation Rules
+
+Delegation Records are immutable.
+
+Authorized interpretations must remain historically auditable.
+
+Changes to a Package require creation of a new Delegation Record rather than modification of an existing Delegation Record.
+
+---
+
+# Relationship To Governance Validation
+
+Delegation is a prerequisite for Governance Validation.
+
+Governance Validation may only evaluate authorized interpretations.
+
+Governance Validation consumes Delegation.
+
+Governance Validation does not create Delegation.
+
+---
+
+# Relationship To Envelope
+
+Delegation precedes Envelope creation.
+
+Envelope creation requires:
+
+- Authorized Package
+
+- Successful Governance Validation
+
+Delegation is not part of the Envelope.
+
+Delegation is an upstream authority artifact.
+
+---
+
+# Workflow State vs Artifact State
+
+Delegation workflow status may be displayed by user interfaces.
+
+Examples:
+
+- Pending
+
+- Authorized
+
+These workflow states are user experience concerns.
+
+They are not part of the Delegation Record itself.
+
+The Delegation Record comes into existence only after authorization occurs.
+
+---
+
+# Organizational Principle
+
+Package
+
+=
+
+Meaning
+
+Delegation
+
+=
+
+Interpretation Authorization
+
+Envelope
+
+=
+
+Operational Lifecycle
+
+Meaning, authority, and operationalization must remain separate.
+
+
+
+==================================================
+docs/governance/GOVERNANCE_VALIDATION_CHARTER.md
+==================================================
+
+# Governance Validation Charter
+
+## Purpose
+
+Governance Validation exists to determine whether delegated meaning can safely become operational work.
+
+Governance Validation does not determine intent, assign actors, perform engineering planning, or execute work.
+
+Governance Validation reviews delegated Packages and determines whether operationalization may proceed.
+
+---
+
+# Mission
+
+Ensure delegated meaning can safely become operational work without requiring:
+
+- Unauthorized assumption
+
+- Scope expansion
+
+- Governance violation
+
+- Authority escalation
+
+- Unresolved ambiguity
+
+- Contradiction
+
+- Operational invention
+
+---
+
+# Inputs
+
+Governance Validation receives:
+
+- Delegated Package
+
+- Delegation Authorization
+
+- Applicable Governance Rules
+
+- Applicable Organizational Constraints
+
+---
+
+# Outputs
+
+Governance Validation produces:
+
+## Validation Status
+
+One of:
+
+- PASS
+
+- RESOLUTION REQUIRED
+
+---
+
+## Governance Findings
+
+Documented findings generated during validation.
+
+Examples:
+
+- Ambiguity Findings
+
+- Scope Findings
+
+- Containment Findings
+
+- Constraint Findings
+
+- Conflict Findings
+
+---
+
+## Required Capabilities
+
+Capabilities required to operationalize the Package.
+
+Examples:
+
+- engineering_planning
+
+- repository_analysis
+
+- desktop_operations
+
+- external_backup
+
+Governance Validation derives capabilities.
+
+Governance Validation does not assign actors.
+
+---
+
+## Operational Corridor
+
+Operational corridor authorized for downstream work.
+
+Examples:
+
+- planning_only
+
+- desktop_operations
+
+- execution_authorized
+
+Operational corridors define permitted operational boundaries.
+
+---
+
+# Validation Categories
+
+## Interpretation Fidelity
+
+Question:
+
+Does the Package accurately and consistently represent the delegated intent?
+
+Checks:
+
+- Internal consistency
+
+- Contradiction detection
+
+- Reference integrity
+
+---
+
+## Scope Fidelity
+
+Question:
+
+Can the work be understood without expanding scope?
+
+Checks:
+
+- Scope clarity
+
+- Scope completeness
+
+- Scope containment
+
+---
+
+## Containment Fidelity
+
+Question:
+
+Are protected boundaries clearly identified?
+
+Checks:
+
+- Allowed modification areas
+
+- Excluded modification areas
+
+- Protected systems
+
+---
+
+## Constraint Fidelity
+
+Question:
+
+Are required constraints clearly represented?
+
+Checks:
+
+- Governance constraints
+
+- Architectural constraints
+
+- Operational constraints
+
+---
+
+## Resolution Status
+
+Question:
+
+Are all known governance concerns resolved?
+
+Checks:
+
+- Open findings
+
+- Unresolved conflicts
+
+- Unresolved ambiguity
+
+If unresolved concerns remain:
+
+Validation Status = RESOLUTION REQUIRED
+
+---
+
+## Operational Completeness
+
+Question:
+
+Can operational actors perform work without inventing meaning?
+
+Checks:
+
+- Intent completeness
+
+- Scope completeness
+
+- Constraint completeness
+
+- Dependency completeness
+
+If operational invention would be required:
+
+Validation Status = RESOLUTION REQUIRED
+
+---
+
+## Capability Determinability
+
+Question:
+
+Can required capabilities be determined?
+
+Checks:
+
+- Capability identification
+
+- Capability completeness
+
+Required capabilities must be derivable before operationalization.
+
+---
+
+# PASS Criteria
+
+Governance Validation may issue PASS only when:
+
+- Interpretation fidelity is sufficient
+
+- Scope fidelity is sufficient
+
+- Containment fidelity is sufficient
+
+- Constraint fidelity is sufficient
+
+- Resolution status is clear
+
+- Operational completeness is sufficient
+
+- Required capabilities can be derived
+
+---
+
+# Resolution Required Criteria
+
+Governance Validation must issue RESOLUTION REQUIRED when:
+
+- Meaning cannot be safely operationalized
+
+- Scope is unclear
+
+- Constraints are unclear
+
+- Containment is unclear
+
+- Operational invention would be required
+
+- Required capabilities cannot be determined
+
+- Governance conflicts remain unresolved
+
+---
+
+# Non-Responsibilities
+
+Governance Validation does not own:
+
+- Intent Interpretation
+
+- Actor Assignment
+
+- Capability Registry Ownership
+
+- Engineering Planning
+
+- Desktop Operations
+
+- Execution
+
+- Organizational Intelligence
+
+---
+
+# Organizational Relationship
+
+Governance Validation sits between:
+
+Delegation
+
+and
+
+Operationalization
+
+Lifecycle:
+
+Package
+
+↓
+
+Delegation
+
+↓
+
+Governance Validation
+
+
+==================================================
+docs/governance/GOVERNANCE_VALIDATION_SPECIFICATION.md
+==================================================
+
+# Governance Validation Specification
+
+## Status
+
+DRAFT
+
+This document captures reconciled Governance Validation findings and serves as the authoritative foundation for future refinement.
+
+## Identity
+
+Governance Validation is the Organizational Readiness Analysis Layer.
+
+## Core Question
+
+"Is this Package fully operational as-is within current organizational reality?"
+
+## Inputs
+
+- Package
+
+- Delegation
+
+- Atlas Intelligence
+
+- Organizational Reality
+
+## Outputs
+
+### Governance Findings
+
+### Operational Requirements
+
+### Capability Requirements
+
+### Escalations
+
+## Authority
+
+May:
+
+- Analyze
+
+- Derive
+
+- Escalate
+
+- Consult organizational evidence
+
+May Not:
+
+- Modify meaning
+
+- Create intent
+
+- Assign ownership
+
+- Route work
+
+- Execute work
+
+## Envelope Creation Rule
+
+Envelope creation is prohibited until Governance Validation successfully completes.
+
+## Escalation Model
+
+All escalations return to Matilda.
+
+Governance Validation does not resolve escalations.
+
+## Relationship To Atlas
+
+Atlas owns organizational intelligence.
+
+Governance Validation consumes organizational intelligence.
+
+## Relationship To Ellis
+
+Governance Validation determines requirements.
+
+Ellis determines ownership.
+
+## Persistence
+
+Governance Validation findings are persistent governance records.
+
+## Organizational Visibility
+
+Governance Validation may consult organizational reality and derives conclusions from evidence rather than assumed organizational state.
+
+
+
+==================================================
+docs/governance/CANONICAL_ENVELOPE_SPECIFICATION.md
+==================================================
+
+# Canonical Envelope Specification
+
+## Purpose
+
+The Envelope is the canonical work authorization artifact of the Motherboard Headquarters operating model.
+
+The Envelope is created after Governance Validation successfully operationalizes a delegated Package.
+
+The Envelope is a living artifact that accumulates operational state as work progresses through the organization.
+
+The Envelope preserves lineage, assignment history, operational history, and completion history.
+
+The Envelope is the authoritative lifecycle record of operational work.
+
+---
+
+# Organizational Position
+
+Lifecycle:
+
+Package
+
+↓
+
+Delegation
+
+↓
+
+Governance Validation
+
+↓
+
+Envelope Created
+
+↓
+
+Ellis Routing
+
+↓
+
+Operational Departments
+
+↓
+
+Completion
+
+↓
+
+Atlas Intelligence Consumption
+
+---
+
+# Core Principle
+
+Packages own meaning.
+
+Envelopes own operational lifecycle.
+
+The Envelope must never become the authoritative source of intent.
+
+The Package remains the authoritative source of meaning throughout the lifecycle.
+
+---
+
+# Lifecycle Stages
+
+## Stage 1
+
+Created
+
+Envelope created by Governance Validation.
+
+---
+
+## Stage 2
+
+Assigned
+
+Envelope routed and assigned by Ellis.
+
+---
+
+## Stage 3
+
+Operational
+
+Envelope actively owned by one or more operational departments.
+
+---
+
+## Stage 4
+
+Completed
+
+Operational work concluded.
+
+---
+
+## Stage 5
+
+Archived
+
+Envelope preserved for lineage, telemetry, intelligence, and audit purposes.
+
+---
+
+# Required Fields
+
+## envelope_id
+
+Purpose:
+
+Unique envelope identifier.
+
+Owner:
+
+System
+
+Mutation Authority:
+
+None
+
+Immutable after creation.
+
+---
+
+## package_id
+
+Purpose:
+
+Reference to authoritative Package.
+
+Owner:
+
+Governance Validation
+
+Mutation Authority:
+
+None
+
+Immutable after creation.
+
+---
+
+## delegation_id
+
+Purpose:
+
+Reference to delegation authorization.
+
+Owner:
+
+Governance Validation
+
+Mutation Authority:
+
+None
+
+Immutable after creation.
+
+---
+
+## validation_status
+
+Examples:
+
+PASS
+
+Owner:
+
+Governance Validation
+
+Mutation Authority:
+
+Governance Validation only
+
+Immutable after envelope creation.
+
+---
+
+## required_capabilities
+
+Examples:
+
+- engineering_planning
+
+- repository_analysis
+
+- desktop_operations
+
+Owner:
+
+Governance Validation
+
+Mutation Authority:
+
+Governance Validation only
+
+Immutable after envelope creation.
+
+---
+
+## operational_corridor
+
+Examples:
+
+- planning_only
+
+- desktop_operations
+
+- execution_authorized
+
+Owner:
+
+Governance Validation
+
+Mutation Authority:
+
+Governance Validation only
+
+Immutable after envelope creation.
+
+---
+
+## lifecycle_state
+
+Examples:
+
+- created
+
+- assigned
+
+- operational
+
+- completed
+
+- archived
+
+Owner:
+
+Current Envelope Owner
+
+Mutation Authority:
+
+Current Authorized Owner
+
+---
+
+# Assignment Fields
+
+## assignment_state
+
+Examples:
+
+- unassigned
+
+- assigned
+
+- reassigned
+
+Owner:
+
+Ellis
+
+Mutation Authority:
+
+Ellis only
+
+---
+
+## assigned_department
+
+Examples:
+
+- engineering
+
+- desktop_operations
+
+Owner:
+
+Ellis
+
+Mutation Authority:
+
+Ellis only
+
+---
+
+## assigned_actor
+
+Examples:
+
+- cade
+
+- effie
+
+Owner:
+
+Ellis
+
+Mutation Authority:
+
+Ellis only
+
+---
+
+## routing_history
+
+Purpose:
+
+Historical routing record.
+
+Owner:
+
+Ellis
+
+Mutation Authority:
+
+Ellis only
+
+
+==================================================
+docs/governance/MATILDA_INTERPRETATION_LIFECYCLE_RECONCILIATION.md
+==================================================
+
+# Matilda Interpretation Lifecycle Reconciliation
+
+Status: RECONCILED
+
+## Reconciled Findings
+
+### Raw Conversation Authority
+
+Raw conversation history is preserved as the primary evidence source for interpretation.
+
+Authority order:
+
+1. Raw Conversation
+
+2. Interpretation Evidence Ledger (IEL)
+
+3. Draft Package
+
+4. Canonical Package
+
+If conflict exists, upstream evidence prevails.
+
+---
+
+### Interpretation Evidence Ledger (IEL)
+
+Matilda maintains an append-only Interpretation Evidence Ledger.
+
+The IEL:
+
+- preserves interpretation lineage
+
+- preserves auditability
+
+- preserves reconciliation history
+
+- preserves correction history
+
+- preserves decision history
+
+- never silently rewrites history
+
+Historical entries remain visible.
+
+Entries may be superseded or marked outdated.
+
+Entries are not deleted.
+
+---
+
+### IEL Definition
+
+The IEL is not a transcript.
+
+The IEL is not a collection of conclusions.
+
+The IEL is a contextualized interpretation record.
+
+Each IEL entry contains:
+
+- Interpretation Event
+
+- Minimum Sufficient Context
+
+- Supporting Raw Evidence
+
+- Matilda Observation
+
+- Lineage References
+
+Supporting evidence without context is insufficient.
+
+Full transcript preservation inside the IEL is unnecessary.
+
+---
+
+### Evidence Preservation Principle
+
+Preserve any evidence that materially contributes to understanding:
+
+- organizational state
+
+- interpretation
+
+- decisions
+
+- artifacts
+
+- constraints
+
+- actions
+
+- assumptions
+
+- uncertainties
+
+- approvals
+
+- rejections
+
+- successes
+
+- failures
+
+- changes
+
+Evidence categories are illustrative rather than exhaustive.
+
+---
+
+### Contextual Evidence Classification
+
+Evidence classification is contextual rather than lexical.
+
+The same phrase may be:
+
+- noise in one context
+
+- lineage-relevant evidence in another
+
+Preservation decisions are based on meaning and lineage contribution.
+
+---
+
+### Evidence Curation
+
+After age or closure thresholds:
+
+Matilda may perform governed evidence curation.
+
+Matilda may remove non-lineage conversational noise.
+
+Matilda may not remove lineage-relevant evidence.
+
+Curated archives must preserve:
+
+- lineage
+
+- provenance
+
+- curation record
+
+- curation timestamp
+
+- archive references
+
+---
+
+### Draft Package
+
+Matilda continuously maintains a Draft Package.
+
+Draft Package characteristics:
+
+- derived from IEL
+
+- living synthesis
+
+- continuously updateable
+
+- non-authoritative
+
+- current best understanding
+
+---
+
+### Canonical Package
+
+Canonical Package remains the Canonical Meaning Artifact.
+
+Canonical Package:
+
+- derived from a reconciled Draft Package
+
+- derived from a specific IEL state
+
+- governance-consumable
+
+- lineage-preserving
+
+---
+
+### Reconciliation Philosophy
+
+Reconciliation is not completeness.
+
+Reconciliation is stability.
+
+A corridor becomes reconciliation-ready when:
+
+- contradictions are resolved
+
+- competing models converge
+
+- foundational uncertainty is localized
+
+- architectural change rate declines
+
+- additional discussion is expected to refine rather than replace the model
+
+---
+
+### Package Maturity Rule
+
+Package maturity is determined by interpretation stability rather than information completeness.
+
+A Draft Package is mature when future evidence is expected to refine the Package rather than fundamentally alter its meaning.
+
+---
+
+### Reconciliation Authority
+
+Matilda may propose reconciliation.
+
+Matilda may not finalize reconciliation.
+
+User retains reconciliation authority.
+
+Canonical Package creation occurs through explicit user acceptance of reconciliation.
+
+---
+
+### Atlas Participation Before Delegation
+
+Atlas participates before Delegation.
+
+Lifecycle:
+
+Conversation
+
+→ IEL
+
+→ Atlas Analysis
+
+→ Matilda Guidance
+
+→ Package
+
+→ Delegation
+
+→ Envelope
+
+→ Organizational Execution
+
+---
+
+### Atlas Intelligence Responsibility
+
+Matilda captures and organizes evidence.
+
+Atlas analyzes evidence.
+
+Atlas responsibilities include:
+
+- stability assessment
+
+- contradiction detection
+
+- convergence analysis
+
+- consensus analysis
+
+- readiness assessment
+
+- organizational intelligence generation
+
+Atlas intelligence is derived from the IEL.
+
+Atlas does not modify the IEL.
+
+---
+
+### Atlas Notification Rule
+
+Atlas receives evidence whenever organizational understanding may have changed.
+
+Atlas determines significance.
+
+Atlas determines intelligence impact.
+
+Atlas determines whether readiness assessments should change.
+
+---
+
+### Reconciliation Guidance Escalation
+
+User retains final authority.
+
+Atlas recommendations may become increasingly explicit as reconciliation readiness increases.
+
+Atlas may recommend reconciliation when evidence indicates diminishing discovery returns.
+
+Atlas may not finalize reconciliation.
+
+---
+
+### Matilda–Atlas Relationship
+
+Matilda functions as interpretation steward.
+
+Atlas functions as organizational intelligence advisor.
+
+Matilda manages discovery.
+
+Atlas evaluates discovery.
+
+Matilda facilitates reconciliation.
+
+Atlas advises reconciliation readiness.
+
+User decides.
+
+
+
+==================================================
+docs/governance/matilda-package-contract.md
+==================================================
+
+# Matilda Package Contract
+
+Status: CANDIDATE ARCHITECTURAL FINDING
+
+## Purpose
+
+The Matilda Package is the canonical interpretation artifact produced by Matilda.
+
+The package exists to preserve Matilda's understanding of established user intent before delegation occurs.
+
+The package allows the user to review the proposed work package before it enters the delegation system.
+
+The package is not an execution artifact.
+
+The package is not an authorization artifact.
+
+The package is not an execution envelope.
+
+---
+
+## Architectural Position
+
+Current lifecycle:
+
+User Intent
+
+↓
+
+Matilda Package
+
+↓
+
+User Delegation
+
+↓
+
+Execution Envelope
+
+↓
+
+Preview
+
+↓
+
+Preview Approval
+
+↓
+
+Execution
+
+↓
+
+Reconciliation
+
+---
+
+## Core Principle
+
+Matilda interprets intent.
+
+Matilda does not create intent.
+
+The package preserves Matilda's interpretation.
+
+The package does not authorize execution.
+
+---
+
+## Authority Model
+
+### User
+
+Authority:
+
+- Intent Authority
+
+User remains the sole source of intent authority.
+
+---
+
+### Matilda
+
+Authority:
+
+- Interpretation Authority
+
+- Governance Authority
+
+- Delegation Authority
+
+Matilda may:
+
+- interpret intent
+
+- refine intent
+
+- clarify intent
+
+- preserve intent
+
+Matilda may not:
+
+- create intent
+
+- invent intent
+
+- expand intent without authorization
+
+- replace missing intent with inference
+
+---
+
+### Cade
+
+Authority:
+
+- Execution Authority
+
+- Validation Authority
+
+- Reconciliation Authority
+
+Cade receives delegated work only after package delegation and envelope generation.
+
+---
+
+## Package Definition
+
+A Matilda Package is a governed interpretation artifact.
+
+The package describes:
+
+- what work is proposed
+
+- why the work is proposed
+
+- what artifacts are expected
+
+- what scope boundaries apply
+
+- what outcomes are expected
+
+The package should contain sufficient detail for downstream delegation without requiring Cade to invent missing requirements.
+
+---
+
+## Required Package Contents
+
+### Intent Summary
+
+Preserves the interpreted user objective.
+
+### Proposed Work
+
+Defines the work Matilda believes should occur.
+
+### Proposed Artifacts
+
+Defines the expected artifacts to be created, modified, analyzed, or reconciled.
+
+### Scope Boundary
+
+Defines:
+
+- in-scope work
+
+- out-of-scope work
+
+### Constraints
+
+Defines governing restrictions and limitations.
+
+### Expected Outcome
+
+Defines the intended result if the work succeeds.
+
+### Delegation Target
+
+Defines the intended recipient of delegation.
+
+Examples:
+
+- Cade
+
+- Effie
+
+- Atlas
+
+---
+
+## Prohibited Package Contents
+
+A Matilda Package must not contain:
+
+- execution authorization
+
+- runtime authorization
+
+- shell authorization
+
+- autonomous execution authorization
+
+- deployment authorization
+
+The package is an interpretation artifact only.
+
+---
+
+## Delegation Relationship
+
+The package itself carries no execution authority.
+
+Interpretation Authorization occurs when the user delegates the package.
+
+The act of delegation represents acceptance of Matilda's interpretation.
+
+The package does not contain approval state.
+
+The package does not contain approval controls.
+
+The package does not contain workflow buttons.
+
+Authorization is represented by user delegation behavior.
+
+---
+
+## Envelope Relationship
+
+The package precedes the execution envelope.
+
+The package is not a substitute for the execution envelope.
+
+The execution envelope remains the canonical delegation artifact.
+
+Approved interpretation may be transformed into a governed execution envelope.
+
+The envelope inherits approved interpretation details from the package.
+
+---
+
+## Preview Relationship
+
+The package is not a preview.
+
+The package answers:
+
+"What should happen?"
+
+The preview answers:
+
+"What will happen if executed?"
+
+These are distinct governance checkpoints.
+
+---
+
+## Execution Relationship
+
+Package delegation does not authorize execution.
+
+Execution authorization occurs later through preview approval.
+
+Interpretation Authorization and Execution Authorization are distinct events.
+
+---
+
+## Architectural Finding
+
+The Matilda Package appears to be the primary artifact produced by Matilda.
+
+The execution envelope appears to be a downstream governance artifact derived from an approved package.
+
+This preserves separation between:
+
+- interpretation
+
+- delegation
+
+- execution
+
+while maintaining existing envelope governance architecture.
+
+---
+
+## Scope Boundary
+
+This contract defines governance architecture only.
+
+This contract does not authorize:
+
+- runtime implementation
+
+- orchestration implementation
+
+- state machine implementation
+
+- UI implementation
+
+- execution implementation
+
+Implementation remains out of scope until separately authorized.
+
+
