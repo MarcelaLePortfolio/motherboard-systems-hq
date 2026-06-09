@@ -1,0 +1,192 @@
+==================================================
+DISTINCT APPROVED INTERPRETATION INSPECTION
+==================================================
+
+docs/governance/COLLABORATION_AND_PACKAGE_LIFECYCLE.md:126:The Package becomes the canonical meaning artifact.
+docs/governance/COLLABORATION_AND_PACKAGE_LIFECYCLE.md:154:Each Package represents a distinct approved interpretation.
+docs/governance/milestone-6-resolution-checkpoint-contract.md:72:- Approved interpretation package
+docs/governance/MATILDA_COLLABORATION_MODE_V2_EVIDENCE_LEDGER.md:213:- Expansion of lineage-significance analysis to include contextual significance.
+docs/governance/MATILDA_COLLABORATION_MODE_V2_EVIDENCE_LEDGER.md:258:- Correction of IEL lineage assumptions toward a future Draft Package boundary model.
+docs/governance/milestone-6-lifecycle-reconciliation-finding.md:50:- Envelope inherits approved interpretation details from the Package.
+docs/governance/MATILDA_INTERPRETATION_LIFECYCLE_RECONCILIATION.md:32:- preserves interpretation lineage
+docs/governance/MATILDA_INTERPRETATION_LIFECYCLE_RECONCILIATION.md:70:- Lineage References
+docs/governance/MATILDA_INTERPRETATION_LIFECYCLE_RECONCILIATION.md:120:- lineage-relevant evidence in another
+docs/governance/MATILDA_INTERPRETATION_LIFECYCLE_RECONCILIATION.md:122:Preservation decisions are based on meaning and lineage contribution.
+docs/governance/MATILDA_INTERPRETATION_LIFECYCLE_RECONCILIATION.md:132:Matilda may remove non-lineage conversational noise.
+docs/governance/MATILDA_INTERPRETATION_LIFECYCLE_RECONCILIATION.md:134:Matilda may not remove lineage-relevant evidence.
+docs/governance/MATILDA_INTERPRETATION_LIFECYCLE_RECONCILIATION.md:138:- lineage
+docs/governance/MATILDA_INTERPRETATION_LIFECYCLE_RECONCILIATION.md:170:Canonical Package remains the Canonical Meaning Artifact.
+docs/governance/MATILDA_INTERPRETATION_LIFECYCLE_RECONCILIATION.md:180:- lineage-preserving
+docs/governance/MATILDA_INTERPRETATION_LIFECYCLE_RECONCILIATION.md:335:The architecture appears to imply a one-to-one lineage relationship between an IEL and a future Draft Package.
+docs/governance/MATILDA_INTERPRETATION_LIFECYCLE_RECONCILIATION.md:341:- A Draft Package represents the current synthesis of a specific IEL lineage.
+docs/governance/MATILDA_INTERPRETATION_LIFECYCLE_RECONCILIATION.md:343:- Canonical Package creation preserves lineage back to a specific IEL state.
+docs/governance/MATILDA_INTERPRETATION_LIFECYCLE_RECONCILIATION.md:349:- A new future Draft Package requires a new IEL lineage.
+docs/governance/MATILDA_INTERPRETATION_LIFECYCLE_RECONCILIATION.md:353:- Multiple future Draft Packages may emerge from a single IEL lineage.
+docs/governance/MATILDA_INTERPRETATION_LIFECYCLE_RECONCILIATION.md:357:The first interpretation appears more consistent with existing lineage-preservation rules.
+docs/governance/matilda-package-contract.md:236:Approved interpretation may be transformed into a governed execution envelope.
+docs/governance/matilda-package-contract.md:238:The envelope inherits approved interpretation details from the package.
+docs/governance/CAPABILITY_ROUTING_MODEL.md:128:- Capability Lineage
+docs/governance/CANONICAL_PACKAGE_SPECIFICATION.md:6:The Package is the canonical meaning artifact of the Motherboard Headquarters operating model.
+docs/governance/HEADQUARTERS_ORGANIZATIONAL_CHARTER.md:278:- Maintain lineage registries
+docs/governance/HEADQUARTERS_ORGANIZATIONAL_CHARTER.md:292:- Lineage Registry
+docs/governance/milestone-5-execution-lineage/atlas-authority-contract.md:8:Milestone 5 — Execution Lineage Governance  
+docs/governance/milestone-5-execution-lineage/atlas-authority-contract.md:18:Atlas exists to preserve project continuity through lineage stewardship, roadmap cartography, dependency mapping, and production-path awareness.
+docs/governance/milestone-5-execution-lineage/atlas-authority-contract.md:28:- Lineage Authority
+docs/governance/milestone-5-execution-lineage/atlas-authority-contract.md:30:- Historical Lineage Custodian
+docs/governance/milestone-5-execution-lineage/atlas-authority-contract.md:34:Atlas possesses authority over lineage relationships, lineage reconciliation, project cartography, and historical preservation.
+docs/governance/milestone-5-execution-lineage/atlas-authority-contract.md:36:Atlas may establish evidence-backed relationships, reconcile lineage inconsistencies, preserve supersession history, identify dependency chains, identify roadmap impacts, and preserve project-path history.
+docs/governance/milestone-5-execution-lineage/atlas-authority-contract.md:64:When lineage ambiguity exists, Atlas shall first seek resolution from the authority that owns the affected artifact.
+docs/governance/milestone-5-execution-lineage/atlas-authority-contract.md:82:Atlas operates primarily on lineage metadata.
+docs/governance/milestone-5-execution-lineage/atlas-authority-contract.md:96:Atlas preserves historical lineage through append-only evolution.
+docs/governance/milestone-5-execution-lineage/atlas-authority-contract.md:100:Atlas may not rewrite, delete, or alter historical lineage facts.
+docs/governance/milestone-5-execution-lineage/atlas-authority-contract.md:112:Nothing in this contract shall prohibit future event-level lineage, lineage intelligence research, or expanded cartography capabilities, provided such expansion does not violate authority boundaries, privacy constraints, evidence requirements, or governance protections.
+docs/governance/milestone-5-execution-lineage/lineage-ambiguity-contract.md:2:# Lineage Ambiguity Contract v1
+docs/governance/milestone-5-execution-lineage/lineage-ambiguity-contract.md:8:Milestone 5 — Execution Lineage Governance
+docs/governance/milestone-5-execution-lineage/lineage-ambiguity-contract.md:16:- Lineage Relationship Contract v1
+docs/governance/milestone-5-execution-lineage/lineage-ambiguity-contract.md:18:- Lineage Evidence Contract v1
+docs/governance/milestone-5-execution-lineage/lineage-ambiguity-contract.md:34:The Lineage Ambiguity Contract defines:
+docs/governance/milestone-5-execution-lineage/lineage-ambiguity-contract.md:36:- lineage ambiguity
+docs/governance/milestone-5-execution-lineage/lineage-ambiguity-contract.md:46:This contract governs unresolved lineage questions.
+docs/governance/milestone-5-execution-lineage/lineage-ambiguity-contract.md:52:Lineage ambiguity exists when Atlas cannot establish an authoritative relationship using available evidence.
+docs/governance/milestone-5-execution-lineage/lineage-ambiguity-contract.md:56:Ambiguity is evidence that authoritative lineage requirements have not yet been satisfied.
+docs/governance/milestone-5-execution-lineage/lineage-ambiguity-contract.md:62:A lineage ambiguity exists when:
+docs/governance/milestone-5-execution-lineage/lineage-ambiguity-contract.md:70:Potential relationships shall not enter the authoritative lineage graph.
+docs/governance/milestone-5-execution-lineage/lineage-ambiguity-contract.md:76:Authoritative relationships and lineage ambiguities are distinct categories.
+docs/governance/milestone-5-execution-lineage/lineage-ambiguity-contract.md:82:- admitted to the lineage graph
+docs/governance/milestone-5-execution-lineage/lineage-ambiguity-contract.md:84:Lineage ambiguities:
+docs/governance/milestone-5-execution-lineage/lineage-ambiguity-contract.md:90:- excluded from authoritative lineage
+docs/governance/milestone-5-execution-lineage/lineage-ambiguity-contract.md:96:Lineage ambiguities may be preserved as ambiguity artifacts.
+docs/governance/milestone-5-execution-lineage/lineage-ambiguity-contract.md:162:Routine lineage ambiguities should not require user intervention.
+docs/governance/milestone-5-execution-lineage/lineage-ambiguity-contract.md:168:Lineage ambiguity alone does not authorize payload access.
+docs/governance/milestone-5-execution-lineage/lineage-ambiguity-contract.md:176:Lineage ambiguity may resolve into:
+docs/governance/milestone-5-execution-lineage/lineage-ambiguity-contract.md:220:- lineage intelligence research
+docs/governance/milestone-5-execution-lineage/milestone-5-dr-checkpoint.md:8:Milestone 5 — Execution Lineage Governance
+docs/governance/milestone-5-execution-lineage/lineage-evidence-contract.md:2:# Lineage Evidence Contract v1
+docs/governance/milestone-5-execution-lineage/lineage-evidence-contract.md:8:Milestone 5 — Execution Lineage Governance
+docs/governance/milestone-5-execution-lineage/lineage-evidence-contract.md:16:- Execution Lineage Artifact Contract v1
+docs/governance/milestone-5-execution-lineage/lineage-evidence-contract.md:18:- Lineage Relationship Contract v1
+docs/governance/milestone-5-execution-lineage/lineage-evidence-contract.md:30:The Lineage Evidence Contract defines:
+docs/governance/milestone-5-execution-lineage/lineage-evidence-contract.md:32:- authoritative lineage evidence
+docs/governance/milestone-5-execution-lineage/lineage-evidence-contract.md:40:This contract governs how lineage relationships become authoritative.
+docs/governance/milestone-5-execution-lineage/lineage-evidence-contract.md:46:Lineage relationships derive authority from evidence.
+docs/governance/milestone-5-execution-lineage/lineage-evidence-contract.md:70:Evidence is required for authoritative lineage admission.
+docs/governance/milestone-5-execution-lineage/lineage-evidence-contract.md:76:The following sources may authorize lineage relationships.
+docs/governance/milestone-5-execution-lineage/lineage-evidence-contract.md:166:A lineage relationship may become authoritative only when sufficient evidence exists to support the relationship claim.
+docs/governance/milestone-5-execution-lineage/lineage-evidence-contract.md:194:These conditions may indicate ambiguity but may not authorize lineage relationships.
+docs/governance/milestone-5-execution-lineage/lineage-evidence-contract.md:204:- lineage ambiguity may be recorded
+docs/governance/milestone-5-execution-lineage/lineage-evidence-contract.md:208:Insufficient evidence shall never be upgraded to authoritative lineage.
+docs/governance/milestone-5-execution-lineage/lineage-evidence-contract.md:224:Evidence supporting authoritative lineage relationships shall remain historically available.
+docs/governance/milestone-5-execution-lineage/lineage-evidence-contract.md:228:Evidence may not be destroyed in a manner that invalidates authoritative lineage traceability.
+docs/governance/milestone-5-execution-lineage/lineage-evidence-contract.md:232:## Lineage Validation Model
+docs/governance/milestone-5-execution-lineage/lineage-evidence-contract.md:234:Lineage validation occurs at edge admission.
+docs/governance/milestone-5-execution-lineage/lineage-evidence-contract.md:254:Lineage Ambiguity
+docs/governance/milestone-5-execution-lineage/lineage-evidence-contract.md:256:No separate lineage validator authority is required.
+docs/governance/milestone-5-execution-lineage/lineage-evidence-contract.md:268:- lineage intelligence research
+docs/governance/milestone-5-execution-lineage/lineage-relationship-contract.md:2:# Lineage Relationship Contract v1
+docs/governance/milestone-5-execution-lineage/lineage-relationship-contract.md:8:Milestone 5 — Execution Lineage Governance
+docs/governance/milestone-5-execution-lineage/lineage-relationship-contract.md:16:- Execution Lineage Artifact Contract v1
+docs/governance/milestone-5-execution-lineage/lineage-relationship-contract.md:28:The Lineage Relationship Contract defines:
+docs/governance/milestone-5-execution-lineage/lineage-relationship-contract.md:40:This contract governs lineage edges.
+docs/governance/milestone-5-execution-lineage/lineage-relationship-contract.md:48:Relationships describe how authoritative lineage artifacts are connected.
+docs/governance/milestone-5-execution-lineage/lineage-relationship-contract.md:58:Only evidence-backed relationships may exist within the authoritative lineage graph.
+docs/governance/milestone-5-execution-lineage/lineage-relationship-contract.md:64:Atlas is the authority responsible for maintaining lineage relationships.
+docs/governance/milestone-5-execution-lineage/lineage-relationship-contract.md:196:A relationship may enter the authoritative lineage graph only when supported by authoritative evidence.
+docs/governance/milestone-5-execution-lineage/lineage-relationship-contract.md:232:The authoritative lineage graph shall contain only evidence-backed relationships.
+docs/governance/milestone-5-execution-lineage/lineage-relationship-contract.md:248:## Lineage Ambiguity Separation Rule
+docs/governance/milestone-5-execution-lineage/lineage-relationship-contract.md:252:Ambiguity artifacts are not lineage relationships.
+docs/governance/milestone-5-execution-lineage/lineage-relationship-contract.md:254:Ambiguity artifacts do not become authoritative lineage until evidence requirements are satisfied.
+docs/governance/milestone-5-execution-lineage/lineage-relationship-contract.md:270:Historical lineage remains append-only.
+docs/governance/milestone-5-execution-lineage/lineage-relationship-contract.md:302:- lineage intelligence research
+docs/governance/milestone-5-execution-lineage/atlas-visibility-contract.md:8:Milestone 5 — Execution Lineage Governance
+docs/governance/milestone-5-execution-lineage/atlas-visibility-contract.md:16:- Execution Lineage Artifact Contract v1
+docs/governance/milestone-5-execution-lineage/atlas-visibility-contract.md:18:- Lineage Relationship Contract v1
+docs/governance/milestone-5-execution-lineage/atlas-visibility-contract.md:20:- Lineage Evidence Contract v1
+docs/governance/milestone-5-execution-lineage/atlas-visibility-contract.md:52:Atlas is lineage-authoritative.
+docs/governance/milestone-5-execution-lineage/atlas-visibility-contract.md:64:Atlas shall operate primarily on lineage metadata.
+docs/governance/milestone-5-execution-lineage/atlas-visibility-contract.md:68:Metadata visibility is sufficient for normal lineage operation.
+docs/governance/milestone-5-execution-lineage/atlas-visibility-contract.md:92:- lineage metadata
+docs/governance/milestone-5-execution-lineage/atlas-visibility-contract.md:94:These categories are considered normal lineage visibility.
+docs/governance/milestone-5-execution-lineage/atlas-visibility-contract.md:104:Ownership of lineage does not imply ownership of content.
+docs/governance/milestone-5-execution-lineage/atlas-visibility-contract.md:142:Normal lineage operation should be achievable through metadata alone.
+docs/governance/milestone-5-execution-lineage/atlas-visibility-contract.md:150:Atlas shall exhaust metadata-based lineage resolution before requesting content access.
+docs/governance/milestone-5-execution-lineage/atlas-visibility-contract.md:170:Payload access is not part of normal lineage operation.
+docs/governance/milestone-5-execution-lineage/atlas-visibility-contract.md:178:- establish lineage
+docs/governance/milestone-5-execution-lineage/atlas-visibility-contract.md:180:- preserve lineage
+docs/governance/milestone-5-execution-lineage/atlas-visibility-contract.md:182:- reconcile lineage
+docs/governance/milestone-5-execution-lineage/atlas-visibility-contract.md:184:- query lineage
+docs/governance/milestone-5-execution-lineage/atlas-visibility-contract.md:186:- explain lineage
+docs/governance/milestone-5-execution-lineage/atlas-visibility-contract.md:194:Nothing in this contract shall prohibit future lineage capabilities provided:
+docs/governance/milestone-5-execution-lineage/execution-lineage-artifact-contract.md:2:# Execution Lineage Artifact Contract v1
+docs/governance/milestone-5-execution-lineage/execution-lineage-artifact-contract.md:8:Milestone 5 — Execution Lineage Governance
+docs/governance/milestone-5-execution-lineage/execution-lineage-artifact-contract.md:26:The Execution Lineage Artifact Contract defines:
+docs/governance/milestone-5-execution-lineage/execution-lineage-artifact-contract.md:28:- lineage artifact eligibility
+docs/governance/milestone-5-execution-lineage/execution-lineage-artifact-contract.md:32:- lineage admission requirements
+docs/governance/milestone-5-execution-lineage/execution-lineage-artifact-contract.md:38:This contract governs lineage nodes.
+docs/governance/milestone-5-execution-lineage/execution-lineage-artifact-contract.md:46:The execution-lineage graph exists to preserve consequential project history.
+docs/governance/milestone-5-execution-lineage/execution-lineage-artifact-contract.md:64:## Lineage Artifact Definition
+docs/governance/milestone-5-execution-lineage/execution-lineage-artifact-contract.md:66:A Lineage Artifact is a durable, decision-bearing artifact capable of affecting:
+docs/governance/milestone-5-execution-lineage/execution-lineage-artifact-contract.md:80:Artifact existence alone does not qualify an artifact for lineage participation.
+docs/governance/milestone-5-execution-lineage/execution-lineage-artifact-contract.md:90:An artifact may participate in the lineage graph only if its existence can alter:
+docs/governance/milestone-5-execution-lineage/execution-lineage-artifact-contract.md:92:- execution lineage
+docs/governance/milestone-5-execution-lineage/execution-lineage-artifact-contract.md:94:- governance lineage
+docs/governance/milestone-5-execution-lineage/execution-lineage-artifact-contract.md:96:- recovery lineage
+docs/governance/milestone-5-execution-lineage/execution-lineage-artifact-contract.md:98:- operational lineage
+docs/governance/milestone-5-execution-lineage/execution-lineage-artifact-contract.md:100:- roadmap lineage
+docs/governance/milestone-5-execution-lineage/execution-lineage-artifact-contract.md:102:- milestone lineage
+docs/governance/milestone-5-execution-lineage/execution-lineage-artifact-contract.md:118:Intent lineage preservation.
+docs/governance/milestone-5-execution-lineage/execution-lineage-artifact-contract.md:130:Execution lineage preservation.
+docs/governance/milestone-5-execution-lineage/execution-lineage-artifact-contract.md:142:Governance lineage preservation.
+docs/governance/milestone-5-execution-lineage/execution-lineage-artifact-contract.md:154:Recovery lineage preservation.
+docs/governance/milestone-5-execution-lineage/execution-lineage-artifact-contract.md:166:Resolution lineage preservation.
+docs/governance/milestone-5-execution-lineage/execution-lineage-artifact-contract.md:178:Operational lineage preservation.
+docs/governance/milestone-5-execution-lineage/execution-lineage-artifact-contract.md:200:Project-path lineage preservation.
+docs/governance/milestone-5-execution-lineage/execution-lineage-artifact-contract.md:258:The following categories are excluded from authoritative lineage participation.
+docs/governance/milestone-5-execution-lineage/execution-lineage-artifact-contract.md:264:Messages themselves are not lineage artifacts.
+docs/governance/milestone-5-execution-lineage/execution-lineage-artifact-contract.md:270:Not project lineage.
+docs/governance/milestone-5-execution-lineage/execution-lineage-artifact-contract.md:300:Not an authoritative lineage artifact.
+docs/governance/milestone-5-execution-lineage/execution-lineage-artifact-contract.md:306:Event-level lineage remains deferred.
+docs/governance/milestone-5-execution-lineage/execution-lineage-artifact-contract.md:354:Lifecycle transitions do not remove artifacts from lineage history.
+docs/governance/milestone-5-execution-lineage/execution-lineage-artifact-contract.md:360:Lineage artifacts are permanent historical records.
+docs/governance/milestone-5-execution-lineage/execution-lineage-artifact-contract.md:384:Lineage participation does not require payload preservation.
+docs/governance/milestone-5-execution-lineage/execution-lineage-artifact-contract.md:386:The lineage graph prioritizes:
+docs/governance/milestone-5-execution-lineage/execution-lineage-artifact-contract.md:394:- lineage continuity
+docs/governance/milestone-5-execution-lineage/execution-lineage-artifact-contract.md:412:Nothing in this contract shall prohibit future event-level lineage expansion provided existing authority boundaries, privacy constraints, evidence requirements, and governance protections remain intact.
+docs/governance/milestone-5-execution-lineage/atlas-payload-access-contract.md:8:Milestone 5 — Execution Lineage Governance
+docs/governance/milestone-5-execution-lineage/atlas-payload-access-contract.md:16:- Lineage Evidence Contract v1
+docs/governance/milestone-5-execution-lineage/atlas-payload-access-contract.md:54:Payload access is not part of normal lineage operation.
+docs/governance/milestone-5-execution-lineage/atlas-payload-access-contract.md:64:2. the lineage question remains unresolved
+docs/governance/milestone-5-execution-lineage/atlas-payload-access-contract.md:66:3. lineage responsibilities require further resolution
+docs/governance/milestone-5-execution-lineage/atlas-payload-access-contract.md:76:Every payload-access request must include a lineage-specific justification.
+docs/governance/milestone-5-execution-lineage/atlas-payload-access-contract.md:86:- lineage reconciliation requirements
+docs/governance/milestone-5-execution-lineage/atlas-payload-access-contract.md:110:What lineage issue remains unresolved?
+docs/governance/milestone-5-execution-lineage/atlas-payload-access-contract.md:122:Why can the question not be resolved through normal lineage visibility?
+docs/governance/milestone-5-execution-lineage/atlas-payload-access-contract.md:128:How will the requested information resolve the lineage issue?
+docs/governance/milestone-5-execution-lineage/atlas-payload-access-contract.md:228:- lineage ambiguity occurred
+docs/governance/milestone-5-execution-lineage/atlas-payload-access-contract.md:236:- lineage resolution occurred
+docs/governance/milestone-5-execution-lineage/atlas-payload-access-contract.md:262:Nothing in this contract shall prohibit future lineage capabilities provided:
+docs/governance/milestone-5-execution-lineage/milestone-5-governance-reconciliation.md:8:Milestone 5 — Execution Lineage Governance
+docs/governance/milestone-5-execution-lineage/milestone-5-governance-reconciliation.md:20:This reconciliation artifact records the governance findings, authority boundaries, lineage principles, privacy protections, and stabilization outcomes established during Milestone 5.
+docs/governance/milestone-5-execution-lineage/milestone-5-governance-reconciliation.md:36:- lineage authority
+docs/governance/milestone-5-execution-lineage/milestone-5-governance-reconciliation.md:46:### Execution Lineage Artifact Contract
+docs/governance/milestone-5-execution-lineage/milestone-5-governance-reconciliation.md:54:- lineage artifact eligibility
+docs/governance/milestone-5-execution-lineage/milestone-5-governance-reconciliation.md:64:### Lineage Relationship Contract
+docs/governance/milestone-5-execution-lineage/milestone-5-governance-reconciliation.md:82:### Lineage Evidence Contract
+docs/governance/milestone-5-execution-lineage/milestone-5-governance-reconciliation.md:134:### Lineage Ambiguity Contract
+docs/governance/milestone-5-execution-lineage/milestone-5-governance-reconciliation.md:172:### Atlas Lineage Authority
+docs/governance/milestone-5-execution-lineage/milestone-5-governance-reconciliation.md:174:Atlas is the lineage authority.
+docs/governance/milestone-5-execution-lineage/milestone-5-governance-reconciliation.md:188:### Privacy-Preserving Lineage
+docs/governance/milestone-5-execution-lineage/milestone-5-governance-reconciliation.md:190:Lineage value derives from relationships rather than routine content visibility.
+docs/governance/milestone-5-execution-lineage/milestone-5-governance-reconciliation.md:206:Authoritative lineage contains evidence-backed relationships only.
+docs/governance/milestone-5-execution-lineage/milestone-5-governance-reconciliation.md:214:Lineage ambiguities are resolved through the authority responsible for the affected artifact whenever possible.
+docs/governance/milestone-5-execution-lineage/milestone-5-governance-reconciliation.md:246:No unresolved lineage-governance contradictions identified.
+docs/governance/milestone-5-execution-lineage/milestone-5-governance-reconciliation.md:258:- lineage governance
+docs/governance/milestone-5-execution-lineage/progressive-disclosure-alignment-contract.md:8:Milestone 5 — Execution Lineage Governance
+docs/governance/milestone-5-execution-lineage/progressive-disclosure-alignment-contract.md:16:- Lineage Ambiguity Contract v1
+docs/governance/milestone-5-execution-lineage/progressive-disclosure-alignment-contract.md:74:- lineage terminology
+docs/governance/milestone-5-execution-lineage/progressive-disclosure-alignment-contract.md:88:- lineage graphs
+docs/governance/milestone-5-execution-lineage/progressive-disclosure-alignment-contract.md:96:- lineage artifacts
+docs/governance/CANONICAL_ENVELOPE_SPECIFICATION.md:12:The Envelope preserves lineage, assignment history, operational history, and completion history.
+docs/governance/CANONICAL_ENVELOPE_SPECIFICATION.md:104:Envelope preserved for lineage, telemetry, intelligence, and audit purposes.
+docs/governance/CANONICAL_ENVELOPE_SPECIFICATION.md:476:## lineage_references
+docs/governance/CANONICAL_ENVELOPE_SPECIFICATION.md:480:Links to lineage records.
+docs/governance/CANONICAL_ENVELOPE_SPECIFICATION.md:544:The Package is the authoritative meaning artifact.
