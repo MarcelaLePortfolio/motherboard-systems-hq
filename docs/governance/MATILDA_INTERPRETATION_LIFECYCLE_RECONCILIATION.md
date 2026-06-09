@@ -360,3 +360,82 @@ However, this relationship has not yet been explicitly reconciled.
 
 Additional evidence and governance review required before promotion to reconciled invariant.
 
+
+---
+
+## Corridor Reconciliation — IEL Lineage And Distinct Interpretation Investigation
+
+Date: 2026-06-09
+
+Status: RECONCILED
+
+### Original Question
+
+Does a future Draft Package require its own IEL lineage?
+
+### Investigation Outcome
+
+The corridor did not reconcile the IEL lineage question directly.
+
+Instead, investigation exposed a deeper unresolved governance question.
+
+### Reconciled Findings
+
+The following findings were strengthened through evidence inspection:
+
+- Draft Package is derived from IEL.
+
+- Canonical Package is derived from a reconciled Draft Package.
+
+- Canonical Package is derived from a specific IEL state.
+
+- Multiple Packages may coexist.
+
+- Each Package represents a distinct approved interpretation.
+
+### Corridor Finding
+
+The original IEL question appears to be downstream of a more fundamental governance boundary.
+
+The investigation repeatedly converged on continuity of meaning rather than IEL structure itself.
+
+### Emerging Candidate Boundary
+
+The strongest current candidate boundary is:
+
+Refinement
+
+versus
+
+Fundamental Meaning Alteration
+
+This candidate appears capable of explaining:
+
+- corridor continuation
+
+- corridor replacement
+
+- interpretation continuity
+
+- Draft Package continuity
+
+- Package continuity
+
+- IEL continuity
+
+### Non-Reconciled Findings
+
+The following questions remain open:
+
+- What constitutes a distinct approved interpretation?
+
+- What constitutes fundamental alteration of meaning?
+
+- Whether refinement versus meaning alteration governs lineage continuity.
+
+### Reconciliation Result
+
+The corridor is considered reconciled.
+
+The Meaning Continuity Boundary remains an active candidate finding requiring future investigation.
+
