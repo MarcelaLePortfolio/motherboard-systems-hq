@@ -1,0 +1,137 @@
+==================================================
+DISTINCT INTERPRETATION BOUNDARY INSPECTION
+==================================================
+
+
+==================================================
+docs/governance/COLLABORATION_AND_PACKAGE_LIFECYCLE.md
+==================================================
+8:This document captures the reconciled lifecycle between user collaboration, intent reconciliation, package creation, and delegation.
+14:Collaboration exists to reconcile meaning before organizational processing begins.
+18:The goal of collaboration is convergence upon an accurate representation of user intent.
+24:User Intent
+32:Reconciled Intent Summary
+60:- Meaning is explored
+62:- Scope is clarified
+78:# Reconciled Intent Summary
+80:A Reconciled Intent Summary is a human-readable representation of the current understanding of intent.
+90:- Confirm understanding before Package creation
+92:The Reconciled Intent Summary is not a Package.
+94:The Reconciled Intent Summary is not a governance artifact.
+96:The Reconciled Intent Summary is a collaboration artifact.
+106:"Is this an accurate representation of my intent?"
+126:The Package becomes the canonical meaning artifact.
+128:The Package replaces the Reconciled Intent Summary as the authoritative representation of meaning.
+142:- Meaning is approved
+154:Each Package represents a distinct approved interpretation.
+164:# Package Comparison
+168:- Reconciled Intent Summaries
+186:Delegation does not create meaning.
+232:Governance Validation does not consume Reconciled Intent Summaries.
+
+==================================================
+docs/governance/CANONICAL_PACKAGE_SPECIFICATION.md
+==================================================
+6:The Package is the canonical meaning artifact of the Motherboard Headquarters operating model.
+8:The Package represents Matilda's authoritative interpretation of user intent.
+10:The Package is the source of truth for meaning.
+46:Packages own meaning.
+56:The Package remains the authoritative source of intent throughout the lifecycle.
+76:## requested_outcome
+80:The outcome the user wishes to achieve.
+96:## scope
+204:## style_presentation_intent
+250:- Clearly define the requested outcome
+252:- Clearly define scope
+260:A Package must not require downstream invention of meaning.
+336:Meaning must remain separate from operationalization.
+
+==================================================
+docs/governance/matilda-package-contract.md
+==================================================
+8:The Matilda Package is the canonical interpretation artifact produced by Matilda.
+10:The package exists to preserve Matilda's understanding of established user intent before delegation occurs.
+14:The package is not an execution artifact.
+16:The package is not an authorization artifact.
+26:User Intent
+54:Reconciliation
+60:Matilda interprets intent.
+62:Matilda does not create intent.
+64:The package preserves Matilda's interpretation.
+76:- Intent Authority
+78:User remains the sole source of intent authority.
+86:- Interpretation Authority
+94:- interpret intent
+96:- refine intent
+98:- clarify intent
+100:- preserve intent
+104:- create intent
+106:- invent intent
+108:- expand intent without authorization
+110:- replace missing intent with inference
+122:- Reconciliation Authority
+130:A Matilda Package is a governed interpretation artifact.
+138:- what artifacts are expected
+140:- what scope boundaries apply
+142:- what outcomes are expected
+150:### Intent Summary
+158:### Proposed Artifacts
+160:Defines the expected artifacts to be created, modified, analyzed, or reconciled.
+162:### Scope Boundary
+166:- in-scope work
+168:- out-of-scope work
+174:### Expected Outcome
+206:The package is an interpretation artifact only.
+214:Interpretation Authorization occurs when the user delegates the package.
+216:The act of delegation represents acceptance of Matilda's interpretation.
+234:The execution envelope remains the canonical delegation artifact.
+236:Approved interpretation may be transformed into a governed execution envelope.
+238:The envelope inherits approved interpretation details from the package.
+264:Interpretation Authorization and Execution Authorization are distinct events.
+270:The Matilda Package appears to be the primary artifact produced by Matilda.
+272:The execution envelope appears to be a downstream governance artifact derived from an approved package.
+276:- interpretation
+286:## Scope Boundary
+302:Implementation remains out of scope until separately authorized.
+
+==================================================
+docs/governance/MATILDA_INTERPRETATION_LIFECYCLE_RECONCILIATION.md
+==================================================
+2:# Matilda Interpretation Lifecycle Reconciliation
+10:Raw conversation history is preserved as the primary evidence source for interpretation.
+16:2. Interpretation Evidence Ledger (IEL)
+26:### Interpretation Evidence Ledger (IEL)
+28:Matilda maintains an append-only Interpretation Evidence Ledger.
+32:- preserves interpretation lineage
+36:- preserves reconciliation history
+58:The IEL is a contextualized interpretation record.
+62:- Interpretation Event
+80:Preserve any evidence that materially contributes to understanding:
+84:- interpretation
+88:- artifacts
+94:- assumptions
+122:Preservation decisions are based on meaning and lineage contribution.
+164:- current best understanding
+170:Canonical Package remains the Canonical Meaning Artifact.
+184:### Reconciliation Philosophy
+186:Reconciliation is not completeness.
+188:Reconciliation is stability.
+190:A corridor becomes reconciliation-ready when:
+206:Package maturity is determined by interpretation stability rather than information completeness.
+208:A Draft Package is mature when future evidence is expected to refine the Package rather than fundamentally alter its meaning.
+212:### Reconciliation Authority
+214:Matilda may propose reconciliation.
+216:Matilda may not finalize reconciliation.
+218:User retains reconciliation authority.
+220:Canonical Package creation occurs through explicit user acceptance of reconciliation.
+276:Atlas receives evidence whenever organizational understanding may have changed.
+286:### Reconciliation Guidance Escalation
+290:Atlas recommendations may become increasingly explicit as reconciliation readiness increases.
+292:Atlas may recommend reconciliation when evidence indicates diminishing discovery returns.
+294:Atlas may not finalize reconciliation.
+300:Matilda functions as interpretation steward.
+308:Matilda facilitates reconciliation.
+310:Atlas advises reconciliation readiness.
+323:Current governance artifacts establish:
+333:### Emerging Interpretation
+357:The first interpretation appears more consistent with existing lineage-preservation rules.
