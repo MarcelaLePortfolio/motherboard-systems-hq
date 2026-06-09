@@ -1,0 +1,69 @@
+==================================================
+MULTIPLE PACKAGE LINEAGE INSPECTION
+==================================================
+
+
+==================================================
+docs/governance/COLLABORATION_AND_PACKAGE_LIFECYCLE.md
+==================================================
+150:# Multiple Packages
+152:Multiple Packages may coexist.
+154:Each Package represents a distinct approved interpretation.
+164:# Package Comparison
+198:Delegation applies to a specific Package version.
+
+==================================================
+docs/governance/CANONICAL_PACKAGE_SPECIFICATION.md
+==================================================
+60:# Required Fields
+182:# Optional Fields
+
+==================================================
+docs/governance/MATILDA_INTERPRETATION_LIFECYCLE_RECONCILIATION.md
+==================================================
+16:2. Interpretation Evidence Ledger (IEL)
+26:### Interpretation Evidence Ledger (IEL)
+30:The IEL:
+32:- preserves interpretation lineage
+52:### IEL Definition
+54:The IEL is not a transcript.
+56:The IEL is not a collection of conclusions.
+58:The IEL is a contextualized interpretation record.
+60:Each IEL entry contains:
+70:- Lineage References
+74:Full transcript preservation inside the IEL is unnecessary.
+120:- lineage-relevant evidence in another
+122:Preservation decisions are based on meaning and lineage contribution.
+132:Matilda may remove non-lineage conversational noise.
+134:Matilda may not remove lineage-relevant evidence.
+138:- lineage
+156:- derived from IEL
+174:- derived from a reconciled Draft Package
+176:- derived from a specific IEL state
+180:- lineage-preserving
+232:→ IEL
+268:Atlas intelligence is derived from the IEL.
+270:Atlas does not modify the IEL.
+317:## Candidate Finding — IEL To Draft Package Boundary
+325:- Draft Package is derived from IEL.
+327:- Canonical Package is derived from a reconciled Draft Package.
+329:- Canonical Package is derived from a specific IEL state.
+331:- Multiple Packages may coexist.
+335:The architecture appears to imply a one-to-one lineage relationship between an IEL and a future Draft Package.
+339:- An IEL exists in service of a future Draft Package.
+341:- A Draft Package represents the current synthesis of a specific IEL lineage.
+343:- Canonical Package creation preserves lineage back to a specific IEL state.
+349:- A new future Draft Package requires a new IEL lineage.
+353:- Multiple future Draft Packages may emerge from a single IEL lineage.
+357:The first interpretation appears more consistent with existing lineage-preservation rules.
+
+==================================================
+docs/governance/CANONICAL_DELEGATION_SPECIFICATION.md
+==================================================
+56:Delegation authorizes a specific Package version.
+76:# Required Fields
+118:Identifies the specific Package version being authorized.
+130:Delegation applies only to the referenced Package version.
+206:A Delegation Record must reference an existing Package version.
+212:Delegation authorizes a specific Package version.
+232:Delegations must never automatically transfer between Package versions.
