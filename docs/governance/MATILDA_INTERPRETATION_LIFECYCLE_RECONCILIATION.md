@@ -311,3 +311,52 @@ Atlas advises reconciliation readiness.
 
 User decides.
 
+
+---
+
+## Candidate Finding — IEL To Draft Package Boundary
+
+Status: CANDIDATE FINDING
+
+### Observation
+
+Current governance artifacts establish:
+
+- Draft Package is derived from IEL.
+
+- Canonical Package is derived from a reconciled Draft Package.
+
+- Canonical Package is derived from a specific IEL state.
+
+- Multiple Packages may coexist.
+
+### Emerging Interpretation
+
+The architecture appears to imply a one-to-one lineage relationship between an IEL and a future Draft Package.
+
+Under this model:
+
+- An IEL exists in service of a future Draft Package.
+
+- A Draft Package represents the current synthesis of a specific IEL lineage.
+
+- Canonical Package creation preserves lineage back to a specific IEL state.
+
+### Open Question
+
+The governance corpus does not currently state whether:
+
+- A new future Draft Package requires a new IEL lineage.
+
+or
+
+- Multiple future Draft Packages may emerge from a single IEL lineage.
+
+### Current Assessment
+
+The first interpretation appears more consistent with existing lineage-preservation rules.
+
+However, this relationship has not yet been explicitly reconciled.
+
+Additional evidence and governance review required before promotion to reconciled invariant.
+
