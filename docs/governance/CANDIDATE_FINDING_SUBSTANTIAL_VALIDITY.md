@@ -57,3 +57,66 @@ This suggests refinement rather than replacement.
 
 - What organizational consequences follow from lineage continuation versus lineage break?
 
+
+---
+
+## Additional Investigation Notes
+
+### Structural Relevance vs Residual Survival
+
+Current investigation suggests that mere survival of prior interpretive elements may be insufficient for lineage continuity.
+
+A prior interpretation may remain:
+
+- visible
+
+- remembered
+
+- explainable
+
+without remaining structurally relevant to the current interpretation.
+
+Current candidate distinction:
+
+Active Lineage:
+
+- Prior interpretation continues to contribute meaningful explanatory or organizational structure to the current interpretation.
+
+Residual Lineage:
+
+- Prior interpretation remains visible or historically present but no longer contributes meaningful structure to the current interpretation.
+
+### Candidate Observation
+
+Mere survival is not equivalent to participation.
+
+Historical remnants may persist after lineage has effectively weakened or ended.
+
+### Candidate Question
+
+Does lineage break occur when a new interpretation emerges?
+
+Or does lineage break occur when the prior interpretation ceases to be structurally relevant to the current interpretation?
+
+### Supporting Analogy
+
+Room Evolution Example:
+
+- Pink-centered room
+
+- Pink room with Tiffany floral additions
+
+- Tiffany-centered room with remaining pink remnants
+
+- Removal of final pink lineage-bearing elements
+
+Investigation suggests lineage weakens as prior elements become residual rather than active.
+
+Lineage may end when prior elements cease to meaningfully participate in the identity of the current whole.
+
+Status:
+
+NOT RECONCILED
+
+Requires additional pressure testing.
+
