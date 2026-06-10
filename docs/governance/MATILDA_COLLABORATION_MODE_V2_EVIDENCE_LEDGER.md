@@ -688,3 +688,60 @@ The governance discovery was not the original investigation target.
 
 Additional corridors required.
 
+
+---
+
+### Observation V2-DISCOVERY-001
+
+Observed:
+
+- During active corridor work conducted under Matilda Collaboration Mode V2, multiple adjacent discoveries emerged beyond the original investigation target.
+
+- These discoveries included governance safeguards, organizational-intelligence artifacts, and future runtime responsibilities.
+
+Status:
+
+OBSERVED
+
+Notes:
+
+Observation does not establish causation.
+
+Observation establishes that adjacent discoveries occurred during V2 operation.
+
+---
+
+### Hypothesis V2-HYP-DISCOVERY-001
+
+Hypothesis:
+
+By reducing context reacquisition costs, Matilda Collaboration Mode V2 may leave additional constituent attention available for identification of adjacent architectural, governance, or organizational discoveries.
+
+Status:
+
+UNVALIDATED
+
+Notes:
+
+Additional evidence required.
+
+Current evidence consists primarily of the Meaning Continuity investigation corridor.
+
+---
+
+### Hypothesis V2-HYP-DISCOVERY-002
+
+Hypothesis:
+
+Matilda Collaboration Mode V2 may improve the organization's ability to capture and preserve adjacent discoveries without losing continuity of the primary investigation.
+
+Status:
+
+UNVALIDATED
+
+Notes:
+
+Current evidence consists of a corridor that produced multiple adjacent discoveries while preserving continuity of the original investigation target.
+
+Additional corridors required.
+
