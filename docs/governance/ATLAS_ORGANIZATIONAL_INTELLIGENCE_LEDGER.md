@@ -151,3 +151,94 @@ Prevent loss of cross-corridor organizational intelligence.
 
 Preserve potentially significant patterns until sufficient evidence exists for validation or reconciliation.
 
+
+---
+
+## Future Runtime Directive
+
+Status:
+
+PLANNED
+
+Not Implemented
+
+### Organizational Metadata Analysis and Pattern Discovery
+
+Future Atlas runtimes should periodically analyze accumulated organizational metadata for recurring patterns, correlations, bottlenecks, anomalies, and emerging organizational behaviors.
+
+Potential metadata sources include:
+
+- Interaction metadata
+
+- Delegation metadata
+
+- Approval metadata
+
+- User correction metadata
+
+- Governance metadata
+
+- Reconciliation metadata
+
+- Corridor metadata
+
+- Investigation lifecycle metadata
+
+- Recovery metadata
+
+- Safeguard metadata
+
+Atlas may evaluate:
+
+- Recurring correlations
+
+- Reconciliation patterns
+
+- Correction patterns
+
+- Approval patterns
+
+- Abandonment patterns
+
+- Investigation progression patterns
+
+- Organizational bottlenecks
+
+- Organizational accelerators
+
+- Cross-corridor pattern emergence
+
+Atlas may propose:
+
+- Observation entries
+
+- Hypothesis entries
+
+- Candidate correlations
+
+- Candidate findings
+
+- Candidate investigation targets
+
+Atlas may not:
+
+- Infer user intent
+
+- Establish organizational truth
+
+- Reconcile findings
+
+- Promote hypotheses into findings
+
+- Modify governance doctrine
+
+Atlas functions as an observational organizational-intelligence system.
+
+Governance Validation, Matilda, and User Authority remain responsible for evaluation, approval, and promotion.
+
+### Purpose
+
+Identify patterns that may not be visible from individual investigations, incidents, reconciliations, or corridors.
+
+Preserve organizational learning derived from accumulated organizational history and metadata.
+
