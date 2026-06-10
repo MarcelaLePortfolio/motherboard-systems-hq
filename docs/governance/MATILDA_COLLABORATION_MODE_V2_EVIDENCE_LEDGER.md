@@ -379,3 +379,52 @@ Uncertainty Preservation
 
 - Causation not established.
 
+
+## Hypothesis Entry — Deeper-Question Discovery As A Successful Reconciliation Outcome
+
+Date: 2026-06-09
+
+Status: Hypothesis Under Investigation
+
+### Hypothesis
+
+Collaboration quality may improve when a corridor is permitted to reconcile at a more fundamental unresolved question rather than forcing resolution of the original question.
+
+### Supporting Observations
+
+- The corridor began as an IEL lineage investigation.
+
+- Multiple candidate explanations were pressure-tested.
+
+- Evidence inspections repeatedly reframed the question.
+
+- The corridor ultimately reconciled around a deeper governance boundary rather than the original question.
+
+### Observed Pattern
+
+Initial Question
+
+→ Evidence Inspection
+
+→ Candidate Finding
+
+→ Pressure Testing
+
+→ Discovery Of More Fundamental Question
+
+→ Corridor Reconciliation
+
+### Potential Mechanism
+
+Preservation of unresolved uncertainty may allow investigation to migrate toward more fundamental architectural boundaries.
+
+### Current Status
+
+- Plausible explanatory model.
+
+- Not yet validated.
+
+- Requires repeated observation across multiple corridor types.
+
+- Causation not established.
+
