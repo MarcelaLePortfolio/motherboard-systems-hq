@@ -784,3 +784,68 @@ May reduce context reacquisition requirements while preserving evaluation qualit
 
 Additional corridors required.
 
+
+---
+
+### Observation V2-PRESERVE-001
+
+Observed:
+
+- Preservation mechanisms were established for observations, hypotheses, candidate findings, open questions, and corridor artifacts.
+
+- Participant reported increased comfort with deferred reconciliation after preservation mechanisms were in place.
+
+Status:
+
+OBSERVED
+
+Notes:
+
+Participant reported feeling more comfortable taking additional time before reconciliation because corridor progress no longer felt at risk of being lost.
+
+---
+
+### Hypothesis V2-HYP-PRESERVE-001
+
+Hypothesis:
+
+Reliable preservation of unresolved thinking may reduce pressure for premature reconciliation.
+
+Status:
+
+UNVALIDATED
+
+Notes:
+
+May support uncertainty preservation by reducing perceived risk associated with leaving questions unresolved.
+
+Potential relationship to existing theory chain:
+
+Attention Preservation
+
+↓
+
+Scrutiny Preservation
+
+↓
+
+User-Led Correction Preservation
+
+↓
+
+Architectural Intuition Preservation
+
+↓
+
+Uncertainty Preservation
+
+↓
+
+Deeper-Question Discovery
+
+↓
+
+Higher Quality Reconciliation
+
+Additional corridors required.
+
