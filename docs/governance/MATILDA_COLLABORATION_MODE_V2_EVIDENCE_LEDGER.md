@@ -537,3 +537,92 @@ Status:
 
 UNVALIDATED
 
+
+---
+
+### Observation V2-ORIENT-003
+
+Observed:
+
+- Natural-language translation improved readability.
+
+- Readability improvement alone did not eliminate the need for contextual anchoring.
+
+Status:
+
+OBSERVED
+
+Notes:
+
+Current evidence supports readability improvement.
+
+Current evidence does not establish orientation improvement.
+
+---
+
+### Observation V2-ORIENT-004
+
+Observed:
+
+- Participant requested contextual anchoring after active-question presentation.
+
+- Participant requested an example or corridor anchor rather than a full historical context download.
+
+Status:
+
+OBSERVED
+
+Notes:
+
+Evidence currently favors a contextual-orientation requirement rather than a full context re-download requirement.
+
+---
+
+### Observation V2-ORIENT-005
+
+Observed:
+
+- Participant entered the corridor rapidly.
+
+- Participant later reported uncertainty regarding the precise object of analysis.
+
+Status:
+
+OBSERVED
+
+Notes:
+
+Fast corridor entry and complete corridor orientation may be distinct outcomes.
+
+---
+
+### Hypothesis V2-HYP-ORIENT-005
+
+Hypothesis:
+
+The optimal corridor-entry payload may consist of:
+
+- Active Question
+
+- Natural-Language Restatement
+
+- Minimum Contextual Anchor
+
+rather than:
+
+- Active Question alone
+
+or
+
+- Full Historical Context Download
+
+Status:
+
+UNVALIDATED
+
+Notes:
+
+Additional evidence required.
+
+Variable isolation has not yet occurred.
+
