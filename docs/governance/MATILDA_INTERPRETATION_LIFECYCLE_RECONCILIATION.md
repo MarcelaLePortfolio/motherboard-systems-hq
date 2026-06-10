@@ -439,3 +439,70 @@ The corridor is considered reconciled.
 
 The Meaning Continuity Boundary remains an active candidate finding requiring future investigation.
 
+
+---
+
+## Investigation Checkpoint — Evidence-Constrained Root-Cause Discovery
+
+Date: 2026-06-09
+
+Status: Checkpoint
+
+### Context
+
+The corridor began as an investigation into IEL lineage boundaries.
+
+The original question concerned whether future Draft Packages require distinct IEL lineages.
+
+### Observed Investigation Path
+
+IEL Boundary
+
+→ Meaning Continuity
+
+→ Meaning Stability
+
+→ Refinement vs Replacement
+
+→ Substantial Validity
+
+### Observed Pattern
+
+At each stage:
+
+- A deeper explanatory model was proposed.
+
+- Evidence inspection occurred before advancement.
+
+- Candidate explanations were pressure-tested.
+
+- Unsupported explanations were not promoted.
+
+### Notable Outcome
+
+The investigation became progressively more operational rather than progressively more abstract.
+
+Examples:
+
+- Meaning Stability was investigated and found to function primarily as an assessment outcome rather than a root governance construct.
+
+- Evidence strengthened Refinement versus Replacement while weakening Stability as the primary explanatory boundary.
+
+### Assessment
+
+Evidence discipline successfully constrained investigation depth.
+
+The corridor avoided:
+
+- premature reconciliation
+
+- unsupported abstraction
+
+- speculative architectural promotion
+
+### Preservation Rationale
+
+This checkpoint preserves an example of evidence-constrained descent toward more fundamental governance questions while maintaining Engineering Baseline Protocol discipline.
+
+No governance findings are reconciled by this checkpoint.
+
