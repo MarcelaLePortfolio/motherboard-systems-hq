@@ -90,3 +90,64 @@ It emerged adjacent to the primary investigation target.
 
 This observation is one of the motivating examples for Hypothesis V2-HYP-GOV-002 and future Atlas organizational-intelligence investigations.
 
+
+---
+
+## Future Runtime Directive
+
+Status:
+
+PLANNED
+
+Not Implemented
+
+### Organizational Pattern Detection and Proposal Generation
+
+Future Atlas runtimes should evaluate significant organizational events for potential cross-corridor observations, hypotheses, correlations, and investigation targets.
+
+Examples of triggering events include:
+
+- Corridor reconciliation
+
+- Governance safeguard creation
+
+- Governance incidents
+
+- Recovery events
+
+- Major user-led corrections
+
+- Hypothesis reconciliation
+
+- Investigation closure
+
+Atlas may propose:
+
+- Observation entries
+
+- Hypothesis entries
+
+- Candidate correlations
+
+- Candidate investigation targets
+
+Atlas may not:
+
+- Reconcile findings
+
+- Promote hypotheses into findings
+
+- Modify governance doctrine
+
+- Establish organizational truth
+
+Atlas functions as an observational intelligence system.
+
+Governance Validation, Matilda, and User Authority remain responsible for evaluation, approval, and promotion.
+
+### Purpose
+
+Prevent loss of cross-corridor organizational intelligence.
+
+Preserve potentially significant patterns until sufficient evidence exists for validation or reconciliation.
+
