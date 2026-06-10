@@ -667,3 +667,24 @@ Current evidence consists of a single observed occurrence.
 
 Additional corridors required before validation or reconciliation.
 
+
+---
+
+### Hypothesis V2-HYP-GOV-002
+
+Hypothesis:
+
+Valuable governance discoveries may emerge adjacent to the primary investigation target rather than directly within it.
+
+Status:
+
+UNVALIDATED
+
+Notes:
+
+Current evidence consists of a Meaning Continuity investigation that surfaced a governance safeguard regarding lineage-preserving artifact mutation rules.
+
+The governance discovery was not the original investigation target.
+
+Additional corridors required.
+
