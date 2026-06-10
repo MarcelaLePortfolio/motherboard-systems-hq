@@ -626,3 +626,44 @@ Additional evidence required.
 
 Variable isolation has not yet occurred.
 
+
+---
+
+### Observation V2-GOV-001
+
+Observed:
+
+- During Meaning Continuity corridor work, an unrelated governance gap regarding lineage-preserving artifact mutation rules was discovered.
+
+- The governance gap was identified through active corridor discussion rather than a dedicated governance-review session.
+
+- The resulting safeguard was documented and incorporated into repository governance.
+
+Status:
+
+OBSERVED
+
+Notes:
+
+This observation does not establish that Matilda Collaboration Mode V2 improves governance-gap discovery.
+
+It establishes that governance-gap discovery occurred during active corridor work.
+
+---
+
+### Hypothesis V2-HYP-GOV-001
+
+Hypothesis:
+
+Matilda Collaboration Mode V2 may facilitate discovery of adjacent governance gaps during active corridor work.
+
+Status:
+
+UNVALIDATED
+
+Notes:
+
+Current evidence consists of a single observed occurrence.
+
+Additional corridors required before validation or reconciliation.
+
