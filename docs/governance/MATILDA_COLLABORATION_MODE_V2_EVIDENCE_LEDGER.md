@@ -745,3 +745,42 @@ Current evidence consists of a corridor that produced multiple adjacent discover
 
 Additional corridors required.
 
+
+---
+
+### Observation V2-ORIENT-006
+
+Observed:
+
+- A concrete historical organizational example accelerated evaluation of an abstract corridor question.
+
+- Participant reached higher confidence after the abstract question was anchored to a known organizational example.
+
+Status:
+
+OBSERVED
+
+Notes:
+
+The operator workspace evolution served as the contextual anchor.
+
+The example appeared to increase evaluation confidence and reduce abstraction friction.
+
+---
+
+### Hypothesis V2-HYP-ORIENT-006
+
+Hypothesis:
+
+Concrete organizational examples may serve as high-efficiency contextual anchors for evaluation of abstract corridor questions.
+
+Status:
+
+UNVALIDATED
+
+Notes:
+
+May reduce context reacquisition requirements while preserving evaluation quality.
+
+Additional corridors required.
+
