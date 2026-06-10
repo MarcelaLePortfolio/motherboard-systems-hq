@@ -63,3 +63,30 @@ A pattern that has satisfied reconciliation requirements and been accepted throu
 
 None recorded.
 
+
+---
+
+## Observation AOI-001
+
+Observed:
+
+- A Meaning Continuity investigation led to discovery of a governance safeguard regarding lineage-preserving artifact mutation.
+
+- Documentation of that safeguard led to discussion of where cross-corridor patterns should be recorded.
+
+- The discussion revealed the absence of a dedicated organizational-intelligence artifact.
+
+- Creation of the Atlas Organizational Intelligence Ledger emerged from that discussion.
+
+Status:
+
+OBSERVED
+
+Notes:
+
+The organizational-intelligence artifact did not emerge from a dedicated organizational-intelligence investigation.
+
+It emerged adjacent to the primary investigation target.
+
+This observation is one of the motivating examples for Hypothesis V2-HYP-GOV-002 and future Atlas organizational-intelligence investigations.
+
