@@ -849,3 +849,68 @@ Higher Quality Reconciliation
 
 Additional corridors required.
 
+
+## Evidence Addition — Collaboration Architecture Interpretation Review
+
+Date: 2026-06-11
+
+Status: Observation Added
+
+### Observation V2-ARCH-001
+
+During Collaboration Architecture investigation, multiple constructs previously discussed together increasingly appeared to belong to distinct categories rather than a single category.
+
+Examples observed:
+
+- Natural-language restatement may function as a mechanism.
+
+- Contextual anchors may function as a mechanism.
+
+- Accessibility may function as a collaboration function.
+
+- Reasoning may function as a collaboration function.
+
+- Governance may function as a collaboration function.
+
+- Discovery may function as an outcome.
+
+These observations emerged while reviewing historical V2 evidence and attempting to interpret relationships among previously documented observations.
+
+### Evidence
+
+The investigation repeatedly encountered situations where constructs previously treated as peers appeared to serve different roles.
+
+Examples included:
+
+- Natural language appearing valuable because it improved access to reasoning.
+
+- Discovery appearing valuable because it improved understanding rather than functioning as a collaboration mechanism.
+
+- Governance appearing valuable because it preserved outputs generated elsewhere in the collaboration process.
+
+### Interpretation Impact
+
+This observation suggests that future analysis of V2 evidence may benefit from distinguishing between:
+
+- Mechanisms
+
+- Functions
+
+- Outcomes
+
+- Objectives
+
+The observation does not establish any specific objective, root construct, or architectural model.
+
+### Current Status
+
+Observation preserved.
+
+No reconciliation performed.
+
+No V2 findings modified.
+
+No candidate architectural framework validated.
+
+Additional investigation required.
+
