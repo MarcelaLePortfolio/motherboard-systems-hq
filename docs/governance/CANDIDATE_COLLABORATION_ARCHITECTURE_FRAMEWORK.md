@@ -199,3 +199,26 @@ This framework remains a candidate architectural model.
 
 Additional pressure testing is required.
 
+
+## Additional Preserved Observation
+
+A separate preserved observation suggests that participation frequency and participation influence may not be equivalent constructs.
+
+Observed corridor history contains periods of reduced intervention frequency while still exhibiting participant interventions that materially altered investigation direction.
+
+This observation remains unreconciled and should not currently be interpreted as evidence that participation frequency is unimportant.
+
+Potential future relevance:
+
+- Collaboration function-set determination.
+
+- Collaboration quality measurement.
+
+- Influence versus participation modeling.
+
+- Accessibility / Reasoning / Governance framework evaluation.
+
+Reference:
+
+CANDIDATE_COLLABORATION_PARTICIPATION_FREQUENCY_OBSERVATION.md
+
