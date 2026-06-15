@@ -15,31 +15,13 @@ Subsequent pressure testing indicated that the underlying function is more impor
 
 ## Observation
 
-A continuation artifact may function as a compact observable indication that the current reasoning path may proceed without visible understanding modification.
-
-Examples may include:
-
-- continue
-
-- go on
-
-- keep going
-
-- agreed
-
-- makes sense
-
-- I'm with you
-
-provided the artifact is serving the same function.
+A continuation artifact may function as a compact observable indication that the current reasoning path may proceed without a visible understanding-modification event.
 
 ## Candidate Interpretation
 
-Continuation artifacts may indicate:
+A continuation artifact may indicate:
 
-- No corrective intervention observed.
-
-- No expansive intervention observed.
+- No understanding-modification event observed.
 
 - Current reasoning path may proceed.
 
@@ -55,9 +37,29 @@ Specific Wording
 
 The observable state is:
 
-Understanding appears unchanged.
+No understanding-modification event observed.
 
 The specific phrase used to communicate that state is secondary.
+
+## Illustrative Examples
+
+Potential examples may include:
+
+- continue
+
+- go on
+
+- keep going
+
+- agreed
+
+- makes sense
+
+- I'm with you
+
+provided the artifact is serving the same function.
+
+These examples are illustrative rather than reconciled.
 
 ## Evidence-Constrained Interpretation
 
