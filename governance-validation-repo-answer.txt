@@ -1,0 +1,69 @@
+
+GOVERNANCE VALIDATION REPO ANSWER
+
+Question:
+
+What is Governance Validation currently in the repository?
+
+Repo-backed answer:
+
+Governance Validation is currently implemented as post-envelope validation.
+
+It validates an already-drafted envelope.
+
+It does not currently create envelopes.
+
+It does not currently gate envelope drafting.
+
+It does not currently authorize mutation, shell execution, autonomous execution, routing, or runtime execution.
+
+Strongest evidence:
+
+server/execution/execution-phase-state-machine.mjs defines the active phase order as:
+
+intent_normalized
+
+→ envelope_drafted
+
+→ governance_validated
+
+→ approval_gated
+
+→ planning_completed
+
+→ mutation_authorized
+
+→ execution_completed
+
+→ reconciliation_completed
+
+This means the current repo lifecycle places Governance Validation after envelope drafting.
+
+Current interpretation:
+
+The existing repository model is internally consistent for planning-only / dry-run governed planning.
+
+The newer handoff lifecycle:
+
+Intent
+
+→ Direct User Delegation
+
+→ Governance Validation
+
+→ Envelope
+
+→ Routing
+
+→ Execution
+
+is not yet the implemented repo lifecycle.
+
+Conclusion:
+
+The current issue is not that Governance Validation is missing.
+
+The current issue is that the repo still uses a post-envelope Governance Validation model, while the handoff describes a future or newer pre-envelope Governance Validation model.
+
+Implemented guard e993b70c was correctly scoped because it preserved the current repo model while preventing the planning draft from being misread as runtime execution authorization.
+
