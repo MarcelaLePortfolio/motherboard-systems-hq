@@ -19,6 +19,12 @@ import {
 
 } from "../execution/normalize-governed-response.mjs";
 
+import {
+
+  dbDelegateTask,
+
+} from "../tasks-mutations.mjs";
+
 const router = express.Router();
 
 function buildPipelineInput(body = {}) {
@@ -149,6 +155,122 @@ function buildPipelineInput(body = {}) {
 
 }
 
+function shouldRecordTask(body = {}) {
+
+  return (
+
+    body.record_task === true ||
+
+    body.recordTask === true ||
+
+    body.create_task_record === true ||
+
+    body.createTaskRecord === true
+
+  );
+
+}
+
+async function maybeRecordGovernedPlanningTask({
+
+  body = {},
+
+  input = {},
+
+  pipelineResult = {},
+
+  bundle = {},
+
+} = {}) {
+
+  if (!shouldRecordTask(body)) {
+
+    return null;
+
+  }
+
+  const pool = globalThis.__DB_POOL;
+
+  if (!pool) {
+
+    const err = new Error(
+
+      "governed planning task recording requested but db pool is unavailable",
+
+    );
+
+    err.code = "GOVERNED_PLANNING_TASK_RECORDING_DB_UNAVAILABLE";
+
+    throw err;
+
+  }
+
+  const objective =
+
+    input?.intent?.objective ||
+
+    body.objective ||
+
+    "Governed planning dry-run";
+
+  const envelope =
+
+    pipelineResult?.draft?.envelope || null;
+
+  const task = await dbDelegateTask(pool, {
+
+    agent: "cade",
+
+    title: `Governed planning: ${objective}`,
+
+    notes:
+
+      "Governed planning dry-run recorded for Recent Tasks visibility. No execution authority granted.",
+
+    source: "governed_planning",
+
+    action_tier: "A",
+
+    kind: "governed_planning",
+
+    delegation_envelope: envelope,
+
+    meta: {
+
+      governed_planning: true,
+
+      mode: "planning_only",
+
+      route: "governed_planning_dry_run",
+
+      pipeline: pipelineResult?.pipeline || null,
+
+      phase: pipelineResult?.phase || null,
+
+      governance_ok: pipelineResult?.governance?.ok === true,
+
+      approval_gate_ok: pipelineResult?.approval_gate?.ok === true,
+
+      cade_plan_ok: pipelineResult?.cade_plan?.ok === true,
+
+      mutation_performed: false,
+
+      shell_execution_performed: false,
+
+      autonomous_execution_performed: false,
+
+      bundle_schema: bundle?.bundle_schema || null,
+
+      envelope_version: bundle?.envelope_version || null,
+
+    },
+
+  });
+
+  return task;
+
+}
+
 router.post(
 
   "/api/governed-planning/dry-run",
@@ -173,6 +295,20 @@ router.post(
 
         });
 
+      const task =
+
+        await maybeRecordGovernedPlanningTask({
+
+          body,
+
+          input,
+
+          pipelineResult,
+
+          bundle,
+
+        });
+
       return res.status(200).json({
 
         ok: true,
@@ -184,6 +320,12 @@ router.post(
         mode:
 
           "planning_only",
+
+        task_recorded:
+
+          task !== null,
+
+        task,
 
         bundle,
 
