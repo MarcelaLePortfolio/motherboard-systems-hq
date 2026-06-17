@@ -1,0 +1,67 @@
+
+TASK COMPLETION STATUS-ONLY FINDING
+
+Finding Status: CONFIRMED
+
+Question:
+
+What produces task.completed and task.failed events in the current repo?
+
+Repo-backed answer:
+
+Current completion/failure events are produced by task status mutation paths, not by governed execution workers.
+
+Evidence:
+
+1. /api/complete-task
+
+server.mjs exposes /api/complete-task.
+
+It calls dbCompleteTask(pool, req.body || {}).
+
+It emits a task_result artifact.
+
+It does not execute task work.
+
+2. Smoke scripts
+
+smoke-db-complete-task-direct.mjs delegates a task and then calls dbCompleteTask.
+
+scripts/phase19_smoke_tasks_mutations_emit.mjs delegates a task and then calls dbCompleteTask.
+
+These scripts verify task mutation/event plumbing only.
+
+3. dbCompleteTask
+
+server/tasks-mutations.mjs updates the tasks table status and emits a task event.
+
+It does not run a worker, mutate files, invoke Cade execution, run shell commands, or consume governed planning output.
+
+Conclusion:
+
+task.completed and task.failed currently mean:
+
+"task status was marked terminal"
+
+They do not currently prove:
+
+"task work was executed"
+
+Current architecture:
+
+Governed Planning:
+
+Intent → Envelope Draft → Governance Validation → Approval Gate → Cade Planning
+
+Task Runtime:
+
+delegate/complete/fail → DB status mutation → task event emission
+
+Execution Worker:
+
+Not found in the inspected current path.
+
+Future integration question:
+
+If governed execution is later implemented, task.completed/task.failed should eventually be emitted by the execution worker after reconciliation, not merely by manual/status mutation.
+
