@@ -1,0 +1,81 @@
+
+PLANNING VS EXECUTION AUTHORITY REPO FINDING
+
+Finding Status: CONFIRMED
+
+The repository already distinguishes planning authority from execution authority.
+
+Current repo model:
+
+Planning authority exists.
+
+Execution authority is explicitly blocked.
+
+Evidence:
+
+1. Approval Gate
+
+server/execution/execution-approval-gate.mjs returns:
+
+execution_phase: "governed_planning_only"
+
+It also hard-blocks:
+
+- mutation_authorized
+
+- shell_execution_authorized
+
+- autonomous_execution_authorized
+
+2. Governance Validator
+
+server/execution/governance-validator.mjs returns:
+
+mode: "dry_run_only"
+
+It also returns:
+
+- mutation_allowed: false
+
+- shell_execution_allowed: false
+
+- autonomous_execution_allowed: false
+
+3. Contract Authority
+
+server/contracts/execution-envelope.v1.mjs defines validator_authority with:
+
+- execution_authority: false
+
+- may_execute_work: false
+
+- may_modify_envelope: false
+
+4. Delegation Authorization
+
+The contract contains delegation_authorization, but the surrounding validators and approval gate constrain it to planning-only behavior in the current phase.
+
+Conclusion:
+
+Current delegated envelopes are authorized for governed planning only.
+
+They are not authorized for mutation execution, shell execution, autonomous execution, routing, or runtime execution.
+
+This supports the current implementation guard added in e993b70c.
+
+Current stable model:
+
+Intent
+
+→ Envelope Draft
+
+→ Governance Validation
+
+→ Approval Gate
+
+→ Cade Planning
+
+All of the above is planning-only.
+
+Future execution authorization remains unimplemented and should be treated as a separate future corridor.
+
