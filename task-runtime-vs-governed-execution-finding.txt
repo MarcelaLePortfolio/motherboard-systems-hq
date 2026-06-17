@@ -1,0 +1,85 @@
+
+TASK RUNTIME VS GOVERNED EXECUTION FINDING
+
+Finding Status: CONFIRMED
+
+Question:
+
+Does the repo contain another execution corridor outside governed planning?
+
+Repo-backed answer:
+
+Yes, but it is a task-status mutation corridor, not governed execution.
+
+Evidence:
+
+1. Task mutation routes
+
+server/routes/api-tasks-mutations.mjs exposes:
+
+- /delegate
+
+- /complete
+
+- /fail
+
+These routes call dbDelegateTask and dbCompleteTask.
+
+2. TaskSpec adapter
+
+server/api/tasks-mutations/delegate-taskspec.mjs can extract a delegation/execution envelope and validate it structurally with validateExecutionEnvelope.
+
+However, it does not run Governance Validator, Approval Gate, Cade Planning, routing, shell execution, file mutation, or runtime execution.
+
+3. DB mutation layer
+
+server/tasks-mutations.mjs inserts and updates task rows.
+
+It emits task.created / task.completed / task.failed events.
+
+It records delegation_envelope in payload metadata.
+
+It does not execute task contents.
+
+4. Phase 19 runners
+
+The runners create, complete, or fail task records for smoke/runtime validation.
+
+They do not execute Cade work.
+
+Conclusion:
+
+The repo contains a legacy/runtime task-status mutation corridor.
+
+That corridor is separate from the governed planning corridor.
+
+It is not an implemented mutation-capable governed execution path.
+
+Current architecture remains:
+
+Governed Planning Corridor:
+
+Intent
+
+→ Envelope Draft
+
+→ Governance Validation
+
+→ Approval Gate
+
+→ Cade Planning
+
+Task Runtime Corridor:
+
+Task delegate/complete/fail
+
+→ DB row mutation
+
+→ task event emission
+
+Unresolved future integration question:
+
+Should future governed execution produce task records in the task runtime corridor?
+
+That is a future integration corridor, not a current execution implementation.
+
