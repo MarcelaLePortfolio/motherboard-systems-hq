@@ -31,6 +31,26 @@ export function buildExecutionEnvelopeDraft({
 
     envelope_version: EXECUTION_ENVELOPE_VERSION,
 
+    lifecycle_boundary: {
+
+      artifact_role: "governed_planning_draft",
+
+      execution_authorization: false,
+
+      routing_authorization: false,
+
+      mutation_authorization: false,
+
+      shell_authorization: false,
+
+      autonomous_authorization: false,
+
+      notes:
+
+        "This artifact preserves dry-run governed planning authority only and must not be treated as runtime execution authorization.",
+
+    },
+
     identity: {
 
       envelope_id: `env-${Date.now()}`,
@@ -121,6 +141,8 @@ export function buildExecutionEnvelopeDraft({
 
         "Planning remains dry-run only",
 
+        "Planning draft cannot authorize runtime execution",
+
       ],
 
       failure_conditions: [
@@ -130,6 +152,8 @@ export function buildExecutionEnvelopeDraft({
         "Forbidden path",
 
         "Mutation authority requested",
+
+        "Runtime execution authorization inferred from planning draft",
 
       ],
 
@@ -195,7 +219,9 @@ export function buildExecutionEnvelopeDraft({
 
       state: "delegated",
 
-      notes: "Draft envelope authorizes governed planning only",
+      notes:
+
+        "Draft envelope authorizes governed planning only; it does not authorize routing, mutation, shell execution, autonomous execution, or runtime execution.",
 
     },
 
@@ -246,6 +272,14 @@ export function buildExecutionEnvelopeDraft({
       {
 
         event: "planning_only_authority_preserved",
+
+        ok: true,
+
+      },
+
+      {
+
+        event: "runtime_execution_authority_explicitly_absent",
 
         ok: true,
 
