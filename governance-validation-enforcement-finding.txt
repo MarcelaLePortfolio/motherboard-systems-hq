@@ -1,0 +1,81 @@
+
+GOVERNANCE VALIDATION ENFORCEMENT FINDING
+
+Finding Status: CONFIRMED
+
+Current implementation:
+
+Intent
+
+→ Envelope Draft
+
+→ Governance Validation
+
+→ Approval Gate
+
+→ Cade Planning
+
+Evidence:
+
+- buildExecutionEnvelopeDraft() creates an Envelope before Governance Validation.
+
+- buildExecutionEnvelopeDraft() defaults delegation_authorization.state to "delegated".
+
+- validateGovernedExecutionEnvelope() validates an existing Envelope.
+
+- governed-planning-pipeline executes:
+
+    Draft → Governance → Approval → Planning
+
+Current canonical lifecycle:
+
+Intent
+
+→ Direct User Delegation
+
+→ Governance Validation
+
+→ Envelope
+
+→ Routing
+
+→ Execution
+
+Implementation gap:
+
+Governance Validation currently validates an Envelope after creation.
+
+Governance Validation does not currently gate Envelope creation.
+
+Potential lifecycle mismatch:
+
+Envelope creation currently embeds delegated=true.
+
+This appears to collapse:
+
+Delegation
+
+→ Governance Validation
+
+→ Envelope
+
+into:
+
+Envelope(delegated=true)
+
+→ Governance Validation
+
+Next investigation:
+
+Determine whether buildExecutionEnvelopeDraft represents:
+
+A) Legacy Delegation Envelope architecture
+
+or
+
+B) An implementation shortcut that bypasses the reconciled lifecycle model
+
+Implementation is not yet authorized.
+
+Further scope verification required.
+

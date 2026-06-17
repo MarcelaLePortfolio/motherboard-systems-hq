@@ -1,0 +1,75 @@
+
+GOVERNANCE VALIDATION SCOPE MAP
+
+Finding:
+
+The current live governed planning route uses `matilda.cade.exec.v1`, but the implementation consistently constrains it to planning-only / dry-run authority.
+
+Current safe interpretation:
+
+`matilda.cade.exec.v1` is not mutation execution authorization.
+
+It is currently a governed planning artifact used to validate scope, dry-run constraints, approval-gate behavior, reconciliation output, and Cade planning output.
+
+Confirmed constraints:
+
+- mutation_allowed = false
+
+- shell_execution_allowed = false
+
+- autonomous_execution_allowed = false
+
+- dry_run_required = true
+
+- phase = planning_only
+
+- route mode = planning_only
+
+Lifecycle issue:
+
+The artifact is named and structured as an execution envelope, but it is currently functioning as a planning envelope.
+
+This creates a terminology mismatch, not immediate execution danger.
+
+Current implementation order:
+
+Intent
+
+→ Execution Envelope Draft
+
+→ Governance Validation
+
+→ Approval Gate
+
+→ Cade Planning
+
+Canonical future execution order:
+
+Intent
+
+→ Direct User Delegation
+
+→ Governance Validation
+
+→ Envelope
+
+→ Routing
+
+→ Execution
+
+Implementation boundary:
+
+Do not rename `matilda.cade.exec.v1` yet.
+
+Do not broadly refactor route output yet.
+
+Do not introduce mutation execution yet.
+
+Next safe milestone:
+
+Add documentation and/or code-level guard language clarifying that current `exec.v1` is dry-run planning-only and cannot authorize mutation, shell execution, autonomous execution, routing, or runtime execution.
+
+Future implementation path:
+
+A separate post-governance execution envelope or lifecycle artifact may be introduced later, but only after the Governance Validation gate is explicitly designed and scoped.
+
