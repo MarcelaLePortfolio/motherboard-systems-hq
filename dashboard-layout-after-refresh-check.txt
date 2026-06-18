@@ -1,0 +1,28 @@
+--- latest layout repair commits ---
+a1a02fce Verify served dashboard layout style repair
+24a84e8b Restore served dashboard layout styles
+daa2a3e0 Inspect served dashboard structure mismatch
+55c2d014 Verify planning preview card shell
+099ac212 Add read-only planning preview card shell
+
+--- served dashboard now has live layout css links ---
+16:<link rel="stylesheet" href="css/dashboard.css?v=darkmode" />
+24:<link rel="stylesheet" href="css/phase61_workspace_consolidation.css" />
+25:<link rel="stylesheet" href="css/phase61_tabs_observational_workspace.css" />
+
+--- suggested browser check ---
+
+Open /dashboard and hard-refresh:
+
+Mac Chrome/Edge:
+
+Cmd+Shift+R
+
+Mac Safari:
+
+Option+Cmd+E, then Cmd+R
+
+Expected change:
+
+The dashboard should stop looking structurally flattened/broken because phase61 workspace/grid/tab CSS is loaded again.
+
