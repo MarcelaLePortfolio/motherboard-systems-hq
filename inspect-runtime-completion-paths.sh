@@ -3,47 +3,27 @@
 
 set -euo pipefail
 
-SCOPE=(
+filter_active_paths() {
 
-  -- .
+  grep -Ev '(^|/)(backups|scripts_backup|scripts_backup_2|_dashboard_candidate_previews|DASHBOARD_UI_RECOVERY_ANCHORS|exports|snapshots)/' || true
 
-  ':!*.txt'
-
-  ':!*.md'
-
-  ':!inspect-runtime-completion-paths.sh'
-
-  ':!backups/**'
-
-  ':!scripts_backup/**'
-
-  ':!scripts_backup_2/**'
-
-  ':!_dashboard_candidate_previews/**'
-
-  ':!DASHBOARD_UI_RECOVERY_ANCHORS/**'
-
-  ':!exports/**'
-
-  ':!snapshots/**'
-
-)
+}
 
 echo "--- actual dbCompleteTask definition ---"
 
-git grep -n "export async function dbCompleteTask" "${SCOPE[@]}" || true
+git grep -n "export async function dbCompleteTask" -- '*.mjs' '*.js' | filter_active_paths
 
 echo
 
 echo "--- actual runtime callers ---"
 
-git grep -n "dbCompleteTask(" "${SCOPE[@]}" || true
+git grep -n "dbCompleteTask(" -- '*.mjs' '*.js' | filter_active_paths
 
 echo
 
 echo "--- completion route mount ---"
 
-git grep -n "dbCompleteTask(pool" "${SCOPE[@]}" || true
+git grep -n "dbCompleteTask(pool" -- '*.mjs' '*.js' | filter_active_paths
 
 echo
 
