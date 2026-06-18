@@ -19,13 +19,17 @@ echo
 
 echo "--- explicit UI anchor / recovery anchor references ---"
 
-git grep -nEi "authoritative.*ui|ui.*anchor|anchored.*ui|dashboard.*anchor|current-close-enough|phase530|visible_panels_bridge|served dashboard|canonical dashboard|renderer-authoritative|authoritative dashboard" -- '*.txt' '*.md' '*.mjs' '*.js' '*.html' ':!node_modules/**' ':!backups/**' ':!_dashboard_candidate_previews/**' ':!DASHBOARD_UI_RECOVERY_ANCHORS/**' ':!scripts_backup/**' ':!scripts_backup_2/**' ':!exports/**' ':!snapshots/**' ':!public/bundle.js' ':!public/bundle.js.map' || true
+git grep -nEi "authoritative.*ui|ui.*anchor|anchored.*ui|dashboard.*anchor|current-close-enough|phase530|visible_panels_bridge|served dashboard|canonical dashboard|renderer-authoritative|authoritative dashboard" -- '*.txt' '*.md' '*.mjs' '*.js' '*.html' 2>/dev/null \
+
+  | grep -Ev '^(node_modules|backups|_dashboard_candidate_previews|DASHBOARD_UI_RECOVERY_ANCHORS|scripts_backup|scripts_backup_2|exports|snapshots|public/bundle\.js|public/bundle\.js\.map)/' || true
 
 echo
 
 echo "--- served dashboard route / static serving references ---"
 
-git grep -nEi "sendFile|dashboard.html|index.html|express.static|app.get.*dashboard|app.get.*\/" -- server.mjs server routes '*.mjs' '*.js' ':!backups/**' ':!scripts_backup/**' ':!scripts_backup_2/**' || true
+git grep -nEi "sendFile|dashboard.html|index.html|express.static|app.get.*dashboard|app.get.*\/" -- server.mjs server routes '*.mjs' '*.js' 2>/dev/null \
+
+  | grep -Ev '^(backups|scripts_backup|scripts_backup_2)/' || true
 
 echo
 
