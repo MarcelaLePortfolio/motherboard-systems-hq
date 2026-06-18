@@ -1,0 +1,106 @@
+.tmp-dashboard-inline-scripts/inline-script-002-line-735.js
+.tmp-dashboard-inline-scripts/inline-script-003-line-769.js
+.tmp-dashboard-inline-scripts/inline-script-004-line-832.js
+.tmp-dashboard-inline-scripts/inline-script-009-line-947.js
+.tmp-dashboard-inline-scripts/inline-script-010-line-963.js
+.tmp-dashboard-inline-scripts/inline-script-011-line-1000.js
+.tmp-dashboard-inline-scripts/inline-script-012-line-1024.js
+.tmp-dashboard-inline-scripts/inline-script-013-line-1054.js
+.tmp-dashboard-inline-scripts/inline-script-014-line-1091.js
+.tmp-dashboard-inline-scripts/inline-script-015-line-1140.js
+.tmp-dashboard-inline-scripts/inline-script-016-line-1197.js
+.tmp-dashboard-inline-scripts/inline-script-017-line-1273.js
+.tmp-dashboard-inline-scripts/inline-script-018-line-1323.js
+.tmp-dashboard-inline-scripts/inline-script-019-line-1393.js
+
+--- inline scripts extracted ---
+total 112
+drwxr-xr-x    16 marcela-dev  staff   512B Jun 18 14:59 .
+drwx------  1131 marcela-dev  staff    35K Jun 18 14:59 ..
+-rw-r--r--     1 marcela-dev  staff   683B Jun 18 14:59 inline-script-002-line-735.js
+-rw-r--r--     1 marcela-dev  staff   2.0K Jun 18 14:59 inline-script-003-line-769.js
+-rw-r--r--     1 marcela-dev  staff   2.4K Jun 18 14:59 inline-script-004-line-832.js
+-rw-r--r--     1 marcela-dev  staff   542B Jun 18 14:59 inline-script-009-line-947.js
+-rw-r--r--     1 marcela-dev  staff   1.1K Jun 18 14:59 inline-script-010-line-963.js
+-rw-r--r--     1 marcela-dev  staff   710B Jun 18 14:59 inline-script-011-line-1000.js
+-rw-r--r--     1 marcela-dev  staff   795B Jun 18 14:59 inline-script-012-line-1024.js
+-rw-r--r--     1 marcela-dev  staff   1.1K Jun 18 14:59 inline-script-013-line-1054.js
+-rw-r--r--     1 marcela-dev  staff   1.3K Jun 18 14:59 inline-script-014-line-1091.js
+-rw-r--r--     1 marcela-dev  staff   1.4K Jun 18 14:59 inline-script-015-line-1140.js
+-rw-r--r--     1 marcela-dev  staff   2.2K Jun 18 14:59 inline-script-016-line-1197.js
+-rw-r--r--     1 marcela-dev  staff   1.2K Jun 18 14:59 inline-script-017-line-1273.js
+-rw-r--r--     1 marcela-dev  staff   1.6K Jun 18 14:59 inline-script-018-line-1323.js
+-rw-r--r--     1 marcela-dev  staff   699B Jun 18 14:59 inline-script-019-line-1393.js
+
+--- node syntax checks ---
+CHECK .tmp-dashboard-inline-scripts/inline-script-002-line-735.js
+CHECK .tmp-dashboard-inline-scripts/inline-script-003-line-769.js
+CHECK .tmp-dashboard-inline-scripts/inline-script-004-line-832.js
+CHECK .tmp-dashboard-inline-scripts/inline-script-009-line-947.js
+CHECK .tmp-dashboard-inline-scripts/inline-script-010-line-963.js
+CHECK .tmp-dashboard-inline-scripts/inline-script-011-line-1000.js
+CHECK .tmp-dashboard-inline-scripts/inline-script-012-line-1024.js
+CHECK .tmp-dashboard-inline-scripts/inline-script-013-line-1054.js
+CHECK .tmp-dashboard-inline-scripts/inline-script-014-line-1091.js
+CHECK .tmp-dashboard-inline-scripts/inline-script-015-line-1140.js
+CHECK .tmp-dashboard-inline-scripts/inline-script-016-line-1197.js
+CHECK .tmp-dashboard-inline-scripts/inline-script-017-line-1273.js
+CHECK .tmp-dashboard-inline-scripts/inline-script-018-line-1323.js
+CHECK .tmp-dashboard-inline-scripts/inline-script-019-line-1393.js
+
+--- script/style boundary map ---
+30:  <script defer src="js/agent-status-health-indicator.js"></script>
+34:  <style id="matilda-chat-typography-polish">
+45:  </style>
+47:  <style id="phase487-layout-refinement">
+193:  </style>
+195:  <style id="phase489-unified-panel-heights">
+244:</style>
+246:  <style id="phase490-evidence-based-height-fix">
+296:</style>
+298:  <style id="phase489-task-activity-scroll">
+308:</style>
+310:  <style id="phase489-recent-tasks-scroll">
+320:</style>
+322:  <style id="phase488-h3a-spacing-only">
+342:</style>
+344:  <style id="phase488-h1-top-row-balance">
+371:</style>
+373:  <style id="phase488-h2-tab-polish">
+400:</style>
+402:  <style id="phase488-h2-unified-tab-color">
+406:</style>
+408:  <style id="phase488-h4-micro-visual-hierarchy">
+491:</style>
+735:<script id="phase487-force-confidence-override">
+767:</script>
+769:<script id="phase487-operator-guidance-fallback">
+830:</script>
+832:<script id="phase487-task-clarity-fallback">
+914:</script>
+916:  <script defer src="/js/phase487_humanize_task_ids.js"></script>
+917:  <script defer src="js/matilda-chat-console.js"></script>
+918:  <script type="module" src="js/dashboard-bundle-entry.js"></script>
+919:<script src="/js/dashboard-delegation.js"></script>
+947:<script>
+960:</script>
+963:<script>
+997:</script>
+1000:<script>
+1021:</script>
+1024:<script>
+1051:</script>
+1054:<script>
+1088:</script>
+1091:<script>
+1137:</script>
+1140:<script>
+1194:</script>
+1197:<script>
+1270:</script>
+1273:<script>
+1320:</script>
+1323:<script>
+1390:</script>
+1393:<script>
+1417:</script>
