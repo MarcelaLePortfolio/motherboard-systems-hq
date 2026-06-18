@@ -1,0 +1,29 @@
+
+DASHBOARD AUTHORITY RECONCILIATION FINDING
+
+Finding Status: CONFIRMED
+
+The Phase91 verification evidence confirms:
+
+- public/index.html exactly matched the Phase91 dashboard source
+
+- public/dashboard.html exactly matched the Phase91 dashboard source
+
+- the live root exactly matched the Phase91 dashboard source
+
+Conclusion:
+
+The repo previously stabilized dashboard authority by keeping index, dashboard, and live root aligned.
+
+Current implication:
+
+Planning Preview UI work should not be patched into only one dashboard file unless the served route and parity model are intentionally changed.
+
+Safe implementation rule:
+
+Patch the served dashboard surface and preserve parity between public/index.html and public/dashboard.html.
+
+Next safe action:
+
+Before adding the Planning Preview card, inspect current drift between public/index.html and public/dashboard.html, then decide whether to restore parity first or patch both files together.
+
