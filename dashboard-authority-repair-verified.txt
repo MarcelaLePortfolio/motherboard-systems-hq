@@ -1,0 +1,29 @@
+
+DASHBOARD AUTHORITY REPAIR VERIFIED
+
+Finding Status: CONFIRMED
+
+The served dashboard authority mismatch has been repaired.
+
+Verification:
+
+- server.mjs serves /dashboard from public/dashboard.html
+
+- public/dashboard.html now matches public/index.html
+
+- public/dashboard.html now includes the anchored UI scripts present on public/index.html:
+
+  - phase61_tabs_workspace.js
+
+  - phase530_visible_panels_bridge.js
+
+  - phase565_recent_tasks_wire.js
+
+Conclusion:
+
+The served dashboard surface has been restored to the current anchored UI surface.
+
+Current implication:
+
+Planning Preview UI work may proceed against the reconciled dashboard surface, preserving parity between public/index.html and public/dashboard.html.
+
