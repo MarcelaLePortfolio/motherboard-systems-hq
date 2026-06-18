@@ -1,0 +1,81 @@
+
+GOVERNED PLANNING CLAIM EXCLUSION VERIFIED
+
+Finding Status: CONFIRMED
+
+Question:
+
+Are governed_planning task records excluded from active Phase 26 worker claim paths?
+
+Repo-backed answer:
+
+Yes.
+
+The repaired verification script confirms governed_planning exclusions are present in all inspected active claim SQL paths.
+
+Verified paths:
+
+1. server/worker/phase32_claim_one.sql
+
+Contains:
+
+AND COALESCE(kind, '') <> 'governed_planning'
+
+2. server/sql/phase39_claim_one_with_value_gate.sql
+
+Contains governed_planning exclusions in both:
+
+- disallowed path
+
+- allowed claim path
+
+3. sql/phase40_claim_one_tierA.sql
+
+Contains:
+
+AND COALESCE(kind, '') <> 'governed_planning'
+
+4. server/worker/phase35_claim_one_pg.sql
+
+Contains:
+
+AND COALESCE(kind, '') <> 'governed_planning'
+
+5. server/worker/phase27_claim_one.sql
+
+Contains:
+
+and coalesce(kind, '') <> 'governed_planning'
+
+Conclusion:
+
+Governed planning task records are now protected from Phase 26 worker claiming across the inspected active claim SQL paths.
+
+Safety interpretation:
+
+Governed planning task records remain visibility/planning artifacts only.
+
+They should not be treated as executable work units unless and until a governed execution bridge explicitly converts approved planning output into an executable, authorized, reconciled work item.
+
+Current corrected architecture:
+
+Governed Planning Corridor:
+
+Intent → Envelope Draft → Governance Validation → Approval Gate → Cade Planning → optional planning task record
+
+Task Runtime Corridor:
+
+delegate/complete/fail → DB row mutation → task event emission → recent tasks display
+
+Phase 26 Worker Runtime Corridor:
+
+claimable queued/delegated executable task → lease/running → success/failure/retry status transition → task event emission
+
+Protected Boundary:
+
+kind = governed_planning is excluded from worker claim scope.
+
+Next safe action:
+
+Run DR and then inspect whether governed planning task records should use a clearer non-executable status such as planning_record instead of queued, to reduce semantic confusion in Recent Tasks.
+
