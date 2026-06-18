@@ -1,0 +1,11 @@
+
+LOCALHOST 8080 STALE SERVING FINDING
+
+Finding Status: ACTIVE
+
+The live dashboard served from localhost:8080 does not match the current repo public/dashboard.html.
+
+Next safe action:
+
+Identify the process serving port 8080 and its working directory before making additional UI patches.
+
