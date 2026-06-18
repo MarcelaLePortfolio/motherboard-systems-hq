@@ -1,0 +1,39 @@
+
+CURRENT STATE SUMMARY
+
+The repo now has a documented, committed answer:
+
+1. Governed planning is real and active.
+
+2. Governed execution is not implemented yet.
+
+3. Task records and Recent Tasks are status/event plumbing, not proof of executed work.
+
+4. Legacy Cade runtime exists and can execute shell/file actions, but it is dormant because PM2 is not running cade or cade-processor.
+
+5. The safe next step is not to start Cade runtime yet.
+
+6. The safe next step is to design the bridge between governed planning, task records, and future execution worker behavior.
+
+Current corridors:
+
+Governed Planning:
+
+Intent → Envelope Draft → Governance Validation → Approval Gate → Cade Planning
+
+Task Runtime:
+
+delegate/complete/fail → DB row mutation → task event emission → recent tasks display
+
+Legacy Cade Runtime:
+
+memory/agent_chain_state.json → cade-processor → shell/file action
+
+Next safe question:
+
+What should be the first governed execution bridge artifact?
+
+Recommended next inspection:
+
+Find where the governed planning route now creates the optional task record, then verify whether that task appears only as a planning task and cannot be completed as executed work by mistake.
+
