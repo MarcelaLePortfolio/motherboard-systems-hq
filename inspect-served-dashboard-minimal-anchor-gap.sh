@@ -17,11 +17,17 @@ echo
 
 echo "--- index-only anchored script candidates ---"
 
-comm -13 \
+tmp_dashboard="$(mktemp)"
 
-  <(grep -oE 'src="[^"]+"' public/dashboard.html | sort -u) \
+tmp_index="$(mktemp)"
 
-  <(grep -oE 'src="[^"]+"' public/index.html | sort -u) || true
+trap 'rm -f "$tmp_dashboard" "$tmp_index"' EXIT
+
+grep -oE 'src="[^"]+"' public/dashboard.html | sort -u > "$tmp_dashboard" || true
+
+grep -oE 'src="[^"]+"' public/index.html | sort -u > "$tmp_index" || true
+
+comm -13 "$tmp_dashboard" "$tmp_index" || true
 
 echo
 

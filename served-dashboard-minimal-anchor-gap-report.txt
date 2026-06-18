@@ -10,3 +10,58 @@
 438:<script src="/js/dashboard-delegation.js"></script>
 
 --- index-only anchored script candidates ---
+src="https://cdn.jsdelivr.net/npm/chart.js@4.4.2/dist/chart.umd.js"
+src="js/agent-status-row.js"
+src="js/dashboard-broadcast.js"
+src="js/dashboard-delegation.js"
+src="js/dashboard-graph.js"
+src="js/dashboard-status.js"
+src="js/operatorGuidance.sse.js"
+src="js/phase457_restore_task_panels.js"
+src="js/phase489_panel_height_sync.js"
+src="js/phase490_height_evidence_capture.js"
+src="js/phase490_matilda_piece_debug.js"
+src="js/phase490_operator_height_beacon.js"
+src="js/phase490_operator_height_probe.js"
+src="js/phase490_telemetry_height_probe.js"
+src="js/phase530_dom_probe.js"
+src="js/phase530_visible_panels_bridge.js"
+src="js/phase531_recent_tasks_layout_fix.js"
+src="js/phase532_task_history_fill_fix.js"
+src="js/phase533_execution_inspector_layout_fix.js"
+src="js/phase534_execution_inspector_expand.js"
+src="js/phase535_execution_inspector_requeue.js"
+src="js/phase537_execution_inspector_retry.js"
+src="js/phase539_execution_inspector_retry_mode_display.js"
+src="js/phase565_recent_logs_wire.js"
+src="js/phase565_recent_tasks_wire.js"
+src="js/phase573_execution_inspector_debug.js"
+src="js/phase574_execution_inspector_success_feedback.js"
+src="js/phase61_recent_history_wire.js"
+src="js/phase61_tabs_workspace.js"
+src="js/phase64_agent_activity_wire.js"
+src="js/task-completion.js"
+src="js/task-events-sse-client.js"
+
+--- served dashboard planning preview candidate mount areas ---
+25:<!-- phase474.3 temporary neutralization: removed local stylesheet :: <link rel="stylesheet" href="css/phase61_tabs_observational_workspace.css" /> -->
+135:                        <div class="text-xs uppercase tracking-[0.2em] text-gray-500 mb-3">Operator Guidance</div>
+138:                          Live operator guidance will appear here when visibility wiring is active.
+170:          <section id="phase61-telemetry-column" class="space-y-4" aria-label="Observational workspace">
+171:            <section id="observational-workspace-card" class="bg-gray-800 p-6 rounded-2xl shadow-lg border border-gray-700" data-workspace-root>
+173:                <h2 class="text-xl font-semibold">Telemetry Workspace</h2>
+176:              <div id="observational-tabs" role="tablist" aria-label="Observational workspace tabs">
+178:                  Recent Tasks
+181:                  Recent Tasks
+184:                  Task Events
+188:              <div id="observational-panels">
+244:    <div id="project-visual-output"></div>
+386:      empty.textContent = "No recent tasks available.";
+446:    <div style="font-size:14px;margin-bottom:10px;opacity:0.8;">Operator Guidance — Reasoning</div>
+
+--- current dashboard rollback commit ---
+4548a577 Reset dashboard authority hypothesis after rollback
+bbcf561d Rollback dashboard parity restore after visual mismatch
+304d9293 Verify dashboard authority repair
+ab220c2a Document current dashboard drift finding
+653348ca Document dashboard authority reconciliation finding
