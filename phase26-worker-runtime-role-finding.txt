@@ -1,0 +1,129 @@
+
+PHASE26 WORKER RUNTIME ROLE FINDING
+
+Finding Status: CONFIRMED
+
+Question:
+
+What does the Phase 26 worker actually do?
+
+Repo-backed answer:
+
+The Phase 26 worker is a DB-backed task lifecycle worker.
+
+It claims queued/delegated task records, applies lease/retry/status logic, and emits task lifecycle events.
+
+It does not currently prove governed execution.
+
+Evidence:
+
+1. Worker imports and config
+
+server/worker/phase26_task_worker.mjs imports:
+
+- pg Pool
+
+- emitTaskEvent
+
+- policy shadow/audit helpers
+
+- SQL files for claim, success, and failure marking
+
+It requires POSTGRES_URL and SQL path environment variables.
+
+2. Input selection
+
+The worker claims one task through CLAIM_ONE_SQL.
+
+The inspected code shows:
+
+- claimOne(c, run_id)
+
+- optional Phase 34 lease/heartbeat/reclaim
+
+- action tier gate
+
+- queued/delegated task lifecycle handling
+
+3. Terminal handling
+
+The worker emits:
+
+- task.running
+
+- task.failed
+
+- task.retry_scheduled
+
+- task.completed
+
+It marks terminal state through:
+
+- markFailure
+
+- markSuccess
+
+4. Deterministic failure hook
+
+The worker can force failure based on task meta:
+
+- meta.force_fail
+
+- meta.fail_n_times
+
+This is lifecycle/runtime validation behavior, not governed work execution.
+
+5. Startup references
+
+The worker is referenced by:
+
+- Dockerfile.worker
+
+- scripts/phase26_run_worker.sh
+
+- phase smoke scripts
+
+- prior handoff/status documents
+
+Conclusion:
+
+The Phase 26 worker is real runtime infrastructure.
+
+Its current role is task lifecycle processing:
+
+queued/delegated task → claim/lease → running → deterministic success/failure/retry → task event emission
+
+It does not currently execute Cade plans, mutate files, run shell commands, consume governed planning output, or produce reconciliation artifacts.
+
+Corrected architecture:
+
+Governed Planning Corridor:
+
+Intent → Envelope Draft → Governance Validation → Approval Gate → Cade Planning
+
+Task Runtime Corridor:
+
+delegate/complete/fail → DB row mutation → task event emission → recent tasks display
+
+Phase 26 Worker Runtime Corridor:
+
+queued/delegated task → claim/lease → running → success/failure/retry status transition → task event emission
+
+Legacy Cade Runtime Corridor:
+
+memory/agent_chain_state.json → cade-processor → shell/file action
+
+Safety interpretation:
+
+Phase 26 should be treated as a runtime lifecycle substrate.
+
+It is not yet the governed execution worker.
+
+Future integration question:
+
+Should governed planning task records be excluded from Phase 26 worker claiming until a governed execution bridge exists?
+
+Recommended next action:
+
+Inspect the SQL claim filters to determine whether governed_planning tasks can be claimed by Phase 26.
+
