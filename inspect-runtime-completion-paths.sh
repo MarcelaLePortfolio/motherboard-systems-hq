@@ -5,25 +5,85 @@ set -euo pipefail
 
 echo "--- actual dbCompleteTask definition ---"
 
-find . -type f \( -name "*.mjs" -o -name "*.js" \) \
+git grep -n "export async function dbCompleteTask" -- \
 
-  | xargs grep -n "export async function dbCompleteTask" || true
+  server \
+
+  server.mjs \
+
+  scripts \
+
+  smoke-db-complete-task-direct.mjs \
+
+  ':!*.txt' \
+
+  ':!*.md' \
+
+  ':!backups/**' \
+
+  ':!scripts_backup/**' \
+
+  ':!scripts_backup_2/**' \
+
+  ':!_dashboard_candidate_previews/**' \
+
+  ':!DASHBOARD_UI_RECOVERY_ANCHORS/**' || true
 
 echo
 
 echo "--- actual runtime callers ---"
 
-find . -type f \( -name "*.mjs" -o -name "*.js" \) \
+git grep -n "dbCompleteTask(" -- \
 
-  | xargs grep -n "dbCompleteTask(" || true
+  server \
+
+  server.mjs \
+
+  scripts \
+
+  smoke-db-complete-task-direct.mjs \
+
+  ':!*.txt' \
+
+  ':!*.md' \
+
+  ':!backups/**' \
+
+  ':!scripts_backup/**' \
+
+  ':!scripts_backup_2/**' \
+
+  ':!_dashboard_candidate_previews/**' \
+
+  ':!DASHBOARD_UI_RECOVERY_ANCHORS/**' || true
 
 echo
 
 echo "--- completion route mount ---"
 
-find . -type f \( -name "*.mjs" -o -name "*.js" \) \
+git grep -n "dbCompleteTask(pool" -- \
 
-  | xargs grep -n "dbCompleteTask(pool" || true
+  server \
+
+  server.mjs \
+
+  scripts \
+
+  smoke-db-complete-task-direct.mjs \
+
+  ':!*.txt' \
+
+  ':!*.md' \
+
+  ':!backups/**' \
+
+  ':!scripts_backup/**' \
+
+  ':!scripts_backup_2/**' \
+
+  ':!_dashboard_candidate_previews/**' \
+
+  ':!DASHBOARD_UI_RECOVERY_ANCHORS/**' || true
 
 echo
 
