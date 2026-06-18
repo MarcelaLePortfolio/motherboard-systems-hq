@@ -1,0 +1,57 @@
+--- dashboard-bundle-entry imports ---
+     1	import "./sse-heartbeat-shim.js";
+     2	import "./heartbeat-stale-indicator.js";
+     3	
+     4	import "./dashboard-status.js";
+     5	
+     6	if (typeof window !== "undefined" && typeof window.__DISABLE_OPTIONAL_SSE === "undefined") {
+     7	  window.__DISABLE_OPTIONAL_SSE = false;
+     8	}
+     9	
+    10	import "./agent-status-row.js";
+    11	import "./dashboard-broadcast.js";
+    12	import "./ops-status-widget.js";
+    13	import "./ops-globals-bridge.js";
+    14	import "./ops-pill-state.js";
+    15	
+    16	import "./matilda-chat-console.js";
+    17	import "./dashboard-delegation.js";
+    18	
+    19	import "./task-events-sse-client.js";
+    20	import "./phase22_task_delegation_live_bindings.js";
+    21	
+    22	import "./telemetry/phase65b_metric_bootstrap.js";
+
+--- served dashboard bundle entry mount ---
+134:                      <div id="operator-guidance-panel" class="mt-4 rounded-xl border border-gray-700 bg-gray-900/70 p-4 min-h-[140px]">
+188:              <div id="observational-panels">
+190:                  <section id="recent-tasks-card" class="obs-surface">
+207:                  <section id="task-events-card" class="obs-surface phase61-events-fill">
+244:    <div id="project-visual-output"></div>
+437:  <script type="module" src="js/dashboard-bundle-entry.js"></script>
+438:<script src="/js/dashboard-delegation.js"></script>
+
+--- modules currently imported by dashboard-bundle-entry exist ---
+OK public/js/sse-heartbeat-shim.js
+OK public/js/heartbeat-stale-indicator.js
+OK public/js/dashboard-status.js
+OK public/js/agent-status-row.js
+OK public/js/dashboard-broadcast.js
+OK public/js/ops-status-widget.js
+OK public/js/ops-globals-bridge.js
+OK public/js/ops-pill-state.js
+OK public/js/matilda-chat-console.js
+OK public/js/dashboard-delegation.js
+OK public/js/task-events-sse-client.js
+OK public/js/phase22_task_delegation_live_bindings.js
+OK public/js/telemetry/phase65b_metric_bootstrap.js
+
+--- candidate planning preview module name availability ---
+available: public/js/planning-preview-card.js
+
+--- current git head ---
+2ed02401 Repair served dashboard anchor gap inspection
+4548a577 Reset dashboard authority hypothesis after rollback
+bbcf561d Rollback dashboard parity restore after visual mismatch
+304d9293 Verify dashboard authority repair
+ab220c2a Document current dashboard drift finding

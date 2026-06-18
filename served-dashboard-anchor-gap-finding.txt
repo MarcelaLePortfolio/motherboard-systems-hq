@@ -1,0 +1,47 @@
+
+SERVED DASHBOARD ANCHOR GAP FINDING
+
+Finding Status: CONFIRMED
+
+The served dashboard route uses:
+
+- /dashboard
+
+- public/dashboard.html
+
+The served dashboard currently loads:
+
+- js/dashboard-bundle-entry.js
+
+- /js/dashboard-delegation.js
+
+It does not directly load the modern index-only anchored scripts, including:
+
+- phase530_visible_panels_bridge.js
+
+- phase565_recent_tasks_wire.js
+
+- phase61_tabs_workspace.js
+
+- task-events-sse-client.js
+
+- project-visual-output.js as an active script
+
+Important correction:
+
+A whole-file parity restore from public/index.html to public/dashboard.html was attempted and rolled back because the served dashboard visual result was wrong.
+
+Conclusion:
+
+The correct path is not wholesale dashboard replacement.
+
+Planning Preview should be added through a minimal served-dashboard bridge that preserves the current served dashboard visual baseline.
+
+Likely safe bridge candidate:
+
+- public/js/dashboard-bundle-entry.js
+
+Next safe action:
+
+Inspect dashboard-bundle-entry ownership and import behavior, then add only a small isolated Planning Preview client module if it can mount without disturbing existing served dashboard layout.
+
