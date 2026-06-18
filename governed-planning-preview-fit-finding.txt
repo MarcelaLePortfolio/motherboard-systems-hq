@@ -1,0 +1,73 @@
+
+GOVERNED PLANNING PREVIEW FIT FINDING
+
+Finding Status: CONFIRMED
+
+Repo-backed answer:
+
+The existing Phase719 artifact preview system is read-only and visually useful, but it is currently task-bound.
+
+It is not yet a clean standalone governed planning preview surface.
+
+Evidence:
+
+1. Phase719 preview buttons are rendered only when a task-like card has an artifact payload.
+
+The preview button expects:
+
+- data-task-id
+
+- data-task-title
+
+- data-artifact-name
+
+- data-artifact-type
+
+- data-artifact-size
+
+- data-artifact-path
+
+2. Phase719 preview modal requires task_id.
+
+If task_id is missing, the modal displays:
+
+No task id available for artifact preview.
+
+3. Phase719 fetches artifact content from:
+
+/api/tasks/:task_id/artifact-preview
+
+That means the current preview route is coupled to task records.
+
+4. Governed planning route currently returns:
+
+- mode: planning_only
+
+- task_recorded
+
+- task
+
+- bundle
+
+The governed planning bundle already contains reviewable planning material, but it is not currently exposed as a standalone preview artifact.
+
+Conclusion:
+
+The existing artifact preview renderer can likely be reused for the visual language of proposed work.
+
+However, governed planning previews should not be forced into task records just to use that UI.
+
+Cleaner architecture:
+
+Governed Planning Preview Artifact:
+
+governed planning route → planning artifact bundle → read-only preview surface → explicit user review
+
+Task Runtime:
+
+approved executable work unit → queued/delegated/running/completed/failed
+
+Recommended next action:
+
+Design the smallest standalone governed planning preview bridge that serves the bundle as a read-only artifact without representing it as a task.
+
