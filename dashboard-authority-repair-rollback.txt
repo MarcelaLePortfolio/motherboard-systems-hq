@@ -1,0 +1,25 @@
+
+DASHBOARD AUTHORITY REPAIR ROLLBACK
+
+Finding Status: ROLLED BACK
+
+The dashboard parity restore was reverted because the served dashboard did not render correctly after public/index.html was promoted into public/dashboard.html.
+
+Rollback action:
+
+- public/dashboard.html was restored from public/dashboard.html.before-parity-restore
+
+Reason:
+
+The restored parity satisfied file-level authority alignment, but failed operator-facing visual validation.
+
+Conclusion:
+
+Dashboard authority remains unresolved.
+
+Next safe action:
+
+Do not add Planning Preview UI yet.
+
+Inspect the actual served dashboard visual/runtime requirements and identify the correct anchored UI surface without replacing the served dashboard wholesale.
+
