@@ -7,17 +7,17 @@ echo "--- current branch / recent UI commits ---"
 
 git branch --show-current
 
-git log --oneline -12 -- public/index.html public/dashboard.html public/js/phase530_visible_panels_bridge.js public/bundle.js dashboard.html index.html 2>/dev/null || true
+git log --oneline -12 -- public/index.html public/dashboard.html public/js/phase530_visible_panels_bridge.js public/bundle.js 2>/dev/null || true
 
 echo
 
-echo "--- candidate dashboard HTML files ---"
+echo "--- active candidate dashboard HTML files only ---"
 
-find . -maxdepth 4 \
+find . \
 
-  \( -path './.git' -o -path './node_modules' -o -path './backups' -o -path './_dashboard_candidate_previews' -o -path './DASHBOARD_UI_RECOVERY_ANCHORS' \) -prune -o \
+  \( -path './.git' -o -path './node_modules' -o -path './backups' -o -path './_dashboard_candidate_previews' -o -path './DASHBOARD_UI_RECOVERY_ANCHORS' -o -path './scripts_backup' -o -path './scripts_backup_2' -o -path './exports' -o -path './snapshots' \) -prune -o \
 
-  \( -name 'index.html' -o -name 'dashboard.html' \) -print | sort
+  \( -path './public/index.html' -o -path './public/dashboard.html' -o -path './index.html' -o -path './dashboard.html' \) -print | sort
 
 echo
 
@@ -31,13 +31,29 @@ git grep -nEi "authoritative.*ui|ui.*anchor|anchored.*ui|dashboard.*anchor|curre
 
   ':!backups/**' \
 
-  ':!_dashboard_candidate_previews/**' || true
+  ':!_dashboard_candidate_previews/**' \
+
+  ':!DASHBOARD_UI_RECOVERY_ANCHORS/**' \
+
+  ':!scripts_backup/**' \
+
+  ':!scripts_backup_2/**' \
+
+  ':!exports/**' \
+
+  ':!snapshots/**' || true
 
 echo
 
 echo "--- served routes for dashboard/index ---"
 
-git grep -nE "sendFile|res\.send|dashboard\.html|index\.html|express\.static|/dashboard|app\.get" -- server.mjs server routes '*.mjs' '*.js' 2>/dev/null || true
+git grep -nE "sendFile|res\.send|dashboard\.html|index\.html|express\.static|/dashboard|app\.get" -- \
+
+  server.mjs server routes \
+
+  ':!*.txt' ':!*.md' \
+
+  ':!backups/**' ':!scripts_backup/**' ':!scripts_backup_2/**' || true
 
 echo
 
