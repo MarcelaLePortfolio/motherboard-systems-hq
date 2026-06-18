@@ -3,87 +3,47 @@
 
 set -euo pipefail
 
+SCOPE=(
+
+  -- .
+
+  ':!*.txt'
+
+  ':!*.md'
+
+  ':!inspect-runtime-completion-paths.sh'
+
+  ':!backups/**'
+
+  ':!scripts_backup/**'
+
+  ':!scripts_backup_2/**'
+
+  ':!_dashboard_candidate_previews/**'
+
+  ':!DASHBOARD_UI_RECOVERY_ANCHORS/**'
+
+  ':!exports/**'
+
+  ':!snapshots/**'
+
+)
+
 echo "--- actual dbCompleteTask definition ---"
 
-git grep -n "export async function dbCompleteTask" -- \
-
-  server \
-
-  server.mjs \
-
-  scripts \
-
-  smoke-db-complete-task-direct.mjs \
-
-  ':!*.txt' \
-
-  ':!*.md' \
-
-  ':!backups/**' \
-
-  ':!scripts_backup/**' \
-
-  ':!scripts_backup_2/**' \
-
-  ':!_dashboard_candidate_previews/**' \
-
-  ':!DASHBOARD_UI_RECOVERY_ANCHORS/**' || true
+git grep -n "export async function dbCompleteTask" "${SCOPE[@]}" || true
 
 echo
 
 echo "--- actual runtime callers ---"
 
-git grep -n "dbCompleteTask(" -- \
-
-  server \
-
-  server.mjs \
-
-  scripts \
-
-  smoke-db-complete-task-direct.mjs \
-
-  ':!*.txt' \
-
-  ':!*.md' \
-
-  ':!backups/**' \
-
-  ':!scripts_backup/**' \
-
-  ':!scripts_backup_2/**' \
-
-  ':!_dashboard_candidate_previews/**' \
-
-  ':!DASHBOARD_UI_RECOVERY_ANCHORS/**' || true
+git grep -n "dbCompleteTask(" "${SCOPE[@]}" || true
 
 echo
 
 echo "--- completion route mount ---"
 
-git grep -n "dbCompleteTask(pool" -- \
-
-  server \
-
-  server.mjs \
-
-  scripts \
-
-  smoke-db-complete-task-direct.mjs \
-
-  ':!*.txt' \
-
-  ':!*.md' \
-
-  ':!backups/**' \
-
-  ':!scripts_backup/**' \
-
-  ':!scripts_backup_2/**' \
-
-  ':!_dashboard_candidate_previews/**' \
-
-  ':!DASHBOARD_UI_RECOVERY_ANCHORS/**' || true
+git grep -n "dbCompleteTask(pool" "${SCOPE[@]}" || true
 
 echo
 
