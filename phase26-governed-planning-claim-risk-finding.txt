@@ -1,0 +1,55 @@
+
+PHASE26 GOVERNED PLANNING CLAIM RISK FINDING
+
+Finding Status: CONFIRMED
+
+Repo-backed answer:
+
+Governed planning task records can currently match the Phase 26 no-lease claim scope if the worker is run with phase32_claim_one.sql.
+
+Evidence:
+
+1. Governed planning task records are created with:
+
+- status: queued
+
+- action_tier: A
+
+- kind: governed_planning
+
+- source: governed_planning
+
+- mode: planning_only
+
+2. server/worker/phase32_claim_one.sql claims tasks where:
+
+- status IN ('queued','delegated')
+
+- attempts < max_attempts
+
+- next_run_at is null or due
+
+It does not exclude:
+
+- kind = governed_planning
+
+- source = governed_planning
+
+- payload/meta governed_planning = true
+
+- planning_only mode
+
+3. Phase 26 worker currently treats claimed tasks as lifecycle work and can mark them running/completed/failed without executing governed work.
+
+Conclusion:
+
+Until a governed execution bridge exists, governed_planning task records should be excluded from worker claim scope.
+
+Safety interpretation:
+
+Governed planning task records are visibility/planning artifacts, not executable work units.
+
+Next safe action:
+
+Patch the worker claim SQL to exclude governed_planning tasks from Phase 26 claiming.
+
