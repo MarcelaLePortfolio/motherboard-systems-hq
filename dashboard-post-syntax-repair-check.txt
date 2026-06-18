@@ -1,0 +1,38 @@
+--- latest commits ---
+aaf88826 Verify dashboard inline script syntax is clean
+71507a33 Repair Phase487 inline confidence syntax
+720bfc1f Inspect served dashboard inline script syntax
+5561ab3a Restore served dashboard inline layout styles
+02675968 Inspect dashboard inline layout style gap
+
+--- inline script syntax final status ---
+35:--- node syntax checks ---
+36:CHECK .tmp-dashboard-inline-scripts/inline-script-002-line-735.js
+37:CHECK .tmp-dashboard-inline-scripts/inline-script-003-line-769.js
+38:CHECK .tmp-dashboard-inline-scripts/inline-script-004-line-832.js
+39:CHECK .tmp-dashboard-inline-scripts/inline-script-009-line-947.js
+40:CHECK .tmp-dashboard-inline-scripts/inline-script-010-line-963.js
+41:CHECK .tmp-dashboard-inline-scripts/inline-script-011-line-1000.js
+42:CHECK .tmp-dashboard-inline-scripts/inline-script-012-line-1024.js
+43:CHECK .tmp-dashboard-inline-scripts/inline-script-013-line-1054.js
+44:CHECK .tmp-dashboard-inline-scripts/inline-script-014-line-1091.js
+45:CHECK .tmp-dashboard-inline-scripts/inline-script-015-line-1140.js
+46:CHECK .tmp-dashboard-inline-scripts/inline-script-016-line-1197.js
+47:CHECK .tmp-dashboard-inline-scripts/inline-script-017-line-1273.js
+48:CHECK .tmp-dashboard-inline-scripts/inline-script-018-line-1323.js
+49:CHECK .tmp-dashboard-inline-scripts/inline-script-019-line-1393.js
+
+--- hard refresh instruction ---
+
+Open:
+
+http://localhost:8080/dashboard.html
+
+Then hard-refresh:
+
+Cmd+Shift+R
+
+Expected:
+
+No "missing ) after argument list" error.
+
