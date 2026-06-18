@@ -5,25 +5,25 @@ set -euo pipefail
 
 echo "--- actual dbCompleteTask definition ---"
 
-grep -R -n --include="*.mjs" --include="*.js" \
+find . -type f \( -name "*.mjs" -o -name "*.js" \) \
 
-  "export async function dbCompleteTask" server .
+  | xargs grep -n "export async function dbCompleteTask" || true
 
 echo
 
 echo "--- actual runtime callers ---"
 
-grep -R -n --include="*.mjs" --include="*.js" \
+find . -type f \( -name "*.mjs" -o -name "*.js" \) \
 
-  "dbCompleteTask(" server .
+  | xargs grep -n "dbCompleteTask(" || true
 
 echo
 
 echo "--- completion route mount ---"
 
-grep -R -n --include="*.mjs" --include="*.js" \
+find . -type f \( -name "*.mjs" -o -name "*.js" \) \
 
-  "dbCompleteTask(pool" server .
+  | xargs grep -n "dbCompleteTask(pool" || true
 
 echo
 
