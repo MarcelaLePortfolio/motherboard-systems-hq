@@ -1,0 +1,61 @@
+
+ACTIVE WORKER CLAIM PATH FINDING
+
+Finding Status: CONFIRMED
+
+Question:
+
+Did the previous patch protect every active Phase 26 worker claim path?
+
+Repo-backed answer:
+
+No.
+
+The previous patch protected:
+
+- server/worker/phase32_claim_one.sql
+
+But active Docker/runtime configuration references additional claim SQL paths:
+
+- server/sql/phase39_claim_one_with_value_gate.sql
+
+- sql/phase40_claim_one_tierA.sql
+
+- server/worker/phase35_claim_one_pg.sql via PHASE34 fallback behavior
+
+- server/worker/phase27_claim_one.sql in legacy/fallback paths
+
+Evidence:
+
+1. Worker SQL selection logic
+
+server/worker/phase26_task_worker.mjs selects:
+
+PHASE32_CLAIM_ONE_SQL || PHASE27_CLAIM_ONE_SQL
+
+2. Docker worker configs reference active claim paths other than phase32_claim_one.sql
+
+docker-compose.worker.phase32.yml points PHASE32_CLAIM_ONE_SQL to:
+
+/app/server/sql/phase39_claim_one_with_value_gate.sql
+
+docker-compose.worker.phase34.yml and docker-compose.workers.yml point PHASE32_CLAIM_ONE_SQL and PHASE27_CLAIM_ONE_SQL to:
+
+sql/phase40_claim_one_tierA.sql
+
+3. Phase34 fallback behavior can default PHASE27_CLAIM_ONE_SQL to:
+
+server/worker/phase35_claim_one_pg.sql
+
+Conclusion:
+
+The governed_planning exclusion added to server/worker/phase32_claim_one.sql is valuable but incomplete.
+
+Current risk:
+
+Governed planning task records may still be claimable through the active configured claim SQL files unless those files also exclude planning-only records.
+
+Next safe action:
+
+Inspect and patch the active configured claim SQL files so all worker claim paths exclude governed_planning/planning_only records consistently.
+
