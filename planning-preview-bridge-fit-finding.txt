@@ -1,0 +1,39 @@
+
+PLANNING PREVIEW BRIDGE FIT FINDING
+
+Finding Status: CONFIRMED
+
+The served dashboard loads public/js/dashboard-bundle-entry.js as a module.
+
+dashboard-bundle-entry.js already imports active served-dashboard runtime modules, including:
+
+- dashboard-status.js
+
+- matilda-chat-console.js
+
+- dashboard-delegation.js
+
+- task-events-sse-client.js
+
+- phase22_task_delegation_live_bindings.js
+
+- telemetry/phase65b_metric_bootstrap.js
+
+The candidate module path is available:
+
+- public/js/planning-preview-card.js
+
+Conclusion:
+
+A small isolated Planning Preview client module can be introduced through dashboard-bundle-entry.js without restoring the whole public/index.html script stack.
+
+Safety rule:
+
+The module must be read-only and layout-preserving.
+
+It should mount into an existing served-dashboard area or create a small contained card without changing the dashboard shell, tab model, or Phase530 artifact preview stack.
+
+Next safe action:
+
+Implement a no-op Planning Preview card shell first, imported by dashboard-bundle-entry.js, then verify the served dashboard still renders correctly before wiring governed planning data.
+

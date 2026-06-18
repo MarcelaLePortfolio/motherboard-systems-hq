@@ -20,3 +20,5 @@ import "./task-events-sse-client.js";
 import "./phase22_task_delegation_live_bindings.js";
 
 import "./telemetry/phase65b_metric_bootstrap.js";
+
+import "./planning-preview-card.js";
