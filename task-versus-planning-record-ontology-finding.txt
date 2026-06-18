@@ -1,0 +1,55 @@
+
+TASK VERSUS PLANNING RECORD ONTOLOGY FINDING
+
+Finding Status: STABILIZING
+
+Architectural conclusion:
+
+Tasks should represent runtime work units.
+
+Governed planning artifacts should not be represented as tasks by default.
+
+Reasoning:
+
+A task implies something that can enter a runtime lifecycle:
+
+- queued
+
+- delegated
+
+- running
+
+- completed
+
+- failed
+
+- retried
+
+A governed planning artifact represents planning, authorization analysis, governance validation, approval-gate evaluation, and plan production.
+
+That artifact may later inform an executable task, but it is not itself executable work.
+
+Current implication:
+
+The current planning_record status is a safe stabilization patch because it prevents governed planning records from being treated as executable work.
+
+However, the cleaner long-term model is likely:
+
+Governed Planning Artifact Ledger:
+
+intent → envelope draft → governance validation → approval gate → Cade plan → planning artifact
+
+Task Runtime:
+
+authorized executable work unit → queued/delegated → worker/runtime → reconciliation → terminal event
+
+Boundary:
+
+Planning artifacts may produce tasks only after an explicit governed execution bridge converts an approved plan into an executable work unit.
+
+Next safe action:
+
+Do not keep expanding task semantics to include non-runtime records.
+
+Design a separate governed planning/artifact ledger or artifact table before adding more planning visibility features.
+
