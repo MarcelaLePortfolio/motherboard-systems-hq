@@ -1,0 +1,11 @@
+
+TELEMETRY HEIGHT HYPOTHESIS RESET
+
+Finding Status: ACTIVE
+
+The first equal-height/scroll CSS did not produce the intended visible result.
+
+Next safe action:
+
+Inspect computed browser layout values before applying another CSS patch.
+

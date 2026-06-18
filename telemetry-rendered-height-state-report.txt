@@ -1,0 +1,148 @@
+TELEMETRY RENDERED HEIGHT STATE REPORT
+
+--- current head ---
+29a5f240 Equalize telemetry console height and scrolling
+07e91b41 Repair served dashboard telemetry tabs
+f059d99b Rebuild dashboard container for current UI
+b5070300 Inspect Docker dashboard serving source
+16ea7646 Inspect localhost dashboard serving source
+b205e6b1 Inspect live served dashboard authority
+
+--- local CSS rule currently applied ---
+
+/* Phase492 — telemetry console equals operator workspace height and scrolls internally */
+
+#phase61-workspace-grid {
+
+  align-items: stretch !important;
+
+}
+
+#phase61-operator-column,
+
+#phase61-telemetry-column {
+
+  min-height: 0 !important;
+
+}
+
+#operator-workspace-card,
+
+#observational-workspace-card {
+
+  height: 100% !important;
+
+  max-height: 100% !important;
+
+  min-height: 0 !important;
+
+  display: flex !important;
+
+  flex-direction: column !important;
+
+}
+
+#operator-panels,
+
+#observational-panels {
+
+  min-height: 0 !important;
+
+  flex: 1 1 auto !important;
+
+}
+
+#observational-panels {
+
+  overflow-y: auto !important;
+
+  padding-right: 0.25rem !important;
+
+}
+
+#observational-panels > .obs-panel:not([hidden]) {
+
+  min-height: 0 !important;
+
+}
+
+#recent-tasks-card,
+
+#task-events-card,
+
+#task-activity-card {
+
+  min-height: 0 !important;
+
+}
+
+
+--- served asset confirms css load ---
+24:<link rel="stylesheet" href="css/phase61_workspace_consolidation.css" />
+25:<link rel="stylesheet" href="css/phase61_tabs_observational_workspace.css" />
+26:<link rel="stylesheet" href="css/phase492_telemetry_equal_height_scroll.css" />
+
+--- browser-side check instructions ---
+
+Open DevTools Console on http://localhost:8080/dashboard.html and paste:
+
+(() => {
+
+  const ids = [
+
+    "operator-workspace-card",
+
+    "observational-workspace-card",
+
+    "operator-panels",
+
+    "observational-panels",
+
+    "recent-tasks-card",
+
+    "task-events-card",
+
+    "obs-panel-recent",
+
+    "obs-panel-events"
+
+  ];
+
+  return ids.map((id) => {
+
+    const el = document.getElementById(id);
+
+    if (!el) return { id, missing: true };
+
+    const r = el.getBoundingClientRect();
+
+    const cs = getComputedStyle(el);
+
+    return {
+
+      id,
+
+      height: Math.round(r.height),
+
+      scrollHeight: el.scrollHeight,
+
+      clientHeight: el.clientHeight,
+
+      overflowY: cs.overflowY,
+
+      display: cs.display,
+
+      flex: cs.flex,
+
+      hidden: el.hidden,
+
+      classes: el.className
+
+    };
+
+  });
+
+})();
+
+Paste the returned object back here.
+
