@@ -1,0 +1,55 @@
+30:  <script defer src="js/agent-status-health-indicator.js"></script>
+34:  <style id="matilda-chat-typography-polish">
+45:  </style>
+47:  <style id="phase487-layout-refinement">
+193:  </style>
+195:  <style id="phase489-unified-panel-heights">
+244:</style>
+246:  <style id="phase490-evidence-based-height-fix">
+296:</style>
+298:  <style id="phase489-task-activity-scroll">
+308:</style>
+310:  <style id="phase489-recent-tasks-scroll">
+320:</style>
+322:  <style id="phase488-h3a-spacing-only">
+342:</style>
+344:  <style id="phase488-h1-top-row-balance">
+371:</style>
+373:  <style id="phase488-h2-tab-polish">
+400:</style>
+402:  <style id="phase488-h2-unified-tab-color">
+406:</style>
+408:  <style id="phase488-h4-micro-visual-hierarchy">
+491:</style>
+735:<script id="phase487-force-confidence-override">
+748:</script>
+750:<script id="phase487-operator-guidance-fallback">
+811:</script>
+813:<script id="phase487-task-clarity-fallback">
+895:</script>
+897:  <script defer src="/js/phase487_humanize_task_ids.js"></script>
+898:  <script defer src="js/matilda-chat-console.js"></script>
+899:  <script type="module" src="js/dashboard-bundle-entry.js"></script>
+900:<script src="/js/dashboard-delegation.js"></script>
+928:<script>
+941:</script>
+944:<script>
+978:</script>
+981:<script>
+1002:</script>
+1005:<script>
+1032:</script>
+1035:<script>
+1069:</script>
+1072:<script>
+1118:</script>
+1121:<script>
+1175:</script>
+1178:<script>
+1251:</script>
+1254:<script>
+1301:</script>
+1304:<script>
+1371:</script>
+1374:<script>
+1398:</script>
