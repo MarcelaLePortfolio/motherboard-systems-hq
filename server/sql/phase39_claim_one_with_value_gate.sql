@@ -87,7 +87,7 @@ claimed AS (
 
       claimed_by = (SELECT claimed_by FROM params),
 
-      claimed_at = (floor(extract(epoch from clock_timestamp())*1000))::bigint
+      claimed_at = (floor(extract(epoch from clock_timestamp()) * 1000))::bigint
 
   WHERE t.id = (SELECT id FROM allowed_pick)
 

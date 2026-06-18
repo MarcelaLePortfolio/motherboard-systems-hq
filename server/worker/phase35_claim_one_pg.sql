@@ -33,9 +33,9 @@ SET status = 'running',
 
     claimed_by = $2,
 
-    claimed_at = (extract(epoch from now())*1000)::bigint,
+    claimed_at = (extract(epoch from now()) * 1000)::bigint,
 
-    lease_expires_at = ((extract(epoch from now())*1000)::bigint + $3::bigint),
+    lease_expires_at = ((extract(epoch from now()) * 1000)::bigint + $3::bigint),
 
     lease_epoch = COALESCE(t.lease_epoch, 0) + 1
 
