@@ -1,0 +1,27 @@
+
+DASHBOARD AUTHORITY HYPOTHESIS RESET
+
+Finding Status: RESET
+
+Failed hypothesis:
+
+Restoring dashboard authority by copying public/index.html over public/dashboard.html would safely restore parity.
+
+Result:
+
+Rejected.
+
+The file-level parity restore succeeded, but operator-facing dashboard validation failed because the served dashboard did not look right.
+
+Rollback:
+
+Commit bbcf561d restored public/dashboard.html from public/dashboard.html.before-parity-restore.
+
+Current rule:
+
+Do not replace public/dashboard.html wholesale with public/index.html.
+
+Next safe investigation:
+
+Treat public/dashboard.html as the served visual baseline and inspect only the missing anchored capabilities needed for Planning Preview.
+

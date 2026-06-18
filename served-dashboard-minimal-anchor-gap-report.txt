@@ -1,0 +1,12 @@
+--- current served dashboard route ---
+338:app.get("/bundle.js", (req, res) => res.sendFile(path.join(__dirname, "public", "bundle.js")));
+341:app.get("/bundle.js.map", (req, res) => res.sendFile(path.join(__dirname, "public", "bundle.js.map")));
+342:app.get("/dashboard", (req, res) => res.sendFile(path.join(__dirname, "public", "dashboard.html")));
+
+--- served dashboard existing script/style anchors ---
+244:    <div id="project-visual-output"></div>
+263:<!-- phase471.4 temporary neutralization: bundle.js removed to isolate browser freeze to JS boot layer -->
+437:  <script type="module" src="js/dashboard-bundle-entry.js"></script>
+438:<script src="/js/dashboard-delegation.js"></script>
+
+--- index-only anchored script candidates ---
