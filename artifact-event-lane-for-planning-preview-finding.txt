@@ -1,0 +1,63 @@
+
+ARTIFACT EVENT LANE FOR PLANNING PREVIEW FINDING
+
+Finding Status: CONFIRMED
+
+Repo-backed answer:
+
+The repo already contains a standalone artifact event lane that is separate from tasks.
+
+Evidence:
+
+1. server/artifacts.mjs defines:
+
+- /events/artifacts
+
+- /api/artifacts
+
+- emitArtifact(artifact)
+
+- in-memory replay ring
+
+2. server.mjs imports and mounts the artifact lane:
+
+import { attachArtifacts } from "./server/artifacts.mjs";
+
+and later:
+
+const { emitArtifact } = attachArtifacts(app);
+
+3. public/js/project-visual-output.js connects to:
+
+/events/artifacts
+
+and dispatches received artifacts as:
+
+mb:artifacts:update
+
+4. The current dashboard has a compatibility root:
+
+project-visual-output
+
+but it is inside:
+
+phase59-compat-roots
+
+which is hidden and aria-hidden.
+
+Conclusion:
+
+A non-task artifact lane already exists.
+
+However, the current visible dashboard does not yet expose a proper Planning Preview / Review card for artifacts.
+
+Architectural implication:
+
+Governed planning preview artifacts should likely use this standalone artifact lane or a closely related artifact route, not the task runtime lane.
+
+The existing Phase719 visual preview language may still be reusable, but task_id-bound preview behavior should not define the governed planning artifact model.
+
+Next safe action:
+
+Add a visible read-only Planning Preview card or inspect the smallest mount point for one, then bridge governed planning output to that card without creating a task record.
+
