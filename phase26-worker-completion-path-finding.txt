@@ -1,0 +1,89 @@
+
+PHASE26 WORKER COMPLETION PATH FINDING
+
+Finding Status: CONFIRMED
+
+Question:
+
+Does the current repo contain any non-manual producer of task.completed/task.failed events?
+
+Repo-backed answer:
+
+Yes. In addition to manual/status mutation routes, the repo contains a Phase 26 task worker that emits terminal task events.
+
+Evidence:
+
+1. dbCompleteTask exists at:
+
+server/tasks-mutations.mjs
+
+It updates task status and emits task events.
+
+2. Direct completion callers exist at:
+
+- server.mjs /api/complete-task
+
+- server/routes/api-tasks-mutations.mjs /complete
+
+- server/routes/api-tasks-mutations.mjs /fail
+
+- scripts/phase19_complete_task_runner.mjs
+
+- scripts/phase19_fail_task_runner.mjs
+
+- scripts/phase19_smoke_tasks_mutations_emit.mjs
+
+- smoke-db-complete-task-direct.mjs
+
+These remain task mutation/status plumbing.
+
+3. Phase 26 worker also emits runtime task events.
+
+server/worker/phase26_task_worker.mjs emits:
+
+- task.running
+
+- task.failed
+
+- task.retry_scheduled
+
+- task.completed
+
+The worker marks failure through markFailure and success through markSuccess, then emits task.failed or task.completed.
+
+Important distinction:
+
+This proves there is a worker-driven task lifecycle path.
+
+It does not yet prove governed execution.
+
+The inspected worker section does not show file mutation, shell execution, Cade governed plan execution, reconciliation, or execution-envelope consumption.
+
+Current corrected architecture:
+
+Governed Planning Corridor:
+
+Intent → Envelope Draft → Governance Validation → Approval Gate → Cade Planning
+
+Task Runtime Corridor:
+
+delegate/complete/fail → DB row mutation → task event emission → recent tasks display
+
+Phase 26 Worker Runtime Corridor:
+
+queued task → worker lease/run marker → deterministic success/failure/retry status update → task event emission
+
+Legacy Cade Runtime Corridor:
+
+memory/agent_chain_state.json → cade-processor → shell/file action
+
+Current safety interpretation:
+
+task.completed/task.failed can be produced by manual mutation routes or by the Phase 26 worker.
+
+However, unless the worker is proven to consume governed planning output and execute governed work under authority controls, task.completed/task.failed still must not be treated as proof of governed execution.
+
+Next safe inspection:
+
+Inspect Phase 26 worker input selection, markSuccess, markFailure, and startup/mount wiring to determine whether it is active, what it consumes, and whether it performs real work or only lifecycle simulation/status transition.
+
