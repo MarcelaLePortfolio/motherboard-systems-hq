@@ -733,18 +733,37 @@ section#task-events-card.obs-surface > #mb-task-events-panel-anchor {
   <!-- PHASE4732_SENTINEL_1775861395 -->
 
 <script id="phase487-force-confidence-override">
-(function() {
-  function patchConfidence() {
-    var el = document.getElementById("operator-guidance-meta");
+
+(() => {
+
+  const phase487ReasoningButtonHtml = '<span>Confidence: limited</span><br><button id="phase493-view-reasoning" style="margin-top:6px;font-size:12px;opacity:0.8;">View reasoning</button>';
+
+  function repairConfidenceMeta() {
+
+    const el = document.getElementById("operator-guidance-meta");
+
     if (!el) return;
-    if (el.innerHTML.includes("<span>Confidence: limited</span><br><button id="phase493-view-reasoning" style="margin-top:6px;font-size:12px;opacity:0.8;">View reasoning</button>")) {
-      el.innerHTML = el.innerHTML.replace("<span>Confidence: limited</span><br><button id="phase493-view-reasoning" style="margin-top:6px;font-size:12px;opacity:0.8;">View reasoning</button>", "Confidence: limited");
+
+    if (el.innerHTML.includes(phase487ReasoningButtonHtml)) {
+
+      el.innerHTML = el.innerHTML.replace(phase487ReasoningButtonHtml, "Confidence: limited");
+
     }
+
   }
 
-  patchConfidence();
-  setInterval(patchConfidence, 500);
+  if (document.readyState === "loading") {
+
+    document.addEventListener("DOMContentLoaded", repairConfidenceMeta, { once: true });
+
+  } else {
+
+    repairConfidenceMeta();
+
+  }
+
 })();
+
 </script>
 
 <script id="phase487-operator-guidance-fallback">
