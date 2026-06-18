@@ -1,0 +1,21 @@
+
+TELEMETRY MEASURED HEIGHT SYNC FINDING
+
+Finding Status: APPLIED
+
+Computed browser layout showed Operator Workspace at 640px and Telemetry Console at 1399px.
+
+Repair applied:
+
+- Added a measured browser-side height sync from operator-workspace-card to observational-workspace-card.
+
+- Kept telemetry overflow constrained inside observational-panels/recent-tasks-card.
+
+- Loaded phase493_telemetry_height_sync.js from dashboard-bundle-entry.js.
+
+- Rebuilt and restarted the Docker dashboard service.
+
+Expected result:
+
+Telemetry Console should match Operator Workspace height and scroll internally.
+

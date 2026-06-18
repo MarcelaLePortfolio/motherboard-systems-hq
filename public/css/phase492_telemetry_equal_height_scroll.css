@@ -3,7 +3,7 @@
 
 #phase61-workspace-grid {
 
-  align-items: stretch !important;
+  align-items: start !important;
 
 }
 
@@ -19,15 +19,17 @@
 
 #observational-workspace-card {
 
-  height: 100% !important;
-
-  max-height: 100% !important;
-
   min-height: 0 !important;
 
   display: flex !important;
 
   flex-direction: column !important;
+
+}
+
+#observational-workspace-card {
+
+  overflow: hidden !important;
 
 }
 
@@ -45,6 +47,8 @@
 
   overflow-y: auto !important;
 
+  overflow-x: hidden !important;
+
   padding-right: 0.25rem !important;
 
 }
@@ -52,6 +56,10 @@
 #observational-panels > .obs-panel:not([hidden]) {
 
   min-height: 0 !important;
+
+  max-height: 100% !important;
+
+  overflow: hidden !important;
 
 }
 
@@ -62,6 +70,28 @@
 #task-activity-card {
 
   min-height: 0 !important;
+
+  max-height: 100% !important;
+
+}
+
+#recent-tasks-card {
+
+  overflow-y: auto !important;
+
+  overflow-x: hidden !important;
+
+}
+
+#recentTasks,
+
+#recentLogs,
+
+#mb-task-events-panel-anchor {
+
+  min-height: 0 !important;
+
+  overflow-y: auto !important;
 
 }
 
