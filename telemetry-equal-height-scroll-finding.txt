@@ -1,0 +1,19 @@
+
+TELEMETRY EQUAL HEIGHT SCROLL FINDING
+
+Finding Status: APPLIED
+
+The Telemetry Console now matches Operator Workspace height and scrolls internally.
+
+Repair applied:
+
+- Added phase492_telemetry_equal_height_scroll.css.
+
+- Loaded it from public/dashboard.html after the Phase61 workspace/tab styles.
+
+- Rebuilt and restarted the Docker dashboard service.
+
+Expected result:
+
+The right telemetry card should align with the left operator card height, while task content scrolls inside the telemetry panel.
+

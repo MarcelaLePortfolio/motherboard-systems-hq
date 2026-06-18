@@ -1,0 +1,67 @@
+
+/* Phase492 — telemetry console equals operator workspace height and scrolls internally */
+
+#phase61-workspace-grid {
+
+  align-items: stretch !important;
+
+}
+
+#phase61-operator-column,
+
+#phase61-telemetry-column {
+
+  min-height: 0 !important;
+
+}
+
+#operator-workspace-card,
+
+#observational-workspace-card {
+
+  height: 100% !important;
+
+  max-height: 100% !important;
+
+  min-height: 0 !important;
+
+  display: flex !important;
+
+  flex-direction: column !important;
+
+}
+
+#operator-panels,
+
+#observational-panels {
+
+  min-height: 0 !important;
+
+  flex: 1 1 auto !important;
+
+}
+
+#observational-panels {
+
+  overflow-y: auto !important;
+
+  padding-right: 0.25rem !important;
+
+}
+
+#observational-panels > .obs-panel:not([hidden]) {
+
+  min-height: 0 !important;
+
+}
+
+#recent-tasks-card,
+
+#task-events-card,
+
+#task-activity-card {
+
+  min-height: 0 !important;
+
+}
+
