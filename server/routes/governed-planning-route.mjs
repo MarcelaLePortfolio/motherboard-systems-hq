@@ -229,6 +229,8 @@ async function maybeRecordGovernedPlanningTask({
 
     source: "governed_planning",
 
+    status: "planning_record",
+
     action_tier: "A",
 
     kind: "governed_planning",

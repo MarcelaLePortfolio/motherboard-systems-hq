@@ -14,6 +14,8 @@
     const s = String(status || "").toLowerCase();
     if (s.includes("complete")) return "text-green-400";
     if (s.includes("running")) return "text-yellow-400";
+    if (s.includes("planning_record")) return "text-purple-300";
+
     if (s.includes("queued")) return "text-blue-400";
     if (s.includes("failed")) return "text-red-400";
     return "text-gray-400";
@@ -49,7 +51,13 @@
 
       const statusSpan = document.createElement("span");
       statusSpan.className = statusClass(task.status);
-      statusSpan.textContent = text(task.status, "unknown");
+      statusSpan.textContent =
+
+        String(task.status || "") === "planning_record"
+
+          ? "planning record"
+
+          : text(task.status, "unknown");
 
       meta.appendChild(document.createTextNode("Status: "));
       meta.appendChild(statusSpan);

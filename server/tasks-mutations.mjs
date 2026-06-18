@@ -57,7 +57,7 @@ export async function dbDelegateTask(pool, body = {}) {
 
   const title = normalizeTitle(body);
 
-  const status = "queued";
+  const status = body?.status || "queued";
 
   const notes = body?.notes || "";
 
