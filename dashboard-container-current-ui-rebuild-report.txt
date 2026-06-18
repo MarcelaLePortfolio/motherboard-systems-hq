@@ -1,0 +1,130 @@
+DASHBOARD CONTAINER CURRENT UI REBUILD REPORT
+
+--- current head ---
+b5070300 Inspect Docker dashboard serving source
+16ea7646 Inspect localhost dashboard serving source
+b205e6b1 Inspect live served dashboard authority
+f1d1b35f Add dashboard boundary repair validation check
+8f771bf0 Repair dashboard duplicate atlas boundary
+
+--- rebuild dashboard service ---
+#1 [internal] load local bake definitions
+#1 reading from stdin 716B done
+#1 DONE 0.0s
+
+#2 [internal] load build definition from Dockerfile.dashboard
+#2 transferring dockerfile: 741B done
+#2 DONE 0.0s
+
+#3 [internal] load metadata for docker.io/library/node:20-alpine
+#3 DONE 0.8s
+
+#4 [internal] load .dockerignore
+#4 transferring context: 508B done
+#4 DONE 0.0s
+
+#5 [1/7] FROM docker.io/library/node:20-alpine@sha256:fb4cd12c85ee03686f6af5362a0b0d56d50c58a04632e6c0fb8363f609372293
+#5 resolve docker.io/library/node:20-alpine@sha256:fb4cd12c85ee03686f6af5362a0b0d56d50c58a04632e6c0fb8363f609372293 done
+#5 DONE 0.0s
+
+#6 [internal] load build context
+#6 transferring context: 69.67MB 0.6s done
+#6 DONE 0.6s
+
+#7 [2/7] WORKDIR /app
+#7 CACHED
+
+#8 [3/7] COPY package*.json ./
+#8 DONE 0.1s
+
+#9 [4/7] COPY package-lock.json* ./
+#9 DONE 0.0s
+
+#10 [5/7] RUN npm config set fetch-retries 5     && npm config set fetch-retry-factor 2     && npm config set fetch-retry-mintimeout 10000     && npm config set fetch-retry-maxtimeout 60000     && (npm config set registry https://registry.npmmirror.com/         && npm ci --no-audit --no-fund       || npm config set registry https://registry.npmjs.org/         && npm ci --no-audit --no-fund)     && apk add --no-cache curl ripgrep
+#10 2.886 npm warn deprecated rimraf@3.0.2: Rimraf versions prior to v4 are no longer supported
+#10 3.579 npm warn deprecated npmlog@6.0.2: This package is no longer supported.
+#10 3.684 npm warn deprecated node-domexception@1.0.0: Use your platform's native DOMException instead
+#10 4.444 npm warn deprecated inflight@1.0.6: This module is not supported, and leaks memory. Do not use it. Check out lru-cache if you want a good and tested way to coalesce async requests by a key value, which is much more comprehensive and powerful.
+#10 4.832 npm warn deprecated glob@7.2.3: Glob versions prior to v9 are no longer supported
+#10 5.007 npm warn deprecated gauge@4.0.4: This package is no longer supported.
+#10 6.480 npm warn deprecated are-we-there-yet@3.0.1: This package is no longer supported.
+#10 6.861 npm warn deprecated @npmcli/move-file@1.1.2: This functionality has been moved to @npmcli/fs
+#10 6.964 npm warn deprecated @esbuild-kit/esm-loader@2.6.5: Merged into tsx: https://tsx.is
+#10 6.977 npm warn deprecated @esbuild-kit/core-utils@3.3.2: Merged into tsx: https://tsx.is
+#10 8.991 
+#10 8.991 added 306 packages in 8s
+#10 9.661 npm warn deprecated inflight@1.0.6: This module is not supported, and leaks memory. Do not use it. Check out lru-cache if you want a good and tested way to coalesce async requests by a key value, which is much more comprehensive and powerful.
+#10 9.664 npm warn deprecated @npmcli/move-file@1.1.2: This functionality has been moved to @npmcli/fs
+#10 9.670 npm warn deprecated @esbuild-kit/esm-loader@2.6.5: Merged into tsx: https://tsx.is
+#10 9.674 npm warn deprecated npmlog@6.0.2: This package is no longer supported.
+#10 9.682 npm warn deprecated rimraf@3.0.2: Rimraf versions prior to v4 are no longer supported
+#10 9.691 npm warn deprecated are-we-there-yet@3.0.1: This package is no longer supported.
+#10 9.691 npm warn deprecated @esbuild-kit/core-utils@3.3.2: Merged into tsx: https://tsx.is
+#10 9.693 npm warn deprecated glob@7.2.3: Glob versions prior to v9 are no longer supported
+#10 9.714 npm warn deprecated gauge@4.0.4: This package is no longer supported.
+#10 9.731 npm warn deprecated node-domexception@1.0.0: Use your platform's native DOMException instead
+#10 10.05 
+#10 10.05 added 306 packages in 1s
+#10 10.71 ( 1/11) Installing brotli-libs (1.2.0-r0)
+#10 10.73 ( 2/11) Installing c-ares (1.34.6-r0)
+#10 10.75 ( 3/11) Installing libunistring (1.4.1-r0)
+#10 10.78 ( 4/11) Installing libidn2 (2.3.8-r0)
+#10 10.79 ( 5/11) Installing nghttp2-libs (1.69.0-r0)
+#10 10.80 ( 6/11) Installing libpsl (0.21.5-r3)
+#10 10.82 ( 7/11) Installing zstd-libs (1.5.7-r2)
+#10 10.83 ( 8/11) Installing libcurl (8.19.0-r0)
+#10 10.85 ( 9/11) Installing curl (8.19.0-r0)
+#10 10.87 (10/11) Installing pcre2 (10.47-r0)
+#10 10.89 (11/11) Installing ripgrep (15.1.0-r0)
+#10 10.93 Executing busybox-1.37.0-r30.trigger
+#10 10.93 OK: 20.1 MiB in 29 packages
+#10 DONE 11.1s
+
+#11 [6/7] COPY . .
+#11 DONE 0.3s
+
+#12 [7/7] COPY public/ ./public/
+#12 DONE 0.0s
+
+#13 exporting to image
+#13 exporting layers
+#13 exporting layers 2.9s done
+#13 exporting manifest sha256:386313edc296adb1bef7c6dda15000b9ff2d6895a06424476ae784ba08949ceb done
+#13 exporting config sha256:f12c873ae9d9a64c5faf664b7d150969cb86ccbb14d58101703fa89b8cf36d2a done
+#13 exporting attestation manifest sha256:84d92ed714c3774d3c7ed92e4b7a1439a61d72a9b9aa3bec402bda85a6084747 done
+#13 exporting manifest list sha256:f834a3044517561120aee236d6f0a75043da156f36d782848f7b03e6ab4e8ba7 done
+#13 naming to docker.io/library/motherboard-systems-hq-clean-dashboard:latest done
+#13 unpacking to docker.io/library/motherboard-systems-hq-clean-dashboard:latest
+#13 unpacking to docker.io/library/motherboard-systems-hq-clean-dashboard:latest 0.9s done
+#13 DONE 3.8s
+
+#14 resolving provenance for metadata file
+#14 DONE 0.0s
+
+--- restart dashboard service ---
+
+--- wait and verify served dashboard ---
+HTTP/1.1 200 OK
+X-Powered-By: Express
+Accept-Ranges: bytes
+Cache-Control: public, max-age=0
+Last-Modified: Thu, 18 Jun 2026 22:06:12 GMT
+ETag: W/"ba6f-19edcc53420"
+Content-Type: text/html; charset=utf-8
+Content-Length: 47727
+Date: Thu, 18 Jun 2026 22:28:19 GMT
+Connection: keep-alive
+Keep-Alive: timeout=5
+
+
+--- local vs served hashes ---
+37d2c8744c7372e7bef372c29712af57b8e7148421c203805b63e0285d97a324  public/dashboard.html
+37d2c8744c7372e7bef372c29712af57b8e7148421c203805b63e0285d97a324  /tmp/dashboard-current-ui.html
+
+--- served current UI anchors ---
+674:              <h2 class="text-xl font-semibold">Telemetry Console</h2>
+685:                Execution Inspector
+694:                    <div id="recentTasks" class="bg-gray-900 border border-gray-700 rounded-xl p-3 text-sm text-gray-300"></div>
+962:  <script type="module" src="js/dashboard-bundle-entry.js"></script>
+
+--- byte equality ---

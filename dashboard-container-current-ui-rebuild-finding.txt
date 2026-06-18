@@ -1,0 +1,9 @@
+
+DASHBOARD CONTAINER CURRENT UI REBUILD FINDING
+
+Finding Status: VERIFIED BY SCRIPT
+
+localhost:8080 is served by the Docker dashboard container.
+
+Because Dockerfile.dashboard copies public/ into the image, dashboard HTML changes require rebuilding and restarting the dashboard service before browser validation.
+
