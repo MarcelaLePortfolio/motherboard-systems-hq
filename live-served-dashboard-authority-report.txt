@@ -1,0 +1,70 @@
+LIVE SERVED DASHBOARD AUTHORITY REPORT
+
+--- current head ---
+f1d1b35f Add dashboard boundary repair validation check
+8f771bf0 Repair dashboard duplicate atlas boundary
+8c38c2be Add dashboard post syntax repair check
+aaf88826 Verify dashboard inline script syntax is clean
+71507a33 Repair Phase487 inline confidence syntax
+
+--- local vs served byte hashes ---
+37d2c8744c7372e7bef372c29712af57b8e7148421c203805b63e0285d97a324  public/dashboard.html
+f108952d5c40036308393384c9116f088bde9dd039f7436591f20d3c2820d738  /var/folders/3n/zscyzgr50b9gk8dg6fv8byz80000gn/T/tmp.zsVX7poOlM/dashboard-html.body
+f108952d5c40036308393384c9116f088bde9dd039f7436591f20d3c2820d738  /var/folders/3n/zscyzgr50b9gk8dg6fv8byz80000gn/T/tmp.zsVX7poOlM/dashboard-route.body
+
+--- local vs served byte equality ---
+Files public/dashboard.html and /var/folders/3n/zscyzgr50b9gk8dg6fv8byz80000gn/T/tmp.zsVX7poOlM/dashboard-html.body differ
+Files public/dashboard.html and /var/folders/3n/zscyzgr50b9gk8dg6fv8byz80000gn/T/tmp.zsVX7poOlM/dashboard-route.body differ
+
+--- served /dashboard.html headers ---
+HTTP/1.1 200 OK
+X-Powered-By: Express
+Accept-Ranges: bytes
+Cache-Control: public, max-age=0
+Last-Modified: Thu, 28 May 2026 18:53:12 GMT
+ETag: W/"8d0f-19e6feef5c0"
+Content-Type: text/html; charset=utf-8
+Content-Length: 36111
+Date: Thu, 18 Jun 2026 22:10:09 GMT
+Connection: keep-alive
+Keep-Alive: timeout=5
+
+
+--- served /dashboard route headers ---
+HTTP/1.1 200 OK
+X-Powered-By: Express
+Accept-Ranges: bytes
+Cache-Control: public, max-age=0
+Last-Modified: Thu, 28 May 2026 18:53:12 GMT
+ETag: W/"8d0f-19e6feef5c0"
+Content-Type: text/html; charset=utf-8
+Content-Length: 36111
+Date: Thu, 18 Jun 2026 22:10:09 GMT
+Connection: keep-alive
+Keep-Alive: timeout=5
+
+
+--- served dashboard key anchors ---
+103:      <section id="phase61-workspace-shell" class="space-y-4">
+216:    <section id="phase61-atlas-band" class="space-y-4">
+221:<section id="atlas-status-card" class="bg-gray-800 p-6 rounded-2xl shadow-lg border border-gray-700">
+437:  <script type="module" src="js/dashboard-bundle-entry.js"></script>
+
+--- local dashboard key anchors ---
+76:    #atlas-status-card,
+84:    #atlas-status-card {
+411:  #atlas-status-card > h2,
+418:  #atlas-status-card,
+428:  #atlas-status-card > h2 {
+443:  #atlas-status-card > h2 {
+565:      <section id="phase61-workspace-shell" class="space-y-4">
+674:              <h2 class="text-xl font-semibold">Telemetry Console</h2>
+685:                Execution Inspector
+694:                    <div id="recentTasks" class="bg-gray-900 border border-gray-700 rounded-xl p-3 text-sm text-gray-300"></div>
+722:    <section id="phase61-atlas-band" class="space-y-4">
+727:<section id="atlas-status-card" class="bg-gray-800 p-6 rounded-2xl shadow-lg border border-gray-700">
+962:  <script type="module" src="js/dashboard-bundle-entry.js"></script>
+
+--- workspace shell counts local vs served ---
+local phase61-workspace-shell count: 1
+served phase61-workspace-shell count: 1
