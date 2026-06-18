@@ -1,0 +1,35 @@
+
+SERVED DASHBOARD ANCHOR MISMATCH FINDING
+
+Finding Status: CONFIRMED
+
+The served /dashboard route points to public/dashboard.html.
+
+public/dashboard.html loads:
+
+- js/dashboard-bundle-entry.js
+
+dashboard-bundle-entry.js currently imports only baseline dashboard/runtime modules.
+
+It does not import:
+
+- phase530_visible_panels_bridge.js
+
+- phase565_recent_tasks_wire.js
+
+- phase61_tabs_workspace.js
+
+- project-visual-output.js
+
+Those modern/anchored UI scripts are present on public/index.html, not the served /dashboard surface.
+
+Conclusion:
+
+Before adding a Planning Preview card, the authoritative served UI surface must be reconciled.
+
+Do not patch planning preview UI into public/index.html unless /dashboard is intentionally moved to public/index.html or the relevant anchored scripts are intentionally restored to public/dashboard.html.
+
+Next safe action:
+
+Inspect prior dashboard anchor findings and determine whether public/index.html or public/dashboard.html is the intended current authoritative dashboard.
+
