@@ -1,0 +1,83 @@
+--- current branch / recent UI commits ---
+feature/backup-system-v2
+663d043c Restore task card status trace preview fallbacks
+4bee7f7f Restore retry relationship from payload metadata
+c3fd49f8 Normalize telemetry tab label to recent tasks
+dd7c7fa0 Revert "Normalize telemetry tab label to recent tasks"
+b51442e4 Normalize telemetry tab label to recent tasks
+ce3e39fc Revert "Balance operator workspace height against telemetry console"
+19ea6a48 Revert "Stretch operator workspace to telemetry grid row"
+318e6ab4 Stretch operator workspace to telemetry grid row
+12e14206 Balance operator workspace height against telemetry console
+4a327dbc Fix recent tasks inner wrapper height
+63e0a6fe Inject recent tasks live layout diagnostic
+2789b1dd Revert "Collapse recent tasks shell split"
+
+--- active candidate dashboard HTML files only ---
+./public/dashboard.html
+./public/index.html
+
+--- explicit UI anchor / recovery anchor references ---
+
+--- served dashboard route / static serving references ---
+dist/scripts/_local/agent-runtime/utils/clean_rogue_buttons.js:2:const filePath = 'ui/dashboard/index.html';
+dist/scripts/_local/dev-server.js:7:app.use(express.static(path.join(process.cwd(), "public")));
+dist/scripts/_local/dev-server.js:8:app.get("/", (req, res) => res.redirect("/dashboard.html"));
+dist/scripts/_local/route-loader/ops-sse-server.js:10:app.get("/events/ops", (req, res) => {
+dist/scripts/_local/route-loader/reflection-sse-server.js:10:app.get("/events/reflections", (req, res) => {
+dist/scripts/demo/run-demo-sequence.js:25:        console.log("💡 Open http://localhost:3001/dashboard.html to view live broadcast.");
+dist/scripts/servers/ops-sse-server.js:7:app.get("/events/ops", (req, res) => {
+dist/scripts/servers/reflection-sse-server.js:8:app.get("/events/reflections", (req, res) => {
+dist/scripts/sse/reflections-sse-server.js:14:app.get("/events/reflections", (req, res) => {
+dist/scripts/sse/reflections-sse-server.js:38:app.get("/events/agents", (req, res) => {
+scripts/_local/agent-runtime/utils/clean_rogue_buttons.js:2:const filePath = 'ui/dashboard/index.html';
+scripts/phase14_5_patch_dashboard_no_cache.mjs:133:results.push(patchHtmlFile("public/dashboard.html", version));
+scripts/phase14_5_patch_dashboard_no_cache.mjs:134:results.push(patchHtmlFile("public/index.html", version));
+scripts/phase14_6_no_store_html_headers.mjs:7:function addNoStoreBeforeSendFile(block) {
+scripts/phase14_6_no_store_html_headers.mjs:10:    /return\s+res\.sendFile\(/,
+scripts/phase14_6_no_store_html_headers.mjs:15:      '  return res.sendFile('
+scripts/phase14_6_no_store_html_headers.mjs:22:  /(app\.get\(\s*["']\/dashboard["'][\s\S]*?\{\s*[\s\S]*?)(return\s+res\.sendFile\([\s\S]*?\);\s*\n\s*\}\);)/,
+scripts/phase14_6_no_store_html_headers.mjs:23:  (m) => addNoStoreBeforeSendFile(m)
+scripts/phase14_6_no_store_html_headers.mjs:28:  /(app\.use\(\(req,\s*res,\s*next\)\s*=>\s*\{\s*[\s\S]*?)(return\s+res\.sendFile\([\s\S]*?\);\s*\n\s*\}\);)/,
+scripts/phase14_6_no_store_html_headers.mjs:29:  (m) => addNoStoreBeforeSendFile(m)
+scripts/phase14_6_no_store_html_headers.mjs:36:  console.log("✅ Patched server.mjs (no-store headers for HTML sendFile routes)");
+scripts/phase88_10_patch_dashboard_bad_structure_system_health_panel.mjs:3:const target = "public/dashboard.html.bad_structure";
+scripts/phase88_13_patch_served_dashboard_system_health_panel.mjs:3:const target = "public/dashboard.html";
+server.mjs:172:app.use(express.static(path.join(__dirname, "public")));
+server.mjs:173:app.use("/css", express.static(path.join(__dirname, "public", "css")));
+server.mjs:174:app.use("/js", express.static(path.join(__dirname, "public", "js")));
+server.mjs:175:app.use("/img", express.static(path.join(__dirname, "public", "img")));
+server.mjs:337:app.use("/public", express.static(path.join(__dirname, "public")));
+server.mjs:338:app.get("/bundle.js", (req, res) => res.sendFile(path.join(__dirname, "public", "bundle.js")));
+server.mjs:340:app.get("/api/runs", getRunsList);
+server.mjs:341:app.get("/bundle.js.map", (req, res) => res.sendFile(path.join(__dirname, "public", "bundle.js.map")));
+server.mjs:342:app.get("/dashboard", (req, res) => res.sendFile(path.join(__dirname, "public", "dashboard.html")));
+server.mjs:343:app.get("/", (req, res) => res.redirect("/dashboard"));
+server.mjs:346:app.get("/api/tasks", async (req, res) => {
+server.mjs:403:app.get("/events/tasks", async (req, res) => {
+server.mjs:468:app.get("/events/operator-guidance", (req, res) => {
+server.mjs:535:app.get("/api/ops-heartbeat", (req, res) => {
+server.mjs:541:app.get("/api/heartbeat", (req, res) => {
+server.mjs:617:  app.get("/events/ops", (req, res) => {
+server.mjs:654:  app.get("/api/ops/state", (req, res) => {
+server/artifacts.mjs:19:  app.get("/events/artifacts", (req, res) => {
+server/optional-sse.mjs:172:  app.get("/events/ops", ops.handler);
+server/optional-sse.mjs:173:  app.get("/events/reflections", reflections.handler);
+server/orchestrator_state_route.mjs:89:  app.get("/orchestrator/state._debug", (req, res) => {
+server/orchestrator_state_route.mjs:112:  app.get("/orchestrator/state", (req, res) => {
+server/phase19_debug_routes_dump.mjs:30:  app.get("/__debug/routes", (req, res) => {
+server/routes/api-health.mjs:2:  app.get("/api/health", (_req, res) => {
+server/routes/phase36_run_view.mjs:44:  app.get("/api/runs", async (req, res) => {
+server/routes/phase36_run_view.mjs:133:  app.get("/api/runs/:run_id", async (req, res) => {
+server/routes/phase40_6_shadow_audit_task_events.mjs:5:  app.get("/api/shadow/audit/task-events", async (req, res) => {
+snapshots/20251114-114707/scripts/_local/agent-runtime/utils/clean_rogue_buttons.js:2:const filePath = 'ui/dashboard/index.html';
+snapshots/20251114-114821/scripts/_local/agent-runtime/utils/clean_rogue_buttons.js:2:const filePath = 'ui/dashboard/index.html';
+
+--- dashboard script anchors in active public files ---
+public/index.html:435:    <div id="project-visual-output"></div>
+public/index.html:577:  <script defer src="js/phase61_tabs_workspace.js"></script>
+public/index.html:589:  <script defer src="js/phase530_visible_panels_bridge.js"></script>
+public/index.html:1173:  <script defer src="js/phase565_recent_tasks_wire.js"></script>
+public/dashboard.html:244:    <div id="project-visual-output"></div>
+public/dashboard.html:263:<!-- phase471.4 temporary neutralization: bundle.js removed to isolate browser freeze to JS boot layer -->
+public/dashboard.html:437:  <script type="module" src="js/dashboard-bundle-entry.js"></script>
