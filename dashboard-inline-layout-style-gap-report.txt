@@ -1,0 +1,78 @@
+--- served dashboard inline style ids ---
+
+--- index inline style ids ---
+23:  <style id="matilda-chat-typography-polish">
+36:  <style id="phase487-layout-refinement">
+450:<style id="phase489-unified-panel-heights">
+501:<style id="phase490-evidence-based-height-fix">
+553:<style id="phase489-task-activity-scroll">
+564:\n<style id="phase489-recent-tasks-scroll">
+1221:<style id="phase488-h3a-spacing-only">
+1244:<style id="phase488-h1-top-row-balance">
+1274:<style id="phase488-h2-tab-polish">
+1304:<style id="phase488-h2-unified-tab-color">
+1311:<style id="phase488-h4-micro-visual-hierarchy">
+
+--- index style ids missing from served dashboard ---
+<style id="matilda-chat-typography-polish"
+<style id="phase487-layout-refinement"
+<style id="phase488-h1-top-row-balance"
+<style id="phase488-h2-tab-polish"
+<style id="phase488-h2-unified-tab-color"
+<style id="phase488-h3a-spacing-only"
+<style id="phase488-h4-micro-visual-hierarchy"
+<style id="phase489-recent-tasks-scroll"
+<style id="phase489-task-activity-scroll"
+<style id="phase489-unified-panel-heights"
+<style id="phase490-evidence-based-height-fix"
+
+--- key layout selectors in index inline styles ---
+56:    #phase61-workspace-grid {
+63:    #operator-workspace-card,
+64:    #observational-workspace-card,
+71:    #operator-workspace-card,
+72:    #observational-workspace-card,
+133:    .obs-panel[hidden] {
+137:    .obs-panel.active:not([hidden]) {
+141:    .obs-surface {
+178:      #phase61-workspace-grid {
+452:  #observational-workspace-card,
+462:  #observational-panels,
+464:  #phase61-telemetry-column {
+472:  .obs-panel {
+530:  #observational-panels > .obs-panel:not([hidden]),
+531:  #operator-panels > *:not([hidden]) {
+1312:  #operator-workspace-card > div:first-child h2,
+1313:  #observational-workspace-card > div:first-child h2,
+1319:  #operator-workspace-card,
+1320:  #observational-workspace-card,
+1329:  #operator-workspace-card > div:first-child,
+1330:  #observational-workspace-card > div:first-child,
+1344:  #operator-workspace-card > div:first-child h2,
+1345:  #observational-workspace-card > div:first-child h2,
+1367:section#task-events-card.obs-surface {
+1374:section#task-events-card.obs-surface > #mb-task-events-panel-anchor {
+1383:section#task-events-card.obs-surface {
+1389:section#task-events-card.obs-surface > #mb-task-events-panel-anchor {
+
+--- key layout selectors in served dashboard inline styles ---
+
+--- served dashboard neutralization markers still present ---
+4:  <!-- phase487-cache-bust -->
+8:  <meta name="phase487-version" content="20260415_230701" />
+9:  <!-- phase474.4 temporary neutralization: inline style block removed for HTML-only layout isolation -->
+21:<!-- phase474.3 temporary neutralization: removed local stylesheet :: <link rel="stylesheet" href="/css/phase13_5_operator_ux.css" /> -->
+27:    <!-- phase474.4 temporary neutralization: inline style block removed for HTML-only layout isolation -->
+29:    <!-- phase474.4 temporary neutralization: inline style block removed for HTML-only layout isolation -->
+263:<!-- phase471.4 temporary neutralization: bundle.js removed to isolate browser freeze to JS boot layer -->
+266:    <!-- phase470.6 temporary neutralization: operatorGuidance.sse.js removed to isolate dashboard freeze / unresponsive behavior -->
+267:<!-- phase471.1 temporary neutralization: /js/phase457_restore_task_panels.js removed to isolate task-events surface -->
+273:<script id="phase487-force-confidence-override">
+288:<script id="phase487-operator-guidance-fallback">
+351:<script id="phase487-task-clarity-fallback">
+435:  <script defer src="/js/phase487_humanize_task_ids.js"></script>
+b4cf1c63 Add dashboard layout refresh verification
+a1a02fce Verify served dashboard layout style repair
+24a84e8b Restore served dashboard layout styles
+daa2a3e0 Inspect served dashboard structure mismatch
+55c2d014 Verify planning preview card shell
