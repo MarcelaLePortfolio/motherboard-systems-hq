@@ -1,0 +1,28 @@
+--- restored layout styles present ---
+16:<link rel="stylesheet" href="css/dashboard.css?v=darkmode" />
+19:<link rel="stylesheet" href="css/matilda-chat.css" />
+24:<link rel="stylesheet" href="css/phase61_workspace_consolidation.css" />
+25:<link rel="stylesheet" href="css/phase61_tabs_observational_workspace.css" />
+
+--- remaining neutralized stylesheet refs ---
+21:<!-- phase474.3 temporary neutralization: removed local stylesheet :: <link rel="stylesheet" href="/css/phase13_5_operator_ux.css" /> -->
+
+--- required layout containers present ---
+104:        <div id="phase61-workspace-grid">
+105:                            <section id="phase61-operator-column" class="space-y-4" aria-label="Operator workspace">
+106:            <section id="operator-workspace-card" class="bg-gray-800 p-6 rounded-2xl shadow-lg border border-gray-700" data-workspace-root>
+170:          <section id="phase61-telemetry-column" class="space-y-4" aria-label="Observational workspace">
+171:            <section id="observational-workspace-card" class="bg-gray-800 p-6 rounded-2xl shadow-lg border border-gray-700" data-workspace-root>
+
+--- layout css rules exist ---
+public/css/phase61_workspace_consolidation.css:22:#phase61-workspace-grid {
+public/css/phase61_workspace_consolidation.css:116:  #phase61-workspace-grid {
+public/css/phase61_tabs_observational_workspace.css:54:.obs-panel {
+public/css/phase61_tabs_observational_workspace.css:58:.obs-panel.active {
+public/css/phase61_tabs_observational_workspace.css:62:.obs-surface {
+public/css/phase61_tabs_observational_workspace.css:67:#obs-panel-recent .obs-surface,
+public/css/phase61_tabs_observational_workspace.css:68:#obs-panel-activity .obs-surface,
+public/css/phase61_tabs_observational_workspace.css:69:#obs-panel-events .obs-surface {
+public/css/phase61_tabs_observational_workspace.css:96:#phase61-workspace-grid {
+public/css/phase61_tabs_observational_workspace.css:123:  .obs-surface,
+?? served-dashboard-layout-style-repair-finding.txt
