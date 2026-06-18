@@ -1,0 +1,19 @@
+--- planning preview module syntax ---
+
+--- dashboard bundle imports planning preview ---
+24:import "./planning-preview-card.js";
+
+--- served dashboard loads dashboard bundle entry ---
+437:  <script type="module" src="js/dashboard-bundle-entry.js"></script>
+
+--- planning preview mount targets exist on served dashboard ---
+188:              <div id="observational-panels">
+190:                  <section id="recent-tasks-card" class="obs-surface">
+207:                  <section id="task-events-card" class="obs-surface phase61-events-fill">
+
+--- current git head ---
+099ac212 Add read-only planning preview card shell
+50cbfa02 Document served dashboard anchor gap
+2ed02401 Repair served dashboard anchor gap inspection
+4548a577 Reset dashboard authority hypothesis after rollback
+bbcf561d Rollback dashboard parity restore after visual mismatch
