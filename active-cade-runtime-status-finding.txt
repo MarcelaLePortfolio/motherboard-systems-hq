@@ -1,0 +1,123 @@
+
+ACTIVE CADE RUNTIME STATUS FINDING
+
+Finding Status: CONFIRMED
+
+Repo-backed answer:
+
+The repository contains a legacy Cade runtime execution corridor, but it is not currently active.
+
+Evidence:
+
+1. Launch wiring exists
+
+start_all.sh, toggle_agents.sh, and scripts/system/toggle_agents.sh all contain PM2 launch commands for:
+
+- cade
+
+- effie
+
+- matilda
+
+- cade-processor
+
+The cade-processor command points to:
+
+scripts/_local/agent-runtime/cade-processor.ts
+
+2. Cade processor exists
+
+scripts/_local/agent-runtime/cade-processor.ts starts:
+
+startCadeTaskProcessor()
+
+That imports the legacy processor from:
+
+scripts/_local/agent-runtime/utils/cade_task_processor.ts
+
+3. Legacy processor can execute shell commands
+
+scripts/_local/agent-runtime/utils/cade_task_processor.ts polls:
+
+./memory/agent_chain_state.json
+
+It looks for tasks where:
+
+- status = "Pending"
+
+- agent = "Cade"
+
+- type = "run_shell"
+
+Then it executes task.command through child_process.exec.
+
+4. Separate handler can write files or run shell commands
+
+scripts/_local/agent-runtime/handlers/handleTask.ts supports:
+
+- generate_file
+
+- run_shell
+
+It uses fs.writeFileSync and child_process.execSync.
+
+5. Current runtime is inactive
+
+pm2 list shows no active processes.
+
+pm2 describe cade-processor reports:
+
+cade-processor doesn't exist
+
+pm2 describe cade reports:
+
+cade doesn't exist
+
+Conclusion:
+
+The repo contains a legacy file/memory-based Cade execution runtime.
+
+That runtime is not currently active under PM2.
+
+It is separate from the governed planning corridor.
+
+It is not currently integrated with:
+
+- governed planning
+
+- governance validator
+
+- approval gate
+
+- execution envelope guard
+
+- task DB mutation route
+
+- recent tasks display
+
+Current architecture remains:
+
+Governed Planning Corridor:
+
+Intent → Envelope Draft → Governance Validation → Approval Gate → Cade Planning
+
+Task Runtime Corridor:
+
+delegate/complete/fail → DB row mutation → task event emission → recent tasks display
+
+Legacy Cade Runtime Corridor:
+
+memory/agent_chain_state.json → cade-processor → shell/file action
+
+Current safety interpretation:
+
+The legacy runtime is potentially mutation-capable if launched, but it is dormant.
+
+Before any future activation, it must be brought under governance, scope validation, dry-run/mutation authority separation, and reconciliation.
+
+Next safe action:
+
+Do not start cade-processor yet.
+
+Treat legacy Cade runtime as an archaeological execution primitive, not a current governed execution system.
+
