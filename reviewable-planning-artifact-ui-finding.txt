@@ -1,0 +1,87 @@
+
+REVIEWABLE PLANNING ARTIFACT UI FINDING
+
+Finding Status: CONFIRMED
+
+Question:
+
+If the user must review or approve planned work before execution, where is that artifact currently served?
+
+Repo-backed answer:
+
+The approval/review doctrine exists, and the backend can build approval/planning artifacts, but the current inspected output does not prove that reviewable governed planning artifacts are served to the user in a dedicated UI surface yet.
+
+Evidence:
+
+1. Authoritative approval doctrine requires visible confirmation.
+
+AUTHORITATIVE_EXECUTION_CORRIDOR states that any approval must expose:
+
+- what will happen
+
+- why it is proposed
+
+- what risks exist
+
+- what rollback exists
+
+- what blocks execution
+
+- what invalidates approval
+
+It also states approval must never be hidden, implied, or assumed.
+
+2. Current approval artifact builder exists.
+
+server/execution/build-approval-artifact.mjs creates an approval artifact with:
+
+- approval_id
+
+- approval_scope
+
+- mutation_authorized: false
+
+- shell_execution_authorized: false
+
+- autonomous_execution_authorized: false
+
+- status: approval_required
+
+But it does not itself serve the artifact in the UI.
+
+3. Current governed planning bundle exists.
+
+server/execution/build-governed-planning-artifact-bundle.mjs builds:
+
+- governed planning response
+
+- reconciliation artifact
+
+- governance audit ledger
+
+- execution authority flags
+
+But this bundle is currently backend artifact structure, not yet proven as a visible review card.
+
+4. Architectural implication.
+
+If governed planning artifacts are not tasks, they still need a user-visible review surface before any future governed execution bridge can convert approved planning output into executable runtime work.
+
+Conclusion:
+
+Do not use Recent Tasks as the long-term home for planning review artifacts.
+
+The cleaner model is a separate reviewable governed planning artifact surface, likely one of:
+
+- Execution Inspector
+
+- Operator Guidance
+
+- dedicated Planning Review / Approval Required card
+
+- governed artifact ledger panel
+
+Next safe action:
+
+Inspect the existing dashboard panel mounts and route response handling to identify the smallest UI home for a read-only planning review card.
+
