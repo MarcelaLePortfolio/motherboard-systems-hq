@@ -1,0 +1,73 @@
+
+PLANNING PREVIEW CARD MOUNT FINDING
+
+Finding Status: CONFIRMED
+
+Repo-backed answer:
+
+The dashboard already has a Telemetry / Observational workspace where a standalone Planning Preview card can be mounted without using Recent Tasks as the semantic container.
+
+Evidence:
+
+1. public/index.html has an observational workspace with tabs and panels:
+
+- obs-panel-recent
+
+- obs-panel-activity
+
+- obs-panel-events
+
+2. public/dashboard.html has the same general observational workspace pattern.
+
+3. public/js/phase61_tabs_workspace.js uses simple data-workspace-tab and data-workspace-panel wiring.
+
+This means a new Planning Preview tab/panel can be added by following the existing tab contract.
+
+4. server/artifacts.mjs already provides a standalone artifact lane:
+
+- /events/artifacts
+
+- /api/artifacts
+
+- emitArtifact
+
+5. public/js/project-visual-output.js already listens to /events/artifacts and dispatches:
+
+mb:artifacts:update
+
+However, it currently only dispatches the event. It does not render a visible planning preview card.
+
+6. The current project-visual-output mount exists only inside hidden compatibility roots:
+
+phase59-compat-roots
+
+Conclusion:
+
+The smallest safe UI bridge is:
+
+- Add a visible Planning Preview tab/panel in the Observational workspace.
+
+- Add a dedicated mount such as planning-preview-card / planning-preview-output.
+
+- Add a small read-only frontend consumer that listens for governed planning artifacts.
+
+- Do not create or reuse task records for this visibility surface.
+
+Architecture:
+
+Governed Planning Route
+
+→ Planning Artifact Bundle
+
+→ Artifact Event / Preview Surface
+
+→ User Review
+
+→ Later explicit approval bridge may produce executable runtime task
+
+Task Runtime remains reserved for actual executable work units.
+
+Next safe action:
+
+Implement the visible Planning Preview card shell and a no-op/read-only client mount first, before wiring governed planning output into it.
+
