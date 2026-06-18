@@ -1,0 +1,31 @@
+
+CURRENT DASHBOARD DRIFT FINDING
+
+Finding Status: CONFIRMED
+
+Current diff inspection shows public/dashboard.html and public/index.html are no longer parity surfaces.
+
+public/dashboard.html appears to retain older Phase474/487 neutralization markers, including removed stylesheet references and HTML-only layout isolation comments.
+
+public/index.html appears to retain the restored/styled dashboard surface, including active stylesheet links and modern inline UI polish blocks.
+
+This conflicts with the Phase91 reconciliation evidence, which previously confirmed:
+
+- public/index.html exactly matched the Phase91 dashboard source
+
+- public/dashboard.html exactly matched the Phase91 dashboard source
+
+- live root exactly matched the Phase91 dashboard source
+
+Conclusion:
+
+The repo has reintroduced dashboard drift after the Phase91 parity point.
+
+Current implication:
+
+Planning Preview UI should not be added until served dashboard authority is repaired.
+
+Recommended next action:
+
+Restore dashboard parity intentionally, most likely by promoting the current restored public/index.html surface into public/dashboard.html, then verify /dashboard remains the served route and run a focused dashboard smoke.
+
