@@ -1,0 +1,69 @@
+DOCKER DASHBOARD SERVING SOURCE REPORT
+
+--- docker containers publishing 8080 ---
+CONTAINER ID   NAMES                                      IMAGE                                    PORTS                                         STATUS
+8d01c2ddf116   motherboard-systems-hq-clean-dashboard-1   motherboard-systems-hq-clean-dashboard   0.0.0.0:8080->3000/tcp, [::]:8080->3000/tcp   Up 2 weeks
+
+--- compose files ---
+-rw-r--r--  1 marcela-dev  staff   197B May 27 14:35 docker-compose.override.yml
+-rw-r--r--  1 marcela-dev  staff   556B May 27 14:35 docker-compose.phase31.7-worker.yml
+-rw-r--r--  1 marcela-dev  staff   317B May 27 14:35 docker-compose.phase45_1.startup_determinism.yml
+-rw-r--r--  1 marcela-dev  staff   163B May 27 14:35 docker-compose.phase46.dashboard_heap.override.yml
+-rw-r--r--  1 marcela-dev  staff   279B May 27 14:35 docker-compose.phase47.enforce.override.yml
+-rw-r--r--  1 marcela-dev  staff   114B May 27 14:35 docker-compose.phase47.postgres_url.override.yml
+-rw-r--r--  1 marcela-dev  staff   400B May 27 14:35 docker-compose.phase54.enforce.override.yml
+-rw-r--r--  1 marcela-dev  staff   228B May 27 14:35 docker-compose.phase54.postgres_bootstrap.override.yml
+-rw-r--r--  1 marcela-dev  staff   363B May 27 14:35 docker-compose.phase54.shadow.override.yml
+-rw-r--r--  1 marcela-dev  staff   279B May 27 14:35 docker-compose.phase57.shadow.env.override.yml
+-rw-r--r--  1 marcela-dev  staff   1.4K May 27 14:35 docker-compose.worker.phase32.yml
+-rw-r--r--  1 marcela-dev  staff   2.8K May 27 14:35 docker-compose.worker.phase34.yml
+-rw-r--r--  1 marcela-dev  staff   2.7K May 27 14:35 docker-compose.workers.yml
+-rw-r--r--  1 marcela-dev  staff   961B May 27 14:35 docker-compose.yml
+-rw-r--r--  1 marcela-dev  staff   692B May 27 14:35 Dockerfile.dashboard
+
+--- compose service hints ---
+docker-compose.override.yml:2:  dashboard:
+docker-compose.override.yml:7:      - "8080:3000"
+docker-compose.phase31.7-worker.yml:3:    image: node:20-bookworm-slim
+docker-compose.phase31.7-worker.yml:6:    volumes:
+docker-compose.phase45_1.startup_determinism.yml:10:  dashboard:
+docker-compose.phase46.dashboard_heap.override.yml:2:  dashboard:
+docker-compose.phase46.dashboard_heap.override.yml:4:      # Fix for sustained /api/runs polling + long-lived dashboard sessions
+docker-compose.phase47.enforce.override.yml:10:  dashboard:
+docker-compose.phase47.postgres_url.override.yml:2:  dashboard:
+docker-compose.phase54.enforce.override.yml:2:  dashboard:
+docker-compose.phase54.postgres_bootstrap.override.yml:3:    volumes:
+docker-compose.phase54.shadow.override.yml:2:  dashboard:
+docker-compose.phase57.shadow.env.override.yml:2:  dashboard:
+docker-compose.worker.phase32.yml:5:    image: mbhq-worker:phase32
+docker-compose.worker.phase32.yml:6:    volumes:
+docker-compose.worker.phase32.yml:23:    image: mbhq-worker:phase32
+docker-compose.worker.phase32.yml:24:    volumes:
+docker-compose.worker.phase34.yml:3:    build:
+docker-compose.worker.phase34.yml:6:    image: motherboard_systems_hq-worker:node20
+docker-compose.worker.phase34.yml:7:    volumes:
+docker-compose.worker.phase34.yml:39:    build:
+docker-compose.worker.phase34.yml:42:    image: motherboard_systems_hq-worker:node20
+docker-compose.worker.phase34.yml:43:    volumes:
+docker-compose.workers.yml:3:    build:
+docker-compose.workers.yml:6:    image: motherboard_systems_hq-worker:node20
+docker-compose.workers.yml:7:    volumes:
+docker-compose.workers.yml:38:    build:
+docker-compose.workers.yml:41:    image: motherboard_systems_hq-worker:node20
+docker-compose.workers.yml:42:    volumes:
+docker-compose.yml:3:    image: postgres:16-alpine
+docker-compose.yml:10:    volumes:
+docker-compose.yml:13:  dashboard:
+docker-compose.yml:16:    build:
+docker-compose.yml:18:      dockerfile: Dockerfile.dashboard
+docker-compose.yml:35:      - "8080:3000"
+docker-compose.yml:37:volumes:
+Dockerfile.dashboard:25:COPY public/ ./public/
+Dockerfile.dashboard:26:CMD ["node", "server.mjs"]
+
+--- local vs live hashes ---
+37d2c8744c7372e7bef372c29712af57b8e7148421c203805b63e0285d97a324  public/dashboard.html
+f108952d5c40036308393384c9116f088bde9dd039f7436591f20d3c2820d738  /tmp/docker-served-dashboard.html
+
+--- live anchor check ---
+437:  <script type="module" src="js/dashboard-bundle-entry.js"></script>

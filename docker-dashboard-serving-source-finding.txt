@@ -1,0 +1,11 @@
+
+DOCKER DASHBOARD SERVING SOURCE FINDING
+
+Finding Status: ACTIVE
+
+localhost:8080 is owned by Docker, and the served dashboard bytes do not match the current repo public/dashboard.html.
+
+Next safe action:
+
+Identify whether the dashboard container needs a rebuild, restart, bind mount correction, or image refresh before any further UI code changes.
+
