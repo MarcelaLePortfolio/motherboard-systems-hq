@@ -28,6 +28,468 @@
 
     <!-- phase474.4 temporary neutralization: inline style block removed for HTML-only layout isolation -->
   <script defer src="js/agent-status-health-indicator.js"></script>
+
+
+  <!-- restored served dashboard inline layout styles -->
+  <style id="matilda-chat-typography-polish">
+    #matilda-chat-transcript p {
+      line-height: 1.4 !important;
+      margin-bottom: 0.5rem !important;
+    }
+    #matilda-chat-transcript .user-message {
+      color: #dbeafe !important;
+    }
+    #matilda-chat-transcript .matilda-message {
+      color: #a7f3d0 !important;
+    }
+  </style>
+
+  <style id="phase487-layout-refinement">
+    html {
+      font-size: 14px;
+    }
+
+    body {
+      overflow-x: hidden;
+    }
+
+    .phase62-top-row {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+      gap: 1rem;
+      align-items: stretch;
+    }
+
+    .phase62-top-col {
+      min-width: 0;
+    }
+
+    #phase61-workspace-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+      gap: 1rem;
+      align-items: stretch;
+    }
+
+    #operator-workspace-card,
+    #observational-workspace-card,
+    #atlas-status-card,
+    #agent-status-container,
+    #metrics-row > div {
+      min-width: 0;
+    }
+
+    #operator-workspace-card,
+    #observational-workspace-card,
+    #atlas-status-card {
+      padding: 1.15rem !important;
+      border-radius: 1rem !important;
+    }
+
+    #agent-status-container {
+      padding: 0.95rem !important;
+      border-radius: 1rem !important;
+      min-height: 100%;
+    }
+
+    #metrics-row {
+      gap: 0.85rem !important;
+      min-height: 100%;
+    }
+
+    #metrics-row > div {
+      padding: 0.95rem !important;
+      border-radius: 1rem !important;
+    }
+
+    #operator-tabs,
+    #observational-tabs {
+      display: flex;
+      gap: 0.55rem;
+      flex-wrap: wrap;
+      margin-bottom: 0.85rem;
+    }
+
+    .obs-tab {
+      border: 1px solid rgba(75, 85, 99, 0.95);
+      background: rgb(55, 65, 81);
+      color: rgb(255, 255, 255);
+      border-radius: 0.75rem;
+      padding: 0.55rem 0.95rem;
+      font-size: 0.85rem;
+      font-weight: 700;
+      line-height: 1;
+      box-shadow: 0 6px 14px rgba(0, 0, 0, 0.18);
+      transition: all 160ms ease;
+    }
+
+    .obs-tab:hover {
+      transform: translateY(-1px);
+      background: rgb(75, 85, 99);
+      box-shadow: 0 10px 18px rgba(0, 0, 0, 0.22);
+    }
+
+    .obs-tab.active {
+      background: rgb(139, 92, 246);
+      border-color: rgb(167, 139, 250);
+      color: white;
+      box-shadow: 0 10px 22px rgba(139, 92, 246, 0.28);
+    }
+
+      background: rgb(13, 148, 136);
+      border-color: rgb(45, 212, 191);
+      box-shadow: 0 10px 22px rgba(13, 148, 136, 0.24);
+    }
+
+    .obs-panel[hidden] {
+      display: none !important;
+    }
+
+    .obs-panel.active:not([hidden]) {
+      display: block;
+    }
+
+    .obs-surface {
+      min-height: 16.5rem;
+    }
+
+    #matilda-chat-transcript {
+      height: 11.5rem;
+      overflow-y: auto;
+    }
+
+    #recentTasks,
+    #recentLogs,
+    #mb-task-events-panel-anchor {
+      min-height: 9.5rem;
+    }
+
+    #task-activity-graph {
+      width: 100% !important;
+      height: 100% !important;
+    }
+
+    #operator-guidance-panel,
+    #delegation-status-panel {
+      min-height: 7.5rem !important;
+    }
+
+    textarea,
+    button,
+    .obs-tab {
+      -webkit-font-smoothing: antialiased;
+    }
+
+    @media (max-width: 1279px) {
+      html {
+        font-size: 13px;
+      }
+
+      .phase62-top-row,
+      #phase61-workspace-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+
+  <style id="phase489-unified-panel-heights">
+  /* Match all right-side panels + delegation to chat pane height */
+  #observational-workspace-card,
+  #delegation-status-panel,
+  #recent-tasks-card,
+  #task-activity-card,
+  #task-events-card {
+    height: 100%;
+    min-height: 0;
+  }
+
+  /* Make telemetry + delegation containers flex correctly */
+  #observational-panels,
+  [data-workspace-root],
+  #phase61-telemetry-column {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    min-height: 0;
+  }
+
+  /* Panels stretch evenly */
+  .obs-panel {
+    flex: 1 1 auto;
+    min-height: 0;
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* Scrollable content areas */
+  #recentTasks,
+  #recentLogs,
+  #mb-task-events-panel-anchor {
+    flex: 1 1 auto;
+    overflow-y: auto;
+    min-height: 0;
+  }
+
+  /* Task Activity graph fills available space */
+  #task-activity-card > div {
+    flex: 1 1 auto;
+    min-height: 0;
+    display: flex;
+  }
+
+  #task-activity-graph {
+    flex: 1 1 auto !important;
+    height: 100% !important;
+  }
+</style>
+
+  <style id="phase490-evidence-based-height-fix">
+  /* Phase 490 — evidence-based fix:
+     telemetry cards showed non-zero bottom margin and flex: 0 1 auto.
+     Normalize workspace surface cards without mutating outer layout. */
+
+  #chat-card,
+  #delegation-card,
+  #recent-tasks-card,
+  #task-activity-card,
+  #task-events-card {
+    margin-bottom: 0 !important;
+    flex: 1 1 auto !important;
+    min-height: 0 !important;
+    box-sizing: border-box !important;
+  }
+
+  #op-panel-chat,
+  #op-panel-delegation,
+  #obs-panel-recent,
+  #obs-panel-activity,
+  #obs-panel-events {
+    min-height: 0 !important;
+  }
+
+  #chat-card,
+  #delegation-card,
+  #recent-tasks-card,
+  #task-activity-card,
+  #task-events-card,
+  #observational-panels > .obs-panel:not([hidden]),
+  #operator-panels > *:not([hidden]) {
+    display: flex !important;
+    flex-direction: column !important;
+  }
+
+  #matilda-chat-transcript,
+  #delegation-status-panel,
+  #mb-task-events-panel-anchor {
+    flex: 1 1 auto !important;
+    min-height: 0 !important;
+    overflow-y: auto !important;
+  }
+
+  #task-activity-card > div,
+  #task-activity-graph {
+    flex: 1 1 auto !important;
+    min-height: 0 !important;
+    height: 100% !important;
+    max-height: 100% !important;
+  }
+</style>
+
+  <style id="phase489-task-activity-scroll">
+  [data-phase61-shell="history"] {
+    min-height: 0 !important;
+  }
+
+  [data-phase61-list="history"] {
+    max-height: 18rem !important;
+    overflow: auto !important;
+    padding-right: 0.15rem;
+  }
+</style>
+
+  <style id="phase489-recent-tasks-scroll">
+  [data-phase61-shell="recent"] {
+    min-height: 0 !important;
+  }
+
+  [data-phase61-list="recent"] {
+    max-height: 18rem !important;
+    overflow: auto !important;
+    padding-right: 0.15rem;
+  }
+</style>
+
+  <style id="phase488-h3a-spacing-only">
+  .phase59-shell {
+    padding: 0.9rem !important;
+  }
+
+  main.phase59-shell {
+    gap: 1rem !important;
+  }
+
+  section {
+    margin-bottom: 0.85rem !important;
+  }
+
+  .bg-gray-800 {
+    padding: 0.95rem !important;
+  }
+
+  .grid {
+    gap: 0.85rem !important;
+  }
+</style>
+
+  <style id="phase488-h1-top-row-balance">
+  /* Constrain Agent Pool + Metrics to true 50/50 split */
+  .phase62-top-row {
+    display: grid !important;
+    grid-template-columns: 1fr 1fr !important;
+    gap: 0.85rem !important;
+    align-items: stretch !important;
+  }
+
+  /* Ensure both sides behave equally */
+  #agent-status-container,
+  #metrics-row {
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+
+  /* Prevent Agent Pool from visually over-expanding */
+  #agent-status-container {
+    display: flex !important;
+    flex-wrap: wrap !important;
+    align-content: flex-start !important;
+  }
+
+  /* Normalize metrics grid height behavior */
+  #metrics-row {
+    align-content: flex-start !important;
+  }
+</style>
+
+  <style id="phase488-h2-tab-polish">
+  #operator-tabs,
+  #observational-tabs {
+    gap: 0.5rem !important;
+  }
+
+  .obs-tab {
+    min-height: 2.5rem !important;
+    padding: 0.6rem 1rem !important;
+    border-radius: 0.85rem !important;
+    border-width: 1px !important;
+    font-size: 0.84rem !important;
+    font-weight: 700 !important;
+    letter-spacing: 0.01em !important;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.16) !important;
+  }
+
+  .obs-tab:hover {
+    box-shadow: 0 10px 18px rgba(0, 0, 0, 0.2) !important;
+  }
+
+  .obs-tab.active {
+    box-shadow: 0 12px 22px rgba(79, 70, 229, 0.24) !important;
+  }
+
+    box-shadow: 0 12px 22px rgba(13, 148, 136, 0.22) !important;
+  }
+</style>
+
+  <style id="phase488-h2-unified-tab-color">
+  .obs-tab.active {
+    box-shadow: 0 12px 22px rgba(13, 148, 136, 0.22) !important;
+  }
+</style>
+
+  <style id="phase488-h4-micro-visual-hierarchy">
+  #operator-workspace-card > div:first-child h2,
+  #observational-workspace-card > div:first-child h2,
+  #atlas-status-card > h2,
+  #agent-status-container > h2 {
+    letter-spacing: 0.01em !important;
+  }
+
+  #operator-workspace-card,
+  #observational-workspace-card,
+  #atlas-status-card,
+  #agent-status-container,
+  #metrics-row > div {
+    box-shadow:
+      0 10px 24px rgba(0, 0, 0, 0.18),
+      inset 0 1px 0 rgba(255, 255, 255, 0.02) !important;
+  }
+
+  #operator-workspace-card > div:first-child,
+  #observational-workspace-card > div:first-child,
+  #atlas-status-card > h2 {
+    border-color: rgba(75, 85, 99, 0.9) !important;
+  }
+
+  #recentTasks,
+  #recentLogs,
+  #mb-task-events-panel-anchor,
+  #matilda-chat-transcript,
+  #operator-guidance-panel,
+  #delegation-status-panel {
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.02) !important;
+  }
+
+  #operator-workspace-card > div:first-child h2,
+  #observational-workspace-card > div:first-child h2,
+  #atlas-status-card > h2 {
+    font-weight: 700 !important;
+  }
+
+/* Phase 549 — Execution Activity visual upgrade */
+#task-events-card {
+  background: linear-gradient(180deg, rgba(2,6,23,0.85) 0%, rgba(2,6,23,0.65) 100%) !important;
+  border: 1px solid rgba(51,65,85,0.9) !important;
+  border-radius: 0.9rem !important;
+  box-shadow: 0 10px 30px rgba(2,6,23,0.45), inset 0 1px 0 rgba(255,255,255,0.03) !important;
+}
+
+#mb-task-events-panel-anchor {
+  background: rgba(2,6,23,0.55) !important;
+  border: 1px solid rgba(51,65,85,0.75) !important;
+  border-radius: 0.75rem !important;
+  backdrop-filter: blur(6px);
+}
+
+
+/* Phase 553 — Execution Activity stronger override */
+section#task-events-card.obs-surface {
+  background: linear-gradient(180deg, rgba(2,6,23,0.95) 0%, rgba(2,6,23,0.75) 100%) !important;
+  border: 1px solid rgba(71,85,105,0.95) !important;
+  border-radius: 1rem !important;
+  box-shadow: 0 14px 40px rgba(2,6,23,0.6), inset 0 1px 0 rgba(255,255,255,0.04) !important;
+}
+
+section#task-events-card.obs-surface > #mb-task-events-panel-anchor {
+  background: rgba(2,6,23,0.7) !important;
+  border: 1px solid rgba(71,85,105,0.8) !important;
+  border-radius: 0.85rem !important;
+  backdrop-filter: blur(8px);
+}
+
+
+/* Phase 555 — High-contrast execution activity override */
+section#task-events-card.obs-surface {
+  background: #020617 !important;
+  border: 2px solid #3b82f6 !important;
+  box-shadow: 0 0 0 1px rgba(59,130,246,0.4), 0 20px 50px rgba(2,6,23,0.8) !important;
+}
+
+section#task-events-card.obs-surface > #mb-task-events-panel-anchor {
+  background: #020617 !important;
+  border: 1px dashed rgba(148,163,184,0.6) !important;
+}
+
+</style>
+
 </head>
 <body class="bg-gray-900 text-gray-100 min-h-screen p-4">
 <header class="phase59-shell flex flex-col gap-4 mb-6 lg:flex-row lg:items-center lg:justify-between">
