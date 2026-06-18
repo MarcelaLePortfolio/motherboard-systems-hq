@@ -22,3 +22,7 @@ import "./phase22_task_delegation_live_bindings.js";
 import "./telemetry/phase65b_metric_bootstrap.js";
 
 import "./planning-preview-card.js";
+
+import "./phase61_tabs_workspace.js";
+
+import "./phase530_visible_panels_bridge.js";

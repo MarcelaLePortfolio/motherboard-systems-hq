@@ -1,0 +1,19 @@
+
+TELEMETRY TABS REPAIR FINDING
+
+Finding Status: APPLIED
+
+The served dashboard structure was restored, but the telemetry panels were all visible because the served dashboard bundle did not load the workspace tab controller.
+
+Repair applied:
+
+- Added phase61_tabs_workspace.js to dashboard-bundle-entry.js.
+
+- Added phase530_visible_panels_bridge.js to preserve the restored visible panel bridge.
+
+- Rebuilt and restarted the Docker dashboard service because public assets are copied into the image.
+
+Expected result:
+
+Only the selected telemetry tab panel should be visible.
+
