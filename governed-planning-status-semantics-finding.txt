@@ -1,0 +1,53 @@
+
+GOVERNED PLANNING STATUS SEMANTICS FINDING
+
+Finding Status: CONFIRMED
+
+Repo-backed answer:
+
+Governed planning task records are currently created through dbDelegateTask, which assigns status = "queued".
+
+This is safe from worker claiming because kind = "governed_planning" is now excluded from active claim SQL paths.
+
+However, the status label remains semantically confusing because dashboard/recent-task surfaces treat queued as a normal pending executable task state.
+
+Evidence:
+
+1. dbDelegateTask assigns:
+
+status = "queued"
+
+2. Governed planning task records use:
+
+kind = "governed_planning"
+
+source = "governed_planning"
+
+mode = "planning_only"
+
+3. Active worker claim SQL paths now exclude:
+
+kind = "governed_planning"
+
+4. Recent task UI status logic recognizes normal lifecycle statuses such as:
+
+queued
+
+running
+
+done
+
+failed
+
+It does not currently recognize a clearer planning-only status such as:
+
+planning_record
+
+Conclusion:
+
+The execution safety boundary is protected, but the user-facing status semantics are still imprecise.
+
+Recommended next action:
+
+Introduce a non-executable governed planning status such as planning_record, while preserving Recent Tasks visibility and ensuring the task event payload remains understandable.
+
