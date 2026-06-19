@@ -1,0 +1,187 @@
+
+PREVIEW BUILDER IMPLEMENTATION SURFACES INSPECTION
+
+Current head at inspection time:
+
+6f8abb53 Document preview builder implementation readiness
+
+8347221e Refine governance evidence relationship wording
+
+702910f5 Document interpretation intent authorization lifecycle
+
+7a38e9be Document interpretation first approval finding
+
+c06a9fe7 Document preview builder translation layer finding
+
+d58fa27a Document preview builder risk rollback source finding
+
+bfb8138d Document preview confirmation versus governed artifact ontology
+
+5ee8a679 Humanize planning preview modal
+
+Governed planning / pipeline surfaces found:
+
+- server/execution/governed-planning-pipeline.mjs
+
+  - imports buildExecutionEnvelopeDraft
+
+  - imports buildApprovalArtifact
+
+  - imports evaluateExecutionApproval
+
+  - imports planCadeEngineeringExecution
+
+  - exports runGovernedPlanningPipeline
+
+- server/routes/governed-planning-route.mjs
+
+  - imports runGovernedPlanningPipeline
+
+  - imports buildGovernedPlanningArtifactBundle
+
+  - calls runGovernedPlanningPipeline
+
+  - builds and returns governed planning artifact bundle
+
+- server/execution/build-governed-planning-artifact-bundle.mjs
+
+  - exports buildGovernedPlanningArtifactBundle
+
+- server/execution/build-execution-envelope-draft.mjs
+
+  - exports buildExecutionEnvelopeDraft
+
+- server/execution/build-approval-artifact.mjs
+
+  - exports buildApprovalArtifact
+
+- server/execution/execution-approval-gate.mjs
+
+  - exports evaluateExecutionApproval
+
+- server/execution/cade-engineer-adapter.mjs
+
+  - exports planCadeEngineeringExecution
+
+Current preview / approval UI surfaces found:
+
+- public/js/dashboard-bundle-entry.js imports planning-preview-card.js
+
+- public/js/planning-preview-card.js currently owns:
+
+  - planning preview card
+
+  - governed planning route fetch
+
+  - planning preview modal
+
+  - modal open/close behavior
+
+  - current humanized governance artifact display
+
+Existing modal surfaces also exist in:
+
+- public/dashboard.html Phase493 reasoning modal
+
+- public/js/phase530_visible_panels_bridge.js Phase717 inspection/retry modals
+
+- public/js/phase530_visible_panels_bridge.js Phase719 artifact preview modal
+
+Authority / phase transition surfaces found:
+
+- server/contracts/execution-envelope.v1.mjs
+
+  - validator authority
+
+  - governance authority
+
+  - delegation authorization
+
+  - execution authority fields
+
+- server/execution/build-execution-envelope-draft.mjs
+
+  - execution_authorization false
+
+  - routing_authorization false
+
+  - mutation_authorization false
+
+  - shell_authorization false
+
+  - autonomous_authorization false
+
+  - planning_only_authority_preserved trace
+
+  - runtime_execution_authority_explicitly_absent trace
+
+- server/execution/execution-phase-state-machine.mjs
+
+  - approval_gated
+
+  - planning_completed
+
+  - mutation_authorized
+
+  - execution phase capabilities
+
+- server/execution/execution-approval-gate.mjs
+
+  - mutation authority remains disabled
+
+  - shell authority remains disabled
+
+  - autonomous authority remains disabled
+
+  - execution_phase governed_planning_only
+
+Implementation-readiness interpretation:
+
+The likely lowest-risk first implementation surface is not the execution phase machine.
+
+The likely lowest-risk first implementation surface is a read-only Preview Builder output derived from the existing governed planning artifact bundle and rendered through planning-preview-card.js.
+
+The pipeline and bundle already provide the source material.
+
+The dashboard already has a contained preview card/modal surface.
+
+Execution authorization, phase transitions, mutation authority, shell authority, and autonomous authority should remain untouched unless a later execution corridor explicitly opens them.
+
+Candidate future implementation path:
+
+1. Add a read-only Preview Builder function or module that consumes the governed planning artifact bundle.
+
+2. Produce a human-reviewable object with separate sections:
+
+   - meaning representation
+
+   - future-state representation
+
+   - execution evidence summary
+
+   - governance evidence summary
+
+3. Render that object in the existing planning preview UI as a staged review experience.
+
+4. Preserve all execution authority as false / absent.
+
+5. Do not connect approval buttons to mutation, shell execution, autonomous execution, or runtime execution.
+
+Scope boundary:
+
+This finding does not authorize:
+
+- implementation
+
+- UI work
+
+- approval system construction
+
+- Preview Builder construction
+
+- mutation
+
+- shell execution
+
+- autonomous execution
+

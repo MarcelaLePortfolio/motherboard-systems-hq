@@ -1,0 +1,39 @@
+
+PREVIEW BUILDER IMPLEMENTATION SURFACE ASSESSMENT
+
+Finding Status: CONFIRMED
+
+The repo already contains the likely attachment path for a first read-only Preview Builder:
+
+governed-planning-pipeline
+
+→ governed planning artifact bundle
+
+→ planning-preview-card.js
+
+The safest first implementation surface, when authorized, is a read-only translation layer that derives Meaning Review and Future-State Review content from the existing governed planning artifact bundle.
+
+The unsafe surfaces to avoid for the first implementation slice are:
+
+- execution phase state machine mutation
+
+- approval gate authority expansion
+
+- mutation authorization
+
+- shell authorization
+
+- autonomous authorization
+
+- task-runtime coupling
+
+Architectural interpretation:
+
+Preview Builder implementation should begin as read-only representation, not as authority transition.
+
+The first useful implementation target is a human-reviewable representation object, not an approval gate.
+
+Scope boundary:
+
+This assessment does not authorize implementation.
+
