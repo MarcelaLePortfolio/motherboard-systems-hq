@@ -9,6 +9,8 @@
 
   const ENDPOINT = "/api/governed-planning/dry-run";
 
+  let latestBundle = null;
+
   function escapeHtml(value) {
 
     return String(value ?? "")
@@ -31,6 +33,26 @@
 
   }
 
+  function statusPill(label, ok) {
+
+    return `
+
+      <div class="flex items-center justify-between rounded-lg border border-gray-800 bg-gray-950/50 px-3 py-2">
+
+        <span class="text-xs text-gray-300">${escapeHtml(label)}</span>
+
+        <span class="text-[10px] uppercase tracking-[0.16em] ${ok ? "text-green-300" : "text-gray-500"}">
+
+          ${ok ? "ok" : "false"}
+
+        </span>
+
+      </div>
+
+    `;
+
+  }
+
   function renderTrace(trace = []) {
 
     if (!Array.isArray(trace) || trace.length === 0) {
@@ -39,13 +61,17 @@
 
     }
 
-    return trace.map((entry) => `
+    return trace.map((entry, index) => `
 
       <div class="flex items-center justify-between gap-3 rounded-lg border border-gray-800 bg-gray-950/50 px-3 py-2">
 
-        <span class="text-xs text-gray-300">${escapeHtml(entry.event || "unknown_event")}</span>
+        <span class="text-xs text-gray-300">${index + 1}. ${escapeHtml(entry.event || "unknown_event")}</span>
 
-        <span class="text-[10px] uppercase tracking-[0.16em] ${entry.ok === true ? "text-green-300" : "text-red-300"}">${entry.ok === true ? "ok" : "blocked"}</span>
+        <span class="text-[10px] uppercase tracking-[0.16em] ${entry.ok === true ? "text-green-300" : "text-red-300"}">
+
+          ${entry.ok === true ? "ok" : "blocked"}
+
+        </span>
 
       </div>
 
@@ -53,23 +79,25 @@
 
   }
 
-  function renderBundle(bundle) {
+  function renderSummary(bundle) {
 
     if (!bundle) {
 
-      return '<div class="rounded-xl border border-yellow-700/60 bg-yellow-950/20 p-3 text-sm text-yellow-200">No governed planning bundle was returned.</div>';
+      return `
+
+        <div class="rounded-xl border border-yellow-700/60 bg-yellow-950/20 p-3 text-sm text-yellow-200">
+
+          No governed planning bundle was returned.
+
+        </div>
+
+      `;
 
     }
 
-    const authority = bundle.execution_authority || {};
-
     const response = bundle.response || {};
 
-    const reconciliation = bundle.reconciliation || {};
-
-    const auditLedger = bundle.audit_ledger || {};
-
-    const immutable = auditLedger.immutable_constraints || {};
+    const authority = bundle.execution_authority || {};
 
     return `
 
@@ -83,65 +111,149 @@
 
               <div class="text-xs uppercase tracking-[0.2em] text-purple-300">Governed Planning Artifact</div>
 
+              <div class="mt-1 text-sm text-gray-200">${escapeHtml(bundle.phase || "planning")}</div>
+
+            </div>
+
+            <span class="rounded-full border border-gray-700 bg-gray-950 px-3 py-1 text-[10px] uppercase tracking-[0.16em] text-gray-300">
+
+              read-only
+
+            </span>
+
+          </div>
+
+        </div>
+
+        <div class="grid gap-2">
+
+          ${statusPill("Governance validated", response.governance?.ok === true)}
+
+          ${statusPill("Planning completed", bundle.phase === "planning_completed")}
+
+          ${statusPill("Approval gate passed", response.approval_gate?.ok === true)}
+
+          ${statusPill("Mutation authority", authority.mutation_performed === true)}
+
+          ${statusPill("Shell authority", authority.shell_execution_performed === true)}
+
+          ${statusPill("Autonomous authority", authority.autonomous_execution_performed === true)}
+
+        </div>
+
+        <button
+
+          id="planning-preview-open-modal"
+
+          type="button"
+
+          class="w-full rounded-xl border border-purple-700/60 bg-purple-900/30 px-4 py-2 text-sm font-semibold text-purple-100 hover:bg-purple-800/40 focus:outline-none focus:ring-2 focus:ring-purple-500"
+
+        >
+
+          Open Planning Preview
+
+        </button>
+
+      </div>
+
+    `;
+
+  }
+
+  function renderModalBody(bundle) {
+
+    if (!bundle) {
+
+      return '<div class="text-sm text-yellow-200">No governed planning bundle loaded.</div>';
+
+    }
+
+    const response = bundle.response || {};
+
+    const reconciliation = bundle.reconciliation || {};
+
+    const auditLedger = bundle.audit_ledger || {};
+
+    const authority = bundle.execution_authority || {};
+
+    const immutable = auditLedger.immutable_constraints || {};
+
+    return `
+
+      <div class="space-y-4">
+
+        <section class="rounded-xl border border-gray-800 bg-gray-950/50 p-4">
+
+          <h4 class="text-xs uppercase tracking-[0.2em] text-gray-400">Artifact Identity</h4>
+
+          <div class="mt-3 grid gap-3 md:grid-cols-3">
+
+            <div>
+
+              <div class="text-[10px] uppercase tracking-[0.16em] text-gray-500">Schema</div>
+
               <div class="mt-1 text-sm text-gray-200">${escapeHtml(bundle.bundle_schema)}</div>
 
             </div>
 
-            <span class="rounded-full border border-gray-700 bg-gray-950 px-3 py-1 text-[10px] uppercase tracking-[0.16em] text-gray-300">read-only</span>
+            <div>
+
+              <div class="text-[10px] uppercase tracking-[0.16em] text-gray-500">Phase</div>
+
+              <div class="mt-1 text-sm text-gray-200">${escapeHtml(bundle.phase)}</div>
+
+            </div>
+
+            <div>
+
+              <div class="text-[10px] uppercase tracking-[0.16em] text-gray-500">Envelope</div>
+
+              <div class="mt-1 text-sm text-gray-200">${escapeHtml(bundle.envelope_version)}</div>
+
+            </div>
 
           </div>
 
-        </div>
+        </section>
 
-        <div class="grid gap-2 md:grid-cols-3">
+        <section class="rounded-xl border border-gray-800 bg-gray-950/50 p-4">
 
-          <div class="rounded-lg border border-gray-800 bg-gray-950/50 p-3">
+          <h4 class="text-xs uppercase tracking-[0.2em] text-gray-400">Governance State</h4>
 
-            <div class="text-[10px] uppercase tracking-[0.16em] text-gray-500">Phase</div>
+          <div class="mt-3 grid gap-2 md:grid-cols-3">
 
-            <div class="mt-1 text-sm text-gray-200">${escapeHtml(bundle.phase)}</div>
+            ${statusPill("Governance", response.governance?.ok === true)}
 
-          </div>
+            ${statusPill("Approval Gate", response.approval_gate?.ok === true)}
 
-          <div class="rounded-lg border border-gray-800 bg-gray-950/50 p-3">
-
-            <div class="text-[10px] uppercase tracking-[0.16em] text-gray-500">Envelope</div>
-
-            <div class="mt-1 text-sm text-gray-200">${escapeHtml(bundle.envelope_version)}</div>
+            ${statusPill("Cade Planning", response.cade_planning?.ok === true)}
 
           </div>
 
-          <div class="rounded-lg border border-gray-800 bg-gray-950/50 p-3">
+        </section>
 
-            <div class="text-[10px] uppercase tracking-[0.16em] text-gray-500">Approval Gate</div>
+        <section class="rounded-xl border border-gray-800 bg-gray-950/50 p-4">
 
-            <div class="mt-1 text-sm text-gray-200">${response.approval_gate?.ok === true ? "ok" : "not ok"}</div>
+          <h4 class="text-xs uppercase tracking-[0.2em] text-gray-400">Execution Authority</h4>
 
-          </div>
+          <div class="mt-3 grid gap-2 md:grid-cols-3">
 
-        </div>
+            <div class="text-xs text-gray-300">Mutation: <span class="text-green-300">${boolLabel(authority.mutation_performed)}</span></div>
 
-        <div class="rounded-xl border border-gray-800 bg-gray-950/50 p-3">
+            <div class="text-xs text-gray-300">Shell: <span class="text-green-300">${boolLabel(authority.shell_execution_performed)}</span></div>
 
-          <div class="mb-2 text-xs uppercase tracking-[0.2em] text-gray-400">Execution Authority</div>
-
-          <div class="grid gap-2 md:grid-cols-3">
-
-            <div class="text-xs text-gray-300">Mutation performed: <span class="text-green-300">${boolLabel(authority.mutation_performed)}</span></div>
-
-            <div class="text-xs text-gray-300">Shell execution: <span class="text-green-300">${boolLabel(authority.shell_execution_performed)}</span></div>
-
-            <div class="text-xs text-gray-300">Autonomous execution: <span class="text-green-300">${boolLabel(authority.autonomous_execution_performed)}</span></div>
+            <div class="text-xs text-gray-300">Autonomous: <span class="text-green-300">${boolLabel(authority.autonomous_execution_performed)}</span></div>
 
           </div>
 
-        </div>
+        </section>
 
-        <div class="rounded-xl border border-gray-800 bg-gray-950/50 p-3">
+        <section class="rounded-xl border border-gray-800 bg-gray-950/50 p-4">
 
-          <div class="mb-2 text-xs uppercase tracking-[0.2em] text-gray-400">Immutable Constraints</div>
+          <h4 class="text-xs uppercase tracking-[0.2em] text-gray-400">Immutable Constraints</h4>
 
-          <div class="grid gap-2 md:grid-cols-2">
+          <div class="mt-3 grid gap-2 md:grid-cols-2">
 
             <div class="text-xs text-gray-300">Append only: ${boolLabel(immutable.append_only)}</div>
 
@@ -153,27 +265,129 @@
 
           </div>
 
-        </div>
+        </section>
 
-        <div class="rounded-xl border border-gray-800 bg-gray-950/50 p-3">
+        <section class="rounded-xl border border-gray-800 bg-gray-950/50 p-4">
 
-          <div class="mb-2 text-xs uppercase tracking-[0.2em] text-gray-400">Trace</div>
+          <h4 class="text-xs uppercase tracking-[0.2em] text-gray-400">Trace</h4>
 
-          <div class="space-y-2">${renderTrace(reconciliation.trace || response.trace || [])}</div>
+          <div class="mt-3 space-y-2">${renderTrace(reconciliation.trace || response.trace || [])}</div>
 
-        </div>
+        </section>
 
-        <div class="rounded-xl border border-gray-800 bg-gray-950/50 p-3">
+        <section class="rounded-xl border border-gray-800 bg-gray-950/50 p-4">
 
-          <div class="mb-1 text-xs uppercase tracking-[0.2em] text-gray-400">Reconciliation Entries</div>
+          <h4 class="text-xs uppercase tracking-[0.2em] text-gray-400">Reconciliation</h4>
 
-          <div class="text-sm text-gray-300">${Array.isArray(reconciliation.reconciliation_entries) ? reconciliation.reconciliation_entries.length : 0}</div>
+          <div class="mt-3 text-sm text-gray-300">
 
-        </div>
+            Entries: ${Array.isArray(reconciliation.reconciliation_entries) ? reconciliation.reconciliation_entries.length : 0}
+
+          </div>
+
+        </section>
+
+        <section class="rounded-xl border border-gray-800 bg-gray-950/50 p-4">
+
+          <h4 class="text-xs uppercase tracking-[0.2em] text-gray-400">Raw Bundle</h4>
+
+          <pre class="mt-3 max-h-72 overflow-auto rounded-lg bg-black/40 p-3 text-xs text-gray-300">${escapeHtml(JSON.stringify(bundle, null, 2))}</pre>
+
+        </section>
 
       </div>
 
     `;
+
+  }
+
+  function ensureModal() {
+
+    let modal = document.getElementById("planning-preview-modal");
+
+    if (modal) return modal;
+
+    modal = document.createElement("div");
+
+    modal.id = "planning-preview-modal";
+
+    modal.hidden = true;
+
+    modal.className = "fixed inset-0 z-50 flex items-center justify-center bg-black/70 p-4";
+
+    modal.innerHTML = `
+
+      <div class="max-h-[88vh] w-full max-w-5xl overflow-hidden rounded-2xl border border-gray-700 bg-gray-900 shadow-2xl">
+
+        <div class="flex items-center justify-between border-b border-gray-700 p-4">
+
+          <div>
+
+            <h3 class="text-lg font-semibold text-gray-100">Governed Planning Artifact</h3>
+
+            <p class="mt-1 text-xs text-gray-400">Read-only preview. No approval or execution authority is granted here.</p>
+
+          </div>
+
+          <button
+
+            id="planning-preview-close-modal"
+
+            type="button"
+
+            class="rounded-lg border border-gray-700 bg-gray-950 px-3 py-2 text-sm text-gray-200 hover:bg-gray-800"
+
+          >
+
+            Close
+
+          </button>
+
+        </div>
+
+        <div id="planning-preview-modal-body" class="max-h-[72vh] overflow-auto p-4"></div>
+
+      </div>
+
+    `;
+
+    document.body.appendChild(modal);
+
+    modal.addEventListener("click", (event) => {
+
+      if (event.target === modal) closeModal();
+
+    });
+
+    modal.querySelector("#planning-preview-close-modal")?.addEventListener("click", closeModal);
+
+    document.addEventListener("keydown", (event) => {
+
+      if (event.key === "Escape" && !modal.hidden) closeModal();
+
+    });
+
+    return modal;
+
+  }
+
+  function openModal() {
+
+    const modal = ensureModal();
+
+    const body = document.getElementById("planning-preview-modal-body");
+
+    if (body) body.innerHTML = renderModalBody(latestBundle);
+
+    modal.hidden = false;
+
+  }
+
+  function closeModal() {
+
+    const modal = document.getElementById("planning-preview-modal");
+
+    if (modal) modal.hidden = true;
 
   }
 
@@ -245,7 +459,11 @@
 
       const payload = await response.json();
 
-      content.innerHTML = renderBundle(payload.bundle);
+      latestBundle = payload.bundle || null;
+
+      content.innerHTML = renderSummary(latestBundle);
+
+      document.getElementById("planning-preview-open-modal")?.addEventListener("click", openModal);
 
     } catch (err) {
 

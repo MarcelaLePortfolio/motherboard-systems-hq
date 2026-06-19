@@ -1,0 +1,29 @@
+
+PLANNING PREVIEW MODAL RENDER FINDING
+
+Finding Status: APPLIED
+
+The Planning Preview dashboard card has been reduced to a compact governed planning artifact summary.
+
+A new read-only modal now displays the detailed governed planning artifact.
+
+Preserved boundaries:
+
+- No approval implementation
+
+- No preview-confirmation implementation
+
+- No mutation
+
+- No shell execution
+
+- No autonomous execution
+
+- No task-record coupling
+
+UI meaning:
+
+The dashboard card is now a notification/status surface.
+
+The modal is now the detailed artifact inspection surface.
+
