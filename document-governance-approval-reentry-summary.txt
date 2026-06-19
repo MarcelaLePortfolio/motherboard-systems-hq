@@ -1,0 +1,87 @@
+
+GOVERNANCE APPROVAL REENTRY SUMMARY
+
+Finding Status: CONFIRMED FROM REPO EVIDENCE
+
+The repository does not support creating a new lifecycle from scratch.
+
+Existing stabilized lifecycle:
+
+Intent
+
+-> Envelope Draft
+
+-> Governance Validation
+
+-> Approval Gate
+
+-> Cade Planning
+
+-> Governed Planning Artifact Bundle
+
+Current authority state:
+
+- Planning authority exists.
+
+- Execution authority is explicitly blocked.
+
+- Mutation authority is explicitly blocked.
+
+- Shell execution authority is explicitly blocked.
+
+- Autonomous execution authority is explicitly blocked.
+
+Key repo evidence:
+
+- docs/contracts/PREVIEW_APPROVAL_RECONCILIATION_FINDING.md
+
+- planning-vs-execution-authority-repo-finding.txt
+
+- governance-validation-repo-answer.txt
+
+- reviewable-planning-artifact-ui-finding.txt
+
+- governed-planning-preview-fit-finding.txt
+
+- docs/contracts/GOVERNED_PLANNING_ARTIFACT_BUNDLE.md
+
+- server/execution/build-approval-artifact.mjs
+
+- server/execution/execution-approval-gate.mjs
+
+Corrected interpretation:
+
+The unresolved UI/governance gap is not generic approval.
+
+The gap is explicit preview-confirmation.
+
+Specifically, current contracts do not yet require:
+
+- user-visible preview of interpreted intent before approval
+
+- preview artifact reference
+
+- user confirmation that the previewed interpretation matches intent
+
+- distinction between generic planning-only approval artifact and preview-confirmed execution approval artifact
+
+Stable conclusion:
+
+1. Delegation envelope construction is not sufficient user approval.
+
+2. Governance validation is not sufficient user approval.
+
+3. The governed planning artifact bundle is planning-only and non-executing.
+
+4. The planning bundle must never be treated as execution approval or runtime authorization.
+
+5. A future narrow patch should add a user-visible preview-confirmation boundary.
+
+6. Preview-confirmed execution approval remains a future execution corridor.
+
+7. UI implementation remains separate from this ontology finding unless explicitly authorized.
+
+Current next safe action:
+
+Design the smallest standalone governed planning preview bridge that displays the governed planning artifact bundle as a read-only review surface without representing it as a task.
+
