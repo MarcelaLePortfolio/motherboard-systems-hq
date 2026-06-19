@@ -1,0 +1,127 @@
+
+PREVIEW ARTIFACT LIFECYCLE STATUS FINDING
+
+Finding Status: DISCOVERY
+
+Question:
+
+Is the Preview Artifact a presentation artifact or a governance lifecycle artifact?
+
+Context:
+
+Preview Builder placement has been reconciled as a distinct read-only translation stage:
+
+Governed Planning Pipeline
+
+→ Governed Planning Artifact Bundle
+
+→ Preview Builder
+
+→ Preview Artifact
+
+→ Future-State Review UI
+
+→ Later Approval / Authorization Corridors
+
+Open distinction:
+
+Option A:
+
+Preview Artifact as Presentation Artifact
+
+Meaning:
+
+The Preview Artifact is mainly data prepared for dashboard rendering.
+
+Risk:
+
+- couples review semantics to UI structure
+
+- makes renderer changes capable of changing governance meaning
+
+- weakens the distinction between lifecycle and presentation
+
+- risks reducing Preview Builder to UI formatting logic
+
+Option B:
+
+Preview Artifact as Governance Lifecycle Artifact
+
+Meaning:
+
+The Preview Artifact is a durable lifecycle object produced by the Preview Builder.
+
+It represents the human-reviewable meaning and future-state review object.
+
+Strength:
+
+- preserves review semantics independently of UI rendering
+
+- supports multiple renderers later
+
+- keeps governance meaning outside dashboard-specific code
+
+- aligns with Interpretation → Intent → Authorization lifecycle
+
+- allows the UI to render the artifact without defining the artifact
+
+Recommended Direction:
+
+Option B is the cleaner architectural fit.
+
+The Preview Artifact should be treated as a governance lifecycle artifact.
+
+It should be renderer-independent.
+
+It should be read-only.
+
+It should not authorize execution.
+
+It should be the object consumed by Future-State Review UI.
+
+The UI should render the Preview Artifact.
+
+The UI should not define the Preview Artifact.
+
+Architecture:
+
+Governed Planning Artifact Bundle
+
+→ Preview Builder
+
+→ Preview Artifact
+
+→ Future-State Review UI
+
+Preview Artifact Purpose:
+
+- represent interpreted meaning
+
+- represent proposed future state
+
+- expose execution evidence summary
+
+- expose governance evidence summary
+
+- preserve no-execution authority state
+
+- support future approval corridors without granting authority itself
+
+Scope Boundary:
+
+This finding does not authorize:
+
+- implementation
+
+- UI work
+
+- approval system construction
+
+- Preview Builder construction
+
+- mutation
+
+- shell execution
+
+- autonomous execution
+
