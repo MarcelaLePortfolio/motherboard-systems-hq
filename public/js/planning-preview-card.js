@@ -184,39 +184,57 @@
 
     const immutable = auditLedger.immutable_constraints || {};
 
+    const trace = reconciliation.trace || response.trace || [];
+
+    const entries = Array.isArray(reconciliation.reconciliation_entries)
+
+      ? reconciliation.reconciliation_entries
+
+      : [];
+
+    const governanceOk = response.governance?.ok === true;
+
+    const approvalGateOk = response.approval_gate?.ok === true;
+
+    const cadePlanningOk = response.cade_planning?.ok === true;
+
     return `
 
       <div class="space-y-4">
 
+        <section class="rounded-xl border border-purple-700/50 bg-purple-950/20 p-4">
+
+          <h4 class="text-sm font-semibold text-purple-200">What this is</h4>
+
+          <p class="mt-2 text-sm leading-6 text-gray-200">
+
+            This is a read-only planning preview. It shows that Motherboard created a governed planning artifact,
+
+            checked it through the current governance path, and kept it in planning-only mode.
+
+          </p>
+
+          <p class="mt-2 text-sm leading-6 text-gray-300">
+
+            It does not approve execution. It does not run Cade. It does not modify files.
+
+          </p>
+
+        </section>
+
         <section class="rounded-xl border border-gray-800 bg-gray-950/50 p-4">
 
-          <h4 class="text-xs uppercase tracking-[0.2em] text-gray-400">Artifact Identity</h4>
+          <h4 class="text-sm font-semibold text-gray-100">Plain-language status</h4>
 
-          <div class="mt-3 grid gap-3 md:grid-cols-3">
+          <div class="mt-3 space-y-2">
 
-            <div>
+            ${statusPill("Governance checks passed", governanceOk)}
 
-              <div class="text-[10px] uppercase tracking-[0.16em] text-gray-500">Schema</div>
+            ${statusPill("Planning artifact created", bundle.phase === "planning_completed")}
 
-              <div class="mt-1 text-sm text-gray-200">${escapeHtml(bundle.bundle_schema)}</div>
+            ${statusPill("Approval gate evaluated", approvalGateOk)}
 
-            </div>
-
-            <div>
-
-              <div class="text-[10px] uppercase tracking-[0.16em] text-gray-500">Phase</div>
-
-              <div class="mt-1 text-sm text-gray-200">${escapeHtml(bundle.phase)}</div>
-
-            </div>
-
-            <div>
-
-              <div class="text-[10px] uppercase tracking-[0.16em] text-gray-500">Envelope</div>
-
-              <div class="mt-1 text-sm text-gray-200">${escapeHtml(bundle.envelope_version)}</div>
-
-            </div>
+            ${statusPill("Cade planning completed", cadePlanningOk)}
 
           </div>
 
@@ -224,31 +242,27 @@
 
         <section class="rounded-xl border border-gray-800 bg-gray-950/50 p-4">
 
-          <h4 class="text-xs uppercase tracking-[0.2em] text-gray-400">Governance State</h4>
+          <h4 class="text-sm font-semibold text-gray-100">What is allowed right now</h4>
 
           <div class="mt-3 grid gap-2 md:grid-cols-3">
 
-            ${statusPill("Governance", response.governance?.ok === true)}
+            <div class="rounded-lg border border-gray-800 bg-black/30 p-3 text-sm text-gray-200">
 
-            ${statusPill("Approval Gate", response.approval_gate?.ok === true)}
+              File changes<br><span class="text-green-300">Not authorized</span>
 
-            ${statusPill("Cade Planning", response.cade_planning?.ok === true)}
+            </div>
 
-          </div>
+            <div class="rounded-lg border border-gray-800 bg-black/30 p-3 text-sm text-gray-200">
 
-        </section>
+              Shell commands<br><span class="text-green-300">Not authorized</span>
 
-        <section class="rounded-xl border border-gray-800 bg-gray-950/50 p-4">
+            </div>
 
-          <h4 class="text-xs uppercase tracking-[0.2em] text-gray-400">Execution Authority</h4>
+            <div class="rounded-lg border border-gray-800 bg-black/30 p-3 text-sm text-gray-200">
 
-          <div class="mt-3 grid gap-2 md:grid-cols-3">
+              Autonomous execution<br><span class="text-green-300">Not authorized</span>
 
-            <div class="text-xs text-gray-300">Mutation: <span class="text-green-300">${boolLabel(authority.mutation_performed)}</span></div>
-
-            <div class="text-xs text-gray-300">Shell: <span class="text-green-300">${boolLabel(authority.shell_execution_performed)}</span></div>
-
-            <div class="text-xs text-gray-300">Autonomous: <span class="text-green-300">${boolLabel(authority.autonomous_execution_performed)}</span></div>
+            </div>
 
           </div>
 
@@ -256,55 +270,94 @@
 
         <section class="rounded-xl border border-gray-800 bg-gray-950/50 p-4">
 
-          <h4 class="text-xs uppercase tracking-[0.2em] text-gray-400">Immutable Constraints</h4>
+          <h4 class="text-sm font-semibold text-gray-100">What happened</h4>
 
-          <div class="mt-3 grid gap-2 md:grid-cols-2">
+          <div class="mt-3 space-y-2">${renderTrace(trace)}</div>
 
-            <div class="text-xs text-gray-300">Append only: ${boolLabel(immutable.append_only)}</div>
+        </section>
 
-            <div class="text-xs text-gray-300">Mutation authority granted: ${boolLabel(immutable.mutation_authority_granted)}</div>
+        <section class="rounded-xl border border-gray-800 bg-gray-950/50 p-4">
 
-            <div class="text-xs text-gray-300">Shell authority granted: ${boolLabel(immutable.shell_authority_granted)}</div>
+          <h4 class="text-sm font-semibold text-gray-100">What would be reviewed next</h4>
 
-            <div class="text-xs text-gray-300">Autonomous authority granted: ${boolLabel(immutable.autonomous_authority_granted)}</div>
+          <p class="mt-2 text-sm leading-6 text-gray-300">
+
+            The next governance step is not execution. The next step is a clearer preview-confirmation surface:
+
+            a human-readable view of the interpreted request, proposed work, risks, rollback, and reconciliation details.
+
+          </p>
+
+          <p class="mt-2 text-sm leading-6 text-gray-400">
+
+            Current reconciliation entries: ${entries.length}
+
+          </p>
+
+        </section>
+
+        <details class="rounded-xl border border-gray-800 bg-gray-950/50 p-4">
+
+          <summary class="cursor-pointer text-sm font-semibold text-gray-200">
+
+            Developer details
+
+          </summary>
+
+          <div class="mt-4 space-y-4">
+
+            <section>
+
+              <h5 class="text-xs uppercase tracking-[0.2em] text-gray-500">Artifact identity</h5>
+
+              <div class="mt-2 grid gap-2 md:grid-cols-3">
+
+                <div class="text-xs text-gray-300">Schema: ${escapeHtml(bundle.bundle_schema)}</div>
+
+                <div class="text-xs text-gray-300">Phase: ${escapeHtml(bundle.phase)}</div>
+
+                <div class="text-xs text-gray-300">Envelope: ${escapeHtml(bundle.envelope_version)}</div>
+
+              </div>
+
+            </section>
+
+            <section>
+
+              <h5 class="text-xs uppercase tracking-[0.2em] text-gray-500">Immutable constraints</h5>
+
+              <div class="mt-2 grid gap-2 md:grid-cols-2">
+
+                <div class="text-xs text-gray-300">Append only: ${boolLabel(immutable.append_only)}</div>
+
+                <div class="text-xs text-gray-300">Mutation authority granted: ${boolLabel(immutable.mutation_authority_granted)}</div>
+
+                <div class="text-xs text-gray-300">Shell authority granted: ${boolLabel(immutable.shell_authority_granted)}</div>
+
+                <div class="text-xs text-gray-300">Autonomous authority granted: ${boolLabel(immutable.autonomous_authority_granted)}</div>
+
+              </div>
+
+            </section>
+
+            <section>
+
+              <h5 class="text-xs uppercase tracking-[0.2em] text-gray-500">Raw bundle</h5>
+
+              <pre class="mt-2 max-h-72 overflow-auto rounded-lg bg-black/40 p-3 text-xs text-gray-300">${escapeHtml(JSON.stringify(bundle, null, 2))}</pre>
+
+            </section>
 
           </div>
 
-        </section>
-
-        <section class="rounded-xl border border-gray-800 bg-gray-950/50 p-4">
-
-          <h4 class="text-xs uppercase tracking-[0.2em] text-gray-400">Trace</h4>
-
-          <div class="mt-3 space-y-2">${renderTrace(reconciliation.trace || response.trace || [])}</div>
-
-        </section>
-
-        <section class="rounded-xl border border-gray-800 bg-gray-950/50 p-4">
-
-          <h4 class="text-xs uppercase tracking-[0.2em] text-gray-400">Reconciliation</h4>
-
-          <div class="mt-3 text-sm text-gray-300">
-
-            Entries: ${Array.isArray(reconciliation.reconciliation_entries) ? reconciliation.reconciliation_entries.length : 0}
-
-          </div>
-
-        </section>
-
-        <section class="rounded-xl border border-gray-800 bg-gray-950/50 p-4">
-
-          <h4 class="text-xs uppercase tracking-[0.2em] text-gray-400">Raw Bundle</h4>
-
-          <pre class="mt-3 max-h-72 overflow-auto rounded-lg bg-black/40 p-3 text-xs text-gray-300">${escapeHtml(JSON.stringify(bundle, null, 2))}</pre>
-
-        </section>
+        </details>
 
       </div>
 
     `;
 
   }
+
 
   function ensureModal() {
 
@@ -364,7 +417,13 @@
 
     });
 
-    modal.querySelector("#planning-preview-close-modal")?.addEventListener("click", closeModal);
+    modal.querySelector("#planning-preview-close-modal")?.addEventListener("click", (event) => {
+
+      event.preventDefault();
+
+      closeModal();
+
+    });
 
     document.addEventListener("keydown", (event) => {
 
@@ -386,13 +445,19 @@
 
     modal.hidden = false;
 
+    modal.style.display = "flex";
+
   }
 
   function closeModal() {
 
     const modal = document.getElementById("planning-preview-modal");
 
-    if (modal) modal.hidden = true;
+    if (!modal) return;
+
+    modal.hidden = true;
+
+    modal.style.display = "none";
 
   }
 

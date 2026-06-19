@@ -1,0 +1,35 @@
+
+PLANNING PREVIEW MODAL HUMAN REVIEW FINDING
+
+Finding Status: APPLIED
+
+Observed issues:
+
+- The modal was too developer-facing for a human review surface.
+
+- The modal close action did not reliably close the modal.
+
+Repair applied:
+
+- Reframed the modal around plain-language review sections.
+
+- Moved raw JSON into collapsed Developer details.
+
+- Preserved the read-only/no-execution authority boundary.
+
+- Hardened modal close behavior by explicitly hiding and removing display.
+
+Scope boundaries preserved:
+
+- No approval implementation.
+
+- No preview-confirmation implementation.
+
+- No mutation.
+
+- No shell execution.
+
+- No autonomous execution.
+
+- No task-record coupling.
+
