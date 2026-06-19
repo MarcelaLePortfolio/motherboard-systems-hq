@@ -1,0 +1,51 @@
+
+PLANNING PREVIEW READ-ONLY BUNDLE RENDER FINDING
+
+Finding Status: APPLIED
+
+The Planning Preview card now consumes the live governed planning dry-run route and renders response.bundle as a read-only governed planning artifact summary.
+
+Route consumed:
+
+POST /api/governed-planning/dry-run
+
+Bundle path consumed:
+
+response.bundle
+
+Rendered fields include:
+
+- bundle schema
+
+- phase
+
+- envelope version
+
+- approval gate status
+
+- execution authority flags
+
+- immutable constraints
+
+- trace events
+
+- reconciliation entry count
+
+Scope boundaries preserved:
+
+- No approval implementation
+
+- No preview-confirmation implementation
+
+- No mutation
+
+- No shell execution
+
+- No autonomous execution
+
+- No task-record coupling
+
+Architecture implication:
+
+The dashboard now has a first-generation standalone governed planning preview bridge without treating the planning artifact as a task.
+
