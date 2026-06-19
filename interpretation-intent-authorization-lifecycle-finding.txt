@@ -15,7 +15,7 @@ Meaning
 
 The primary review object is the proposed future state.
 
-Governance artifacts function as supporting evidence rather than the primary review surface.
+Governance artifacts function as supporting evidence for the primary review surface.
 
 The purpose of pre-execution governance is progressive alignment between user intent, proposed outcome, and authorized execution.
 
