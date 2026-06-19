@@ -1,0 +1,139 @@
+
+PREVIEW BUILDER OUTPUT SHAPE DRAFT
+
+Status: DESIGN DRAFT ONLY
+
+Purpose:
+
+Define the first read-only Preview Builder representation object before implementation.
+
+Source:
+
+governed planning artifact bundle
+
+Target:
+
+human-reviewable Future State Review surface
+
+Proposed Output Shape:
+
+preview_builder_schema:
+
+  preview_builder.v1
+
+mode:
+
+  read_only
+
+authority:
+
+  mutation_authorized: false
+
+  shell_execution_authorized: false
+
+  autonomous_execution_authorized: false
+
+  execution_authorized: false
+
+meaning_review:
+
+  question:
+
+    Did I understand your intent correctly?
+
+  object_under_review:
+
+    user meaning / interpreted request
+
+  fields:
+
+    interpreted_request
+
+    success_meaning
+
+    constraints_understood
+
+    assumptions
+
+future_state_review:
+
+  question:
+
+    Is this the future state you want?
+
+  object_under_review:
+
+    proposed future state
+
+  fields:
+
+    before_state
+
+    after_state
+
+    user_visible_changes
+
+    unchanged_boundaries
+
+    expected_outcome
+
+execution_evidence:
+
+  question:
+
+    How would this future be created?
+
+  object_under_review:
+
+    supporting execution plan
+
+  fields:
+
+    plan_summary
+
+    planned_steps
+
+    planned_patches
+
+    reconciliation_summary
+
+governance_evidence:
+
+  question:
+
+    Why is this safe to consider?
+
+  object_under_review:
+
+    supporting governance evidence
+
+  fields:
+
+    governance_status
+
+    approval_gate_status
+
+    execution_authority_state
+
+    rollback_contract
+
+    audit_trace
+
+Scope Boundary:
+
+This draft does not authorize:
+
+- implementation
+
+- UI work
+
+- approval system construction
+
+- Preview Builder construction
+
+- mutation
+
+- shell execution
+
+- autonomous execution
+
