@@ -1,0 +1,305 @@
+GOVERNED PLANNING ROUTE RESPONSE SHAPE
+
+--- governed planning route import and response area ---
+
+import express from "express";
+
+import {
+
+  runGovernedPlanningPipeline,
+
+} from "../execution/governed-planning-pipeline.mjs";
+
+import {
+
+  buildGovernedPlanningArtifactBundle,
+
+} from "../execution/build-governed-planning-artifact-bundle.mjs";
+
+import {
+
+  normalizeGovernedResponse,
+
+} from "../execution/normalize-governed-response.mjs";
+
+import {
+
+  dbDelegateTask,
+
+} from "../tasks-mutations.mjs";
+
+const router = express.Router();
+
+function buildPipelineInput(body = {}) {
+
+  return {
+
+    intent: {
+
+      actor: body.actor || "Matilda",
+
+      target: body.target || "Cade",
+
+      objective:
+
+      shell_execution_performed: false,
+
+      autonomous_execution_performed: false,
+
+      bundle_schema: bundle?.bundle_schema || null,
+
+      envelope_version: bundle?.envelope_version || null,
+
+    },
+
+  });
+
+  return task;
+
+}
+
+router.post(
+
+  "/api/governed-planning/dry-run",
+
+  async (req, res) => {
+
+    try {
+
+      const body = req.body || {};
+
+      const input = buildPipelineInput(body);
+
+      const pipelineResult =
+
+        await runGovernedPlanningPipeline(input);
+
+      const bundle =
+
+        buildGovernedPlanningArtifactBundle({
+
+          pipelineResult,
+
+        });
+
+      const task =
+
+        await maybeRecordGovernedPlanningTask({
+
+          body,
+
+          input,
+
+          pipelineResult,
+
+          bundle,
+
+        });
+
+      return res.status(200).json({
+
+        ok: true,
+
+        route:
+
+          "governed_planning_dry_run",
+
+        mode:
+
+          "planning_only",
+
+        task_recorded:
+
+          task !== null,
+
+        task,
+
+        bundle,
+
+      });
+
+    } catch (err) {
+
+      const response =
+
+        normalizeGovernedResponse({
+
+--- pipeline approval artifact source ---
+
+import { buildExecutionEnvelopeDraft } from "./build-execution-envelope-draft.mjs";
+
+import { validateGovernedExecutionEnvelope } from "./governance-validator.mjs";
+
+import { buildApprovalArtifact } from "./build-approval-artifact.mjs";
+
+import { evaluateExecutionApproval } from "./execution-approval-gate.mjs";
+
+import { planCadeEngineeringExecution } from "./cade-engineer-adapter.mjs";
+
+export function runGovernedPlanningPipeline(input = {}) {
+
+  const draft = buildExecutionEnvelopeDraft(input);
+
+  const envelope = draft.envelope;
+
+  const governance = validateGovernedExecutionEnvelope(envelope);
+
+  const approval = buildApprovalArtifact({
+
+    requested_by: "Matilda",
+
+    approval_scope: "planning_only",
+
+    justification: "Governed planning pipeline approval artifact",
+
+  });
+
+  const approvalGate = evaluateExecutionApproval({
+
+    envelope,
+
+    governance,
+
+    approval,
+
+  });
+
+  const cadePlan = planCadeEngineeringExecution(envelope);
+
+  return {
+
+    ok: true,
+
+    pipeline: "governed_planning_pipeline",
+
+    phase: "planning_only",
+
+    mutation_performed: false,
+
+    shell_execution_performed: false,
+
+    autonomous_execution_performed: false,
+
+    draft,
+
+    governance,
+
+    approval_gate: approvalGate,
+
+    cade_plan: cadePlan,
+
+    trace: [
+
+      {
+
+        event: "intent_to_envelope_draft",
+
+        ok: true,
+
+      },
+
+      {
+
+        event: "canonical_governance_validated",
+
+        ok: true,
+
+      },
+
+      {
+
+        event: "approval_gate_evaluated",
+
+        ok: true,
+
+      },
+
+      {
+
+        event: "cade_engineering_plan_generated",
+
+        ok: true,
+
+      },
+
+    ],
+
+  };
+
+}
+
+
+--- current frontend placeholder ---
+
+(() => {
+
+  "use strict";
+
+  if (window.__PLANNING_PREVIEW_CARD_ACTIVE__) return;
+
+  window.__PLANNING_PREVIEW_CARD_ACTIVE__ = true;
+
+  function createCard() {
+
+    const card = document.createElement("section");
+
+    card.id = "planning-preview-card";
+
+    card.className = "obs-surface";
+
+    card.setAttribute("data-planning-preview-card", "true");
+
+    card.style.marginTop = "1rem";
+
+    card.innerHTML = `
+
+      <div class="flex items-center justify-between mb-3 border-b border-gray-700 pb-2">
+
+        <h3 class="text-sm uppercase tracking-[0.2em] text-gray-400">Planning Preview</h3>
+
+        <span class="text-xs text-purple-300">read-only</span>
+
+      </div>
+
+      <div id="planning-preview-content" class="bg-gray-900 border border-gray-700 rounded-xl p-3 text-sm text-gray-300">
+
+        No planning preview artifact is currently loaded.
+
+      </div>
+
+    `;
+
+    return card;
+
+  }
+
+  function mount() {
+
+    const existing = document.getElementById("planning-preview-card");
+
+    if (existing) return;
+
+    const taskEventsCard = document.getElementById("task-events-card");
+
+    const recentTasksCard = document.getElementById("recent-tasks-card");
+
+    const anchor = taskEventsCard || recentTasksCard;
+
+    if (!anchor || !anchor.parentElement) return;
+
+    anchor.parentElement.appendChild(createCard());
+
+  }
+
+  if (document.readyState === "loading") {
+
+    document.addEventListener("DOMContentLoaded", mount, { once: true });
+
+  } else {
+
+    mount();
+
+  }
+
+})();
+

@@ -1,0 +1,21 @@
+
+GOVERNED PLANNING DATAFLOW FINDING
+
+Finding Status: CONFIRMED
+
+The repo inspection shows:
+
+- The governed planning bundle is built in server/routes/governed-planning-route.mjs.
+
+- The governed planning route is the only route surface currently returning the bundle.
+
+- The current dashboard planning preview card is a placeholder.
+
+- No public dashboard code currently consumes the governed planning bundle.
+
+- Existing artifact preview code remains task-coupled and should not be reused by forcing governed planning artifacts into task records.
+
+Next safe question:
+
+What exact JSON path does the governed planning route return for the planning artifact bundle, and what minimal read-only UI bridge should consume it?
+
