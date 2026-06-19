@@ -1,0 +1,163 @@
+
+INTERPRETATION-FIRST APPROVAL FINDING
+
+Finding Status: RECONCILED
+
+Origin
+
+This finding emerged from repeated evaluation of the governed planning preview modal.
+
+Observation
+
+The primary user objection was not:
+
+"I need more planning information."
+
+The primary user objection was:
+
+"I do not know what I am approving."
+
+This distinction produced an architectural reassessment of the approval corridor.
+
+Traditional Assumption
+
+Interpretation
+
+→ Plan
+
+→ Review Plan
+
+→ Approval
+
+→ Execution
+
+Reconciled Finding
+
+Interpretation
+
+→ Outcome Preview
+
+→ Risk / Rollback Review
+
+→ Approval
+
+→ Execution
+
+Key Insight
+
+The first approval question is not:
+
+"Is this plan correct?"
+
+The first approval question is:
+
+"Is this what I meant?"
+
+Interpretation correctness precedes execution correctness.
+
+Implications
+
+Governance mechanisms primarily strengthen execution correctness:
+
+- authority validation
+
+- governance validation
+
+- reconciliation
+
+- rollback contracts
+
+- approval gates
+
+These mechanisms help answer:
+
+"Is execution safe and acceptable?"
+
+They do not necessarily answer:
+
+"Did the system understand my intent correctly?"
+
+Review Surface Reframing
+
+The future approval object is likely not an execution-plan preview.
+
+The future approval object is more accurately described as an interpreted outcome preview.
+
+The user is primarily evaluating:
+
+- what the system believes was requested
+
+- what outcome is expected
+
+- what changes will occur
+
+- what risks exist
+
+- how changes can be reversed
+
+Execution plans become supporting evidence rather than the primary approval object.
+
+Evidence Hierarchy
+
+Interpretation
+
+    ↓
+
+Outcome Preview
+
+    ↓
+
+Decision Surface
+
+    ↓
+
+Approval
+
+    ↓
+
+Execution
+
+Supporting Evidence
+
+- governance artifacts
+
+- execution plans
+
+- reconciliation outputs
+
+- rollback contracts
+
+- authority state
+
+Meaning
+
+This finding suggests that the largest remaining gap before meaningful pre-execution approval is not planning generation.
+
+The largest remaining gap is interpretation-confirmation and outcome-preview generation.
+
+Relationship To Prior Findings
+
+Governance artifact ≠ review surface
+
+Preview Builder = translation layer
+
+Interpretation-first approval extends both findings by defining the primary purpose of the future review surface.
+
+Scope Boundary
+
+This finding does not authorize:
+
+- implementation
+
+- UI work
+
+- approval system construction
+
+- Preview Builder construction
+
+- mutation
+
+- shell execution
+
+- autonomous execution
+
