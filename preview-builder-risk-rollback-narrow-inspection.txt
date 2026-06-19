@@ -1,0 +1,34 @@
+PREVIEW BUILDER RISK / ROLLBACK NARROW INSPECTION
+
+--- current head ---
+bfb8138d Document preview confirmation versus governed artifact ontology
+5ee8a679 Humanize planning preview modal
+63973b40 Polish planning preview summary card
+2f172843 Move planning preview details into modal
+5d4c26f3 Render governed planning bundle in preview card
+cf87baae Document governed planning bundle live shape
+
+--- scoped risk / rollback search only in active governed execution files ---
+server/execution/build-execution-envelope-draft.mjs:162:    rollback_contract: {
+server/execution/build-execution-envelope-draft.mjs:164:      rollback_supported: true,
+server/execution/build-execution-envelope-draft.mjs:166:      rollback_method: "git",
+server/execution/build-execution-envelope-draft.mjs:168:      rollback_trigger_conditions: [
+server/execution/build-execution-envelope-draft.mjs:176:      rollback_snapshot_id: null,
+server/contracts/execution-envelope.v1.mjs:226:    rollback_contract: {
+server/contracts/execution-envelope.v1.mjs:228:      rollback_supported:
+server/contracts/execution-envelope.v1.mjs:230:        input?.rollback_contract?.rollback_supported ?? true,
+server/contracts/execution-envelope.v1.mjs:232:      rollback_method:
+server/contracts/execution-envelope.v1.mjs:234:        input?.rollback_contract?.rollback_method ?? "git",
+server/contracts/execution-envelope.v1.mjs:236:      rollback_trigger_conditions:
+server/contracts/execution-envelope.v1.mjs:238:        input?.rollback_contract?.rollback_trigger_conditions ?? [],
+server/contracts/execution-envelope.v1.mjs:240:      rollback_snapshot_id:
+server/contracts/execution-envelope.v1.mjs:242:        input?.rollback_contract?.rollback_snapshot_id ?? null,
+
+--- scoped preview-builder source fields already confirmed ---
+4:import { buildReconciliationSummary } from "./build-reconciliation-summary.mjs";
+34:    expected_output: step?.expected_output ?? null,
+82:    summary: envelope?.execution_plan?.summary ?? "Cade engineering plan prepared",
+90:    planned_steps: plannedSteps,
+92:    planned_patches: plannedPatches,
+112:  const reconciliation = buildReconciliationSummary({
+130:    reconciliation,

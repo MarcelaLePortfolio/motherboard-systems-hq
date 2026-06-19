@@ -1,0 +1,81 @@
+
+PREVIEW BUILDER RISK / ROLLBACK SOURCE FINDING
+
+Finding Status: CONFIRMED
+
+Question:
+
+Do the active governed execution files already contain first-class risk and rollback source material for a future Preview Builder?
+
+Inspection result:
+
+Rollback source material exists.
+
+Active rollback evidence:
+
+- server/execution/build-execution-envelope-draft.mjs defines rollback_contract.
+
+- server/contracts/execution-envelope.v1.mjs normalizes rollback_contract.
+
+Observed rollback fields:
+
+- rollback_supported
+
+- rollback_method
+
+- rollback_trigger_conditions
+
+- rollback_snapshot_id
+
+Risk source material was not found as a first-class governed execution field in the inspected active files.
+
+Current Preview Builder source map:
+
+Already available:
+
+- interpreted intent / objective from envelope inputs
+
+- plan summary from Cade planning adapter
+
+- planned_steps from Cade planning adapter
+
+- expected_output from planned steps
+
+- planned_patches from Cade planning adapter
+
+- reconciliation output
+
+- rollback_contract from execution envelope
+
+Missing or not yet first-class:
+
+- risk assessment
+
+- visual preview
+
+Architecture implication:
+
+The future Preview Builder does not need to invent the whole preview model from scratch.
+
+It can derive most of the reviewable preview from existing governed planning outputs.
+
+The narrow missing fields are risk assessment and visual preview representation.
+
+Scope boundary:
+
+This finding does not authorize:
+
+- UI implementation
+
+- Preview Builder implementation
+
+- approval implementation
+
+- preview-confirmation implementation
+
+- mutation
+
+- shell execution
+
+- autonomous execution
+

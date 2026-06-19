@@ -1,0 +1,45 @@
+
+PREVIEW BUILDER RISK / ROLLBACK NARROW FINDING
+
+Finding Status: INSPECTION ONLY
+
+Purpose:
+
+Determine whether the active governed execution files already contain first-class risk, rollback, or revert fields for a future Preview Builder.
+
+Known confirmed Preview Builder source fields already exist in the Cade planning adapter:
+
+- summary
+
+- planned_steps
+
+- planned_patches
+
+- expected_output
+
+- reconciliation
+
+This inspection intentionally excludes:
+
+- node_modules
+
+- backups
+
+- restore-test archives
+
+- historical checkpoint documents
+
+Scope boundaries:
+
+- No UI implementation.
+
+- No approval implementation.
+
+- No preview-confirmation implementation.
+
+- No mutation.
+
+- No shell execution.
+
+- No autonomous execution.
+
