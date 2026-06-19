@@ -1,0 +1,87 @@
+
+GOVERNED PLANNING BUNDLE LIVE SHAPE FINDING
+
+Finding Status: CONFIRMED
+
+Live route tested:
+
+POST /api/governed-planning/dry-run
+
+Top-level response keys:
+
+- bundle
+
+- mode
+
+- ok
+
+- route
+
+- task
+
+- task_recorded
+
+Confirmed bundle path:
+
+response.bundle
+
+Confirmed bundle keys:
+
+- ok
+
+- bundle_schema
+
+- phase
+
+- envelope_version
+
+- response
+
+- reconciliation
+
+- audit_ledger
+
+- execution_authority
+
+Confirmed bundle schema:
+
+governed_planning_artifact_bundle.v1
+
+Confirmed phase:
+
+planning_completed
+
+Confirmed envelope version:
+
+matilda.cade.exec.v1
+
+Confirmed authority state:
+
+- mutation_performed: false
+
+- shell_execution_performed: false
+
+- autonomous_execution_performed: false
+
+Confirmed reviewable UI material:
+
+- bundle.response
+
+- bundle.reconciliation
+
+- bundle.audit_ledger
+
+- bundle.execution_authority
+
+Architecture implication:
+
+The governed planning route already returns enough read-only artifact structure for a first-generation Planning Preview card.
+
+The UI bridge should consume response.bundle directly.
+
+The task object should remain separate and must not be used as the canonical planning preview artifact.
+
+Next safe action:
+
+Patch planning-preview-card.js to render a read-only governed planning bundle summary from the live route response without adding approval, preview confirmation, mutation, shell execution, autonomous execution, or task coupling.
+
