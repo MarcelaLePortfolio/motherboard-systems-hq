@@ -1,0 +1,163 @@
+
+PREVIEW BUILDER PLACEMENT OPTIONS FINDING
+
+Finding Status: DISCOVERY
+
+Question:
+
+Where should Preview Builder live architecturally?
+
+Context:
+
+The Preview Builder has been reconciled as a translation layer.
+
+It converts governed planning output into a human-reviewable Future-State Review surface.
+
+It should not authorize execution.
+
+It should not mutate files.
+
+It should not replace governance artifacts.
+
+It should not be reduced to UI rendering logic.
+
+Placement Option A:
+
+Bundle Enrichment
+
+Governed Planning Pipeline
+
+→ Governed Planning Artifact Bundle
+
+→ Preview Builder Output
+
+→ Planning Preview Card
+
+Meaning:
+
+Preview Builder output becomes another artifact inside the governed planning bundle.
+
+Strength:
+
+- simple transport
+
+- easy route response shape
+
+- keeps all planning outputs together
+
+Risk:
+
+- may blur the distinction between governance evidence and review surface
+
+- may make Preview Builder look like a subfield of the governance artifact instead of a distinct translation stage
+
+Placement Option B:
+
+Dedicated Translation Stage
+
+Governed Planning Pipeline
+
+→ Governed Planning Artifact Bundle
+
+→ Preview Builder
+
+→ Preview Artifact
+
+→ Planning Preview Card
+
+Meaning:
+
+Preview Builder is a distinct read-only translation stage after the governed planning artifact bundle is produced.
+
+Strength:
+
+- preserves governance artifact as evidence
+
+- preserves preview artifact as decision surface
+
+- aligns with Preview Builder = translation layer
+
+- keeps UI renderer simple
+
+- prevents approval or execution authority from being hidden inside UI logic
+
+Risk:
+
+- introduces a new stage that must be named and tested clearly
+
+- requires a clear schema boundary between bundle input and preview output
+
+Placement Option C:
+
+UI-Side Translation
+
+Governed Planning Artifact Bundle
+
+→ Planning Preview Card
+
+→ UI-side Preview Builder Logic
+
+Meaning:
+
+The dashboard translates the bundle directly into human-facing review content.
+
+Strength:
+
+- fastest UI path
+
+- minimal backend changes
+
+Risk:
+
+- puts governance interpretation logic inside the UI
+
+- makes preview generation harder to test independently
+
+- risks treating presentation logic as lifecycle logic
+
+- weakens the distinction between evidence, translation, and review
+
+Recommended Direction:
+
+Option B is the cleanest architectural fit.
+
+Preview Builder should be a distinct read-only translation stage.
+
+It should consume the governed planning artifact bundle and produce a preview artifact.
+
+The Planning Preview UI should render the preview artifact.
+
+The governed planning artifact should remain available as supporting evidence.
+
+Architecture:
+
+Governed Planning Pipeline
+
+→ Governed Planning Artifact Bundle
+
+→ Preview Builder
+
+→ Preview Artifact
+
+→ Future-State Review UI
+
+→ Later Approval / Authorization Corridors
+
+Scope Boundary:
+
+This finding does not authorize:
+
+- implementation
+
+- UI work
+
+- approval system construction
+
+- Preview Builder construction
+
+- mutation
+
+- shell execution
+
+- autonomous execution
+
