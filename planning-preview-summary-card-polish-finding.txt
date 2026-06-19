@@ -1,0 +1,39 @@
+
+PLANNING PREVIEW SUMMARY CARD POLISH FINDING
+
+Finding Status: APPLIED
+
+The first modal pass still left too much artifact detail visible in the dashboard card.
+
+Observed issue:
+
+- The Open Planning Preview button was pushed below the visible card area.
+
+- The dashboard showed two read-only labels.
+
+- The summary card still behaved too much like an artifact detail view.
+
+Repair applied:
+
+- Reduced the dashboard Planning Preview card to a compact summary.
+
+- Preserved only one read-only label in the section header.
+
+- Kept detailed artifact inspection inside the modal.
+
+- Kept the Open Planning Preview button visible inside the card.
+
+Scope boundaries preserved:
+
+- No approval implementation.
+
+- No preview-confirmation implementation.
+
+- No mutation.
+
+- No shell execution.
+
+- No autonomous execution.
+
+- No task-record coupling.
+

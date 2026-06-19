@@ -99,13 +99,27 @@
 
     const authority = bundle.execution_authority || {};
 
+    const governanceOk = response.governance?.ok === true;
+
+    const planningDone = bundle.phase === "planning_completed";
+
+    const approvalGateOk = response.approval_gate?.ok === true;
+
+    const anyExecutionAuthority =
+
+      authority.mutation_performed === true ||
+
+      authority.shell_execution_performed === true ||
+
+      authority.autonomous_execution_performed === true;
+
     return `
 
       <div class="space-y-3">
 
         <div class="rounded-xl border border-purple-700/50 bg-purple-950/20 p-3">
 
-          <div class="flex items-center justify-between gap-3">
+          <div class="flex items-start justify-between gap-3">
 
             <div>
 
@@ -115,29 +129,19 @@
 
             </div>
 
-            <span class="rounded-full border border-gray-700 bg-gray-950 px-3 py-1 text-[10px] uppercase tracking-[0.16em] text-gray-300">
-
-              read-only
-
-            </span>
-
           </div>
 
         </div>
 
-        <div class="grid gap-2">
+        <div class="grid gap-2 md:grid-cols-2">
 
-          ${statusPill("Governance validated", response.governance?.ok === true)}
+          ${statusPill("Governance", governanceOk)}
 
-          ${statusPill("Planning completed", bundle.phase === "planning_completed")}
+          ${statusPill("Planning", planningDone)}
 
-          ${statusPill("Approval gate passed", response.approval_gate?.ok === true)}
+          ${statusPill("Approval gate", approvalGateOk)}
 
-          ${statusPill("Mutation authority", authority.mutation_performed === true)}
-
-          ${statusPill("Shell authority", authority.shell_execution_performed === true)}
-
-          ${statusPill("Autonomous authority", authority.autonomous_execution_performed === true)}
+          ${statusPill("Execution authority", anyExecutionAuthority)}
 
         </div>
 
@@ -160,6 +164,7 @@
     `;
 
   }
+
 
   function renderModalBody(bundle) {
 
