@@ -1,0 +1,107 @@
+
+PREVIEW PROPOSAL / REVIEW / AUTHORIZATION SEPARATION FINDING
+
+Finding Status: RECONCILED
+
+Question:
+
+What is the relationship between the Canonical Preview Artifact, Review Views, human review, and authorization?
+
+Reconciled Direction:
+
+The Canonical Preview Artifact is the proposal.
+
+Review Views are approval-specific questions derived from the proposal.
+
+Review Result Artifacts record human responses to those questions.
+
+Authorization Artifacts record execution authority separately.
+
+Lifecycle:
+
+Governed Planning Bundle
+
+→ Preview Builder
+
+→ Canonical Preview Artifact
+
+→ Review View Builder
+
+→ Review Views
+
+→ Human Review
+
+→ Review Result Artifact
+
+→ Authorization Artifact
+
+→ Execution Corridor
+
+Meaning:
+
+The same proposal can be reviewed through different views without changing the proposal itself.
+
+Interpretation Review asks:
+
+Did the system understand the user?
+
+Future-State Review asks:
+
+Is this the future state the user wants?
+
+Authorization Review asks:
+
+Should execution authority be granted?
+
+Architectural Boundary:
+
+Proposal, review, authorization, and presentation are distinct concerns.
+
+They must not be collapsed into one mutable object.
+
+Governance Value:
+
+This preserves:
+
+- meaning continuity
+
+- proposal continuity
+
+- approval differentiation
+
+- auditability
+
+- renderer independence
+
+- authority clarity
+
+Primary Rule:
+
+Preview Artifact equals canonical proposal.
+
+Review Views equal approval-specific questions.
+
+Review Result Artifacts equal human responses.
+
+Authorization Artifacts equal authority grants or denials.
+
+Scope Boundary:
+
+This finding does not authorize:
+
+- implementation
+
+- UI work
+
+- approval system construction
+
+- Preview Builder construction
+
+- Review View Builder construction
+
+- mutation
+
+- shell execution
+
+- autonomous execution
+
