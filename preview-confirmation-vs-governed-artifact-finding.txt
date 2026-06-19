@@ -1,0 +1,131 @@
+
+PREVIEW CONFIRMATION VS GOVERNED ARTIFACT FINDING
+
+Finding Status: RECONCILED
+
+Question:
+
+What is the relationship between the governed planning artifact and the future preview-confirmation surface?
+
+Finding:
+
+The governed planning artifact is not the object being approved.
+
+The governed planning artifact is the authoritative evidence package from which a preview-confirmation surface is generated.
+
+Governed Planning Artifact
+
+Purpose:
+
+- machine-readable
+
+- authoritative
+
+- auditable
+
+- reconciliation-ready
+
+- governance-backed
+
+Contains:
+
+- governed response
+
+- reconciliation artifact
+
+- governance audit ledger
+
+- execution authority state
+
+- governance trace
+
+The governed planning artifact remains the canonical governance output.
+
+Preview Builder
+
+Purpose:
+
+Translate the governed planning artifact into a human-reviewable representation.
+
+Produces:
+
+- what the system understood
+
+- what the system plans to do
+
+- what will change
+
+- risks
+
+- rollback path
+
+- reconciliation summary
+
+- visual preview where applicable
+
+Preview-Confirmation Surface
+
+Purpose:
+
+Present the proposed outcome to the user for review.
+
+The preview-confirmation surface is the approval target.
+
+The user is not approving:
+
+- envelope schema
+
+- audit ledger
+
+- governance trace
+
+- authority metadata
+
+The user is approving:
+
+- interpretation
+
+- proposed outcome
+
+- planned changes
+
+- risks
+
+- rollback approach
+
+Approval Meaning
+
+Approval should be interpreted as:
+
+"The interpreted request and proposed outcome match my intent."
+
+Governance Artifacts
+
+Governance artifacts remain available as supporting evidence and inspection details.
+
+Technical users may inspect governance artifacts directly.
+
+Such inspection is not required for approval.
+
+Architecture
+
+Intent
+
+→ Governed Planning Artifact
+
+→ Preview Builder
+
+→ Preview-Confirmation Surface
+
+→ Approval
+
+→ Execution
+
+Reconciliation Outcome
+
+The governed planning artifact is evidence.
+
+The preview-confirmation surface is the decision object.
+
+This distinction resolves prior ambiguity where governance artifacts were being treated as the review surface itself.
+
