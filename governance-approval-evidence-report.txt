@@ -1,0 +1,151 @@
+GOVERNANCE APPROVAL EVIDENCE
+
+
+==================================================================
+COMMIT: a19d2459
+==================================================================
+a19d2459 record preview approval reconciliation finding
+docs/contracts/PREVIEW_APPROVAL_RECONCILIATION_FINDING.md
+
+==================================================================
+COMMIT: e993b70c
+==================================================================
+e993b70c Guard planning draft from execution authorization
+server/execution/build-execution-envelope-draft.mjs
+
+==================================================================
+COMMIT: 43ce1e3c
+==================================================================
+43ce1e3c Document planning versus execution authority finding
+planning-vs-execution-authority-repo-finding.txt
+
+==================================================================
+COMMIT: 453028df
+==================================================================
+453028df Document repo answer for governance validation lifecycle
+governance-validation-repo-answer.txt
+
+==================================================================
+COMMIT: 9908a0a5
+==================================================================
+9908a0a5 Document reviewable planning artifact UI finding
+inspect-planning-review-ui-mounts.sh
+reviewable-planning-artifact-ui-finding.txt
+
+==================================================================
+COMMIT: 57e3cc2f
+==================================================================
+57e3cc2f Document governed planning preview fit finding
+governed-planning-preview-fit-finding.txt
+
+==================================================================
+COMMIT: 34376f97
+==================================================================
+34376f97 Add governed planning artifact bundle
+docs/contracts/GOVERNED_PLANNING_ARTIFACT_BUNDLE.md
+server/execution/build-governed-planning-artifact-bundle.mjs
+server/execution/smoke-test-planning-artifact-bundle.mjs
+
+==================================================================
+COMMIT: effcdf4e
+==================================================================
+effcdf4e Add canonical execution approval gate
+server/execution/build-approval-artifact.mjs
+server/execution/execution-approval-gate.mjs
+server/execution/smoke-test-approval-gate.mjs
+
+==================================================================
+COMMIT: a8ce5239
+==================================================================
+a8ce5239 Define Phase 743 Matilda approval contract
+docs/phase743-execution-bridge/MATILDA_APPROVAL_CONTRACT.md
+
+==================================================================
+FILES CONTAINING APPROVAL / PREVIEW LANGUAGE
+==================================================================
+./governance-validation-operationalization-inspection.txt
+./PHASE37_STATUS.md
+./NEWER_DASHBOARD_LINEAGE_DISCOVERY.txt
+./artifact-event-lane-for-planning-preview-finding.txt
+./inspect-review-artifact-ui-candidates.sh
+./governed-planning-preview-fit-finding.txt
+./phase26-governed-planning-claim-risk-finding.txt
+./planning-preview-card-mount-finding.txt
+./stability-governance-inspection.txt
+./task-completion-status-only-finding.txt
+./governance-approval-ontology-report.txt
+./reconciled-lifecycle-review.txt
+./governed-planning-claim-exclusion-verified.txt
+./phase26-worker-runtime-role-finding.txt
+./BACKEND_RESTORATION_STATE_VERIFICATION.txt
+./meaning-continuity-boundary-inspection.txt
+./server/routes/governed-planning-route.mjs
+./PHASE42_BRANCH_PROTECTION_REVIEW_GATE.md
+./server/execution/smoke-test-intent-normalization.mjs
+./governance-validation-scope-map.txt
+./task-versus-planning-record-ontology-finding.txt
+./server/execution/execution-approval-gate.mjs
+./server/execution/smoke-test-governed-route.mjs
+./server/execution/smoke-test-planning-artifact-bundle.mjs
+./server/execution/smoke-test-approval-gate.mjs
+./server/execution/smoke-test-governed-route-inprocess.mjs
+./server/execution/smoke-test-governed-route-payload.json
+./planning-vs-execution-authority-repo-finding.txt
+./authority-summary.txt
+./inspect-governance-approval-evidence.sh
+./intended-dashboard-authority-report.txt
+./preview-summary-governance-inspection.txt
+./docs/governance/matilda-package-contract.md
+./docs/governance/MATILDA_COLLABORATION_MODE_V2_EVIDENCE_LEDGER.md
+./mutation-authorized-placeholder-finding.txt
+./PHASE37_0_HANDOFF.md
+./docs/agents/STATUS_Clara_Phase1_COMPLETE.md
+./docs/agents/CLARA_NEXT_STEPS.md
+./governance-validation-enforcement-finding.txt
+./docs/checkpoints/PHASE79_RECOVERY_FIRST_AUTOMATION_CONSTRAINTS_20260316.md
+./docs/checkpoints/PHASE79_CONTROLLED_AUTOMATION_BOUNDARY_SPEC_20260316.md
+./preview-summary-evidence-extract.txt
+./docs/checkpoints/PHASE79_CONFIRMATION_GATE_CONTRACT_20260316.md
+./docs/checkpoints/PHASE79_NOOP_INTERFACE_CONTRACT_20260316.md
+./docs/checkpoints/PHASE79_CONTROLLED_AUTOMATION_PREPARATION_PLAN_20260316.md
+./docs/checkpoints/PHASE79_AUTHORITY_MODEL_CONTRACT_20260316.md
+./scripts/phase37_0_capture_run_view_docs.zsh
+./docs/contracts/GOVERNED_PLANNING_ROUTE_BUNDLE_RETURN.md
+./docs/contracts/EXECUTION_APPROVAL_GATE_SMOKE.md
+./docs/contracts/GOVERNED_EXECUTION_PHASE_CHECKPOINT_AFTER_HTTP_PAUSE.md
+./docs/contracts/CONTAINER_VISIBILITY_RUNTIME_FINDING.md
+./docs/contracts/GOVERNED_RECONCILIATION_NORMALIZATION.md
+./docs/contracts/GOVERNED_PHASE_RUNNER_SMOKE.md
+./docs/contracts/GOVERNED_EXECUTION_AUDIT_LEDGER.md
+./docs/contracts/CANONICAL_EXECUTION_DOCTRINE_V1.md
+./docs/contracts/GOVERNED_RESPONSE_NORMALIZATION.md
+./docs/contracts/GOVERNED_PLANNING_PIPELINE_SMOKE.md
+./docs/contracts/GOVERNED_ROUTE_FAIL_CLOSED_SMOKE.md
+./docs/contracts/RUNTIME_RESTORE_AND_GOVERNED_ROUTE_SEAL.md
+./docs/contracts/GOVERNED_PLANNING_ARTIFACT_BUNDLE.md
+./docs/contracts/PREVIEW_APPROVAL_RECONCILIATION_FINDING.md
+./docs/contracts/GOVERNED_PLANNING_ROUTE_SMOKE_RESULT.md
+./docs/contracts/GOVERNED_PLANNING_ROUTE_SMOKE.md
+./docs/contracts/GOVERNED_EXECUTION_CORRIDOR_CHECKPOINT_20260527.md
+./docs/contracts/CADE_ENGINEER_ADAPTER_PHASE_STATUS.md
+./current-state-summary.txt
+./inspect-planning-review-ui-mounts.sh
+./phase26-worker-completion-path-finding.txt
+./inspect-governance-approval-ontology.sh
+./active-cade-runtime-status-finding.txt
+./governance-approval-evidence-report.txt
+./inspect-user-review-before-execution.sh
+./reviewable-planning-artifact-ui-finding.txt
+./task-runtime-vs-governed-execution-finding.txt
+./backups/_restore_test/PHASE37_STATUS.md
+./backups/_restore_test/PHASE42_BRANCH_PROTECTION_REVIEW_GATE.md
+./backups/_restore_test/docs/agents/STATUS_Clara_Phase1_COMPLETE.md
+./backups/_restore_test/docs/agents/CLARA_NEXT_STEPS.md
+./backups/_restore_test/docs/checkpoints/PHASE79_AUTHORITY_MODEL_CONTRACT_20260316.md
+./backups/_restore_test/docs/checkpoints/PHASE79_RECOVERY_FIRST_AUTOMATION_CONSTRAINTS_20260316.md
+./backups/_restore_test/PHASE37_0_HANDOFF.md
+./backups/_restore_test/docs/checkpoints/PHASE79_CONTROLLED_AUTOMATION_PREPARATION_PLAN_20260316.md
+./backups/_restore_test/docs/checkpoints/PHASE79_CONTROLLED_AUTOMATION_BOUNDARY_SPEC_20260316.md
+./backups/_restore_test/docs/checkpoints/PHASE79_NOOP_INTERFACE_CONTRACT_20260316.md
+./backups/_restore_test/docs/checkpoints/PHASE79_CONFIRMATION_GATE_CONTRACT_20260316.md
+./backups/_restore_test/scripts/phase37_0_capture_run_view_docs.zsh
