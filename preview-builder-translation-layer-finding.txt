@@ -1,0 +1,135 @@
+
+PREVIEW BUILDER TRANSLATION LAYER FINDING
+
+Finding Status: RECONCILED
+
+Question:
+
+What is the role of the future Preview Builder?
+
+Finding:
+
+The Preview Builder is not a second planning system.
+
+The Preview Builder is a translation layer.
+
+It converts existing governed planning output into a human-reviewable preview-confirmation surface.
+
+Context:
+
+Previous reconciliation established:
+
+- governed planning artifact = authoritative evidence package
+
+- preview-confirmation surface = decision object
+
+Current inspection extended that finding.
+
+The governed planning pipeline already produces much of the source material needed for human review.
+
+Already available source material:
+
+- interpreted intent / objective
+
+- plan summary
+
+- planned steps
+
+- expected outputs
+
+- planned patches
+
+- reconciliation output
+
+- rollback contract
+
+- execution authority state
+
+- governance trace
+
+Missing or not yet first-class:
+
+- risk assessment
+
+- visual preview representation
+
+Preview Builder Responsibility:
+
+The Preview Builder should:
+
+- translate governed planning output into plain language
+
+- expose what the system understood
+
+- expose what the system plans to do
+
+- expose what will change
+
+- expose expected outcomes
+
+- expose rollback path
+
+- expose reconciliation summary
+
+- expose risk assessment once available
+
+- attach or render a visual preview where applicable
+
+The Preview Builder should not:
+
+- generate a new plan independently of the governed planning output
+
+- authorize execution
+
+- approve work
+
+- mutate files
+
+- run shell commands
+
+- create task-runtime coupling
+
+- replace the governance artifact
+
+- hide governance evidence from technical inspection
+
+Architecture:
+
+Governed Planning Output
+
+→ Preview Builder
+
+→ Preview-Confirmation Surface
+
+→ Approval
+
+→ Execution
+
+Meaning:
+
+The largest remaining gap before meaningful pre-execution approval is not planning generation.
+
+The largest remaining gap is review-surface generation.
+
+The user does not need more governance data in order to approve work.
+
+The user needs a clear proposed outcome, supported by governance evidence.
+
+Scope Boundary:
+
+This finding does not authorize:
+
+- Preview Builder implementation
+
+- UI implementation
+
+- approval implementation
+
+- preview-confirmation implementation
+
+- mutation
+
+- shell execution
+
+- autonomous execution
+
