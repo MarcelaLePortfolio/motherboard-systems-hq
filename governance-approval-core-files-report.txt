@@ -1,0 +1,1062 @@
+GOVERNANCE APPROVAL CORE FILES INSPECTION
+
+--- current head ---
+a127b895 Inspect governance approval evidence
+1aeae2c3 Add measured telemetry height sync
+d0d8b68b Inspect telemetry rendered height state
+29a5f240 Equalize telemetry console height and scrolling
+07e91b41 Repair served dashboard telemetry tabs
+f059d99b Rebuild dashboard container for current UI
+
+
+==================================================================
+FILE: docs/contracts/PREVIEW_APPROVAL_RECONCILIATION_FINDING.md
+==================================================================
+
+# Preview Approval Reconciliation Finding
+
+## Classification
+
+Governance Reconciliation Finding
+
+## Status
+
+Open
+
+## Evidence Reviewed
+
+- docs/contracts/DELEGATION_ENVELOPE_V1.md
+
+- docs/contracts/CANONICAL_EXECUTION_LIFECYCLE.md
+
+- docs/contracts/CANONICAL_EXECUTION_ENVELOPE_SCHEMA.md
+
+- docs/contracts/CANONICAL_EXECUTION_DOCTRINE_V1.md
+
+- docs/contracts/MILESTONE_1_EXECUTION_ENVELOPE_RECONCILIATION_CHECKPOINT.md
+
+- server/execution/execution-approval-gate.mjs
+
+- server/execution/build-approval-artifact.mjs
+
+- server/contracts/execution-envelope.v1.mjs
+
+## Finding
+
+Motherboard Systems already has a canonical governed delegation object under existing terminology:
+
+- Delegation Envelope
+
+- Canonical Execution Envelope
+
+The execution envelope is the canonical governance artifact produced from Matilda-side interpretation and passed through governance validation, approval gating, Cade planning, and future execution phases.
+
+## Existing Stabilized Architecture
+
+The current architecture already includes:
+
+- Matilda intent normalization
+
+- execution envelope drafting
+
+- governance validation
+
+- approval artifact generation
+
+- approval gate evaluation
+
+- Cade dry-run planning
+
+- reconciliation-ready output
+
+The current lifecycle therefore does not need to be recreated from scratch.
+
+## Narrow Gap Identified
+
+The existing approval gate confirms the presence of an approval artifact and blocks mutation, shell execution, and autonomous execution by default.
+
+However, current contracts and runtime fields do not explicitly require:
+
+- user-visible preview of interpreted intent before approval
+
+- preview artifact reference
+
+- user confirmation that the previewed interpretation matches intent
+
+- distinction between generic approval artifact and preview-confirmed approval artifact
+
+## Relevant Doctrine
+
+Canonical execution doctrine requires:
+
+- explicit human confirmation
+
+- explicit mutation visibility
+
+- explicit reconciliation visibility
+
+- fresh, session-bound, action-specific, revocable, fail-closed approval
+
+## Prior Conflict Evidence
+
+Earlier reconciliation identified stale wording that treated delegation itself as the approval event.
+
+That model conflicts with later doctrine requiring explicit human confirmation.
+
+## Reconciliation Assessment
+
+The correct conclusion is not to create a new lifecycle from scratch.
+
+The correct conclusion is to reconcile the existing approval gate and envelope governance with an explicit preview-confirmation boundary.
+
+## Proposed Governance Direction
+
+A future narrow patch should clarify that:
+
+1. Delegation envelope construction is not sufficient user approval.
+
+2. Governance validation is not sufficient user approval.
+
+3. Approval artifacts should distinguish planning-only approval from preview-confirmed execution approval.
+
+4. Preview confirmation should be represented as a user-visible confirmation boundary before mutation-capable execution.
+
+5. Runtime implementation remains deferred unless separately authorized.
+
+## Scope Boundary
+
+This finding does not authorize:
+
+- runtime mutation
+
+- shell execution
+
+- autonomous execution
+
+- UI implementation
+
+- approval panel implementation
+
+- preview panel implementation
+
+
+==================================================================
+FILE: planning-vs-execution-authority-repo-finding.txt
+==================================================================
+
+PLANNING VS EXECUTION AUTHORITY REPO FINDING
+
+Finding Status: CONFIRMED
+
+The repository already distinguishes planning authority from execution authority.
+
+Current repo model:
+
+Planning authority exists.
+
+Execution authority is explicitly blocked.
+
+Evidence:
+
+1. Approval Gate
+
+server/execution/execution-approval-gate.mjs returns:
+
+execution_phase: "governed_planning_only"
+
+It also hard-blocks:
+
+- mutation_authorized
+
+- shell_execution_authorized
+
+- autonomous_execution_authorized
+
+2. Governance Validator
+
+server/execution/governance-validator.mjs returns:
+
+mode: "dry_run_only"
+
+It also returns:
+
+- mutation_allowed: false
+
+- shell_execution_allowed: false
+
+- autonomous_execution_allowed: false
+
+3. Contract Authority
+
+server/contracts/execution-envelope.v1.mjs defines validator_authority with:
+
+- execution_authority: false
+
+- may_execute_work: false
+
+- may_modify_envelope: false
+
+4. Delegation Authorization
+
+The contract contains delegation_authorization, but the surrounding validators and approval gate constrain it to planning-only behavior in the current phase.
+
+Conclusion:
+
+Current delegated envelopes are authorized for governed planning only.
+
+They are not authorized for mutation execution, shell execution, autonomous execution, routing, or runtime execution.
+
+This supports the current implementation guard added in e993b70c.
+
+Current stable model:
+
+Intent
+
+→ Envelope Draft
+
+→ Governance Validation
+
+→ Approval Gate
+
+→ Cade Planning
+
+All of the above is planning-only.
+
+Future execution authorization remains unimplemented and should be treated as a separate future corridor.
+
+
+==================================================================
+FILE: governance-validation-repo-answer.txt
+==================================================================
+
+GOVERNANCE VALIDATION REPO ANSWER
+
+Question:
+
+What is Governance Validation currently in the repository?
+
+Repo-backed answer:
+
+Governance Validation is currently implemented as post-envelope validation.
+
+It validates an already-drafted envelope.
+
+It does not currently create envelopes.
+
+It does not currently gate envelope drafting.
+
+It does not currently authorize mutation, shell execution, autonomous execution, routing, or runtime execution.
+
+Strongest evidence:
+
+server/execution/execution-phase-state-machine.mjs defines the active phase order as:
+
+intent_normalized
+
+→ envelope_drafted
+
+→ governance_validated
+
+→ approval_gated
+
+→ planning_completed
+
+→ mutation_authorized
+
+→ execution_completed
+
+→ reconciliation_completed
+
+This means the current repo lifecycle places Governance Validation after envelope drafting.
+
+Current interpretation:
+
+The existing repository model is internally consistent for planning-only / dry-run governed planning.
+
+The newer handoff lifecycle:
+
+Intent
+
+→ Direct User Delegation
+
+→ Governance Validation
+
+→ Envelope
+
+→ Routing
+
+→ Execution
+
+is not yet the implemented repo lifecycle.
+
+Conclusion:
+
+The current issue is not that Governance Validation is missing.
+
+The current issue is that the repo still uses a post-envelope Governance Validation model, while the handoff describes a future or newer pre-envelope Governance Validation model.
+
+Implemented guard e993b70c was correctly scoped because it preserved the current repo model while preventing the planning draft from being misread as runtime execution authorization.
+
+
+==================================================================
+FILE: reviewable-planning-artifact-ui-finding.txt
+==================================================================
+
+REVIEWABLE PLANNING ARTIFACT UI FINDING
+
+Finding Status: CONFIRMED
+
+Question:
+
+If the user must review or approve planned work before execution, where is that artifact currently served?
+
+Repo-backed answer:
+
+The approval/review doctrine exists, and the backend can build approval/planning artifacts, but the current inspected output does not prove that reviewable governed planning artifacts are served to the user in a dedicated UI surface yet.
+
+Evidence:
+
+1. Authoritative approval doctrine requires visible confirmation.
+
+AUTHORITATIVE_EXECUTION_CORRIDOR states that any approval must expose:
+
+- what will happen
+
+- why it is proposed
+
+- what risks exist
+
+- what rollback exists
+
+- what blocks execution
+
+- what invalidates approval
+
+It also states approval must never be hidden, implied, or assumed.
+
+2. Current approval artifact builder exists.
+
+server/execution/build-approval-artifact.mjs creates an approval artifact with:
+
+- approval_id
+
+- approval_scope
+
+- mutation_authorized: false
+
+- shell_execution_authorized: false
+
+- autonomous_execution_authorized: false
+
+- status: approval_required
+
+But it does not itself serve the artifact in the UI.
+
+3. Current governed planning bundle exists.
+
+server/execution/build-governed-planning-artifact-bundle.mjs builds:
+
+- governed planning response
+
+- reconciliation artifact
+
+- governance audit ledger
+
+- execution authority flags
+
+But this bundle is currently backend artifact structure, not yet proven as a visible review card.
+
+4. Architectural implication.
+
+If governed planning artifacts are not tasks, they still need a user-visible review surface before any future governed execution bridge can convert approved planning output into executable runtime work.
+
+Conclusion:
+
+Do not use Recent Tasks as the long-term home for planning review artifacts.
+
+The cleaner model is a separate reviewable governed planning artifact surface, likely one of:
+
+- Execution Inspector
+
+- Operator Guidance
+
+- dedicated Planning Review / Approval Required card
+
+- governed artifact ledger panel
+
+Next safe action:
+
+Inspect the existing dashboard panel mounts and route response handling to identify the smallest UI home for a read-only planning review card.
+
+
+==================================================================
+FILE: governed-planning-preview-fit-finding.txt
+==================================================================
+
+GOVERNED PLANNING PREVIEW FIT FINDING
+
+Finding Status: CONFIRMED
+
+Repo-backed answer:
+
+The existing Phase719 artifact preview system is read-only and visually useful, but it is currently task-bound.
+
+It is not yet a clean standalone governed planning preview surface.
+
+Evidence:
+
+1. Phase719 preview buttons are rendered only when a task-like card has an artifact payload.
+
+The preview button expects:
+
+- data-task-id
+
+- data-task-title
+
+- data-artifact-name
+
+- data-artifact-type
+
+- data-artifact-size
+
+- data-artifact-path
+
+2. Phase719 preview modal requires task_id.
+
+If task_id is missing, the modal displays:
+
+No task id available for artifact preview.
+
+3. Phase719 fetches artifact content from:
+
+/api/tasks/:task_id/artifact-preview
+
+That means the current preview route is coupled to task records.
+
+4. Governed planning route currently returns:
+
+- mode: planning_only
+
+- task_recorded
+
+- task
+
+- bundle
+
+The governed planning bundle already contains reviewable planning material, but it is not currently exposed as a standalone preview artifact.
+
+Conclusion:
+
+The existing artifact preview renderer can likely be reused for the visual language of proposed work.
+
+However, governed planning previews should not be forced into task records just to use that UI.
+
+Cleaner architecture:
+
+Governed Planning Preview Artifact:
+
+governed planning route → planning artifact bundle → read-only preview surface → explicit user review
+
+Task Runtime:
+
+approved executable work unit → queued/delegated/running/completed/failed
+
+Recommended next action:
+
+Design the smallest standalone governed planning preview bridge that serves the bundle as a read-only artifact without representing it as a task.
+
+
+==================================================================
+FILE: docs/contracts/GOVERNED_PLANNING_ARTIFACT_BUNDLE.md
+==================================================================
+
+# Governed Planning Artifact Bundle
+
+## Purpose
+
+Define a canonical non-executing artifact bundle for governed planning output.
+
+## Bundle Components
+
+The bundle contains:
+
+- normalized governed response
+
+- normalized reconciliation artifact
+
+- governed execution audit ledger
+
+## Required Guarantees
+
+The bundle must preserve:
+
+- deterministic transport shape
+
+- reconciliation-ready planning output
+
+- audit-ready governance trace
+
+- explicit non-authority state
+
+- canonical envelope version reference
+
+## Explicit Non-Authority
+
+The artifact bundle does NOT authorize:
+
+- mutation execution
+
+- shell execution
+
+- autonomous execution
+
+- orchestration authority
+
+- runtime authority
+
+## Stabilized Meaning
+
+Governed planning can now produce one canonical handoff object without relying on route internals, planner internals, or legacy Cade runtime behavior.
+
+## Locked Boundary
+
+The bundle is a planning artifact.
+
+It must never be treated as execution approval, mutation approval, or runtime authorization.
+
+
+==================================================================
+FILE: server/execution/build-governed-planning-artifact-bundle.mjs
+==================================================================
+
+import {
+
+  normalizeGovernedResponse,
+
+} from "./normalize-governed-response.mjs";
+
+import {
+
+  normalizeReconciliationArtifact,
+
+} from "./normalize-reconciliation-artifact.mjs";
+
+import {
+
+  buildGovernanceAuditLedger,
+
+} from "./build-governance-audit-ledger.mjs";
+
+export function buildGovernedPlanningArtifactBundle({
+
+  pipelineResult = {},
+
+} = {}) {
+
+  const envelopeVersion =
+
+    pipelineResult?.draft?.envelope?.envelope_version || null;
+
+  const phase =
+
+    pipelineResult?.phase ||
+
+    "planning_only";
+
+  const trace =
+
+    Array.isArray(pipelineResult?.trace)
+
+      ? pipelineResult.trace
+
+      : [];
+
+  const response =
+
+    normalizeGovernedResponse({
+
+      ok:
+
+        pipelineResult?.ok === true,
+
+      phase,
+
+      envelope_version:
+
+        envelopeVersion,
+
+      governance_ok:
+
+        pipelineResult?.governance?.ok === true,
+
+      approval_gate_ok:
+
+        pipelineResult?.approval_gate?.ok === true,
+
+      cade_plan_ok:
+
+        pipelineResult?.cade_plan?.ok === true,
+
+      mutation_performed: false,
+
+      shell_execution_performed: false,
+
+      autonomous_execution_performed: false,
+
+      trace,
+
+    });
+
+  const reconciliation =
+
+    normalizeReconciliationArtifact({
+
+      envelope_version:
+
+        envelopeVersion,
+
+      phase:
+
+        "planning_completed",
+
+      governance_ok:
+
+        pipelineResult?.governance?.ok === true,
+
+      approval_gate_ok:
+
+        pipelineResult?.approval_gate?.ok === true,
+
+      cade_plan_ok:
+
+        pipelineResult?.cade_plan?.ok === true,
+
+      mutation_performed: false,
+
+      shell_execution_performed: false,
+
+      autonomous_execution_performed: false,
+
+      reconciliation_entries:
+
+        pipelineResult?.cade_plan?.execution?.planned_patches || [],
+
+      trace,
+
+    });
+
+  const auditLedger =
+
+    buildGovernanceAuditLedger({
+
+      envelope_version:
+
+        envelopeVersion,
+
+      phase:
+
+        "planning_completed",
+
+      governance_ok:
+
+        pipelineResult?.governance?.ok === true,
+
+      approval_gate_ok:
+
+        pipelineResult?.approval_gate?.ok === true,
+
+      cade_plan_ok:
+
+        pipelineResult?.cade_plan?.ok === true,
+
+      reconciliation_schema:
+
+        reconciliation.reconciliation_schema,
+
+      mutation_performed: false,
+
+      shell_execution_performed: false,
+
+      autonomous_execution_performed: false,
+
+      trace,
+
+    });
+
+  return {
+
+    ok: true,
+
+    bundle_schema:
+
+      "governed_planning_artifact_bundle.v1",
+
+    phase:
+
+      "planning_completed",
+
+    envelope_version:
+
+      envelopeVersion,
+
+    response,
+
+    reconciliation,
+
+    audit_ledger:
+
+      auditLedger,
+
+    execution_authority: {
+
+      mutation_performed: false,
+
+      shell_execution_performed: false,
+
+      autonomous_execution_performed: false,
+
+    },
+
+  };
+
+}
+
+
+==================================================================
+FILE: server/execution/build-approval-artifact.mjs
+==================================================================
+
+export function buildApprovalArtifact({
+
+  requested_by = "Matilda",
+
+  approval_scope = "planning_only",
+
+  justification = "Governed planning validation",
+
+} = {}) {
+
+  return {
+
+    approval_id: `approval-${Date.now()}`,
+
+    approved_by: null,
+
+    approval_scope,
+
+    mutation_authorized: false,
+
+    shell_execution_authorized: false,
+
+    autonomous_execution_authorized: false,
+
+    issued_at: new Date().toISOString(),
+
+    expires_at: null,
+
+    justification,
+
+    requested_by,
+
+    status: "approval_required",
+
+  };
+
+}
+
+
+==================================================================
+FILE: server/execution/execution-approval-gate.mjs
+==================================================================
+
+function fail(code, message) {
+
+  const err = new Error(message);
+
+  err.code = code;
+
+  throw err;
+
+}
+
+function normalizeApproval(approval = {}) {
+
+  return {
+
+    approval_id: approval?.approval_id ?? null,
+
+    approved_by: approval?.approved_by ?? null,
+
+    approval_scope: approval?.approval_scope ?? "none",
+
+    mutation_authorized: approval?.mutation_authorized === true,
+
+    shell_execution_authorized: approval?.shell_execution_authorized === true,
+
+    autonomous_execution_authorized:
+
+      approval?.autonomous_execution_authorized === true,
+
+    issued_at: approval?.issued_at ?? null,
+
+    expires_at: approval?.expires_at ?? null,
+
+    justification: approval?.justification ?? null,
+
+  };
+
+}
+
+export function evaluateExecutionApproval({
+
+  envelope = {},
+
+  governance = {},
+
+  approval = {},
+
+} = {}) {
+
+  const normalized = normalizeApproval(approval);
+
+  if (!governance?.ok) {
+
+    fail(
+
+      "GOVERNANCE_VALIDATION_REQUIRED",
+
+      "approval gate requires successful governance validation",
+
+    );
+
+  }
+
+  if (normalized.mutation_authorized === true) {
+
+    fail(
+
+      "MUTATION_AUTHORITY_DISABLED",
+
+      "mutation authority remains disabled in current execution phase",
+
+    );
+
+  }
+
+  if (normalized.shell_execution_authorized === true) {
+
+    fail(
+
+      "SHELL_AUTHORITY_DISABLED",
+
+      "shell execution authority remains disabled in current execution phase",
+
+    );
+
+  }
+
+  if (normalized.autonomous_execution_authorized === true) {
+
+    fail(
+
+      "AUTONOMOUS_AUTHORITY_DISABLED",
+
+      "autonomous execution authority remains disabled in current execution phase",
+
+    );
+
+  }
+
+  return {
+
+    ok: true,
+
+    approval_gate: "canonical_execution_approval_gate",
+
+    execution_phase: "governed_planning_only",
+
+    delegated: envelope?.delegation_authorization?.state === "delegated",
+
+    approval_present: normalized.approval_id !== null,
+
+    mutation_authorized: false,
+
+    shell_execution_authorized: false,
+
+    autonomous_execution_authorized: false,
+
+    approval_artifact: normalized,
+
+    trace: [
+
+      {
+
+        event: "approval_artifact_normalized",
+
+        ok: true,
+
+      },
+
+      {
+
+        event: "mutation_authority_blocked",
+
+        ok: true,
+
+      },
+
+      {
+
+        event: "shell_authority_blocked",
+
+        ok: true,
+
+      },
+
+      {
+
+        event: "autonomous_authority_blocked",
+
+        ok: true,
+
+      },
+
+    ],
+
+  };
+
+}
+
+
+==================================================================
+FILE: docs/phase743-execution-bridge/MATILDA_APPROVAL_CONTRACT.md
+==================================================================
+MISSING: docs/phase743-execution-bridge/MATILDA_APPROVAL_CONTRACT.md
+
+==================================================================
+FOCUSED CROSS-FILE LINES
+==================================================================
+docs/contracts/GOVERNED_PLANNING_ARTIFACT_BUNDLE.md:2:# Governed Planning Artifact Bundle
+docs/contracts/GOVERNED_PLANNING_ARTIFACT_BUNDLE.md:6:Define a canonical non-executing artifact bundle for governed planning output.
+docs/contracts/GOVERNED_PLANNING_ARTIFACT_BUNDLE.md:28:- explicit non-authority state
+docs/contracts/GOVERNED_PLANNING_ARTIFACT_BUNDLE.md:32:## Explicit Non-Authority
+docs/contracts/GOVERNED_PLANNING_ARTIFACT_BUNDLE.md:34:The artifact bundle does NOT authorize:
+docs/contracts/GOVERNED_PLANNING_ARTIFACT_BUNDLE.md:42:- orchestration authority
+docs/contracts/GOVERNED_PLANNING_ARTIFACT_BUNDLE.md:44:- runtime authority
+docs/contracts/GOVERNED_PLANNING_ARTIFACT_BUNDLE.md:52:The bundle is a planning artifact.
+docs/contracts/GOVERNED_PLANNING_ARTIFACT_BUNDLE.md:54:It must never be treated as execution approval, mutation approval, or runtime authorization.
+governed-planning-preview-fit-finding.txt:2:GOVERNED PLANNING PREVIEW FIT FINDING
+governed-planning-preview-fit-finding.txt:8:The existing Phase719 artifact preview system is read-only and visually useful, but it is currently task-bound.
+governed-planning-preview-fit-finding.txt:10:It is not yet a clean standalone governed planning preview surface.
+governed-planning-preview-fit-finding.txt:14:1. Phase719 preview buttons are rendered only when a task-like card has an artifact payload.
+governed-planning-preview-fit-finding.txt:16:The preview button expects:
+governed-planning-preview-fit-finding.txt:30:2. Phase719 preview modal requires task_id.
+governed-planning-preview-fit-finding.txt:34:No task id available for artifact preview.
+governed-planning-preview-fit-finding.txt:38:/api/tasks/:task_id/artifact-preview
+governed-planning-preview-fit-finding.txt:40:That means the current preview route is coupled to task records.
+governed-planning-preview-fit-finding.txt:52:The governed planning bundle already contains reviewable planning material, but it is not currently exposed as a standalone preview artifact.
+governed-planning-preview-fit-finding.txt:56:The existing artifact preview renderer can likely be reused for the visual language of proposed work.
+governed-planning-preview-fit-finding.txt:58:However, governed planning previews should not be forced into task records just to use that UI.
+governed-planning-preview-fit-finding.txt:62:Governed Planning Preview Artifact:
+governed-planning-preview-fit-finding.txt:64:governed planning route → planning artifact bundle → read-only preview surface → explicit user review
+governed-planning-preview-fit-finding.txt:68:approved executable work unit → queued/delegated/running/completed/failed
+governed-planning-preview-fit-finding.txt:72:Design the smallest standalone governed planning preview bridge that serves the bundle as a read-only artifact without representing it as a task.
+server/execution/execution-approval-gate.mjs:12:function normalizeApproval(approval = {}) {
+server/execution/execution-approval-gate.mjs:16:    approval_id: approval?.approval_id ?? null,
+server/execution/execution-approval-gate.mjs:18:    approved_by: approval?.approved_by ?? null,
+server/execution/execution-approval-gate.mjs:20:    approval_scope: approval?.approval_scope ?? "none",
+server/execution/execution-approval-gate.mjs:22:    mutation_authorized: approval?.mutation_authorized === true,
+server/execution/execution-approval-gate.mjs:24:    shell_execution_authorized: approval?.shell_execution_authorized === true,
+server/execution/execution-approval-gate.mjs:28:      approval?.autonomous_execution_authorized === true,
+server/execution/execution-approval-gate.mjs:30:    issued_at: approval?.issued_at ?? null,
+server/execution/execution-approval-gate.mjs:32:    expires_at: approval?.expires_at ?? null,
+server/execution/execution-approval-gate.mjs:34:    justification: approval?.justification ?? null,
+server/execution/execution-approval-gate.mjs:40:export function evaluateExecutionApproval({
+server/execution/execution-approval-gate.mjs:46:  approval = {},
+server/execution/execution-approval-gate.mjs:50:  const normalized = normalizeApproval(approval);
+server/execution/execution-approval-gate.mjs:58:      "approval gate requires successful governance validation",
+server/execution/execution-approval-gate.mjs:68:      "MUTATION_AUTHORITY_DISABLED",
+server/execution/execution-approval-gate.mjs:70:      "mutation authority remains disabled in current execution phase",
+server/execution/execution-approval-gate.mjs:80:      "SHELL_AUTHORITY_DISABLED",
+server/execution/execution-approval-gate.mjs:82:      "shell execution authority remains disabled in current execution phase",
+server/execution/execution-approval-gate.mjs:92:      "AUTONOMOUS_AUTHORITY_DISABLED",
+server/execution/execution-approval-gate.mjs:94:      "autonomous execution authority remains disabled in current execution phase",
+server/execution/execution-approval-gate.mjs:104:    approval_gate: "canonical_execution_approval_gate",
+server/execution/execution-approval-gate.mjs:110:    approval_present: normalized.approval_id !== null,
+server/execution/execution-approval-gate.mjs:118:    approval_artifact: normalized,
+server/execution/execution-approval-gate.mjs:124:        event: "approval_artifact_normalized",
+server/execution/execution-approval-gate.mjs:132:        event: "mutation_authority_blocked",
+server/execution/execution-approval-gate.mjs:140:        event: "shell_authority_blocked",
+server/execution/execution-approval-gate.mjs:148:        event: "autonomous_authority_blocked",
+planning-vs-execution-authority-repo-finding.txt:2:PLANNING VS EXECUTION AUTHORITY REPO FINDING
+planning-vs-execution-authority-repo-finding.txt:6:The repository already distinguishes planning authority from execution authority.
+planning-vs-execution-authority-repo-finding.txt:10:Planning authority exists.
+planning-vs-execution-authority-repo-finding.txt:12:Execution authority is explicitly blocked.
+planning-vs-execution-authority-repo-finding.txt:16:1. Approval Gate
+planning-vs-execution-authority-repo-finding.txt:18:server/execution/execution-approval-gate.mjs returns:
+planning-vs-execution-authority-repo-finding.txt:44:3. Contract Authority
+planning-vs-execution-authority-repo-finding.txt:46:server/contracts/execution-envelope.v1.mjs defines validator_authority with:
+planning-vs-execution-authority-repo-finding.txt:48:- execution_authority: false
+planning-vs-execution-authority-repo-finding.txt:56:The contract contains delegation_authorization, but the surrounding validators and approval gate constrain it to planning-only behavior in the current phase.
+planning-vs-execution-authority-repo-finding.txt:72:→ Governance Validation
+planning-vs-execution-authority-repo-finding.txt:74:→ Approval Gate
+planning-vs-execution-authority-repo-finding.txt:80:Future execution authorization remains unimplemented and should be treated as a separate future corridor.
+server/execution/build-approval-artifact.mjs:2:export function buildApprovalArtifact({
+server/execution/build-approval-artifact.mjs:6:  approval_scope = "planning_only",
+server/execution/build-approval-artifact.mjs:14:    approval_id: `approval-${Date.now()}`,
+server/execution/build-approval-artifact.mjs:16:    approved_by: null,
+server/execution/build-approval-artifact.mjs:18:    approval_scope,
+server/execution/build-approval-artifact.mjs:34:    status: "approval_required",
+reviewable-planning-artifact-ui-finding.txt:2:REVIEWABLE PLANNING ARTIFACT UI FINDING
+reviewable-planning-artifact-ui-finding.txt:8:If the user must review or approve planned work before execution, where is that artifact currently served?
+reviewable-planning-artifact-ui-finding.txt:12:The approval/review doctrine exists, and the backend can build approval/planning artifacts, but the current inspected output does not prove that reviewable governed planning artifacts are served to the user in a dedicated UI surface yet.
+reviewable-planning-artifact-ui-finding.txt:16:1. Authoritative approval doctrine requires visible confirmation.
+reviewable-planning-artifact-ui-finding.txt:18:AUTHORITATIVE_EXECUTION_CORRIDOR states that any approval must expose:
+reviewable-planning-artifact-ui-finding.txt:30:- what invalidates approval
+reviewable-planning-artifact-ui-finding.txt:32:It also states approval must never be hidden, implied, or assumed.
+reviewable-planning-artifact-ui-finding.txt:34:2. Current approval artifact builder exists.
+reviewable-planning-artifact-ui-finding.txt:36:server/execution/build-approval-artifact.mjs creates an approval artifact with:
+reviewable-planning-artifact-ui-finding.txt:38:- approval_id
+reviewable-planning-artifact-ui-finding.txt:40:- approval_scope
+reviewable-planning-artifact-ui-finding.txt:48:- status: approval_required
+reviewable-planning-artifact-ui-finding.txt:62:- execution authority flags
+reviewable-planning-artifact-ui-finding.txt:68:If governed planning artifacts are not tasks, they still need a user-visible review surface before any future governed execution bridge can convert approved planning output into executable runtime work.
+reviewable-planning-artifact-ui-finding.txt:74:The cleaner model is a separate reviewable governed planning artifact surface, likely one of:
+reviewable-planning-artifact-ui-finding.txt:80:- dedicated Planning Review / Approval Required card
+governance-validation-repo-answer.txt:2:GOVERNANCE VALIDATION REPO ANSWER
+governance-validation-repo-answer.txt:6:What is Governance Validation currently in the repository?
+governance-validation-repo-answer.txt:10:Governance Validation is currently implemented as post-envelope validation.
+governance-validation-repo-answer.txt:30:→ approval_gated
+governance-validation-repo-answer.txt:40:This means the current repo lifecycle places Governance Validation after envelope drafting.
+governance-validation-repo-answer.txt:52:→ Governance Validation
+governance-validation-repo-answer.txt:64:The current issue is not that Governance Validation is missing.
+governance-validation-repo-answer.txt:66:The current issue is that the repo still uses a post-envelope Governance Validation model, while the handoff describes a future or newer pre-envelope Governance Validation model.
+governance-validation-repo-answer.txt:68:Implemented guard e993b70c was correctly scoped because it preserved the current repo model while preventing the planning draft from being misread as runtime execution authorization.
+docs/contracts/PREVIEW_APPROVAL_RECONCILIATION_FINDING.md:2:# Preview Approval Reconciliation Finding
+docs/contracts/PREVIEW_APPROVAL_RECONCILIATION_FINDING.md:24:- server/execution/execution-approval-gate.mjs
+docs/contracts/PREVIEW_APPROVAL_RECONCILIATION_FINDING.md:26:- server/execution/build-approval-artifact.mjs
+docs/contracts/PREVIEW_APPROVAL_RECONCILIATION_FINDING.md:38:The execution envelope is the canonical governance artifact produced from Matilda-side interpretation and passed through governance validation, approval gating, Cade planning, and future execution phases.
+docs/contracts/PREVIEW_APPROVAL_RECONCILIATION_FINDING.md:48:- governance validation
+docs/contracts/PREVIEW_APPROVAL_RECONCILIATION_FINDING.md:50:- approval artifact generation
+docs/contracts/PREVIEW_APPROVAL_RECONCILIATION_FINDING.md:52:- approval gate evaluation
+docs/contracts/PREVIEW_APPROVAL_RECONCILIATION_FINDING.md:62:The existing approval gate confirms the presence of an approval artifact and blocks mutation, shell execution, and autonomous execution by default.
+docs/contracts/PREVIEW_APPROVAL_RECONCILIATION_FINDING.md:66:- user-visible preview of interpreted intent before approval
+docs/contracts/PREVIEW_APPROVAL_RECONCILIATION_FINDING.md:68:- preview artifact reference
+docs/contracts/PREVIEW_APPROVAL_RECONCILIATION_FINDING.md:70:- user confirmation that the previewed interpretation matches intent
+docs/contracts/PREVIEW_APPROVAL_RECONCILIATION_FINDING.md:72:- distinction between generic approval artifact and preview-confirmed approval artifact
+docs/contracts/PREVIEW_APPROVAL_RECONCILIATION_FINDING.md:84:- fresh, session-bound, action-specific, revocable, fail-closed approval
+docs/contracts/PREVIEW_APPROVAL_RECONCILIATION_FINDING.md:88:Earlier reconciliation identified stale wording that treated delegation itself as the approval event.
+docs/contracts/PREVIEW_APPROVAL_RECONCILIATION_FINDING.md:96:The correct conclusion is to reconcile the existing approval gate and envelope governance with an explicit preview-confirmation boundary.
+docs/contracts/PREVIEW_APPROVAL_RECONCILIATION_FINDING.md:102:1. Delegation envelope construction is not sufficient user approval.
+docs/contracts/PREVIEW_APPROVAL_RECONCILIATION_FINDING.md:104:2. Governance validation is not sufficient user approval.
+docs/contracts/PREVIEW_APPROVAL_RECONCILIATION_FINDING.md:106:3. Approval artifacts should distinguish planning-only approval from preview-confirmed execution approval.
+docs/contracts/PREVIEW_APPROVAL_RECONCILIATION_FINDING.md:108:4. Preview confirmation should be represented as a user-visible confirmation boundary before mutation-capable execution.
+docs/contracts/PREVIEW_APPROVAL_RECONCILIATION_FINDING.md:124:- approval panel implementation
+docs/contracts/PREVIEW_APPROVAL_RECONCILIATION_FINDING.md:126:- preview panel implementation
+server/execution/build-governed-planning-artifact-bundle.mjs:62:      approval_gate_ok:
+server/execution/build-governed-planning-artifact-bundle.mjs:64:        pipelineResult?.approval_gate?.ok === true,
+server/execution/build-governed-planning-artifact-bundle.mjs:96:      approval_gate_ok:
+server/execution/build-governed-planning-artifact-bundle.mjs:98:        pipelineResult?.approval_gate?.ok === true,
+server/execution/build-governed-planning-artifact-bundle.mjs:134:      approval_gate_ok:
+server/execution/build-governed-planning-artifact-bundle.mjs:136:        pipelineResult?.approval_gate?.ok === true,
+server/execution/build-governed-planning-artifact-bundle.mjs:180:    execution_authority: {
