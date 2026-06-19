@@ -1,0 +1,167 @@
+
+PREVIEW PROPOSAL IDENTITY FINDING
+
+Finding Status: DISCOVERY
+
+Question:
+
+How do Interpretation Review, Future-State Review, Authorization Review, Review Result Artifacts, Authorization Artifacts, Audit Records, and Execution Records know they are referring to the same proposal?
+
+Context:
+
+The corridor has reconciled the following lifecycle:
+
+Governed Planning Bundle
+
+→ Preview Builder
+
+→ Canonical Preview Artifact
+
+→ Review View Builder
+
+→ Review Views
+
+→ Human Review
+
+→ Review Result Artifact
+
+→ Authorization Artifact
+
+→ Execution Corridor
+
+The Canonical Preview Artifact has been reconciled as:
+
+- immutable
+
+- renderer-independent
+
+- non-authorizing
+
+- proposal artifact
+
+- lifecycle-level artifact
+
+Remaining primitive:
+
+Proposal Identity
+
+Finding:
+
+A Canonical Preview Artifact requires a stable proposal identity.
+
+The proposal identity should allow downstream artifacts to reference the exact proposed future state that was reviewed, accepted, rejected, revised, authorized, or executed.
+
+Purpose:
+
+Proposal identity preserves continuity across:
+
+- canonical proposal artifact
+
+- interpretation review view
+
+- future-state review view
+
+- authorization review view
+
+- review result artifact
+
+- authorization artifact
+
+- audit records
+
+- execution records
+
+- reconciliation records
+
+Governance Meaning:
+
+Review Result Artifacts should reference proposal identity.
+
+Authorization Artifacts should reference proposal identity.
+
+Execution Records should reference proposal identity.
+
+Audit Records should reference proposal identity.
+
+The proposal itself should remain immutable.
+
+Downstream artifacts should not rewrite the proposal.
+
+They should reference it.
+
+Candidate Identity Fields:
+
+proposal_id
+
+source_bundle_id
+
+source_envelope_version
+
+source_trace_id
+
+generated_at
+
+proposal_hash
+
+proposal_schema
+
+proposal_state:
+
+  proposed
+
+explicit_non_authority:
+
+  mutation_authorized: false
+
+  shell_execution_authorized: false
+
+  autonomous_execution_authorized: false
+
+  execution_authorized: false
+
+Architecture:
+
+Governed Planning Bundle
+
+→ Preview Builder
+
+→ Canonical Preview Artifact with proposal_id
+
+→ Review Views referencing proposal_id
+
+→ Review Result Artifact referencing proposal_id
+
+→ Authorization Artifact referencing proposal_id
+
+→ Execution / Audit / Reconciliation records referencing proposal_id
+
+Boundary:
+
+Proposal identity is not approval.
+
+Proposal identity is not authorization.
+
+Proposal identity is not execution.
+
+Proposal identity is the continuity anchor for lifecycle artifacts.
+
+Scope Boundary:
+
+This finding does not authorize:
+
+- implementation
+
+- UI work
+
+- approval system construction
+
+- Preview Builder construction
+
+- Review View Builder construction
+
+- mutation
+
+- shell execution
+
+- autonomous execution
+
