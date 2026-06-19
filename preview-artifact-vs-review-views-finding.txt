@@ -1,0 +1,161 @@
+
+PREVIEW ARTIFACT VS REVIEW VIEWS FINDING
+
+Finding Status: DISCOVERY
+
+Question:
+
+Are Meaning Representation, Future-State Representation, Execution Representation, and Governance Evidence properties of the Preview Artifact itself, or are they review-oriented views generated from the Preview Artifact?
+
+Context:
+
+The Preview Artifact has been reconciled as:
+
+- normalized
+
+- renderer-independent
+
+- immutable
+
+- lifecycle-level
+
+- proposed
+
+- non-authorizing
+
+Current tension:
+
+If the Preview Artifact directly contains all review sections, it may slowly become a UI-oriented document in disguise.
+
+If the Preview Artifact is too minimal, renderers may redefine lifecycle meaning inconsistently.
+
+Option A:
+
+Preview Artifact Contains Review Sections Directly
+
+Preview Artifact
+
+  - meaning_representation
+
+  - future_state_representation
+
+  - execution_representation
+
+  - governance_evidence
+
+Strength:
+
+- simple first implementation
+
+- direct renderer consumption
+
+- easy dashboard rendering
+
+Risk:
+
+- can blur lifecycle artifact and review view
+
+- may couple canonical artifact shape to current UI expectations
+
+- may make future renderers inherit dashboard-oriented structure
+
+Option B:
+
+Preview Artifact Contains Canonical Proposal Model
+
+Preview Artifact
+
+  - proposal_identity
+
+  - interpreted_intent
+
+  - proposed_future_state
+
+  - proposed_change_model
+
+  - supporting_evidence_refs
+
+  - explicit_non_authority
+
+Review View Builder derives:
+
+- Meaning Review View
+
+- Future-State Review View
+
+- Execution Evidence View
+
+- Governance Evidence View
+
+Strength:
+
+- preserves lifecycle artifact independence
+
+- supports multiple renderers
+
+- separates proposal model from review presentation
+
+- allows future mobile, audit, dashboard, export, and approval renderers to consume the same artifact differently
+
+- keeps Review Views from redefining the artifact
+
+Risk:
+
+- introduces one more conceptual layer
+
+- requires clear naming to avoid over-engineering
+
+Recommended Direction:
+
+Option B appears cleaner architecturally.
+
+The Preview Artifact should be a normalized canonical proposal artifact.
+
+Meaning Review, Future-State Review, Execution Evidence, and Governance Evidence should be treated as review-oriented views derived from the Preview Artifact.
+
+Architecture:
+
+Governed Planning Bundle
+
+→ Preview Builder
+
+→ Canonical Preview Artifact
+
+→ Review View Builder
+
+→ Review Views
+
+→ Renderer(s)
+
+→ Human Review
+
+Boundary:
+
+Preview Artifact defines lifecycle meaning.
+
+Review Views define human-review organization.
+
+Renderers define presentation.
+
+Renderers and Review Views must not redefine the Preview Artifact lifecycle meaning.
+
+Scope Boundary:
+
+This finding does not authorize:
+
+- implementation
+
+- UI work
+
+- approval system construction
+
+- Preview Builder construction
+
+- Review View Builder construction
+
+- mutation
+
+- shell execution
+
+- autonomous execution
+
