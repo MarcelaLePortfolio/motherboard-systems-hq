@@ -1,0 +1,187 @@
+
+PREVIEW ARTIFACT MINIMAL SCHEMA FINDING
+
+Finding Status: DESIGN DRAFT
+
+Question:
+
+What is the minimal Preview Artifact schema required for a human to reliably evaluate the proposed future state?
+
+Context:
+
+The Preview Artifact has been reconciled as:
+
+- a lifecycle artifact
+
+- immutable
+
+- read-only
+
+- renderer-independent
+
+- produced by Preview Builder
+
+- consumed by Future-State Review UI
+
+- not an authorization artifact
+
+- not a review result artifact
+
+Purpose:
+
+The Preview Artifact should allow the user to answer:
+
+1. Did the system understand what I meant?
+
+2. Is this the future state I want?
+
+3. What evidence supports this proposed future?
+
+4. What remains unauthorized?
+
+Minimal Schema:
+
+preview_artifact_schema:
+
+  proposed_future_state_artifact.v1
+
+artifact_role:
+
+  proposal
+
+artifact_state:
+
+  proposed
+
+authority:
+
+  mutation_authorized: false
+
+  shell_execution_authorized: false
+
+  autonomous_execution_authorized: false
+
+  execution_authorized: false
+
+source:
+
+  governed_planning_bundle_schema
+
+  envelope_version
+
+  generated_at
+
+meaning_representation:
+
+  question:
+
+    Did I understand your intent correctly?
+
+  fields:
+
+    interpreted_request
+
+    success_meaning
+
+    constraints_understood
+
+    assumptions
+
+future_state_representation:
+
+  question:
+
+    Is this the future state you want?
+
+  fields:
+
+    before_state
+
+    after_state
+
+    user_visible_changes
+
+    unchanged_boundaries
+
+    expected_outcome
+
+execution_representation:
+
+  question:
+
+    How would this future be created?
+
+  fields:
+
+    plan_summary
+
+    planned_steps
+
+    planned_patches
+
+    reconciliation_summary
+
+governance_evidence:
+
+  question:
+
+    Why is this safe to consider?
+
+  fields:
+
+    governance_status
+
+    approval_gate_status
+
+    execution_authority_state
+
+    rollback_contract
+
+    audit_trace
+
+explicit_non_authority:
+
+  does_not_authorize_review: true
+
+  does_not_authorize_execution: true
+
+  does_not_authorize_mutation: true
+
+  does_not_authorize_shell_execution: true
+
+  does_not_authorize_autonomous_execution: true
+
+Lifecycle Boundary:
+
+Preview Artifact
+
+→ Review Result Artifact
+
+→ Authorization Artifact
+
+→ Execution Corridor
+
+The Preview Artifact remains proposed.
+
+Human review produces a separate Review Result Artifact.
+
+Execution authority is recorded separately in an Authorization Artifact.
+
+Scope Boundary:
+
+This finding does not authorize:
+
+- implementation
+
+- UI work
+
+- approval system construction
+
+- Preview Builder construction
+
+- mutation
+
+- shell execution
+
+- autonomous execution
+
