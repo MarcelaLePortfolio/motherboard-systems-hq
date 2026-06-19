@@ -1,0 +1,95 @@
+
+PREVIEW ARTIFACT NORMALIZED RENDERER-INDEPENDENT FINDING
+
+Finding Status: RECONCILED
+
+Question:
+
+Should Preview Builder generate human-ready prose directly, or should it generate a normalized Preview Artifact consumed by renderers?
+
+Reconciled Direction:
+
+Preview Builder should generate a normalized Preview Artifact.
+
+Renderers should consume the Preview Artifact.
+
+Preview Builder should not be coupled to a single dashboard, modal, approval, audit, or export renderer.
+
+Architecture:
+
+Governed Planning Bundle
+
+→ Preview Builder
+
+→ Normalized Preview Artifact
+
+→ Renderer(s)
+
+→ Human Review
+
+Renderer Examples:
+
+- dashboard renderer
+
+- modal renderer
+
+- approval renderer
+
+- audit renderer
+
+- export renderer
+
+Architectural Reason:
+
+A normalized Preview Artifact preserves:
+
+- renderer independence
+
+- lifecycle separation
+
+- artifact immutability
+
+- governance evidence separation
+
+- future UI flexibility
+
+- durable review semantics
+
+Boundary:
+
+Preview Builder defines the lifecycle artifact.
+
+Renderers define presentation.
+
+Renderers may translate, format, collapse, expand, or visualize Preview Artifact sections.
+
+Renderers must not redefine the Preview Artifact lifecycle meaning.
+
+Meaning:
+
+Interpretation is not presentation.
+
+Proposal is not authorization.
+
+Governance evidence is not the review surface.
+
+The Preview Artifact should remain stable even if the UI changes.
+
+Scope Boundary:
+
+This finding does not authorize:
+
+- implementation
+
+- UI work
+
+- approval system construction
+
+- Preview Builder construction
+
+- mutation
+
+- shell execution
+
+- autonomous execution
+
