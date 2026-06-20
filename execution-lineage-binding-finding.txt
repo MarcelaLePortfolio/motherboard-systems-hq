@@ -1,0 +1,143 @@
+
+EXECUTION LINEAGE BINDING FINDING
+
+Finding Status: DISCOVERY DRAFT
+
+Question:
+
+Should execution records reference only the exact authorized proposal?
+
+Or should they also preserve lineage back to the originating proposal chain?
+
+Context:
+
+Proposal Identity:
+
+  preserves proposal validity
+
+Review Result:
+
+  preserves review validity
+
+Authorization Artifact:
+
+  preserves authorization validity
+
+Proposal Lineage:
+
+  preserves continuity across revisions
+
+Architectural Concern:
+
+An execution record should clearly identify:
+
+- what was executed
+
+- what was reviewed
+
+- what was authorized
+
+while still preserving historical traceability.
+
+Option A:
+
+Execution references only:
+
+proposal_id
+
+Strength:
+
+- simple
+
+- precise
+
+Risk:
+
+- lineage history requires additional lookup
+
+- harder to reconstruct proposal evolution
+
+Option B:
+
+Execution references:
+
+proposal_id
+
+root_proposal_id
+
+authorization_artifact_id
+
+review_result_id
+
+Strength:
+
+- preserves full lifecycle traceability
+
+- supports audit reconstruction
+
+- supports reconciliation
+
+- supports proposal evolution analysis
+
+Recommended Direction:
+
+Option B appears architecturally cleaner.
+
+Execution should bind to the exact authorized proposal.
+
+Execution may additionally preserve lineage references for audit and reconciliation purposes.
+
+Primary Rule:
+
+Execution authority derives from the exact authorized proposal_id.
+
+Lineage references provide continuity but do not grant authority.
+
+Architecture:
+
+Proposal v1
+
+→ Proposal v2
+
+→ Proposal v3
+
+→ Review Result v3
+
+→ Authorization Artifact v3
+
+→ Execution Record v3
+
+Execution Record:
+
+  proposal_id: proposal-v3
+
+  root_proposal_id: proposal-v1
+
+Meaning:
+
+Authority follows exact proposal identity.
+
+Continuity follows lineage.
+
+Auditability follows both.
+
+Scope Boundary:
+
+This finding does not authorize:
+
+- implementation
+
+- UI work
+
+- approval system construction
+
+- Preview Builder construction
+
+- Review View Builder construction
+
+- mutation
+
+- shell execution
+
+- autonomous execution
+
