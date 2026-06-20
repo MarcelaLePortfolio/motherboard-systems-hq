@@ -1,0 +1,149 @@
+
+PROPOSAL LINEAGE SEMANTICS FINDING
+
+Finding Status: DISCOVERY DRAFT
+
+Question:
+
+When proposal meaning changes and a new proposal_id is required, should the new proposal retain lineage to the prior proposal?
+
+Context:
+
+Proposal identity tracks proposed future state rather than presentation.
+
+Review Result Artifacts remain valid only for the proposal that was actually reviewed.
+
+If proposal meaning changes, prior review should not automatically apply to the modified proposal.
+
+Open Question:
+
+Should revised proposals stand alone?
+
+Or should revised proposals form a lineage chain?
+
+Option A:
+
+Standalone Proposal Model
+
+proposal_id:
+
+  proposal-002
+
+No parent reference.
+
+Strength:
+
+- simple
+
+- clear validity boundaries
+
+Risk:
+
+- loses continuity between revisions
+
+- harder to audit how the proposal evolved
+
+- harder to explain why prior review became stale
+
+Option B:
+
+Proposal Lineage Model
+
+proposal_id:
+
+  proposal-002
+
+supersedes_proposal_id:
+
+  proposal-001
+
+revision_reason:
+
+  future_state_changed
+
+Strength:
+
+- preserves historical continuity
+
+- keeps stale review from transferring
+
+- explains why review must be repeated
+
+- supports audit and reconciliation
+
+- supports user-visible revision history
+
+Risk:
+
+- introduces one more lifecycle relationship that must remain non-authorizing
+
+Recommended Direction:
+
+Option B appears cleaner architecturally.
+
+A changed proposal should receive a new proposal_id.
+
+The new proposal may reference the prior proposal through lineage fields.
+
+Prior reviews remain historical and do not transfer automatically.
+
+Candidate Lineage Fields:
+
+proposal_id
+
+supersedes_proposal_id
+
+root_proposal_id
+
+revision_number
+
+revision_reason
+
+revision_summary
+
+generated_at
+
+proposal_hash
+
+Meaning:
+
+Lineage preserves continuity.
+
+Identity preserves validity.
+
+Review validity remains attached to exact proposal_id.
+
+Authorization remains attached to exact proposal_id.
+
+Architecture:
+
+Proposal v1
+
+→ Review Result v1
+
+→ Proposal v2 supersedes Proposal v1
+
+→ Review Result v2
+
+→ Authorization Artifact v2
+
+Scope Boundary:
+
+This finding does not authorize:
+
+- implementation
+
+- UI work
+
+- approval system construction
+
+- Preview Builder construction
+
+- Review View Builder construction
+
+- mutation
+
+- shell execution
+
+- autonomous execution
+
