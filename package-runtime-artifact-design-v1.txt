@@ -1,0 +1,71 @@
+
+Package Runtime Artifact Design v1
+
+Purpose:
+
+Runtime representation of the canonical Package artifact.
+
+Status:
+
+Design only.
+
+No routing, execution, assignment, or lifecycle behavior.
+
+Minimum fields:
+
+- package_id
+
+  Unique immutable package identifier.
+
+- package_version
+
+  Immutable package version identifier.
+
+- requested_outcome
+
+  Canonical desired outcome.
+
+- scope
+
+  Included work.
+
+- containment
+
+  Protected boundaries.
+
+- constraints
+
+  Conditions that must remain true.
+
+- success_criteria
+
+  Completion evaluation criteria.
+
+Optional fields:
+
+- context
+
+- style_presentation_intent
+
+- exclusions
+
+Design principles:
+
+- Package remains the authoritative meaning artifact.
+
+- Package contains no operational state.
+
+- Package contains no routing information.
+
+- Package contains no assignment information.
+
+- Package contains no execution authority.
+
+- Package mutation creates a new package_version.
+
+- Governance Validation consumes Package artifacts but does not modify them.
+
+Next dependency:
+
+Delegation Record runtime artifact design.
+
