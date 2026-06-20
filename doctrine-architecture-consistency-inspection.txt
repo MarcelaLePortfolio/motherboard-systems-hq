@@ -1,3 +1,134 @@
 DOCTRINE TO ARCHITECTURE CONSISTENCY INSPECTION
 
+--- current head ---
+33bab0c4 Repair doctrine architecture consistency inspection
+853df807 Document planning authorization doctrine elevation
+d1a891de Document residual risk acceptance doctrine
+6ebfeb59 Document risk visibility and disclosure finding
+612c9aa9 Document canonical preview artifact boundary
+52b881ef Draft canonical preview artifact contract
+1bb626d9 Summarize preview builder lifecycle reconciliation
+306f24ee Document lifecycle audit reconstruction model
+
 --- doctrine evidence ---
+./preview-builder-lifecycle-reconciliation-summary.txt:90:Review and authorization validity attach to exact proposal_id.
+./preview-builder-lifecycle-reconciliation-summary.txt:98:Lineage does not preserve review validity automatically.
+./planning-authorization-doctrine-elevation-finding.txt:8:Should residual risk acceptance remain a Preview Builder-local finding, or should it be elevated into higher-level Planning and Authorization Doctrine?
+./planning-authorization-doctrine-elevation-finding.txt:14:It explains why the Preview Builder, Future-State Review, Risk Visibility, Review Result Artifacts, Authorization Artifacts, and audit reconstruction lifecycle exist.
+./planning-authorization-doctrine-elevation-finding.txt:20:Achieve intended future state.
+./planning-authorization-doctrine-elevation-finding.txt:24:Minimize unnecessary risk.
+./planning-authorization-doctrine-elevation-finding.txt:28:Expose residual risk to the user.
+./planning-authorization-doctrine-elevation-finding.txt:32:Require explicit human acceptance of residual risk before authorization.
+./planning-authorization-doctrine-elevation-finding.txt:40:The system should not hide residual risk.
+./planning-authorization-doctrine-elevation-finding.txt:42:The system should not treat approval as meaningful authorization unless residual risk has been disclosed and consciously accepted.
+./planning-authorization-doctrine-elevation-finding.txt:46:Risk visibility gives authorization a unique approval quality.
+./planning-authorization-doctrine-elevation-finding.txt:56:- accepting responsibility for proceeding with known residual risk
+./planning-authorization-doctrine-elevation-finding.txt:60:Authorization exists because residual risk ownership must transfer to the appropriate human authority before execution.
+./planning-authorization-doctrine-elevation-finding.txt:74:Risk Disclosure establishes visible residual risk.
+./planning-authorization-doctrine-elevation-finding.txt:76:Authorization establishes conscious acceptance of residual risk.
+./planning-authorization-doctrine-elevation-finding.txt:88:- Risk Visibility and Disclosure
+./planning-authorization-doctrine-elevation-finding.txt:90:- Residual Risk Acceptance Doctrine
+./planning-authorization-doctrine-elevation-finding.txt:96:- Review Validity
+./planning-authorization-doctrine-elevation-finding.txt:98:- Authorization Validity
+./planning-authorization-doctrine-elevation-finding.txt:108:- the intended future state is represented
+./planning-authorization-doctrine-elevation-finding.txt:110:- unnecessary risk has been minimized
+./planning-authorization-doctrine-elevation-finding.txt:112:- residual risk has been visibly disclosed
+./planning-authorization-doctrine-elevation-finding.txt:114:- the responsible human authority has accepted that residual risk
+./inspect-doctrine-architecture-consistency.sh:22:  rg -n -i "intended future state|unnecessary risk|residual risk|human acceptance|authorization validity|review validity|risk visibility" . -g '!backups/**' -g '!node_modules/**' || true
+./inspect-doctrine-architecture-consistency.sh:46:- achieve intended future state
+./inspect-doctrine-architecture-consistency.sh:48:- minimize unnecessary risk
+./inspect-doctrine-architecture-consistency.sh:50:- expose residual risk to the user
+./inspect-doctrine-architecture-consistency.sh:52:- require explicit human acceptance of residual risk before authorization
+./doctrine-architecture-consistency-inspection.txt:6:d1a891de Document residual risk acceptance doctrine
+./doctrine-architecture-consistency-inspection.txt:7:6ebfeb59 Document risk visibility and disclosure finding
+./doctrine-architecture-consistency-inspection.txt:14:./preview-builder-lifecycle-reconciliation-summary.txt:90:Review and authorization validity attach to exact proposal_id.
+./doctrine-architecture-consistency-inspection.txt:15:./preview-builder-lifecycle-reconciliation-summary.txt:98:Lineage does not preserve review validity automatically.
+./doctrine-architecture-consistency-inspection.txt:16:./planning-authorization-doctrine-elevation-finding.txt:8:Should residual risk acceptance remain a Preview Builder-local finding, or should it be elevated into higher-level Planning and Authorization Doctrine?
+./doctrine-architecture-consistency-inspection.txt:17:./planning-authorization-doctrine-elevation-finding.txt:14:It explains why the Preview Builder, Future-State Review, Risk Visibility, Review Result Artifacts, Authorization Artifacts, and audit reconstruction lifecycle exist.
+./doctrine-architecture-consistency-inspection.txt:18:./planning-authorization-doctrine-elevation-finding.txt:20:Achieve intended future state.
+./doctrine-architecture-consistency-inspection.txt:19:./planning-authorization-doctrine-elevation-finding.txt:24:Minimize unnecessary risk.
+./doctrine-architecture-consistency-inspection.txt:20:./planning-authorization-doctrine-elevation-finding.txt:28:Expose residual risk to the user.
+./doctrine-architecture-consistency-inspection.txt:21:./planning-authorization-doctrine-elevation-finding.txt:32:Require explicit human acceptance of residual risk before authorization.
+./doctrine-architecture-consistency-inspection.txt:22:./planning-authorization-doctrine-elevation-finding.txt:40:The system should not hide residual risk.
+./doctrine-architecture-consistency-inspection.txt:23:./planning-authorization-doctrine-elevation-finding.txt:42:The system should not treat approval as meaningful authorization unless residual risk has been disclosed and consciously accepted.
+./doctrine-architecture-consistency-inspection.txt:24:./planning-authorization-doctrine-elevation-finding.txt:46:Risk visibility gives authorization a unique approval quality.
+./doctrine-architecture-consistency-inspection.txt:25:./planning-authorization-doctrine-elevation-finding.txt:56:- accepting responsibility for proceeding with known residual risk
+./doctrine-architecture-consistency-inspection.txt:26:./planning-authorization-doctrine-elevation-finding.txt:60:Authorization exists because residual risk ownership must transfer to the appropriate human authority before execution.
+./doctrine-architecture-consistency-inspection.txt:27:./planning-authorization-doctrine-elevation-finding.txt:74:Risk Disclosure establishes visible residual risk.
+./doctrine-architecture-consistency-inspection.txt:28:./planning-authorization-doctrine-elevation-finding.txt:76:Authorization establishes conscious acceptance of residual risk.
+./doctrine-architecture-consistency-inspection.txt:29:./planning-authorization-doctrine-elevation-finding.txt:88:- Risk Visibility and Disclosure
+./doctrine-architecture-consistency-inspection.txt:30:./planning-authorization-doctrine-elevation-finding.txt:90:- Residual Risk Acceptance Doctrine
+./doctrine-architecture-consistency-inspection.txt:31:./planning-authorization-doctrine-elevation-finding.txt:96:- Review Validity
+./doctrine-architecture-consistency-inspection.txt:32:./planning-authorization-doctrine-elevation-finding.txt:98:- Authorization Validity
+./doctrine-architecture-consistency-inspection.txt:33:./planning-authorization-doctrine-elevation-finding.txt:108:- the intended future state is represented
+./doctrine-architecture-consistency-inspection.txt:34:./planning-authorization-doctrine-elevation-finding.txt:110:- unnecessary risk has been minimized
+./doctrine-architecture-consistency-inspection.txt:35:./planning-authorization-doctrine-elevation-finding.txt:112:- residual risk has been visibly disclosed
+./doctrine-architecture-consistency-inspection.txt:36:./planning-authorization-doctrine-elevation-finding.txt:114:- the responsible human authority has accepted that residual risk
+./doctrine-architecture-consistency-inspection.txt:37:./inspect-doctrine-architecture-consistency.sh:22:  rg -n -i "intended future state|unnecessary risk|residual risk|human acceptance|authorization validity|review validity|risk visibility" . -g '!backups/**' -g '!node_modules/**' || true
+./doctrine-architecture-consistency-inspection.txt:38:./inspect-doctrine-architecture-consistency.sh:46:- achieve intended future state
+./doctrine-architecture-consistency-inspection.txt:39:./inspect-doctrine-architecture-consistency.sh:48:- minimize unnecessary risk
+./doctrine-architecture-consistency-inspection.txt:40:./inspect-doctrine-architecture-consistency.sh:50:- expose residual risk to the user
+./doctrine-architecture-consistency-inspection.txt:41:./inspect-doctrine-architecture-consistency.sh:52:- require explicit human acceptance of residual risk before authorization
+./review-result-validity-finding.txt:60:Review validity should track proposal meaning.
+./review-result-validity-finding.txt:62:Review validity should not track presentation.
+./PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:4085:./docs/checkpoints/PHASE78_OPERATOR_RISK_SURFACE_COMPLETE.md:8:Establish a deterministic operator risk visibility layer that surfaces
+./preview-builder-gap-placement-inspection.txt:2142:PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:4085:./docs/checkpoints/PHASE78_OPERATOR_RISK_SURFACE_COMPLETE.md:8:Establish a deterministic operator risk visibility layer that surfaces
+./preview-builder-gap-placement-inspection.txt:4855:preview-builder-gap-placement-inspection.txt:2142:PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:4085:./docs/checkpoints/PHASE78_OPERATOR_RISK_SURFACE_COMPLETE.md:8:Establish a deterministic operator risk visibility layer that surfaces
+./preview-builder-gap-placement-inspection.txt:7899:docs/checkpoints/PHASE78_OPERATOR_RISK_SURFACE_COMPLETE.md:8:Establish a deterministic operator risk visibility layer that surfaces
+./preview-builder-gap-placement-inspection.txt:7914:docs/checkpoints/PHASE78_OPERATOR_RISK_SURFACE_COMPLETE.md:66:Safe iteration risk visibility now formalized.
+./preview-builder-gap-placement-inspection.txt:7916:docs/checkpoints/PHASE78_OPERATOR_RISK_SURFACE_COMPLETE.md:86:Operator maturity layer now includes explicit risk visibility.
+./preview-builder-gap-placement-inspection.txt:7944:docs/checkpoints/PHASE79_5_CONTROLLED_AUTOMATION_RISK_MODELING_20260316.md:162:Risk visibility
+./preview-builder-gap-placement-inspection.txt:10188:preview-builder-source-material-inspection.txt:5547:PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:4085:./docs/checkpoints/PHASE78_OPERATOR_RISK_SURFACE_COMPLETE.md:8:Establish a deterministic operator risk visibility layer that surfaces
+./preview-builder-gap-placement-inspection.txt:11159:backups/_restore_test/PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:4085:./docs/checkpoints/PHASE78_OPERATOR_RISK_SURFACE_COMPLETE.md:8:Establish a deterministic operator risk visibility layer that surfaces
+./preview-builder-gap-placement-inspection.txt:11464:backups/_restore_test/docs/checkpoints/PHASE79_5_CONTROLLED_AUTOMATION_RISK_MODELING_20260316.md:162:Risk visibility
+./preview-builder-gap-placement-inspection.txt:11529:backups/_restore_test/docs/checkpoints/PHASE78_OPERATOR_RISK_SURFACE_COMPLETE.md:8:Establish a deterministic operator risk visibility layer that surfaces
+./preview-builder-gap-placement-inspection.txt:11544:backups/_restore_test/docs/checkpoints/PHASE78_OPERATOR_RISK_SURFACE_COMPLETE.md:66:Safe iteration risk visibility now formalized.
+./preview-builder-gap-placement-inspection.txt:11546:backups/_restore_test/docs/checkpoints/PHASE78_OPERATOR_RISK_SURFACE_COMPLETE.md:86:Operator maturity layer now includes explicit risk visibility.
+./residual-risk-acceptance-doctrine-finding.txt:2:RESIDUAL RISK ACCEPTANCE DOCTRINE FINDING
+./residual-risk-acceptance-doctrine-finding.txt:10:Achieve intended future state.
+./residual-risk-acceptance-doctrine-finding.txt:14:Minimize unnecessary risk.
+./residual-risk-acceptance-doctrine-finding.txt:18:Expose residual risk to the user.
+./residual-risk-acceptance-doctrine-finding.txt:22:Require explicit human acceptance of residual risk before authorization.
+./residual-risk-acceptance-doctrine-finding.txt:28:Authorization is explicit acceptance of the residual risk associated with the proposed future state.
+./residual-risk-acceptance-doctrine-finding.txt:44:  What residual risk remains?
+./residual-risk-acceptance-doctrine-finding.txt:48:  Is the responsible human authority willing to accept that residual risk?
+./residual-risk-acceptance-doctrine-finding.txt:52:Risk visibility is not solely a safety feature.
+./residual-risk-acceptance-doctrine-finding.txt:54:Risk visibility is also an authorization-boundary feature.
+./residual-risk-acceptance-doctrine-finding.txt:66:Residual risk should not be hidden from the authorization corridor.
+./residual-risk-acceptance-doctrine-finding.txt:68:Residual risk should be visible at the decision point.
+./residual-risk-acceptance-doctrine-finding.txt:76:The system attempts to minimize unnecessary risk.
+./residual-risk-acceptance-doctrine-finding.txt:78:The system discloses residual risk.
+./residual-risk-acceptance-doctrine-finding.txt:80:The human authority determines whether residual risk is acceptable.
+./residual-risk-acceptance-doctrine-finding.txt:90:- Risk Visibility and Disclosure
+./residual-risk-acceptance-doctrine-finding.txt:96:- Review Validity
+./residual-risk-acceptance-doctrine-finding.txt:98:- Authorization Validity
+./residual-risk-acceptance-doctrine-finding.txt:106:Authorization occurs only after residual risk is made visible and consciously accepted.
+./docs/checkpoints/PHASE79_5_CONTROLLED_AUTOMATION_RISK_MODELING_20260316.md:162:Risk visibility
+./docs/checkpoints/PHASE78_OPERATOR_RISK_SURFACE_COMPLETE.md:8:Establish a deterministic operator risk visibility layer that surfaces
+./docs/checkpoints/PHASE78_OPERATOR_RISK_SURFACE_COMPLETE.md:66:Safe iteration risk visibility now formalized.
+./docs/checkpoints/PHASE78_OPERATOR_RISK_SURFACE_COMPLETE.md:86:Operator maturity layer now includes explicit risk visibility.
+./authorization-validity-semantics-finding.txt:2:AUTHORIZATION VALIDITY SEMANTICS FINDING
+./authorization-validity-semantics-finding.txt:16:Review validity does not automatically transfer across proposal revisions.
+./authorization-validity-semantics-finding.txt:64:Authorization validity should track proposal meaning.
+./authorization-validity-semantics-finding.txt:66:Authorization validity should not track presentation.
+./authorization-validity-semantics-finding.txt:92:Authorization validity preserves execution integrity.
+./execution-lineage-binding-finding.txt:20:  preserves review validity
+./execution-lineage-binding-finding.txt:24:  preserves authorization validity
+./canonical-preview-artifact-contract-draft.txt:184:Review validity attaches to exact proposal_id.
+./canonical-preview-artifact-contract-draft.txt:186:Authorization validity attaches to exact proposal_id.
+./preview-builder-source-material-inspection.txt:5547:PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:4085:./docs/checkpoints/PHASE78_OPERATOR_RISK_SURFACE_COMPLETE.md:8:Establish a deterministic operator risk visibility layer that surfaces
+./lifecycle-audit-reconstruction-finding.txt:70:Proposal explains the intended future state.
+./risk-visibility-and-disclosure-finding.txt:2:RISK VISIBILITY AND DISCLOSURE FINDING
+./risk-visibility-and-disclosure-finding.txt:48:Risk visibility supports informed user review.
+./proposal-lineage-semantics-finding.txt:114:Review validity remains attached to exact proposal_id.
+
+--- execution implementation ---
+server/execution/build-execution-envelope-draft.mjs:38:      execution_authorization: false,
+server/execution/build-execution-envelope-draft.mjs:42:      mutation_authorization: false,
+server/execution/build-execution-envelope-draft.mjs:44:      shell_authorization: false,
+server/execution/build-execution-envelope-draft.mjs:46:      autonomous_authorization: false,
+server/execution/build-execution-envelope-draft.mjs:50:        "This artifact preserves dry-run governed planning authority only and must not be treated as runtime execution authorization.",
+server/execution/build-execution-envelope-draft.mjs:156:        "Runtime execution authorization inferred from planning draft",
+server/execution/smoke-test-approval-gate.mjs:42:    notes: "Approval gate smoke validates planning-only authority",
+server/execution/smoke-test-approval-gate.mjs:84:    success_criteria: ["Approval gate returns planning-only authority"],
+server/execution/smoke-test-approval-gate.mjs:116:        expected_output: "Planning-only approval artifact",
