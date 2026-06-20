@@ -1,0 +1,153 @@
+
+PREVIEW PROPOSAL IDENTITY CONTRACT DRAFT
+
+Finding Status: DESIGN DRAFT
+
+Purpose:
+
+Define the minimum proposal identity contract for a Canonical Preview Artifact.
+
+Context:
+
+Proposal identity has been reconciled as the continuity anchor across:
+
+- Canonical Preview Artifact
+
+- Review Views
+
+- Review Result Artifacts
+
+- Authorization Artifacts
+
+- Audit Records
+
+- Execution Records
+
+- Reconciliation Records
+
+Contract Principle:
+
+Proposal identity must identify the exact proposed future state under review.
+
+Proposal identity must not imply approval.
+
+Proposal identity must not imply authorization.
+
+Proposal identity must not imply execution.
+
+Minimum Required Fields:
+
+proposal_id:
+
+  Stable identifier for the Canonical Preview Artifact.
+
+proposal_schema:
+
+  Canonical Preview Artifact schema version.
+
+proposal_state:
+
+  Must be proposed.
+
+source_bundle_schema:
+
+  Schema of the governed planning artifact bundle used as input.
+
+source_envelope_version:
+
+  Envelope version referenced by the governed planning bundle.
+
+source_trace_id:
+
+  Trace or lineage identifier if available.
+
+generated_at:
+
+  Timestamp when the proposal artifact was generated.
+
+proposal_hash:
+
+  Deterministic hash of the normalized proposal artifact when available.
+
+authority_state:
+
+  mutation_authorized: false
+
+  shell_execution_authorized: false
+
+  autonomous_execution_authorized: false
+
+  execution_authorized: false
+
+Reference Rule:
+
+All downstream lifecycle artifacts should reference proposal_id.
+
+Downstream artifacts should not rewrite the proposal.
+
+Downstream artifacts may add:
+
+- review result
+
+- human response
+
+- authorization decision
+
+- execution record
+
+- audit entry
+
+- reconciliation outcome
+
+but they must preserve proposal identity.
+
+Lifecycle Reference Pattern:
+
+Canonical Preview Artifact:
+
+  proposal_id: proposal-...
+
+Review View:
+
+  proposal_id: proposal-...
+
+Review Result Artifact:
+
+  proposal_id: proposal-...
+
+Authorization Artifact:
+
+  proposal_id: proposal-...
+
+Execution Record:
+
+  proposal_id: proposal-...
+
+Audit Record:
+
+  proposal_id: proposal-...
+
+Reconciliation Record:
+
+  proposal_id: proposal-...
+
+Scope Boundary:
+
+This draft does not authorize:
+
+- implementation
+
+- UI work
+
+- approval system construction
+
+- Preview Builder construction
+
+- Review View Builder construction
+
+- mutation
+
+- shell execution
+
+- autonomous execution
+
