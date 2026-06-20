@@ -1,0 +1,79 @@
+
+Persistence Surface Inspection Finding
+
+Inspected:
+
+- db/client.ts
+
+- db/task_events.schema.ts
+
+- db/reflection_index.ts
+
+- drizzle/0000_safe_kylun.sql
+
+- drizzle/0002_phase32_retry_backoff_minimal.sql
+
+- drizzle/0003_phase32_tasks_actor_run_id.sql
+
+Findings:
+
+Database client:
+
+- db/client.ts uses better-sqlite3.
+
+- Active database path is db/main.db.
+
+- sqlite is exported as an alias of db.
+
+Existing Drizzle-modeled tables:
+
+- task_events
+
+- reflection_index
+
+task_events schema:
+
+- id
+
+- kind
+
+- payload
+
+- created_at
+
+reflection_index schema:
+
+- id
+
+- related_event_id
+
+- agent
+
+- insight
+
+- confidence
+
+- created_at
+
+Migration observations:
+
+- drizzle/0000_safe_kylun.sql creates reflection_index and task_events.
+
+- drizzle/0002_phase32_retry_backoff_minimal.sql modifies tasks, not governance artifacts.
+
+- drizzle/0003_phase32_tasks_actor_run_id.sql modifies tasks, not governance artifacts.
+
+Conclusion:
+
+Existing persistence is SQLite-backed but does not contain canonical governance artifact tables.
+
+Implementation planning implication:
+
+Canonical governance artifacts should not be collapsed into task_events payloads.
+
+Package, Delegation Record, Governance Validation Result, Envelope Gate, and Envelope persistence should use dedicated tables or dedicated schema surfaces to preserve lineage, immutability, and audit clarity.
+
+Next planning step:
+
+Define additive persistence plan for dedicated governance tables before creating migrations.
+
