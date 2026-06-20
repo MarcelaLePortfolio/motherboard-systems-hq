@@ -1,0 +1,61 @@
+
+Persistence Surface Inspection Execution Readiness
+
+Latest confirmed commit:
+
+- 34307cb1 Record persistence surface inspection DR checkpoint
+
+Current status:
+
+- Planning corridor active.
+
+- Design corridor complete.
+
+- Reconciliation corridor complete.
+
+- DR-clean based on observed output.
+
+Next evidence collection step:
+
+Execute repository inspection against persistence surfaces.
+
+Inspection targets:
+
+- db/
+
+- drizzle/
+
+- sql/
+
+- routes/api/
+
+- task_events usage
+
+- sqlite client usage
+
+- migration history
+
+Expected outcome:
+
+Identify existing persistence authority, schema ownership, and lineage patterns before proposing governance artifact persistence.
+
+Boundary conditions:
+
+- Inspection only.
+
+- No schema changes.
+
+- No migrations.
+
+- No runtime modifications.
+
+- No behavior changes.
+
+- No routing.
+
+- No assignment.
+
+- No execution.
+
+Ready for evidence collection.
+
