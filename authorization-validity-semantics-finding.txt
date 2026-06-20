@@ -1,0 +1,117 @@
+
+AUTHORIZATION VALIDITY SEMANTICS FINDING
+
+Finding Status: DISCOVERY DRAFT
+
+Question:
+
+Should an Authorization Artifact remain valid if the proposal it references is superseded?
+
+Context:
+
+Proposal identity tracks proposed future state.
+
+Review Result Artifacts attach to a specific proposal_id.
+
+Review validity does not automatically transfer across proposal revisions.
+
+Proposal lineage preserves continuity without preserving validity.
+
+Architectural Concern:
+
+Execution authority should correspond to the exact proposal that was authorized.
+
+If proposal meaning changes after authorization, authority continuity may become ambiguous.
+
+Examples:
+
+Case A
+
+Proposal v1 authorized.
+
+Renderer changes.
+
+Review View changes.
+
+Presentation changes.
+
+Interpretation:
+
+Authorization remains valid.
+
+Proposal meaning is unchanged.
+
+Case B
+
+Proposal v1 authorized.
+
+Proposal v2 supersedes v1.
+
+Future state changes.
+
+Planned patches change.
+
+Risk profile changes.
+
+Rollback contract changes.
+
+Interpretation:
+
+Authorization for v1 should not automatically apply to v2.
+
+Preliminary Direction:
+
+Authorization validity should track proposal meaning.
+
+Authorization validity should not track presentation.
+
+Lifecycle Pattern:
+
+Proposal v1
+
+→ Review Result v1
+
+→ Authorization Artifact v1
+
+Proposal v2 supersedes v1
+
+→ Review Result v2
+
+→ Authorization Artifact v2
+
+Authorization Artifact v1 remains historical.
+
+Authorization Artifact v1 should not automatically authorize Proposal v2.
+
+Meaning:
+
+Authority is attached to the proposal that was actually authorized.
+
+Lineage preserves continuity.
+
+Authorization validity preserves execution integrity.
+
+Primary Rule:
+
+No proposal revision should inherit execution authority automatically.
+
+Scope Boundary:
+
+This finding does not authorize:
+
+- implementation
+
+- UI work
+
+- approval system construction
+
+- Preview Builder construction
+
+- Review View Builder construction
+
+- mutation
+
+- shell execution
+
+- autonomous execution
+
