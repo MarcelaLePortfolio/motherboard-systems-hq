@@ -1,0 +1,87 @@
+
+Governance Schema Implementation DR Result
+
+Latest confirmed commit:
+
+- 65036cf2 Record governance schema alignment review checkpoint
+
+Implemented schema commits:
+
+- 0ecf5251 Implement governance lifecycle schema v1
+
+- d523e520 Align governance lifecycle schema with lineage plan
+
+- 65036cf2 Record governance schema alignment review checkpoint
+
+DR status:
+
+DR was run after commit 65036cf2.
+
+No DR failure output was observed in the terminal output provided.
+
+Schema guardrail status:
+
+PASS
+
+No prohibited operational fields were found in:
+
+- db/governance.schema.ts
+
+- drizzle/0004_governance_lifecycle_artifacts.sql
+
+Expected governance tables observed:
+
+- governance_packages
+
+- governance_delegations
+
+- governance_validation_results
+
+- governance_envelope_gates
+
+- governance_envelopes
+
+Known out-of-scope issue:
+
+npx tsc --noEmit --pretty false failed on:
+
+- scripts/_local/agent-runtime/launch-matilda.mjs
+
+Assessment:
+
+The TypeScript failure is outside the authorized governance schema implementation scope.
+
+No evidence from the provided output indicates that the governance schema files caused the TypeScript failure.
+
+Implementation scope completed:
+
+- db/governance.schema.ts
+
+- drizzle/0004_governance_lifecycle_artifacts.sql
+
+Still not introduced:
+
+- routes
+
+- APIs
+
+- runtime artifact creation
+
+- runtime validation
+
+- Envelope creation behavior
+
+- routing
+
+- assignment
+
+- execution
+
+- automation
+
+- Atlas expansion
+
+Verdict:
+
+Governance schema implementation step is complete and DR-clean based on observed output.
+
