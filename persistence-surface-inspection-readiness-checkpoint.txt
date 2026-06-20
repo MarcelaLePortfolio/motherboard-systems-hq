@@ -1,0 +1,71 @@
+
+Persistence Surface Inspection Readiness Checkpoint
+
+Latest confirmed commit:
+
+- 56a6eb3e Record governance lifecycle implementation planning DR checkpoint
+
+Current status:
+
+- Discovery corridor complete.
+
+- Artifact design corridor complete.
+
+- Design reconciliation complete.
+
+- Implementation planning corridor active.
+
+- DR clean based on observed output.
+
+Confirmed implementation order:
+
+1. Package persistence model
+
+2. Delegation persistence model
+
+3. Governance Validation Result persistence model
+
+4. Envelope Gate evaluation model
+
+5. Envelope creation persistence model
+
+Next evidence collection target:
+
+Existing persistence surfaces.
+
+Inspection targets:
+
+- db/
+
+- drizzle/
+
+- sql/
+
+- routes/api/
+
+- task_events usage
+
+- sqlite client usage
+
+- migration history
+
+Objective:
+
+Determine whether canonical governance artifacts should extend existing persistence structures or require dedicated persistence surfaces.
+
+Boundary:
+
+Inspection only.
+
+No schema creation.
+
+No migrations.
+
+No runtime behavior changes.
+
+No routing.
+
+No assignment.
+
+No execution.
+
