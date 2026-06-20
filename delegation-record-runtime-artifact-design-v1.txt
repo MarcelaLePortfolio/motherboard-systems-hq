@@ -1,0 +1,71 @@
+
+Delegation Record Runtime Artifact Design v1
+
+Purpose:
+
+Runtime representation of the canonical Delegation Record.
+
+Status:
+
+Design only.
+
+No routing, execution, assignment, or lifecycle behavior.
+
+Minimum fields:
+
+- delegation_id
+
+  Unique immutable delegation identifier.
+
+- package_id
+
+  Reference to the authorized Package.
+
+- package_version
+
+  Reference to the specific authorized Package version.
+
+- authorization_state
+
+  Expected value: authorized.
+
+- authorization_timestamp
+
+  Timestamp of authorization.
+
+- delegated_by
+
+  Authority granting authorization.
+
+  Current expected value: User.
+
+Design principles:
+
+- Delegation authorizes interpretation.
+
+- Delegation does not authorize operationalization.
+
+- Delegation does not authorize routing.
+
+- Delegation does not authorize assignment.
+
+- Delegation does not authorize execution.
+
+- Delegation is immutable after creation.
+
+- Delegation applies only to the referenced package_version.
+
+- Governance Validation consumes Delegation Records but does not create them.
+
+Validation requirements:
+
+- Referenced package_id must exist.
+
+- Referenced package_version must exist.
+
+- Authorization must be recorded before Governance Validation may begin.
+
+Next dependency:
+
+Governance Validation Result runtime artifact design.
+
