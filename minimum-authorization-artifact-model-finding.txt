@@ -1,36 +1,4 @@
 
-#!/usr/bin/env bash
-
-set -euo pipefail
-
-REPORT="minimum-authorization-artifact-model-inspection.txt"
-
-{
-
-  echo "MINIMUM AUTHORIZATION ARTIFACT MODEL INSPECTION"
-
-  echo
-
-  echo "--- current head ---"
-
-  git log --oneline -8
-
-  echo
-
-  echo "--- doctrine sources ---"
-
-  rg -n -i "proposal_id|review validity|authorization validity|risk disclosure|risk acceptance|residual risk|authorization" . -g '!backups/**' -g '!node_modules/**' || true
-
-  echo
-
-  echo "--- future artifact surfaces ---"
-
-  cat future-authorization-artifact-surfaces-finding.txt 2>/dev/null || true
-
-} | tee "$REPORT"
-
-cat > minimum-authorization-artifact-model-finding.txt << 'EOF'
-
 MINIMUM AUTHORIZATION ARTIFACT MODEL FINDING
 
 Finding Status: CORRECTED INSPECTION

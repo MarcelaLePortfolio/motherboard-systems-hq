@@ -1,3 +1,1024 @@
 MINIMUM AUTHORIZATION ARTIFACT MODEL INSPECTION
 
+--- current head ---
+eb22d165 Inspect minimum authorization artifact model
+f965ec6a Document future authorization artifact surfaces
+8bd14e3e Record doctrine architecture consistency verdict
+532e0fd2 Correct doctrine architecture consistency inspection
+33bab0c4 Repair doctrine architecture consistency inspection
+853df807 Document planning authorization doctrine elevation
+d1a891de Document residual risk acceptance doctrine
+6ebfeb59 Document risk visibility and disclosure finding
+
 --- doctrine sources ---
+./preview-builder-placement-options-finding.txt:144:→ Later Approval / Authorization Corridors
+./preview-artifact-immutability-lifecycle-finding.txt:24:It does not represent execution authorization.
+./preview-artifact-immutability-lifecycle-finding.txt:38:→ Authorization Artifact
+./preview-artifact-immutability-lifecycle-finding.txt:50:The authorization artifact records execution authority separately.
+./preview-artifact-immutability-lifecycle-finding.txt:62:- authorization clarity
+./preview-artifact-immutability-lifecycle-finding.txt:66:- separation between proposal, review, and authorization
+./preview-artifact-immutability-lifecycle-finding.txt:70:Proposal generation, human review, and execution authorization are distinct lifecycle events.
+./governance-validation-operationalization-inspection.txt:350:docs/contracts/EXECUTION_APPROVAL_GATE_SMOKE.md:100:- planning-only authorization
+./preview-proposal-identity-contract-draft.txt:20:- Authorization Artifacts
+./preview-proposal-identity-contract-draft.txt:34:Proposal identity must not imply authorization.
+./preview-proposal-identity-contract-draft.txt:40:proposal_id:
+./preview-proposal-identity-contract-draft.txt:84:All downstream lifecycle artifacts should reference proposal_id.
+./preview-proposal-identity-contract-draft.txt:94:- authorization decision
+./preview-proposal-identity-contract-draft.txt:108:  proposal_id: proposal-...
+./preview-proposal-identity-contract-draft.txt:112:  proposal_id: proposal-...
+./preview-proposal-identity-contract-draft.txt:116:  proposal_id: proposal-...
+./preview-proposal-identity-contract-draft.txt:118:Authorization Artifact:
+./preview-proposal-identity-contract-draft.txt:120:  proposal_id: proposal-...
+./preview-proposal-identity-contract-draft.txt:124:  proposal_id: proposal-...
+./preview-proposal-identity-contract-draft.txt:128:  proposal_id: proposal-...
+./preview-proposal-identity-contract-draft.txt:132:  proposal_id: proposal-...
+./preview-builder-lifecycle-reconciliation-summary.txt:8:Summarize the Preview Builder governance lifecycle after proposal, review, authorization, lineage, validity, execution binding, and audit reconstruction findings.
+./preview-builder-lifecycle-reconciliation-summary.txt:26:→ Authorization Artifact
+./preview-builder-lifecycle-reconciliation-summary.txt:40:It is not an authorization system.
+./preview-builder-lifecycle-reconciliation-summary.txt:66:Authorization Review asks:
+./preview-builder-lifecycle-reconciliation-summary.txt:72:They reference exact proposal_id.
+./preview-builder-lifecycle-reconciliation-summary.txt:78:5. Authorization Artifacts record authority.
+./preview-builder-lifecycle-reconciliation-summary.txt:80:They reference exact proposal_id.
+./preview-builder-lifecycle-reconciliation-summary.txt:88:proposal_id anchors exact proposed future state.
+./preview-builder-lifecycle-reconciliation-summary.txt:90:Review and authorization validity attach to exact proposal_id.
+./preview-builder-lifecycle-reconciliation-summary.txt:94:root_proposal_id and supersedes_proposal_id preserve revision history.
+./preview-builder-lifecycle-reconciliation-summary.txt:98:Lineage does not preserve review validity automatically.
+./preview-builder-lifecycle-reconciliation-summary.txt:102:Execution records should reference exact proposal_id.
+./preview-builder-lifecycle-reconciliation-summary.txt:104:Execution may also preserve root_proposal_id for audit reconstruction.
+./preview-builder-lifecycle-reconciliation-summary.txt:120:Proposal, Review, Authorization, Execution, Audit, and Reconciliation remain distinct lifecycle artifacts.
+./preview-builder-lifecycle-reconciliation-summary.txt:140:- mutation authorization
+./preview-builder-lifecycle-reconciliation-summary.txt:142:- shell authorization
+./preview-builder-lifecycle-reconciliation-summary.txt:144:- autonomous authorization
+./PHASE44_HANDOFF.md:7:- Structural authorization allowlist (code-owned)
+./distinct-interpretation-boundaries.txt:55:16:The package is not an authorization artifact.
+./distinct-interpretation-boundaries.txt:70:108:- expand intent without authorization
+./distinct-interpretation-boundaries.txt:85:214:Interpretation Authorization occurs when the user delegates the package.
+./distinct-interpretation-boundaries.txt:90:264:Interpretation Authorization and Execution Authorization are distinct events.
+./doctrine-architecture-consistency-verdict.txt:14:No major contradiction was found between the Planning and Authorization Doctrine and the current governed execution architecture.
+./doctrine-architecture-consistency-verdict.txt:18:The repository now contains doctrine establishing that authorization requires:
+./doctrine-architecture-consistency-verdict.txt:24:- residual risk disclosure
+./doctrine-architecture-consistency-verdict.txt:26:- explicit human acceptance of residual risk
+./doctrine-architecture-consistency-verdict.txt:28:- exact proposal authorization binding
+./doctrine-architecture-consistency-verdict.txt:34:- execution_authorization: false
+./doctrine-architecture-consistency-verdict.txt:36:- mutation_authorization: false
+./doctrine-architecture-consistency-verdict.txt:38:- shell_authorization: false
+./doctrine-architecture-consistency-verdict.txt:40:- autonomous_authorization: false
+./doctrine-architecture-consistency-verdict.txt:42:The execution envelope draft states that the artifact preserves dry-run governed planning authority only and must not be treated as runtime execution authorization.
+./doctrine-architecture-consistency-verdict.txt:50:The doctrine defines requirements for a future authorization corridor.
+./doctrine-architecture-consistency-verdict.txt:56:Residual-risk acceptance is not yet implemented as an authorization artifact.
+./doctrine-architecture-consistency-verdict.txt:58:Proposal identity, review validity, authorization validity, and risk visibility are documented as doctrine and contract discovery, but not yet runtime lifecycle artifacts.
+./doctrine-architecture-consistency-verdict.txt:68:- residual risk disclosure
+./doctrine-architecture-consistency-verdict.txt:70:- human risk acceptance
+./doctrine-architecture-consistency-verdict.txt:72:- exact proposal-bound authorization
+./planning-authorization-doctrine-elevation-finding.txt:2:PLANNING AUTHORIZATION DOCTRINE ELEVATION FINDING
+./planning-authorization-doctrine-elevation-finding.txt:8:Should residual risk acceptance remain a Preview Builder-local finding, or should it be elevated into higher-level Planning and Authorization Doctrine?
+./planning-authorization-doctrine-elevation-finding.txt:14:It explains why the Preview Builder, Future-State Review, Risk Visibility, Review Result Artifacts, Authorization Artifacts, and audit reconstruction lifecycle exist.
+./planning-authorization-doctrine-elevation-finding.txt:28:Expose residual risk to the user.
+./planning-authorization-doctrine-elevation-finding.txt:32:Require explicit human acceptance of residual risk before authorization.
+./planning-authorization-doctrine-elevation-finding.txt:40:The system should not hide residual risk.
+./planning-authorization-doctrine-elevation-finding.txt:42:The system should not treat approval as meaningful authorization unless residual risk has been disclosed and consciously accepted.
+./planning-authorization-doctrine-elevation-finding.txt:46:Risk visibility gives authorization a unique approval quality.
+./planning-authorization-doctrine-elevation-finding.txt:56:- accepting responsibility for proceeding with known residual risk
+./planning-authorization-doctrine-elevation-finding.txt:60:Authorization exists because residual risk ownership must transfer to the appropriate human authority before execution.
+./planning-authorization-doctrine-elevation-finding.txt:62:Risk disclosure is therefore both:
+./planning-authorization-doctrine-elevation-finding.txt:74:Risk Disclosure establishes visible residual risk.
+./planning-authorization-doctrine-elevation-finding.txt:76:Authorization establishes conscious acceptance of residual risk.
+./planning-authorization-doctrine-elevation-finding.txt:90:- Residual Risk Acceptance Doctrine
+./planning-authorization-doctrine-elevation-finding.txt:96:- Review Validity
+./planning-authorization-doctrine-elevation-finding.txt:98:- Authorization Validity
+./planning-authorization-doctrine-elevation-finding.txt:106:No execution authorization should be treated as complete unless:
+./planning-authorization-doctrine-elevation-finding.txt:112:- residual risk has been visibly disclosed
+./planning-authorization-doctrine-elevation-finding.txt:114:- the responsible human authority has accepted that residual risk
+./planning-authorization-doctrine-elevation-finding.txt:116:- authorization references the exact proposal being authorized
+./interpretation-event-inspection.txt:151:./reconciled-lifecycle-review.txt:96:docs/governance/milestone-6-lifecycle-reconciliation-finding.md:44:- Delegation is Interpretation Authorization.
+./interpretation-event-inspection.txt:199:./reconciled-lifecycle-review.txt:173:docs/governance/CANONICAL_DELEGATION_SPECIFICATION.md:6:The Delegation Record is the canonical interpretation authorization artifact of the Motherboard Headquarters operating model.
+./interpretation-event-inspection.txt:201:./reconciled-lifecycle-review.txt:187:docs/governance/CANONICAL_DELEGATION_SPECIFICATION.md:62:Delegation is an Interpretation Authorization Record.
+./interpretation-event-inspection.txt:207:./reconciled-lifecycle-review.txt:992:The Delegation Record is the canonical interpretation authorization artifact of the Motherboard Headquarters operating model.
+./interpretation-event-inspection.txt:209:./reconciled-lifecycle-review.txt:1048:Delegation is an Interpretation Authorization Record.
+./interpretation-event-inspection.txt:211:./reconciled-lifecycle-review.txt:1142:Records when interpretation authorization occurred.
+./interpretation-event-inspection.txt:212:./reconciled-lifecycle-review.txt:1190:- Interpretation authorization has been granted
+./interpretation-event-inspection.txt:215:./reconciled-lifecycle-review.txt:1290:Interpretation Authorization
+./interpretation-event-inspection.txt:238:./reconciled-lifecycle-review.txt:2582:Interpretation Authorization occurs when the user delegates the package.
+./interpretation-event-inspection.txt:242:./reconciled-lifecycle-review.txt:2632:Interpretation Authorization and Execution Authorization are distinct events.
+./interpretation-event-inspection.txt:382:./docs/contracts/MILESTONE_3D_VALIDATOR_CONTRACT_PATCH_AUTHORIZATION.md:56:- validator possesses no interpretation authority
+./interpretation-event-inspection.txt:400:./docs/contracts/MILESTONE_3C_VALIDATOR_CONTRACT_AUTHORIZATION_REVIEW.md:44:- interpretation authority
+./interpretation-event-inspection.txt:543:./docs/governance/milestone-6-lifecycle-reconciliation-finding.md:44:- Delegation is Interpretation Authorization.
+./interpretation-event-inspection.txt:573:./docs/governance/matilda-package-contract.md:214:Interpretation Authorization occurs when the user delegates the package.
+./interpretation-event-inspection.txt:577:./docs/governance/matilda-package-contract.md:264:Interpretation Authorization and Execution Authorization are distinct events.
+./interpretation-event-inspection.txt:579:./docs/governance/CANONICAL_DELEGATION_SPECIFICATION.md:6:The Delegation Record is the canonical interpretation authorization artifact of the Motherboard Headquarters operating model.
+./interpretation-event-inspection.txt:581:./docs/governance/CANONICAL_DELEGATION_SPECIFICATION.md:62:Delegation is an Interpretation Authorization Record.
+./interpretation-event-inspection.txt:583:./docs/governance/CANONICAL_DELEGATION_SPECIFICATION.md:156:Records when interpretation authorization occurred.
+./interpretation-event-inspection.txt:584:./docs/governance/CANONICAL_DELEGATION_SPECIFICATION.md:204:- Interpretation authorization has been granted
+./interpretation-event-inspection.txt:587:./docs/governance/CANONICAL_DELEGATION_SPECIFICATION.md:304:Interpretation Authorization
+./interpretation-event-inspection.txt:597:./docs/governance/GOVERNANCE_LIFECYCLE_STATE_MODEL.md:90:Interpretation authorization exists.
+./interpretation-event-inspection.txt:695:./preview-summary-governance-inspection.txt:171:214:Interpretation Authorization occurs when the user delegates the package.
+./interpretation-event-inspection.txt:699:./preview-summary-governance-inspection.txt:202:44:- Delegation is Interpretation Authorization.
+./iel-governance-inspection.txt:35:docs/contracts/MILESTONE_2A_RUNTIME_CONTRACT_PATCH_AUTHORIZATION.md:42:3. Add governance authority fields:
+./iel-governance-inspection.txt:36:docs/contracts/MILESTONE_2A_RUNTIME_CONTRACT_PATCH_AUTHORIZATION.md:54:4. Add ambiguity policy fields:
+./iel-governance-inspection.txt:39:docs/contracts/MILESTONE_2_RUNTIME_CONTRACT_REVIEW_SCOPE.md:52:- Identify fields that imply inference-based authorization
+./iel-governance-inspection.txt:66:docs/contracts/MILESTONE_3C_VALIDATOR_CONTRACT_AUTHORIZATION_REVIEW.md:56:- identify missing validator fields or rules
+./tools/purge-ui-cache.sh:9:  -H "Authorization: Bearer $API_TOKEN" \
+./PHASE39_4_NEXT.md:10:Move from “operator-local grants” (Option A) to “cryptographically verifiable grants” (Option B) so a rogue runtime/agent cannot forge authorization.
+./interpretation-intent-authorization-lifecycle-finding.txt:2:INTERPRETATION / INTENT / AUTHORIZATION LIFECYCLE FINDING
+./interpretation-intent-authorization-lifecycle-finding.txt:10:Execution Authorization establishes Shared Authorization.
+./inspect-minimum-authorization-artifact-model.sh:6:REPORT="minimum-authorization-artifact-model-inspection.txt"
+./inspect-minimum-authorization-artifact-model.sh:10:  echo "MINIMUM AUTHORIZATION ARTIFACT MODEL INSPECTION"
+./inspect-minimum-authorization-artifact-model.sh:22:  rg -n -i "proposal_id|review validity|authorization validity|risk disclosure|risk acceptance|residual risk|authorization" . -g '!backups/**' -g '!node_modules/**' || true
+./inspect-minimum-authorization-artifact-model.sh:28:  cat future-authorization-artifact-surfaces-finding.txt 2>/dev/null || true
+./inspect-minimum-authorization-artifact-model.sh:32:cat > minimum-authorization-artifact-model-finding.txt << 'EOF'
+./inspect-minimum-authorization-artifact-model.sh:34:MINIMUM AUTHORIZATION ARTIFACT MODEL FINDING
+./inspect-minimum-authorization-artifact-model.sh:38:The prior minimum authorization artifact model inspection was mechanically incomplete because blank lines after shell continuations caused ripgrep arguments to execute as separate shell commands.
+./inspect-minimum-authorization-artifact-model.sh:44:Determine whether the future authorization corridor requires four distinct artifact surfaces, or whether some can be collapsed without violating proposal identity, risk disclosure, risk acceptance, authorization validity, and audit reconstruction.
+./inspect-doctrine-architecture-consistency.sh:22:  rg -n -i "intended future state|unnecessary risk|residual risk|human acceptance|authorization validity|review validity|risk visibility" . -g '!backups/**' -g '!node_modules/**' || true
+./inspect-doctrine-architecture-consistency.sh:28:  rg -n -i "execution_authorization|mutation_authorization|shell_authorization|autonomous_authorization|planning-only|runtime execution authorization" server/execution server/contracts || true
+./inspect-doctrine-architecture-consistency.sh:44:Check whether the current governed execution architecture supports or contradicts the Planning and Authorization Doctrine:
+./inspect-doctrine-architecture-consistency.sh:50:- expose residual risk to the user
+./inspect-doctrine-architecture-consistency.sh:52:- require explicit human acceptance of residual risk before authorization
+./doctrine-architecture-consistency-inspection.txt:5:853df807 Document planning authorization doctrine elevation
+./doctrine-architecture-consistency-inspection.txt:6:d1a891de Document residual risk acceptance doctrine
+./doctrine-architecture-consistency-inspection.txt:14:./preview-builder-lifecycle-reconciliation-summary.txt:90:Review and authorization validity attach to exact proposal_id.
+./doctrine-architecture-consistency-inspection.txt:15:./preview-builder-lifecycle-reconciliation-summary.txt:98:Lineage does not preserve review validity automatically.
+./doctrine-architecture-consistency-inspection.txt:16:./planning-authorization-doctrine-elevation-finding.txt:8:Should residual risk acceptance remain a Preview Builder-local finding, or should it be elevated into higher-level Planning and Authorization Doctrine?
+./doctrine-architecture-consistency-inspection.txt:17:./planning-authorization-doctrine-elevation-finding.txt:14:It explains why the Preview Builder, Future-State Review, Risk Visibility, Review Result Artifacts, Authorization Artifacts, and audit reconstruction lifecycle exist.
+./doctrine-architecture-consistency-inspection.txt:18:./planning-authorization-doctrine-elevation-finding.txt:20:Achieve intended future state.
+./doctrine-architecture-consistency-inspection.txt:19:./planning-authorization-doctrine-elevation-finding.txt:24:Minimize unnecessary risk.
+./doctrine-architecture-consistency-inspection.txt:20:./planning-authorization-doctrine-elevation-finding.txt:28:Expose residual risk to the user.
+./doctrine-architecture-consistency-inspection.txt:21:./planning-authorization-doctrine-elevation-finding.txt:32:Require explicit human acceptance of residual risk before authorization.
+./doctrine-architecture-consistency-inspection.txt:22:./planning-authorization-doctrine-elevation-finding.txt:40:The system should not hide residual risk.
+./doctrine-architecture-consistency-inspection.txt:23:./planning-authorization-doctrine-elevation-finding.txt:42:The system should not treat approval as meaningful authorization unless residual risk has been disclosed and consciously accepted.
+./doctrine-architecture-consistency-inspection.txt:24:./planning-authorization-doctrine-elevation-finding.txt:46:Risk visibility gives authorization a unique approval quality.
+./doctrine-architecture-consistency-inspection.txt:25:./planning-authorization-doctrine-elevation-finding.txt:56:- accepting responsibility for proceeding with known residual risk
+./doctrine-architecture-consistency-inspection.txt:26:./planning-authorization-doctrine-elevation-finding.txt:60:Authorization exists because residual risk ownership must transfer to the appropriate human authority before execution.
+./doctrine-architecture-consistency-inspection.txt:27:./planning-authorization-doctrine-elevation-finding.txt:74:Risk Disclosure establishes visible residual risk.
+./doctrine-architecture-consistency-inspection.txt:28:./planning-authorization-doctrine-elevation-finding.txt:76:Authorization establishes conscious acceptance of residual risk.
+./doctrine-architecture-consistency-inspection.txt:29:./planning-authorization-doctrine-elevation-finding.txt:88:- Risk Visibility and Disclosure
+./doctrine-architecture-consistency-inspection.txt:30:./planning-authorization-doctrine-elevation-finding.txt:90:- Residual Risk Acceptance Doctrine
+./doctrine-architecture-consistency-inspection.txt:31:./planning-authorization-doctrine-elevation-finding.txt:96:- Review Validity
+./doctrine-architecture-consistency-inspection.txt:32:./planning-authorization-doctrine-elevation-finding.txt:98:- Authorization Validity
+./doctrine-architecture-consistency-inspection.txt:33:./planning-authorization-doctrine-elevation-finding.txt:108:- the intended future state is represented
+./doctrine-architecture-consistency-inspection.txt:34:./planning-authorization-doctrine-elevation-finding.txt:110:- unnecessary risk has been minimized
+./doctrine-architecture-consistency-inspection.txt:35:./planning-authorization-doctrine-elevation-finding.txt:112:- residual risk has been visibly disclosed
+./doctrine-architecture-consistency-inspection.txt:36:./planning-authorization-doctrine-elevation-finding.txt:114:- the responsible human authority has accepted that residual risk
+./doctrine-architecture-consistency-inspection.txt:37:./inspect-doctrine-architecture-consistency.sh:22:  rg -n -i "intended future state|unnecessary risk|residual risk|human acceptance|authorization validity|review validity|risk visibility" . -g '!backups/**' -g '!node_modules/**' || true
+./doctrine-architecture-consistency-inspection.txt:40:./inspect-doctrine-architecture-consistency.sh:50:- expose residual risk to the user
+./doctrine-architecture-consistency-inspection.txt:41:./inspect-doctrine-architecture-consistency.sh:52:- require explicit human acceptance of residual risk before authorization
+./doctrine-architecture-consistency-inspection.txt:42:./doctrine-architecture-consistency-inspection.txt:6:d1a891de Document residual risk acceptance doctrine
+./doctrine-architecture-consistency-inspection.txt:44:./doctrine-architecture-consistency-inspection.txt:14:./preview-builder-lifecycle-reconciliation-summary.txt:90:Review and authorization validity attach to exact proposal_id.
+./doctrine-architecture-consistency-inspection.txt:45:./doctrine-architecture-consistency-inspection.txt:15:./preview-builder-lifecycle-reconciliation-summary.txt:98:Lineage does not preserve review validity automatically.
+./doctrine-architecture-consistency-inspection.txt:46:./doctrine-architecture-consistency-inspection.txt:16:./planning-authorization-doctrine-elevation-finding.txt:8:Should residual risk acceptance remain a Preview Builder-local finding, or should it be elevated into higher-level Planning and Authorization Doctrine?
+./doctrine-architecture-consistency-inspection.txt:47:./doctrine-architecture-consistency-inspection.txt:17:./planning-authorization-doctrine-elevation-finding.txt:14:It explains why the Preview Builder, Future-State Review, Risk Visibility, Review Result Artifacts, Authorization Artifacts, and audit reconstruction lifecycle exist.
+./doctrine-architecture-consistency-inspection.txt:48:./doctrine-architecture-consistency-inspection.txt:18:./planning-authorization-doctrine-elevation-finding.txt:20:Achieve intended future state.
+./doctrine-architecture-consistency-inspection.txt:49:./doctrine-architecture-consistency-inspection.txt:19:./planning-authorization-doctrine-elevation-finding.txt:24:Minimize unnecessary risk.
+./doctrine-architecture-consistency-inspection.txt:50:./doctrine-architecture-consistency-inspection.txt:20:./planning-authorization-doctrine-elevation-finding.txt:28:Expose residual risk to the user.
+./doctrine-architecture-consistency-inspection.txt:51:./doctrine-architecture-consistency-inspection.txt:21:./planning-authorization-doctrine-elevation-finding.txt:32:Require explicit human acceptance of residual risk before authorization.
+./doctrine-architecture-consistency-inspection.txt:52:./doctrine-architecture-consistency-inspection.txt:22:./planning-authorization-doctrine-elevation-finding.txt:40:The system should not hide residual risk.
+./doctrine-architecture-consistency-inspection.txt:53:./doctrine-architecture-consistency-inspection.txt:23:./planning-authorization-doctrine-elevation-finding.txt:42:The system should not treat approval as meaningful authorization unless residual risk has been disclosed and consciously accepted.
+./doctrine-architecture-consistency-inspection.txt:54:./doctrine-architecture-consistency-inspection.txt:24:./planning-authorization-doctrine-elevation-finding.txt:46:Risk visibility gives authorization a unique approval quality.
+./doctrine-architecture-consistency-inspection.txt:55:./doctrine-architecture-consistency-inspection.txt:25:./planning-authorization-doctrine-elevation-finding.txt:56:- accepting responsibility for proceeding with known residual risk
+./doctrine-architecture-consistency-inspection.txt:56:./doctrine-architecture-consistency-inspection.txt:26:./planning-authorization-doctrine-elevation-finding.txt:60:Authorization exists because residual risk ownership must transfer to the appropriate human authority before execution.
+./doctrine-architecture-consistency-inspection.txt:57:./doctrine-architecture-consistency-inspection.txt:27:./planning-authorization-doctrine-elevation-finding.txt:74:Risk Disclosure establishes visible residual risk.
+./doctrine-architecture-consistency-inspection.txt:58:./doctrine-architecture-consistency-inspection.txt:28:./planning-authorization-doctrine-elevation-finding.txt:76:Authorization establishes conscious acceptance of residual risk.
+./doctrine-architecture-consistency-inspection.txt:59:./doctrine-architecture-consistency-inspection.txt:29:./planning-authorization-doctrine-elevation-finding.txt:88:- Risk Visibility and Disclosure
+./doctrine-architecture-consistency-inspection.txt:60:./doctrine-architecture-consistency-inspection.txt:30:./planning-authorization-doctrine-elevation-finding.txt:90:- Residual Risk Acceptance Doctrine
+./doctrine-architecture-consistency-inspection.txt:61:./doctrine-architecture-consistency-inspection.txt:31:./planning-authorization-doctrine-elevation-finding.txt:96:- Review Validity
+./doctrine-architecture-consistency-inspection.txt:62:./doctrine-architecture-consistency-inspection.txt:32:./planning-authorization-doctrine-elevation-finding.txt:98:- Authorization Validity
+./doctrine-architecture-consistency-inspection.txt:63:./doctrine-architecture-consistency-inspection.txt:33:./planning-authorization-doctrine-elevation-finding.txt:108:- the intended future state is represented
+./doctrine-architecture-consistency-inspection.txt:64:./doctrine-architecture-consistency-inspection.txt:34:./planning-authorization-doctrine-elevation-finding.txt:110:- unnecessary risk has been minimized
+./doctrine-architecture-consistency-inspection.txt:65:./doctrine-architecture-consistency-inspection.txt:35:./planning-authorization-doctrine-elevation-finding.txt:112:- residual risk has been visibly disclosed
+./doctrine-architecture-consistency-inspection.txt:66:./doctrine-architecture-consistency-inspection.txt:36:./planning-authorization-doctrine-elevation-finding.txt:114:- the responsible human authority has accepted that residual risk
+./doctrine-architecture-consistency-inspection.txt:67:./doctrine-architecture-consistency-inspection.txt:37:./inspect-doctrine-architecture-consistency.sh:22:  rg -n -i "intended future state|unnecessary risk|residual risk|human acceptance|authorization validity|review validity|risk visibility" . -g '!backups/**' -g '!node_modules/**' || true
+./doctrine-architecture-consistency-inspection.txt:70:./doctrine-architecture-consistency-inspection.txt:40:./inspect-doctrine-architecture-consistency.sh:50:- expose residual risk to the user
+./doctrine-architecture-consistency-inspection.txt:71:./doctrine-architecture-consistency-inspection.txt:41:./inspect-doctrine-architecture-consistency.sh:52:- require explicit human acceptance of residual risk before authorization
+./doctrine-architecture-consistency-inspection.txt:72:./review-result-validity-finding.txt:60:Review validity should track proposal meaning.
+./doctrine-architecture-consistency-inspection.txt:73:./review-result-validity-finding.txt:62:Review validity should not track presentation.
+./doctrine-architecture-consistency-inspection.txt:87:./residual-risk-acceptance-doctrine-finding.txt:2:RESIDUAL RISK ACCEPTANCE DOCTRINE FINDING
+./doctrine-architecture-consistency-inspection.txt:90:./residual-risk-acceptance-doctrine-finding.txt:18:Expose residual risk to the user.
+./doctrine-architecture-consistency-inspection.txt:91:./residual-risk-acceptance-doctrine-finding.txt:22:Require explicit human acceptance of residual risk before authorization.
+./doctrine-architecture-consistency-inspection.txt:92:./residual-risk-acceptance-doctrine-finding.txt:28:Authorization is explicit acceptance of the residual risk associated with the proposed future state.
+./doctrine-architecture-consistency-inspection.txt:93:./residual-risk-acceptance-doctrine-finding.txt:44:  What residual risk remains?
+./doctrine-architecture-consistency-inspection.txt:94:./residual-risk-acceptance-doctrine-finding.txt:48:  Is the responsible human authority willing to accept that residual risk?
+./doctrine-architecture-consistency-inspection.txt:96:./residual-risk-acceptance-doctrine-finding.txt:54:Risk visibility is also an authorization-boundary feature.
+./doctrine-architecture-consistency-inspection.txt:97:./residual-risk-acceptance-doctrine-finding.txt:66:Residual risk should not be hidden from the authorization corridor.
+./doctrine-architecture-consistency-inspection.txt:98:./residual-risk-acceptance-doctrine-finding.txt:68:Residual risk should be visible at the decision point.
+./doctrine-architecture-consistency-inspection.txt:100:./residual-risk-acceptance-doctrine-finding.txt:78:The system discloses residual risk.
+./doctrine-architecture-consistency-inspection.txt:101:./residual-risk-acceptance-doctrine-finding.txt:80:The human authority determines whether residual risk is acceptable.
+./doctrine-architecture-consistency-inspection.txt:103:./residual-risk-acceptance-doctrine-finding.txt:96:- Review Validity
+./doctrine-architecture-consistency-inspection.txt:104:./residual-risk-acceptance-doctrine-finding.txt:98:- Authorization Validity
+./doctrine-architecture-consistency-inspection.txt:105:./residual-risk-acceptance-doctrine-finding.txt:106:Authorization occurs only after residual risk is made visible and consciously accepted.
+./doctrine-architecture-consistency-inspection.txt:110:./authorization-validity-semantics-finding.txt:2:AUTHORIZATION VALIDITY SEMANTICS FINDING
+./doctrine-architecture-consistency-inspection.txt:111:./authorization-validity-semantics-finding.txt:16:Review validity does not automatically transfer across proposal revisions.
+./doctrine-architecture-consistency-inspection.txt:112:./authorization-validity-semantics-finding.txt:64:Authorization validity should track proposal meaning.
+./doctrine-architecture-consistency-inspection.txt:113:./authorization-validity-semantics-finding.txt:66:Authorization validity should not track presentation.
+./doctrine-architecture-consistency-inspection.txt:114:./authorization-validity-semantics-finding.txt:92:Authorization validity preserves execution integrity.
+./doctrine-architecture-consistency-inspection.txt:115:./execution-lineage-binding-finding.txt:20:  preserves review validity
+./doctrine-architecture-consistency-inspection.txt:116:./execution-lineage-binding-finding.txt:24:  preserves authorization validity
+./doctrine-architecture-consistency-inspection.txt:117:./canonical-preview-artifact-contract-draft.txt:184:Review validity attaches to exact proposal_id.
+./doctrine-architecture-consistency-inspection.txt:118:./canonical-preview-artifact-contract-draft.txt:186:Authorization validity attaches to exact proposal_id.
+./doctrine-architecture-consistency-inspection.txt:123:./proposal-lineage-semantics-finding.txt:114:Review validity remains attached to exact proposal_id.
+./doctrine-architecture-consistency-inspection.txt:126:server/execution/build-execution-envelope-draft.mjs:38:      execution_authorization: false,
+./doctrine-architecture-consistency-inspection.txt:127:server/execution/build-execution-envelope-draft.mjs:42:      mutation_authorization: false,
+./doctrine-architecture-consistency-inspection.txt:128:server/execution/build-execution-envelope-draft.mjs:44:      shell_authorization: false,
+./doctrine-architecture-consistency-inspection.txt:129:server/execution/build-execution-envelope-draft.mjs:46:      autonomous_authorization: false,
+./doctrine-architecture-consistency-inspection.txt:130:server/execution/build-execution-envelope-draft.mjs:50:        "This artifact preserves dry-run governed planning authority only and must not be treated as runtime execution authorization.",
+./doctrine-architecture-consistency-inspection.txt:131:server/execution/build-execution-envelope-draft.mjs:156:        "Runtime execution authorization inferred from planning draft",
+./PHASE39_1.md:37:A coarse authorization classification for an action request.
+./inspect-governance-approval-core-files.sh:74:  rg -n -i "approve|approval|preview|planning artifact|execution authorization|execution approval|governance validation|reviewable|artifact bundle|authority" "${FILES[@]}" 2>/dev/null || true
+./preview-builder-implementation-surfaces-inspection.txt:10:702910f5 Document interpretation intent authorization lifecycle
+./preview-builder-implementation-surfaces-inspection.txt:98:  - delegation authorization
+./preview-builder-implementation-surfaces-inspection.txt:104:  - execution_authorization false
+./preview-builder-implementation-surfaces-inspection.txt:106:  - routing_authorization false
+./preview-builder-implementation-surfaces-inspection.txt:108:  - mutation_authorization false
+./preview-builder-implementation-surfaces-inspection.txt:110:  - shell_authorization false
+./preview-builder-implementation-surfaces-inspection.txt:112:  - autonomous_authorization false
+./preview-builder-implementation-surfaces-inspection.txt:148:Execution authorization, phase transitions, mutation authority, shell authority, and autonomous authority should remain untouched unless a later execution corridor explicitly opens them.
+./snapshots/20251114-114707/routes/matilda.ts:14:        "Authorization": `Bearer ${process.env.OPENAI_API_KEY}`
+./preview-proposal-identity-finding.txt:8:How do Interpretation Review, Future-State Review, Authorization Review, Review Result Artifacts, Authorization Artifacts, Audit Records, and Execution Records know they are referring to the same proposal?
+./preview-proposal-identity-finding.txt:28:→ Authorization Artifact
+./preview-proposal-identity-finding.txt:64:- authorization review view
+./preview-proposal-identity-finding.txt:68:- authorization artifact
+./preview-proposal-identity-finding.txt:80:Authorization Artifacts should reference proposal identity.
+./preview-proposal-identity-finding.txt:94:proposal_id
+./preview-proposal-identity-finding.txt:128:→ Canonical Preview Artifact with proposal_id
+./preview-proposal-identity-finding.txt:130:→ Review Views referencing proposal_id
+./preview-proposal-identity-finding.txt:132:→ Review Result Artifact referencing proposal_id
+./preview-proposal-identity-finding.txt:134:→ Authorization Artifact referencing proposal_id
+./preview-proposal-identity-finding.txt:136:→ Execution / Audit / Reconciliation records referencing proposal_id
+./preview-proposal-identity-finding.txt:142:Proposal identity is not authorization.
+./proposal-revision-semantics-finding.txt:22:- Authorization Artifacts
+./minimum-authorization-artifact-model-inspection.txt:1:MINIMUM AUTHORIZATION ARTIFACT MODEL INSPECTION
+./minimum-authorization-artifact-model-inspection.txt:4:eb22d165 Inspect minimum authorization artifact model
+./minimum-authorization-artifact-model-inspection.txt:5:f965ec6a Document future authorization artifact surfaces
+./minimum-authorization-artifact-model-inspection.txt:9:853df807 Document planning authorization doctrine elevation
+./minimum-authorization-artifact-model-inspection.txt:10:d1a891de Document residual risk acceptance doctrine
+./minimum-authorization-artifact-model-inspection.txt:14:./preview-builder-placement-options-finding.txt:144:→ Later Approval / Authorization Corridors
+./minimum-authorization-artifact-model-inspection.txt:15:./preview-artifact-immutability-lifecycle-finding.txt:24:It does not represent execution authorization.
+./minimum-authorization-artifact-model-inspection.txt:16:./preview-artifact-immutability-lifecycle-finding.txt:38:→ Authorization Artifact
+./minimum-authorization-artifact-model-inspection.txt:17:./preview-artifact-immutability-lifecycle-finding.txt:50:The authorization artifact records execution authority separately.
+./minimum-authorization-artifact-model-inspection.txt:18:./preview-artifact-immutability-lifecycle-finding.txt:62:- authorization clarity
+./minimum-authorization-artifact-model-inspection.txt:19:./preview-artifact-immutability-lifecycle-finding.txt:66:- separation between proposal, review, and authorization
+./minimum-authorization-artifact-model-inspection.txt:20:./preview-artifact-immutability-lifecycle-finding.txt:70:Proposal generation, human review, and execution authorization are distinct lifecycle events.
+./minimum-authorization-artifact-model-inspection.txt:21:./governance-validation-operationalization-inspection.txt:350:docs/contracts/EXECUTION_APPROVAL_GATE_SMOKE.md:100:- planning-only authorization
+./minimum-authorization-artifact-model-inspection.txt:22:./preview-proposal-identity-contract-draft.txt:20:- Authorization Artifacts
+./minimum-authorization-artifact-model-inspection.txt:23:./preview-proposal-identity-contract-draft.txt:34:Proposal identity must not imply authorization.
+./minimum-authorization-artifact-model-inspection.txt:24:./preview-proposal-identity-contract-draft.txt:40:proposal_id:
+./minimum-authorization-artifact-model-inspection.txt:25:./preview-proposal-identity-contract-draft.txt:84:All downstream lifecycle artifacts should reference proposal_id.
+./minimum-authorization-artifact-model-inspection.txt:26:./preview-proposal-identity-contract-draft.txt:94:- authorization decision
+./minimum-authorization-artifact-model-inspection.txt:27:./preview-proposal-identity-contract-draft.txt:108:  proposal_id: proposal-...
+./minimum-authorization-artifact-model-inspection.txt:28:./preview-proposal-identity-contract-draft.txt:112:  proposal_id: proposal-...
+./minimum-authorization-artifact-model-inspection.txt:29:./preview-proposal-identity-contract-draft.txt:116:  proposal_id: proposal-...
+./minimum-authorization-artifact-model-inspection.txt:30:./preview-proposal-identity-contract-draft.txt:118:Authorization Artifact:
+./minimum-authorization-artifact-model-inspection.txt:31:./preview-proposal-identity-contract-draft.txt:120:  proposal_id: proposal-...
+./minimum-authorization-artifact-model-inspection.txt:32:./preview-proposal-identity-contract-draft.txt:124:  proposal_id: proposal-...
+./minimum-authorization-artifact-model-inspection.txt:33:./preview-proposal-identity-contract-draft.txt:128:  proposal_id: proposal-...
+./minimum-authorization-artifact-model-inspection.txt:34:./preview-proposal-identity-contract-draft.txt:132:  proposal_id: proposal-...
+./minimum-authorization-artifact-model-inspection.txt:35:./preview-builder-lifecycle-reconciliation-summary.txt:8:Summarize the Preview Builder governance lifecycle after proposal, review, authorization, lineage, validity, execution binding, and audit reconstruction findings.
+./minimum-authorization-artifact-model-inspection.txt:36:./preview-builder-lifecycle-reconciliation-summary.txt:26:→ Authorization Artifact
+./minimum-authorization-artifact-model-inspection.txt:37:./preview-builder-lifecycle-reconciliation-summary.txt:40:It is not an authorization system.
+./minimum-authorization-artifact-model-inspection.txt:38:./preview-builder-lifecycle-reconciliation-summary.txt:66:Authorization Review asks:
+./minimum-authorization-artifact-model-inspection.txt:39:./preview-builder-lifecycle-reconciliation-summary.txt:72:They reference exact proposal_id.
+./minimum-authorization-artifact-model-inspection.txt:40:./preview-builder-lifecycle-reconciliation-summary.txt:78:5. Authorization Artifacts record authority.
+./minimum-authorization-artifact-model-inspection.txt:41:./preview-builder-lifecycle-reconciliation-summary.txt:80:They reference exact proposal_id.
+./minimum-authorization-artifact-model-inspection.txt:42:./preview-builder-lifecycle-reconciliation-summary.txt:88:proposal_id anchors exact proposed future state.
+./minimum-authorization-artifact-model-inspection.txt:43:./preview-builder-lifecycle-reconciliation-summary.txt:90:Review and authorization validity attach to exact proposal_id.
+./minimum-authorization-artifact-model-inspection.txt:44:./preview-builder-lifecycle-reconciliation-summary.txt:94:root_proposal_id and supersedes_proposal_id preserve revision history.
+./minimum-authorization-artifact-model-inspection.txt:45:./preview-builder-lifecycle-reconciliation-summary.txt:98:Lineage does not preserve review validity automatically.
+./minimum-authorization-artifact-model-inspection.txt:46:./preview-builder-lifecycle-reconciliation-summary.txt:102:Execution records should reference exact proposal_id.
+./minimum-authorization-artifact-model-inspection.txt:47:./preview-builder-lifecycle-reconciliation-summary.txt:104:Execution may also preserve root_proposal_id for audit reconstruction.
+./minimum-authorization-artifact-model-inspection.txt:48:./preview-builder-lifecycle-reconciliation-summary.txt:120:Proposal, Review, Authorization, Execution, Audit, and Reconciliation remain distinct lifecycle artifacts.
+./minimum-authorization-artifact-model-inspection.txt:49:./preview-builder-lifecycle-reconciliation-summary.txt:140:- mutation authorization
+./minimum-authorization-artifact-model-inspection.txt:50:./preview-builder-lifecycle-reconciliation-summary.txt:142:- shell authorization
+./minimum-authorization-artifact-model-inspection.txt:51:./preview-builder-lifecycle-reconciliation-summary.txt:144:- autonomous authorization
+./minimum-authorization-artifact-model-inspection.txt:52:./PHASE44_HANDOFF.md:7:- Structural authorization allowlist (code-owned)
+./minimum-authorization-artifact-model-inspection.txt:53:./distinct-interpretation-boundaries.txt:55:16:The package is not an authorization artifact.
+./minimum-authorization-artifact-model-inspection.txt:54:./distinct-interpretation-boundaries.txt:70:108:- expand intent without authorization
+./minimum-authorization-artifact-model-inspection.txt:55:./distinct-interpretation-boundaries.txt:85:214:Interpretation Authorization occurs when the user delegates the package.
+./minimum-authorization-artifact-model-inspection.txt:56:./distinct-interpretation-boundaries.txt:90:264:Interpretation Authorization and Execution Authorization are distinct events.
+./minimum-authorization-artifact-model-inspection.txt:57:./doctrine-architecture-consistency-verdict.txt:14:No major contradiction was found between the Planning and Authorization Doctrine and the current governed execution architecture.
+./minimum-authorization-artifact-model-inspection.txt:58:./doctrine-architecture-consistency-verdict.txt:18:The repository now contains doctrine establishing that authorization requires:
+./minimum-authorization-artifact-model-inspection.txt:59:./doctrine-architecture-consistency-verdict.txt:24:- residual risk disclosure
+./minimum-authorization-artifact-model-inspection.txt:60:./doctrine-architecture-consistency-verdict.txt:26:- explicit human acceptance of residual risk
+./minimum-authorization-artifact-model-inspection.txt:61:./doctrine-architecture-consistency-verdict.txt:28:- exact proposal authorization binding
+./minimum-authorization-artifact-model-inspection.txt:62:./doctrine-architecture-consistency-verdict.txt:34:- execution_authorization: false
+./minimum-authorization-artifact-model-inspection.txt:63:./doctrine-architecture-consistency-verdict.txt:36:- mutation_authorization: false
+./minimum-authorization-artifact-model-inspection.txt:64:./doctrine-architecture-consistency-verdict.txt:38:- shell_authorization: false
+./minimum-authorization-artifact-model-inspection.txt:65:./doctrine-architecture-consistency-verdict.txt:40:- autonomous_authorization: false
+./minimum-authorization-artifact-model-inspection.txt:66:./doctrine-architecture-consistency-verdict.txt:42:The execution envelope draft states that the artifact preserves dry-run governed planning authority only and must not be treated as runtime execution authorization.
+./minimum-authorization-artifact-model-inspection.txt:67:./doctrine-architecture-consistency-verdict.txt:50:The doctrine defines requirements for a future authorization corridor.
+./minimum-authorization-artifact-model-inspection.txt:68:./doctrine-architecture-consistency-verdict.txt:56:Residual-risk acceptance is not yet implemented as an authorization artifact.
+./minimum-authorization-artifact-model-inspection.txt:69:./doctrine-architecture-consistency-verdict.txt:58:Proposal identity, review validity, authorization validity, and risk visibility are documented as doctrine and contract discovery, but not yet runtime lifecycle artifacts.
+./minimum-authorization-artifact-model-inspection.txt:70:./doctrine-architecture-consistency-verdict.txt:68:- residual risk disclosure
+./minimum-authorization-artifact-model-inspection.txt:71:./doctrine-architecture-consistency-verdict.txt:70:- human risk acceptance
+./minimum-authorization-artifact-model-inspection.txt:72:./doctrine-architecture-consistency-verdict.txt:72:- exact proposal-bound authorization
+./minimum-authorization-artifact-model-inspection.txt:73:./planning-authorization-doctrine-elevation-finding.txt:2:PLANNING AUTHORIZATION DOCTRINE ELEVATION FINDING
+./minimum-authorization-artifact-model-inspection.txt:74:./planning-authorization-doctrine-elevation-finding.txt:8:Should residual risk acceptance remain a Preview Builder-local finding, or should it be elevated into higher-level Planning and Authorization Doctrine?
+./minimum-authorization-artifact-model-inspection.txt:75:./planning-authorization-doctrine-elevation-finding.txt:14:It explains why the Preview Builder, Future-State Review, Risk Visibility, Review Result Artifacts, Authorization Artifacts, and audit reconstruction lifecycle exist.
+./minimum-authorization-artifact-model-inspection.txt:76:./planning-authorization-doctrine-elevation-finding.txt:28:Expose residual risk to the user.
+./minimum-authorization-artifact-model-inspection.txt:77:./planning-authorization-doctrine-elevation-finding.txt:32:Require explicit human acceptance of residual risk before authorization.
+./minimum-authorization-artifact-model-inspection.txt:78:./planning-authorization-doctrine-elevation-finding.txt:40:The system should not hide residual risk.
+./minimum-authorization-artifact-model-inspection.txt:79:./planning-authorization-doctrine-elevation-finding.txt:42:The system should not treat approval as meaningful authorization unless residual risk has been disclosed and consciously accepted.
+./minimum-authorization-artifact-model-inspection.txt:80:./planning-authorization-doctrine-elevation-finding.txt:46:Risk visibility gives authorization a unique approval quality.
+./minimum-authorization-artifact-model-inspection.txt:81:./planning-authorization-doctrine-elevation-finding.txt:56:- accepting responsibility for proceeding with known residual risk
+./minimum-authorization-artifact-model-inspection.txt:82:./planning-authorization-doctrine-elevation-finding.txt:60:Authorization exists because residual risk ownership must transfer to the appropriate human authority before execution.
+./minimum-authorization-artifact-model-inspection.txt:83:./planning-authorization-doctrine-elevation-finding.txt:62:Risk disclosure is therefore both:
+./minimum-authorization-artifact-model-inspection.txt:84:./planning-authorization-doctrine-elevation-finding.txt:74:Risk Disclosure establishes visible residual risk.
+./minimum-authorization-artifact-model-inspection.txt:85:./planning-authorization-doctrine-elevation-finding.txt:76:Authorization establishes conscious acceptance of residual risk.
+./minimum-authorization-artifact-model-inspection.txt:86:./planning-authorization-doctrine-elevation-finding.txt:90:- Residual Risk Acceptance Doctrine
+./minimum-authorization-artifact-model-inspection.txt:87:./planning-authorization-doctrine-elevation-finding.txt:96:- Review Validity
+./minimum-authorization-artifact-model-inspection.txt:88:./planning-authorization-doctrine-elevation-finding.txt:98:- Authorization Validity
+./minimum-authorization-artifact-model-inspection.txt:89:./planning-authorization-doctrine-elevation-finding.txt:106:No execution authorization should be treated as complete unless:
+./minimum-authorization-artifact-model-inspection.txt:90:./planning-authorization-doctrine-elevation-finding.txt:112:- residual risk has been visibly disclosed
+./minimum-authorization-artifact-model-inspection.txt:91:./planning-authorization-doctrine-elevation-finding.txt:114:- the responsible human authority has accepted that residual risk
+./minimum-authorization-artifact-model-inspection.txt:92:./planning-authorization-doctrine-elevation-finding.txt:116:- authorization references the exact proposal being authorized
+./minimum-authorization-artifact-model-inspection.txt:93:./interpretation-event-inspection.txt:151:./reconciled-lifecycle-review.txt:96:docs/governance/milestone-6-lifecycle-reconciliation-finding.md:44:- Delegation is Interpretation Authorization.
+./minimum-authorization-artifact-model-inspection.txt:94:./interpretation-event-inspection.txt:199:./reconciled-lifecycle-review.txt:173:docs/governance/CANONICAL_DELEGATION_SPECIFICATION.md:6:The Delegation Record is the canonical interpretation authorization artifact of the Motherboard Headquarters operating model.
+./minimum-authorization-artifact-model-inspection.txt:95:./interpretation-event-inspection.txt:201:./reconciled-lifecycle-review.txt:187:docs/governance/CANONICAL_DELEGATION_SPECIFICATION.md:62:Delegation is an Interpretation Authorization Record.
+./minimum-authorization-artifact-model-inspection.txt:96:./interpretation-event-inspection.txt:207:./reconciled-lifecycle-review.txt:992:The Delegation Record is the canonical interpretation authorization artifact of the Motherboard Headquarters operating model.
+./minimum-authorization-artifact-model-inspection.txt:97:./interpretation-event-inspection.txt:209:./reconciled-lifecycle-review.txt:1048:Delegation is an Interpretation Authorization Record.
+./minimum-authorization-artifact-model-inspection.txt:98:./interpretation-event-inspection.txt:211:./reconciled-lifecycle-review.txt:1142:Records when interpretation authorization occurred.
+./minimum-authorization-artifact-model-inspection.txt:99:./interpretation-event-inspection.txt:212:./reconciled-lifecycle-review.txt:1190:- Interpretation authorization has been granted
+./minimum-authorization-artifact-model-inspection.txt:100:./interpretation-event-inspection.txt:215:./reconciled-lifecycle-review.txt:1290:Interpretation Authorization
+./minimum-authorization-artifact-model-inspection.txt:101:./interpretation-event-inspection.txt:238:./reconciled-lifecycle-review.txt:2582:Interpretation Authorization occurs when the user delegates the package.
+./minimum-authorization-artifact-model-inspection.txt:102:./interpretation-event-inspection.txt:242:./reconciled-lifecycle-review.txt:2632:Interpretation Authorization and Execution Authorization are distinct events.
+./minimum-authorization-artifact-model-inspection.txt:103:./interpretation-event-inspection.txt:382:./docs/contracts/MILESTONE_3D_VALIDATOR_CONTRACT_PATCH_AUTHORIZATION.md:56:- validator possesses no interpretation authority
+./minimum-authorization-artifact-model-inspection.txt:104:./interpretation-event-inspection.txt:400:./docs/contracts/MILESTONE_3C_VALIDATOR_CONTRACT_AUTHORIZATION_REVIEW.md:44:- interpretation authority
+./minimum-authorization-artifact-model-inspection.txt:105:./interpretation-event-inspection.txt:543:./docs/governance/milestone-6-lifecycle-reconciliation-finding.md:44:- Delegation is Interpretation Authorization.
+./minimum-authorization-artifact-model-inspection.txt:106:./interpretation-event-inspection.txt:573:./docs/governance/matilda-package-contract.md:214:Interpretation Authorization occurs when the user delegates the package.
+./minimum-authorization-artifact-model-inspection.txt:107:./interpretation-event-inspection.txt:577:./docs/governance/matilda-package-contract.md:264:Interpretation Authorization and Execution Authorization are distinct events.
+./minimum-authorization-artifact-model-inspection.txt:108:./interpretation-event-inspection.txt:579:./docs/governance/CANONICAL_DELEGATION_SPECIFICATION.md:6:The Delegation Record is the canonical interpretation authorization artifact of the Motherboard Headquarters operating model.
+./minimum-authorization-artifact-model-inspection.txt:109:./interpretation-event-inspection.txt:581:./docs/governance/CANONICAL_DELEGATION_SPECIFICATION.md:62:Delegation is an Interpretation Authorization Record.
+./minimum-authorization-artifact-model-inspection.txt:110:./interpretation-event-inspection.txt:583:./docs/governance/CANONICAL_DELEGATION_SPECIFICATION.md:156:Records when interpretation authorization occurred.
+./minimum-authorization-artifact-model-inspection.txt:111:./interpretation-event-inspection.txt:584:./docs/governance/CANONICAL_DELEGATION_SPECIFICATION.md:204:- Interpretation authorization has been granted
+./minimum-authorization-artifact-model-inspection.txt:112:./interpretation-event-inspection.txt:587:./docs/governance/CANONICAL_DELEGATION_SPECIFICATION.md:304:Interpretation Authorization
+./minimum-authorization-artifact-model-inspection.txt:113:./interpretation-event-inspection.txt:597:./docs/governance/GOVERNANCE_LIFECYCLE_STATE_MODEL.md:90:Interpretation authorization exists.
+./minimum-authorization-artifact-model-inspection.txt:114:./interpretation-event-inspection.txt:695:./preview-summary-governance-inspection.txt:171:214:Interpretation Authorization occurs when the user delegates the package.
+./minimum-authorization-artifact-model-inspection.txt:115:./interpretation-event-inspection.txt:699:./preview-summary-governance-inspection.txt:202:44:- Delegation is Interpretation Authorization.
+./minimum-authorization-artifact-model-inspection.txt:116:./iel-governance-inspection.txt:35:docs/contracts/MILESTONE_2A_RUNTIME_CONTRACT_PATCH_AUTHORIZATION.md:42:3. Add governance authority fields:
+./minimum-authorization-artifact-model-inspection.txt:117:./iel-governance-inspection.txt:36:docs/contracts/MILESTONE_2A_RUNTIME_CONTRACT_PATCH_AUTHORIZATION.md:54:4. Add ambiguity policy fields:
+./minimum-authorization-artifact-model-inspection.txt:118:./iel-governance-inspection.txt:39:docs/contracts/MILESTONE_2_RUNTIME_CONTRACT_REVIEW_SCOPE.md:52:- Identify fields that imply inference-based authorization
+./minimum-authorization-artifact-model-inspection.txt:119:./iel-governance-inspection.txt:66:docs/contracts/MILESTONE_3C_VALIDATOR_CONTRACT_AUTHORIZATION_REVIEW.md:56:- identify missing validator fields or rules
+./minimum-authorization-artifact-model-inspection.txt:120:./tools/purge-ui-cache.sh:9:  -H "Authorization: Bearer $API_TOKEN" \
+./minimum-authorization-artifact-model-inspection.txt:121:./PHASE39_4_NEXT.md:10:Move from “operator-local grants” (Option A) to “cryptographically verifiable grants” (Option B) so a rogue runtime/agent cannot forge authorization.
+./minimum-authorization-artifact-model-inspection.txt:122:./interpretation-intent-authorization-lifecycle-finding.txt:2:INTERPRETATION / INTENT / AUTHORIZATION LIFECYCLE FINDING
+./minimum-authorization-artifact-model-inspection.txt:123:./interpretation-intent-authorization-lifecycle-finding.txt:10:Execution Authorization establishes Shared Authorization.
+./minimum-authorization-artifact-model-inspection.txt:124:./inspect-minimum-authorization-artifact-model.sh:6:REPORT="minimum-authorization-artifact-model-inspection.txt"
+./minimum-authorization-artifact-model-inspection.txt:125:./inspect-minimum-authorization-artifact-model.sh:10:  echo "MINIMUM AUTHORIZATION ARTIFACT MODEL INSPECTION"
+./minimum-authorization-artifact-model-inspection.txt:126:./inspect-minimum-authorization-artifact-model.sh:22:  rg -n -i "proposal_id|review validity|authorization validity|risk disclosure|risk acceptance|residual risk|authorization" . -g '!backups/**' -g '!node_modules/**' || true
+./minimum-authorization-artifact-model-inspection.txt:127:./inspect-minimum-authorization-artifact-model.sh:28:  cat future-authorization-artifact-surfaces-finding.txt 2>/dev/null || true
+./minimum-authorization-artifact-model-inspection.txt:128:./inspect-minimum-authorization-artifact-model.sh:32:cat > minimum-authorization-artifact-model-finding.txt << 'EOF'
+./minimum-authorization-artifact-model-inspection.txt:129:./inspect-minimum-authorization-artifact-model.sh:34:MINIMUM AUTHORIZATION ARTIFACT MODEL FINDING
+./minimum-authorization-artifact-model-inspection.txt:130:./inspect-minimum-authorization-artifact-model.sh:38:The prior minimum authorization artifact model inspection was mechanically incomplete because blank lines after shell continuations caused ripgrep arguments to execute as separate shell commands.
+./minimum-authorization-artifact-model-inspection.txt:131:./inspect-minimum-authorization-artifact-model.sh:44:Determine whether the future authorization corridor requires four distinct artifact surfaces, or whether some can be collapsed without violating proposal identity, risk disclosure, risk acceptance, authorization validity, and audit reconstruction.
+./minimum-authorization-artifact-model-inspection.txt:132:./inspect-doctrine-architecture-consistency.sh:22:  rg -n -i "intended future state|unnecessary risk|residual risk|human acceptance|authorization validity|review validity|risk visibility" . -g '!backups/**' -g '!node_modules/**' || true
+./minimum-authorization-artifact-model-inspection.txt:133:./inspect-doctrine-architecture-consistency.sh:28:  rg -n -i "execution_authorization|mutation_authorization|shell_authorization|autonomous_authorization|planning-only|runtime execution authorization" server/execution server/contracts || true
+./minimum-authorization-artifact-model-inspection.txt:134:./inspect-doctrine-architecture-consistency.sh:44:Check whether the current governed execution architecture supports or contradicts the Planning and Authorization Doctrine:
+./minimum-authorization-artifact-model-inspection.txt:135:./inspect-doctrine-architecture-consistency.sh:50:- expose residual risk to the user
+./minimum-authorization-artifact-model-inspection.txt:136:./inspect-doctrine-architecture-consistency.sh:52:- require explicit human acceptance of residual risk before authorization
+./minimum-authorization-artifact-model-inspection.txt:137:./doctrine-architecture-consistency-inspection.txt:5:853df807 Document planning authorization doctrine elevation
+./minimum-authorization-artifact-model-inspection.txt:138:./doctrine-architecture-consistency-inspection.txt:6:d1a891de Document residual risk acceptance doctrine
+./minimum-authorization-artifact-model-inspection.txt:139:./doctrine-architecture-consistency-inspection.txt:14:./preview-builder-lifecycle-reconciliation-summary.txt:90:Review and authorization validity attach to exact proposal_id.
+./minimum-authorization-artifact-model-inspection.txt:140:./doctrine-architecture-consistency-inspection.txt:15:./preview-builder-lifecycle-reconciliation-summary.txt:98:Lineage does not preserve review validity automatically.
+./minimum-authorization-artifact-model-inspection.txt:141:./doctrine-architecture-consistency-inspection.txt:16:./planning-authorization-doctrine-elevation-finding.txt:8:Should residual risk acceptance remain a Preview Builder-local finding, or should it be elevated into higher-level Planning and Authorization Doctrine?
+./minimum-authorization-artifact-model-inspection.txt:142:./doctrine-architecture-consistency-inspection.txt:17:./planning-authorization-doctrine-elevation-finding.txt:14:It explains why the Preview Builder, Future-State Review, Risk Visibility, Review Result Artifacts, Authorization Artifacts, and audit reconstruction lifecycle exist.
+./minimum-authorization-artifact-model-inspection.txt:143:./doctrine-architecture-consistency-inspection.txt:18:./planning-authorization-doctrine-elevation-finding.txt:20:Achieve intended future state.
+./minimum-authorization-artifact-model-inspection.txt:144:./doctrine-architecture-consistency-inspection.txt:19:./planning-authorization-doctrine-elevation-finding.txt:24:Minimize unnecessary risk.
+./minimum-authorization-artifact-model-inspection.txt:145:./doctrine-architecture-consistency-inspection.txt:20:./planning-authorization-doctrine-elevation-finding.txt:28:Expose residual risk to the user.
+./minimum-authorization-artifact-model-inspection.txt:146:./doctrine-architecture-consistency-inspection.txt:21:./planning-authorization-doctrine-elevation-finding.txt:32:Require explicit human acceptance of residual risk before authorization.
+./minimum-authorization-artifact-model-inspection.txt:147:./doctrine-architecture-consistency-inspection.txt:22:./planning-authorization-doctrine-elevation-finding.txt:40:The system should not hide residual risk.
+./minimum-authorization-artifact-model-inspection.txt:148:./doctrine-architecture-consistency-inspection.txt:23:./planning-authorization-doctrine-elevation-finding.txt:42:The system should not treat approval as meaningful authorization unless residual risk has been disclosed and consciously accepted.
+./minimum-authorization-artifact-model-inspection.txt:149:./doctrine-architecture-consistency-inspection.txt:24:./planning-authorization-doctrine-elevation-finding.txt:46:Risk visibility gives authorization a unique approval quality.
+./minimum-authorization-artifact-model-inspection.txt:150:./doctrine-architecture-consistency-inspection.txt:25:./planning-authorization-doctrine-elevation-finding.txt:56:- accepting responsibility for proceeding with known residual risk
+./minimum-authorization-artifact-model-inspection.txt:151:./doctrine-architecture-consistency-inspection.txt:26:./planning-authorization-doctrine-elevation-finding.txt:60:Authorization exists because residual risk ownership must transfer to the appropriate human authority before execution.
+./minimum-authorization-artifact-model-inspection.txt:152:./doctrine-architecture-consistency-inspection.txt:27:./planning-authorization-doctrine-elevation-finding.txt:74:Risk Disclosure establishes visible residual risk.
+./minimum-authorization-artifact-model-inspection.txt:153:./doctrine-architecture-consistency-inspection.txt:28:./planning-authorization-doctrine-elevation-finding.txt:76:Authorization establishes conscious acceptance of residual risk.
+./minimum-authorization-artifact-model-inspection.txt:154:./doctrine-architecture-consistency-inspection.txt:29:./planning-authorization-doctrine-elevation-finding.txt:88:- Risk Visibility and Disclosure
+./minimum-authorization-artifact-model-inspection.txt:155:./doctrine-architecture-consistency-inspection.txt:30:./planning-authorization-doctrine-elevation-finding.txt:90:- Residual Risk Acceptance Doctrine
+./minimum-authorization-artifact-model-inspection.txt:156:./doctrine-architecture-consistency-inspection.txt:31:./planning-authorization-doctrine-elevation-finding.txt:96:- Review Validity
+./minimum-authorization-artifact-model-inspection.txt:157:./doctrine-architecture-consistency-inspection.txt:32:./planning-authorization-doctrine-elevation-finding.txt:98:- Authorization Validity
+./minimum-authorization-artifact-model-inspection.txt:158:./doctrine-architecture-consistency-inspection.txt:33:./planning-authorization-doctrine-elevation-finding.txt:108:- the intended future state is represented
+./minimum-authorization-artifact-model-inspection.txt:159:./doctrine-architecture-consistency-inspection.txt:34:./planning-authorization-doctrine-elevation-finding.txt:110:- unnecessary risk has been minimized
+./minimum-authorization-artifact-model-inspection.txt:160:./doctrine-architecture-consistency-inspection.txt:35:./planning-authorization-doctrine-elevation-finding.txt:112:- residual risk has been visibly disclosed
+./minimum-authorization-artifact-model-inspection.txt:161:./doctrine-architecture-consistency-inspection.txt:36:./planning-authorization-doctrine-elevation-finding.txt:114:- the responsible human authority has accepted that residual risk
+./minimum-authorization-artifact-model-inspection.txt:162:./doctrine-architecture-consistency-inspection.txt:37:./inspect-doctrine-architecture-consistency.sh:22:  rg -n -i "intended future state|unnecessary risk|residual risk|human acceptance|authorization validity|review validity|risk visibility" . -g '!backups/**' -g '!node_modules/**' || true
+./minimum-authorization-artifact-model-inspection.txt:163:./doctrine-architecture-consistency-inspection.txt:40:./inspect-doctrine-architecture-consistency.sh:50:- expose residual risk to the user
+./minimum-authorization-artifact-model-inspection.txt:164:./doctrine-architecture-consistency-inspection.txt:41:./inspect-doctrine-architecture-consistency.sh:52:- require explicit human acceptance of residual risk before authorization
+./minimum-authorization-artifact-model-inspection.txt:165:./doctrine-architecture-consistency-inspection.txt:42:./doctrine-architecture-consistency-inspection.txt:6:d1a891de Document residual risk acceptance doctrine
+./minimum-authorization-artifact-model-inspection.txt:166:./doctrine-architecture-consistency-inspection.txt:44:./doctrine-architecture-consistency-inspection.txt:14:./preview-builder-lifecycle-reconciliation-summary.txt:90:Review and authorization validity attach to exact proposal_id.
+./minimum-authorization-artifact-model-inspection.txt:167:./doctrine-architecture-consistency-inspection.txt:45:./doctrine-architecture-consistency-inspection.txt:15:./preview-builder-lifecycle-reconciliation-summary.txt:98:Lineage does not preserve review validity automatically.
+./minimum-authorization-artifact-model-inspection.txt:168:./doctrine-architecture-consistency-inspection.txt:46:./doctrine-architecture-consistency-inspection.txt:16:./planning-authorization-doctrine-elevation-finding.txt:8:Should residual risk acceptance remain a Preview Builder-local finding, or should it be elevated into higher-level Planning and Authorization Doctrine?
+./minimum-authorization-artifact-model-inspection.txt:169:./doctrine-architecture-consistency-inspection.txt:47:./doctrine-architecture-consistency-inspection.txt:17:./planning-authorization-doctrine-elevation-finding.txt:14:It explains why the Preview Builder, Future-State Review, Risk Visibility, Review Result Artifacts, Authorization Artifacts, and audit reconstruction lifecycle exist.
+./minimum-authorization-artifact-model-inspection.txt:170:./doctrine-architecture-consistency-inspection.txt:48:./doctrine-architecture-consistency-inspection.txt:18:./planning-authorization-doctrine-elevation-finding.txt:20:Achieve intended future state.
+./minimum-authorization-artifact-model-inspection.txt:171:./doctrine-architecture-consistency-inspection.txt:49:./doctrine-architecture-consistency-inspection.txt:19:./planning-authorization-doctrine-elevation-finding.txt:24:Minimize unnecessary risk.
+./minimum-authorization-artifact-model-inspection.txt:172:./doctrine-architecture-consistency-inspection.txt:50:./doctrine-architecture-consistency-inspection.txt:20:./planning-authorization-doctrine-elevation-finding.txt:28:Expose residual risk to the user.
+./minimum-authorization-artifact-model-inspection.txt:173:./doctrine-architecture-consistency-inspection.txt:51:./doctrine-architecture-consistency-inspection.txt:21:./planning-authorization-doctrine-elevation-finding.txt:32:Require explicit human acceptance of residual risk before authorization.
+./minimum-authorization-artifact-model-inspection.txt:174:./doctrine-architecture-consistency-inspection.txt:52:./doctrine-architecture-consistency-inspection.txt:22:./planning-authorization-doctrine-elevation-finding.txt:40:The system should not hide residual risk.
+./minimum-authorization-artifact-model-inspection.txt:175:./doctrine-architecture-consistency-inspection.txt:53:./doctrine-architecture-consistency-inspection.txt:23:./planning-authorization-doctrine-elevation-finding.txt:42:The system should not treat approval as meaningful authorization unless residual risk has been disclosed and consciously accepted.
+./minimum-authorization-artifact-model-inspection.txt:176:./doctrine-architecture-consistency-inspection.txt:54:./doctrine-architecture-consistency-inspection.txt:24:./planning-authorization-doctrine-elevation-finding.txt:46:Risk visibility gives authorization a unique approval quality.
+./minimum-authorization-artifact-model-inspection.txt:177:./doctrine-architecture-consistency-inspection.txt:55:./doctrine-architecture-consistency-inspection.txt:25:./planning-authorization-doctrine-elevation-finding.txt:56:- accepting responsibility for proceeding with known residual risk
+./minimum-authorization-artifact-model-inspection.txt:178:./doctrine-architecture-consistency-inspection.txt:56:./doctrine-architecture-consistency-inspection.txt:26:./planning-authorization-doctrine-elevation-finding.txt:60:Authorization exists because residual risk ownership must transfer to the appropriate human authority before execution.
+./minimum-authorization-artifact-model-inspection.txt:179:./doctrine-architecture-consistency-inspection.txt:57:./doctrine-architecture-consistency-inspection.txt:27:./planning-authorization-doctrine-elevation-finding.txt:74:Risk Disclosure establishes visible residual risk.
+./minimum-authorization-artifact-model-inspection.txt:180:./doctrine-architecture-consistency-inspection.txt:58:./doctrine-architecture-consistency-inspection.txt:28:./planning-authorization-doctrine-elevation-finding.txt:76:Authorization establishes conscious acceptance of residual risk.
+./minimum-authorization-artifact-model-inspection.txt:181:./doctrine-architecture-consistency-inspection.txt:59:./doctrine-architecture-consistency-inspection.txt:29:./planning-authorization-doctrine-elevation-finding.txt:88:- Risk Visibility and Disclosure
+./minimum-authorization-artifact-model-inspection.txt:182:./doctrine-architecture-consistency-inspection.txt:60:./doctrine-architecture-consistency-inspection.txt:30:./planning-authorization-doctrine-elevation-finding.txt:90:- Residual Risk Acceptance Doctrine
+./minimum-authorization-artifact-model-inspection.txt:183:./doctrine-architecture-consistency-inspection.txt:61:./doctrine-architecture-consistency-inspection.txt:31:./planning-authorization-doctrine-elevation-finding.txt:96:- Review Validity
+./minimum-authorization-artifact-model-inspection.txt:184:./doctrine-architecture-consistency-inspection.txt:62:./doctrine-architecture-consistency-inspection.txt:32:./planning-authorization-doctrine-elevation-finding.txt:98:- Authorization Validity
+./minimum-authorization-artifact-model-inspection.txt:185:./doctrine-architecture-consistency-inspection.txt:63:./doctrine-architecture-consistency-inspection.txt:33:./planning-authorization-doctrine-elevation-finding.txt:108:- the intended future state is represented
+./minimum-authorization-artifact-model-inspection.txt:186:./doctrine-architecture-consistency-inspection.txt:64:./doctrine-architecture-consistency-inspection.txt:34:./planning-authorization-doctrine-elevation-finding.txt:110:- unnecessary risk has been minimized
+./minimum-authorization-artifact-model-inspection.txt:187:./doctrine-architecture-consistency-inspection.txt:65:./doctrine-architecture-consistency-inspection.txt:35:./planning-authorization-doctrine-elevation-finding.txt:112:- residual risk has been visibly disclosed
+./minimum-authorization-artifact-model-inspection.txt:188:./doctrine-architecture-consistency-inspection.txt:66:./doctrine-architecture-consistency-inspection.txt:36:./planning-authorization-doctrine-elevation-finding.txt:114:- the responsible human authority has accepted that residual risk
+./minimum-authorization-artifact-model-inspection.txt:189:./doctrine-architecture-consistency-inspection.txt:67:./doctrine-architecture-consistency-inspection.txt:37:./inspect-doctrine-architecture-consistency.sh:22:  rg -n -i "intended future state|unnecessary risk|residual risk|human acceptance|authorization validity|review validity|risk visibility" . -g '!backups/**' -g '!node_modules/**' || true
+./minimum-authorization-artifact-model-inspection.txt:190:./doctrine-architecture-consistency-inspection.txt:70:./doctrine-architecture-consistency-inspection.txt:40:./inspect-doctrine-architecture-consistency.sh:50:- expose residual risk to the user
+./minimum-authorization-artifact-model-inspection.txt:191:./doctrine-architecture-consistency-inspection.txt:71:./doctrine-architecture-consistency-inspection.txt:41:./inspect-doctrine-architecture-consistency.sh:52:- require explicit human acceptance of residual risk before authorization
+./minimum-authorization-artifact-model-inspection.txt:192:./doctrine-architecture-consistency-inspection.txt:72:./review-result-validity-finding.txt:60:Review validity should track proposal meaning.
+./minimum-authorization-artifact-model-inspection.txt:193:./doctrine-architecture-consistency-inspection.txt:73:./review-result-validity-finding.txt:62:Review validity should not track presentation.
+./minimum-authorization-artifact-model-inspection.txt:194:./doctrine-architecture-consistency-inspection.txt:87:./residual-risk-acceptance-doctrine-finding.txt:2:RESIDUAL RISK ACCEPTANCE DOCTRINE FINDING
+./minimum-authorization-artifact-model-inspection.txt:195:./doctrine-architecture-consistency-inspection.txt:90:./residual-risk-acceptance-doctrine-finding.txt:18:Expose residual risk to the user.
+./minimum-authorization-artifact-model-inspection.txt:196:./doctrine-architecture-consistency-inspection.txt:91:./residual-risk-acceptance-doctrine-finding.txt:22:Require explicit human acceptance of residual risk before authorization.
+./minimum-authorization-artifact-model-inspection.txt:197:./doctrine-architecture-consistency-inspection.txt:92:./residual-risk-acceptance-doctrine-finding.txt:28:Authorization is explicit acceptance of the residual risk associated with the proposed future state.
+./minimum-authorization-artifact-model-inspection.txt:198:./doctrine-architecture-consistency-inspection.txt:93:./residual-risk-acceptance-doctrine-finding.txt:44:  What residual risk remains?
+./minimum-authorization-artifact-model-inspection.txt:199:./doctrine-architecture-consistency-inspection.txt:94:./residual-risk-acceptance-doctrine-finding.txt:48:  Is the responsible human authority willing to accept that residual risk?
+./minimum-authorization-artifact-model-inspection.txt:200:./doctrine-architecture-consistency-inspection.txt:96:./residual-risk-acceptance-doctrine-finding.txt:54:Risk visibility is also an authorization-boundary feature.
+./minimum-authorization-artifact-model-inspection.txt:201:./doctrine-architecture-consistency-inspection.txt:97:./residual-risk-acceptance-doctrine-finding.txt:66:Residual risk should not be hidden from the authorization corridor.
+./minimum-authorization-artifact-model-inspection.txt:202:./doctrine-architecture-consistency-inspection.txt:98:./residual-risk-acceptance-doctrine-finding.txt:68:Residual risk should be visible at the decision point.
+./minimum-authorization-artifact-model-inspection.txt:203:./doctrine-architecture-consistency-inspection.txt:100:./residual-risk-acceptance-doctrine-finding.txt:78:The system discloses residual risk.
+./minimum-authorization-artifact-model-inspection.txt:204:./doctrine-architecture-consistency-inspection.txt:101:./residual-risk-acceptance-doctrine-finding.txt:80:The human authority determines whether residual risk is acceptable.
+./minimum-authorization-artifact-model-inspection.txt:205:./doctrine-architecture-consistency-inspection.txt:103:./residual-risk-acceptance-doctrine-finding.txt:96:- Review Validity
+./minimum-authorization-artifact-model-inspection.txt:206:./doctrine-architecture-consistency-inspection.txt:104:./residual-risk-acceptance-doctrine-finding.txt:98:- Authorization Validity
+./minimum-authorization-artifact-model-inspection.txt:207:./doctrine-architecture-consistency-inspection.txt:105:./residual-risk-acceptance-doctrine-finding.txt:106:Authorization occurs only after residual risk is made visible and consciously accepted.
+./minimum-authorization-artifact-model-inspection.txt:208:./doctrine-architecture-consistency-inspection.txt:110:./authorization-validity-semantics-finding.txt:2:AUTHORIZATION VALIDITY SEMANTICS FINDING
+./minimum-authorization-artifact-model-inspection.txt:209:./doctrine-architecture-consistency-inspection.txt:111:./authorization-validity-semantics-finding.txt:16:Review validity does not automatically transfer across proposal revisions.
+./minimum-authorization-artifact-model-inspection.txt:210:./doctrine-architecture-consistency-inspection.txt:112:./authorization-validity-semantics-finding.txt:64:Authorization validity should track proposal meaning.
+./minimum-authorization-artifact-model-inspection.txt:211:./doctrine-architecture-consistency-inspection.txt:113:./authorization-validity-semantics-finding.txt:66:Authorization validity should not track presentation.
+./minimum-authorization-artifact-model-inspection.txt:212:./doctrine-architecture-consistency-inspection.txt:114:./authorization-validity-semantics-finding.txt:92:Authorization validity preserves execution integrity.
+./minimum-authorization-artifact-model-inspection.txt:213:./doctrine-architecture-consistency-inspection.txt:115:./execution-lineage-binding-finding.txt:20:  preserves review validity
+./minimum-authorization-artifact-model-inspection.txt:214:./doctrine-architecture-consistency-inspection.txt:116:./execution-lineage-binding-finding.txt:24:  preserves authorization validity
+./minimum-authorization-artifact-model-inspection.txt:215:./doctrine-architecture-consistency-inspection.txt:117:./canonical-preview-artifact-contract-draft.txt:184:Review validity attaches to exact proposal_id.
+./minimum-authorization-artifact-model-inspection.txt:216:./doctrine-architecture-consistency-inspection.txt:118:./canonical-preview-artifact-contract-draft.txt:186:Authorization validity attaches to exact proposal_id.
+./minimum-authorization-artifact-model-inspection.txt:217:./doctrine-architecture-consistency-inspection.txt:123:./proposal-lineage-semantics-finding.txt:114:Review validity remains attached to exact proposal_id.
+./minimum-authorization-artifact-model-inspection.txt:218:./doctrine-architecture-consistency-inspection.txt:126:server/execution/build-execution-envelope-draft.mjs:38:      execution_authorization: false,
+./minimum-authorization-artifact-model-inspection.txt:219:./doctrine-architecture-consistency-inspection.txt:127:server/execution/build-execution-envelope-draft.mjs:42:      mutation_authorization: false,
+./minimum-authorization-artifact-model-inspection.txt:220:./doctrine-architecture-consistency-inspection.txt:128:server/execution/build-execution-envelope-draft.mjs:44:      shell_authorization: false,
+./minimum-authorization-artifact-model-inspection.txt:221:./doctrine-architecture-consistency-inspection.txt:129:server/execution/build-execution-envelope-draft.mjs:46:      autonomous_authorization: false,
+./minimum-authorization-artifact-model-inspection.txt:222:./doctrine-architecture-consistency-inspection.txt:130:server/execution/build-execution-envelope-draft.mjs:50:        "This artifact preserves dry-run governed planning authority only and must not be treated as runtime execution authorization.",
+./minimum-authorization-artifact-model-inspection.txt:223:./doctrine-architecture-consistency-inspection.txt:131:server/execution/build-execution-envelope-draft.mjs:156:        "Runtime execution authorization inferred from planning draft",
+./minimum-authorization-artifact-model-inspection.txt:224:./PHASE39_1.md:37:A coarse authorization classification for an action request.
+./minimum-authorization-artifact-model-inspection.txt:225:./inspect-governance-approval-core-files.sh:74:  rg -n -i "approve|approval|preview|planning artifact|execution authorization|execution approval|governance validation|reviewable|artifact bundle|authority" "${FILES[@]}" 2>/dev/null || true
+./minimum-authorization-artifact-model-inspection.txt:226:./preview-builder-implementation-surfaces-inspection.txt:10:702910f5 Document interpretation intent authorization lifecycle
+./minimum-authorization-artifact-model-inspection.txt:227:./preview-builder-implementation-surfaces-inspection.txt:98:  - delegation authorization
+./minimum-authorization-artifact-model-inspection.txt:228:./preview-builder-implementation-surfaces-inspection.txt:104:  - execution_authorization false
+./minimum-authorization-artifact-model-inspection.txt:229:./preview-builder-implementation-surfaces-inspection.txt:106:  - routing_authorization false
+./minimum-authorization-artifact-model-inspection.txt:230:./preview-builder-implementation-surfaces-inspection.txt:108:  - mutation_authorization false
+./minimum-authorization-artifact-model-inspection.txt:231:./preview-builder-implementation-surfaces-inspection.txt:110:  - shell_authorization false
+./minimum-authorization-artifact-model-inspection.txt:232:./preview-builder-implementation-surfaces-inspection.txt:112:  - autonomous_authorization false
+./minimum-authorization-artifact-model-inspection.txt:233:./preview-builder-implementation-surfaces-inspection.txt:148:Execution authorization, phase transitions, mutation authority, shell authority, and autonomous authority should remain untouched unless a later execution corridor explicitly opens them.
+./minimum-authorization-artifact-model-inspection.txt:234:./snapshots/20251114-114707/routes/matilda.ts:14:        "Authorization": `Bearer ${process.env.OPENAI_API_KEY}`
+./minimum-authorization-artifact-model-inspection.txt:235:./preview-proposal-identity-finding.txt:8:How do Interpretation Review, Future-State Review, Authorization Review, Review Result Artifacts, Authorization Artifacts, Audit Records, and Execution Records know they are referring to the same proposal?
+./minimum-authorization-artifact-model-inspection.txt:236:./preview-proposal-identity-finding.txt:28:→ Authorization Artifact
+./minimum-authorization-artifact-model-inspection.txt:237:./preview-proposal-identity-finding.txt:64:- authorization review view
+./minimum-authorization-artifact-model-inspection.txt:238:./preview-proposal-identity-finding.txt:68:- authorization artifact
+./minimum-authorization-artifact-model-inspection.txt:239:./preview-proposal-identity-finding.txt:80:Authorization Artifacts should reference proposal identity.
+./minimum-authorization-artifact-model-inspection.txt:240:./preview-proposal-identity-finding.txt:94:proposal_id
+./minimum-authorization-artifact-model-inspection.txt:241:./preview-proposal-identity-finding.txt:128:→ Canonical Preview Artifact with proposal_id
+./minimum-authorization-artifact-model-inspection.txt:242:./preview-proposal-identity-finding.txt:130:→ Review Views referencing proposal_id
+./minimum-authorization-artifact-model-inspection.txt:243:./preview-proposal-identity-finding.txt:132:→ Review Result Artifact referencing proposal_id
+./minimum-authorization-artifact-model-inspection.txt:244:./preview-proposal-identity-finding.txt:134:→ Authorization Artifact referencing proposal_id
+./minimum-authorization-artifact-model-inspection.txt:245:./preview-proposal-identity-finding.txt:136:→ Execution / Audit / Reconciliation records referencing proposal_id
+./minimum-authorization-artifact-model-inspection.txt:246:./preview-proposal-identity-finding.txt:142:Proposal identity is not authorization.
+./minimum-authorization-artifact-model-inspection.txt:247:./proposal-revision-semantics-finding.txt:22:- Authorization Artifacts
+./preview-artifact-minimal-schema-finding.txt:26:- not an authorization artifact
+./preview-artifact-minimal-schema-finding.txt:160:→ Authorization Artifact
+./preview-artifact-minimal-schema-finding.txt:168:Execution authority is recorded separately in an Authorization Artifact.
+./reconciled-lifecycle-review.txt:96:docs/governance/milestone-6-lifecycle-reconciliation-finding.md:44:- Delegation is Interpretation Authorization.
+./reconciled-lifecycle-review.txt:98:docs/governance/milestone-6-lifecycle-reconciliation-finding.md:48:- Package contains no authorization state.
+./reconciled-lifecycle-review.txt:173:docs/governance/CANONICAL_DELEGATION_SPECIFICATION.md:6:The Delegation Record is the canonical interpretation authorization artifact of the Motherboard Headquarters operating model.
+./reconciled-lifecycle-review.txt:187:docs/governance/CANONICAL_DELEGATION_SPECIFICATION.md:62:Delegation is an Interpretation Authorization Record.
+./reconciled-lifecycle-review.txt:228:docs/governance/CANONICAL_DELEGATION_SPECIFICATION.md:288:The Delegation Record comes into existence only after authorization occurs.
+./reconciled-lifecycle-review.txt:289:docs/governance/HEADQUARTERS_ORGANIZATIONAL_CHARTER.md:36:- Delegation Authorization
+./reconciled-lifecycle-review.txt:367:docs/governance/GOVERNANCE_VALIDATION_CHARTER.md:40:- Delegation Authorization
+./reconciled-lifecycle-review.txt:383:docs/governance/CANONICAL_ENVELOPE_SPECIFICATION.md:6:The Envelope is the canonical work authorization artifact of the Motherboard Headquarters operating model.
+./reconciled-lifecycle-review.txt:992:The Delegation Record is the canonical interpretation authorization artifact of the Motherboard Headquarters operating model.
+./reconciled-lifecycle-review.txt:1048:Delegation is an Interpretation Authorization Record.
+./reconciled-lifecycle-review.txt:1120:## authorization_state
+./reconciled-lifecycle-review.txt:1138:## authorization_timestamp
+./reconciled-lifecycle-review.txt:1142:Records when interpretation authorization occurred.
+./reconciled-lifecycle-review.txt:1160:Records the authority granting authorization.
+./reconciled-lifecycle-review.txt:1190:- Interpretation authorization has been granted
+./reconciled-lifecycle-review.txt:1274:The Delegation Record comes into existence only after authorization occurs.
+./reconciled-lifecycle-review.txt:1290:Interpretation Authorization
+./reconciled-lifecycle-review.txt:1344:- Delegation Authorization
+./reconciled-lifecycle-review.txt:1731:The Envelope is the canonical work authorization artifact of the Motherboard Headquarters operating model.
+./reconciled-lifecycle-review.txt:1875:Reference to delegation authorization.
+./reconciled-lifecycle-review.txt:2384:The package is not an authorization artifact.
+./reconciled-lifecycle-review.txt:2476:- expand intent without authorization
+./reconciled-lifecycle-review.txt:2564:- execution authorization
+./reconciled-lifecycle-review.txt:2566:- runtime authorization
+./reconciled-lifecycle-review.txt:2568:- shell authorization
+./reconciled-lifecycle-review.txt:2570:- autonomous execution authorization
+./reconciled-lifecycle-review.txt:2572:- deployment authorization
+./reconciled-lifecycle-review.txt:2582:Interpretation Authorization occurs when the user delegates the package.
+./reconciled-lifecycle-review.txt:2592:Authorization is represented by user delegation behavior.
+./reconciled-lifecycle-review.txt:2630:Execution authorization occurs later through preview approval.
+./reconciled-lifecycle-review.txt:2632:Interpretation Authorization and Execution Authorization are distinct events.
+./governance-approval-ontology-report.txt:19:e993b70c Guard planning draft from execution authorization
+./snapshots/20251114-114821/routes/matilda.ts:14:        "Authorization": `Bearer ${process.env.OPENAI_API_KEY}`
+./review-result-validity-finding.txt:16:Review Result Artifacts reference proposal_id.
+./review-result-validity-finding.txt:60:Review validity should track proposal meaning.
+./review-result-validity-finding.txt:62:Review validity should not track presentation.
+./review-result-validity-finding.txt:68:  proposal_id
+./review-result-validity-finding.txt:72:  proposal_id
+./review-result-validity-finding.txt:78:  new proposal_id
+./ui-anchor-report.txt:2032:./docs/contracts/MILESTONE_2A_RUNTIME_CONTRACT_PATCH_AUTHORIZATION.md
+./ui-anchor-report.txt:2057:./docs/contracts/MILESTONE_3D_VALIDATOR_CONTRACT_PATCH_AUTHORIZATION.md
+./ui-anchor-report.txt:2083:./docs/contracts/MILESTONE_3C_VALIDATOR_CONTRACT_AUTHORIZATION_REVIEW.md
+./preview-builder-implementation-surface-assessment.txt:22:- mutation authorization
+./preview-builder-implementation-surface-assessment.txt:24:- shell authorization
+./preview-builder-implementation-surface-assessment.txt:26:- autonomous authorization
+./ui-anchor-debug.log:2038:./docs/contracts/MILESTONE_2A_RUNTIME_CONTRACT_PATCH_AUTHORIZATION.md
+./ui-anchor-debug.log:2063:./docs/contracts/MILESTONE_3D_VALIDATOR_CONTRACT_PATCH_AUTHORIZATION.md
+./ui-anchor-debug.log:2089:./docs/contracts/MILESTONE_3C_VALIDATOR_CONTRACT_AUTHORIZATION_REVIEW.md
+./planning-vs-execution-authority-repo-finding.txt:54:4. Delegation Authorization
+./planning-vs-execution-authority-repo-finding.txt:56:The contract contains delegation_authorization, but the surrounding validators and approval gate constrain it to planning-only behavior in the current phase.
+./planning-vs-execution-authority-repo-finding.txt:80:Future execution authorization remains unimplemented and should be treated as a separate future corridor.
+./BACKEND_RESTORATION_STATE_VERIFICATION.txt:419:server/contracts/execution-envelope.v1.mjs:220:    delegation_authorization: {
+./BACKEND_RESTORATION_STATE_VERIFICATION.txt:420:server/contracts/execution-envelope.v1.mjs:226:        input?.delegation_authorization?.state ??
+./BACKEND_RESTORATION_STATE_VERIFICATION.txt:422:server/contracts/execution-envelope.v1.mjs:234:        input?.delegation_authorization?.notes ?? "",
+./BACKEND_RESTORATION_STATE_VERIFICATION.txt:520:server/execution/smoke-test-approval-gate.mjs:38:  delegation_authorization: {
+./BACKEND_RESTORATION_STATE_VERIFICATION.txt:634:server/execution/execution-approval-gate.mjs:108:    delegated: envelope?.delegation_authorization?.state === "delegated",
+./BACKEND_RESTORATION_STATE_VERIFICATION.txt:671:server/execution/governance-validator.mjs:172:    delegated: envelope?.delegation_authorization?.state === "delegated",
+./PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:338:./PHASE39_4_NEXT.md:10:Move from “operator-local grants” (Option A) to “cryptographically verifiable grants” (Option B) so a rogue runtime/agent cannot forge authorization.
+./PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:1313:./PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:338:./PHASE39_4_NEXT.md:10:Move from “operator-local grants” (Option A) to “cryptographically verifiable grants” (Option B) so a rogue runtime/agent cannot forge authorization.
+./iel-foundations-inspection.txt:11:docs/contracts/MILESTONE_2A_RUNTIME_CONTRACT_PATCH_AUTHORIZATION.md:42:3. Add governance authority fields:
+./iel-foundations-inspection.txt:12:docs/contracts/MILESTONE_2A_RUNTIME_CONTRACT_PATCH_AUTHORIZATION.md:54:4. Add ambiguity policy fields:
+./iel-foundations-inspection.txt:16:docs/contracts/MILESTONE_2_RUNTIME_CONTRACT_REVIEW_SCOPE.md:52:- Identify fields that imply inference-based authorization
+./iel-foundations-inspection.txt:58:docs/contracts/DELEGATION_ENVELOPE_V1.md:40:4. Delegation becomes bounded execution authorization only if intent evidence, scope, validation, and rollback requirements are complete
+./iel-foundations-inspection.txt:64:docs/contracts/MILESTONE_3D_VALIDATOR_CONTRACT_PATCH_AUTHORIZATION.md:70:- validator may escalate intent evidence failures
+./iel-foundations-inspection.txt:95:docs/contracts/MILESTONE_3C_VALIDATOR_CONTRACT_AUTHORIZATION_REVIEW.md:56:- identify missing validator fields or rules
+./iel-foundations-inspection.txt:471:./docs/contracts/MILESTONE_2A_RUNTIME_CONTRACT_PATCH_AUTHORIZATION.md:42:3. Add governance authority fields:
+./iel-foundations-inspection.txt:472:./docs/contracts/MILESTONE_2A_RUNTIME_CONTRACT_PATCH_AUTHORIZATION.md:54:4. Add ambiguity policy fields:
+./iel-foundations-inspection.txt:476:./docs/contracts/MILESTONE_2_RUNTIME_CONTRACT_REVIEW_SCOPE.md:52:- Identify fields that imply inference-based authorization
+./iel-foundations-inspection.txt:518:./docs/contracts/DELEGATION_ENVELOPE_V1.md:40:4. Delegation becomes bounded execution authorization only if intent evidence, scope, validation, and rollback requirements are complete
+./iel-foundations-inspection.txt:524:./docs/contracts/MILESTONE_3D_VALIDATOR_CONTRACT_PATCH_AUTHORIZATION.md:70:- validator may escalate intent evidence failures
+./iel-foundations-inspection.txt:555:./docs/contracts/MILESTONE_3C_VALIDATOR_CONTRACT_AUTHORIZATION_REVIEW.md:56:- identify missing validator fields or rules
+./server/contracts/execution-envelope.v1.mjs:314:    delegation_authorization: {
+./server/contracts/execution-envelope.v1.mjs:320:        input?.delegation_authorization?.state ??
+./server/contracts/execution-envelope.v1.mjs:328:        input?.delegation_authorization?.notes ?? "",
+./server/guards/phase44_runtime_integrity_guard.mjs:30: * No schema changes. Structural authorization is code-owned & reviewable.
+./server/guards/phase44_runtime_integrity_guard.mjs:53:      `[RUNTIME_INTEGRITY_GUARD] Refusing to invoke Tier ${tier} action without structural authorization: action_id=${actionId}`
+./docs/governance/CANONICAL_ENVELOPE_SPECIFICATION.md:6:The Envelope is the canonical work authorization artifact of the Motherboard Headquarters operating model.
+./docs/governance/CANONICAL_ENVELOPE_SPECIFICATION.md:150:Reference to delegation authorization.
+./docs/contracts/MILESTONE_3C_VALIDATOR_CONTRACT_REVIEW_FINDINGS.md:84:- Cade receives no executable authorization on validation failure
+./docs/contracts/MILESTONE_3C_VALIDATOR_CONTRACT_REVIEW_FINDINGS.md:168:- Milestone 3D validator contract patch authorization
+./docs/checkpoints/PHASE68_OPTIONS_MAP_20260316.md:170:Requires layout authorization
+./governance-validation-scope-map.txt:10:`matilda.cade.exec.v1` is not mutation execution authorization.
+./docs/contracts/MILESTONE_3C_VALIDATOR_CONTRACT_AUTHORIZATION_REVIEW.md:2:# Milestone 3C — Validator Contract Authorization Review
+./server/execution/build-execution-envelope-draft.mjs:38:      execution_authorization: false,
+./server/execution/build-execution-envelope-draft.mjs:40:      routing_authorization: false,
+./server/execution/build-execution-envelope-draft.mjs:42:      mutation_authorization: false,
+./server/execution/build-execution-envelope-draft.mjs:44:      shell_authorization: false,
+./server/execution/build-execution-envelope-draft.mjs:46:      autonomous_authorization: false,
+./server/execution/build-execution-envelope-draft.mjs:50:        "This artifact preserves dry-run governed planning authority only and must not be treated as runtime execution authorization.",
+./server/execution/build-execution-envelope-draft.mjs:156:        "Runtime execution authorization inferred from planning draft",
+./server/execution/build-execution-envelope-draft.mjs:218:    delegation_authorization: {
+./docs/governance/GOVERNANCE_VALIDATION_CHARTER.md:40:- Delegation Authorization
+./server/guards/validate-execution-envelope.mjs:142:      envelope?.delegation_authorization?.state,
+./server/guards/validate-execution-envelope.mjs:146:    "invalid delegation authorization state",
+./server/guards/validate-execution-envelope.mjs:152:    envelope?.delegation_authorization?.state ===
+./docs/contracts/MILESTONE_3B_VALIDATOR_RECONCILIATION_DECISION_LEDGER.md:36:Validator may prevent Cade from receiving executable authorization when validation fails.
+./docs/contracts/MILESTONE_3B_VALIDATOR_RECONCILIATION_DECISION_LEDGER.md:210:Validator contract authorization review.
+./docs/contracts/EXECUTION_APPROVAL_GATE_SMOKE.md:100:- planning-only authorization
+./docs/contracts/CANONICAL_EXECUTION_LIFECYCLE.md:20:- future mutation authorization may eventually occur
+./docs/contracts/CANONICAL_EXECUTION_LIFECYCLE.md:186:- delegation authorization state
+./docs/contracts/CANONICAL_EXECUTION_LIFECYCLE.md:406:## 8. EXECUTION_AUTHORIZATION_PENDING
+./docs/contracts/CANONICAL_EXECUTION_LIFECYCLE.md:410:The plan awaits explicit authorization for mutation-capable execution.
+./docs/contracts/CANONICAL_EXECUTION_LIFECYCLE.md:426:- mutation authorization phase enabled
+./task-versus-planning-record-ontology-finding.txt:28:A governed planning artifact represents planning, authorization analysis, governance validation, approval-gate evaluation, and plan production.
+./docs/contracts/MILESTONE_1_EXECUTION_ENVELOPE_RECONCILIATION_CHECKPOINT.md:70:# Conflict 1 — Delegation As Execution Authorization
+./docs/contracts/MILESTONE_1_EXECUTION_ENVELOPE_RECONCILIATION_CHECKPOINT.md:98:Delegation may not silently become broad execution authorization.
+./docs/contracts/MILESTONE_1_EXECUTION_ENVELOPE_RECONCILIATION_CHECKPOINT.md:168:It must not function as an execution authorization mechanism.
+./server/execution/governance-validator.mjs:172:    delegated: envelope?.delegation_authorization?.state === "delegated",
+./docs/contracts/MILESTONE_2_RUNTIME_CONTRACT_REVIEW_SCOPE.md:52:- Identify fields that imply inference-based authorization
+./docs/contracts/EXECUTION_ENVELOPE_VALIDATION_SMOKE.md:14:- delegated authorization
+./docs/contracts/CADE_RUNTIME_COMPATIBILITY_MAP.md:108:- delegation authorization state
+./server/execution/execution-approval-gate.mjs:108:    delegated: envelope?.delegation_authorization?.state === "delegated",
+./residual-risk-acceptance-doctrine-finding.txt:2:RESIDUAL RISK ACCEPTANCE DOCTRINE FINDING
+./residual-risk-acceptance-doctrine-finding.txt:18:Expose residual risk to the user.
+./residual-risk-acceptance-doctrine-finding.txt:22:Require explicit human acceptance of residual risk before authorization.
+./residual-risk-acceptance-doctrine-finding.txt:26:Authorization is not merely confirmation that a proposal is understood.
+./residual-risk-acceptance-doctrine-finding.txt:28:Authorization is explicit acceptance of the residual risk associated with the proposed future state.
+./residual-risk-acceptance-doctrine-finding.txt:30:This creates a meaningful distinction between proposal review and execution authorization.
+./residual-risk-acceptance-doctrine-finding.txt:42:Risk Disclosure:
+./residual-risk-acceptance-doctrine-finding.txt:44:  What residual risk remains?
+./residual-risk-acceptance-doctrine-finding.txt:46:Authorization:
+./residual-risk-acceptance-doctrine-finding.txt:48:  Is the responsible human authority willing to accept that residual risk?
+./residual-risk-acceptance-doctrine-finding.txt:54:Risk visibility is also an authorization-boundary feature.
+./residual-risk-acceptance-doctrine-finding.txt:56:Risk disclosure helps establish a distinct transition between:
+./residual-risk-acceptance-doctrine-finding.txt:66:Residual risk should not be hidden from the authorization corridor.
+./residual-risk-acceptance-doctrine-finding.txt:68:Residual risk should be visible at the decision point.
+./residual-risk-acceptance-doctrine-finding.txt:78:The system discloses residual risk.
+./residual-risk-acceptance-doctrine-finding.txt:80:The human authority determines whether residual risk is acceptable.
+./residual-risk-acceptance-doctrine-finding.txt:92:- Authorization Separation
+./residual-risk-acceptance-doctrine-finding.txt:96:- Review Validity
+./residual-risk-acceptance-doctrine-finding.txt:98:- Authorization Validity
+./residual-risk-acceptance-doctrine-finding.txt:106:Authorization occurs only after residual risk is made visible and consciously accepted.
+./docs/contracts/CADE_ENGINEER_ADAPTER_INVARIANTS.md:40:- delegation authorization
+./docs/contracts/CADE_ENGINEER_ADAPTER_INVARIANTS.md:60:Until a later explicit authorization phase occurs.
+./docs/contracts/GOVERNED_EXECUTION_CORRIDOR_CHECKPOINT_20260527.md:86:- delegation authorization model
+./preview-builder-gap-placement-inspection.txt:114:interpretation-event-inspection.txt:151:./reconciled-lifecycle-review.txt:96:docs/governance/milestone-6-lifecycle-reconciliation-finding.md:44:- Delegation is Interpretation Authorization.
+./preview-builder-gap-placement-inspection.txt:174:interpretation-event-inspection.txt:543:./docs/governance/milestone-6-lifecycle-reconciliation-finding.md:44:- Delegation is Interpretation Authorization.
+./preview-builder-gap-placement-inspection.txt:533:reconciled-lifecycle-review.txt:96:docs/governance/milestone-6-lifecycle-reconciliation-finding.md:44:- Delegation is Interpretation Authorization.
+./preview-builder-gap-placement-inspection.txt:535:reconciled-lifecycle-review.txt:98:docs/governance/milestone-6-lifecycle-reconciliation-finding.md:48:- Package contains no authorization state.
+./preview-builder-gap-placement-inspection.txt:2214:iel-foundations-inspection.txt:58:docs/contracts/DELEGATION_ENVELOPE_V1.md:40:4. Delegation becomes bounded execution authorization only if intent evidence, scope, validation, and rollback requirements are complete
+./preview-builder-gap-placement-inspection.txt:2262:iel-foundations-inspection.txt:518:./docs/contracts/DELEGATION_ENVELOPE_V1.md:40:4. Delegation becomes bounded execution authorization only if intent evidence, scope, validation, and rollback requirements are complete
+./preview-builder-gap-placement-inspection.txt:2827:preview-builder-gap-placement-inspection.txt:114:interpretation-event-inspection.txt:151:./reconciled-lifecycle-review.txt:96:docs/governance/milestone-6-lifecycle-reconciliation-finding.md:44:- Delegation is Interpretation Authorization.
+./preview-builder-gap-placement-inspection.txt:2887:preview-builder-gap-placement-inspection.txt:174:interpretation-event-inspection.txt:543:./docs/governance/milestone-6-lifecycle-reconciliation-finding.md:44:- Delegation is Interpretation Authorization.
+./preview-builder-gap-placement-inspection.txt:3246:preview-builder-gap-placement-inspection.txt:533:reconciled-lifecycle-review.txt:96:docs/governance/milestone-6-lifecycle-reconciliation-finding.md:44:- Delegation is Interpretation Authorization.
+./preview-builder-gap-placement-inspection.txt:3248:preview-builder-gap-placement-inspection.txt:535:reconciled-lifecycle-review.txt:98:docs/governance/milestone-6-lifecycle-reconciliation-finding.md:48:- Package contains no authorization state.
+./preview-builder-gap-placement-inspection.txt:4927:preview-builder-gap-placement-inspection.txt:2214:iel-foundations-inspection.txt:58:docs/contracts/DELEGATION_ENVELOPE_V1.md:40:4. Delegation becomes bounded execution authorization only if intent evidence, scope, validation, and rollback requirements are complete
+./preview-builder-gap-placement-inspection.txt:4975:preview-builder-gap-placement-inspection.txt:2262:iel-foundations-inspection.txt:518:./docs/contracts/DELEGATION_ENVELOPE_V1.md:40:4. Delegation becomes bounded execution authorization only if intent evidence, scope, validation, and rollback requirements are complete
+./preview-builder-gap-placement-inspection.txt:5869:envelope-boundary-inspection.txt:180:40:4. Delegation becomes bounded execution authorization only if intent evidence, scope, validation, and rollback requirements are complete
+./preview-builder-gap-placement-inspection.txt:7552:docs/contracts/MILESTONE_3C_VALIDATOR_CONTRACT_AUTHORIZATION_REVIEW.md:20:- MILESTONE_3B_VALIDATOR_RECONCILIATION_DECISION_LEDGER.md
+./preview-builder-gap-placement-inspection.txt:7699:docs/contracts/MILESTONE_3D_VALIDATOR_CONTRACT_PATCH_AUTHORIZATION.md:20:- MILESTONE_3B_VALIDATOR_RECONCILIATION_DECISION_LEDGER.md
+./preview-builder-gap-placement-inspection.txt:7710:docs/contracts/DELEGATION_ENVELOPE_V1.md:40:4. Delegation becomes bounded execution authorization only if intent evidence, scope, validation, and rollback requirements are complete
+./preview-builder-gap-placement-inspection.txt:7936:docs/checkpoints/PHASE79_5_CONTROLLED_AUTOMATION_RISK_MODELING_20260316.md:68:Risk disclosure requirements
+./preview-builder-gap-placement-inspection.txt:8365:preview-builder-source-material-inspection.txt:390:interpretation-event-inspection.txt:151:./reconciled-lifecycle-review.txt:96:docs/governance/milestone-6-lifecycle-reconciliation-finding.md:44:- Delegation is Interpretation Authorization.
+./preview-builder-gap-placement-inspection.txt:8425:preview-builder-source-material-inspection.txt:474:interpretation-event-inspection.txt:543:./docs/governance/milestone-6-lifecycle-reconciliation-finding.md:44:- Delegation is Interpretation Authorization.
+./preview-builder-gap-placement-inspection.txt:8737:preview-builder-source-material-inspection.txt:1699:reconciled-lifecycle-review.txt:96:docs/governance/milestone-6-lifecycle-reconciliation-finding.md:44:- Delegation is Interpretation Authorization.
+./preview-builder-gap-placement-inspection.txt:8739:preview-builder-source-material-inspection.txt:1701:reconciled-lifecycle-review.txt:98:docs/governance/milestone-6-lifecycle-reconciliation-finding.md:48:- Package contains no authorization state.
+./preview-builder-gap-placement-inspection.txt:9981:preview-builder-source-material-inspection.txt:4129:iel-foundations-inspection.txt:58:docs/contracts/DELEGATION_ENVELOPE_V1.md:40:4. Delegation becomes bounded execution authorization only if intent evidence, scope, validation, and rollback requirements are complete
+./preview-builder-gap-placement-inspection.txt:10029:preview-builder-source-material-inspection.txt:4284:iel-foundations-inspection.txt:518:./docs/contracts/DELEGATION_ENVELOPE_V1.md:40:4. Delegation becomes bounded execution authorization only if intent evidence, scope, validation, and rollback requirements are complete
+./preview-builder-gap-placement-inspection.txt:11456:backups/_restore_test/docs/checkpoints/PHASE79_5_CONTROLLED_AUTOMATION_RISK_MODELING_20260316.md:68:Risk disclosure requirements
+./docs/governance/milestone-5-execution-lineage/progressive-disclosure-alignment-contract.md:22:No runtime implementation authorization.
+./docs/checkpoints/PHASE79_5_CONTROLLED_AUTOMATION_RISK_MODELING_20260316.md:68:Risk disclosure requirements
+./docs/governance/milestone-5-execution-lineage/milestone-5-governance-reconciliation.md:92:- edge authorization
+./docs/contracts/MILESTONE_3E_VALIDATOR_CONTRACT_PATCH_CLOSEOUT.md:22:- MILESTONE_3D_VALIDATOR_CONTRACT_PATCH_AUTHORIZATION.md
+./docs/contracts/EXECUTION_GOVERNANCE_CHECKPOINT_20260527.md:42:- Delegation authorization model using `delegated` state
+./server/execution/smoke-test-approval-gate.mjs:38:  delegation_authorization: {
+./docs/contracts/MILESTONE_3D_VALIDATOR_CONTRACT_PATCH_AUTHORIZATION.md:2:# Milestone 3D — Validator Contract Patch Authorization
+./docs/contracts/MILESTONE_3D_VALIDATOR_CONTRACT_PATCH_AUTHORIZATION.md:4:Status: AUTHORIZATION
+./docs/contracts/MILESTONE_3D_VALIDATOR_CONTRACT_PATCH_AUTHORIZATION.md:10:This authorization does not approve validator implementation.
+./docs/contracts/MILESTONE_3D_VALIDATOR_CONTRACT_PATCH_AUTHORIZATION.md:124:Milestone 3D completes when authorization is recorded.
+./docs/contracts/MILESTONE_0_EXECUTION_GOVERNANCE_AUTHORITY_MODEL.md:72:- Expand intent without authorization
+./docs/contracts/MILESTONE_2_RUNTIME_CONTRACT_REVIEW.md:44:- delegation_authorization
+./docs/contracts/MILESTONE_2_RUNTIME_CONTRACT_REVIEW.md:96:Confidence may be mistaken for authorization.
+./docs/contracts/CANONICAL_EXECUTION_ENVELOPE_SCHEMA.md:40:Matilda may not create intent, invent intent, or expand intent without user authorization.
+./docs/contracts/CANONICAL_EXECUTION_ENVELOPE_SCHEMA.md:46:Cade may not expand scope, reinterpret missing intent, or treat ambiguity as authorization.
+./docs/contracts/CANONICAL_EXECUTION_ENVELOPE_SCHEMA.md:120:  "delegation_authorization": {},
+./docs/contracts/CANONICAL_EXECUTION_ENVELOPE_SCHEMA.md:396:## delegation_authorization
+./docs/contracts/CANONICAL_EXECUTION_ENVELOPE_SCHEMA.md:720:  "delegation_authorization": {
+./docs/governance/milestone-5-execution-lineage/atlas-payload-access-contract.md:24:No runtime implementation authorization.
+./docs/contracts/CADE_ENGINEER_ADAPTER_SMOKE.md:24:- delegated authorization
+./docs/contracts/MILESTONE_2A_RUNTIME_CONTRACT_PATCH_AUTHORIZATION.md:2:# Milestone 2A — Runtime Contract Patch Authorization
+./docs/contracts/MILESTONE_2A_RUNTIME_CONTRACT_PATCH_AUTHORIZATION.md:10:This authorization does not permit runtime execution implementation.
+./docs/contracts/MILESTONE_2A_RUNTIME_CONTRACT_PATCH_AUTHORIZATION.md:74:This authorization does not permit:
+./docs/contracts/GOVERNED_EXECUTION_AUDIT_LEDGER.md:56:- execution authorization
+./docs/contracts/GOVERNED_EXECUTION_AUDIT_LEDGER.md:58:- runtime authorization
+./docs/governance/milestone-5-execution-lineage/execution-lineage-artifact-contract.md:20:No runtime implementation authorization.
+./docs/contracts/DELEGATION_ENVELOPE_V1.md:8:Delegation is a bounded authorization event.
+./docs/contracts/DELEGATION_ENVELOPE_V1.md:40:4. Delegation becomes bounded execution authorization only if intent evidence, scope, validation, and rollback requirements are complete
+./docs/contracts/DELEGATION_ENVELOPE_V1.md:212:- treat ambiguity as authorization
+./docs/contracts/CADE_ENGINEER_ADAPTER_PHASE_STATUS.md:154:- delegated authorization
+./docs/governance/milestone-5-execution-lineage/atlas-visibility-contract.md:26:No runtime implementation authorization.
+./docs/governance/milestone-5-execution-lineage/lineage-relationship-contract.md:22:No runtime implementation authorization.
+./docs/contracts/CANONICAL_EXECUTION_ENVELOPE_SCHEMA.pre_m1c_backup.md:84:  "delegation_authorization": {},
+./docs/contracts/CANONICAL_EXECUTION_ENVELOPE_SCHEMA.pre_m1c_backup.md:322:## delegation_authorization
+./docs/contracts/CANONICAL_EXECUTION_ENVELOPE_SCHEMA.pre_m1c_backup.md:576:  "delegation_authorization": {
+./docs/governance/milestone-5-execution-lineage/lineage-evidence-contract.md:24:No runtime implementation authorization.
+./docs/governance/milestone-5-execution-lineage/lineage-evidence-contract.md:34:- edge authorization requirements
+./docs/contracts/CADE_ENGINEER_SURFACE_CLASSIFICATION.md:122:- delegation authorization state
+./docs/contracts/MILESTONE_1C_CLOSEOUT.md:54:- Clarified bounded delegation authorization
+./docs/governance/milestone-5-execution-lineage/lineage-ambiguity-contract.md:28:No runtime implementation authorization.
+./docs/governance/milestone-5-execution-lineage/atlas-authority-contract.md:12:Scope: Governance only. No runtime implementation authorization.
+./docs/contracts/MILESTONE_3_VALIDATOR_AUTHORITY_SCOPE.md:140:- Cade receives no executable authorization
+./docs/contracts/MILESTONE_3_VALIDATOR_AUTHORITY_SCOPE.md:168:- Cade does not receive executable authorization
+./docs/contracts/MILESTONE_3_VALIDATOR_AUTHORITY_SCOPE.md:256:- unclear authorization
+./docs/checkpoints/PHASE79_NOOP_INTERFACE_CONTRACT_20260316.md:8:Define how any future automation-facing interfaces must remain structurally inert (NO-OP) until explicit authorization phases permit controlled behavior.
+./docs/contracts/GOVERNED_PLANNING_ARTIFACT_BUNDLE.md:54:It must never be treated as execution approval, mutation approval, or runtime authorization.
+./governed-planning-preview-bridge-inspection.txt:409:server/execution/build-execution-envelope-draft.mjs:50:        "This artifact preserves dry-run governed planning authority only and must not be treated as runtime execution authorization.",
+./governed-planning-preview-bridge-inspection.txt:1190:./inspect-governance-approval-core-files.sh:74:  rg -n -i "approve|approval|preview|planning artifact|execution authorization|execution approval|governance validation|reviewable|artifact bundle|authority" "${FILES[@]}" 2>/dev/null || true
+./docs/governance/GOVERNANCE_LIFECYCLE_STATE_MODEL.md:82:No authorization exists.
+./docs/governance/GOVERNANCE_LIFECYCLE_STATE_MODEL.md:90:Interpretation authorization exists.
+./docs/governance/matilda-package-contract.md:16:The package is not an authorization artifact.
+./docs/governance/matilda-package-contract.md:108:- expand intent without authorization
+./docs/governance/matilda-package-contract.md:196:- execution authorization
+./docs/governance/matilda-package-contract.md:198:- runtime authorization
+./docs/governance/matilda-package-contract.md:200:- shell authorization
+./docs/governance/matilda-package-contract.md:202:- autonomous execution authorization
+./docs/governance/matilda-package-contract.md:204:- deployment authorization
+./docs/governance/matilda-package-contract.md:214:Interpretation Authorization occurs when the user delegates the package.
+./docs/governance/matilda-package-contract.md:224:Authorization is represented by user delegation behavior.
+./docs/governance/matilda-package-contract.md:262:Execution authorization occurs later through preview approval.
+./docs/governance/matilda-package-contract.md:264:Interpretation Authorization and Execution Authorization are distinct events.
+./docs/governance/HEADQUARTERS_ORGANIZATIONAL_CHARTER.md:36:- Delegation Authorization
+./docs/governance/milestone-6-resolution-checkpoint-contract.md:42:- execution authorization
+./docs/governance/milestone-6-outcome-review-governance-contracts.md:96:→ authorization blocked
+./docs/governance/milestone-6-outcome-review-governance-contracts.md:100:→ authorization eligibility may be considered
+./docs/governance/milestone-6-outcome-review-governance-contracts.md:184:- Authorization prerequisite ownership
+./docs/protection/PHASE65_PROTECTED_SURFACE_REGISTRY.md:42:STRUCTURAL AUTHORIZATION RULE
+./docs/governance/milestone-6-lifecycle-reconciliation-finding.md:44:- Delegation is Interpretation Authorization.
+./docs/governance/milestone-6-lifecycle-reconciliation-finding.md:48:- Package contains no authorization state.
+./docs/governance/milestone-6-lifecycle-reconciliation-finding.md:104:No patch authorization granted.
+./docs/governance/CANONICAL_DELEGATION_SPECIFICATION.md:6:The Delegation Record is the canonical interpretation authorization artifact of the Motherboard Headquarters operating model.
+./docs/governance/CANONICAL_DELEGATION_SPECIFICATION.md:62:Delegation is an Interpretation Authorization Record.
+./docs/governance/CANONICAL_DELEGATION_SPECIFICATION.md:134:## authorization_state
+./docs/governance/CANONICAL_DELEGATION_SPECIFICATION.md:152:## authorization_timestamp
+./docs/governance/CANONICAL_DELEGATION_SPECIFICATION.md:156:Records when interpretation authorization occurred.
+./docs/governance/CANONICAL_DELEGATION_SPECIFICATION.md:174:Records the authority granting authorization.
+./docs/governance/CANONICAL_DELEGATION_SPECIFICATION.md:204:- Interpretation authorization has been granted
+./docs/governance/CANONICAL_DELEGATION_SPECIFICATION.md:288:The Delegation Record comes into existence only after authorization occurs.
+./docs/governance/CANONICAL_DELEGATION_SPECIFICATION.md:304:Interpretation Authorization
+./BACKEND_RIO_DRIVE_COMPARISON_V2.txt:589:1779828937 size=2293 /Volumes/Rio Drive/Motherboard_Systems_HQ/docs/phase743-execution-bridge/MUTATION_AUTHORIZATION_LIFECYCLE.md
+./canonical-preview-artifact-boundary-finding.txt:24:- proposal_id anchored
+./canonical-preview-artifact-boundary-finding.txt:40:- proposal, review, authorization, execution, audit, and reconciliation remain separate artifacts
+./canonical-preview-artifact-boundary-finding.txt:52:- proposal_id
+./canonical-preview-artifact-boundary-finding.txt:58:- root_proposal_id
+./canonical-preview-artifact-boundary-finding.txt:60:- supersedes_proposal_id
+./doctrine-architecture-consistency-finding.txt:12:Check whether the current governed execution architecture supports or contradicts the Planning and Authorization Doctrine:
+./doctrine-architecture-consistency-finding.txt:18:- expose residual risk to the user
+./doctrine-architecture-consistency-finding.txt:20:- require explicit human acceptance of residual risk before authorization
+./preview-summary-governance-inspection.txt:148:16:The package is not an authorization artifact.
+./preview-summary-governance-inspection.txt:171:214:Interpretation Authorization occurs when the user delegates the package.
+./preview-summary-governance-inspection.txt:176:224:Authorization is represented by user delegation behavior.
+./preview-summary-governance-inspection.txt:186:262:Execution authorization occurs later through preview approval.
+./preview-summary-governance-inspection.txt:202:44:- Delegation is Interpretation Authorization.
+./preview-summary-governance-inspection.txt:204:48:- Package contains no authorization state.
+./inspect-preview-builder-implementation-surfaces.sh:34:  rg -n -i "approval_gated|planning_completed|mutation_authorized|execution_authority|authorization|authority|phase" server/execution server/contracts || true
+./inspect-preview-builder-implementation-surfaces.sh:40:  ls -1 *finding.txt | rg -i "preview|interpretation|authorization|approval|future|governance|builder" || true
+./inspect-preview-builder-implementation-surfaces.sh:58:- Execution Authorization
+./authorization-validity-semantics-finding.txt:2:AUTHORIZATION VALIDITY SEMANTICS FINDING
+./authorization-validity-semantics-finding.txt:8:Should an Authorization Artifact remain valid if the proposal it references is superseded?
+./authorization-validity-semantics-finding.txt:14:Review Result Artifacts attach to a specific proposal_id.
+./authorization-validity-semantics-finding.txt:16:Review validity does not automatically transfer across proposal revisions.
+./authorization-validity-semantics-finding.txt:24:If proposal meaning changes after authorization, authority continuity may become ambiguous.
+./authorization-validity-semantics-finding.txt:40:Authorization remains valid.
+./authorization-validity-semantics-finding.txt:60:Authorization for v1 should not automatically apply to v2.
+./authorization-validity-semantics-finding.txt:64:Authorization validity should track proposal meaning.
+./authorization-validity-semantics-finding.txt:66:Authorization validity should not track presentation.
+./authorization-validity-semantics-finding.txt:74:→ Authorization Artifact v1
+./authorization-validity-semantics-finding.txt:80:→ Authorization Artifact v2
+./authorization-validity-semantics-finding.txt:82:Authorization Artifact v1 remains historical.
+./authorization-validity-semantics-finding.txt:84:Authorization Artifact v1 should not automatically authorize Proposal v2.
+./authorization-validity-semantics-finding.txt:92:Authorization validity preserves execution integrity.
+./document-governance-approval-reentry-summary.txt:76:4. The planning bundle must never be treated as execution approval or runtime authorization.
+./governance-validation-enforcement-finding.txt:22:- buildExecutionEnvelopeDraft() defaults delegation_authorization.state to "delegated".
+./PHASE44.md:19:### Structural authorization (allowlist)
+./execution-lineage-binding-finding.txt:20:  preserves review validity
+./execution-lineage-binding-finding.txt:22:Authorization Artifact:
+./execution-lineage-binding-finding.txt:24:  preserves authorization validity
+./execution-lineage-binding-finding.txt:46:proposal_id
+./execution-lineage-binding-finding.txt:64:proposal_id
+./execution-lineage-binding-finding.txt:66:root_proposal_id
+./execution-lineage-binding-finding.txt:68:authorization_artifact_id
+./execution-lineage-binding-finding.txt:92:Execution authority derives from the exact authorized proposal_id.
+./execution-lineage-binding-finding.txt:106:→ Authorization Artifact v3
+./execution-lineage-binding-finding.txt:112:  proposal_id: proposal-v3
+./execution-lineage-binding-finding.txt:114:  root_proposal_id: proposal-v1
+./future-authorization-artifact-surfaces-finding.txt:2:FUTURE AUTHORIZATION ARTIFACT SURFACES FINDING
+./future-authorization-artifact-surfaces-finding.txt:8:The doctrine-to-architecture consistency verdict confirmed that the current governed execution architecture remains safely before runtime execution authorization.
+./future-authorization-artifact-surfaces-finding.txt:10:The key remaining gap is that residual-risk acceptance is documented as doctrine but not yet implemented as a lifecycle artifact.
+./future-authorization-artifact-surfaces-finding.txt:14:What minimum future artifact surfaces are required to support proposal-bound authorization without expanding execution authority prematurely?
+./future-authorization-artifact-surfaces-finding.txt:26:- proposal_id
+./future-authorization-artifact-surfaces-finding.txt:36:2. Residual Risk Disclosure Surface
+./future-authorization-artifact-surfaces-finding.txt:40:Record that residual risk was visibly disclosed at the decision point.
+./future-authorization-artifact-surfaces-finding.txt:44:- proposal_id
+./future-authorization-artifact-surfaces-finding.txt:56:3. Human Risk Acceptance Surface
+./future-authorization-artifact-surfaces-finding.txt:60:Record whether the responsible human authority accepted the disclosed residual risk.
+./future-authorization-artifact-surfaces-finding.txt:64:- proposal_id
+./future-authorization-artifact-surfaces-finding.txt:78:4. Proposal-Bound Authorization Surface
+./future-authorization-artifact-surfaces-finding.txt:86:- proposal_id
+./future-authorization-artifact-surfaces-finding.txt:88:- authorization_id
+./future-authorization-artifact-surfaces-finding.txt:90:- authorization_state
+./future-authorization-artifact-surfaces-finding.txt:96:- authorization_scope
+./future-authorization-artifact-surfaces-finding.txt:98:- authorization_expires_at
+./future-authorization-artifact-surfaces-finding.txt:118:Risk disclosure supports informed consent.
+./future-authorization-artifact-surfaces-finding.txt:120:Human risk acceptance supports responsibility clarity.
+./future-authorization-artifact-surfaces-finding.txt:122:Authorization grants or denies execution authority only for the exact proposal.
+./iel-package-relationship-inspection.txt:71:16:The package is not an authorization artifact.
+./iel-package-relationship-inspection.txt:91:214:Interpretation Authorization occurs when the user delegates the package.
+./iel-package-relationship-inspection.txt:103:264:Interpretation Authorization and Execution Authorization are distinct events.
+./preview-builder-source-material-inspection.txt:279:distinct-interpretation-boundaries.txt:70:108:- expand intent without authorization
+./preview-builder-source-material-inspection.txt:390:interpretation-event-inspection.txt:151:./reconciled-lifecycle-review.txt:96:docs/governance/milestone-6-lifecycle-reconciliation-finding.md:44:- Delegation is Interpretation Authorization.
+./preview-builder-source-material-inspection.txt:474:interpretation-event-inspection.txt:543:./docs/governance/milestone-6-lifecycle-reconciliation-finding.md:44:- Delegation is Interpretation Authorization.
+./preview-builder-source-material-inspection.txt:516:interpretation-event-inspection.txt:695:./preview-summary-governance-inspection.txt:171:214:Interpretation Authorization occurs when the user delegates the package.
+./preview-builder-source-material-inspection.txt:520:interpretation-event-inspection.txt:699:./preview-summary-governance-inspection.txt:202:44:- Delegation is Interpretation Authorization.
+./preview-builder-source-material-inspection.txt:1012:inspect-governance-approval-core-files.sh:74:  rg -n -i "approve|approval|preview|planning artifact|execution authorization|execution approval|governance validation|reviewable|artifact bundle|authority" "${FILES[@]}" 2>/dev/null || true
+./preview-builder-source-material-inspection.txt:1699:reconciled-lifecycle-review.txt:96:docs/governance/milestone-6-lifecycle-reconciliation-finding.md:44:- Delegation is Interpretation Authorization.
+./preview-builder-source-material-inspection.txt:1701:reconciled-lifecycle-review.txt:98:docs/governance/milestone-6-lifecycle-reconciliation-finding.md:48:- Package contains no authorization state.
+./preview-builder-source-material-inspection.txt:1833:reconciled-lifecycle-review.txt:2476:- expand intent without authorization
+./preview-builder-source-material-inspection.txt:4129:iel-foundations-inspection.txt:58:docs/contracts/DELEGATION_ENVELOPE_V1.md:40:4. Delegation becomes bounded execution authorization only if intent evidence, scope, validation, and rollback requirements are complete
+./preview-builder-source-material-inspection.txt:4134:iel-foundations-inspection.txt:64:docs/contracts/MILESTONE_3D_VALIDATOR_CONTRACT_PATCH_AUTHORIZATION.md:70:- validator may escalate intent evidence failures
+./preview-builder-source-material-inspection.txt:4284:iel-foundations-inspection.txt:518:./docs/contracts/DELEGATION_ENVELOPE_V1.md:40:4. Delegation becomes bounded execution authorization only if intent evidence, scope, validation, and rollback requirements are complete
+./preview-builder-source-material-inspection.txt:4289:iel-foundations-inspection.txt:524:./docs/contracts/MILESTONE_3D_VALIDATOR_CONTRACT_PATCH_AUTHORIZATION.md:70:- validator may escalate intent evidence failures
+./envelope-boundary-inspection.txt:9:6:The Envelope is the canonical work authorization artifact of the Motherboard Headquarters operating model.
+./envelope-boundary-inspection.txt:36:150:Reference to delegation authorization.
+./envelope-boundary-inspection.txt:93:6:The Delegation Record is the canonical interpretation authorization artifact of the Motherboard Headquarters operating model.
+./envelope-boundary-inspection.txt:106:62:Delegation is an Interpretation Authorization Record.
+./envelope-boundary-inspection.txt:125:156:Records when interpretation authorization occurred.
+./envelope-boundary-inspection.txt:127:174:Records the authority granting authorization.
+./envelope-boundary-inspection.txt:135:204:- Interpretation authorization has been granted
+./envelope-boundary-inspection.txt:160:288:The Delegation Record comes into existence only after authorization occurs.
+./envelope-boundary-inspection.txt:164:304:Interpretation Authorization
+./envelope-boundary-inspection.txt:174:8:Delegation is a bounded authorization event.
+./envelope-boundary-inspection.txt:180:40:4. Delegation becomes bounded execution authorization only if intent evidence, scope, validation, and rollback requirements are complete
+./envelope-boundary-inspection.txt:212:44:- Delegation is Interpretation Authorization.
+./envelope-boundary-inspection.txt:214:48:- Package contains no authorization state.
+./canonical-preview-artifact-contract-draft.txt:26:→ Authorization Artifact
+./canonical-preview-artifact-contract-draft.txt:40:- an authorization artifact
+./canonical-preview-artifact-contract-draft.txt:50:proposal_id:
+./canonical-preview-artifact-contract-draft.txt:62:root_proposal_id:
+./canonical-preview-artifact-contract-draft.txt:66:supersedes_proposal_id:
+./canonical-preview-artifact-contract-draft.txt:158:- Authorization Review View
+./canonical-preview-artifact-contract-draft.txt:172:- authorization
+./canonical-preview-artifact-contract-draft.txt:180:Downstream artifacts must reference proposal_id.
+./canonical-preview-artifact-contract-draft.txt:184:Review validity attaches to exact proposal_id.
+./canonical-preview-artifact-contract-draft.txt:186:Authorization validity attaches to exact proposal_id.
+./canonical-preview-artifact-contract-draft.txt:188:Execution authority attaches to exact proposal_id.
+./preview-artifact-vs-review-views-finding.txt:68:  - proposal_identity
+./governance-approval-core-files-report.txt:199:4. Delegation Authorization
+./governance-approval-core-files-report.txt:201:The contract contains delegation_authorization, but the surrounding validators and approval gate constrain it to planning-only behavior in the current phase.
+./governance-approval-core-files-report.txt:225:Future execution authorization remains unimplemented and should be treated as a separate future corridor.
+./governance-approval-core-files-report.txt:298:Implemented guard e993b70c was correctly scoped because it preserved the current repo model while preventing the planning draft from being misread as runtime execution authorization.
+./governance-approval-core-files-report.txt:525:It must never be treated as execution approval, mutation approval, or runtime authorization.
+./governance-approval-core-files-report.txt:878:    delegated: envelope?.delegation_authorization?.state === "delegated",
+./governance-approval-core-files-report.txt:947:docs/contracts/GOVERNED_PLANNING_ARTIFACT_BUNDLE.md:54:It must never be treated as execution approval, mutation approval, or runtime authorization.
+./governance-approval-core-files-report.txt:1000:planning-vs-execution-authority-repo-finding.txt:56:The contract contains delegation_authorization, but the surrounding validators and approval gate constrain it to planning-only behavior in the current phase.
+./governance-approval-core-files-report.txt:1003:planning-vs-execution-authority-repo-finding.txt:80:Future execution authorization remains unimplemented and should be treated as a separate future corridor.
+./governance-approval-core-files-report.txt:1034:governance-validation-repo-answer.txt:68:Implemented guard e993b70c was correctly scoped because it preserved the current repo model while preventing the planning draft from being misread as runtime execution authorization.
+./preview-proposal-review-authorization-separation-finding.txt:2:PREVIEW PROPOSAL / REVIEW / AUTHORIZATION SEPARATION FINDING
+./preview-proposal-review-authorization-separation-finding.txt:8:What is the relationship between the Canonical Preview Artifact, Review Views, human review, and authorization?
+./preview-proposal-review-authorization-separation-finding.txt:18:Authorization Artifacts record execution authority separately.
+./preview-proposal-review-authorization-separation-finding.txt:36:→ Authorization Artifact
+./preview-proposal-review-authorization-separation-finding.txt:52:Authorization Review asks:
+./preview-proposal-review-authorization-separation-finding.txt:58:Proposal, review, authorization, and presentation are distinct concerns.
+./preview-proposal-review-authorization-separation-finding.txt:86:Authorization Artifacts equal authority grants or denials.
+./lifecycle-audit-reconstruction-finding.txt:20:- Authorization Artifact
+./lifecycle-audit-reconstruction-finding.txt:50:→ Authorization Artifact
+./lifecycle-audit-reconstruction-finding.txt:66:Authorization explains why execution was allowed.
+./lifecycle-audit-reconstruction-finding.txt:86:Proposal, Review, Authorization, Execution, Audit, and Reconciliation remain distinct lifecycle artifacts.
+./risk-visibility-and-disclosure-finding.txt:54:This also protects the system from responsibility ambiguity by making risk disclosure visible at the decision point.
+./inspect-governance-approval-ontology.sh:50:  echo "--- repo search: execution authorization ---"
+./inspect-governance-approval-ontology.sh:52:  rg -n -i "execution authorization|authorize execution|execution approval" . || true
+./inspect-governance-approval-ontology.sh:58:  rg -n -i "ontology|state transition|governance event|authority transfer|interpretation authorization" . || true
+./preview-artifact-normalized-renderer-independent-finding.txt:72:Proposal is not authorization.
+./AUTHORITATIVE_EXECUTION_CORRIDOR.txt:414:4. Delegation becomes execution authorization
+./PHASE_83_2_SUMMARY_RULES.md:108:"Authorization mismatch."
+./proposal-lineage-semantics-finding.txt:8:When proposal meaning changes and a new proposal_id is required, should the new proposal retain lineage to the prior proposal?
+./proposal-lineage-semantics-finding.txt:28:proposal_id:
+./proposal-lineage-semantics-finding.txt:52:proposal_id:
+./proposal-lineage-semantics-finding.txt:56:supersedes_proposal_id:
+./proposal-lineage-semantics-finding.txt:84:A changed proposal should receive a new proposal_id.
+./proposal-lineage-semantics-finding.txt:92:proposal_id
+./proposal-lineage-semantics-finding.txt:94:supersedes_proposal_id
+./proposal-lineage-semantics-finding.txt:96:root_proposal_id
+./proposal-lineage-semantics-finding.txt:114:Review validity remains attached to exact proposal_id.
+./proposal-lineage-semantics-finding.txt:116:Authorization remains attached to exact proposal_id.
+./proposal-lineage-semantics-finding.txt:128:→ Authorization Artifact v2
+./preview-builder-implementation-readiness-finding.txt:6:Interpretation-First Approval, Future-State Review, and Execution Authorization have been reconciled into a coherent approval lifecycle.
+./governance-validation-repo-answer.txt:68:Implemented guard e993b70c was correctly scoped because it preserved the current repo model while preventing the planning draft from being misread as runtime execution authorization.
+./preview-builder-implementation-surfaces-finding.txt:14:- Execution Authorization
+./governance-approval-evidence-report.txt:13:e993b70c Guard planning draft from execution authorization
+./preview-artifact-lifecycle-status-finding.txt:24:→ Later Approval / Authorization Corridors
+./preview-artifact-lifecycle-status-finding.txt:64:- aligns with Interpretation → Intent → Authorization lifecycle
+
+--- future artifact surfaces ---
+
+FUTURE AUTHORIZATION ARTIFACT SURFACES FINDING
+
+Finding Status: DISCOVERY NEXT STEP
+
+Context:
+
+The doctrine-to-architecture consistency verdict confirmed that the current governed execution architecture remains safely before runtime execution authorization.
+
+The key remaining gap is that residual-risk acceptance is documented as doctrine but not yet implemented as a lifecycle artifact.
+
+Question:
+
+What minimum future artifact surfaces are required to support proposal-bound authorization without expanding execution authority prematurely?
+
+Candidate Future Artifact Surfaces:
+
+1. Proposal Risk Surface
+
+Purpose:
+
+Represent the risk value attached to the exact proposal.
+
+Minimum fields:
+
+- proposal_id
+
+- risk_level
+
+- risk_summary
+
+- risk_details_ref
+
+- generated_at
+
+2. Residual Risk Disclosure Surface
+
+Purpose:
+
+Record that residual risk was visibly disclosed at the decision point.
+
+Minimum fields:
+
+- proposal_id
+
+- disclosed_risk_level
+
+- disclosed_risk_summary
+
+- disclosure_surface
+
+- disclosed_at
+
+- disclosure_version
+
+3. Human Risk Acceptance Surface
+
+Purpose:
+
+Record whether the responsible human authority accepted the disclosed residual risk.
+
+Minimum fields:
+
+- proposal_id
+
+- accepted_by
+
+- accepted_at
+
+- accepted_risk_level
+
+- acceptance_statement
+
+- acceptance_scope
+
+- acceptance_expires_at
+
+4. Proposal-Bound Authorization Surface
+
+Purpose:
+
+Record whether execution authority was granted for the exact proposal.
+
+Minimum fields:
+
+- proposal_id
+
+- authorization_id
+
+- authorization_state
+
+- authorized_by
+
+- authorized_at
+
+- authorization_scope
+
+- authorization_expires_at
+
+- review_result_ref
+
+- risk_acceptance_ref
+
+Boundary:
+
+These surfaces are lifecycle artifacts.
+
+They should not be collapsed into the Canonical Preview Artifact.
+
+They should not mutate the Canonical Preview Artifact.
+
+They should not authorize any changed proposal automatically.
+
+Architecture Rule:
+
+Proposal identity anchors validity.
+
+Risk disclosure supports informed consent.
+
+Human risk acceptance supports responsibility clarity.
+
+Authorization grants or denies execution authority only for the exact proposal.
+
+Scope Boundary:
+
+This finding does not authorize:
+
+- implementation
+
+- UI work
+
+- approval system construction
+
+- Preview Builder construction
+
+- Review View Builder construction
+
+- mutation
+
+- shell execution
+
+- autonomous execution
+
