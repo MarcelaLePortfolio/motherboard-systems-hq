@@ -1,0 +1,75 @@
+
+ATLAS AUTHORIZATION ROADMAP IMPLICATION
+
+Implication Status: RECORDED
+
+Authorization corridor discovery has converged enough to clarify future roadmap assumptions.
+
+Future execution authorization work should treat the following as prerequisite lifecycle concepts rather than unresolved implementation discoveries:
+
+- proposal identity
+
+- review validity
+
+- risk classification
+
+- risk disclosure
+
+- risk acceptance
+
+- authorization validity
+
+- authorization lifecycle state
+
+- audit reconstruction
+
+Roadmap Meaning:
+
+Future implementation work should be implementation-focused and contradiction-driven rather than ontology-expansion-focused.
+
+New authorization doctrine should be introduced only if one of the following appears:
+
+- contradiction
+
+- audit gap
+
+- lifecycle ambiguity
+
+- authority ambiguity
+
+- implementation-surface mismatch
+
+Atlas Interpretation:
+
+The production path is clearer because authorization is no longer an amorphous approval concept.
+
+Authorization now sits after risk acceptance and before execution, bound to exact proposal identity.
+
+Future Roadmap Constraint:
+
+Do not collapse proposal, review, risk disclosure, risk acceptance, authorization, execution, audit, or reconciliation into a single mutable artifact.
+
+Storage may consolidate.
+
+Lifecycle meaning must not collapse.
+
+Scope Boundary:
+
+This roadmap implication does not authorize:
+
+- implementation
+
+- UI work
+
+- approval system construction
+
+- Preview Builder construction
+
+- Review View Builder construction
+
+- mutation
+
+- shell execution
+
+- autonomous execution
+

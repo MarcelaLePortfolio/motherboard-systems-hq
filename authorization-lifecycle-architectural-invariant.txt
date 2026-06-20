@@ -1,0 +1,71 @@
+
+AUTHORIZATION LIFECYCLE ARCHITECTURAL INVARIANT
+
+Invariant Status: STABILIZED
+
+Authorization is modeled as a distinct lifecycle stage between risk acceptance and execution.
+
+Proposal identity binds lifecycle validity across review, risk disclosure, risk acceptance, authorization, execution, audit, and reconciliation artifacts.
+
+Core Chain:
+
+Proposal Identity
+
+→ Review
+
+→ Risk Disclosure
+
+→ Risk Acceptance
+
+→ Authorization
+
+→ Execution
+
+→ Audit / Reconciliation
+
+Meaning:
+
+Risk classification is not disclosure.
+
+Disclosure is not acceptance.
+
+Acceptance is not authorization.
+
+Authorization is not execution.
+
+Eligibility is derived.
+
+Authority is recorded.
+
+History is preserved.
+
+Proposal identity anchors validity.
+
+Lifecycle Rule:
+
+Authorization may only apply to the exact proposal identity that was reviewed, disclosed, accepted, and authorized.
+
+Authorization does not transfer automatically across proposal revisions.
+
+Authorization state remains constrained by proposal validity, risk disclosure validity, risk acceptance validity, and proposal identity.
+
+Scope Boundary:
+
+This invariant does not authorize:
+
+- implementation
+
+- UI work
+
+- approval system construction
+
+- Preview Builder construction
+
+- Review View Builder construction
+
+- mutation
+
+- shell execution
+
+- autonomous execution
+
