@@ -1,0 +1,143 @@
+
+FUTURE AUTHORIZATION ARTIFACT SURFACES FINDING
+
+Finding Status: DISCOVERY NEXT STEP
+
+Context:
+
+The doctrine-to-architecture consistency verdict confirmed that the current governed execution architecture remains safely before runtime execution authorization.
+
+The key remaining gap is that residual-risk acceptance is documented as doctrine but not yet implemented as a lifecycle artifact.
+
+Question:
+
+What minimum future artifact surfaces are required to support proposal-bound authorization without expanding execution authority prematurely?
+
+Candidate Future Artifact Surfaces:
+
+1. Proposal Risk Surface
+
+Purpose:
+
+Represent the risk value attached to the exact proposal.
+
+Minimum fields:
+
+- proposal_id
+
+- risk_level
+
+- risk_summary
+
+- risk_details_ref
+
+- generated_at
+
+2. Residual Risk Disclosure Surface
+
+Purpose:
+
+Record that residual risk was visibly disclosed at the decision point.
+
+Minimum fields:
+
+- proposal_id
+
+- disclosed_risk_level
+
+- disclosed_risk_summary
+
+- disclosure_surface
+
+- disclosed_at
+
+- disclosure_version
+
+3. Human Risk Acceptance Surface
+
+Purpose:
+
+Record whether the responsible human authority accepted the disclosed residual risk.
+
+Minimum fields:
+
+- proposal_id
+
+- accepted_by
+
+- accepted_at
+
+- accepted_risk_level
+
+- acceptance_statement
+
+- acceptance_scope
+
+- acceptance_expires_at
+
+4. Proposal-Bound Authorization Surface
+
+Purpose:
+
+Record whether execution authority was granted for the exact proposal.
+
+Minimum fields:
+
+- proposal_id
+
+- authorization_id
+
+- authorization_state
+
+- authorized_by
+
+- authorized_at
+
+- authorization_scope
+
+- authorization_expires_at
+
+- review_result_ref
+
+- risk_acceptance_ref
+
+Boundary:
+
+These surfaces are lifecycle artifacts.
+
+They should not be collapsed into the Canonical Preview Artifact.
+
+They should not mutate the Canonical Preview Artifact.
+
+They should not authorize any changed proposal automatically.
+
+Architecture Rule:
+
+Proposal identity anchors validity.
+
+Risk disclosure supports informed consent.
+
+Human risk acceptance supports responsibility clarity.
+
+Authorization grants or denies execution authority only for the exact proposal.
+
+Scope Boundary:
+
+This finding does not authorize:
+
+- implementation
+
+- UI work
+
+- approval system construction
+
+- Preview Builder construction
+
+- Review View Builder construction
+
+- mutation
+
+- shell execution
+
+- autonomous execution
+
