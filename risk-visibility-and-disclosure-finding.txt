@@ -1,0 +1,109 @@
+
+RISK VISIBILITY AND DISCLOSURE FINDING
+
+Finding Status: RECONCILED
+
+Question:
+
+Should risk appear immediately in the review surface, or only as optional expandable detail?
+
+Reconciled Direction:
+
+Risk value should appear immediately.
+
+Risk details should be expandable.
+
+Meaning:
+
+The user should not have to expand a section to learn that a proposal carries risk.
+
+The user should be able to expand details to understand why the risk value was assigned.
+
+Review Surface Pattern:
+
+Immediate:
+
+- interpretation summary
+
+- future-state summary
+
+- risk value
+
+Expandable:
+
+- risk explanation
+
+- affected systems
+
+- assumptions
+
+- rollback considerations
+
+- governance evidence
+
+- supporting analysis
+
+Governance Reason:
+
+Risk visibility supports informed user review.
+
+Risk detail supports deeper evaluation when needed.
+
+This protects the user from unknowingly approving risky work.
+
+This also protects the system from responsibility ambiguity by making risk disclosure visible at the decision point.
+
+Boundary:
+
+Risk existence is first-class attention.
+
+Risk reasoning is progressive disclosure.
+
+Risk value should not be hidden behind optional expansion.
+
+Risk details do not need to dominate the default review surface.
+
+Possible Contract Shape:
+
+proposal_risk:
+
+  level:
+
+    LOW | MEDIUM | HIGH | CRITICAL
+
+  summary:
+
+    Short human-readable risk summary.
+
+  details_ref:
+
+    Optional reference to supporting risk analysis.
+
+Review View Rule:
+
+Show risk level immediately.
+
+Show risk summary immediately when available.
+
+Place detailed risk analysis behind expandable review details.
+
+Scope Boundary:
+
+This finding does not authorize:
+
+- implementation
+
+- UI work
+
+- approval system construction
+
+- Preview Builder construction
+
+- Review View Builder construction
+
+- mutation
+
+- shell execution
+
+- autonomous execution
+
