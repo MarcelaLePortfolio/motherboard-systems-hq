@@ -1,0 +1,111 @@
+
+MINIMUM AUTHORIZATION ARTIFACT MODEL VERDICT
+
+Finding Status: RECONCILED FROM NOISY INSPECTION
+
+Corrected Inspection Commit:
+
+9e83671a Correct minimum authorization artifact model inspection
+
+Inspection Quality:
+
+The corrected inspection executed successfully.
+
+The output is noisy because it recursively matched prior inspection files and historical reports.
+
+Despite this noise, the inspected doctrine and future artifact surface draft provide enough evidence to evaluate the minimum artifact model at the conceptual level.
+
+Verdict:
+
+The four future authorization surfaces should remain conceptually distinct:
+
+1. Proposal Risk Surface
+
+2. Residual Risk Disclosure Surface
+
+3. Human Risk Acceptance Surface
+
+4. Proposal-Bound Authorization Surface
+
+Reason:
+
+Each surface answers a different governance question.
+
+Proposal Risk Surface asks:
+
+What risk is attached to this exact proposal?
+
+Residual Risk Disclosure Surface asks:
+
+Was that risk visibly disclosed at the decision point?
+
+Human Risk Acceptance Surface asks:
+
+Did the responsible human authority accept the disclosed residual risk?
+
+Proposal-Bound Authorization Surface asks:
+
+Was execution authority granted for this exact proposal?
+
+Boundary:
+
+These concepts should not be collapsed semantically.
+
+However, this finding does not require four separate database tables, files, UI panels, or runtime modules.
+
+Future implementation may choose combined storage if lifecycle meaning, references, validity, and audit reconstruction remain distinct.
+
+Primary Rule:
+
+Storage may consolidate.
+
+Lifecycle meaning must not collapse.
+
+Architecture Rule:
+
+Risk classification is not disclosure.
+
+Disclosure is not acceptance.
+
+Acceptance is not authorization.
+
+Authorization is not execution.
+
+Proposal identity must bind all four.
+
+Audit Meaning:
+
+A future audit should be able to reconstruct:
+
+- what proposal was under review
+
+- what risk was assigned
+
+- what risk was shown to the user
+
+- whether the user accepted that risk
+
+- whether execution authority was granted
+
+- whether the authorization matched the exact proposal executed
+
+Scope Boundary:
+
+This verdict does not authorize:
+
+- implementation
+
+- UI work
+
+- approval system construction
+
+- Preview Builder construction
+
+- Review View Builder construction
+
+- mutation
+
+- shell execution
+
+- autonomous execution
+
