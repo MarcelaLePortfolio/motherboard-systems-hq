@@ -1,0 +1,167 @@
+
+PREVIEW BUILDER LIFECYCLE RECONCILIATION SUMMARY
+
+Finding Status: RECONCILED SUMMARY
+
+Purpose:
+
+Summarize the Preview Builder governance lifecycle after proposal, review, authorization, lineage, validity, execution binding, and audit reconstruction findings.
+
+Reconciled Lifecycle:
+
+Governed Planning Bundle
+
+→ Preview Builder
+
+→ Canonical Preview Artifact
+
+→ Review View Builder
+
+→ Review Views
+
+→ Human Review
+
+→ Review Result Artifact
+
+→ Authorization Artifact
+
+→ Execution Record
+
+→ Audit / Reconciliation Reconstruction
+
+Core Reconciliations:
+
+1. Preview Builder is a translation stage.
+
+It consumes governed planning output and produces a Canonical Preview Artifact.
+
+It is not an approval system.
+
+It is not an authorization system.
+
+It is not an execution system.
+
+2. Canonical Preview Artifact is the proposal.
+
+It is immutable.
+
+It is renderer-independent.
+
+It is non-authorizing.
+
+It receives stable proposal identity.
+
+It represents proposed future state and meaning.
+
+3. Review Views are approval-specific questions.
+
+Interpretation Review asks:
+
+Did the system understand the user?
+
+Future-State Review asks:
+
+Is this the future state the user wants?
+
+Authorization Review asks:
+
+Should execution authority be granted?
+
+4. Review Result Artifacts record human responses.
+
+They reference exact proposal_id.
+
+They do not mutate the proposal.
+
+They do not authorize execution.
+
+5. Authorization Artifacts record authority.
+
+They reference exact proposal_id.
+
+They do not transfer automatically across proposal revisions.
+
+No proposal revision inherits execution authority automatically.
+
+6. Proposal identity preserves validity.
+
+proposal_id anchors exact proposed future state.
+
+Review and authorization validity attach to exact proposal_id.
+
+7. Proposal lineage preserves continuity.
+
+root_proposal_id and supersedes_proposal_id preserve revision history.
+
+Lineage does not grant authority.
+
+Lineage does not preserve review validity automatically.
+
+8. Execution binds to exact authorized proposal.
+
+Execution records should reference exact proposal_id.
+
+Execution may also preserve root_proposal_id for audit reconstruction.
+
+Authority follows proposal identity.
+
+Continuity follows lineage.
+
+Auditability follows both.
+
+9. Audit reconstruction traverses relationships.
+
+No single lifecycle artifact should absorb all responsibilities.
+
+Auditability emerges from the relationships between distinct artifacts.
+
+Primary Rule:
+
+Proposal, Review, Authorization, Execution, Audit, and Reconciliation remain distinct lifecycle artifacts.
+
+Implementation Direction When Authorized:
+
+The safest first implementation slice is likely:
+
+governed planning artifact bundle
+
+→ read-only Preview Builder module
+
+→ Canonical Preview Artifact
+
+→ existing planning-preview UI renderer
+
+Explicitly avoid first-slice changes to:
+
+- execution phase state machine
+
+- approval gate authority expansion
+
+- mutation authorization
+
+- shell authorization
+
+- autonomous authorization
+
+- task-runtime coupling
+
+Scope Boundary:
+
+This summary does not authorize:
+
+- implementation
+
+- UI work
+
+- approval system construction
+
+- Preview Builder construction
+
+- Review View Builder construction
+
+- mutation
+
+- shell execution
+
+- autonomous execution
+
