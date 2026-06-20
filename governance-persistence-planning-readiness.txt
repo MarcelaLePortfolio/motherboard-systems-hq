@@ -1,0 +1,43 @@
+
+Governance Persistence Planning Readiness
+
+Current evidence state:
+
+- Canonical governance artifact specifications exist.
+
+- Runtime governance artifacts are not yet implemented.
+
+- SQLite is the active persistence authority.
+
+- task_events and reflection_index are existing persistence surfaces.
+
+- Governance artifacts should not be collapsed into task_events payloads.
+
+Next evidence target:
+
+Existing task persistence patterns.
+
+Purpose:
+
+Determine whether governance artifact persistence should mirror existing task persistence conventions or establish a separate but compatible persistence model.
+
+Inspection targets:
+
+- tasks schema
+
+- tasks routes
+
+- tasks migrations
+
+- tasks lineage patterns
+
+Boundary:
+
+Inspection only.
+
+No schema changes.
+
+No migrations.
+
+No runtime behavior changes.
+
