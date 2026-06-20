@@ -1,0 +1,239 @@
+
+Governance Referential Integrity Review v1
+
+Status:
+
+Planning only.
+
+No schema changes.
+
+No migrations.
+
+No runtime behavior changes.
+
+Review focus:
+
+Determine whether the planned governance tables can preserve artifact lineage and prevent orphaned records.
+
+Planned table chain:
+
+governance_packages
+
+→ governance_delegations
+
+→ governance_validation_results
+
+→ governance_envelope_gates
+
+→ governance_envelopes
+
+---
+
+1. governance_packages
+
+Primary identity:
+
+- package_id
+
+- package_version
+
+Review finding:
+
+Package identity should be modeled as a composite identity.
+
+Reason:
+
+package_id alone identifies the package lineage.
+
+package_version identifies the immutable meaning version.
+
+Recommended constraint:
+
+Unique composite key:
+
+- package_id
+
+- package_version
+
+Result:
+
+PASS WITH DESIGN REQUIREMENT
+
+---
+
+2. governance_delegations
+
+References:
+
+- package_id
+
+- package_version
+
+Review finding:
+
+Delegation must reference an existing Package version.
+
+Recommended constraint:
+
+Foreign key:
+
+- package_id
+
+- package_version
+
+→ governance_packages(package_id, package_version)
+
+Result:
+
+PASS WITH DESIGN REQUIREMENT
+
+---
+
+3. governance_validation_results
+
+References:
+
+- package_id
+
+- package_version
+
+- delegation_id
+
+Review finding:
+
+Validation must reference both the delegated Package version and the Delegation Record.
+
+Recommended constraints:
+
+Foreign key:
+
+- package_id
+
+- package_version
+
+→ governance_packages(package_id, package_version)
+
+Foreign key:
+
+- delegation_id
+
+→ governance_delegations(delegation_id)
+
+Design caution:
+
+Application logic should also verify delegation.package_id and delegation.package_version match validation package lineage.
+
+Result:
+
+PASS WITH DESIGN REQUIREMENT
+
+---
+
+4. governance_envelope_gates
+
+References:
+
+- package_id
+
+- package_version
+
+- delegation_id
+
+- validation_result_id
+
+Review finding:
+
+Gate decisions must reference all upstream artifacts.
+
+Recommended constraints:
+
+Foreign keys:
+
+- package_id, package_version
+
+→ governance_packages(package_id, package_version)
+
+- delegation_id
+
+→ governance_delegations(delegation_id)
+
+- validation_result_id
+
+→ governance_validation_results(validation_result_id)
+
+Design caution:
+
+Application logic should verify all referenced artifacts share the same package_id and package_version.
+
+Result:
+
+PASS WITH DESIGN REQUIREMENT
+
+---
+
+5. governance_envelopes
+
+References:
+
+- package_id
+
+- package_version
+
+- delegation_id
+
+- validation_result_id
+
+- envelope_gate_id
+
+Review finding:
+
+Envelope records must reference all upstream artifacts and may only be created after an OPEN gate.
+
+Recommended constraints:
+
+Foreign keys:
+
+- package_id, package_version
+
+→ governance_packages(package_id, package_version)
+
+- delegation_id
+
+→ governance_delegations(delegation_id)
+
+- validation_result_id
+
+→ governance_validation_results(validation_result_id)
+
+- envelope_gate_id
+
+→ governance_envelope_gates(envelope_gate_id)
+
+Design caution:
+
+Database foreign keys can preserve existence.
+
+Application logic must preserve gate_status = OPEN before Envelope creation.
+
+Result:
+
+PASS WITH DESIGN REQUIREMENT
+
+---
+
+Overall verdict:
+
+The additive governance persistence plan is referentially sound if schema design includes:
+
+- composite Package identity
+
+- foreign keys across artifact lineage
+
+- application-level lineage consistency checks
+
+- application-level OPEN gate enforcement before Envelope creation
+
+Next planning target:
+
+Schema implementation plan.
+
