@@ -1,0 +1,181 @@
+
+CANONICAL PREVIEW ARTIFACT BOUNDARY FINDING
+
+Finding Status: DISCOVERY DRAFT
+
+Question:
+
+Which fields belong inside the Canonical Preview Artifact, and which fields should remain outside it as referenced evidence?
+
+Context:
+
+The Canonical Preview Artifact has been drafted as:
+
+- immutable
+
+- renderer-independent
+
+- lifecycle-level
+
+- non-authorizing
+
+- proposal-centered
+
+- proposal_id anchored
+
+Architectural Concern:
+
+If too much governance, execution, audit, rollback, and reconciliation data is embedded inside the Preview Artifact, the artifact may become a giant mutable master record in disguise.
+
+This would conflict with prior findings that:
+
+- lifecycle artifacts remain distinct
+
+- audit reconstruction traverses relationships
+
+- governance evidence supports review
+
+- governance evidence is not the review surface
+
+- proposal, review, authorization, execution, audit, and reconciliation remain separate artifacts
+
+Preliminary Direction:
+
+The Canonical Preview Artifact should contain proposal meaning.
+
+It should reference supporting evidence.
+
+It should not absorb supporting evidence.
+
+Core Fields That Belong Inside The Preview Artifact:
+
+- proposal_id
+
+- proposal_schema
+
+- proposal_state
+
+- root_proposal_id
+
+- supersedes_proposal_id
+
+- revision_number
+
+- revision_reason
+
+- revision_summary
+
+- generated_at
+
+- proposal_hash
+
+- source_bundle_schema
+
+- source_envelope_version
+
+- source_trace_id
+
+- interpreted_intent
+
+- proposed_future_state
+
+- proposed_change_model
+
+- authority_state
+
+- explicit_non_authority
+
+Evidence That Should Usually Be Referenced, Not Embedded:
+
+- governance validation details
+
+- approval gate details
+
+- full audit trace
+
+- full reconciliation artifact
+
+- rollback contract details
+
+- full planned patch list
+
+- full planned step list
+
+- execution envelope internals
+
+- runtime execution records
+
+- task records
+
+Possible Evidence Reference Fields:
+
+supporting_evidence_refs:
+
+  governance_ref
+
+  approval_gate_ref
+
+  audit_trace_ref
+
+  reconciliation_ref
+
+  rollback_contract_ref
+
+  planned_steps_ref
+
+  planned_patches_ref
+
+  execution_envelope_ref
+
+  source_bundle_ref
+
+Allowed Summaries Inside Preview Artifact:
+
+The Preview Artifact may contain summary-level fields derived from supporting evidence when necessary for human review.
+
+Examples:
+
+- governance_status_summary
+
+- rollback_available
+
+- planned_change_summary
+
+- risk_summary
+
+- reconciliation_expected
+
+Boundary Rule:
+
+The Preview Artifact should explain what future reality is being proposed.
+
+Supporting artifacts should explain why that proposal is safe, valid, traceable, reversible, or executable.
+
+Meaning:
+
+Proposal meaning belongs inside the Preview Artifact.
+
+Supporting evidence belongs behind references.
+
+Review Views may combine both proposal meaning and referenced evidence for human evaluation.
+
+Scope Boundary:
+
+This finding does not authorize:
+
+- implementation
+
+- UI work
+
+- approval system construction
+
+- Preview Builder construction
+
+- Review View Builder construction
+
+- mutation
+
+- shell execution
+
+- autonomous execution
+
