@@ -1,0 +1,143 @@
+
+Governance Schema Creep Prevention Guardrail v1
+
+Purpose:
+
+Prevent governance schema implementation from expanding beyond the approved record-only persistence scope.
+
+Status:
+
+Binding planning guardrail for the next implementation step.
+
+Applies to:
+
+- db/governance.schema.ts
+
+- drizzle/0004_governance_lifecycle_artifacts.sql
+
+- any future governance persistence schema changes
+
+Approved schema purpose:
+
+Governance tables may record authority lineage.
+
+Governance tables may preserve artifact history.
+
+Governance tables may support audit reconstruction.
+
+Governance tables may support fail-closed Envelope eligibility.
+
+Governance tables may not introduce operational behavior.
+
+Forbidden schema creep:
+
+Do not add fields for:
+
+- assigned_to
+
+- assigned_by
+
+- owner
+
+- department_owner
+
+- routed_to
+
+- route_status
+
+- execution_status
+
+- executor
+
+- worker_id
+
+- run_id
+
+- task_id
+
+- action_tier
+
+- priority
+
+- due_date
+
+- scheduling
+
+- retry
+
+- attempts
+
+- queue_state
+
+- claim_state
+
+- lease
+
+- automation_state
+
+- atlas_recommendation
+
+- ellis_route
+
+- autonomous_decision
+
+Do not add tables for:
+
+- routing
+
+- assignment
+
+- execution
+
+- task queues
+
+- worker claims
+
+- Atlas intelligence expansion
+
+- Ellis routing
+
+- autonomous operations
+
+Allowed fields:
+
+Only fields needed for:
+
+- artifact identity
+
+- artifact lineage
+
+- immutable artifact content
+
+- validation status
+
+- gate status
+
+- timestamps
+
+- audit reconstruction
+
+Pre-implementation review checklist:
+
+Before any governance schema change is committed, confirm:
+
+1. Does this field preserve meaning, authority, readiness, eligibility, or lifecycle lineage?
+
+2. Does this field introduce routing, assignment, execution, scheduling, ownership, or automation?
+
+3. Could this field make Governance Validation behave like runtime authority?
+
+4. Could this field make Envelope Gate behave like routing or execution permission?
+
+5. Could this field make Envelope replace Package as meaning authority?
+
+If any answer indicates authority expansion, the schema change is blocked.
+
+Implementation rule:
+
+When uncertain, exclude the field and document the deferred question instead.
+
+Verdict:
+
+Schema implementation may proceed only if it passes this guardrail.
+
