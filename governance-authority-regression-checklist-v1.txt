@@ -1,0 +1,101 @@
+
+Governance Authority Regression Checklist v1
+
+Purpose:
+
+Prevent future governance implementation work from reintroducing authority that has already been intentionally separated.
+
+Review Trigger:
+
+Required before:
+
+- schema additions
+
+- migration additions
+
+- governance API additions
+
+- governance runtime creation logic
+
+- governance validation logic
+
+Authority Separation Requirements:
+
+Package owns:
+
+- meaning
+
+Delegation owns:
+
+- interpretation authorization
+
+Governance Validation owns:
+
+- readiness analysis
+
+Envelope Gate owns:
+
+- eligibility determination
+
+Envelope owns:
+
+- operational lifecycle record
+
+Regression Tests:
+
+1. Does this change move meaning outside Package?
+
+If yes:
+
+BLOCK
+
+2. Does this change move interpretation authority outside Delegation?
+
+If yes:
+
+BLOCK
+
+3. Does this change allow Governance Validation to alter meaning?
+
+If yes:
+
+BLOCK
+
+4. Does this change allow Envelope Gate to perform routing, assignment, or execution decisions?
+
+If yes:
+
+BLOCK
+
+5. Does this change allow Envelope to become the authoritative source of intent?
+
+If yes:
+
+BLOCK
+
+6. Does this change introduce operational ownership into governance artifacts?
+
+If yes:
+
+BLOCK
+
+7. Does this change introduce execution state into governance artifacts?
+
+If yes:
+
+BLOCK
+
+8. Does this change introduce autonomous decision authority?
+
+If yes:
+
+BLOCK
+
+Approval Condition:
+
+All regression tests must pass before implementation proceeds.
+
+Verdict:
+
+Authority separation is treated as an invariant, not a design preference.
+
