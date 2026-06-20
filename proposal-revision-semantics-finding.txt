@@ -1,0 +1,125 @@
+
+PROPOSAL REVISION SEMANTICS FINDING
+
+Finding Status: DISCOVERY DRAFT
+
+Question:
+
+When does a Canonical Preview Artifact remain the same proposal?
+
+When does it become a new proposal?
+
+Reason:
+
+Proposal identity has now been established as the continuity anchor across:
+
+- Preview Artifact
+
+- Review Views
+
+- Review Result Artifacts
+
+- Authorization Artifacts
+
+- Execution Records
+
+- Audit Records
+
+- Reconciliation Records
+
+Without revision semantics, lifecycle continuity may become ambiguous.
+
+Example:
+
+Case A
+
+Proposal:
+
+- create file A
+
+- modify file B
+
+Review occurs.
+
+Later the proposal is reformatted for presentation only.
+
+Interpretation:
+
+Same proposal.
+
+Proposal identity should remain stable.
+
+Case B
+
+Proposal:
+
+- create file A
+
+- modify file B
+
+Review occurs.
+
+Later the proposal changes to:
+
+- create file A
+
+- modify file B
+
+- delete file C
+
+Interpretation:
+
+Future state has changed.
+
+This may require a new proposal identity.
+
+Architectural Question:
+
+Should proposal identity remain stable across:
+
+- renderer changes
+
+- review view changes
+
+- presentation changes
+
+while changing across:
+
+- future state changes
+
+- execution scope changes
+
+- planned patch changes
+
+- rollback changes
+
+- risk changes
+
+Preliminary Direction:
+
+Proposal identity should track proposed future state rather than presentation.
+
+Meaning:
+
+The continuity anchor should preserve meaning continuity rather than UI continuity.
+
+Scope Boundary:
+
+This finding does not authorize:
+
+- implementation
+
+- UI work
+
+- approval system construction
+
+- Preview Builder construction
+
+- Review View Builder construction
+
+- mutation
+
+- shell execution
+
+- autonomous execution
+
