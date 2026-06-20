@@ -1,0 +1,67 @@
+
+Active Delegation Runtime Inspection Finding
+
+Files inspected:
+
+- server.ts
+
+- routes/api/delegate.ts
+
+- routes/delegate.ts
+
+- routes/delegations.ts
+
+Finding:
+
+The active delegation runtime is legacy task/delegation plumbing, not a canonical lifecycle implementation.
+
+Observed behavior:
+
+- server.ts mounts routes/api/delegate.ts at /delegate.
+
+- routes/api/delegate.ts stores the raw request body as task_events.payload with type "task", agent "Matilda", and status "received".
+
+- routes/api/delegate.ts attempts to submit the raw payload to Cade through scripts/_local/agent-runtime/submit-task.
+
+- routes/delegate.ts performs direct webpage-generation behavior based on freeform instruction text.
+
+- routes/delegate.ts logs delegation execution/failure to reflection_index.
+
+- routes/delegations.ts logs generic delegation rows into task_events using description, event_type, agent, and status.
+
+Not observed:
+
+- No Package artifact.
+
+- No package_id.
+
+- No package_version.
+
+- No proposal identity binding.
+
+- No Direct User Delegation record tied to a specific Package version.
+
+- No Governance Validation output artifact.
+
+- No fail-closed Governance Validation gate.
+
+- No canonical Envelope creation path gated by Governance Validation.
+
+Conclusion:
+
+The current /delegate runtime should not be treated as the canonical Direct User Delegation implementation. It is useful historical/legacy runtime plumbing, but the canonical lifecycle corridor requires an isolated implementation path or a carefully staged migration.
+
+Implementation-readiness implication:
+
+The next safe implementation design should introduce minimum canonical artifacts before touching execution behavior:
+
+1. Package artifact shape.
+
+2. Delegation Record shape referencing package_id and package_version.
+
+3. Governance Validation result shape.
+
+4. Envelope creation permission gated by Governance Validation.
+
+5. No routing or execution expansion.
+
