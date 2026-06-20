@@ -1,0 +1,201 @@
+
+Governance Persistence Additive Table Plan v1
+
+Purpose:
+
+Define a clean additive persistence plan for canonical governance artifacts.
+
+Status:
+
+Planning only.
+
+No schema changes.
+
+No migrations.
+
+No runtime behavior changes.
+
+Reason:
+
+Existing task persistence patterns are inconsistent and should not be used as the canonical governance persistence model.
+
+Planned dedicated tables:
+
+1. governance_packages
+
+Purpose:
+
+Persist canonical Package artifacts.
+
+Minimum fields:
+
+- package_id
+
+- package_version
+
+- requested_outcome
+
+- scope
+
+- containment
+
+- constraints
+
+- success_criteria
+
+- context
+
+- style_presentation_intent
+
+- exclusions
+
+- created_at
+
+Lineage principle:
+
+package_id + package_version identifies the immutable meaning artifact version.
+
+2. governance_delegations
+
+Purpose:
+
+Persist canonical Delegation Records.
+
+Minimum fields:
+
+- delegation_id
+
+- package_id
+
+- package_version
+
+- authorization_state
+
+- authorization_timestamp
+
+- delegated_by
+
+- created_at
+
+Lineage principle:
+
+Delegation references exactly one package_id + package_version.
+
+3. governance_validation_results
+
+Purpose:
+
+Persist Governance Validation outputs.
+
+Minimum fields:
+
+- validation_result_id
+
+- package_id
+
+- package_version
+
+- delegation_id
+
+- validation_status
+
+- governance_findings
+
+- operational_requirements
+
+- capability_requirements
+
+- escalations
+
+- validation_timestamp
+
+- created_at
+
+Lineage principle:
+
+Validation consumes a delegated Package and records PASS or FAIL without modifying Package meaning.
+
+4. governance_envelope_gates
+
+Purpose:
+
+Persist fail-closed Envelope Gate decisions.
+
+Minimum fields:
+
+- envelope_gate_id
+
+- package_id
+
+- package_version
+
+- delegation_id
+
+- validation_result_id
+
+- gate_status
+
+- gate_decision_timestamp
+
+- gate_reason
+
+- created_at
+
+Lineage principle:
+
+Gate opens only when Package, Delegation, and Governance Validation Result lineage is internally consistent and validation_status = PASS.
+
+5. governance_envelopes
+
+Purpose:
+
+Persist canonical Envelope creation records after gate opens.
+
+Minimum fields:
+
+- envelope_id
+
+- package_id
+
+- package_version
+
+- delegation_id
+
+- validation_result_id
+
+- envelope_gate_id
+
+- validation_status
+
+- required_capabilities
+
+- operational_corridor
+
+- lifecycle_state
+
+- created_at
+
+Lineage principle:
+
+Envelope is created only after a successful gate decision and remains the operational lifecycle artifact, not the source of meaning.
+
+Implementation boundary:
+
+- Additive only.
+
+- Dedicated governance tables.
+
+- No task_events reuse.
+
+- No routing.
+
+- No assignment.
+
+- No execution.
+
+- No autonomous behavior.
+
+Next step:
+
+Review plan for contradiction before creating any schema or migration.
+
