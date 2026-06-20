@@ -1,0 +1,119 @@
+
+LIFECYCLE AUDIT RECONSTRUCTION FINDING
+
+Finding Status: DISCOVERY DRAFT
+
+Question:
+
+What is the canonical reconstruction path for a completed execution?
+
+Context:
+
+The lifecycle now contains:
+
+- Canonical Preview Artifact
+
+- Proposal Lineage
+
+- Review Result Artifact
+
+- Authorization Artifact
+
+- Execution Record
+
+- Audit Records
+
+- Reconciliation Records
+
+Architectural Concern:
+
+A future auditor should be able to answer:
+
+- What was proposed?
+
+- What changed?
+
+- What was reviewed?
+
+- What was authorized?
+
+- What was executed?
+
+- What actually happened?
+
+without ambiguity.
+
+Candidate Reconstruction Path:
+
+Execution Record
+
+→ Authorization Artifact
+
+→ Review Result Artifact
+
+→ Canonical Preview Artifact
+
+→ Proposal Lineage
+
+→ Governed Planning Bundle
+
+→ Reconciliation Record
+
+Interpretation:
+
+Execution is the outcome.
+
+Authorization explains why execution was allowed.
+
+Review explains why the proposal was accepted.
+
+Proposal explains the intended future state.
+
+Lineage explains proposal evolution.
+
+Reconciliation explains actual outcome.
+
+Recommended Direction:
+
+No single artifact should absorb the responsibilities of all others.
+
+Lifecycle meaning should remain distributed across lifecycle artifacts.
+
+Audit reconstruction should traverse relationships rather than depend upon a giant mutable master record.
+
+Primary Rule:
+
+Proposal, Review, Authorization, Execution, Audit, and Reconciliation remain distinct lifecycle artifacts.
+
+Auditability emerges from their relationships.
+
+Meaning:
+
+Continuity is reconstructed.
+
+Validity is preserved.
+
+Authority remains explicit.
+
+Historical interpretation remains explainable.
+
+Scope Boundary:
+
+This finding does not authorize:
+
+- implementation
+
+- UI work
+
+- approval system construction
+
+- Preview Builder construction
+
+- Review View Builder construction
+
+- mutation
+
+- shell execution
+
+- autonomous execution
+
