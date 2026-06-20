@@ -1,0 +1,109 @@
+
+REVIEW RESULT VALIDITY FINDING
+
+Finding Status: DISCOVERY DRAFT
+
+Question:
+
+When does an existing Review Result Artifact remain valid?
+
+When does it become stale?
+
+Context:
+
+Proposal identity now tracks proposed future state rather than presentation.
+
+Review Result Artifacts reference proposal_id.
+
+Architectural Concern:
+
+A review result represents human evaluation of a specific proposal.
+
+If the proposal changes meaningfully, prior review may no longer represent informed review.
+
+Examples:
+
+Case A
+
+Proposal content unchanged.
+
+Renderer changes.
+
+Review View changes.
+
+Presentation changes.
+
+Interpretation:
+
+Review Result remains valid.
+
+Case B
+
+Future state changes.
+
+Planned patches change.
+
+Execution scope changes.
+
+Rollback contract changes.
+
+Risk profile changes.
+
+Interpretation:
+
+Review Result may become stale.
+
+Review should likely be repeated against the new proposal.
+
+Preliminary Direction:
+
+Review validity should track proposal meaning.
+
+Review validity should not track presentation.
+
+Lifecycle Pattern:
+
+Canonical Preview Artifact
+
+  proposal_id
+
+Review Result Artifact
+
+  proposal_id
+
+  review_result_id
+
+If proposal meaning changes:
+
+  new proposal_id
+
+Prior Review Result Artifact remains historical.
+
+Prior Review Result Artifact should not automatically apply to the new proposal.
+
+Meaning:
+
+Human review is attached to the proposal that was actually reviewed.
+
+Review continuity should preserve auditability without creating implied approval for modified proposals.
+
+Scope Boundary:
+
+This finding does not authorize:
+
+- implementation
+
+- UI work
+
+- approval system construction
+
+- Preview Builder construction
+
+- Review View Builder construction
+
+- mutation
+
+- shell execution
+
+- autonomous execution
+
