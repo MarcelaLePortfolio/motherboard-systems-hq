@@ -1,0 +1,61 @@
+
+Governance Schema Alignment Review Checkpoint
+
+Latest confirmed commit:
+
+- d523e520 Align governance lifecycle schema with lineage plan
+
+Review status:
+
+Schema implementation was patched to better match the approved lineage plan.
+
+Corrected items:
+
+- Added composite Package primary key in migration.
+
+- Added delegation_id to governance_envelope_gates.
+
+- Added gate_reason to governance_envelope_gates.
+
+- Added gate_decision_timestamp to governance_envelope_gates.
+
+- Added created_at to governance_delegations.
+
+- Added created_at to governance_validation_results.
+
+- Added foreign key lineage references in migration.
+
+Scope check:
+
+Only authorized files were changed:
+
+- db/governance.schema.ts
+
+- drizzle/0004_governance_lifecycle_artifacts.sql
+
+Still not introduced:
+
+- routes
+
+- APIs
+
+- runtime artifact creation
+
+- runtime validation
+
+- Envelope creation behavior
+
+- routing
+
+- assignment
+
+- execution
+
+- automation
+
+- Atlas expansion
+
+Next step:
+
+Run syntax and guardrail checks before further implementation.
+
