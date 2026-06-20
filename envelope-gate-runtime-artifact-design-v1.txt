@@ -1,0 +1,123 @@
+
+Envelope Gate Runtime Artifact Design v1
+
+Purpose:
+
+Fail-closed authorization gate controlling whether canonical Envelope creation is permitted.
+
+Status:
+
+Design only.
+
+No routing, execution, assignment, or lifecycle behavior.
+
+Inputs:
+
+- package_id
+
+- package_version
+
+- delegation_id
+
+- validation_result_id
+
+Minimum fields:
+
+- envelope_gate_id
+
+  Unique immutable gate identifier.
+
+- package_id
+
+  Reference to evaluated Package.
+
+- package_version
+
+  Reference to evaluated Package version.
+
+- delegation_id
+
+  Reference to consumed Delegation Record.
+
+- validation_result_id
+
+  Reference to Governance Validation Result.
+
+- gate_status
+
+  Expected values:
+
+  - OPEN
+
+  - CLOSED
+
+- gate_decision_timestamp
+
+  Timestamp of gate decision.
+
+- gate_reason
+
+  Human-readable explanation of gate outcome.
+
+Design principles:
+
+- Envelope Gate does not create intent.
+
+- Envelope Gate does not modify meaning.
+
+- Envelope Gate does not perform routing.
+
+- Envelope Gate does not perform assignment.
+
+- Envelope Gate does not perform execution.
+
+- Envelope Gate only determines Envelope eligibility.
+
+Fail-closed rules:
+
+- Missing Package => CLOSED
+
+- Missing Delegation Record => CLOSED
+
+- Missing Validation Result => CLOSED
+
+- validation_status != PASS => CLOSED
+
+- Package/Delegation identity mismatch => CLOSED
+
+- Package version mismatch => CLOSED
+
+Open rule:
+
+- Gate may open only when:
+
+  - Package exists
+
+  - Delegation exists
+
+  - Governance Validation Result exists
+
+  - validation_status = PASS
+
+  - artifact lineage is internally consistent
+
+Result:
+
+OPEN permits canonical Envelope creation.
+
+CLOSED prohibits canonical Envelope creation.
+
+Design sequence completion:
+
+Package
+
+→ Delegation Record
+
+→ Governance Validation Result
+
+→ Envelope Gate
+
+Implementation readiness note:
+
+The minimum record-only governance lifecycle corridor now has a complete artifact design chain.
+
