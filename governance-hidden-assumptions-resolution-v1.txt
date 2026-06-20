@@ -1,0 +1,113 @@
+
+Governance Hidden Assumptions Resolution v1
+
+Status:
+
+Planning only.
+
+No schema changes.
+
+No migrations.
+
+No runtime behavior changes.
+
+Open Question 1:
+
+Should Governance Validation Result duplicate Package lineage or derive it only through Delegation?
+
+Decision:
+
+Duplicate Package lineage on Governance Validation Result.
+
+Required fields:
+
+- validation_result_id
+
+- package_id
+
+- package_version
+
+- delegation_id
+
+Reason:
+
+Although package_id and package_version are derivable through delegation_id, duplicated lineage improves audit reconstruction and makes validation records self-describing.
+
+Containment:
+
+This does not create new authority.
+
+This does not allow Governance Validation to modify Package meaning.
+
+This does not allow Governance Validation to create Delegation.
+
+This does not allow Governance Validation to route, assign, or execute work.
+
+Design requirement:
+
+Application logic must verify that:
+
+- validation_result.package_id matches delegation.package_id
+
+- validation_result.package_version matches delegation.package_version
+
+Verdict:
+
+RESOLVED
+
+---
+
+Open Question 2:
+
+Should Envelope Gate be persisted or derived?
+
+Decision:
+
+Persist Envelope Gate as a dedicated governance artifact.
+
+Reason:
+
+The Envelope Gate is the explicit fail-closed eligibility decision between Governance Validation and Envelope creation. Persisting it preserves auditability, makes blocked decisions inspectable, and prevents silent derivation from being mistaken for absent governance review.
+
+Containment:
+
+Envelope Gate remains eligibility-only.
+
+Envelope Gate does not route.
+
+Envelope Gate does not assign.
+
+Envelope Gate does not execute.
+
+Envelope Gate does not create intent.
+
+Envelope Gate does not modify meaning.
+
+Design requirement:
+
+Application logic must verify that:
+
+- envelope_gate.validation_result_id exists
+
+- validation_status = PASS before gate_status may be OPEN
+
+- all upstream artifact lineage is internally consistent
+
+Verdict:
+
+RESOLVED
+
+Overall conclusion:
+
+Both hidden assumptions are resolved without scope expansion.
+
+Schema implementation plan remains valid with:
+
+- package_id and package_version duplicated on downstream artifacts for audit readability
+
+- governance_envelope_gates retained as a dedicated persisted artifact
+
+Next milestone:
+
+Schema implementation may proceed only if explicitly authorized.
+
