@@ -1,0 +1,3 @@
+DOCTRINE TO ARCHITECTURE CONSISTENCY INSPECTION
+
+--- doctrine evidence ---
