@@ -1,0 +1,67 @@
+
+Task Persistence Pattern Inspection Finding
+
+Inspected:
+
+- routes/api/tasks.ts
+
+- routes/tasks.ts
+
+- task-related grep results across db, drizzle, sql, routes, src, scripts, server.ts
+
+Findings:
+
+Active route pattern:
+
+- routes/api/tasks.ts reads from task_events using sqlite.prepare.
+
+- routes/api/tasks.ts expects task_events columns: id, type, agent, status, payload, result, created_at.
+
+- routes/tasks.ts is a fallback/debug-style route that queries task_events through db/audit and also directly opens motherboard.sqlite.
+
+Schema mismatch observed:
+
+- db/task_events.schema.ts defines task_events as id, kind, payload, created_at.
+
+- drizzle/0000_safe_kylun.sql creates task_events as id, kind, payload, created_at.
+
+- routes/api/tasks.ts expects additional columns not present in the active Drizzle schema shown: type, agent, status, result.
+
+- routes/delegations.ts also inserts description, event_type, agent, status, which do not match the displayed Drizzle task_events schema.
+
+Tasks table observation:
+
+- SQLite drizzle migrations modify a tasks table, but no SQLite CREATE TABLE tasks statement was observed in inspected db/drizzle/sql surfaces.
+
+- Many tasks references appear tied to historical/Postgres/worker corridors rather than the active SQLite task_events persistence path.
+
+Conclusion:
+
+Existing task persistence patterns are inconsistent and should not be used as the model for canonical governance artifact persistence.
+
+Implementation planning implication:
+
+Governance artifacts should use clean, dedicated additive tables with explicit lineage fields rather than extending task_events or depending on ambiguous tasks/task_events conventions.
+
+Recommended next planning step:
+
+Define an additive governance persistence plan using dedicated tables:
+
+- governance_packages
+
+- governance_delegations
+
+- governance_validation_results
+
+- governance_envelope_gates
+
+- governance_envelopes
+
+Boundary:
+
+Planning only.
+
+No schema changes yet.
+
+No migrations yet.
+
