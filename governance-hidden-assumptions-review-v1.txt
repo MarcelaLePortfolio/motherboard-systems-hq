@@ -1,0 +1,119 @@
+
+Governance Hidden Assumptions Review v1
+
+Status:
+
+Planning only.
+
+No schema changes.
+
+No migrations.
+
+No runtime behavior changes.
+
+Review scope allowed:
+
+- keys
+
+- identities
+
+- lineage references
+
+- persistence assumptions
+
+- immutability assumptions
+
+Review scope prohibited:
+
+- authority changes
+
+- lifecycle changes
+
+- routing
+
+- assignment
+
+- execution
+
+- automation
+
+- Atlas expansion
+
+Assumption 1:
+
+package_version is not globally unique.
+
+Finding:
+
+PASS
+
+Reason:
+
+Package identity should be treated as composite:
+
+- package_id
+
+- package_version
+
+Assumption 2:
+
+Delegation must reference Package version.
+
+Finding:
+
+PASS
+
+Reason:
+
+Delegation authorizes a specific Package version and must not transfer across Package revisions.
+
+Assumption 3:
+
+Governance Validation Result may not need to duplicate package_id and package_version if delegation_id already references Package lineage.
+
+Finding:
+
+OPEN QUESTION
+
+Reason:
+
+Validation consumes Delegation, and Delegation references Package lineage. Storing package_id and package_version on validation results may improve audit readability but duplicates lineage.
+
+Assumption 4:
+
+Envelope Gate may be either a persisted artifact or a derived decision.
+
+Finding:
+
+OPEN QUESTION
+
+Reason:
+
+If gate_status is fully derivable from validation_status = PASS and lineage consistency, a dedicated gate table may be unnecessary. If the gate is a distinct governance artifact, it should remain persisted.
+
+Assumption 5:
+
+Envelope must store Package version.
+
+Finding:
+
+PASS
+
+Reason:
+
+Envelope lineage becomes ambiguous if Package version is omitted.
+
+Summary:
+
+No scope creep detected.
+
+Open implementation assumptions:
+
+1. Should Governance Validation Result duplicate Package lineage or derive it through Delegation?
+
+2. Should Envelope Gate be persisted or derived?
+
+Next step:
+
+Resolve the two open implementation assumptions before schema implementation.
+
