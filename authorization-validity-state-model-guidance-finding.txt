@@ -1,0 +1,109 @@
+
+AUTHORIZATION VALIDITY STATE MODEL GUIDANCE FINDING
+
+Finding Status: GUIDED ARCHITECTURAL DIRECTION
+
+Verdict:
+
+Authorization eligibility is derivable.
+
+Authorization history should be recorded as an explicit lifecycle state.
+
+Reason:
+
+Governance systems must preserve both:
+
+- current authority status
+
+- historical authority events
+
+Derived Inputs:
+
+- proposal_valid
+
+- proposal_id_match
+
+- risk_disclosure_valid
+
+- risk_acceptance_valid
+
+- authorization_artifact_exists
+
+- authorization_scope_match
+
+- authorization_not_expired
+
+- authorization_not_revoked
+
+- proposal_not_superseded
+
+Authorization Lifecycle States:
+
+- not_requested
+
+- pending
+
+- granted
+
+- denied
+
+- expired
+
+- revoked
+
+- superseded
+
+- invalidated
+
+Architecture Rule:
+
+Eligibility is computed.
+
+Authority is recorded.
+
+History is preserved.
+
+Audit Meaning:
+
+A future audit must be able to distinguish between:
+
+- never authorized
+
+- authorized
+
+- denied
+
+- revoked
+
+- expired
+
+- superseded
+
+- invalidated
+
+Boundary:
+
+Authorization state does not create authority independently.
+
+Authorization state remains constrained by proposal validity, risk disclosure validity, risk acceptance validity, and proposal identity.
+
+Scope Boundary:
+
+This finding does not authorize:
+
+- implementation
+
+- UI work
+
+- approval system construction
+
+- Preview Builder construction
+
+- Review View Builder construction
+
+- mutation
+
+- shell execution
+
+- autonomous execution
+
