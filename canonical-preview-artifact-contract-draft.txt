@@ -1,0 +1,211 @@
+
+CANONICAL PREVIEW ARTIFACT CONTRACT DRAFT
+
+Finding Status: CONTRACT DISCOVERY DRAFT
+
+Purpose:
+
+Define the minimum canonical Preview Artifact contract required before implementation planning.
+
+Lifecycle Position:
+
+Governed Planning Bundle
+
+→ Preview Builder
+
+→ Canonical Preview Artifact
+
+→ Review View Builder
+
+→ Review Views
+
+→ Human Review
+
+→ Review Result Artifact
+
+→ Authorization Artifact
+
+→ Execution Record
+
+→ Audit / Reconciliation Reconstruction
+
+Contract Role:
+
+The Canonical Preview Artifact is the immutable proposal artifact.
+
+It is not:
+
+- a review result
+
+- an authorization artifact
+
+- an execution record
+
+- a renderer-specific view
+
+- a governance master record
+
+Required Identity Fields:
+
+proposal_id:
+
+  Stable identity for the exact proposed future state.
+
+proposal_schema:
+
+  Canonical Preview Artifact schema version.
+
+proposal_state:
+
+  Must be proposed.
+
+root_proposal_id:
+
+  Root identity for proposal lineage.
+
+supersedes_proposal_id:
+
+  Previous proposal identity when this proposal revises another proposal.
+
+revision_number:
+
+  Lineage position.
+
+revision_reason:
+
+  Reason proposal identity changed.
+
+revision_summary:
+
+  Human-readable summary of what changed from the prior proposal.
+
+generated_at:
+
+  Proposal generation timestamp.
+
+proposal_hash:
+
+  Deterministic hash of normalized proposal content when available.
+
+Required Source Fields:
+
+source_bundle_schema:
+
+  Governed planning artifact bundle schema used as input.
+
+source_envelope_version:
+
+  Execution envelope version referenced by the source bundle.
+
+source_trace_id:
+
+  Trace identifier when available.
+
+Required Proposal Fields:
+
+interpreted_intent:
+
+  Canonical representation of what the system believes the user meant.
+
+proposed_future_state:
+
+  Canonical representation of the future state being proposed.
+
+proposed_change_model:
+
+  Canonical representation of the changes expected to produce the future state.
+
+supporting_evidence_refs:
+
+  References to governance, execution, reconciliation, rollback, and audit evidence.
+
+Required Authority Fields:
+
+authority_state:
+
+  mutation_authorized: false
+
+  shell_execution_authorized: false
+
+  autonomous_execution_authorized: false
+
+  execution_authorized: false
+
+explicit_non_authority:
+
+  does_not_authorize_review: true
+
+  does_not_authorize_execution: true
+
+  does_not_authorize_mutation: true
+
+  does_not_authorize_shell_execution: true
+
+  does_not_authorize_autonomous_execution: true
+
+Derived Review Views:
+
+The following should be derived from the Canonical Preview Artifact and supporting evidence:
+
+- Interpretation Review View
+
+- Future-State Review View
+
+- Execution Evidence View
+
+- Governance Evidence View
+
+- Authorization Review View
+
+Review Views may organize, translate, collapse, expand, or visualize artifact contents.
+
+Review Views must not redefine artifact lifecycle meaning.
+
+Immutability Rule:
+
+The Canonical Preview Artifact must not be mutated by:
+
+- review
+
+- approval
+
+- authorization
+
+- rendering
+
+- execution
+
+- reconciliation
+
+Downstream artifacts must reference proposal_id.
+
+Validity Rule:
+
+Review validity attaches to exact proposal_id.
+
+Authorization validity attaches to exact proposal_id.
+
+Execution authority attaches to exact proposal_id.
+
+Lineage preserves continuity but does not transfer validity or authority.
+
+Scope Boundary:
+
+This contract draft does not authorize:
+
+- implementation
+
+- UI work
+
+- approval system construction
+
+- Preview Builder construction
+
+- Review View Builder construction
+
+- mutation
+
+- shell execution
+
+- autonomous execution
+
