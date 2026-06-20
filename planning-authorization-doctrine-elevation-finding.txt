@@ -1,0 +1,137 @@
+
+PLANNING AUTHORIZATION DOCTRINE ELEVATION FINDING
+
+Finding Status: ARCHITECTURAL INVARIANT CANDIDATE
+
+Question:
+
+Should residual risk acceptance remain a Preview Builder-local finding, or should it be elevated into higher-level Planning and Authorization Doctrine?
+
+Reconciled Direction:
+
+This finding should be treated as a candidate architectural invariant.
+
+It explains why the Preview Builder, Future-State Review, Risk Visibility, Review Result Artifacts, Authorization Artifacts, and audit reconstruction lifecycle exist.
+
+Core Doctrine:
+
+Primary Objective:
+
+Achieve intended future state.
+
+Secondary Objective:
+
+Minimize unnecessary risk.
+
+Tertiary Objective:
+
+Expose residual risk to the user.
+
+Quaternary Objective:
+
+Require explicit human acceptance of residual risk before authorization.
+
+Meaning:
+
+The system should not optimize primarily for inaction.
+
+The system should not pursue intended outcomes recklessly.
+
+The system should not hide residual risk.
+
+The system should not treat approval as meaningful authorization unless residual risk has been disclosed and consciously accepted.
+
+Product Meaning:
+
+Risk visibility gives authorization a unique approval quality.
+
+The user is not merely approving the same proposal again.
+
+The user is moving from:
+
+- understanding the proposal
+
+to:
+
+- accepting responsibility for proceeding with known residual risk
+
+Governance Meaning:
+
+Authorization exists because residual risk ownership must transfer to the appropriate human authority before execution.
+
+Risk disclosure is therefore both:
+
+- an informed decision-making feature
+
+- a responsibility-boundary feature
+
+Relationship To Lifecycle:
+
+Interpretation Review establishes shared understanding.
+
+Future-State Review establishes shared intent.
+
+Risk Disclosure establishes visible residual risk.
+
+Authorization establishes conscious acceptance of residual risk.
+
+Execution proceeds only after authority is explicitly granted for the exact proposal.
+
+Relationship To Prior Findings:
+
+This finding reinforces:
+
+- Interpretation-First Approval
+
+- Future-State Review
+
+- Risk Visibility and Disclosure
+
+- Residual Risk Acceptance Doctrine
+
+- Proposal Identity
+
+- Proposal Lineage
+
+- Review Validity
+
+- Authorization Validity
+
+- Execution Lineage Binding
+
+- Lifecycle Audit Reconstruction
+
+Invariant Candidate:
+
+No execution authorization should be treated as complete unless:
+
+- the intended future state is represented
+
+- unnecessary risk has been minimized
+
+- residual risk has been visibly disclosed
+
+- the responsible human authority has accepted that residual risk
+
+- authorization references the exact proposal being authorized
+
+Scope Boundary:
+
+This finding does not authorize:
+
+- implementation
+
+- UI work
+
+- approval system construction
+
+- Preview Builder construction
+
+- Review View Builder construction
+
+- mutation
+
+- shell execution
+
+- autonomous execution
+
