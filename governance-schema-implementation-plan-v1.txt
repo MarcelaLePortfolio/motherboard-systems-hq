@@ -1,0 +1,177 @@
+
+Governance Schema Implementation Plan v1
+
+Status:
+
+Planning only.
+
+No schema changes.
+
+No migrations.
+
+No runtime behavior changes.
+
+Purpose:
+
+Define the safe implementation path for dedicated governance persistence tables.
+
+Implementation target:
+
+Additive SQLite governance persistence.
+
+Planned schema surfaces:
+
+1. db/governance.schema.ts
+
+Purpose:
+
+Drizzle schema definitions for dedicated governance tables.
+
+Tables:
+
+- governance_packages
+
+- governance_delegations
+
+- governance_validation_results
+
+- governance_envelope_gates
+
+- governance_envelopes
+
+2. drizzle/0004_governance_lifecycle_artifacts.sql
+
+Purpose:
+
+Additive SQLite migration for governance lifecycle artifacts.
+
+Migration principles:
+
+- CREATE TABLE IF NOT EXISTS only.
+
+- No alteration of task_events.
+
+- No alteration of reflection_index.
+
+- No alteration of tasks.
+
+- No destructive statements.
+
+- No runtime behavior changes.
+
+Schema requirements:
+
+governance_packages:
+
+- composite uniqueness on package_id + package_version
+
+- immutable meaning fields
+
+- created_at
+
+governance_delegations:
+
+- delegation_id primary key
+
+- package_id + package_version reference governance_packages
+
+- authorization_state
+
+- authorization_timestamp
+
+- delegated_by
+
+- created_at
+
+governance_validation_results:
+
+- validation_result_id primary key
+
+- package_id + package_version reference governance_packages
+
+- delegation_id reference governance_delegations
+
+- validation_status
+
+- governance_findings
+
+- operational_requirements
+
+- capability_requirements
+
+- escalations
+
+- validation_timestamp
+
+- created_at
+
+governance_envelope_gates:
+
+- envelope_gate_id primary key
+
+- package_id + package_version reference governance_packages
+
+- delegation_id reference governance_delegations
+
+- validation_result_id reference governance_validation_results
+
+- gate_status
+
+- gate_reason
+
+- gate_decision_timestamp
+
+- created_at
+
+governance_envelopes:
+
+- envelope_id primary key
+
+- package_id + package_version reference governance_packages
+
+- delegation_id reference governance_delegations
+
+- validation_result_id reference governance_validation_results
+
+- envelope_gate_id reference governance_envelope_gates
+
+- validation_status
+
+- required_capabilities
+
+- operational_corridor
+
+- lifecycle_state
+
+- created_at
+
+Application-level requirements reserved for later:
+
+- verify delegation lineage matches package lineage
+
+- verify validation lineage matches delegation lineage
+
+- verify gate lineage matches validation lineage
+
+- require gate_status = OPEN before Envelope creation
+
+Out of scope for this plan:
+
+- routes
+
+- runtime creation APIs
+
+- automated validation
+
+- routing
+
+- assignment
+
+- execution
+
+- Atlas expansion
+
+Next checkpoint:
+
+Review whether schema implementation plan is safe to convert into actual files.
+
