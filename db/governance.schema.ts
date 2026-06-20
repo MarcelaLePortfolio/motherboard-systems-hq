@@ -1,31 +1,43 @@
 
-import { sqliteTable, text, integer } from "drizzle-orm/sqlite-core";
+import { sqliteTable, text, integer, primaryKey } from "drizzle-orm/sqlite-core";
 
-export const governance_packages = sqliteTable("governance_packages", {
+export const governance_packages = sqliteTable(
 
-  package_id: text("package_id").notNull(),
+  "governance_packages",
 
-  package_version: integer("package_version").notNull(),
+  {
 
-  requested_outcome: text("requested_outcome"),
+    package_id: text("package_id").notNull(),
 
-  scope: text("scope"),
+    package_version: integer("package_version").notNull(),
 
-  containment: text("containment"),
+    requested_outcome: text("requested_outcome"),
 
-  constraints: text("constraints"),
+    scope: text("scope"),
 
-  success_criteria: text("success_criteria"),
+    containment: text("containment"),
 
-  context: text("context"),
+    constraints: text("constraints"),
 
-  style_presentation_intent: text("style_presentation_intent"),
+    success_criteria: text("success_criteria"),
 
-  exclusions: text("exclusions"),
+    context: text("context"),
 
-  created_at: text("created_at").notNull(),
+    style_presentation_intent: text("style_presentation_intent"),
 
-});
+    exclusions: text("exclusions"),
+
+    created_at: text("created_at").notNull(),
+
+  },
+
+  (table) => ({
+
+    pk: primaryKey({ columns: [table.package_id, table.package_version] }),
+
+  })
+
+);
 
 export const governance_delegations = sqliteTable("governance_delegations", {
 
@@ -40,6 +52,8 @@ export const governance_delegations = sqliteTable("governance_delegations", {
   authorization_timestamp: text("authorization_timestamp").notNull(),
 
   delegated_by: text("delegated_by").notNull(),
+
+  created_at: text("created_at").notNull(),
 
 });
 
@@ -65,6 +79,8 @@ export const governance_validation_results = sqliteTable("governance_validation_
 
   validation_timestamp: text("validation_timestamp").notNull(),
 
+  created_at: text("created_at").notNull(),
+
 });
 
 export const governance_envelope_gates = sqliteTable("governance_envelope_gates", {
@@ -75,9 +91,15 @@ export const governance_envelope_gates = sqliteTable("governance_envelope_gates"
 
   package_version: integer("package_version").notNull(),
 
+  delegation_id: text("delegation_id").notNull(),
+
   validation_result_id: text("validation_result_id").notNull(),
 
   gate_status: text("gate_status").notNull(),
+
+  gate_reason: text("gate_reason"),
+
+  gate_decision_timestamp: text("gate_decision_timestamp").notNull(),
 
   created_at: text("created_at").notNull(),
 

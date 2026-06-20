@@ -21,7 +21,9 @@ CREATE TABLE IF NOT EXISTS governance_packages (
 
   exclusions TEXT,
 
-  created_at TEXT NOT NULL
+  created_at TEXT NOT NULL,
+
+  PRIMARY KEY (package_id, package_version)
 
 );
 
@@ -37,7 +39,13 @@ CREATE TABLE IF NOT EXISTS governance_delegations (
 
   authorization_timestamp TEXT NOT NULL,
 
-  delegated_by TEXT NOT NULL
+  delegated_by TEXT NOT NULL,
+
+  created_at TEXT NOT NULL,
+
+  FOREIGN KEY (package_id, package_version)
+
+    REFERENCES governance_packages(package_id, package_version)
 
 );
 
@@ -61,7 +69,17 @@ CREATE TABLE IF NOT EXISTS governance_validation_results (
 
   escalations TEXT,
 
-  validation_timestamp TEXT NOT NULL
+  validation_timestamp TEXT NOT NULL,
+
+  created_at TEXT NOT NULL,
+
+  FOREIGN KEY (package_id, package_version)
+
+    REFERENCES governance_packages(package_id, package_version),
+
+  FOREIGN KEY (delegation_id)
+
+    REFERENCES governance_delegations(delegation_id)
 
 );
 
@@ -73,11 +91,29 @@ CREATE TABLE IF NOT EXISTS governance_envelope_gates (
 
   package_version INTEGER NOT NULL,
 
+  delegation_id TEXT NOT NULL,
+
   validation_result_id TEXT NOT NULL,
 
   gate_status TEXT NOT NULL,
 
-  created_at TEXT NOT NULL
+  gate_reason TEXT,
+
+  gate_decision_timestamp TEXT NOT NULL,
+
+  created_at TEXT NOT NULL,
+
+  FOREIGN KEY (package_id, package_version)
+
+    REFERENCES governance_packages(package_id, package_version),
+
+  FOREIGN KEY (delegation_id)
+
+    REFERENCES governance_delegations(delegation_id),
+
+  FOREIGN KEY (validation_result_id)
+
+    REFERENCES governance_validation_results(validation_result_id)
 
 );
 
@@ -103,7 +139,23 @@ CREATE TABLE IF NOT EXISTS governance_envelopes (
 
   lifecycle_state TEXT NOT NULL,
 
-  created_at TEXT NOT NULL
+  created_at TEXT NOT NULL,
+
+  FOREIGN KEY (package_id, package_version)
+
+    REFERENCES governance_packages(package_id, package_version),
+
+  FOREIGN KEY (delegation_id)
+
+    REFERENCES governance_delegations(delegation_id),
+
+  FOREIGN KEY (validation_result_id)
+
+    REFERENCES governance_validation_results(validation_result_id),
+
+  FOREIGN KEY (envelope_gate_id)
+
+    REFERENCES governance_envelope_gates(envelope_gate_id)
 
 );
 
