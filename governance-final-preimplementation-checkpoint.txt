@@ -1,0 +1,71 @@
+
+Governance Final Preimplementation Checkpoint
+
+Latest confirmed commit:
+
+- b4078d1d Resolve governance hidden assumptions v1
+
+Current status:
+
+Pre-implementation review is complete.
+
+Resolved hidden assumptions:
+
+1. Governance Validation Result will duplicate package_id and package_version for audit readability.
+
+2. Envelope Gate will be persisted as a dedicated governance artifact.
+
+Current schema plan:
+
+- governance_packages
+
+- governance_delegations
+
+- governance_validation_results
+
+- governance_envelope_gates
+
+- governance_envelopes
+
+Guardrails in force:
+
+- Schema Creep Prevention Guardrail
+
+- Authority Regression Checklist
+
+- Implementation Entry Gate
+
+Implementation remains blocked until explicitly authorized.
+
+Permitted first implementation scope:
+
+- db/governance.schema.ts
+
+- drizzle/0004_governance_lifecycle_artifacts.sql
+
+Still prohibited:
+
+- routes
+
+- APIs
+
+- runtime artifact creation
+
+- runtime validation
+
+- Envelope creation behavior
+
+- routing
+
+- assignment
+
+- execution
+
+- automation
+
+- Atlas expansion
+
+Verdict:
+
+Ready for explicit implementation authorization.
+
