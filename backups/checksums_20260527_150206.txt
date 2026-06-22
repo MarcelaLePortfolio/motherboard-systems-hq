@@ -1,2 +1,0 @@
-285809c4b765f9afd2780560a5edde2d4d09096d08fd0f7bbf312d8fa6f0639a  /Users/marcela-dev/Projects/motherboard-systems-hq-clean/backups/repo_20260527_150206.bundle
-5404d0eadf43fd29c6c999237b7e8effeefe59543e5462491f7841a90d5a4fd2  /Users/marcela-dev/Projects/motherboard-systems-hq-clean/backups/source_20260527_150206.tar.gz
