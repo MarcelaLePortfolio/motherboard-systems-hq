@@ -1,0 +1,30 @@
+===== GOVERNED ROUTE AFTER RUNTIME RESTORE SMOKE =====
+Thu May 28 01:11:53 PDT 2026
+
+===== COMPOSE PS =====
+NAME                                       IMAGE                                    COMMAND                  SERVICE     CREATED         STATUS          PORTS
+motherboard-systems-hq-clean-dashboard-1   motherboard-systems-hq-clean-dashboard   "docker-entrypoint.s…"   dashboard   3 minutes ago   Up 50 seconds   0.0.0.0:8080->3000/tcp, [::]:8080->3000/tcp
+motherboard-systems-hq-clean-postgres-1    postgres:16-alpine                       "docker-entrypoint.s…"   postgres    3 minutes ago   Up 3 minutes    0.0.0.0:5432->5432/tcp, [::]:5432->5432/tcp
+
+===== BASELINE HEALTH =====
+HTTP/1.1 200 OK
+X-Powered-By: Express
+Content-Type: application/json; charset=utf-8
+Content-Length: 11
+ETag: W/"b-Ai2R8hgEarLmHKwesT1qcY913ys"
+Date: Thu, 28 May 2026 08:11:53 GMT
+Connection: keep-alive
+Keep-Alive: timeout=5
+
+{"ok":true}
+===== GOVERNED ROUTE HTTP RESPONSE =====
+HTTP/1.1 200 OK
+X-Powered-By: Express
+Content-Type: application/json; charset=utf-8
+Content-Length: 2623
+ETag: W/"a3f-PpdCY5Anu420VPvFgM9QxeuJ3nc"
+Date: Thu, 28 May 2026 08:11:53 GMT
+Connection: keep-alive
+Keep-Alive: timeout=5
+
+{"ok":true,"route":"governed_planning_dry_run","mode":"planning_only","bundle":{"ok":true,"bundle_schema":"governed_planning_artifact_bundle.v1","phase":"planning_completed","envelope_version":"matilda.cade.exec.v1","response":{"response_schema":"governed_planning_response.v1","normalized_at":"2026-05-28T08:11:53.415Z","ok":true,"phase":"planning_only","envelope_version":"matilda.cade.exec.v1","governance":{"ok":true},"approval_gate":{"ok":true},"cade_planning":{"ok":true},"execution_authority":{"mutation_performed":false,"shell_execution_performed":false,"autonomous_execution_performed":false},"trace":[{"event":"intent_to_envelope_draft","ok":true},{"event":"canonical_governance_validated","ok":true},{"event":"approval_gate_evaluated","ok":true},{"event":"cade_engineering_plan_generated","ok":true}],"error":null},"reconciliation":{"reconciliation_schema":"governed_reconciliation_artifact.v1","generated_at":"2026-05-28T08:11:53.415Z","envelope_version":"matilda.cade.exec.v1","phase":"planning_completed","governance":{"ok":true},"approval_gate":{"ok":true},"cade_planning":{"ok":true},"execution_authority":{"mutation_performed":false,"shell_execution_performed":false,"autonomous_execution_performed":false},"reconciliation_entries":[],"trace":[{"event":"intent_to_envelope_draft","ok":true},{"event":"canonical_governance_validated","ok":true},{"event":"approval_gate_evaluated","ok":true},{"event":"cade_engineering_plan_generated","ok":true}]},"audit_ledger":{"ledger_schema":"governed_execution_audit_ledger.v1","generated_at":"2026-05-28T08:11:53.415Z","envelope_version":"matilda.cade.exec.v1","phase":"planning_completed","governance":{"ok":true},"approval_gate":{"ok":true},"cade_planning":{"ok":true},"reconciliation":{"schema":"governed_reconciliation_artifact.v1"},"execution_authority":{"mutation_performed":false,"shell_execution_performed":false,"autonomous_execution_performed":false},"audit_trace":[{"sequence":1,"event":"intent_to_envelope_draft","ok":true,"recorded_at":"2026-05-28T08:11:53.416Z"},{"sequence":2,"event":"canonical_governance_validated","ok":true,"recorded_at":"2026-05-28T08:11:53.416Z"},{"sequence":3,"event":"approval_gate_evaluated","ok":true,"recorded_at":"2026-05-28T08:11:53.416Z"},{"sequence":4,"event":"cade_engineering_plan_generated","ok":true,"recorded_at":"2026-05-28T08:11:53.416Z"}],"immutable_constraints":{"append_only":true,"mutation_authority_granted":false,"shell_authority_granted":false,"autonomous_authority_granted":false}},"execution_authority":{"mutation_performed":false,"shell_execution_performed":false,"autonomous_execution_performed":false}}}

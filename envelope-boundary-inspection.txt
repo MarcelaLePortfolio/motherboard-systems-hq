@@ -1,0 +1,226 @@
+==================================================
+ENVELOPE BOUNDARY INSPECTION
+==================================================
+
+==================================================
+docs/governance/CANONICAL_ENVELOPE_SPECIFICATION.md
+==================================================
+2:# Canonical Envelope Specification
+6:The Envelope is the canonical work authorization artifact of the Motherboard Headquarters operating model.
+8:The Envelope is created after Governance Validation successfully operationalizes a delegated Package.
+10:The Envelope is a living artifact that accumulates operational state as work progresses through the organization.
+12:The Envelope preserves lineage, assignment history, operational history, and completion history.
+14:The Envelope is the authoritative lifecycle record of operational work.
+22:Package
+26:Delegation
+34:Envelope Created
+38:Ellis Routing
+42:Operational Departments
+56:Packages own meaning.
+58:Envelopes own operational lifecycle.
+60:The Envelope must never become the authoritative source of intent.
+62:The Package remains the authoritative source of meaning throughout the lifecycle.
+72:Envelope created by Governance Validation.
+80:Envelope routed and assigned by Ellis.
+86:Operational
+88:Envelope actively owned by one or more operational departments.
+96:Operational work concluded.
+104:Envelope preserved for lineage, telemetry, intelligence, and audit purposes.
+110:## envelope_id
+114:Unique envelope identifier.
+120:Mutation Authority:
+128:## package_id
+132:Reference to authoritative Package.
+138:Mutation Authority:
+146:## delegation_id
+150:Reference to delegation authorization.
+156:Mutation Authority:
+174:Mutation Authority:
+178:Immutable after envelope creation.
+186:- engineering_planning
+196:Mutation Authority:
+200:Immutable after envelope creation.
+204:## operational_corridor
+208:- planning_only
+212:- execution_authorized
+218:Mutation Authority:
+222:Immutable after envelope creation.
+234:- operational
+242:Current Envelope Owner
+244:Mutation Authority:
+250:# Assignment Fields
+252:## assignment_state
+266:Mutation Authority:
+284:Mutation Authority:
+302:Mutation Authority:
+308:## routing_history
+312:Historical routing record.
+318:Mutation Authority:
+326:# Operational Fields
+332:Current operational owner.
+338:Mutation Authority:
+344:## operational_status
+360:Mutation Authority:
+366:## operational_findings
+376:Mutation Authority:
+388:Artifacts produced during operational work.
+394:Mutation Authority:
+416:Final Operational Owner
+418:Mutation Authority:
+420:Final Operational Owner
+434:Mutation Authority:
+448:Final Operational Owner
+450:Mutation Authority:
+452:Final Operational Owner
+468:Mutation Authority:
+486:Mutation Authority:
+498:Links to intelligence artifacts derived from the envelope.
+504:Mutation Authority:
+514:Fields may only be modified by their owning authority.
+518:Operational departments may enrich the Envelope but may not alter governance-derived fields.
+522:Atlas may enrich intelligence references but may not modify operational history.
+524:Governance Validation may define operationalization outputs but may not perform assignment.
+530:The Envelope is a historical artifact.
+536:The Envelope should maintain an auditable lifecycle history.
+542:The Envelope is the authoritative operational lifecycle artifact.
+544:The Package is the authoritative meaning artifact.
+546:Meaning and operational history must remain separated.
+
+==================================================
+docs/governance/CANONICAL_DELEGATION_SPECIFICATION.md
+==================================================
+2:# Canonical Delegation Specification
+6:The Delegation Record is the canonical interpretation authorization artifact of the Motherboard Headquarters operating model.
+8:The Delegation Record establishes that a Package has been accepted as an authorized representation of intent.
+10:Delegation authorizes interpretation.
+12:Delegation does not authorize operationalization, routing, assignment, planning, or execution.
+28:Package
+32:Delegation
+40:Envelope
+46:Delegation authorizes meaning.
+48:Delegation does not authorize work.
+50:Delegation does not authorize execution.
+52:Delegation does not authorize assignment.
+54:Delegation does not authorize routing.
+56:Delegation authorizes a specific Package version.
+62:Delegation is an Interpretation Authorization Record.
+64:Delegation answers:
+66:"Has this interpretation been authorized as an accurate representation of intent?"
+68:Delegation does not answer:
+72:That determination belongs to Governance Validation and subsequent operational processes.
+78:## delegation_id
+82:Unique Delegation identifier.
+88:Mutation Authority:
+96:## package_id
+100:Reference to the authorized Package.
+104:Delegation Process
+106:Mutation Authority:
+114:## package_version
+118:Identifies the specific Package version being authorized.
+122:Delegation Process
+124:Mutation Authority:
+130:Delegation applies only to the referenced Package version.
+142:Delegation Process
+144:Mutation Authority:
+156:Records when interpretation authorization occurred.
+162:Mutation Authority:
+174:Records the authority granting authorization.
+182:May support additional authorized delegation authorities.
+186:Delegation Process
+188:Mutation Authority:
+196:# Delegation Creation Rules
+198:A Delegation Record may only be created after:
+200:- A valid Package exists
+202:- The Package has been reviewed
+204:- Interpretation authorization has been granted
+206:A Delegation Record must reference an existing Package version.
+212:Delegation authorizes a specific Package version.
+216:Package v3
+220:Delegation A
+224:If the Package changes:
+226:Package v4
+228:The existing Delegation remains attached to v3.
+230:Package v4 requires a new Delegation Record.
+232:Delegations must never automatically transfer between Package versions.
+238:Delegation Records are immutable.
+240:Authorized interpretations must remain historically auditable.
+242:Changes to a Package require creation of a new Delegation Record rather than modification of an existing Delegation Record.
+248:Delegation is a prerequisite for Governance Validation.
+250:Governance Validation may only evaluate authorized interpretations.
+252:Governance Validation consumes Delegation.
+254:Governance Validation does not create Delegation.
+258:# Relationship To Envelope
+260:Delegation precedes Envelope creation.
+262:Envelope creation requires:
+264:- Authorized Package
+268:Delegation is not part of the Envelope.
+270:Delegation is an upstream authority artifact.
+276:Delegation workflow status may be displayed by user interfaces.
+286:They are not part of the Delegation Record itself.
+288:The Delegation Record comes into existence only after authorization occurs.
+294:Package
+298:Meaning
+300:Delegation
+304:Interpretation Authorization
+306:Envelope
+310:Operational Lifecycle
+312:Meaning, authority, and operationalization must remain separate.
+
+==================================================
+docs/contracts/DELEGATION_ENVELOPE_V1.md
+==================================================
+2:# Delegation Envelope v1
+6:The Delegation Envelope is the authoritative execution contract passed from Matilda to Cade.
+8:Delegation is a bounded authorization event.
+10:Cade may proceed only when the delegation envelope is valid, evidence-backed, scoped, bounded, and fully inside the defined constraints.
+12:Delegation does not authorize scope expansion, intent creation, or inference-based execution.
+24:Cade performs bounded execution only inside evidence-backed delegation scope.
+30:# Execution Model
+36:2. Matilda produces delegation envelope
+40:4. Delegation becomes bounded execution authorization only if intent evidence, scope, validation, and rollback requirements are complete
+48:# Required Envelope Fields
+52:- delegation_id
+78:## Execution Scope
+108:Forbidden scope overrides execution scope.
+152:Defines rollback strategy before execution begins.
+170:Execution must record:
+180:- execution start/end timestamps
+214:- self-expand authority
+222:- reuse old delegation envelopes
+230:# Delegation Validity Rules
+232:Delegation must be:
+244:Delegation becomes invalid if:
+254:- execution ambiguity appears
+262:Selected project defines execution root.
+288:- checkpoint-first execution
+298:This does not create a separate execution architecture.
+300:It is the same delegation system operating under stricter recovery governance.
+
+==================================================
+docs/governance/milestone-6-lifecycle-reconciliation-finding.md
+==================================================
+14:- docs/governance/matilda-package-contract.md
+16:- docs/contracts/CANONICAL_EXECUTION_LIFECYCLE.md
+18:- docs/contracts/CANONICAL_EXECUTION_ENVELOPE_SCHEMA.md
+20:- docs/contracts/DELEGATION_ENVELOPE_V1.md
+24:Potential lifecycle conflict exists between the newer Matilda Package Contract and the previously stabilized Canonical Execution Lifecycle.
+28:Matilda Package Contract establishes:
+30:Package
+34:Delegation
+38:Envelope
+42:- Package is the canonical interpretation artifact.
+44:- Delegation is Interpretation Authorization.
+46:- Envelope is the canonical delegation artifact.
+48:- Package contains no authorization state.
+50:- Envelope inherits approved interpretation details from the Package.
+54:Canonical Execution Lifecycle currently establishes:
+56:Envelope Constructed
+72:Planning
+74:This ordering implies envelope construction precedes delegation.
+78:Does the Package artifact introduce a new lifecycle stage that was previously implicit?
+80:Possible interpretations:
+86:Package contract requires reconciliation.
+90:Package contract is authoritative.
+96:Original lifecycle omitted an interpretation artifact layer.
+98:Package formalizes a previously implicit artifact.
+118:"What information is inherited from Package into Envelope?"

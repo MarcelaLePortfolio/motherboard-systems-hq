@@ -1,0 +1,1119 @@
+==================================================
+INTERPRETATION EVENT INSPECTION
+==================================================
+
+./interpretation-event-inspection.txt:2:INTERPRETATION EVENT INSPECTION
+./PHASE_84_15_TASK_EXECUTION_DURATION_DESIGN.md:56:Observational only.
+./BACKEND_RESTORATION_INTERPRETATION.md:2:# Backend Restoration Interpretation
+./PHASE_84_1_TASK_TOTAL_LIFECYCLE_DURATION_DEFINITION.md:67:Observation only.
+./PHASE_84_1_TASK_TOTAL_LIFECYCLE_DURATION_DEFINITION.md:85:PASSIVE OBSERVATION METRIC
+./dashboard-port-runtime-diagnosis-20260528_213219.md:62:  <link rel="stylesheet" href="css/phase61_tabs_observational_workspace.css" />
+./PHASE_84_11_TASK_TOTAL_LIFECYCLE_DURATION_WORKSTREAM_CLOSEOUT.md:53:Observational only.
+./PHASE_86_3_MULTI_SIGNAL_GROUPS.md:6:to reduce interpretation effort and improve situational awareness.
+./PHASE_86_3_MULTI_SIGNAL_GROUPS.md:46:Group signals into logical interpretation clusters.
+./PHASE_86_3_MULTI_SIGNAL_GROUPS.md:121:Keep interpretation simple.
+./PHASE_86_3_MULTI_SIGNAL_GROUPS.md:125:INTERPRETATION RULES
+./PHASE_86_3_MULTI_SIGNAL_GROUPS.md:130:Reduce interpretation effort
+./PHASE_86_3_MULTI_SIGNAL_GROUPS.md:185:Operator interpretation complexity reduced.
+./PHASE_86_3_MULTI_SIGNAL_GROUPS.md:192:Signal interpretation grouped logically.
+./PHASE_84_3_TASK_TOTAL_LIFECYCLE_DURATION_EXPOSURE_SAFETY.md:16:Observation only.
+./PHASE_84_3_TASK_TOTAL_LIFECYCLE_DURATION_EXPOSURE_SAFETY.md:25:Runbook interpretation
+./PHASE_84_3_TASK_TOTAL_LIFECYCLE_DURATION_EXPOSURE_SAFETY.md:120:Multi-metric interpretation
+./PHASE62B_TERMINAL_EVIDENCE_STATUS_20260317.md:45:SAFE INTERPRETATION
+./PHASE62B_TERMINAL_EVIDENCE_STATUS_20260317.md:50:- Remaining gate is dashboard observation only.
+./LATEST_DASHBOARD_UI_SURFACE_RECOVERY.txt:30:cf733432 Restore Phase 62B observational workspace wiring
+./PHASE62B_CONCISE_STATUS_SUMMARY_20260317.md:29:INTERPRETATION
+./PHASE_86_6_COGNITION_EVOLUTION_CLOSURE.md:10:Signal visibility → Signal understanding → Signal interpretation → Signal reasoning
+./PHASE_86_6_COGNITION_EVOLUTION_CLOSURE.md:41:Interpretation clarity
+./PHASE_86_6_COGNITION_EVOLUTION_CLOSURE.md:43:Operator cognition now supports reasoning, not just observation.
+./PHASE_86_6_COGNITION_EVOLUTION_CLOSURE.md:49:Operator interpretation model now follows:
+./PHASE_86_6_COGNITION_EVOLUTION_CLOSURE.md:62:This creates a complete cognition interpretation framework.
+./PHASE_86_6_COGNITION_EVOLUTION_CLOSURE.md:80:Interpretation only
+./PHASE_86_6_COGNITION_EVOLUTION_CLOSURE.md:105:Dashboard interpretation model significantly matured.
+./CADE_RUNTIME_DISCOVERY.txt:91:./docs/checkpoints/PHASE63_2_AGENT_FRESHNESS_INTERPRETATION_REFINED_20260312.md
+./CADE_RUNTIME_DISCOVERY.txt:551:./scripts/_local/refine_phase63_2_agent_freshness_interpretation.sh
+./governance-validation-operationalization-inspection.txt:22:docs/governance/CANONICAL_DELEGATION_SPECIFICATION.md:250:Governance Validation may only evaluate authorized interpretations.
+./governance-validation-operationalization-inspection.txt:125:docs/governance/GOVERNANCE_LIFECYCLE_STATE_MODEL.md:404:Governance Validation may not evaluate unauthorized interpretations.
+./governance-validation-operationalization-inspection.txt:221:docs/contracts/PREVIEW_APPROVAL_RECONCILIATION_FINDING.md:38:The execution envelope is the canonical governance artifact produced from Matilda-side interpretation and passed through governance validation, approval gating, Cade planning, and future execution phases.
+./governance-validation-operationalization-inspection.txt:228:docs/contracts/CANONICAL_EXECUTION_LIFECYCLE.md:96:Cade, Matilda, or governance validation detects ambiguity that blocks safe interpretation, planning, or execution.
+./governance-validation-operationalization-inspection.txt:326:docs/contracts/GOVERNED_RECONCILIATION_NORMALIZATION.md:50:Reconciliation artifacts are observational and planning-oriented only.
+./PHASE88_9_DASHBOARD_SYSTEM_HEALTH_CONSUMER_INSPECTION.txt:25:      #observational-tabs {
+./PHASE88_9_DASHBOARD_SYSTEM_HEALTH_CONSUMER_INSPECTION.txt:86:        #observational-workspace-card {
+./PHASE_80_6_NEUTRAL_TELEMETRY_DISPLAY_CONTRACT.md:105:Metrics remain observational.
+./PHASE37_4_PLAN.md:7:Evidence captured:
+./STATE_HANDOFF_PHASE_81_COMPLETE.md:3:Phase 62 Layout Evolution → Phase 62.2 Layout Contract Protected → Phase 62B Telemetry Hydration COMPLETE → Phase 63 Telemetry Integration Golden → Phase 64 Protection Corridor → Phase 65A Protection Hardening COMPLETE → Phase 65B Telemetry Ownership Consolidation COMPLETE → Phase 65C Telemetry Hydration Continuation COMPLETE → Phase 66 Observability Expansion Planning COMPLETE → Phase 67 Telemetry Reducer Safety COMPLETE → Phase 68 Telemetry Drift Detection COMPLETE → Phase 69 Telemetry Replay Corpus COMPLETE → Phase 70A Health Snapshot COMPLETE → Phase 70B Diagnostics Report COMPLETE → Phase 70C Operator Signals COMPLETE → Phase 71 Operator Awareness Layer COMPLETE → Phase 71.1 Operator Status Entry COMPLETE → Phase 72 Operator Guidance Layer COMPLETE → Phase 73 Operator Safety Gates COMPLETE → Phase 74 Operator Workflow Helpers COMPLETE → Phase 75 Helper Prioritization COMPLETE → Phase 76 Operator Playbooks COMPLETE → Phase 77 Adaptive Operator Workflows COMPLETE → Phase 78 Operator Runbook System COMPLETE → Phase 79 Controlled Automation Preparation COMPLETE → Phase 79.5 Automation Risk Modeling COMPLETE → Phase 80 Safe Iteration Engine COMPLETE → Phase 80.1 Workspace Clean Finalizer COMPLETE → Phase 80.2 Queue Latency Metric COMPLETE → Phase 80.3 Task Lifecycle Duration Metric COMPLETE → Phase 80.4 Task Execution Duration Metric COMPLETE → Phase 80.5 Metric Exposure Approval Protocol COMPLETE → Phase 80.6 Telemetry Expansion Candidate Review COMPLETE → Phase 80.7 Queue Throughput Metric Definition COMPLETE → Phase 80.8 Queue Throughput Pure Function Implementation COMPLETE → Phase 80.9 Throughput Exposure Safety Review COMPLETE → Phase 80.10 Derived Metric Registry Entry COMPLETE → Phase 80.11 Throughput Local Verification Harness COMPLETE → Phase 80.12 Throughput Metric Drift Safeguards COMPLETE → Phase 80.13 Throughput Metric Theoretical Bounds COMPLETE → Phase 81 Signal Interpretation Doctrine COMPLETE → Phase 81.1 Queue Pressure Signal Definition COMPLETE → Phase 81.2 Queue Pressure Derivation Model COMPLETE → Phase 81.3 Queue Pressure Verification Cases COMPLETE → Phase 81.4 Queue Pressure Pure Function Design COMPLETE → Phase 81.5 Queue Pressure Classification Model COMPLETE → Phase 81.6 Queue Pressure Classification Verification COMPLETE → Phase 81.7 Queue Pressure Signal Registry COMPLETE → Phase 81.8 Signal Interpretation Layer COMPLETE
+./STATE_HANDOFF_PHASE_81_COMPLETE.md:36:All Phase 81 interpretation work COMPLETE.
+./STATE_HANDOFF_PHASE_81_COMPLETE.md:42:Interpretation components complete:
+./STATE_HANDOFF_PHASE_81_COMPLETE.md:67:SIGNAL INTERPRETATION DOCTRINE ESTABLISHED  
+./STATE_HANDOFF_PHASE_81_COMPLETE.md:74:System interpretation capability increased without increasing authority.
+./STATE_HANDOFF_PHASE_81_COMPLETE.md:86:Interpretation layer fully closed  
+./STATE_HANDOFF_PHASE_81_COMPLETE.md:111:Operator interpretation summaries
+./STATE_HANDOFF_PHASE_81_COMPLETE.md:117:Interpretation-only behavior  
+./PHASE62B_LIVE_VALIDATION_BLOCKER_ROUTE_INSPECTION_20260317.txt:349:scripts/_local/phase61_task_events_wiring_audit_and_capture.sh:24:  grep -nE 'task-events|Task Events|telemetry|observational-workspace|workspace-card' public/dashboard.html 2>/dev/null || true
+./PHASE62B_LIVE_VALIDATION_BLOCKER_ROUTE_INSPECTION_20260317.txt:370:scripts/_local/phase61_left_workspace_focus_scan.sh:10:rg -n 'observational-tabs|obs-tab|obs-panel|data-target|aria-controls|aria-selected|mb-task-events-panel-anchor' \
+./PHASE62B_LIVE_VALIDATION_BLOCKER_ROUTE_INSPECTION_20260317.txt:627:scripts/_local/phase61_task_events_wiring_audit.sh:15:grep -nE 'task-events|Task Events|telemetry|observational-workspace|workspace-card' public/dashboard.html 2>/dev/null || true
+./PHASE62B_LIVE_VALIDATION_BLOCKER_ROUTE_INSPECTION_20260317.txt:974:scripts/_local/phase61_task_events_wiring_audit_and_capture.sh:24:  grep -nE 'task-events|Task Events|telemetry|observational-workspace|workspace-card' public/dashboard.html 2>/dev/null || true
+./PHASE62B_LIVE_VALIDATION_BLOCKER_ROUTE_INSPECTION_20260317.txt:981:scripts/_local/phase61_left_workspace_focus_scan.sh:10:rg -n 'observational-tabs|obs-tab|obs-panel|data-target|aria-controls|aria-selected|mb-task-events-panel-anchor' \
+./PHASE62B_LIVE_VALIDATION_BLOCKER_ROUTE_INSPECTION_20260317.txt:1224:scripts/_local/phase61_task_events_wiring_audit.sh:15:grep -nE 'task-events|Task Events|telemetry|observational-workspace|workspace-card' public/dashboard.html 2>/dev/null || true
+./PHASE62B_LIVE_VALIDATION_BLOCKER_ROUTE_INSPECTION_20260317.txt:1421:scripts/_local/phase61_left_workspace_focus_scan.sh:10:rg -n 'observational-tabs|obs-tab|obs-panel|data-target|aria-controls|aria-selected|mb-task-events-panel-anchor' \
+./PHASE11_DASHBOARD_VISUAL_CHECK_NOTES.md:12:2. Console Output Observations
+./PHASE11_DASHBOARD_VISUAL_CHECK_NOTES.md:24:Interpretation:
+./PHASE_83_0_SUMMARY_DOCTRINE.md:5:Define the Signal Summary Layer as a strictly interpretation-only condensation layer that converts multiple interpretation signals into operator-readable cognitive summaries.
+./PHASE_83_0_SUMMARY_DOCTRINE.md:24:A deterministic interpretation condensation derived from existing interpretation signals.
+./PHASE_83_0_SUMMARY_DOCTRINE.md:46:Summary = Interpretation of interpretations.
+./PHASE_83_0_SUMMARY_DOCTRINE.md:55:→ Interpretation Signals Layer
+./PHASE_83_0_SUMMARY_DOCTRINE.md:65:Interpretation signals
+./PHASE_83_0_SUMMARY_DOCTRINE.md:130:Mathematical interpretation functions.
+./PHASE88_14_12_TAG_PROTECTION_AND_PHASE89_ALIGNMENT.txt:36:Corrected interpretation:
+./PHASE_81_8_SIGNAL_LAYER_CLOSURE.md:1:PHASE 81.8 — Signal Interpretation Layer Closure
+./PHASE_81_8_SIGNAL_LAYER_CLOSURE.md:5:Formally close the queue pressure signal interpretation layer after
+./PHASE_81_8_SIGNAL_LAYER_CLOSURE.md:10:Phase 81 signal interpretation layer is now COMPLETE.
+./PHASE_81_8_SIGNAL_LAYER_CLOSURE.md:15:Signal interpretation doctrine COMPLETE
+./PHASE_81_8_SIGNAL_LAYER_CLOSURE.md:38:Interpretation layer deliverables now established:
+./PHASE_81_8_SIGNAL_LAYER_CLOSURE.md:44:• Interpretation-only doctrine preservation
+./PHASE_81_8_SIGNAL_LAYER_CLOSURE.md:61:• operator interpretation
+./PHASE_81_8_SIGNAL_LAYER_CLOSURE.md:78:SIGNAL INTERPRETATION LAYER ESTABLISHED
+./PHASE_81_8_SIGNAL_LAYER_CLOSURE.md:90:• interpretation-safe
+./PHASE_81_8_SIGNAL_LAYER_CLOSURE.md:98:3. Runbook-facing interpretation composition planning
+./PHASE_81_8_SIGNAL_LAYER_CLOSURE.md:106:Interpretation layer complete
+./iel-governance-inspection.txt:7:docs/governance/MATILDA_INTERPRETATION_LIFECYCLE_RECONCILIATION.md:16:2. Interpretation Evidence Ledger (IEL)
+./iel-governance-inspection.txt:8:docs/governance/MATILDA_INTERPRETATION_LIFECYCLE_RECONCILIATION.md:26:### Interpretation Evidence Ledger (IEL)
+./iel-governance-inspection.txt:9:docs/governance/MATILDA_INTERPRETATION_LIFECYCLE_RECONCILIATION.md:28:Matilda maintains an append-only Interpretation Evidence Ledger.
+./iel-governance-inspection.txt:10:docs/governance/MATILDA_INTERPRETATION_LIFECYCLE_RECONCILIATION.md:30:The IEL:
+./iel-governance-inspection.txt:11:docs/governance/MATILDA_INTERPRETATION_LIFECYCLE_RECONCILIATION.md:52:### IEL Definition
+./iel-governance-inspection.txt:12:docs/governance/MATILDA_INTERPRETATION_LIFECYCLE_RECONCILIATION.md:54:The IEL is not a transcript.
+./iel-governance-inspection.txt:13:docs/governance/MATILDA_INTERPRETATION_LIFECYCLE_RECONCILIATION.md:56:The IEL is not a collection of conclusions.
+./iel-governance-inspection.txt:14:docs/governance/MATILDA_INTERPRETATION_LIFECYCLE_RECONCILIATION.md:58:The IEL is a contextualized interpretation record.
+./iel-governance-inspection.txt:15:docs/governance/MATILDA_INTERPRETATION_LIFECYCLE_RECONCILIATION.md:60:Each IEL entry contains:
+./iel-governance-inspection.txt:16:docs/governance/MATILDA_INTERPRETATION_LIFECYCLE_RECONCILIATION.md:74:Full transcript preservation inside the IEL is unnecessary.
+./iel-governance-inspection.txt:17:docs/governance/MATILDA_INTERPRETATION_LIFECYCLE_RECONCILIATION.md:156:- derived from IEL
+./iel-governance-inspection.txt:18:docs/governance/MATILDA_INTERPRETATION_LIFECYCLE_RECONCILIATION.md:176:- derived from a specific IEL state
+./iel-governance-inspection.txt:19:docs/governance/MATILDA_INTERPRETATION_LIFECYCLE_RECONCILIATION.md:232:→ IEL
+./iel-governance-inspection.txt:20:docs/governance/MATILDA_INTERPRETATION_LIFECYCLE_RECONCILIATION.md:268:Atlas intelligence is derived from the IEL.
+./iel-governance-inspection.txt:21:docs/governance/MATILDA_INTERPRETATION_LIFECYCLE_RECONCILIATION.md:270:Atlas does not modify the IEL.
+./PHASE11_OPS_EVENT_STREAM_VERIFICATION.md:181:## 4) Stability Observation (Optional but Recommended)
+./PHASE_81_10_QUEUE_WAIT_TIME_EXPOSURE_SAFETY_REVIEW.md:20:Observation only.
+./PHASE_81_10_QUEUE_WAIT_TIME_EXPOSURE_SAFETY_REVIEW.md:141:Operator interpretation layer.
+./EXECUTION_CORRIDOR_FINDINGS.md:34:## Evidence Preservation
+./EXECUTION_CORRIDOR_FINDINGS.md:68:Matilda Interpretation
+./PHASE88_12_SERVED_DASHBOARD_DIAGNOSTICS_SURFACE.txt:11:123:      #observational-panels {
+./PHASE88_12_SERVED_DASHBOARD_DIAGNOSTICS_SURFACE.txt:90:550:              <div id="observational-panels">
+./PHASE88_12_SERVED_DASHBOARD_DIAGNOSTICS_SURFACE.txt:210:  <link rel="stylesheet" href="css/phase61_tabs_observational_workspace.css" />
+./PHASE88_12_SERVED_DASHBOARD_DIAGNOSTICS_SURFACE.txt:228:      #observational-workspace-card {
+./PHASE88_12_SERVED_DASHBOARD_DIAGNOSTICS_SURFACE.txt:236:      #observational-panels {
+./PHASE88_12_SERVED_DASHBOARD_DIAGNOSTICS_SURFACE.txt:268:      #observational-tabs {
+./PHASE88_12_SERVED_DASHBOARD_DIAGNOSTICS_SURFACE.txt:329:        #observational-workspace-card {
+./PHASE88_12_SERVED_DASHBOARD_DIAGNOSTICS_SURFACE.txt:649:          <section id="phase61-telemetry-column" class="space-y-4" aria-label="Observational workspace">
+./PHASE88_12_SERVED_DASHBOARD_DIAGNOSTICS_SURFACE.txt:650:            <section id="observational-workspace-card" class="bg-gray-800 p-6 rounded-2xl shadow-lg border border-gray-700" data-workspace-root>
+./PHASE88_12_SERVED_DASHBOARD_DIAGNOSTICS_SURFACE.txt:655:              <div id="observational-tabs" role="tablist" aria-label="Observational workspace tabs">
+./PHASE88_12_SERVED_DASHBOARD_DIAGNOSTICS_SURFACE.txt:667:              <div id="observational-panels">
+./PHASE_83_DERIVED_TELEMETRY_EXPANSION_CANDIDATES.md:43:Telemetry observation only.
+./STATE_HANDOFF_PHASE_84_PLANNING_COMPLETE.md:3:Phase 62 Layout Evolution → Phase 62.2 Layout Contract Protected → Phase 62B Telemetry Hydration COMPLETE → Phase 63 Telemetry Integration Golden → Phase 64 Protection Corridor → Phase 65A Protection Hardening COMPLETE → Phase 65B Telemetry Ownership Consolidation COMPLETE → Phase 65C Telemetry Hydration Continuation COMPLETE → Phase 66 Observability Expansion Planning COMPLETE → Phase 67 Telemetry Reducer Safety COMPLETE → Phase 68 Telemetry Drift Detection COMPLETE → Phase 69 Telemetry Replay Corpus COMPLETE → Phase 70A Health Snapshot COMPLETE → Phase 70B Diagnostics Report COMPLETE → Phase 70C Operator Signals COMPLETE → Phase 71 Operator Awareness Layer COMPLETE → Phase 71.1 Operator Status Entry COMPLETE → Phase 72 Operator Guidance Layer COMPLETE → Phase 73 Operator Safety Gates COMPLETE → Phase 74 Operator Workflow Helpers COMPLETE → Phase 75 Helper Prioritization COMPLETE → Phase 76 Operator Playbooks COMPLETE → Phase 77 Adaptive Operator Workflows COMPLETE → Phase 78 Operator Runbook System COMPLETE → Phase 79 Controlled Automation Preparation COMPLETE (planning only) → Phase 79.5 Automation Risk Modeling COMPLETE (theoretical only) → Phase 80 Safe Iteration Engine COMPLETE → Phase 80.1 Workspace Clean Finalizer COMPLETE → Phase 80.2 Queue Latency Metric COMPLETE → Phase 80.3 Task Lifecycle Duration Metric COMPLETE → Phase 80.4 Task Execution Duration Metric COMPLETE → Phase 80.5 Metric Exposure Approval Protocol COMPLETE → Phase 80.6 Telemetry Expansion Candidate Review COMPLETE → Phase 80.7 Queue Throughput Metric Definition COMPLETE → Phase 80.8 Queue Throughput Pure Function Implementation COMPLETE → Phase 80.9 Throughput Exposure Safety Review COMPLETE → Phase 80.10 Derived Metric Registry Entry COMPLETE → Phase 80.11 Throughput Local Verification Harness COMPLETE → Phase 80.12 Throughput Metric Drift Safeguards COMPLETE → Phase 80.13 Throughput Metric Theoretical Bounds COMPLETE → Phase 81 Signal Interpretation Doctrine COMPLETE → Phase 81.1 Queue Pressure Signal Definition COMPLETE → Phase 81.2 Queue Pressure Derivation Model COMPLETE → Phase 81.3 Queue Pressure Verification Cases COMPLETE → Phase 81.4 Queue Pressure Pure Function Design COMPLETE → Phase 81.5 Queue Pressure Classification Model COMPLETE → Phase 81.6 Queue Pressure Classification Verification COMPLETE → Phase 81.7 Queue Pressure Signal Registry COMPLETE → Phase 81.8 Signal Interpretation Layer COMPLETE → Phase 82 Composition Foundation COMPLETE → Phase 82.1 Composition Verification COMPLETE → Phase 82.2 Composition Registry COMPLETE → Phase 82.3 Composition Closure COMPLETE → Phase 83 Summary Doctrine COMPLETE → Phase 83.1 Summary Model COMPLETE → Phase 83.2 Summary Rules COMPLETE → Phase 83.3 Summary Registry COMPLETE → Phase 83.4 Summary Safety COMPLETE → Phase 83.5 Summary Verification COMPLETE → Phase 83.6 Summary Closure COMPLETE → Phase 84 Status Translation Planning COMPLETE → Phase 84.1 Operator Display Planning COMPLETE → Phase 84.2 Agent Explanation Planning COMPLETE → Phase 84.3 Planning Closure COMPLETE
+./PHASE_84_DERIVED_TELEMETRY_NEXT_CANDIDATES.md:30:Telemetry observation only.
+./PHASE_86_1_PATTERN_SIGNALS.md:6:across recent system observations.
+./PHASE_86_1_PATTERN_SIGNALS.md:92:Interpretation-focused
+./PHASE_86_1_PATTERN_SIGNALS.md:130:Short observation windows
+./PHASE11_v11.9_RUNTIME_NOTES.md:13:## Interpretation
+./PHASE11_v11.9_RUNTIME_NOTES.md:40:## Runtime Check – Manual Observations (append)
+./PHASE_83_6_TASK_QUEUE_WAIT_DURATION_DASHBOARD_EXPOSURE_PLAN.md:60:OPERATOR INTERPRETATION RULE
+./PHASE_83_6_TASK_QUEUE_WAIT_DURATION_DASHBOARD_EXPOSURE_PLAN.md:73:Requires multi-metric interpretation.
+./PHASE_81_14_QUEUE_WAIT_TIME_THEORETICAL_BOUNDS.md:15:Prevent misinterpretation
+./PHASE_81_14_QUEUE_WAIT_TIME_THEORETICAL_BOUNDS.md:25:METRIC INTERPRETATION MODEL
+./PHASE_81_14_QUEUE_WAIT_TIME_THEORETICAL_BOUNDS.md:39:Interpretation domain:
+./PHASE_81_14_QUEUE_WAIT_TIME_THEORETICAL_BOUNDS.md:149:Interpretation guidance only.
+./PHASE_81_14_QUEUE_WAIT_TIME_THEORETICAL_BOUNDS.md:194:Metric interpretation classification:
+./PHASE11_BUNDLING_STEP1_ENTRYPOINTS.md:179:Interpretation:
+./PHASE11_BUNDLING_STEP1_ENTRYPOINTS.md:315:Observations / Assumptions
+./PHASE_82_3_COMPOSITION_CLOSURE.md:14:Interpretation architecture expanded safely.
+./PHASE_82_3_COMPOSITION_CLOSURE.md:34:INTERPRETATION CAPABILITY EXPANDED
+./PHASE_82_3_COMPOSITION_CLOSURE.md:41:Operator interpretation context
+./PHASE_82_3_COMPOSITION_CLOSURE.md:59:Interpretation layer
+./PHASE_82_3_COMPOSITION_CLOSURE.md:64:This completes the full interpretation architecture stack.
+./PHASE_82_3_COMPOSITION_CLOSURE.md:81:83 — Operator Interpretation Views (planning only)
+./STATE_HANDOFF_PHASE_84_CORRECTED.md:3:Phase 62 Layout Evolution → Phase 62.2 Layout Contract Protected → Phase 62B Telemetry Hydration COMPLETE → Phase 63 Telemetry Integration Golden → Phase 64 Protection Corridor → Phase 65A Protection Hardening COMPLETE → Phase 65B Telemetry Ownership Consolidation COMPLETE → Phase 65C Telemetry Hydration Continuation COMPLETE → Phase 66 Observability Expansion Planning COMPLETE → Phase 67 Telemetry Reducer Safety COMPLETE → Phase 68 Telemetry Drift Detection COMPLETE → Phase 69 Telemetry Replay Corpus COMPLETE → Phase 70A Health Snapshot COMPLETE → Phase 70B Diagnostics Report COMPLETE → Phase 70C Operator Signals COMPLETE → Phase 71 Operator Awareness Layer COMPLETE → Phase 71.1 Operator Status Entry COMPLETE → Phase 72 Operator Guidance Layer COMPLETE → Phase 73 Operator Safety Gates COMPLETE → Phase 74 Operator Workflow Helpers COMPLETE → Phase 75 Helper Prioritization COMPLETE → Phase 76 Operator Playbooks COMPLETE → Phase 77 Adaptive Operator Workflows COMPLETE → Phase 78 Operator Runbook System COMPLETE → Phase 79 Controlled Automation Preparation COMPLETE (planning only) → Phase 79.5 Automation Risk Modeling COMPLETE (theoretical only) → Phase 80 Safe Iteration Engine COMPLETE → Phase 80.1 Workspace Clean Finalizer COMPLETE → Phase 80.2 Queue Latency Metric COMPLETE → Phase 80.3 Task Lifecycle Duration Metric COMPLETE → Phase 80.4 Task Execution Duration Metric COMPLETE → Phase 80.5 Metric Exposure Approval Protocol COMPLETE → Phase 80.6 Telemetry Expansion Candidate Review COMPLETE → Phase 80.7 Queue Throughput Metric Definition COMPLETE → Phase 80.8 Queue Throughput Pure Function Implementation COMPLETE → Phase 80.9 Throughput Exposure Safety Review COMPLETE → Phase 80.10 Derived Metric Registry Entry COMPLETE → Phase 80.11 Throughput Local Verification Harness COMPLETE → Phase 80.12 Throughput Metric Drift Safeguards COMPLETE → Phase 80.13 Throughput Metric Theoretical Bounds COMPLETE (definition only) → Phase 81 Signal Interpretation Doctrine COMPLETE → Phase 81.1 Queue Pressure Signal Definition COMPLETE → Phase 81.2 Queue Pressure Derivation Model COMPLETE → Phase 81.3 Queue Pressure Verification Cases COMPLETE → Phase 81.4 Queue Pressure Pure Function Design COMPLETE → Phase 81.5 Queue Pressure Classification Model COMPLETE → Phase 81.6 Queue Pressure Classification Verification COMPLETE → Phase 81.7 Queue Pressure Signal Registry COMPLETE → Phase 81.8 Signal Interpretation Layer COMPLETE → Phase 82 Composition Foundation COMPLETE → Phase 82.1 Composition Verification COMPLETE → Phase 82.2 Composition Registry COMPLETE → Phase 82.3 Composition Closure COMPLETE → Phase 83 Summary Doctrine COMPLETE → Phase 83.1 Summary Model COMPLETE → Phase 83.2 Summary Rules COMPLETE → Phase 83.3 Summary Registry COMPLETE → Phase 83.4 Summary Safety COMPLETE → Phase 83.5 Summary Verification COMPLETE → Phase 83.6 Summary Closure COMPLETE → Phase 84 Planning Layer COMPLETE → Phase 84.1 Status Translation Doctrine COMPLETE → Phase 84.2 Operator Display Planning COMPLETE → Phase 84.3 Agent Explanation Planning COMPLETE → Phase 84.4 Operator Presentation Layer COMPLETE → Phase 84.5 Operator Cognition UX Refinement COMPLETE → Phase 84.6 Planning Closure COMPLETE
+./PHASE_84_14_DERIVED_TELEMETRY_CANDIDATE_IDENTIFICATION.md:91:Observational only.
+./governance-reconciliation-verification-output.txt:8:1603584d reconcile matilda interpretation lifecycle corridor
+./governance-reconciliation-verification-output.txt:30:docs/governance/MATILDA_INTERPRETATION_LIFECYCLE_RECONCILIATION.md
+./PHASE11_BUNDLING_STEP3A_STATUS.md:89:3. Quick Interpretation Checklist
+./PHASE39_ACTION_TIER_POLICY.md:16:- **TIER_A** — Read-only / observation / deterministic queries. Safe by default.
+./PHASE_81_13_QUEUE_WAIT_TIME_DRIFT_SAFEGUARDS.md:17:Preserve deterministic interpretation
+./PHASE_84_17_TASK_EXECUTION_DURATION_REGISTRY_ENTRY.md:44:Observational only
+./PHASE_91_GUIDANCE_INTELLIGENCE_REFINEMENT.md:9:• UI classification (operator interpretation layer)
+./PHASE_91_GUIDANCE_INTELLIGENCE_REFINEMENT.md:70:UI interpretation stable.
+./RIO_DRIVE_MANUAL_CHECKPOINT_TRANSFER.txt:46:-rw-r--r--    1 marcela-dev  staff   1.7K May 28 09:53 BACKEND_RESTORATION_INTERPRETATION.md
+./RIO_DRIVE_MANUAL_CHECKPOINT_TRANSFER.txt:695:-rw-r--r--    1 marcela-dev  staff    14K May 27 14:35 PHASE81_SIGNAL_INTERPRETATION.md
+./RIO_DRIVE_MANUAL_CHECKPOINT_VERIFY.txt:147:832c6817f65b23f6eb6281f27309356e3bb5afdd refs/remotes/origin/phase-92-operator-situation-interpretation
+./RIO_DRIVE_MANUAL_CHECKPOINT_VERIFY.txt:1097:874af818a376469f3c46e4883d9bef79ffc9dd6c refs/tags/v61.0-observational-workspace-checkpoint
+./RIO_DRIVE_MANUAL_CHECKPOINT_VERIFY.txt:1136:./BACKEND_RESTORATION_INTERPRETATION.md
+./reconciled-lifecycle-review.txt:11:1603584d reconcile matilda interpretation lifecycle corridor
+./reconciled-lifecycle-review.txt:50:docs/governance/COLLABORATION_AND_PACKAGE_LIFECYCLE.md:154:Each Package represents a distinct approved interpretation.
+./reconciled-lifecycle-review.txt:95:docs/governance/milestone-6-lifecycle-reconciliation-finding.md:42:- Package is the canonical interpretation artifact.
+./reconciled-lifecycle-review.txt:96:docs/governance/milestone-6-lifecycle-reconciliation-finding.md:44:- Delegation is Interpretation Authorization.
+./reconciled-lifecycle-review.txt:99:docs/governance/milestone-6-lifecycle-reconciliation-finding.md:50:- Envelope inherits approved interpretation details from the Package.
+./reconciled-lifecycle-review.txt:106:docs/governance/milestone-6-lifecycle-reconciliation-finding.md:96:Original lifecycle omitted an interpretation artifact layer.
+./reconciled-lifecycle-review.txt:112:docs/governance/MATILDA_INTERPRETATION_LIFECYCLE_RECONCILIATION.md:16:2. Interpretation Evidence Ledger (IEL)
+./reconciled-lifecycle-review.txt:113:docs/governance/MATILDA_INTERPRETATION_LIFECYCLE_RECONCILIATION.md:18:3. Draft Package
+./reconciled-lifecycle-review.txt:114:docs/governance/MATILDA_INTERPRETATION_LIFECYCLE_RECONCILIATION.md:20:4. Canonical Package
+./reconciled-lifecycle-review.txt:115:docs/governance/MATILDA_INTERPRETATION_LIFECYCLE_RECONCILIATION.md:26:### Interpretation Evidence Ledger (IEL)
+./reconciled-lifecycle-review.txt:116:docs/governance/MATILDA_INTERPRETATION_LIFECYCLE_RECONCILIATION.md:30:The IEL:
+./reconciled-lifecycle-review.txt:117:docs/governance/MATILDA_INTERPRETATION_LIFECYCLE_RECONCILIATION.md:36:- preserves reconciliation history
+./reconciled-lifecycle-review.txt:118:docs/governance/MATILDA_INTERPRETATION_LIFECYCLE_RECONCILIATION.md:52:### IEL Definition
+./reconciled-lifecycle-review.txt:119:docs/governance/MATILDA_INTERPRETATION_LIFECYCLE_RECONCILIATION.md:54:The IEL is not a transcript.
+./reconciled-lifecycle-review.txt:120:docs/governance/MATILDA_INTERPRETATION_LIFECYCLE_RECONCILIATION.md:56:The IEL is not a collection of conclusions.
+./reconciled-lifecycle-review.txt:121:docs/governance/MATILDA_INTERPRETATION_LIFECYCLE_RECONCILIATION.md:58:The IEL is a contextualized interpretation record.
+./reconciled-lifecycle-review.txt:122:docs/governance/MATILDA_INTERPRETATION_LIFECYCLE_RECONCILIATION.md:60:Each IEL entry contains:
+./reconciled-lifecycle-review.txt:123:docs/governance/MATILDA_INTERPRETATION_LIFECYCLE_RECONCILIATION.md:66:- Supporting Raw Evidence
+./reconciled-lifecycle-review.txt:124:docs/governance/MATILDA_INTERPRETATION_LIFECYCLE_RECONCILIATION.md:74:Full transcript preservation inside the IEL is unnecessary.
+./reconciled-lifecycle-review.txt:125:docs/governance/MATILDA_INTERPRETATION_LIFECYCLE_RECONCILIATION.md:150:### Draft Package
+./reconciled-lifecycle-review.txt:126:docs/governance/MATILDA_INTERPRETATION_LIFECYCLE_RECONCILIATION.md:152:Matilda continuously maintains a Draft Package.
+./reconciled-lifecycle-review.txt:127:docs/governance/MATILDA_INTERPRETATION_LIFECYCLE_RECONCILIATION.md:154:Draft Package characteristics:
+./reconciled-lifecycle-review.txt:128:docs/governance/MATILDA_INTERPRETATION_LIFECYCLE_RECONCILIATION.md:156:- derived from IEL
+./reconciled-lifecycle-review.txt:129:docs/governance/MATILDA_INTERPRETATION_LIFECYCLE_RECONCILIATION.md:168:### Canonical Package
+./reconciled-lifecycle-review.txt:130:docs/governance/MATILDA_INTERPRETATION_LIFECYCLE_RECONCILIATION.md:170:Canonical Package remains the Canonical Meaning Artifact.
+./reconciled-lifecycle-review.txt:131:docs/governance/MATILDA_INTERPRETATION_LIFECYCLE_RECONCILIATION.md:172:Canonical Package:
+./reconciled-lifecycle-review.txt:132:docs/governance/MATILDA_INTERPRETATION_LIFECYCLE_RECONCILIATION.md:174:- derived from a reconciled Draft Package
+./reconciled-lifecycle-review.txt:133:docs/governance/MATILDA_INTERPRETATION_LIFECYCLE_RECONCILIATION.md:176:- derived from a specific IEL state
+./reconciled-lifecycle-review.txt:134:docs/governance/MATILDA_INTERPRETATION_LIFECYCLE_RECONCILIATION.md:190:A corridor becomes reconciliation-ready when:
+./reconciled-lifecycle-review.txt:135:docs/governance/MATILDA_INTERPRETATION_LIFECYCLE_RECONCILIATION.md:204:### Package Maturity Rule
+./reconciled-lifecycle-review.txt:136:docs/governance/MATILDA_INTERPRETATION_LIFECYCLE_RECONCILIATION.md:206:Package maturity is determined by interpretation stability rather than information completeness.
+./reconciled-lifecycle-review.txt:137:docs/governance/MATILDA_INTERPRETATION_LIFECYCLE_RECONCILIATION.md:208:A Draft Package is mature when future evidence is expected to refine the Package rather than fundamentally alter its meaning.
+./reconciled-lifecycle-review.txt:138:docs/governance/MATILDA_INTERPRETATION_LIFECYCLE_RECONCILIATION.md:214:Matilda may propose reconciliation.
+./reconciled-lifecycle-review.txt:139:docs/governance/MATILDA_INTERPRETATION_LIFECYCLE_RECONCILIATION.md:216:Matilda may not finalize reconciliation.
+./reconciled-lifecycle-review.txt:140:docs/governance/MATILDA_INTERPRETATION_LIFECYCLE_RECONCILIATION.md:218:User retains reconciliation authority.
+./reconciled-lifecycle-review.txt:141:docs/governance/MATILDA_INTERPRETATION_LIFECYCLE_RECONCILIATION.md:220:Canonical Package creation occurs through explicit user acceptance of reconciliation.
+./reconciled-lifecycle-review.txt:142:docs/governance/MATILDA_INTERPRETATION_LIFECYCLE_RECONCILIATION.md:224:### Atlas Participation Before Delegation
+./reconciled-lifecycle-review.txt:143:docs/governance/MATILDA_INTERPRETATION_LIFECYCLE_RECONCILIATION.md:226:Atlas participates before Delegation.
+./reconciled-lifecycle-review.txt:144:docs/governance/MATILDA_INTERPRETATION_LIFECYCLE_RECONCILIATION.md:232:→ IEL
+./reconciled-lifecycle-review.txt:145:docs/governance/MATILDA_INTERPRETATION_LIFECYCLE_RECONCILIATION.md:238:→ Package
+./reconciled-lifecycle-review.txt:146:docs/governance/MATILDA_INTERPRETATION_LIFECYCLE_RECONCILIATION.md:240:→ Delegation
+./reconciled-lifecycle-review.txt:147:docs/governance/MATILDA_INTERPRETATION_LIFECYCLE_RECONCILIATION.md:242:→ Envelope
+./reconciled-lifecycle-review.txt:148:docs/governance/MATILDA_INTERPRETATION_LIFECYCLE_RECONCILIATION.md:268:Atlas intelligence is derived from the IEL.
+./reconciled-lifecycle-review.txt:149:docs/governance/MATILDA_INTERPRETATION_LIFECYCLE_RECONCILIATION.md:270:Atlas does not modify the IEL.
+./reconciled-lifecycle-review.txt:150:docs/governance/MATILDA_INTERPRETATION_LIFECYCLE_RECONCILIATION.md:290:Atlas recommendations may become increasingly explicit as reconciliation readiness increases.
+./reconciled-lifecycle-review.txt:151:docs/governance/MATILDA_INTERPRETATION_LIFECYCLE_RECONCILIATION.md:292:Atlas may recommend reconciliation when evidence indicates diminishing discovery returns.
+./reconciled-lifecycle-review.txt:152:docs/governance/MATILDA_INTERPRETATION_LIFECYCLE_RECONCILIATION.md:294:Atlas may not finalize reconciliation.
+./reconciled-lifecycle-review.txt:153:docs/governance/MATILDA_INTERPRETATION_LIFECYCLE_RECONCILIATION.md:308:Matilda facilitates reconciliation.
+./reconciled-lifecycle-review.txt:154:docs/governance/MATILDA_INTERPRETATION_LIFECYCLE_RECONCILIATION.md:310:Atlas advises reconciliation readiness.
+./reconciled-lifecycle-review.txt:156:docs/governance/matilda-package-contract.md:8:The Matilda Package is the canonical interpretation artifact produced by Matilda.
+./reconciled-lifecycle-review.txt:163:docs/governance/matilda-package-contract.md:130:A Matilda Package is a governed interpretation artifact.
+./reconciled-lifecycle-review.txt:173:docs/governance/CANONICAL_DELEGATION_SPECIFICATION.md:6:The Delegation Record is the canonical interpretation authorization artifact of the Motherboard Headquarters operating model.
+./reconciled-lifecycle-review.txt:175:docs/governance/CANONICAL_DELEGATION_SPECIFICATION.md:10:Delegation authorizes interpretation.
+./reconciled-lifecycle-review.txt:187:docs/governance/CANONICAL_DELEGATION_SPECIFICATION.md:62:Delegation is an Interpretation Authorization Record.
+./reconciled-lifecycle-review.txt:216:docs/governance/CANONICAL_DELEGATION_SPECIFICATION.md:250:Governance Validation may only evaluate authorized interpretations.
+./reconciled-lifecycle-review.txt:252:docs/governance/CANONICAL_PACKAGE_SPECIFICATION.md:8:The Package represents Matilda's authoritative interpretation of user intent.
+./reconciled-lifecycle-review.txt:335:docs/governance/GOVERNANCE_LIFECYCLE_STATE_MODEL.md:404:Governance Validation may not evaluate unauthorized interpretations.
+./reconciled-lifecycle-review.txt:575:Each Package represents a distinct approved interpretation.
+./reconciled-lifecycle-review.txt:669:The Package represents Matilda's authoritative interpretation of user intent.
+./reconciled-lifecycle-review.txt:992:The Delegation Record is the canonical interpretation authorization artifact of the Motherboard Headquarters operating model.
+./reconciled-lifecycle-review.txt:996:Delegation authorizes interpretation.
+./reconciled-lifecycle-review.txt:1048:Delegation is an Interpretation Authorization Record.
+./reconciled-lifecycle-review.txt:1052:"Has this interpretation been authorized as an accurate representation of intent?"
+./reconciled-lifecycle-review.txt:1142:Records when interpretation authorization occurred.
+./reconciled-lifecycle-review.txt:1190:- Interpretation authorization has been granted
+./reconciled-lifecycle-review.txt:1226:Authorized interpretations must remain historically auditable.
+./reconciled-lifecycle-review.txt:1236:Governance Validation may only evaluate authorized interpretations.
+./reconciled-lifecycle-review.txt:1290:Interpretation Authorization
+./reconciled-lifecycle-review.txt:1422:## Interpretation Fidelity
+./reconciled-lifecycle-review.txt:1548:- Interpretation fidelity is sufficient
+./reconciled-lifecycle-review.txt:1588:- Intent Interpretation
+./reconciled-lifecycle-review.txt:2049:docs/governance/MATILDA_INTERPRETATION_LIFECYCLE_RECONCILIATION.md
+./reconciled-lifecycle-review.txt:2052:# Matilda Interpretation Lifecycle Reconciliation
+./reconciled-lifecycle-review.txt:2060:Raw conversation history is preserved as the primary evidence source for interpretation.
+./reconciled-lifecycle-review.txt:2066:2. Interpretation Evidence Ledger (IEL)
+./reconciled-lifecycle-review.txt:2076:### Interpretation Evidence Ledger (IEL)
+./reconciled-lifecycle-review.txt:2078:Matilda maintains an append-only Interpretation Evidence Ledger.
+./reconciled-lifecycle-review.txt:2082:- preserves interpretation lineage
+./reconciled-lifecycle-review.txt:2108:The IEL is a contextualized interpretation record.
+./reconciled-lifecycle-review.txt:2112:- Interpretation Event
+./reconciled-lifecycle-review.txt:2118:- Matilda Observation
+./reconciled-lifecycle-review.txt:2128:### Evidence Preservation Principle
+./reconciled-lifecycle-review.txt:2134:- interpretation
+./reconciled-lifecycle-review.txt:2256:Package maturity is determined by interpretation stability rather than information completeness.
+./reconciled-lifecycle-review.txt:2350:Matilda functions as interpretation steward.
+./reconciled-lifecycle-review.txt:2376:The Matilda Package is the canonical interpretation artifact produced by Matilda.
+./reconciled-lifecycle-review.txt:2432:The package preserves Matilda's interpretation.
+./reconciled-lifecycle-review.txt:2454:- Interpretation Authority
+./reconciled-lifecycle-review.txt:2498:A Matilda Package is a governed interpretation artifact.
+./reconciled-lifecycle-review.txt:2574:The package is an interpretation artifact only.
+./reconciled-lifecycle-review.txt:2582:Interpretation Authorization occurs when the user delegates the package.
+./reconciled-lifecycle-review.txt:2584:The act of delegation represents acceptance of Matilda's interpretation.
+./reconciled-lifecycle-review.txt:2604:Approved interpretation may be transformed into a governed execution envelope.
+./reconciled-lifecycle-review.txt:2606:The envelope inherits approved interpretation details from the package.
+./reconciled-lifecycle-review.txt:2632:Interpretation Authorization and Execution Authorization are distinct events.
+./reconciled-lifecycle-review.txt:2644:- interpretation
+./PHASE_83_7_TASK_QUEUE_WAIT_DURATION_TELEMETRY_DOCUMENTATION.md:63:Pure observation only.
+./PHASE_83_7_TASK_QUEUE_WAIT_DURATION_TELEMETRY_DOCUMENTATION.md:79:Multi-signal interpretation required.
+./PHASE62B_DASHBOARD_ASSET_LOAD_PATH_INSPECTION.txt:100:    97	  <link rel="stylesheet" href="css/phase61_tabs_observational_workspace.css" />
+./PHASE62B_DASHBOARD_ASSET_LOAD_PATH_INSPECTION.txt:118:   115	      #observational-workspace-card {
+./PHASE62B_DASHBOARD_ASSET_LOAD_PATH_INSPECTION.txt:126:   123	      #observational-panels {
+./PHASE62B_DASHBOARD_ASSET_LOAD_PATH_INSPECTION.txt:158:   155	      #observational-tabs {
+./PHASE62B_DASHBOARD_ASSET_LOAD_PATH_INSPECTION.txt:219:   216	        #observational-workspace-card {
+./PHASE80_2_QUEUE_LATENCY_WIRING_BLOCKED_2026-03-17.md:19:## Engineering interpretation
+./PHASE_87_1_SITUATION_SUMMARY.md:120:INTERPRETATION RULES
+./PHASE_87_1_SITUATION_SUMMARY.md:168:Display-derived interpretation
+./PHASE_85_5_SCAN_OPTIMIZATION.md:6:is visually grouped, ordered, and prioritized for rapid interpretation.
+./PHASE_85_5_SCAN_OPTIMIZATION.md:38:Information must now be optimized for rapid scan interpretation.
+./PHASE_85_5_SCAN_OPTIMIZATION.md:126:Left-to-right interpretation
+./PHASE_85_5_SCAN_OPTIMIZATION.md:184:Operator interpretation time reduced.
+./PHASE_81_TELEMETRY_EXPANSION_CANDIDATE_REVIEW.md:53:Observational
+./PHASE81_SIGNAL_INTERPRETATION.md:1:PHASE 81 — SIGNAL INTERPRETATION LAYER
+./PHASE81_SIGNAL_INTERPRETATION.md:4:Define deterministic signal interpretation from telemetry while preserving cognition-only boundaries.
+./PHASE81_SIGNAL_INTERPRETATION.md:12:Signal = deterministic read-only interpretation of metrics.
+./PHASE81_SIGNAL_INTERPRETATION.md:35:Interpretation may expand.
+./PHASE81_SIGNAL_INTERPRETATION.md:40:Phase 81 establishes interpretation discipline only.
+./PHASE81_SIGNAL_INTERPRETATION.md:67:Derived interpretation
+./PHASE81_SIGNAL_INTERPRETATION.md:80:Queue Pressure is a descriptive signal derived from the combined behavior of queue latency and queue throughput over the same observation window.
+./PHASE81_SIGNAL_INTERPRETATION.md:82:Interpretation Goal:
+./PHASE81_SIGNAL_INTERPRETATION.md:115:- no probabilistic or predictive interpretation allowed
+./PHASE81_SIGNAL_INTERPRETATION.md:117:Interpretation Boundaries:
+./PHASE81_SIGNAL_INTERPRETATION.md:175:Observation Window:
+./PHASE81_SIGNAL_INTERPRETATION.md:177:Signals must use a fixed observation window identical to the telemetry window already used for latency and throughput.
+./PHASE81_SIGNAL_INTERPRETATION.md:268:Probabilistic interpretation
+./PHASE81_SIGNAL_INTERPRETATION.md:272:Interpretation Limits:
+./PHASE81_SIGNAL_INTERPRETATION.md:328:- no inferred interpretation
+./PHASE81_SIGNAL_INTERPRETATION.md:539:- no heuristic reinterpretation allowed
+./STATE_HANDOFF_PHASE_86_COMPLETE_FOR_NEW_THREAD.md:3:Phase 62 Layout Evolution → Phase 62.2 Layout Contract Protected → Phase 62B Telemetry Hydration COMPLETE → Phase 63 Telemetry Integration Golden → Phase 64 Protection Corridor → Phase 65A Protection Hardening COMPLETE → Phase 65B Telemetry Ownership Consolidation COMPLETE → Phase 65C Telemetry Hydration Continuation COMPLETE → Phase 66 Observability Expansion Planning COMPLETE → Phase 67 Telemetry Reducer Safety COMPLETE → Phase 68 Telemetry Drift Detection COMPLETE → Phase 69 Telemetry Replay Corpus COMPLETE → Phase 70A Health Snapshot COMPLETE → Phase 70B Diagnostics Report COMPLETE → Phase 70C Operator Signals COMPLETE → Phase 71 Operator Awareness Layer COMPLETE → Phase 71.1 Operator Status Entry COMPLETE → Phase 72 Operator Guidance Layer COMPLETE → Phase 73 Operator Safety Gates COMPLETE → Phase 74 Operator Workflow Helpers COMPLETE → Phase 75 Helper Prioritization COMPLETE → Phase 76 Operator Playbooks COMPLETE → Phase 77 Adaptive Operator Workflows COMPLETE → Phase 78 Operator Runbook System COMPLETE → Phase 79 Controlled Automation Preparation COMPLETE (planning only) → Phase 79.5 Automation Risk Modeling COMPLETE (theoretical only) → Phase 80 Safe Iteration Engine COMPLETE → Phase 80.1 Workspace Clean Finalizer COMPLETE → Phase 80.2 Queue Latency Metric COMPLETE → Phase 80.3 Task Lifecycle Duration Metric COMPLETE → Phase 80.4 Task Execution Duration Metric COMPLETE → Phase 80.5 Metric Exposure Approval Protocol COMPLETE → Phase 80.6 Telemetry Expansion Candidate Review COMPLETE → Phase 80.7 Queue Throughput Metric Definition COMPLETE → Phase 80.8 Queue Throughput Pure Function Implementation COMPLETE → Phase 80.9 Throughput Exposure Safety Review COMPLETE → Phase 80.10 Derived Metric Registry Entry COMPLETE → Phase 80.11 Throughput Local Verification Harness COMPLETE → Phase 80.12 Throughput Metric Drift Safeguards COMPLETE → Phase 80.13 Throughput Metric Theoretical Bounds COMPLETE (definition only) → Phase 81 Signal Interpretation Doctrine COMPLETE → Phase 81.1 Queue Pressure Signal Definition COMPLETE → Phase 81.2 Queue Pressure Derivation Model COMPLETE → Phase 81.3 Queue Pressure Verification Cases COMPLETE → Phase 81.4 Queue Pressure Pure Function Design COMPLETE → Phase 81.5 Queue Pressure Classification Model COMPLETE → Phase 81.6 Queue Pressure Classification Verification COMPLETE → Phase 81.7 Queue Pressure Signal Registry COMPLETE → Phase 81.8 Signal Interpretation Layer COMPLETE → Phase 82 Composition Foundation COMPLETE → Phase 82.1 Composition Verification COMPLETE → Phase 82.2 Composition Registry COMPLETE → Phase 82.3 Composition Closure COMPLETE → Phase 83 Summary Doctrine COMPLETE → Phase 83.1 Summary Model COMPLETE → Phase 83.2 Summary Rules COMPLETE → Phase 83.3 Summary Registry COMPLETE → Phase 83.4 Summary Safety COMPLETE → Phase 83.5 Summary Verification COMPLETE → Phase 83.6 Summary Closure COMPLETE → Phase 84 Cognition Planning Layer COMPLETE → Phase 85 Cognition Structuring Layer COMPLETE → Phase 86 Cognition Evolution Layer COMPLETE
+./STATE_HANDOFF_PHASE_86_COMPLETE_FOR_NEW_THREAD.md:76:Phase 81 signal interpretation layer COMPLETE  
+./STATE_HANDOFF_PHASE_86_COMPLETE_FOR_NEW_THREAD.md:116:OPERATOR SIGNAL INTERPRETATION FOUNDATION ESTABLISHED  
+./STATE_HANDOFF_PHASE_86_COMPLETE_FOR_NEW_THREAD.md:121:OPERATOR GUIDANCE INTERPRETATION ACTIVE  
+./STATE_HANDOFF_PHASE_86_COMPLETE_FOR_NEW_THREAD.md:144:SIGNAL INTERPRETATION DOCTRINE ESTABLISHED  
+./PHASE_84_PLANNING_LAYER_INIT.md:44:No interpretation drift  
+./PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:181:./PHASE_83_0_SUMMARY_DOCTRINE.md:5:Define the Signal Summary Layer as a strictly interpretation-only condensation layer that converts multiple interpretation signals into operator-readable cognitive summaries.
+./PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:230:./PHASE_83_3_SUMMARY_REGISTRY.md:162:Every summary must map to defined interpretation signals.
+./PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:515:./PHASE_81_8_SIGNAL_LAYER_CLOSURE.md:61:• operator interpretation
+./PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:1156:./PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:181:./PHASE_83_0_SUMMARY_DOCTRINE.md:5:Define the Signal Summary Layer as a strictly interpretation-only condensation layer that converts multiple interpretation signals into operator-readable cognitive summaries.
+./PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:1205:./PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:230:./PHASE_83_3_SUMMARY_REGISTRY.md:162:Every summary must map to defined interpretation signals.
+./PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:1490:./PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:515:./PHASE_81_8_SIGNAL_LAYER_CLOSURE.md:61:• operator interpretation
+./PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:2069:./PHASE81_SIGNAL_INTERPRETATION.md:64:Provide a deterministic operator-awareness signal describing the relationship between queue latency and queue throughput without influencing behavior.
+./PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:2070:./PHASE81_SIGNAL_INTERPRETATION.md:143:No operator guidance work is included in this phase step.
+./PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:2071:./PHASE81_SIGNAL_INTERPRETATION.md:602:No operator context allowed.
+./PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:2072:./PHASE81_SIGNAL_INTERPRETATION.md:728:- operator guidance
+./PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:2249:./PHASE_82_2_COMPOSITION_REGISTRY.md:66: interpretation: "operator context signal",
+./PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:2292:./PHASE_85_4_SIGNAL_STABILITY.md:80:Initial interpretation must remain simple and operator-readable.
+./PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:3473:./PHASE_84_5_OPERATOR_COGNITION_UX_REFINEMENT.md:12:Refine operator cognition layer to improve scan speed, clarity, and deterministic interpretation of system status.
+./PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:3474:./PHASE_84_5_OPERATOR_COGNITION_UX_REFINEMENT.md:31:Allow operators to visually identify system condition without interpretation delay.
+./PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:3617:./docs/PHASE61_STATUS_NOTE.md:12:- Observational Workspace now tracks the upper operator surface only.
+./PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:3618:./docs/PHASE61_STATUS_NOTE.md:27:Proceed with controlled left-side consolidation so the operator side becomes a true unified workspace parallel to the observational workspace.
+./PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:3725:./docs/checkpoints/PHASE63_2_AGENT_FRESHNESS_INTERPRETATION_REFINED_20260312.md:20:- `public/js/agent-status-row.js`
+./PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:4327:./docs/checkpoints/PHASE63_2_COMPLETE_20260312.md:16:- refined browser-side consumer interpretation in `public/js/agent-status-row.js`
+./PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:4333:./docs/checkpoints/PHASE63_2_CONSUMER_INTERPRETATION_AUDIT_STARTED_20260312.md:18:- whether Active Agents counting and per-agent row status remain semantically aligned
+./PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:4334:./docs/checkpoints/PHASE63_2_CONSUMER_INTERPRETATION_AUDIT_STARTED_20260312.md:33:Trace the current `public/js/agent-status-row.js` logic around:
+./PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:4335:./docs/checkpoints/PHASE63_2_CONSUMER_INTERPRETATION_AUDIT_STARTED_20260312.md:38:- row-level status rendering
+./PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:5036:./docs/checkpoints/PHASE62B_RUNNING_TASKS_CODE_DISCOVERY_20260316.md:5331:./scripts/_local/refine_phase63_2_agent_freshness_interpretation.sh:158:    '      console.warn("agent-status-row.js: OPS SSE error:", err);\n'
+./PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:5037:./docs/checkpoints/PHASE62B_RUNNING_TASKS_CODE_DISCOVERY_20260316.md:5332:./scripts/_local/refine_phase63_2_agent_freshness_interpretation.sh:164:    '      console.warn("agent-status-row.js: OPS SSE error:", err);\n'
+./PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:5090:./docs/checkpoints/PHASE62B_RUNNING_TASKS_CODE_DISCOVERY_20260316.md:5804:./scripts/_local/phase61_left_workspace_focus_scan.sh:6:printf '\n=== dashboard.html: operator + observational workspace slice ===\n'
+./PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:5870:./docs/checkpoints/PHASE62B_RUNNING_TASKS_CANDIDATE_SURFACES_20260316.md:4808:./scripts/_local/phase61_left_workspace_focus_scan.sh:6:printf '\n=== dashboard.html: operator + observational workspace slice ===\n'
+./PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:5950:./docs/checkpoints/PHASE62B_RUNNING_TASKS_CANDIDATE_SURFACES_20260316.md:5782:./scripts/_local/refine_phase63_2_agent_freshness_interpretation.sh:158:    '      console.warn("agent-status-row.js: OPS SSE error:", err);\n'
+./PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:5951:./docs/checkpoints/PHASE62B_RUNNING_TASKS_CANDIDATE_SURFACES_20260316.md:5783:./scripts/_local/refine_phase63_2_agent_freshness_interpretation.sh:164:    '      console.warn("agent-status-row.js: OPS SSE error:", err);\n'
+./PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:6452:./docs/checkpoints/PHASE77_SIGNAL_SEVERITY_FOUNDATION_COMPLETE_20260316.md:6:Introduce deterministic severity interpretation for operator signals to enable
+./PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:6779:./public/css/phase61_tabs_observational_workspace.css:100:#phase61-operator-column,
+./PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:6864:./PHASE61_OPERATOR_WORKSPACE_CONSOLIDATION.md:4:Convert the left-side operator area from two stacked cards into a unified tabbed Operator Workspace while preserving the existing right-side Observational Workspace, full-width Atlas / subsystem band, and deterministic runtime behavior.
+./PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:7358:./scripts/_local/refine_phase63_2_agent_freshness_interpretation.sh:9:path = Path("public/js/agent-status-row.js")
+./PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:7359:./scripts/_local/refine_phase63_2_agent_freshness_interpretation.sh:80:start = text.find('  function classifyStatus(statusString) {')
+./PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:7360:./scripts/_local/refine_phase63_2_agent_freshness_interpretation.sh:84:        '  function applyVisual(agentKey, statusString) {\n'
+./PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:7361:./scripts/_local/refine_phase63_2_agent_freshness_interpretation.sh:87:        '    agentReportedState[agentKey] = String(statusString || agentReportedState[agentKey] || "unknown");\n\n'
+./PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:7362:./scripts/_local/refine_phase63_2_agent_freshness_interpretation.sh:90:        '    indicator.status.textContent = presentation.label;\n\n'
+./PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:7363:./scripts/_local/refine_phase63_2_agent_freshness_interpretation.sh:107:        '    indicator.status.className = "text-[11px] font-medium truncate";\n\n'
+./PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:7364:./scripts/_local/refine_phase63_2_agent_freshness_interpretation.sh:112:        '        indicator.status.classList.add("text-emerald-300/90");\n'
+./PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:7365:./scripts/_local/refine_phase63_2_agent_freshness_interpretation.sh:117:        '        indicator.status.classList.add("text-rose-300/90");\n'
+./PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:7366:./scripts/_local/refine_phase63_2_agent_freshness_interpretation.sh:122:        '        indicator.status.classList.add("text-amber-200/90");\n'
+./PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:7367:./scripts/_local/refine_phase63_2_agent_freshness_interpretation.sh:128:        '        indicator.status.classList.add("text-slate-300/75");\n'
+./PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:7368:./scripts/_local/refine_phase63_2_agent_freshness_interpretation.sh:141:    '        applyVisual(key, String(status || "unknown"));\n',
+./PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:7369:./scripts/_local/refine_phase63_2_agent_freshness_interpretation.sh:142:    '        agentReportedState[key] = String(status || "unknown");\n'
+./PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:7370:./scripts/_local/refine_phase63_2_agent_freshness_interpretation.sh:147:    '      applyVisual(agentName, String(status || "unknown"));\n'
+./PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:7371:./scripts/_local/refine_phase63_2_agent_freshness_interpretation.sh:150:    '      agentReportedState[agentName] = String(status || "unknown");\n'
+./PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:7372:./scripts/_local/refine_phase63_2_agent_freshness_interpretation.sh:158:    '      console.warn("agent-status-row.js: OPS SSE error:", err);\n'
+./PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:7373:./scripts/_local/refine_phase63_2_agent_freshness_interpretation.sh:164:    '      console.warn("agent-status-row.js: OPS SSE error:", err);\n'
+./PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:7374:./scripts/_local/refine_phase63_2_agent_freshness_interpretation.sh:177:print("patched public/js/agent-status-row.js")
+./PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:8031:./scripts/_local/phase61_left_workspace_focus_scan.sh:6:printf '\n=== dashboard.html: operator + observational workspace slice ===\n'
+./PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:8139:./PHASE_83_1_SUMMARY_MODEL.md:31:A summary object exists to hold deterministic, operator-readable meaning derived from previously established interpretation layers.
+./PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:8155:./PHASE_83_1_SUMMARY_MODEL.md:228:Every summary must preserve interpretation-only authority.
+./PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:8459:./PHASE87_0_OPERATOR_COGNITIVE_INTELLIGENCE.md:10:Introduce operator-focused cognition interpretation layers that transform existing cognition signals into operator-usable intelligence without expanding execution authority.
+./PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:8619:./PHASE_82_SIGNAL_COMPOSITION_FOUNDATION.md:6:signals to be combined into higher-level operator interpretation without
+./PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:9258:./PHASE_86_4_REASONING_HINTS.md:5:Improve operator cognition by providing neutral interpretation hints
+./PHASE_84_22_TASK_EXECUTION_DURATION_WORKSTREAM_CLOSEOUT.md:55:Observational only.
+./PHASE_83_4_SUMMARY_SAFETY.md:9:Interpretation-only
+./PHASE_83_4_SUMMARY_SAFETY.md:46:authority = "interpretation_only"
+./PHASE_83_4_SUMMARY_SAFETY.md:118:Summaries are interpretations.
+./PHASE_83_4_SUMMARY_SAFETY.md:177:Interpretation-only positioning.
+./PHASE_83_4_SUMMARY_SAFETY.md:203:Language must remain observational.
+./PHASE_83_4_SUMMARY_SAFETY.md:249:Above interpretation
+./server/contracts/execution-envelope.v1.mjs:154:      interpretation_authority: false,
+./server/execution/normalize-execution-intent.mjs:90:      source: intent.source || "chat_interpretation",
+./PHASE_80_4_METRIC_LOCAL_VALIDATION_WIRING.md:78:Derived metrics remain observational only.
+./PHASE_80_5_DERIVED_METRIC_EXPOSURE_READINESS.md:74:Operator misinterpretation
+./STATE_HANDOFF_PHASE_82_COMPLETE.md:3:Phase 62 Layout Evolution → Phase 62.2 Layout Contract Protected → Phase 62B Telemetry Hydration COMPLETE → Phase 63 Telemetry Integration Golden → Phase 64 Protection Corridor → Phase 65A Protection Hardening COMPLETE → Phase 65B Telemetry Ownership Consolidation COMPLETE → Phase 65C Telemetry Hydration Continuation COMPLETE → Phase 66 Observability Expansion Planning COMPLETE → Phase 67 Telemetry Reducer Safety COMPLETE → Phase 68 Telemetry Drift Detection COMPLETE → Phase 69 Telemetry Replay Corpus COMPLETE → Phase 70A Health Snapshot COMPLETE → Phase 70B Diagnostics Report COMPLETE → Phase 70C Operator Signals COMPLETE → Phase 71 Operator Awareness Layer COMPLETE → Phase 71.1 Operator Status Entry COMPLETE → Phase 72 Operator Guidance Layer COMPLETE → Phase 73 Operator Safety Gates COMPLETE → Phase 74 Operator Workflow Helpers COMPLETE → Phase 75 Helper Prioritization COMPLETE → Phase 76 Operator Playbooks COMPLETE → Phase 77 Adaptive Operator Workflows COMPLETE → Phase 78 Operator Runbook System COMPLETE → Phase 79 Controlled Automation Preparation COMPLETE → Phase 79.5 Automation Risk Modeling COMPLETE → Phase 80 Safe Iteration Engine COMPLETE → Phase 80.1 Workspace Clean Finalizer COMPLETE → Phase 80.2 Queue Latency Metric COMPLETE → Phase 80.3 Task Lifecycle Duration Metric COMPLETE → Phase 80.4 Task Execution Duration Metric COMPLETE → Phase 80.5 Metric Exposure Approval Protocol COMPLETE → Phase 80.6 Telemetry Expansion Candidate Review COMPLETE → Phase 80.7 Queue Throughput Metric Definition COMPLETE → Phase 80.8 Queue Throughput Pure Function Implementation COMPLETE → Phase 80.9 Throughput Exposure Safety Review COMPLETE → Phase 80.10 Derived Metric Registry Entry COMPLETE → Phase 80.11 Throughput Local Verification Harness COMPLETE → Phase 80.12 Throughput Metric Drift Safeguards COMPLETE → Phase 80.13 Throughput Metric Theoretical Bounds COMPLETE → Phase 81 Signal Interpretation Doctrine COMPLETE → Phase 81.1 Queue Pressure Signal Definition COMPLETE → Phase 81.2 Queue Pressure Derivation Model COMPLETE → Phase 81.3 Queue Pressure Verification Cases COMPLETE → Phase 81.4 Queue Pressure Pure Function Design COMPLETE → Phase 81.5 Queue Pressure Classification Model COMPLETE → Phase 81.6 Queue Pressure Classification Verification COMPLETE → Phase 81.7 Queue Pressure Signal Registry COMPLETE → Phase 81.8 Signal Interpretation Layer COMPLETE → Phase 82 Composition Foundation COMPLETE → Phase 82.1 Composition Verification COMPLETE → Phase 82.2 Composition Registry COMPLETE → Phase 82.3 Composition Closure COMPLETE
+./STATE_HANDOFF_PHASE_82_COMPLETE.md:39:Interpretation architecture stack now includes:
+./STATE_HANDOFF_PHASE_82_COMPLETE.md:42:Interpretation layer COMPLETE  
+./STATE_HANDOFF_PHASE_82_COMPLETE.md:66:INTERPRETATION DOCTRINE ESTABLISHED  
+./STATE_HANDOFF_PHASE_82_COMPLETE.md:75:System interpretation capability increased without increasing control authority.
+./STATE_HANDOFF_PHASE_82_COMPLETE.md:106:Operator Interpretation Views (planning only)
+./STATE_HANDOFF_PHASE_82_COMPLETE.md:118:Interpretation-only behavior  
+./PHASE_82_6_TASK_EXECUTION_DURATION_DASHBOARD_EXPOSURE_PLAN.md:16:Performance interpretation support
+./PHASE_82_6_TASK_EXECUTION_DURATION_DASHBOARD_EXPOSURE_PLAN.md:82:OPERATOR INTERPRETATION RULE
+./PHASE_82_6_TASK_EXECUTION_DURATION_DASHBOARD_EXPOSURE_PLAN.md:99:Multi-metric interpretation required.
+./docs/MATILDA_CHAT_OPTION2_LAYOUT_LIMITS.md:3:User observation (visual):  
+./docs/plans/PHASE78_OPERATOR_RUNBOOK_SYSTEM_PLAN.md:18:This is an interpretation layer only.
+./docs/PHASE61_STATUS_NOTE.md:5:The observational workspace height has been corrected so it aligns to the Matilda Chat Console height rather than stretching to include the full left column stack.
+./docs/PHASE61_STATUS_NOTE.md:9:- Observational Workspace no longer stretches to match both:
+./docs/PHASE61_STATUS_NOTE.md:12:- Observational Workspace now tracks the upper operator surface only.
+./docs/PHASE61_STATUS_NOTE.md:27:Proceed with controlled left-side consolidation so the operator side becomes a true unified workspace parallel to the observational workspace.
+./docs/PHASE61_STATUS_NOTE.md:32:- Latest commit should reflect the height correction for the observational workspace.
+./docs/contracts/CADE_ENGINEER_ADAPTER_PHASE_STATUS.md:44:## Architectural Interpretation
+./docs/contracts/CADE_RUNTIME_ARCHAEOLOGY_FINDINGS.md:102:## Architectural Interpretation
+./docs/contracts/MILESTONE_0_EXECUTION_GOVERNANCE_AUTHORITY_MODEL.md:14:- Interpretation Authority
+./docs/contracts/MILESTONE_0_EXECUTION_GOVERNANCE_AUTHORITY_MODEL.md:50:Interpretation may proceed only from established intent.
+./docs/contracts/MILESTONE_0_EXECUTION_GOVERNANCE_AUTHORITY_MODEL.md:82:Resolution requires interpretation but remains within established intent boundaries.
+./docs/contracts/MILESTONE_0_EXECUTION_GOVERNANCE_AUTHORITY_MODEL.md:100:- Interpretation applied
+./docs/contracts/PREVIEW_APPROVAL_RECONCILIATION_FINDING.md:38:The execution envelope is the canonical governance artifact produced from Matilda-side interpretation and passed through governance validation, approval gating, Cade planning, and future execution phases.
+./docs/contracts/PREVIEW_APPROVAL_RECONCILIATION_FINDING.md:70:- user confirmation that the previewed interpretation matches intent
+./docs/contracts/CANONICAL_EXECUTION_LIFECYCLE.md:96:Cade, Matilda, or governance validation detects ambiguity that blocks safe interpretation, planning, or execution.
+./docs/contracts/CANONICAL_EXECUTION_LIFECYCLE.md:136:- interpretation only
+./docs/contracts/CANONICAL_EXECUTION_LIFECYCLE.md:464:- intent evidence preservation
+./docs/contracts/CANONICAL_EXECUTION_LIFECYCLE.md:590:- canonical intent interpretation
+./docs/contracts/MILESTONE_3B_VALIDATOR_RECONCILIATION_DECISION_LEDGER.md:78:Interpretation authority remains with Matilda.
+./docs/contracts/MILESTONE_3B_VALIDATOR_RECONCILIATION_DECISION_LEDGER.md:178:Validators do not possess authorship authority, interpretation authority, intent authority, or execution authority.
+./docs/contracts/MILESTONE_3_VALIDATOR_AUTHORITY_SCOPE.md:28:- interpretation authority
+./docs/contracts/MILESTONE_3_VALIDATOR_AUTHORITY_SCOPE.md:102:- override Matilda interpretation
+./docs/contracts/MILESTONE_3_VALIDATOR_AUTHORITY_SCOPE.md:218:- multiple valid interpretations
+./docs/contracts/MILESTONE_3_VALIDATOR_AUTHORITY_SCOPE.md:232:- validator may not choose an interpretation
+./docs/contracts/MILESTONE_3_VALIDATOR_AUTHORITY_SCOPE.md:298:- ambiguity is resolved as interpretation B
+./docs/contracts/MILESTONE_1C_CONTRACT_PATCH_PLAN.md:76:- INTERPRETATION_REVIEW
+./docs/contracts/MILESTONE_3D_VALIDATOR_CONTRACT_PATCH_AUTHORIZATION.md:56:- validator possesses no interpretation authority
+./docs/contracts/MILESTONE_1A_ENVELOPE_GOVERNANCE_REVIEW.md:152:confidence_score remains observational
+./docs/contracts/MILESTONE_1C_CLOSEOUT.md:28:- Added Matilda interpretation boundary
+./docs/contracts/CANONICAL_EXECUTION_ENVELOPE_SCHEMA.pre_m1c_backup.md:164:  "interface": "chat_interpretation",
+./docs/contracts/CANONICAL_EXECUTION_ENVELOPE_SCHEMA.pre_m1c_backup.md:464:    "interface": "chat_interpretation",
+./docs/contracts/GOVERNED_EXECUTION_AUDIT_LEDGER.md:52:Audit ledgers are observational only.
+./docs/contracts/CANONICAL_EXECUTION_ENVELOPE_SCHEMA.md:36:### Matilda Interpretation Authority
+./docs/contracts/CANONICAL_EXECUTION_ENVELOPE_SCHEMA.md:52:Interpretation may proceed only from established intent.
+./docs/contracts/CANONICAL_EXECUTION_ENVELOPE_SCHEMA.md:200:  "interface": "chat_interpretation",
+./docs/contracts/CANONICAL_EXECUTION_ENVELOPE_SCHEMA.md:466:- interpretation authority
+./docs/contracts/CANONICAL_EXECUTION_ENVELOPE_SCHEMA.md:608:    "interface": "chat_interpretation",
+./docs/contracts/MILESTONE_3E_VALIDATOR_CONTRACT_PATCH_CLOSEOUT.md:54:- validator non-interpretation rule
+./docs/contracts/GOVERNED_RECONCILIATION_NORMALIZATION.md:50:Reconciliation artifacts are observational and planning-oriented only.
+./docs/contracts/CONTAINER_VISIBILITY_RUNTIME_FINDING.md:26:## Corrected Interpretation
+./docs/contracts/MILESTONE_1_EXECUTION_ENVELOPE_RECONCILIATION_CHECKPOINT.md:120:- Matilda owns Interpretation Authority.
+./docs/contracts/MILESTONE_1_EXECUTION_ENVELOPE_RECONCILIATION_CHECKPOINT.md:130:The envelope may be authoritative as a preserved interpretation artifact.
+./docs/contracts/MILESTONE_1_EXECUTION_ENVELOPE_RECONCILIATION_CHECKPOINT.md:166:If retained, confidence_score must remain observational only.
+./docs/contracts/MILESTONE_1_EXECUTION_ENVELOPE_RECONCILIATION_CHECKPOINT.md:278:- MATILDA_INTERPRETATION_REVIEW
+./docs/contracts/MILESTONE_3C_VALIDATOR_CONTRACT_AUTHORIZATION_REVIEW.md:44:- interpretation authority
+./docs/DOCKER_DAEMON_STATUS.md:14:Interpretation:
+./docs/MATILDA_CHAT_LAYOUT_OBSERVATION_UNCHANGED.md:1:Matilda Chat Phase 2 – Layout Observation (Dashboard Appears Unchanged)
+./docs/checkpoints/PHASE62B_VERIFIED_STABLE_AFTER_FORCE_RESTORE_20260311.md:27:- `observational-workspace-card`
+./docs/checkpoints/PHASE64_8_PRE_PUSH_CONTRACT_GUARD.md:47:## INTERPRETATION
+./docs/checkpoints/PHASE63_3_OPS_HEARTBEAT_NAMED_EVENT_FINDINGS_20260312.md:24:## Interpretation
+./docs/checkpoints/PHASE63_2_AGENT_FRESHNESS_INTERPRETATION_REFINED_20260312.md:1:# PHASE 63.2 AGENT FRESHNESS INTERPRETATION REFINED
+./docs/checkpoints/PHASE63_2_AGENT_FRESHNESS_INTERPRETATION_REFINED_20260312.md:6:Phase 63.2 refined browser-side agent activity interpretation without changing producer shape.
+./docs/checkpoints/PHASE63_2_AGENT_FRESHNESS_INTERPRETATION_REFINED_20260312.md:32:- row interpretation refreshes on an interval so active can decay into stale without requiring a new event
+./docs/checkpoints/PHASE78_OPERATOR_RUNBOOK_SMOKE_RESULTS_20260316.md:27:INTERPRETATION RULES
+./docs/checkpoints/PHASE65_SHARED_METRICS_PATCH_VERIFIED_20260314.md:37:RUNTIME OBSERVATION
+./docs/checkpoints/PHASE77_ADAPTIVE_PLAYBOOK_ORDERING_COMPLETE_20260316.md:55:Signal Severity Interpretation
+./docs/checkpoints/PHASE79_NOOP_INTERFACE_CONTRACT_20260316.md:59:Runbook interpretations
+./docs/checkpoints/PHASE79_NOOP_INTERFACE_CONTRACT_20260316.md:146:This prevents interpretation drift.
+./docs/checkpoints/PHASE62_2_LAYOUT_CONTRACT_PROTECTED.md:29:- `id="observational-workspace-card"`
+./docs/checkpoints/PHASE63_2_OPS_PRODUCER_FINDINGS_20260312.md:34:- Phase 63.2 must trace where `__OPS_STATE` is populated or updated before changing browser-side interpretation
+./docs/checkpoints/PHASE88_14_13_CONTAINER_RUNTIME_PROTECTION_PASS.md:23:## Interpretation
+./docs/checkpoints/PHASE78_OPERATOR_RUNBOOK_SYSTEM_HANDOFF_20260316.md:59:OPERATOR SIGNAL INTERPRETATION ACTIVE  
+./docs/checkpoints/PHASE78_OPERATOR_RUNBOOK_SYSTEM_HANDOFF_20260316.md:62:OPERATOR GUIDANCE INTERPRETATION ACTIVE  
+./docs/checkpoints/PHASE73_OPERATOR_SAFETY_GATES_COMPLETE.md:59:Safety layer operates purely as read-only interpretation and execution gating.
+./docs/checkpoints/PHASE62B_RUNNING_TASKS_CODE_DISCOVERY_20260316.md:1966:./docs/checkpoints/PHASE62B_OBSERVATIONAL_WORKSPACE_WIRING_RESTORED_20260311.md:6:This checkpoint restores the direct dashboard load of `js/phase61_recent_history_wire.js` after the Observational Workspace lost its task-related wiring.
+./docs/checkpoints/PHASE62B_RUNNING_TASKS_CODE_DISCOVERY_20260316.md:1967:./docs/checkpoints/PHASE62B_OBSERVATIONAL_WORKSPACE_WIRING_RESTORED_20260311.md:16:Restored direct dashboard load of:
+./docs/checkpoints/PHASE62B_RUNNING_TASKS_CODE_DISCOVERY_20260316.md:1968:./docs/checkpoints/PHASE62B_OBSERVATIONAL_WORKSPACE_WIRING_RESTORED_20260311.md:20:- `public/dashboard.html`
+./docs/checkpoints/PHASE62B_RUNNING_TASKS_CODE_DISCOVERY_20260316.md:2295:./docs/MATILDA_CHAT_LAYOUT_OBSERVATION_UNCHANGED.md:11:- SSE startup helpers and PM2 config
+./docs/checkpoints/PHASE62B_RUNNING_TASKS_CODE_DISCOVERY_20260316.md:2296:./docs/MATILDA_CHAT_LAYOUT_OBSERVATION_UNCHANGED.md:13:The dashboard was observed to be *visually unchanged* from the user's perspective.
+./docs/checkpoints/PHASE62B_RUNNING_TASKS_CODE_DISCOVERY_20260316.md:2297:./docs/MATILDA_CHAT_LAYOUT_OBSERVATION_UNCHANGED.md:17:- The current dashboard layout is stable and functional, with:
+./docs/checkpoints/PHASE62B_RUNNING_TASKS_CODE_DISCOVERY_20260316.md:2298:./docs/MATILDA_CHAT_LAYOUT_OBSERVATION_UNCHANGED.md:20:  - System Reflections and Critical Ops Alerts present when SSE streams are online
+./docs/checkpoints/PHASE62B_RUNNING_TASKS_CODE_DISCOVERY_20260316.md:2299:./docs/MATILDA_CHAT_LAYOUT_OBSERVATION_UNCHANGED.md:22:  difference due to the underlying grid structure in dashboard.css and the way
+./docs/checkpoints/PHASE62B_RUNNING_TASKS_CODE_DISCOVERY_20260316.md:2300:./docs/MATILDA_CHAT_LAYOUT_OBSERVATION_UNCHANGED.md:29:  - The core dashboard grid structure (HTML + dashboard.css) is inspected
+./docs/checkpoints/PHASE62B_RUNNING_TASKS_CODE_DISCOVERY_20260316.md:2301:./docs/MATILDA_CHAT_LAYOUT_OBSERVATION_UNCHANGED.md:38:- This avoids reintroducing instability into an otherwise working Phase 2 dashboard.
+./docs/checkpoints/PHASE62B_RUNNING_TASKS_CODE_DISCOVERY_20260316.md:2664:./docs/checkpoints/PHASE63_2_AGENT_FRESHNESS_INTERPRETATION_REFINED_20260312.md:33:- SSE error clears freshness state and returns metric display to `—`
+./docs/checkpoints/PHASE62B_RUNNING_TASKS_CODE_DISCOVERY_20260316.md:3245:./public/dashboard.html.phase61_agent_emoji_backup:457:          <section id="phase61-telemetry-column" class="space-y-4" aria-label="Observational workspace">
+./docs/checkpoints/PHASE62B_RUNNING_TASKS_CODE_DISCOVERY_20260316.md:3438:./public/dashboard.html:532:          <section id="phase61-telemetry-column" class="space-y-4" aria-label="Observational workspace">
+./docs/checkpoints/PHASE62B_RUNNING_TASKS_CODE_DISCOVERY_20260316.md:3568:./scripts/_local/phase61_clean_rewrite_workspace_region.sh:73:    r'<section\b[^>]*id=["\']phase61-(?:telemetry|observational)-column["\'][^>]*>.*?</section>\s*</section>',
+./docs/checkpoints/PHASE62B_RUNNING_TASKS_CODE_DISCOVERY_20260316.md:3963:./docs/checkpoints/PHASE63_3_AGENT_HEARTBEAT_CADENCE_FINDINGS_20260312.md:8:## Live SSE Observation
+./docs/checkpoints/PHASE62B_RUNNING_TASKS_CODE_DISCOVERY_20260316.md:4080:./scripts/_local/phase61_task_events_wiring_audit.sh:15:grep -nE 'task-events|Task Events|telemetry|observational-workspace|workspace-card' public/dashboard.html 2>/dev/null || true
+./docs/checkpoints/PHASE62B_RUNNING_TASKS_CODE_DISCOVERY_20260316.md:4618:./public/css/phase61_tabs_observational_workspace.css:2:   Consolidates telemetry into a single observational workspace surface.
+./docs/checkpoints/PHASE62B_RUNNING_TASKS_CODE_DISCOVERY_20260316.md:4619:./public/css/phase61_tabs_observational_workspace.css:77:#obs-panel-events #mb-task-events-panel-anchor {
+./docs/checkpoints/PHASE62B_RUNNING_TASKS_CODE_DISCOVERY_20260316.md:4620:./public/css/phase61_tabs_observational_workspace.css:85:#obs-panel-events #mb-task-events-panel {
+./docs/checkpoints/PHASE62B_RUNNING_TASKS_CODE_DISCOVERY_20260316.md:4621:./public/css/phase61_tabs_observational_workspace.css:91:#obs-panel-events #mb-task-events-feed {
+./docs/checkpoints/PHASE62B_RUNNING_TASKS_CODE_DISCOVERY_20260316.md:4622:./public/css/phase61_tabs_observational_workspace.css:101:#phase61-telemetry-column {
+./docs/checkpoints/PHASE62B_RUNNING_TASKS_CODE_DISCOVERY_20260316.md:4623:./public/css/phase61_tabs_observational_workspace.css:105:#phase61-telemetry-column {
+./docs/checkpoints/PHASE62B_RUNNING_TASKS_CODE_DISCOVERY_20260316.md:5331:./scripts/_local/refine_phase63_2_agent_freshness_interpretation.sh:158:    '      console.warn("agent-status-row.js: OPS SSE error:", err);\n'
+./docs/checkpoints/PHASE62B_RUNNING_TASKS_CODE_DISCOVERY_20260316.md:5332:./scripts/_local/refine_phase63_2_agent_freshness_interpretation.sh:164:    '      console.warn("agent-status-row.js: OPS SSE error:", err);\n'
+./docs/checkpoints/PHASE62B_RUNNING_TASKS_CODE_DISCOVERY_20260316.md:5804:./scripts/_local/phase61_left_workspace_focus_scan.sh:6:printf '\n=== dashboard.html: operator + observational workspace slice ===\n'
+./docs/checkpoints/PHASE62B_RUNNING_TASKS_CODE_DISCOVERY_20260316.md:5807:./scripts/_local/phase61_left_workspace_focus_scan.sh:10:rg -n 'observational-tabs|obs-tab|obs-panel|data-target|aria-controls|aria-selected|mb-task-events-panel-anchor' \
+./docs/checkpoints/PHASE62B_RUNNING_TASKS_CODE_DISCOVERY_20260316.md:5859:./scripts/_local/phase61_task_events_wiring_audit_and_capture.sh:24:  grep -nE 'task-events|Task Events|telemetry|observational-workspace|workspace-card' public/dashboard.html 2>/dev/null || true
+./docs/checkpoints/PHASE62B_RUNNING_TASKS_CODE_DISCOVERY_20260316.md:5949:./scripts/_local/phase61_finalize_layout.sh:28:    'id="phase61-telemetry-column" class="space-y-4" aria-label="Observational workspace"',
+./docs/checkpoints/PHASE62B_RUNNING_TASKS_CODE_DISCOVERY_20260316.md:5950:./scripts/_local/phase61_finalize_layout.sh:29:    'id="phase61-telemetry-column" class="space-y-4" aria-label="Observational workspace"',
+./docs/checkpoints/PHASE62B_RUNNING_TASKS_CODE_DISCOVERY_20260316.md:6267:./scripts/_local/phase61_live_dom_probe.sh:21:rg -n 'phase61-telemetry-column|activity-panels-heading|observational-workspace-card|observational-tabs|observational-panels' public/dashboard.html || true
+./docs/checkpoints/PHASE62B_RUNNING_TASKS_CODE_DISCOVERY_20260316.md:6269:./scripts/_local/phase61_live_dom_probe.sh:25:rg -n 'phase61-telemetry-column|activity-panels-heading|observational-workspace-card|observational-tabs|observational-panels' "$LIVE_HTML" || true
+./docs/checkpoints/PHASE72_EXAMPLE_OUTPUT_VERIFIED_20260316.md:24:- warning interpretation correct
+./docs/checkpoints/PHASE72_EXAMPLE_OUTPUT_VERIFIED_20260316.md:39:Read-only interpretation behavior confirmed.
+./docs/checkpoints/PHASE62B_GOLDEN_TAG_AND_CONTAINER_RUNTIME_CONFIRMED_20260312.md:25:- observational workspace wiring restored
+./docs/checkpoints/PHASE62B_GOLDEN_TAG_AND_CONTAINER_RUNTIME_CONFIRMED_20260312.md:41:- `observational-workspace-card`
+./docs/checkpoints/PHASE62B_FINAL_VERIFIED_STABLE_STATE_20260311.md:27:- `observational-workspace-card`
+./docs/checkpoints/PHASE74_OPERATOR_WORKFLOW_HELPERS_COMPLETE_20260316.md:59:State interpretation
+./docs/checkpoints/PHASE62B_RUNNING_TASKS_CANDIDATE_SURFACES_20260316.md:601:./docs/checkpoints/PHASE62B_OBSERVATIONAL_WORKSPACE_WIRING_RESTORED_20260311.md:16:Restored direct dashboard load of:
+./docs/checkpoints/PHASE62B_RUNNING_TASKS_CANDIDATE_SURFACES_20260316.md:602:./docs/checkpoints/PHASE62B_OBSERVATIONAL_WORKSPACE_WIRING_RESTORED_20260311.md:20:- `public/dashboard.html`
+./docs/checkpoints/PHASE62B_RUNNING_TASKS_CANDIDATE_SURFACES_20260316.md:603:./docs/checkpoints/PHASE62B_OBSERVATIONAL_WORKSPACE_WIRING_RESTORED_20260311.md:6:This checkpoint restores the direct dashboard load of `js/phase61_recent_history_wire.js` after the Observational Workspace lost its task-related wiring.
+./docs/checkpoints/PHASE62B_RUNNING_TASKS_CANDIDATE_SURFACES_20260316.md:671:./docs/checkpoints/PHASE63_2_AGENT_FRESHNESS_INTERPRETATION_REFINED_20260312.md:33:- SSE error clears freshness state and returns metric display to `—`
+./docs/checkpoints/PHASE62B_RUNNING_TASKS_CANDIDATE_SURFACES_20260316.md:680:./docs/checkpoints/PHASE63_3_AGENT_HEARTBEAT_CADENCE_FINDINGS_20260312.md:8:## Live SSE Observation
+./docs/checkpoints/PHASE62B_RUNNING_TASKS_CANDIDATE_SURFACES_20260316.md:1503:./docs/MATILDA_CHAT_LAYOUT_OBSERVATION_UNCHANGED.md:11:- SSE startup helpers and PM2 config
+./docs/checkpoints/PHASE62B_RUNNING_TASKS_CANDIDATE_SURFACES_20260316.md:1504:./docs/MATILDA_CHAT_LAYOUT_OBSERVATION_UNCHANGED.md:13:The dashboard was observed to be *visually unchanged* from the user's perspective.
+./docs/checkpoints/PHASE62B_RUNNING_TASKS_CANDIDATE_SURFACES_20260316.md:1505:./docs/MATILDA_CHAT_LAYOUT_OBSERVATION_UNCHANGED.md:17:- The current dashboard layout is stable and functional, with:
+./docs/checkpoints/PHASE62B_RUNNING_TASKS_CANDIDATE_SURFACES_20260316.md:1506:./docs/MATILDA_CHAT_LAYOUT_OBSERVATION_UNCHANGED.md:20:  - System Reflections and Critical Ops Alerts present when SSE streams are online
+./docs/checkpoints/PHASE62B_RUNNING_TASKS_CANDIDATE_SURFACES_20260316.md:1507:./docs/MATILDA_CHAT_LAYOUT_OBSERVATION_UNCHANGED.md:22:  difference due to the underlying grid structure in dashboard.css and the way
+./docs/checkpoints/PHASE62B_RUNNING_TASKS_CANDIDATE_SURFACES_20260316.md:1508:./docs/MATILDA_CHAT_LAYOUT_OBSERVATION_UNCHANGED.md:29:  - The core dashboard grid structure (HTML + dashboard.css) is inspected
+./docs/checkpoints/PHASE62B_RUNNING_TASKS_CANDIDATE_SURFACES_20260316.md:1509:./docs/MATILDA_CHAT_LAYOUT_OBSERVATION_UNCHANGED.md:38:- This avoids reintroducing instability into an otherwise working Phase 2 dashboard.
+./docs/checkpoints/PHASE62B_RUNNING_TASKS_CANDIDATE_SURFACES_20260316.md:3502:./public/css/phase61_tabs_observational_workspace.css:101:#phase61-telemetry-column {
+./docs/checkpoints/PHASE62B_RUNNING_TASKS_CANDIDATE_SURFACES_20260316.md:3503:./public/css/phase61_tabs_observational_workspace.css:105:#phase61-telemetry-column {
+./docs/checkpoints/PHASE62B_RUNNING_TASKS_CANDIDATE_SURFACES_20260316.md:3504:./public/css/phase61_tabs_observational_workspace.css:2:   Consolidates telemetry into a single observational workspace surface.
+./docs/checkpoints/PHASE62B_RUNNING_TASKS_CANDIDATE_SURFACES_20260316.md:3505:./public/css/phase61_tabs_observational_workspace.css:77:#obs-panel-events #mb-task-events-panel-anchor {
+./docs/checkpoints/PHASE62B_RUNNING_TASKS_CANDIDATE_SURFACES_20260316.md:3506:./public/css/phase61_tabs_observational_workspace.css:85:#obs-panel-events #mb-task-events-panel {
+./docs/checkpoints/PHASE62B_RUNNING_TASKS_CANDIDATE_SURFACES_20260316.md:3507:./public/css/phase61_tabs_observational_workspace.css:91:#obs-panel-events #mb-task-events-feed {
+./docs/checkpoints/PHASE62B_RUNNING_TASKS_CANDIDATE_SURFACES_20260316.md:3644:./public/dashboard.html:532:          <section id="phase61-telemetry-column" class="space-y-4" aria-label="Observational workspace">
+./docs/checkpoints/PHASE62B_RUNNING_TASKS_CANDIDATE_SURFACES_20260316.md:3818:./public/dashboard.html.phase61_agent_emoji_backup:457:          <section id="phase61-telemetry-column" class="space-y-4" aria-label="Observational workspace">
+./docs/checkpoints/PHASE62B_RUNNING_TASKS_CANDIDATE_SURFACES_20260316.md:4755:./scripts/_local/phase61_clean_rewrite_workspace_region.sh:73:    r'<section\b[^>]*id=["\']phase61-(?:telemetry|observational)-column["\'][^>]*>.*?</section>\s*</section>',
+./docs/checkpoints/PHASE62B_RUNNING_TASKS_CANDIDATE_SURFACES_20260316.md:4791:./scripts/_local/phase61_finalize_layout.sh:28:    'id="phase61-telemetry-column" class="space-y-4" aria-label="Observational workspace"',
+./docs/checkpoints/PHASE62B_RUNNING_TASKS_CANDIDATE_SURFACES_20260316.md:4792:./scripts/_local/phase61_finalize_layout.sh:29:    'id="phase61-telemetry-column" class="space-y-4" aria-label="Observational workspace"',
+./docs/checkpoints/PHASE62B_RUNNING_TASKS_CANDIDATE_SURFACES_20260316.md:4800:./scripts/_local/phase61_left_workspace_focus_scan.sh:10:rg -n 'observational-tabs|obs-tab|obs-panel|data-target|aria-controls|aria-selected|mb-task-events-panel-anchor' \
+./docs/checkpoints/PHASE62B_RUNNING_TASKS_CANDIDATE_SURFACES_20260316.md:4808:./scripts/_local/phase61_left_workspace_focus_scan.sh:6:printf '\n=== dashboard.html: operator + observational workspace slice ===\n'
+./docs/checkpoints/PHASE62B_RUNNING_TASKS_CANDIDATE_SURFACES_20260316.md:4814:./scripts/_local/phase61_live_dom_probe.sh:21:rg -n 'phase61-telemetry-column|activity-panels-heading|observational-workspace-card|observational-tabs|observational-panels' public/dashboard.html || true
+./docs/checkpoints/PHASE62B_RUNNING_TASKS_CANDIDATE_SURFACES_20260316.md:4816:./scripts/_local/phase61_live_dom_probe.sh:25:rg -n 'phase61-telemetry-column|activity-panels-heading|observational-workspace-card|observational-tabs|observational-panels' "$LIVE_HTML" || true
+./docs/checkpoints/PHASE62B_RUNNING_TASKS_CANDIDATE_SURFACES_20260316.md:4881:./scripts/_local/phase61_task_events_wiring_audit_and_capture.sh:24:  grep -nE 'task-events|Task Events|telemetry|observational-workspace|workspace-card' public/dashboard.html 2>/dev/null || true
+./docs/checkpoints/PHASE62B_RUNNING_TASKS_CANDIDATE_SURFACES_20260316.md:4887:./scripts/_local/phase61_task_events_wiring_audit.sh:15:grep -nE 'task-events|Task Events|telemetry|observational-workspace|workspace-card' public/dashboard.html 2>/dev/null || true
+./docs/checkpoints/PHASE62B_RUNNING_TASKS_CANDIDATE_SURFACES_20260316.md:5782:./scripts/_local/refine_phase63_2_agent_freshness_interpretation.sh:158:    '      console.warn("agent-status-row.js: OPS SSE error:", err);\n'
+./docs/checkpoints/PHASE62B_RUNNING_TASKS_CANDIDATE_SURFACES_20260316.md:5783:./scripts/_local/refine_phase63_2_agent_freshness_interpretation.sh:164:    '      console.warn("agent-status-row.js: OPS SSE error:", err);\n'
+./docs/checkpoints/PHASE62B_RUNNING_TASKS_CANDIDATE_SURFACES_20260316.md:10074:   1 ./docs/MATILDA_CHAT_LAYOUT_OBSERVATION_UNCHANGED.md:38
+./docs/checkpoints/PHASE62B_RUNNING_TASKS_CANDIDATE_SURFACES_20260316.md:10075:   1 ./docs/MATILDA_CHAT_LAYOUT_OBSERVATION_UNCHANGED.md:29
+./docs/checkpoints/PHASE62B_RUNNING_TASKS_CANDIDATE_SURFACES_20260316.md:10076:   1 ./docs/MATILDA_CHAT_LAYOUT_OBSERVATION_UNCHANGED.md:22
+./docs/checkpoints/PHASE62B_RUNNING_TASKS_CANDIDATE_SURFACES_20260316.md:10077:   1 ./docs/MATILDA_CHAT_LAYOUT_OBSERVATION_UNCHANGED.md:20
+./docs/checkpoints/PHASE62B_RUNNING_TASKS_CANDIDATE_SURFACES_20260316.md:10078:   1 ./docs/MATILDA_CHAT_LAYOUT_OBSERVATION_UNCHANGED.md:17
+./docs/checkpoints/PHASE62B_RUNNING_TASKS_CANDIDATE_SURFACES_20260316.md:10079:   1 ./docs/MATILDA_CHAT_LAYOUT_OBSERVATION_UNCHANGED.md:13
+./docs/checkpoints/PHASE62B_RUNNING_TASKS_CANDIDATE_SURFACES_20260316.md:10080:   1 ./docs/MATILDA_CHAT_LAYOUT_OBSERVATION_UNCHANGED.md:11
+./docs/checkpoints/PHASE62B_RUNNING_TASKS_CANDIDATE_SURFACES_20260316.md:10909:   1 ./docs/checkpoints/PHASE63_2_AGENT_FRESHNESS_INTERPRETATION_REFINED_20260312.md:33
+./docs/checkpoints/PHASE62B_RUNNING_TASKS_CANDIDATE_SURFACES_20260316.md:10978:   1 ./docs/checkpoints/PHASE62B_OBSERVATIONAL_WORKSPACE_WIRING_RESTORED_20260311.md:6
+./docs/checkpoints/PHASE62B_RUNNING_TASKS_CANDIDATE_SURFACES_20260316.md:10979:   1 ./docs/checkpoints/PHASE62B_OBSERVATIONAL_WORKSPACE_WIRING_RESTORED_20260311.md:20
+./docs/checkpoints/PHASE62B_RUNNING_TASKS_CANDIDATE_SURFACES_20260316.md:10980:   1 ./docs/checkpoints/PHASE62B_OBSERVATIONAL_WORKSPACE_WIRING_RESTORED_20260311.md:16
+./docs/checkpoints/PHASE63_1_METRIC_SOURCE_AUDIT_FINDINGS_20260312.md:84:## Integrity Observations
+./docs/checkpoints/PHASE62B_LABEL_BINDING_FIX_VERIFICATION_PENDING_20260312.md:34:- `observational-workspace-card`
+./docs/checkpoints/PHASE62B_LABEL_BINDING_FIX_VERIFICATION_PENDING_20260312.md:47:- Observational Workspace remains wired
+./docs/checkpoints/PHASE63_2_CLEAN_COMMITTED_TAGGED_CONTAINERIZED_20260312.md:12:- browser-side freshness interpretation refined
+./docs/checkpoints/PHASE63_2_AGENT_ACTIVITY_SOURCE_IDENTIFIED_20260312.md:33:Consumer interpretation clarity only.
+./docs/checkpoints/PHASE63_2_AGENT_ACTIVITY_SOURCE_IDENTIFIED_20260312.md:37:Refine browser-side interpretation:
+./docs/checkpoints/PHASE63_2_COMPLETE_20260312.md:16:- refined browser-side consumer interpretation in `public/js/agent-status-row.js`
+./docs/checkpoints/PHASE77_SIGNAL_SEVERITY_FOUNDATION_COMPLETE_20260316.md:6:Introduce deterministic severity interpretation for operator signals to enable
+./docs/checkpoints/PHASE77_SIGNAL_SEVERITY_FOUNDATION_COMPLETE_20260316.md:54:Signal Severity Interpretation
+./docs/checkpoints/PHASE63_3_AGENT_HEARTBEAT_CADENCE_FINDINGS_20260312.md:8:## Live SSE Observation
+./docs/checkpoints/PHASE72_OPERATOR_GUIDANCE_LAYER_COMPLETE_20260316.md:9:- System state interpretation
+./docs/checkpoints/PHASE72_OPERATOR_GUIDANCE_LAYER_COMPLETE_20260316.md:102:Guidance layer operates strictly as read-only interpretation.
+./docs/checkpoints/PHASE62B_CORE_TELEMETRY_HYDRATION_COMPLETE_20260311.md:21:- `observational-workspace-card`
+./docs/checkpoints/PHASE62B_NEXT_METRIC_SELECTION_20260316_B.md:37:No terminal interpretation logic.
+./docs/checkpoints/STATE_HANDOFF_PHASE63_1_COMPLETE_TO_63_2_20260312.md:439:- strengthen confidence in active vs stale agent interpretation
+./docs/checkpoints/PHASE63_2_AGENT_ACTIVITY_SIGNAL_AUDIT_IN_PROGRESS_20260312.md:29:- active/stale interpretation path
+./docs/checkpoints/PHASE62B_TASKS_FAILED_EXECUTION_PROTOCOL_20260316.md:65:Terminal success for same task must never increment failed count unless explicitly selected as the controlling terminal interpretation in verification.
+./docs/checkpoints/PHASE77_ADAPTATION_GUARDRAILS_COMPLETE_20260316.md:55:Signal Severity Interpretation
+./docs/checkpoints/PHASE77_ADAPTIVE_WORKFLOWS_COMPLETE_20260316.md:65:Signal Severity Interpretation
+./docs/checkpoints/PHASE62B_FORCE_RESTORE_TO_B03D8B99_20260311.md:56:- `observational-workspace-card`
+./docs/checkpoints/PHASE62_2_LAYOUT_CONTRACT_PROTECTED_STABLE_20260311.md:21:- `id="observational-workspace-card"`
+./docs/checkpoints/PHASE62B_NEXT_METRIC_SELECTION_20260316.md:49:No event interpretation ambiguity.
+./docs/checkpoints/PHASE72_OPERATOR_GUIDANCE_LAYER_COMPLETE.md:12:This phase establishes a read-only interpretation layer.
+./docs/checkpoints/PHASE72_OPERATOR_GUIDANCE_LAYER_COMPLETE.md:76:Guidance layer is read-only interpretation only.
+./docs/checkpoints/PHASE62B_GOLDEN_TAG_READY_20260312.md:12:- observational workspace wiring restored
+./docs/checkpoints/PHASE62B_GOLDEN_TAG_READY_20260312.md:27:- `observational-workspace-card`
+./docs/checkpoints/PHASE63_2_CONSUMER_INTERPRETATION_AUDIT_STARTED_20260312.md:1:# PHASE 63.2 CONSUMER INTERPRETATION AUDIT STARTED
+./docs/checkpoints/PHASE63_2_CONSUMER_INTERPRETATION_AUDIT_STARTED_20260312.md:6:Refine consumer-side interpretation of agent activity now that the canonical producer freshness field is confirmed as:
+./docs/checkpoints/PHASE63_2_CONSUMER_INTERPRETATION_AUDIT_STARTED_20260312.md:22:Consumer interpretation only.
+./docs/checkpoints/PHASE62B_OBSERVATIONAL_WORKSPACE_WIRING_RESTORED_20260311.md:1:# PHASE 62B OBSERVATIONAL WORKSPACE WIRING RESTORED
+./docs/checkpoints/PHASE62B_OBSERVATIONAL_WORKSPACE_WIRING_RESTORED_20260311.md:6:This checkpoint restores the direct dashboard load of `js/phase61_recent_history_wire.js` after the Observational Workspace lost its task-related wiring.
+./docs/checkpoints/PHASE62B_OBSERVATIONAL_WORKSPACE_WIRING_RESTORED_20260311.md:11:- task-related observational cards stopped showing content
+./docs/checkpoints/PHASE62B_OBSERVATIONAL_WORKSPACE_WIRING_RESTORED_20260311.md:12:- Observational Workspace lost expected wiring after the script load was removed
+./docs/demo_hardening/GOLDEN_DEMO_PATH.md:94:**Observations to confirm (no psql):**
+./docs/governance/COLLABORATION_AND_PACKAGE_LIFECYCLE.md:154:Each Package represents a distinct approved interpretation.
+./docs/governance/milestone-6-resolution-checkpoint-contract.md:58:### Interpretation Review
+./docs/governance/milestone-6-resolution-checkpoint-contract.md:66:- Matilda interpretation package
+./docs/governance/milestone-6-resolution-checkpoint-contract.md:72:- Approved interpretation package
+./docs/governance/milestone-6-resolution-checkpoint-contract.md:122:- INTERPRETATION_ALIGNED
+./docs/governance/MATILDA_COLLABORATION_MODE_V2_EVIDENCE_LEDGER.md:124:Matilda Interpretation Lifecycle
+./docs/governance/MATILDA_COLLABORATION_MODE_V2_EVIDENCE_LEDGER.md:128:Ontology / Governance / Interpretation
+./docs/governance/MATILDA_COLLABORATION_MODE_V2_EVIDENCE_LEDGER.md:191:### Observation
+./docs/governance/MATILDA_COLLABORATION_MODE_V2_EVIDENCE_LEDGER.md:227:- Additional corridor diversity and repeated observations still required.
+./docs/governance/milestone-6-lifecycle-reconciliation-finding.md:42:- Package is the canonical interpretation artifact.
+./docs/governance/milestone-6-lifecycle-reconciliation-finding.md:44:- Delegation is Interpretation Authorization.
+./docs/governance/milestone-6-lifecycle-reconciliation-finding.md:50:- Envelope inherits approved interpretation details from the Package.
+./docs/governance/milestone-6-lifecycle-reconciliation-finding.md:80:Possible interpretations:
+./docs/governance/milestone-6-lifecycle-reconciliation-finding.md:96:Original lifecycle omitted an interpretation artifact layer.
+./docs/governance/milestone-6-outcome-review-governance-contracts.md:38:- INTERPRETATION_ALIGNED
+./docs/governance/milestone-6-outcome-review-governance-contracts.md:46:## Reconciled Finding 2 — Acceptance Does Not Imply Interpretation Alignment
+./docs/governance/milestone-6-outcome-review-governance-contracts.md:50:- ACCEPTED + INTERPRETATION_ALIGNED
+./docs/governance/milestone-6-outcome-review-governance-contracts.md:58:User acceptance must not be treated as evidence that interpretation alignment was achieved.
+./docs/governance/milestone-6-outcome-review-governance-contracts.md:66:- 0 revisions + ACCEPTED + INTERPRETATION_ALIGNED
+./docs/governance/milestone-6-outcome-review-governance-contracts.md:68:- 8 revisions + ACCEPTED + INTERPRETATION_ALIGNED
+./docs/governance/milestone-6-outcome-review-governance-contracts.md:112:- INTERPRETATION_ALIGNED
+./docs/governance/milestone-6-outcome-review-governance-contracts.md:118:INTERPRETATION_ALIGNED
+./docs/governance/MATILDA_INTERPRETATION_LIFECYCLE_RECONCILIATION.md:2:# Matilda Interpretation Lifecycle Reconciliation
+./docs/governance/MATILDA_INTERPRETATION_LIFECYCLE_RECONCILIATION.md:10:Raw conversation history is preserved as the primary evidence source for interpretation.
+./docs/governance/MATILDA_INTERPRETATION_LIFECYCLE_RECONCILIATION.md:16:2. Interpretation Evidence Ledger (IEL)
+./docs/governance/MATILDA_INTERPRETATION_LIFECYCLE_RECONCILIATION.md:26:### Interpretation Evidence Ledger (IEL)
+./docs/governance/MATILDA_INTERPRETATION_LIFECYCLE_RECONCILIATION.md:28:Matilda maintains an append-only Interpretation Evidence Ledger.
+./docs/governance/MATILDA_INTERPRETATION_LIFECYCLE_RECONCILIATION.md:32:- preserves interpretation lineage
+./docs/governance/MATILDA_INTERPRETATION_LIFECYCLE_RECONCILIATION.md:58:The IEL is a contextualized interpretation record.
+./docs/governance/MATILDA_INTERPRETATION_LIFECYCLE_RECONCILIATION.md:62:- Interpretation Event
+./docs/governance/MATILDA_INTERPRETATION_LIFECYCLE_RECONCILIATION.md:68:- Matilda Observation
+./docs/governance/MATILDA_INTERPRETATION_LIFECYCLE_RECONCILIATION.md:78:### Evidence Preservation Principle
+./docs/governance/MATILDA_INTERPRETATION_LIFECYCLE_RECONCILIATION.md:84:- interpretation
+./docs/governance/MATILDA_INTERPRETATION_LIFECYCLE_RECONCILIATION.md:206:Package maturity is determined by interpretation stability rather than information completeness.
+./docs/governance/MATILDA_INTERPRETATION_LIFECYCLE_RECONCILIATION.md:300:Matilda functions as interpretation steward.
+./docs/governance/matilda-package-contract.md:8:The Matilda Package is the canonical interpretation artifact produced by Matilda.
+./docs/governance/matilda-package-contract.md:64:The package preserves Matilda's interpretation.
+./docs/governance/matilda-package-contract.md:86:- Interpretation Authority
+./docs/governance/matilda-package-contract.md:130:A Matilda Package is a governed interpretation artifact.
+./docs/governance/matilda-package-contract.md:206:The package is an interpretation artifact only.
+./docs/governance/matilda-package-contract.md:214:Interpretation Authorization occurs when the user delegates the package.
+./docs/governance/matilda-package-contract.md:216:The act of delegation represents acceptance of Matilda's interpretation.
+./docs/governance/matilda-package-contract.md:236:Approved interpretation may be transformed into a governed execution envelope.
+./docs/governance/matilda-package-contract.md:238:The envelope inherits approved interpretation details from the package.
+./docs/governance/matilda-package-contract.md:264:Interpretation Authorization and Execution Authorization are distinct events.
+./docs/governance/matilda-package-contract.md:276:- interpretation
+./docs/governance/CANONICAL_DELEGATION_SPECIFICATION.md:6:The Delegation Record is the canonical interpretation authorization artifact of the Motherboard Headquarters operating model.
+./docs/governance/CANONICAL_DELEGATION_SPECIFICATION.md:10:Delegation authorizes interpretation.
+./docs/governance/CANONICAL_DELEGATION_SPECIFICATION.md:62:Delegation is an Interpretation Authorization Record.
+./docs/governance/CANONICAL_DELEGATION_SPECIFICATION.md:66:"Has this interpretation been authorized as an accurate representation of intent?"
+./docs/governance/CANONICAL_DELEGATION_SPECIFICATION.md:156:Records when interpretation authorization occurred.
+./docs/governance/CANONICAL_DELEGATION_SPECIFICATION.md:204:- Interpretation authorization has been granted
+./docs/governance/CANONICAL_DELEGATION_SPECIFICATION.md:240:Authorized interpretations must remain historically auditable.
+./docs/governance/CANONICAL_DELEGATION_SPECIFICATION.md:250:Governance Validation may only evaluate authorized interpretations.
+./docs/governance/CANONICAL_DELEGATION_SPECIFICATION.md:304:Interpretation Authorization
+./docs/governance/CANONICAL_PACKAGE_SPECIFICATION.md:8:The Package represents Matilda's authoritative interpretation of user intent.
+./docs/governance/HEADQUARTERS_ORGANIZATIONAL_CHARTER.md:30:- Approve delegated interpretations
+./docs/governance/HEADQUARTERS_ORGANIZATIONAL_CHARTER.md:40:- Interpretation
+./docs/governance/HEADQUARTERS_ORGANIZATIONAL_CHARTER.md:60:Intent Interpretation
+./docs/governance/HEADQUARTERS_ORGANIZATIONAL_CHARTER.md:128:- Intent Interpretation
+./docs/governance/HEADQUARTERS_ORGANIZATIONAL_CHARTER.md:172:- Intent Interpretation
+./docs/governance/HEADQUARTERS_ORGANIZATIONAL_CHARTER.md:214:- Intent Interpretation
+./docs/governance/HEADQUARTERS_ORGANIZATIONAL_CHARTER.md:254:- Intent Interpretation
+./docs/governance/HEADQUARTERS_ORGANIZATIONAL_CHARTER.md:298:- Intent Interpretation
+./docs/governance/GOVERNANCE_LIFECYCLE_STATE_MODEL.md:90:Interpretation authorization exists.
+./docs/governance/GOVERNANCE_LIFECYCLE_STATE_MODEL.md:404:Governance Validation may not evaluate unauthorized interpretations.
+./docs/governance/milestone-5-execution-lineage/atlas-authority-contract.md:44:- Interpretation
+./docs/governance/milestone-5-execution-lineage/atlas-authority-contract.md:70:- Interpretation artifact → Matilda
+./docs/governance/milestone-5-execution-lineage/lineage-ambiguity-contract.md:114:Interpretation Artifact
+./docs/governance/milestone-5-execution-lineage/lineage-evidence-contract.md:222:## Evidence Preservation Rule
+./docs/governance/milestone-5-execution-lineage/lineage-relationship-contract.md:52:Relationships are not interpretations.
+./docs/governance/milestone-5-execution-lineage/execution-lineage-artifact-contract.md:56:- observations
+./docs/governance/milestone-5-execution-lineage/execution-lineage-artifact-contract.md:104:Observational artifacts do not qualify.
+./docs/governance/milestone-5-execution-lineage/execution-lineage-artifact-contract.md:276:Observational only.
+./docs/governance/milestone-5-execution-lineage/execution-lineage-artifact-contract.md:282:Observational only.
+./docs/governance/milestone-5-execution-lineage/execution-lineage-artifact-contract.md:288:Observational only.
+./docs/governance/milestone-5-execution-lineage/milestone-5-governance-reconciliation.md:176:Atlas is not intent authority, execution authority, validator authority, interpretation authority, or operational authority.
+./docs/governance/GOVERNANCE_VALIDATION_CHARTER.md:118:## Interpretation Fidelity
+./docs/governance/GOVERNANCE_VALIDATION_CHARTER.md:244:- Interpretation fidelity is sufficient
+./docs/governance/GOVERNANCE_VALIDATION_CHARTER.md:284:- Intent Interpretation
+./docs/STATE_HANDOFF_PHASE80_1_OPERATOR_SYSTEM.md:63:OPERATOR SIGNAL INTERPRETATION ACTIVE
+./docs/STATE_HANDOFF_PHASE80_1_OPERATOR_SYSTEM.md:66:OPERATOR GUIDANCE INTERPRETATION ACTIVE
+./docs/MATILDA_CHAT_OPTION1_VISUAL_NOTE.md:3:User observation: “It looks unchanged to me.”
+./PHASE_85_4_SIGNAL_STABILITY.md:6:flapping, or noisy across recent observations.
+./PHASE_85_4_SIGNAL_STABILITY.md:62:Signal classification remains consistent across recent observations.
+./PHASE_85_4_SIGNAL_STABILITY.md:80:Initial interpretation must remain simple and operator-readable.
+./PHASE_85_4_SIGNAL_STABILITY.md:111:INTERPRETATION RULES
+./PHASE_85_4_SIGNAL_STABILITY.md:122:Correct interpretation examples:
+./PHASE_85_4_SIGNAL_STABILITY.md:163:Initial implementation may use a short in-memory observation window.
+./PHASE_85_4_SIGNAL_STABILITY.md:176:Whether interpretation should be cautious
+./PHASE_82_2_COMPOSITION_REGISTRY.md:5:Formally register composed signals while preserving interpretation-only authority.
+./PHASE_82_2_COMPOSITION_REGISTRY.md:22:Interpretation-only
+./PHASE_82_2_COMPOSITION_REGISTRY.md:31:interpretation purpose
+./PHASE_82_2_COMPOSITION_REGISTRY.md:41:interpretation:string
+./PHASE_82_2_COMPOSITION_REGISTRY.md:43:authority:"interpretation_only"
+./PHASE_82_2_COMPOSITION_REGISTRY.md:66: interpretation: "operator context signal",
+./PHASE_82_2_COMPOSITION_REGISTRY.md:67: authority: "interpretation_only",
+./PHASE_82_2_COMPOSITION_REGISTRY.md:91:Support runbook interpretation
+./PHASE_82_2_COMPOSITION_REGISTRY.md:103:Interpretation boundary preserved
+./PHASE62B_LIVE_VALIDATION_BLOCKER_FINDINGS_20260317.md:23:INTERPRETATION
+./PHASE62B_LIVE_VALIDATION_BLOCKER_FINDINGS_20260317.md:29:- terminal success event observation
+./PHASE62B_LIVE_VALIDATION_BLOCKER_FINDINGS_20260317.md:30:- terminal failure event observation
+./PHASE_83_5_SUMMARY_VERIFICATION.md:5:Define the verification discipline that ensures the Summary Layer permanently preserves its interpretation-only nature and cannot drift into execution authority.
+./PHASE_83_5_SUMMARY_VERIFICATION.md:53:Interpretation definitions
+./PHASE_83_5_SUMMARY_VERIFICATION.md:66:authority = "interpretation_only"
+./PHASE_83_5_SUMMARY_VERIFICATION.md:176:Above interpretation
+./PHASE62B_RUNTIME_TRIGGER_ROUTE_CONCISE_SUMMARY_20260317.md:36:RUNTIME INTERPRETATION
+./PHASE715_DASHBOARD_CANDIDATE_FINAL_VERIFY.txt:54:  <link rel="stylesheet" href="css/phase61_tabs_observational_workspace.css" />
+./PHASE715_DASHBOARD_CANDIDATE_FINAL_VERIFY.txt:97:    #observational-workspace-card,
+./PHASE715_DASHBOARD_CANDIDATE_FINAL_VERIFY.txt:105:    #observational-workspace-card,
+./PHASE715_DASHBOARD_CANDIDATE_FINAL_VERIFY.txt:128:    #observational-tabs {
+./PHASE715_DASHBOARD_CANDIDATE_FINAL_VERIFY.txt:368:A  public/js/phase457_neutralize_legacy_observational_consumers.js
+./PHASE_82_7_TASK_EXECUTION_DURATION_TELEMETRY_DOCUMENTATION_UPDATE.md:77:Pure observation only.
+./PHASE_82_7_TASK_EXECUTION_DURATION_TELEMETRY_DOCUMENTATION_UPDATE.md:95:Multi-signal interpretation required.
+./PHASE_84_6_TASK_TOTAL_LIFECYCLE_DURATION_DASHBOARD_EXPOSURE_PLAN.md:61:OPERATOR INTERPRETATION RULE
+./MATILDA_DELEGATION_MATCHING_FILES.txt:23:docs/MATILDA_CHAT_LAYOUT_OBSERVATION_UNCHANGED.md
+./MATILDA_DELEGATION_MATCHING_FILES.txt:389:PHASE81_SIGNAL_INTERPRETATION.md
+./PHASE_82_1_TASK_EXECUTION_DURATION_DEFINITION.md:50:Strict observation only.
+./PHASE_82_1_TASK_EXECUTION_DURATION_DEFINITION.md:86:PASSIVE OBSERVATION METRIC
+./PHASE_82_1_TASK_EXECUTION_DURATION_DEFINITION.md:105:Pure observation.
+./PHASE_82_1_TASK_EXECUTION_DURATION_DEFINITION.md:128:INTERPRETATION DOMAIN
+./PHASE_82_1_TASK_EXECUTION_DURATION_DEFINITION.md:143:Operator must use multi-signal interpretation.
+./PHASE88_14_10_SUCCESS_SUMMARY.txt:27:Safe interpretation:
+./dashboard/src/cognition/operatorGuidance/operatorGuidance.ts:92:  confidenceReason: "No signals available for interpretation.",
+./dashboard/src/cognition/operatorGuidance/operatorGuidanceRenderContract.ts:118:        : "No signals available for interpretation.",
+./dashboard/src/operator/runbooks/operatorRunbookCatalog.ts:47:  title: "Observation Only",
+./PHASE_82_1_COMPOSITION_VERIFICATION.md:6:remains interpretation-only.
+./PHASE_82_1_COMPOSITION_VERIFICATION.md:34:Interpretation preserved
+./PHASE_82_1_COMPOSITION_VERIFICATION.md:44:Stable composed interpretation
+./PHASE_82_1_COMPOSITION_VERIFICATION.md:46:Authority remains interpretation_only
+./PHASE_82_1_COMPOSITION_VERIFICATION.md:58:Same composed interpretation
+./PHASE_82_1_COMPOSITION_VERIFICATION.md:91:authority = interpretation_only
+./PHASE_82_1_COMPOSITION_VERIFICATION.md:102:Interpretation boundary preserved
+./PHASE88_14_1_public_dashboard_body.html:97:  <link rel="stylesheet" href="css/phase61_tabs_observational_workspace.css" />
+./PHASE88_14_1_public_dashboard_body.html:115:      #observational-workspace-card {
+./PHASE88_14_1_public_dashboard_body.html:123:      #observational-panels {
+./PHASE88_14_1_public_dashboard_body.html:155:      #observational-tabs {
+./PHASE88_14_1_public_dashboard_body.html:216:        #observational-workspace-card {
+./PHASE88_14_1_public_dashboard_body.html:539:          <section id="phase61-telemetry-column" class="space-y-4" aria-label="Observational workspace">
+./PHASE88_14_1_public_dashboard_body.html:540:            <section id="observational-workspace-card" class="bg-gray-800 p-6 rounded-2xl shadow-lg border border-gray-700" data-workspace-root>
+./PHASE88_14_1_public_dashboard_body.html:545:              <div id="observational-tabs" role="tablist" aria-label="Observational workspace tabs">
+./PHASE88_14_1_public_dashboard_body.html:557:              <div id="observational-panels">
+./iel-lifecycle-extract.txt:6:# Matilda Interpretation Lifecycle Reconciliation
+./iel-lifecycle-extract.txt:14:Raw conversation history is preserved as the primary evidence source for interpretation.
+./iel-lifecycle-extract.txt:20:2. Interpretation Evidence Ledger (IEL)
+./iel-lifecycle-extract.txt:30:### Interpretation Evidence Ledger (IEL)
+./iel-lifecycle-extract.txt:32:Matilda maintains an append-only Interpretation Evidence Ledger.
+./iel-lifecycle-extract.txt:36:- preserves interpretation lineage
+./iel-lifecycle-extract.txt:62:The IEL is a contextualized interpretation record.
+./iel-lifecycle-extract.txt:66:- Interpretation Event
+./iel-lifecycle-extract.txt:72:- Matilda Observation
+./iel-lifecycle-extract.txt:82:### Evidence Preservation Principle
+./iel-lifecycle-extract.txt:88:- interpretation
+./iel-lifecycle-extract.txt:210:Package maturity is determined by interpretation stability rather than information completeness.
+./iel-lifecycle-extract.txt:304:Matilda functions as interpretation steward.
+./PHASE11_DASHBOARD_RENDERING_VERIFICATION_CHECKLIST.md:13:No JS/DB code changes are required to complete this checklist — it is purely observational.
+./preview-summary-governance-inspection.txt:46:154:Each Package represents a distinct approved interpretation.
+./preview-summary-governance-inspection.txt:83:8:The Package represents Matilda's authoritative interpretation of user intent.
+./preview-summary-governance-inspection.txt:144:8:The Matilda Package is the canonical interpretation artifact produced by Matilda.
+./preview-summary-governance-inspection.txt:154:64:The package preserves Matilda's interpretation.
+./preview-summary-governance-inspection.txt:159:130:A Matilda Package is a governed interpretation artifact.
+./preview-summary-governance-inspection.txt:168:206:The package is an interpretation artifact only.
+./preview-summary-governance-inspection.txt:171:214:Interpretation Authorization occurs when the user delegates the package.
+./preview-summary-governance-inspection.txt:172:216:The act of delegation represents acceptance of Matilda's interpretation.
+./preview-summary-governance-inspection.txt:180:238:The envelope inherits approved interpretation details from the package.
+./preview-summary-governance-inspection.txt:201:42:- Package is the canonical interpretation artifact.
+./preview-summary-governance-inspection.txt:202:44:- Delegation is Interpretation Authorization.
+./preview-summary-governance-inspection.txt:205:50:- Envelope inherits approved interpretation details from the Package.
+./preview-summary-governance-inspection.txt:254:38:The execution envelope is the canonical governance artifact produced from Matilda-side interpretation and passed through governance validation, approval gating, Cade planning, and future execution phases.
+./preview-summary-governance-inspection.txt:260:70:- user confirmation that the previewed interpretation matches intent
+./PHASE_85_2_TIME_CONTEXT.md:30:This forces manual time interpretation.
+./PHASE_85_2_TIME_CONTEXT.md:66:Example interpretation:
+./PHASE_85_2_TIME_CONTEXT.md:115:TEMPORAL INTERPRETATION RULES
+./PHASE_85_2_TIME_CONTEXT.md:169:Operator temporal interpretation burden reduced.
+./PHASE_81_8_QUEUE_WAIT_TIME_METRIC_DEFINITION.md:15:Observation only  
+./PHASE_81_8_QUEUE_WAIT_TIME_METRIC_DEFINITION.md:63:Observation only
+./PHASE_81_8_QUEUE_WAIT_TIME_METRIC_DEFINITION.md:124:Observation only.
+./public/index.html:21:  <link rel="stylesheet" href="css/phase61_tabs_observational_workspace.css" />
+./public/index.html:64:    #observational-workspace-card,
+./public/index.html:72:    #observational-workspace-card,
+./public/index.html:95:    #observational-tabs {
+./public/index.html:367:        <section id="phase61-telemetry-column" class="space-y-4" aria-label="Observational workspace">
+./public/index.html:368:          <section id="observational-workspace-card" class="bg-gray-800 rounded-2xl shadow-lg border border-gray-700" data-workspace-root>
+./public/index.html:373:            <div id="observational-tabs" role="tablist" aria-label="Telemetry workspace tabs">
+./public/index.html:385:            <div id="observational-panels">
+./public/index.html:452:  #observational-workspace-card,
+./public/index.html:462:  #observational-panels,
+./public/index.html:530:  #observational-panels > .obs-panel:not([hidden]),
+./public/index.html:670:    <strong>Interpretation:</strong><br>
+./public/index.html:685:    // VERY LIGHT INTERPRETATION (allowed: presence only)
+./public/index.html:1276:  #observational-tabs {
+./public/index.html:1313:  #observational-workspace-card > div:first-child h2,
+./public/index.html:1320:  #observational-workspace-card,
+./public/index.html:1330:  #observational-workspace-card > div:first-child,
+./public/index.html:1345:  #observational-workspace-card > div:first-child h2,
+./public/css/phase61_tabs_observational_workspace.css:1:/* Phase 61 — Observational Workspace Tabs
+./public/css/phase61_tabs_observational_workspace.css:2:   Consolidates telemetry into a single observational workspace surface.
+./public/css/phase61_tabs_observational_workspace.css:5:#observational-workspace-card {
+./public/css/phase61_tabs_observational_workspace.css:12:#observational-tabs {
+./public/css/phase61_tabs_observational_workspace.css:49:#observational-panels {
+./public/css/phase61_tabs_observational_workspace.css:95:/* Phase 61 polish — match observational workspace height to Matilda chat console only */
+./public/css/phase61_tabs_observational_workspace.css:110:  #observational-tabs {
+./public/css/phase61_tabs_observational_workspace.css:119:  #observational-workspace-card {
+./public/css/phase61_tabs_observational_workspace.css:124:  #observational-panels {
+./public/css/phase491_workspace_equal_height.css:13:#observational-workspace-card {
+./public/css/phase491_workspace_equal_height.css:22:#observational-workspace-card > * {
+./public/css/phase491_workspace_equal_height.css:39:#observational-workspace-card * {
+./public/js/phase490_telemetry_height_probe.js:52:      measure("#observational-workspace-card"),
+./public/js/phase61_tabs_workspace.js:120:    installTabGroup("observational-tabs", "observational-panels");
+./public/js/matilda-chat-console.js:80:        appendMessage(transcript, "Matilda", "I could not reach the chat service from this browser request, but no execution was attempted. You can retry, or use the visible dashboard/context state for advisory interpretation.");
+./public/dashboard.html:25:<!-- phase474.3 temporary neutralization: removed local stylesheet :: <link rel="stylesheet" href="css/phase61_tabs_observational_workspace.css" /> -->
+./public/dashboard.html:170:          <section id="phase61-telemetry-column" class="space-y-4" aria-label="Observational workspace">
+./public/dashboard.html:171:            <section id="observational-workspace-card" class="bg-gray-800 p-6 rounded-2xl shadow-lg border border-gray-700" data-workspace-root>
+./public/dashboard.html:176:              <div id="observational-tabs" role="tablist" aria-label="Observational workspace tabs">
+./public/dashboard.html:188:              <div id="observational-panels">
+./public/dashboard.html:512:    <strong>Interpretation:</strong><br>
+./public/dashboard.html:527:    // VERY LIGHT INTERPRETATION (allowed: presence only)
+./public/dashboard.html.phase61_agent_emoji_backup:31:  <link rel="stylesheet" href="css/phase61_tabs_observational_workspace.css" />
+./public/dashboard.html.phase61_agent_emoji_backup:49:      #observational-workspace-card {
+./public/dashboard.html.phase61_agent_emoji_backup:57:      #observational-panels {
+./public/dashboard.html.phase61_agent_emoji_backup:89:      #observational-tabs {
+./public/dashboard.html.phase61_agent_emoji_backup:150:        #observational-workspace-card {
+./public/dashboard.html.phase61_agent_emoji_backup:457:          <section id="phase61-telemetry-column" class="space-y-4" aria-label="Observational workspace">
+./public/dashboard.html.phase61_agent_emoji_backup:458:            <section id="observational-workspace-card" class="bg-gray-800 p-6 rounded-2xl shadow-lg border border-gray-700" data-workspace-root>
+./public/dashboard.html.phase61_agent_emoji_backup:463:              <div id="observational-tabs" role="tablist" aria-label="Observational workspace tabs">
+./public/dashboard.html.phase61_agent_emoji_backup:475:              <div id="observational-panels">
+./PHASE_83_6_SUMMARY_CLOSURE.md:37:System now contains a complete cognition interpretation stack:
+./PHASE_83_6_SUMMARY_CLOSURE.md:40:Interpretation Layer
+./PHASE_83_6_SUMMARY_CLOSURE.md:48:Interpretation-only
+./PHASE_83_6_SUMMARY_CLOSURE.md:132:Interpretation-only discipline
+./PHASE11_BUNDLING_STEP2_STRATEGY.md:44:Interpretation:
+./PHASE11_DELEGATE_TASK_RESULT.md:54:## Interpretation (High-Level)
+./PHASE_84_5_OPERATOR_COGNITION_UX_REFINEMENT.md:12:Refine operator cognition layer to improve scan speed, clarity, and deterministic interpretation of system status.
+./PHASE_84_5_OPERATOR_COGNITION_UX_REFINEMENT.md:31:Allow operators to visually identify system condition without interpretation delay.
+./PHASE_84_10_TASK_TOTAL_LIFECYCLE_DURATION_VERIFICATION_RESULTS.md:61:Interpretation:
+./PHASE715_DASHBOARD_CANDIDATE_RESTORE.txt:122:  <link rel="stylesheet" href="css/phase61_tabs_observational_workspace.css" />
+./PHASE715_DASHBOARD_CANDIDATE_RESTORE.txt:165:    #observational-workspace-card,
+./PHASE715_DASHBOARD_CANDIDATE_RESTORE.txt:173:    #observational-workspace-card,
+./PHASE88_14_4_LIVE_SERVER_DIAGNOSTICS_MOUNTS.txt:219:      #observational-tabs {
+./PHASE88_14_4_LIVE_SERVER_DIAGNOSTICS_MOUNTS.txt:369:123:      #observational-panels {
+./PHASE_83_1_TASK_QUEUE_WAIT_DURATION_DEFINITION.md:80:Observation only.
+./PHASE_83_1_TASK_QUEUE_WAIT_DURATION_DEFINITION.md:100:PASSIVE OBSERVATION METRIC
+./PHASE_82_4_TASK_EXECUTION_DURATION_REGISTRY_ENTRY.md:83:PASSIVE OBSERVATION METRIC
+./PHASE_82_4_TASK_EXECUTION_DURATION_REGISTRY_ENTRY.md:94:Runbook interpretation context
+./PHASE88_14_10_DASHBOARD.html:97:  <link rel="stylesheet" href="css/phase61_tabs_observational_workspace.css" />
+./PHASE88_14_10_DASHBOARD.html:115:      #observational-workspace-card {
+./PHASE88_14_10_DASHBOARD.html:123:      #observational-panels {
+./PHASE88_14_10_DASHBOARD.html:155:      #observational-tabs {
+./PHASE88_14_10_DASHBOARD.html:216:        #observational-workspace-card {
+./PHASE88_14_10_DASHBOARD.html:539:          <section id="phase61-telemetry-column" class="space-y-4" aria-label="Observational workspace">
+./PHASE88_14_10_DASHBOARD.html:540:            <section id="observational-workspace-card" class="bg-gray-800 p-6 rounded-2xl shadow-lg border border-gray-700" data-workspace-root>
+./PHASE88_14_10_DASHBOARD.html:545:              <div id="observational-tabs" role="tablist" aria-label="Observational workspace tabs">
+./PHASE88_14_10_DASHBOARD.html:557:              <div id="observational-panels">
+./preview-summary-evidence-extract.txt:15:1603584d reconcile matilda interpretation lifecycle corridor
+./PHASE61_OPERATOR_WORKSPACE_CONSOLIDATION.md:4:Convert the left-side operator area from two stacked cards into a unified tabbed Operator Workspace while preserving the existing right-side Observational Workspace, full-width Atlas / subsystem band, and deterministic runtime behavior.
+./PHASE61_OPERATOR_WORKSPACE_CONSOLIDATION.md:25:- Right side is already consolidated as Observational Workspace
+./PHASE61_OPERATOR_WORKSPACE_CONSOLIDATION.md:26:- Observational tabs:
+./PHASE61_OPERATOR_WORKSPACE_CONSOLIDATION.md:44:Observational Workspace
+./PHASE61_OPERATOR_WORKSPACE_CONSOLIDATION.md:54:2. Right-side Observational Workspace remains functionally unchanged
+./PHASE61_OPERATOR_WORKSPACE_CONSOLIDATION.md:65:   - Observational Workspace
+./scripts/inspect-iel-governance.sh:18:  grep -RniE "IEL|Interpretation Evidence Ledger" docs/governance docs/contracts 2>/dev/null || true
+./scripts/extract-iel-lifecycle.sh:8:FILE="docs/governance/MATILDA_INTERPRETATION_LIFECYCLE_RECONCILIATION.md"
+./scripts/inspect-iel-foundations.sh:18:  grep -RniE "IEL|Interpretation Evidence Ledger|Evidence Ledger|Raw Evidence|intent evidence|evidence preservation|evidence record" docs contracts server . 2>/dev/null || true
+./scripts/phase88_14_12_tag_protection_and_phase89_alignment.sh:64:  echo "Corrected interpretation:"
+./scripts/investigate-preview-summary-lifecycle.sh:14:  "docs/governance/MATILDA_INTERPRETATION_LIFECYCLE_RECONCILIATION.md"
+./scripts/verify-dashboard-two-panel.sh:35:if grep -Fq "Observational Workspace" "$TMP_HTML" || grep -Fq "Telemetry Workspace" "$TMP_HTML"; then
+./scripts/verify-dashboard-two-panel.sh:36:  echo "Found: Observational/Telemetry Workspace"
+./scripts/verify-dashboard-two-panel.sh:38:  echo "Missing marker: Observational/Telemetry Workspace"
+./scripts/verify-dashboard-two-panel-structure.sh:18:    "observational-workspace-card count == 1": len(re.findall(r'id=["\']observational-workspace-card["\']', html)) == 1,
+./scripts/verify-dashboard-two-panel-structure.sh:33:    'id="observational-workspace-card"',
+./scripts/verify-reconciled-lifecycle.sh:22:  "docs/governance/MATILDA_INTERPRETATION_LIFECYCLE_RECONCILIATION.md"
+./scripts/verify-phase62-dashboard-golden.sh:86:assert_count_eq "observational-workspace-card" 'Telemetry Workspace' 1
+./scripts/verify-dashboard-layout-contract.sh:32:    "observational-workspace-card",
+./scripts/verify-dashboard-layout-contract.sh:61:    'id="observational-workspace-card"',
+./scripts/verify-dashboard-layout-contract.sh:75:    < positions['id="observational-workspace-card"']
+./scripts/_local/phase64_6_workspace_interactivity_contract_guard.sh:31:    "observational-panels": r'id="observational-panels"',
+./scripts/_local/phase64_6_workspace_interactivity_contract_guard.sh:71:'Array.from(document.querySelectorAll("#observational-panels > [data-workspace-panel]")).map(el => ({id: el.id, hidden: el.hidden, display: getComputedStyle(el).display}))' \
+./scripts/_local/phase64_3_restore_and_apply_minimal_telemetry_fix.sh:36:    #observational-workspace-card {
+./scripts/_local/phase64_3_restore_and_apply_minimal_telemetry_fix.sh:45:    #observational-panels {
+./scripts/_local/phase64_3_restore_and_apply_minimal_telemetry_fix.sh:53:    #observational-panels > [data-workspace-panel] {
+./scripts/_local/phase64_3_restore_and_apply_minimal_telemetry_fix.sh:58:    #observational-panels > [data-workspace-panel][hidden] {
+./scripts/_local/phase64_3_restore_and_apply_minimal_telemetry_fix.sh:63:    #observational-panels > [data-workspace-panel].active:not([hidden]) {
+./scripts/_local/phase64_3_restore_and_apply_minimal_telemetry_fix.sh:118:      #observational-workspace-card,
+./scripts/_local/phase64_3_restore_and_apply_minimal_telemetry_fix.sh:120:      #observational-panels,
+./scripts/_local/phase64_3_restore_and_apply_minimal_telemetry_fix.sh:122:      #observational-panels > [data-workspace-panel].active:not([hidden]),
+./scripts/_local/phase61_debug_and_repair.sh:51:obs_label = "Observational Workspace" if "Observational Workspace" in main_body else "Telemetry Workspace"
+./scripts/_local/phase61_debug_and_repair.sh:108:obs_html = ensure_id(obs_html, "observational-workspace-card")
+./scripts/_local/phase61_debug_and_repair.sh:149:#observational-workspace-card,
+./scripts/_local/phase64_3_fix_tab_panel_isolation.sh:27:    #observational-workspace-card {
+./scripts/_local/phase64_3_fix_tab_panel_isolation.sh:34:    #observational-panels {
+./scripts/_local/phase64_3_fix_tab_panel_isolation.sh:41:    #observational-panels > [data-workspace-panel] {
+./scripts/_local/phase64_3_fix_tab_panel_isolation.sh:46:    #observational-panels > [data-workspace-panel][hidden] {
+./scripts/_local/phase64_3_fix_tab_panel_isolation.sh:51:    #observational-panels > [data-workspace-panel].active:not([hidden]) {
+./scripts/_local/phase64_3_fix_tab_panel_isolation.sh:99:      #observational-workspace-card,
+./scripts/_local/phase64_3_fix_tab_panel_isolation.sh:101:      #observational-panels > [data-workspace-panel].active:not([hidden]),
+./scripts/_local/phase64_3_equalize_telemetry_height.sh:25:    #observational-workspace-card {
+./scripts/_local/phase64_3_equalize_telemetry_height.sh:34:    #observational-panels {
+./scripts/_local/phase64_3_equalize_telemetry_height.sh:95:      #observational-workspace-card {
+./scripts/_local/phase64_3_rebuild_telemetry_css_contract.sh:27:    #observational-workspace-card {
+./scripts/_local/phase64_3_rebuild_telemetry_css_contract.sh:36:    #observational-panels {
+./scripts/_local/phase64_3_rebuild_telemetry_css_contract.sh:46:    #observational-panels > [data-workspace-panel] {
+./scripts/_local/phase64_3_rebuild_telemetry_css_contract.sh:51:    #observational-panels > [data-workspace-panel][hidden] {
+./scripts/_local/phase64_3_rebuild_telemetry_css_contract.sh:56:    #observational-panels > [data-workspace-panel].active:not([hidden]) {
+./scripts/_local/phase64_3_rebuild_telemetry_css_contract.sh:111:      #observational-workspace-card,
+./scripts/_local/phase64_3_rebuild_telemetry_css_contract.sh:113:      #observational-panels,
+./scripts/_local/phase64_3_rebuild_telemetry_css_contract.sh:115:      #observational-panels > [data-workspace-panel].active:not([hidden]),
+./scripts/_local/repair_phase61_layout_now.sh:61:      #observational-workspace-card {
+./scripts/_local/repair_phase61_layout_now.sh:66:      #observational-tabs {
+./scripts/_local/repair_phase61_layout_now.sh:71:      #observational-panels {
+./scripts/_local/repair_phase61_layout_now.sh:123:        #observational-workspace-card {
+./scripts/_local/repair_phase61_layout_now.sh:210:            <section id="observational-workspace-card" class="bg-gray-800 p-6 rounded-2xl shadow-lg border border-gray-700" data-workspace-root>
+./scripts/_local/repair_phase61_layout_now.sh:215:              <div id="observational-tabs" role="tablist" aria-label="Telemetry workspace tabs">
+./scripts/_local/repair_phase61_layout_now.sh:227:              <div id="observational-panels">
+./scripts/_local/phase61_task_events_wiring_audit_and_capture.sh:24:  grep -nE 'task-events|Task Events|telemetry|observational-workspace|workspace-card' public/dashboard.html 2>/dev/null || true
+./scripts/_local/phase61_identify_last_good_state.sh:12:  "v61.0-observational-workspace-checkpoint"
+./scripts/_local/phase61_identify_last_good_state.sh:39:    'Observational Workspace',
+./scripts/_local/phase61_identify_last_good_state.sh:68:    "observational-workspace-card",
+./scripts/_local/phase61_debug_clean_rewrite_failure.sh:37:    "observational-workspace-card",
+./scripts/_local/phase61_left_workspace_focus_scan.sh:6:printf '\n=== dashboard.html: operator + observational workspace slice ===\n'
+./scripts/_local/phase61_left_workspace_focus_scan.sh:10:rg -n 'observational-tabs|obs-tab|obs-panel|data-target|aria-controls|aria-selected|mb-task-events-panel-anchor' \
+./scripts/_local/phase62b_rerun_runtime_validation_after_run_id_fix.sh:21:echo "If terminal routes now succeed, record dashboard observations in:"
+./scripts/_local/phase61_repair_workspace_regions_v2.py:89:                Observational Workspace
+./scripts/_local/phase61_repair_workspace_regions_v2.py:93:            <section id="observational-workspace-card" class="bg-gray-800 p-6 rounded-2xl shadow-lg border border-gray-700" data-workspace-root>
+./scripts/_local/phase61_repair_workspace_regions_v2.py:99:              <div id="observational-tabs" role="tablist" aria-label="Observational workspace tabs">
+./scripts/_local/phase61_repair_workspace_regions_v2.py:111:              <div id="observational-panels">
+./scripts/_local/phase61_finalize_layout.sh:28:    'id="phase61-telemetry-column" class="space-y-4" aria-label="Observational workspace"',
+./scripts/_local/phase61_finalize_layout.sh:29:    'id="phase61-telemetry-column" class="space-y-4" aria-label="Observational workspace"',
+./scripts/_local/phase61_finalize_layout.sh:68:      #observational-workspace-card {
+./scripts/_local/phase61_finalize_layout.sh:76:      #observational-panels {
+./scripts/_local/phase61_finalize_layout.sh:122:        #observational-workspace-card {
+./scripts/_local/phase64_3_restore_stable_ui_then_reapply_scroll.sh:30:    #observational-workspace-card {
+./scripts/_local/phase64_3_restore_stable_ui_then_reapply_scroll.sh:35:    #observational-workspace-card {
+./scripts/_local/phase64_3_restore_stable_ui_then_reapply_scroll.sh:41:    #observational-panels {
+./scripts/_local/phase64_3_restore_stable_ui_then_reapply_scroll.sh:48:    #observational-panels > .obs-panel {
+./scripts/_local/phase64_3_restore_stable_ui_then_reapply_scroll.sh:82:      #observational-workspace-card,
+./scripts/_local/phase62b_extract_runtime_acceptance_evidence.sh:273:Terminal evidence can support acceptance confidence, but it does NOT fully prove visual layout stability or exact on-screen metric movement without dashboard observation.
+./scripts/_local/phase61_live_dom_probe.sh:21:rg -n 'phase61-telemetry-column|activity-panels-heading|observational-workspace-card|observational-tabs|observational-panels' public/dashboard.html || true
+./scripts/_local/phase61_live_dom_probe.sh:25:rg -n 'phase61-telemetry-column|activity-panels-heading|observational-workspace-card|observational-tabs|observational-panels' "$LIVE_HTML" || true
+./scripts/_local/phase61_recover_dashboard_from_checkpoint.sh:6:CHECKPOINT_TAG="${1:-v61.0-observational-workspace-checkpoint}"
+./scripts/_local/phase62_dump_topology.sh:22:    'id="observational-workspace-card"',
+./scripts/_local/phase64_3_force_equal_workspace_height_v2.sh:32:    #observational-workspace-card {
+./scripts/_local/phase64_3_force_equal_workspace_height_v2.sh:42:    #observational-panels,
+./scripts/_local/phase64_3_force_equal_workspace_height_v2.sh:96:      #observational-workspace-card {
+./scripts/_local/phase64_3_force_equal_workspace_height_v2.sh:103:      #observational-panels,
+./scripts/_local/phase72_operator_guidance_interpreter.ts:3:Read-only interpretation layer.
+./scripts/_local/phase63_3_probe_ops_heartbeat_named_event.sh:89:## Interpretation
+./scripts/_local/phase61_final_touchups.sh:44:      #observational-workspace-card {
+./scripts/_local/phase61_final_touchups.sh:52:      #observational-panels {
+./scripts/_local/phase61_final_touchups.sh:116:        #observational-workspace-card {
+./scripts/_local/phase62_apply_top_row_split.sh:137:    'id="observational-workspace-card"',
+./scripts/_local/phase64_3_fix_telemetry_scroll_css.sh:28:    #observational-workspace-card {
+./scripts/_local/phase64_3_fix_telemetry_scroll_css.sh:36:    #observational-panels,
+./scripts/_local/phase64_3_fix_telemetry_scroll_css.sh:91:      #observational-workspace-card,
+./scripts/_local/phase62b_verify_live_create_route_and_restart_runtime.sh:122:INTERPRETATION
+./scripts/_local/phase61_task_events_wiring_audit.sh:15:grep -nE 'task-events|Task Events|telemetry|observational-workspace|workspace-card' public/dashboard.html 2>/dev/null || true
+./scripts/_local/phase61_tab_cleanup_pass.py:53:      #observational-workspace-card {
+./scripts/_local/phase61_tab_cleanup_pass.py:61:      #observational-panels {
+./scripts/_local/phase61_tab_cleanup_pass.py:93:      #observational-tabs {
+./scripts/_local/phase61_tab_cleanup_pass.py:154:        #observational-workspace-card {
+./scripts/_local/phase64_7_dashboard_layout_script_mount_guard.sh:17:'id="observational-workspace-card"' \
+./scripts/_local/phase64_7_dashboard_layout_script_mount_guard.sh:18:'id="observational-panels"' \
+./scripts/_local/phase61_clean_rewrite_workspace_region.sh:73:    r'<section\b[^>]*id=["\']phase61-(?:telemetry|observational)-column["\'][^>]*>.*?</section>\s*</section>',
+./scripts/_local/phase61_clean_rewrite_workspace_region.sh:78:    raise SystemExit("observational column block not found")
+./scripts/_local/phase61_clean_rewrite_workspace_region.sh:82:    r'<section\b[^>]*id=["\']observational-workspace-card["\'][^>]*>.*?</section>',
+./scripts/_local/phase61_clean_rewrite_workspace_region.sh:87:    raise SystemExit("observational workspace card not found inside observational column")
+./scripts/_local/phase61_clean_rewrite_workspace_region.sh:127:#observational-workspace-card,
+./scripts/_local/apply_phase61_operator_workspace_resilient.py:83:    '<section id="observational-workspace-card" class="bg-gray-800 p-6 rounded-2xl shadow-lg border border-gray-700">',
+./scripts/_local/apply_phase61_operator_workspace_resilient.py:84:    '<section id="observational-workspace-card" class="bg-gray-800 p-6 rounded-2xl shadow-lg border border-gray-700" data-workspace-root>',
+./scripts/verify-phase62-layout-contract.sh:55:assert_single_id("observational-workspace-card")
+./scripts/verify-governance-reconciliation.sh:58:  docs/governance/MATILDA_INTERPRETATION_LIFECYCLE_RECONCILIATION.md \
+./scripts/inspect-interpretation-events.sh:6:OUTPUT="interpretation-event-inspection.txt"
+./scripts/inspect-interpretation-events.sh:12:  echo "INTERPRETATION EVENT INSPECTION"
+./scripts/inspect-interpretation-events.sh:18:  grep -RniE "Interpretation Event|Matilda Observation|observation|evidence capture|evidence preservation|interpretation" \
+./PHASE_83_4_TASK_QUEUE_WAIT_DURATION_REGISTRY_ENTRY.md:25:PASSIVE OBSERVATION METRIC
+./PHASE_85_6_COGNITION_CLOSURE.md:7:Trend interpretation
+./PHASE_85_6_COGNITION_CLOSURE.md:47:Operator cognition now focuses on interpretation rather than reconstruction.
+./PHASE_85_6_COGNITION_CLOSURE.md:53:Operator interpretation stack now follows:
+./PHASE_85_6_COGNITION_CLOSURE.md:62:This creates a complete cognition interpretation chain.
+./PHASE_85_6_COGNITION_CLOSURE.md:81:Read-only interpretation only
+./PHASE_85_6_COGNITION_CLOSURE.md:104:Dashboard interpretation model matured.
+./PHASE_85_6_COGNITION_CLOSURE.md:105:Signal interpretation model completed.
+./PHASE62B_RUNTIME_STATUS_CONCISE_SUMMARY_20260317.md:28:- Dashboard runtime proof still requires manual observation in:
+./PHASE_82_3_TASK_EXECUTION_DURATION_EXPOSURE_SAFETY_REVIEW.md:20:Observation only.
+./PHASE_82_3_TASK_EXECUTION_DURATION_EXPOSURE_SAFETY_REVIEW.md:141:Operator misinterpretation of long tasks.
+./PHASE_82_3_TASK_EXECUTION_DURATION_EXPOSURE_SAFETY_REVIEW.md:146:Multi-metric interpretation
+./PHASE87_0_OPERATOR_COGNITIVE_INTELLIGENCE.md:10:Introduce operator-focused cognition interpretation layers that transform existing cognition signals into operator-usable intelligence without expanding execution authority.
+./PHASE87_0_OPERATOR_COGNITIVE_INTELLIGENCE.md:63:Not introduce interpretation drift
+./PHASE62B_LIVE_CREATE_ROUTE_RESTART_SUMMARY_20260317T174242Z.md:13:INTERPRETATION
+./STATE_HANDOFF_2026-03-17_PHASE62B_ACCEPTED.md:77:OPERATOR SIGNAL INTERPRETATION ACTIVE  
+./STATE_HANDOFF_2026-03-17_PHASE62B_ACCEPTED.md:80:OPERATOR GUIDANCE INTERPRETATION ACTIVE  
+./PHASE87_1_SITUATION_SUMMARY_COMPOSER.md:112:Forward interpretation  
+./PHASE87_1_SITUATION_SUMMARY_COMPOSER.md:120:No timestamps in interpretation.  
+./PHASE62B_RUNTIME_ACCEPTANCE_EVIDENCE_SUMMARY_20260317T175228Z.md:23:Terminal evidence can support acceptance confidence, but it does NOT fully prove visual layout stability or exact on-screen metric movement without dashboard observation.
+./PHASE62B_RUNTIME_ACCEPTANCE_EVIDENCE_SUMMARY_20260317T180048Z.md:23:Terminal evidence can support acceptance confidence, but it does NOT fully prove visual layout stability or exact on-screen metric movement without dashboard observation.
+./preview-summary-lifecycle-investigation.txt:12:1603584d reconcile matilda interpretation lifecycle corridor
+./DASHBOARD_UI_RECOVERY_ANCHORS/current-close-enough-ui-20260528_102016/public/index.html:21:  <link rel="stylesheet" href="css/phase61_tabs_observational_workspace.css" />
+./DASHBOARD_UI_RECOVERY_ANCHORS/current-close-enough-ui-20260528_102016/public/index.html:64:    #observational-workspace-card,
+./DASHBOARD_UI_RECOVERY_ANCHORS/current-close-enough-ui-20260528_102016/public/index.html:72:    #observational-workspace-card,
+./DASHBOARD_UI_RECOVERY_ANCHORS/current-close-enough-ui-20260528_102016/public/index.html:95:    #observational-tabs {
+./DASHBOARD_UI_RECOVERY_ANCHORS/current-close-enough-ui-20260528_102016/public/index.html:367:        <section id="phase61-telemetry-column" class="space-y-4" aria-label="Observational workspace">
+./DASHBOARD_UI_RECOVERY_ANCHORS/current-close-enough-ui-20260528_102016/public/index.html:368:          <section id="observational-workspace-card" class="bg-gray-800 rounded-2xl shadow-lg border border-gray-700" data-workspace-root>
+./DASHBOARD_UI_RECOVERY_ANCHORS/current-close-enough-ui-20260528_102016/public/index.html:373:            <div id="observational-tabs" role="tablist" aria-label="Telemetry workspace tabs">
+./DASHBOARD_UI_RECOVERY_ANCHORS/current-close-enough-ui-20260528_102016/public/index.html:385:            <div id="observational-panels">
+./DASHBOARD_UI_RECOVERY_ANCHORS/current-close-enough-ui-20260528_102016/public/index.html:452:  #observational-workspace-card,
+./DASHBOARD_UI_RECOVERY_ANCHORS/current-close-enough-ui-20260528_102016/public/index.html:462:  #observational-panels,
+./DASHBOARD_UI_RECOVERY_ANCHORS/current-close-enough-ui-20260528_102016/public/index.html:530:  #observational-panels > .obs-panel:not([hidden]),
+./DASHBOARD_UI_RECOVERY_ANCHORS/current-close-enough-ui-20260528_102016/public/index.html:670:    <strong>Interpretation:</strong><br>
+./DASHBOARD_UI_RECOVERY_ANCHORS/current-close-enough-ui-20260528_102016/public/index.html:685:    // VERY LIGHT INTERPRETATION (allowed: presence only)
+./DASHBOARD_UI_RECOVERY_ANCHORS/current-close-enough-ui-20260528_102016/public/index.html:1276:  #observational-tabs {
+./DASHBOARD_UI_RECOVERY_ANCHORS/current-close-enough-ui-20260528_102016/public/index.html:1313:  #observational-workspace-card > div:first-child h2,
+./DASHBOARD_UI_RECOVERY_ANCHORS/current-close-enough-ui-20260528_102016/public/index.html:1320:  #observational-workspace-card,
+./DASHBOARD_UI_RECOVERY_ANCHORS/current-close-enough-ui-20260528_102016/public/index.html:1330:  #observational-workspace-card > div:first-child,
+./DASHBOARD_UI_RECOVERY_ANCHORS/current-close-enough-ui-20260528_102016/public/index.html:1345:  #observational-workspace-card > div:first-child h2,
+./DASHBOARD_UI_RECOVERY_ANCHORS/current-close-enough-ui-20260528_102016/public/dashboard.html:25:<!-- phase474.3 temporary neutralization: removed local stylesheet :: <link rel="stylesheet" href="css/phase61_tabs_observational_workspace.css" /> -->
+./DASHBOARD_UI_RECOVERY_ANCHORS/current-close-enough-ui-20260528_102016/public/dashboard.html:170:          <section id="phase61-telemetry-column" class="space-y-4" aria-label="Observational workspace">
+./DASHBOARD_UI_RECOVERY_ANCHORS/current-close-enough-ui-20260528_102016/public/dashboard.html:171:            <section id="observational-workspace-card" class="bg-gray-800 p-6 rounded-2xl shadow-lg border border-gray-700" data-workspace-root>
+./DASHBOARD_UI_RECOVERY_ANCHORS/current-close-enough-ui-20260528_102016/public/dashboard.html:176:              <div id="observational-tabs" role="tablist" aria-label="Observational workspace tabs">
+./DASHBOARD_UI_RECOVERY_ANCHORS/current-close-enough-ui-20260528_102016/public/dashboard.html:188:              <div id="observational-panels">
+./DASHBOARD_UI_RECOVERY_ANCHORS/current-close-enough-ui-20260528_102016/public/dashboard.html:512:    <strong>Interpretation:</strong><br>
+./DASHBOARD_UI_RECOVERY_ANCHORS/current-close-enough-ui-20260528_102016/public/dashboard.html:527:    // VERY LIGHT INTERPRETATION (allowed: presence only)
+./PHASE_81_11_QUEUE_WAIT_TIME_REGISTRY_ENTRY.md:81:PASSIVE OBSERVATION METRIC
+./PHASE_81_11_QUEUE_WAIT_TIME_REGISTRY_ENTRY.md:92:Runbook interpretation context
+./DASHBOARD_RUNTIME_SURFACE_VERIFICATION.txt:23:551:          <section id="phase61-telemetry-column" class="space-y-4" aria-label="Observational workspace">
+./PHASE_81_7_SIGNAL_REGISTRY_ENTRY.md:22:derived_interpretation_signal
+./PHASE_81_7_SIGNAL_REGISTRY_ENTRY.md:41:• Operator interpretation
+./PHASE_81_7_SIGNAL_REGISTRY_ENTRY.md:60:class: "derived_interpretation_signal"
+./PHASE_81_7_SIGNAL_REGISTRY_ENTRY.md:70:Associated interpretation levels:
+./PHASE_81_7_SIGNAL_REGISTRY_ENTRY.md:85:Queue pressure is interpretation-only.
+./PHASE91_LIVE_VISUAL_VERIFICATION.txt:19:551:          <section id="phase61-telemetry-column" class="space-y-4" aria-label="Observational workspace">
+./PHASE91_LIVE_VISUAL_VERIFICATION.txt:38:css/phase61_tabs_observational_workspace.css
+./PHASE_84_21_TASK_EXECUTION_DURATION_VERIFICATION_RESULTS.md:62:Interpretation:
+./PHASE_80_3_QUEUE_PRESSURE_METRIC.md:142:Observation only.
+./PHASE87_2_SITUATION_SUMMARY_INPUT_MAPPING.md:43:Avoid duplicate interpretation  
+./PHASE87_2_SITUATION_SUMMARY_INPUT_MAPPING.md:62:This phase defines interpretation contracts only.
+./PHASE87_2_SITUATION_SUMMARY_INPUT_MAPPING.md:85:Binary interpretation only.
+./PHASE_83_2_SUMMARY_RULES.md:12:Interpretation boundaries
+./PHASE_83_2_SUMMARY_RULES.md:35:Interpretation-only
+./PHASE_83_2_SUMMARY_RULES.md:110:Policy interpretation belongs elsewhere.
+./PHASE_83_2_SUMMARY_RULES.md:141:authority = "interpretation_only"
+./PHASE_83_2_SUMMARY_RULES.md:153:Interpretation breadth must be structurally honest.
+./PHASE_83_2_SUMMARY_RULES.md:206:Observed interpretation
+./PHASE_83_2_SUMMARY_RULES.md:313:Interpretation safety
+./PHASE_82_SIGNAL_COMPOSITION_FOUNDATION.md:1:PHASE 82 — Signal Composition Foundation (Interpretation-Only)
+./PHASE_82_SIGNAL_COMPOSITION_FOUNDATION.md:6:signals to be combined into higher-level operator interpretation without
+./PHASE_82_SIGNAL_COMPOSITION_FOUNDATION.md:30:Deterministic interpretation produced from multiple interpreted signals.
+./PHASE_82_SIGNAL_COMPOSITION_FOUNDATION.md:39:Rule 1 — Interpretation only
+./PHASE_82_SIGNAL_COMPOSITION_FOUNDATION.md:62:Operator interpretation context
+./PHASE_82_SIGNAL_COMPOSITION_FOUNDATION.md:93:  interpretation:string
+./PHASE_82_SIGNAL_COMPOSITION_FOUNDATION.md:94:  authority:"interpretation_only"
+./PHASE_82_SIGNAL_COMPOSITION_FOUNDATION.md:100:"interpretation_only"
+./PHASE_82_SIGNAL_COMPOSITION_FOUNDATION.md:123:Interpretation capability increases.
+./PHASE43_GOVERNANCE_BASELINE.md:31:Interpretation:
+./PHASE43_GOVERNANCE_BASELINE.md:42:Interpretation:
+./PHASE43_GOVERNANCE_BASELINE.md:51:Interpretation:
+./STATE_HANDOFF_PHASE_83_COMPLETE.md:3:Phase 62 Layout Evolution → Phase 62.2 Layout Contract Protected → Phase 62B Telemetry Hydration COMPLETE → Phase 63 Telemetry Integration Golden → Phase 64 Protection Corridor → Phase 65A Protection Hardening COMPLETE → Phase 65B Telemetry Ownership Consolidation COMPLETE → Phase 65C Telemetry Hydration Continuation COMPLETE → Phase 66 Observability Expansion Planning COMPLETE → Phase 67 Telemetry Reducer Safety COMPLETE → Phase 68 Telemetry Drift Detection COMPLETE → Phase 69 Telemetry Replay Corpus COMPLETE → Phase 70A Health Snapshot COMPLETE → Phase 70B Diagnostics Report COMPLETE → Phase 70C Operator Signals COMPLETE → Phase 71 Operator Awareness Layer COMPLETE → Phase 71.1 Operator Status Entry COMPLETE → Phase 72 Operator Guidance Layer COMPLETE → Phase 73 Operator Safety Gates COMPLETE → Phase 74 Operator Workflow Helpers COMPLETE → Phase 75 Helper Prioritization COMPLETE → Phase 76 Operator Playbooks COMPLETE → Phase 77 Adaptive Operator Workflows COMPLETE → Phase 78 Operator Runbook System COMPLETE → Phase 79 Controlled Automation Preparation COMPLETE (planning only) → Phase 79.5 Automation Risk Modeling COMPLETE (theoretical only) → Phase 80 Safe Iteration Engine COMPLETE → Phase 80.1 Workspace Clean Finalizer COMPLETE → Phase 80.2 Queue Latency Metric COMPLETE → Phase 80.3 Task Lifecycle Duration Metric COMPLETE → Phase 80.4 Task Execution Duration Metric COMPLETE → Phase 80.5 Metric Exposure Approval Protocol COMPLETE → Phase 80.6 Telemetry Expansion Candidate Review COMPLETE → Phase 80.7 Queue Throughput Metric Definition COMPLETE → Phase 80.8 Queue Throughput Pure Function Implementation COMPLETE → Phase 80.9 Throughput Exposure Safety Review COMPLETE → Phase 80.10 Derived Metric Registry Entry COMPLETE → Phase 80.11 Throughput Local Verification Harness COMPLETE → Phase 80.12 Throughput Metric Drift Safeguards COMPLETE → Phase 80.13 Throughput Metric Theoretical Bounds COMPLETE (definition only) → Phase 81 Signal Interpretation Doctrine COMPLETE → Phase 81.1 Queue Pressure Signal Definition COMPLETE → Phase 81.2 Queue Pressure Derivation Model COMPLETE → Phase 81.3 Queue Pressure Verification Cases COMPLETE → Phase 81.4 Queue Pressure Pure Function Design COMPLETE → Phase 81.5 Queue Pressure Classification Model COMPLETE → Phase 81.6 Queue Pressure Classification Verification COMPLETE → Phase 81.7 Queue Pressure Signal Registry COMPLETE → Phase 81.8 Signal Interpretation Layer COMPLETE → Phase 82 Composition Foundation COMPLETE → Phase 82.1 Composition Verification COMPLETE → Phase 82.2 Composition Registry COMPLETE → Phase 82.3 Composition Closure COMPLETE → Phase 83 Summary Doctrine COMPLETE → Phase 83.1 Summary Model COMPLETE → Phase 83.2 Summary Rules COMPLETE → Phase 83.3 Summary Registry COMPLETE → Phase 83.4 Summary Safety COMPLETE → Phase 83.5 Summary Verification COMPLETE → Phase 83.6 Summary Closure COMPLETE
+./STATE_HANDOFF_PHASE_83_COMPLETE.md:76:Phase 81 signal interpretation layer COMPLETE  
+./STATE_HANDOFF_PHASE_83_COMPLETE.md:110:OPERATOR SIGNAL INTERPRETATION FOUNDATION ESTABLISHED  
+./STATE_HANDOFF_PHASE_83_COMPLETE.md:115:OPERATOR GUIDANCE INTERPRETATION ACTIVE  
+./STATE_HANDOFF_PHASE_83_COMPLETE.md:138:SIGNAL INTERPRETATION DOCTRINE ESTABLISHED  
+Binary file ./.git/objects/61/f853634132b56b7654bdea671f706d4e807719 matches
+Binary file ./.git/objects/61/147b38f69805c91b53f619b369ee8033fcde89 matches
+Binary file ./.git/objects/95/a27fb3a04d8daaaeb35016e3251938e1ab69dc matches
+Binary file ./.git/objects/59/e8b4ab7020d1d17307711d1b328fda7e726c79 matches
+Binary file ./.git/objects/92/9973d7b0806732a7855de9400de52787491213 matches
+Binary file ./.git/objects/3e/2bd01d23fc98e8771d16fe575fbc0c42bf29b5 matches
+Binary file ./.git/objects/3e/d3af3db04090bb8a170002da716fe2f8d344ae matches
+Binary file ./.git/objects/3e/daa334374ff7add513e806c60442384d9e1cfd matches
+Binary file ./.git/objects/50/dc7d3a667a2572191bd60b53490021c48a1556 matches
+Binary file ./.git/objects/50/8af718fdabe3b270df67ad21617dbc7f0306cd matches
+Binary file ./.git/objects/68/c56e98448ab909fa07cf716d05b66b046d7d0d matches
+Binary file ./.git/objects/68/695144472d7ecc09d167c6c3cd17962925f7e6 matches
+Binary file ./.git/objects/57/3546694072f7e7cc9493af36c7e4d0f832ea82 matches
+Binary file ./.git/objects/57/48426806adebae654782612b7906cc19a4d9f6 matches
+Binary file ./.git/objects/57/324c2103ff3fd2443b91d1efae157212bf9e7d matches
+Binary file ./.git/objects/3b/11facd94237f374f3c40b38f4c720c1e9ff453 matches
+Binary file ./.git/objects/3b/2df490c3bb94d88225face4ceefc5b8593d70a matches
+Binary file ./.git/objects/3b/fcfb467978f4efdf5ba81f1816a7cf00d28eb8 matches
+Binary file ./.git/objects/6f/5257a7ae8868c7c3f408eb551aece5421dbe6f matches
+Binary file ./.git/objects/03/69c53a695a49ae349c132ebd50504a667a0447 matches
+Binary file ./.git/objects/03/8f4bfef79fe6b9486ed038a73e1b3daabc6b2f matches
+Binary file ./.git/objects/9b/41f30e9098c805013f5c453a1046244db255d2 matches
+Binary file ./.git/objects/9e/f39acd4e4e82bb8b8bd477ac0b361b43ba8ad6 matches
+Binary file ./.git/objects/04/d7d727d41e830141ad644ba07a10357d9ced9b matches
+Binary file ./.git/objects/04/40f3f62fb4e503340fc231a4d86901d1712240 matches
+Binary file ./.git/objects/6a/03bc14351965c3a008d28e08e5b25b8d31cbbd matches
+Binary file ./.git/objects/6a/9e0554ff49fb6bb90e722e219bb154527679c7 matches
+Binary file ./.git/objects/32/543a8006a7bb2889518a66606b428577b3bb32 matches
+Binary file ./.git/objects/32/95a6d9990542a56b8187ffb55a67152a21c5fc matches
+Binary file ./.git/objects/69/50c3230a64fc6d4b78b3e38c3d477c91991778 matches
+Binary file ./.git/objects/69/c2feeacd1deff0d511af767bccc465d8a8328e matches
+Binary file ./.git/objects/69/617b3d69db9f2db0addc0af2c454061a30ada0 matches
+Binary file ./.git/objects/3c/33b7779516d7fd659b6bbd02601b8b59f91963 matches
+Binary file ./.git/objects/3c/a2d7745c1d4a105e2ae7cf3ddbe45a4504b75c matches
+Binary file ./.git/objects/3c/0ed3877108f2d9937bf9437fcd43a91301ebe0 matches
+Binary file ./.git/objects/56/a11eeb19be79fed2c60657bb212aa41c463faa matches
+Binary file ./.git/objects/56/c94f956f27f98b2cbe24aacb651ea8e5a4db6f matches
+Binary file ./.git/objects/56/bbdeb2ea880bea6e714a22c826f26fc2795dec matches
+Binary file ./.git/objects/51/064466b7c37bda9f5d008e4b581cae5cb44533 matches
+Binary file ./.git/objects/58/2d2da4755eea1f677635792e35d175feadef6f matches
+Binary file ./.git/objects/58/9078f77f95066429a0dee4ffb92617052d584b matches
+Binary file ./.git/objects/58/4aaa3bc4a4a3b5755b61798dbf528b91ee6340 matches
+Binary file ./.git/objects/58/8c2368bdc81f400b735c4948ad899ff85c5c6a matches
+Binary file ./.git/objects/58/f3d589706b62e002e3f1719674d7dd346a8a98 matches
+Binary file ./.git/objects/67/3b354fea89bdfd7c80ffdc0d36cdd4bb0ff8c0 matches
+Binary file ./.git/objects/93/caee1a08abb1ca3930e3e99e1c6e7499b4ce03 matches
+Binary file ./.git/objects/94/93867375502759ba2e7a1f08fdf690008585e1 matches
+Binary file ./.git/objects/0e/6b3c8408219544715050840f3053eba16eebfa matches
+Binary file ./.git/objects/0e/0a5b6e6f40d02f45c321bb44a82656349fc579 matches
+Binary file ./.git/objects/60/070794f2fa8079bb346cd1f4c674839957cdd2 matches
+Binary file ./.git/objects/60/fc38ba1b7bea96f14283ffb599ee0b41c1ee33 matches
+Binary file ./.git/objects/34/c9867854e6946d0efe1840b8a5a3003903b5b6 matches
+Binary file ./.git/objects/5a/22ecc95a3d8de61f038f188ba062ed011cc10c matches
+Binary file ./.git/objects/5a/cf9655ce782c5a6fe49f4d1537111d04927aa0 matches
+Binary file ./.git/objects/5a/81bafdc6afc0f6d9967149265a07dc7bb926a9 matches
+Binary file ./.git/objects/5f/a47c2a91ba974cf4e660a48c8935b9a4f7d4ec matches
+Binary file ./.git/objects/33/1fb9a18885879089dd4701a18d2f9f2c29b250 matches
+Binary file ./.git/objects/33/6b19b28a6e72ba0202cd2d7d56e27fed829efa matches
+Binary file ./.git/objects/05/493952f63f2c9da9ca3fb8cdb9175559842a91 matches
+Binary file ./.git/objects/05/07bc1423d1c142eab40a19bee10a028193e9a5 matches
+Binary file ./.git/objects/05/1f61a40362a55a93822930249140f0970f3d96 matches
+Binary file ./.git/objects/9d/8b0f94e0f6277e975e5db3642c66fefa6124bb matches
+Binary file ./.git/objects/9c/4bb41b87c2c73144bc196b967cf754181aaeee matches
+Binary file ./.git/objects/9c/a59db63d68f0f91c8a7f263f426e72f25b2098 matches
+Binary file ./.git/objects/9c/012bc6aa9104c7c1ff32596faf7a03aa1bd5e2 matches
+Binary file ./.git/objects/02/8f3b567694bc727aee94c74d0403b9fc8a6056 matches
+Binary file ./.git/objects/02/d04de8508f042af56cf8df29cffc9ec6fc0b78 matches
+Binary file ./.git/objects/a4/aace75e629442b59c83e0a9697e73168286e2f matches
+Binary file ./.git/objects/b5/6db460846434831379963eea9b9163df749a43 matches
+Binary file ./.git/objects/b5/457cb0d96bb6cbfe681541c2185c9358494c8e matches
+Binary file ./.git/objects/b5/86e14c2dac25d3f2c26eb7ef0d4cbda06049ab matches
+Binary file ./.git/objects/b5/6e2be591a6380e05fbbd9f1104efe00d097557 matches
+Binary file ./.git/objects/b2/82f4680fd3df7f7b960a4e7ae13787b0a4a604 matches
+Binary file ./.git/objects/d9/2a44a31b0097b0c08c4b048d24316e86a3a209 matches
+Binary file ./.git/objects/d9/565361d1c39b94ce2b891ccffcbf7ce5d8c53c matches
+Binary file ./.git/objects/ac/837d9aec91b2d21aa3834dbd207915b61e35e5 matches
+Binary file ./.git/objects/ad/52b3383b3bb03e9050eca393cb60d841af949a matches
+Binary file ./.git/objects/bb/db0e2cc069ca026d2bc91f9f85aebf1fe0fb04 matches
+Binary file ./.git/objects/d0/38a24f7f88ca084950fcc244aa56c9a018f3c8 matches
+Binary file ./.git/objects/be/27f19066334cb900e07d759de8fdea93c93fc2 matches
+Binary file ./.git/objects/be/a141974e05578dab2a8d90fcc0dbca40292d9a matches
+Binary file ./.git/objects/b3/ddf369e1fd38977f1e10a4e0d661f2027813e0 matches
+Binary file ./.git/objects/df/aef222ccc9eea7ba3dc416fce94cd3c6d9ff80 matches
+Binary file ./.git/objects/df/be5a3a657cfc68dfa0e7625e8d41dd3c845c8d matches
+Binary file ./.git/objects/da/d34e30a90d6b45679ed044c0a3dc71625c94fa matches
+Binary file ./.git/objects/b4/7e6763e0ab520175e0216423e6965fc48d2014 matches
+Binary file ./.git/objects/b4/6ce7f1d1e8046ee3b4cf0446eb976814d3ca31 matches
+Binary file ./.git/objects/a2/18db45490be110385dfa41e43d1a72c02c91cd matches
+Binary file ./.git/objects/a5/0a870a21ab33a8ffd3335e2ec58bf57194b0d0 matches
+Binary file ./.git/objects/a5/3c56cf7778ddf01eec2d36a7a66d841d3f9820 matches
+Binary file ./.git/objects/a5/6ffeefc33e09a5dff1492a7e0f8c347effd493 matches
+Binary file ./.git/objects/a5/912827b911e15fbc05a9201bb32c6726f2a5e0 matches
+Binary file ./.git/objects/bd/9d08bdb9fa0acecbb0488857c4441655f32c20 matches
+Binary file ./.git/objects/d1/8e710d67cd2360d220c8384008c24061ff89a6 matches
+Binary file ./.git/objects/d1/c5e730f3f0155f6cf47018a504a146f30ef979 matches
+Binary file ./.git/objects/d1/a11b320640598bb9bcd30fc0bef7aa8679c61d matches
+Binary file ./.git/objects/ae/ff3c62a46c25f0e5b92dccc0e2ee54522be9d0 matches
+Binary file ./.git/objects/ae/22a4d7eab7fa19be1969d90e9bb43b36f4771a matches
+Binary file ./.git/objects/d8/22f3be7571361e301f7caf80115c7253dca42e matches
+Binary file ./.git/objects/d8/f4f832242ca609cabdddeab7413252e64df886 matches
+Binary file ./.git/objects/d8/7ed6c73ce5e2d189da45343dd80c60c27e3135 matches
+Binary file ./.git/objects/d8/0ccd1bdfaaea2897d1b8ef2129081caa192858 matches
+Binary file ./.git/objects/ab/2fe0d2bda4784d2aae7e01f3e20862c8156042 matches
+Binary file ./.git/objects/e5/03fdeb897cb1bfc98c87eeb7161a7679987931 matches
+Binary file ./.git/objects/e2/806dcaf66c86ae0bc1ccc4c3c80d8be6a079b9 matches
+Binary file ./.git/objects/e2/c7cfd018da59f9bfff1cb1d48e3460aab3f879 matches
+Binary file ./.git/objects/f4/8d4d3c2206eeb55c6f12d02f5942d6b1880213 matches
+Binary file ./.git/objects/f4/0a54b49b7aea763b2cd995fb6ae3db3ab4666c matches
+Binary file ./.git/objects/f3/31744ed09d40186e4e5c7cb908022c0766d053 matches
+Binary file ./.git/objects/f3/2647eac950000933cf47231a6e879eecc8a2af matches
+Binary file ./.git/objects/f3/f442b0a16662636b304b77236038459391c9bf matches
+Binary file ./.git/objects/eb/770469e1d53ba471dfd9eade1525b58f1844ee matches
+Binary file ./.git/objects/eb/d8a00ba7e07e4fa75d725476e75ec4f8aa130c matches
+Binary file ./.git/objects/c7/770f29905b07e53b025f1b3e9aeb1cb3df5d38 matches
+Binary file ./.git/objects/c7/aecd9313ba62b8f365ecedc28d654911b54025 matches
+Binary file ./.git/objects/c7/122a389416394c72959f59eff73dfb0003f967 matches
+Binary file ./.git/objects/c0/4b9818ee3675b7c23257567b6cd0d1eaf22bd3 matches
+Binary file ./.git/objects/ee/53bc0dc8b35c86e0351d7952a616395f7a6159 matches
+Binary file ./.git/objects/c9/aa4e7ef43e764af8958b9d2ae79dc5b4124757 matches
+Binary file ./.git/objects/fc/c18fa7523e64247ba17ac44b29449a32346769 matches
+Binary file ./.git/objects/fc/2be7c0807f2f61d4ebaf93019bfcac679b9857 matches
+Binary file ./.git/objects/fd/e386088ce2fa9c59ea6158c267471ab98aa6ff matches
+Binary file ./.git/objects/fd/9de5268de203cdaea9276a555323f32f24b58b matches
+Binary file ./.git/objects/f2/1315888584f73f5dd724f2fcaa4ef341785d28 matches
+Binary file ./.git/objects/f2/35d6ab1ea08fa70521d2ad1c0fbabf9485d8ff matches
+Binary file ./.git/objects/f5/31439e2992759bd1555f96492f77dcfbcf0308 matches
+Binary file ./.git/objects/f5/72f25d5dc8170e5f520eaddf31289bd6fad55e matches
+Binary

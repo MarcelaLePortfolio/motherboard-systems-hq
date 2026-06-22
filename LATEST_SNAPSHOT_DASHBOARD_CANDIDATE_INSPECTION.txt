@@ -1,0 +1,75 @@
+===== LATEST SNAPSHOT DASHBOARD CANDIDATE INSPECTION =====
+Thu May 28 02:02:48 PDT 2026
+
+===== CURRENT HEAD =====
+07773bd9 Add dashboard candidate preview server
+88215e45 Create dashboard candidate preview surfaces
+8b383f2a Discover post phase 715 dashboard candidates
+121b6f8e Checkpoint phase 715 dashboard candidate
+bf001184 Verify and seal phase 715 dashboard candidate surface
+5d86e1a8 Compare dashboard lineage candidates
+9599bed8 Discover dashboard recovery candidates
+5b0ba9d8 Verify live phase 91 dashboard against expected source
+
+===== FIND LATEST SNAPSHOT ARCHIVES =====
+backups/source_20260527_145245.tar.gz
+backups/repo_20260527_154139.bundle
+backups/source_20260527_145623.tar.gz
+backups/source_20260527_150206.tar.gz
+backups/repo_20260527_154345.bundle
+backups/repo_20260527_145411.bundle
+backups/repo_20260527_145503.bundle
+backups/repo_20260527_145331.bundle
+backups/source_20260527_145520.tar.gz
+backups/repo_20260527_154158.bundle
+backups/repo_20260527_154717.bundle
+backups/repo_20260527_145427.bundle
+backups/repo_20260527_145315.bundle
+backups/repo_20260527_145651.bundle
+backups/source_20260527_145748.tar.gz
+backups/repo_20260527_154230.bundle
+backups/repo_20260527_154121.bundle
+backups/source_20260527_154630.tar.gz
+backups/repo_20260527_153113.bundle
+backups/source_20260527_150058.tar.gz
+backups/repo_20260527_154040.bundle
+backups/repo_20260527_154251.bundle
+backups/repo_20260527_145722.bundle
+backups/repo_20260527_145748.bundle
+backups/repo_20260527_150058.bundle
+backups/_restore_test/snapshots/postgres_snapshot_20251120_100809.tar.gz
+backups/_restore_test/backups/source_20260527_145245.tar.gz
+backups/_restore_test/backups/source_20260527_145623.tar.gz
+backups/_restore_test/backups/source_20260527_150206.tar.gz
+backups/_restore_test/backups/repo_20260527_145411.bundle
+backups/_restore_test/backups/repo_20260527_145503.bundle
+backups/_restore_test/backups/repo_20260527_145331.bundle
+backups/_restore_test/backups/source_20260527_145520.tar.gz
+backups/_restore_test/backups/repo_20260527_145427.bundle
+backups/_restore_test/backups/repo_20260527_145315.bundle
+backups/_restore_test/backups/repo_20260527_145651.bundle
+backups/_restore_test/backups/source_20260527_145748.tar.gz
+backups/_restore_test/backups/repo_20260527_153113.bundle
+backups/_restore_test/backups/source_20260527_150058.tar.gz
+backups/_restore_test/backups/repo_20260527_145722.bundle
+backups/_restore_test/backups/repo_20260527_145748.bundle
+backups/_restore_test/backups/repo_20260527_150058.bundle
+backups/_restore_test/backups/repo_20260527_145349.bundle
+backups/_restore_test/backups/repo_20260527_145245.bundle
+backups/_restore_test/backups/repo_20260527_145623.bundle
+backups/_restore_test/backups/repo_20260527_150206.bundle
+backups/_restore_test/backups/repo_20260527_145520.bundle
+backups/_restore_test/backups/repo_20260527_145443.bundle
+backups/repo_20260527_154630.bundle
+backups/source_20260527_153200.tar.gz
+backups/source_20260527_154251.tar.gz
+backups/repo_20260527_145349.bundle
+backups/repo_20260527_154104.bundle
+backups/repo_20260527_145245.bundle
+backups/repo_20260527_145623.bundle
+backups/repo_20260527_150206.bundle
+backups/source_20260527_154345.tar.gz
+backups/repo_20260527_145520.bundle
+backups/repo_20260527_145443.bundle
+backups/source_20260527_154717.tar.gz
+snapshots/postgres_snapshot_20251120_100809.tar.gz

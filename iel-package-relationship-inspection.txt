@@ -1,0 +1,181 @@
+==================================================
+IEL / PACKAGE RELATIONSHIP INSPECTION
+==================================================
+
+
+==================================================
+docs/governance/MATILDA_INTERPRETATION_LIFECYCLE_RECONCILIATION.md
+==================================================
+2:# Matilda Interpretation Lifecycle Reconciliation
+4:Status: RECONCILED
+6:## Reconciled Findings
+10:Raw conversation history is preserved as the primary evidence source for interpretation.
+16:2. Interpretation Evidence Ledger (IEL)
+18:3. Draft Package
+20:4. Canonical Package
+26:### Interpretation Evidence Ledger (IEL)
+28:Matilda maintains an append-only Interpretation Evidence Ledger.
+30:The IEL:
+32:- preserves interpretation lineage
+36:- preserves reconciliation history
+52:### IEL Definition
+54:The IEL is not a transcript.
+56:The IEL is not a collection of conclusions.
+58:The IEL is a contextualized interpretation record.
+60:Each IEL entry contains:
+62:- Interpretation Event
+74:Full transcript preservation inside the IEL is unnecessary.
+84:- interpretation
+150:### Draft Package
+152:Matilda continuously maintains a Draft Package.
+154:Draft Package characteristics:
+156:- derived from IEL
+168:### Canonical Package
+170:Canonical Package remains the Canonical Meaning Artifact.
+172:Canonical Package:
+174:- derived from a reconciled Draft Package
+176:- derived from a specific IEL state
+184:### Reconciliation Philosophy
+186:Reconciliation is not completeness.
+188:Reconciliation is stability.
+190:A corridor becomes reconciliation-ready when:
+204:### Package Maturity Rule
+206:Package maturity is determined by interpretation stability rather than information completeness.
+208:A Draft Package is mature when future evidence is expected to refine the Package rather than fundamentally alter its meaning.
+212:### Reconciliation Authority
+214:Matilda may propose reconciliation.
+216:Matilda may not finalize reconciliation.
+218:User retains reconciliation authority.
+220:Canonical Package creation occurs through explicit user acceptance of reconciliation.
+228:Lifecycle:
+232:→ IEL
+238:→ Package
+268:Atlas intelligence is derived from the IEL.
+270:Atlas does not modify the IEL.
+286:### Reconciliation Guidance Escalation
+290:Atlas recommendations may become increasingly explicit as reconciliation readiness increases.
+292:Atlas may recommend reconciliation when evidence indicates diminishing discovery returns.
+294:Atlas may not finalize reconciliation.
+300:Matilda functions as interpretation steward.
+308:Matilda facilitates reconciliation.
+310:Atlas advises reconciliation readiness.
+
+==================================================
+docs/governance/matilda-package-contract.md
+==================================================
+2:# Matilda Package Contract
+8:The Matilda Package is the canonical interpretation artifact produced by Matilda.
+10:The package exists to preserve Matilda's understanding of established user intent before delegation occurs.
+12:The package allows the user to review the proposed work package before it enters the delegation system.
+14:The package is not an execution artifact.
+16:The package is not an authorization artifact.
+18:The package is not an execution envelope.
+24:Current lifecycle:
+30:Matilda Package
+54:Reconciliation
+64:The package preserves Matilda's interpretation.
+66:The package does not authorize execution.
+86:- Interpretation Authority
+122:- Reconciliation Authority
+124:Cade receives delegated work only after package delegation and envelope generation.
+128:## Package Definition
+130:A Matilda Package is a governed interpretation artifact.
+132:The package describes:
+144:The package should contain sufficient detail for downstream delegation without requiring Cade to invent missing requirements.
+148:## Required Package Contents
+160:Defines the expected artifacts to be created, modified, analyzed, or reconciled.
+192:## Prohibited Package Contents
+194:A Matilda Package must not contain:
+206:The package is an interpretation artifact only.
+212:The package itself carries no execution authority.
+214:Interpretation Authorization occurs when the user delegates the package.
+216:The act of delegation represents acceptance of Matilda's interpretation.
+218:The package does not contain approval state.
+220:The package does not contain approval controls.
+222:The package does not contain workflow buttons.
+230:The package precedes the execution envelope.
+232:The package is not a substitute for the execution envelope.
+236:Approved interpretation may be transformed into a governed execution envelope.
+238:The envelope inherits approved interpretation details from the package.
+244:The package is not a preview.
+246:The package answers:
+260:Package delegation does not authorize execution.
+264:Interpretation Authorization and Execution Authorization are distinct events.
+270:The Matilda Package appears to be the primary artifact produced by Matilda.
+272:The execution envelope appears to be a downstream governance artifact derived from an approved package.
+276:- interpretation
+
+==================================================
+docs/governance/CANONICAL_PACKAGE_SPECIFICATION.md
+==================================================
+2:# Canonical Package Specification
+6:The Package is the canonical meaning artifact of the Motherboard Headquarters operating model.
+8:The Package represents Matilda's authoritative interpretation of user intent.
+10:The Package is the source of truth for meaning.
+12:The Package must remain independent from operationalization, routing, assignment, and execution concerns.
+18:Lifecycle:
+28:Package
+46:Packages own meaning.
+48:Packages do not own operationalization.
+50:Packages do not own routing.
+52:Packages do not own assignment.
+54:Packages do not own execution.
+56:The Package remains the authoritative source of intent throughout the lifecycle.
+60:# Required Fields
+62:## package_id
+66:Unique Package identifier.
+182:# Optional Fields
+246:# Package Quality Requirements
+248:A valid Package must:
+260:A Package must not require downstream invention of meaning.
+264:# Prohibited Package Content
+266:Packages must not contain:
+332:The Package represents what the CEO wants.
+334:The Package does not determine how the organization fulfills that request.
+
+==================================================
+docs/governance/COLLABORATION_AND_PACKAGE_LIFECYCLE.md
+==================================================
+2:# Collaboration and Package Lifecycle
+8:This document captures the reconciled lifecycle between user collaboration, intent reconciliation, package creation, and delegation.
+14:Collaboration exists to reconcile meaning before organizational processing begins.
+22:# Lifecycle Overview
+32:Reconciled Intent Summary
+40:Package Creation
+70:No Package exists during collaboration.
+78:# Reconciled Intent Summary
+80:A Reconciled Intent Summary is a human-readable representation of the current understanding of intent.
+90:- Confirm understanding before Package creation
+92:The Reconciled Intent Summary is not a Package.
+94:The Reconciled Intent Summary is not a governance artifact.
+96:The Reconciled Intent Summary is a collaboration artifact.
+108:Approval authorizes Package creation.
+120:# Package Creation
+124:A Package is created.
+126:The Package becomes the canonical meaning artifact.
+128:The Package replaces the Reconciled Intent Summary as the authoritative representation of meaning.
+136:The Package enters Pending Delegation.
+140:- Package exists
+146:No Governance Validation may occur while a Package remains Pending Delegation.
+150:# Multiple Packages
+152:Multiple Packages may coexist.
+154:Each Package represents a distinct approved interpretation.
+156:Package existence does not require Delegation.
+158:Package existence does not require Governance Validation.
+160:Package existence does not require organizational processing.
+164:# Package Comparison
+168:- Reconciled Intent Summaries
+170:- Packages
+182:Delegation occurs after Package creation.
+184:Delegation references an existing Package.
+188:Delegation authorizes an existing Package.
+194:Users delegate Packages by reference.
+196:Delegation does not require copying Package contents.
+198:Delegation applies to a specific Package version.
+200:Package references remain authoritative.
+202:Future interfaces may represent Package selection through cards, lists, dialogs, or other mechanisms.
+214:Creates Package.
+218:Authorizes Package.
+230:Governance Validation consumes Delegated Packages.
+232:Governance Validation does not consume Reconciled Intent Summaries.
+234:Governance Validation may not evaluate Packages that remain Pending Delegation.

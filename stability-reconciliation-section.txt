@@ -1,0 +1,29 @@
+### Reconciliation Philosophy
+
+Reconciliation is not completeness.
+
+Reconciliation is stability.
+
+A corridor becomes reconciliation-ready when:
+
+- contradictions are resolved
+
+- competing models converge
+
+- foundational uncertainty is localized
+
+- architectural change rate declines
+
+- additional discussion is expected to refine rather than replace the model
+
+---
+
+### Package Maturity Rule
+
+Package maturity is determined by interpretation stability rather than information completeness.
+
+A Draft Package is mature when future evidence is expected to refine the Package rather than fundamentally alter its meaning.
+
+---
+
+### Reconciliation Authority

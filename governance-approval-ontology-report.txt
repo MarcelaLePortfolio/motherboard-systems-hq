@@ -1,0 +1,206 @@
+GOVERNANCE APPROVAL ONTOLOGY INSPECTION
+
+--- branch ---
+feature/backup-system-v2
+
+--- recent governance-related commits ---
+55c2d014 Verify planning preview card shell
+099ac212 Add read-only planning preview card shell
+42083e8b Document planning preview card mount finding
+90c9d2b2 Document artifact lane planning preview finding
+64406f67 Add artifact event lane mounting inspection
+57e3cc2f Document governed planning preview fit finding
+3c5f9145 Add governed planning artifact preview fit inspection
+9908a0a5 Document reviewable planning artifact UI finding
+cf30c947 Document current execution corridor state summary
+29f3660f Document task runtime versus governed execution finding
+43ce1e3c Document planning versus execution authority finding
+453028df Document repo answer for governance validation lifecycle
+e993b70c Guard planning draft from execution authorization
+b1a9baa2 Document governance validation enforcement scope
+b6b2e37c Preserve V2 continuation artifact observation
+97d83889 Preserve V2 continuation artifact observation
+f173f794 Add adjacent governance discovery hypothesis to V2 ledger
+59a56f2e Add governance gap discovery evidence to V2 ledger
+61dd5654 Add lineage preservation rules for governance artifacts
+049fffc3 Inspect IEL governance foundations
+a3c23ced Inspect governance validation operationalization evidence
+387a43df Inspect preview summary governance evidence
+56941835 Fix preview summary evidence grep syntax
+babc770f Fix preview summary evidence extraction command order
+bac3f487 Fix preview summary evidence extraction
+049d5db6 Investigate preview summary lifecycle findings
+43bcaf43 Add governance reconciliation verification script
+c6a2062d Document stabilized preview wrapper corridor findings
+2f75ecb5 Document stabilized execution corridor findings
+baeaa655 Add Governance Validation specification foundation
+e6b5c2bd Add Governance Lifecycle State Model
+6774f8cc Add Canonical Delegation Specification
+ca926930 Add Canonical Envelope Specification
+1408e6d5 Add Governance Validation Charter
+97c090d0 Document Matilda package governance contract
+5e85c731 Document milestone 6 outcome review governance contracts
+a19d2459 record preview approval reconciliation finding
+cda74417 reconcile milestone 5 execution lineage governance
+7fd36308 add lineage ambiguity governance contract
+f8686f69 add atlas payload access governance contract
+94d896cf add atlas visibility governance contract
+0e0a6fc0 add lineage evidence governance contract
+b5454022 add lineage relationship governance contract
+c6e7bd44 add execution lineage artifact contract
+40622594 add atlas authority governance contract
+c20f4053 authorize validator contract governance patch
+b37a11bc record milestone 3b validator governance decisions
+46a5d737 open milestone 3a validator governance review
+101f365b align runtime execution envelope contract with intent authority model
+6ddc1014 review runtime execution envelope contract against intent authority model
+034163d7 align canonical execution lifecycle with intent ambiguity governance
+f3e56600 align delegation envelope with intent evidence requirements
+471f9624 align canonical execution envelope schema with intent authority model
+7693ebc2 checkpoint canonical execution envelope schema before milestone 1c reconciliation
+d311b799 add milestone 1a envelope governance review
+c9ab8dff add milestone 1 execution envelope reconciliation checkpoint
+26b8a924 freeze milestone 0 execution governance authority model
+1eae43ea Compare retention direct and launchagent execution
+1c3663c2 Fix disaster backup tar execution
+663d043c Restore task card status trace preview fallbacks
+e847d7e8 Preview latest dashboard UI git lineage candidates
+b3b71866 Inspect Rio Drive runtime dashboard artifacts
+df310122 Record Rio Drive latest dashboard preview next step
+07773bd9 Add dashboard candidate preview server
+88215e45 Create dashboard candidate preview surfaces
+2cc958b1 Exclude backup artifacts from Docker build context
+119208a2 Checkpoint governed execution phase after HTTP pause
+f78f96a0 Clean accidental pasted shell artifact
+34376f97 Add governed planning artifact bundle
+b35ee739 Add governed execution audit ledger
+03456b30 Checkpoint governed execution corridor
+c5a7b793 Add governed execution phase runner
+95ba88c9 Add canonical execution phase state machine
+1f49d4b5 Add Matilda execution envelope draft builder
+2b49855f Add canonical execution intent normalization
+ea806569 Record execution approval gate smoke results
+effcdf4e Add canonical execution approval gate
+04c38409 Centralize governed execution validation
+f6dbb5e7 Define canonical execution envelope schema
+5e83d5c2 Define canonical governed execution lifecycle
+9bdfd5a9 Document stabilized Cade governance bridge phase
+c6cdc5de Classify Cade engineer surface against governance corridor
+71a68998 Map Cade runtime compatibility with governance corridor
+fd3d5f5d Convert execution checkpoint to fixed baseline
+06d70e49 Align execution governance checkpoint with sealed head
+4fc67f81 Seal execution governance checkpoint metadata
+fcb0a998 Finalize execution governance checkpoint metadata
+22bfd127 Update execution governance checkpoint metadata
+aec50cdf Checkpoint execution governance corridor
+7b5f368b Add envelope-aware mutation scope guard
+3a9614eb Record execution envelope validation smoke results
+cc4ac3c6 Wire execution envelope validation into delegation route
+aa2858f4 Add canonical execution envelope governance corridor
+cc16ebaf Capture execution surface contents
+1f591ce6 Document next execution implementation slice
+78afca4b Add canonical execution doctrine v1
+cbaf3820 Extract authoritative execution corridor
+f23785cd Capture Matilda delegation matching files
+14c43389 Add Delegation Envelope v1 execution contract
+91936060 fix: stabilize rsync execution on macOS (line + exclude hardening)
+14283c0c feat: disaster-safe external backup system with disk governance and safe-mode copy pipeline
+da3812a0 feat: update execution pipeline
+c2e3d88f Backup snapshot before delegation UI safety refactor
+15a867f9 (origin/phase730-semantic-section-extraction) Normalize delegation handler and unify task delegation endpoint
+ff72e338 Add execution visibility enforcement layer (task event normalizer)
+3820b6fc Add governance contract backup snapshot (system + execution visibility)
+5130f5db Add strict execution visibility contract collapsing UI lifecycle states
+dd565dd5 Add System Language Contract defining execution vs UI semantics
+a532c890 Create Phase 744 governance reconciliation final backup checkpoint
+f8c7582c Add governance architecture reconciliation index
+01ad8f07 Define governance audit lineage integrity protocol
+49ae4e18 Define governance rollback lineage integrity protocol
+d594ca55 (tag: phase744-seal-integrity-sealed-20260526) Seal Phase 744 governance seal integrity
+12f0db24 Define governance seal integrity protocol
+a8046c56 Define governance checkpoint reconciliation protocol
+5e6d11a3 Define governance drift reconciliation preservation protocol
+a17dbf63 (tag: phase744-lineage-reconciliation-sealed-20260526) Seal Phase 744 governance lineage reconciliation
+ab6777e7 Define governance lineage reconciliation protocol
+b9a30473 (tag: phase744-lineage-verification-sealed-20260526) Seal Phase 744 governance lineage verification
+05d9d27e Define governance lineage verification protocol
+b00dd05d Seal Phase 744 invariant preservation governance
+7821d674 Define governance invariant preservation protocol
+8527d581 (tag: phase744-governance-continuity-sealed-20260526) Seal Phase 744 governance continuity
+3749eb25 Define sealed governance continuity rule
+01ce1117 (tag: phase744-governance-state-machine-sealed-20260526) Seal Phase 744 governance state machine
+c325272d Define governance state machine
+c48e4c3b Seal Phase 744 governance resume protocol
+f1a15990 Define governance resume protocol
+a631b9f1 Seal Phase 744 governance freeze protocol
+e9a50a85 Define governance freeze protocol
+c4c24571 Seal Phase 744 escalation governance
+52880202 Define governance corridor escalation protocol
+91ebd5c7 Seal Phase 744 documentation governance corridor
+3ab90505 Define documentation-only governance corridor
+afc61de6 Seal Phase 744 documentation review governance
+17491c90 (tag: phase743-planning-sealed-20260526) Seal Phase 743 execution bridge planning corpus
+2f21d9df Add Phase 743 governance index
+a3aaa017 Define Phase 743 safe execution abort model
+a8ce5239 Define Phase 743 Matilda approval contract
+50ff4d23 Define Phase 743 execution bridge boundary
+3d2136be Initialize Phase 743 execution bridge planning scope
+927cb8ad Seal Phase 746 governance survivability consolidation
+e9d59fe0 Define Phase 746 governance recursive exhaustion
+198a4852 Define Phase 746 governance reconciliation exhaustion
+f52d35c8 Define Phase 746 governance survivability depletion
+4e43d07a Define Phase 746 governance persistence exhaustion
+021099c7 Define Phase 746 governance continuity exhaustion
+6b8025c5 Define Phase 746 governance attrition containment
+b64c4f03 Define Phase 746 governance survivability exhaustion
+7fc7a05a Define Phase 746 governance terminal integrity
+87abc5b5 Define Phase 746 governance irreversibility boundaries
+5fa5f15e Define Phase 746 governance finality containment
+e091a91c Define Phase 746 governance recursion containment
+305f3698 Define Phase 746 governance drift arbitration
+76c4dbcf Define Phase 746 governance equilibrium stabilization
+54f6c4d9 Define Phase 746 governance cohesion recovery
+6797bbe5 Define Phase 746 governance fracture containment
+9ffdfedf Define Phase 746 governance restoration topology
+1072d787 Define Phase 746 governance collapse prevention
+f03b28fc Define Phase 746 persistence variance governance
+35cfbd4a Define Phase 746 execution variance governance
+6298a52a Define Phase 746 execution invariance governance
+4f9bc6ea Define Phase 746 execution asymmetry governance
+a7d8f9fe Define Phase 746 execution symmetry governance
+0bc20f4f Define Phase 746 execution coherence governance
+cc837409 Define Phase 746 execution dissonance governance
+23e64f64 Define Phase 746 execution resonance governance
+dac73f61 Define Phase 746 reconciliation harmonics governance
+3671cff7 Define Phase 746 execution divergence governance
+d7211a32 Define Phase 746 execution convergence governance
+ead0a821 Define Phase 746 execution transcendence governance
+251fbce4 Define Phase 746 execution recursion governance
+7b752255 Define Phase 746 execution paradox governance
+3f6c6ac7 Define Phase 746 execution entropy governance
+16fa8b7b Define Phase 746 execution equilibrium governance
+36d7f59c Define Phase 746 execution infinity governance
+5d27f688 Define Phase 746 execution cosmology governance
+17d1c5d8 Define Phase 746 execution terminal-governance boundaries
+d7933e1c Define Phase 746 execution meta-governance
+eff706ac Define Phase 746 execution axiomatic governance
+45350005 Define Phase 746 execution ontology governance
+f263c4a2 Define Phase 746 execution epistemology governance
+b6a6c014 Define Phase 746 execution legitimacy governance
+2f865aad Define Phase 746 execution doctrine governance
+691a3da1 Define Phase 746 execution covenant governance
+d6c6c2fd Define Phase 746 execution constitutional governance
+e6a67c27 Define Phase 746 execution sovereignty governance
+5be66acf Define Phase 746 execution inheritance governance
+d1930d05 Define Phase 746 execution extinction governance
+fd6fd011 Define Phase 746 execution succession governance
+5a7d70f5 Define Phase 746 execution retirement governance
+1a6e398b Define Phase 746 execution resurrection governance
+b4ddff10 Define Phase 746 execution archival governance
+1ea2de6b Define Phase 746 execution deferral governance
+ddc838f4 Define Phase 746 execution suspension governance
+7ff28383 Define Phase 746 execution re-entry governance
+bd2ea99b Define Phase 746 execution recovery governance
+d3e0279c Define Phase 746 execution interruption governance
+0d8a78c4 Define Phase 746 execution continuity certification
+b2254b38 Define Phase 746 execution containment doctrine

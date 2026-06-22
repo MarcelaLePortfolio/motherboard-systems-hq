@@ -1,0 +1,265 @@
+
+
+==================================================================
+FILE: cade_task_processor.ts
+==================================================================
+
+/* eslint-disable import/no-commonjs */
+import { readFileSync, writeFileSync } from "fs";
+import { exec } from "child_process";
+
+const filePath = "./memory/agent_chain_state.json";
+
+function loadTasks(): any[] {
+  try {
+    const data = JSON.parse(readFileSync(filePath, "utf-8"));
+    return Array.isArray(data) ? data : [];
+  } catch {
+    return [];
+  }
+}
+
+function saveTasks(tasks: any[]) {
+  writeFileSync(filePath, JSON.stringify(tasks, null, 2));
+}
+
+function runShellCommand(command: string): Promise<void> {
+  return new Promise((resolve, reject) => {
+    exec(command, (error, stdout, stderr) => {
+      if (error) {
+        console.error("❌ Shell command error (Cade):", command, error);
+        reject(error);
+      } else {
+        console.log(`✅ Shell command success (Cade): ${command}`);
+        console.log(`📤 Output:\n${stdout}`);
+        resolve();
+      }
+    });
+  });
+}
+
+async function processTasks() {
+  const tasks = loadTasks();
+  let changed = false;
+
+  for (const task of tasks) {
+    if (task.status === "Pending" && task.agent === "Cade" && task.type === "run_shell") {
+      try {
+        await runShellCommand(task.command);
+        task.status = "Completed";
+        changed = true;
+      } catch {
+        task.status = "Failed";
+        changed = true;
+      }
+    }
+  }
+
+  if (changed) saveTasks(tasks);
+}
+
+export function startCadeTaskProcessor() {
+  console.log("⚙️ Cade Task Processor: Started, polling every 3 seconds...");
+  setInterval(() => {
+    processTasks().catch(console.error);
+  }, 3000);
+}
+
+==================================================================
+FILE: cade_task_processor_clean.ts
+==================================================================
+
+/* eslint-disable import/no-commonjs */
+import { readFileSync, writeFileSync } from "fs";
+import { exec } from "child_process";
+
+const filePath = "./memory/agent_chain_state.json";
+
+function loadTasks(): any[] {
+  try {
+    const data = readFileSync(filePath, "utf-8");
+    return JSON.parse(data);
+  } catch {
+    return [];
+  }
+}
+
+function saveTasks(tasks: any[]): void {
+  writeFileSync(filePath, JSON.stringify(tasks, null, 2));
+}
+
+function runShellCommand(command: string): Promise<void> {
+  return new Promise((resolve, reject) => {
+    exec(command, (error, stdout, stderr) => {
+      if (error) {
+        console.error("Shell command error:", command, error);
+        reject(error);
+      } else {
+        console.log("Shell command success:", command, 
+"Output:", stdout);
+        resolve();
+      }
+    });
+  });
+}
+
+async function processTasks(): Promise<void> {
+  const tasks = loadTasks();
+  let changed = false;
+
+  for (const task of tasks) {
+    if (task.status === "Pending" && task.type === "run_shell") {
+      try {
+        await runShellCommand(task.command);
+        task.status = "Completed";
+        changed = true;
+      } catch {
+        task.status = "Failed";
+        changed = true;
+      }
+    }
+  }
+
+  if (changed) {
+    saveTasks(tasks);
+  }
+}
+
+export function startCadeTaskProcessor(): void {
+  console.log("⚡ Cade Task Processor: Started, polling every 3 seconds...");
+  setInterval(() => {
+    processTasks().catch(console.error);
+  }, 3000);
+}
+
+==================================================================
+FILE: cade-processor.ts
+==================================================================
+
+ 
+import { startCadeTaskProcessor } from "./utils/cade_task_processor.js";startCadeTaskProcessor();console.log(" Cade Task Processor started.");// --- Keep the process alive ---setInterval(() => {}, 1 << 30);
+
+==================================================================
+FILE: launch-cade.ts
+==================================================================
+
+ 
+import { createAgentRuntime } from "../../mirror/agent;
+import { cade } from "../../agents/cade";
+import { readChainState, writeChainState } from "../utils/chainState";
+import { routeTask } from "../handlers/taskRouter";
+
+async function checkAndRunTaskFromState() {
+  const state = await readChainState();
+  if (state?.agent !== "Cade" || state?.status !== "Assigned") return;
+
+  console.log("🎯 [CADE] Assigned task received:", state);
+
+  try {
+    const result = await routeTask(state);
+    const updated = {
+      ...state,
+      status: "Completed",
+      result,
+      ts: Date.now()
+    };
+    await writeChainState(updated);
+    console.log("✅ [CADE] Task completed:", result);
+  } catch (err) {
+    const failed = {
+      ...state,
+      status: "Failed",
+      error: String(err),
+      ts: Date.now()
+    };
+    await writeChainState(failed);
+    console.error("❌ [CADE] Task failed:", err);
+  }
+}
+
+checkAndRunTaskFromState(); // fire once per startup for now
+
+createAgentRuntime(cade);
+
+==================================================================
+FILE: cade-delegation-watcher.ts
+==================================================================
+
+import fs from "fs";
+
+import path from "path";
+import { sqlite } from "../../db/client";
+
+let pushReflection;
+(async () => { ({ pushReflection } = await import("../utils/reflection-push.js")); })();
+
+
+const OUT_PATH = path.join(process.cwd(), "public", "delegation_success.html");
+
+function executeDelegation(task: any) {
+  console.log(`🧠 Cade executing delegation ID ${task.id}: ${task.description}`);
+
+  // Simulate action by writing confirmation file
+  const html = `<html><body><h1>${task.description}</h1></body></html>`;
+  fs.writeFileSync(OUT_PATH, html, "utf8");
+
+  // Mark as completed
+  sqlite.prepare(
+    "UPDATE task_events SET status = 'completed' WHERE id = ?"
+  ).run(task.id);
+
+  console.log(`✅ Delegation ID ${task.id} completed → ${OUT_PATH}`);
+
+
+  pushReflection("🤖 Cade completed a delegation task successfully.");
+}
+
+
+function checkPendingDelegations() {
+  const pending = sqlite.prepare(
+    "SELECT id, description FROM task_events WHERE event_type = 'delegation' AND status = 'pending'"
+  ).all();
+
+  for (const task of pending) executeDelegation(task);
+}
+
+// Run loop every 10 seconds
+console.log("🚀 Cade Delegation Watcher active...");
+setInterval(checkPendingDelegations, 10000);
+
+==================================================================
+FILE: agent-to-cade.ts
+==================================================================
+
+export async function delegateToCadeV2(payload: { command: string; args?: Record<string, any>; sourceAgent?: string }) {
+  const { command, args, sourceAgent } = payload;
+  // TODO: Add delegation logic here
+}
+
+==================================================================
+FILE: cade.ts
+==================================================================
+
+import express from "express";
+import { db } from "../db/client.js";
+import { task_events } from "../db/audit.js";
+import { desc } from "drizzle-orm";
+
+export const cadeRouter = express.Router();
+
+// GET /cade/recent → returns Cade’s recent task events
+cadeRouter.get("/recent", async (_req, res) => {
+  try {
+    const rows = db
+      .select()
+      .from(task_events)
+      .where((task_events as any).agent.eq("Cade"))
+      .orderBy(desc(task_events.created_at))
+      .limit(10)
+      .all();
+    res.json(rows);
+  } catch (err) {
+    console.error("❌ Error fetching Cade events:", err);
+    res.status(500).json({ error: "Failed to fetch Cade events" });
+  }
+});

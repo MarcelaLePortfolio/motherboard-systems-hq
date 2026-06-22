@@ -1,0 +1,189 @@
+===== PHASE 715 DASHBOARD CANDIDATE RESTORE =====
+Thu May 28 01:49:04 PDT 2026
+
+===== CURRENT HEAD BEFORE =====
+5d86e1a8 Compare dashboard lineage candidates
+9599bed8 Discover dashboard recovery candidates
+5b0ba9d8 Verify live phase 91 dashboard against expected source
+9fe4055e Restore phase 91 golden dashboard UI surface
+faf79e37 Discover newer dashboard lineage candidates
+bc20464e Record dashboard version drift finding
+e42a6f19 Create dashboard recovery checkpoint c75e9756
+c75e9756 Seal final dashboard runtime recovery state
+
+===== VERIFY TARGET =====
+ab2c2a35f0d24fcf774e55444909f5283354e539
+
+===== BACKUP CURRENT PHASE91 SERVED SURFACE =====
+backup complete
+
+===== RESTORE PHASE715 PUBLIC UI SURFACES =====
+restored public/index.html, public/dashboard.html, public/css, public/js, public/bundle.js from phase715-pre-execution-evidence-ui
+
+===== PRESERVE AGENT STATUS JSON =====
+
+===== REBUILD DASHBOARD IMAGE =====
+#1 [internal] load local bake definitions
+#1 reading from stdin 716B done
+#1 DONE 0.0s
+
+#2 [internal] load build definition from Dockerfile.dashboard
+#2 transferring dockerfile: 741B done
+#2 DONE 0.0s
+
+#3 [internal] load metadata for docker.io/library/node:20-alpine
+#3 DONE 0.6s
+
+#4 [internal] load .dockerignore
+#4 transferring context: 508B 0.0s done
+#4 DONE 0.0s
+
+#5 [1/7] FROM docker.io/library/node:20-alpine@sha256:fb4cd12c85ee03686f6af5362a0b0d56d50c58a04632e6c0fb8363f609372293
+#5 resolve docker.io/library/node:20-alpine@sha256:fb4cd12c85ee03686f6af5362a0b0d56d50c58a04632e6c0fb8363f609372293 0.0s done
+#5 DONE 0.0s
+
+#6 [internal] load build context
+#6 transferring context: 513.79kB 0.1s done
+#6 DONE 0.1s
+
+#7 [2/7] WORKDIR /app
+#7 CACHED
+
+#8 [4/7] COPY package-lock.json* ./
+#8 CACHED
+
+#9 [3/7] COPY package*.json ./
+#9 CACHED
+
+#10 [5/7] RUN npm config set fetch-retries 5     && npm config set fetch-retry-factor 2     && npm config set fetch-retry-mintimeout 10000     && npm config set fetch-retry-maxtimeout 60000     && (npm config set registry https://registry.npmmirror.com/         && npm ci --no-audit --no-fund       || npm config set registry https://registry.npmjs.org/         && npm ci --no-audit --no-fund)     && apk add --no-cache curl ripgrep
+#10 CACHED
+
+#11 [6/7] COPY . .
+#11 DONE 0.1s
+
+#12 [7/7] COPY public/ ./public/
+#12 DONE 0.0s
+
+#13 exporting to image
+#13 exporting layers
+#13 exporting layers 0.4s done
+#13 exporting manifest sha256:3f98d9328cda065a7e9ab48b7876fda62b401239431cee93a2b12a41931304e3
+#13 exporting manifest sha256:3f98d9328cda065a7e9ab48b7876fda62b401239431cee93a2b12a41931304e3 done
+#13 exporting config sha256:4da4dee0f951c1fc3b63f59621f827161e55e4918a9cbdbf102d513b7a3b25b8 done
+#13 exporting attestation manifest sha256:32fa8e69270fa610a0e2ebcbf94e47d7f9ca52e20b128ad72944607d1d4da3b6 done
+#13 exporting manifest list sha256:11748eaa5227b8b2625b3506ba338ea95bc87723da716228991c341ec018417a done
+#13 naming to docker.io/library/motherboard-systems-hq-clean-dashboard:latest done
+#13 unpacking to docker.io/library/motherboard-systems-hq-clean-dashboard:latest 0.1s done
+#13 DONE 0.5s
+
+#14 resolving provenance for metadata file
+#14 DONE 0.0s
+
+===== RESTART DASHBOARD =====
+
+===== VERIFY RUNTIME =====
+NAME                                       IMAGE                                    COMMAND                  SERVICE     CREATED          STATUS          PORTS
+motherboard-systems-hq-clean-dashboard-1   motherboard-systems-hq-clean-dashboard   "docker-entrypoint.s…"   dashboard   10 seconds ago   Up 8 seconds    0.0.0.0:8080->3000/tcp, [::]:8080->3000/tcp
+motherboard-systems-hq-clean-postgres-1    postgres:16-alpine                       "docker-entrypoint.s…"   postgres    41 minutes ago   Up 41 minutes   0.0.0.0:5432->5432/tcp, [::]:5432->5432/tcp
+
+===== ROOT CHECK =====
+HTTP/1.1 200 OK
+X-Powered-By: Express
+Accept-Ranges: bytes
+Cache-Control: public, max-age=0
+Last-Modified: Thu, 28 May 2026 08:49:04 GMT
+ETag: W/"b630-19e6dc5dc00"
+Content-Type: text/html; charset=utf-8
+Content-Length: 46640
+Date: Thu, 28 May 2026 08:49:16 GMT
+Connection: keep-alive
+Keep-Alive: timeout=5
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta http-equiv="Cache-Control" content="no-store, no-cache, must-revalidate, max-age=0" />
+  <meta http-equiv="Pragma" content="no-cache" />
+  <meta http-equiv="Expires" content="0" />
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Motherboard Systems Operator Console</title>
+
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet" />
+  <link rel="stylesheet" href="css/broadcast.css" />
+  <link rel="stylesheet" href="css/dashboard.css?v=darkmode" />
+  <link rel="stylesheet" href="css/dashboard-reflections.css" />
+  <link rel="stylesheet" href="css/agent-status-row.css" />
+  <link rel="stylesheet" href="css/matilda-chat.css" />
+  <link rel="stylesheet" href="css/demo_layout_trim.css" />
+  <link rel="stylesheet" href="css/phase59_demo_focus.css" />
+  <link rel="stylesheet" href="css/phase60_live_polish.css" />
+  <link rel="stylesheet" href="css/phase61_workspace_consolidation.css" />
+  <link rel="stylesheet" href="css/phase61_tabs_observational_workspace.css" />
+
+  <style id="matilda-chat-typography-polish">
+    #matilda-chat-transcript p {
+      line-height: 1.4 !important;
+      margin-bottom: 0.5rem !important;
+    }
+    #matilda-chat-transcript .user-message {
+      color: #dbeafe !important;
+    }
+    #matilda-chat-transcript .matilda-message {
+      color: #a7f3d0 !important;
+    }
+  </style>
+
+  <style id="phase487-layout-refinement">
+    html {
+      font-size: 14px;
+    }
+
+    body {
+      overflow-x: hidden;
+    }
+
+    .phase62-top-row {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+      gap: 1rem;
+      align-items: stretch;
+    }
+
+    .phase62-top-col {
+      min-width: 0;
+    }
+
+    #phase61-workspace-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+      gap: 1rem;
+      align-items: stretch;
+    }
+
+    #operator-workspace-card,
+    #observational-workspace-card,
+    #atlas-status-card,
+    #agent-status-container,
+    #metrics-row > div {
+      min-width: 0;
+    }
+
+    #operator-workspace-card,
+    #observational-workspace-card,
+    #atlas-status-card {
+      padding: 1.15rem !important;
+      border-radius: 1rem !important;
+    }
+
+    #agent-status-container {
+      padding: 0.95rem !important;
+      border-radius: 1rem !important;
+      min-height: 100%;
+    }
+
+    #metrics-row {
+      gap: 0.85rem !important;
+      min-height: 100%;
+    }
+

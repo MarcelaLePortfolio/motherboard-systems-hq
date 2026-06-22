@@ -1,0 +1,432 @@
+--- current head ---
+8c38c2be Add dashboard post syntax repair check
+aaf88826 Verify dashboard inline script syntax is clean
+71507a33 Repair Phase487 inline confidence syntax
+720bfc1f Inspect served dashboard inline script syntax
+5561ab3a Restore served dashboard inline layout styles
+02675968 Inspect dashboard inline layout style gap
+
+--- focused workspace body diff dashboard vs index ---
+--- /var/folders/3n/zscyzgr50b9gk8dg6fv8byz80000gn/T/tmp.cUdXjQKQaH/dashboard-body.txt	2026-06-18 15:03:37
++++ /var/folders/3n/zscyzgr50b9gk8dg6fv8byz80000gn/T/tmp.cUdXjQKQaH/index-body.txt	2026-06-18 15:03:37
+@@ -1,114 +1,158 @@
+-      <section id="phase61-workspace-shell" class="space-y-4">
+-        <div id="phase61-workspace-grid">
+-                            <section id="phase61-operator-column" class="space-y-4" aria-label="Operator workspace">
+-            <section id="operator-workspace-card" class="bg-gray-800 p-6 rounded-2xl shadow-lg border border-gray-700" data-workspace-root>
+-              <div class="flex items-center justify-between mb-4 border-b border-gray-700 pb-3">
+-                <h2 class="text-xl font-semibold">Operator Workspace</h2>
+-              </div>
++    <section id="phase61-workspace-shell" class="space-y-4">
++      <div id="phase61-workspace-grid">
++        <section id="phase61-operator-column" class="space-y-4" aria-label="Operator workspace">
++          <section id="operator-workspace-card" class="bg-gray-800 rounded-2xl shadow-lg border border-gray-700" data-workspace-root>
++            <div class="flex items-center justify-between mb-3 border-b border-gray-700 pb-3">
++              <h2 class="text-xl font-semibold">Operator Workspace</h2>
++            </div>
+ 
+-              <div id="operator-tabs" role="tablist" aria-label="Operator workspace tabs">
+-                <button id="op-tab-chat" class="obs-tab active" type="button" data-workspace-tab data-target="op-panel-chat" role="tab" aria-selected="true" aria-controls="op-panel-chat">
+-                  Chat
+-                </button>
+-                <button id="op-tab-delegation" class="obs-tab" type="button" data-workspace-tab data-target="op-panel-delegation" role="tab" aria-selected="false" aria-controls="op-panel-delegation">
+-                  Delegation
+-                </button>
+-              </div>
++            <div id="operator-tabs" role="tablist" aria-label="Operator workspace tabs">
++              <button id="op-tab-chat" class="obs-tab active" type="button" data-workspace-tab data-target="op-panel-chat" role="tab" aria-selected="true" aria-controls="op-panel-chat">
++                Chat
++              </button>
++              <button id="op-tab-delegation" class="obs-tab" type="button" data-workspace-tab data-target="op-panel-delegation" role="tab" aria-selected="false" aria-controls="op-panel-delegation">
++                Delegation
++              </button>
++            </div>
+ 
+-              <div id="operator-panels">
+-                <div id="op-panel-chat" class="obs-panel active" data-workspace-panel role="tabpanel" aria-labelledby="op-tab-chat">
+-                  <section id="matilda-chat-card" class="obs-surface">
+-                    <div id="matilda-chat-root" class="space-y-3">
+-                      <div id="matilda-chat-transcript" class="bg-gray-900 border border-gray-700 rounded-xl p-3 h-64 overflow-y-auto text-sm">
+-                        <p class="text-gray-500 italic">Chat with Matilda about tasks, status, or next steps...</p>
++            <div id="operator-panels">
++              <div id="op-panel-chat" class="obs-panel active" data-workspace-panel role="tabpanel" aria-labelledby="op-tab-chat">
++                <section id="matilda-chat-card" class="obs-surface">
++                  <div id="matilda-chat-root" class="space-y-3">
++                    <div
++                      id="matilda-chat-transcript"
++                      class="bg-gray-900 border border-gray-700 rounded-xl p-3 overflow-y-auto text-sm"
++                    >
++                      <p class="text-gray-500 italic">
++                        Chat with Matilda about tasks, status, or next steps...
++                      </p>
++                    </div>
++
++                    <div class="flex space-x-3 items-end">
++                      <textarea
++                        id="matilda-chat-input"
++                        rows="2"
++                        class="flex-1 bg-gray-900 border border-gray-700 rounded-xl p-3 text-sm resize-none focus:ring-2 focus:ring-purple-500 focus:border-purple-500"
++                        placeholder="Type a message to Matilda and press Enter or click Send..."
++                      ></textarea>
++                      <button
++                        id="matilda-chat-send"
++                        class="px-5 py-2 rounded-xl font-semibold text-sm bg-purple-500 hover:bg-purple-600 focus:outline-none focus:ring-2 focus:ring-purple-400 transition transform hover:-translate-y-0.5 shadow-lg"
++                      >
++                        Send
++                      </button>
++                      <button
++                        id="matilda-chat-quick-check"
++                        class="px-3 py-2 rounded-xl font-semibold text-xs bg-gray-700 hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-purple-400 transition shadow-lg"
++                      >
++                        Quick check
++                      </button>
++                    </div>
++
++                    <p id="matilda-helper-text-ops" class="text-xs text-gray-400 mt-1">
++                      Matilda is currently using a placeholder /api/chat stub (Phase 11.3 baseline).
++                    </p>
++
++                    <div id="operator-guidance-panel" class="mt-3 rounded-xl border border-gray-700 bg-gray-900/70 p-4">
++                      <div class="text-xs uppercase tracking-[0.2em] text-gray-500 mb-2">Operator Guidance</div>
++                      <div id="operator-guidance-response" class="text-sm text-gray-300 leading-6">
++                        Awaiting bounded guidance stream.<br />
++                        Live operator guidance will appear here when visibility wiring is active.
+                       </div>
+-                      <div class="flex space-x-3 items-end">
+-                        <textarea id="matilda-chat-input" rows="3" class="flex-1 bg-gray-900 border border-gray-700 rounded-xl p-3 text-sm resize-none focus:ring-2 focus:ring-purple-500 focus:border-purple-500" placeholder="Type a message to Matilda and press Enter or click Send..."></textarea>
+-                        <button id="matilda-chat-send" class="px-5 py-2 rounded-xl font-semibold text-sm bg-purple-500 hover:bg-purple-600 focus:outline-none focus:ring-2 focus:ring-purple-400 transition transform hover:-translate-y-0.5 shadow-lg">Send</button>
+-                        <button id="matilda-chat-quick-check" class="px-3 py-2 rounded-xl font-semibold text-xs bg-gray-700 hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-purple-400 transition shadow-lg">Quick check</button>
++                      <div id="operator-guidance-meta" class="mt-3 text-xs text-gray-500 leading-5">
++                        <span>Confidence: limited</span><br><button id="phase493-view-reasoning" style="margin-top:6px;font-size:12px;opacity:0.8;">View reasoning</button><br>
++                        Sources: diagnostics/system-health
+                       </div>
+-                      <p id="matilda-helper-text-ops" class="text-xs text-gray-400 mt-1">Matilda is currently using a placeholder /api/chat stub (Phase 11.3 baseline).</p>
+-
+-                      <div id="operator-guidance-panel" class="mt-4 rounded-xl border border-gray-700 bg-gray-900/70 p-4 min-h-[140px]">
+-                        <div class="text-xs uppercase tracking-[0.2em] text-gray-500 mb-3">Operator Guidance</div>
+-                        <div id="operator-guidance-response" class="text-sm text-gray-300 leading-6">
+-                          Awaiting bounded guidance stream.<br>
+-                          Live operator guidance will appear here when visibility wiring is active.
++                      <div id="operator-guidance-history-panel" class="mt-4 rounded-lg border border-gray-800 bg-gray-950/40 p-3">
++                        <div class="text-[10px] uppercase tracking-[0.18em] text-gray-600 mb-2">Guidance History</div>
++                        <div id="operator-guidance-history-summary" class="text-xs text-gray-400 leading-5">
++                          History placeholder awaiting read-only snapshot data.
+                         </div>
+-                        <div id="operator-guidance-meta" class="mt-3 text-xs text-gray-500 leading-5">
+-                          <span>Confidence: limited</span><br><button id="phase493-view-reasoning" style="margin-top:6px;font-size:12px;opacity:0.8;">View reasoning</button><br>
+-                          Sources: diagnostics/system-health
+-                        </div>
+                       </div>
+                     </div>
+-                  </section>
+-                </div>
++                  </div>
++                </section>
++              </div>
+ 
+-                <div id="op-panel-delegation" class="obs-panel" data-workspace-panel role="tabpanel" aria-labelledby="op-tab-delegation" hidden>
+-                  <section id="delegation-card" class="obs-surface space-y-4">
+-                    <h2 class="text-xl font-semibold border-b border-gray-700 pb-2">Task Delegation</h2>
+-                    <textarea id="delegation-input" rows="4" class="w-full bg-gray-900 border border-gray-700 p-3 rounded-xl focus:ring-teal-500 focus:border-teal-500 resize-none text-white placeholder-gray-500" placeholder="Delegate a new task or modify system parameters..."></textarea>
+-                    <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-3">
+-                      <button id="delegation-submit" class="w-full md:w-auto bg-teal-600 hover:bg-teal-700 text-white font-bold py-2 px-4 rounded-xl transition duration-200">Submit Delegation</button>
+-                      <button id="complete-task-btn" class="w-full md:w-auto bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded-xl transition duration-200">Complete Task (Alpha)</button>
++              <div id="op-panel-delegation" class="obs-panel" data-workspace-panel role="tabpanel" aria-labelledby="op-tab-delegation" hidden>
++                <section id="delegation-card" class="obs-surface space-y-3">
++                  <h2 class="text-xl font-semibold border-b border-gray-700 pb-2">Task Delegation</h2>
++                  <textarea
++                    id="delegation-input"
++                    rows="4"
++                    class="w-full bg-gray-900 border border-gray-700 p-3 rounded-xl focus:ring-teal-500 focus:border-teal-500 resize-none text-white placeholder-gray-500"
++                    placeholder="Delegate a new task or modify system parameters..."
++                  ></textarea>
++                  <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-3">
++                    <button id="delegation-submit" class="w-full md:w-auto bg-teal-600 hover:bg-teal-700 text-white font-bold py-2 px-4 rounded-xl transition duration-200">
++                      Submit Delegation
++                    </button>
++                    <button id="complete-task-btn" class="w-full md:w-auto bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded-xl transition duration-200">
++                      Complete Task (Alpha)
++                    </button>
++                  </div>
++                  <div id="delegation-status-panel" class="mt-3 rounded-xl border border-gray-700 bg-gray-900/70 p-4">
++                    <div class="text-xs uppercase tracking-[0.2em] text-gray-500 mb-2">Delegation Status</div>
++                    <div id="delegation-response" class="text-sm text-gray-300 leading-6">
++                      Awaiting operator input.<br />
++                      Results from delegation requests will appear here.
+                     </div>
+-                    <div id="delegation-status-panel" class="mt-4 rounded-xl border border-gray-700 bg-gray-900/70 p-4 min-h-[140px]">
+-                      <div class="text-xs uppercase tracking-[0.2em] text-gray-500 mb-3">Delegation Status</div>
+-                      <div id="delegation-response" class="text-sm text-gray-300 leading-6">
+-                        Awaiting operator input.<br>
+-                        Results from delegation requests will appear here.
+-                      </div>
+-                    </div>
+-                  </section>
+-                </div>
++                  </div>
++                </section>
+               </div>
+-            </section>
++            </div>
+           </section>
++        </section>
+ 
+-          <section id="phase61-telemetry-column" class="space-y-4" aria-label="Observational workspace">
+-            <section id="observational-workspace-card" class="bg-gray-800 p-6 rounded-2xl shadow-lg border border-gray-700" data-workspace-root>
+-              <div class="flex items-center justify-between mb-4 border-b border-gray-700 pb-3">
+-                <h2 class="text-xl font-semibold">Telemetry Workspace</h2>
+-              </div>
++        <section id="phase61-telemetry-column" class="space-y-4" aria-label="Observational workspace">
++          <section id="observational-workspace-card" class="bg-gray-800 rounded-2xl shadow-lg border border-gray-700" data-workspace-root>
++            <div class="flex items-center justify-between mb-3 border-b border-gray-700 pb-3">
++              <h2 class="text-xl font-semibold">Telemetry Console</h2>
++            </div>
+ 
+-              <div id="observational-tabs" role="tablist" aria-label="Observational workspace tabs">
+-                <button id="obs-tab-recent" class="obs-tab active" type="button" data-workspace-tab data-target="obs-panel-recent" role="tab" aria-selected="true" aria-controls="obs-panel-recent">
+-                  Recent Tasks
+-                </button>
+-                <button id="obs-tab-activity" class="obs-tab" type="button" data-workspace-tab data-target="obs-panel-activity" role="tab" aria-selected="false" aria-controls="obs-panel-activity">
+-                  Recent Tasks
+-                </button>
+-                <button id="obs-tab-events" class="obs-tab" type="button" data-workspace-tab data-target="obs-panel-events" role="tab" aria-selected="false" aria-controls="obs-panel-events">
+-                  Task Events
+-                </button>
+-              </div>
++            <div id="observational-tabs" role="tablist" aria-label="Telemetry workspace tabs">
++              <button id="obs-tab-recent" class="obs-tab active" type="button" data-workspace-tab data-target="obs-panel-recent" role="tab" aria-selected="true" aria-controls="obs-panel-recent">
++                Recent Tasks
++              </button>
++              <button id="obs-tab-activity" class="obs-tab" type="button" data-workspace-tab data-target="obs-panel-activity" role="tab" aria-selected="false" aria-controls="obs-panel-activity">
++                Recent Tasks
++              </button>
++              <button id="obs-tab-events" class="obs-tab" type="button" data-workspace-tab data-target="obs-panel-events" role="tab" aria-selected="false" aria-controls="obs-panel-events">
++                Execution Inspector
++              </button>
++            </div>
+ 
+-              <div id="observational-panels">
+-                <div id="obs-panel-recent" class="obs-panel active" data-workspace-panel role="tabpanel" aria-labelledby="obs-tab-recent">
+-                  <section id="recent-tasks-card" class="obs-surface">
+-                    <div class="flex items-center justify-between mb-4 border-b border-gray-700 pb-2">
+-                    </div>
+-                    <div id="tasks-widget"></div>
+-                  </section>
+-                </div>
+-
+-                <div id="obs-panel-activity" class="obs-panel" data-workspace-panel role="tabpanel" aria-labelledby="obs-tab-activity" hidden>
+-                  <section id="task-activity-card" class="obs-surface">
++            <div id="observational-panels">
++              <div id="obs-panel-recent" class="obs-panel active" data-workspace-panel role="tabpanel" aria-labelledby="obs-tab-recent">
++                <section id="recent-tasks-card" class="obs-surface space-y-3">
++                  <div>
++                    <h3 class="text-sm uppercase tracking-[0.2em] text-gray-400 mb-2">Recent Tasks</h3>
++                    <div id="recentTasks" class="bg-gray-900 border border-gray-700 rounded-xl p-3 text-sm text-gray-300"></div>
++                  </div>
++                  <div>
++                    <h3 class="text-sm uppercase tracking-[0.2em] text-gray-400 mb-2">Recent Logs</h3>
+                     
+-                    <div class="h-64">
+-                      <canvas id="task-activity-graph" class="w-full h-full"></canvas>
+-                    </div>
+-                  </section>
+-                </div>
++                  </div>
++                </section>
++              </div>
+ 
+-                <div id="obs-panel-events" class="obs-panel" data-workspace-panel role="tabpanel" aria-labelledby="obs-tab-events" hidden>
+-                  <section id="task-events-card" class="obs-surface phase61-events-fill">
+-                    <div class="flex items-center justify-between mb-4 border-b border-gray-700 pb-2">
+-                    </div>
+-                    <div id="mb-task-events-panel-anchor"></div>
+-                  </section>
+-                </div>
++              <div id="obs-panel-activity" class="obs-panel" data-workspace-panel role="tabpanel" aria-labelledby="obs-tab-activity" hidden>
++                <section id="task-activity-card" class="obs-surface">
++                  <div class="h-64 bg-slate-950 border-2 border-blue-500 rounded-xl p-3 shadow-[0_0_0_1px_rgba(59,130,246,0.35),0_20px_50px_rgba(2,6,23,0.8)]" style="background:#020617 !important; border:3px solid #3b82f6 !important; border-radius:1rem !important; box-shadow:0 0 0 2px rgba(59,130,246,0.55),0 22px 60px rgba(2,6,23,0.9) !important;">
++                    <canvas id="task-activity-graph" class="w-full h-full"></canvas>
++                  </div>
++                </section>
+               </div>
+-            </section>
++
++              <div id="obs-panel-events" class="obs-panel" data-workspace-panel role="tabpanel" aria-labelledby="obs-tab-events" hidden>
++                <section id="task-events-card" class="obs-surface">
++                  <div id="mb-task-events-panel-anchor" class="bg-gray-900 border border-gray-700 rounded-xl p-3 text-sm text-gray-300"></div>
++                </section>
++              </div>
++            </div>
+           </section>
+-    <section id="phase61-atlas-band" class="space-y-4">
++        </section>
++      </div>
++    </section>
++
++    <section id="atlas-status-card" class="bg-gray-800 rounded-2xl shadow-lg border border-gray-700">
+
+--- focused script diff dashboard vs index ---
+--- /var/folders/3n/zscyzgr50b9gk8dg6fv8byz80000gn/T/tmp.cUdXjQKQaH/dashboard-scripts.txt	2026-06-18 15:03:37
++++ /var/folders/3n/zscyzgr50b9gk8dg6fv8byz80000gn/T/tmp.cUdXjQKQaH/index-scripts.txt	2026-06-18 15:03:37
+@@ -1,40 +1,65 @@
+-30:  <script defer src="js/agent-status-health-indicator.js"></script>
+-195:  <style id="phase489-unified-panel-heights">
+-246:  <style id="phase490-evidence-based-height-fix">
+-298:  <style id="phase489-task-activity-scroll">
+-310:  <style id="phase489-recent-tasks-scroll">
+-728:    <!-- phase470.6 temporary neutralization: operatorGuidance.sse.js removed to isolate dashboard freeze / unresponsive behavior -->
+-729:<!-- phase471.1 temporary neutralization: /js/phase457_restore_task_panels.js removed to isolate task-events surface -->
+-735:<script id="phase487-force-confidence-override">
+-767:</script>
+-769:<script id="phase487-operator-guidance-fallback">
+-830:</script>
+-832:<script id="phase487-task-clarity-fallback">
+-914:</script>
+-916:  <script defer src="/js/phase487_humanize_task_ids.js"></script>
+-917:  <script defer src="js/matilda-chat-console.js"></script>
+-918:  <script type="module" src="js/dashboard-bundle-entry.js"></script>
+-919:<script src="/js/dashboard-delegation.js"></script>
+-947:<script>
+-960:</script>
+-963:<script>
++184:  <script defer src="js/dashboard-status.js"></script>
++185:  <script defer src="js/agent-status-row.js"></script>
++186:  <script type="module" src="js/dashboard-broadcast.js"></script>
++187:  <script defer src="js/matilda-chat-console.js"></script>
++188:  <script defer src="js/phase64_agent_activity_wire.js"></script>
++450:<style id="phase489-unified-panel-heights">
++501:<style id="phase490-evidence-based-height-fix">
++553:<style id="phase489-task-activity-scroll">
++564:\n<style id="phase489-recent-tasks-scroll">
++576:  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.2/dist/chart.umd.js"></script>
++577:  <script defer src="js/phase61_tabs_workspace.js"></script>
++578:  <script defer src="js/phase490_telemetry_height_probe.js"></script>
++579:  <script defer src="js/phase490_operator_height_probe.js"></script>
++580:  <script defer src="js/phase490_matilda_piece_debug.js"></script>
++581:  <script defer src="js/phase490_operator_height_beacon.js"></script>
++582:  <script defer src="js/phase490_height_evidence_capture.js"></script>
++583:  <script defer src="js/phase489_panel_height_sync.js"></script>
++584:  <script defer src="js/dashboard-delegation.js"></script>
++585:  <script defer src="js/phase61_recent_history_wire.js"></script>
++586:  <script defer src="js/dashboard-graph.js"></script>
++587:  <script defer src="js/phase457_restore_task_panels.js"></script>
++588:  <script defer src="js/task-events-sse-client.js"></script>
++589:  <script defer src="js/phase530_visible_panels_bridge.js"></script>
++590:  <script defer src="js/phase530_dom_probe.js"></script>
++591:  <script defer src="js/phase531_recent_tasks_layout_fix.js"></script>
++592:  <script defer src="js/phase533_execution_inspector_layout_fix.js"></script>
++593:  <script defer src="js/phase534_execution_inspector_expand.js"></script>
++594:  <script defer src="js/phase535_execution_inspector_requeue.js"></script>
++595:  <script defer src="js/phase537_execution_inspector_retry.js"></script>
++596:  <script defer src="js/phase539_execution_inspector_retry_mode_display.js"></script>
++597:  <script defer src="js/phase532_task_history_fill_fix.js"></script>
++598:  <script defer src="js/task-completion.js"></script>
++599:  <script defer src="js/operatorGuidance.sse.js"></script>
++624:<script>
++637:</script>
++640:<script>
++674:</script>
++677:<script>
++690:      if (data.operatorGuidance || data.guidanceStream) {
++698:</script>
++701:<script>
++728:</script>
++731:<script>
++765:</script>
++768:<script>
++814:</script>
++817:<script>
++871:</script>
++874:<script>
++947:</script>
++950:<script>
+ 997:</script>
+-1000:<script>
+-1013:      if (data.operatorGuidance || data.guidanceStream) {
+-1021:</script>
+-1024:<script>
+-1051:</script>
+-1054:<script>
+-1088:</script>
+-1091:<script>
+-1137:</script>
+-1140:<script>
+-1194:</script>
+-1197:<script>
+-1270:</script>
+-1273:<script>
+-1320:</script>
+-1323:<script>
+-1390:</script>
+-1393:<script>
+-1417:</script>
++999:<script>
++1023:</script>
++1025:<script id="phase487-operator-guidance-fallback">
++1086:</script>
++1088:<script id="phase487-task-clarity-fallback">
++1170:</script>
++1172:  <script defer src="/js/phase487_humanize_task_ids.js"></script>
++1173:  <script defer src="js/phase565_recent_tasks_wire.js"></script>
++1174:  <script defer src="js/phase565_recent_logs_wire.js"></script>
++1177:<script>
++1210:</script>
++1212:  <script defer src="js/phase573_execution_inspector_debug.js"></script>
++1213:  <script defer src="js/phase574_execution_inspector_success_feedback.js"></script>
+
+--- CSS rules touching workspace grid/card layout ---
+public/css/phase61_workspace_consolidation.css:22:#phase61-workspace-grid {
+public/css/phase61_workspace_consolidation.css:29:#phase61-operator-column,
+public/css/phase61_workspace_consolidation.css:30:#phase61-telemetry-column,
+public/css/phase61_workspace_consolidation.css:116:  #phase61-workspace-grid {
+public/css/phase61_tabs_observational_workspace.css:5:#observational-workspace-card {
+public/css/phase61_tabs_observational_workspace.css:49:#observational-panels {
+public/css/phase61_tabs_observational_workspace.css:54:.obs-panel {
+public/css/phase61_tabs_observational_workspace.css:58:.obs-panel.active {
+public/css/phase61_tabs_observational_workspace.css:62:.obs-surface {
+public/css/phase61_tabs_observational_workspace.css:67:#obs-panel-recent .obs-surface,
+public/css/phase61_tabs_observational_workspace.css:68:#obs-panel-activity .obs-surface,
+public/css/phase61_tabs_observational_workspace.css:69:#obs-panel-events .obs-surface {
+public/css/phase61_tabs_observational_workspace.css:96:#phase61-workspace-grid {
+public/css/phase61_tabs_observational_workspace.css:100:#phase61-operator-column,
+public/css/phase61_tabs_observational_workspace.css:101:#phase61-telemetry-column {
+public/css/phase61_tabs_observational_workspace.css:105:#phase61-telemetry-column {
+public/css/phase61_tabs_observational_workspace.css:119:  #observational-workspace-card {
+public/css/phase61_tabs_observational_workspace.css:123:  .obs-surface,
+public/css/phase61_tabs_observational_workspace.css:124:  #observational-panels {
+public/css/phase491_workspace_equal_height.css:12:#operator-workspace-card,
+public/css/phase491_workspace_equal_height.css:13:#observational-workspace-card {
+public/css/phase491_workspace_equal_height.css:21:#operator-workspace-card > *,
+public/css/phase491_workspace_equal_height.css:22:#observational-workspace-card > * {
+public/css/phase491_workspace_equal_height.css:39:#observational-workspace-card * {
+public/dashboard.html:67:    #phase61-workspace-grid {
+public/dashboard.html:74:    #operator-workspace-card,
+public/dashboard.html:75:    #observational-workspace-card,
+public/dashboard.html:82:    #operator-workspace-card,
+public/dashboard.html:83:    #observational-workspace-card,
+public/dashboard.html:144:    .obs-panel[hidden] {
+public/dashboard.html:148:    .obs-panel.active:not([hidden]) {
+public/dashboard.html:152:    .obs-surface {
+public/dashboard.html:189:      #phase61-workspace-grid {
+public/dashboard.html:197:  #observational-workspace-card,
+public/dashboard.html:207:  #observational-panels,
+public/dashboard.html:209:  #phase61-telemetry-column {
+public/dashboard.html:217:  .obs-panel {
+public/dashboard.html:275:  #observational-panels > .obs-panel:not([hidden]),
+public/dashboard.html:276:  #operator-panels > *:not([hidden]) {
+public/dashboard.html:409:  #operator-workspace-card > div:first-child h2,
+public/dashboard.html:410:  #observational-workspace-card > div:first-child h2,
+public/dashboard.html:416:  #operator-workspace-card,
+public/dashboard.html:417:  #observational-workspace-card,
+public/dashboard.html:426:  #operator-workspace-card > div:first-child,
+public/dashboard.html:427:  #observational-workspace-card > div:first-child,
+public/dashboard.html:441:  #operator-workspace-card > div:first-child h2,
+public/dashboard.html:442:  #observational-workspace-card > div:first-child h2,
+public/dashboard.html:464:section#task-events-card.obs-surface {
+public/dashboard.html:471:section#task-events-card.obs-surface > #mb-task-events-panel-anchor {
+public/dashboard.html:480:section#task-events-card.obs-surface {
+public/dashboard.html:486:section#task-events-card.obs-surface > #mb-task-events-panel-anchor {
+public/js/phase490_telemetry_height_probe.js:51:      measure("#operator-workspace-card"),
+public/js/phase490_telemetry_height_probe.js:52:      measure("#observational-workspace-card"),
+public/js/phase489_panel_height_sync.js:62:    const operatorPanels = q("#operator-panels");
+public/js/phase533_execution_inspector_layout_fix.js:9:    const parentCard = inspector.closest(".obs-surface");

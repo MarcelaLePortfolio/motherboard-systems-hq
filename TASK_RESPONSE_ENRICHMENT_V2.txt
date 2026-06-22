@@ -1,0 +1,79 @@
+===== TASK RESPONSE ENRICHMENT V2 =====
+Thu May 28 16:40:00 PDT 2026
+
+diff --git a/server/routes/api-tasks-postgres.mjs b/server/routes/api-tasks-postgres.mjs
+index 5007793b..de0d656a 100644
+--- a/server/routes/api-tasks-postgres.mjs
++++ b/server/routes/api-tasks-postgres.mjs
+@@ -52,13 +52,69 @@ apiTasksRouter.get("/", async (req, res) => {
+ 
+     const limit = Math.max(1, Math.min(200, Number(req.query?.limit ?? 25) || 25));
+     const r = await pool.query(
++
+       `
+-      SELECT id, task_id, title, status, updated_at
++
++      SELECT
++
++        id,
++
++        task_id,
++
++        title,
++
++        status,
++
++        notes,
++
++        run_id,
++
++        action_tier,
++
++        kind,
++
++        payload,
++
++        metadata,
++
++        created_at,
++
++        updated_at,
++
++        coalesce(payload->>'agent', assignee) as agent,
++
++        coalesce(payload->>'source', metadata->>'source') as source,
++
++        coalesce(payload->>'trace_id', metadata->>'trace_id') as trace_id,
++
++        coalesce(payload->'meta', metadata->'meta') as meta,
++
++        coalesce(payload->'delegation_envelope', metadata->'delegation_envelope') as delegation_envelope,
++
++        coalesce(payload->'artifacts', metadata->'artifacts') as artifacts,
++
++        coalesce(payload->'artifact', metadata->'artifact') as artifact,
++
++        coalesce(payload->>'outcome_preview', metadata->>'outcome_preview') as outcome_preview,
++
++        coalesce(payload->>'explanation_preview', notes, metadata->>'explanation_preview') as explanation_preview,
++
++        coalesce(payload->'guidance', metadata->'guidance') as guidance,
++
++        coalesce(payload->>'strategy', metadata->>'strategy') as strategy,
++
++        coalesce(payload->'meta'->>'retry_of_task_id', metadata->'meta'->>'retry_of_task_id') as retry_of_task_id
++
+       FROM tasks
++
+       ORDER BY updated_at DESC NULLS LAST, id DESC
++
+       LIMIT $1
++
+       `,
++
+       [limit]
++
+     );
+ 
+     res.status(200).json({ ok: true, tasks: r.rows || [] });
+===== VERIFY ENRICHED /api/tasks =====
