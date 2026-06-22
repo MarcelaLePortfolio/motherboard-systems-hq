@@ -1,11 +1,23 @@
 
-import { createGovernancePackage } from "../db/governance-runtime.ts";
+import fs from "node:fs";
 
-import { sqlite } from "../db/client.ts";
+import Database from "better-sqlite3";
 
 const packageId = "smoke-governance-package-runtime";
 
 const packageVersion = 1;
+
+const dbPath = "db/main.db";
+
+const migrationPath = "drizzle/0004_governance_lifecycle_artifacts.sql";
+
+const sqlite = new Database(dbPath);
+
+sqlite.pragma("foreign_keys = ON");
+
+sqlite.exec(fs.readFileSync(migrationPath, "utf8"));
+
+const { createGovernancePackage } = await import("../db/governance-runtime.ts");
 
 function cleanup() {
 
@@ -18,6 +30,16 @@ function cleanup() {
     )
 
     .run(packageId, packageVersion);
+
+  sqlite
+
+    .prepare(
+
+      "DELETE FROM governance_packages WHERE package_id = ? AND package_version = ?",
+
+    )
+
+    .run("smoke-governance-package-runtime-missing-field", 1);
 
 }
 

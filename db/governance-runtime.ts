@@ -1,5 +1,5 @@
 
-import { sqlite } from "./client";
+import Database from "better-sqlite3";
 
 export type CreateGovernancePackageInput = {
 
@@ -34,6 +34,10 @@ export type CreatedGovernancePackage = {
   created_at: string;
 
 };
+
+const sqlite = new Database("db/main.db");
+
+sqlite.pragma("foreign_keys = ON");
 
 const requiredTextFields = [
 
