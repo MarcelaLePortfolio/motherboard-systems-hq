@@ -151,6 +151,52 @@ export type CreatedGovernanceEnvelopeGate = {
 
 };
 
+export type CreateGovernanceEnvelopeInput = {
+
+  envelope_id: string;
+
+  package_id: string;
+
+  package_version: number;
+
+  delegation_id: string;
+
+  validation_result_id: string;
+
+  envelope_gate_id: string;
+
+  validation_status: string;
+
+  required_capabilities?: string | null;
+
+  operational_corridor?: string | null;
+
+  lifecycle_state: string;
+
+};
+
+export type CreatedGovernanceEnvelope = {
+
+  envelope_id: string;
+
+  package_id: string;
+
+  package_version: number;
+
+  delegation_id: string;
+
+  validation_result_id: string;
+
+  envelope_gate_id: string;
+
+  validation_status: string;
+
+  lifecycle_state: string;
+
+  created_at: string;
+
+};
+
 const sqlite = new Database("db/main.db");
 
 sqlite.pragma("foreign_keys = ON");
@@ -206,6 +252,24 @@ const requiredEnvelopeGateTextFields = [
   "validation_result_id",
 
   "gate_status",
+
+] as const;
+
+const requiredEnvelopeTextFields = [
+
+  "envelope_id",
+
+  "package_id",
+
+  "delegation_id",
+
+  "validation_result_id",
+
+  "envelope_gate_id",
+
+  "validation_status",
+
+  "lifecycle_state",
 
 ] as const;
 
@@ -289,11 +353,31 @@ function requireEnvelopeGateText(
 
 }
 
+function requireEnvelopeText(
+
+  input: CreateGovernanceEnvelopeInput,
+
+  field: (typeof requiredEnvelopeTextFields)[number],
+
+): string {
+
+  const value = input[field];
+
+  if (typeof value !== "string" || value.trim().length === 0) {
+
+    throw new Error(`Missing required governance Envelope field: ${field}`);
+
+  }
+
+  return value;
+
+}
+
 function requirePackageVersion(
 
   value: unknown,
 
-  artifact: "Package" | "Delegation" | "Validation" | "Envelope Gate",
+  artifact: "Package" | "Delegation" | "Validation" | "Envelope Gate" | "Envelope",
 
 ): number {
 
@@ -776,6 +860,132 @@ export function createGovernanceEnvelopeGate(
     gate_status,
 
     gate_decision_timestamp,
+
+    created_at,
+
+  };
+
+}
+
+export function createGovernanceEnvelope(
+
+  input: CreateGovernanceEnvelopeInput,
+
+): CreatedGovernanceEnvelope {
+
+  const envelope_id = requireEnvelopeText(input, "envelope_id");
+
+  const package_id = requireEnvelopeText(input, "package_id");
+
+  const package_version = requirePackageVersion(input.package_version, "Envelope");
+
+  const delegation_id = requireEnvelopeText(input, "delegation_id");
+
+  const validation_result_id = requireEnvelopeText(input, "validation_result_id");
+
+  const envelope_gate_id = requireEnvelopeText(input, "envelope_gate_id");
+
+  const validation_status = requireEnvelopeText(input, "validation_status");
+
+  const lifecycle_state = requireEnvelopeText(input, "lifecycle_state");
+
+  const created_at = new Date().toISOString();
+
+  sqlite.prepare(`
+
+    INSERT INTO governance_envelopes (
+
+      envelope_id,
+
+      package_id,
+
+      package_version,
+
+      delegation_id,
+
+      validation_result_id,
+
+      envelope_gate_id,
+
+      validation_status,
+
+      required_capabilities,
+
+      operational_corridor,
+
+      lifecycle_state,
+
+      created_at
+
+    ) VALUES (
+
+      @envelope_id,
+
+      @package_id,
+
+      @package_version,
+
+      @delegation_id,
+
+      @validation_result_id,
+
+      @envelope_gate_id,
+
+      @validation_status,
+
+      @required_capabilities,
+
+      @operational_corridor,
+
+      @lifecycle_state,
+
+      @created_at
+
+    )
+
+  `).run({
+
+    envelope_id,
+
+    package_id,
+
+    package_version,
+
+    delegation_id,
+
+    validation_result_id,
+
+    envelope_gate_id,
+
+    validation_status,
+
+    required_capabilities: optionalText(input.required_capabilities),
+
+    operational_corridor: optionalText(input.operational_corridor),
+
+    lifecycle_state,
+
+    created_at,
+
+  });
+
+  return {
+
+    envelope_id,
+
+    package_id,
+
+    package_version,
+
+    delegation_id,
+
+    validation_result_id,
+
+    envelope_gate_id,
+
+    validation_status,
+
+    lifecycle_state,
 
     created_at,
 
