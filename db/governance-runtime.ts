@@ -111,6 +111,46 @@ export type CreatedGovernanceValidationResult = {
 
 };
 
+export type CreateGovernanceEnvelopeGateInput = {
+
+  envelope_gate_id: string;
+
+  package_id: string;
+
+  package_version: number;
+
+  delegation_id: string;
+
+  validation_result_id: string;
+
+  gate_status: string;
+
+  gate_reason?: string | null;
+
+  gate_decision_timestamp?: string | null;
+
+};
+
+export type CreatedGovernanceEnvelopeGate = {
+
+  envelope_gate_id: string;
+
+  package_id: string;
+
+  package_version: number;
+
+  delegation_id: string;
+
+  validation_result_id: string;
+
+  gate_status: string;
+
+  gate_decision_timestamp: string;
+
+  created_at: string;
+
+};
+
 const sqlite = new Database("db/main.db");
 
 sqlite.pragma("foreign_keys = ON");
@@ -152,6 +192,20 @@ const requiredValidationTextFields = [
   "delegation_id",
 
   "validation_status",
+
+] as const;
+
+const requiredEnvelopeGateTextFields = [
+
+  "envelope_gate_id",
+
+  "package_id",
+
+  "delegation_id",
+
+  "validation_result_id",
+
+  "gate_status",
 
 ] as const;
 
@@ -215,7 +269,33 @@ function requireValidationText(
 
 }
 
-function requirePackageVersion(value: unknown, artifact: "Package" | "Delegation" | "Validation"): number {
+function requireEnvelopeGateText(
+
+  input: CreateGovernanceEnvelopeGateInput,
+
+  field: (typeof requiredEnvelopeGateTextFields)[number],
+
+): string {
+
+  const value = input[field];
+
+  if (typeof value !== "string" || value.trim().length === 0) {
+
+    throw new Error(`Missing required governance Envelope Gate field: ${field}`);
+
+  }
+
+  return value;
+
+}
+
+function requirePackageVersion(
+
+  value: unknown,
+
+  artifact: "Package" | "Delegation" | "Validation" | "Envelope Gate",
+
+): number {
 
   if (!Number.isInteger(value) || Number(value) < 1) {
 
@@ -243,9 +323,9 @@ function optionalTimestamp(
 
   value: string | null | undefined,
 
-  artifact: "Delegation" | "Validation",
+  artifact: "Delegation" | "Validation" | "Envelope Gate",
 
-  field: "authorization_timestamp" | "validation_timestamp",
+  field: "authorization_timestamp" | "validation_timestamp" | "gate_decision_timestamp",
 
 ): string {
 
@@ -578,6 +658,124 @@ export function createGovernanceValidationResult(
     validation_status,
 
     validation_timestamp,
+
+    created_at,
+
+  };
+
+}
+
+export function createGovernanceEnvelopeGate(
+
+  input: CreateGovernanceEnvelopeGateInput,
+
+): CreatedGovernanceEnvelopeGate {
+
+  const envelope_gate_id = requireEnvelopeGateText(input, "envelope_gate_id");
+
+  const package_id = requireEnvelopeGateText(input, "package_id");
+
+  const package_version = requirePackageVersion(input.package_version, "Envelope Gate");
+
+  const delegation_id = requireEnvelopeGateText(input, "delegation_id");
+
+  const validation_result_id = requireEnvelopeGateText(input, "validation_result_id");
+
+  const gate_status = requireEnvelopeGateText(input, "gate_status");
+
+  const gate_decision_timestamp = optionalTimestamp(
+
+    input.gate_decision_timestamp,
+
+    "Envelope Gate",
+
+    "gate_decision_timestamp",
+
+  );
+
+  const created_at = new Date().toISOString();
+
+  sqlite.prepare(`
+
+    INSERT INTO governance_envelope_gates (
+
+      envelope_gate_id,
+
+      package_id,
+
+      package_version,
+
+      delegation_id,
+
+      validation_result_id,
+
+      gate_status,
+
+      gate_reason,
+
+      gate_decision_timestamp,
+
+      created_at
+
+    ) VALUES (
+
+      @envelope_gate_id,
+
+      @package_id,
+
+      @package_version,
+
+      @delegation_id,
+
+      @validation_result_id,
+
+      @gate_status,
+
+      @gate_reason,
+
+      @gate_decision_timestamp,
+
+      @created_at
+
+    )
+
+  `).run({
+
+    envelope_gate_id,
+
+    package_id,
+
+    package_version,
+
+    delegation_id,
+
+    validation_result_id,
+
+    gate_status,
+
+    gate_reason: optionalText(input.gate_reason),
+
+    gate_decision_timestamp,
+
+    created_at,
+
+  });
+
+  return {
+
+    envelope_gate_id,
+
+    package_id,
+
+    package_version,
+
+    delegation_id,
+
+    validation_result_id,
+
+    gate_status,
+
+    gate_decision_timestamp,
 
     created_at,
 
