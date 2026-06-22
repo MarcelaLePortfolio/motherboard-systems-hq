@@ -35,11 +35,45 @@ export type CreatedGovernancePackage = {
 
 };
 
+export type CreateGovernanceDelegationInput = {
+
+  delegation_id: string;
+
+  package_id: string;
+
+  package_version: number;
+
+  authorization_state: string;
+
+  authorization_timestamp?: string | null;
+
+  delegated_by: string;
+
+};
+
+export type CreatedGovernanceDelegation = {
+
+  delegation_id: string;
+
+  package_id: string;
+
+  package_version: number;
+
+  authorization_state: string;
+
+  authorization_timestamp: string;
+
+  delegated_by: string;
+
+  created_at: string;
+
+};
+
 const sqlite = new Database("db/main.db");
 
 sqlite.pragma("foreign_keys = ON");
 
-const requiredTextFields = [
+const requiredPackageTextFields = [
 
   "package_id",
 
@@ -55,7 +89,25 @@ const requiredTextFields = [
 
 ] as const;
 
-function requireText(input: CreateGovernancePackageInput, field: (typeof requiredTextFields)[number]): string {
+const requiredDelegationTextFields = [
+
+  "delegation_id",
+
+  "package_id",
+
+  "authorization_state",
+
+  "delegated_by",
+
+] as const;
+
+function requirePackageText(
+
+  input: CreateGovernancePackageInput,
+
+  field: (typeof requiredPackageTextFields)[number],
+
+): string {
 
   const value = input[field];
 
@@ -69,11 +121,31 @@ function requireText(input: CreateGovernancePackageInput, field: (typeof require
 
 }
 
-function requirePackageVersion(value: unknown): number {
+function requireDelegationText(
+
+  input: CreateGovernanceDelegationInput,
+
+  field: (typeof requiredDelegationTextFields)[number],
+
+): string {
+
+  const value = input[field];
+
+  if (typeof value !== "string" || value.trim().length === 0) {
+
+    throw new Error(`Missing required governance Delegation field: ${field}`);
+
+  }
+
+  return value;
+
+}
+
+function requirePackageVersion(value: unknown, artifact: "Package" | "Delegation"): number {
 
   if (!Number.isInteger(value) || Number(value) < 1) {
 
-    throw new Error("Missing required governance Package field: package_version");
+    throw new Error(`Missing required governance ${artifact} field: package_version`);
 
   }
 
@@ -93,21 +165,39 @@ function optionalText(value: string | null | undefined): string | null {
 
 }
 
+function optionalTimestamp(value: string | null | undefined): string {
+
+  if (value === undefined || value === null) {
+
+    return new Date().toISOString();
+
+  }
+
+  if (typeof value !== "string" || value.trim().length === 0) {
+
+    throw new Error("Missing required governance Delegation field: authorization_timestamp");
+
+  }
+
+  return value;
+
+}
+
 export function createGovernancePackage(input: CreateGovernancePackageInput): CreatedGovernancePackage {
 
-  const package_id = requireText(input, "package_id");
+  const package_id = requirePackageText(input, "package_id");
 
-  const package_version = requirePackageVersion(input.package_version);
+  const package_version = requirePackageVersion(input.package_version, "Package");
 
-  const requested_outcome = requireText(input, "requested_outcome");
+  const requested_outcome = requirePackageText(input, "requested_outcome");
 
-  const scope = requireText(input, "scope");
+  const scope = requirePackageText(input, "scope");
 
-  const containment = requireText(input, "containment");
+  const containment = requirePackageText(input, "containment");
 
-  const constraints = requireText(input, "constraints");
+  const constraints = requirePackageText(input, "constraints");
 
-  const success_criteria = requireText(input, "success_criteria");
+  const success_criteria = requirePackageText(input, "success_criteria");
 
   const created_at = new Date().toISOString();
 
@@ -194,6 +284,100 @@ export function createGovernancePackage(input: CreateGovernancePackageInput): Cr
     package_id,
 
     package_version,
+
+    created_at,
+
+  };
+
+}
+
+export function createGovernanceDelegation(
+
+  input: CreateGovernanceDelegationInput,
+
+): CreatedGovernanceDelegation {
+
+  const delegation_id = requireDelegationText(input, "delegation_id");
+
+  const package_id = requireDelegationText(input, "package_id");
+
+  const package_version = requirePackageVersion(input.package_version, "Delegation");
+
+  const authorization_state = requireDelegationText(input, "authorization_state");
+
+  const authorization_timestamp = optionalTimestamp(input.authorization_timestamp);
+
+  const delegated_by = requireDelegationText(input, "delegated_by");
+
+  const created_at = new Date().toISOString();
+
+  sqlite.prepare(`
+
+    INSERT INTO governance_delegations (
+
+      delegation_id,
+
+      package_id,
+
+      package_version,
+
+      authorization_state,
+
+      authorization_timestamp,
+
+      delegated_by,
+
+      created_at
+
+    ) VALUES (
+
+      @delegation_id,
+
+      @package_id,
+
+      @package_version,
+
+      @authorization_state,
+
+      @authorization_timestamp,
+
+      @delegated_by,
+
+      @created_at
+
+    )
+
+  `).run({
+
+    delegation_id,
+
+    package_id,
+
+    package_version,
+
+    authorization_state,
+
+    authorization_timestamp,
+
+    delegated_by,
+
+    created_at,
+
+  });
+
+  return {
+
+    delegation_id,
+
+    package_id,
+
+    package_version,
+
+    authorization_state,
+
+    authorization_timestamp,
+
+    delegated_by,
 
     created_at,
 
