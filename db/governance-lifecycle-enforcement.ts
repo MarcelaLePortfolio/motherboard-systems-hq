@@ -19,6 +19,12 @@ export type GovernanceEnvelopeForCreation = {
 
 };
 
+export type GovernanceDelegationForValidation = {
+
+  authorization_state: string;
+
+};
+
 export type AssertEnvelopeCreationEligibleInput = {
 
   validationResult: GovernanceValidationForEnvelopeCreation;
@@ -26,6 +32,12 @@ export type AssertEnvelopeCreationEligibleInput = {
   envelopeGate: GovernanceEnvelopeGateForEnvelopeCreation;
 
   envelope: GovernanceEnvelopeForCreation;
+
+};
+
+export type AssertValidationEligibleInput = {
+
+  delegation: GovernanceDelegationForValidation;
 
 };
 
@@ -82,6 +94,32 @@ function isValidationPassed(validationStatus: string): boolean {
 function isEnvelopeGateOpen(gateStatus: string): boolean {
 
   return normalizeLifecycleStatus(gateStatus) === "OPEN";
+
+}
+
+function isDelegationAuthorized(authorizationState: string): boolean {
+
+  return normalizeLifecycleStatus(authorizationState) === "AUTHORIZED";
+
+}
+
+export function assertValidationEligible(
+
+  input: AssertValidationEligibleInput,
+
+): void {
+
+  const delegation = requireLifecycleInput(input?.delegation, "delegation");
+
+  if (!isDelegationAuthorized(delegation.authorization_state)) {
+
+    throw new Error(
+
+      `Governance Validation ineligible: Delegation is not authorized (${delegation.authorization_state})`,
+
+    );
+
+  }
 
 }
 

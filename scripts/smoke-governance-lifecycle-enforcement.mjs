@@ -1,5 +1,11 @@
 
-import { assertEnvelopeCreationEligible } from "../db/governance-lifecycle-enforcement.ts";
+import {
+
+  assertEnvelopeCreationEligible,
+
+  assertValidationEligible,
+
+} from "../db/governance-lifecycle-enforcement.ts";
 
 function assert(condition, message) {
 
@@ -50,6 +56,68 @@ const eligibleEnvelope = {
   operational_corridor: "planning_only",
 
 };
+
+assertDoesNotThrow("authorized validation eligibility", () => {
+
+  assertValidationEligible({
+
+    delegation: {
+
+      authorization_state: "authorized",
+
+    },
+
+  });
+
+});
+
+assertDoesNotThrow("normalized authorized validation eligibility", () => {
+
+  assertValidationEligible({
+
+    delegation: {
+
+      authorization_state: "AUTHORIZED",
+
+    },
+
+  });
+
+});
+
+assertThrows("missing delegation input", () => {
+
+  assertValidationEligible({});
+
+});
+
+assertThrows("unauthorized delegation", () => {
+
+  assertValidationEligible({
+
+    delegation: {
+
+      authorization_state: "pending",
+
+    },
+
+  });
+
+});
+
+assertThrows("blank delegation authorization state", () => {
+
+  assertValidationEligible({
+
+    delegation: {
+
+      authorization_state: " ",
+
+    },
+
+  });
+
+});
 
 assertDoesNotThrow("canonical eligible envelope creation", () => {
 
@@ -309,5 +377,5 @@ assertThrows("missing operational corridor", () => {
 
 });
 
-console.log("PASS smoke-governance-lifecycle-enforcement");
+console.log("Governance lifecycle enforcement smoke passed");
 
