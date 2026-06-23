@@ -63,7 +63,27 @@ assertDoesNotThrow("canonical eligible envelope creation", () => {
 
 });
 
-assertDoesNotThrow("current runtime eligible envelope creation", () => {
+assertDoesNotThrow("normalized canonical eligible envelope creation", () => {
+
+  assertEnvelopeCreationEligible({
+
+    validationResult: {
+
+      validation_status: "validation passed",
+
+    },
+
+    envelopeGate: {
+
+      gate_status: "open",
+
+    },
+
+  });
+
+});
+
+assertThrows("runtime placeholder ready validation", () => {
 
   assertEnvelopeCreationEligible({
 
@@ -76,6 +96,26 @@ assertDoesNotThrow("current runtime eligible envelope creation", () => {
     envelopeGate: {
 
       gate_status: "open",
+
+    },
+
+  });
+
+});
+
+assertThrows("noncanonical passed validation alias", () => {
+
+  assertEnvelopeCreationEligible({
+
+    validationResult: {
+
+      validation_status: "PASSED",
+
+    },
+
+    envelopeGate: {
+
+      gate_status: "OPEN",
 
     },
 

@@ -45,9 +45,7 @@ function normalizeLifecycleStatus(value: string): string {
 
 function isValidationPassed(validationStatus: string): boolean {
 
-  const normalized = normalizeLifecycleStatus(validationStatus);
-
-  return normalized === "VALIDATION_PASSED" || normalized === "PASSED" || normalized === "READY";
+  return normalizeLifecycleStatus(validationStatus) === "VALIDATION_PASSED";
 
 }
 
