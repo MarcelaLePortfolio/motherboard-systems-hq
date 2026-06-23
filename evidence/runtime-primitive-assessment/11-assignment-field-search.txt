@@ -1,0 +1,11 @@
+docs/governance/CANONICAL_ENVELOPE_SPECIFICATION.md:246:Current Authorized Owner
+docs/governance/CANONICAL_ENVELOPE_SPECIFICATION.md:252:## assignment_state
+docs/governance/CANONICAL_ENVELOPE_SPECIFICATION.md:272:## assigned_department
+docs/governance/CANONICAL_ENVELOPE_SPECIFICATION.md:290:## assigned_actor
+server/orchestration/router.test.ts:26:  if (r.ok) assert.equal(r.assignedAgent, "effie");
+server/orchestration/scheduler.ts:9:  assignedAgent?: string | null;
+server/orchestration/scheduler.ts:60:  const agent = task.assignedAgent || "unassigned";
+server/orchestration/router.ts:20:  | { ok: true; assignedAgent: AgentId; reason: string }
+server/orchestration/router.ts:54:  return { ok: true, assignedAgent: chosen.id, reason: `chosen=${chosen.id} caps_ok kind=${req.kind}` };
+server/orchestration/scheduler.test.ts:33:    assignedAgent: "cade",
+server/orchestration/scheduler.test.ts:74:  const r = isEligibleNow(ctxNormal, task({ assignedAgent: "cade" }), snap(0, [["cade", 1]], [["demo", 0]]), cfg);

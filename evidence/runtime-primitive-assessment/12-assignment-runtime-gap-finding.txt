@@ -1,0 +1,79 @@
+
+# Assignment Runtime Gap Finding
+
+Evidence inspected:
+
+- server/orchestration/router.ts
+
+- server/orchestration/router.test.ts
+
+- server/orchestration/scheduler.ts
+
+- server/orchestration/scheduler.test.ts
+
+- docs/governance/CAPABILITY_ROUTING_MODEL.md
+
+- docs/governance/GOVERNANCE_LIFECYCLE_STATE_MODEL.md
+
+- docs/governance/CANONICAL_ENVELOPE_SPECIFICATION.md
+
+- docs/governance/HEADQUARTERS_ORGANIZATIONAL_CHARTER.md
+
+Finding:
+
+Routing exists as an active runtime primitive.
+
+Scheduling exists as an active runtime eligibility primitive.
+
+Assignment exists as a canonical governance specification, but no Ellis-owned assignment runtime mutation primitive has been found.
+
+Runtime evidence:
+
+- router.ts returns assignedAgent.
+
+- scheduler.ts consumes assignedAgent.
+
+- scheduler.ts does not create assignment.
+
+- scheduler.ts does not mutate assignment_state.
+
+- scheduler.ts does not mutate assigned_department.
+
+- scheduler.ts does not mutate assigned_actor.
+
+- scheduler.ts does not persist routing_state or ownership_state.
+
+Governance evidence:
+
+- Ellis owns assignment.
+
+- Ellis owns routing state.
+
+- Ellis owns ownership determination.
+
+- Assignment requires an existing Envelope.
+
+- Assignment requires derived Required Capabilities.
+
+- Envelope assignment fields are Ellis-owned.
+
+- Governance Validation may not perform assignment.
+
+Boundary conclusion:
+
+The missing primitive, if any, is not Lifecycle Authority.
+
+The evidence points to a future Ellis / Assignment Authority runtime corridor.
+
+Current status:
+
+- Lifecycle Authority remains closed.
+
+- Routing primitive exists.
+
+- Scheduling primitive exists.
+
+- Assignment runtime primitive is not yet implemented.
+
+- Ellis runtime is not yet implemented.
+

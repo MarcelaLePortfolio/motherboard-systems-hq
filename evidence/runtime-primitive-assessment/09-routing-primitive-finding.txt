@@ -1,0 +1,24 @@
+# Runtime Primitive Evidence Finding
+
+Observed active files:
+- server/orchestration/router.ts
+- server/orchestration/router.test.ts
+- scripts/_local/handlers/taskRouter.ts
+
+Finding:
+An active routing primitive already exists at server/orchestration/router.ts.
+
+Characteristics:
+- Pure function.
+- Does not mutate persistence.
+- Does not derive required capabilities.
+- Consumes requiredCaps supplied by caller.
+- Selects first healthy, non-busy agent satisfying required capabilities.
+- Blocks routing when operatorMode is PAUSE or DRAIN.
+
+Boundary meaning:
+This supports Routing as an existing runtime primitive, but not as a Lifecycle Authority primitive.
+It does not establish Ellis runtime implementation, assignment mutation, or execution authorization.
+
+Local legacy router:
+scripts/_local/handlers/taskRouter.ts is a separate legacy/local task-type switch and should not be treated as the governed routing primitive without further evidence.
