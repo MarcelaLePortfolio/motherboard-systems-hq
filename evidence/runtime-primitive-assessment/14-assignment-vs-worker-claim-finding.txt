@@ -1,0 +1,79 @@
+
+# Assignment vs Worker Claim Persistence Finding
+
+Evidence inspected:
+
+- evidence/runtime-primitive-assessment/13-assignment-persistence-search.txt
+
+- drizzle/0003_phase32_tasks_actor_run_id.sql
+
+- drizzle_pg/0001_create_tasks.sql
+
+- drizzle_pg/0006_phase32_1_task_events_contract.sql
+
+- drizzle_pg/0007_phase34_lease_heartbeat_reclaim.sql
+
+- drizzle_pg/0007_phase36_1_run_view.sql
+
+- server/orchestration/router.ts
+
+- server/orchestration/scheduler.ts
+
+- server/worker/phase34_claim_one_pg.sql
+
+- server/worker/phase35_claim_one_pg.sql
+
+- server/task_events_emit.mjs
+
+Finding:
+
+The repository contains persistence for worker/task claiming and event actors, but this is not the same as canonical Ellis assignment.
+
+Observed persistence concepts:
+
+- tasks.claimed_by
+
+- tasks.actor
+
+- task_events.actor
+
+- worker lease ownership
+
+- run_view actor projection
+
+Canonical assignment concepts searched:
+
+- assignment_state
+
+- assigned_department
+
+- assigned_actor
+
+- routing_state
+
+- ownership_state
+
+Result:
+
+Canonical assignment fields appear in governance documentation, especially the Envelope specification, but were not found as active persisted runtime fields in server/src/routes/drizzle/sql/docs search scope.
+
+Boundary conclusion:
+
+Worker claim persistence supports execution/worker coordination.
+
+It does not satisfy Ellis-owned assignment authority as specified by governance docs.
+
+Current classification:
+
+- Routing primitive: implemented.
+
+- Scheduling eligibility primitive: implemented.
+
+- Worker claim/actor persistence: implemented.
+
+- Canonical Ellis assignment mutation/persistence: not found.
+
+- Lifecycle Authority: remains closed.
+
+- Assignment Authority: future corridor supported by repository evidence.
+
