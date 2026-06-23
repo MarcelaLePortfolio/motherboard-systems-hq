@@ -11,11 +11,21 @@ export type GovernanceEnvelopeGateForEnvelopeCreation = {
 
 };
 
+export type GovernanceEnvelopeForCreation = {
+
+  required_capabilities?: string | null;
+
+  operational_corridor?: string | null;
+
+};
+
 export type AssertEnvelopeCreationEligibleInput = {
 
   validationResult: GovernanceValidationForEnvelopeCreation;
 
   envelopeGate: GovernanceEnvelopeGateForEnvelopeCreation;
+
+  envelope: GovernanceEnvelopeForCreation;
 
 };
 
@@ -34,6 +44,26 @@ function requireLifecycleInput<T>(
   }
 
   return value;
+
+}
+
+function requireLifecycleText(
+
+  value: string | null | undefined,
+
+  label: string,
+
+): string {
+
+  const normalized = value?.trim();
+
+  if (!normalized) {
+
+    throw new Error(`Missing governance lifecycle field: ${label}`);
+
+  }
+
+  return normalized;
 
 }
 
@@ -77,6 +107,8 @@ export function assertEnvelopeCreationEligible(
 
   );
 
+  const envelope = requireLifecycleInput(input?.envelope, "envelope");
+
   if (!isValidationPassed(validationResult.validation_status)) {
 
     throw new Error(
@@ -96,6 +128,10 @@ export function assertEnvelopeCreationEligible(
     );
 
   }
+
+  requireLifecycleText(envelope.required_capabilities, "required_capabilities");
+
+  requireLifecycleText(envelope.operational_corridor, "operational_corridor");
 
 }
 

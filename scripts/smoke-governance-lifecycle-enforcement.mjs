@@ -43,6 +43,14 @@ function assertDoesNotThrow(label, fn) {
 
 }
 
+const eligibleEnvelope = {
+
+  required_capabilities: "engineering_planning,repository_analysis",
+
+  operational_corridor: "planning_only",
+
+};
+
 assertDoesNotThrow("canonical eligible envelope creation", () => {
 
   assertEnvelopeCreationEligible({
@@ -58,6 +66,8 @@ assertDoesNotThrow("canonical eligible envelope creation", () => {
       gate_status: "OPEN",
 
     },
+
+    envelope: eligibleEnvelope,
 
   });
 
@@ -79,6 +89,8 @@ assertDoesNotThrow("normalized canonical eligible envelope creation", () => {
 
     },
 
+    envelope: eligibleEnvelope,
+
   });
 
 });
@@ -98,6 +110,8 @@ assertThrows("runtime placeholder ready validation", () => {
       gate_status: "open",
 
     },
+
+    envelope: eligibleEnvelope,
 
   });
 
@@ -119,6 +133,8 @@ assertThrows("noncanonical passed validation alias", () => {
 
     },
 
+    envelope: eligibleEnvelope,
+
   });
 
 });
@@ -138,6 +154,8 @@ assertThrows("failed validation", () => {
       gate_status: "OPEN",
 
     },
+
+    envelope: eligibleEnvelope,
 
   });
 
@@ -159,6 +177,8 @@ assertThrows("resolution required validation", () => {
 
     },
 
+    envelope: eligibleEnvelope,
+
   });
 
 });
@@ -179,6 +199,8 @@ assertThrows("closed envelope gate", () => {
 
     },
 
+    envelope: eligibleEnvelope,
+
   });
 
 });
@@ -193,6 +215,8 @@ assertThrows("missing validation input", () => {
 
     },
 
+    envelope: eligibleEnvelope,
+
   });
 
 });
@@ -204,6 +228,80 @@ assertThrows("missing gate input", () => {
     validationResult: {
 
       validation_status: "VALIDATION_PASSED",
+
+    },
+
+    envelope: eligibleEnvelope,
+
+  });
+
+});
+
+assertThrows("missing envelope input", () => {
+
+  assertEnvelopeCreationEligible({
+
+    validationResult: {
+
+      validation_status: "VALIDATION_PASSED",
+
+    },
+
+    envelopeGate: {
+
+      gate_status: "OPEN",
+
+    },
+
+  });
+
+});
+
+assertThrows("missing required capabilities", () => {
+
+  assertEnvelopeCreationEligible({
+
+    validationResult: {
+
+      validation_status: "VALIDATION_PASSED",
+
+    },
+
+    envelopeGate: {
+
+      gate_status: "OPEN",
+
+    },
+
+    envelope: {
+
+      operational_corridor: "planning_only",
+
+    },
+
+  });
+
+});
+
+assertThrows("missing operational corridor", () => {
+
+  assertEnvelopeCreationEligible({
+
+    validationResult: {
+
+      validation_status: "VALIDATION_PASSED",
+
+    },
+
+    envelopeGate: {
+
+      gate_status: "OPEN",
+
+    },
+
+    envelope: {
+
+      required_capabilities: "engineering_planning",
 
     },
 
