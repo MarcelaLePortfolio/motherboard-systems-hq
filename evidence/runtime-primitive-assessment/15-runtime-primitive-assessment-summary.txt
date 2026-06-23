@@ -1,0 +1,51 @@
+
+# Remaining Governance Runtime Primitive Assessment Summary
+
+Status:
+
+Evidence gathering complete enough for current frontier classification.
+
+Confirmed implemented runtime primitives:
+
+- Lifecycle eligibility: assertValidationEligible(...)
+
+- Envelope creation eligibility: assertEnvelopeCreationEligible(...)
+
+- Routing: server/orchestration/router.ts
+
+- Scheduling eligibility/throttling: server/orchestration/scheduler.ts
+
+- Worker claim/actor persistence: tasks.claimed_by, tasks.actor, task_events.actor
+
+Confirmed not found:
+
+- Ellis runtime implementation
+
+- Canonical assignment_state mutation
+
+- Canonical assigned_department mutation
+
+- Canonical assigned_actor mutation
+
+- Canonical routing_state persistence
+
+- Canonical ownership_state persistence
+
+Classification:
+
+Lifecycle Authority remains closed.
+
+Routing runtime primitive already exists.
+
+Scheduling runtime primitive already exists.
+
+Worker execution claim persistence exists but is not canonical Ellis assignment.
+
+The evidence-supported unresolved primitive is Assignment Authority / Ellis runtime, not Lifecycle Authority.
+
+Next canonical milestone:
+
+Ellis Assignment Authority Assessment.
+
+Do not implement automatically.
+
