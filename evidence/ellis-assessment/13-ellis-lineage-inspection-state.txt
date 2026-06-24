@@ -1,0 +1,63 @@
+
+ELLIS LINEAGE INSPECTION STATE
+
+Finding:
+
+Lineage inspection supports the conclusion that Ellis is a named constituent authority introduced into the governance architecture after earlier execution-governance milestones had already modeled Matilda, Atlas, Cade, and Effie.
+
+Evidence observed:
+
+- Early Milestone 0-3 contract artifacts model Matilda, Atlas, Cade, Effie, and validator/governance validation boundaries, but do not prominently model Ellis.
+
+- Later governance documents explicitly model Ellis as Operations Coordination.
+
+- HEADQUARTERS_ORGANIZATIONAL_CHARTER defines Ellis under Operations Coordination with Authority Domain: Operational Assignment and Coordination.
+
+- CANONICAL_PACKAGE_SPECIFICATION states assignment belongs to Ellis and routing belongs to Ellis.
+
+- CANONICAL_ENVELOPE_SPECIFICATION states Envelope is routed and assigned by Ellis and marks assignment fields as Ellis-only.
+
+- CAPABILITY_ROUTING_MODEL states Ellis owns capability resolution and assignment.
+
+- GOVERNANCE_LIFECYCLE_STATE_MODEL defines ASSIGNED as Ellis having resolved capabilities and assigned ownership.
+
+- GOVERNANCE_VALIDATION_SPECIFICATION states Governance Validation determines requirements while Ellis determines ownership.
+
+Interpretation:
+
+The current evidence supports the user's recollection that Ellis was not a random or unfounded mechanical feature.
+
+Ellis appears to have emerged as the named authority required to occupy the gap between Governance Validation and Operational Departments:
+
+Governance Validation determines requirements.
+
+Atlas maintains organizational intelligence / capability knowledge.
+
+Ellis determines ownership and assignment.
+
+Operational departments execute.
+
+Current conclusion:
+
+Ellis is a specified named organizational constituent authority.
+
+Ellis runtime is not implemented.
+
+Ellis implementation was deferred.
+
+The final implementation shape remains unresolved, but future implementation must preserve Ellis's authority over operational assignment, ownership, routing state, and coordination state.
+
+Current caution:
+
+Do not collapse Ellis into the existing router/scheduler/worker mechanics.
+
+Do not claim Ellis is merely a service boundary.
+
+Do not claim Ellis must be implemented immediately as an autonomous agent.
+
+Preserve the distinction between:
+
+- Ellis's constituent authority status, which is supported by governance evidence.
+
+- Ellis's runtime implementation shape, which remains deferred and unresolved.
+
