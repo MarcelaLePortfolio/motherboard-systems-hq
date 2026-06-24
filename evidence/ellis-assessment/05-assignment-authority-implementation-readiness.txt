@@ -1,0 +1,97 @@
+
+# Assignment Authority Implementation Readiness Finding
+
+Assessment Scope:
+
+Determine whether repository evidence supports opening an Assignment Authority implementation-readiness corridor.
+
+Evidence Reviewed:
+
+- evidence/ellis-assessment/04-ellis-assignment-authority-conclusion.txt
+
+- db/governance.schema.ts
+
+- db/governance-runtime.ts
+
+- db/governance-lifecycle-enforcement.ts
+
+- scripts/smoke-governance-envelope-runtime.mjs
+
+- scripts/validate-governance-persistence.sh
+
+- server/orchestration/router.ts
+
+- server/orchestration/scheduler.ts
+
+- docs/governance/CANONICAL_ENVELOPE_SPECIFICATION.md
+
+- docs/governance/GOVERNANCE_LIFECYCLE_STATE_MODEL.md
+
+Findings:
+
+- governance_envelopes currently persists Envelope creation state.
+
+- governance_envelopes currently includes Governance Validation-owned Envelope fields:
+
+  - validation_status
+
+  - required_capabilities
+
+  - operational_corridor
+
+- governance_envelopes currently includes lifecycle_state.
+
+- governance_envelopes does not include Ellis-owned assignment fields:
+
+  - assignment_state
+
+  - assigned_department
+
+  - assigned_actor
+
+  - routing_history
+
+- db/governance-runtime.ts supports createGovernanceEnvelope(...).
+
+- db/governance-runtime.ts does not support Ellis assignment mutation.
+
+- Current smoke and persistence validation scripts validate Envelope creation, not assignment persistence.
+
+- server/orchestration/router.ts is a pure task routing primitive.
+
+- server/orchestration/scheduler.ts is a task scheduling primitive.
+
+- Existing task routing/scheduling surfaces are not canonical Envelope assignment authority.
+
+- GOVERNANCE_LIFECYCLE_STATE_MODEL defines ENVELOPE_CREATED -> ASSIGNED as a formal lifecycle transition.
+
+- ASSIGNED means Ellis has resolved capabilities and assigned ownership.
+
+- CANONICAL_ENVELOPE_SPECIFICATION defines assignment_state, assigned_department, assigned_actor, and routing_history as Ellis-owned fields with Ellis-only mutation authority.
+
+Readiness Interpretation:
+
+Repository evidence supports opening an Assignment Authority implementation-readiness corridor.
+
+The smallest plausible implementation surface would be the governance Envelope persistence/runtime layer, not the task router, task scheduler, worker claim system, or execution runtime.
+
+Implementation should remain limited to canonical Ellis assignment state and lifecycle transition readiness unless separately authorized.
+
+Implementation remains unauthorized.
+
+Out Of Scope Unless Separately Authorized:
+
+- Agent invocation.
+
+- Automation.
+
+- Execution Authority.
+
+- Routing Authority beyond assignment-state derivation.
+
+- Task scheduler changes.
+
+- Worker claim changes.
+
+- Generalized lifecycle engine.
+
