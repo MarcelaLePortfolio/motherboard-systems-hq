@@ -1,0 +1,55 @@
+
+ELLIS CONSTITUENT AUTHORITY CORRECTION
+
+Finding:
+
+Further inspection shows Ellis should not be reduced to a mechanical routing service boundary.
+
+Repository governance documents identify Ellis as a named organizational constituent authority:
+
+- HEADQUARTERS_ORGANIZATIONAL_CHARTER defines Operations Coordination with Role: Ellis.
+
+- Ellis authority domain is Operational Assignment and Coordination.
+
+- Ellis responsibilities include consuming Envelope artifacts, routing work by capability, assigning ownership, tracking operational status, and coordinating multi-agent workflows.
+
+- Ellis produces Assignment, Ownership, Routing State, and Coordination State.
+
+- CANONICAL_PACKAGE_SPECIFICATION states assignment belongs to Ellis and routing belongs to Ellis.
+
+- CANONICAL_ENVELOPE_SPECIFICATION states the Envelope is routed and assigned by Ellis.
+
+- GOVERNANCE_LIFECYCLE_STATE_MODEL defines ASSIGNED as Ellis having resolved capabilities and assigned ownership.
+
+- GOVERNANCE_VALIDATION_SPECIFICATION states Governance Validation determines requirements while Ellis determines ownership.
+
+Correction:
+
+The absence of an implemented Ellis runtime proves only that implementation was deferred.
+
+It does not prove Ellis was intended as a mere utility, service, or router primitive.
+
+Current corrected conclusion:
+
+Ellis is a specified named organizational authority for Operational Assignment and Coordination.
+
+Ellis runtime is not implemented.
+
+Ellis implementation shape remains unresolved and should not be collapsed prematurely into either:
+
+- a mechanical service only, or
+
+- an autonomous agent implementation now.
+
+Future implementation should preserve Ellis as the authority responsible for transforming governance-derived requirements into assignment, ownership, routing state, and coordination state.
+
+Current implementation recommendation:
+
+Do not implement Ellis yet without explicit authorization.
+
+Do not remove or weaken Ellis's constituent authority status.
+
+Do not treat existing router/scheduler/task-state/worker-claim primitives as Ellis itself.
+
+Treat those primitives as downstream mechanics that may eventually consume Ellis-owned assignment and coordination outputs.
+
