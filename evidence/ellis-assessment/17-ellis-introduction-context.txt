@@ -1,3 +1,188 @@
 ELLIS INTRODUCTION CONTEXT
 
---- Evolution of Headquarters Charter Ellis section ---
+--- Current HEAD ---
+c369dc25
+
+--- Note ---
+Previous inspection command failed because git log --follow requires exactly one pathspec.
+This artifact replaces that failed inspection with one-pathspec lineage checks.
+
+--- Headquarters Charter commits mentioning Ellis section ---
+36e50d1a 2026-06-03 Add canonical Headquarters Organizational Charter
+
+--- Headquarters Charter Ellis diff context ---
+140-+- Intent Interpretation
+141-+
+142-+- Actor Assignment
+143-+
+144-+- Engineering Planning
+145-+
+146-+- Desktop Operations
+147-+
+148-+---
+149-+
+150:+# Operations Coordination
+151-+
+152-+## Role
+153-+
+154:+Ellis
+155-+
+156-+## Authority Domain
+157-+
+158:+Operational Assignment and Coordination
+159-+
+160-+## Responsibilities
+161-+
+162-+- Consume Envelope artifacts
+163-+
+164-+- Route work by capability
+165-+
+166-+- Assign ownership
+167-+
+168-+- Track operational status
+--
+322-+# Organizational Principle
+323-+
+324-+Authority domains must remain separated.
+325-+
+326-+No department may assume authority belonging to another department.
+327-+
+328-+Packages own meaning.
+329-+
+330-+Governance Validation owns operationalization review.
+331-+
+332:+Ellis owns assignment.
+333-+
+334-+Departments own capabilities.
+335-+
+336-+Atlas owns organizational intelligence and relationship intelligence.
+337-+
+
+--- Capability Routing Model commits ---
+28551668 2026-06-03 Add Capability Routing Model
+
+--- Capability Routing Model Ellis diff context ---
+48-+↓
+49-+
+50-+Derive Required Capabilities
+51-+
+52-+↓
+53-+
+54-+Envelope
+55-+
+56-+↓
+57-+
+58:+Ellis
+59-+
+60-+↓
+61-+
+62-+Capability Resolution
+63-+
+64-+↓
+65-+
+66-+Assignment
+67-+
+68-+↓
+--
+170-+Back up repository to Rio Drive
+171-+
+172-+Derived Capabilities:
+173-+
+174-+- desktop_operations
+175-+
+176-+- external_backup
+177-+
+178-+Capabilities are derived from operational requirements.
+179-+
+180:+Capabilities are not derived by Ellis.
+181-+
+182-+---
+183-+
+184-+# Envelope Contribution
+185-+
+186-+Governance Validation writes required capabilities into the Envelope.
+187-+
+188-+Example:
+189-+
+190-+Required Capabilities:
+191-+
+192-+- engineering_planning
+193-+
+194-+- repository_analysis
+195-+
+196-+The Envelope contains capability requirements.
+197-+
+198:+The Envelope does not contain actor assignments.
+199-+
+200-+---
+201-+
+202-+# Routing Responsibility
+203-+
+204:+Ellis owns capability resolution and assignment.
+205-+
+206:+Ellis consumes:
+207-+
+208-+- Required Capabilities
+209-+
+210-+- Operational Corridor
+211-+
+212-+- Envelope State
+213-+
+214:+Ellis determines:
+215-+
+216-+- Assignment
+217-+
+218-+- Ownership
+219-+
+220-+- Routing State
+221-+
+222:+Ellis does not define capabilities.
+223-+
+224:+Ellis does not maintain the registry.
+225-+
+226-+---
+227-+
+228-+# Actor Resolution
+229-+
+230-+Actors satisfy capabilities.
+231-+
+232-+Examples:
+233-+
+234-+engineering_planning
+--
+256-+A Package may require multiple capabilities.
+257-+
+258-+Example:
+259-+
+260-+Required Capabilities:
+261-+
+262-+- engineering_planning
+263-+
+264-+- external_backup
+265-+
+266:+Ellis may assign:
+267-+
+268-+Cade
+269-+
+270-+↓
+271-+
+272-+Effie
+273-+
+274-+or other valid capability providers.
+275-+
+276-+The capability model supports sequential and future parallel routing.
+--
+308-+Capabilities are the routing language of the organization.
+309-+
+310-+Actors are implementation details.
+311-+
+312-+Departments define capabilities.
+313-+
+314-+Atlas records capabilities.
+315-+
+316-+Governance Validation derives capabilities.
+317-+
+318:+Ellis routes by capabilities.
+319-+
+320-+Actors satisfy capabilities.
+321-+
