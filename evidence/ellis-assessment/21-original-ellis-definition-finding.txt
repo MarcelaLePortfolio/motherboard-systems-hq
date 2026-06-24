@@ -1,0 +1,87 @@
+
+ORIGINAL ELLIS DEFINITION FINDING
+
+Finding:
+
+The original Ellis definition already included constituent authority, operational coordination, capability routing, ownership assignment, routing state, and multi-agent workflow coordination.
+
+Evidence observed from introduction commits:
+
+HEADQUARTERS_ORGANIZATIONAL_CHARTER at 36e50d1a defines:
+
+- Operations Coordination
+
+- Role: Ellis
+
+- Authority Domain: Operational Assignment and Coordination
+
+- Responsibilities:
+
+  - Consume Envelope artifacts
+
+  - Route work by capability
+
+  - Assign ownership
+
+  - Track operational status
+
+  - Coordinate multi-agent workflows
+
+- Produces:
+
+  - Assignment
+
+  - Ownership
+
+  - Routing State
+
+  - Coordination State
+
+CAPABILITY_ROUTING_MODEL at 28551668 defines:
+
+- Ellis as the stage after Envelope and before Capability Resolution / Assignment.
+
+- Governance Validation derives capabilities.
+
+- Governance Validation writes required capabilities into the Envelope.
+
+- The Envelope does not contain actor assignments.
+
+- Ellis owns capability resolution and assignment.
+
+- Ellis consumes Required Capabilities, Operational Corridor, and Envelope State.
+
+- Ellis determines Assignment, Ownership, and Routing State.
+
+- Ellis routes by capabilities.
+
+CANONICAL_ENVELOPE_SPECIFICATION at ca926930 defines:
+
+- Ellis Routing as the stage after Envelope Created.
+
+- Assigned as Envelope routed and assigned by Ellis.
+
+- assignment_state is owned by Ellis with Ellis-only mutation authority.
+
+- assigned_department is owned by Ellis with Ellis-only mutation authority.
+
+Interpretation:
+
+Ellis was originally defined as more than a mechanical router.
+
+Ellis was originally defined as a named organizational authority for the coordination layer between Governance Validation and Operational Departments.
+
+The multi-agent coordination responsibility was present at original introduction, not added later.
+
+Current conclusion:
+
+Ellis's constituent authority is foundational.
+
+Ellis's assignment and coordination authority is foundational.
+
+Ellis runtime remains unimplemented.
+
+Ellis implementation shape remains deferred.
+
+Future implementation-shape analysis should begin from the original Ellis definition rather than from existing router, scheduler, task-state, or worker-claim mechanics.
+
