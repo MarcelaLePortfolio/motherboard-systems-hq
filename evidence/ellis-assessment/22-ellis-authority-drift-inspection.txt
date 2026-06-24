@@ -1,0 +1,23 @@
+ELLIS AUTHORITY DRIFT INSPECTION
+
+--- All Ellis Mentions After Initial Foundation ---
+
+--- Ellis Commits Since Foundation ---
+02a42653 2026-06-23 Capture original Ellis definition finding
+10582afd 2026-06-23 Inspect original Ellis definition
+e21b3881 2026-06-23 Capture Ellis origin foundation finding
+79f87c27 2026-06-23 Inspect Ellis introduction verdict
+5e2664a5 2026-06-23 Repair Ellis introduction context inspection
+c369dc25 2026-06-23 Inspect Ellis introduction context
+55f10c51 2026-06-23 Inspect Ellis first appearance
+4a42dde6 2026-06-23 Summarize Ellis constituent lineage
+ff3f1b7e 2026-06-23 Inspect Ellis constituent lineage
+3499418d 2026-06-23 Capture Ellis lineage inspection state
+3902689e 2026-06-23 Correct Ellis constituent authority finding
+127261c8 2026-06-23 Inspect Ellis agent justification evidence
+489baeaf 2026-06-23 Clarify Ellis capability resolution boundary
+ae15e6cc 2026-06-23 Reconcile Ellis runtime shape
+36ecd80f 2026-06-23 Add Ellis Assignment Authority assessment conclusion
+115e3ee9 2026-06-23 Complete Ellis runtime assessment
+
+--- Potential Authority Language ---
