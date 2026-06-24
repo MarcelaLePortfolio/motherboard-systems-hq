@@ -1,0 +1,331 @@
+ORIGINAL ELLIS DEFINITION INSPECTION
+
+--- Headquarters Charter At Introduction Commit ---
+- Actor Assignment
+
+- Engineering Planning
+
+- Desktop Operations
+
+---
+
+# Operations Coordination
+
+## Role
+
+Ellis
+
+## Authority Domain
+
+Operational Assignment and Coordination
+
+## Responsibilities
+
+- Consume Envelope artifacts
+
+- Route work by capability
+
+- Assign ownership
+
+- Track operational status
+
+- Coordinate multi-agent workflows
+
+## Produces
+
+- Assignment
+
+- Ownership
+
+- Routing State
+
+- Coordination State
+
+## Does Not Own
+
+- Intent Interpretation
+
+- Governance Validation
+
+- Capability Definition
+
+- Engineering Planning
+
+- Desktop Operations
+
+--- Capability Routing Model At Introduction Commit ---
+38-Derive Required Capabilities
+39-
+40-↓
+41-
+42-Envelope
+43-
+44-↓
+45-
+46:Ellis
+47-
+48-↓
+49-
+50-Capability Resolution
+51-
+52-↓
+53-
+54-Assignment
+--
+160-Derived Capabilities:
+161-
+162-- desktop_operations
+163-
+164-- external_backup
+165-
+166-Capabilities are derived from operational requirements.
+167-
+168:Capabilities are not derived by Ellis.
+169-
+170----
+171-
+172-# Envelope Contribution
+173-
+174-Governance Validation writes required capabilities into the Envelope.
+175-
+176-Example:
+--
+184-The Envelope contains capability requirements.
+185-
+186-The Envelope does not contain actor assignments.
+187-
+188----
+189-
+190-# Routing Responsibility
+191-
+192:Ellis owns capability resolution and assignment.
+193-
+194:Ellis consumes:
+195-
+196-- Required Capabilities
+197-
+198-- Operational Corridor
+199-
+200-- Envelope State
+201-
+202:Ellis determines:
+203-
+204-- Assignment
+205-
+206-- Ownership
+207-
+208-- Routing State
+209-
+210:Ellis does not define capabilities.
+211-
+212:Ellis does not maintain the registry.
+213-
+214----
+215-
+216-# Actor Resolution
+217-
+218-Actors satisfy capabilities.
+219-
+220-Examples:
+--
+246-Example:
+247-
+248-Required Capabilities:
+249-
+250-- engineering_planning
+251-
+252-- external_backup
+253-
+254:Ellis may assign:
+255-
+256-Cade
+257-
+258-↓
+259-
+260-Effie
+261-
+262-or other valid capability providers.
+--
+298-Actors are implementation details.
+299-
+300-Departments define capabilities.
+301-
+302-Atlas records capabilities.
+303-
+304-Governance Validation derives capabilities.
+305-
+306:Ellis routes by capabilities.
+307-
+308-Actors satisfy capabilities.
+309-
+
+--- Envelope Specification At Introduction Commit ---
+32-↓
+33-
+34-Envelope Created
+35-
+36-↓
+37-
+38:Ellis Routing
+39-
+40-↓
+41-
+42-Operational Departments
+43-
+44-↓
+--
+74----
+75-
+76-## Stage 2
+77-
+78-Assigned
+79-
+80:Envelope routed and assigned by Ellis.
+81-
+82----
+83-
+84-## Stage 3
+85-
+86-Operational
+--
+258-- assigned
+259-
+260-- reassigned
+261-
+262-Owner:
+263-
+264:Ellis
+265-
+266-Mutation Authority:
+267-
+268:Ellis only
+269-
+270----
+271-
+272-## assigned_department
+273-
+274-Examples:
+--
+276-- engineering
+277-
+278-- desktop_operations
+279-
+280-Owner:
+281-
+282:Ellis
+283-
+284-Mutation Authority:
+285-
+286:Ellis only
+287-
+288----
+289-
+290-## assigned_actor
+291-
+292-Examples:
+--
+294-- cade
+295-
+296-- effie
+297-
+298-Owner:
+299-
+300:Ellis
+301-
+302-Mutation Authority:
+303-
+304:Ellis only
+305-
+306----
+307-
+308-## routing_history
+309-
+310-Purpose:
+311-
+312-Historical routing record.
+313-
+314-Owner:
+315-
+316:Ellis
+317-
+318-Mutation Authority:
+319-
+320:Ellis only
+321-
+322-Append-only.
+323-
+324----
+325-
+326-# Operational Fields
+--
+514-Fields may only be modified by their owning authority.
+515-
+516-Departments may not modify fields owned by other departments.
+517-
+518-Operational departments may enrich the Envelope but may not alter governance-derived fields.
+519-
+520:Ellis may assign work but may not modify governance-derived fields.
+521-
+522-Atlas may enrich intelligence references but may not modify operational history.
+523-
+524-Governance Validation may define operationalization outputs but may not perform assignment.
+525-
+526----
+
+--- Package Specification At Introduction Commit ---
+270-Examples:
+271-
+272-- Assign to Cade
+273-
+274-- Assign to Effie
+275-
+276:Assignment belongs to Ellis.
+277-
+278----
+279-
+280-## Required Capabilities
+281-
+282-Examples:
+--
+306-Governance findings belong to Governance Validation.
+307-
+308----
+309-
+310-## Routing Information
+311-
+312:Routing belongs to Ellis.
+313-
+314----
+315-
+316-## Execution Strategy
+317-
+318-Examples:
+
+--- Lifecycle Model At Introduction Commit ---
+134-Assignment has not yet occurred.
+135-
+136----
+137-
+138-## ASSIGNED
+139-
+140:Ellis has resolved capabilities and assigned ownership.
+141-
+142-Operational work may begin.
+143-
+144----
+145-
+146-## OPERATIONAL
+--
+428-Assignment requires:
+429-
+430-- Existing Envelope
+431-
+432-- Derived Required Capabilities
+433-
+434:Assignment is owned by Ellis.
+435-
+436-Governance Validation may not perform assignment.
+437-
+438----
+439-
+440-# Operational Rules
