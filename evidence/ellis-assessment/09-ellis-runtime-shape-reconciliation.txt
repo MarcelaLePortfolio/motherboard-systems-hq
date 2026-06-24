@@ -1,0 +1,41 @@
+
+ELLIS RUNTIME SHAPE RECONCILIATION
+
+Finding:
+
+Ellis is architecturally justified as Assignment/Routing Authority, but current repository evidence does not justify implementing Ellis as a full autonomous or conversational agent.
+
+Repository evidence shows Ellis-shaped runtime primitives already exist:
+
+- server/orchestration/router.ts selects assignedAgent.
+
+- server/orchestration/scheduler.ts gates eligibility using assignedAgent.
+
+- server/orchestration/task-state-machine.ts contains task.route with agent.
+
+- server/orchestration tests validate these primitives.
+
+However, these primitives are not currently wired into a live orchestration runtime as an Ellis subsystem.
+
+Conclusion:
+
+Ellis should be treated as the authority boundary over assignment, routing, ownership determination, and assignment-state mutation.
+
+Recommended future sequence:
+
+1. Name and preserve the Ellis authority boundary.
+
+2. Reconcile router/scheduler/task-state primitives under that boundary.
+
+3. Implement Ellis as a service only when live runtime wiring requires it.
+
+4. Implement Ellis as an agent only if future evidence shows autonomous interpretation, negotiation, or multi-agent coordination cannot be safely handled by a pure service boundary.
+
+Current implementation recommendation:
+
+Do not implement Ellis as an agent now.
+
+Do not create assignment persistence now unless a live runtime consumer requires persisted assignment state.
+
+Preserve current orchestration primitives as evidence of future Ellis runtime shape.
+
