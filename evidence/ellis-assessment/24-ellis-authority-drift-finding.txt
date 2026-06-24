@@ -1,0 +1,55 @@
+
+ELLIS AUTHORITY DRIFT FINDING
+
+Finding:
+
+The repaired Ellis authority drift review did not identify evidence that Ellis was later reduced to a mechanical router, utility, implementation artifact, or mere service boundary.
+
+The reviewed evidence continues to reinforce Ellis as a named organizational authority responsible for assignment, ownership, routing state, capability resolution, and coordination.
+
+Evidence state:
+
+- Ellis appears in the original June 3 canonical governance foundation.
+
+- The original Headquarters Organizational Charter defines Ellis as Operations Coordination.
+
+- The original Ellis authority domain is Operational Assignment and Coordination.
+
+- Original Ellis responsibilities include routing work by capability, assigning ownership, tracking operational status, and coordinating multi-agent workflows.
+
+- Original governance artifacts distinguish Governance Validation from Ellis.
+
+- Governance Validation determines requirements.
+
+- Ellis determines ownership.
+
+- The Envelope does not contain actor assignments before Ellis routing.
+
+- Ellis-owned assignment fields carry Ellis-only mutation authority.
+
+- Later evidence does not overturn this authority model.
+
+- Existing router, scheduler, task-state, and worker-claim mechanics remain downstream or adjacent implementation mechanics, not Ellis itself.
+
+Current conclusion:
+
+Ellis's authority did not emerge from runtime primitives.
+
+Ellis's authority was not later collapsed by governance evidence.
+
+Ellis remains a foundational named constituent authority with deferred implementation.
+
+Ellis runtime shape remains unresolved.
+
+Implementation guidance:
+
+Do not implement Ellis yet without a dedicated implementation-shape corridor.
+
+Do not treat Ellis as already implemented.
+
+Do not reduce Ellis to existing routeTask, scheduler eligibility, task.route, claimed_by, lease, worker owner, or task execution mechanics.
+
+Future Ellis implementation analysis should start from the original constituent authority definition:
+
+Operational Assignment and Coordination.
+
