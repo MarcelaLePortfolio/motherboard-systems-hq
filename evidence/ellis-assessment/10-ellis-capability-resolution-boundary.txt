@@ -1,0 +1,51 @@
+
+ELLIS CAPABILITY RESOLUTION BOUNDARY
+
+Finding:
+
+Ellis is not equivalent to the existing router, scheduler, task-state machine, or worker claim lane.
+
+Repository evidence shows Governance Validation and Envelope persistence already support the upstream inputs Ellis would consume:
+
+- required_capabilities
+
+- operational_corridor
+
+Repository evidence does not show implemented Ellis-owned assignment outputs:
+
+- assignment_state
+
+- assigned_department
+
+- assigned_actor
+
+- routing_history
+
+The existing orchestration primitives perform lower-level mechanics:
+
+- router.ts selects an assignedAgent from supplied candidates.
+
+- scheduler.ts gates eligibility using assignedAgent.
+
+- task-state-machine.ts permits task.route with an agent.
+
+- worker claim/lease/reclaim logic owns execution-time worker claims.
+
+These primitives do not implement canonical Ellis capability resolution because they do not transform required capabilities into departmental ownership, actor assignment, assignment state, or routing history.
+
+Conclusion:
+
+Ellis remains a specified architectural authority, not an implemented runtime.
+
+The existing router/scheduler/task-state/worker mechanisms should be treated as downstream mechanics that may eventually consume Ellis outputs, not as Ellis itself.
+
+Current implementation recommendation:
+
+Do not implement Ellis as an autonomous agent now.
+
+Do not treat worker claim ownership as Ellis assignment ownership.
+
+Do not treat router assignedAgent selection as canonical Ellis assignment authority.
+
+Do not add Ellis-owned assignment persistence until a live runtime consumer requires assignment_state, assigned_department, assigned_actor, or routing_history.
+
