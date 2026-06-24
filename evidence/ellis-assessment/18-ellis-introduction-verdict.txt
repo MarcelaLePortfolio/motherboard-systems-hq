@@ -1,0 +1,115 @@
+ELLIS INTRODUCTION VERDICT
+
+--- First Appearance ---
+36e50d1a 2026-06-03 Add canonical Headquarters Organizational Charter
+1408e6d5 2026-06-03 Add Governance Validation Charter
+28551668 2026-06-03 Add Capability Routing Model
+ca926930 2026-06-03 Add Canonical Envelope Specification
+5a6e848f 2026-06-03 Add Canonical Package Specification
+e6b5c2bd 2026-06-03 Add Governance Lifecycle State Model
+baeaa655 2026-06-03 Add Governance Validation specification foundation
+c7cc9ee7 2026-06-12 Open candidate observability scope corridor
+--- Candidate Introduction Commit SHAs ---
+36e50d1add6f673fd7e15ccdd2d7a7a987ca10f1
+1408e6d51ee901653529979a985e4b699091026c
+28551668ede85206d629b91b4e010ec5f2e5ae6c
+ca92693023482c92d0aff84ba804da3534cd7a64
+5a6e848f2869976ad078f4d85728dc33a432fed0
+e6b5c2bd7f902047231bb4e41ef767edb0702075
+baeaa65511d9aae6e3681f821f9559c4518d8c14
+c7cc9ee7a1d1af6d88ce556f1310da2fa84410a2
+--- Candidate Introduction Commit Stats ---
+
+===== 36e50d1add6f673fd7e15ccdd2d7a7a987ca10f1 =====
+commit 36e50d1add6f673fd7e15ccdd2d7a7a987ca10f1
+Author: Marcela Gama Le <marcelagamale@gmail.com>
+Date:   Wed Jun 3 10:08:56 2026 -0700
+
+    Add canonical Headquarters Organizational Charter
+
+ .../HEADQUARTERS_ORGANIZATIONAL_CHARTER.md         | 325 +++++++++++++++++++++
+ 1 file changed, 325 insertions(+)
+ create mode 100644 docs/governance/HEADQUARTERS_ORGANIZATIONAL_CHARTER.md
+
+===== 1408e6d51ee901653529979a985e4b699091026c =====
+commit 1408e6d51ee901653529979a985e4b699091026c
+Author: Marcela Gama Le <marcelagamale@gmail.com>
+Date:   Wed Jun 3 10:09:42 2026 -0700
+
+    Add Governance Validation Charter
+
+ docs/governance/GOVERNANCE_VALIDATION_CHARTER.md | 333 +++++++++++++++++++++++
+ 1 file changed, 333 insertions(+)
+ create mode 100644 docs/governance/GOVERNANCE_VALIDATION_CHARTER.md
+
+===== 28551668ede85206d629b91b4e010ec5f2e5ae6c =====
+commit 28551668ede85206d629b91b4e010ec5f2e5ae6c
+Author: Marcela Gama Le <marcelagamale@gmail.com>
+Date:   Wed Jun 3 10:10:05 2026 -0700
+
+    Add Capability Routing Model
+
+ docs/governance/CAPABILITY_ROUTING_MODEL.md | 309 ++++++++++++++++++++++++++++
+ 1 file changed, 309 insertions(+)
+ create mode 100644 docs/governance/CAPABILITY_ROUTING_MODEL.md
+
+===== ca92693023482c92d0aff84ba804da3534cd7a64 =====
+commit ca92693023482c92d0aff84ba804da3534cd7a64
+Author: Marcela Gama Le <marcelagamale@gmail.com>
+Date:   Wed Jun 3 10:16:00 2026 -0700
+
+    Add Canonical Envelope Specification
+
+ .../governance/CANONICAL_ENVELOPE_SPECIFICATION.md | 547 +++++++++++++++++++++
+ 1 file changed, 547 insertions(+)
+ create mode 100644 docs/governance/CANONICAL_ENVELOPE_SPECIFICATION.md
+
+===== 5a6e848f2869976ad078f4d85728dc33a432fed0 =====
+commit 5a6e848f2869976ad078f4d85728dc33a432fed0
+Author: Marcela Gama Le <marcelagamale@gmail.com>
+Date:   Wed Jun 3 10:16:48 2026 -0700
+
+    Add Canonical Package Specification
+
+ docs/governance/CANONICAL_PACKAGE_SPECIFICATION.md | 337 +++++++++++++++++++++
+ 1 file changed, 337 insertions(+)
+ create mode 100644 docs/governance/CANONICAL_PACKAGE_SPECIFICATION.md
+
+===== e6b5c2bd7f902047231bb4e41ef767edb0702075 =====
+commit e6b5c2bd7f902047231bb4e41ef767edb0702075
+Author: Marcela Gama Le <marcelagamale@gmail.com>
+Date:   Wed Jun 3 10:51:07 2026 -0700
+
+    Add Governance Lifecycle State Model
+
+ .../governance/GOVERNANCE_LIFECYCLE_STATE_MODEL.md | 485 +++++++++++++++++++++
+ 1 file changed, 485 insertions(+)
+ create mode 100644 docs/governance/GOVERNANCE_LIFECYCLE_STATE_MODEL.md
+
+===== baeaa65511d9aae6e3681f821f9559c4518d8c14 =====
+commit baeaa65511d9aae6e3681f821f9559c4518d8c14
+Author: Marcela Gama Le <marcelagamale@gmail.com>
+Date:   Wed Jun 3 19:01:06 2026 -0700
+
+    Add Governance Validation specification foundation
+
+ .../GOVERNANCE_VALIDATION_SPECIFICATION.md         | 91 ++++++++++++++++++++++
+ 1 file changed, 91 insertions(+)
+ create mode 100644 docs/governance/GOVERNANCE_VALIDATION_SPECIFICATION.md
+
+===== c7cc9ee7a1d1af6d88ce556f1310da2fa84410a2 =====
+commit c7cc9ee7a1d1af6d88ce556f1310da2fa84410a2
+Author: Marcela Gama Le <marcelagamale@gmail.com>
+Date:   Fri Jun 12 13:04:13 2026 -0700
+
+    Open candidate observability scope corridor
+
+ .../CANDIDATE_OBSERVABILITY_SCOPE_CORRIDOR.md      | 113 +++++++++++++++++++++
+ 1 file changed, 113 insertions(+)
+ create mode 100644 docs/governance/CANDIDATE_OBSERVABILITY_SCOPE_CORRIDOR.md
+
+--- Headquarters Charter Creation History ---
+36e50d1a 2026-06-03 Add canonical Headquarters Organizational Charter
+
+--- Capability Routing Model Creation History ---
+28551668 2026-06-03 Add Capability Routing Model
