@@ -1,0 +1,640 @@
+ELLIS CONSTITUENT LINEAGE INSPECTION
+
+--- Milestone 1B Atlas/Effie authority reconciliation ---
+Milestone 1 lifecycle findings
+
+Decision:
+
+AMEND
+
+Reason:
+
+Completed envelopes should remain immutable historical records.
+
+---
+
+# Decision 011
+
+Subject:
+
+Atlas Authority Domain
+
+Decision:
+
+DEFER
+
+Reason:
+
+Authority stabilized.
+
+Implementation deferred.
+
+No contract modification currently required.
+
+---
+
+# Decision 012
+
+Subject:
+
+Effie Authority Domain
+
+Decision:
+
+DEFER
+
+Reason:
+
+Authority stabilized.
+
+Implementation deferred.
+
+No contract modification currently required.
+
+---
+
+# Decision 013
+
+Subject:
+
+
+--- Milestone 1A deferred authority language ---
+Internal inference is prohibited.
+
+---
+
+## Architectural Integrity Authority
+
+Atlas now owns:
+
+- dependency analysis
+
+- impact analysis
+
+- roadmap integrity
+
+This authority domain exists even if implementation remains deferred.
+
+---
+
+## Operational Authority
+
+Effie now owns:
+
+- backup authority
+
+- recovery support authority
+
+- operational support authority
+
+This authority domain exists even if implementation remains deferred.
+
+---
+
+## Historical Intent Preservation
+
+Completed envelopes are historical records.
+
+
+--- Headquarters constituent roles ---
+docs/governance/HEADQUARTERS_ORGANIZATIONAL_CHARTER.md:2:# Headquarters Organizational Charter
+docs/governance/HEADQUARTERS_ORGANIZATIONAL_CHARTER.md:12:# CEO
+docs/governance/HEADQUARTERS_ORGANIZATIONAL_CHARTER.md:14:## Role
+docs/governance/HEADQUARTERS_ORGANIZATIONAL_CHARTER.md:18:## Authority Domain
+docs/governance/HEADQUARTERS_ORGANIZATIONAL_CHARTER.md:52:# Chief of Staff
+docs/governance/HEADQUARTERS_ORGANIZATIONAL_CHARTER.md:54:## Role
+docs/governance/HEADQUARTERS_ORGANIZATIONAL_CHARTER.md:56:Matilda
+docs/governance/HEADQUARTERS_ORGANIZATIONAL_CHARTER.md:58:## Authority Domain
+docs/governance/HEADQUARTERS_ORGANIZATIONAL_CHARTER.md:78:- Governance Validation
+docs/governance/HEADQUARTERS_ORGANIZATIONAL_CHARTER.md:90:# Governance Office
+docs/governance/HEADQUARTERS_ORGANIZATIONAL_CHARTER.md:92:## Role
+docs/governance/HEADQUARTERS_ORGANIZATIONAL_CHARTER.md:94:Governance Validation
+docs/governance/HEADQUARTERS_ORGANIZATIONAL_CHARTER.md:96:## Authority Domain
+docs/governance/HEADQUARTERS_ORGANIZATIONAL_CHARTER.md:138:# Operations Coordination
+docs/governance/HEADQUARTERS_ORGANIZATIONAL_CHARTER.md:140:## Role
+docs/governance/HEADQUARTERS_ORGANIZATIONAL_CHARTER.md:142:Ellis
+docs/governance/HEADQUARTERS_ORGANIZATIONAL_CHARTER.md:144:## Authority Domain
+docs/governance/HEADQUARTERS_ORGANIZATIONAL_CHARTER.md:174:- Governance Validation
+docs/governance/HEADQUARTERS_ORGANIZATIONAL_CHARTER.md:184:# Engineering Department
+docs/governance/HEADQUARTERS_ORGANIZATIONAL_CHARTER.md:186:## Role
+docs/governance/HEADQUARTERS_ORGANIZATIONAL_CHARTER.md:188:Cade
+docs/governance/HEADQUARTERS_ORGANIZATIONAL_CHARTER.md:190:## Authority Domain
+docs/governance/HEADQUARTERS_ORGANIZATIONAL_CHARTER.md:216:- Governance Validation
+docs/governance/HEADQUARTERS_ORGANIZATIONAL_CHARTER.md:224:# Desktop Operations Department
+docs/governance/HEADQUARTERS_ORGANIZATIONAL_CHARTER.md:226:## Role
+docs/governance/HEADQUARTERS_ORGANIZATIONAL_CHARTER.md:228:Effie
+docs/governance/HEADQUARTERS_ORGANIZATIONAL_CHARTER.md:230:## Authority Domain
+docs/governance/HEADQUARTERS_ORGANIZATIONAL_CHARTER.md:256:- Governance Validation
+docs/governance/HEADQUARTERS_ORGANIZATIONAL_CHARTER.md:264:# Organizational Intelligence Department
+docs/governance/HEADQUARTERS_ORGANIZATIONAL_CHARTER.md:266:## Role
+docs/governance/HEADQUARTERS_ORGANIZATIONAL_CHARTER.md:268:Atlas
+docs/governance/HEADQUARTERS_ORGANIZATIONAL_CHARTER.md:270:## Authority Domain
+docs/governance/HEADQUARTERS_ORGANIZATIONAL_CHARTER.md:300:- Governance Validation
+docs/governance/HEADQUARTERS_ORGANIZATIONAL_CHARTER.md:310:# Organizational Principle
+docs/governance/HEADQUARTERS_ORGANIZATIONAL_CHARTER.md:318:Governance Validation owns operationalization review.
+docs/governance/HEADQUARTERS_ORGANIZATIONAL_CHARTER.md:320:Ellis owns assignment.
+docs/governance/HEADQUARTERS_ORGANIZATIONAL_CHARTER.md:324:Atlas owns organizational intelligence and relationship intelligence.
+
+--- Ellis relationship and ownership language ---
+docs/governance/CANDIDATE_OBSERVABILITY_SCOPE_CORRIDOR.md:68:- Ellis
+docs/governance/CANONICAL_ENVELOPE_SPECIFICATION.md:38:Ellis Routing
+docs/governance/CANONICAL_ENVELOPE_SPECIFICATION.md:80:Envelope routed and assigned by Ellis.
+docs/governance/CANONICAL_ENVELOPE_SPECIFICATION.md:264:Ellis
+docs/governance/CANONICAL_ENVELOPE_SPECIFICATION.md:268:Ellis only
+docs/governance/CANONICAL_ENVELOPE_SPECIFICATION.md:282:Ellis
+docs/governance/CANONICAL_ENVELOPE_SPECIFICATION.md:286:Ellis only
+docs/governance/CANONICAL_ENVELOPE_SPECIFICATION.md:300:Ellis
+docs/governance/CANONICAL_ENVELOPE_SPECIFICATION.md:304:Ellis only
+docs/governance/CANONICAL_ENVELOPE_SPECIFICATION.md:316:Ellis
+docs/governance/CANONICAL_ENVELOPE_SPECIFICATION.md:320:Ellis only
+docs/governance/CANONICAL_ENVELOPE_SPECIFICATION.md:520:Ellis may assign work but may not modify governance-derived fields.
+docs/governance/CANONICAL_PACKAGE_SPECIFICATION.md:276:Assignment belongs to Ellis.
+docs/governance/CANONICAL_PACKAGE_SPECIFICATION.md:312:Routing belongs to Ellis.
+docs/governance/CAPABILITY_ROUTING_MODEL.md:46:Ellis
+docs/governance/CAPABILITY_ROUTING_MODEL.md:168:Capabilities are not derived by Ellis.
+docs/governance/CAPABILITY_ROUTING_MODEL.md:192:Ellis owns capability resolution and assignment.
+docs/governance/CAPABILITY_ROUTING_MODEL.md:194:Ellis consumes:
+docs/governance/CAPABILITY_ROUTING_MODEL.md:202:Ellis determines:
+docs/governance/CAPABILITY_ROUTING_MODEL.md:210:Ellis does not define capabilities.
+docs/governance/CAPABILITY_ROUTING_MODEL.md:212:Ellis does not maintain the registry.
+docs/governance/CAPABILITY_ROUTING_MODEL.md:254:Ellis may assign:
+docs/governance/CAPABILITY_ROUTING_MODEL.md:306:Ellis routes by capabilities.
+docs/governance/GOVERNANCE_LIFECYCLE_STATE_MODEL.md:140:Ellis has resolved capabilities and assigned ownership.
+docs/governance/GOVERNANCE_LIFECYCLE_STATE_MODEL.md:434:Assignment is owned by Ellis.
+docs/governance/GOVERNANCE_VALIDATION_CHARTER.md:328:Ellis
+docs/governance/GOVERNANCE_VALIDATION_SPECIFICATION.md:78:## Relationship To Ellis
+docs/governance/GOVERNANCE_VALIDATION_SPECIFICATION.md:82:Ellis determines ownership.
+docs/governance/HEADQUARTERS_ORGANIZATIONAL_CHARTER.md:142:Ellis
+docs/governance/HEADQUARTERS_ORGANIZATIONAL_CHARTER.md:146:Operational Assignment and Coordination
+docs/governance/HEADQUARTERS_ORGANIZATIONAL_CHARTER.md:158:- Coordinate multi-agent workflows
+docs/governance/HEADQUARTERS_ORGANIZATIONAL_CHARTER.md:320:Ellis owns assignment.
+evidence/ellis-assessment/03-ellis-runtime-assessment.txt:2:# Ellis Runtime Assessment
+evidence/ellis-assessment/03-ellis-runtime-assessment.txt:6:Determine whether Ellis Assignment Authority exists as an implemented runtime primitive.
+evidence/ellis-assessment/03-ellis-runtime-assessment.txt:10:- Global Ellis search
+evidence/ellis-assessment/03-ellis-runtime-assessment.txt:20:Ellis owns:
+evidence/ellis-assessment/03-ellis-runtime-assessment.txt:46:- Ellis runtime implementation
+evidence/ellis-assessment/03-ellis-runtime-assessment.txt:58:- ellis_route implementation
+evidence/ellis-assessment/03-ellis-runtime-assessment.txt:64:Worker claim persistence is not canonical Ellis assignment authority.
+evidence/ellis-assessment/03-ellis-runtime-assessment.txt:76:Repository evidence supports Ellis Assignment Authority as a future runtime corridor rather than an existing runtime subsystem.
+evidence/ellis-assessment/03-ellis-runtime-assessment.txt:88:Ellis Assignment Authority: NOT IMPLEMENTED
+evidence/ellis-assessment/03-ellis-runtime-assessment.txt:90:Ellis Runtime: NOT IMPLEMENTED
+evidence/ellis-assessment/04-ellis-assignment-authority-conclusion.txt:2:# Ellis Assignment Authority Conclusion
+evidence/ellis-assessment/04-ellis-assignment-authority-conclusion.txt:6:Determine whether Ellis Assignment Authority exists only as governance meaning or as a specified architectural subsystem.
+evidence/ellis-assessment/04-ellis-assignment-authority-conclusion.txt:24:- Ellis is a canonical governance authority.
+evidence/ellis-assessment/04-ellis-assignment-authority-conclusion.txt:26:- Ellis owns assignment.
+evidence/ellis-assessment/04-ellis-assignment-authority-conclusion.txt:28:- Ellis owns capability resolution.
+evidence/ellis-assessment/04-ellis-assignment-authority-conclusion.txt:30:- Ellis determines ownership.
+evidence/ellis-assessment/04-ellis-assignment-authority-conclusion.txt:32:- Ellis determines routing state.
+evidence/ellis-assessment/04-ellis-assignment-authority-conclusion.txt:36:- The ASSIGNED lifecycle state is defined as Ellis resolving capabilities and assigning ownership.
+evidence/ellis-assessment/04-ellis-assignment-authority-conclusion.txt:48:- Mutation authority for assignment fields belongs exclusively to Ellis.
+evidence/ellis-assessment/04-ellis-assignment-authority-conclusion.txt:64:- Ellis runtime implementation.
+evidence/ellis-assessment/04-ellis-assignment-authority-conclusion.txt:78:Repository evidence supports Ellis Assignment Authority as a specified architectural subsystem with a defined authority model and canonical state model.
+evidence/ellis-assessment/04-ellis-assignment-authority-conclusion.txt:80:Repository evidence does not support an existing Ellis runtime implementation.
+evidence/ellis-assessment/04-ellis-assignment-authority-conclusion.txt:84:Ellis Assignment Authority: SPECIFIED
+evidence/ellis-assessment/04-ellis-assignment-authority-conclusion.txt:86:Ellis Runtime: NOT IMPLEMENTED
+evidence/ellis-assessment/05-assignment-authority-implementation-readiness.txt:10:- evidence/ellis-assessment/04-ellis-assignment-authority-conclusion.txt
+evidence/ellis-assessment/05-assignment-authority-implementation-readiness.txt:44:- governance_envelopes does not include Ellis-owned assignment fields:
+evidence/ellis-assessment/05-assignment-authority-implementation-readiness.txt:56:- db/governance-runtime.ts does not support Ellis assignment mutation.
+evidence/ellis-assessment/05-assignment-authority-implementation-readiness.txt:68:- ASSIGNED means Ellis has resolved capabilities and assigned ownership.
+evidence/ellis-assessment/05-assignment-authority-implementation-readiness.txt:70:- CANONICAL_ENVELOPE_SPECIFICATION defines assignment_state, assigned_department, assigned_actor, and routing_history as Ellis-owned fields with Ellis-only mutation authority.
+evidence/ellis-assessment/05-assignment-authority-implementation-readiness.txt:78:Implementation should remain limited to canonical Ellis assignment state and lifecycle transition readiness unless separately authorized.
+evidence/ellis-assessment/06-assignment-runtime-necessity-finding.txt:6:Determine whether repository evidence requires runtime implementation of Ellis Assignment Authority.
+evidence/ellis-assessment/06-assignment-runtime-necessity-finding.txt:14:- Ellis owns assignment authority.
+evidence/ellis-assessment/06-assignment-runtime-necessity-finding.txt:16:- Ellis owns ownership determination.
+evidence/ellis-assessment/06-assignment-runtime-necessity-finding.txt:18:- Ellis owns assignment mutation authority.
+evidence/ellis-assessment/07-assignment-authority-corridor-closure.txt:16:- Ellis is a canonical architectural authority.
+evidence/ellis-assessment/07-assignment-authority-corridor-closure.txt:18:- Ellis owns assignment.
+evidence/ellis-assessment/07-assignment-authority-corridor-closure.txt:20:- Ellis owns ownership determination.
+evidence/ellis-assessment/07-assignment-authority-corridor-closure.txt:22:- Ellis owns assignment mutation authority.
+evidence/ellis-assessment/07-assignment-authority-corridor-closure.txt:28:- Canonical Ellis-owned assignment fields exist in the Envelope specification.
+evidence/ellis-assessment/07-assignment-authority-corridor-closure.txt:30:- Existing runtime surfaces do not implement Ellis Assignment Authority.
+evidence/ellis-assessment/07-assignment-authority-corridor-closure.txt:32:- Existing routing, scheduling, and worker claim primitives are not canonical Ellis assignment authority.
+evidence/ellis-assessment/07-assignment-authority-corridor-closure.txt:44:Ellis Runtime: NOT IMPLEMENTED
+evidence/ellis-assessment/08-assignment-authority-handoff-state.txt:42:- Ellis Assignment Authority
+evidence/ellis-assessment/08-assignment-authority-handoff-state.txt:50:- Canonical Ellis-owned assignment fields
+evidence/ellis-assessment/08-assignment-authority-handoff-state.txt:54:- Ellis runtime
+evidence/ellis-assessment/09-ellis-runtime-shape-reconciliation.txt:2:ELLIS RUNTIME SHAPE RECONCILIATION
+evidence/ellis-assessment/09-ellis-runtime-shape-reconciliation.txt:6:Ellis is architecturally justified as Assignment/Routing Authority, but current repository evidence does not justify implementing Ellis as a full autonomous or conversational agent.
+evidence/ellis-assessment/09-ellis-runtime-shape-reconciliation.txt:8:Repository evidence shows Ellis-shaped runtime primitives already exist:
+evidence/ellis-assessment/09-ellis-runtime-shape-reconciliation.txt:18:However, these primitives are not currently wired into a live orchestration runtime as an Ellis subsystem.
+evidence/ellis-assessment/09-ellis-runtime-shape-reconciliation.txt:22:Ellis should be treated as the authority boundary over assignment, routing, ownership determination, and assignment-state mutation.
+evidence/ellis-assessment/09-ellis-runtime-shape-reconciliation.txt:26:1. Name and preserve the Ellis authority boundary.
+evidence/ellis-assessment/09-ellis-runtime-shape-reconciliation.txt:30:3. Implement Ellis as a service only when live runtime wiring requires it.
+evidence/ellis-assessment/09-ellis-runtime-shape-reconciliation.txt:32:4. Implement Ellis as an agent only if future evidence shows autonomous interpretation, negotiation, or multi-agent coordination cannot be safely handled by a pure service boundary.
+evidence/ellis-assessment/09-ellis-runtime-shape-reconciliation.txt:36:Do not implement Ellis as an agent now.
+evidence/ellis-assessment/09-ellis-runtime-shape-reconciliation.txt:40:Preserve current orchestration primitives as evidence of future Ellis runtime shape.
+evidence/ellis-assessment/10-ellis-capability-resolution-boundary.txt:2:ELLIS CAPABILITY RESOLUTION BOUNDARY
+evidence/ellis-assessment/10-ellis-capability-resolution-boundary.txt:6:Ellis is not equivalent to the existing router, scheduler, task-state machine, or worker claim lane.
+evidence/ellis-assessment/10-ellis-capability-resolution-boundary.txt:8:Repository evidence shows Governance Validation and Envelope persistence already support the upstream inputs Ellis would consume:
+evidence/ellis-assessment/10-ellis-capability-resolution-boundary.txt:14:Repository evidence does not show implemented Ellis-owned assignment outputs:
+evidence/ellis-assessment/10-ellis-capability-resolution-boundary.txt:34:These primitives do not implement canonical Ellis capability resolution because they do not transform required capabilities into departmental ownership, actor assignment, assignment state, or routing history.
+evidence/ellis-assessment/10-ellis-capability-resolution-boundary.txt:38:Ellis remains a specified architectural authority, not an implemented runtime.
+evidence/ellis-assessment/10-ellis-capability-resolution-boundary.txt:40:The existing router/scheduler/task-state/worker mechanisms should be treated as downstream mechanics that may eventually consume Ellis outputs, not as Ellis itself.
+evidence/ellis-assessment/10-ellis-capability-resolution-boundary.txt:44:Do not implement Ellis as an autonomous agent now.
+evidence/ellis-assessment/10-ellis-capability-resolution-boundary.txt:46:Do not treat worker claim ownership as Ellis assignment ownership.
+evidence/ellis-assessment/10-ellis-capability-resolution-boundary.txt:48:Do not treat router assignedAgent selection as canonical Ellis assignment authority.
+evidence/ellis-assessment/10-ellis-capability-resolution-boundary.txt:50:Do not add Ellis-owned assignment persistence until a live runtime consumer requires assignment_state, assigned_department, assigned_actor, or routing_history.
+evidence/ellis-assessment/11-ellis-agent-justification-inspection.txt:1:ELLIS AGENT JUSTIFICATION INSPECTION
+evidence/ellis-assessment/11-ellis-agent-justification-inspection.txt:3:--- Ellis + agent/autonomy/coordination evidence ---
+evidence/ellis-assessment/11-ellis-agent-justification-inspection.txt:265:--- Ellis assessment artifacts ---
+evidence/ellis-assessment/11-ellis-agent-justification-inspection.txt:267:===== evidence/ellis-assessment/01-ellis-global-search.txt =====
+evidence/ellis-assessment/11-ellis-agent-justification-inspection.txt:269:===== evidence/ellis-assessment/02-canonical-ellis-field-search.txt =====
+evidence/ellis-assessment/11-ellis-agent-justification-inspection.txt:271:===== evidence/ellis-assessment/03-ellis-runtime-assessment.txt =====
+evidence/ellis-assessment/11-ellis-agent-justification-inspection.txt:273:# Ellis Runtime Assessment
+evidence/ellis-assessment/11-ellis-agent-justification-inspection.txt:277:Determine whether Ellis Assignment Authority exists as an implemented runtime primitive.
+evidence/ellis-assessment/11-ellis-agent-justification-inspection.txt:281:- Global Ellis search
+evidence/ellis-assessment/11-ellis-agent-justification-inspection.txt:291:Ellis owns:
+evidence/ellis-assessment/11-ellis-agent-justification-inspection.txt:317:- Ellis runtime implementation
+evidence/ellis-assessment/11-ellis-agent-justification-inspection.txt:329:- ellis_route implementation
+evidence/ellis-assessment/11-ellis-agent-justification-inspection.txt:335:Worker claim persistence is not canonical Ellis assignment authority.
+evidence/ellis-assessment/11-ellis-agent-justification-inspection.txt:347:Repository evidence supports Ellis Assignment Authority as a future runtime corridor rather than an existing runtime subsystem.
+evidence/ellis-assessment/11-ellis-agent-justification-inspection.txt:359:Ellis Assignment Authority: NOT IMPLEMENTED
+evidence/ellis-assessment/11-ellis-agent-justification-inspection.txt:361:Ellis Runtime: NOT IMPLEMENTED
+evidence/ellis-assessment/11-ellis-agent-justification-inspection.txt:364:===== evidence/ellis-assessment/04-ellis-assignment-authority-conclusion.txt =====
+evidence/ellis-assessment/11-ellis-agent-justification-inspection.txt:366:# Ellis Assignment Authority Conclusion
+evidence/ellis-assessment/11-ellis-agent-justification-inspection.txt:370:Determine whether Ellis Assignment Authority exists only as governance meaning or as a specified architectural subsystem.
+evidence/ellis-assessment/11-ellis-agent-justification-inspection.txt:388:- Ellis is a canonical governance authority.
+evidence/ellis-assessment/11-ellis-agent-justification-inspection.txt:390:- Ellis owns assignment.
+evidence/ellis-assessment/11-ellis-agent-justification-inspection.txt:392:- Ellis owns capability resolution.
+evidence/ellis-assessment/11-ellis-agent-justification-inspection.txt:394:- Ellis determines ownership.
+evidence/ellis-assessment/11-ellis-agent-justification-inspection.txt:396:- Ellis determines routing state.
+evidence/ellis-assessment/11-ellis-agent-justification-inspection.txt:400:- The ASSIGNED lifecycle state is defined as Ellis resolving capabilities and assigning ownership.
+evidence/ellis-assessment/11-ellis-agent-justification-inspection.txt:412:- Mutation authority for assignment fields belongs exclusively to Ellis.
+evidence/ellis-assessment/11-ellis-agent-justification-inspection.txt:428:- Ellis runtime implementation.
+evidence/ellis-assessment/11-ellis-agent-justification-inspection.txt:442:Repository evidence supports Ellis Assignment Authority as a specified architectural subsystem with a defined authority model and canonical state model.
+evidence/ellis-assessment/11-ellis-agent-justification-inspection.txt:444:Repository evidence does not support an existing Ellis runtime implementation.
+evidence/ellis-assessment/11-ellis-agent-justification-inspection.txt:448:Ellis Assignment Authority: SPECIFIED
+evidence/ellis-assessment/11-ellis-agent-justification-inspection.txt:450:Ellis Runtime: NOT IMPLEMENTED
+evidence/ellis-assessment/11-ellis-agent-justification-inspection.txt:459:===== evidence/ellis-assessment/05-assignment-authority-implementation-readiness.txt =====
+evidence/ellis-assessment/11-ellis-agent-justification-inspection.txt:469:- evidence/ellis-assessment/04-ellis-assignment-authority-conclusion.txt
+evidence/ellis-assessment/11-ellis-agent-justification-inspection.txt:503:- governance_envelopes does not include Ellis-owned assignment fields:
+evidence/ellis-assessment/11-ellis-agent-justification-inspection.txt:515:- db/governance-runtime.ts does not support Ellis assignment mutation.
+evidence/ellis-assessment/11-ellis-agent-justification-inspection.txt:527:- ASSIGNED means Ellis has resolved capabilities and assigned ownership.
+evidence/ellis-assessment/11-ellis-agent-justification-inspection.txt:529:- CANONICAL_ENVELOPE_SPECIFICATION defines assignment_state, assigned_department, assigned_actor, and routing_history as Ellis-owned fields with Ellis-only mutation authority.
+evidence/ellis-assessment/11-ellis-agent-justification-inspection.txt:537:Implementation should remain limited to canonical Ellis assignment state and lifecycle transition readiness unless separately authorized.
+evidence/ellis-assessment/11-ellis-agent-justification-inspection.txt:558:===== evidence/ellis-assessment/06-assignment-runtime-necessity-finding.txt =====
+evidence/ellis-assessment/11-ellis-agent-justification-inspection.txt:564:Determine whether repository evidence requires runtime implementation of Ellis Assignment Authority.
+evidence/ellis-assessment/11-ellis-agent-justification-inspection.txt:572:- Ellis owns assignment authority.
+evidence/ellis-assessment/11-ellis-agent-justification-inspection.txt:574:- Ellis owns ownership determination.
+evidence/ellis-assessment/11-ellis-agent-justification-inspection.txt:576:- Ellis owns assignment mutation authority.
+evidence/ellis-assessment/11-ellis-agent-justification-inspection.txt:619:===== evidence/ellis-assessment/07-assignment-authority-corridor-closure.txt =====
+evidence/ellis-assessment/11-ellis-agent-justification-inspection.txt:635:- Ellis is a canonical architectural authority.
+evidence/ellis-assessment/11-ellis-agent-justification-inspection.txt:637:- Ellis owns assignment.
+evidence/ellis-assessment/11-ellis-agent-justification-inspection.txt:639:- Ellis owns ownership determination.
+evidence/ellis-assessment/11-ellis-agent-justification-inspection.txt:641:- Ellis owns assignment mutation authority.
+evidence/ellis-assessment/11-ellis-agent-justification-inspection.txt:647:- Canonical Ellis-owned assignment fields exist in the Envelope specification.
+evidence/ellis-assessment/11-ellis-agent-justification-inspection.txt:649:- Existing runtime surfaces do not implement Ellis Assignment Authority.
+evidence/ellis-assessment/11-ellis-agent-justification-inspection.txt:651:- Existing routing, scheduling, and worker claim primitives are not canonical Ellis assignment authority.
+evidence/ellis-assessment/11-ellis-agent-justification-inspection.txt:663:Ellis Runtime: NOT IMPLEMENTED
+evidence/ellis-assessment/11-ellis-agent-justification-inspection.txt:682:===== evidence/ellis-assessment/08-assignment-authority-handoff-state.txt =====
+evidence/ellis-assessment/11-ellis-agent-justification-inspection.txt:724:- Ellis Assignment Authority
+evidence/ellis-assessment/11-ellis-agent-justification-inspection.txt:732:- Canonical Ellis-owned assignment fields
+evidence/ellis-assessment/11-ellis-agent-justification-inspection.txt:736:- Ellis runtime
+evidence/ellis-assessment/11-ellis-agent-justification-inspection.txt:755:===== evidence/ellis-assessment/09-ellis-runtime-shape-reconciliation.txt =====
+evidence/ellis-assessment/11-ellis-agent-justification-inspection.txt:757:ELLIS RUNTIME SHAPE RECONCILIATION
+evidence/ellis-assessment/11-ellis-agent-justification-inspection.txt:761:Ellis is architecturally justified as Assignment/Routing Authority, but current repository evidence does not justify implementing Ellis as a full autonomous or conversational agent.
+evidence/ellis-assessment/11-ellis-agent-justification-inspection.txt:763:Repository evidence shows Ellis-shaped runtime primitives already exist:
+evidence/ellis-assessment/11-ellis-agent-justification-inspection.txt:773:However, these primitives are not currently wired into a live orchestration runtime as an Ellis subsystem.
+evidence/ellis-assessment/11-ellis-agent-justification-inspection.txt:777:Ellis should be treated as the authority boundary over assignment, routing, ownership determination, and assignment-state mutation.
+evidence/ellis-assessment/11-ellis-agent-justification-inspection.txt:781:1. Name and preserve the Ellis authority boundary.
+evidence/ellis-assessment/11-ellis-agent-justification-inspection.txt:785:3. Implement Ellis as a service only when live runtime wiring requires it.
+evidence/ellis-assessment/11-ellis-agent-justification-inspection.txt:787:4. Implement Ellis as an agent only if future evidence shows autonomous interpretation, negotiation, or multi-agent coordination cannot be safely handled by a pure service boundary.
+evidence/ellis-assessment/11-ellis-agent-justification-inspection.txt:791:Do not implement Ellis as an agent now.
+evidence/ellis-assessment/11-ellis-agent-justification-inspection.txt:795:Preserve current orchestration primitives as evidence of future Ellis runtime shape.
+evidence/ellis-assessment/11-ellis-agent-justification-inspection.txt:798:===== evidence/ellis-assessment/10-ellis-capability-resolution-boundary.txt =====
+evidence/ellis-assessment/11-ellis-agent-justification-inspection.txt:800:ELLIS CAPABILITY RESOLUTION BOUNDARY
+evidence/ellis-assessment/11-ellis-agent-justification-inspection.txt:804:Ellis is not equivalent to the existing router, scheduler, task-state machine, or worker claim lane.
+evidence/ellis-assessment/11-ellis-agent-justification-inspection.txt:806:Repository evidence shows Governance Validation and Envelope persistence already support the upstream inputs Ellis would consume:
+evidence/ellis-assessment/11-ellis-agent-justification-inspection.txt:812:Repository evidence does not show implemented Ellis-owned assignment outputs:
+evidence/ellis-assessment/11-ellis-agent-justification-inspection.txt:832:These primitives do not implement canonical Ellis capability resolution because they do not transform required capabilities into departmental ownership, actor assignment, assignment state, or routing history.
+evidence/ellis-assessment/11-ellis-agent-justification-inspection.txt:836:Ellis remains a specified architectural authority, not an implemented runtime.
+evidence/ellis-assessment/11-ellis-agent-justification-inspection.txt:838:The existing router/scheduler/task-state/worker mechanisms should be treated as downstream mechanics that may eventually consume Ellis outputs, not as Ellis itself.
+evidence/ellis-assessment/11-ellis-agent-justification-inspection.txt:842:Do not implement Ellis as an autonomous agent now.
+evidence/ellis-assessment/11-ellis-agent-justification-inspection.txt:844:Do not treat worker claim ownership as Ellis assignment ownership.
+evidence/ellis-assessment/11-ellis-agent-justification-inspection.txt:846:Do not treat router assignedAgent selection as canonical Ellis assignment authority.
+evidence/ellis-assessment/11-ellis-agent-justification-inspection.txt:848:Do not add Ellis-owned assignment persistence until a live runtime consumer requires assignment_state, assigned_department, assigned_actor, or routing_history.
+evidence/ellis-assessment/11-ellis-agent-justification-inspection.txt:851:===== evidence/ellis-assessment/11-ellis-agent-justification-inspection.txt =====
+evidence/ellis-assessment/11-ellis-agent-justification-inspection.txt:852:ELLIS AGENT JUSTIFICATION INSPECTION
+evidence/ellis-assessment/11-ellis-agent-justification-inspection.txt:854:--- Ellis + agent/autonomy/coordination evidence ---
+evidence/ellis-assessment/12-ellis-constituent-authority-correction.txt:2:ELLIS CONSTITUENT AUTHORITY CORRECTION
+evidence/ellis-assessment/12-ellis-constituent-authority-correction.txt:6:Further inspection shows Ellis should not be reduced to a mechanical routing service boundary.
+evidence/ellis-assessment/12-ellis-constituent-authority-correction.txt:8:Repository governance documents identify Ellis as a named organizational constituent authority:
+evidence/ellis-assessment/12-ellis-constituent-authority-correction.txt:10:- HEADQUARTERS_ORGANIZATIONAL_CHARTER defines Operations Coordination with Role: Ellis.
+evidence/ellis-assessment/12-ellis-constituent-authority-correction.txt:12:- Ellis authority domain is Operational Assignment and Coordination.
+evidence/ellis-assessment/12-ellis-constituent-authority-correction.txt:14:- Ellis responsibilities include consuming Envelope artifacts, routing work by capability, assigning ownership, tracking operational status, and coordinating multi-agent workflows.
+evidence/ellis-assessment/12-ellis-constituent-authority-correction.txt:16:- Ellis produces Assignment, Ownership, Routing State, and Coordination State.
+evidence/ellis-assessment/12-ellis-constituent-authority-correction.txt:18:- CANONICAL_PACKAGE_SPECIFICATION states assignment belongs to Ellis and routing belongs to Ellis.
+evidence/ellis-assessment/12-ellis-constituent-authority-correction.txt:20:- CANONICAL_ENVELOPE_SPECIFICATION states the Envelope is routed and assigned by Ellis.
+evidence/ellis-assessment/12-ellis-constituent-authority-correction.txt:22:- GOVERNANCE_LIFECYCLE_STATE_MODEL defines ASSIGNED as Ellis having resolved capabilities and assigned ownership.
+evidence/ellis-assessment/12-ellis-constituent-authority-correction.txt:24:- GOVERNANCE_VALIDATION_SPECIFICATION states Governance Validation determines requirements while Ellis determines ownership.
+evidence/ellis-assessment/12-ellis-constituent-authority-correction.txt:28:The absence of an implemented Ellis runtime proves only that implementation was deferred.
+evidence/ellis-assessment/12-ellis-constituent-authority-correction.txt:30:It does not prove Ellis was intended as a mere utility, service, or router primitive.
+evidence/ellis-assessment/12-ellis-constituent-authority-correction.txt:34:Ellis is a specified named organizational authority for Operational Assignment and Coordination.
+evidence/ellis-assessment/12-ellis-constituent-authority-correction.txt:36:Ellis runtime is not implemented.
+evidence/ellis-assessment/12-ellis-constituent-authority-correction.txt:38:Ellis implementation shape remains unresolved and should not be collapsed prematurely into either:
+evidence/ellis-assessment/12-ellis-constituent-authority-correction.txt:44:Future implementation should preserve Ellis as the authority responsible for transforming governance-derived requirements into assignment, ownership, routing state, and coordination state.
+evidence/ellis-assessment/12-ellis-constituent-authority-correction.txt:48:Do not implement Ellis yet without explicit authorization.
+evidence/ellis-assessment/12-ellis-constituent-authority-correction.txt:50:Do not remove or weaken Ellis's constituent authority status.
+evidence/ellis-assessment/12-ellis-constituent-authority-correction.txt:52:Do not treat existing router/scheduler/task-state/worker-claim primitives as Ellis itself.
+evidence/ellis-assessment/12-ellis-constituent-authority-correction.txt:54:Treat those primitives as downstream mechanics that may eventually consume Ellis-owned assignment and coordination outputs.
+evidence/ellis-assessment/13-ellis-lineage-inspection-state.txt:2:ELLIS LINEAGE INSPECTION STATE
+evidence/ellis-assessment/13-ellis-lineage-inspection-state.txt:6:Lineage inspection supports the conclusion that Ellis is a named constituent authority introduced into the governance architecture after earlier execution-governance milestones had already modeled Matilda, Atlas, Cade, and Effie.
+evidence/ellis-assessment/13-ellis-lineage-inspection-state.txt:10:- Early Milestone 0-3 contract artifacts model Matilda, Atlas, Cade, Effie, and validator/governance validation boundaries, but do not prominently model Ellis.
+evidence/ellis-assessment/13-ellis-lineage-inspection-state.txt:12:- Later governance documents explicitly model Ellis as Operations Coordination.
+evidence/ellis-assessment/13-ellis-lineage-inspection-state.txt:14:- HEADQUARTERS_ORGANIZATIONAL_CHARTER defines Ellis under Operations Coordination with Authority Domain: Operational Assignment and Coordination.
+evidence/ellis-assessment/13-ellis-lineage-inspection-state.txt:16:- CANONICAL_PACKAGE_SPECIFICATION states assignment belongs to Ellis and routing belongs to Ellis.
+evidence/ellis-assessment/13-ellis-lineage-inspection-state.txt:18:- CANONICAL_ENVELOPE_SPECIFICATION states Envelope is routed and assigned by Ellis and marks assignment fields as Ellis-only.
+evidence/ellis-assessment/13-ellis-lineage-inspection-state.txt:20:- CAPABILITY_ROUTING_MODEL states Ellis owns capability resolution and assignment.
+evidence/ellis-assessment/13-ellis-lineage-inspection-state.txt:22:- GOVERNANCE_LIFECYCLE_STATE_MODEL defines ASSIGNED as Ellis having resolved capabilities and assigned ownership.
+evidence/ellis-assessment/13-ellis-lineage-inspection-state.txt:24:- GOVERNANCE_VALIDATION_SPECIFICATION states Governance Validation determines requirements while Ellis determines ownership.
+evidence/ellis-assessment/13-ellis-lineage-inspection-state.txt:28:The current evidence supports the user's recollection that Ellis was not a random or unfounded mechanical feature.
+evidence/ellis-assessment/13-ellis-lineage-inspection-state.txt:30:Ellis appears to have emerged as the named authority required to occupy the gap between Governance Validation and Operational Departments:
+evidence/ellis-assessment/13-ellis-lineage-inspection-state.txt:36:Ellis determines ownership and assignment.
+evidence/ellis-assessment/13-ellis-lineage-inspection-state.txt:42:Ellis is a specified named organizational constituent authority.
+evidence/ellis-assessment/13-ellis-lineage-inspection-state.txt:44:Ellis runtime is not implemented.
+evidence/ellis-assessment/13-ellis-lineage-inspection-state.txt:46:Ellis implementation was deferred.
+evidence/ellis-assessment/13-ellis-lineage-inspection-state.txt:48:The final implementation shape remains unresolved, but future implementation must preserve Ellis's authority over operational assignment, ownership, routing state, and coordination state.
+evidence/ellis-assessment/13-ellis-lineage-inspection-state.txt:52:Do not collapse Ellis into the existing router/scheduler/worker mechanics.
+evidence/ellis-assessment/13-ellis-lineage-inspection-state.txt:54:Do not claim Ellis is merely a service boundary.
+evidence/ellis-assessment/13-ellis-lineage-inspection-state.txt:56:Do not claim Ellis must be implemented immediately as an autonomous agent.
+evidence/ellis-assessment/13-ellis-lineage-inspection-state.txt:60:- Ellis's constituent authority status, which is supported by governance evidence.
+evidence/ellis-assessment/13-ellis-lineage-inspection-state.txt:62:- Ellis's runtime implementation shape, which remains deferred and unresolved.
+evidence/runtime-primitive-assessment/08-runtime-content-search.txt:105:./governance-validation-operationalization-inspection.txt:42:docs/governance/CAPABILITY_ROUTING_MODEL.md:192:Ellis owns capability resolution and assignment.
+evidence/runtime-primitive-assessment/08-runtime-content-search.txt:110:./governance-validation-operationalization-inspection.txt:60:docs/governance/CANONICAL_PACKAGE_SPECIFICATION.md:276:Assignment belongs to Ellis.
+evidence/runtime-primitive-assessment/08-runtime-content-search.txt:111:./governance-validation-operationalization-inspection.txt:67:docs/governance/CANONICAL_PACKAGE_SPECIFICATION.md:312:Routing belongs to Ellis.
+evidence/runtime-primitive-assessment/08-runtime-content-search.txt:114:./governance-validation-operationalization-inspection.txt:89:docs/governance/HEADQUARTERS_ORGANIZATIONAL_CHARTER.md:146:Operational Assignment and Coordination
+evidence/runtime-primitive-assessment/08-runtime-content-search.txt:116:./governance-validation-operationalization-inspection.txt:106:docs/governance/HEADQUARTERS_ORGANIZATIONAL_CHARTER.md:320:Ellis owns assignment.
+evidence/runtime-primitive-assessment/08-runtime-content-search.txt:123:./governance-validation-operationalization-inspection.txt:131:docs/governance/GOVERNANCE_LIFECYCLE_STATE_MODEL.md:434:Assignment is owned by Ellis.
+evidence/runtime-primitive-assessment/08-runtime-content-search.txt:129:./governance-validation-operationalization-inspection.txt:160:docs/governance/CANONICAL_ENVELOPE_SPECIFICATION.md:38:Ellis Routing
+evidence/runtime-primitive-assessment/08-runtime-content-search.txt:194:./EXECUTION_CORRIDOR_FINDINGS.md:118:Ellis determines:
+evidence/runtime-primitive-assessment/08-runtime-content-search.txt:195:./EXECUTION_CORRIDOR_FINDINGS.md:138:Ellis
+evidence/runtime-primitive-assessment/08-runtime-content-search.txt:197:./iel-governance-inspection.txt:33:docs/governance/CANONICAL_ENVELOPE_SPECIFICATION.md:520:Ellis may assign work but may not modify governance-derived fields.
+evidence/runtime-primitive-assessment/08-runtime-content-search.txt:1290:./reconciled-lifecycle-review.txt:397:docs/governance/CANONICAL_ENVELOPE_SPECIFICATION.md:80:Envelope routed and assigned by Ellis.
+evidence/runtime-primitive-assessment/08-runtime-content-search.txt:1295:./reconciled-lifecycle-review.txt:937:Assignment belongs to Ellis.
+evidence/runtime-primitive-assessment/08-runtime-content-search.txt:1296:./reconciled-lifecycle-review.txt:973:Routing belongs to Ellis.
+evidence/runtime-primitive-assessment/08-runtime-content-search.txt:1300:./reconciled-lifecycle-review.txt:1707:## Relationship To Ellis
+evidence/runtime-primitive-assessment/08-runtime-content-search.txt:1301:./reconciled-lifecycle-review.txt:1711:Ellis determines ownership.
+evidence/runtime-primitive-assessment/08-runtime-content-search.txt:1303:./reconciled-lifecycle-review.txt:1763:Ellis Routing
+evidence/runtime-primitive-assessment/08-runtime-content-search.txt:1304:./reconciled-lifecycle-review.txt:1805:Envelope routed and assigned by Ellis.
+evidence/runtime-primitive-assessment/08-runtime-content-search.txt:1307:./reconciled-lifecycle-review.txt:1989:Ellis
+evidence/runtime-primitive-assessment/08-runtime-content-search.txt:1308:./reconciled-lifecycle-review.txt:1993:Ellis only
+evidence/runtime-primitive-assessment/08-runtime-content-search.txt:1309:./reconciled-lifecycle-review.txt:2007:Ellis
+evidence/runtime-primitive-assessment/08-runtime-content-search.txt:1310:./reconciled-lifecycle-review.txt:2011:Ellis only
+evidence/runtime-primitive-assessment/08-runtime-content-search.txt:1311:./reconciled-lifecycle-review.txt:2025:Ellis
+evidence/runtime-primitive-assessment/08-runtime-content-search.txt:1312:./reconciled-lifecycle-review.txt:2029:Ellis only
+evidence/runtime-primitive-assessment/08-runtime-content-search.txt:1313:./reconciled-lifecycle-review.txt:2041:Ellis
+evidence/runtime-primitive-assessment/08-runtime-content-search.txt:1314:./reconciled-lifecycle-review.txt:2045:Ellis only
+evidence/runtime-primitive-assessment/08-runtime-content-search.txt:1674:./docs/governance/CANONICAL_ENVELOPE_SPECIFICATION.md:38:Ellis Routing
+evidence/runtime-primitive-assessment/08-runtime-content-search.txt:1675:./docs/governance/CANONICAL_ENVELOPE_SPECIFICATION.md:80:Envelope routed and assigned by Ellis.
+evidence/runtime-primitive-assessment/08-runtime-content-search.txt:1678:./docs/governance/CANONICAL_ENVELOPE_SPECIFICATION.md:264:Ellis
+evidence/runtime-primitive-assessment/08-runtime-content-search.txt:1679:./docs/governance/CANONICAL_ENVELOPE_SPECIFICATION.md:268:Ellis only
+evidence/runtime-primitive-assessment/08-runtime-content-search.txt:1680:./docs/governance/CANONICAL_ENVELOPE_SPECIFICATION.md:282:Ellis
+evidence/runtime-primitive-assessment/08-runtime-content-search.txt:1681:./docs/governance/CANONICAL_ENVELOPE_SPECIFICATION.md:286:Ellis only
+evidence/runtime-primitive-assessment/08-runtime-content-search.txt:1682:./docs/governance/CANONICAL_ENVELOPE_SPECIFICATION.md:300:Ellis
+evidence/runtime-primitive-assessment/08-runtime-content-search.txt:1683:./docs/governance/CANONICAL_ENVELOPE_SPECIFICATION.md:304:Ellis only
+evidence/runtime-primitive-assessment/08-runtime-content-search.txt:1684:./docs/governance/CANONICAL_ENVELOPE_SPECIFICATION.md:316:Ellis
+evidence/runtime-primitive-assessment/08-runtime-content-search.txt:1685:./docs/governance/CANONICAL_ENVELOPE_SPECIFICATION.md:320:Ellis only
+evidence/runtime-primitive-assessment/08-runtime-content-search.txt:1686:./docs/governance/CANONICAL_ENVELOPE_SPECIFICATION.md:520:Ellis may assign work but may not modify governance-derived fields.
+evidence/runtime-primitive-assessment/08-runtime-content-search.txt:1698:./docs/governance/GOVERNANCE_VALIDATION_CHARTER.md:328:Ellis
+evidence/runtime-primitive-assessment/08-runtime-content-search.txt:1734:./docs/governance/CANDIDATE_OBSERVABILITY_SCOPE_CORRIDOR.md:68:- Ellis
+evidence/runtime-primitive-assessment/08-runtime-content-search.txt:1736:./docs/governance-envelope-eligibility-strengthening-authorization-assessment.md:48:- Ellis consumes Required Capabilities.
+evidence/runtime-primitive-assessment/08-runtime-content-search.txt:1737:./docs/governance-envelope-eligibility-strengthening-authorization-assessment.md:50:- Ellis consumes Operational Corridor.
+evidence/runtime-primitive-assessment/08-runtime-content-search.txt:1745:./docs/governance-lifecycle-authority-expansion-assessment-continuation.md:58:Assignment is a canonical lifecycle stage, but evidence assigns ownership and mutation authority to Ellis.
+evidence/runtime-primitive-assessment/08-runtime-content-search.txt:1758:./docs/governance/GOVERNANCE_VALIDATION_SPECIFICATION.md:78:## Relationship To Ellis
+evidence/runtime-primitive-assessment/08-runtime-content-search.txt:1759:./docs/governance/GOVERNANCE_VALIDATION_SPECIFICATION.md:82:Ellis determines ownership.
+evidence/runtime-primitive-assessment/08-runtime-content-search.txt:1766:./docs/governance/CANONICAL_PACKAGE_SPECIFICATION.md:276:Assignment belongs to Ellis.
+evidence/runtime-primitive-assessment/08-runtime-content-search.txt:1767:./docs/governance/CANONICAL_PACKAGE_SPECIFICATION.md:312:Routing belongs to Ellis.
+evidence/runtime-primitive-assessment/08-runtime-content-search.txt:1768:./docs/governance/CAPABILITY_ROUTING_MODEL.md:46:Ellis
+evidence/runtime-primitive-assessment/08-runtime-content-search.txt:1770:./docs/governance/CAPABILITY_ROUTING_MODEL.md:168:Capabilities are not derived by Ellis.
+evidence/runtime-primitive-assessment/08-runtime-content-search.txt:1772:./docs/governance/CAPABILITY_ROUTING_MODEL.md:192:Ellis owns capability resolution and assignment.
+evidence/runtime-primitive-assessment/08-runtime-content-search.txt:1773:./docs/governance/CAPABILITY_ROUTING_MODEL.md:194:Ellis consumes:
+evidence/runtime-primitive-assessment/08-runtime-content-search.txt:1774:./docs/governance/CAPABILITY_ROUTING_MODEL.md:202:Ellis determines:
+evidence/runtime-primitive-assessment/08-runtime-content-search.txt:1776:./docs/governance/CAPABILITY_ROUTING_MODEL.md:210:Ellis does not define capabilities.
+evidence/runtime-primitive-assessment/08-runtime-content-search.txt:1777:./docs/governance/CAPABILITY_ROUTING_MODEL.md:212:Ellis does not maintain the registry.
+evidence/runtime-primitive-assessment/08-runtime-content-search.txt:1778:./docs/governance/CAPABILITY_ROUTING_MODEL.md:254:Ellis may assign:
+evidence/runtime-primitive-assessment/08-runtime-content-search.txt:1779:./docs/governance/CAPABILITY_ROUTING_MODEL.md:306:Ellis routes by capabilities.
+evidence/runtime-primitive-assessment/08-runtime-content-search.txt:1787:./docs/governance/HEADQUARTERS_ORGANIZATIONAL_CHARTER.md:142:Ellis
+evidence/runtime-primitive-assessment/08-runtime-content-search.txt:1788:./docs/governance/HEADQUARTERS_ORGANIZATIONAL_CHARTER.md:146:Operational Assignment and Coordination
+evidence/runtime-primitive-assessment/08-runtime-content-search.txt:1790:./docs/governance/HEADQUARTERS_ORGANIZATIONAL_CHARTER.md:320:Ellis owns assignment.
+evidence/runtime-primitive-assessment/08-runtime-content-search.txt:1794:./docs/governance/GOVERNANCE_LIFECYCLE_STATE_MODEL.md:140:Ellis has resolved capabilities and assigned ownership.
+evidence/runtime-primitive-assessment/08-runtime-content-search.txt:1798:./docs/governance/GOVERNANCE_LIFECYCLE_STATE_MODEL.md:434:Assignment is owned by Ellis.
+evidence/runtime-primitive-assessment/08-runtime-content-search.txt:1850:./governance-validation-design-readiness-checkpoint.txt:52:- Ellis
+evidence/runtime-primitive-assessment/08-runtime-content-search.txt:1871:./governance-validation-readiness-verdict.txt:60:- Ellis.
+evidence/runtime-primitive-assessment/08-runtime-content-search.txt:1877:./governance-schema-creep-prevention-guardrail-v1.txt:80:- ellis_route
+evidence/runtime-primitive-assessment/08-runtime-content-search.txt:1879:./governance-schema-creep-prevention-guardrail-v1.txt:98:- Ellis routing
+evidence/runtime-primitive-assessment/09-routing-primitive-finding.txt:21:It does not establish Ellis runtime implementation, assignment mutation, or execution authorization.
+evidence/runtime-primitive-assessment/10-assignment-content-search.txt:24:./governance-validation-operationalization-inspection.txt:42:docs/governance/CAPABILITY_ROUTING_MODEL.md:192:Ellis owns capability resolution and assignment.
+evidence/runtime-primitive-assessment/10-assignment-content-search.txt:30:./governance-validation-operationalization-inspection.txt:60:docs/governance/CANONICAL_PACKAGE_SPECIFICATION.md:276:Assignment belongs to Ellis.
+evidence/runtime-primitive-assessment/10-assignment-content-search.txt:33:./governance-validation-operationalization-inspection.txt:89:docs/governance/HEADQUARTERS_ORGANIZATIONAL_CHARTER.md:146:Operational Assignment and Coordination
+evidence/runtime-primitive-assessment/10-assignment-content-search.txt:36:./governance-validation-operationalization-inspection.txt:106:docs/governance/HEADQUARTERS_ORGANIZATIONAL_CHARTER.md:320:Ellis owns assignment.
+evidence/runtime-primitive-assessment/10-assignment-content-search.txt:43:./governance-validation-operationalization-inspection.txt:131:docs/governance/GOVERNANCE_LIFECYCLE_STATE_MODEL.md:434:Assignment is owned by Ellis.
+evidence/runtime-primitive-assessment/10-assignment-content-search.txt:110:./evidence/runtime-primitive-assessment/09-routing-primitive-finding.txt:21:It does not establish Ellis runtime implementation, assignment mutation, or execution authorization.
+evidence/runtime-primitive-assessment/10-assignment-content-search.txt:123:./evidence/runtime-primitive-assessment/08-runtime-content-search.txt:105:./governance-validation-operationalization-inspection.txt:42:docs/governance/CAPABILITY_ROUTING_MODEL.md:192:Ellis owns capability resolution and assignment.
+evidence/runtime-primitive-assessment/10-assignment-content-search.txt:128:./evidence/runtime-primitive-assessment/08-runtime-content-search.txt:110:./governance-validation-operationalization-inspection.txt:60:docs/governance/CANONICAL_PACKAGE_SPECIFICATION.md:276:Assignment belongs to Ellis.
+evidence/runtime-primitive-assessment/10-assignment-content-search.txt:131:./evidence/runtime-primitive-assessment/08-runtime-content-search.txt:114:./governance-validation-operationalization-inspection.txt:89:docs/governance/HEADQUARTERS_ORGANIZATIONAL_CHARTER.md:146:Operational Assignment and Coordination
+evidence/runtime-primitive-assessment/10-assignment-content-search.txt:133:./evidence/runtime-primitive-assessment/08-runtime-content-search.txt:116:./governance-validation-operationalization-inspection.txt:106:docs/governance/HEADQUARTERS_ORGANIZATIONAL_CHARTER.md:320:Ellis owns assignment.
+evidence/runtime-primitive-assessment/10-assignment-content-search.txt:140:./evidence/runtime-primitive-assessment/08-runtime-content-search.txt:123:./governance-validation-operationalization-inspection.txt:131:docs/governance/GOVERNANCE_LIFECYCLE_STATE_MODEL.md:434:Assignment is owned by Ellis.
+evidence/runtime-primitive-assessment/10-assignment-content-search.txt:186:./evidence/runtime-primitive-assessment/08-runtime-content-search.txt:1295:./reconciled-lifecycle-review.txt:937:Assignment belongs to Ellis.
+evidence/runtime-primitive-assessment/10-assignment-content-search.txt:190:./evidence/runtime-primitive-assessment/08-runtime-content-search.txt:1301:./reconciled-lifecycle-review.txt:1711:Ellis determines ownership.
+
+--- Governance Validation non-personified boundary comparison ---
+docs/contracts/MILESTONE_3A_VALIDATOR_GOVERNANCE_REVIEW.md:2:# Milestone 3A — Validator Governance Review
+docs/contracts/MILESTONE_3A_VALIDATOR_GOVERNANCE_REVIEW.md:8:Review the validator authority model defined in Milestone 3 before authorizing any validator-related contract amendments.
+docs/contracts/MILESTONE_3A_VALIDATOR_GOVERNANCE_REVIEW.md:10:This review determines whether the proposed validator authority boundary is accepted, rejected, or modified.
+docs/contracts/MILESTONE_3A_VALIDATOR_GOVERNANCE_REVIEW.md:20:- MILESTONE_3_VALIDATOR_AUTHORITY_SCOPE.md
+docs/contracts/MILESTONE_3A_VALIDATOR_GOVERNANCE_REVIEW.md:30:Validator Veto Authority
+docs/contracts/MILESTONE_3A_VALIDATOR_GOVERNANCE_REVIEW.md:34:Validator may reject envelopes.
+docs/contracts/MILESTONE_3A_VALIDATOR_GOVERNANCE_REVIEW.md:36:Validator may block delegation.
+docs/contracts/MILESTONE_3A_VALIDATOR_GOVERNANCE_REVIEW.md:48:Validator Authorship Prohibition
+docs/contracts/MILESTONE_3A_VALIDATOR_GOVERNANCE_REVIEW.md:52:Validator may not:
+docs/contracts/MILESTONE_3A_VALIDATOR_GOVERNANCE_REVIEW.md:74:Validator Escalation Authority
+docs/contracts/MILESTONE_3A_VALIDATOR_GOVERNANCE_REVIEW.md:78:Validator may escalate:
+docs/contracts/MILESTONE_3A_VALIDATOR_GOVERNANCE_REVIEW.md:86:Validator may not resolve them.
+docs/contracts/MILESTONE_3A_VALIDATOR_GOVERNANCE_REVIEW.md:98:Validator Independence Rule
+docs/contracts/MILESTONE_3A_VALIDATOR_GOVERNANCE_REVIEW.md:102:Validator validates envelopes.
+docs/contracts/MILESTONE_3A_VALIDATOR_GOVERNANCE_REVIEW.md:104:Validator does not validate Cade execution plans.
+docs/contracts/MILESTONE_3A_VALIDATOR_GOVERNANCE_REVIEW.md:138:- validator implementation
+docs/contracts/MILESTONE_3A_VALIDATOR_GOVERNANCE_REVIEW.md:140:- runtime validator patch
+docs/contracts/MILESTONE_3A_VALIDATOR_GOVERNANCE_REVIEW.md:162:Milestone 3A completes when authoritative decisions are recorded for all validator governance questions.
+docs/contracts/MILESTONE_3A_VALIDATOR_GOVERNANCE_REVIEW.md:166:- validator reconciliation decision ledger
+docs/contracts/MILESTONE_3A_VALIDATOR_GOVERNANCE_REVIEW.md:168:- not validator implementation
+docs/contracts/MILESTONE_3B_VALIDATOR_RECONCILIATION_DECISION_LEDGER.md:2:# Milestone 3B — Validator Reconciliation Decision Ledger
+docs/contracts/MILESTONE_3B_VALIDATOR_RECONCILIATION_DECISION_LEDGER.md:8:Record authoritative decisions resulting from the Milestone 3A validator governance review.
+docs/contracts/MILESTONE_3B_VALIDATOR_RECONCILIATION_DECISION_LEDGER.md:10:This artifact becomes the canonical reconciliation record for validator authority.
+docs/contracts/MILESTONE_3B_VALIDATOR_RECONCILIATION_DECISION_LEDGER.md:20:Validator Veto Authority
+docs/contracts/MILESTONE_3B_VALIDATOR_RECONCILIATION_DECISION_LEDGER.md:24:MILESTONE_3A_VALIDATOR_GOVERNANCE_REVIEW.md
+docs/contracts/MILESTONE_3B_VALIDATOR_RECONCILIATION_DECISION_LEDGER.md:32:Validator may reject invalid envelopes.
+docs/contracts/MILESTONE_3B_VALIDATOR_RECONCILIATION_DECISION_LEDGER.md:34:Validator may block delegation.
+docs/contracts/MILESTONE_3B_VALIDATOR_RECONCILIATION_DECISION_LEDGER.md:36:Validator may prevent Cade from receiving executable authorization when validation fails.
+docs/contracts/MILESTONE_3B_VALIDATOR_RECONCILIATION_DECISION_LEDGER.md:48:Validator Authorship Prohibition
+docs/contracts/MILESTONE_3B_VALIDATOR_RECONCILIATION_DECISION_LEDGER.md:52:MILESTONE_3A_VALIDATOR_GOVERNANCE_REVIEW.md
+docs/contracts/MILESTONE_3B_VALIDATOR_RECONCILIATION_DECISION_LEDGER.md:60:Validator may not:
+docs/contracts/MILESTONE_3B_VALIDATOR_RECONCILIATION_DECISION_LEDGER.md:74:Validator authority is review authority, not authorship authority.
+docs/contracts/MILESTONE_3B_VALIDATOR_RECONCILIATION_DECISION_LEDGER.md:86:Validator Escalation Authority
+docs/contracts/MILESTONE_3B_VALIDATOR_RECONCILIATION_DECISION_LEDGER.md:90:MILESTONE_3A_VALIDATOR_GOVERNANCE_REVIEW.md
+docs/contracts/MILESTONE_3B_VALIDATOR_RECONCILIATION_DECISION_LEDGER.md:98:Validator may escalate:
+docs/contracts/MILESTONE_3B_VALIDATOR_RECONCILIATION_DECISION_LEDGER.md:106:Validator may not resolve them.
+docs/contracts/MILESTONE_3B_VALIDATOR_RECONCILIATION_DECISION_LEDGER.md:120:Validator Independence Rule
+docs/contracts/MILESTONE_3B_VALIDATOR_RECONCILIATION_DECISION_LEDGER.md:124:MILESTONE_3A_VALIDATOR_GOVERNANCE_REVIEW.md
+docs/contracts/MILESTONE_3B_VALIDATOR_RECONCILIATION_DECISION_LEDGER.md:132:Validator validates envelopes.
+docs/contracts/MILESTONE_3B_VALIDATOR_RECONCILIATION_DECISION_LEDGER.md:134:Validator does not validate Cade execution plans.
+docs/contracts/MILESTONE_3B_VALIDATOR_RECONCILIATION_DECISION_LEDGER.md:142:Validator authority must not collapse into execution review or outcome reconciliation unless a later milestone explicitly scopes that authority.
+docs/contracts/MILESTONE_3B_VALIDATOR_RECONCILIATION_DECISION_LEDGER.md:154:MILESTONE_3A_VALIDATOR_GOVERNANCE_REVIEW.md
+docs/contracts/MILESTONE_3B_VALIDATOR_RECONCILIATION_DECISION_LEDGER.md:174:## Final Validator Governance Invariant
+docs/contracts/MILESTONE_3B_VALIDATOR_RECONCILIATION_DECISION_LEDGER.md:176:Validators possess veto authority, escalation authority, and audit authority.
+docs/contracts/MILESTONE_3B_VALIDATOR_RECONCILIATION_DECISION_LEDGER.md:178:Validators do not possess authorship authority, interpretation authority, intent authority, or execution authority.
+docs/contracts/MILESTONE_3B_VALIDATOR_RECONCILIATION_DECISION_LEDGER.md:186:- validator implementation
+docs/contracts/MILESTONE_3B_VALIDATOR_RECONCILIATION_DECISION_LEDGER.md:188:- runtime validator patch
+docs/contracts/MILESTONE_3B_VALIDATOR_RECONCILIATION_DECISION_LEDGER.md:210:Validator contract authorization review.
+docs/contracts/MILESTONE_3B_VALIDATOR_RECONCILIATION_DECISION_LEDGER.md:212:Not validator implementation.
+docs/contracts/MILESTONE_3C_VALIDATOR_CONTRACT_AUTHORIZATION_REVIEW.md:2:# Milestone 3C — Validator Contract Authorization Review
+docs/contracts/MILESTONE_3C_VALIDATOR_CONTRACT_AUTHORIZATION_REVIEW.md:8:Determine whether the validator authority decisions from Milestone 3B require contract amendments.
+docs/contracts/MILESTONE_3C_VALIDATOR_CONTRACT_AUTHORIZATION_REVIEW.md:10:This is not validator implementation.
+docs/contracts/MILESTONE_3C_VALIDATOR_CONTRACT_AUTHORIZATION_REVIEW.md:16:- MILESTONE_3_VALIDATOR_AUTHORITY_SCOPE.md
+docs/contracts/MILESTONE_3C_VALIDATOR_CONTRACT_AUTHORIZATION_REVIEW.md:18:- MILESTONE_3A_VALIDATOR_GOVERNANCE_REVIEW.md
+docs/contracts/MILESTONE_3C_VALIDATOR_CONTRACT_AUTHORIZATION_REVIEW.md:20:- MILESTONE_3B_VALIDATOR_RECONCILIATION_DECISION_LEDGER.md
+docs/contracts/MILESTONE_3C_VALIDATOR_CONTRACT_AUTHORIZATION_REVIEW.md:26:Do existing contracts need amendments to preserve the validator authority model?
+docs/contracts/MILESTONE_3C_VALIDATOR_CONTRACT_AUTHORIZATION_REVIEW.md:30:## Accepted Validator Invariant
+docs/contracts/MILESTONE_3C_VALIDATOR_CONTRACT_AUTHORIZATION_REVIEW.md:32:Validators possess:
+docs/contracts/MILESTONE_3C_VALIDATOR_CONTRACT_AUTHORIZATION_REVIEW.md:40:Validators do not possess:
+docs/contracts/MILESTONE_3C_VALIDATOR_CONTRACT_AUTHORIZATION_REVIEW.md:54:- review existing contracts for validator authority gaps
+docs/contracts/MILESTONE_3C_VALIDATOR_CONTRACT_AUTHORIZATION_REVIEW.md:56:- identify missing validator fields or rules
+docs/contracts/MILESTONE_3C_VALIDATOR_CONTRACT_AUTHORIZATION_REVIEW.md:58:- identify contract language that grants validator excessive authority
+docs/contracts/MILESTONE_3C_VALIDATOR_CONTRACT_AUTHORIZATION_REVIEW.md:66:- validator implementation
+docs/contracts/MILESTONE_3C_VALIDATOR_CONTRACT_AUTHORIZATION_REVIEW.md:68:- runtime validator patch
+docs/contracts/MILESTONE_3C_VALIDATOR_CONTRACT_AUTHORIZATION_REVIEW.md:102:- validator may reject invalid envelopes
+docs/contracts/MILESTONE_3C_VALIDATOR_CONTRACT_AUTHORIZATION_REVIEW.md:104:- validator may block delegation
+docs/contracts/MILESTONE_3C_VALIDATOR_CONTRACT_AUTHORIZATION_REVIEW.md:106:- validator may escalate failures
+docs/contracts/MILESTONE_3C_VALIDATOR_CONTRACT_AUTHORIZATION_REVIEW.md:108:- validator may record findings
+docs/contracts/MILESTONE_3C_VALIDATOR_CONTRACT_AUTHORIZATION_REVIEW.md:110:- validator may not create intent
+docs/contracts/MILESTONE_3C_VALIDATOR_CONTRACT_AUTHORIZATION_REVIEW.md:112:- validator may not infer missing intent
+docs/contracts/MILESTONE_3C_VALIDATOR_CONTRACT_AUTHORIZATION_REVIEW.md:114:- validator may not modify envelopes
+docs/contracts/MILESTONE_3C_VALIDATOR_CONTRACT_AUTHORIZATION_REVIEW.md:116:- validator may not execute work
+docs/contracts/MILESTONE_3C_VALIDATOR_CONTRACT_AUTHORIZATION_REVIEW.md:122:Milestone 3C completes when a review finding determines whether validator-related contract amendments are required.
+docs/contracts/MILESTONE_3C_VALIDATOR_CONTRACT_REVIEW_FINDINGS.md:2:# Milestone 3C — Validator Contract Review Findings
+docs/contracts/MILESTONE_3C_VALIDATOR_CONTRACT_REVIEW_FINDINGS.md:8:Record findings from inspection of existing contract artifacts against the Milestone 3B validator authority decisions.
+docs/contracts/MILESTONE_3C_VALIDATOR_CONTRACT_REVIEW_FINDINGS.md:24:## Finding 001 — Validator Mentioned But Not Fully Contracted
+docs/contracts/MILESTONE_3C_VALIDATOR_CONTRACT_REVIEW_FINDINGS.md:26:Existing contracts reference governance validation and validator-like behavior.
+docs/contracts/MILESTONE_3C_VALIDATOR_CONTRACT_REVIEW_FINDINGS.md:28:However, the validator authority boundary is not explicitly represented as a first-class contract section.
+docs/contracts/MILESTONE_3C_VALIDATOR_CONTRACT_REVIEW_FINDINGS.md:36:## Finding 002 — Existing Contracts Already Support Some Validator Behavior
+docs/contracts/MILESTONE_3C_VALIDATOR_CONTRACT_REVIEW_FINDINGS.md:56:## Finding 003 — Missing Validator Non-Authorship Rule
+docs/contracts/MILESTONE_3C_VALIDATOR_CONTRACT_REVIEW_FINDINGS.md:58:Existing contracts do not fully encode that validators may not:
+docs/contracts/MILESTONE_3C_VALIDATOR_CONTRACT_REVIEW_FINDINGS.md:76:## Finding 004 — Missing Validator Veto / Block Rule
+docs/contracts/MILESTONE_3C_VALIDATOR_CONTRACT_REVIEW_FINDINGS.md:80:- validator may reject invalid envelopes
+docs/contracts/MILESTONE_3C_VALIDATOR_CONTRACT_REVIEW_FINDINGS.md:82:- validator may block delegation
+docs/contracts/MILESTONE_3C_VALIDATOR_CONTRACT_REVIEW_FINDINGS.md:92:## Finding 005 — Missing Validator Output Contract
+docs/contracts/MILESTONE_3C_VALIDATOR_CONTRACT_REVIEW_FINDINGS.md:94:Existing contracts do not define required validator findings.
+docs/contracts/MILESTONE_3C_VALIDATOR_CONTRACT_REVIEW_FINDINGS.md:96:Required validator output should include:
+docs/contracts/MILESTONE_3C_VALIDATOR_CONTRACT_REVIEW_FINDINGS.md:124:## Finding 006 — Runtime Contract Missing Validator Authority Fields
+docs/contracts/MILESTONE_3C_VALIDATOR_CONTRACT_REVIEW_FINDINGS.md:128:It does not include explicit validator authority fields.
+docs/contracts/MILESTONE_3C_VALIDATOR_CONTRACT_REVIEW_FINDINGS.md:132:AMENDMENT WARRANTED BEFORE VALIDATOR AUTHORITY EXPANDS
+docs/contracts/MILESTONE_3C_VALIDATOR_CONTRACT_REVIEW_FINDINGS.md:140:- validator implementation
+docs/contracts/MILESTONE_3C_VALIDATOR_CONTRACT_REVIEW_FINDINGS.md:142:- validator runtime behavior
+docs/contracts/MILESTONE_3C_VALIDATOR_CONTRACT_REVIEW_FINDINGS.md:168:- Milestone 3D validator contract patch authorization
+docs/contracts/MILESTONE_3C_VALIDATOR_CONTRACT_REVIEW_FINDINGS.md:172:- validator implementation
+docs/contracts/MILESTONE_3D_VALIDATOR_CONTRACT_PATCH_AUTHORIZATION.md:2:# Milestone 3D — Validator Contract Patch Authorization
+docs/contracts/MILESTONE_3D_VALIDATOR_CONTRACT_PATCH_AUTHORIZATION.md:8:Authorize narrowly scoped validator contract amendments required by the findings recorded in Milestone 3C.
+docs/contracts/MILESTONE_3D_VALIDATOR_CONTRACT_PATCH_AUTHORIZATION.md:10:This authorization does not approve validator implementation.
+docs/contracts/MILESTONE_3D_VALIDATOR_CONTRACT_PATCH_AUTHORIZATION.md:16:- MILESTONE_3_VALIDATOR_AUTHORITY_SCOPE.md
+docs/contracts/MILESTONE_3D_VALIDATOR_CONTRACT_PATCH_AUTHORIZATION.md:18:- MILESTONE_3A_VALIDATOR_GOVERNANCE_REVIEW.md
+docs/contracts/MILESTONE_3D_VALIDATOR_CONTRACT_PATCH_AUTHORIZATION.md:20:- MILESTONE_3B_VALIDATOR_RECONCILIATION_DECISION_LEDGER.md
+docs/contracts/MILESTONE_3D_VALIDATOR_CONTRACT_PATCH_AUTHORIZATION.md:22:- MILESTONE_3C_VALIDATOR_CONTRACT_REVIEW_FINDINGS.md
+docs/contracts/MILESTONE_3D_VALIDATOR_CONTRACT_PATCH_AUTHORIZATION.md:38:### Validator Authority Declaration
+docs/contracts/MILESTONE_3D_VALIDATOR_CONTRACT_PATCH_AUTHORIZATION.md:42:- validator veto authority
+docs/contracts/MILESTONE_3D_VALIDATOR_CONTRACT_PATCH_AUTHORIZATION.md:44:- validator escalation authority
+docs/contracts/MILESTONE_3D_VALIDATOR_CONTRACT_PATCH_AUTHORIZATION.md:46:- validator audit authority
+docs/contracts/MILESTONE_3D_VALIDATOR_CONTRACT_PATCH_AUTHORIZATION.md:48:### Validator Non-Authority Declaration
+docs/contracts/MILESTONE_3D_VALIDATOR_CONTRACT_PATCH_AUTHORIZATION.md:52:- validator possesses no intent authority
+docs/contracts/MILESTONE_3D_VALIDATOR_CONTRACT_PATCH_AUTHORIZATION.md:54:- validator possesses no authorship authority
+docs/contracts/MILESTONE_3D_VALIDATOR_CONTRACT_PATCH_AUTHORIZATION.md:56:- validator possesses no interpretation authority
+docs/contracts/MILESTONE_3D_VALIDATOR_CONTRACT_PATCH_AUTHORIZATION.md:58:- validator possesses no execution authority
+docs/contracts/MILESTONE_3D_VALIDATOR_CONTRACT_PATCH_AUTHORIZATION.md:60:### Validator Failure Handling
+docs/contracts/MILESTONE_3D_VALIDATOR_CONTRACT_PATCH_AUTHORIZATION.md:64:- validator may reject invalid envelopes
+docs/contracts/MILESTONE_3D_VALIDATOR_CONTRACT_PATCH_AUTHORIZATION.md:66:- validator may block delegation
+docs/contracts/MILESTONE_3D_VALIDATOR_CONTRACT_PATCH_AUTHORIZATION.md:68:- validator may escalate ambiguity failures
+docs/contracts/MILESTONE_3D_VALIDATOR_CONTRACT_PATCH_AUTHORIZATION.md:70:- validator may escalate intent evidence failures
+docs/contracts/MILESTONE_3D_VALIDATOR_CONTRACT_PATCH_AUTHORIZATION.md:72:### Validator Output Contract
+docs/contracts/MILESTONE_3D_VALIDATOR_CONTRACT_PATCH_AUTHORIZATION.md:74:Contracts may define required validator outputs.
+docs/contracts/MILESTONE_3D_VALIDATOR_CONTRACT_PATCH_AUTHORIZATION.md:82:- validator implementation
+docs/contracts/MILESTONE_3D_VALIDATOR_CONTRACT_PATCH_AUTHORIZATION.md:84:- runtime validator execution behavior
+docs/contracts/MILESTONE_3D_VALIDATOR_CONTRACT_PATCH_AUTHORIZATION.md:110:- validator authority language must exist
+docs/contracts/MILESTONE_3D_VALIDATOR_CONTRACT_PATCH_AUTHORIZATION.md:112:- validator non-authority language must exist
+docs/contracts/MILESTONE_3D_VALIDATOR_CONTRACT_PATCH_AUTHORIZATION.md:114:- validator veto authority must exist
+docs/contracts/MILESTONE_3D_VALIDATOR_CONTRACT_PATCH_AUTHORIZATION.md:116:- validator escalation authority must exist
+docs/contracts/MILESTONE_3D_VALIDATOR_CONTRACT_PATCH_AUTHORIZATION.md:118:- validator output requirements must exist
+docs/contracts/MILESTONE_3D_VALIDATOR_CONTRACT_PATCH_AUTHORIZATION.md:128:- Milestone 3E validator contract patch
+docs/contracts/MILESTONE_3D_VALIDATOR_CONTRACT_PATCH_AUTHORIZATION.md:130:Not validator implementation.
+docs/contracts/MILESTONE_3E_VALIDATOR_CONTRACT_PATCH_CLOSEOUT.md:2:# Milestone 3E — Validator Contract Patch Closeout
+docs/contracts/MILESTONE_3E_VALIDATOR_CONTRACT_PATCH_CLOSEOUT.md:8:Close the validator contract patch milestone after applying the narrowly authorized validator authority contract amendments.
+docs/contracts/MILESTONE_3E_VALIDATOR_CONTRACT_PATCH_CLOSEOUT.md:14:- MILESTONE_3_VALIDATOR_AUTHORITY_SCOPE.md
+docs/contracts/MILESTONE_3E_VALIDATOR_CONTRACT_PATCH_CLOSEOUT.md:16:- MILESTONE_3A_VALIDATOR_GOVERNANCE_REVIEW.md
+docs/contracts/MILESTONE_3E_VALIDATOR_CONTRACT_PATCH_CLOSEOUT.md:18:- MILESTONE_3B_VALIDATOR_RECONCILIATION_DECISION_LEDGER.md
+docs/contracts/MILESTONE_3E_VALIDATOR_CONTRACT_PATCH_CLOSEOUT.md:20:- MILESTONE_3C_VALIDATOR_CONTRACT_REVIEW_FINDINGS.md
+docs/contracts/MILESTONE_3E_VALIDATOR_CONTRACT_PATCH_CLOSEOUT.md:22:- MILESTONE_3D_VALIDATOR_CONTRACT_PATCH_AUTHORIZATION.md
+docs/contracts/MILESTONE_3E_VALIDATOR_CONTRACT_PATCH_CLOSEOUT.md:38:- 2185f49e add validator authority contract boundaries
+docs/contracts/MILESTONE_3E_VALIDATOR_CONTRACT_PATCH_CLOSEOUT.md:46:- validator veto authority
+docs/contracts/MILESTONE_3E_VALIDATOR_CONTRACT_PATCH_CLOSEOUT.md:48:- validator escalation authority
+docs/contracts/MILESTONE_3E_VALIDATOR_CONTRACT_PATCH_CLOSEOUT.md:50:- validator audit authority
+docs/contracts/MILESTONE_3E_VALIDATOR_CONTRACT_PATCH_CLOSEOUT.md:52:- validator non-authorship rule
+docs/contracts/MILESTONE_3E_VALIDATOR_CONTRACT_PATCH_CLOSEOUT.md:54:- validator non-interpretation rule
+docs/contracts/MILESTONE_3E_VALIDATOR_CONTRACT_PATCH_CLOSEOUT.md:56:- validator non-execution rule
+docs/contracts/MILESTONE_3E_VALIDATOR_CONTRACT_PATCH_CLOSEOUT.md:58:- validator non-intent-authority rule
+docs/contracts/MILESTONE_3E_VALIDATOR_CONTRACT_PATCH_CLOSEOUT.md:60:- validator output requirements
+docs/contracts/MILESTONE_3E_VALIDATOR_CONTRACT_PATCH_CLOSEOUT.md:62:- validator review lifecycle state
+docs/contracts/MILESTONE_3E_VALIDATOR_CONTRACT_PATCH_CLOSEOUT.md:70:No validator implementation was introduced.
+docs/contracts/MILESTONE_3E_VALIDATOR_CONTRACT_PATCH_CLOSEOUT.md:72:No runtime validator behavior was implemented.
+docs/contracts/MILESTONE_3E_VALIDATOR_CONTRACT_PATCH_CLOSEOUT.md:94:Validators now have a documented and runtime-carried authority boundary.
+docs/contracts/MILESTONE_3E_VALIDATOR_CONTRACT_PATCH_CLOSEOUT.md:96:Validators may veto, escalate, and audit.
+docs/contracts/MILESTONE_3E_VALIDATOR_CONTRACT_PATCH_CLOSEOUT.md:98:Validators may not author, interpret, create intent, infer missing intent, modify envelopes, or execute work.
+docs/contracts/MILESTONE_3_VALIDATOR_AUTHORITY_SCOPE.md:2:# Milestone 3 — Validator Authority Scope
+docs/contracts/MILESTONE_3_VALIDATOR_AUTHORITY_SCOPE.md:8:Define validator authority before any validator implementation, validator runtime patch, validation route, or enforcement behavior is modified.
+docs/contracts/MILESTONE_3_VALIDATOR_AUTHORITY_SCOPE.md:10:Milestone 3 exists to prevent validators from silently becoming interpreters, authors, executors, or hidden governance authorities.
+docs/contracts/MILESTONE_3_VALIDATOR_AUTHORITY_SCOPE.md:16:Validators possess:
+docs/contracts/MILESTONE_3_VALIDATOR_AUTHORITY_SCOPE.md:24:Validators do not possess:
+docs/contracts/MILESTONE_3_VALIDATOR_AUTHORITY_SCOPE.md:38:Validators may verify.
+docs/contracts/MILESTONE_3_VALIDATOR_AUTHORITY_SCOPE.md:40:Validators may block.
+docs/contracts/MILESTONE_3_VALIDATOR_AUTHORITY_SCOPE.md:42:Validators may escalate.
+docs/contracts/MILESTONE_3_VALIDATOR_AUTHORITY_SCOPE.md:44:Validators may record findings.
+docs/contracts/MILESTONE_3_VALIDATOR_AUTHORITY_SCOPE.md:46:Validators may not create, modify, infer, or expand user intent.
+docs/contracts/MILESTONE_3_VALIDATOR_AUTHORITY_SCOPE.md:50:## Validator MAY
+docs/contracts/MILESTONE_3_VALIDATOR_AUTHORITY_SCOPE.md:80:## Validator MAY NOT
+docs/contracts/MILESTONE_3_VALIDATOR_AUTHORITY_SCOPE.md:210:- validator may not repair envelope
+docs/contracts/MILESTONE_3_VALIDATOR_AUTHORITY_SCOPE.md:232:- validator may not choose an interpretation
+docs/contracts/MILESTONE_3_VALIDATOR_AUTHORITY_SCOPE.md:242:Validator
+docs/contracts/MILESTONE_3_VALIDATOR_AUTHORITY_SCOPE.md:264:Validator
+docs/contracts/MILESTONE_3_VALIDATOR_AUTHORITY_SCOPE.md:280:## Validator Non-Authorship Principle
+docs/contracts/MILESTONE_3_VALIDATOR_AUTHORITY_SCOPE.md:282:Validator findings are descriptive, not corrective.
+docs/contracts/MILESTONE_3_VALIDATOR_AUTHORITY_SCOPE.md:284:Validator may say:
+docs/contracts/MILESTONE_3_VALIDATOR_AUTHORITY_SCOPE.md:292:Validator may not say:
+docs/contracts/MILESTONE_3_VALIDATOR_AUTHORITY_SCOPE.md:302:## Validator Output Requirements
+docs/contracts/MILESTONE_3_VALIDATOR_AUTHORITY_SCOPE.md:304:Validator output must include:
+docs/contracts/MILESTONE_3_VALIDATOR_AUTHORITY_SCOPE.md:328:## Validator Independence Rule
+docs/contracts/MILESTONE_3_VALIDATOR_AUTHORITY_SCOPE.md:330:Validator validates the envelope contract.
+docs/contracts/MILESTONE_3_VALIDATOR_AUTHORITY_SCOPE.md:332:Validator does not validate Cade execution plans unless a later milestone explicitly scopes that authority.
+docs/contracts/MILESTONE_3_VALIDATOR_AUTHORITY_SCOPE.md:344:- validator implementation
+docs/contracts/MILESTONE_3_VALIDATOR_AUTHORITY_SCOPE.md:346:- runtime validator patch
+docs/contracts/MILESTONE_3_VALIDATOR_AUTHORITY_SCOPE.md:368:Milestone 3 scope is complete when validator authority, validator non-authority, failure categories, escalation routing, and output requirements are documented.
+docs/contracts/MILESTONE_3_VALIDATOR_AUTHORITY_SCOPE.md:372:- validator governance review
+docs/contracts/MILESTONE_3_VALIDATOR_AUTHORITY_SCOPE.md:374:- not validator implementation
+docs/governance/GOVERNANCE_VALIDATION_CHARTER.md:2:# Governance Validation Charter
+docs/governance/GOVERNANCE_VALIDATION_CHARTER.md:6:Governance Validation exists to determine whether delegated meaning can safely become operational work.
+docs/governance/GOVERNANCE_VALIDATION_CHARTER.md:8:Governance Validation does not determine intent, assign actors, perform engineering planning, or execute work.
+docs/governance/GOVERNANCE_VALIDATION_CHARTER.md:10:Governance Validation reviews delegated Packages and determines whether operationalization may proceed.
+docs/governance/GOVERNANCE_VALIDATION_CHARTER.md:36:Governance Validation receives:
+docs/governance/GOVERNANCE_VALIDATION_CHARTER.md:50:Governance Validation produces:
+docs/governance/GOVERNANCE_VALIDATION_CHARTER.md:94:Governance Validation derives capabilities.
+docs/governance/GOVERNANCE_VALIDATION_CHARTER.md:96:Governance Validation does not assign actors.
+docs/governance/GOVERNANCE_VALIDATION_CHARTER.md:242:Governance Validation may issue PASS only when:
+docs/governance/GOVERNANCE_VALIDATION_CHARTER.md:262:Governance Validation must issue RESOLUTION REQUIRED when:
+docs/governance/GOVERNANCE_VALIDATION_CHARTER.md:282:Governance Validation does not own:
+docs/governance/GOVERNANCE_VALIDATION_CHARTER.md:302:Governance Validation sits between:
+docs/governance/GOVERNANCE_VALIDATION_CHARTER.md:320:Governance Validation
+docs/governance/GOVERNANCE_VALIDATION_SPECIFICATION.md:2:# Governance Validation Specification
+docs/governance/GOVERNANCE_VALIDATION_SPECIFICATION.md:8:This document captures reconciled Governance Validation findings and serves as the authoritative foundation for future refinement.
+docs/governance/GOVERNANCE_VALIDATION_SPECIFICATION.md:12:Governance Validation is the Organizational Readiness Analysis Layer.
+docs/governance/GOVERNANCE_VALIDATION_SPECIFICATION.md:64:Envelope creation is prohibited until Governance Validation successfully completes.
+docs/governance/GOVERNANCE_VALIDATION_SPECIFICATION.md:70:Governance Validation does not resolve escalations.
+docs/governance/GOVERNANCE_VALIDATION_SPECIFICATION.md:76:Governance Validation consumes organizational intelligence.
+docs/governance/GOVERNANCE_VALIDATION_SPECIFICATION.md:80:Governance Validation determines requirements.
+docs/governance/GOVERNANCE_VALIDATION_SPECIFICATION.md:86:Governance Validation findings are persistent governance records.
+docs/governance/GOVERNANCE_VALIDATION_SPECIFICATION.md:90:Governance Validation may consult organizational reality and derives conclusions from evidence rather than assumed organizational state.
