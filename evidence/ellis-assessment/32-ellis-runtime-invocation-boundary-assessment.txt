@@ -1,0 +1,43 @@
+
+Assessment: Ellis Runtime Invocation Boundary
+
+Purpose
+
+Determine whether repository evidence supports introducing a production runtime caller for the Ellis assignment corridor.
+
+Repository Evidence
+
+Repository inspection found:
+
+- invokeEllisFromEnvelope(...) is referenced by tests, evidence, and the Ellis assignment boundary.
+
+- evaluateGovernanceLifecycleAssignmentBoundary(...) is referenced by tests and lifecycle transition authorization.
+
+- No production lifecycle caller invokes the assignment boundary.
+
+- No createGovernanceEnvelope(...) runtime surface was found in src, server, app, or lib.
+
+- Existing envelope creation references belong to governed execution envelope drafting, not the Ellis governance lifecycle assignment corridor.
+
+Findings
+
+Ellis remains callable only through the pure assignment boundary.
+
+The assignment boundary remains consumed only by transition authorization and tests.
+
+No runtime component currently owns invocation of the Ellis assignment corridor.
+
+Repository evidence does not justify implementing a production Ellis caller at this time.
+
+A future caller should belong to Lifecycle Authority, not Ellis, Persistence, Assignment Authority, or Execution Authority.
+
+Conclusion
+
+No Ellis runtime invocation boundary is implemented.
+
+No production caller should be introduced without a separate implementation-readiness corridor.
+
+Stop assessment.
+
+Preserve the current stable baseline.
+
