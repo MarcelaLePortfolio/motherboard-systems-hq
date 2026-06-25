@@ -1,0 +1,177 @@
+
+# Runtime Caller Authority Determination
+
+## Corridor
+
+Governance Lifecycle Runtime Caller Authority Determination
+
+## Purpose
+
+Determine whether repository evidence supports introducing a distinct Runtime Caller Authority for the stabilized Ellis authorization corridor, or whether caller responsibility remains an implementation concern under existing authority boundaries.
+
+## Scope
+
+This assessment evaluates authority evidence only.
+
+It does not authorize implementation, mutation, persistence, endpoint wiring, scheduler integration, worker-claim integration, orchestration integration, execution authority, or autonomous Ellis behavior.
+
+## Prior Stabilized Findings
+
+The Governance Lifecycle Integration Assessment identified the architectural integration boundary:
+
+ENVELOPE_CREATED → ASSIGNED
+
+The Governance Lifecycle Runtime Caller Assessment found:
+
+- no production caller for `authorizeGovernanceLifecycleAssignmentTransition(...)`
+
+- no production lifecycle runtime caller for the stabilized Ellis authorization corridor
+
+- no runtime service that transitions lifecycle state from ENVELOPE_CREATED to ASSIGNED
+
+## Evidence Inspected
+
+### Lifecycle Service Candidate Search
+
+Search terms included:
+
+- `LifecycleService`
+
+- `TransitionService`
+
+- `transition service`
+
+- `lifecycle service`
+
+- `Lifecycle Authority`
+
+- `transition authority`
+
+- `authorize.*Transition`
+
+- `transition.*authorize`
+
+- `lifecycle.*transition`
+
+Findings:
+
+- No production lifecycle service was identified.
+
+- No production transition service was identified.
+
+- No distinct runtime caller authority was identified.
+
+- Existing hits were documentation, evidence files, tests, or the already-stabilized pure transition authorization surface.
+
+### Implementation Surface Search
+
+Search across `server`, `db`, and `scripts` for:
+
+- `authorizeGovernanceLifecycleAssignmentTransition`
+
+- `evaluateGovernanceLifecycleAssignmentBoundary`
+
+- `invokeEllisFromEnvelope`
+
+- `transition_authorized`
+
+- `assignment_ready`
+
+Findings:
+
+- Matches are limited to `server/ellis` implementation files and tests.
+
+- No `db` consumer was found.
+
+- No `scripts` consumer was found.
+
+- No external production implementation surface was found.
+
+### Relevant Prior Evidence
+
+Repository evidence includes prior findings that:
+
+- Lifecycle Authority remains closed.
+
+- The evidence-supported unresolved primitive is Assignment Authority / Ellis runtime, not Lifecycle Authority.
+
+- No active lifecycle transition service exists between ENVELOPE_CREATED and ASSIGNED.
+
+- A future caller should belong to Lifecycle Authority, not Ellis, Persistence, Assignment Authority, or Execution Authority.
+
+- If lifecycle persistence is implemented in the future, it should initially be introduced as a Persistence Boundary that records an already-authorized transition, rather than as a new governance authority, unless future repository evidence demonstrates a distinct commit-time governance decision requiring its own authority boundary.
+
+## Finding
+
+Repository evidence does not support introducing a distinct Runtime Caller Authority.
+
+No production lifecycle service, transition service, or caller authority exists in the repository.
+
+The absence of a runtime caller does not establish a new authority gap.
+
+Instead, current evidence supports preserving the existing authority separation:
+
+- Lifecycle Authority owns transition eligibility and authorization boundaries.
+
+- Assignment / Operational Coordination Authority belongs to Ellis.
+
+- Persistence Authority records state only if separately authorized.
+
+- Execution Authority remains separate.
+
+- Runtime wiring remains out of scope until separately authorized.
+
+A future caller may be implemented as a lifecycle integration surface if explicitly authorized, but that would be an implementation surface under Lifecycle Authority rather than a new standalone authority.
+
+## Authority Boundary Determination
+
+Do not introduce Runtime Caller Authority as a distinct constituent.
+
+The future caller, if implemented, should remain subordinate to Lifecycle Authority and should consume the stabilized Ellis authorization corridor without expanding Ellis authority.
+
+Ellis does not become the caller authority.
+
+Persistence does not become the caller authority.
+
+Execution does not become the caller authority.
+
+Scheduling does not become the caller authority.
+
+Worker claims do not become the caller authority.
+
+## Outcome
+
+Repository evidence is insufficient to justify a distinct Runtime Caller Authority.
+
+The caller question remains an implementation-readiness question under Lifecycle Authority, not a new architectural authority corridor.
+
+## Implementation Status
+
+No implementation performed.
+
+No mutation added.
+
+No persistence added.
+
+No runtime caller added.
+
+No endpoint added.
+
+No scheduler integration added.
+
+No worker-claim integration added.
+
+No orchestration integration added.
+
+No execution authority added.
+
+No autonomous Ellis behavior added.
+
+## Closure Recommendation
+
+Close the Runtime Caller Authority Determination as an architectural finding.
+
+Do not introduce a distinct Runtime Caller Authority.
+
+A future implementation-readiness corridor may evaluate the smallest safe pure lifecycle integration adapter, but only if explicitly authorized.
+
