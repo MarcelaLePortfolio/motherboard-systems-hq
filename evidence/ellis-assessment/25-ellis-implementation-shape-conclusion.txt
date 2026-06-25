@@ -1,0 +1,93 @@
+
+ELLIS IMPLEMENTATION SHAPE CONCLUSION
+
+Corridor Status:
+
+CLOSED
+
+Question:
+
+What implementation shape is most consistent with Ellis' authority?
+
+Summary:
+
+The implementation-shape corridor began with the hypothesis that Ellis could remain a deterministic service boundary over assignment, routing, and ownership.
+
+Pressure-testing progressively reduced unnecessary reasoning through coordination mechanisms, including:
+
+- invocation instead of continuous monitoring
+
+- operational reporting
+
+- scheduled checkpoints
+
+- governance escalation
+
+- dependency awareness
+
+These mechanisms significantly reduced implementation complexity and eliminated several previously-assumed reasoning responsibilities.
+
+However, after exhausting reasonable coordination mechanisms, repository-consistent operational scenarios continued to produce contextual coordination ambiguities that could not be reduced to a stable deterministic rule set.
+
+Examples included:
+
+- resource contention
+
+- assignment arbitration
+
+- ownership arbitration
+
+- routing ambiguity
+
+- dependency-chain arbitration
+
+- operational deadlock resolution
+
+Finding:
+
+Ellis' authority is not fundamentally justified by assignment.
+
+Ellis is fundamentally justified by Operational Coordination Authority.
+
+Assignment, ownership, routing, and operational arbitration are subordinate authorities exercised in service of maintaining coherent execution within the authorized capability envelope.
+
+Implementation Finding:
+
+Operational Coordination Authority appears to govern an open-ended space of contextual arbitration that is not realistically enumerable into a complete deterministic rule set.
+
+Accordingly, the implementation shape most consistent with Ellis' authority is:
+
+A bounded, invoked Operational Coordination Agent.
+
+Operational Boundaries:
+
+Ellis:
+
+- does not interpret user intent
+
+- does not modify governance
+
+- does not define capabilities
+
+- does not execute work
+
+- does not continuously supervise execution
+
+Ellis:
+
+- is invoked when coordination authority is required
+
+- gathers operational information as needed
+
+- performs bounded operational arbitration
+
+- resolves assignment, routing, ownership, and coordination ambiguity
+
+- escalates governance defects to Governance Validation
+
+Conclusion:
+
+Repository evidence now supports Ellis as an invoked agent whose reasoning authority is bounded by Operational Coordination Authority.
+
+This conclusion supersedes the earlier service-first implementation hypothesis while preserving all previously stabilized authority boundaries.
+
