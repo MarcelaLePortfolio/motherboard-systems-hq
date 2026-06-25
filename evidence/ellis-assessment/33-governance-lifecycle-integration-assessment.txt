@@ -1,0 +1,149 @@
+
+# Governance Lifecycle Integration Assessment
+
+## Corridor
+
+Governance Lifecycle Integration Assessment
+
+## Purpose
+
+Determine how the broader governance lifecycle should consume the stabilized Ellis authorization corridor without violating established authority boundaries.
+
+## Scope
+
+This assessment evaluates whether repository evidence identifies a lifecycle integration boundary that should eventually invoke the stabilized Ellis authorization corridor.
+
+This assessment does not authorize implementation, persistence, mutation, runtime wiring, scheduling, worker claims, endpoint creation, or execution.
+
+## Evidence Inspected
+
+### Ellis Invocation Consumer Search
+
+Search for `invokeEllisFromEnvelope(...)` showed:
+
+- The invocation adapter exists at `server/ellis/invocation.ts`.
+
+- Its only non-test code consumer is `server/ellis/assignment-boundary.ts`.
+
+- Prior evidence states it has no production runtime caller.
+
+- Tests consume it directly.
+
+### Assignment Boundary Consumer Search
+
+Search for assignment boundary consumers showed:
+
+- `evaluateGovernanceLifecycleAssignmentBoundary(...)` exists at `server/ellis/assignment-boundary.ts`.
+
+- Its only non-test code consumer is `server/ellis/lifecycle-transition-authorization.ts`.
+
+- Tests consume it directly.
+
+- Prior evidence states it is referenced by tests and lifecycle transition authorization.
+
+### Lifecycle Transition Authorization Consumer Search
+
+Search for lifecycle transition authorization consumers showed:
+
+- `authorizeGovernanceLifecycleAssignmentTransition(...)` exists at `server/ellis/lifecycle-transition-authorization.ts`.
+
+- No production code consumer was found.
+
+- Its only direct consumer shown by search is its test file.
+
+### Governance Lifecycle State Model
+
+`docs/governance/GOVERNANCE_LIFECYCLE_STATE_MODEL.md` defines the canonical lifecycle sequence:
+
+ENVELOPE_CREATED
+
+↓
+
+ASSIGNED
+
+The same model defines ASSIGNED as the state where Ellis has resolved capabilities and assigned ownership, after which operational work may begin.
+
+### Lifecycle Transition Authorization Source
+
+`server/ellis/lifecycle-transition-authorization.ts` authorizes only:
+
+ENVELOPE_CREATED → ASSIGNED
+
+It requires assignment readiness from the governance lifecycle assignment boundary.
+
+It explicitly returns:
+
+- mutation_authorized: false
+
+- persistence_authorized: false
+
+- execution_authorized: false
+
+## Finding
+
+Repository evidence identifies a governance lifecycle integration boundary:
+
+ENVELOPE_CREATED → ASSIGNED
+
+This boundary already exists conceptually in the canonical lifecycle model and is represented in code by `server/ellis/lifecycle-transition-authorization.ts`.
+
+The broader governance lifecycle should eventually consume the stabilized Ellis authorization corridor at the ENVELOPE_CREATED → ASSIGNED transition.
+
+However, repository evidence does not show any production lifecycle caller for this boundary.
+
+Therefore, the current repository supports identifying the integration boundary, but does not support implementing runtime integration, mutation, persistence, endpoint wiring, scheduler integration, worker-claim integration, or execution.
+
+## Authority Boundary Determination
+
+The active integration boundary belongs to Lifecycle Authority.
+
+Ellis remains Assignment / Operational Coordination Authority.
+
+Lifecycle Authority may consume Ellis authorization results for the ENVELOPE_CREATED → ASSIGNED transition.
+
+Ellis does not become Lifecycle Authority.
+
+Ellis does not mutate lifecycle state.
+
+Ellis does not persist assignment state.
+
+Ellis does not execute work.
+
+Ellis does not schedule work.
+
+Ellis does not claim workers.
+
+## Outcome
+
+Outcome A.
+
+Repository evidence identifies a governance lifecycle integration boundary that should eventually invoke the stabilized Ellis authorization corridor:
+
+ENVELOPE_CREATED → ASSIGNED
+
+## Implementation Status
+
+No implementation performed.
+
+No runtime wiring performed.
+
+No persistence added.
+
+No mutation added.
+
+No execution authority added.
+
+No scheduler integration added.
+
+No worker claim integration added.
+
+No endpoint added.
+
+## Closure Recommendation
+
+Close the Governance Lifecycle Integration Assessment corridor as an architectural assessment.
+
+Next canonical milestone should be selected separately.
+
+A future implementation corridor may evaluate a pure lifecycle integration adapter only if explicitly authorized, but current evidence does not justify persistence, mutation, runtime wiring, scheduling, worker claims, or execution.
+
