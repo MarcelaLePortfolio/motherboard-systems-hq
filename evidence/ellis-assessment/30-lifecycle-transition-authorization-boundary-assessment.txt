@@ -1,0 +1,139 @@
+
+LIFECYCLE TRANSITION AUTHORIZATION BOUNDARY ASSESSMENT
+
+Corridor:
+
+Lifecycle Transition Authorization Boundary Assessment
+
+Status:
+
+OPENED
+
+Baseline:
+
+- Current HEAD at corridor opening: a09a1062
+
+- Latest DR checkpoint before corridor opening: 20260625_111357
+
+- Working tree status before corridor opening: clean
+
+Question:
+
+What boundary, if any, may authorize progression from assignment readiness to lifecycle transition?
+
+Context:
+
+The repository now contains:
+
+- Ellis decision interface
+
+- Ellis envelope invocation adapter
+
+- Governance lifecycle assignment boundary
+
+- Evidence establishing that Ellis may determine assignment readiness without persistence or mutation
+
+However, the repository does not yet contain an authorized lifecycle transition boundary that may mutate lifecycle_state from ENVELOPE_CREATED to ASSIGNED.
+
+Current Stabilized Boundary:
+
+The governance lifecycle assignment boundary may determine assignment readiness.
+
+It may not:
+
+- mutate lifecycle_state
+
+- persist assignment_state
+
+- persist assigned_department
+
+- persist assigned_actor
+
+- append routing_history
+
+- call task router
+
+- call scheduler
+
+- call worker claim logic
+
+- execute work
+
+- expose runtime endpoints
+
+Assessment Objective:
+
+Determine whether the next safe primitive should be a pure lifecycle transition authorization module that evaluates whether a transition may be authorized without performing the mutation.
+
+Candidate Shape:
+
+A pure authorization module may:
+
+- consume current lifecycle_state
+
+- consume assignment readiness result
+
+- determine whether ENVELOPE_CREATED to ASSIGNED is eligible
+
+- return authorization metadata
+
+- explicitly disable mutation
+
+- explicitly disable persistence
+
+- explicitly disable execution
+
+It may not:
+
+- update database rows
+
+- write lifecycle_state
+
+- persist Ellis assignment fields
+
+- perform routing
+
+- schedule work
+
+- claim work
+
+- launch agents
+
+- execute operational tasks
+
+Evidence Needed Before Implementation:
+
+- Confirm active lifecycle enforcement patterns.
+
+- Confirm whether existing task lifecycle state machines are task-specific and not governance lifecycle authority.
+
+- Confirm whether governance lifecycle mutation is currently absent.
+
+- Confirm that authorization and mutation remain distinct layers.
+
+Expected Outcome:
+
+If repository evidence supports the boundary, the next implementation should be a pure, test-backed lifecycle transition authorization module.
+
+If repository evidence does not support the boundary, stop and preserve the current stable base.
+
+Out Of Scope:
+
+- database migration
+
+- lifecycle_state mutation
+
+- assignment persistence
+
+- runtime integration
+
+- endpoint creation
+
+- task router integration
+
+- scheduler integration
+
+- worker claim integration
+
+- execution authority
+
