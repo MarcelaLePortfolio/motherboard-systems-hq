@@ -1,0 +1,187 @@
+
+ELLIS V1 MINIMAL INTERFACE SCOPE
+
+Corridor:
+
+Ellis Implementation Scope Assessment
+
+Status:
+
+IMPLEMENTATION-READINESS FINDING
+
+Finding:
+
+Ellis V1 should be implemented as a bounded invoked Operational Coordination Agent interface, not as persistence, scheduler logic, worker-claim logic, task execution, or autonomous runtime supervision.
+
+Scope Basis:
+
+Repository evidence confirms:
+
+- Governance Validation persists required_capabilities.
+
+- Governance Validation persists operational_corridor.
+
+- Envelope creation is lifecycle-gated.
+
+- Existing routing, scheduling, task-state, and worker-claim primitives are downstream mechanics.
+
+- Existing routing primitives do not implement canonical Ellis authority.
+
+- Existing schema does not persist Ellis-owned assignment fields.
+
+- No live runtime consumer currently requires assignment_state, assigned_department, assigned_actor, or routing_history.
+
+- Final Ellis implementation-shape finding promotes Ellis to bounded invoked Operational Coordination Agent.
+
+- Existing execution envelope and approval-gate modules establish a contract-first pattern that explicitly disables mutation, execution, and autonomous authority unless separately authorized.
+
+Reconciled Interpretation:
+
+The newer Ellis implementation-shape conclusion supersedes the older service-first/non-agent recommendation.
+
+It does not supersede the persistence caution.
+
+Therefore:
+
+- Ellis is an agent.
+
+- Ellis is invoked.
+
+- Ellis is bounded by Operational Coordination Authority.
+
+- Ellis does not continuously supervise execution.
+
+- Ellis does not execute work.
+
+- Ellis does not define capabilities.
+
+- Ellis does not interpret user intent.
+
+- Ellis does not modify governance-derived Envelope fields.
+
+- Ellis V1 should not introduce assignment persistence until a live runtime consumer requires it.
+
+Smallest Safe Implementation Surface:
+
+A non-mutating Ellis coordination decision module.
+
+The module should:
+
+- consume Envelope-shaped input
+
+- consume required_capabilities
+
+- consume operational_corridor
+
+- consume available actor/capability context
+
+- return an explicit coordination decision
+
+- return whether assignment can be resolved
+
+- return escalation when capability or coordination defects are detected
+
+- preserve authority separation
+
+- avoid database writes
+
+- avoid lifecycle mutation
+
+- avoid task router changes
+
+- avoid scheduler changes
+
+- avoid worker claim changes
+
+- avoid execution behavior
+
+Expected V1 Output Shape:
+
+- ok
+
+- decision_type
+
+- assigned_department
+
+- assigned_actor
+
+- ownership_basis
+
+- routing_basis
+
+- required_capabilities
+
+- operational_corridor
+
+- escalation_required
+
+- escalation_target
+
+- findings
+
+- mutation_authorized: false
+
+- execution_authorized: false
+
+- persistence_authorized: false
+
+- autonomous_authority: false
+
+Validation Path:
+
+- Add unit tests for deterministic non-mutating Ellis decisions.
+
+- Validate that missing required_capabilities produces escalation.
+
+- Validate that missing operational_corridor produces escalation.
+
+- Validate that unsupported capabilities produce escalation.
+
+- Validate that successful capability matching returns a coordination decision.
+
+- Validate that Ellis V1 does not write to governance persistence.
+
+- Run npm run test:orchestration when dependencies are available.
+
+- Run npm test.
+
+- Confirm git status is clean except intended files.
+
+Rollback Path:
+
+Ellis V1 should be isolated to a new module and test file.
+
+Rollback should be a single commit revert with no schema migration, no persistence mutation, and no runtime launch coupling.
+
+Out Of Scope For Ellis V1:
+
+- assignment_state persistence
+
+- assigned_department persistence
+
+- assigned_actor persistence
+
+- routing_history persistence
+
+- lifecycle_state mutation
+
+- live runtime invocation
+
+- autonomous monitoring
+
+- task router integration
+
+- scheduler integration
+
+- worker claim integration
+
+- execution authorization
+
+- Atlas integration
+
+Conclusion:
+
+Implementation may proceed only as a non-mutating invoked Ellis coordination decision interface.
+
+Any persistence, mutation, execution, runtime wiring, or autonomous monitoring requires separate authorization.
+
