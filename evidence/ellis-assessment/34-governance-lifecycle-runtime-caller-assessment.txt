@@ -1,0 +1,205 @@
+
+# Governance Lifecycle Runtime Caller Assessment
+
+## Corridor
+
+Governance Lifecycle Runtime Caller Assessment
+
+## Purpose
+
+Determine whether repository evidence identifies an existing runtime caller that consumes the stabilized Ellis authorization corridor at the governance lifecycle transition boundary.
+
+## Scope
+
+This assessment evaluates caller evidence only.
+
+It does not authorize implementation, persistence changes, mutation, endpoint wiring, scheduler integration, worker-claim integration, orchestration integration, execution authority, or autonomous Ellis behavior.
+
+## Prior Stabilized Boundary
+
+The Governance Lifecycle Integration Assessment identified the architectural integration boundary:
+
+ENVELOPE_CREATED → ASSIGNED
+
+That boundary is represented by:
+
+- `server/ellis/assignment-boundary.ts`
+
+- `server/ellis/lifecycle-transition-authorization.ts`
+
+The transition authorization surface is pure and explicitly does not authorize mutation, persistence, or execution.
+
+## Evidence Inspected
+
+### Baseline
+
+Repository branch:
+
+feature/backup-system-v2
+
+HEAD before this assessment:
+
+2b07a5b4 — Record governance lifecycle integration assessment
+
+Remote was aligned with HEAD before this assessment.
+
+### Broad Caller Candidate Search
+
+Search terms included:
+
+- `authorizeGovernanceLifecycleAssignmentTransition`
+
+- `current_lifecycle_state`
+
+- `target_lifecycle_state`
+
+- `ENVELOPE_CREATED`
+
+- `ASSIGNED`
+
+- `lifecycle_state`
+
+- `transition_authorized`
+
+Findings:
+
+- `authorizeGovernanceLifecycleAssignmentTransition(...)` appears in its implementation file.
+
+- Test references exist.
+
+- Evidence and documentation references exist.
+
+- No production runtime caller was found.
+
+### Exact Transition Authorization Reference Search
+
+Command excluding docs, evidence text files, markdown, and tests found only:
+
+- `server/ellis/lifecycle-transition-authorization.ts`
+
+This indicates no non-test production caller currently invokes the lifecycle transition authorization boundary.
+
+### Governance Runtime Envelope Surface
+
+`db/governance-runtime.ts` contains `createGovernanceEnvelope(...)`.
+
+That function:
+
+- requires `lifecycle_state`
+
+- inserts `lifecycle_state` into `governance_envelopes`
+
+- returns `lifecycle_state`
+
+This is envelope creation persistence, not transition authorization consumption.
+
+No evidence shows `createGovernanceEnvelope(...)` invoking:
+
+- `evaluateGovernanceLifecycleAssignmentBoundary(...)`
+
+- `authorizeGovernanceLifecycleAssignmentTransition(...)`
+
+- `invokeEllisFromEnvelope(...)`
+
+### Envelope Runtime Smoke Test
+
+`scripts/smoke-governance-envelope-runtime.mjs` creates a governance envelope with:
+
+- `lifecycle_state: "authorized"`
+
+The smoke test verifies the value is persisted.
+
+This establishes an existing persistence surface for envelope creation input.
+
+It does not establish a lifecycle transition caller.
+
+It does not consume the Ellis authorization corridor.
+
+It does not mutate from ENVELOPE_CREATED to ASSIGNED.
+
+## Finding
+
+Repository evidence does not identify an existing production lifecycle runtime caller for the stabilized Ellis authorization corridor.
+
+The repository contains:
+
+- envelope creation persistence
+
+- a persisted `lifecycle_state` field on governance envelopes
+
+- a pure assignment boundary
+
+- a pure lifecycle transition authorization boundary
+
+- tests for the authorization boundary
+
+The repository does not contain:
+
+- a production caller of `authorizeGovernanceLifecycleAssignmentTransition(...)`
+
+- a production caller that consumes assignment readiness to authorize ENVELOPE_CREATED → ASSIGNED
+
+- a runtime service that transitions lifecycle state from ENVELOPE_CREATED to ASSIGNED
+
+- a persistence layer for assignment transition results
+
+- endpoint wiring for this transition
+
+- scheduler integration
+
+- worker-claim integration
+
+- orchestration integration
+
+- autonomous Ellis runtime behavior
+
+## Authority Boundary Determination
+
+The active unresolved caller question belongs to Lifecycle Authority.
+
+The existing persisted `lifecycle_state` field belongs to Persistence Authority when used for storage.
+
+Ellis remains Assignment / Operational Coordination Authority and does not own runtime invocation, mutation, persistence, scheduling, worker claims, endpoint wiring, or execution.
+
+No evidence supports collapsing Lifecycle Authority, Assignment Authority, Persistence Authority, or Execution Authority.
+
+## Outcome
+
+Repository evidence is insufficient to identify an existing production runtime caller.
+
+The architectural integration boundary is known:
+
+ENVELOPE_CREATED → ASSIGNED
+
+The runtime caller remains unidentified.
+
+## Implementation Status
+
+No implementation performed.
+
+No mutation added.
+
+No persistence added.
+
+No runtime caller added.
+
+No endpoint added.
+
+No scheduler integration added.
+
+No worker-claim integration added.
+
+No orchestration integration added.
+
+No execution authority added.
+
+No autonomous Ellis behavior added.
+
+## Closure Recommendation
+
+Close the Governance Lifecycle Runtime Caller Assessment as an evidence finding.
+
+Do not implement a runtime caller from current evidence.
+
+A future corridor may assess the smallest safe pure lifecycle adapter only if explicitly authorized, but runtime integration and persistence should remain out of scope until a caller authority is explicitly established.
+
