@@ -1,0 +1,119 @@
+
+ELLIS FIRST CALLER ASSESSMENT
+
+Corridor:
+
+Ellis Invocation Boundary Assessment
+
+Status:
+
+CLOSED
+
+Baseline:
+
+- Current HEAD at inspection: 8fa8c25d
+
+- DR checkpoint completed: 20260625_104631
+
+- Working tree clean before inspection
+
+Question:
+
+Where should the first invocation of invokeEllisFromEnvelope(...) live?
+
+Evidence Reviewed:
+
+- db/governance-lifecycle-enforcement.ts
+
+- db/governance-runtime.ts
+
+- docs/governance/CANONICAL_DELEGATION_SPECIFICATION.md
+
+- docs/governance/CANONICAL_ENVELOPE_SPECIFICATION.md
+
+- docs/governance/CANONICAL_PACKAGE_SPECIFICATION.md
+
+- docs/governance/CAPABILITY_ROUTING_MODEL.md
+
+- docs/governance/GOVERNANCE_LIFECYCLE_STATE_MODEL.md
+
+- evidence/ellis-assessment/27-ellis-invocation-boundary-v2.txt
+
+- server/ellis/decision.ts
+
+- server/ellis/invocation.ts
+
+Findings:
+
+- createGovernanceEnvelope(...) creates and persists Envelope records.
+
+- createGovernanceEnvelope(...) does not return required_capabilities or operational_corridor.
+
+- invokeEllisFromEnvelope(...) requires Envelope-shaped input containing required_capabilities and operational_corridor.
+
+- No active Envelope getter exists.
+
+- No active lifecycle transition service exists between ENVELOPE_CREATED and ASSIGNED.
+
+- No active runtime caller exists for invokeEllisFromEnvelope(...).
+
+- Canonical lifecycle documentation places Ellis after ENVELOPE_CREATED and before ASSIGNED.
+
+- Canonical documentation says ASSIGNED means Ellis has resolved capabilities and assigned ownership.
+
+- Delegation does not authorize assignment.
+
+- Package does not own assignment.
+
+- Governance Validation derives requirements but does not assign actors.
+
+- Existing task router, scheduler, and worker claim systems are downstream mechanics and are not legitimate first callers for Ellis.
+
+Conclusion:
+
+The first legitimate caller for Ellis is not yet implemented.
+
+The most likely future caller is a governance lifecycle boundary between ENVELOPE_CREATED and ASSIGNED, but repository evidence does not currently provide that boundary as an active runtime module.
+
+Therefore, no runtime integration should be added yet.
+
+Next Canonical Milestone:
+
+Governance Lifecycle Assignment Boundary Assessment
+
+Purpose:
+
+Determine whether the repository should introduce a lifecycle boundary module between ENVELOPE_CREATED and ASSIGNED that may invoke Ellis without mutating persistence prematurely.
+
+Out Of Scope Until Separately Authorized:
+
+- createGovernanceEnvelope(...) return contract changes
+
+- Envelope getter implementation
+
+- lifecycle_state mutation
+
+- assignment_state persistence
+
+- assigned_department persistence
+
+- assigned_actor persistence
+
+- routing_history persistence
+
+- task router integration
+
+- scheduler integration
+
+- worker claim integration
+
+- runtime endpoint creation
+
+- autonomous Ellis runtime
+
+- execution authority
+
+Operational Note:
+
+Ellis invocation capability now exists as a pure adapter, but no production caller should use it until the lifecycle assignment boundary is defined.
+
