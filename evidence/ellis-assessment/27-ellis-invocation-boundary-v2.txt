@@ -1,0 +1,87 @@
+
+ELLIS INVOCATION BOUNDARY V2
+
+Corridor:
+
+Ellis Invocation Boundary Assessment
+
+Status:
+
+IMPLEMENTATION-READINESS FINDING
+
+Finding:
+
+Ellis V2 should not be wired directly into createGovernanceEnvelope(...).
+
+Repository evidence shows createGovernanceEnvelope(...) persists required_capabilities and operational_corridor, but its return contract does not expose those fields.
+
+Repository evidence also does not show an active Envelope getter or runtime caller capable of safely loading a complete Envelope input for Ellis without expanding governance persistence/runtime contracts.
+
+Therefore, the smallest safe Ellis V2 invocation boundary is a standalone adapter over Envelope-shaped input.
+
+Boundary:
+
+The V2 adapter may:
+
+- accept Envelope-shaped input containing required_capabilities and operational_corridor
+
+- normalize capability input into Ellis V1 required_capabilities
+
+- pass operational_corridor through unchanged after trimming
+
+- accept available_departments and available_actors from caller-provided operational context
+
+- invoke evaluateEllisDecision(...)
+
+- return the Ellis decision result
+
+The V2 adapter may not:
+
+- write to governance persistence
+
+- mutate lifecycle_state
+
+- mutate assignment_state
+
+- mutate assigned_department
+
+- mutate assigned_actor
+
+- append routing_history
+
+- call task router
+
+- call scheduler
+
+- call worker claim logic
+
+- execute work
+
+- launch a runtime process
+
+- infer missing governance requirements
+
+- redefine capabilities
+
+First Legitimate Caller:
+
+Not yet established.
+
+Current evidence does not identify a safe existing runtime caller.
+
+Possible future callers, pending separate authorization and evidence:
+
+- a Governance Envelope reader once implemented
+
+- a lifecycle transition service between ENVELOPE_CREATED and ASSIGNED
+
+- a Matilda-visible coordination request surface
+
+- a future Ellis invocation endpoint
+
+Conclusion:
+
+Ellis V2 may proceed only as a standalone invocation adapter over Envelope-shaped input.
+
+Runtime wiring remains out of scope until a legitimate caller is identified and authorized.
+
