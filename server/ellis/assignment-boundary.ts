@@ -5,9 +5,9 @@ import {
 
   type EllisEnvelopeShape,
 
-} from "./invocation";
+} from "./invocation.ts";
 
-import type { EllisDecision } from "./decision";
+import type { EllisDecision } from "./decision.ts";
 
 export type GovernanceLifecycleAssignmentBoundaryInput = {
 

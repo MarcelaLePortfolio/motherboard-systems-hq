@@ -5,7 +5,7 @@ import {
 
   type EllisDecision,
 
-} from "./decision";
+} from "./decision.ts";
 
 export type EllisEnvelopeShape = {
 

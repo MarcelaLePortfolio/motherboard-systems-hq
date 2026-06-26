@@ -9,7 +9,7 @@ import {
 
   type GovernanceLifecyclePersistenceFunction,
 
-} from "../../db/governance-lifecycle-composition";
+} from "../../db/governance-lifecycle-composition.ts";
 
 export type ProductionLifecycleEntryPointInput = Omit<
 

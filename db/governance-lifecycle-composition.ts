@@ -7,7 +7,7 @@ import {
 
   type GovernanceLifecycleAssignmentBoundaryResult,
 
-} from "../server/ellis/assignment-boundary";
+} from "../server/ellis/assignment-boundary.ts";
 
 import {
 
@@ -15,7 +15,7 @@ import {
 
   type GovernanceLifecycleTransitionAuthorizationResult,
 
-} from "../server/ellis/lifecycle-transition-authorization";
+} from "../server/ellis/lifecycle-transition-authorization.ts";
 
 export type GovernanceLifecyclePersistenceResult = {
 
