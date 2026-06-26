@@ -7,13 +7,13 @@ import {
 
   type ProductionLifecycleEntryPointResult,
 
-} from "./production-lifecycle-entry-point";
+} from "./production-lifecycle-entry-point.ts";
 
 import type {
 
   GovernanceLifecyclePersistenceFunction,
 
-} from "../../db/governance-lifecycle-composition";
+} from "../../db/governance-lifecycle-composition.ts";
 
 declare const require: {
 
@@ -23,7 +23,7 @@ declare const require: {
 
 type GovernanceLifecyclePersistenceModule =
 
-  typeof import("../../db/governance-lifecycle-persistence");
+  typeof import("../../db/governance-lifecycle-persistence.ts");
 
 export type ProductionLifecycleConsumerInput = Omit<
 
@@ -45,7 +45,7 @@ export type ProductionLifecycleConsumerResult =
 
 function loadGovernanceLifecyclePersistence(): GovernanceLifecyclePersistenceModule {
 
-  return require("../../db/governance-lifecycle-persistence") as GovernanceLifecyclePersistenceModule;
+  return require("../../db/governance-lifecycle-persistence.ts") as GovernanceLifecyclePersistenceModule;
 
 }
 
