@@ -3,117 +3,51 @@ import test from "node:test";
 
 import assert from "node:assert/strict";
 
+import Database from "better-sqlite3";
+
 import { invokeProductionLifecycleEntryPoint } from "./production-lifecycle-entry-point";
 
-type EnvelopeRow = {
+function createTestDb(): Database.Database {
 
-  envelope_id: string;
+  const sqlite = new Database(":memory:");
 
-  lifecycle_state: string;
+  sqlite.exec(`
 
-  required_capabilities: string;
+    CREATE TABLE governance_envelopes (
 
-  operational_corridor: string;
+      envelope_id TEXT PRIMARY KEY,
 
-};
+      package_id TEXT NOT NULL DEFAULT 'pkg-test',
 
-type FakeStatement = {
+      package_version INTEGER NOT NULL DEFAULT 1,
 
-  run: (...args: unknown[]) => { changes: number };
+      delegation_id TEXT NOT NULL DEFAULT 'delegation-test',
 
-  get: (...args: unknown[]) => unknown;
+      validation_result_id TEXT NOT NULL DEFAULT 'validation-test',
 
-};
+      envelope_gate_id TEXT NOT NULL DEFAULT 'gate-test',
 
-type FakeDb = {
+      validation_status TEXT NOT NULL DEFAULT 'VALIDATION_PASSED',
 
-  rows: Map<string, EnvelopeRow>;
+      lifecycle_state TEXT NOT NULL,
 
-  prepare: (sql: string) => FakeStatement;
+      required_capabilities TEXT NOT NULL DEFAULT 'engineering',
 
-};
+      operational_corridor TEXT NOT NULL DEFAULT 'production lifecycle entry point test',
 
-function createTestDb(): FakeDb {
+      created_at TEXT NOT NULL DEFAULT '2026-06-25T00:00:00.000Z',
 
-  const rows = new Map<string, EnvelopeRow>();
+      updated_at TEXT NOT NULL DEFAULT '2026-06-25T00:00:00.000Z'
 
-  return {
+    );
 
-    rows,
+  `);
 
-    prepare(sql: string): FakeStatement {
-
-      return {
-
-        run(arg: unknown) {
-
-          if (sql.includes("INSERT INTO governance_envelopes")) {
-
-            const row = arg as EnvelopeRow;
-
-            rows.set(row.envelope_id, {
-
-              envelope_id: row.envelope_id,
-
-              lifecycle_state: row.lifecycle_state,
-
-              required_capabilities: row.required_capabilities,
-
-              operational_corridor: row.operational_corridor,
-
-            });
-
-            return { changes: 1 };
-
-          }
-
-          if (sql.includes("UPDATE governance_envelopes")) {
-
-            const envelopeId = String(arg);
-
-            const row = rows.get(envelopeId);
-
-            if (!row || row.lifecycle_state !== "ENVELOPE_CREATED") {
-
-              return { changes: 0 };
-
-            }
-
-            row.lifecycle_state = "ASSIGNED";
-
-            rows.set(envelopeId, row);
-
-            return { changes: 1 };
-
-          }
-
-          throw new Error(`Unexpected fake database run SQL: ${sql}`);
-
-        },
-
-        get(arg: unknown) {
-
-          if (sql.includes("SELECT lifecycle_state FROM governance_envelopes")) {
-
-            const row = rows.get(String(arg));
-
-            return row ? { lifecycle_state: row.lifecycle_state } : undefined;
-
-          }
-
-          throw new Error(`Unexpected fake database get SQL: ${sql}`);
-
-        },
-
-      };
-
-    },
-
-  };
+  return sqlite;
 
 }
 
-function insertEnvelope(sqlite: FakeDb, envelopeId: string, lifecycleState: string) {
+function insertEnvelope(sqlite: Database.Database, envelopeId: string, lifecycleState: string) {
 
   sqlite
 
@@ -189,7 +123,7 @@ test("production lifecycle entry point delegates to existing lifecycle integrati
 
     available_actors: ["cade"],
 
-    db: sqlite as never,
+    db: sqlite,
 
   });
 
@@ -257,7 +191,7 @@ test("production lifecycle entry point fails closed for non-ENVELOPE_CREATED lif
 
     available_actors: ["cade"],
 
-    db: sqlite as never,
+    db: sqlite,
 
   });
 
@@ -305,7 +239,7 @@ test("production lifecycle entry point fails closed for missing required capabil
 
     available_actors: ["cade"],
 
-    db: sqlite as never,
+    db: sqlite,
 
   });
 
@@ -353,7 +287,7 @@ test("production lifecycle entry point fails closed for missing operational corr
 
     available_actors: ["cade"],
 
-    db: sqlite as never,
+    db: sqlite,
 
   });
 
@@ -397,7 +331,7 @@ test("production lifecycle entry point fails closed for missing envelope id", ()
 
     available_actors: ["cade"],
 
-    db: sqlite as never,
+    db: sqlite,
 
   });
 
