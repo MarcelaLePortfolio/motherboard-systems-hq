@@ -1,13 +1,25 @@
 
-# Production Lifecycle Surface Contract
+# Production Lifecycle Entry Point Contract
 
 ## Purpose
 
-Define the smallest production-facing lifecycle surface that can consume an already-created Governance Envelope and invoke the completed Governance Lifecycle Integration Caller.
+Define the smallest production-facing entry point that can consume an already-created Governance Envelope and invoke the completed Governance Lifecycle Integration Caller.
 
 This contract is a planning artifact only.
 
 It does not authorize implementation.
+
+## Naming Finding
+
+The correct architectural name is Production Lifecycle Entry Point, not Production Lifecycle Surface.
+
+This name preserves that the component is only a production consumer of the existing lifecycle corridor.
+
+It does not own lifecycle logic.
+
+It does not define lifecycle authority.
+
+It does not introduce a new subsystem.
 
 ## Architectural Finding
 
@@ -19,9 +31,9 @@ The Governance Lifecycle operates in the canonical governance artifact domain.
 
 These domains must remain separate.
 
-## Surface Role
+## Entry Point Role
 
-The Production Lifecycle Surface is a thin production-facing caller.
+The Production Lifecycle Entry Point is a thin production-facing caller.
 
 It consumes an already-created Governance Envelope and invokes the completed lifecycle integration caller.
 
@@ -45,7 +57,7 @@ It does not introduce a new architectural authority.
 
 ## Input Contract
 
-The surface may accept only the minimum input needed to invoke the completed lifecycle integration caller:
+The entry point may accept only the minimum input needed to invoke the completed lifecycle integration caller:
 
 - envelope_id
 
@@ -61,7 +73,7 @@ The input must represent an already-created Governance Envelope.
 
 ## Output Contract
 
-The surface may return only the result of the completed lifecycle integration caller:
+The entry point may return only the result of the completed lifecycle integration caller:
 
 - assignment readiness result
 
@@ -73,7 +85,7 @@ The surface may return only the result of the completed lifecycle integration ca
 
 ## Active Authority Boundary
 
-The surface operates under Lifecycle Authority.
+The entry point operates under Lifecycle Authority.
 
 It composes existing boundaries only:
 
@@ -89,7 +101,7 @@ It does not expand those boundaries.
 
 ## Non-Authorities
 
-The surface is not:
+The entry point is not:
 
 - Database Authority
 
@@ -135,9 +147,9 @@ A future implementation must validate:
 
 Rollback is ordinary git rollback to the last stable checkpoint.
 
-No schema migration should be introduced by this surface.
+No schema migration should be introduced by this entry point.
 
-No data migration should be introduced by this surface.
+No data migration should be introduced by this entry point.
 
 ## Explicitly Out of Scope
 
@@ -171,7 +183,7 @@ This contract does not authorize:
 
 ## Next Canonical Milestone
 
-Implementation readiness assessment for the Production Lifecycle Surface.
+Implementation readiness assessment for the Production Lifecycle Entry Point.
 
 That assessment should determine whether implementation can proceed safely as a thin service/caller without endpoint wiring.
 
