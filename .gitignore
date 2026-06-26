@@ -6,3 +6,6 @@ scripts/auto_remote_attach.sh
 
 node_modules/
 
+
+db/main.db
+

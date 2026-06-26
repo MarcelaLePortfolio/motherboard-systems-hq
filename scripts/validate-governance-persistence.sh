@@ -1,23 +1,49 @@
 
 #!/bin/bash
 
-set -u
+set -euo pipefail
 
-DB="db/main.db"
+DB="$(mktemp /tmp/governance-persistence-validation.XXXXXX.db)"
+
+cleanup() {
+
+  rm -f "$DB"
+
+}
+
+trap cleanup EXIT
 
 echo "== Governance Persistence Hardening Validation =="
 
 echo
 
+echo "0. Prepare disposable governance database"
+
+sqlite3 "$DB" < drizzle/0004_governance_lifecycle_artifacts.sql
+
+echo "PASS: disposable governance schema loaded"
+
+echo
+
 echo "1. Verify PRAGMA foreign_keys is ON"
 
-sqlite3 "$DB" "PRAGMA foreign_keys = ON; PRAGMA foreign_keys;"
+FK="$(sqlite3 "$DB" "PRAGMA foreign_keys = ON; PRAGMA foreign_keys;")"
+
+echo "$FK"
+
+if [ "$FK" != "1" ]; then
+
+  echo "FAIL: foreign_keys is not ON"
+
+  exit 1
+
+fi
 
 echo
 
 echo "2. Invalid Delegation referencing missing Package should fail"
 
-sqlite3 "$DB" "PRAGMA foreign_keys = ON;
+if sqlite3 "$DB" "PRAGMA foreign_keys = ON;
 
 INSERT INTO governance_delegations (
 
@@ -27,13 +53,23 @@ INSERT INTO governance_delegations (
 
   'test-invalid-delegation', 'missing-package', 1, 'AUTHORIZED', datetime('now'), 'test-user', datetime('now')
 
-);" && echo "FAIL: invalid delegation was accepted" || echo "PASS: invalid delegation was rejected"
+);"; then
+
+  echo "FAIL: invalid delegation was accepted"
+
+  exit 1
+
+else
+
+  echo "PASS: invalid delegation was rejected"
+
+fi
 
 echo
 
 echo "3. Invalid Validation Result referencing missing Delegation should fail"
 
-sqlite3 "$DB" "PRAGMA foreign_keys = ON;
+if sqlite3 "$DB" "PRAGMA foreign_keys = ON;
 
 INSERT INTO governance_validation_results (
 
@@ -49,13 +85,23 @@ INSERT INTO governance_validation_results (
 
   '{}', '{}', '{}', '{}', datetime('now'), datetime('now')
 
-);" && echo "FAIL: invalid validation result was accepted" || echo "PASS: invalid validation result was rejected"
+);"; then
+
+  echo "FAIL: invalid validation result was accepted"
+
+  exit 1
+
+else
+
+  echo "PASS: invalid validation result was rejected"
+
+fi
 
 echo
 
 echo "4. Invalid Envelope Gate referencing missing Validation Result should fail"
 
-sqlite3 "$DB" "PRAGMA foreign_keys = ON;
+if sqlite3 "$DB" "PRAGMA foreign_keys = ON;
 
 INSERT INTO governance_envelope_gates (
 
@@ -69,13 +115,23 @@ INSERT INTO governance_envelope_gates (
 
   'OPEN', 'test invalid gate', datetime('now'), datetime('now')
 
-);" && echo "FAIL: invalid envelope gate was accepted" || echo "PASS: invalid envelope gate was rejected"
+);"; then
+
+  echo "FAIL: invalid envelope gate was accepted"
+
+  exit 1
+
+else
+
+  echo "PASS: invalid envelope gate was rejected"
+
+fi
 
 echo
 
 echo "5. Invalid Envelope referencing missing Gate should fail"
 
-sqlite3 "$DB" "PRAGMA foreign_keys = ON;
+if sqlite3 "$DB" "PRAGMA foreign_keys = ON;
 
 INSERT INTO governance_envelopes (
 
@@ -89,7 +145,17 @@ INSERT INTO governance_envelopes (
 
   'PASS', '{}', 'test', 'CREATED', datetime('now')
 
-);" && echo "FAIL: invalid envelope was accepted" || echo "PASS: invalid envelope was rejected"
+);"; then
+
+  echo "FAIL: invalid envelope was accepted"
+
+  exit 1
+
+else
+
+  echo "PASS: invalid envelope was rejected"
+
+fi
 
 echo
 
@@ -173,5 +239,11 @@ ROLLBACK;
 
 SELECT 'valid_chain_rows_after_rollback', count(*) FROM governance_envelopes WHERE envelope_id = 'test-valid-envelope';
 
-" && echo "PASS: valid reversible chain was accepted and rolled back" || echo "FAIL: valid reversible chain failed"
+"
+
+echo "PASS: valid reversible chain was accepted and rolled back"
+
+echo
+
+echo "PASS: Governance Persistence Hardening Validation complete"
 
