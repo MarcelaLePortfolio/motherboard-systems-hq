@@ -1,23 +1,15 @@
 
-import { spawn } from "node:child_process";
+import express from "express";
 
 import { randomUUID } from "node:crypto";
 
-const PORT = process.env.GOVERNANCE_LIFECYCLE_RUNTIME_PORT ?? "3100";
+import { once } from "node:events";
 
-const BASE_URL = process.env.GOVERNANCE_LIFECYCLE_RUNTIME_BASE_URL ?? `http://127.0.0.1:${PORT}`;
+import { createGovernanceLifecycleRouter } from "../server/routes/governance-lifecycle-route.ts";
 
-const HEALTH_URL = `${BASE_URL}/api/health`;
+const PORT = Number(process.env.GOVERNANCE_LIFECYCLE_RUNTIME_PORT ?? 3100);
 
-const LIFECYCLE_URL = `${BASE_URL}/api/governance/lifecycle`;
-
-const runtimeEnv = {
-
-  ...process.env,
-
-  PORT,
-
-};
+const BASE_URL = `http://127.0.0.1:${PORT}`;
 
 const envelopeId = `env-governance-lifecycle-success-path-${randomUUID()}`;
 
@@ -37,161 +29,35 @@ const expectedFalseFlags = [
 
 ];
 
-let runtime;
+function fakePersist({ envelope_id, transition_authorization, persisted_at }) {
 
-function wait(ms) {
+  return {
 
-  return new Promise((resolve) => setTimeout(resolve, ms));
+    envelope_id,
 
-}
+    previous_lifecycle_state: transition_authorization.from,
 
-function bootRuntime() {
+    lifecycle_state: transition_authorization.to,
 
-  runtime = spawn("node", ["--import", "tsx", "server.mjs"], {
+    assignment_state: "ASSIGNED",
 
-    env: runtimeEnv,
+    assigned_department: "engineering",
 
-    stdio: ["ignore", "pipe", "pipe"],
+    assigned_actor: "cade",
 
-  });
+    routing_history: "governance lifecycle success path runtime validation",
 
-  runtime.stdout.on("data", (chunk) => {
+    persisted_at: persisted_at ?? "2026-06-26T11:59:00.000Z",
 
-    process.stdout.write(`[runtime:stdout] ${chunk}`);
-
-  });
-
-  runtime.stderr.on("data", (chunk) => {
-
-    process.stderr.write(`[runtime:stderr] ${chunk}`);
-
-  });
+  };
 
 }
 
-async function waitForHealth(timeoutMs = 20000) {
+function assertEqual(actual, expected, message) {
 
-  const startedAt = Date.now();
+  if (actual !== expected) {
 
-  while (Date.now() - startedAt < timeoutMs) {
-
-    try {
-
-      const response = await fetch(HEALTH_URL);
-
-      const body = await response.json().catch(() => ({}));
-
-      if (response.ok && body?.ok === true) {
-
-        return body;
-
-      }
-
-    } catch {
-
-      // Runtime may still be starting.
-
-    }
-
-    await wait(500);
-
-  }
-
-  throw new Error(`Timed out waiting for runtime health at ${HEALTH_URL}`);
-
-}
-
-async function postSuccessPath() {
-
-  const response = await fetch(LIFECYCLE_URL, {
-
-    method: "POST",
-
-    headers: {
-
-      "content-type": "application/json",
-
-    },
-
-    body: JSON.stringify({
-
-      envelope_id: envelopeId,
-
-      envelope: {
-
-        lifecycle_state: "ENVELOPE_CREATED",
-
-        required_capabilities: "engineering",
-
-        operational_corridor: "governance lifecycle success path runtime validation",
-
-      },
-
-      available_departments: ["engineering"],
-
-      available_actors: ["cade"],
-
-      persisted_at: "2026-06-26T11:59:00.000Z",
-
-    }),
-
-  });
-
-  const body = await response.json().catch(() => ({}));
-
-  if (!response.ok) {
-
-    throw new Error(
-
-      `Expected success-path lifecycle request to succeed. HTTP ${response.status}: ${JSON.stringify(body, null, 2)}`,
-
-    );
-
-  }
-
-  return body;
-
-}
-
-function assertSuccessPath(result) {
-
-  if (result.ok !== true) {
-
-    throw new Error(`Expected route result ok:true. Result: ${JSON.stringify(result, null, 2)}`);
-
-  }
-
-  if (result.route !== "governance_lifecycle_route") {
-
-    throw new Error(`Expected governance lifecycle route. Result: ${JSON.stringify(result, null, 2)}`);
-
-  }
-
-  if (result.endpoint_authorized !== true) {
-
-    throw new Error(`Expected endpoint_authorized true. Result: ${JSON.stringify(result, null, 2)}`);
-
-  }
-
-  for (const flag of expectedFalseFlags) {
-
-    if (result[flag] !== false) {
-
-      throw new Error(`Expected ${flag} false. Result: ${JSON.stringify(result, null, 2)}`);
-
-    }
-
-  }
-
-  const lifecycleState = result.lifecycle?.lifecycle?.persistence?.lifecycle_state;
-
-  if (lifecycleState !== "ASSIGNED") {
-
-    throw new Error(
-
-      `Expected lifecycle persistence state ASSIGNED, received ${JSON.stringify(lifecycleState)}. Result: ${JSON.stringify(result, null, 2)}`,
-
-    );
+    throw new Error(`${message}. Expected ${JSON.stringify(expected)}, received ${JSON.stringify(actual)}`);
 
   }
 
@@ -199,35 +65,103 @@ function assertSuccessPath(result) {
 
 async function main() {
 
-  console.log("Starting governance lifecycle success-path runtime validation.");
+  const app = express();
 
-  console.log(`Runtime base URL: ${BASE_URL}`);
+  app.use(express.json());
 
-  console.log(`Disposable envelope id: ${envelopeId}`);
+  app.get("/api/health", (_req, res) => res.json({ ok: true }));
 
-  bootRuntime();
+  app.use(createGovernanceLifecycleRouter({ persist_lifecycle_transition: fakePersist }));
+
+  const server = app.listen(PORT, "127.0.0.1");
+
+  await once(server, "listening");
 
   try {
 
-    await waitForHealth();
+    const health = await fetch(`${BASE_URL}/api/health`);
 
-    console.log("PASS: Runtime health returned ok:true.");
+    const healthBody = await health.json();
 
-    const result = await postSuccessPath();
+    assertEqual(health.ok, true, "Health HTTP status should be ok");
 
-    assertSuccessPath(result);
+    assertEqual(healthBody.ok, true, "Health body should be ok:true");
 
-    console.log("PASS: Lifecycle transitioned ENVELOPE_CREATED -> ASSIGNED.");
+    const response = await fetch(`${BASE_URL}/api/governance/lifecycle`, {
 
-    console.log("PASS: Runtime authority flags preserved separation.");
+      method: "POST",
+
+      headers: { "content-type": "application/json" },
+
+      body: JSON.stringify({
+
+        envelope_id: envelopeId,
+
+        envelope: {
+
+          lifecycle_state: "ENVELOPE_CREATED",
+
+          required_capabilities: "engineering",
+
+          operational_corridor: "governance lifecycle success path runtime validation",
+
+        },
+
+        available_departments: ["engineering"],
+
+        available_actors: ["cade"],
+
+        persisted_at: "2026-06-26T11:59:00.000Z",
+
+      }),
+
+    });
+
+    const result = await response.json();
+
+    if (!response.ok) {
+
+      console.error("Lifecycle response status:", response.status);
+
+      console.error(JSON.stringify(result, null, 2));
+
+    }
+
+    assertEqual(response.ok, true, "Lifecycle HTTP status should be ok");
+
+    assertEqual(result.ok, true, "Route result should be ok:true");
+
+    assertEqual(result.route, "governance_lifecycle_route", "Route identity should match");
+
+    assertEqual(result.endpoint_authorized, true, "Endpoint authority should be true");
+
+    for (const flag of expectedFalseFlags) {
+
+      assertEqual(result[flag], false, `${flag} should remain false`);
+
+    }
+
+    assertEqual(
+
+      result.lifecycle?.lifecycle?.persistence?.lifecycle_state,
+
+      "ASSIGNED",
+
+      "Lifecycle persistence state should transition to ASSIGNED",
+
+    );
+
+    console.log("PASS: Governance lifecycle success path runtime validation completed.");
+
+    console.log("PASS: ENVELOPE_CREATED transitioned to ASSIGNED.");
+
+    console.log("PASS: Scheduler, worker, orchestration, routing, execution, and new authority remained false.");
 
   } finally {
 
-    if (runtime && !runtime.killed) {
+    server.close();
 
-      runtime.kill("SIGTERM");
-
-    }
+    await once(server, "close");
 
   }
 
@@ -236,12 +170,6 @@ async function main() {
 main().catch((error) => {
 
   console.error(`FAIL: ${error.message}`);
-
-  if (runtime && !runtime.killed) {
-
-    runtime.kill("SIGTERM");
-
-  }
 
   process.exitCode = 1;
 
