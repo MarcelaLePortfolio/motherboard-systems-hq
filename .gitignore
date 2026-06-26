@@ -3,3 +3,6 @@
 
 scripts/auto_remote_attach.sh
 
+
+node_modules/
+
