@@ -1,9 +1,11 @@
 
-import type {
+import {
 
-  CreatedGovernancePackage,
+  createGovernancePackage,
 
-  CreateGovernancePackageInput,
+  type CreatedGovernancePackage,
+
+  type CreateGovernancePackageInput,
 
 } from "../../db/governance-runtime.ts";
 
@@ -19,14 +21,6 @@ import {
 
 } from "./production-package-entry-point.ts";
 
-declare const require: {
-
-  (id: string): unknown;
-
-};
-
-type GovernanceRuntimeModule = typeof import("../../db/governance-runtime.ts");
-
 export type ProductionPackageConsumerInput = Omit<
 
   ProductionPackageEntryPointInput,
@@ -41,17 +35,9 @@ export type ProductionPackageConsumerInput = Omit<
 
 export type ProductionPackageConsumerResult = ProductionPackageEntryPointResult;
 
-function loadGovernanceRuntime(): GovernanceRuntimeModule {
-
-  return require("../../db/governance-runtime.ts") as GovernanceRuntimeModule;
-
-}
-
 function createDefaultPackagePersistence(): GovernancePackagePersistenceFunction {
 
   return (input: CreateGovernancePackageInput): CreatedGovernancePackage => {
-
-    const { createGovernancePackage } = loadGovernanceRuntime();
 
     return createGovernancePackage(input);
 
