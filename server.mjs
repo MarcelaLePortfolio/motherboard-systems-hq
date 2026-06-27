@@ -25,6 +25,8 @@ import taskEventsSSE from "./server/routes/task-events-sse.mjs";
 import apiTasksMutationsRouter from "./server/routes/api-tasks-mutations.mjs";
 import governedPlanningRouter from "./server/routes/governed-planning-route.mjs";
 import governanceLifecycleRouter from "./server/routes/governance-lifecycle-route.ts";
+
+import governancePackageRouter from "./server/routes/governance-package-route.ts";
 import { handleDelegateTaskSpec as phase23HandleDelegateTaskSpec } from "./server/api/tasks-mutations/delegate-taskspec.mjs";
 import { registerPhase36RunView } from "./server/routes/phase36_run_view.mjs";
 import { getRunsList } from "./server/routes/phase36_run_view.mjs";
@@ -185,7 +187,10 @@ app.post("/api/tasks-mutations/delegate-taskspec", async (req, res) => phase23Ha
 app.use("/api/tasks", apiTasksRouter);
 app.use("/api/tasks-mutations", apiTasksMutationsRouter);
 app.use(governedPlanningRouter);
+
 app.use(governanceLifecycleRouter);
+
+app.use(governancePackageRouter);
 
 
 app.use("/diagnostics/system-health", systemHealthRouter);
