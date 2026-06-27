@@ -15,15 +15,11 @@ import type {
 
 } from "../../db/governance-lifecycle-composition.ts";
 
-declare const require: {
+import {
 
-  (id: string): unknown;
+  persistGovernanceEnvelopeLifecycleTransition,
 
-};
-
-type GovernanceLifecyclePersistenceModule =
-
-  typeof import("../../db/governance-lifecycle-persistence.ts");
+} from "../../db/governance-lifecycle-persistence.ts";
 
 export type ProductionLifecycleConsumerInput = Omit<
 
@@ -43,12 +39,6 @@ export type ProductionLifecycleConsumerResult =
 
   ProductionLifecycleEntryPointResult;
 
-function loadGovernanceLifecyclePersistence(): GovernanceLifecyclePersistenceModule {
-
-  return require("../../db/governance-lifecycle-persistence.ts") as GovernanceLifecyclePersistenceModule;
-
-}
-
 function createDefaultLifecyclePersistence(
 
   db: unknown,
@@ -56,12 +46,6 @@ function createDefaultLifecyclePersistence(
 ): GovernanceLifecyclePersistenceFunction {
 
   return ({ envelope_id, transition_authorization, persisted_at }) => {
-
-    const {
-
-      persistGovernanceEnvelopeLifecycleTransition,
-
-    } = loadGovernanceLifecyclePersistence();
 
     return persistGovernanceEnvelopeLifecycleTransition({
 
