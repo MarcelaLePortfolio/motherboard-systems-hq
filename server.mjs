@@ -33,6 +33,8 @@ import governanceDelegationRouter from "./server/routes/governance-delegation-ro
 import governanceValidationRouter from "./server/routes/governance-validation-route.ts";
 
 import governanceEnvelopeGateRouter from "./server/routes/governance-envelope-gate-route.ts";
+
+import governanceEnvelopeRouter from "./server/routes/governance-envelope-route.ts";
 import { handleDelegateTaskSpec as phase23HandleDelegateTaskSpec } from "./server/api/tasks-mutations/delegate-taskspec.mjs";
 import { registerPhase36RunView } from "./server/routes/phase36_run_view.mjs";
 import { getRunsList } from "./server/routes/phase36_run_view.mjs";
@@ -203,6 +205,8 @@ app.use(governanceDelegationRouter);
 app.use(governanceValidationRouter);
 
 app.use(governanceEnvelopeGateRouter);
+
+app.use(governanceEnvelopeRouter);
 
 
 app.use("/diagnostics/system-health", systemHealthRouter);
