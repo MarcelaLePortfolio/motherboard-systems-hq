@@ -1,27 +1,31 @@
 
 # Native Runtime Test Seam Coupling Inspection
 
-## Finding
+## Reconciled Finding
 
-Repository-wide inspection found no broad hidden coupling to the lifecycle integration and persistence relationship.
+Repository-wide inspection originally found no broad hidden coupling to the lifecycle integration and persistence relationship.
 
-The direct implementation coupling is limited to:
+That finding remains valid, but the production runtime path has since been implemented through a narrower seam:
 
-- `db/governance-lifecycle-integration.ts`
+Production Lifecycle Entry Point
 
-- `db/governance-lifecycle-persistence.ts`
+↓
 
-- `db/governance-lifecycle-integration.test.ts`
+Governance Lifecycle Composition
 
-The assignment and transition boundaries are already independently testable without importing the native persistence module.
+↓
 
-## Evidence Summary
+Injected Persistence
+
+The production path does not depend on directly invoking `completeGovernanceLifecycleAssignmentTransition(...)`.
+
+## Current Coupling
 
 `completeGovernanceLifecycleAssignmentTransition(...)` is exported from:
 
 - `db/governance-lifecycle-integration.ts`
 
-Its direct non-document usage is limited to:
+Its direct non-document usage remains limited to:
 
 - `db/governance-lifecycle-integration.test.ts`
 
@@ -29,35 +33,31 @@ Its direct non-document usage is limited to:
 
 - `db/governance-lifecycle-persistence.ts`
 
-Its direct implementation usage is limited to:
-
-- `db/governance-lifecycle-integration.ts`
-
-Assignment and transition boundaries are used by their own tests and by the lifecycle integration module.
+Production runtime reaches persistence through dependency injection rather than by hard-coding the integration wrapper.
 
 ## Architectural Conclusion
 
-The proposed native runtime test seam remains the smallest known safe seam.
+The implemented seam is now:
 
-The seam can be placed between:
+1. Production Lifecycle Entry Point
 
-1. Assignment Boundary + Lifecycle Transition Authorization, and
+2. Governance Lifecycle Composition
 
-2. Governance Lifecycle Persistence.
+3. Injected Governance Lifecycle Persistence
 
-No evidence requires scheduler, worker, orchestration, endpoint, routing, or execution layers to participate in this seam.
+This preserves testability while avoiding direct production coupling to native persistence.
+
+No evidence requires scheduler, worker, orchestration, endpoint expansion, routing, or execution layers to participate in this seam.
 
 ## Scope Boundary
 
-This inspection does not authorize implementation.
-
-This inspection does not authorize:
+This reconciliation does not authorize:
 
 - dependency policy changes
 
 - native build policy changes
 
-- endpoint creation
+- endpoint expansion
 
 - scheduler integration
 
@@ -71,7 +71,9 @@ This inspection does not authorize:
 
 - lifecycle authority expansion
 
-## Next Canonical Milestone
+## Current Status
 
-Native Runtime Test Seam Implementation Readiness.
+The native runtime seam has been implemented and validated through injected persistence.
+
+The prior implementation-readiness question is resolved.
 

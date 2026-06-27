@@ -1,69 +1,69 @@
 
 # Production Runtime Integration Surface Finding
 
-## Finding
+## Reconciled Finding
 
-Repository inspection found no existing production runtime surface that currently invokes the completed Governance Lifecycle Integration Caller.
+A smallest safe production lifecycle surface now exists.
 
-The inspected production-adjacent surfaces are:
+The implemented production runtime path is:
 
-- `server/routes/governed-planning-route.mjs`
+Route
 
-- `server/execution/governed-planning-pipeline.mjs`
+↓
 
-- `server/execution/build-execution-envelope-draft.mjs`
+Consumer
 
-- task mutation routes
+↓
 
-- scheduler/router/orchestration primitives
+Production Lifecycle Entry Point
 
-- worker primitives
+↓
 
-- server route mounting patterns
+Governance Lifecycle Composition
 
-## Evidence Summary
+↓
 
-The governed planning route is a legacy dry-run planning route.
+Injected Persistence
 
-It builds and validates a legacy execution envelope draft through:
+This supersedes the earlier planning assumption that production runtime should invoke `completeGovernanceLifecycleAssignmentTransition(...)` directly.
 
-- `buildExecutionEnvelopeDraft(...)`
+## Current Runtime Surface
 
-- `validateGovernedExecutionEnvelope(...)`
+The current production-adjacent lifecycle surface is:
 
-- `evaluateExecutionApproval(...)`
+- `server/routes/governance-lifecycle-route.ts`
 
-- `planCadeEngineeringExecution(...)`
+- `server/lifecycle/production-lifecycle-consumer.ts`
 
-It is explicitly planning-only and dry-run oriented.
+- `server/lifecycle/production-lifecycle-entry-point.ts`
 
-It does not create a persisted Governance Envelope through the canonical lifecycle corridor.
+- `db/governance-lifecycle-composition.ts`
 
-It does not call:
+- `db/governance-lifecycle-persistence.ts`
 
-- `createGovernanceEnvelope(...)`
+The route is transport only.
 
-- `completeGovernanceLifecycleAssignmentTransition(...)`
+The consumer adapts runtime input and default persistence.
 
-- `persistGovernanceEnvelopeLifecycleTransition(...)`
+The entry point invokes lifecycle composition with injected persistence.
 
-The scheduler, router, worker, and orchestration primitives are present but do not currently consume the Governance Lifecycle Integration Caller.
+The composition layer remains responsible for sequencing assignment boundary, transition authorization, and persistence injection.
 
-## Planning Conclusion
+## Wrapper Status
 
-The production integration question cannot be resolved by inserting the caller into an existing production Governance Envelope creation path, because no such path currently exists.
+`completeGovernanceLifecycleAssignmentTransition(...)` remains exported from:
 
-The next implementation-readiness decision is whether to introduce a smallest safe production lifecycle surface that consumes an already-created Governance Envelope and invokes the completed integration caller.
+- `db/governance-lifecycle-integration.ts`
 
-## Boundary
+Its current direct non-document usage is limited to its test file.
 
-This finding does not authorize implementation.
+It is not the production runtime invocation path.
 
-This finding does not authorize:
+It should be treated as an internal convenience/integration wrapper unless future repository evidence justifies promotion.
 
-- endpoint creation
+## Authority Boundary
 
-- route mounting
+This reconciliation does not authorize:
 
 - scheduler integration
 
@@ -71,27 +71,37 @@ This finding does not authorize:
 
 - orchestration integration
 
+- routing expansion
+
+- execution authority
+
 - schema changes
 
 - Envelope contract expansion
-
-- assignment persistence expansion
 
 - autonomous Ellis behavior
 
 - new architectural authority
 
-## Current Stable Baseline
+## Validation Status
 
-Latest known DR after this planning checkpoint:
+The implemented runtime surface is validated by:
 
-- DR: 20260625_201515
+- Production Lifecycle Entry Point tests
 
-- Status: PASS
+- Production Lifecycle Consumer tests
 
-- Offsite R2: skipped because not configured for this repository checkpoint
+- Governance Lifecycle Route tests
 
-## Recommended Next Canonical Question
+- Governance Lifecycle Success-Path Runtime Validation
 
-Should the next corridor define a production lifecycle surface contract, or should planning stop until implementation is explicitly authorized?
+- Governance persistence DR validation
+
+Validation confirms the runtime surface preserves authority separation.
+
+## Planning Conclusion
+
+The prior implementation-readiness question is resolved.
+
+The next governance corridor should not reopen production lifecycle surface planning unless new repository evidence identifies a concrete unresolved surface boundary.
 
