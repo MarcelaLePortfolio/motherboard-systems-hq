@@ -9,13 +9,23 @@ import {
 
   handleGovernanceLifecycleRouteRequest,
 
-} from "./governance-lifecycle-route";
+} from "./governance-lifecycle-route.ts";
 
 import type {
 
   GovernanceLifecyclePersistenceFunction,
 
-} from "../../db/governance-lifecycle-composition";
+} from "../../db/governance-lifecycle-composition.ts";
+
+const departmentHandshake = {
+
+  acknowledgement_status: "ACKNOWLEDGED" as const,
+
+  capability_status: "CAPABILITY_CONFIRMED" as const,
+
+  response_basis: "Department confirms current capability.",
+
+};
 
 const fakePersist: GovernanceLifecyclePersistenceFunction = ({
 
@@ -37,13 +47,9 @@ const fakePersist: GovernanceLifecyclePersistenceFunction = ({
 
   assigned_department: "engineering",
 
-  assigned_actor: "cade",
-
   routing_history: "governance lifecycle route test",
 
-  persisted_at:
-
-    persisted_at ?? "2026-06-26T10:39:38.000Z",
+  persisted_at: persisted_at ?? "2026-06-26T10:39:38.000Z",
 
 });
 
@@ -69,7 +75,7 @@ test(
 
       available_departments: ["engineering"],
 
-      available_actors: ["cade"],
+      department_handshake: departmentHandshake,
 
     });
 
@@ -77,7 +83,9 @@ test(
 
     assert.deepEqual(request.available_departments, ["engineering"]);
 
-    assert.deepEqual(request.available_actors, ["cade"]);
+    assert.equal(request.department_handshake, departmentHandshake);
+
+    assert.equal("available_actors" in request, false);
 
     assert.equal(request.target_lifecycle_state, undefined);
 
@@ -109,7 +117,7 @@ test(
 
         available_departments: ["engineering"],
 
-        available_actors: ["cade"],
+        department_handshake: departmentHandshake,
 
       },
 
@@ -147,6 +155,14 @@ test(
 
     assert.equal(result.lifecycle.lifecycle.persistence.lifecycle_state, "ASSIGNED");
 
+    assert.equal(
+
+      "assigned_actor" in result.lifecycle.lifecycle.persistence,
+
+      false,
+
+    );
+
   },
 
 );
@@ -177,7 +193,7 @@ test(
 
         available_departments: ["engineering"],
 
-        available_actors: ["cade"],
+        department_handshake: departmentHandshake,
 
       },
 
@@ -200,6 +216,82 @@ test(
     assert.equal(persistCalled, false);
 
     assert.equal(result.route, "governance_lifecycle_route");
+
+    assert.equal(result.endpoint_authorized, true);
+
+    assert.equal(result.scheduler_authorized, false);
+
+    assert.equal(result.worker_claim_authorized, false);
+
+    assert.equal(result.orchestration_authorized, false);
+
+    assert.equal(result.routing_authorized, false);
+
+    assert.equal(result.execution_authorized, false);
+
+    assert.equal(result.new_authority_introduced, false);
+
+  },
+
+);
+
+test(
+
+  "governance lifecycle route handler fails closed on capability conflict before persistence",
+
+  () => {
+
+    let persistCalled = false;
+
+    const result = handleGovernanceLifecycleRouteRequest(
+
+      {
+
+        envelope_id: "env-governance-lifecycle-route-conflict",
+
+        envelope: {
+
+          lifecycle_state: "ENVELOPE_CREATED",
+
+          required_capabilities: "engineering",
+
+          operational_corridor: "governance lifecycle route test",
+
+        },
+
+        available_departments: ["engineering"],
+
+        department_handshake: {
+
+          acknowledgement_status: "ACKNOWLEDGED",
+
+          capability_status: "CAPABILITY_CONFLICT_REPORTED",
+
+          capability_conflicts: ["engineering unavailable"],
+
+          response_basis: "Department reports local operational incapacity.",
+
+        },
+
+      },
+
+      {
+
+        persist_lifecycle_transition: (input) => {
+
+          persistCalled = true;
+
+          return fakePersist(input);
+
+        },
+
+      },
+
+    );
+
+    assert.equal(result.ok, false);
+
+    assert.equal(persistCalled, false);
 
     assert.equal(result.endpoint_authorized, true);
 

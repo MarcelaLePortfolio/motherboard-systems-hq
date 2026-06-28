@@ -25,7 +25,7 @@ export type GovernanceLifecycleRouteBody = {
 
   available_departments?: unknown;
 
-  available_actors?: unknown;
+  department_handshake?: ProductionLifecycleConsumerInput["department_handshake"];
 
   target_lifecycle_state?: ProductionLifecycleConsumerInput["target_lifecycle_state"];
 
@@ -41,9 +41,7 @@ export type GovernanceLifecycleRouteOptions = {
 
 };
 
-export type GovernanceLifecycleRouteRequest =
-
-  ProductionLifecycleConsumerInput;
+export type GovernanceLifecycleRouteRequest = ProductionLifecycleConsumerInput;
 
 export type GovernanceLifecycleRouteResult =
 
@@ -133,7 +131,7 @@ export function buildGovernanceLifecycleRouteRequest(
 
     available_departments: normalizeTextArray(body.available_departments),
 
-    available_actors: normalizeTextArray(body.available_actors),
+    department_handshake: body.department_handshake,
 
     target_lifecycle_state: body.target_lifecycle_state,
 
@@ -141,9 +139,7 @@ export function buildGovernanceLifecycleRouteRequest(
 
     db: options.db,
 
-    persist_lifecycle_transition:
-
-      options.persist_lifecycle_transition,
+    persist_lifecycle_transition: options.persist_lifecycle_transition,
 
   };
 
@@ -221,7 +217,7 @@ export function handleGovernanceLifecycleRouteRequest(
 
     findings: [
 
-      "Governance lifecycle route invoked the production lifecycle consumer without scheduler, worker, orchestration, routing, execution, or new authority.",
+      "Governance lifecycle route invoked the production lifecycle consumer without scheduler, worker, orchestration, routing, execution, actor assignment, participation resolution, or new authority.",
 
     ],
 
