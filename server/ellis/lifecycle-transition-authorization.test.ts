@@ -3,9 +3,9 @@ import test from "node:test";
 
 import assert from "node:assert/strict";
 
-import { evaluateGovernanceLifecycleAssignmentBoundary } from "./assignment-boundary";
+import { evaluateGovernanceLifecycleAssignmentBoundary } from "./assignment-boundary.ts";
 
-import { authorizeGovernanceLifecycleAssignmentTransition } from "./lifecycle-transition-authorization";
+import { authorizeGovernanceLifecycleAssignmentTransition } from "./lifecycle-transition-authorization.ts";
 
 function readyBoundary() {
 
@@ -22,6 +22,16 @@ function readyBoundary() {
     },
 
     available_departments: ["engineering_planning"],
+
+    department_handshake: {
+
+      acknowledgement_status: "ACKNOWLEDGED",
+
+      capability_status: "CAPABILITY_CONFIRMED",
+
+      response_basis: "Department confirms current capability.",
+
+    },
 
   });
 
@@ -42,6 +52,48 @@ function blockedBoundary() {
     },
 
     available_departments: ["engineering_planning"],
+
+    department_handshake: {
+
+      acknowledgement_status: "ACKNOWLEDGED",
+
+      capability_status: "CAPABILITY_CONFIRMED",
+
+      response_basis: "Department confirms current capability.",
+
+    },
+
+  });
+
+}
+
+function conflictBoundary() {
+
+  return evaluateGovernanceLifecycleAssignmentBoundary({
+
+    envelope: {
+
+      lifecycle_state: "ENVELOPE_CREATED",
+
+      required_capabilities: "engineering_planning",
+
+      operational_corridor: "planning_only",
+
+    },
+
+    available_departments: ["engineering_planning"],
+
+    department_handshake: {
+
+      acknowledgement_status: "ACKNOWLEDGED",
+
+      capability_status: "CAPABILITY_CONFLICT_REPORTED",
+
+      capability_conflicts: ["engineering_planning unavailable"],
+
+      response_basis: "Department reports local operational incapacity.",
+
+    },
 
   });
 
@@ -80,6 +132,36 @@ test("transition authorization blocks when assignment boundary is not ready", ()
     target_lifecycle_state: "ASSIGNED",
 
     assignment_boundary: blockedBoundary(),
+
+  });
+
+  assert.equal(result.ok, false);
+
+  assert.equal(result.transition_authorized, false);
+
+  assert.equal(result.mutation_authorized, false);
+
+  assert.equal(result.persistence_authorized, false);
+
+  assert.equal(result.execution_authorized, false);
+
+});
+
+test("transition authorization blocks when department reports capability conflict", () => {
+
+  const boundary = conflictBoundary();
+
+  assert.equal(boundary.ok, false);
+
+  assert.equal(boundary.requires_ellis_recoordination, true);
+
+  const result = authorizeGovernanceLifecycleAssignmentTransition({
+
+    current_lifecycle_state: "ENVELOPE_CREATED",
+
+    target_lifecycle_state: "ASSIGNED",
+
+    assignment_boundary: boundary,
 
   });
 
