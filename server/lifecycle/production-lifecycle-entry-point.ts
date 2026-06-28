@@ -93,7 +93,7 @@ export function invokeProductionLifecycleEntryPoint(
 
       available_departments: input.available_departments ?? [],
 
-      available_actors: input.available_actors ?? [],
+      department_handshake: input.department_handshake,
 
       target_lifecycle_state: input.target_lifecycle_state,
 
@@ -161,7 +161,7 @@ export function invokeProductionLifecycleEntryPoint(
 
       findings: [
 
-        "Production Lifecycle Entry Point invoked native-free lifecycle composition without endpoint, scheduler, worker, orchestration, routing, execution, or new authority.",
+        "Production Lifecycle Entry Point invoked native-free lifecycle composition with department handshake gating and without endpoint, scheduler, worker, orchestration, routing, execution, actor assignment, participation resolution, or new authority.",
 
       ],
 

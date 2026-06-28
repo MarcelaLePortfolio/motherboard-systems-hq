@@ -3,6 +3,8 @@ import {
 
   evaluateGovernanceLifecycleAssignmentBoundary,
 
+  type DepartmentAssignmentHandshake,
+
   type GovernanceLifecycleAssignmentBoundaryInput,
 
   type GovernanceLifecycleAssignmentBoundaryResult,
@@ -39,7 +41,13 @@ export type GovernanceLifecyclePersistenceFunction = (input: {
 
   envelope_id: string;
 
-  transition_authorization: Extract<GovernanceLifecycleTransitionAuthorizationResult, { ok: true }>;
+  transition_authorization: Extract<
+
+    GovernanceLifecycleTransitionAuthorizationResult,
+
+    { ok: true }
+
+  >;
 
   persisted_at?: string | null;
 
@@ -53,7 +61,7 @@ export type ComposeGovernanceLifecycleAssignmentTransitionInput = {
 
   available_departments?: string[];
 
-  available_actors?: string[];
+  department_handshake?: DepartmentAssignmentHandshake;
 
   target_lifecycle_state?: string | null;
 
@@ -71,9 +79,21 @@ export type ComposedGovernanceLifecycleAssignmentTransitionResult =
 
       integration: "governance_lifecycle_assignment_transition";
 
-      assignment_boundary: Extract<GovernanceLifecycleAssignmentBoundaryResult, { ok: true }>;
+      assignment_boundary: Extract<
 
-      transition_authorization: Extract<GovernanceLifecycleTransitionAuthorizationResult, { ok: true }>;
+        GovernanceLifecycleAssignmentBoundaryResult,
+
+        { ok: true }
+
+      >;
+
+      transition_authorization: Extract<
+
+        GovernanceLifecycleTransitionAuthorizationResult,
+
+        { ok: true }
+
+      >;
 
       persistence: GovernanceLifecyclePersistenceResult;
 
@@ -147,7 +167,7 @@ export function composeGovernanceLifecycleAssignmentTransition(
 
     available_departments: input.available_departments ?? [],
 
-    available_actors: input.available_actors ?? [],
+    department_handshake: input.department_handshake,
 
   });
 
@@ -257,7 +277,7 @@ export function composeGovernanceLifecycleAssignmentTransition(
 
     findings: [
 
-      "Lifecycle composition completed assignment readiness, transition authorization, and injected persistence without native database loading.",
+      "Lifecycle composition completed department-handshake-gated assignment readiness, transition authorization, and injected persistence without native database loading.",
 
     ],
 

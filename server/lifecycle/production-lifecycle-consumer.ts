@@ -35,9 +35,7 @@ export type ProductionLifecycleConsumerInput = Omit<
 
 };
 
-export type ProductionLifecycleConsumerResult =
-
-  ProductionLifecycleEntryPointResult;
+export type ProductionLifecycleConsumerResult = ProductionLifecycleEntryPointResult;
 
 function createDefaultLifecyclePersistence(
 
@@ -77,7 +75,7 @@ export function consumeProductionLifecycleEntryPoint(
 
     available_departments: input.available_departments ?? [],
 
-    available_actors: input.available_actors ?? [],
+    department_handshake: input.department_handshake,
 
     target_lifecycle_state: input.target_lifecycle_state,
 
@@ -85,9 +83,7 @@ export function consumeProductionLifecycleEntryPoint(
 
     persist_lifecycle_transition:
 
-      input.persist_lifecycle_transition ??
-
-      createDefaultLifecyclePersistence(input.db),
+      input.persist_lifecycle_transition ?? createDefaultLifecyclePersistence(input.db),
 
   });
 
