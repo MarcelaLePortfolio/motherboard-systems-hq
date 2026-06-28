@@ -21,6 +21,18 @@ export type DepartmentAssignmentHandshake = {
 
 };
 
+type DepartmentalEllisDecision = Omit<
+
+  Extract<EllisDecision, { ok: true }>,
+
+  "assigned_actor"
+
+> & {
+
+  assigned_actor?: never;
+
+};
+
 export type GovernanceLifecycleAssignmentBoundaryInput = {
 
   envelope: EllisEnvelopeShape & {
@@ -30,6 +42,8 @@ export type GovernanceLifecycleAssignmentBoundaryInput = {
   };
 
   available_departments?: string[];
+
+  available_actors?: string[];
 
   department_handshake?: DepartmentAssignmentHandshake;
 
@@ -63,7 +77,7 @@ export type GovernanceLifecycleAssignmentBoundaryResult =
 
       participation_resolution_authorized: false;
 
-      ellis_decision: Extract<EllisDecision, { ok: true }>;
+      ellis_decision: DepartmentalEllisDecision;
 
       findings: string[];
 
@@ -95,7 +109,7 @@ export type GovernanceLifecycleAssignmentBoundaryResult =
 
       participation_resolution_authorized: false;
 
-      ellis_decision?: EllisDecision;
+      ellis_decision?: EllisDecision | DepartmentalEllisDecision;
 
       findings: string[];
 
@@ -103,7 +117,33 @@ export type GovernanceLifecycleAssignmentBoundaryResult =
 
 function normalizeLifecycleState(value: string | null | undefined): string {
 
-  return String(value ?? "").trim().toUpperCase().replaceAll(" ", "_").replaceAll("-", "_");
+  return String(value ?? "")
+
+    .trim()
+
+    .toUpperCase()
+
+    .replaceAll(" ", "_")
+
+    .replaceAll("-", "_");
+
+}
+
+function removeActorAssignment(
+
+  ellisDecision: Extract<EllisDecision, { ok: true }>,
+
+): DepartmentalEllisDecision {
+
+  const { assigned_actor: _assignedActor, ...departmentalDecision } =
+
+    ellisDecision as Extract<EllisDecision, { ok: true }> & {
+
+      assigned_actor?: string | null;
+
+    };
+
+  return Object.freeze(departmentalDecision) as DepartmentalEllisDecision;
 
 }
 
@@ -111,7 +151,7 @@ function block(
 
   findings: string[],
 
-  ellisDecision?: EllisDecision,
+  ellisDecision?: EllisDecision | DepartmentalEllisDecision,
 
   options: {
 
@@ -135,7 +175,9 @@ function block(
 
     capability_status: options.capability_status,
 
-    requires_ellis_recoordination: options.requires_ellis_recoordination ?? false,
+    requires_ellis_recoordination:
+
+      options.requires_ellis_recoordination ?? false,
 
     lifecycle_transition_authorized: false,
 
@@ -193,7 +235,11 @@ function evaluateDepartmentHandshake(
 
       requires_ellis_recoordination: false,
 
-      findings: ["Department acknowledgement is required before assignment readiness is complete."],
+      findings: [
+
+        "Department acknowledgement is required before assignment readiness is complete.",
+
+      ],
 
     };
 
@@ -311,7 +357,11 @@ export function evaluateGovernanceLifecycleAssignmentBoundary(
 
     return block([
 
-      `Assignment boundary requires lifecycle_state=ENVELOPE_CREATED; received ${lifecycleState || "MISSING"}.`,
+      `Assignment boundary requires lifecycle_state=ENVELOPE_CREATED; received ${
+
+        lifecycleState || "MISSING"
+
+      }.`,
 
     ]);
 
@@ -329,35 +379,23 @@ export function evaluateGovernanceLifecycleAssignmentBoundary(
 
   if (!ellisDecision.ok) {
 
-    return block(
-
-      ["Ellis could not resolve assignment readiness."],
-
-      ellisDecision,
-
-    );
+    return block(["Ellis could not resolve assignment readiness."], ellisDecision);
 
   }
+
+  const departmentalEllisDecision = removeActorAssignment(ellisDecision);
 
   const handshake = evaluateDepartmentHandshake(input.department_handshake);
 
   if (!handshake.ok) {
 
-    return block(
+    return block(handshake.findings, departmentalEllisDecision, {
 
-      handshake.findings,
+      capability_status: handshake.capability_status,
 
-      ellisDecision,
+      requires_ellis_recoordination: handshake.requires_ellis_recoordination,
 
-      {
-
-        capability_status: handshake.capability_status,
-
-        requires_ellis_recoordination: handshake.requires_ellis_recoordination,
-
-      },
-
-    );
+    });
 
   }
 
@@ -387,7 +425,7 @@ export function evaluateGovernanceLifecycleAssignmentBoundary(
 
     participation_resolution_authorized: false,
 
-    ellis_decision: ellisDecision,
+    ellis_decision: departmentalEllisDecision,
 
     findings: [
 
