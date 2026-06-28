@@ -35,6 +35,10 @@ test("assignment boundary blocks non-envelope-created lifecycle state", () => {
 
   assert.equal(result.execution_authorized, false);
 
+  assert.equal(result.actor_assignment_authorized, false);
+
+  assert.equal(result.participation_resolution_authorized, false);
+
 });
 
 test("assignment boundary blocks unresolved Ellis decision", () => {
@@ -53,6 +57,16 @@ test("assignment boundary blocks unresolved Ellis decision", () => {
 
     available_departments: ["engineering_planning"],
 
+    department_handshake: {
+
+      acknowledgement_status: "ACKNOWLEDGED",
+
+      capability_status: "CAPABILITY_CONFIRMED",
+
+      response_basis: "Department confirms capability.",
+
+    },
+
   });
 
   assert.equal(result.ok, false);
@@ -65,7 +79,7 @@ test("assignment boundary blocks unresolved Ellis decision", () => {
 
 });
 
-test("assignment boundary returns assignment readiness without mutation", () => {
+test("assignment boundary requires department acknowledgement", () => {
 
   const result = evaluateGovernanceLifecycleAssignmentBoundary({
 
@@ -81,13 +95,99 @@ test("assignment boundary returns assignment readiness without mutation", () => 
 
     available_departments: ["engineering_planning"],
 
-    available_actors: ["cade"],
+  });
+
+  assert.equal(result.ok, false);
+
+  assert.equal(result.assignment_ready, false);
+
+  assert.equal(result.department_acknowledged, false);
+
+  assert.equal(result.requires_ellis_recoordination, false);
+
+});
+
+test("assignment boundary blocks capability conflict and requires Ellis re-coordination", () => {
+
+  const result = evaluateGovernanceLifecycleAssignmentBoundary({
+
+    envelope: {
+
+      lifecycle_state: "ENVELOPE_CREATED",
+
+      required_capabilities: "engineering_planning, repository_analysis",
+
+      operational_corridor: "planning_only",
+
+    },
+
+    available_departments: ["engineering_planning"],
+
+    department_handshake: {
+
+      acknowledgement_status: "ACKNOWLEDGED",
+
+      capability_status: "CAPABILITY_CONFLICT_REPORTED",
+
+      capability_conflicts: ["repository_analysis unavailable"],
+
+      response_basis: "Department reports local operational incapacity.",
+
+    },
+
+  });
+
+  assert.equal(result.ok, false);
+
+  assert.equal(result.assignment_ready, false);
+
+  assert.equal(result.department_acknowledged, false);
+
+  assert.equal(result.capability_status, "CAPABILITY_CONFLICT_REPORTED");
+
+  assert.equal(result.requires_ellis_recoordination, true);
+
+  assert.equal(result.lifecycle_transition_authorized, false);
+
+});
+
+test("assignment boundary returns assignment readiness after department handshake without actor assignment", () => {
+
+  const result = evaluateGovernanceLifecycleAssignmentBoundary({
+
+    envelope: {
+
+      lifecycle_state: "ENVELOPE_CREATED",
+
+      required_capabilities: "engineering_planning, repository_analysis",
+
+      operational_corridor: "planning_only",
+
+    },
+
+    available_departments: ["engineering_planning"],
+
+    department_handshake: {
+
+      acknowledgement_status: "ACKNOWLEDGED",
+
+      capability_status: "CAPABILITY_CONFIRMED",
+
+      response_basis: "Department confirms current capability.",
+
+    },
 
   });
 
   assert.equal(result.ok, true);
 
   assert.equal(result.assignment_ready, true);
+
+  assert.equal(result.department_acknowledged, true);
+
+  assert.equal(result.capability_status, "CAPABILITY_CONFIRMED");
+
+  assert.equal(result.requires_ellis_recoordination, false);
 
   assert.equal(result.lifecycle_transition_authorized, false);
 
@@ -97,13 +197,17 @@ test("assignment boundary returns assignment readiness without mutation", () => 
 
   assert.equal(result.execution_authorized, false);
 
+  assert.equal(result.actor_assignment_authorized, false);
+
+  assert.equal(result.participation_resolution_authorized, false);
+
   if (result.ok) {
 
     assert.equal(result.ellis_decision.ok, true);
 
     assert.equal(result.ellis_decision.assigned_department, "engineering_planning");
 
-    assert.equal(result.ellis_decision.assigned_actor, "cade");
+    assert.equal("assigned_actor" in result.ellis_decision, false);
 
   }
 
