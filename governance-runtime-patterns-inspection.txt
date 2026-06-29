@@ -1,0 +1,628 @@
+# Governance Runtime Pattern Inspection
+
+Generated: Mon Jun 29 11:10:39 PDT 2026
+
+## governance-runtime.ts
+
+import Database from "better-sqlite3";
+
+export type CreateGovernancePackageInput = {
+
+  package_id: string;
+
+  package_version: number;
+
+  requested_outcome: string;
+
+  scope: string;
+
+  containment: string;
+
+  constraints: string;
+
+  success_criteria: string;
+
+  context?: string | null;
+
+  style_presentation_intent?: string | null;
+
+  exclusions?: string | null;
+
+};
+
+export type CreatedGovernancePackage = {
+
+  package_id: string;
+
+  package_version: number;
+
+  created_at: string;
+
+};
+
+export type CreateGovernanceDelegationInput = {
+
+  delegation_id: string;
+
+  package_id: string;
+
+  package_version: number;
+
+  authorization_state: string;
+
+  authorization_timestamp?: string | null;
+
+  delegated_by: string;
+
+};
+
+export type CreatedGovernanceDelegation = {
+
+  delegation_id: string;
+
+  package_id: string;
+
+  package_version: number;
+
+  authorization_state: string;
+
+  authorization_timestamp: string;
+
+  delegated_by: string;
+
+  created_at: string;
+
+};
+
+export type CreateGovernanceValidationResultInput = {
+
+  validation_result_id: string;
+
+  package_id: string;
+
+  package_version: number;
+
+  delegation_id: string;
+
+  validation_status: string;
+
+  governance_findings?: string | null;
+
+  operational_requirements?: string | null;
+
+  capability_requirements?: string | null;
+
+  escalations?: string | null;
+
+  validation_timestamp?: string | null;
+
+};
+
+export type CreatedGovernanceValidationResult = {
+
+  validation_result_id: string;
+
+  package_id: string;
+
+  package_version: number;
+
+  delegation_id: string;
+
+  validation_status: string;
+
+  validation_timestamp: string;
+
+  created_at: string;
+
+};
+
+export type CreateGovernanceEnvelopeGateInput = {
+
+  envelope_gate_id: string;
+
+  package_id: string;
+
+  package_version: number;
+
+  delegation_id: string;
+
+  validation_result_id: string;
+
+  gate_status: string;
+
+  gate_reason?: string | null;
+
+  gate_decision_timestamp?: string | null;
+
+};
+
+export type CreatedGovernanceEnvelopeGate = {
+
+  envelope_gate_id: string;
+
+  package_id: string;
+
+  package_version: number;
+
+  delegation_id: string;
+
+  validation_result_id: string;
+
+  gate_status: string;
+
+  gate_decision_timestamp: string;
+
+  created_at: string;
+
+};
+
+export type CreateGovernanceEnvelopeInput = {
+
+  envelope_id: string;
+
+  package_id: string;
+
+  package_version: number;
+
+  delegation_id: string;
+
+  validation_result_id: string;
+
+  envelope_gate_id: string;
+
+  validation_status: string;
+
+  required_capabilities?: string | null;
+
+  operational_corridor?: string | null;
+
+  lifecycle_state: string;
+
+};
+
+export type CreatedGovernanceEnvelope = {
+
+  envelope_id: string;
+
+  package_id: string;
+
+  package_version: number;
+
+  delegation_id: string;
+
+  validation_result_id: string;
+
+  envelope_gate_id: string;
+
+  validation_status: string;
+
+  lifecycle_state: string;
+
+  created_at: string;
+
+};
+
+const sqlite = new Database("db/main.db");
+
+sqlite.pragma("foreign_keys = ON");
+
+const requiredPackageTextFields = [
+
+  "package_id",
+
+  "requested_outcome",
+
+  "scope",
+
+  "containment",
+
+  "constraints",
+
+  "success_criteria",
+
+] as const;
+
+const requiredDelegationTextFields = [
+
+  "delegation_id",
+
+  "package_id",
+
+  "authorization_state",
+
+  "delegated_by",
+
+] as const;
+
+const requiredValidationTextFields = [
+
+  "validation_result_id",
+
+  "package_id",
+
+  "delegation_id",
+
+  "validation_status",
+
+] as const;
+
+const requiredEnvelopeGateTextFields = [
+
+  "envelope_gate_id",
+
+  "package_id",
+
+  "delegation_id",
+
+## governance-lifecycle-persistence.ts
+
+import Database from "better-sqlite3";
+
+import type { GovernanceLifecycleTransitionAuthorizationResult } from "../server/ellis/lifecycle-transition-authorization";
+
+export type PersistGovernanceEnvelopeLifecycleTransitionInput = {
+
+  envelope_id: string;
+
+  transition_authorization: GovernanceLifecycleTransitionAuthorizationResult;
+
+  persisted_at?: string | null;
+
+  db?: Database.Database;
+
+};
+
+export type PersistedGovernanceEnvelopeLifecycleTransition = {
+
+  envelope_id: string;
+
+  previous_lifecycle_state: "ENVELOPE_CREATED";
+
+  lifecycle_state: "ASSIGNED";
+
+  transition: "ENVELOPE_CREATED_TO_ASSIGNED";
+
+  persisted_at: string;
+
+  mutation_authorized: false;
+
+  execution_authorized: false;
+
+};
+
+const defaultSqlite = new Database("db/main.db");
+
+defaultSqlite.pragma("foreign_keys = ON");
+
+function requireText(value: string | null | undefined, label: string): string {
+
+  const normalized = value?.trim();
+
+  if (!normalized) throw new Error(`Missing governance lifecycle persistence field: ${label}`);
+
+  return normalized;
+
+}
+
+export function persistGovernanceEnvelopeLifecycleTransition(
+
+  input: PersistGovernanceEnvelopeLifecycleTransitionInput,
+
+): PersistedGovernanceEnvelopeLifecycleTransition {
+
+  const envelope_id = requireText(input.envelope_id, "envelope_id");
+
+  const sqlite = input.db ?? defaultSqlite;
+
+  const persisted_at = input.persisted_at?.trim() || new Date().toISOString();
+
+  if (!input.transition_authorization.ok || !input.transition_authorization.transition_authorized) {
+
+    throw new Error("Lifecycle persistence requires a passed governance lifecycle transition authorization.");
+
+  }
+
+  if (
+
+    input.transition_authorization.transition !== "ENVELOPE_CREATED_TO_ASSIGNED" ||
+
+    input.transition_authorization.from !== "ENVELOPE_CREATED" ||
+
+    input.transition_authorization.to !== "ASSIGNED"
+
+  ) {
+
+    throw new Error("Lifecycle persistence only supports ENVELOPE_CREATED -> ASSIGNED.");
+
+  }
+
+  const result = sqlite.prepare(`
+
+    UPDATE governance_envelopes
+
+    SET lifecycle_state = 'ASSIGNED'
+
+    WHERE envelope_id = ?
+
+      AND lifecycle_state = 'ENVELOPE_CREATED'
+
+  `).run(envelope_id);
+
+  if (result.changes !== 1) {
+
+    throw new Error("Lifecycle persistence failed: envelope missing or not in ENVELOPE_CREATED state.");
+
+  }
+
+  return {
+
+    envelope_id,
+
+    previous_lifecycle_state: "ENVELOPE_CREATED",
+
+    lifecycle_state: "ASSIGNED",
+
+    transition: "ENVELOPE_CREATED_TO_ASSIGNED",
+
+    persisted_at,
+
+    mutation_authorized: false,
+
+    execution_authorized: false,
+
+  };
+
+}
+
+
+## governance-lifecycle-composition.ts
+
+import {
+
+  evaluateGovernanceLifecycleAssignmentBoundary,
+
+  type DepartmentAssignmentHandshake,
+
+  type GovernanceLifecycleAssignmentBoundaryInput,
+
+  type GovernanceLifecycleAssignmentBoundaryResult,
+
+} from "../server/ellis/assignment-boundary.ts";
+
+import {
+
+  authorizeGovernanceLifecycleAssignmentTransition,
+
+  type GovernanceLifecycleTransitionAuthorizationResult,
+
+} from "../server/ellis/lifecycle-transition-authorization.ts";
+
+export type GovernanceLifecyclePersistenceResult = {
+
+  envelope_id: string;
+
+  previous_lifecycle_state: "ENVELOPE_CREATED";
+
+  lifecycle_state: "ASSIGNED";
+
+  transition: "ENVELOPE_CREATED_TO_ASSIGNED";
+
+  persisted_at: string;
+
+  mutation_authorized: false;
+
+  execution_authorized: false;
+
+};
+
+export type GovernanceLifecyclePersistenceFunction = (input: {
+
+  envelope_id: string;
+
+  transition_authorization: Extract<
+
+    GovernanceLifecycleTransitionAuthorizationResult,
+
+    { ok: true }
+
+  >;
+
+  persisted_at?: string | null;
+
+}) => GovernanceLifecyclePersistenceResult;
+
+export type ComposeGovernanceLifecycleAssignmentTransitionInput = {
+
+  envelope_id: string;
+
+  envelope: GovernanceLifecycleAssignmentBoundaryInput["envelope"];
+
+  available_departments?: string[];
+
+  department_handshake?: DepartmentAssignmentHandshake;
+
+  target_lifecycle_state?: string | null;
+
+  persisted_at?: string | null;
+
+  persist: GovernanceLifecyclePersistenceFunction;
+
+};
+
+export type ComposedGovernanceLifecycleAssignmentTransitionResult =
+
+  | {
+
+      ok: true;
+
+      integration: "governance_lifecycle_assignment_transition";
+
+      assignment_boundary: Extract<
+
+        GovernanceLifecycleAssignmentBoundaryResult,
+
+        { ok: true }
+
+      >;
+
+      transition_authorization: Extract<
+
+        GovernanceLifecycleTransitionAuthorizationResult,
+
+        { ok: true }
+
+      >;
+
+      persistence: GovernanceLifecyclePersistenceResult;
+
+      production_runtime_caller: false;
+
+      endpoint_authorized: false;
+
+      scheduler_authorized: false;
+
+      worker_claim_authorized: false;
+
+      execution_authorized: false;
+
+      findings: string[];
+
+    }
+
+  | {
+
+      ok: false;
+
+      integration: "governance_lifecycle_assignment_transition";
+
+      assignment_boundary?: GovernanceLifecycleAssignmentBoundaryResult;
+
+      transition_authorization?: GovernanceLifecycleTransitionAuthorizationResult;
+
+      persistence?: never;
+
+      production_runtime_caller: false;
+
+      endpoint_authorized: false;
+
+      scheduler_authorized: false;
+
+      worker_claim_authorized: false;
+
+      execution_authorized: false;
+
+      findings: string[];
+
+    };
+
+function requireText(value: string | null | undefined, label: string): string {
+
+  const normalized = value?.trim();
+
+  if (!normalized) {
+
+    throw new Error(`Missing governance lifecycle composition field: ${label}`);
+
+  }
+
+  return normalized;
+
+}
+
+export function composeGovernanceLifecycleAssignmentTransition(
+
+  input: ComposeGovernanceLifecycleAssignmentTransitionInput,
+
+): ComposedGovernanceLifecycleAssignmentTransitionResult {
+
+  const envelope_id = requireText(input.envelope_id, "envelope_id");
+
+  const targetLifecycleState = input.target_lifecycle_state ?? "ASSIGNED";
+
+  const assignmentBoundary = evaluateGovernanceLifecycleAssignmentBoundary({
+
+    envelope: input.envelope,
+
+    available_departments: input.available_departments ?? [],
+
+    department_handshake: input.department_handshake,
+
+  });
+
+  if (!assignmentBoundary.ok) {
+
+    return {
+
+      ok: false,
+
+      integration: "governance_lifecycle_assignment_transition",
+
+      assignment_boundary: assignmentBoundary,
+
+      production_runtime_caller: false,
+
+      endpoint_authorized: false,
+
+      scheduler_authorized: false,
+
+      worker_claim_authorized: false,
+
+      execution_authorized: false,
+
+      findings: [
+
+        "Lifecycle composition stopped before transition authorization because assignment readiness was not established.",
+
+      ],
+
+    };
+
+  }
+
+  const transitionAuthorization = authorizeGovernanceLifecycleAssignmentTransition({
+
+    current_lifecycle_state: input.envelope.lifecycle_state,
+
+    target_lifecycle_state: targetLifecycleState,
+
+    assignment_boundary: assignmentBoundary,
+
+  });
+
+  if (!transitionAuthorization.ok) {
+
+    return {
+
+      ok: false,
+
+      integration: "governance_lifecycle_assignment_transition",
+
+      assignment_boundary: assignmentBoundary,
+
+      transition_authorization: transitionAuthorization,
+
+      production_runtime_caller: false,
+
+      endpoint_authorized: false,
+
+      scheduler_authorized: false,
+
+      worker_claim_authorized: false,
+
+      execution_authorized: false,
+
+      findings: [
+
+        "Lifecycle composition stopped before persistence because transition authorization was not established.",
+
+      ],
+
+    };
+
+  }
+
+  const persistence = input.persist({
+
+    envelope_id,
+
+    transition_authorization: transitionAuthorization,
