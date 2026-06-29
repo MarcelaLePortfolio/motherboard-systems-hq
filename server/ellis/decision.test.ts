@@ -3,13 +3,13 @@ import test from "node:test";
 
 import assert from "node:assert/strict";
 
-import { evaluateEllisDecision } from "./decision";
+import { evaluateEllisDecision } from "./decision.ts";
 
-test("ellis decision escalates when required capabilities are missing", () => {
+test("Ellis decision blocks missing required capabilities", () => {
 
   const result = evaluateEllisDecision({
 
-    required_capabilities: [],
+    required_capabilities: "",
 
     operational_corridor: "planning_only",
 
@@ -19,9 +19,7 @@ test("ellis decision escalates when required capabilities are missing", () => {
 
   assert.equal(result.ok, false);
 
-  assert.equal(result.decision_type, "escalation");
-
-  assert.equal(result.escalation_target, "Governance Validation");
+  assert.equal(result.escalation_required, true);
 
   assert.equal(result.mutation_authorized, false);
 
@@ -33,13 +31,13 @@ test("ellis decision escalates when required capabilities are missing", () => {
 
 });
 
-test("ellis decision escalates when operational corridor is missing", () => {
+test("Ellis decision blocks missing operational corridor", () => {
 
   const result = evaluateEllisDecision({
 
-    required_capabilities: ["engineering_planning"],
+    required_capabilities: "engineering_planning",
 
-    operational_corridor: " ",
+    operational_corridor: "",
 
     available_departments: ["engineering_planning"],
 
@@ -47,17 +45,23 @@ test("ellis decision escalates when operational corridor is missing", () => {
 
   assert.equal(result.ok, false);
 
-  assert.equal(result.decision_type, "escalation");
+  assert.equal(result.escalation_required, true);
 
-  assert.equal(result.escalation_target, "Governance Validation");
+  assert.equal(result.mutation_authorized, false);
+
+  assert.equal(result.execution_authorized, false);
+
+  assert.equal(result.persistence_authorized, false);
+
+  assert.equal(result.autonomous_authority, false);
 
 });
 
-test("ellis decision escalates when no department is available", () => {
+test("Ellis decision blocks when no department is available", () => {
 
   const result = evaluateEllisDecision({
 
-    required_capabilities: ["engineering_planning"],
+    required_capabilities: "engineering_planning",
 
     operational_corridor: "planning_only",
 
@@ -67,15 +71,15 @@ test("ellis decision escalates when no department is available", () => {
 
   assert.equal(result.ok, false);
 
-  assert.equal(result.decision_type, "escalation");
+  assert.equal(result.escalation_required, true);
 
 });
 
-test("ellis decision returns non-mutating assignment when capability can be resolved", () => {
+test("Ellis decision assigns department without actor assignment", () => {
 
   const result = evaluateEllisDecision({
 
-    required_capabilities: ["engineering_planning", "repository_analysis"],
+    required_capabilities: "engineering_planning, repository_analysis",
 
     operational_corridor: "planning_only",
 
@@ -93,7 +97,7 @@ test("ellis decision returns non-mutating assignment when capability can be reso
 
     assert.equal(result.assigned_department, "engineering_planning");
 
-    assert.equal(result.assigned_actor, "cade");
+    assert.equal("assigned_actor" in result, false);
 
     assert.equal(result.escalation_required, false);
 

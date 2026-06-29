@@ -35,7 +35,6 @@ const fakePersist: GovernanceLifecyclePersistenceFunction = ({
 
   assigned_department: "engineering",
 
-  assigned_actor: "cade",
 
   routing_history: "production lifecycle consumer test",
 
@@ -67,8 +66,7 @@ test(
 
       available_departments: ["engineering"],
 
-      available_actors: ["cade"],
-
+  
       persist_lifecycle_transition: fakePersist,
 
     });
@@ -127,8 +125,7 @@ test(
 
       available_departments: ["engineering"],
 
-      available_actors: ["cade"],
-
+  
       persist_lifecycle_transition: (input) => {
 
         persistCalled = true;

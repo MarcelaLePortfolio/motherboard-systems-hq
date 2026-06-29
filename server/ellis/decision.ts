@@ -1,9 +1,9 @@
 
 export type EllisDecisionInput = {
 
-  required_capabilities: string[];
+  required_capabilities?: string | string[] | null;
 
-  operational_corridor: string;
+  operational_corridor?: string | null;
 
   available_departments?: string[];
 
@@ -20,8 +20,6 @@ export type EllisDecision =
       decision_type: "assignment";
 
       assigned_department: string;
-
-      assigned_actor: string | null;
 
       ownership_basis: string;
 
@@ -49,15 +47,11 @@ export type EllisDecision =
 
       ok: false;
 
-      decision_type: "escalation";
+      decision_type: "assignment";
 
-      escalation_target: "Governance Validation";
+      escalation_required: true;
 
       findings: string[];
-
-      required_capabilities: string[];
-
-      operational_corridor: string;
 
       mutation_authorized: false;
 
@@ -67,29 +61,83 @@ export type EllisDecision =
 
       autonomous_authority: false;
 
+      input_snapshot: {
+
+        required_capabilities: string[];
+
+        operational_corridor: string | null;
+
+        available_departments: string[];
+
+      };
+
     };
 
-function normalizeList(values: string[] | undefined): string[] {
+function normalizeCapabilities(
 
-  return (values ?? []).map((value) => value.trim()).filter(Boolean);
+  value: EllisDecisionInput["required_capabilities"],
+
+): string[] {
+
+  if (Array.isArray(value)) {
+
+    return value
+
+      .map((item) => String(item).trim())
+
+      .filter(Boolean);
+
+  }
+
+  if (typeof value === "string") {
+
+    return value
+
+      .split(",")
+
+      .map((item) => item.trim())
+
+      .filter(Boolean);
+
+  }
+
+  return [];
 
 }
 
-function deny(findings: string[], input: EllisDecisionInput): EllisDecision {
+function normalizeCorridor(value: string | null | undefined): string | null {
+
+  const normalized = value?.trim();
+
+  return normalized || null;
+
+}
+
+function deny(
+
+  findings: string[],
+
+  input: {
+
+    requiredCapabilities: string[];
+
+    operationalCorridor: string | null;
+
+    availableDepartments: string[];
+
+  },
+
+): Extract<EllisDecision, { ok: false }> {
 
   return {
 
     ok: false,
 
-    decision_type: "escalation",
+    decision_type: "assignment",
 
-    escalation_target: "Governance Validation",
+    escalation_required: true,
 
     findings,
-
-    required_capabilities: normalizeList(input.required_capabilities),
-
-    operational_corridor: input.operational_corridor?.trim() ?? "",
 
     mutation_authorized: false,
 
@@ -99,35 +147,71 @@ function deny(findings: string[], input: EllisDecisionInput): EllisDecision {
 
     autonomous_authority: false,
 
+    input_snapshot: {
+
+      required_capabilities: input.requiredCapabilities,
+
+      operational_corridor: input.operationalCorridor,
+
+      available_departments: input.availableDepartments,
+
+    },
+
   };
 
 }
 
-export function evaluateEllisDecision(input: EllisDecisionInput): EllisDecision {
+export function evaluateEllisDecision(
 
-  const requiredCapabilities = normalizeList(input.required_capabilities);
+  input: EllisDecisionInput,
 
-  const operationalCorridor = input.operational_corridor?.trim() ?? "";
+): EllisDecision {
 
-  const availableDepartments = normalizeList(input.available_departments);
+  const requiredCapabilities = normalizeCapabilities(input.required_capabilities);
 
-  const availableActors = normalizeList(input.available_actors);
+  const operationalCorridor = normalizeCorridor(input.operational_corridor);
+
+  const availableDepartments = (input.available_departments ?? [])
+
+    .map((department) => department.trim())
+
+    .filter(Boolean);
 
   if (requiredCapabilities.length === 0) {
 
-    return deny(["Missing required_capabilities."], input);
+    return deny(["Missing required_capabilities."], {
+
+      requiredCapabilities,
+
+      operationalCorridor,
+
+      availableDepartments,
+
+    });
 
   }
 
   if (!operationalCorridor) {
 
-    return deny(["Missing operational_corridor."], input);
+    return deny(["Missing operational_corridor."], {
+
+      requiredCapabilities,
+
+      operationalCorridor,
+
+      availableDepartments,
+
+    });
 
   }
 
   const assignedDepartment =
 
-    availableDepartments.find((department) => requiredCapabilities.includes(department)) ??
+    availableDepartments.find((department) =>
+
+      requiredCapabilities.includes(department),
+
+    ) ??
 
     availableDepartments[0] ??
 
@@ -135,7 +219,15 @@ export function evaluateEllisDecision(input: EllisDecisionInput): EllisDecision 
 
   if (!assignedDepartment) {
 
-    return deny(["No available department can satisfy required_capabilities."], input);
+    return deny(["No available department can satisfy required_capabilities."], {
+
+      requiredCapabilities,
+
+      operationalCorridor,
+
+      availableDepartments,
+
+    });
 
   }
 
@@ -147,11 +239,13 @@ export function evaluateEllisDecision(input: EllisDecisionInput): EllisDecision 
 
     assigned_department: assignedDepartment,
 
-    assigned_actor: availableActors[0] ?? null,
+    ownership_basis:
 
-    ownership_basis: "Department selected from available_departments within required_capabilities.",
+      "Department selected from available_departments within required_capabilities.",
 
-    routing_basis: "Non-mutating Ellis V1 coordination decision over Envelope inputs.",
+    routing_basis:
+
+      "Non-mutating Ellis V1 coordination decision over Envelope inputs.",
 
     required_capabilities: requiredCapabilities,
 
@@ -159,7 +253,7 @@ export function evaluateEllisDecision(input: EllisDecisionInput): EllisDecision 
 
     escalation_required: false,
 
-    findings: ["Ellis V1 returned a non-mutating coordination decision."],
+    findings: ["Ellis V1 returned a non-mutating departmental coordination decision."],
 
     mutation_authorized: false,
 
