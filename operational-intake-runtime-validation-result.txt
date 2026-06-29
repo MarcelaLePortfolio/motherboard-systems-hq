@@ -1,0 +1,31 @@
+
+# Operational Intake Runtime Validation Result
+
+Command:
+
+node --import tsx --test db/operational-intake-runtime.test.ts
+
+Result:
+
+PASS
+
+Tests:
+
+4 passed
+
+0 failed
+
+Validated:
+
+- ASSIGNED Envelope eligibility
+
+- Non-ASSIGNED Envelope rejection
+
+- Idempotent intake behavior
+
+- Authority separation flags
+
+HEAD:
+
+7874ec3a Test operational intake runtime primitive
+
