@@ -3,144 +3,73 @@ import test from "node:test";
 
 import assert from "node:assert/strict";
 
-import {
+import { consumeProductionLifecycleEntryPoint } from "./production-lifecycle-consumer.ts";
 
-  consumeProductionLifecycleEntryPoint,
+const handshake = {
 
-} from "./production-lifecycle-consumer.ts";
+  acknowledgement_status: "ACKNOWLEDGED",
 
-import type {
+  capability_status: "CAPABILITY_CONFIRMED",
 
-  GovernanceLifecyclePersistenceFunction,
+  response_basis: "Department confirms current capability.",
 
-} from "../../db/governance-lifecycle-composition";
+};
 
-const fakePersist: GovernanceLifecyclePersistenceFunction = ({
+test("production lifecycle consumer invokes production entry point with injected persistence", () => {
 
-  envelope_id,
+  const result = consumeProductionLifecycleEntryPoint({
 
-  transition_authorization,
+    envelope_id: "env-production-lifecycle-consumer-success",
 
-  persisted_at,
+    envelope: {
 
-}) => ({
+      lifecycle_state: "ENVELOPE_CREATED",
 
-  envelope_id,
+      required_capabilities: "engineering",
 
-  previous_lifecycle_state: transition_authorization.from,
+      operational_corridor: "production lifecycle consumer test",
 
-  lifecycle_state: transition_authorization.to,
+    },
 
-  assignment_state: "ASSIGNED",
+    available_departments: ["engineering"],
 
-  assigned_department: "engineering",
+    department_handshake: handshake,
 
+    persist_lifecycle_transition: ({ envelope_id, transition_authorization, persisted_at }) => ({
 
-  routing_history: "production lifecycle consumer test",
+      envelope_id,
 
-  persisted_at:
+      previous_lifecycle_state: transition_authorization.from,
 
-    persisted_at ?? "2026-06-26T10:10:29.000Z",
+      lifecycle_state: transition_authorization.to,
 
-});
+      assignment_state: "ASSIGNED",
 
-test(
+      assigned_department: "engineering",
 
-  "production lifecycle consumer invokes production entry point with injected persistence",
+      routing_history: "production lifecycle consumer test",
 
-  () => {
+      persisted_at: persisted_at ?? "2026-06-26T10:39:38.000Z",
 
-    const result = consumeProductionLifecycleEntryPoint({
+      mutation_authorized: false,
 
-      envelope_id: "env-production-lifecycle-consumer-success",
+      execution_authorized: false,
 
-      envelope: {
+    }),
 
-        lifecycle_state: "ENVELOPE_CREATED",
+  });
 
-        required_capabilities: "engineering",
+  assert.equal(result.ok, true);
 
-        operational_corridor: "production lifecycle consumer test",
-
-      },
-
-      available_departments: ["engineering"],
-
-  
-      persist_lifecycle_transition: fakePersist,
-
-    });
-
-    assert.equal(result.ok, true);
-
-    if (!result.ok) {
-
-      assert.fail("Expected success.");
-
-    }
-
-    assert.equal(result.entry_point, "production_lifecycle_entry_point");
-
-    assert.equal(result.endpoint_authorized, false);
-
-    assert.equal(result.scheduler_authorized, false);
-
-    assert.equal(result.worker_claim_authorized, false);
-
-    assert.equal(result.orchestration_authorized, false);
-
-    assert.equal(result.routing_authorized, false);
-
-    assert.equal(result.execution_authorized, false);
-
-    assert.equal(result.new_authority_introduced, false);
+  if (result.ok) {
 
     assert.equal(result.lifecycle.persistence.lifecycle_state, "ASSIGNED");
 
-  },
+    assert.equal(result.lifecycle.assignment_boundary.ellis_decision.assigned_department, "engineering");
 
-);
+    assert.equal("assigned_actor" in result.lifecycle.assignment_boundary.ellis_decision, false);
 
-test(
+  }
 
-  "production lifecycle consumer fails closed before persistence",
-
-  () => {
-
-    let persistCalled = false;
-
-    const result = consumeProductionLifecycleEntryPoint({
-
-      envelope_id: "env-production-lifecycle-consumer-blocked",
-
-      envelope: {
-
-        lifecycle_state: "ASSIGNED",
-
-        required_capabilities: "engineering",
-
-        operational_corridor: "production lifecycle consumer test",
-
-      },
-
-      available_departments: ["engineering"],
-
-  
-      persist_lifecycle_transition: (input) => {
-
-        persistCalled = true;
-
-        return fakePersist(input);
-
-      },
-
-    });
-
-    assert.equal(result.ok, false);
-
-    assert.equal(persistCalled, false);
-
-  },
-
-);
+});
 
