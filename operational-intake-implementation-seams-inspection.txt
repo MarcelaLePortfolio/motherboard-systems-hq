@@ -1,0 +1,91 @@
+# Operational Intake Implementation Seams Inspection
+
+Generated: Mon Jun 29 11:07:12 PDT 2026
+
+## Current Git State
+?? inspect-operational-intake-implementation-seams.sh
+?? operational-intake-implementation-seams-inspection.txt
+
+feff2b8e Close operational intake implementation readiness corridor
+11319cdb Close operational intake contract corridor
+4afe45de Document operational intake architectural decision
+f9213e65 Document operational intake architectural decision
+8223b041 Document lifecycle handshake verification scope
+
+## DB Runtime Files
+db/governance-lifecycle-composition.test.ts
+db/governance-lifecycle-composition.ts
+db/governance-lifecycle-enforcement.ts
+db/governance-lifecycle-integration.test.ts
+db/governance-lifecycle-integration.ts
+db/governance-lifecycle-persistence.ts
+db/governance-runtime.ts
+db/governance.schema.ts
+
+## Server Runtime Files
+server/ellis/assignment-boundary.test.ts
+server/ellis/assignment-boundary.ts
+server/ellis/decision.test.ts
+server/ellis/decision.ts
+server/ellis/invocation.test.ts
+server/ellis/invocation.ts
+server/ellis/lifecycle-transition-authorization.test.ts
+server/ellis/lifecycle-transition-authorization.ts
+server/execution/build-governance-audit-ledger.mjs
+server/execution/governance-validator.mjs
+server/execution/smoke-test-governance-audit-ledger.mjs
+server/governance-department-assignment-handshake.mjs
+server/governance-department-assignment-handshake.test.mjs
+server/lifecycle/production-lifecycle-consumer.test.ts
+server/lifecycle/production-lifecycle-consumer.ts
+server/lifecycle/production-lifecycle-entry-point.test.ts
+server/lifecycle/production-lifecycle-entry-point.ts
+server/routes/governance-delegation-route.test.ts
+server/routes/governance-delegation-route.ts
+server/routes/governance-envelope-gate-route.test.ts
+server/routes/governance-envelope-gate-route.ts
+server/routes/governance-envelope-route.test.ts
+server/routes/governance-envelope-route.ts
+server/routes/governance-lifecycle-route.test.ts
+server/routes/governance-lifecycle-route.ts
+server/routes/governance-package-route.test.ts
+server/routes/governance-package-route.ts
+server/routes/governance-validation-route.test.ts
+server/routes/governance-validation-route.ts
+server/task-lifecycle.ts
+
+## Tests / Smoke Scripts
+./db/governance-lifecycle-composition.test.ts
+./db/governance-lifecycle-integration.test.ts
+./docs/governance-package-runtime-smoke-result.md
+./scripts/smoke-governance-delegation-runtime.mjs
+./scripts/smoke-governance-envelope-gate-runtime.mjs
+./scripts/smoke-governance-envelope-runtime.mjs
+./scripts/smoke-governance-lifecycle-enforcement.mjs
+./scripts/smoke-governance-package-runtime.mjs
+./scripts/smoke-governance-validation-runtime.mjs
+./scripts/validate-governance-lifecycle-success-path-runtime.mjs
+./scripts/validate-governance-persistence.sh
+./scripts/validate-governance-persistence.sql
+./server/ellis/assignment-boundary.test.ts
+./server/ellis/decision.test.ts
+./server/ellis/invocation.test.ts
+./server/ellis/lifecycle-transition-authorization.test.ts
+./server/execution/smoke-test-governance-audit-ledger.mjs
+./server/governance-department-assignment-handshake.test.mjs
+./server/lifecycle/production-lifecycle-consumer.test.ts
+./server/lifecycle/production-lifecycle-entry-point.test.ts
+./server/routes/governance-delegation-route.test.ts
+./server/routes/governance-envelope-gate-route.test.ts
+./server/routes/governance-envelope-route.test.ts
+./server/routes/governance-lifecycle-route.test.ts
+./server/routes/governance-package-route.test.ts
+./server/routes/governance-validation-route.test.ts
+
+## Drizzle Migrations
+drizzle/0000_safe_kylun.sql
+drizzle/0002_phase32_retry_backoff_minimal.sql
+drizzle/0003_phase32_tasks_actor_run_id.sql
+drizzle/0004_governance_lifecycle_artifacts.sql
+drizzle/meta/_journal.json
+drizzle/meta/0000_snapshot.json
