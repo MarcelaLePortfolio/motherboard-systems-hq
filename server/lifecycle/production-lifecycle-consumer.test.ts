@@ -7,7 +7,7 @@ import {
 
   consumeProductionLifecycleEntryPoint,
 
-} from "./production-lifecycle-consumer";
+} from "./production-lifecycle-consumer.ts";
 
 import type {
 
