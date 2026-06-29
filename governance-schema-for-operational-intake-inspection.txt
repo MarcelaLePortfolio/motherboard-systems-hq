@@ -1,0 +1,301 @@
+# Governance Schema for Operational Intake Inspection
+
+Generated: Mon Jun 29 11:11:01 PDT 2026
+
+## db/governance.schema.ts
+
+import { sqliteTable, text, integer, primaryKey } from "drizzle-orm/sqlite-core";
+
+export const governance_packages = sqliteTable(
+
+  "governance_packages",
+
+  {
+
+    package_id: text("package_id").notNull(),
+
+    package_version: integer("package_version").notNull(),
+
+    requested_outcome: text("requested_outcome"),
+
+    scope: text("scope"),
+
+    containment: text("containment"),
+
+    constraints: text("constraints"),
+
+    success_criteria: text("success_criteria"),
+
+    context: text("context"),
+
+    style_presentation_intent: text("style_presentation_intent"),
+
+    exclusions: text("exclusions"),
+
+    created_at: text("created_at").notNull(),
+
+  },
+
+  (table) => ({
+
+    pk: primaryKey({ columns: [table.package_id, table.package_version] }),
+
+  })
+
+);
+
+export const governance_delegations = sqliteTable("governance_delegations", {
+
+  delegation_id: text("delegation_id").primaryKey(),
+
+  package_id: text("package_id").notNull(),
+
+  package_version: integer("package_version").notNull(),
+
+  authorization_state: text("authorization_state").notNull(),
+
+  authorization_timestamp: text("authorization_timestamp").notNull(),
+
+  delegated_by: text("delegated_by").notNull(),
+
+  created_at: text("created_at").notNull(),
+
+});
+
+export const governance_validation_results = sqliteTable("governance_validation_results", {
+
+  validation_result_id: text("validation_result_id").primaryKey(),
+
+  package_id: text("package_id").notNull(),
+
+  package_version: integer("package_version").notNull(),
+
+  delegation_id: text("delegation_id").notNull(),
+
+  validation_status: text("validation_status").notNull(),
+
+  governance_findings: text("governance_findings"),
+
+  operational_requirements: text("operational_requirements"),
+
+  capability_requirements: text("capability_requirements"),
+
+  escalations: text("escalations"),
+
+  validation_timestamp: text("validation_timestamp").notNull(),
+
+  created_at: text("created_at").notNull(),
+
+});
+
+export const governance_envelope_gates = sqliteTable("governance_envelope_gates", {
+
+  envelope_gate_id: text("envelope_gate_id").primaryKey(),
+
+  package_id: text("package_id").notNull(),
+
+  package_version: integer("package_version").notNull(),
+
+  delegation_id: text("delegation_id").notNull(),
+
+  validation_result_id: text("validation_result_id").notNull(),
+
+  gate_status: text("gate_status").notNull(),
+
+  gate_reason: text("gate_reason"),
+
+  gate_decision_timestamp: text("gate_decision_timestamp").notNull(),
+
+  created_at: text("created_at").notNull(),
+
+});
+
+export const governance_envelopes = sqliteTable("governance_envelopes", {
+
+  envelope_id: text("envelope_id").primaryKey(),
+
+  package_id: text("package_id").notNull(),
+
+  package_version: integer("package_version").notNull(),
+
+  delegation_id: text("delegation_id").notNull(),
+
+  validation_result_id: text("validation_result_id").notNull(),
+
+  envelope_gate_id: text("envelope_gate_id").notNull(),
+
+  validation_status: text("validation_status").notNull(),
+
+  required_capabilities: text("required_capabilities"),
+
+  operational_corridor: text("operational_corridor"),
+
+  lifecycle_state: text("lifecycle_state").notNull(),
+
+  created_at: text("created_at").notNull(),
+
+});
+
+
+## drizzle/0004_governance_lifecycle_artifacts.sql
+
+CREATE TABLE IF NOT EXISTS governance_packages (
+
+  package_id TEXT NOT NULL,
+
+  package_version INTEGER NOT NULL,
+
+  requested_outcome TEXT,
+
+  scope TEXT,
+
+  containment TEXT,
+
+  constraints TEXT,
+
+  success_criteria TEXT,
+
+  context TEXT,
+
+  style_presentation_intent TEXT,
+
+  exclusions TEXT,
+
+  created_at TEXT NOT NULL,
+
+  PRIMARY KEY (package_id, package_version)
+
+);
+
+CREATE TABLE IF NOT EXISTS governance_delegations (
+
+  delegation_id TEXT PRIMARY KEY,
+
+  package_id TEXT NOT NULL,
+
+  package_version INTEGER NOT NULL,
+
+  authorization_state TEXT NOT NULL,
+
+  authorization_timestamp TEXT NOT NULL,
+
+  delegated_by TEXT NOT NULL,
+
+  created_at TEXT NOT NULL,
+
+  FOREIGN KEY (package_id, package_version)
+
+    REFERENCES governance_packages(package_id, package_version)
+
+);
+
+CREATE TABLE IF NOT EXISTS governance_validation_results (
+
+  validation_result_id TEXT PRIMARY KEY,
+
+  package_id TEXT NOT NULL,
+
+  package_version INTEGER NOT NULL,
+
+  delegation_id TEXT NOT NULL,
+
+  validation_status TEXT NOT NULL,
+
+  governance_findings TEXT,
+
+  operational_requirements TEXT,
+
+  capability_requirements TEXT,
+
+  escalations TEXT,
+
+  validation_timestamp TEXT NOT NULL,
+
+  created_at TEXT NOT NULL,
+
+  FOREIGN KEY (package_id, package_version)
+
+    REFERENCES governance_packages(package_id, package_version),
+
+  FOREIGN KEY (delegation_id)
+
+    REFERENCES governance_delegations(delegation_id)
+
+);
+
+CREATE TABLE IF NOT EXISTS governance_envelope_gates (
+
+  envelope_gate_id TEXT PRIMARY KEY,
+
+  package_id TEXT NOT NULL,
+
+  package_version INTEGER NOT NULL,
+
+  delegation_id TEXT NOT NULL,
+
+  validation_result_id TEXT NOT NULL,
+
+  gate_status TEXT NOT NULL,
+
+  gate_reason TEXT,
+
+  gate_decision_timestamp TEXT NOT NULL,
+
+  created_at TEXT NOT NULL,
+
+  FOREIGN KEY (package_id, package_version)
+
+    REFERENCES governance_packages(package_id, package_version),
+
+  FOREIGN KEY (delegation_id)
+
+    REFERENCES governance_delegations(delegation_id),
+
+  FOREIGN KEY (validation_result_id)
+
+    REFERENCES governance_validation_results(validation_result_id)
+
+);
+
+CREATE TABLE IF NOT EXISTS governance_envelopes (
+
+  envelope_id TEXT PRIMARY KEY,
+
+  package_id TEXT NOT NULL,
+
+  package_version INTEGER NOT NULL,
+
+  delegation_id TEXT NOT NULL,
+
+  validation_result_id TEXT NOT NULL,
+
+  envelope_gate_id TEXT NOT NULL,
+
+  validation_status TEXT NOT NULL,
+
+  required_capabilities TEXT,
+
+  operational_corridor TEXT,
+
+  lifecycle_state TEXT NOT NULL,
+
+  created_at TEXT NOT NULL,
+
+  FOREIGN KEY (package_id, package_version)
+
+    REFERENCES governance_packages(package_id, package_version),
+
+  FOREIGN KEY (delegation_id)
+
+    REFERENCES governance_delegations(delegation_id),
+
+  FOREIGN KEY (validation_result_id)
+
+    REFERENCES governance_validation_results(validation_result_id),
+
+  FOREIGN KEY (envelope_gate_id)
+
+    REFERENCES governance_envelope_gates(envelope_gate_id)
+
+);
+
