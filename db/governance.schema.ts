@@ -131,3 +131,47 @@ export const governance_envelopes = sqliteTable("governance_envelopes", {
 
 });
 
+export const operational_intake_records = sqliteTable("operational_intake_records", {
+
+  intake_id: text("intake_id").primaryKey(),
+
+  envelope_id: text("envelope_id").notNull(),
+
+  package_id: text("package_id").notNull(),
+
+  package_version: integer("package_version").notNull(),
+
+  delegation_id: text("delegation_id").notNull(),
+
+  validation_result_id: text("validation_result_id").notNull(),
+
+  envelope_gate_id: text("envelope_gate_id").notNull(),
+
+  lifecycle_state_at_intake: text("lifecycle_state_at_intake").notNull(),
+
+  assigned_department: text("assigned_department").notNull(),
+
+  required_capabilities_snapshot: text("required_capabilities_snapshot"),
+
+  intake_status: text("intake_status").notNull(),
+
+  intake_created_at: text("intake_created_at").notNull(),
+
+  intake_updated_at: text("intake_updated_at").notNull(),
+
+  governance_authority_preserved: integer("governance_authority_preserved").notNull(),
+
+  lifecycle_authority_preserved: integer("lifecycle_authority_preserved").notNull(),
+
+  assignment_authority_preserved: integer("assignment_authority_preserved").notNull(),
+
+  routing_authorized: integer("routing_authorized").notNull(),
+
+  scheduler_authorized: integer("scheduler_authorized").notNull(),
+
+  worker_claim_authorized: integer("worker_claim_authorized").notNull(),
+
+  execution_authorized: integer("execution_authorized").notNull(),
+
+});
+
