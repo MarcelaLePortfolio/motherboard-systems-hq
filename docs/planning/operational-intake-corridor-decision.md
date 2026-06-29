@@ -1,11 +1,11 @@
 
-# Governance Artifact Consumption — Architectural Decision
+# Governance Artifact Consumption — Operational Intake Decision
 
-Status: STABILIZED (Architecture)
+Status: STABILIZED ARCHITECTURAL DECISION
 
 ## Decision
 
-Operational Intake is a separate, deterministic, authority-neutral layer positioned between Lifecycle and Ellis Coordination.
+Operational Intake is a separate, deterministic, authority-neutral layer between Lifecycle and Ellis Coordination.
 
 Canonical flow:
 
@@ -43,7 +43,7 @@ Operational Intake
 
 Ellis Coordination
 
-## Responsibilities
+## Operational Intake Responsibilities
 
 Operational Intake SHALL:
 
@@ -81,13 +81,17 @@ Operational Intake SHALL NOT:
 
 ## Architectural Invariant
 
-Operational Intake is the authority-neutral bridge between lifecycle-authorized governance artifacts and Ellis Coordination. It records read-only operational consumption evidence without becoming governance, lifecycle, assignment, routing, scheduling, orchestration, worker, or execution authority.
+Operational Intake is the authority-neutral bridge between lifecycle-authorized governance artifacts and Ellis Coordination.
 
-## Implementation Status
+It records read-only operational consumption evidence without becoming governance, lifecycle, assignment, routing, scheduling, orchestration, worker, or execution authority.
+
+## Scope Boundary
 
 Implementation remains unauthorized.
 
+This document records the architectural decision only.
+
 ## Next Canonical Corridor
 
-Define the Operational Intake architectural contract while preserving all established authority boundaries.
+Define the Operational Intake architectural contract while preserving established authority boundaries.
 
