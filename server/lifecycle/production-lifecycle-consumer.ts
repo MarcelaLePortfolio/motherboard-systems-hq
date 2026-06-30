@@ -31,11 +31,27 @@ import {
 
 } from "../../db/operational-intake-runtime.ts";
 
+import {
+
+  consumeOperationalIntakeForProduction,
+
+  type ProductionOperationalConsumerInput,
+
+  type ProductionOperationalConsumerResult,
+
+} from "../operational/production-operational-consumer.ts";
+
 export type OperationalIntakeCreationFunction = (
 
   input: CreateOperationalIntakeRecordInput,
 
 ) => OperationalIntakeRecord;
+
+export type ProductionOperationalConsumptionFunction = (
+
+  input: ProductionOperationalConsumerInput,
+
+) => ProductionOperationalConsumerResult;
 
 export type ProductionLifecycleConsumerInput = Omit<
 
@@ -51,6 +67,8 @@ export type ProductionLifecycleConsumerInput = Omit<
 
   create_operational_intake?: OperationalIntakeCreationFunction;
 
+  consume_operational_intake?: ProductionOperationalConsumptionFunction;
+
 };
 
 export type ProductionLifecycleConsumerResult =
@@ -59,9 +77,21 @@ export type ProductionLifecycleConsumerResult =
 
       operational_intake: OperationalIntakeRecord;
 
+      operational_consumption: Extract<ProductionOperationalConsumerResult, { ok: true }>;
+
     })
 
-  | Extract<ProductionLifecycleEntryPointResult, { ok: false }>;
+  | Extract<ProductionLifecycleEntryPointResult, { ok: false }>
+
+  | (Extract<ProductionLifecycleEntryPointResult, { ok: true }> & {
+
+      operational_intake: OperationalIntakeRecord;
+
+      operational_consumption: Extract<ProductionOperationalConsumerResult, { ok: false }>;
+
+      ok: false;
+
+    });
 
 function createDefaultLifecyclePersistence(
 
@@ -139,17 +169,53 @@ export function consumeProductionLifecycleEntryPoint(
 
   });
 
+  const operationalConsumer =
+
+    input.consume_operational_intake ?? consumeOperationalIntakeForProduction;
+
+  const operational_consumption = operationalConsumer({
+
+    operational_intake,
+
+  });
+
+  if (!operational_consumption.ok) {
+
+    return {
+
+      ...lifecycle,
+
+      ok: false,
+
+      operational_intake,
+
+      operational_consumption,
+
+      findings: [
+
+        ...lifecycle.findings,
+
+        "Production Lifecycle Consumer failed closed because Production Operational Consumer rejected Operational Intake.",
+
+      ],
+
+    };
+
+  }
+
   return {
 
     ...lifecycle,
 
     operational_intake,
 
+    operational_consumption,
+
     findings: [
 
       ...lifecycle.findings,
 
-      "Production Lifecycle Consumer composed Operational Intake after successful lifecycle persistence without scheduler, worker, orchestration, routing, execution, actor assignment, participation resolution, or new authority.",
+      "Production Lifecycle Consumer composed Operational Intake and downstream operational consumption after successful lifecycle persistence without scheduler, worker, orchestration, routing, execution, actor assignment, participation resolution, or new authority.",
 
     ],
 
