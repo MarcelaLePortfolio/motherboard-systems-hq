@@ -21,6 +21,14 @@ import {
 
 } from "../../db/governance-lifecycle-persistence.ts";
 
+import {
+
+  createOperationalIntakeRecord,
+
+  type OperationalIntakeRecord,
+
+} from "../../db/operational-intake-runtime.ts";
+
 export type ProductionLifecycleConsumerInput = Omit<
 
   ProductionLifecycleEntryPointInput,
@@ -35,7 +43,15 @@ export type ProductionLifecycleConsumerInput = Omit<
 
 };
 
-export type ProductionLifecycleConsumerResult = ProductionLifecycleEntryPointResult;
+export type ProductionLifecycleConsumerResult =
+
+  | (Extract<ProductionLifecycleEntryPointResult, { ok: true }> & {
+
+      operational_intake: OperationalIntakeRecord;
+
+    })
+
+  | Extract<ProductionLifecycleEntryPointResult, { ok: false }>;
 
 function createDefaultLifecyclePersistence(
 
@@ -67,7 +83,7 @@ export function consumeProductionLifecycleEntryPoint(
 
 ): ProductionLifecycleConsumerResult {
 
-  return invokeProductionLifecycleEntryPoint({
+  const lifecycle = invokeProductionLifecycleEntryPoint({
 
     envelope_id: input.envelope_id,
 
@@ -86,6 +102,44 @@ export function consumeProductionLifecycleEntryPoint(
       input.persist_lifecycle_transition ?? createDefaultLifecyclePersistence(input.db),
 
   });
+
+  if (!lifecycle.ok) {
+
+    return lifecycle;
+
+  }
+
+  const operational_intake = createOperationalIntakeRecord({
+
+    intake_id: `operational-intake:${lifecycle.lifecycle.persistence.envelope_id}`,
+
+    envelope_id: lifecycle.lifecycle.persistence.envelope_id,
+
+    assigned_department:
+
+      lifecycle.lifecycle.assignment_boundary.assigned_department,
+
+    intake_created_at: lifecycle.lifecycle.persistence.persisted_at,
+
+    db: input.db as never,
+
+  });
+
+  return {
+
+    ...lifecycle,
+
+    operational_intake,
+
+    findings: [
+
+      ...lifecycle.findings,
+
+      "Production Lifecycle Consumer composed Operational Intake after successful lifecycle persistence without scheduler, worker, orchestration, routing, execution, actor assignment, participation resolution, or new authority.",
+
+    ],
+
+  };
 
 }
 
