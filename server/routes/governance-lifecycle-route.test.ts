@@ -43,13 +43,77 @@ const fakePersist: GovernanceLifecyclePersistenceFunction = ({
 
   lifecycle_state: transition_authorization.to,
 
-  assignment_state: "ASSIGNED",
-
-  assigned_department: "engineering",
-
-  routing_history: "governance lifecycle route test",
+  transition: "ENVELOPE_CREATED_TO_ASSIGNED",
 
   persisted_at: persisted_at ?? "2026-06-26T10:39:38.000Z",
+
+  mutation_authorized: false,
+
+  execution_authorized: false,
+
+});
+
+const fakeOperationalIntake = ({
+
+  intake_id,
+
+  envelope_id,
+
+  assigned_department,
+
+  intake_created_at,
+
+}: {
+
+  intake_id: string;
+
+  envelope_id: string;
+
+  assigned_department: string;
+
+  intake_created_at?: string | null;
+
+}) => ({
+
+  intake_id,
+
+  envelope_id,
+
+  package_id: "pkg-governance-lifecycle-route-success",
+
+  package_version: 1,
+
+  delegation_id: "del-governance-lifecycle-route-success",
+
+  validation_result_id: "val-governance-lifecycle-route-success",
+
+  envelope_gate_id: "gate-governance-lifecycle-route-success",
+
+  lifecycle_state_at_intake: "ASSIGNED" as const,
+
+  assigned_department,
+
+  required_capabilities_snapshot: "engineering",
+
+  intake_status: "RECORDED" as const,
+
+  intake_created_at: intake_created_at ?? "2026-06-26T10:39:38.000Z",
+
+  intake_updated_at: intake_created_at ?? "2026-06-26T10:39:38.000Z",
+
+  governance_authority_preserved: true as const,
+
+  lifecycle_authority_preserved: true as const,
+
+  assignment_authority_preserved: true as const,
+
+  routing_authorized: false as const,
+
+  scheduler_authorized: false as const,
+
+  worker_claim_authorized: false as const,
+
+  execution_authorized: false as const,
 
 });
 
@@ -95,7 +159,7 @@ test(
 
 test(
 
-  "governance lifecycle route handler invokes lifecycle consumer with injected persistence",
+  "governance lifecycle route handler invokes lifecycle consumer with injected persistence and operational intake",
 
   () => {
 
@@ -124,6 +188,8 @@ test(
       {
 
         persist_lifecycle_transition: fakePersist,
+
+        create_operational_intake: fakeOperationalIntake,
 
       },
 
@@ -155,13 +221,13 @@ test(
 
     assert.equal(result.lifecycle.lifecycle.persistence.lifecycle_state, "ASSIGNED");
 
-    assert.equal(
+    assert.equal(result.lifecycle.operational_intake.lifecycle_state_at_intake, "ASSIGNED");
 
-      "assigned_actor" in result.lifecycle.lifecycle.persistence,
+    assert.equal(result.lifecycle.operational_intake.assigned_department, "engineering");
 
-      false,
+    assert.equal(result.lifecycle.operational_intake.execution_authorized, false);
 
-    );
+    assert.equal("assigned_actor" in result.lifecycle.lifecycle.persistence, false);
 
   },
 
@@ -174,6 +240,8 @@ test(
   () => {
 
     let persistCalled = false;
+
+    let intakeCalled = false;
 
     const result = handleGovernanceLifecycleRouteRequest(
 
@@ -207,6 +275,14 @@ test(
 
         },
 
+        create_operational_intake: (input) => {
+
+          intakeCalled = true;
+
+          return fakeOperationalIntake(input);
+
+        },
+
       },
 
     );
@@ -215,21 +291,11 @@ test(
 
     assert.equal(persistCalled, false);
 
+    assert.equal(intakeCalled, false);
+
     assert.equal(result.route, "governance_lifecycle_route");
 
     assert.equal(result.endpoint_authorized, true);
-
-    assert.equal(result.scheduler_authorized, false);
-
-    assert.equal(result.worker_claim_authorized, false);
-
-    assert.equal(result.orchestration_authorized, false);
-
-    assert.equal(result.routing_authorized, false);
-
-    assert.equal(result.execution_authorized, false);
-
-    assert.equal(result.new_authority_introduced, false);
 
   },
 
@@ -242,6 +308,8 @@ test(
   () => {
 
     let persistCalled = false;
+
+    let intakeCalled = false;
 
     const result = handleGovernanceLifecycleRouteRequest(
 
@@ -269,7 +337,7 @@ test(
 
           capability_conflicts: ["engineering unavailable"],
 
-          response_basis: "Department reports local operational incapacity.",
+          response_basis: "Department reports a capability conflict.",
 
         },
 
@@ -285,6 +353,14 @@ test(
 
         },
 
+        create_operational_intake: (input) => {
+
+          intakeCalled = true;
+
+          return fakeOperationalIntake(input);
+
+        },
+
       },
 
     );
@@ -293,19 +369,11 @@ test(
 
     assert.equal(persistCalled, false);
 
+    assert.equal(intakeCalled, false);
+
+    assert.equal(result.route, "governance_lifecycle_route");
+
     assert.equal(result.endpoint_authorized, true);
-
-    assert.equal(result.scheduler_authorized, false);
-
-    assert.equal(result.worker_claim_authorized, false);
-
-    assert.equal(result.orchestration_authorized, false);
-
-    assert.equal(result.routing_authorized, false);
-
-    assert.equal(result.execution_authorized, false);
-
-    assert.equal(result.new_authority_introduced, false);
 
   },
 

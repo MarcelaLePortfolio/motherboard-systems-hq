@@ -25,9 +25,17 @@ import {
 
   createOperationalIntakeRecord,
 
+  type CreateOperationalIntakeRecordInput,
+
   type OperationalIntakeRecord,
 
 } from "../../db/operational-intake-runtime.ts";
+
+export type OperationalIntakeCreationFunction = (
+
+  input: CreateOperationalIntakeRecordInput,
+
+) => OperationalIntakeRecord;
 
 export type ProductionLifecycleConsumerInput = Omit<
 
@@ -40,6 +48,8 @@ export type ProductionLifecycleConsumerInput = Omit<
   db?: unknown;
 
   persist_lifecycle_transition?: GovernanceLifecyclePersistenceFunction;
+
+  create_operational_intake?: OperationalIntakeCreationFunction;
 
 };
 
@@ -109,7 +119,11 @@ export function consumeProductionLifecycleEntryPoint(
 
   }
 
-  const operational_intake = createOperationalIntakeRecord({
+  const operationalIntakeCreator =
+
+    input.create_operational_intake ?? createOperationalIntakeRecord;
+
+  const operational_intake = operationalIntakeCreator({
 
     intake_id: `operational-intake:${lifecycle.lifecycle.persistence.envelope_id}`,
 
@@ -117,7 +131,7 @@ export function consumeProductionLifecycleEntryPoint(
 
     assigned_department:
 
-      lifecycle.lifecycle.assignment_boundary.assigned_department,
+      lifecycle.lifecycle.assignment_boundary.ellis_decision.assigned_department,
 
     intake_created_at: lifecycle.lifecycle.persistence.persisted_at,
 

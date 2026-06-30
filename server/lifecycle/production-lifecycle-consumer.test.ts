@@ -7,15 +7,15 @@ import { consumeProductionLifecycleEntryPoint } from "./production-lifecycle-con
 
 const handshake = {
 
-  acknowledgement_status: "ACKNOWLEDGED",
+  acknowledgement_status: "ACKNOWLEDGED" as const,
 
-  capability_status: "CAPABILITY_CONFIRMED",
+  capability_status: "CAPABILITY_CONFIRMED" as const,
 
   response_basis: "Department confirms current capability.",
 
 };
 
-test("production lifecycle consumer invokes production entry point with injected persistence", () => {
+test("production lifecycle consumer invokes production entry point with injected persistence and composes operational intake", () => {
 
   const result = consumeProductionLifecycleEntryPoint({
 
@@ -43,15 +43,55 @@ test("production lifecycle consumer invokes production entry point with injected
 
       lifecycle_state: transition_authorization.to,
 
-      assignment_state: "ASSIGNED",
-
-      assigned_department: "engineering",
-
-      routing_history: "production lifecycle consumer test",
+      transition: "ENVELOPE_CREATED_TO_ASSIGNED",
 
       persisted_at: persisted_at ?? "2026-06-26T10:39:38.000Z",
 
       mutation_authorized: false,
+
+      execution_authorized: false,
+
+    }),
+
+    create_operational_intake: ({ intake_id, envelope_id, assigned_department, intake_created_at }) => ({
+
+      intake_id,
+
+      envelope_id,
+
+      package_id: "pkg-production-lifecycle-consumer-success",
+
+      package_version: 1,
+
+      delegation_id: "del-production-lifecycle-consumer-success",
+
+      validation_result_id: "val-production-lifecycle-consumer-success",
+
+      envelope_gate_id: "gate-production-lifecycle-consumer-success",
+
+      lifecycle_state_at_intake: "ASSIGNED",
+
+      assigned_department,
+
+      required_capabilities_snapshot: "engineering",
+
+      intake_status: "RECORDED",
+
+      intake_created_at: intake_created_at ?? "2026-06-26T10:39:38.000Z",
+
+      intake_updated_at: intake_created_at ?? "2026-06-26T10:39:38.000Z",
+
+      governance_authority_preserved: true,
+
+      lifecycle_authority_preserved: true,
+
+      assignment_authority_preserved: true,
+
+      routing_authorized: false,
+
+      scheduler_authorized: false,
+
+      worker_claim_authorized: false,
 
       execution_authorized: false,
 
@@ -66,6 +106,18 @@ test("production lifecycle consumer invokes production entry point with injected
     assert.equal(result.lifecycle.persistence.lifecycle_state, "ASSIGNED");
 
     assert.equal(result.lifecycle.assignment_boundary.ellis_decision.assigned_department, "engineering");
+
+    assert.equal(result.operational_intake.lifecycle_state_at_intake, "ASSIGNED");
+
+    assert.equal(result.operational_intake.assigned_department, "engineering");
+
+    assert.equal(result.operational_intake.routing_authorized, false);
+
+    assert.equal(result.operational_intake.scheduler_authorized, false);
+
+    assert.equal(result.operational_intake.worker_claim_authorized, false);
+
+    assert.equal(result.operational_intake.execution_authorized, false);
 
     assert.equal("assigned_actor" in result.lifecycle.assignment_boundary.ellis_decision, false);
 

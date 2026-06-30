@@ -5,6 +5,8 @@ import {
 
   consumeProductionLifecycleEntryPoint,
 
+  type OperationalIntakeCreationFunction,
+
   type ProductionLifecycleConsumerInput,
 
   type ProductionLifecycleConsumerResult,
@@ -38,6 +40,8 @@ export type GovernanceLifecycleRouteOptions = {
   db?: unknown;
 
   persist_lifecycle_transition?: GovernanceLifecyclePersistenceFunction;
+
+  create_operational_intake?: OperationalIntakeCreationFunction;
 
 };
 
@@ -140,6 +144,8 @@ export function buildGovernanceLifecycleRouteRequest(
     db: options.db,
 
     persist_lifecycle_transition: options.persist_lifecycle_transition,
+
+    create_operational_intake: options.create_operational_intake,
 
   };
 
