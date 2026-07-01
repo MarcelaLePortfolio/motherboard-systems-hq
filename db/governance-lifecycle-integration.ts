@@ -47,6 +47,8 @@ export function completeGovernanceLifecycleAssignmentTransition(
 
     available_actors: input.available_actors ?? [],
 
+    department_handshake: input.department_handshake,
+
     target_lifecycle_state: input.target_lifecycle_state,
 
     persisted_at: input.persisted_at,
