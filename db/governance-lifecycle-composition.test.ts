@@ -57,6 +57,16 @@ test("native-free lifecycle composition succeeds with injected persistence", () 
 
     available_actors: ["cade"],
 
+    department_handshake: {
+
+      acknowledgement_status: "ACKNOWLEDGED",
+
+      capability_status: "CAPABILITY_CONFIRMED",
+
+      response_basis: "test department acknowledged assignment readiness",
+
+    },
+
     persist: fakePersist,
 
   });

@@ -61,6 +61,8 @@ export type ComposeGovernanceLifecycleAssignmentTransitionInput = {
 
   available_departments?: string[];
 
+  available_actors?: string[];
+
   department_handshake?: DepartmentAssignmentHandshake;
 
   target_lifecycle_state?: string | null;
@@ -166,6 +168,8 @@ export function composeGovernanceLifecycleAssignmentTransition(
     envelope: input.envelope,
 
     available_departments: input.available_departments ?? [],
+
+    available_actors: input.available_actors ?? [],
 
     department_handshake: input.department_handshake,
 

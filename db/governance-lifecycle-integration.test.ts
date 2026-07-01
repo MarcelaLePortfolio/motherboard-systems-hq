@@ -187,6 +187,16 @@ test("lifecycle integration stops before persistence when transition authorizati
 
     available_departments: ["engineering_planning"],
 
+    department_handshake: {
+
+      acknowledgement_status: "ACKNOWLEDGED",
+
+      capability_status: "CAPABILITY_CONFIRMED",
+
+      response_basis: "test department acknowledged assignment readiness",
+
+    },
+
     target_lifecycle_state: "COMPLETED",
 
     db: sqlite,
@@ -242,6 +252,16 @@ test("lifecycle integration completes assignment transition without production r
     available_departments: ["engineering_planning"],
 
     available_actors: ["cade"],
+
+    department_handshake: {
+
+      acknowledgement_status: "ACKNOWLEDGED",
+
+      capability_status: "CAPABILITY_CONFIRMED",
+
+      response_basis: "test department acknowledged assignment readiness",
+
+    },
 
     persisted_at: "2026-06-25T19:00:00.000Z",
 
