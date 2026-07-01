@@ -79,3 +79,32 @@ If not, revert the suspect range back to 0f9a2c10.
 
 The repository was clean and DR-protected before this audit. No implementation files are removed by this audit commit.
 
+
+## Recovery result
+
+Recursive scheduler runtime finalization drift was reverted in:
+
+3b83b48e Revert recursive scheduler runtime finalization drift
+
+The preserved finite non-drift scheduler runtime finalization readiness completion suite passed:
+
+24 tests
+
+0 failures
+
+The remaining valid terminal corridor is:
+
+scheduler-runtime-finalization-readiness-completion-boundary
+
+scheduler-runtime-finalization-readiness-completion-entry-point
+
+production-scheduler-runtime-finalization-readiness-completion-consumer
+
+scheduler-runtime-finalization-readiness-completion-authorization-boundary
+
+scheduler-runtime-finalization-readiness-completion-contract
+
+production-scheduler-runtime-finalization-readiness-completion-contract-consumer
+
+Do not extend this corridor by appending additional readiness/completion tokens without a separately approved finite state machine.
+
