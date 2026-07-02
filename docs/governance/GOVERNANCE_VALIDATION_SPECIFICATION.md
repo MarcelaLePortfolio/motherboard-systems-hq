@@ -65,9 +65,15 @@ Envelope creation is prohibited until Governance Validation successfully complet
 
 ## Escalation Model
 
-All escalations return to Matilda.
+Governance Validation may identify conditions requiring clarification, approval, or additional user intent.
 
-Governance Validation does not resolve escalations.
+Governance Validation does not resolve these conditions.
+
+Escalations requiring user collaboration return to Matilda.
+
+Internal authority resolution remains governed by the authority responsible for the affected domain.
+
+Governance Validation does not bypass established authority boundaries.
 
 ## Relationship To Atlas
 
