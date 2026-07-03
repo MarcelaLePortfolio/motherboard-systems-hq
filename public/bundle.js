@@ -2,6 +2,8 @@
   // public/js/sse-heartbeat-shim.js
   (function() {
     const w = window;
+    if (w.__PHASE16_SSE_OWNER_STARTED) return;
+    w.__PHASE16_SSE_OWNER_STARTED = true;
     const STORE_KEY = "__HB";
     if (!w[STORE_KEY]) {
       const state = { ops: null, tasks: null, reflections: null, unknown: null };
@@ -385,489 +387,83 @@
 
   // public/js/agent-status-row.js
   (() => {
+    "use strict";
     const container = document.getElementById("agent-status-container");
     if (!container) {
       console.warn("agent-status-row.js: #agent-status-container not found.");
       return;
     }
-    const title = container.querySelector("h2");
-    container.innerHTML = "";
-    if (title) container.appendChild(title);
     const AGENTS = ["Matilda", "Atlas", "Cade", "Effie"];
     const AGENT_EMOJI = {
-      matilda: "\u{1F5E3}\uFE0F",
-      atlas: "\u{1F9ED}",
-      cade: "\u{1F4BB}",
-      effie: "\u{1F4CA}"
+      Matilda: "\u{1F5E3}\uFE0F",
+      Atlas: "\u{1F9ED}",
+      Cade: "\u{1F4BB}",
+      Effie: "\u{1F4CA}"
     };
-    const indicators = {};
-    const agentActivityAt = /* @__PURE__ */ Object.create(null);
-    const agentReportedState = /* @__PURE__ */ Object.create(null);
-    const ACTIVE_WINDOW_MS = 60 * 1e3;
-    const activeAgentsMetricEl = document.getElementById("metric-agents");
-    function setMetricText(el, value) {
-      if (!el) return;
-      el.textContent = value;
+    function normalizeStatus(value) {
+      return String(value || "unknown").trim().toLowerCase();
     }
-    function parseTimestamp(value) {
-      if (typeof value === "number" && Number.isFinite(value)) return value;
-      if (typeof value === "string" && value.trim()) {
-        const n = Number(value);
-        if (Number.isFinite(n)) return n;
-        const parsed = Date.parse(value);
-        if (Number.isFinite(parsed)) return parsed;
-      }
-      return null;
+    function statusClass(status) {
+      const s = normalizeStatus(status);
+      if (s === "online" || s === "active" || s === "running") return "text-emerald-300/90";
+      if (s === "offline" || s === "stopped") return "text-slate-300/75";
+      if (s === "error" || s === "failed") return "text-rose-300/90";
+      return "text-amber-200/90";
     }
-    function formatAge(ms) {
-      if (!Number.isFinite(ms) || ms < 0) return "0s";
-      const totalSeconds = Math.floor(ms / 1e3);
-      if (totalSeconds < 60) return `${totalSeconds}s`;
-      const totalMinutes = Math.floor(totalSeconds / 60);
-      if (totalMinutes < 60) return `${totalMinutes}m`;
-      return `${Math.floor(totalMinutes / 60)}h`;
+    function render(data = {}) {
+      const agents = Object.keys(data || {});
+      const healthy = agents.length > 0;
+      window.__AGENT_POOL_HEALTH = healthy;
+      window.__AGENT_POOL_LAST_CHECK = Date.now();
+      const time = (/* @__PURE__ */ new Date()).toLocaleTimeString();
+      const healthDot = healthy ? `<span title="Live \u2022 Last check: ${time}" style="margin-left:8px;color:#34d399;font-size:12px;">\u25CF</span>` : `<span title="No data \u2022 Last check: ${time}" style="margin-left:8px;color:#f87171;font-size:12px;">\u25CB</span>`;
+      const rows = AGENTS.map((name) => {
+        const raw = data[name] || {};
+        const status = typeof raw === "string" ? raw : raw.status || "unknown";
+        return `
+        <div class="w-full min-h-0 rounded-md bg-gray-900 border border-gray-700 px-3 py-1.5 flex items-center justify-between shadow-sm">
+          <div class="flex items-center gap-3 min-w-0 h-[18px]">
+            <span style="width:18px;min-width:18px;height:18px;font-size:14px;">${AGENT_EMOJI[name] || "\u2022"}</span>
+            <span class="text-[13px] font-semibold text-slate-100 truncate">${name}</span>
+          </div>
+          <span class="text-[11px] font-medium ${statusClass(status)}">${status}</span>
+        </div>
+      `;
+      }).join("");
+      container.innerHTML = `
+      <h2 class="text-xl font-semibold border-b border-gray-700 pb-2 mb-4">
+        Agent Pool ${healthDot}
+      </h2>
+      <div class="w-full flex flex-col gap-1">
+        ${rows}
+      </div>
+    `;
     }
-    function refreshActiveAgentsMetric() {
-      if (!activeAgentsMetricEl) return;
-      const now = Date.now();
-      let count = 0;
-      for (const name of AGENTS) {
-        const key = name.toLowerCase();
-        const at = parseTimestamp(agentActivityAt[key]);
-        if (at != null && now - at <= ACTIVE_WINDOW_MS) count += 1;
+    async function refresh() {
+      try {
+        const res = await fetch("/api/agent-status", { cache: "no-store" });
+        const data = await res.json();
+        render(data);
+      } catch (err) {
+        console.warn("agent-status-row.js: failed to fetch /api/agent-status", err);
+        render({});
       }
     }
-    function getAgentPresentation(agentKey, reportedStatus) {
-      const reported = String(reportedStatus || "").trim();
-      const normalized = reported.toLowerCase();
-      const at = parseTimestamp(agentActivityAt[agentKey]);
-      if (at == null) {
-        return {
-          kind: "unknown",
-          label: reported || "unknown"
-        };
-      }
-      const ageMs = Math.max(0, Date.now() - at);
-      const ageLabel = formatAge(ageMs);
-      if (ageMs > ACTIVE_WINDOW_MS) {
-        return {
-          kind: "stale",
-          label: `stale \xB7 ${ageLabel} ago`
-        };
-      }
-      if (normalized.includes("error") || normalized.includes("failed") || normalized.includes("offline")) {
-        return {
-          kind: "error",
-          label: `${reported || "error"} \xB7 ${ageLabel} ago`
-        };
-      }
-      if (normalized && normalized !== "unknown") {
-        return {
-          kind: "active",
-          label: `${reported} \xB7 ${ageLabel} ago`
-        };
-      }
-      return {
-        kind: "active",
-        label: `active \xB7 ${ageLabel} ago`
-      };
-    }
-    const stack = document.createElement("div");
-    stack.className = "w-full flex flex-col gap-0.5";
-    container.appendChild(stack);
-    AGENTS.forEach((name) => {
-      const key = name.toLowerCase();
-      const row = document.createElement("div");
-      row.className = "w-full min-h-0 rounded-md bg-slate-600/55 border border-slate-500/35 px-3 py-1.5 flex items-center justify-between shadow-sm";
-      const left = document.createElement("div");
-      left.className = "flex items-center gap-3 min-w-0 h-[18px]";
-      const emoji = document.createElement("span");
-      emoji.className = "inline-flex items-center justify-center shrink-0";
-      emoji.textContent = AGENT_EMOJI[key] || "\u2022";
-      emoji.style.width = "18px";
-      emoji.style.minWidth = "18px";
-      emoji.style.height = "18px";
-      emoji.style.minHeight = "18px";
-      emoji.style.fontSize = "14px";
-      emoji.style.lineHeight = "1";
-      emoji.style.background = "transparent";
-      emoji.style.borderRadius = "0";
-      emoji.style.boxShadow = "none";
-      emoji.style.marginRight = "0";
-      const label = document.createElement("span");
-      label.className = "text-[13px] font-semibold tracking-tight text-slate-100/95 truncate";
-      label.textContent = name;
-      const status = document.createElement("span");
-      status.className = "text-[12px] font-medium text-slate-200/90 truncate";
-      status.textContent = "unknown";
-      left.append(emoji, label);
-      row.append(left, status);
-      stack.appendChild(row);
-      indicators[key] = { row, emoji, label, status };
+    render({});
+    refresh();
+    window.setInterval(refresh, 15e3);
+    window.addEventListener("mb.agent.status", (e) => {
+      if (!e?.detail) return;
+      render(e.detail);
     });
-    const OPS_SSE_URL = `/events/ops`;
-    const __DISABLE_OPTIONAL_SSE = (typeof window !== "undefined" && window.__DISABLE_OPTIONAL_SSE) === true;
-    function applyVisual(agentKey, statusString) {
-      const indicator = indicators[agentKey];
-      if (!indicator) return;
-      agentReportedState[agentKey] = String(statusString || agentReportedState[agentKey] || "unknown");
-      const presentation = getAgentPresentation(agentKey, agentReportedState[agentKey]);
-      const kind = presentation.kind;
-      indicator.status.textContent = presentation.label;
-      indicator.row.className = "w-full min-h-0 rounded-md border px-3 py-1.5 flex items-center justify-between shadow-sm";
-      indicator.emoji.className = "inline-flex items-center justify-center shrink-0";
-      indicator.emoji.textContent = AGENT_EMOJI[agentKey] || "\u2022";
-      indicator.emoji.style.display = "inline-flex";
-      indicator.emoji.style.width = "18px";
-      indicator.emoji.style.minWidth = "18px";
-      indicator.emoji.style.height = "18px";
-      indicator.emoji.style.minHeight = "18px";
-      indicator.emoji.style.fontSize = "14px";
-      indicator.emoji.style.lineHeight = "1";
-      indicator.emoji.style.background = "transparent";
-      indicator.emoji.style.borderRadius = "0";
-      indicator.emoji.style.boxShadow = "none";
-      indicator.emoji.style.marginRight = "0";
-      indicator.label.className = "text-[13px] font-semibold tracking-tight truncate";
-      indicator.status.className = "text-[11px] font-medium truncate";
-      switch (kind) {
-        case "active":
-          indicator.row.classList.add("bg-gray-900", "border-gray-700");
-          indicator.label.classList.add("text-slate-100");
-          indicator.status.classList.add("text-emerald-300/90");
-          break;
-        case "error":
-          indicator.row.classList.add("bg-gray-900", "border-gray-700");
-          indicator.label.classList.add("text-slate-100");
-          indicator.status.classList.add("text-rose-300/90");
-          break;
-        case "stale":
-          indicator.row.classList.add("bg-gray-900", "border-gray-700");
-          indicator.label.classList.add("text-slate-100");
-          indicator.status.classList.add("text-amber-200/90");
-          break;
-        case "unknown":
-        default:
-          indicator.row.classList.add("bg-gray-900", "border-gray-700");
-          indicator.label.classList.add("text-slate-100");
-          indicator.status.classList.add("text-slate-300/75");
-          break;
-      }
-    }
-    function refreshAgentRows() {
-      Object.keys(indicators).forEach((key) => {
-        applyVisual(key, agentReportedState[key] || "unknown");
-      });
-    }
-    Object.keys(indicators).forEach((key) => applyVisual(key, "unknown"));
-    if (__DISABLE_OPTIONAL_SSE) {
-      console.warn("[agent-status-row] Optional SSE disabled:", OPS_SSE_URL);
-      return;
-    }
-    function parseJson(raw) {
-      try {
-        return JSON.parse(raw);
-      } catch {
-        return null;
-      }
-    }
-    function extractPayload(data) {
-      if (!data || typeof data !== "object") return null;
-      if (data.payload && typeof data.payload === "object") return data.payload;
-      if (data.data && typeof data.data === "object") return data.data;
-      if (data.state && typeof data.state === "object") return data.state;
-      return data;
-    }
-    function applyAgentMap(payload) {
-      if (!payload || typeof payload !== "object") return false;
-      const agents = payload.agents;
-      if (!agents || typeof agents !== "object") return false;
-      let applied = false;
-      for (const [name, value] of Object.entries(agents)) {
-        const key = String(name || "").toLowerCase();
-        if (!indicators[key]) continue;
-        let status = "unknown";
-        if (typeof value === "string") {
-          status = value;
-        } else if (value && typeof value === "object") {
-          status = value.status ?? value.state ?? value.level ?? value.health ?? value.mode ?? "unknown";
-          const at = value.at ?? value.ts ?? value.last_activity ?? value.lastActivity ?? value.last_seen ?? value.lastSeen ?? null;
-          if (at != null) agentActivityAt[key] = at;
-        }
-        applyVisual(key, String(status || "unknown"));
-        applied = true;
-      }
-      refreshActiveAgentsMetric();
-      return applied;
-    }
-    function applySingleAgent(data) {
-      if (!data || typeof data !== "object") return false;
-      const agentName = (data.agent || data.actor || data.source || data.worker || data.name || "").toString().toLowerCase();
-      if (!agentName || !indicators[agentName]) return false;
-      const status = data.status ?? data.state ?? data.level ?? data.health ?? data.mode ?? "unknown";
-      const at = data.at ?? data.ts ?? data.last_activity ?? data.lastActivity ?? data.last_seen ?? data.lastSeen ?? null;
-      if (at != null) agentActivityAt[agentName] = at;
-      applyVisual(agentName, String(status || "unknown"));
-      refreshActiveAgentsMetric();
-      return true;
-    }
-    function handleOpsEvent(eventName, event) {
-      const data = parseJson(event.data);
-      if (!data) return;
-      const payload = extractPayload(data);
-      if (eventName === "ops.state") {
-        if (applyAgentMap(payload)) return;
-      }
-      if (applyAgentMap(data)) return;
-      if (applyAgentMap(payload)) return;
-      applySingleAgent(payload);
-      applySingleAgent(data);
-    }
-    let source;
-    try {
-      source = window.__PHASE16_SSE_OWNER_STARTED ? null : new EventSource(OPS_SSE_URL);
-    } catch (err) {
-      console.error("agent-status-row.js: Failed to open OPS SSE connection:", err);
-      return;
-    }
-    if (!source) return;
-    source.onmessage = (event) => handleOpsEvent("message", event);
-    source.addEventListener("hello", (event) => handleOpsEvent("hello", event));
-    source.addEventListener("ops.state", (event) => handleOpsEvent("ops.state", event));
-    source.addEventListener("state", (event) => handleOpsEvent("state", event));
-    source.addEventListener("update", (event) => handleOpsEvent("update", event));
-    source.onerror = (err) => {
-      console.warn("agent-status-row.js: OPS SSE error:", err);
-      Object.keys(indicators).forEach((key) => applyVisual(key, "unknown"));
-    };
-  })();
-  (() => {
-    if (typeof window === "undefined") return;
-    if (window.__PHASE63_SHARED_TASK_EVENTS_METRICS__) return;
-    window.__PHASE63_SHARED_TASK_EVENTS_METRICS__ = true;
-    const tasksNode = document.getElementById("metric-tasks");
-    const successNode = null;
-    const latencyNode = document.getElementById("metric-latency");
-    const runningTaskIds = /* @__PURE__ */ new Set();
-    const taskStartTimes = /* @__PURE__ */ new Map();
-    const seenTerminalEvents = /* @__PURE__ */ new Set();
-    const recentDurationsMs = [];
-    const maxSamples = 50;
-    let completedCount = 0;
-    let failedCount = 0;
-    const runningTypes = /* @__PURE__ */ new Set([
-      "created",
-      "queued",
-      "leased",
-      "started",
-      "running",
-      "in_progress",
-      "delegated",
-      "retrying"
-    ]);
-    const terminalSuccessTypes = /* @__PURE__ */ new Set([
-      "completed",
-      "complete",
-      "done",
-      "success"
-    ]);
-    const terminalFailureTypes = /* @__PURE__ */ new Set([
-      "failed",
-      "error",
-      "cancelled",
-      "canceled",
-      "timed_out",
-      "timeout",
-      "terminated",
-      "aborted"
-    ]);
-    const terminalTypes = /* @__PURE__ */ new Set([
-      ...terminalSuccessTypes,
-      ...terminalFailureTypes
-    ]);
-    const normalize = (value) => String(value || "").trim().toLowerCase().replace(/\s+/g, "_");
-    const safeJsonParse = (value) => {
-      try {
-        return JSON.parse(value);
-      } catch {
-        return null;
-      }
-    };
-    const getTaskId = (payload) => payload?.task_id ?? payload?.taskId ?? payload?.id ?? payload?.data?.task_id ?? payload?.data?.taskId ?? null;
-    const getEventType = (eventName, payload) => normalize(
-      payload?.type ?? payload?.event ?? payload?.status ?? payload?.state ?? eventName
-    );
-    const toMs = (value) => {
-      if (typeof value === "number" && Number.isFinite(value)) {
-        return value > 1e12 ? value : value * 1e3;
-      }
-      if (typeof value === "string" && value.trim()) {
-        const asNum = Number(value);
-        if (Number.isFinite(asNum)) {
-          return asNum > 1e12 ? asNum : asNum * 1e3;
-        }
-        const parsed = Date.parse(value);
-        if (Number.isFinite(parsed)) return parsed;
-      }
-      return Date.now();
-    };
-    const getEventTs = (payload) => toMs(
-      payload?.ts ?? payload?.timestamp ?? payload?.at ?? payload?.time ?? payload?.created_at ?? payload?.updated_at ?? Date.now()
-    );
-    const formatLatency = (ms) => {
-      if (!Number.isFinite(ms) || ms <= 0) return "\u2014";
-      if (ms < 1e3) return `${Math.round(ms)}ms`;
-      const seconds = ms / 1e3;
-      if (seconds < 60) return `${seconds.toFixed(seconds >= 10 ? 0 : 1)}s`;
-      const minutes = seconds / 60;
-      return `${minutes.toFixed(minutes >= 10 ? 0 : 1)}m`;
-    };
-    const render = () => {
-      if (tasksNode) {
-      }
-      if (successNode) {
-      }
-      if (latencyNode) {
-      }
-    };
-    const ingestEvent = (eventName, payload) => {
-      const taskId = getTaskId(payload);
-      const eventType = getEventType(eventName, payload);
-      const eventTs = getEventTs(payload);
-      if (!taskId) {
-        render();
-        return;
-      }
-      if (runningTypes.has(eventType)) {
-        runningTaskIds.add(taskId);
-        if (!taskStartTimes.has(taskId)) {
-          taskStartTimes.set(taskId, eventTs);
-        }
-      }
-      if (terminalTypes.has(eventType)) {
-        runningTaskIds.delete(taskId);
-        const dedupeKey = `${taskId}|${eventType}|${eventTs}`;
-        if (!seenTerminalEvents.has(dedupeKey)) {
-          seenTerminalEvents.add(dedupeKey);
-          if (terminalSuccessTypes.has(eventType)) completedCount += 1;
-          if (terminalFailureTypes.has(eventType)) failedCount += 1;
-          const startTs = taskStartTimes.get(taskId);
-          if (Number.isFinite(startTs)) {
-            const duration = Math.max(0, eventTs - startTs);
-            recentDurationsMs.push(duration);
-            if (recentDurationsMs.length > maxSamples) {
-              recentDurationsMs.splice(0, recentDurationsMs.length - maxSamples);
-            }
-          }
-        }
-        taskStartTimes.delete(taskId);
-      }
-      render();
-    };
-    const ingestMessage = (raw, forcedEventName = null) => {
-      const parsed = typeof raw === "string" ? safeJsonParse(raw) : raw;
-      if (!parsed) return;
-      if (Array.isArray(parsed)) {
-        parsed.forEach((item) => ingestEvent(forcedEventName, item));
-        return;
-      }
-      const candidateLists = [
-        parsed?.events,
-        parsed?.payload?.events,
-        parsed?.task_events,
-        parsed?.items
-      ];
-      for (const list of candidateLists) {
-        if (Array.isArray(list)) {
-          list.forEach((item) => ingestEvent(forcedEventName, item));
-          return;
-        }
-      }
-      ingestEvent(
-        forcedEventName ?? parsed?.event ?? parsed?.type ?? parsed?.status,
-        parsed?.payload ?? parsed?.data ?? parsed
-      );
-    };
-    const attachTypedListener = (es, eventName) => {
-      es.addEventListener(eventName, (evt) => {
-        const parsed = safeJsonParse(evt.data);
-        if (parsed !== null) {
-          ingestMessage({ event: eventName, payload: parsed }, eventName);
-        } else {
-          ingestMessage({ event: eventName, payload: { type: eventName } }, eventName);
-        }
-      });
-    };
-    const connect = () => {
-      let es;
-      try {
-        es = new EventSource("/events/task-events");
-      } catch {
-        render();
-        return;
-      }
-      es.onmessage = (evt) => ingestMessage(evt.data);
-      [
-        ...runningTypes,
-        ...terminalSuccessTypes,
-        ...terminalFailureTypes
-      ].forEach((eventName) => attachTypedListener(es, eventName));
-      es.onerror = () => render();
-      window.addEventListener("beforeunload", () => es.close(), { once: true });
-    };
-    render();
-    connect();
-    window.setInterval(render, 1e4);
+    window.__AGENT_POOL_RENDERER_LOCKED = true;
+    console.log("[agent-status-row] live health indicator with timestamp active");
   })();
 
   // public/js/dashboard-broadcast.js
-  var BROADCAST_GUARD_KEY = "__broadcastVisualizationInited";
-  var nodes = ["Matilda", "Cade", "Effie"];
-  function renderBroadcastNodes() {
-    const container = document.getElementById("broadcast-visual");
-    if (!container) return;
-    const parts = [];
-    for (let i = 0; i < nodes.length; i++) {
-      const n = nodes[i];
-      parts.push('<div class="node" id="node-' + n + '">' + n + "</div>");
-      if (i < nodes.length - 1) {
-        parts.push('<div class="arrow">\u279C</div>');
-      }
-    }
-    container.innerHTML = parts.join("");
-  }
-  function startBroadcastCycle() {
-    let idx = 0;
-    setInterval(() => {
-      const allNodes = document.querySelectorAll(".node");
-      allNodes.forEach((n) => n.classList.remove("active"));
-      const activeId = "node-" + nodes[idx];
-      const active = document.getElementById(activeId);
-      if (active) active.classList.add("active");
-      idx = (idx + 1) % nodes.length;
-    }, 1500);
-  }
-  function initBroadcastVisualization() {
-    if (typeof window === "undefined" || typeof document === "undefined") {
-      return;
-    }
-    if (window[BROADCAST_GUARD_KEY]) {
-      return;
-    }
-    window[BROADCAST_GUARD_KEY] = true;
-    const run = () => {
-      renderBroadcastNodes();
-      startBroadcastCycle();
-    };
-    if (document.readyState === "loading") {
-      window.addEventListener("DOMContentLoaded", run);
-    } else {
-      run();
-    }
-  }
-  if (typeof window !== "undefined") {
-    window.initBroadcastVisualization = initBroadcastVisualization;
-  }
+  (function() {
+    console.log("[broadcast] disabled in UI stabilization mode");
+  })();
 
   // public/js/ops-status-widget.js
   (function() {
@@ -973,6 +569,7 @@
 
   // public/js/matilda-chat-console.js
   (function() {
+    let inFlight = false;
     function log(msg) {
       console.log("[matilda-chat]", msg);
     }
@@ -988,83 +585,70 @@
     function setSendingState(sendBtn, input, isSending) {
       if (sendBtn) {
         sendBtn.disabled = isSending;
-        sendBtn.classList.toggle("opacity-60", isSending);
         sendBtn.textContent = isSending ? "Sending..." : "Send";
       }
-      if (input) {
-        input.disabled = isSending;
+      if (input) input.disabled = isSending;
+    }
+    async function fetchWithTimeout(url, options, timeoutMs) {
+      const controller = new AbortController();
+      const id = setTimeout(() => controller.abort(), timeoutMs);
+      try {
+        console.log("[PHASE488_TIMEOUT] starting fetch");
+        const res = await fetch(url, { ...options, signal: controller.signal });
+        console.log("[PHASE488_TIMEOUT] resolved", res.status);
+        return res;
+      } finally {
+        clearTimeout(id);
       }
     }
     async function wireChat() {
-      var root = document.getElementById("matilda-chat-root");
-      if (!root) {
-        log("No #matilda-chat-root found; skipping wiring.");
-        return;
-      }
       var transcript = document.getElementById("matilda-chat-transcript");
       var input = document.getElementById("matilda-chat-input");
       var sendBtn = document.getElementById("matilda-chat-send");
-      window.appendMessage = window.appendMessage || function(msg) {
-        try {
-          var role = msg && msg.role ? String(msg.role) : "system";
-          var content = msg && (msg.content ?? msg.text ?? msg.message) ? String(msg.content ?? msg.text ?? msg.message) : "";
-          var sender = role === "user" ? "You" : role === "matilda" ? "Matilda" : "System";
-          appendMessage(transcript, sender, content);
-        } catch (_) {
-        }
-      };
-      window.__appendMessage = window.__appendMessage || window.appendMessage;
-      if (!transcript || !input || !sendBtn) {
-        log("Missing one or more Matilda chat elements; aborting wiring.");
-        return;
-      }
-      function safeTrim(value) {
-        return (value || "").toString().trim();
-      }
+      if (!transcript || !input || !sendBtn) return;
       async function handleSend() {
-        var message = safeTrim(input.value);
+        console.log("[PHASE488_TRACE] handleSend invoked");
+        if (inFlight) {
+          console.warn("[PHASE488_GUARD] blocked duplicate send");
+          return;
+        }
+        var message = (input.value || "").trim();
         if (!message) return;
+        inFlight = true;
         appendMessage(transcript, "You", message);
         input.value = "";
         setSendingState(sendBtn, input, true);
         try {
-          var res = await fetch("/api/chat", {
+          const res = await fetchWithTimeout("/api/chat", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ message, agent: "matilda" })
-          });
-          if (!res.ok) {
-            appendMessage(
-              transcript,
-              "Matilda",
-              "(error talking to /api/chat)"
-            );
-            return;
-          }
-          var data = await res.json();
-          var reply = data && (data.reply || data.message || data.response) || "(no reply)";
+          }, 5e3);
+          const data = await res.json();
+          console.log("[PHASE488_TRACE] parsed json", data);
+          const reply = data && (data.reply || data.message || data.response) || "(no reply)";
           appendMessage(transcript, "Matilda", reply);
         } catch (err) {
-          console.error(err);
-          appendMessage(transcript, "Matilda", "(network error)");
+          appendMessage(transcript, "Matilda", "I could not reach the chat service from this browser request, but no execution was attempted. You can retry, or use the visible dashboard/context state for advisory interpretation.");
         } finally {
+          inFlight = false;
           setSendingState(sendBtn, input, false);
         }
       }
-      sendBtn.addEventListener("click", handleSend);
+      sendBtn.onclick = handleSend;
       var quickBtn = document.getElementById("matilda-chat-quick-check");
       if (quickBtn) {
-        quickBtn.addEventListener("click", function() {
-          input.value = "Quick systems check from dashboard Phase 11.4.";
+        quickBtn.onclick = function() {
+          input.value = "Quick systems check from dashboard.";
           handleSend();
-        });
+        };
       }
-      input.addEventListener("keydown", function(e) {
+      input.onkeydown = function(e) {
         if (e.key === "Enter" && !e.shiftKey) {
           e.preventDefault();
           handleSend();
         }
-      });
+      };
       log("Matilda chat wiring complete.");
     }
     document.addEventListener("DOMContentLoaded", wireChat);
@@ -1248,327 +832,215 @@
   })();
 
   // public/js/task-events-sse-client.js
-  (() => {
-    const SSE_URL = "/events/task-events";
-    const PANEL_ID = "mb-task-events-panel";
-    const FEED_ID = "mb-task-events-feed";
-    const COUNTS_ID = "mb-task-events-counts";
-    const ANCHOR_ID = "mb-task-events-panel-anchor";
-    function mountRoot() {
-      const anchor = document.getElementById(ANCHOR_ID);
-      if (anchor) return anchor;
-      return document.body;
-    }
-    function ensurePanel() {
-      if (document.getElementById(PANEL_ID)) return;
-      const root = mountRoot();
-      const panel = document.createElement("div");
-      panel.id = PANEL_ID;
-      const anchored = root && root.id === ANCHOR_ID;
-      panel.style.width = anchored ? "100%" : "360px";
-      panel.style.maxWidth = anchored ? "100%" : "calc(100vw - 24px)";
-      panel.style.maxHeight = anchored ? "260px" : "40vh";
-      panel.style.overflow = "hidden";
-      panel.style.zIndex = "9999";
-      panel.style.border = "1px solid rgba(255,255,255,0.12)";
-      panel.style.borderRadius = "14px";
-      panel.style.background = "rgba(10,10,14,0.92)";
-      panel.style.backdropFilter = "blur(10px)";
-      panel.style.boxShadow = "0 10px 30px rgba(0,0,0,0.35)";
-      panel.style.color = "rgba(255,255,255,0.92)";
-      panel.style.fontFamily = "ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial";
-      if (!anchored) {
-        panel.style.position = "fixed";
-        panel.style.right = "12px";
-        panel.style.bottom = "12px";
-      } else {
-        panel.style.marginTop = "12px";
-      }
-      const header = document.createElement("div");
-      header.style.display = "flex";
-      header.style.alignItems = "center";
-      header.style.justifyContent = "space-between";
-      header.style.gap = "8px";
-      header.style.padding = "10px 12px";
-      header.style.borderBottom = "1px solid rgba(255,255,255,0.10)";
-      const title = document.createElement("div");
-      title.textContent = "Task Events";
-      title.style.fontSize = "12px";
-      title.style.letterSpacing = "0.06em";
-      title.style.opacity = "0.9";
-      const right = document.createElement("div");
-      right.style.display = "flex";
-      right.style.alignItems = "center";
-      right.style.gap = "10px";
-      const counts = document.createElement("div");
-      counts.id = COUNTS_ID;
-      counts.textContent = "created:0  completed:0  failed:0";
-      counts.style.fontSize = "11px";
-      counts.style.opacity = "0.85";
-      counts.style.fontVariantNumeric = "tabular-nums";
-      const dot = document.createElement("span");
-      dot.setAttribute("aria-label", "task-events connection");
-      dot.title = "task-events connection";
-      dot.style.display = "inline-block";
-      dot.style.width = "10px";
-      dot.style.height = "10px";
-      dot.style.borderRadius = "999px";
-      dot.style.background = "rgba(255,255,255,0.25)";
-      dot.style.boxShadow = "0 0 0 2px rgba(255,255,255,0.08) inset";
-      const btn = document.createElement("button");
-      btn.type = "button";
-      btn.textContent = "\xD7";
-      btn.title = "hide";
-      btn.style.cursor = "pointer";
-      btn.style.border = "1px solid rgba(255,255,255,0.14)";
-      btn.style.background = "transparent";
-      btn.style.color = "rgba(255,255,255,0.85)";
-      btn.style.borderRadius = "10px";
-      btn.style.width = "28px";
-      btn.style.height = "24px";
-      btn.style.lineHeight = "22px";
-      btn.style.fontSize = "14px";
-      btn.onclick = () => panel.remove();
-      right.appendChild(dot);
-      right.appendChild(counts);
-      right.appendChild(btn);
-      header.appendChild(title);
-      header.appendChild(right);
-      const feed = document.createElement("div");
-      feed.id = FEED_ID;
-      feed.style.padding = "10px 12px";
-      feed.style.overflow = "auto";
-      feed.style.maxHeight = anchored ? "200px" : "calc(40vh - 46px)";
-      panel.appendChild(header);
-      panel.appendChild(feed);
-      root.appendChild(panel);
-      window.__MB_TASK_EVENTS_PANEL = { dot, feed, counts };
-      console.log("[phase22] task-events panel mounted (anchored=%s)", anchored);
-    }
-    function setDot(state) {
-      ensurePanel();
-      const dot = window.__MB_TASK_EVENTS_PANEL?.dot;
-      if (!dot) return;
-      if (state === "open") dot.style.background = "rgba(80,200,120,0.85)";
-      else if (state === "error") dot.style.background = "rgba(240,90,90,0.85)";
-      else dot.style.background = "rgba(255,255,255,0.25)";
-    }
+  (function() {
+    const STREAM_URL = "/events/task-events?cursor=0";
+    const ROOT_ID = "mb-task-events-panel-anchor";
+    if (window.__TASK_EVENTS_SSE_CLIENT_ACTIVE__) return;
+    window.__TASK_EVENTS_SSE_CLIENT_ACTIVE__ = true;
+    const events = [];
     const seen = /* @__PURE__ */ new Set();
-    const tally = { created: 0, completed: 0, failed: 0 };
-    function bumpCounts(kind) {
-      if (kind === "task.created") tally.created += 1;
-      if (kind === "task.completed") tally.completed += 1;
-      if (kind === "task.failed") tally.failed += 1;
-      const el = document.getElementById(COUNTS_ID);
-      if (el) el.textContent = `created:${tally.created}  completed:${tally.completed}  failed:${tally.failed}`;
+    const titlesByTaskId = /* @__PURE__ */ new Map();
+    const maxEvents = 80;
+    function root() {
+      return document.getElementById(ROOT_ID);
     }
-    function isoText(ts) {
-      if (typeof ts === "number") return new Date(ts).toISOString();
-      if (typeof ts === "string" && ts.trim()) {
-        const d = new Date(ts);
-        if (!Number.isNaN(d.getTime())) return d.toISOString();
-        return ts.trim();
-      }
-      return (/* @__PURE__ */ new Date()).toISOString();
+    function escapeHtml(v) {
+      return String(v ?? "").replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#39;");
     }
-    function classifyKind(kind, message, status) {
-      const text = `${kind || ""} ${message || ""} ${status || ""}`.toLowerCase();
-      if (/fail|error|cancel|timeout/.test(text)) return "terminal-error";
-      if (/complete|done|success/.test(text)) return "terminal-success";
-      if (/queue|pending|retry|wait|hold|sleep/.test(text)) return "waiting";
-      if (/open|start|run|resume|lease|dispatch|ack|progress|update|active|heartbeat/.test(text)) return "active";
-      return "neutral";
-    }
-    function accentColor(tone) {
-      if (tone === "terminal-error") return "rgba(240,90,90,0.95)";
-      if (tone === "terminal-success") return "rgba(80,200,120,0.95)";
-      if (tone === "waiting") return "rgba(250,204,21,0.95)";
-      if (tone === "active") return "rgba(96,165,250,0.95)";
-      return "rgba(255,255,255,0.18)";
-    }
-    function buildEventRecord(ev, fallbackKind) {
-      const ts = isoText(ev.ts);
-      const kind = String(ev.kind ?? fallbackKind ?? "event");
-      const taskId = ev.task_id ?? ev.taskId ?? "unknown";
-      const runId = ev.run_id ?? ev.runId ?? "";
-      const actor = ev.actor ?? ev.meta?.actor ?? ev.meta?.owner ?? "";
-      const status = ev.status ?? ev.meta?.status ?? "";
-      const cursor = typeof ev.cursor === "number" || typeof ev.cursor === "string" ? String(ev.cursor) : "";
-      const message = String(ev.msg ?? ev.message ?? "").trim();
-      const detailParts = [];
-      detailParts.push(`task=${taskId}`);
-      if (runId) detailParts.push(`run=${runId}`);
-      if (actor) detailParts.push(`actor=${actor}`);
-      if (status) detailParts.push(`status=${status}`);
-      if (cursor) detailParts.push(`cursor=${cursor}`);
-      if (message) detailParts.push(message);
-      const detail = detailParts.join(" \u2022 ");
-      const tone = classifyKind(kind, message, status);
-      return { ts, kind, detail, tone };
-    }
-    function appendEvent(ev, fallbackKind) {
-      ensurePanel();
-      const feed = document.getElementById(FEED_ID);
-      if (!feed) return;
-      const record = buildEventRecord(ev, fallbackKind);
-      const row = document.createElement("div");
-      row.className = `phase61-task-event phase61-task-event-${record.tone}`;
-      row.dataset.eventKind = record.kind;
-      row.dataset.eventTone = record.tone;
-      row.style.position = "relative";
-      row.style.display = "grid";
-      row.style.gridTemplateColumns = "minmax(112px, 132px) minmax(150px, 170px) 1fr";
-      row.style.gap = "10px";
-      row.style.alignItems = "start";
-      row.style.padding = "10px 12px 10px 14px";
-      row.style.marginBottom = "8px";
-      row.style.border = "1px solid rgba(255,255,255,0.10)";
-      row.style.borderRadius = "12px";
-      row.style.background = "rgba(255,255,255,0.03)";
-      row.style.lineHeight = "1.35";
-      row.style.fontSize = "12px";
-      const accent = document.createElement("span");
-      accent.setAttribute("aria-hidden", "true");
-      accent.style.position = "absolute";
-      accent.style.left = "0";
-      accent.style.top = "10px";
-      accent.style.bottom = "10px";
-      accent.style.width = "3px";
-      accent.style.borderRadius = "999px";
-      accent.style.background = accentColor(record.tone);
-      const time = document.createElement("div");
-      time.textContent = record.ts;
-      time.style.color = "rgba(255,255,255,0.68)";
-      time.style.fontVariantNumeric = "tabular-nums";
-      time.style.whiteSpace = "nowrap";
-      const kind = document.createElement("div");
-      kind.textContent = record.kind;
-      kind.style.color = "rgba(255,255,255,0.92)";
-      kind.style.fontWeight = "600";
-      kind.style.letterSpacing = "0.01em";
-      kind.style.wordBreak = "break-word";
-      const detail = document.createElement("div");
-      detail.textContent = record.detail || "\u2014";
-      detail.style.color = "rgba(255,255,255,0.78)";
-      detail.style.wordBreak = "break-word";
-      row.appendChild(accent);
-      row.appendChild(time);
-      row.appendChild(kind);
-      row.appendChild(detail);
-      feed.prepend(row);
-      const children = Array.from(feed.children);
-      if (children.length > 60) {
-        for (let i = 60; i < children.length; i++) children[i].remove();
-      }
-    }
-    function dispatchWindowEvent(ev) {
-      try {
-        window.dispatchEvent(new CustomEvent("mb.task.event", { detail: ev }));
-      } catch {
-      }
-    }
-    function parseMaybeJSON(raw) {
+    function parse(raw) {
       try {
         return JSON.parse(raw);
       } catch {
         return null;
       }
     }
-    function handleFrame(eventName, rawData) {
-      const data = typeof rawData === "string" ? parseMaybeJSON(rawData) : rawData;
-      const ev = data && typeof data === "object" ? data : { kind: eventName, raw: rawData };
-      if (eventName === "task.event") {
-        if (ev.actor == null && ev.meta && typeof ev.meta === "object") ev.actor = ev.meta.actor ?? ev.meta.owner ?? null;
-        if (!ev.kind && ev.type) ev.kind = ev.type;
-        if (ev.kind === "task.event" && ev.type) ev.kind = ev.type;
-        if (ev.task_id == null && ev.taskId != null) ev.task_id = ev.taskId;
-        if (ev.run_id == null && ev.runId != null) ev.run_id = ev.runId;
-        if (ev && ev.meta && typeof ev.meta === "object") {
-          if (ev.task_id == null && ev.meta.task_id != null) ev.task_id = ev.meta.task_id;
-          if (ev.run_id == null && ev.meta.run_id != null) ev.run_id = ev.meta.run_id;
-          if (ev.actor == null && ev.meta.actor != null) ev.actor = ev.meta.actor;
-          if (ev.actor == null && ev.meta.owner != null) ev.actor = ev.meta.owner;
-          if (ev.status == null && ev.meta.status != null) ev.status = ev.meta.status;
-        }
-      }
-      if (!ev.kind) ev.kind = eventName;
-      const key = `${eventName}|${ev.kind}|${ev.ts ?? ""}|${ev.task_id ?? ""}|${ev.run_id ?? ""}|${ev.cursor ?? ""}`;
-      if (seen.has(key)) return;
-      seen.add(key);
-      if (ev.kind === "task.created" || ev.kind === "task.completed" || ev.kind === "task.failed") {
-        bumpCounts(String(ev.kind));
-      }
-      appendEvent(ev, eventName);
-      if (window.__UI_DEBUG) try {
-        console.log("[task-events] mb.task.event", ev);
-      } catch {
-      }
-      dispatchWindowEvent(ev);
+    function payload(e) {
+      return e && e.payload && typeof e.payload === "object" ? e.payload : {};
     }
-    let es = null;
-    let attempt = 0;
-    function connect() {
-      ensurePanel();
-      if (es) {
-        try {
-          es.close();
-        } catch {
-        }
-        es = null;
+    function shortId(v) {
+      const s = String(v || "");
+      return s.length > 18 ? s.slice(0, 10) + "\u2026" + s.slice(-6) : s;
+    }
+    function formatTime(v) {
+      const d = new Date(Number(v) || v);
+      return Number.isNaN(d.getTime()) ? String(v || "") : d.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
+    }
+    function resolveTitle(e) {
+      const taskId = e.task_id || e.taskId || "";
+      const p = payload(e);
+      const t = e.title || p.title || e.message || p.message || e.detail || p.detail || "";
+      if (t && !String(t).startsWith("{")) {
+        titlesByTaskId.set(taskId, t);
+        return t;
       }
-      const url = SSE_URL;
-      es = new EventSource(url);
-      es.onopen = () => {
-        attempt = 0;
-        setDot("open");
-        appendEvent({ ts: Date.now(), kind: "sse.open", message: `url=${url}` }, "sse.open");
-        console.log("[phase22] task-events SSE open", url);
-      };
+      return titlesByTaskId.get(taskId) || "Untitled task";
+    }
+    function contextText(e) {
+      const kind = e.kind || "task.event";
+      const p = payload(e);
+      const retryMode = p.retry_mode || "";
+      const executionMode = p.execution_mode || "";
+      const isFresh = retryMode === "fresh-context" || executionMode === "rebuild_context";
+      const isRetry = retryMode || p.retry_of_task_id;
+      if (kind === "task.completed" && isFresh) return "Retry executed with fresh context and completed successfully.";
+      if (kind === "task.completed" && isRetry) return "Retry executed and completed successfully.";
+      if (kind === "task.completed") return "Task completed successfully.";
+      if (kind === "task.created" && isFresh) return "Retry entered the pipeline with fresh-context routing.";
+      if (kind === "task.created" && isRetry) return "Retry entered the execution pipeline.";
+      if (kind === "task.created") return "Task entered the execution pipeline.";
+      if (kind === "task.failed" && isRetry) return "Retry failed during execution.";
+      if (kind === "task.failed") return "Task failed during execution.";
+      if (kind === "task.started") return "Worker started processing this task.";
+      return "System event recorded.";
+    }
+    async function delegateTask(body) {
+      try {
+        const res = await fetch("/api/delegate-task", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(body)
+        });
+        return await res.json();
+      } catch (err) {
+        console.error("delegateTask failed", err);
+      }
+    }
+    function wireActions(container, e) {
+      const taskId = e.task_id || e.taskId;
+      const title = resolveTitle(e);
+      container.querySelector('[data-action="copy-id"]')?.addEventListener("click", (event) => {
+        event.preventDefault();
+        event.stopPropagation();
+        navigator.clipboard.writeText(taskId);
+      });
+      container.querySelector('[data-action="requeue"]')?.addEventListener("click", (event) => {
+        event.preventDefault();
+        event.stopPropagation();
+        delegateTask({
+          title,
+          kind: "retry",
+          source: "execution-inspector",
+          meta: {
+            retry_of_task_id: taskId,
+            retry_mode: "standard"
+          },
+          strategy: "standard"
+        });
+      });
+      container.querySelector('[data-action="retry"]')?.addEventListener("click", (event) => {
+        event.preventDefault();
+        event.stopPropagation();
+        delegateTask({
+          title,
+          kind: "retry",
+          source: "execution-inspector",
+          meta: {
+            retry_of_task_id: taskId,
+            retry_mode: "fresh-context"
+          },
+          strategy: "fresh-context"
+        });
+      });
+    }
+    function render(state) {
+      const el = root();
+      if (!el) return;
+      const rows = events.map((e, i) => {
+        const kind = e.kind || "task.event";
+        const taskId = e.task_id || e.taskId || "";
+        const runId = e.run_id || e.runId || "";
+        const ts = e.created_at || e.ts || Date.now();
+        const title = resolveTitle(e);
+        const json = JSON.stringify(e, null, 2);
+        return `
+<details data-idx="${i}" style="border-top:1px solid rgba(148,163,184,.2); padding:16px 0;">
+  <summary style="list-style:none; cursor:pointer; display:grid; grid-template-columns:120px 1fr; gap:16px; padding-left:12px;">
+    <div>
+      <div style="color:${kind === "task.completed" ? "#86efac" : "#93c5fd"}; font-weight:700;">
+        ${kind.replace("task.", "")}
+      </div>
+      <div style="color:#64748b; font-size:12px;">${formatTime(ts)}</div>
+    </div>
+
+    <div>
+      <div style="font-weight:700;">${escapeHtml(title)}</div>
+      <div style="margin-top:8px; display:flex; gap:16px;">
+        <span data-action="copy-id" style="color:#86efac; cursor:pointer;">Copy ID</span>
+        <span data-action="requeue" style="color:#facc15; cursor:pointer;">Requeue</span>
+        <span data-action="retry" style="color:#60a5fa; cursor:pointer;">Retry</span>
+      </div>
+    </div>
+  </summary>
+
+  <div style="width:92%; margin:14px auto 0 auto; background:#111827; border:1px solid #334155; border-radius:12px; padding:16px;">
+    <div>${escapeHtml(contextText(e))}</div>
+
+    <div style="margin-top:8px; color:#a78bfa; font-family:monospace;">
+      task=${escapeHtml(shortId(taskId))} ${runId ? "\u2022 run=" + escapeHtml(shortId(runId)) : ""}
+    </div>
+
+    <details style="margin-top:10px;">
+      <summary style="cursor:pointer;">Advanced \u25B8</summary>
+      <pre style="margin-top:8px; font-size:11px;">${escapeHtml(json)}</pre>
+    </details>
+  </div>
+</details>
+      `;
+      }).join("");
+      el.innerHTML = `
+      <div style="display:flex; justify-content:space-between; margin-bottom:12px;">
+        <span>Execution Inspector: ${escapeHtml(state)}</span>
+        <span>${events.length} events</span>
+      </div>
+      ${rows}
+    `;
+      document.querySelectorAll("details[data-idx]").forEach((node) => {
+        const idx = Number(node.getAttribute("data-idx"));
+        wireActions(node, events[idx]);
+      });
+    }
+    function ingest(raw, type) {
+      if (type === "hello") {
+        render("Connected \u2014 watching task stream");
+        return;
+      }
+      if (type === "heartbeat") {
+        render("Connected \u2014 watching task stream");
+        return;
+      }
+      const e = parse(raw);
+      if (!e) return;
+      e.kind = e.kind || type;
+      const taskId = e.task_id || e.taskId;
+      if (!taskId) return;
+      const id = e.id || `${e.kind}:${taskId}`;
+      if (seen.has(id)) return;
+      seen.add(id);
+      events.unshift(e);
+      if (events.length > maxEvents) events.length = maxEvents;
+      render("Connected");
+    }
+    function start() {
+      render("Connecting");
+      const es = new EventSource(STREAM_URL);
+      es.onopen = () => render("Connected \u2014 watching task stream");
       es.onerror = () => {
-        setDot("error");
-        try {
-          es.close();
-        } catch {
+        if (events.length > 0) {
+          render("Connected \u2014 stream reconnecting");
+        } else {
+          render("Connected \u2014 awaiting next task event");
         }
-        es = null;
-        attempt += 1;
-        const delay = Math.min(15e3, 500 * Math.pow(2, Math.min(6, attempt)));
-        appendEvent({ ts: Date.now(), kind: "sse.error", message: `reconnect_in=${delay}ms` }, "sse.error");
-        console.log("[phase22] task-events SSE error; reconnect in", delay);
-        setTimeout(connect, delay);
       };
-      es.onmessage = (msg) => handleFrame("message", msg.data);
-      const names = [
-        "hello",
-        "heartbeat",
-        "task.event",
-        "task.created",
-        "task.completed",
-        "task.failed",
-        "task.updated",
-        "task.status"
-      ];
-      for (const name of names) {
-        es.addEventListener(name, (e) => handleFrame(name, e.data));
-      }
-    }
-    function boot() {
-      connect();
-      setInterval(() => {
-        if (!document.getElementById(PANEL_ID)) {
-          try {
-            connect();
-          } catch {
-          }
-        }
-      }, 2e3);
+      es.onmessage = (e) => ingest(e.data, "message");
+      ["task.created", "task.started", "task.completed", "task.failed"].forEach((t) => {
+        es.addEventListener(t, (e) => ingest(e.data, t));
+      });
     }
     if (document.readyState === "loading") {
-      document.addEventListener("DOMContentLoaded", boot, { once: true });
+      document.addEventListener("DOMContentLoaded", start, { once: true });
     } else {
-      boot();
+      start();
     }
-    window.__MB_TASK_EVENTS = { url: SSE_URL, reconnect: () => connect() };
   })();
 
   // public/js/phase22_task_delegation_live_bindings.js
@@ -1691,13 +1163,13 @@
     function updateTaskRowUI(task) {
       if (!task?.id) return;
       const id = String(task.id);
-      const nodes2 = [
+      const nodes = [
         document.getElementById(`task-${id}`),
         document.getElementById(`task_${id}`),
         document.querySelector?.(`[data-task-id="${CSS.escape(id)}"]`),
         document.querySelector?.(`[data-taskid="${CSS.escape(id)}"]`)
       ].filter(Boolean);
-      for (const n of nodes2) setStatusOnNode(n, task.status);
+      for (const n of nodes) setStatusOnNode(n, task.status);
     }
     function updateCounterNode(key, value) {
       const el = document.getElementById(`task-count-${key}`) || document.getElementById(`tasks-${key}-count`) || document.querySelector?.(`[data-task-count="${key}"]`) || null;
@@ -1775,22 +1247,2310 @@
   // public/js/telemetry/phase65b_metric_bootstrap.js
   (function() {
     function load(src) {
-      if (document.querySelector(`script[src="${src}"]`)) return;
-      const s = document.createElement("script");
-      s.src = src;
-      s.defer = true;
-      document.body.appendChild(s);
+      try {
+        var existing = document.querySelector('script[data-telemetry-src="' + src + '"]');
+        if (existing) return;
+        var script = document.createElement("script");
+        script.src = src;
+        script.async = false;
+        script.defer = false;
+        script.dataset.telemetrySrc = src;
+        document.head.appendChild(script);
+      } catch (err) {
+        console.error("[telemetry-bootstrap] failed to load:", src, err);
+      }
     }
-    function init() {
+    function start() {
       load("/js/telemetry/phase65b_metric_ownership_guard.js");
       load("/js/telemetry/running_tasks_metric.js");
       load("/js/telemetry/success_rate_metric.js");
       load("/js/telemetry/latency_metric.js");
+      load("/js/telemetry/queue_latency_metric.js");
     }
     if (document.readyState === "loading") {
-      document.addEventListener("DOMContentLoaded", init);
+      document.addEventListener("DOMContentLoaded", start, { once: true });
     } else {
-      init();
+      start();
+    }
+  })();
+
+  // public/js/planning-preview-card.js
+  (() => {
+    "use strict";
+    if (window.__PLANNING_PREVIEW_CARD_ACTIVE__) return;
+    window.__PLANNING_PREVIEW_CARD_ACTIVE__ = true;
+    const ENDPOINT = "/api/governed-planning/dry-run";
+    let latestBundle = null;
+    function escapeHtml(value) {
+      return String(value ?? "").replaceAll("&", "&amp;").replaceAll("<", "&lt;").replaceAll(">", "&gt;").replaceAll('"', "&quot;").replaceAll("'", "&#039;");
+    }
+    function boolLabel(value) {
+      return value === true ? "true" : "false";
+    }
+    function statusPill(label, ok) {
+      return `
+
+      <div class="flex items-center justify-between rounded-lg border border-gray-800 bg-gray-950/50 px-3 py-2">
+
+        <span class="text-xs text-gray-300">${escapeHtml(label)}</span>
+
+        <span class="text-[10px] uppercase tracking-[0.16em] ${ok ? "text-green-300" : "text-gray-500"}">
+
+          ${ok ? "ok" : "false"}
+
+        </span>
+
+      </div>
+
+    `;
+    }
+    function renderTrace(trace = []) {
+      if (!Array.isArray(trace) || trace.length === 0) {
+        return '<div class="text-xs text-gray-500">No trace events returned.</div>';
+      }
+      return trace.map((entry, index) => `
+
+      <div class="flex items-center justify-between gap-3 rounded-lg border border-gray-800 bg-gray-950/50 px-3 py-2">
+
+        <span class="text-xs text-gray-300">${index + 1}. ${escapeHtml(entry.event || "unknown_event")}</span>
+
+        <span class="text-[10px] uppercase tracking-[0.16em] ${entry.ok === true ? "text-green-300" : "text-red-300"}">
+
+          ${entry.ok === true ? "ok" : "blocked"}
+
+        </span>
+
+      </div>
+
+    `).join("");
+    }
+    function renderSummary(bundle) {
+      if (!bundle) {
+        return `
+
+        <div class="rounded-xl border border-yellow-700/60 bg-yellow-950/20 p-3 text-sm text-yellow-200">
+
+          No governed planning bundle was returned.
+
+        </div>
+
+      `;
+      }
+      const response = bundle.response || {};
+      const authority = bundle.execution_authority || {};
+      const governanceOk = response.governance?.ok === true;
+      const planningDone = bundle.phase === "planning_completed";
+      const approvalGateOk = response.approval_gate?.ok === true;
+      const anyExecutionAuthority = authority.mutation_performed === true || authority.shell_execution_performed === true || authority.autonomous_execution_performed === true;
+      return `
+
+      <div class="space-y-3">
+
+        <div class="rounded-xl border border-purple-700/50 bg-purple-950/20 p-3">
+
+          <div class="flex items-start justify-between gap-3">
+
+            <div>
+
+              <div class="text-xs uppercase tracking-[0.2em] text-purple-300">Governed Planning Artifact</div>
+
+              <div class="mt-1 text-sm text-gray-200">${escapeHtml(bundle.phase || "planning")}</div>
+
+            </div>
+
+          </div>
+
+        </div>
+
+        <div class="grid gap-2 md:grid-cols-2">
+
+          ${statusPill("Governance", governanceOk)}
+
+          ${statusPill("Planning", planningDone)}
+
+          ${statusPill("Approval gate", approvalGateOk)}
+
+          ${statusPill("Execution authority", anyExecutionAuthority)}
+
+        </div>
+
+        <button
+
+          id="planning-preview-open-modal"
+
+          type="button"
+
+          class="w-full rounded-xl border border-purple-700/60 bg-purple-900/30 px-4 py-2 text-sm font-semibold text-purple-100 hover:bg-purple-800/40 focus:outline-none focus:ring-2 focus:ring-purple-500"
+
+        >
+
+          Open Planning Preview
+
+        </button>
+
+      </div>
+
+    `;
+    }
+    function renderModalBody(bundle) {
+      if (!bundle) {
+        return '<div class="text-sm text-yellow-200">No governed planning bundle loaded.</div>';
+      }
+      const response = bundle.response || {};
+      const reconciliation = bundle.reconciliation || {};
+      const auditLedger = bundle.audit_ledger || {};
+      const authority = bundle.execution_authority || {};
+      const immutable = auditLedger.immutable_constraints || {};
+      const trace = reconciliation.trace || response.trace || [];
+      const entries = Array.isArray(reconciliation.reconciliation_entries) ? reconciliation.reconciliation_entries : [];
+      const governanceOk = response.governance?.ok === true;
+      const approvalGateOk = response.approval_gate?.ok === true;
+      const cadePlanningOk = response.cade_planning?.ok === true;
+      return `
+
+      <div class="space-y-4">
+
+        <section class="rounded-xl border border-purple-700/50 bg-purple-950/20 p-4">
+
+          <h4 class="text-sm font-semibold text-purple-200">What this is</h4>
+
+          <p class="mt-2 text-sm leading-6 text-gray-200">
+
+            This is a read-only planning preview. It shows that Motherboard created a governed planning artifact,
+
+            checked it through the current governance path, and kept it in planning-only mode.
+
+          </p>
+
+          <p class="mt-2 text-sm leading-6 text-gray-300">
+
+            It does not approve execution. It does not run Cade. It does not modify files.
+
+          </p>
+
+        </section>
+
+        <section class="rounded-xl border border-gray-800 bg-gray-950/50 p-4">
+
+          <h4 class="text-sm font-semibold text-gray-100">Plain-language status</h4>
+
+          <div class="mt-3 space-y-2">
+
+            ${statusPill("Governance checks passed", governanceOk)}
+
+            ${statusPill("Planning artifact created", bundle.phase === "planning_completed")}
+
+            ${statusPill("Approval gate evaluated", approvalGateOk)}
+
+            ${statusPill("Cade planning completed", cadePlanningOk)}
+
+          </div>
+
+        </section>
+
+        <section class="rounded-xl border border-gray-800 bg-gray-950/50 p-4">
+
+          <h4 class="text-sm font-semibold text-gray-100">What is allowed right now</h4>
+
+          <div class="mt-3 grid gap-2 md:grid-cols-3">
+
+            <div class="rounded-lg border border-gray-800 bg-black/30 p-3 text-sm text-gray-200">
+
+              File changes<br><span class="text-green-300">Not authorized</span>
+
+            </div>
+
+            <div class="rounded-lg border border-gray-800 bg-black/30 p-3 text-sm text-gray-200">
+
+              Shell commands<br><span class="text-green-300">Not authorized</span>
+
+            </div>
+
+            <div class="rounded-lg border border-gray-800 bg-black/30 p-3 text-sm text-gray-200">
+
+              Autonomous execution<br><span class="text-green-300">Not authorized</span>
+
+            </div>
+
+          </div>
+
+        </section>
+
+        <section class="rounded-xl border border-gray-800 bg-gray-950/50 p-4">
+
+          <h4 class="text-sm font-semibold text-gray-100">What happened</h4>
+
+          <div class="mt-3 space-y-2">${renderTrace(trace)}</div>
+
+        </section>
+
+        <section class="rounded-xl border border-gray-800 bg-gray-950/50 p-4">
+
+          <h4 class="text-sm font-semibold text-gray-100">What would be reviewed next</h4>
+
+          <p class="mt-2 text-sm leading-6 text-gray-300">
+
+            The next governance step is not execution. The next step is a clearer preview-confirmation surface:
+
+            a human-readable view of the interpreted request, proposed work, risks, rollback, and reconciliation details.
+
+          </p>
+
+          <p class="mt-2 text-sm leading-6 text-gray-400">
+
+            Current reconciliation entries: ${entries.length}
+
+          </p>
+
+        </section>
+
+        <details class="rounded-xl border border-gray-800 bg-gray-950/50 p-4">
+
+          <summary class="cursor-pointer text-sm font-semibold text-gray-200">
+
+            Developer details
+
+          </summary>
+
+          <div class="mt-4 space-y-4">
+
+            <section>
+
+              <h5 class="text-xs uppercase tracking-[0.2em] text-gray-500">Artifact identity</h5>
+
+              <div class="mt-2 grid gap-2 md:grid-cols-3">
+
+                <div class="text-xs text-gray-300">Schema: ${escapeHtml(bundle.bundle_schema)}</div>
+
+                <div class="text-xs text-gray-300">Phase: ${escapeHtml(bundle.phase)}</div>
+
+                <div class="text-xs text-gray-300">Envelope: ${escapeHtml(bundle.envelope_version)}</div>
+
+              </div>
+
+            </section>
+
+            <section>
+
+              <h5 class="text-xs uppercase tracking-[0.2em] text-gray-500">Immutable constraints</h5>
+
+              <div class="mt-2 grid gap-2 md:grid-cols-2">
+
+                <div class="text-xs text-gray-300">Append only: ${boolLabel(immutable.append_only)}</div>
+
+                <div class="text-xs text-gray-300">Mutation authority granted: ${boolLabel(immutable.mutation_authority_granted)}</div>
+
+                <div class="text-xs text-gray-300">Shell authority granted: ${boolLabel(immutable.shell_authority_granted)}</div>
+
+                <div class="text-xs text-gray-300">Autonomous authority granted: ${boolLabel(immutable.autonomous_authority_granted)}</div>
+
+              </div>
+
+            </section>
+
+            <section>
+
+              <h5 class="text-xs uppercase tracking-[0.2em] text-gray-500">Raw bundle</h5>
+
+              <pre class="mt-2 max-h-72 overflow-auto rounded-lg bg-black/40 p-3 text-xs text-gray-300">${escapeHtml(JSON.stringify(bundle, null, 2))}</pre>
+
+            </section>
+
+          </div>
+
+        </details>
+
+      </div>
+
+    `;
+    }
+    function ensureModal() {
+      let modal = document.getElementById("planning-preview-modal");
+      if (modal) return modal;
+      modal = document.createElement("div");
+      modal.id = "planning-preview-modal";
+      modal.hidden = true;
+      modal.className = "fixed inset-0 z-50 flex items-center justify-center bg-black/70 p-4";
+      modal.innerHTML = `
+
+      <div class="max-h-[88vh] w-full max-w-5xl overflow-hidden rounded-2xl border border-gray-700 bg-gray-900 shadow-2xl">
+
+        <div class="flex items-center justify-between border-b border-gray-700 p-4">
+
+          <div>
+
+            <h3 class="text-lg font-semibold text-gray-100">Governed Planning Artifact</h3>
+
+            <p class="mt-1 text-xs text-gray-400">Read-only preview. No approval or execution authority is granted here.</p>
+
+          </div>
+
+          <button
+
+            id="planning-preview-close-modal"
+
+            type="button"
+
+            class="rounded-lg border border-gray-700 bg-gray-950 px-3 py-2 text-sm text-gray-200 hover:bg-gray-800"
+
+          >
+
+            Close
+
+          </button>
+
+        </div>
+
+        <div id="planning-preview-modal-body" class="max-h-[72vh] overflow-auto p-4"></div>
+
+      </div>
+
+    `;
+      document.body.appendChild(modal);
+      modal.addEventListener("click", (event) => {
+        if (event.target === modal) closeModal();
+      });
+      modal.querySelector("#planning-preview-close-modal")?.addEventListener("click", (event) => {
+        event.preventDefault();
+        closeModal();
+      });
+      document.addEventListener("keydown", (event) => {
+        if (event.key === "Escape" && !modal.hidden) closeModal();
+      });
+      return modal;
+    }
+    function openModal() {
+      const modal = ensureModal();
+      const body = document.getElementById("planning-preview-modal-body");
+      if (body) body.innerHTML = renderModalBody(latestBundle);
+      modal.hidden = false;
+      modal.style.display = "flex";
+    }
+    function closeModal() {
+      const modal = document.getElementById("planning-preview-modal");
+      if (!modal) return;
+      modal.hidden = true;
+      modal.style.display = "none";
+    }
+    function createCard() {
+      const card = document.createElement("section");
+      card.id = "planning-preview-card";
+      card.className = "obs-surface";
+      card.setAttribute("data-planning-preview-card", "true");
+      card.style.marginTop = "1rem";
+      card.innerHTML = `
+
+      <div class="flex items-center justify-between mb-3 border-b border-gray-700 pb-2">
+
+        <h3 class="text-sm uppercase tracking-[0.2em] text-gray-400">Planning Preview</h3>
+
+        <span class="text-xs text-purple-300">read-only</span>
+
+      </div>
+
+      <div id="planning-preview-content" class="bg-gray-900 border border-gray-700 rounded-xl p-3 text-sm text-gray-300">
+
+        Loading governed planning preview artifact...
+
+      </div>
+
+    `;
+      return card;
+    }
+    async function loadPreview() {
+      const content = document.getElementById("planning-preview-content");
+      if (!content) return;
+      try {
+        const response = await fetch(ENDPOINT, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            actor: "Matilda",
+            target: "Cade",
+            objective: "Render governed planning preview artifact in the dashboard read-only preview card",
+            scope_constraints: "Read-only Planning Preview card render. No approval, no preview confirmation, no mutation, no shell execution, no autonomous execution.",
+            risk_level: "low"
+          })
+        });
+        if (!response.ok) throw new Error(`Governed planning route returned ${response.status}`);
+        const payload = await response.json();
+        latestBundle = payload.bundle || null;
+        content.innerHTML = renderSummary(latestBundle);
+        document.getElementById("planning-preview-open-modal")?.addEventListener("click", openModal);
+      } catch (err) {
+        content.innerHTML = `
+
+        <div class="rounded-xl border border-red-700/60 bg-red-950/20 p-3 text-sm text-red-200">
+
+          Planning preview artifact could not be loaded.
+
+          <div class="mt-2 text-xs text-red-300">${escapeHtml(err?.message || err)}</div>
+
+        </div>
+
+      `;
+      }
+    }
+    function mount() {
+      const existing = document.getElementById("planning-preview-card");
+      if (existing) {
+        loadPreview();
+        return;
+      }
+      const recentTasksCard = document.getElementById("recent-tasks-card");
+      if (!recentTasksCard || !recentTasksCard.parentElement) return;
+      recentTasksCard.parentElement.appendChild(createCard());
+      loadPreview();
+    }
+    if (document.readyState === "loading") {
+      document.addEventListener("DOMContentLoaded", mount, { once: true });
+    } else {
+      mount();
+    }
+  })();
+
+  // public/js/phase61_tabs_workspace.js
+  (() => {
+    if (window.__PHASE61_TABS_WORKSPACE_ACTIVE__) return;
+    window.__PHASE61_TABS_WORKSPACE_ACTIVE__ = true;
+    function qsa(root, selector) {
+      return Array.from((root || document).querySelectorAll(selector));
+    }
+    function setSelected(tab, selected) {
+      tab.classList.toggle("active", selected);
+      tab.setAttribute("aria-selected", selected ? "true" : "false");
+      if (selected) {
+        tab.removeAttribute("tabindex");
+      } else {
+        tab.setAttribute("tabindex", "-1");
+      }
+    }
+    function setPanelVisible(panel, visible) {
+      panel.classList.toggle("active", visible);
+      if (visible) {
+        panel.removeAttribute("hidden");
+        panel.setAttribute("aria-hidden", "false");
+        panel.style.display = "";
+      } else {
+        panel.setAttribute("hidden", "");
+        panel.setAttribute("aria-hidden", "true");
+        panel.style.display = "none";
+      }
+    }
+    function activateTab(groupRoot, targetId) {
+      const tabs = qsa(groupRoot, "[data-workspace-tab]");
+      const panels = qsa(groupRoot, "[data-workspace-panel]");
+      let matched = false;
+      tabs.forEach((tab) => {
+        const isSelected = tab.getAttribute("data-target") === targetId;
+        setSelected(tab, isSelected);
+        if (isSelected) matched = true;
+      });
+      panels.forEach((panel) => {
+        setPanelVisible(panel, panel.id === targetId);
+      });
+      return matched;
+    }
+    function installTabGroup(tablistId, panelContainerId) {
+      const tablist = document.getElementById(tablistId);
+      const panelContainer = document.getElementById(panelContainerId);
+      if (!tablist || !panelContainer) return false;
+      const groupRoot = tablist.parentElement || document;
+      const tabs = qsa(tablist, "[data-workspace-tab]");
+      const panels = qsa(panelContainer, "[data-workspace-panel]");
+      if (!tabs.length || !panels.length) return false;
+      tabs.forEach((tab) => {
+        tab.setAttribute("role", "tab");
+        tab.type = "button";
+        tab.addEventListener("click", (event) => {
+          event.preventDefault();
+          const targetId2 = tab.getAttribute("data-target");
+          if (!targetId2) return;
+          activateTab(groupRoot, targetId2);
+        });
+        tab.addEventListener("keydown", (event) => {
+          const currentIndex = tabs.indexOf(tab);
+          if (currentIndex < 0) return;
+          let nextIndex = currentIndex;
+          if (event.key === "ArrowRight" || event.key === "ArrowDown") {
+            nextIndex = (currentIndex + 1) % tabs.length;
+          } else if (event.key === "ArrowLeft" || event.key === "ArrowUp") {
+            nextIndex = (currentIndex - 1 + tabs.length) % tabs.length;
+          } else if (event.key === "Home") {
+            nextIndex = 0;
+          } else if (event.key === "End") {
+            nextIndex = tabs.length - 1;
+          } else {
+            return;
+          }
+          event.preventDefault();
+          const nextTab = tabs[nextIndex];
+          const targetId2 = nextTab.getAttribute("data-target");
+          if (!targetId2) return;
+          activateTab(groupRoot, targetId2);
+          nextTab.focus();
+        });
+      });
+      panels.forEach((panel) => {
+        panel.setAttribute("role", "tabpanel");
+      });
+      const preselected = tabs.find((tab) => tab.classList.contains("active")) || tabs.find((tab) => tab.getAttribute("aria-selected") === "true") || tabs[0];
+      const targetId = preselected?.getAttribute("data-target");
+      if (targetId) {
+        activateTab(groupRoot, targetId);
+      }
+      return true;
+    }
+    function boot() {
+      installTabGroup("operator-tabs", "operator-panels");
+      installTabGroup("observational-tabs", "observational-panels");
+    }
+    if (document.readyState === "loading") {
+      document.addEventListener("DOMContentLoaded", boot, { once: true });
+    } else {
+      boot();
+    }
+  })();
+
+  // public/js/phase530_visible_panels_bridge.js
+  (function() {
+    if (window.__PHASE530_VISIBLE_PANELS_BRIDGE__) return;
+    window.__PHASE530_VISIBLE_PANELS_BRIDGE__ = true;
+    const POLL_MS = 1e4;
+    function esc(value) {
+      return String(value ?? "").replaceAll("&", "&amp;").replaceAll("<", "&lt;").replaceAll(">", "&gt;").replaceAll('"', "&quot;").replaceAll("'", "&#39;");
+    }
+    async function getJson(url) {
+      const res = await fetch(url, { cache: "no-store" });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data?.error || "Request failed");
+      return data;
+    }
+    function renderAgents(rows) {
+      const root = document.getElementById("agent-status-container");
+      if (!root) return;
+      root.innerHTML = `
+      <h2 class="text-xl font-semibold border-b border-gray-700 pb-2 mb-4">Agent Pool</h2>
+      <div style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:0.9rem;width:100%;">
+        ${(rows || []).map((agent) => `
+          <div style="min-height:5.4rem;border:1px solid rgba(75,85,99,.9);background:rgba(17,24,39,.72);border-radius:1rem;padding:1rem;display:flex;flex-direction:column;justify-content:space-between;">
+            <div>
+              <div style="font-weight:800;color:#e5e7eb;font-size:1rem;line-height:1.2;">${esc(agent.agent_name)}</div>
+              <div style="font-size:.82rem;color:#94a3b8;margin-top:.35rem;">${esc(agent.status)}</div>
+            </div>
+            <div style="font-size:.84rem;color:#cbd5e1;margin-top:.65rem;">${esc(agent.current_task || "Available")}</div>
+          </div>
+        `).join("")}
+      </div>
+    `;
+    }
+    function taskRows(tasks) {
+      if (!tasks || !tasks.length) {
+        return `<div style="color:#94a3b8;font-size:.8rem;">No recent tasks yet.</div>`;
+      }
+      const phase718TaskTitleByKey = /* @__PURE__ */ new Map();
+      tasks.forEach((taskForTitle) => {
+        const readableTitle = String(taskForTitle.title || taskForTitle.task_title || taskForTitle.task_id || taskForTitle.id || "");
+        const keys = [
+          taskForTitle.task_id,
+          taskForTitle.id,
+          taskForTitle.uuid,
+          taskForTitle.execution_id
+        ].filter(Boolean).map(String);
+        keys.forEach((key) => {
+          if (key && readableTitle) {
+            phase718TaskTitleByKey.set(key, readableTitle);
+          }
+        });
+      });
+      return tasks.map((t) => {
+        const rawTitle = String(t.title || t.task_id || t.id || "Untitled task");
+        const retryTitleMatch = rawTitle.match(/^(retry differently|requeue)\s+(t_[a-f0-9-]+)$/i);
+        const phase718ResolveBaseTitle = (candidateTitle, depth = 0) => {
+          const candidate = String(candidateTitle || "");
+          if (!candidate || depth > 5) return candidate;
+          const nestedRetryMatch = candidate.match(/^(retry differently|requeue)\s+(t_[a-f0-9-]+)$/i);
+          if (!nestedRetryMatch) return candidate;
+          const nestedTarget = nestedRetryMatch[2];
+          return phase718TaskTitleByKey.has(nestedTarget) ? phase718ResolveBaseTitle(phase718TaskTitleByKey.get(nestedTarget), depth + 1) : nestedTarget;
+        };
+        const operatorAction = retryTitleMatch ? retryTitleMatch[1].toLowerCase() === "requeue" ? "Requeue" : "Retry differently" : "";
+        const operatorTarget = retryTitleMatch ? retryTitleMatch[2] : "";
+        const resolvedTargetTitleRaw = operatorTarget && phase718TaskTitleByKey.has(operatorTarget) ? phase718ResolveBaseTitle(phase718TaskTitleByKey.get(operatorTarget)) : operatorTarget;
+        const operatorTitle = operatorAction && resolvedTargetTitleRaw ? `${operatorAction}: ${resolvedTargetTitleRaw}` : operatorAction || phase718ResolveBaseTitle(rawTitle);
+        const title = esc(operatorTitle);
+        const targetTitle = esc(operatorTarget);
+        const status = esc(t.status || "unknown");
+        const taskId = esc(t.task_id || t.id || "");
+        const updated = esc(t.updated_at || "");
+        const outcome = esc(t.outcome_preview || "");
+        const explanation = esc(t.explanation_preview || "");
+        const artifactRaw = t.artifact || (Array.isArray(t.artifacts) ? t.artifacts[0] : null) || t.payload && t.payload.artifact || (t.payload && Array.isArray(t.payload.artifacts) ? t.payload.artifacts[0] : null) || t.metadata && t.metadata.artifact || (t.metadata && Array.isArray(t.metadata.artifacts) ? t.metadata.artifacts[0] : null) || null;
+        const artifactName = artifactRaw ? esc(artifactRaw.filename || artifactRaw.path || "artifact") : "";
+        const artifactType = artifactRaw ? esc(artifactRaw.type || "artifact") : "";
+        const artifactSize = artifactRaw && artifactRaw.size_bytes ? esc(String(artifactRaw.size_bytes) + " bytes") : "";
+        const artifactPath = artifactRaw ? esc(artifactRaw.path || "") : "";
+        const triageStatusRaw = String(t.status || "").toLowerCase();
+        const triageLabel = status ? `status: ${status}` : "";
+        const executionStrategyRaw = t.strategy || t.execution_strategy || t.execution_mode || t.executionMode || "";
+        const executionStrategy = esc(String(executionStrategyRaw || ""));
+        const retryOfRaw = t.retry_of_task_id || t.meta && t.meta.retry_of_task_id || t.payload && t.payload.meta && t.payload.meta.retry_of_task_id || t.execution_meta && t.execution_meta.retry_of_task_id || "";
+        const retryOf = esc(String(retryOfRaw || ""));
+        const guidance = t.guidance || t.payload && t.payload.guidance || t.metadata && t.metadata.guidance || {};
+        const trace = guidance.communicationResult && guidance.communicationResult.systemTrace ? guidance.communicationResult.systemTrace.content : t.payload && t.payload.trace || t.metadata && t.metadata.trace || null;
+        const traceJson = trace ? esc(JSON.stringify(trace, null, 2)) : "";
+        const logContent = esc([
+          `task_id=${taskId}`,
+          `status=${status}`,
+          updated ? `updated=${updated}` : "",
+          outcome ? `outcome=${outcome}` : "",
+          ""
+        ].filter(Boolean).join("\n"));
+        return `
+
+        <article data-phase716-contained-task="true" data-phase717-execution-card="true" style="display:block;width:100%;min-width:0;max-width:100%;box-sizing:border-box;border:1px solid rgba(148,163,184,.24);border-radius:14px;padding:12px;margin:0 0 12px 0;background:rgba(15,23,42,.74);overflow:hidden;">
+
+          <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:8px;min-width:0;">
+
+            <div style="font-weight:600;color:#e5e7eb;overflow-wrap:anywhere;word-break:break-word;min-width:0;">${title}</div>
+
+            ${artifactRaw ? `<button type="button" data-phase719-preview-artifact="true" data-task-id="${taskId}" data-task-title="${title}" data-artifact-name="${artifactName}" data-artifact-type="${artifactType}" data-artifact-size="${artifactSize}" data-artifact-path="${artifactPath}" data-artifact-outcome="${outcome}" data-artifact-explanation="${explanation}" title="Preview completed artifact" style="flex:0 0 auto;cursor:pointer;color:#93c5fd;border:1px solid rgba(147,197,253,.35);border-radius:999px;padding:2px 7px;font-size:10px;line-height:1.4;background:rgba(30,64,175,.18);">Preview</button>` : ""}
+
+            ${executionStrategy ? `<div style="flex:0 0 auto;color:#c4b5fd;border:1px solid rgba(196,181,253,.35);border-radius:999px;padding:2px 7px;font-size:10px;line-height:1.4;background:rgba(88,28,135,.18);">strategy: ${executionStrategy}</div>` : ""}
+
+            ${retryOf ? `<div style="flex:0 0 auto;color:#fcd34d;border:1px solid rgba(252,211,77,.35);border-radius:999px;padding:2px 7px;font-size:10px;line-height:1.4;background:rgba(120,53,15,.18);">retry of: ${retryOf}</div>` : ""}
+
+            ${triageLabel ? `<div style="flex:0 0 auto;color:#86efac;border:1px solid rgba(134,239,172,.35);border-radius:999px;padding:2px 7px;font-size:10px;line-height:1.4;background:rgba(22,101,52,.18);">${triageLabel}</div>` : ""}
+
+          </div>
+            ${""}
+
+          ${""}
+
+          ${""}
+
+          <div style="margin-top:10px;border:1px solid rgba(71,85,105,.55);border-radius:12px;padding:9px;background:rgba(2,6,23,.24);">
+
+              ${artifactRaw ? `<div style="margin-bottom:8px;color:#86efac;font-size:11px;line-height:1.5;overflow-wrap:anywhere;border:1px solid rgba(134,239,172,.28);border-radius:10px;padding:7px;background:rgba(20,83,45,.14);">Artifact: ${artifactName}${artifactType ? ` \xB7 ${artifactType}` : ""}${artifactSize ? ` \xB7 ${artifactSize}` : ""}</div>` : ""}
+            <div style="color:#cbd5e1;font-size:11px;font-weight:700;margin-bottom:7px;letter-spacing:.02em;">Operator actions</div>
+
+            <div style="display:flex;flex-wrap:wrap;gap:7px;align-items:center;">
+
+              <button type="button" data-phase717-requeue="true" data-task-id="${taskId}" data-task-title="${title}" title="Explicit operator action: requeue this task" style="cursor:pointer;border:1px solid rgba(148,163,184,.35);background:rgba(15,23,42,.8);color:#cbd5e1;border-radius:8px;padding:5px 8px;font-size:11px;">Requeue</button>
+
+              <button type="button" data-phase717-retry-differently="true" data-task-id="${taskId}" data-task-title="${title}" title="Explicit operator action: retry this task differently" style="cursor:pointer;border:1px solid rgba(96,165,250,.45);background:rgba(30,41,59,.92);color:#dbeafe;border-radius:8px;padding:5px 8px;font-size:11px;">Retry differently</button>
+
+            </div>
+
+          </div>
+
+          ${outcome ? "" : ""}
+
+          ${explanation ? `<button type="button" data-phase717-inspect-details="true" data-phase717-inspect-title="${title} \u2014 Details" data-phase717-inspect-content="${explanation}" style="margin-top:10px;cursor:pointer;border:1px solid rgba(147,197,253,.35);background:rgba(30,64,175,.14);color:#93c5fd;border-radius:999px;padding:4px 9px;font-size:11px;">Inspect details</button>` : ""}
+
+          ${traceJson ? `<button type="button" data-phase717-inspect-trace="true" data-phase717-inspect-title="${title} \u2014 Advanced trace" data-phase717-inspect-content="${traceJson}" style="margin-top:10px;margin-left:6px;cursor:pointer;border:1px solid rgba(251,191,36,.38);background:rgba(120,53,15,.14);color:#fbbf24;border-radius:999px;padding:4px 9px;font-size:11px;">Inspect trace</button>` : ""}
+
+          ${logContent ? `<button type="button" data-phase717-inspect-logs="true" data-phase717-inspect-title="${title} \u2014 Logs" data-phase717-inspect-content="${logContent}" style="margin-top:10px;margin-left:6px;cursor:pointer;border:1px solid rgba(45,212,191,.38);background:rgba(20,83,45,.14);color:#5eead4;border-radius:999px;padding:4px 9px;font-size:11px;">Inspect logs</button>` : ""}
+
+        </article>
+
+      `;
+      }).join("");
+    }
+    function renderRecent(tasks) {
+      const recentTasks = document.getElementById("recentTasks");
+      const recentLogs = document.getElementById("recentLogs");
+      const recentCard = document.getElementById("recent-tasks-card");
+      if (recentCard) {
+        recentCard.style.display = "block";
+        recentCard.style.minHeight = "0";
+        recentCard.style.height = "100%";
+      }
+      if (recentTasks) {
+        recentTasks.style.minHeight = "0";
+        recentTasks.style.height = "100%";
+        recentTasks.style.overflow = "auto";
+        recentTasks.style.display = "block";
+      }
+      if (recentLogs) {
+        recentLogs.style.display = "none";
+      }
+      if (recentTasks) recentTasks.innerHTML = taskRows(tasks);
+      if (recentLogs) recentLogs.innerHTML = "";
+    }
+    function renderActivity(rows) {
+      const canvas = document.getElementById("task-activity-graph");
+      if (!canvas || !window.Chart) return;
+      const card = document.getElementById("task-activity-card");
+      const shell = canvas.parentElement;
+      if (card) {
+        card.style.height = "100%";
+        card.style.minHeight = "0";
+        card.style.display = "flex";
+        card.style.flexDirection = "column";
+      }
+      if (shell) {
+        shell.style.flex = "1 1 auto";
+        shell.style.height = "100%";
+        shell.style.minHeight = "0";
+        shell.style.display = "flex";
+        shell.style.padding = "0.75rem";
+      }
+      canvas.style.flex = "1 1 auto";
+      canvas.style.width = "100%";
+      canvas.style.height = "100%";
+      canvas.style.minHeight = "0";
+      const labels = (rows || []).map((row) => {
+        const d = new Date(row.timestamp || Date.now());
+        return Number.isNaN(d.getTime()) ? "now" : d.toLocaleTimeString();
+      });
+      const created = (rows || []).map((row) => Number(row.created_count || 0));
+      const completed = (rows || []).map((row) => Number(row.completed_count || 0));
+      const failed = (rows || []).map((row) => Number(row.failed_count || 0));
+      if (window.__PHASE530_ACTIVITY_CHART__) {
+        window.__PHASE530_ACTIVITY_CHART__.data.labels = labels;
+        window.__PHASE530_ACTIVITY_CHART__.data.datasets[0].data = created;
+        window.__PHASE530_ACTIVITY_CHART__.data.datasets[1].data = completed;
+        window.__PHASE530_ACTIVITY_CHART__.data.datasets[2].data = failed;
+        window.__PHASE530_ACTIVITY_CHART__.resize();
+        window.__PHASE530_ACTIVITY_CHART__.update();
+        return;
+      }
+      window.__PHASE530_ACTIVITY_CHART__ = new Chart(canvas, {
+        type: "line",
+        data: {
+          labels,
+          datasets: [
+            { label: "Created", data: created },
+            { label: "Completed", data: completed },
+            { label: "Failed", data: failed }
+          ]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          resizeDelay: 0,
+          layout: {
+            padding: 8
+          },
+          scales: {
+            y: {
+              beginAtZero: true,
+              ticks: {
+                precision: 0
+              }
+            }
+          }
+        }
+      });
+    }
+    function phase717EscapeModalText(value) {
+      return String(value ?? "").replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#39;");
+    }
+    function phase717InspectionModal(options) {
+      return new Promise((resolve) => {
+        const rootId = "phase717-inspection-modal-root";
+        let root = document.getElementById(rootId);
+        if (!root) {
+          root = document.createElement("div");
+          root.id = rootId;
+          document.body.appendChild(root);
+        }
+        const title = String(options.title || "Read-only inspection");
+        const content = String(options.content || "No inspection content available.");
+        root.innerHTML = `
+
+        <div data-phase717-inspection-overlay="true" style="position:fixed;inset:0;z-index:9998;display:flex;align-items:center;justify-content:center;padding:18px;background:rgba(2,6,23,.72);backdrop-filter:blur(6px);">
+
+          <section role="dialog" aria-modal="true" aria-labelledby="phase717-inspection-modal-title" style="width:min(760px,calc(100vw - 28px));max-height:min(760px,calc(100vh - 36px));display:flex;flex-direction:column;border:1px solid rgba(148,163,184,.36);border-radius:16px;background:rgba(15,23,42,.98);box-shadow:0 24px 80px rgba(0,0,0,.45);padding:16px;color:#e5e7eb;">
+
+            <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:10px;">
+
+              <div>
+
+                <div id="phase717-inspection-modal-title" style="font-size:14px;font-weight:800;color:#dbeafe;letter-spacing:.01em;"></div>
+
+                <div style="margin-top:4px;color:#94a3b8;font-size:11px;">Read-only inspection. No execution, retry, or mutation is triggered from this view.</div>
+
+              </div>
+
+              <button type="button" data-phase717-inspection-close="true" style="cursor:pointer;border:1px solid rgba(148,163,184,.35);background:rgba(15,23,42,.85);color:#cbd5e1;border-radius:10px;padding:6px 9px;font-size:12px;">Close</button>
+
+            </div>
+
+            <pre data-phase717-inspection-content="true" style="display:block;box-sizing:border-box;width:100%;max-width:100%;min-height:140px;max-height:560px;overflow:auto;margin-top:12px;padding:10px;border-radius:10px;border:1px solid rgba(51,65,85,.7);background:#020617;color:#e5e7eb;font-size:11px;line-height:1.45;white-space:pre-wrap;overflow-wrap:anywhere;word-break:break-word;"></pre>
+
+          </section>
+
+        </div>
+
+      `;
+        const titleNode = root.querySelector("#phase717-inspection-modal-title");
+        const contentNode = root.querySelector("[data-phase717-inspection-content]");
+        const closeButton = root.querySelector("[data-phase717-inspection-close]");
+        const overlay = root.querySelector("[data-phase717-inspection-overlay]");
+        if (titleNode) titleNode.textContent = title;
+        if (contentNode) contentNode.textContent = content;
+        const close = () => {
+          root.innerHTML = "";
+          resolve(true);
+        };
+        if (closeButton) closeButton.focus();
+        if (closeButton) closeButton.addEventListener("click", close, { once: true });
+        if (overlay) {
+          overlay.addEventListener("click", (event) => {
+            if (event.target === overlay) close();
+          });
+        }
+      });
+    }
+    function phase717RetryModal(options) {
+      return new Promise((resolve) => {
+        const rootId = "phase717-retry-modal-root";
+        let root = document.getElementById(rootId);
+        if (!root) {
+          root = document.createElement("div");
+          root.id = rootId;
+          document.body.appendChild(root);
+        }
+        const title = phase717EscapeModalText(options.title || "Confirm action");
+        const message = phase717EscapeModalText(options.message || "");
+        const confirmLabel = phase717EscapeModalText(options.confirmLabel || "Confirm");
+        const cancelLabel = options.cancelLabel === null ? null : phase717EscapeModalText(options.cancelLabel || "Cancel");
+        const tone = options.tone === "error" ? "#fecaca" : options.tone === "success" ? "#bbf7d0" : "#dbeafe";
+        const border = options.tone === "error" ? "rgba(248,113,113,.45)" : options.tone === "success" ? "rgba(74,222,128,.42)" : "rgba(96,165,250,.45)";
+        root.innerHTML = `
+
+        <div data-phase717-modal-overlay="true" style="position:fixed;inset:0;z-index:9999;display:flex;align-items:center;justify-content:center;padding:18px;background:rgba(2,6,23,.72);backdrop-filter:blur(6px);">
+
+          <section role="dialog" aria-modal="true" aria-labelledby="phase717-retry-modal-title" style="width:min(520px,calc(100vw - 28px));border:1px solid ${border};border-radius:16px;background:rgba(15,23,42,.98);box-shadow:0 24px 80px rgba(0,0,0,.45);padding:16px;color:#e5e7eb;">
+
+            <div id="phase717-retry-modal-title" style="font-size:14px;font-weight:800;color:${tone};letter-spacing:.01em;">${title}</div>
+
+            <div style="margin-top:8px;color:#cbd5e1;font-size:12px;line-height:1.5;white-space:pre-wrap;overflow-wrap:anywhere;">${message}</div>
+
+            <div style="display:flex;justify-content:flex-end;gap:8px;margin-top:14px;">
+
+              ${cancelLabel ? `<button type="button" data-phase717-modal-cancel="true" style="cursor:pointer;border:1px solid rgba(148,163,184,.35);background:rgba(15,23,42,.85);color:#cbd5e1;border-radius:10px;padding:7px 10px;font-size:12px;">${cancelLabel}</button>` : ""}
+
+              <button type="button" data-phase717-modal-confirm="true" style="cursor:pointer;border:1px solid ${border};background:rgba(30,41,59,.95);color:${tone};border-radius:10px;padding:7px 10px;font-size:12px;font-weight:700;">${confirmLabel}</button>
+
+            </div>
+
+          </section>
+
+        </div>
+
+      `;
+        const close = (value) => {
+          root.innerHTML = "";
+          resolve(value);
+        };
+        const confirm = root.querySelector("[data-phase717-modal-confirm]");
+        const cancel = root.querySelector("[data-phase717-modal-cancel]");
+        const overlay = root.querySelector("[data-phase717-modal-overlay]");
+        if (confirm) confirm.focus();
+        if (confirm) confirm.addEventListener("click", () => close(true), { once: true });
+        if (cancel) cancel.addEventListener("click", () => close(false), { once: true });
+        if (overlay) {
+          overlay.addEventListener("click", (event) => {
+            if (event.target === overlay) close(false);
+          }, { once: true });
+        }
+      });
+    }
+    async function phase717RetryTask(taskId, mode, button, taskTitle) {
+      if (!taskId) {
+        await phase717RetryModal({ title: "Retry not submitted", message: "Missing task id; retry was not submitted.", confirmLabel: "Close", cancelLabel: null, tone: "error" });
+        return;
+      }
+      const label = mode === "fresh-context" ? "retry differently" : "requeue";
+      const displayName = taskTitle && taskTitle.trim() ? taskTitle.trim() : taskId;
+      const modalTitle = mode === "fresh-context" ? "Confirm retry action" : "Confirm requeue";
+      const detailMessage = mode === "fresh-context" ? "This will create a new queued attempt using a fresh-context execution strategy.\n\nPlease confirm this action to continue." : "This will create a new queued attempt for this task.\n\nPlease confirm this action to continue.";
+      const ok = await phase717RetryModal({ title: modalTitle, message: `Submit ${label} for \u201C${displayName}\u201D?
+
+${detailMessage}`, confirmLabel: "Submit", cancelLabel: "Cancel" });
+      if (!ok) return;
+      const originalText = button ? button.textContent : "";
+      if (button) {
+        button.disabled = true;
+        button.textContent = "Submitting...";
+      }
+      try {
+        const res = await fetch("/api/delegate-task", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            kind: "retry",
+            strategy: mode === "fresh-context" ? "fresh-context" : "standard",
+            title: `${label} ${taskId}`,
+            meta: { retry_of_task_id: taskId },
+            source: "operator-guidance-ui"
+          })
+        });
+        const data = await res.json();
+        if (!res.ok || data.ok === false) {
+          throw new Error(data.error || data.details || `HTTP ${res.status}`);
+        }
+        await phase717RetryModal({ title: "Retry submitted", message: `Retry submitted: ${data.task_id || data.id || "created"}`, confirmLabel: "Close", cancelLabel: null, tone: "success" });
+        await refresh();
+      } catch (err) {
+        await phase717RetryModal({ title: "Retry failed", message: `${err && err.message ? err.message : String(err)}`, confirmLabel: "Close", cancelLabel: null, tone: "error" });
+      } finally {
+        if (button) {
+          button.disabled = false;
+          button.textContent = originalText;
+        }
+      }
+    }
+    document.addEventListener("click", function(event) {
+      const detailButton = event.target.closest("[data-phase717-inspect-details]");
+      const traceButton = event.target.closest("[data-phase717-inspect-trace]");
+      const logsButton = event.target.closest("[data-phase717-inspect-logs]");
+      const inspectionButton = detailButton || traceButton || logsButton;
+      if (!inspectionButton) return;
+      event.preventDefault();
+      phase717InspectionModal({
+        title: inspectionButton.getAttribute("data-phase717-inspect-title") || "Read-only inspection",
+        content: inspectionButton.getAttribute("data-phase717-inspect-content") || "No inspection content available."
+      });
+    });
+    document.addEventListener("click", function(event) {
+      const requeue = event.target.closest("[data-phase717-requeue]");
+      const retryDifferently = event.target.closest("[data-phase717-retry-differently]");
+      if (!requeue && !retryDifferently) return;
+      const button = requeue || retryDifferently;
+      const taskId = button.getAttribute("data-task-id");
+      const taskTitle = button.getAttribute("data-task-title");
+      const mode = retryDifferently ? "fresh-context" : "standard";
+      phase717RetryTask(taskId, mode, button, taskTitle);
+    });
+    async function refresh() {
+      try {
+        const data = await getJson("/api/tasks?limit=12");
+        renderRecent(data.tasks || []);
+      } catch (e) {
+        console.warn("[phase530] recent tasks render failed", e);
+      }
+      renderActivity([]);
+    }
+    if (document.readyState === "loading") {
+      document.addEventListener("DOMContentLoaded", refresh, { once: true });
+    } else {
+      refresh();
+    }
+    setInterval(refresh, POLL_MS);
+    function phase719EnsurePreviewModal() {
+      let modal = document.getElementById("phase719-preview-modal");
+      if (modal) return modal;
+      modal = document.createElement("div");
+      modal.id = "phase719-preview-modal";
+      modal.style.cssText = "display:none;position:fixed;inset:0;z-index:9999;background:rgba(2,6,23,.72);backdrop-filter:blur(5px);align-items:center;justify-content:center;padding:18px;";
+      modal.innerHTML = `
+
+      <div role="dialog" aria-modal="true" aria-labelledby="phase719-preview-title" style="width:min(760px,96vw);max-height:86vh;overflow:auto;background:#020617;border:1px solid rgba(148,163,184,.35);border-radius:16px;box-shadow:0 24px 70px rgba(0,0,0,.55);padding:16px;color:#e5e7eb;">
+
+        <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin-bottom:12px;">
+
+          <div>
+
+            <div id="phase719-preview-title" style="font-size:14px;font-weight:800;color:#f8fafc;">Artifact Preview</div>
+
+            <div id="phase719-preview-subtitle" style="margin-top:4px;font-size:11px;color:#94a3b8;overflow-wrap:anywhere;"></div>
+
+          </div>
+
+          <button type="button" data-phase719-preview-close="true" style="cursor:pointer;border:1px solid rgba(148,163,184,.35);background:rgba(15,23,42,.85);color:#cbd5e1;border-radius:999px;padding:5px 10px;font-size:12px;">Close</button>
+
+        </div>
+
+        <div id="phase719-preview-meta" style="font-size:12px;line-height:1.6;color:#bbf7d0;border:1px solid rgba(134,239,172,.25);background:rgba(20,83,45,.12);border-radius:12px;padding:10px;margin-bottom:12px;"></div>
+
+        <div id="phase719-preview-body" style="overflow-wrap:anywhere;font-size:13px;line-height:1.6;color:#dbeafe;border:1px solid rgba(96,165,250,.24);background:linear-gradient(180deg, rgba(15,23,42,.92), rgba(2,6,23,.74));border-radius:16px;padding:18px;margin:0;box-shadow:inset 0 1px 0 rgba(255,255,255,.04);"></div>
+
+      </div>
+
+    `;
+      document.body.appendChild(modal);
+      modal.addEventListener("click", function(event) {
+        if (event.target === modal || event.target.closest("[data-phase719-preview-close]")) {
+          modal.style.display = "none";
+        }
+      });
+      document.addEventListener("keydown", function(event) {
+        if (event.key === "Escape" && modal.style.display !== "none") {
+          modal.style.display = "none";
+        }
+      });
+      return modal;
+    }
+    function phase719EscapePreviewHtml(value) {
+      return String(value || "").replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#039;");
+    }
+    function phase733NormalizePreviewTransportText(value) {
+      return String(value || "").replace(/\\r\\n/g, "\n").replace(/\\n/g, "\n").replace(/\\t/g, "  ");
+    }
+    function phase733BuildPreviewThemeFromStyleIntent(styleIntent) {
+      const baseTheme = {
+        shell: "radial-gradient(circle at top left, rgba(59,130,246,.18), transparent 34%),linear-gradient(180deg, rgba(15,23,42,.96), rgba(2,6,23,.9))",
+        border: "rgba(148,163,184,.22)",
+        heading: "#f8fafc",
+        body: "#e0f2fe",
+        secondary: "#cbd5e1",
+        card: "rgba(15,23,42,.7)",
+        cardBorder: "rgba(96,165,250,.22)",
+        accent: "#93c5fd",
+        insight: "rgba(6,78,59,.18)",
+        insightBorder: "rgba(45,212,191,.24)",
+        insightText: "#ccfbf1",
+        shadow: "0 24px 70px rgba(0,0,0,.42), inset 0 1px 0 rgba(255,255,255,.05)"
+      };
+      if (!styleIntent || typeof styleIntent !== "object") return baseTheme;
+      const values = Object.values(styleIntent).map((value) => String(value || "").toLowerCase()).join(" ");
+      const wantsSoftGarden = [
+        "cream",
+        "blush",
+        "ivory",
+        "plum",
+        "mauve",
+        "sage",
+        "honey",
+        "gold",
+        "lavender",
+        "garden",
+        "cozy",
+        "cute",
+        "soft",
+        "magical",
+        "rounded"
+      ].some((token) => values.includes(token));
+      if (!wantsSoftGarden) return baseTheme;
+      return {
+        shell: "linear-gradient(135deg, #fff7ed 0%, #fdf2f8 46%, #f5f3ff 100%)",
+        border: "rgba(190,128,143,.35)",
+        heading: "#4a2438",
+        body: "#5b3748",
+        secondary: "#7b5a68",
+        card: "rgba(255,252,247,.88)",
+        cardBorder: "rgba(190,128,143,.28)",
+        accent: "#8f5f76",
+        insight: "rgba(236,253,245,.78)",
+        insightBorder: "rgba(134,170,132,.32)",
+        insightText: "#35523f",
+        shadow: "0 22px 55px rgba(126,75,92,.16), inset 0 1px 0 rgba(255,255,255,.72)"
+      };
+    }
+    function phase720ExtractSemanticEnvelope(markdown) {
+      const source = phase733NormalizePreviewTransportText(markdown);
+      const match = source.match(/<!--\s*MB_SEMANTIC_ARTIFACT_V1\s*([\s\S]*?)\s*-->/);
+      if (!match || !match[1]) return null;
+      try {
+        const parsed = JSON.parse(match[1].trim());
+        if (!parsed || typeof parsed !== "object") return null;
+        return parsed;
+      } catch (_e) {
+        return null;
+      }
+    }
+    function phase720StripSemanticEnvelope(markdown) {
+      return phase733NormalizePreviewTransportText(markdown).replace(/<!--\s*MB_SEMANTIC_ARTIFACT_V1\s*[\s\S]*?\s*-->\s*/g, "");
+    }
+    function phase719ExtractArtifactSections(markdown) {
+      const source = phase733NormalizePreviewTransportText(markdown);
+      const withoutTrace = source.replace(/## Execution Trace[\s\S]*$/i, "").trim();
+      const sections = {};
+      let current = "intro";
+      sections[current] = [];
+      withoutTrace.split(/\r?\n/).forEach((line) => {
+        const h2 = line.match(/^##\s+(.+?)\s*$/);
+        if (h2) {
+          current = h2[1].trim().toLowerCase();
+          sections[current] = [];
+          return;
+        }
+        if (/^#\s+/.test(line)) {
+          sections.title = [line.replace(/^#\s+/, "").trim()];
+          return;
+        }
+        if (!sections[current]) sections[current] = [];
+        sections[current].push(line);
+      });
+      Object.keys(sections).forEach((key) => {
+        sections[key] = sections[key].join("\n").trim();
+      });
+      return sections;
+    }
+    function phase719RenderArtifactVisualCard(markdown) {
+      const semanticEnvelope = phase720ExtractSemanticEnvelope(markdown);
+      const markdownWithoutEnvelope = phase720StripSemanticEnvelope(markdown);
+      const phase733Theme = phase733BuildPreviewThemeFromStyleIntent(semanticEnvelope && semanticEnvelope.style_intent);
+      const sections = phase719ExtractArtifactSections(markdownWithoutEnvelope);
+      const title = sections.title || "Task Artifact";
+      const task = sections.task || "";
+      const status = sections.status || "";
+      const summary = sections.summary || "";
+      const deliverable = sections.deliverable || "";
+      const details = sections.details || "";
+      const recommendations = sections.recommendations || "";
+      const nextSteps = sections["next steps"] || sections.nextsteps || "";
+      const outcome = sections.outcome || "";
+      const explanation = sections.explanation || "";
+      const semanticSource = [
+        title,
+        task,
+        summary,
+        deliverable,
+        details,
+        recommendations,
+        nextSteps,
+        outcome,
+        explanation
+      ].join(" ").toLowerCase();
+      const semanticType = semanticSource.includes("error") || semanticSource.includes("failed") || semanticSource.includes("failure") ? "Recovery Artifact" : semanticSource.includes("next steps") || semanticSource.includes("recommend") ? "Execution Plan" : semanticSource.includes("completed") || semanticSource.includes("success") ? "Completion Summary" : "Task Artifact";
+      const semanticPriority = semanticSource.includes("failed") || semanticSource.includes("blocked") || semanticSource.includes("error") ? "Needs Review" : semanticSource.includes("next") || semanticSource.includes("recommend") ? "Actionable" : "Informational";
+      function phase719CleanRepeatedArtifactText(value) {
+        const raw = String(value || "").trim();
+        const standardPrefix = "Standard execution prepared for:";
+        if (raw.startsWith(standardPrefix)) {
+          return raw.replace(standardPrefix, "Prepared artifact for:").trim();
+        }
+        return raw;
+      }
+      const displaySummary = phase719CleanRepeatedArtifactText(summary);
+      const displayDeliverable = phase719CleanRepeatedArtifactText(deliverable);
+      const displayOutcome = phase719CleanRepeatedArtifactText(outcome);
+      const enrichedSections = [
+        ["Summary", displaySummary],
+        ["Deliverable", displayDeliverable],
+        ["Details", details],
+        ["Recommendations", recommendations],
+        ["Next Steps", nextSteps]
+      ].filter(([, value]) => String(value || "").trim());
+      function phase722NormalizeSemanticText(value) {
+        return String(value || "").replace(/Standard execution prepared for:/gi, "").replace(/Prepared artifact for:/gi, "").replace(/\s+/g, " ").trim().toLowerCase();
+      }
+      function phase722IsDuplicateSemanticText(a, b) {
+        const left = phase722NormalizeSemanticText(a);
+        const right = phase722NormalizeSemanticText(b);
+        return Boolean(left && right && (left === right || left.includes(right) || right.includes(left)));
+      }
+      const semanticOperatorSummary = semanticEnvelope ? [
+        semanticEnvelope.task_summary && !phase722IsDuplicateSemanticText(semanticEnvelope.task_summary, displaySummary) ? ["Semantic Summary", semanticEnvelope.task_summary] : null,
+        Array.isArray(semanticEnvelope.actionable_outputs) && semanticEnvelope.actionable_outputs.length ? ["Actionable Outputs", semanticEnvelope.actionable_outputs.filter((item) => !phase722IsDuplicateSemanticText(item, displayDeliverable)).join("\n")] : null,
+        Array.isArray(semanticEnvelope.evidence_notes) && semanticEnvelope.evidence_notes.length ? ["Evidence Notes", semanticEnvelope.evidence_notes.join("\n")] : null,
+        semanticEnvelope.operator_next_steps && !phase722IsDuplicateSemanticText(semanticEnvelope.operator_next_steps, nextSteps) ? ["Operator Next Steps", semanticEnvelope.operator_next_steps] : null
+      ].filter((entry) => entry && String(entry[1] || "").trim()) : [];
+      const chips = [
+        status ? `<span style="display:inline-flex;align-items:center;border:1px solid rgba(134,239,172,.38);background:rgba(20,83,45,.22);color:#bbf7d0;border-radius:999px;padding:5px 10px;font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.08em;">${phase719EscapePreviewHtml(status)}</span>` : "",
+        `<span style="display:inline-flex;align-items:center;border:1px solid rgba(147,197,253,.34);background:rgba(30,64,175,.22);color:#bfdbfe;border-radius:999px;padding:5px 10px;font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.08em;">${phase719EscapePreviewHtml(semanticType)}</span>`,
+        semanticEnvelope ? `<span style="display:inline-flex;align-items:center;border:1px solid rgba(45,212,191,.34);background:rgba(20,184,166,.14);color:#99f6e4;border-radius:999px;padding:5px 10px;font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.08em;">semantic v${phase719EscapePreviewHtml(semanticEnvelope.semantic_version || "1")}</span>` : "",
+        `<span style="display:inline-flex;align-items:center;border:1px solid rgba(251,191,36,.34);background:rgba(120,53,15,.18);color:#fde68a;border-radius:999px;padding:5px 10px;font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.08em;">${phase719EscapePreviewHtml(semanticPriority)}</span>`
+      ].filter(Boolean).join("");
+      return `
+
+      <div data-phase719-rendered-artifact-preview="true" style="max-width:920px;margin:0 auto;">
+
+        <div style="border:1px solid ${phase733Theme.border};border-radius:22px;overflow:hidden;background:${phase733Theme.shell};box-shadow:${phase733Theme.shadow};">
+
+          <div style="padding:28px 30px 22px 30px;border-bottom:1px solid rgba(148,163,184,.16);">
+
+            <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:18px;">${chips}</div>
+
+            <div style="font-size:30px;line-height:1.05;font-weight:900;letter-spacing:-.04em;color:${phase733Theme.heading};margin-bottom:12px;">${phase719EscapePreviewHtml(title)}</div>
+
+            ${task ? `<div style="font-size:15px;line-height:1.55;color:${phase733Theme.secondary};max-width:760px;">${phase719EscapePreviewHtml(task)}</div>` : ""}
+
+          </div>
+
+          ${semanticOperatorSummary.length ? `
+
+            <div style="display:grid;grid-template-columns:minmax(0,1fr);gap:12px;padding:22px 24px 0 24px;">
+
+              <section style="border:1px solid ${phase733Theme.insightBorder};border-radius:18px;background:${phase733Theme.insight};padding:18px;">
+
+                <div style="font-size:11px;text-transform:uppercase;letter-spacing:.18em;color:#5eead4;font-weight:900;margin-bottom:12px;">Semantic Insights</div>
+
+                <div style="display:grid;gap:10px;">
+
+                  ${semanticOperatorSummary.map(([label, value]) => `
+
+                    <div style="border-top:1px solid rgba(45,212,191,.16);padding-top:10px;">
+
+                      <div style="font-size:10px;text-transform:uppercase;letter-spacing:.16em;color:#99f6e4;font-weight:900;margin-bottom:5px;">${phase719EscapePreviewHtml(label)}</div>
+
+                      <div style="font-size:14px;line-height:1.55;color:${phase733Theme.insightText};white-space:pre-wrap;">${phase719EscapePreviewHtml(value)}</div>
+
+                    </div>
+
+                  `).join("")}
+
+                </div>
+
+              </section>
+
+            </div>
+
+          ` : ""}
+
+          <div style="display:grid;grid-template-columns:minmax(0,1fr);gap:14px;padding:${semanticOperatorSummary.length ? "14px" : "22px"} 24px 10px 24px;">
+
+            ${enrichedSections.map(([label, value]) => `
+
+              <section style="border:1px solid ${phase733Theme.cardBorder};border-radius:18px;background:${phase733Theme.card};padding:18px;">
+
+                <div style="font-size:11px;text-transform:uppercase;letter-spacing:.18em;color:${phase733Theme.accent};font-weight:900;margin-bottom:10px;">${phase719EscapePreviewHtml(label)}</div>
+
+                <div style="font-size:15px;line-height:1.6;color:${phase733Theme.body};white-space:pre-wrap;">${phase719EscapePreviewHtml(value)}</div>
+
+              </section>
+
+            `).join("")}
+
+          </div>
+
+          <div style="display:grid;grid-template-columns:minmax(0,1.2fr) minmax(220px,.8fr);gap:18px;padding:12px 24px 24px 24px;">
+
+            <section style="border:1px solid ${phase733Theme.cardBorder};border-radius:18px;background:${phase733Theme.card};padding:18px;">
+
+              <div style="font-size:11px;text-transform:uppercase;letter-spacing:.18em;color:${phase733Theme.accent};font-weight:900;margin-bottom:10px;">Outcome</div>
+
+              <div style="font-size:17px;line-height:1.55;color:${phase733Theme.body};font-weight:650;">${phase719EscapePreviewHtml(displayOutcome || "No outcome content available.")}</div>
+
+            </section>
+
+            <section style="border:1px solid ${phase733Theme.insightBorder};border-radius:18px;background:${phase733Theme.insight};padding:18px;">
+
+              <div style="font-size:11px;text-transform:uppercase;letter-spacing:.18em;color:#5eead4;font-weight:900;margin-bottom:10px;">Build Path</div>
+
+              <div style="font-size:14px;line-height:1.55;color:${phase733Theme.insightText};white-space:pre-wrap;">${phase719EscapePreviewHtml(explanation || "No explanation available.")}</div>
+
+            </section>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    `;
+    }
+    function phase719RenderArtifactIframePreview(renderedHtml) {
+      const srcdoc = [
+        "<!DOCTYPE html>",
+        "<html>",
+        "<head>",
+        '<meta charset="utf-8">',
+        "<style>",
+        "html,body{margin:0;padding:0;background:#020617;color:#e5e7eb;font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;}",
+        "body{padding:18px;overflow-wrap:anywhere;}",
+        "*{box-sizing:border-box;max-width:100%;}",
+        "</style>",
+        "</head>",
+        "<body>",
+        String(renderedHtml || ""),
+        "</body>",
+        "</html>"
+      ].join("");
+      return `
+
+      <iframe
+
+        title="Artifact rendered preview"
+
+        sandbox=""
+
+        srcdoc="${phase719EscapePreviewHtml(srcdoc)}"
+
+        style="display:block;width:100%;min-height:560px;border:1px solid rgba(148,163,184,.24);border-radius:16px;background:#020617;"
+
+      ></iframe>
+
+    `;
+    }
+    function phase723SanitizeVisualArtifactHtml(html) {
+      const source = String(html || "");
+      const withoutUnsafeBlocks = source.replace(/<\s*script\b[\s\S]*?<\s*\/\s*script\s*>/gi, "").replace(/<\s*style\b[\s\S]*?<\s*\/\s*style\s*>/gi, "").replace(/<\s*iframe\b[\s\S]*?<\s*\/\s*iframe\s*>/gi, "").replace(/<\s*object\b[\s\S]*?<\s*\/\s*object\s*>/gi, "").replace(/<\s*embed\b[\s\S]*?>/gi, "").replace(/<\s*link\b[\s\S]*?>/gi, "").replace(/<\s*meta\b[\s\S]*?>/gi, "");
+      return withoutUnsafeBlocks.replace(/\s+on[a-z]+\s*=\s*"[^"]*"/gi, "").replace(/\s+on[a-z]+\s*=\s*'[^']*'/gi, "").replace(/\s+on[a-z]+\s*=\s*[^\s>]+/gi, "").replace(/\s+(href|src)\s*=\s*"javascript:[^"]*"/gi, "").replace(/\s+(href|src)\s*=\s*'javascript:[^']*'/gi, "").replace(/\s+(href|src)\s*=\s*javascript:[^\s>]+/gi, "");
+    }
+    function phase723ExtractVisualArtifactBlock(markdown) {
+      const normalized = phase733NormalizePreviewTransportText(markdown);
+      const source = phase720StripSemanticEnvelope(normalized);
+      const startMarker = "<!-- visual-artifact:start -->";
+      const endMarker = "<!-- visual-artifact:end -->";
+      const startIndex = source.indexOf(startMarker);
+      const endIndex = source.indexOf(endMarker);
+      if (startIndex === -1 || endIndex === -1 || endIndex <= startIndex) {
+        return {
+          hasVisualArtifact: false,
+          visualHtml: "",
+          markdownWithoutVisualArtifact: source
+        };
+      }
+      const visualStart = startIndex + startMarker.length;
+      const visualHtml = source.slice(visualStart, endIndex).trim();
+      const markdownWithoutVisualArtifact = (source.slice(0, startIndex) + source.slice(endIndex + endMarker.length)).trim();
+      return {
+        hasVisualArtifact: Boolean(visualHtml),
+        visualHtml,
+        markdownWithoutVisualArtifact
+      };
+    }
+    function phase723RenderVisualArtifactPreviewCandidate(markdown) {
+      const extracted = phase723ExtractVisualArtifactBlock(markdown);
+      const fallbackMarkdown = extracted.markdownWithoutVisualArtifact || phase733NormalizePreviewTransportText(markdown);
+      const fallbackPreview = phase719RenderArtifactVisualCard(fallbackMarkdown);
+      if (!extracted.hasVisualArtifact) {
+        return fallbackPreview;
+      }
+      const safeVisualHtml = phase723SanitizeVisualArtifactHtml(extracted.visualHtml);
+      if (!safeVisualHtml) {
+        return fallbackPreview;
+      }
+      return `
+
+      <div data-phase723-visual-artifact-preview="true" style="max-width:960px;margin:0 auto 22px auto;border:1px solid rgba(45,212,191,.32);background:linear-gradient(135deg,rgba(15,23,42,.78),rgba(8,47,73,.46));border-radius:26px;padding:22px;box-shadow:0 24px 80px rgba(0,0,0,.32), inset 0 1px 0 rgba(255,255,255,.06);">
+
+        <div style="display:flex;align-items:center;justify-content:space-between;gap:14px;margin-bottom:18px;">
+
+          <div style="font-size:12px;text-transform:uppercase;letter-spacing:.2em;color:#ccfbf1;font-weight:950;text-shadow:0 0 22px rgba(45,212,191,.18);">Visual Artifact</div>
+
+          <div style="font-size:10px;text-transform:uppercase;letter-spacing:.14em;color:#dbeafe;border:1px solid rgba(147,197,253,.34);border-radius:999px;padding:5px 10px;background:rgba(30,64,175,.22);box-shadow:inset 0 1px 0 rgba(255,255,255,.05);">sanitized html subset</div>
+
+        </div>
+
+        <div data-phase723-visual-artifact-body="true" style="overflow:auto;border-radius:20px;background:rgba(2,6,23,.46);border:1px solid rgba(148,163,184,.24);padding:18px;color:#e5e7eb;box-shadow:inset 0 1px 0 rgba(255,255,255,.04);">
+
+          <div data-phase735-visual-html-mount="true"></div>
+
+          <template data-phase735-visual-html-template="true">${phase719EscapePreviewHtml(safeVisualHtml)}</template>
+
+        </div>
+
+      </div>
+
+    `;
+    }
+    function phase736TryParseRenderNativeVisualMountCandidate(candidate) {
+      if (!candidate) {
+        return null;
+      }
+      if (typeof candidate === "object") {
+        return candidate;
+      }
+      if (typeof candidate !== "string") {
+        return null;
+      }
+      const trimmed = candidate.trim();
+      if (!trimmed || !trimmed.startsWith("{") && !trimmed.startsWith("[")) {
+        return null;
+      }
+      try {
+        return JSON.parse(trimmed);
+      } catch (error) {
+        return null;
+      }
+    }
+    function phase736TryRenderNativeVisualMountPayload(data, templateHtml) {
+      try {
+        const candidates = [
+          data?.render_native_dashboard,
+          data?.renderNativeDashboard,
+          data?.render_native_payload,
+          data?.renderNativePayload,
+          data?.artifact?.render_native_dashboard,
+          data?.artifact?.renderNativeDashboard,
+          data?.artifact?.render_native_payload,
+          data?.artifact?.renderNativePayload,
+          data?.artifact,
+          templateHtml,
+          data?.content
+        ];
+        for (const candidate of candidates) {
+          const parsedCandidate = phase736TryParseRenderNativeVisualMountCandidate(candidate);
+          const guarded = phase736RenderNativeDashboardGuard(parsedCandidate);
+          if (!guarded || guarded.renderNative !== true) {
+            continue;
+          }
+          const rendered = phase736RenderNativeDashboardHtml(guarded.payload);
+          if (rendered && typeof rendered === "string") {
+            return rendered;
+          }
+        }
+        return null;
+      } catch (error) {
+        console.warn(
+          "[phase736] render-native visual mount route failed, falling back",
+          error
+        );
+        return null;
+      }
+    }
+    function phase736RenderNativeDashboardGuard(payload) {
+      try {
+        if (!payload || typeof payload !== "object") {
+          return null;
+        }
+        const schemaVersion = payload.schemaVersion || "";
+        const renderMode = payload.renderMode || "";
+        const rendererTarget = payload.rendererTarget || "";
+        const isRenderNative = schemaVersion.includes("render-native") || renderMode.includes("render-native") || rendererTarget.includes("render-native");
+        if (!isRenderNative) {
+          return null;
+        }
+        return {
+          renderNative: true,
+          payload
+        };
+      } catch (error) {
+        console.warn(
+          "[phase736] render-native guard failed",
+          error
+        );
+        return null;
+      }
+    }
+    function phase736EscapeRenderNativeText(value) {
+      return String(value ?? "").replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#039;");
+    }
+    function phase736RenderNativeToneClass(tone) {
+      const normalized = String(tone || "info").toLowerCase();
+      if (normalized.includes("ready")) return "phase736-tone-ready";
+      if (normalized.includes("blocked")) return "phase736-tone-blocked";
+      if (normalized.includes("warning")) return "phase736-tone-warning";
+      if (normalized.includes("critical")) return "phase736-tone-critical";
+      return "phase736-tone-info";
+    }
+    function phase736RenderNativePanel(panel) {
+      const payload = panel && panel.payload ? panel.payload : {};
+      const type = phase736EscapeRenderNativeText(panel && panel.type ? panel.type : "panel");
+      const title = phase736EscapeRenderNativeText(payload.title || panel?.title || type);
+      const accent = phase736EscapeRenderNativeText(panel?.styling?.accent || "teal");
+      if (panel?.renderer === "status-card-grid" && Array.isArray(payload.cards)) {
+        return `
+
+      <section class="phase736-render-panel phase736-panel-status-grid phase736-accent-${accent}">
+
+        <div class="phase736-panel-kicker">${type}</div>
+
+        <h3>${title}</h3>
+
+        <div class="phase736-status-grid">
+
+          ${payload.cards.map((card) => `
+
+            <article class="phase736-status-card ${phase736RenderNativeToneClass(card.tone)}">
+
+              <span class="phase736-status-label">${phase736EscapeRenderNativeText(card.label)}</span>
+
+              <strong>${phase736EscapeRenderNativeText(card.status)}</strong>
+
+              <p>${phase736EscapeRenderNativeText(card.detail)}</p>
+
+            </article>
+
+          `).join("")}
+
+        </div>
+
+      </section>
+
+    `;
+      }
+      if (panel?.renderer === "topology-map" && Array.isArray(payload.nodes)) {
+        return `
+
+      <section class="phase736-render-panel phase736-panel-topology phase736-accent-${accent}">
+
+        <div class="phase736-panel-kicker">${type}</div>
+
+        <h3>${title}</h3>
+
+        <div class="phase736-topology-map">
+
+          ${payload.nodes.map((node) => `
+
+            <div class="phase736-topology-node ${phase736RenderNativeToneClass(node.tone)}">
+
+              <span>${phase736EscapeRenderNativeText(node.stage)}</span>
+
+              <strong>${phase736EscapeRenderNativeText(node.label)}</strong>
+
+            </div>
+
+          `).join('<div class="phase736-topology-connector">\u2192</div>')}
+
+        </div>
+
+      </section>
+
+    `;
+      }
+      if (panel?.renderer === "risk-card-grid" && Array.isArray(payload.risks)) {
+        return `
+
+      <section class="phase736-render-panel phase736-panel-risk-grid phase736-accent-${accent}">
+
+        <div class="phase736-panel-kicker">${type}</div>
+
+        <h3>${title}</h3>
+
+        <div class="phase736-risk-grid">
+
+          ${payload.risks.map((risk) => `
+
+            <article class="phase736-risk-card ${phase736RenderNativeToneClass(risk.severity)}">
+
+              <strong>${phase736EscapeRenderNativeText(risk.label)}</strong>
+
+              <p>${phase736EscapeRenderNativeText(risk.description)}</p>
+
+              <small>${phase736EscapeRenderNativeText(risk.mitigation)}</small>
+
+            </article>
+
+          `).join("")}
+
+        </div>
+
+      </section>
+
+    `;
+      }
+      if (panel?.type === "governance-boundary" && Array.isArray(payload.requirements)) {
+        return `
+
+      <section class="phase736-render-panel phase736-panel-governance phase736-accent-amber">
+
+        <div class="phase736-panel-kicker">governance</div>
+
+        <h3>${title}</h3>
+
+        <ul>
+
+          ${payload.requirements.map((item) => `<li>${phase736EscapeRenderNativeText(item)}</li>`).join("")}
+
+        </ul>
+
+      </section>
+
+    `;
+      }
+      return `
+
+    <section class="phase736-render-panel phase736-accent-${accent}">
+
+      <div class="phase736-panel-kicker">${type}</div>
+
+      <h3>${title}</h3>
+
+      <p>${phase736EscapeRenderNativeText(payload.body || payload.subtitle || "")}</p>
+
+      ${Array.isArray(payload.highlights) ? `
+
+        <div class="phase736-highlight-list">
+
+          ${payload.highlights.map((item) => `<span>${phase736EscapeRenderNativeText(item)}</span>`).join("")}
+
+        </div>
+
+      ` : ""}
+
+    </section>
+
+  `;
+    }
+    function phase736RenderNativeDashboardHtml(renderNativePayload) {
+      const dashboard = renderNativePayload?.dashboard || renderNativePayload?.payload?.dashboard || renderNativePayload;
+      const panels = Array.isArray(dashboard?.panels) ? dashboard.panels : Array.isArray(renderNativePayload?.runtimeComposition?.panels) ? renderNativePayload.runtimeComposition.panels : [];
+      const title = phase736EscapeRenderNativeText(dashboard?.title || renderNativePayload?.dashboardShell?.title || "Render-Native Dashboard");
+      const subtitle = phase736EscapeRenderNativeText(dashboard?.subtitle || renderNativePayload?.dashboardShell?.subtitle || "Governed visual artifact");
+      const theme = dashboard?.theme || renderNativePayload?.dashboardShell?.theme || {};
+      const accents = Array.isArray(theme.accents) ? theme.accents : ["teal", "violet", "amber", "coral", "emerald"];
+      return `
+
+    <div class="phase736-render-native-dashboard" data-phase736-render-native-dashboard="true">
+
+      <style>
+
+        .phase736-render-native-dashboard {
+
+          background: radial-gradient(circle at top left, rgba(45, 212, 191, 0.24), transparent 34%),
+
+                      radial-gradient(circle at top right, rgba(168, 85, 247, 0.22), transparent 30%),
+
+                      linear-gradient(135deg, #07111f 0%, #111827 48%, #1e1b4b 100%);
+
+          color: #f8fafc;
+
+          border-radius: 24px;
+
+          padding: 24px;
+
+          font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+
+          box-shadow: 0 24px 80px rgba(15, 23, 42, 0.42);
+
+        }
+
+        .phase736-dashboard-hero {
+
+          display: grid;
+
+          gap: 12px;
+
+          margin-bottom: 22px;
+
+          padding: 22px;
+
+          border: 1px solid rgba(148, 163, 184, 0.24);
+
+          border-radius: 22px;
+
+          background: rgba(15, 23, 42, 0.62);
+
+          backdrop-filter: blur(16px);
+
+        }
+
+        .phase736-dashboard-hero h2 {
+
+          margin: 0;
+
+          font-size: clamp(1.7rem, 3vw, 2.8rem);
+
+          letter-spacing: -0.04em;
+
+        }
+
+        .phase736-dashboard-hero p {
+
+          margin: 0;
+
+          color: #cbd5e1;
+
+        }
+
+        .phase736-dashboard-badges {
+
+          display: flex;
+
+          flex-wrap: wrap;
+
+          gap: 8px;
+
+        }
+
+        .phase736-dashboard-badges span,
+
+        .phase736-highlight-list span {
+
+          border: 1px solid rgba(255, 255, 255, 0.18);
+
+          border-radius: 999px;
+
+          padding: 6px 10px;
+
+          background: rgba(255, 255, 255, 0.08);
+
+          color: #e2e8f0;
+
+          font-size: 0.78rem;
+
+          text-transform: uppercase;
+
+          letter-spacing: 0.08em;
+
+        }
+
+        .phase736-render-grid {
+
+          display: grid;
+
+          grid-template-columns: repeat(12, minmax(0, 1fr));
+
+          gap: 18px;
+
+        }
+
+        .phase736-render-panel {
+
+          grid-column: span 6;
+
+          border: 1px solid rgba(148, 163, 184, 0.22);
+
+          border-radius: 20px;
+
+          padding: 18px;
+
+          background: rgba(15, 23, 42, 0.64);
+
+          backdrop-filter: blur(18px);
+
+          box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.07), 0 16px 40px rgba(0, 0, 0, 0.24);
+
+        }
+
+        .phase736-panel-status-grid,
+
+        .phase736-panel-topology {
+
+          grid-column: span 12;
+
+        }
+
+        .phase736-panel-kicker {
+
+          color: #67e8f9;
+
+          font-size: 0.72rem;
+
+          text-transform: uppercase;
+
+          letter-spacing: 0.14em;
+
+          margin-bottom: 8px;
+
+        }
+
+        .phase736-render-panel h3 {
+
+          margin: 0 0 12px;
+
+          font-size: 1.05rem;
+
+        }
+
+        .phase736-status-grid,
+
+        .phase736-risk-grid {
+
+          display: grid;
+
+          grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+
+          gap: 12px;
+
+        }
+
+        .phase736-status-card,
+
+        .phase736-risk-card,
+
+        .phase736-topology-node {
+
+          border-radius: 16px;
+
+          padding: 14px;
+
+          background: rgba(255, 255, 255, 0.08);
+
+          border: 1px solid rgba(255, 255, 255, 0.13);
+
+        }
+
+        .phase736-status-card strong,
+
+        .phase736-topology-node strong {
+
+          display: block;
+
+          margin-top: 5px;
+
+          font-size: 1rem;
+
+        }
+
+        .phase736-status-card p,
+
+        .phase736-risk-card p,
+
+        .phase736-risk-card small,
+
+        .phase736-render-panel p {
+
+          color: #cbd5e1;
+
+          line-height: 1.45;
+
+        }
+
+        .phase736-topology-map {
+
+          display: flex;
+
+          flex-wrap: wrap;
+
+          align-items: center;
+
+          gap: 10px;
+
+        }
+
+        .phase736-topology-connector {
+
+          color: #94a3b8;
+
+        }
+
+        .phase736-tone-ready {
+
+          box-shadow: 0 0 0 1px rgba(52, 211, 153, 0.26);
+
+        }
+
+        .phase736-tone-warning {
+
+          box-shadow: 0 0 0 1px rgba(251, 191, 36, 0.32);
+
+        }
+
+        .phase736-tone-blocked,
+
+        .phase736-tone-critical {
+
+          box-shadow: 0 0 0 1px rgba(251, 113, 133, 0.34);
+
+        }
+
+        .phase736-highlight-list {
+
+          display: flex;
+
+          flex-wrap: wrap;
+
+          gap: 8px;
+
+          margin-top: 12px;
+
+        }
+
+        @media (max-width: 860px) {
+
+          .phase736-render-panel {
+
+            grid-column: span 12;
+
+          }
+
+        }
+
+      </style>
+
+      <header class="phase736-dashboard-hero">
+
+        <div class="phase736-dashboard-badges">
+
+          <span>READ-ONLY</span>
+
+          <span>NO MUTATION</span>
+
+          <span>RENDER-NATIVE</span>
+
+          ${accents.slice(0, 5).map((accent) => `<span>${phase736EscapeRenderNativeText(accent)}</span>`).join("")}
+
+        </div>
+
+        <h2>${title}</h2>
+
+        <p>${subtitle}</p>
+
+      </header>
+
+      <main class="phase736-render-grid">
+
+        ${panels.map(phase736RenderNativePanel).join("")}
+
+      </main>
+
+    </div>
+
+  `;
+    }
+    function phase735DecodeVisualArtifactHtmlTransport(html) {
+      const source = phase733NormalizePreviewTransportText(html || "").replace(/\\\\n/g, "\n").replace(/\\\\\"/g, '"').replace(/\\\\'/g, "'").replace(/style="\\+"/g, 'style="').replace(/;\\+"/g, ";").replace(/\\+"=/g, "=");
+      const textarea = document.createElement("textarea");
+      textarea.innerHTML = source;
+      return textarea.value;
+    }
+    function phase719RenderMarkdownArtifactPreview(markdown) {
+      const extractedVisual = phase723ExtractVisualArtifactBlock(markdown);
+      if (extractedVisual.hasVisualArtifact) {
+        const decodedVisualHtml = phase735DecodeVisualArtifactHtmlTransport(extractedVisual.visualHtml);
+        const safeVisualHtml = phase723SanitizeVisualArtifactHtml(decodedVisualHtml);
+        return `
+
+        <div
+
+          data-phase733-single-artifact-render="true"
+
+          style="
+
+            max-width:1040px;
+
+            margin:0 auto;
+
+            border:1px solid rgba(148,163,184,.28);
+
+            border-radius:22px;
+
+            padding:18px;
+
+            background:rgba(15,23,42,.42);
+
+            box-shadow:0 24px 80px rgba(0,0,0,.32), inset 0 1px 0 rgba(255,255,255,.05);
+
+            overflow:auto;
+
+          "
+
+        >
+
+          <div data-phase735-visual-html-mount="true"></div>
+
+          <template data-phase735-visual-html-template="true">${phase719EscapePreviewHtml(safeVisualHtml)}</template>
+
+        </div>
+
+      `;
+      }
+      const strippedFallback = phase720StripSemanticEnvelope(markdown);
+      const decodedFallback = phase735DecodeVisualArtifactHtmlTransport(strippedFallback);
+      const fallbackLooksLikeHtml = /<\s*div\b|<\s*section\b|<\s*article\b/i.test(decodedFallback);
+      if (fallbackLooksLikeHtml) {
+        const safeFallbackHtml = phase723SanitizeVisualArtifactHtml(decodedFallback);
+        return `
+
+        <div
+
+          data-phase733-single-artifact-render="true"
+
+          data-phase735-fallback-html-artifact="true"
+
+          style="
+
+            max-width:1040px;
+
+            margin:0 auto;
+
+            border:1px solid rgba(148,163,184,.28);
+
+            border-radius:22px;
+
+            padding:18px;
+
+            background:rgba(15,23,42,.42);
+
+            box-shadow:0 24px 80px rgba(0,0,0,.32), inset 0 1px 0 rgba(255,255,255,.05);
+
+            overflow:auto;
+
+          "
+
+        >
+
+          <div data-phase735-visual-html-mount="true"></div>
+
+          <template data-phase735-visual-html-template="true">${phase719EscapePreviewHtml(safeFallbackHtml)}</template>
+
+        </div>
+
+      `;
+      }
+      return `
+
+      <div
+
+        data-phase733-single-artifact-render-fallback="true"
+
+        style="
+
+          max-width:920px;
+
+          margin:0 auto;
+
+          border:1px solid rgba(148,163,184,.28);
+
+          border-radius:22px;
+
+          padding:22px;
+
+          background:rgba(15,23,42,.72);
+
+          color:#e5e7eb;
+
+          white-space:pre-wrap;
+
+          overflow-wrap:anywhere;
+
+        "
+
+      >${phase719EscapePreviewHtml(strippedFallback)}</div>
+
+    `;
+    }
+    async function phase719OpenPreviewModal(button) {
+      const modal = phase719EnsurePreviewModal();
+      const title = modal.querySelector("#phase719-preview-title");
+      const subtitle = modal.querySelector("#phase719-preview-subtitle");
+      const meta = modal.querySelector("#phase719-preview-meta");
+      const body = modal.querySelector("#phase719-preview-body");
+      const taskTitle = button.getAttribute("data-task-title") || "Artifact Preview";
+      const taskId = button.getAttribute("data-task-id") || "";
+      const fallbackName = button.getAttribute("data-artifact-name") || "artifact";
+      const fallbackType = button.getAttribute("data-artifact-type") || "artifact";
+      const fallbackSize = button.getAttribute("data-artifact-size") || "";
+      const fallbackPath = button.getAttribute("data-artifact-path") || "";
+      const fallbackOutcome = button.getAttribute("data-artifact-outcome") || "";
+      const fallbackExplanation = button.getAttribute("data-artifact-explanation") || "";
+      title.textContent = "Preview: " + taskTitle;
+      subtitle.textContent = taskId ? "task_id: " + taskId : "";
+      meta.textContent = [
+        "artifact: " + fallbackName,
+        fallbackType ? "type: " + fallbackType : "",
+        fallbackSize ? "size: " + fallbackSize : "",
+        fallbackPath ? "path: " + fallbackPath : ""
+      ].filter(Boolean).join("\n");
+      body.innerHTML = `<div style="color:#93c5fd;font-size:14px;">Loading rendered artifact preview\u2026</div>`;
+      modal.style.display = "flex";
+      if (!taskId) {
+        body.textContent = "No task id available for artifact preview.";
+        return;
+      }
+      try {
+        const res = await fetch(`/api/tasks/${encodeURIComponent(taskId)}/artifact-preview`, { cache: "no-store" });
+        const data = await res.json().catch(() => null);
+        if (!res.ok || !data || data.ok !== true) {
+          body.textContent = [
+            "Rendered artifact content is not available.",
+            data && data.error ? "Error: " + data.error : "",
+            fallbackOutcome ? "\nOutcome:\n" + fallbackOutcome : "",
+            fallbackExplanation ? "\nExplanation:\n" + fallbackExplanation : ""
+          ].filter(Boolean).join("\n");
+          return;
+        }
+        const artifact = data.artifact || {};
+        const renderedName = artifact.filename || fallbackName;
+        const renderedType = artifact.type || fallbackType;
+        const renderedSize = artifact.size_bytes ? String(artifact.size_bytes) + " bytes" : fallbackSize;
+        const renderedCreated = artifact.created_at || "";
+        meta.textContent = [
+          "artifact: " + renderedName,
+          renderedType ? "type: " + renderedType : "",
+          renderedSize ? "size: " + renderedSize : "",
+          renderedCreated ? "created: " + renderedCreated : ""
+        ].filter(Boolean).join("\n");
+        body.innerHTML = phase719RenderMarkdownArtifactPreview(data.content);
+        body.querySelectorAll("[data-phase735-visual-html-mount]").forEach((phase735Mount) => {
+          const template = phase735Mount.parentElement ? phase735Mount.parentElement.querySelector("[data-phase735-visual-html-template]") : null;
+          const templateHtml = template ? template.textContent : "";
+          try {
+            const decoded = phase735DecodeVisualArtifactHtmlTransport(templateHtml);
+            const phase736RenderNativeVisualMountHtml = phase736TryRenderNativeVisualMountPayload(data, templateHtml);
+            phase735Mount.innerHTML = phase736RenderNativeVisualMountHtml || phase723SanitizeVisualArtifactHtml(decoded);
+            if (template) template.remove();
+          } catch (error) {
+            phase735Mount.textContent = "Unable to render artifact preview.";
+          }
+        });
+      } catch (error) {
+        body.textContent = [
+          "Preview fetch failed.",
+          error && error.message ? error.message : String(error),
+          fallbackOutcome ? "\nOutcome:\n" + fallbackOutcome : "",
+          fallbackExplanation ? "\nExplanation:\n" + fallbackExplanation : ""
+        ].filter(Boolean).join("\n");
+      }
+    }
+    document.addEventListener("click", function(event) {
+      const button = event.target.closest("[data-phase719-preview-artifact]");
+      if (!button) return;
+      event.preventDefault();
+      phase719OpenPreviewModal(button);
+    });
+    function phase740TelemetryConsolePolish() {
+      const recentTasks = document.getElementById("recentTasks");
+      const recentLogs = document.getElementById("recentLogs");
+      const recentCard = document.getElementById("recent-tasks-card") || (recentTasks ? recentTasks.closest("section, article, div") : null);
+      document.querySelectorAll("button, [role='tab'], .tab, h2, h3, h4, .uppercase, .tracking-wide").forEach((el) => {
+        const label = String(el.textContent || "").trim().toLowerCase();
+        if (label === "execution inspector" || label === "recent logs" || label === "recent tasks") {
+          el.style.display = "none";
+          el.setAttribute("aria-hidden", "true");
+        }
+      });
+      if (recentLogs) {
+        recentLogs.style.display = "none";
+        recentLogs.setAttribute("aria-hidden", "true");
+      }
+      if (recentCard) {
+        recentCard.style.display = "flex";
+        recentCard.style.flexDirection = "column";
+        recentCard.style.minHeight = "0";
+        recentCard.style.height = "100%";
+        recentCard.style.overflow = "hidden";
+      }
+      if (recentTasks) {
+        recentTasks.style.display = "block";
+        recentTasks.style.flex = "1 1 auto";
+        recentTasks.style.height = "100%";
+        recentTasks.style.minHeight = "0";
+        recentTasks.style.overflowY = "auto";
+        recentTasks.style.overflowX = "hidden";
+      }
+    }
+    const phase740RunTelemetryConsolePolish = () => {
+      try {
+        phase740TelemetryConsolePolish();
+      } catch (error) {
+        console.warn("[phase740] telemetry console polish failed", error);
+      }
+    };
+    phase740RunTelemetryConsolePolish();
+    setInterval(phase740RunTelemetryConsolePolish, 1500);
+    new MutationObserver(phase740RunTelemetryConsolePolish).observe(document.documentElement, {
+      childList: true,
+      subtree: true
+    });
+    function phase740RecentTasksLiveLayoutDiagnostic() {
+      const old = document.getElementById("phase740-recent-layout-diagnostic");
+      if (old) old.remove();
+      const recentTasks = document.getElementById("recentTasks");
+      const rows = [];
+      let el = recentTasks;
+      let depth = 0;
+      while (el && depth < 8) {
+        const rect = el.getBoundingClientRect();
+        const style = getComputedStyle(el);
+        rows.push([
+          depth,
+          el.tagName.toLowerCase(),
+          el.id ? "#" + el.id : "",
+          Math.round(rect.width) + "x" + Math.round(rect.height),
+          "display=" + style.display,
+          "height=" + style.height,
+          "gridRows=" + style.gridTemplateRows,
+          "gridCols=" + style.gridTemplateColumns,
+          "flex=" + style.flex,
+          "overflow=" + style.overflow
+        ].join(" | "));
+        el = el.parentElement;
+        depth += 1;
+      }
+      const box = document.createElement("pre");
+      box.id = "phase740-recent-layout-diagnostic";
+      box.textContent = "RECENT TASKS LIVE LAYOUT DIAGNOSTIC\n\n" + rows.join("\n");
+      box.style.position = "fixed";
+      box.style.right = "12px";
+      box.style.bottom = "12px";
+      box.style.zIndex = "99999";
+      box.style.maxWidth = "720px";
+      box.style.maxHeight = "360px";
+      box.style.overflow = "auto";
+      box.style.padding = "12px";
+      box.style.border = "1px solid rgba(147,197,253,.65)";
+      box.style.borderRadius = "12px";
+      box.style.background = "rgba(2,6,23,.96)";
+      box.style.color = "#dbeafe";
+      box.style.fontSize = "11px";
+      box.style.lineHeight = "1.45";
+      document.body.appendChild(box);
+    }
+    setTimeout(phase740RecentTasksLiveLayoutDiagnostic, 1800);
+    function phase740RecentTasksInnerWrapperHeightFix() {
+      const diagnostic = document.getElementById("phase740-recent-layout-diagnostic");
+      if (diagnostic) diagnostic.remove();
+      const recentTasks = document.getElementById("recentTasks");
+      const recentLogs = document.getElementById("recentLogs");
+      if (recentLogs) {
+        recentLogs.style.display = "none";
+        recentLogs.style.height = "0";
+        recentLogs.style.minHeight = "0";
+        recentLogs.style.overflow = "hidden";
+      }
+      if (recentTasks && recentTasks.parentElement) {
+        const wrapper = recentTasks.parentElement;
+        wrapper.style.flex = "1 1 auto";
+        wrapper.style.height = "100%";
+        wrapper.style.minHeight = "0";
+        wrapper.style.overflow = "hidden";
+        wrapper.style.display = "flex";
+        wrapper.style.flexDirection = "column";
+      }
+      if (recentTasks) {
+        recentTasks.style.flex = "1 1 auto";
+        recentTasks.style.height = "100%";
+        recentTasks.style.minHeight = "0";
+        recentTasks.style.overflowY = "auto";
+        recentTasks.style.overflowX = "hidden";
+        recentTasks.style.display = "block";
+      }
+    }
+    const phase740RunRecentTasksInnerWrapperHeightFix = () => {
+      try {
+        phase740RecentTasksInnerWrapperHeightFix();
+      } catch (error) {
+        console.warn("[phase740] recent tasks inner wrapper height fix failed", error);
+      }
+    };
+    phase740RunRecentTasksInnerWrapperHeightFix();
+    setInterval(phase740RunRecentTasksInnerWrapperHeightFix, 1200);
+    new MutationObserver(phase740RunRecentTasksInnerWrapperHeightFix).observe(document.documentElement, {
+      childList: true,
+      subtree: true
+    });
+  })();
+
+  // public/js/phase493_telemetry_height_sync.js
+  (() => {
+    "use strict";
+    if (window.__PHASE493_TELEMETRY_HEIGHT_SYNC_ACTIVE__) return;
+    window.__PHASE493_TELEMETRY_HEIGHT_SYNC_ACTIVE__ = true;
+    function px(value) {
+      return `${Math.max(0, Math.round(value))}px`;
+    }
+    function syncTelemetryHeight() {
+      const operatorCard = document.getElementById("operator-workspace-card");
+      const telemetryCard = document.getElementById("observational-workspace-card");
+      const telemetryPanels = document.getElementById("observational-panels");
+      if (!operatorCard || !telemetryCard || !telemetryPanels) return;
+      telemetryCard.style.height = "";
+      telemetryCard.style.maxHeight = "";
+      const operatorHeight = operatorCard.getBoundingClientRect().height;
+      if (!operatorHeight || operatorHeight < 100) return;
+      telemetryCard.style.height = px(operatorHeight);
+      telemetryCard.style.maxHeight = px(operatorHeight);
+      telemetryCard.style.overflow = "hidden";
+      telemetryPanels.style.minHeight = "0";
+      telemetryPanels.style.overflowY = "auto";
+      telemetryPanels.style.overflowX = "hidden";
+    }
+    function scheduleSync() {
+      window.requestAnimationFrame(() => {
+        syncTelemetryHeight();
+        window.requestAnimationFrame(syncTelemetryHeight);
+      });
+    }
+    function boot() {
+      scheduleSync();
+      window.addEventListener("resize", scheduleSync, { passive: true });
+      const operatorCard = document.getElementById("operator-workspace-card");
+      const telemetryCard = document.getElementById("observational-workspace-card");
+      if (typeof ResizeObserver !== "undefined") {
+        const observer = new ResizeObserver(scheduleSync);
+        if (operatorCard) observer.observe(operatorCard);
+        if (telemetryCard) observer.observe(telemetryCard);
+      }
+      document.addEventListener("click", (event) => {
+        if (event.target && event.target.closest("[data-workspace-tab]")) {
+          scheduleSync();
+        }
+      });
+    }
+    if (document.readyState === "loading") {
+      document.addEventListener("DOMContentLoaded", boot, { once: true });
+    } else {
+      boot();
     }
   })();
 
