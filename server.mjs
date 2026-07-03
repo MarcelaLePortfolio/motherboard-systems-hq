@@ -41,6 +41,7 @@ import { getRunsList } from "./server/routes/phase36_run_view.mjs";
 
 import { registerPhase40_6ShadowAuditTaskEvents } from "./server/routes/phase40_6_shadow_audit_task_events.mjs";
 import { registerPhase48PolicyProbe } from "./server/routes/phase48_policy_probe.mjs";
+import { mountProjectRegistryRoutes } from "./server/project-registry.mjs";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -87,6 +88,7 @@ app.use((req, res, next) => {
 app.use(createMutationEnforcementMiddleware());
 // Phase 23: parse JSON early (avoid empty req.body)
 app.use(express.json());
+mountProjectRegistryRoutes(app);
 
 // Phase 20: task-events SSE (event-sourced)
 app.use(taskEventsSSE);

@@ -1,0 +1,389 @@
+
+import fs from "fs";
+
+import path from "path";
+
+import Database from "better-sqlite3";
+
+const dbPath = path.join(process.cwd(), "db", "main.db");
+
+const seedPath = path.join(process.cwd(), "projects", "registry.example.json");
+
+const db = new Database(dbPath);
+
+function nowIso() {
+
+  return new Date().toISOString();
+
+}
+
+function normalizeProjectId(value) {
+
+  return String(value || "").trim();
+
+}
+
+export function ensureProjectRegistry() {
+
+  db.exec(`
+
+    CREATE TABLE IF NOT EXISTS project_registry (
+
+      project_id TEXT PRIMARY KEY,
+
+      display_name TEXT NOT NULL,
+
+      project_root_path TEXT,
+
+      git_repository_reference TEXT,
+
+      registration_status TEXT NOT NULL DEFAULT 'registered',
+
+      availability_status TEXT NOT NULL DEFAULT 'available',
+
+      active_context_eligible INTEGER NOT NULL DEFAULT 1,
+
+      created_at TEXT NOT NULL,
+
+      updated_at TEXT NOT NULL,
+
+      last_opened_at TEXT
+
+    );
+
+    CREATE TABLE IF NOT EXISTS active_context (
+
+      singleton_id INTEGER PRIMARY KEY CHECK (singleton_id = 1),
+
+      current_project_id TEXT NOT NULL,
+
+      source TEXT NOT NULL DEFAULT 'system',
+
+      action TEXT NOT NULL DEFAULT 'seed',
+
+      updated_at TEXT NOT NULL,
+
+      FOREIGN KEY (current_project_id) REFERENCES project_registry(project_id)
+
+    );
+
+  `);
+
+  const projectCount = db.prepare("SELECT COUNT(*) AS count FROM project_registry").get().count;
+
+  if (projectCount === 0 && fs.existsSync(seedPath)) {
+
+    const seed = JSON.parse(fs.readFileSync(seedPath, "utf8"));
+
+    const timestamp = nowIso();
+
+    const insert = db.prepare(`
+
+      INSERT INTO project_registry (
+
+        project_id,
+
+        display_name,
+
+        project_root_path,
+
+        git_repository_reference,
+
+        registration_status,
+
+        availability_status,
+
+        active_context_eligible,
+
+        created_at,
+
+        updated_at,
+
+        last_opened_at
+
+      ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+
+    `);
+
+    for (const project of seed.projects || []) {
+
+      insert.run(
+
+        project.id,
+
+        project.name,
+
+        project.repoPath || null,
+
+        project.repoPath || null,
+
+        "registered",
+
+        "available",
+
+        1,
+
+        timestamp,
+
+        timestamp,
+
+        project.id === seed.activeProjectId ? timestamp : null
+
+      );
+
+    }
+
+    if (seed.activeProjectId) {
+
+      db.prepare(`
+
+        INSERT OR REPLACE INTO active_context (
+
+          singleton_id,
+
+          current_project_id,
+
+          source,
+
+          action,
+
+          updated_at
+
+        ) VALUES (1, ?, 'seed', 'initialize_active_context', ?)
+
+      `).run(seed.activeProjectId, timestamp);
+
+    }
+
+  }
+
+  const active = db.prepare("SELECT current_project_id FROM active_context WHERE singleton_id = 1").get();
+
+  if (!active) {
+
+    const fallback = db.prepare(`
+
+      SELECT project_id
+
+      FROM project_registry
+
+      WHERE active_context_eligible = 1
+
+      ORDER BY last_opened_at DESC NULLS LAST, created_at ASC
+
+      LIMIT 1
+
+    `).get();
+
+    if (fallback?.project_id) {
+
+      db.prepare(`
+
+        INSERT OR REPLACE INTO active_context (
+
+          singleton_id,
+
+          current_project_id,
+
+          source,
+
+          action,
+
+          updated_at
+
+        ) VALUES (1, ?, 'system', 'fallback_active_context', ?)
+
+      `).run(fallback.project_id, nowIso());
+
+    }
+
+  }
+
+}
+
+export function getProjectRegistryState() {
+
+  ensureProjectRegistry();
+
+  const projects = db.prepare(`
+
+    SELECT
+
+      project_id AS projectId,
+
+      display_name AS displayName,
+
+      project_root_path AS projectRootPath,
+
+      git_repository_reference AS gitRepositoryReference,
+
+      registration_status AS registrationStatus,
+
+      availability_status AS availabilityStatus,
+
+      active_context_eligible AS activeContextEligible,
+
+      created_at AS createdAt,
+
+      updated_at AS updatedAt,
+
+      last_opened_at AS lastOpenedAt
+
+    FROM project_registry
+
+    ORDER BY last_opened_at DESC NULLS LAST, display_name ASC
+
+  `).all();
+
+  const activeContext = db.prepare(`
+
+    SELECT
+
+      current_project_id AS currentProjectId,
+
+      source,
+
+      action,
+
+      updated_at AS updatedAt
+
+    FROM active_context
+
+    WHERE singleton_id = 1
+
+  `).get();
+
+  return {
+
+    activeProjectId: activeContext?.currentProjectId || null,
+
+    activeProject: projects.find((project) => project.projectId === activeContext?.currentProjectId) || null,
+
+    activeContext: activeContext || null,
+
+    projects
+
+  };
+
+}
+
+export function setActiveProject(projectId, metadata = {}) {
+
+  ensureProjectRegistry();
+
+  const normalizedProjectId = normalizeProjectId(projectId);
+
+  const project = db.prepare(`
+
+    SELECT project_id
+
+    FROM project_registry
+
+    WHERE project_id = ?
+
+      AND registration_status = 'registered'
+
+      AND availability_status = 'available'
+
+      AND active_context_eligible = 1
+
+  `).get(normalizedProjectId);
+
+  if (!project) {
+
+    const error = new Error("Project is not registered, available, and eligible for Active Context.");
+
+    error.statusCode = 404;
+
+    throw error;
+
+  }
+
+  const timestamp = nowIso();
+
+  const transaction = db.transaction(() => {
+
+    db.prepare(`
+
+      UPDATE project_registry
+
+      SET last_opened_at = ?, updated_at = ?
+
+      WHERE project_id = ?
+
+    `).run(timestamp, timestamp, normalizedProjectId);
+
+    db.prepare(`
+
+      INSERT OR REPLACE INTO active_context (
+
+        singleton_id,
+
+        current_project_id,
+
+        source,
+
+        action,
+
+        updated_at
+
+      ) VALUES (1, ?, ?, ?, ?)
+
+    `).run(
+
+      normalizedProjectId,
+
+      metadata.source || "dashboard",
+
+      metadata.action || "switch_project",
+
+      timestamp
+
+    );
+
+  });
+
+  transaction();
+
+  return getProjectRegistryState();
+
+}
+
+export function mountProjectRegistryRoutes(app) {
+
+  ensureProjectRegistry();
+
+  app.get("/api/projects/registry", (req, res) => {
+
+    res.json(getProjectRegistryState());
+
+  });
+
+  app.post("/api/projects/active", (req, res) => {
+
+    try {
+
+      const state = setActiveProject(req.body?.projectId, {
+
+        source: "dashboard",
+
+        action: "switch_project"
+
+      });
+
+      res.json(state);
+
+    } catch (error) {
+
+      res.status(error.statusCode || 500).json({
+
+        error: error.message || "Unable to update Active Context."
+
+      });
+
+    }
+
+  });
+
+}
+
