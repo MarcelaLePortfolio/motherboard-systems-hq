@@ -1,0 +1,15 @@
+
+The root package.json does not define a dev script, only a dashboard bundle build script.
+
+Next step:
+
+Inspect the server entrypoints and current dashboard serving instructions before starting anything.
+
+Run:
+
+grep -RInE "listen\\(|app\\.use|express|static|public/dashboard|public/index|dashboard.html" server.ts server.mjs reflection-sse-server.ts ops-sse-server.ts routes public scripts --exclude-dir=node_modules --exclude-dir=dist 2>/dev/null | sed -n '1,220p'
+
+Then check likely launch notes:
+
+ls -1 | grep -Ei "PHASE11|DASHBOARD|SERVER|RUNTIME|START|README" | sed -n '1,120p'
+
