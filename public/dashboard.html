@@ -577,7 +577,7 @@ section#task-events-card.obs-surface > #mb-task-events-panel-anchor {
 
             <button type="button" class="w-full rounded-xl px-3 py-2 text-left text-sm text-gray-100 hover:bg-gray-800">New Project...</button>
 
-            <button type="button" class="w-full rounded-xl px-3 py-2 text-left text-sm text-gray-100 hover:bg-gray-800">Register Existing Project...</button>
+            <button type="button" data-project-action="register-existing" class="w-full rounded-xl px-3 py-2 text-left text-sm text-gray-100 hover:bg-gray-800">Register Existing Project...</button>
 
           </div>
 
@@ -1145,7 +1145,7 @@ section#task-events-card.obs-surface > #mb-task-events-panel-anchor {
 
           <button type="button" class="w-full rounded-xl px-3 py-2 text-left text-sm text-gray-100 hover:bg-gray-800">New Project...</button>
 
-          <button type="button" class="w-full rounded-xl px-3 py-2 text-left text-sm text-gray-100 hover:bg-gray-800">Register Existing Project...</button>
+          <button type="button" data-project-action="register-existing" class="w-full rounded-xl px-3 py-2 text-left text-sm text-gray-100 hover:bg-gray-800">Register Existing Project...</button>
 
         </div>
 
@@ -1156,6 +1156,66 @@ section#task-events-card.obs-surface > #mb-task-events-panel-anchor {
       console.warn("Project Registry unavailable:", error);
 
     }
+
+  }
+
+  function slugifyProjectName(value) {
+
+    return String(value || "")
+
+      .trim()
+
+      .toLowerCase()
+
+      .replace(/[^a-z0-9]+/g, "-")
+
+      .replace(/^-+|-+$/g, "");
+
+  }
+
+  async function registerExistingProject() {
+
+    const displayName = window.prompt("Project display name:");
+
+    if (!displayName) return;
+
+    const projectRootPath = window.prompt("Project root path:");
+
+    if (!projectRootPath) return;
+
+    const projectId = window.prompt("Project ID:", slugifyProjectName(displayName));
+
+    if (!projectId) return;
+
+    const response = await fetch("/api/projects/register", {
+
+      method: "POST",
+
+      headers: { "Content-Type": "application/json" },
+
+      body: JSON.stringify({
+
+        projectId,
+
+        displayName,
+
+        projectRootPath,
+
+        gitRepositoryReference: projectRootPath
+
+      })
+
+    });
+
+    if (!response.ok) {
+
+      const payload = await response.json().catch(() => ({}));
+
+      throw new Error(payload.error || "Project registration failed.");
+
+    }
+
+    await loadProjectRegistry();
 
   }
 
@@ -1202,6 +1262,28 @@ section#task-events-card.obs-surface > #mb-task-events-panel-anchor {
   menu.addEventListener("click", async (event) => {
 
     event.stopPropagation();
+
+    const registerAction = event.target.closest('[data-project-action="register-existing"]');
+
+    if (registerAction) {
+
+      try {
+
+        await registerExistingProject();
+
+        closeMenu();
+
+      } catch (error) {
+
+        console.warn("Unable to register project:", error);
+
+        window.alert(error.message || "Unable to register project.");
+
+      }
+
+      return;
+
+    }
 
     const option = event.target.closest(".project-context-option");
 
