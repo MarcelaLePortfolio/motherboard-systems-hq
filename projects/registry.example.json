@@ -8,10 +8,27 @@
       "kind": "core",
       "repoPath": ".",
       "services": [
-        { "name": "dashboard", "url": "http://127.0.0.1:8080" },
-        { "name": "ops_sse", "url": "http://127.0.0.1:8080/events/ops" },
-        { "name": "reflections_sse", "url": "http://127.0.0.1:8080/events/reflections" }
+        {
+          "name": "dashboard",
+          "url": "http://127.0.0.1:8080"
+        },
+        {
+          "name": "ops_sse",
+          "url": "http://127.0.0.1:8080/events/ops"
+        },
+        {
+          "name": "reflections_sse",
+          "url": "http://127.0.0.1:8080/events/reflections"
+        }
       ]
+    },
+    {
+      "id": "executive-agent-suite",
+      "name": "Executive Agent Suite",
+      "mode": "integrity",
+      "kind": "workspace",
+      "repoPath": "../executive-agent-suite",
+      "services": []
     }
   ]
 }
