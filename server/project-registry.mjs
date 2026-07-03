@@ -368,6 +368,8 @@ export function registerProject(projectInput = {}, metadata = {}) {
 
   }
 
+  validateExistingGitRepository(projectRootPath);
+
   const duplicatePath = db.prepare(`
 
     SELECT project_id
