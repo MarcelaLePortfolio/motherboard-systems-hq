@@ -23,6 +23,61 @@ function normalizeProjectId(value) {
 
 }
 
+function resolveProjectPathForValidation(projectRootPath) {
+
+  const candidate = String(projectRootPath || "").trim();
+
+  if (!candidate) return null;
+
+  return path.isAbsolute(candidate)
+
+    ? candidate
+
+    : path.resolve(process.cwd(), candidate);
+
+}
+
+function validateExistingGitRepository(projectRootPath) {
+
+  const resolvedPath = resolveProjectPathForValidation(projectRootPath);
+
+  if (!resolvedPath || !fs.existsSync(resolvedPath)) {
+
+    const error = new Error("Project root path does not exist.");
+
+    error.statusCode = 400;
+
+    throw error;
+
+  }
+
+  const stat = fs.statSync(resolvedPath);
+
+  if (!stat.isDirectory()) {
+
+    const error = new Error("Project root path must be a directory.");
+
+    error.statusCode = 400;
+
+    throw error;
+
+  }
+
+  if (!fs.existsSync(path.join(resolvedPath, ".git"))) {
+
+    const error = new Error("Project root path must be a Git repository.");
+
+    error.statusCode = 400;
+
+    throw error;
+
+  }
+
+  return resolvedPath;
+
+}
+
+
 export function ensureProjectRegistry() {
 
   db.exec(`
@@ -75,7 +130,9 @@ export function ensureProjectRegistry() {
 
     const seed = JSON.parse(fs.readFileSync(seedPath, "utf8"));
 
-    const timestamp = nowIso();
+    validateExistingGitRepository(projectRootPath);
+
+  const timestamp = nowIso();
 
     const insert = db.prepare(`
 
