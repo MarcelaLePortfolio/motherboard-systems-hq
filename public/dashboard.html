@@ -1173,19 +1173,107 @@ section#task-events-card.obs-surface > #mb-task-events-panel-anchor {
 
   }
 
-  async function registerExistingProject() {
+  function getRegisterModalElements() {
 
-    const displayName = window.prompt("Project display name:");
+    return {
 
-    if (!displayName) return;
+      modal: document.getElementById("project-register-modal"),
 
-    const projectRootPath = window.prompt("Project root path:");
+      form: document.getElementById("project-register-form"),
 
-    if (!projectRootPath) return;
+      displayName: document.getElementById("project-register-display-name"),
 
-    const projectId = window.prompt("Project ID:", slugifyProjectName(displayName));
+      projectRootPath: document.getElementById("project-register-root-path"),
 
-    if (!projectId) return;
+      projectId: document.getElementById("project-register-project-id"),
+
+      error: document.getElementById("project-register-error"),
+
+      cancel: document.getElementById("project-register-cancel")
+
+    };
+
+  }
+
+  function showRegisterError(message) {
+
+    const { error } = getRegisterModalElements();
+
+    if (!error) return;
+
+    error.textContent = message || "Unable to register project.";
+
+    error.classList.remove("hidden");
+
+  }
+
+  function hideRegisterError() {
+
+    const { error } = getRegisterModalElements();
+
+    if (!error) return;
+
+    error.textContent = "";
+
+    error.classList.add("hidden");
+
+  }
+
+  function closeRegisterModal() {
+
+    const { modal, form } = getRegisterModalElements();
+
+    if (form) form.reset();
+
+    hideRegisterError();
+
+    if (modal) modal.classList.add("hidden");
+
+  }
+
+  function openRegisterModal() {
+
+    const { modal, displayName, projectId } = getRegisterModalElements();
+
+    if (!modal) return;
+
+    hideRegisterError();
+
+    modal.classList.remove("hidden");
+
+    if (displayName) displayName.focus();
+
+    if (displayName && projectId) {
+
+      displayName.oninput = () => {
+
+        if (!projectId.value.trim()) {
+
+          projectId.value = slugifyProjectName(displayName.value);
+
+        }
+
+      };
+
+    }
+
+  }
+
+  async function submitRegisterExistingProject() {
+
+    const { displayName, projectRootPath, projectId } = getRegisterModalElements();
+
+    const payload = {
+
+      projectId: projectId?.value?.trim(),
+
+      displayName: displayName?.value?.trim(),
+
+      projectRootPath: projectRootPath?.value?.trim(),
+
+      gitRepositoryReference: projectRootPath?.value?.trim()
+
+    };
 
     const response = await fetch("/api/projects/register", {
 
@@ -1193,17 +1281,7 @@ section#task-events-card.obs-surface > #mb-task-events-panel-anchor {
 
       headers: { "Content-Type": "application/json" },
 
-      body: JSON.stringify({
-
-        projectId,
-
-        displayName,
-
-        projectRootPath,
-
-        gitRepositoryReference: projectRootPath
-
-      })
+      body: JSON.stringify(payload)
 
     });
 
@@ -1216,6 +1294,12 @@ section#task-events-card.obs-surface > #mb-task-events-panel-anchor {
     }
 
     await loadProjectRegistry();
+
+  }
+
+  async function registerExistingProject() {
+
+    openRegisterModal();
 
   }
 
@@ -1305,9 +1389,59 @@ section#task-events-card.obs-surface > #mb-task-events-panel-anchor {
 
   document.addEventListener("click", closeMenu);
 
+  const registerModalElements = getRegisterModalElements();
+
+  if (registerModalElements.form) {
+
+    registerModalElements.form.addEventListener("submit", async (event) => {
+
+      event.preventDefault();
+
+      try {
+
+        hideRegisterError();
+
+        await submitRegisterExistingProject();
+
+        closeRegisterModal();
+
+      } catch (error) {
+
+        console.warn("Unable to register project:", error);
+
+        showRegisterError(error.message || "Unable to register project.");
+
+      }
+
+    });
+
+  }
+
+  if (registerModalElements.cancel) {
+
+    registerModalElements.cancel.addEventListener("click", closeRegisterModal);
+
+  }
+
+  if (registerModalElements.modal) {
+
+    registerModalElements.modal.addEventListener("click", (event) => {
+
+      if (event.target === registerModalElements.modal) closeRegisterModal();
+
+    });
+
+  }
+
   document.addEventListener("keydown", (event) => {
 
-    if (event.key === "Escape") closeMenu();
+    if (event.key === "Escape") {
+
+      closeMenu();
+
+      closeRegisterModal();
+
+    }
 
   });
 
@@ -1316,6 +1450,63 @@ section#task-events-card.obs-surface > #mb-task-events-panel-anchor {
 })();
 
 </script>
+
+
+<div id="project-register-modal" class="hidden fixed inset-0 z-[10000] bg-black/70 px-4 py-8">
+
+  <div class="mx-auto mt-24 max-w-xl rounded-3xl border border-teal-500/30 bg-gray-950 p-6 shadow-2xl">
+
+    <div class="mb-5">
+
+      <h2 class="text-xl font-bold text-gray-100">Register Existing Project</h2>
+
+      <p class="mt-2 text-sm text-gray-400">Add an existing local project to Motherboard governance without switching Active Context automatically.</p>
+
+    </div>
+
+    <form id="project-register-form" class="space-y-4">
+
+      <label class="block">
+
+        <span class="mb-1 block text-sm font-semibold text-teal-100">Display name</span>
+
+        <input id="project-register-display-name" name="displayName" type="text" required class="w-full rounded-xl border border-gray-700 bg-gray-900 px-4 py-3 text-gray-100 outline-none focus:border-teal-400" placeholder="Example Project" />
+
+      </label>
+
+      <label class="block">
+
+        <span class="mb-1 block text-sm font-semibold text-teal-100">Project root path</span>
+
+        <input id="project-register-root-path" name="projectRootPath" type="text" required class="w-full rounded-xl border border-gray-700 bg-gray-900 px-4 py-3 text-gray-100 outline-none focus:border-teal-400" placeholder="../example-project" />
+
+      </label>
+
+      <label class="block">
+
+        <span class="mb-1 block text-sm font-semibold text-teal-100">Project ID</span>
+
+        <input id="project-register-project-id" name="projectId" type="text" required class="w-full rounded-xl border border-gray-700 bg-gray-900 px-4 py-3 text-gray-100 outline-none focus:border-teal-400" placeholder="example-project" />
+
+      </label>
+
+      <p id="project-register-error" class="hidden rounded-xl border border-red-500/40 bg-red-950/40 px-4 py-3 text-sm text-red-100"></p>
+
+      <div class="flex justify-end gap-3 pt-2">
+
+        <button id="project-register-cancel" type="button" class="rounded-xl border border-gray-700 px-4 py-2 text-sm font-semibold text-gray-200 hover:bg-gray-800">Cancel</button>
+
+        <button type="submit" class="rounded-xl bg-teal-500 px-4 py-2 text-sm font-bold text-gray-950 hover:bg-teal-400">Register Project</button>
+
+      </div>
+
+    </form>
+
+  </div>
+
+</div>
+
+
 </body>
 </html>
 
