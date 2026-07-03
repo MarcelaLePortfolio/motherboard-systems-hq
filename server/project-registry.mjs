@@ -130,9 +130,7 @@ export function ensureProjectRegistry() {
 
     const seed = JSON.parse(fs.readFileSync(seedPath, "utf8"));
 
-    validateExistingGitRepository(projectRootPath);
-
-  const timestamp = nowIso();
+    const timestamp = nowIso();
 
     const insert = db.prepare(`
 
