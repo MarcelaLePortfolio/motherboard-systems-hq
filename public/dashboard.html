@@ -1402,6 +1402,62 @@ section#task-events-card.obs-surface > #mb-task-events-panel-anchor {
 
   }
 
+  function resetRegisterAutofillState() {
+
+    const { displayName, projectId } = getRegisterModalElements();
+
+    if (displayName) displayName.dataset.operatorEdited = "";
+
+    if (projectId) projectId.dataset.operatorEdited = "";
+
+  }
+
+  function markRegisterFieldEdited(event) {
+
+    if (!event?.target) return;
+
+    event.target.dataset.operatorEdited = "1";
+
+  }
+
+  function titleFromProjectDirectoryName(value) {
+
+    return String(value || "")
+
+      .trim()
+
+      .replace(/[-_]+/g, " ")
+
+      .replace(/\s+/g, " ")
+
+      .replace(/\b\w/g, (character) => character.toUpperCase());
+
+  }
+
+  function applyProjectAutofillFromInspection(payload) {
+
+    if (!payload?.ok || !payload.projectDirectoryName) return;
+
+    const { displayName, projectId } = getRegisterModalElements();
+
+    const suggestedName = titleFromProjectDirectoryName(payload.projectDirectoryName);
+
+    const suggestedId = slugifyProjectName(payload.projectDirectoryName);
+
+    if (displayName && !displayName.dataset.operatorEdited && !displayName.value.trim()) {
+
+      displayName.value = suggestedName;
+
+    }
+
+    if (projectId && !projectId.dataset.operatorEdited && !projectId.value.trim()) {
+
+      projectId.value = suggestedId;
+
+    }
+
+  }
+
   async function inspectProjectPathInput() {
 
     const { projectRootPath } = getRegisterModalElements();
@@ -1430,6 +1486,8 @@ section#task-events-card.obs-surface > #mb-task-events-panel-anchor {
 
     setPathStatus(payload);
 
+    applyProjectAutofillFromInspection(payload);
+
   }
 
   function closeRegisterModal() {
@@ -1443,6 +1501,8 @@ section#task-events-card.obs-surface > #mb-task-events-panel-anchor {
     if (submit) submit.disabled = true;
 
     hideRegisterError();
+
+    resetRegisterAutofillState();
 
     setPathStatus("Enter a path to inspect the repository.");
 
@@ -1633,6 +1693,18 @@ section#task-events-card.obs-surface > #mb-task-events-panel-anchor {
       }
 
     });
+
+  }
+
+  if (registerModalElements.displayName) {
+
+    registerModalElements.displayName.addEventListener("input", markRegisterFieldEdited);
+
+  }
+
+  if (registerModalElements.projectId) {
+
+    registerModalElements.projectId.addEventListener("input", markRegisterFieldEdited);
 
   }
 
