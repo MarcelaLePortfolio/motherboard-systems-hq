@@ -1112,7 +1112,7 @@ section#task-events-card.obs-surface > #mb-task-events-panel-anchor {
 
         <button id="project-register-cancel" type="button" class="rounded-xl border border-gray-700 px-4 py-2 text-sm font-semibold text-gray-200 hover:bg-gray-800">Cancel</button>
 
-        <button type="submit" class="rounded-xl bg-teal-500 px-4 py-2 text-sm font-bold text-gray-950 hover:bg-teal-400">Register Project</button>
+        <button id="project-register-submit" type="submit" disabled class="rounded-xl bg-teal-500 px-4 py-2 text-sm font-bold text-gray-950 opacity-50 hover:bg-teal-400 disabled:cursor-not-allowed disabled:opacity-50">Register Project</button>
 
       </div>
 
@@ -1274,6 +1274,8 @@ section#task-events-card.obs-surface > #mb-task-events-panel-anchor {
 
       cancel: document.getElementById("project-register-cancel"),
 
+      submit: document.getElementById("project-register-submit"),
+
       pathStatus: document.getElementById("project-register-path-status")
 
     };
@@ -1306,7 +1308,7 @@ section#task-events-card.obs-surface > #mb-task-events-panel-anchor {
 
   function setPathStatus(payloadOrMessage, ok = false) {
 
-    const { pathStatus } = getRegisterModalElements();
+    const { pathStatus, submit } = getRegisterModalElements();
 
     if (!pathStatus) return;
 
@@ -1319,6 +1321,14 @@ section#task-events-card.obs-surface > #mb-task-events-panel-anchor {
     const message = payload.message || "Enter a path to inspect the repository.";
 
     const ready = Boolean(payload.ok);
+
+    if (submit) {
+
+      submit.disabled = !ready;
+
+      submit.classList.toggle("opacity-50", !ready);
+
+    }
 
     pathStatus.classList.remove("border-gray-700", "bg-gray-900", "text-gray-400", "border-red-500/40", "bg-red-950/40", "text-red-100", "border-teal-500/40", "bg-teal-950/40", "text-teal-100");
 
@@ -1401,6 +1411,10 @@ section#task-events-card.obs-surface > #mb-task-events-panel-anchor {
     const { modal, form } = getRegisterModalElements();
 
     if (form) form.reset();
+
+    const { submit } = getRegisterModalElements();
+
+    if (submit) submit.disabled = true;
 
     hideRegisterError();
 
