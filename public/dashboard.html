@@ -1066,7 +1066,13 @@ section#task-events-card.obs-surface > #mb-task-events-panel-anchor {
 
       <h2 class="text-xl font-bold text-gray-100">Register Existing Project</h2>
 
-      <p class="mt-2 text-sm text-gray-400">Add an existing local project to Motherboard governance without switching Active Context automatically.</p>
+      <p class="mt-2 text-sm text-gray-400">Add an existing local Git repository to Motherboard governance without switching Active Context automatically.</p>
+
+      <p class="mt-2 rounded-xl border border-teal-500/20 bg-teal-950/20 px-3 py-2 text-xs leading-5 text-teal-100">
+
+        The project root path must point to an existing folder that already contains a <code class="rounded bg-gray-900 px-1 py-0.5 text-teal-200">.git</code> directory. You may use a relative path like <code class="rounded bg-gray-900 px-1 py-0.5 text-teal-200">../executive-agent-suite</code> or an absolute path.
+
+      </p>
 
     </div>
 
@@ -1085,6 +1091,8 @@ section#task-events-card.obs-surface > #mb-task-events-panel-anchor {
         <span class="mb-1 block text-sm font-semibold text-teal-100">Project root path</span>
 
         <input id="project-register-root-path" name="projectRootPath" type="text" required class="w-full rounded-xl border border-gray-700 bg-gray-900 px-4 py-3 text-gray-100 outline-none focus:border-teal-400" placeholder="../example-project" />
+
+        <span class="mt-1 block text-xs text-gray-500">Example: <code>../executive-agent-suite</code>. The folder must already exist and be a Git repository.</span>
 
       </label>
 
