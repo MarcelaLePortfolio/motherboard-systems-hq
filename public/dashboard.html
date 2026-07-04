@@ -1304,21 +1304,29 @@ section#task-events-card.obs-surface > #mb-task-events-panel-anchor {
 
   }
 
-  function setPathStatus(message, ok = false) {
+  function setPathStatus(payloadOrMessage, ok = false) {
 
     const { pathStatus } = getRegisterModalElements();
 
     if (!pathStatus) return;
 
-    pathStatus.textContent = message || "Enter a path to inspect the repository.";
+    const payload = typeof payloadOrMessage === "object" && payloadOrMessage !== null
+
+      ? payloadOrMessage
+
+      : { message: payloadOrMessage, ok };
+
+    const message = payload.message || "Enter a path to inspect the repository.";
+
+    const ready = Boolean(payload.ok);
 
     pathStatus.classList.remove("border-gray-700", "bg-gray-900", "text-gray-400", "border-red-500/40", "bg-red-950/40", "text-red-100", "border-teal-500/40", "bg-teal-950/40", "text-teal-100");
 
-    if (ok) {
+    if (ready) {
 
       pathStatus.classList.add("border-teal-500/40", "bg-teal-950/40", "text-teal-100");
 
-    } else if (message && message !== "Enter a path to inspect the repository.") {
+    } else if (payload.inputPath || message !== "Enter a path to inspect the repository.") {
 
       pathStatus.classList.add("border-red-500/40", "bg-red-950/40", "text-red-100");
 
@@ -1327,6 +1335,34 @@ section#task-events-card.obs-surface > #mb-task-events-panel-anchor {
       pathStatus.classList.add("border-gray-700", "bg-gray-900", "text-gray-400");
 
     }
+
+    const statusIcon = ready ? "✓" : payload.inputPath ? "✕" : "•";
+
+    const folderName = payload.projectDirectoryName || "—";
+
+    const resolvedPath = payload.resolvedPath || "—";
+
+    const exists = payload.exists ? "Yes" : "No";
+
+    const isGitRepository = payload.isGitRepository ? "Yes" : "No";
+
+    pathStatus.innerHTML = `
+
+      <div class="font-semibold">${statusIcon} ${escapeHtml(message)}</div>
+
+      <div class="mt-2 grid gap-1 text-[11px] leading-5">
+
+        <div><span class="text-gray-400">Folder:</span> ${escapeHtml(folderName)}</div>
+
+        <div><span class="text-gray-400">Resolved path:</span> <code class="break-all">${escapeHtml(resolvedPath)}</code></div>
+
+        <div><span class="text-gray-400">Exists:</span> ${escapeHtml(exists)}</div>
+
+        <div><span class="text-gray-400">Git repository:</span> ${escapeHtml(isGitRepository)}</div>
+
+      </div>
+
+    `;
 
   }
 
@@ -1356,7 +1392,7 @@ section#task-events-card.obs-surface > #mb-task-events-panel-anchor {
 
     const payload = await response.json().catch(() => ({}));
 
-    setPathStatus(payload.message || "Unable to inspect project path.", Boolean(payload.ok));
+    setPathStatus(payload);
 
   }
 
