@@ -1346,6 +1346,32 @@ section#task-events-card.obs-surface > #mb-task-events-panel-anchor {
 
     }
 
+    if (ready) {
+
+      pathStatus.style.borderColor = "rgba(45, 212, 191, 0.65)";
+
+      pathStatus.style.backgroundColor = "rgba(19, 78, 74, 0.42)";
+
+      pathStatus.style.color = "#ccfbf1";
+
+    } else if (payload.inputPath || message !== "Enter a path to inspect the repository.") {
+
+      pathStatus.style.borderColor = "rgba(248, 113, 113, 0.75)";
+
+      pathStatus.style.backgroundColor = "rgba(127, 29, 29, 0.42)";
+
+      pathStatus.style.color = "#fee2e2";
+
+    } else {
+
+      pathStatus.style.borderColor = "rgba(55, 65, 81, 1)";
+
+      pathStatus.style.backgroundColor = "rgba(17, 24, 39, 1)";
+
+      pathStatus.style.color = "#9ca3af";
+
+    }
+
     const statusIcon = ready ? "✓" : payload.inputPath ? "✕" : "•";
 
     const folderName = payload.projectDirectoryName || "—";
