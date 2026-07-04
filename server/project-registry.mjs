@@ -324,6 +324,90 @@ export function getProjectRegistryState() {
 
 
 
+export function inspectProjectPath(projectRootPath) {
+
+  const inputPath = String(projectRootPath || "").trim();
+
+  const resolvedPath = resolveProjectPathForValidation(inputPath);
+
+  if (!inputPath) {
+
+    return {
+
+      ok: false,
+
+      inputPath,
+
+      resolvedPath: null,
+
+      exists: false,
+
+      isDirectory: false,
+
+      isGitRepository: false,
+
+      message: "Enter a project root path."
+
+    };
+
+  }
+
+  if (!resolvedPath || !fs.existsSync(resolvedPath)) {
+
+    return {
+
+      ok: false,
+
+      inputPath,
+
+      resolvedPath,
+
+      exists: false,
+
+      isDirectory: false,
+
+      isGitRepository: false,
+
+      message: "Project root path does not exist."
+
+    };
+
+  }
+
+  const stat = fs.statSync(resolvedPath);
+
+  const isDirectory = stat.isDirectory();
+
+  const isGitRepository = isDirectory && fs.existsSync(path.join(resolvedPath, ".git"));
+
+  return {
+
+    ok: Boolean(isDirectory && isGitRepository),
+
+    inputPath,
+
+    resolvedPath,
+
+    exists: true,
+
+    isDirectory,
+
+    isGitRepository,
+
+    message: !isDirectory
+
+      ? "Project root path must be a directory."
+
+      : !isGitRepository
+
+        ? "Project root path must be a Git repository."
+
+        : "Ready to register."
+
+  };
+
+}
+
 export function registerProject(projectInput = {}, metadata = {}) {
 
   ensureProjectRegistry();
@@ -545,6 +629,26 @@ export function mountProjectRegistryRoutes(app) {
   app.get("/api/projects/registry", (req, res) => {
 
     res.json(getProjectRegistryState());
+
+  });
+
+  app.post("/api/projects/inspect-path", (req, res) => {
+
+    try {
+
+      res.json(inspectProjectPath(req.body?.projectRootPath));
+
+    } catch (error) {
+
+      res.status(error.statusCode || 500).json({
+
+        ok: false,
+
+        error: error.message || "Unable to inspect project path."
+
+      });
+
+    }
 
   });
 
