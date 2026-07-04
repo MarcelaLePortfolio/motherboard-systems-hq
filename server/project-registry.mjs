@@ -339,6 +339,7 @@ export function inspectProjectPath(projectRootPath) {
       inputPath,
 
       resolvedPath: null,
+      projectDirectoryName: null,
 
       exists: false,
 
@@ -387,6 +388,7 @@ export function inspectProjectPath(projectRootPath) {
     inputPath,
 
     resolvedPath,
+    projectDirectoryName: path.basename(resolvedPath),
 
     exists: true,
 
