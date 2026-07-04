@@ -363,6 +363,8 @@ export function inspectProjectPath(projectRootPath) {
 
       resolvedPath,
 
+      projectDirectoryName: resolvedPath ? path.basename(resolvedPath) : null,
+
       exists: false,
 
       isDirectory: false,
