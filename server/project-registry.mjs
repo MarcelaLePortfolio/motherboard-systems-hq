@@ -625,6 +625,68 @@ export function archiveProject(projectId, metadata = {}) {
 
 }
 
+export function restoreProject(projectId, metadata = {}) {
+
+  ensureProjectRegistry();
+
+  const normalizedProjectId = normalizeProjectId(projectId);
+
+  if (!normalizedProjectId) {
+
+    const error = new Error("projectId is required.");
+
+    error.statusCode = 400;
+
+    throw error;
+
+  }
+
+  const project = db.prepare(`
+
+    SELECT project_id
+
+    FROM project_registry
+
+    WHERE project_id = ?
+
+      AND registration_status = 'archived'
+
+  `).get(normalizedProjectId);
+
+  if (!project) {
+
+    const error = new Error("Project is not archived or does not exist.");
+
+    error.statusCode = 404;
+
+    throw error;
+
+  }
+
+  const timestamp = nowIso();
+
+  db.prepare(`
+
+    UPDATE project_registry
+
+    SET
+
+      registration_status = 'registered',
+
+      availability_status = 'available',
+
+      active_context_eligible = 1,
+
+      updated_at = ?
+
+    WHERE project_id = ?
+
+  `).run(timestamp, normalizedProjectId);
+
+  return getProjectRegistryState();
+
+}
+
 export function setActiveProject(projectId, metadata = {}) {
 
   ensureProjectRegistry();
@@ -782,6 +844,32 @@ export function mountProjectRegistryRoutes(app) {
       res.status(error.statusCode || 500).json({
 
         error: error.message || "Unable to archive project."
+
+      });
+
+    }
+
+  });
+
+  app.post("/api/projects/restore", (req, res) => {
+
+    try {
+
+      const state = restoreProject(req.body?.projectId, {
+
+        source: "dashboard",
+
+        action: "restore_project"
+
+      });
+
+      res.json(state);
+
+    } catch (error) {
+
+      res.status(error.statusCode || 500).json({
+
+        error: error.message || "Unable to restore project."
 
       });
 
