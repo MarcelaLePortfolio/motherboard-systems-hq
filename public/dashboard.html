@@ -1188,7 +1188,9 @@ section#task-events-card.obs-surface > #mb-task-events-panel-anchor {
 
       button.textContent = `${activeProject.displayName || "Motherboard HQ"} ▼`;
 
-      const projectButtons = projects.map((project) => {
+      const visibleProjects = projects.filter((project) => project.registrationStatus === "registered");
+
+      const projectButtons = visibleProjects.map((project) => {
 
         const isActive = project.projectId === state.activeProjectId;
 
