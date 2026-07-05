@@ -1192,21 +1192,35 @@ section#task-events-card.obs-surface > #mb-task-events-panel-anchor {
 
         const isActive = project.projectId === state.activeProjectId;
 
+        const isRegistered = project.registrationStatus === "registered";
+
+        const archiveButton = !isActive && isRegistered
+
+          ? `<button type="button" class="project-archive-option rounded-lg px-2 py-1 text-xs font-semibold text-red-200 hover:bg-red-950/40" data-project-id="${escapeHtml(project.projectId)}">Archive</button>`
+
+          : "";
+
         return `
 
-          <button
+          <div class="flex items-center gap-2 rounded-xl ${isActive ? "bg-gray-800" : "hover:bg-gray-800"}">
 
-            type="button"
+            <button
 
-            class="project-context-option w-full rounded-xl px-3 py-2 text-left text-sm ${isActive ? "bg-gray-800 text-white" : "text-teal-100 hover:bg-gray-800"}"
+              type="button"
 
-            data-project-id="${escapeHtml(project.projectId)}"
+              class="project-context-option min-w-0 flex-1 px-3 py-2 text-left text-sm ${isActive ? "text-white" : "text-teal-100"}"
 
-          >
+              data-project-id="${escapeHtml(project.projectId)}"
 
-            ${escapeHtml(project.displayName)}
+            >
 
-          </button>
+              ${escapeHtml(project.displayName)}
+
+            </button>
+
+            ${archiveButton}
+
+          </div>
 
         `;
 
@@ -1606,6 +1620,30 @@ section#task-events-card.obs-surface > #mb-task-events-panel-anchor {
 
   }
 
+  async function archiveRegisteredProject(projectId) {
+
+    const response = await fetch("/api/projects/archive", {
+
+      method: "POST",
+
+      headers: { "Content-Type": "application/json" },
+
+      body: JSON.stringify({ projectId })
+
+    });
+
+    if (!response.ok) {
+
+      const payload = await response.json().catch(() => ({}));
+
+      throw new Error(payload.error || "Unable to archive project.");
+
+    }
+
+    await loadProjectRegistry();
+
+  }
+
   async function setActiveProject(projectId) {
 
     const response = await fetch("/api/projects/active", {
@@ -1665,6 +1703,26 @@ section#task-events-card.obs-surface > #mb-task-events-panel-anchor {
         console.warn("Unable to register project:", error);
 
         window.alert(error.message || "Unable to register project.");
+
+      }
+
+      return;
+
+    }
+
+    const archiveOption = event.target.closest(".project-archive-option");
+
+    if (archiveOption) {
+
+      try {
+
+        await archiveRegisteredProject(archiveOption.dataset.projectId);
+
+      } catch (error) {
+
+        console.warn("Unable to archive project:", error);
+
+        window.alert(error.message || "Unable to archive project.");
 
       }
 
