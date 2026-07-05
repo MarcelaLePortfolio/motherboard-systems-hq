@@ -1190,6 +1190,8 @@ section#task-events-card.obs-surface > #mb-task-events-panel-anchor {
 
       const visibleProjects = projects.filter((project) => project.registrationStatus === "registered");
 
+      const archivedProjects = projects.filter((project) => project.registrationStatus === "archived");
+
       const projectButtons = visibleProjects.map((project) => {
 
         const isActive = project.projectId === state.activeProjectId;
@@ -1228,6 +1230,38 @@ section#task-events-card.obs-surface > #mb-task-events-panel-anchor {
 
       }).join("");
 
+      const archivedProjectButtons = archivedProjects.map((project) => {
+
+        return `
+
+          <div class="flex items-center gap-2 rounded-xl opacity-80 hover:bg-gray-800">
+
+            <div class="min-w-0 flex-1 px-3 py-2 text-left text-sm text-gray-400">
+
+              ${escapeHtml(project.displayName)}
+
+            </div>
+
+            <button type="button" class="project-restore-option rounded-lg px-2 py-1 text-xs font-semibold text-teal-100 hover:bg-teal-950/40" data-project-id="${escapeHtml(project.projectId)}">Restore</button>
+
+          </div>
+
+        `;
+
+      }).join("");
+
+      const archivedSection = archivedProjectButtons
+
+        ? `<div class="mt-2 border-t border-gray-700 pt-2">
+
+            <div class="px-3 py-1 text-xs uppercase tracking-[0.18em] text-gray-500">Archived Projects</div>
+
+            ${archivedProjectButtons}
+
+          </div>`
+
+        : "";
+
       menu.innerHTML = `
 
         <div class="px-3 pb-3 text-sm font-semibold text-teal-100">${escapeHtml(activeProject.displayName || "Motherboard HQ")}</div>
@@ -1245,6 +1279,8 @@ section#task-events-card.obs-surface > #mb-task-events-panel-anchor {
           ${projectButtons}
 
         </div>
+
+        ${archivedSection}
 
         <div class="mt-2 border-t border-gray-700 pt-2">
 
@@ -1622,6 +1658,30 @@ section#task-events-card.obs-surface > #mb-task-events-panel-anchor {
 
   }
 
+  async function restoreArchivedProject(projectId) {
+
+    const response = await fetch("/api/projects/restore", {
+
+      method: "POST",
+
+      headers: { "Content-Type": "application/json" },
+
+      body: JSON.stringify({ projectId })
+
+    });
+
+    if (!response.ok) {
+
+      const payload = await response.json().catch(() => ({}));
+
+      throw new Error(payload.error || "Unable to restore project.");
+
+    }
+
+    await loadProjectRegistry();
+
+  }
+
   async function archiveRegisteredProject(projectId) {
 
     const response = await fetch("/api/projects/archive", {
@@ -1705,6 +1765,26 @@ section#task-events-card.obs-surface > #mb-task-events-panel-anchor {
         console.warn("Unable to register project:", error);
 
         window.alert(error.message || "Unable to register project.");
+
+      }
+
+      return;
+
+    }
+
+    const restoreOption = event.target.closest(".project-restore-option");
+
+    if (restoreOption) {
+
+      try {
+
+        await restoreArchivedProject(restoreOption.dataset.projectId);
+
+      } catch (error) {
+
+        console.warn("Unable to restore project:", error);
+
+        window.alert(error.message || "Unable to restore project.");
 
       }
 
