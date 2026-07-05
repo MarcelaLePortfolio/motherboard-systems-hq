@@ -1,5 +1,5 @@
 
-import { contextBridge } from "electron";
+import { contextBridge, ipcRenderer } from "electron";
 
 const desktopApi = Object.freeze({
 
@@ -7,7 +7,9 @@ const desktopApi = Object.freeze({
 
   platform: process.platform,
 
-  isDesktop: true
+  isDesktop: true,
+
+  selectProjectFolder: () => ipcRenderer.invoke("motherboard:select-project-folder")
 
 });
 

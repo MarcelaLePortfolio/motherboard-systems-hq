@@ -1,5 +1,5 @@
 
-import { app, BrowserWindow } from "electron";
+import { app, BrowserWindow, dialog, ipcMain } from "electron";
 
 const DASHBOARD_URL = process.env.MOTHERBOARD_DASHBOARD_URL || "http://localhost:3001/dashboard";
 
@@ -34,6 +34,26 @@ function createMainWindow() {
   mainWindow.loadURL(DASHBOARD_URL);
 
 }
+
+ipcMain.handle("motherboard:select-project-folder", async () => {
+
+  const result = await dialog.showOpenDialog({
+
+    title: "Select Project Folder",
+
+    properties: ["openDirectory"]
+
+  });
+
+  if (result.canceled || !result.filePaths?.[0]) {
+
+    return { ok: false, canceled: true };
+
+  }
+
+  return { ok: true, path: result.filePaths[0] };
+
+});
 
 app.whenReady().then(createMainWindow);
 
