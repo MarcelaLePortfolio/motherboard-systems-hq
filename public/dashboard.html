@@ -1090,7 +1090,13 @@ section#task-events-card.obs-surface > #mb-task-events-panel-anchor {
 
         <span class="mb-1 block text-sm font-semibold text-teal-100">Project root path</span>
 
-        <input id="project-register-root-path" name="projectRootPath" type="text" required class="w-full rounded-xl border border-gray-700 bg-gray-900 px-4 py-3 text-gray-100 outline-none focus:border-teal-400" placeholder="../example-project" />
+        <div class="flex gap-2">
+
+          <input id="project-register-root-path" name="projectRootPath" type="text" required class="min-w-0 flex-1 rounded-xl border border-gray-700 bg-gray-900 px-4 py-3 text-gray-100 outline-none focus:border-teal-400" placeholder="../example-project" />
+
+          <button id="project-register-browse-folder" type="button" class="hidden rounded-xl border border-teal-500/40 px-4 py-3 text-sm font-semibold text-teal-100 hover:bg-teal-950/40">Browse...</button>
+
+        </div>
 
         <span class="mt-1 block text-xs text-gray-500">Example: <code>../executive-agent-suite</code>. The folder must already exist and be a Git repository.</span>
 
@@ -1276,7 +1282,9 @@ section#task-events-card.obs-surface > #mb-task-events-panel-anchor {
 
       submit: document.getElementById("project-register-submit"),
 
-      pathStatus: document.getElementById("project-register-path-status")
+      pathStatus: document.getElementById("project-register-path-status"),
+
+      browseFolder: document.getElementById("project-register-browse-folder")
 
     };
 
@@ -1455,6 +1463,22 @@ section#task-events-card.obs-surface > #mb-task-events-panel-anchor {
       projectId.value = suggestedId;
 
     }
+
+  }
+
+  async function browseProjectFolder() {
+
+    const { projectRootPath } = getRegisterModalElements();
+
+    if (!window.motherboardDesktop?.selectProjectFolder || !projectRootPath) return;
+
+    const result = await window.motherboardDesktop.selectProjectFolder();
+
+    if (!result?.ok || !result.path) return;
+
+    projectRootPath.value = result.path;
+
+    await inspectProjectPathInput();
 
   }
 
@@ -1705,6 +1729,24 @@ section#task-events-card.obs-surface > #mb-task-events-panel-anchor {
   if (registerModalElements.projectId) {
 
     registerModalElements.projectId.addEventListener("input", markRegisterFieldEdited);
+
+  }
+
+  if (registerModalElements.browseFolder && window.motherboardDesktop?.selectProjectFolder) {
+
+    registerModalElements.browseFolder.classList.remove("hidden");
+
+    registerModalElements.browseFolder.addEventListener("click", () => {
+
+      browseProjectFolder().catch((error) => {
+
+        console.warn("Unable to browse for project folder:", error);
+
+        setPathStatus("Unable to browse for project folder.");
+
+      });
+
+    });
 
   }
 
