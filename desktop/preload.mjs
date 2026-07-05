@@ -1,9 +1,15 @@
 
 import { contextBridge } from "electron";
 
-contextBridge.exposeInMainWorld("motherboardDesktop", {
+const desktopApi = Object.freeze({
 
-  version: "v2c-desktop-foundation"
+  version: "v2c-desktop-foundation",
+
+  platform: process.platform,
+
+  isDesktop: true
 
 });
+
+contextBridge.exposeInMainWorld("motherboardDesktop", desktopApi);
 
