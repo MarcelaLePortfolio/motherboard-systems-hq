@@ -26,7 +26,9 @@ import apiTasksMutationsRouter from "./server/routes/api-tasks-mutations.mjs";
 import governedPlanningRouter from "./server/routes/governed-planning-route.mjs";
 import governanceLifecycleRouter from "./server/routes/governance-lifecycle-route.ts";
 
-import governancePackageRouter from "./server/routes/governance-package-route.ts";
+import { createGovernancePackage } from "./db/governance-runtime.ts";
+
+import { createGovernancePackageRouter } from "./server/routes/governance-package-route.ts";
 
 import governanceDelegationRouter from "./server/routes/governance-delegation-route.ts";
 
@@ -200,7 +202,7 @@ app.use(governedPlanningRouter);
 
 app.use(governanceLifecycleRouter);
 
-app.use(governancePackageRouter);
+app.use(createGovernancePackageRouter({ create_governance_package: createGovernancePackage }));
 
 app.use(governanceDelegationRouter);
 
