@@ -77,7 +77,6 @@ function validateExistingGitRepository(projectRootPath) {
 
 }
 
-
 export function ensureProjectRegistry() {
 
   db.exec(`
@@ -322,8 +321,6 @@ export function getProjectRegistryState() {
 
 }
 
-
-
 export function inspectProjectPath(projectRootPath) {
 
   const inputPath = String(projectRootPath || "").trim();
@@ -339,6 +336,7 @@ export function inspectProjectPath(projectRootPath) {
       inputPath,
 
       resolvedPath: null,
+
       projectDirectoryName: null,
 
       exists: false,
@@ -390,6 +388,7 @@ export function inspectProjectPath(projectRootPath) {
     inputPath,
 
     resolvedPath,
+
     projectDirectoryName: path.basename(resolvedPath),
 
     exists: true,
@@ -544,6 +543,88 @@ export function registerProject(projectInput = {}, metadata = {}) {
 
 }
 
+export function archiveProject(projectId, metadata = {}) {
+
+  ensureProjectRegistry();
+
+  const normalizedProjectId = normalizeProjectId(projectId);
+
+  if (!normalizedProjectId) {
+
+    const error = new Error("projectId is required.");
+
+    error.statusCode = 400;
+
+    throw error;
+
+  }
+
+  const activeContext = db.prepare(`
+
+    SELECT current_project_id
+
+    FROM active_context
+
+    WHERE singleton_id = 1
+
+  `).get();
+
+  if (activeContext?.current_project_id === normalizedProjectId) {
+
+    const error = new Error("Cannot archive the active project. Switch Active Context before archiving this project.");
+
+    error.statusCode = 409;
+
+    throw error;
+
+  }
+
+  const project = db.prepare(`
+
+    SELECT project_id
+
+    FROM project_registry
+
+    WHERE project_id = ?
+
+      AND registration_status = 'registered'
+
+  `).get(normalizedProjectId);
+
+  if (!project) {
+
+    const error = new Error("Project is not registered or has already been archived.");
+
+    error.statusCode = 404;
+
+    throw error;
+
+  }
+
+  const timestamp = nowIso();
+
+  db.prepare(`
+
+    UPDATE project_registry
+
+    SET
+
+      registration_status = 'archived',
+
+      availability_status = 'unavailable',
+
+      active_context_eligible = 0,
+
+      updated_at = ?
+
+    WHERE project_id = ?
+
+  `).run(timestamp, normalizedProjectId);
+
+  return getProjectRegistryState();
+
+}
+
 export function setActiveProject(projectId, metadata = {}) {
 
   ensureProjectRegistry();
@@ -675,6 +756,32 @@ export function mountProjectRegistryRoutes(app) {
       res.status(error.statusCode || 500).json({
 
         error: error.message || "Unable to register project."
+
+      });
+
+    }
+
+  });
+
+  app.post("/api/projects/archive", (req, res) => {
+
+    try {
+
+      const state = archiveProject(req.body?.projectId, {
+
+        source: "dashboard",
+
+        action: "archive_project"
+
+      });
+
+      res.json(state);
+
+    } catch (error) {
+
+      res.status(error.statusCode || 500).json({
+
+        error: error.message || "Unable to archive project."
 
       });
 
