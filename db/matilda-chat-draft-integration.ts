@@ -1,7 +1,7 @@
 
 import { listInterpretationEvidenceLedgerEntries } from "./matilda-interpretation-runtime.ts";
 
-import { synthesizeLivingDraftPackage } from "./matilda-draft-synthesis-runtime.ts";
+import { synthesizeLivingDraft } from "./matilda-draft-synthesis-runtime.ts";
 
 export type RunMatildaChatDraftIntegrationInput = {
 
@@ -33,7 +33,7 @@ export function runMatildaChatDraftIntegration(
 
   }
 
-  const draft = synthesizeLivingDraftPackage({
+  const draft = synthesizeLivingDraft({
 
     draft_package_id: input.draft_package_id,
 
