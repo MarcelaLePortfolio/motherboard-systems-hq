@@ -1,41 +1,117 @@
 
-/* Update this route so that after runMatildaStub() returns
+import express from "express";
 
-   and exposes interpretation_entry_id, it immediately calls:
+import type { Request, Response } from "express";
 
-   runMatildaChatDraftIntegration({
+import { runMatildaStub } from "../matilda-chat-stub.ts";
 
-     draft_package_id: "draft-active-conversation",
+import type { MatildaChatResult } from "../matilda-chat-stub.ts";
 
-     lineage_id: "matilda-active-conversation",
+import { runMatildaChatDraftIntegration } from "../db/matilda-chat-draft-integration.ts";
 
-     latest_entry_id: result.meta.interpretation_entry_id,
+const router = express.Router();
 
-   });
+/**
 
-   Preserve the existing chat response.
+ * POST /api/chat
 
-   Add to the JSON response:
+ *
 
-   draft_package_updated: true,
+ * Matilda chat endpoint.
 
-   canonical_package_created: false,
+ * Preserves an IEL entry through runMatildaStub(), then best-effort updates
 
-   delegation_authorized: false,
+ * the non-authoritative Living Draft Package.
 
-   validation_authorized: false,
+ */
 
-   envelope_authorized: false,
+router.post("/api/chat", async (req: Request, res: Response) => {
 
-   execution_authorized: false
+  try {
 
-   Do not change the reply text.
+    const { message, agent } = (req.body || {}) as {
 
-   Do not expose the draft contents.
+      message?: string;
 
-   Only trigger synthesis after successful IEL persistence.
+      agent?: string | null;
 
-   If synthesis fails, return the normal chat response and log the synthesis failure without failing the chat request.
+    };
 
-*/
+    if (typeof message !== "string" || !message.trim()) {
+
+      return res.status(400).json({
+
+        ok: false,
+
+        error: "Missing or invalid 'message' in request body.",
+
+      });
+
+    }
+
+    const result: MatildaChatResult = await runMatildaStub({
+
+      message,
+
+      agent: agent ?? "matilda",
+
+    });
+
+    let draftPackageUpdated = false;
+
+    try {
+
+      runMatildaChatDraftIntegration({
+
+        draft_package_id: "draft-active-conversation",
+
+        lineage_id: "matilda-active-conversation",
+
+        latest_entry_id: result.meta.interpretation_entry_id,
+
+      });
+
+      draftPackageUpdated = true;
+
+    } catch (draftError) {
+
+      console.warn("[/api/chat] Living Draft synthesis failed:", draftError);
+
+    }
+
+    return res.json({
+
+      ...result,
+
+      draft_package_updated: draftPackageUpdated,
+
+      canonical_package_created: false,
+
+      delegation_authorized: false,
+
+      validation_authorized: false,
+
+      envelope_authorized: false,
+
+      execution_authorized: false,
+
+    });
+
+  } catch (err) {
+
+    console.error("[/api/chat] Matilda pipeline error:", err);
+
+    return res.status(500).json({
+
+      ok: false,
+
+      error: "Matilda pipeline encountered an unexpected error.",
+
+    });
+
+  }
+
+});
+
+export default router;
 
