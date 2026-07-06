@@ -1,81 +1,185 @@
 
-/*
+import { randomUUID } from "node:crypto";
 
-Matilda Canonical Package Runtime
+import Database from "better-sqlite3";
 
-Corridor:
+import { generateReconciledIntentSummary } from "./matilda-reconciled-intent-runtime.ts";
 
-Reconciled Intent Summary
+const sqlite = new Database("motherboard.sqlite");
 
-→ Explicit Operator Approval
+function ensureCanonicalPackageTable() {
 
-→ Canonical Package
+  sqlite.exec(`
 
-Responsibilities:
+    CREATE TABLE IF NOT EXISTS matilda_canonical_packages (
 
-1. Persist immutable Canonical Packages.
+      package_id TEXT PRIMARY KEY,
 
-2. Accept only approved Reconciled Intent Summaries.
+      summary_id TEXT NOT NULL,
 
-3. Preserve immutable lineage.
+      draft_package_id TEXT NOT NULL,
 
-4. Record approval metadata.
+      lineage_id TEXT NOT NULL,
 
-5. Remain downstream of approval and upstream of Delegation.
+      approved_interpretation TEXT NOT NULL,
 
-Canonical Package fields:
+      approved_work TEXT,
 
-- package_id
+      approved_artifacts TEXT,
 
-- summary_id
+      approved_scope TEXT,
 
-- draft_package_id
+      approved_constraints TEXT,
 
-- lineage_id
+      approved_expected_outcome TEXT,
 
-- approved_interpretation
+      approval_actor TEXT NOT NULL,
 
-- approved_work
+      approval_timestamp TEXT NOT NULL,
 
-- approved_artifacts
+      status TEXT NOT NULL,
 
-- approved_scope
+      created_at TEXT NOT NULL
 
-- approved_constraints
+    )
 
-- approved_expected_outcome
+  `);
 
-- approval_actor
+}
 
-- approval_timestamp
+export function createCanonicalPackageFromApprovedSummary({
 
-- status
+  draft_package_id,
 
-- created_at
+  approval_actor,
 
-Required invariants:
+}: {
 
-Creating a Canonical Package MUST NOT:
+  draft_package_id: string;
 
-- authorize Delegation
+  approval_actor: string;
 
-- authorize Governance Validation
+}) {
 
-- authorize Envelope creation
+  ensureCanonicalPackageTable();
 
-- authorize routing
+  const summary = generateReconciledIntentSummary({ draft_package_id });
 
-- authorize assignment
+  if (summary.approval_required !== true) {
 
-- authorize Cade execution
+    throw new Error("Summary is not eligible for approval.");
 
-Authority Boundary:
+  }
 
-Only explicit operator approval may create a Canonical Package.
+  const created_at = new Date().toISOString();
 
-Canonical Package creation establishes approved intent only.
+  const package_id = `pkg-${randomUUID()}`;
 
-Execution authority begins in later governance corridors.
+  sqlite.prepare(`
 
-*/
+    INSERT INTO matilda_canonical_packages (
+
+      package_id,
+
+      summary_id,
+
+      draft_package_id,
+
+      lineage_id,
+
+      approved_interpretation,
+
+      approved_work,
+
+      approved_artifacts,
+
+      approved_scope,
+
+      approved_constraints,
+
+      approved_expected_outcome,
+
+      approval_actor,
+
+      approval_timestamp,
+
+      status,
+
+      created_at
+
+    ) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?)
+
+  `).run(
+
+    package_id,
+
+    summary.summary_id,
+
+    summary.draft_package_id,
+
+    summary.lineage_id,
+
+    summary.interpreted_objective,
+
+    summary.proposed_work,
+
+    summary.proposed_artifacts,
+
+    summary.in_scope,
+
+    summary.constraints,
+
+    summary.expected_outcome,
+
+    approval_actor,
+
+    created_at,
+
+    "canonical_approved",
+
+    created_at,
+
+  );
+
+  return {
+
+    package_id,
+
+    summary_id: summary.summary_id,
+
+    draft_package_id: summary.draft_package_id,
+
+    lineage_id: summary.lineage_id,
+
+    approved_interpretation: summary.interpreted_objective,
+
+    approved_work: summary.proposed_work,
+
+    approved_artifacts: summary.proposed_artifacts,
+
+    approved_scope: summary.in_scope,
+
+    approved_constraints: summary.constraints,
+
+    approved_expected_outcome: summary.expected_outcome,
+
+    approval_actor,
+
+    approval_timestamp: created_at,
+
+    status: "canonical_approved",
+
+    created_at,
+
+    delegation_authorized: false,
+
+    validation_authorized: false,
+
+    envelope_authorized: false,
+
+    execution_authorized: false,
+
+  };
+
+}
 
