@@ -36,6 +36,7 @@ import matildaDraftSynthesisRouter from "./server/routes/matilda-draft-synthesis
 import matildaReconciledIntentRouter from "./server/routes/matilda-reconciled-intent-route.ts";
 import matildaCanonicalPackageRouter from "./server/routes/matilda-canonical-package-route.ts";
 import matildaDelegationRouter from "./server/routes/matilda-delegation-route.ts";
+import matildaGovernanceValidationRouter from "./server/routes/matilda-governance-validation-route.ts";
 import apiChatRouter from "./routes/api-chat.ts";
 
 import governanceDelegationRouter from "./server/routes/governance-delegation-route.ts";
@@ -218,6 +219,7 @@ app.use(matildaDraftSynthesisRouter);
 app.use(matildaReconciledIntentRouter);
 app.use(matildaCanonicalPackageRouter);
 app.use(matildaDelegationRouter);
+app.use(matildaGovernanceValidationRouter);
 app.use(apiChatRouter);
 
 app.use(governanceDelegationRouter);
