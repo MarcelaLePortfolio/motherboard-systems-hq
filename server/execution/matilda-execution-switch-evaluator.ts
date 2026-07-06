@@ -29,13 +29,21 @@ export function evaluateExecutionSwitch(input: ExecutionSwitchInput) {
 
   const isExecutable = isReady && isPlanReady;
 
-  let state: "DISABLED" | "ARMED" | "READY" | "EXECUTABLE" = "DISABLED";
+  const state: "DISABLED" | "ARMED" | "READY" | "EXECUTABLE" =
 
-  if (isArmed) state = "ARMED";
+    isExecutable
 
-  if (isReady) state = "READY";
+      ? "EXECUTABLE"
 
-  if (isExecutable) state = "EXECUTABLE";
+      : isReady
+
+      ? "READY"
+
+      : isArmed
+
+      ? "ARMED"
+
+      : "DISABLED";
 
   return {
 
