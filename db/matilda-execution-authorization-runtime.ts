@@ -1,59 +1,67 @@
 
-/*
+import { randomUUID } from "node:crypto";
 
-Execution Authorization Runtime
+export function createExecutionAuthorization({
 
-Produces:
+  confirmation_id,
 
-- authorization_id
+  preview_id,
 
-- confirmation_id
+  execution_plan_id,
 
-- preview_id
+  package_id,
 
-- execution_plan_id
+  lineage_id,
 
-- package_id
+  authorization_actor,
 
-- lineage_id
+}: {
 
-- authorization_actor
+  confirmation_id: string;
 
-- authorization_timestamp
+  preview_id: string;
 
-- authorization_result
+  execution_plan_id: string;
 
-- status
+  package_id: string;
 
-- created_at
+  lineage_id: string;
 
-Required invariants:
+  authorization_actor: string;
 
-Execution Authorization MUST:
+}) {
 
-- require explicit operator authorization
+  const authorization_id = `authorization-${randomUUID()}`;
 
-- remain deterministic
+  const created_at = new Date().toISOString();
 
-- preserve auditability
+  return {
 
-Execution Authorization MUST NOT:
+    authorization_id,
 
-- execute Cade
+    confirmation_id,
 
-- execute shell commands
+    preview_id,
 
-- mutate the filesystem
+    execution_plan_id,
 
-- modify databases beyond persisting the authorization artifact
+    package_id,
 
-Authority Boundary:
+    lineage_id,
 
-Only explicit operator authorization may create an Execution Authorization.
+    authorization_actor,
 
-Execution Authorization establishes Cade execution eligibility only.
+    authorization_timestamp: created_at,
 
-Actual Cade execution remains a separate corridor.
+    authorization_result: "authorized",
 
-*/
+    status: "execution_authorized",
+
+    created_at,
+
+    cade_execution_started: false,
+
+  };
+
+}
 
