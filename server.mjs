@@ -30,6 +30,8 @@ import { createGovernancePackage } from "./db/governance-runtime.ts";
 
 import { createGovernancePackageRouter } from "./server/routes/governance-package-route.ts";
 
+import matildaInterpretationLedgerRouter from "./server/routes/matilda-interpretation-ledger-route.ts";
+
 import governanceDelegationRouter from "./server/routes/governance-delegation-route.ts";
 
 import governanceValidationRouter from "./server/routes/governance-validation-route.ts";
@@ -203,6 +205,8 @@ app.use(governedPlanningRouter);
 app.use(governanceLifecycleRouter);
 
 app.use(createGovernancePackageRouter({ create_governance_package: createGovernancePackage }));
+
+app.use(matildaInterpretationLedgerRouter);
 
 app.use(governanceDelegationRouter);
 
