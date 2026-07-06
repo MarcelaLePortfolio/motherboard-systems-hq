@@ -17,21 +17,23 @@ export function evaluateExecutionSwitch(input: ExecutionSwitchInput) {
 
   const registry = loadCadeExecutionRegistry();
 
-  const isExecutable =
-
-    input.execution_authorized === true &&
-
-    input.preview_confirmed === true &&
+  const isPlanReady =
 
     input.execution_plan_status === "plan_review_ready" &&
 
     registry.execution_state_model.final_state_is_derived_only === true;
 
+  const isArmed = input.execution_authorized === true;
+
+  const isReady = isArmed && input.preview_confirmed === true;
+
+  const isExecutable = isReady && isPlanReady;
+
   let state: "DISABLED" | "ARMED" | "READY" | "EXECUTABLE" = "DISABLED";
 
-  if (input.execution_authorized) state = "ARMED";
+  if (isArmed) state = "ARMED";
 
-  if (input.preview_confirmed) state = "READY";
+  if (isReady) state = "READY";
 
   if (isExecutable) state = "EXECUTABLE";
 
