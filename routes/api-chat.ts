@@ -1,7 +1,8 @@
 
 import express, { Request, Response } from "express";
 
-import { runMatildaStub, MatildaChatResult } from "../matilda-chat-stub.ts";
+import { runMatildaStub } from "../matilda-chat-stub.ts";
+import type { MatildaChatResult } from "../matilda-chat-stub.ts";
 
 const router = express.Router();
 
