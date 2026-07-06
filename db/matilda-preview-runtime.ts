@@ -1,65 +1,99 @@
 
-/*
+import { randomUUID } from "crypto";
 
-Preview Runtime
+export function createPreview({
 
-Produces:
+  execution_plan_id,
 
-- preview_id
+  assignment_id,
 
-- execution_plan_id
+  package_id,
 
-- assignment_id
+  lineage_id,
 
-- package_id
+}: {
 
-- lineage_id
+  execution_plan_id: string;
 
-- preview_summary
+  assignment_id: string;
 
-- preview_steps
+  package_id: string;
 
-- preview_mutations
+  lineage_id: string;
 
-- rollback_references
+}) {
 
-- reconciliation_summary
+  const preview_id = `preview-${randomUUID()}`;
 
-- status
+  const created_at = new Date().toISOString();
 
-- created_at
+  const preview_steps = [
 
-Required invariants:
+    "Load dry-run execution plan.",
 
-Preview Generation MUST:
+    "Render planned engineering sequence.",
 
-- remain deterministic
+    "Display planned mutations (read-only).",
 
-- remain read-only
+    "Display rollback references.",
 
-- remain non-mutating
+    "Prepare operator review surface.",
 
-- preserve rollback visibility
+  ];
 
-- preserve reconciliation visibility
+  const preview_mutations = [
 
-Preview Generation MUST NOT:
+    "No mutations performed. Preview is read-only.",
 
-- confirm the preview
+  ];
 
-- authorize execution
+  const rollback_references = [
 
-- execute shell commands
+    "Current HEAD",
 
-- mutate the filesystem
+    "Latest DR checkpoint",
 
-- modify databases beyond persisting the preview artifact
+  ];
 
-Authority Boundary:
+  const reconciliation_summary =
 
-Preview is a user-visible review artifact only.
+    "Preview generated successfully. Awaiting explicit Preview Confirmation. No execution authority granted.";
 
-Execution authority remains in a later corridor.
+  const preview_summary =
 
-*/
+    "User-visible deterministic preview generated from the approved dry-run execution plan.";
+
+  return {
+
+    preview_id,
+
+    execution_plan_id,
+
+    assignment_id,
+
+    package_id,
+
+    lineage_id,
+
+    preview_summary,
+
+    preview_steps,
+
+    preview_mutations,
+
+    rollback_references,
+
+    reconciliation_summary,
+
+    status: "preview_ready",
+
+    created_at,
+
+    preview_confirmed: false,
+
+    execution_authorized: false,
+
+  };
+
+}
 
