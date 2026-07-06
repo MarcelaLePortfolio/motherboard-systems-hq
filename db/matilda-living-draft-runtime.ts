@@ -1,75 +1,385 @@
 
-/*
+import Database from "better-sqlite3";
 
-Next implementation target:
+const sqlite = new Database("db/main.db");
 
-Matilda Living Draft Package Runtime
+sqlite.pragma("foreign_keys = ON");
 
-Responsibilities:
+export type UpsertLivingDraftPackageInput = {
 
-- Define the Living Draft Package persistence layer.
+  draft_package_id: string;
 
-- Create or update a draft package from IEL evidence.
+  lineage_id: string;
 
-- Maintain append-only IEL references.
+  current_interpretation: string;
 
-- Preserve non-authoritative status.
+  proposed_work?: string | null;
 
-Required fields:
+  proposed_artifacts?: string | null;
 
-- draft_package_id
+  in_scope?: string | null;
 
-- lineage_id
+  out_of_scope?: string | null;
 
-- current_interpretation
+  constraints?: string | null;
 
-- proposed_work
+  expected_outcome?: string | null;
 
-- proposed_artifacts
+  unresolved_questions?: string | null;
 
-- in_scope
+  evidence_entry_ids: string[];
 
-- out_of_scope
+  status?: string | null;
 
-- constraints
+};
 
-- expected_outcome
+export type LivingDraftPackageRecord = UpsertLivingDraftPackageInput & {
 
-- unresolved_questions
+  evidence_entry_ids: string[];
 
-- evidence_entry_ids
+  status: string;
 
-- status
+  created_at: string;
 
-- created_at
+  updated_at: string;
 
-- updated_at
+};
 
-Required invariants:
+function ensureLivingDraftPackageTable() {
 
-Creating or updating a Living Draft Package MUST NOT:
+  sqlite.exec(`
 
-- create a Canonical Package
+    CREATE TABLE IF NOT EXISTS matilda_living_draft_packages (
 
-- authorize Delegation
+      draft_package_id TEXT PRIMARY KEY,
 
-- authorize Governance Validation
+      lineage_id TEXT NOT NULL,
 
-- authorize Envelope creation
+      current_interpretation TEXT NOT NULL,
 
-- authorize routing
+      proposed_work TEXT,
 
-- authorize assignment
+      proposed_artifacts TEXT,
 
-- authorize Cade execution
+      in_scope TEXT,
 
-Authority Boundary:
+      out_of_scope TEXT,
 
-Matilda may synthesize a Living Draft Package.
+      constraints TEXT,
 
-A Living Draft Package remains a working interpretation only.
+      expected_outcome TEXT,
 
-Explicit user approval is still required before Canonical Package creation.
+      unresolved_questions TEXT,
 
-*/
+      evidence_entry_ids TEXT NOT NULL,
+
+      status TEXT NOT NULL,
+
+      created_at TEXT NOT NULL,
+
+      updated_at TEXT NOT NULL
+
+    );
+
+  `);
+
+}
+
+function requireText(value: unknown, field: string): string {
+
+  if (typeof value !== "string" || value.trim().length === 0) {
+
+    throw new Error(`Missing required Matilda Living Draft Package field: ${field}`);
+
+  }
+
+  return value.trim();
+
+}
+
+function optionalText(value: string | null | undefined): string | null {
+
+  if (value === undefined || value === null) return null;
+
+  return String(value);
+
+}
+
+function normalizeEvidenceEntryIds(value: unknown): string[] {
+
+  if (!Array.isArray(value)) {
+
+    throw new Error("Missing required Matilda Living Draft Package field: evidence_entry_ids");
+
+  }
+
+  const normalized = value
+
+    .map((item) => String(item || "").trim())
+
+    .filter(Boolean);
+
+  if (normalized.length === 0) {
+
+    throw new Error("Living Draft Package requires at least one evidence entry id.");
+
+  }
+
+  return Array.from(new Set(normalized));
+
+}
+
+export function upsertLivingDraftPackage(
+
+  input: UpsertLivingDraftPackageInput,
+
+): LivingDraftPackageRecord {
+
+  ensureLivingDraftPackageTable();
+
+  const draft_package_id = requireText(input.draft_package_id, "draft_package_id");
+
+  const lineage_id = requireText(input.lineage_id, "lineage_id");
+
+  const current_interpretation = requireText(
+
+    input.current_interpretation,
+
+    "current_interpretation",
+
+  );
+
+  const evidence_entry_ids = normalizeEvidenceEntryIds(input.evidence_entry_ids);
+
+  const status = optionalText(input.status) || "draft_non_authoritative";
+
+  const existing = sqlite
+
+    .prepare(
+
+      `SELECT created_at FROM matilda_living_draft_packages WHERE draft_package_id = ?`,
+
+    )
+
+    .get(draft_package_id) as { created_at?: string } | undefined;
+
+  const timestamp = new Date().toISOString();
+
+  const created_at = existing?.created_at || timestamp;
+
+  const updated_at = timestamp;
+
+  sqlite.prepare(`
+
+    INSERT INTO matilda_living_draft_packages (
+
+      draft_package_id,
+
+      lineage_id,
+
+      current_interpretation,
+
+      proposed_work,
+
+      proposed_artifacts,
+
+      in_scope,
+
+      out_of_scope,
+
+      constraints,
+
+      expected_outcome,
+
+      unresolved_questions,
+
+      evidence_entry_ids,
+
+      status,
+
+      created_at,
+
+      updated_at
+
+    ) VALUES (
+
+      @draft_package_id,
+
+      @lineage_id,
+
+      @current_interpretation,
+
+      @proposed_work,
+
+      @proposed_artifacts,
+
+      @in_scope,
+
+      @out_of_scope,
+
+      @constraints,
+
+      @expected_outcome,
+
+      @unresolved_questions,
+
+      @evidence_entry_ids,
+
+      @status,
+
+      @created_at,
+
+      @updated_at
+
+    )
+
+    ON CONFLICT(draft_package_id) DO UPDATE SET
+
+      lineage_id = excluded.lineage_id,
+
+      current_interpretation = excluded.current_interpretation,
+
+      proposed_work = excluded.proposed_work,
+
+      proposed_artifacts = excluded.proposed_artifacts,
+
+      in_scope = excluded.in_scope,
+
+      out_of_scope = excluded.out_of_scope,
+
+      constraints = excluded.constraints,
+
+      expected_outcome = excluded.expected_outcome,
+
+      unresolved_questions = excluded.unresolved_questions,
+
+      evidence_entry_ids = excluded.evidence_entry_ids,
+
+      status = excluded.status,
+
+      updated_at = excluded.updated_at
+
+  `).run({
+
+    draft_package_id,
+
+    lineage_id,
+
+    current_interpretation,
+
+    proposed_work: optionalText(input.proposed_work),
+
+    proposed_artifacts: optionalText(input.proposed_artifacts),
+
+    in_scope: optionalText(input.in_scope),
+
+    out_of_scope: optionalText(input.out_of_scope),
+
+    constraints: optionalText(input.constraints),
+
+    expected_outcome: optionalText(input.expected_outcome),
+
+    unresolved_questions: optionalText(input.unresolved_questions),
+
+    evidence_entry_ids: JSON.stringify(evidence_entry_ids),
+
+    status,
+
+    created_at,
+
+    updated_at,
+
+  });
+
+  return {
+
+    draft_package_id,
+
+    lineage_id,
+
+    current_interpretation,
+
+    proposed_work: optionalText(input.proposed_work),
+
+    proposed_artifacts: optionalText(input.proposed_artifacts),
+
+    in_scope: optionalText(input.in_scope),
+
+    out_of_scope: optionalText(input.out_of_scope),
+
+    constraints: optionalText(input.constraints),
+
+    expected_outcome: optionalText(input.expected_outcome),
+
+    unresolved_questions: optionalText(input.unresolved_questions),
+
+    evidence_entry_ids,
+
+    status,
+
+    created_at,
+
+    updated_at,
+
+  };
+
+}
+
+export function listLivingDraftPackages(limit = 20) {
+
+  ensureLivingDraftPackageTable();
+
+  return sqlite
+
+    .prepare(`
+
+      SELECT
+
+        draft_package_id,
+
+        lineage_id,
+
+        current_interpretation,
+
+        proposed_work,
+
+        proposed_artifacts,
+
+        in_scope,
+
+        out_of_scope,
+
+        constraints,
+
+        expected_outcome,
+
+        unresolved_questions,
+
+        evidence_entry_ids,
+
+        status,
+
+        created_at,
+
+        updated_at
+
+      FROM matilda_living_draft_packages
+
+      ORDER BY updated_at DESC
+
+      LIMIT ?
+
+    `)
+
+    .all(Math.max(1, Math.min(Number(limit) || 20, 100)))
+
+    .map((record: any) => ({
+
+      ...record,
+
+      evidence_entry_ids: JSON.parse(record.evidence_entry_ids || "[]"),
+
+    }));
+
+}
 
