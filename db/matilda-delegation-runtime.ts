@@ -1,69 +1,145 @@
 
-/*
+import { randomUUID } from "node:crypto";
 
-Matilda Delegation Runtime
+import Database from "better-sqlite3";
 
-Corridor:
+const sqlite = new Database("motherboard.sqlite");
 
-Canonical Package
+function ensureDelegationTable() {
 
-→ Explicit Delegation
+  sqlite.exec(`
 
-→ Pending Governance Validation
+    CREATE TABLE IF NOT EXISTS matilda_delegations (
 
-Responsibilities:
+      delegation_id TEXT PRIMARY KEY,
 
-1. Persist explicit delegations.
+      package_id TEXT NOT NULL,
 
-2. Reference an existing Canonical Package.
+      lineage_id TEXT NOT NULL,
 
-3. Preserve immutable lineage.
+      delegated_by TEXT NOT NULL,
 
-4. Record delegation metadata.
+      delegation_target TEXT NOT NULL,
 
-5. Transition only to Pending Governance Validation.
+      authorization_state TEXT NOT NULL,
 
-Delegation fields:
+      authorization_timestamp TEXT NOT NULL,
 
-- delegation_id
+      status TEXT NOT NULL,
 
-- package_id
+      created_at TEXT NOT NULL
 
-- lineage_id
+    )
 
-- delegated_by
+  `);
 
-- delegation_target
+}
 
-- authorization_state
+export function createDelegation({
 
-- authorization_timestamp
+  package_id,
 
-- status
+  lineage_id,
 
-- created_at
+  delegated_by,
 
-Required invariants:
+  delegation_target,
 
-Creating a Delegation MUST NOT:
+}: {
 
-- complete Governance Validation
+  package_id: string;
 
-- create an Envelope
+  lineage_id: string;
 
-- authorize routing
+  delegated_by: string;
 
-- authorize assignment
+  delegation_target: string;
 
-- authorize Cade execution
+}) {
 
-Authority Boundary:
+  ensureDelegationTable();
 
-Only explicit operator delegation may create a Delegation.
+  const created_at = new Date().toISOString();
 
-Delegation authorizes governance processing only.
+  const delegation_id = `delegation-${randomUUID()}`;
 
-Execution authority remains in later corridors.
+  sqlite.prepare(`
 
-*/
+    INSERT INTO matilda_delegations (
+
+      delegation_id,
+
+      package_id,
+
+      lineage_id,
+
+      delegated_by,
+
+      delegation_target,
+
+      authorization_state,
+
+      authorization_timestamp,
+
+      status,
+
+      created_at
+
+    ) VALUES (?,?,?,?,?,?,?,?,?)
+
+  `).run(
+
+    delegation_id,
+
+    package_id,
+
+    lineage_id,
+
+    delegated_by,
+
+    delegation_target,
+
+    "authorized_for_governance_validation",
+
+    created_at,
+
+    "pending_governance_validation",
+
+    created_at,
+
+  );
+
+  return {
+
+    delegation_id,
+
+    package_id,
+
+    lineage_id,
+
+    delegated_by,
+
+    delegation_target,
+
+    authorization_state: "authorized_for_governance_validation",
+
+    authorization_timestamp: created_at,
+
+    status: "pending_governance_validation",
+
+    created_at,
+
+    governance_validation_completed: false,
+
+    envelope_created: false,
+
+    routing_authorized: false,
+
+    assignment_authorized: false,
+
+    execution_authorized: false,
+
+  };
+
+}
 
