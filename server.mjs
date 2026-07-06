@@ -40,6 +40,7 @@ import matildaGovernanceValidationRouter from "./server/routes/matilda-governanc
 import matildaEnvelopeRouter from "./server/routes/matilda-envelope-route.ts";
 import matildaRoutingRouter from "./server/routes/matilda-routing-route.ts";
 import matildaAssignmentRouter from "./server/routes/matilda-assignment-route.ts";
+import matildaExecutionPlanningRouter from "./server/routes/matilda-execution-planning-route.ts";
 import apiChatRouter from "./routes/api-chat.ts";
 
 import governanceDelegationRouter from "./server/routes/governance-delegation-route.ts";
@@ -226,6 +227,7 @@ app.use(matildaGovernanceValidationRouter);
 app.use(matildaEnvelopeRouter);
 app.use(matildaRoutingRouter);
 app.use(matildaAssignmentRouter);
+app.use(matildaExecutionPlanningRouter);
 app.use(apiChatRouter);
 
 app.use(governanceDelegationRouter);
