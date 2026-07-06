@@ -1,4 +1,6 @@
 
+import { loadCadeExecutionRegistry } from "./matilda-execution-registry-loader";
+
 export type ExecutionSwitchInput = {
 
   execution_authorized: boolean;
@@ -7,17 +9,13 @@ export type ExecutionSwitchInput = {
 
   execution_plan_status: string;
 
-  confirmation_result: string;
-
-  ambiguity_findings?: string[];
+  confirmation_result?: string;
 
 };
 
 export function evaluateExecutionSwitch(input: ExecutionSwitchInput) {
 
-  const hasAmbiguity =
-
-    (input.ambiguity_findings ?? []).length > 0;
+  const registry = loadCadeExecutionRegistry();
 
   const isExecutable =
 
@@ -27,9 +25,7 @@ export function evaluateExecutionSwitch(input: ExecutionSwitchInput) {
 
     input.execution_plan_status === "plan_review_ready" &&
 
-    input.confirmation_result === "confirmed" &&
-
-    !hasAmbiguity;
+    registry.execution_state_model.final_state_is_derived_only === true;
 
   let state: "DISABLED" | "ARMED" | "READY" | "EXECUTABLE" = "DISABLED";
 
@@ -45,7 +41,7 @@ export function evaluateExecutionSwitch(input: ExecutionSwitchInput) {
 
     isExecutable,
 
-    derived: true
+    registry_bound: true,
 
   };
 
