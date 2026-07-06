@@ -7,17 +7,15 @@
 
     "lib": ["ES2022"],
 
-    "module": "NodeNext",
+    "module": "CommonJS",
 
-    "moduleResolution": "NodeNext",
+    "moduleResolution": "node",
 
     "esModuleInterop": true,
 
     "allowSyntheticDefaultImports": true,
 
     "skipLibCheck": true,
-
-    "forceConsistentCasingInFileNames": true,
 
     "strict": false,
 
@@ -29,7 +27,7 @@
 
     "rootDir": "./",
 
-    "baseUrl": "."
+    "noEmitOnError": false
 
   },
 
@@ -41,9 +39,9 @@
 
     "./db",
 
-    "./types",
+    "./server",
 
-    "./server"
+    "./types"
 
   ]
 
