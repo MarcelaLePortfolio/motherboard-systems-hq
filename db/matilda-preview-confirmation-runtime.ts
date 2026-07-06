@@ -1,57 +1,61 @@
 
-/*
+import { randomUUID } from "crypto";
 
-Preview Confirmation Runtime
+export function createPreviewConfirmation({
 
-Produces:
+  preview_id,
 
-- confirmation_id
+  execution_plan_id,
 
-- preview_id
+  package_id,
 
-- execution_plan_id
+  lineage_id,
 
-- package_id
+  confirmation_actor,
 
-- lineage_id
+}: {
 
-- confirmation_actor
+  preview_id: string;
 
-- confirmation_timestamp
+  execution_plan_id: string;
 
-- confirmation_result
+  package_id: string;
 
-- status
+  lineage_id: string;
 
-- created_at
+  confirmation_actor: string;
 
-Required invariants:
+}) {
 
-Preview Confirmation MUST:
+  const confirmation_id = `confirmation-${randomUUID()}`;
 
-- require explicit operator confirmation
+  const created_at = new Date().toISOString();
 
-- remain deterministic
+  return {
 
-- preserve auditability
+    confirmation_id,
 
-Preview Confirmation MUST NOT:
+    preview_id,
 
-- authorize execution
+    execution_plan_id,
 
-- execute shell commands
+    package_id,
 
-- mutate the filesystem
+    lineage_id,
 
-- modify databases beyond persisting the confirmation artifact
+    confirmation_actor,
 
-Authority Boundary:
+    confirmation_timestamp: created_at,
 
-Only explicit operator confirmation may create a Preview Confirmation.
+    confirmation_result: "confirmed",
 
-Preview Confirmation establishes execution-authorization eligibility only.
+    status: "preview_confirmed",
 
-Execution authority remains in the next corridor.
+    created_at,
 
-*/
+    execution_authorized: false,
+
+  };
+
+}
 
