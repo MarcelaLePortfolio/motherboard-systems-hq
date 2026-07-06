@@ -34,6 +34,7 @@ import matildaInterpretationLedgerRouter from "./server/routes/matilda-interpret
 import matildaLivingDraftRouter from "./server/routes/matilda-living-draft-route.ts";
 import matildaDraftSynthesisRouter from "./server/routes/matilda-draft-synthesis-route.ts";
 import matildaReconciledIntentRouter from "./server/routes/matilda-reconciled-intent-route.ts";
+import matildaCanonicalPackageRouter from "./server/routes/matilda-canonical-package-route.ts";
 import apiChatRouter from "./routes/api-chat.ts";
 
 import governanceDelegationRouter from "./server/routes/governance-delegation-route.ts";
@@ -214,6 +215,7 @@ app.use(matildaInterpretationLedgerRouter);
 app.use(matildaLivingDraftRouter);
 app.use(matildaDraftSynthesisRouter);
 app.use(matildaReconciledIntentRouter);
+app.use(matildaCanonicalPackageRouter);
 app.use(apiChatRouter);
 
 app.use(governanceDelegationRouter);
