@@ -7,9 +7,9 @@
 
     "lib": ["ES2022"],
 
-    "module": "ESNext",
+    "module": "NodeNext",
 
-    "moduleResolution": "node",
+    "moduleResolution": "NodeNext",
 
     "esModuleInterop": true,
 
@@ -25,19 +25,11 @@
 
     "resolveJsonModule": true,
 
-    "moduleDetection": "force",
-
     "outDir": "./dist",
 
     "rootDir": "./",
 
     "baseUrl": "."
-
-  },
-
-  "ts-node": {
-
-    "esm": true
 
   },
 
