@@ -1,75 +1,41 @@
 
-import express from "express";
-import type { Request, Response } from "express";
+/* Update this route so that after runMatildaStub() returns
 
-import { runMatildaStub } from "../matilda-chat-stub.ts";
-import type { MatildaChatResult } from "../matilda-chat-stub.ts";
+   and exposes interpretation_entry_id, it immediately calls:
 
-const router = express.Router();
+   runMatildaChatDraftIntegration({
 
-/**
+     draft_package_id: "draft-active-conversation",
 
- * POST /api/chat
+     lineage_id: "matilda-active-conversation",
 
- *
+     latest_entry_id: result.meta.interpretation_entry_id,
 
- * Matilda chat endpoint.
+   });
 
- * Accepts { message, agent } in the JSON body and returns a structured
+   Preserve the existing chat response.
 
- * Matilda-style response using the runMatildaStub helper.
+   Add to the JSON response:
 
- */
+   draft_package_updated: true,
 
-router.post("/api/chat", async (req: Request, res: Response) => {
+   canonical_package_created: false,
 
-  try {
+   delegation_authorized: false,
 
-    const { message, agent } = (req.body || {}) as {
+   validation_authorized: false,
 
-      message?: string;
+   envelope_authorized: false,
 
-      agent?: string | null;
+   execution_authorized: false
 
-    };
+   Do not change the reply text.
 
-    if (typeof message !== "string" || !message.trim()) {
+   Do not expose the draft contents.
 
-      return res.status(400).json({
+   Only trigger synthesis after successful IEL persistence.
 
-        ok: false,
+   If synthesis fails, return the normal chat response and log the synthesis failure without failing the chat request.
 
-        error: "Missing or invalid 'message' in request body.",
-
-      });
-
-    }
-
-    const result: MatildaChatResult = await runMatildaStub({
-
-      message,
-
-      agent: agent ?? "matilda",
-
-    });
-
-    return res.json(result);
-
-  } catch (err) {
-
-    console.error("[/api/chat] Matilda pipeline error:", err);
-
-    return res.status(500).json({
-
-      ok: false,
-
-      error: "Matilda pipeline encountered an unexpected error.",
-
-    });
-
-  }
-
-});
-
-export default router;
+*/
 
