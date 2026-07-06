@@ -249,7 +249,7 @@ function createTestDb() {
 
 }
 
-function seedGovernanceLineage(db: Database.Database, lifecycleState = "ASSIGNED") {
+function seedGovernanceLineage(db: Database, lifecycleState = "ASSIGNED") {
 
   db.exec(`
 

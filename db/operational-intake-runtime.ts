@@ -11,7 +11,7 @@ export type CreateOperationalIntakeRecordInput = {
 
   intake_created_at?: string | null;
 
-  db?: Database.Database;
+  db?: Database;
 
 };
 

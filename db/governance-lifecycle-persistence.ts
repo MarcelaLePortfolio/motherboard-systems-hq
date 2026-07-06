@@ -11,7 +11,7 @@ export type PersistGovernanceEnvelopeLifecycleTransitionInput = {
 
   persisted_at?: string | null;
 
-  db?: Database.Database;
+  db?: Database;
 
 };
 
