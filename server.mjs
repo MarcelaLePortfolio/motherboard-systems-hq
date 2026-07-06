@@ -32,6 +32,7 @@ import { createGovernancePackageRouter } from "./server/routes/governance-packag
 
 import matildaInterpretationLedgerRouter from "./server/routes/matilda-interpretation-ledger-route.ts";
 import matildaLivingDraftRouter from "./server/routes/matilda-living-draft-route.ts";
+import matildaDraftSynthesisRouter from "./server/routes/matilda-draft-synthesis-route.ts";
 import apiChatRouter from "./routes/api-chat.ts";
 
 import governanceDelegationRouter from "./server/routes/governance-delegation-route.ts";
@@ -210,6 +211,7 @@ app.use(createGovernancePackageRouter({ create_governance_package: createGoverna
 
 app.use(matildaInterpretationLedgerRouter);
 app.use(matildaLivingDraftRouter);
+app.use(matildaDraftSynthesisRouter);
 app.use(apiChatRouter);
 
 app.use(governanceDelegationRouter);
