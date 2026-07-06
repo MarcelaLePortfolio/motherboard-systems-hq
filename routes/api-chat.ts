@@ -1,5 +1,6 @@
 
-import express, { Request, Response } from "express";
+import express from "express";
+import type { Request, Response } from "express";
 
 import { runMatildaStub } from "../matilda-chat-stub.ts";
 import type { MatildaChatResult } from "../matilda-chat-stub.ts";
