@@ -1,83 +1,81 @@
 
-/*
+import { listLivingDraftPackages } from "./matilda-living-draft-runtime.ts";
 
-Matilda Reconciled Intent Summary Runtime
+export type GenerateReconciledIntentSummaryInput = {
 
-Corridor:
+  draft_package_id: string;
 
-Living Draft Package
+};
 
-→ Reconciled Intent Summary
+export function generateReconciledIntentSummary(
 
-Responsibilities:
+  input: GenerateReconciledIntentSummaryInput,
 
-1. Read the current Living Draft Package.
+) {
 
-2. Produce a human-reviewable Reconciled Intent Summary.
+  const draft = listLivingDraftPackages(100).find(
 
-3. Preserve unresolved questions.
+    (d: any) => d.draft_package_id === input.draft_package_id,
 
-4. Recommend the next action.
+  );
 
-5. Preserve governance boundaries.
+  if (!draft) {
 
-Summary shape:
+    throw new Error(
 
-- summary_id
+      `Living Draft Package not found: ${input.draft_package_id}`,
 
-- draft_package_id
+    );
 
-- lineage_id
+  }
 
-- interpreted_objective
+  const created_at = new Date().toISOString();
 
-- proposed_work
+  return {
 
-- proposed_artifacts
+    summary_id: `summary-${Date.now()}`,
 
-- in_scope
+    draft_package_id: draft.draft_package_id,
 
-- out_of_scope
+    lineage_id: draft.lineage_id,
 
-- constraints
+    interpreted_objective: draft.current_interpretation,
 
-- expected_outcome
+    proposed_work: draft.proposed_work,
 
-- unresolved_questions
+    proposed_artifacts: draft.proposed_artifacts,
 
-- recommended_next_action
+    in_scope: draft.in_scope,
 
-- approval_required
+    out_of_scope: draft.out_of_scope,
 
-- status
+    constraints: draft.constraints,
 
-- created_at
+    expected_outcome: draft.expected_outcome,
 
-Required invariants:
+    unresolved_questions: draft.unresolved_questions,
 
-Generating a Reconciled Intent Summary MUST NOT:
+    recommended_next_action:
 
-- create a Canonical Package
+      "Present this Reconciled Intent Summary for explicit operator review and approval.",
 
-- authorize Delegation
+    approval_required: true,
 
-- authorize Governance Validation
+    status: "awaiting_operator_review",
 
-- authorize Envelope creation
+    created_at,
 
-- authorize routing
+    canonical_package_created: false,
 
-- authorize assignment
+    delegation_authorized: false,
 
-- authorize Cade execution
+    validation_authorized: false,
 
-Authority Boundary:
+    envelope_authorized: false,
 
-Matilda may generate a Reconciled Intent Summary.
+    execution_authorized: false,
 
-The summary remains a review artifact only.
+  };
 
-Only explicit operator approval may create a Canonical Package.
-
-*/
+}
 
