@@ -1,24 +1,59 @@
+
 {
+
   "compilerOptions": {
-    "target": "ES2020",
+
+    "target": "ES2022",
+
+    "lib": ["ES2022"],
+
     "module": "ESNext",
+
     "moduleResolution": "node",
+
     "esModuleInterop": true,
-    "allowJs": true,
-    "skipLibCheck": true,
-    "forceConsistentCasingInFileNames": true,
-    "strict": false,
-    "outDir": "./dist",
-    "rootDir": "./",
-    "resolveJsonModule": true,
-    "moduleDetection": "force",
+
     "allowSyntheticDefaultImports": true,
-    "preserveSymlinks": true
+
+    "skipLibCheck": true,
+
+    "forceConsistentCasingInFileNames": true,
+
+    "strict": false,
+
+    "allowJs": true,
+
+    "resolveJsonModule": true,
+
+    "moduleDetection": "force",
+
+    "outDir": "./dist",
+
+    "rootDir": "./",
+
+    "baseUrl": "."
+
   },
+
+  "ts-node": {
+
+    "esm": true
+
+  },
+
   "include": [
+
     "./scripts",
+
     "./routes",
+
     "./db",
-    "./types"
+
+    "./types",
+
+    "./server"
+
   ]
+
 }
+
