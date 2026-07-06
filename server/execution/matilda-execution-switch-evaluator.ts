@@ -13,9 +13,13 @@ export type ExecutionSwitchInput = {
 
 };
 
+type State = "DISABLED" | "ARMED" | "READY" | "EXECUTABLE";
+
 export function evaluateExecutionSwitch(input: ExecutionSwitchInput) {
 
   const registry = loadCadeExecutionRegistry();
+
+  const allowedStates = registry.execution_state_model.states as State[];
 
   const isPlanReady =
 
@@ -29,25 +33,33 @@ export function evaluateExecutionSwitch(input: ExecutionSwitchInput) {
 
   const isExecutable = isReady && isPlanReady;
 
-  const state: "DISABLED" | "ARMED" | "READY" | "EXECUTABLE" =
+  const nextState: State = isExecutable
 
-    isExecutable
+    ? "EXECUTABLE"
 
-      ? "EXECUTABLE"
+    : isReady
 
-      : isReady
+    ? "READY"
 
-      ? "READY"
+    : isArmed
 
-      : isArmed
+    ? "ARMED"
 
-      ? "ARMED"
+    : "DISABLED";
 
-      : "DISABLED";
+  if (!allowedStates.includes(nextState)) {
+
+    throw new Error(
+
+      `Invalid execution state derived from registry contract: ${nextState}`
+
+    );
+
+  }
 
   return {
 
-    state,
+    state: nextState,
 
     isExecutable,
 
