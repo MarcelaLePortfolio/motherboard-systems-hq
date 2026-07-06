@@ -1,51 +1,63 @@
 
-/*
+import { listInterpretationEvidenceLedgerEntries } from "./matilda-interpretation-runtime.ts";
 
-Matilda Chat → Living Draft Integration
+import { synthesizeLivingDraftPackage } from "./matilda-draft-synthesis-runtime.ts";
 
-Corridor:
+export type RunMatildaChatDraftIntegrationInput = {
 
-Chat
+  draft_package_id: string;
 
-→ Interpretation Evidence Ledger
+  lineage_id: string;
 
-→ Living Draft synthesis
+  latest_entry_id: string;
 
-Responsibilities:
+};
 
-1. Accept the newly-created IEL entry ID.
+export function runMatildaChatDraftIntegration(
 
-2. Resolve the lineage for the active conversation.
+  input: RunMatildaChatDraftIntegrationInput,
 
-3. Invoke the existing Living Draft synthesis runtime.
+) {
 
-4. Return the updated Living Draft metadata.
+  const entries = listInterpretationEvidenceLedgerEntries(100);
 
-5. Preserve all governance boundaries.
+  const evidenceEntryIds = entries
 
-Required invariants:
+    .filter((entry: any) => entry.entry_id)
 
-Running this integration MUST NOT:
+    .map((entry: any) => entry.entry_id);
 
-- create a Canonical Package
+  if (!evidenceEntryIds.includes(input.latest_entry_id)) {
 
-- authorize Delegation
+    evidenceEntryIds.unshift(input.latest_entry_id);
 
-- authorize Governance Validation
+  }
 
-- authorize Envelope creation
+  const draft = synthesizeLivingDraftPackage({
 
-- authorize routing
+    draft_package_id: input.draft_package_id,
 
-- authorize assignment
+    lineage_id: input.lineage_id,
 
-- authorize Cade execution
+    evidence_entry_ids: evidenceEntryIds,
 
-Authority Boundary:
+  });
 
-Matilda may continuously improve a Living Draft Package from accumulated IEL evidence.
+  return {
 
-The Living Draft remains a non-authoritative working interpretation until explicit operator approval creates a Canonical Package.
+    draft,
 
-*/
+    canonical_package_created: false,
+
+    delegation_authorized: false,
+
+    validation_authorized: false,
+
+    envelope_authorized: false,
+
+    execution_authorized: false,
+
+  };
+
+}
 
