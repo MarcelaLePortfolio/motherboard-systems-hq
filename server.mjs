@@ -38,6 +38,7 @@ import matildaCanonicalPackageRouter from "./server/routes/matilda-canonical-pac
 import matildaDelegationRouter from "./server/routes/matilda-delegation-route.ts";
 import matildaGovernanceValidationRouter from "./server/routes/matilda-governance-validation-route.ts";
 import matildaEnvelopeRouter from "./server/routes/matilda-envelope-route.ts";
+import matildaRoutingRouter from "./server/routes/matilda-routing-route.ts";
 import apiChatRouter from "./routes/api-chat.ts";
 
 import governanceDelegationRouter from "./server/routes/governance-delegation-route.ts";
@@ -222,6 +223,7 @@ app.use(matildaCanonicalPackageRouter);
 app.use(matildaDelegationRouter);
 app.use(matildaGovernanceValidationRouter);
 app.use(matildaEnvelopeRouter);
+app.use(matildaRoutingRouter);
 app.use(apiChatRouter);
 
 app.use(governanceDelegationRouter);
