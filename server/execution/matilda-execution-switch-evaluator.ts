@@ -29,27 +29,45 @@ export function evaluateExecutionSwitch(input: ExecutionSwitchInput) {
 
     registry.execution_state_model.final_state_is_derived_only === true;
 
-  const isArmed = input.execution_authorized === true;
-
-  const isReady = isArmed && input.preview_confirmed === true;
-
-  const candidateState: State = isReady
-
-    ? "READY"
-
-    : isArmed
-
-    ? "ARMED"
-
-    : "DISABLED";
-
-  const nextState: State = isPlanReady && candidateState === "READY"
-
-    ? "EXECUTABLE"
-
-    : candidateState;
-
   const allowed = transitions[input.current_state] || [];
+
+  // derive possible next states purely from allowed graph
+
+  const possible: State[] = [];
+
+  if (input.execution_authorized && allowed.includes("ARMED")) {
+
+    possible.push("ARMED");
+
+  }
+
+  if (input.execution_authorized && input.preview_confirmed && allowed.includes("READY")) {
+
+    possible.push("READY");
+
+  }
+
+  if (isPlanReady && allowed.includes("EXECUTABLE")) {
+
+    possible.push("EXECUTABLE");
+
+  }
+
+  const nextState: State =
+
+    possible.includes("EXECUTABLE")
+
+      ? "EXECUTABLE"
+
+      : possible.includes("READY")
+
+      ? "READY"
+
+      : possible.includes("ARMED")
+
+      ? "ARMED"
+
+      : input.current_state;
 
   if (!allowed.includes(nextState) && nextState !== input.current_state) {
 
