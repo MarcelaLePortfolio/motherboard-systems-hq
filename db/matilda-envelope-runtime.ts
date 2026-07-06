@@ -1,47 +1,159 @@
 
-/*
+import { randomUUID } from "node:crypto";
 
-Envelope Runtime
+import Database from "better-sqlite3";
 
-Produces:
+const db = new Database("motherboard.sqlite");
 
-- envelope_id
+db.exec(`
 
-- validation_id
+CREATE TABLE IF NOT EXISTS matilda_envelopes (
 
-- delegation_id
+  envelope_id TEXT PRIMARY KEY,
 
-- package_id
+  validation_id TEXT NOT NULL,
 
-- lineage_id
+  delegation_id TEXT NOT NULL,
 
-- required_capabilities
+  package_id TEXT NOT NULL,
 
-- operational_corridor
+  lineage_id TEXT NOT NULL,
 
-- lifecycle_state
+  required_capabilities TEXT NOT NULL,
 
-- status
+  operational_corridor TEXT NOT NULL,
 
-- created_at
+  lifecycle_state TEXT NOT NULL,
 
-Required invariants:
+  status TEXT NOT NULL,
 
-Creating an Envelope MUST NOT:
+  created_at TEXT NOT NULL
 
-- authorize routing
+);
 
-- authorize assignment
+`);
 
-- authorize Cade execution
+export function createEnvelope({
 
-Authority Boundary:
+  validation_id,
 
-Only explicit Envelope creation may create an Envelope.
+  delegation_id,
 
-Envelope creation establishes routing eligibility only.
+  package_id,
 
-Execution authority remains in later corridors.
+  lineage_id,
 
-*/
+}: {
+
+  validation_id: string;
+
+  delegation_id: string;
+
+  package_id: string;
+
+  lineage_id: string;
+
+}) {
+
+  const created_at = new Date().toISOString();
+
+  const envelope_id = `envelope-${randomUUID()}`;
+
+  const required_capabilities = [
+
+    "routing",
+
+    "assignment",
+
+    "execution-planning",
+
+  ];
+
+  const operational_corridor =
+
+    "Envelope -> Routing -> Assignment -> Cade Execution";
+
+  db.prepare(`
+
+    INSERT INTO matilda_envelopes (
+
+      envelope_id,
+
+      validation_id,
+
+      delegation_id,
+
+      package_id,
+
+      lineage_id,
+
+      required_capabilities,
+
+      operational_corridor,
+
+      lifecycle_state,
+
+      status,
+
+      created_at
+
+    )
+
+    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+
+  `).run(
+
+    envelope_id,
+
+    validation_id,
+
+    delegation_id,
+
+    package_id,
+
+    lineage_id,
+
+    JSON.stringify(required_capabilities),
+
+    operational_corridor,
+
+    "routing_ready",
+
+    "envelope_created",
+
+    created_at
+
+  );
+
+  return {
+
+    envelope_id,
+
+    validation_id,
+
+    delegation_id,
+
+    package_id,
+
+    lineage_id,
+
+    required_capabilities,
+
+    operational_corridor,
+
+    lifecycle_state: "routing_ready",
+
+    status: "envelope_created",
+
+    created_at,
+
+    routing_authorized: false,
+
+    assignment_authorized: false,
+
+    execution_authorized: false,
+
+  };
+
+}
 
