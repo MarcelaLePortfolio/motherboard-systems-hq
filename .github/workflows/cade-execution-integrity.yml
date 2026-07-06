@@ -1,0 +1,45 @@
+
+name: Cade Execution Integrity Check
+
+on:
+
+  push:
+
+    branches:
+
+      - feature/backup-system-v2
+
+  pull_request:
+
+jobs:
+
+  integrity-check:
+
+    runs-on: ubuntu-latest
+
+    steps:
+
+      - name: Checkout repo
+
+        uses: actions/checkout@v4
+
+      - name: Set up environment
+
+        run: |
+
+          chmod +x scripts/verify-cade-execution-switch-integrity.sh
+
+          chmod +x scripts/verify-cade-execution-runtime-coherence.sh
+
+      - name: Run switch integrity check
+
+        run: |
+
+          ./scripts/verify-cade-execution-switch-integrity.sh
+
+      - name: Run runtime coherence check
+
+        run: |
+
+          ./scripts/verify-cade-execution-runtime-coherence.sh
+
