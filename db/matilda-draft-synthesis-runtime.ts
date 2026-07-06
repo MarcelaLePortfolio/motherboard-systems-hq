@@ -1,81 +1,101 @@
 
-/*
+import {
 
-Matilda Living Draft Synthesis Runtime
+  listInterpretationEvidenceLedgerEntries,
 
-Purpose:
+} from "./matilda-interpretation-runtime.ts";
 
-Transform one or more Interpretation Evidence Ledger (IEL) entries into a
+import {
 
-single updated Living Draft Package.
+  upsertLivingDraftPackage,
 
-This runtime is intentionally non-authoritative.
+} from "./matilda-living-draft-runtime.ts";
 
-Inputs:
+export type SynthesizeLivingDraftInput = {
 
-- lineage_id
+  draft_package_id: string;
 
-- evidence_entry_ids
+  lineage_id: string;
 
-Responsibilities:
+  evidence_entry_ids: string[];
 
-1. Read IEL entries.
+};
 
-2. Produce a synthesized working interpretation.
+export function synthesizeLivingDraft(
 
-3. Update only the Living Draft Package.
+  input: SynthesizeLivingDraftInput,
 
-4. Preserve complete evidence lineage.
+) {
 
-5. Remain deterministic and repeatable.
+  const ledger = listInterpretationEvidenceLedgerEntries(500);
 
-Output fields:
+  const evidence = ledger.filter((entry: any) =>
 
-- current_interpretation
+    input.evidence_entry_ids.includes(entry.entry_id),
 
-- proposed_work
+  );
 
-- proposed_artifacts
+  if (evidence.length === 0) {
 
-- in_scope
+    throw new Error("No matching Interpretation Evidence Ledger entries found.");
 
-- out_of_scope
+  }
 
-- constraints
+  const interpretation = evidence
 
-- expected_outcome
+    .map((entry: any) => entry.matilda_observation)
 
-- unresolved_questions
+    .filter(Boolean)
 
-- evidence_entry_ids
+    .join("\n\n");
 
-- updated_at
+  const unresolved = evidence
 
-Required invariants:
+    .map((entry: any) => entry.unresolved_questions)
 
-Running synthesis MUST NOT:
+    .filter(Boolean)
 
-- create a Canonical Package
+    .join("\n");
 
-- authorize Delegation
+  return upsertLivingDraftPackage({
 
-- authorize Governance Validation
+    draft_package_id: input.draft_package_id,
 
-- authorize Envelope creation
+    lineage_id: input.lineage_id,
 
-- authorize routing
+    current_interpretation: interpretation,
 
-- authorize assignment
+    proposed_work:
 
-- authorize Cade execution
+      "Continue synthesizing interpretation evidence into a reviewable Living Draft Package.",
 
-Authority Boundary:
+    proposed_artifacts:
 
-Matilda may improve a Living Draft Package.
+      "Living Draft Package",
 
-The synthesized draft remains a working interpretation.
+    in_scope:
 
-Only explicit operator approval may create a Canonical Package.
+      "Interpretation synthesis only.",
 
-*/
+    out_of_scope:
+
+      "Canonical Package creation, Delegation, Validation, Envelope creation, Routing, Assignment, Cade execution.",
+
+    constraints:
+
+      "Remain non-authoritative until explicit operator approval.",
+
+    expected_outcome:
+
+      "A continuously improving Living Draft Package.",
+
+    unresolved_questions: unresolved,
+
+    evidence_entry_ids: input.evidence_entry_ids,
+
+    status: "draft_non_authoritative",
+
+  });
+
+}
 
