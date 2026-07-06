@@ -1,60 +1,6 @@
 
 {
 
-  "version": "2026-07-06",
-
-  "purpose": "Canonical machine-readable source-of-truth registry for Cade execution authority boundaries",
-
-  "execution_influencers": {
-
-    "switch_evaluator": "server/execution/matilda-execution-switch-evaluator.ts",
-
-    "approval_gate": "server/execution/execution-approval-gate.mjs",
-
-    "execution_planning": [
-
-      "server/routes/matilda-execution-planning-route.ts",
-
-      "db/matilda-execution-planning-runtime.ts"
-
-    ],
-
-    "preview_layer": [
-
-      "server/routes/matilda-preview-route.ts",
-
-      "server/routes/matilda-preview-confirmation-route.ts",
-
-      "db/matilda-preview-runtime.ts",
-
-      "db/matilda-preview-confirmation-runtime.ts"
-
-    ],
-
-    "execution_authorization_layer": [
-
-      "server/routes/matilda-execution-authorization-route.ts",
-
-      "db/matilda-execution-authorization-runtime.ts"
-
-    ]
-
-  },
-
-  "non_authoritative_layers": [
-
-    "server/validation",
-
-    "server/gate",
-
-    "server/operational",
-
-    "server/guards",
-
-    "server/orchestrator"
-
-  ],
-
   "hard_rules": {
 
     "no_direct_EXECUTABLE_assignment": true,
@@ -81,7 +27,19 @@
 
     ],
 
-    "final_state_is_derived_only": true
+    "final_state_is_derived_only": true,
+
+    "transitions": {
+
+      "DISABLED": ["ARMED"],
+
+      "ARMED": ["READY"],
+
+      "READY": ["EXECUTABLE"],
+
+      "EXECUTABLE": []
+
+    }
 
   },
 

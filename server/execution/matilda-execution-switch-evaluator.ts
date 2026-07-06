@@ -1,7 +1,11 @@
 
 import { loadCadeExecutionRegistry } from "./matilda-execution-registry-loader";
 
+export type State = "DISABLED" | "ARMED" | "READY" | "EXECUTABLE";
+
 export type ExecutionSwitchInput = {
+
+  current_state: State;
 
   execution_authorized: boolean;
 
@@ -13,13 +17,11 @@ export type ExecutionSwitchInput = {
 
 };
 
-type State = "DISABLED" | "ARMED" | "READY" | "EXECUTABLE";
-
 export function evaluateExecutionSwitch(input: ExecutionSwitchInput) {
 
   const registry = loadCadeExecutionRegistry();
 
-  const allowedStates = registry.execution_state_model.states as State[];
+  const transitions = registry.execution_state_model.transitions as Record<State, State[]>;
 
   const isPlanReady =
 
@@ -31,13 +33,7 @@ export function evaluateExecutionSwitch(input: ExecutionSwitchInput) {
 
   const isReady = isArmed && input.preview_confirmed === true;
 
-  const isExecutable = isReady && isPlanReady;
-
-  const nextState: State = isExecutable
-
-    ? "EXECUTABLE"
-
-    : isReady
+  const candidateState: State = isReady
 
     ? "READY"
 
@@ -47,11 +43,19 @@ export function evaluateExecutionSwitch(input: ExecutionSwitchInput) {
 
     : "DISABLED";
 
-  if (!allowedStates.includes(nextState)) {
+  const nextState: State = isPlanReady && candidateState === "READY"
+
+    ? "EXECUTABLE"
+
+    : candidateState;
+
+  const allowed = transitions[input.current_state] || [];
+
+  if (!allowed.includes(nextState) && nextState !== input.current_state) {
 
     throw new Error(
 
-      `Invalid execution state derived from registry contract: ${nextState}`
+      `Invalid state transition: ${input.current_state} -> ${nextState}`
 
     );
 
@@ -61,9 +65,9 @@ export function evaluateExecutionSwitch(input: ExecutionSwitchInput) {
 
     state: nextState,
 
-    isExecutable,
+    isExecutable: nextState === "EXECUTABLE",
 
-    registry_bound: true,
+    registry_bound: true
 
   };
 
