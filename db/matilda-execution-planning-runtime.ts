@@ -1,59 +1,99 @@
 
-/*
+import crypto from "node:crypto";
 
-Dry-Run Execution Planning Runtime
+export function createExecutionPlan({
 
-Produces:
+  assignment_id,
 
-- execution_plan_id
+  package_id,
 
-- assignment_id
+  lineage_id,
 
-- package_id
+  assigned_agent,
 
-- lineage_id
+}: {
 
-- planned_steps
+  assignment_id: string;
 
-- planned_mutations
+  package_id: string;
 
-- rollback_references
+  lineage_id: string;
 
-- ambiguity_findings
+  assigned_agent: string;
 
-- reconciliation_summary
+}) {
 
-- status
+  const created_at = new Date().toISOString();
 
-- created_at
+  const execution_plan_id = `plan-${crypto.randomUUID()}`;
 
-Required invariants:
+  const planned_steps = [
 
-Execution Planning MUST:
+    "Load approved Canonical Package.",
 
-- remain deterministic
+    "Verify governance corridor completion.",
 
-- remain dry-run only
+    "Generate deterministic engineering sequence.",
 
-- remain non-mutating
+    "Estimate affected artifacts.",
 
-- preserve rollback visibility
+    "Prepare reconciliation preview.",
 
-- preserve reconciliation visibility
+  ];
 
-Execution Planning MUST NOT:
+  const planned_mutations = [
 
-- execute shell commands
+    "No mutations performed (dry-run).",
 
-- mutate the filesystem
+  ];
 
-- modify databases beyond persisting the dry-run plan
+  const rollback_references = [
 
-- authorize execution
+    "Current HEAD",
 
-- bypass Preview
+    "Latest DR checkpoint",
 
-- bypass Explicit Preview Confirmation
+  ];
 
-*/
+  const ambiguity_findings: string[] = [];
+
+  const reconciliation_summary =
+
+    "Execution plan generated successfully. Ready for Preview generation. No execution authority granted.";
+
+  return {
+
+    execution_plan_id,
+
+    assignment_id,
+
+    package_id,
+
+    lineage_id,
+
+    assigned_agent,
+
+    planned_steps,
+
+    planned_mutations,
+
+    rollback_references,
+
+    ambiguity_findings,
+
+    reconciliation_summary,
+
+    status: "plan_review_ready",
+
+    created_at,
+
+    preview_generated: false,
+
+    preview_confirmed: false,
+
+    execution_authorized: false,
+
+  };
+
+}
 
