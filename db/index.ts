@@ -1,27 +1,25 @@
 
 import { sqlite } from "./client.js";
 
-export const db = {
+// RAW SQLITE ONLY LEGACY WRAPPER (NO ORM LAYER)
 
-  taskEvents: {
+export const db = sqlite;
 
-    list: () => sqlite.prepare("SELECT * FROM task_events").all(),
+// task_events compatibility surface (used by legacy routes)
 
-    insert: (row: any) => sqlite.prepare("INSERT INTO task_events VALUES (?)").run(row)
+export const task_events = {
 
-  },
+  list: () => sqlite.prepare("SELECT * FROM task_events").all(),
 
-  reflections: {
+  insert: (row: any) =>
 
-    list: () => sqlite.prepare("SELECT * FROM reflections").all()
+    sqlite.prepare(`
 
-  },
+      INSERT INTO task_events
 
-  health: {
+      VALUES (?, ?, ?, ?, ?, ?, ?)
 
-    ping: () => sqlite.prepare("SELECT 1").get()
-
-  }
+    `).run(row)
 
 };
 
