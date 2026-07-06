@@ -1,0 +1,99 @@
+
+{
+
+  "version": "2026-07-06",
+
+  "purpose": "Canonical machine-readable source-of-truth registry for Cade execution authority boundaries",
+
+  "execution_influencers": {
+
+    "switch_evaluator": "server/execution/matilda-execution-switch-evaluator.ts",
+
+    "approval_gate": "server/execution/execution-approval-gate.mjs",
+
+    "execution_planning": [
+
+      "server/routes/matilda-execution-planning-route.ts",
+
+      "db/matilda-execution-planning-runtime.ts"
+
+    ],
+
+    "preview_layer": [
+
+      "server/routes/matilda-preview-route.ts",
+
+      "server/routes/matilda-preview-confirmation-route.ts",
+
+      "db/matilda-preview-runtime.ts",
+
+      "db/matilda-preview-confirmation-runtime.ts"
+
+    ],
+
+    "execution_authorization_layer": [
+
+      "server/routes/matilda-execution-authorization-route.ts",
+
+      "db/matilda-execution-authorization-runtime.ts"
+
+    ]
+
+  },
+
+  "non_authoritative_layers": [
+
+    "server/validation",
+
+    "server/gate",
+
+    "server/operational",
+
+    "server/guards",
+
+    "server/orchestrator"
+
+  ],
+
+  "hard_rules": {
+
+    "no_direct_EXECUTABLE_assignment": true,
+
+    "execution_is_always_derived": true,
+
+    "only_execution_influencers_may_mutate_state": true,
+
+    "all_other_layers_may_only_consume": true
+
+  },
+
+  "execution_state_model": {
+
+    "states": [
+
+      "DISABLED",
+
+      "ARMED",
+
+      "READY",
+
+      "EXECUTABLE"
+
+    ],
+
+    "final_state_is_derived_only": true
+
+  },
+
+  "invariants": {
+
+    "EXECUTABLE_is_never_stored": true,
+
+    "registry_is_single_source_of_truth": true,
+
+    "conflicting_sources_are_invalid": true
+
+  }
+
+}
+
