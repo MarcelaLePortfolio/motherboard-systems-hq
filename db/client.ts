@@ -1,13 +1,17 @@
+
 import Database from "better-sqlite3";
 
-export const db = new Database('db/main.db');
-export const sqlite = db;
+import { drizzle } from "drizzle-orm/better-sqlite3";
 
-export const task_events = db.prepare("SELECT * FROM task_events");
-export function pruneOldEntries(days?: number) {
-  // Example prune logic
-  console.log("Prune old entries called with days =", days);
-}
-export function pruneReflections(days?: number) {
-  console.log("Prune reflections called with days =", days);
-}
+import * as schema from "./governance.schema.js";
+
+const sqlite = new Database("db/main.db");
+
+// RAW sqlite exposed for legacy routes
+
+export { sqlite };
+
+// DRIZZLE DB for new system
+
+export const db = drizzle(sqlite, { schema });
+
