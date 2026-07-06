@@ -43,6 +43,7 @@ import matildaAssignmentRouter from "./server/routes/matilda-assignment-route.ts
 import matildaExecutionPlanningRouter from "./server/routes/matilda-execution-planning-route.ts";
 import matildaPreviewRouter from "./server/routes/matilda-preview-route.ts";
 import matildaPreviewConfirmationRouter from "./server/routes/matilda-preview-confirmation-route.ts";
+import matildaExecutionAuthorizationRouter from "./server/routes/matilda-execution-authorization-route.ts";
 import apiChatRouter from "./routes/api-chat.ts";
 
 import governanceDelegationRouter from "./server/routes/governance-delegation-route.ts";
@@ -232,6 +233,7 @@ app.use(matildaAssignmentRouter);
 app.use(matildaExecutionPlanningRouter);
 app.use(matildaPreviewRouter);
 app.use(matildaPreviewConfirmationRouter);
+app.use(matildaExecutionAuthorizationRouter);
 app.use(apiChatRouter);
 
 app.use(governanceDelegationRouter);
