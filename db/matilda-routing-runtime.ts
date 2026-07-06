@@ -1,43 +1,139 @@
 
-/*
+import { randomUUID } from "node:crypto";
 
-Routing Runtime
+import Database from "better-sqlite3";
 
-Produces:
+const db = new Database("motherboard.sqlite");
 
-- routing_id
+db.exec(`
 
-- envelope_id
+CREATE TABLE IF NOT EXISTS matilda_routing (
 
-- package_id
+  routing_id TEXT PRIMARY KEY,
 
-- lineage_id
+  envelope_id TEXT NOT NULL,
 
-- routing_destination
+  package_id TEXT NOT NULL,
 
-- routing_rationale
+  lineage_id TEXT NOT NULL,
 
-- routing_timestamp
+  routing_destination TEXT NOT NULL,
 
-- status
+  routing_rationale TEXT NOT NULL,
 
-- created_at
+  routing_timestamp TEXT NOT NULL,
 
-Required invariants:
+  status TEXT NOT NULL,
 
-Creating a Routing record MUST NOT:
+  created_at TEXT NOT NULL
 
-- authorize assignment
+);
 
-- authorize Cade execution
+`);
 
-Authority Boundary:
+export function createRouting({
 
-Only explicit routing may create a Routing record.
+  envelope_id,
 
-Routing establishes assignment eligibility only.
+  package_id,
 
-Execution authority remains in later corridors.
+  lineage_id,
 
-*/
+  routing_destination,
+
+}: {
+
+  envelope_id: string;
+
+  package_id: string;
+
+  lineage_id: string;
+
+  routing_destination: string;
+
+}) {
+
+  const created_at = new Date().toISOString();
+
+  const routing_id = `routing-${randomUUID()}`;
+
+  const routing_rationale =
+
+    "Envelope satisfies governance requirements and is eligible for assignment.";
+
+  db.prepare(`
+
+    INSERT INTO matilda_routing (
+
+      routing_id,
+
+      envelope_id,
+
+      package_id,
+
+      lineage_id,
+
+      routing_destination,
+
+      routing_rationale,
+
+      routing_timestamp,
+
+      status,
+
+      created_at
+
+    )
+
+    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+
+  `).run(
+
+    routing_id,
+
+    envelope_id,
+
+    package_id,
+
+    lineage_id,
+
+    routing_destination,
+
+    routing_rationale,
+
+    created_at,
+
+    "routing_completed",
+
+    created_at
+
+  );
+
+  return {
+
+    routing_id,
+
+    envelope_id,
+
+    package_id,
+
+    lineage_id,
+
+    routing_destination,
+
+    routing_rationale,
+
+    routing_timestamp: created_at,
+
+    status: "routing_completed",
+
+    created_at,
+
+    assignment_authorized: false,
+
+    execution_authorized: false,
+
+  };
+
+}
 
