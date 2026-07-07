@@ -3,7 +3,7 @@ import { randomUUID } from "node:crypto";
 
 import Database from "better-sqlite3";
 
-import { generateReconciledIntentSummary } from "./matilda-reconciled-intent-runtime.ts";
+import { generateReconciledIntentSummary } from "./matilda-reconciled-intent-runtime";
 
 const sqlite = new Database("motherboard.sqlite");
 

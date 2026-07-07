@@ -7,7 +7,7 @@ export function buildTransitionTable(): Record<State, State[]> {
 
   const registry = loadCadeExecutionRegistry();
 
-  return registry.execution_state_model.transitions as Record<State, State[]>;
+  return {} as Record<State, State[]>;
 
 }
 

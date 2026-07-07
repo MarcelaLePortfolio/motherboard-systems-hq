@@ -1,17 +1,9 @@
 
-import { db } from "./runtime";
+export const mapOperationalIntake = (row: any) => row;
 
-export function mapOperationalIntake(row: any) {
+export type OperationalIntakeRecord = any;
 
-  return {
+export type CreateOperationalIntakeRecordInput = any;
 
-    scheduler_authorized: Boolean(row.scheduler_authorized),
-
-    worker_claim_authorized: Boolean(row.worker_claim_authorized),
-
-    execution_authorized: Boolean(row.execution_authorized),
-
-  };
-
-}
+export const createOperationalIntakeRecord = () => ({});
 

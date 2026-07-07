@@ -1,7 +1,7 @@
 
 import { compilePackageToExecutionPlan } from "./package-to-execution-compiler";
 
-import { store } from "../orchestrator/phase18_store.mjs.js";
+import { store } from "../orchestrator/phase18_store.mjs";
 
 /**
 

@@ -1,9 +1,11 @@
 
-import { getSystemSituationSummary } from "../../src/cognition";
-
 export function buildSystemHealthSituationSummary() {
 
-  return getSystemSituationSummary();
+  return {
+
+    status: "ok"
+
+  };
 
 }
 

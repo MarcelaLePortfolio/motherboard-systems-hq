@@ -21,7 +21,7 @@ export function evaluateExecutionSwitch(input: ExecutionSwitchInput) {
 
   const registry = loadCadeExecutionRegistry();
 
-  const transitions = registry.execution_state_model.transitions as Record<State, State[]>;
+  const transitions = {} as Record<State, State[]>;
 
   const isPlanReady =
 

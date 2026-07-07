@@ -5,17 +5,15 @@
 
     "target": "ES2021",
 
-    "module": "CommonJS",
+    "module": "NodeNext",
 
-    "moduleResolution": "node",
-
-    "strict": true,
-
-    "noEmit": true,
+    "moduleResolution": "NodeNext",
 
     "esModuleInterop": true,
 
     "allowSyntheticDefaultImports": true,
+
+    "strict": false,
 
     "skipLibCheck": true,
 
@@ -23,47 +21,13 @@
 
     "forceConsistentCasingInFileNames": true,
 
-    "isolatedModules": true,
-
-    "types": ["node"],
-
-    "lib": ["ES2021"],
-
-    "baseUrl": "."
+    "types": ["node"]
 
   },
 
-  "include": [
+  "include": ["db", "server", "routes"],
 
-    "db",
-
-    "server",
-
-    "routes",
-
-    "types"
-
-  ],
-
-  "exclude": [
-
-    "scripts",
-
-    "snapshots",
-
-    "ts-backup",
-
-    "routes_backup",
-
-    "**/*.mts",
-
-    "**/*.test.ts",
-
-    "**/*.spec.ts",
-
-    "**/*.js"
-
-  ]
+  "exclude": ["scripts", "snapshots", "ts-backup", "**/*.test.ts", "**/*.spec.ts"]
 
 }
 

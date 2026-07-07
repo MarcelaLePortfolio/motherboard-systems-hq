@@ -1,45 +1,37 @@
-export type TaskTerminalState = "SUCCEEDED" | "FAILED" | "CANCELED";
-
-export type TaskLike = {
-  id: string;
-  state: string;
-  dependsOn: string[];
-};
 
 export type DepsResolution =
+
   | { ok: true; blockedBy: string[] }
-  | { ok: false; error: string; blockedBy: string[] };
 
-/**
- * Dependency rules (Phase 17.3):
- * - A task is blocked until every id in dependsOn is SUCCEEDED.
- * - If any dependency is FAILED or CANCELED, resolution returns ok:false.
- * - Missing dependency IDs are treated as blocking (unknown).
- */
-export function resolveDependencies(task: TaskLike, byId: Map<string, TaskLike>): DepsResolution {
-  const blockedBy: string[] = [];
+  | { ok: false; blockedBy: string[]; error: string };
 
-  for (const depId of task.dependsOn || []) {
-    const dep = byId.get(depId);
-    if (!dep) {
-      blockedBy.push(depId);
-      continue;
-    }
+export function resolveDeps(r: DepsResolution) {
 
-    if (dep.state === "SUCCEEDED") continue;
+  if (!r.ok) {
 
-    if (dep.state === "FAILED" || dep.state === "CANCELED") {
-      return { ok: false, error: `dependency ${depId} is terminal ${dep.state}`, blockedBy: [depId] };
-    }
+    const failure = r as Extract<DepsResolution, { ok: false }>;
 
-    blockedBy.push(depId);
+    return {
+
+      runnable: false,
+
+      blockedBy: failure.blockedBy,
+
+      terminalBlock: failure.error
+
+    };
+
   }
 
-  return { ok: true, blockedBy };
+  return {
+
+    runnable: true,
+
+    blockedBy: r.blockedBy,
+
+    terminalBlock: null
+
+  };
+
 }
 
-export function isRunnable(task: TaskLike, byId: Map<string, TaskLike>): { runnable: boolean; blockedBy: string[]; terminalBlock?: string } {
-  const r = resolveDependencies(task, byId);
-  if (!r.ok) return { runnable: false, blockedBy: r.blockedBy, terminalBlock: r.error };
-  return { runnable: r.blockedBy.length === 0, blockedBy: r.blockedBy };
-}

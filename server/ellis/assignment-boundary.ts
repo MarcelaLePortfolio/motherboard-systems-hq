@@ -393,7 +393,7 @@ export function evaluateGovernanceLifecycleAssignmentBoundary(
 
       capability_status: handshake.capability_status,
 
-      requires_ellis_recoordination: handshake.requires_ellis_recoordination,
+      requires_ellis_recoordination: (handshake as any).requires_ellis_recoordination,
 
     });
 

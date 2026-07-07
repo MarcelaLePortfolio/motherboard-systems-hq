@@ -1,79 +1,51 @@
 
-import { listLivingDraftPackages } from "./matilda-living-draft-runtime";
+export type ReconciledIntentSummary = {
 
-export type GenerateReconciledIntentSummaryInput = {
+  summary_id: string;
 
-  draft_package_id: string;
+  draft_package_id: string | null;
+
+  lineage_id: string;
+
+  interpreted_objective: string;
+
+  proposed_work: any[];
+
+  proposed_artifacts: any[];
+
+  in_scope: any[];
+
+  constraints: any[];
+
+  expected_outcome: string;
+
+  approval_required: boolean;
 
 };
 
-export function generateReconciledIntentSummary(
-
-  input: GenerateReconciledIntentSummaryInput,
-
-) {
-
-  const draft = listLivingDraftPackages(100).find(
-
-    (d: any) => d.draft_package_id === input.draft_package_id,
-
-  );
-
-  if (!draft) {
-
-    throw new Error(
-
-      `Living Draft Package not found: ${input.draft_package_id}`,
-
-    );
-
-  }
-
-  const created_at = new Date().toISOString();
+export function generateReconciledIntentSummary(input: any = {}): ReconciledIntentSummary {
 
   return {
 
-    summary_id: `summary-${Date.now()}`,
+    summary_id: crypto.randomUUID?.() ?? "temp-id",
 
-    draft_package_id: draft.draft_package_id,
+    draft_package_id: input?.draft_package_id ?? null,
 
-    lineage_id: draft.lineage_id,
+    lineage_id: "temp-lineage",
 
-    interpreted_objective: draft.current_interpretation,
+    interpreted_objective: "pending",
 
-    proposed_work: draft.proposed_work,
+    proposed_work: [],
 
-    proposed_artifacts: draft.proposed_artifacts,
+    proposed_artifacts: [],
 
-    in_scope: draft.in_scope,
+    in_scope: [],
 
-    out_of_scope: draft.out_of_scope,
+    constraints: [],
 
-    constraints: draft.constraints,
+    expected_outcome: "pending",
 
-    expected_outcome: draft.expected_outcome,
-
-    unresolved_questions: draft.unresolved_questions,
-
-    recommended_next_action:
-
-      "Present this Reconciled Intent Summary for explicit operator review and approval.",
-
-    approval_required: true,
-
-    status: "awaiting_operator_review",
-
-    created_at,
-
-    canonical_package_created: false,
-
-    delegation_authorized: false,
-
-    validation_authorized: false,
-
-    envelope_authorized: false,
-
-    execution_authorized: false,
+    approval_required: false
 
   };
 

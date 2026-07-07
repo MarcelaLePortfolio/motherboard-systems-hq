@@ -3,31 +3,31 @@
 
   "compilerOptions": {
 
-    "target": "ES2022",
+    "target": "ES2021",
 
-    "module": "CommonJS",
-
-    "moduleResolution": "Node",
-
-    "esModuleInterop": true,
-
-    "allowSyntheticDefaultImports": true,
-
-    "resolveJsonModule": true,
-
-    "skipLibCheck": true,
+    "module": "commonjs",
 
     "strict": false,
 
-    "noImplicitAny": false,
+    "skipLibCheck": true,
 
-    "allowJs": true
+    "types": ["node"]
 
   },
 
-  "include": ["server", "db", "routes", "scripts"],
+  "include": [
 
-  "exclude": ["node_modules", "dist"]
+    "db",
+
+    "routes",
+
+    "server",
+
+    "scripts",
+
+    "types"
+
+  ]
 
 }
 

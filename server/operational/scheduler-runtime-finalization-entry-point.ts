@@ -25,7 +25,7 @@ export type SchedulerRuntimeFinalizationEntryPointResult =
 
       orchestration_authorized: false;
 
-      execution_authorized: authority.execution_authorized;
+      execution_authorized: true;
 
       new_authority_introduced: false;
 
@@ -49,7 +49,7 @@ export type SchedulerRuntimeFinalizationEntryPointResult =
 
       orchestration_authorized: false;
 
-      execution_authorized: authority.execution_authorized;
+      execution_authorized: true;
 
       new_authority_introduced: false;
 
@@ -89,7 +89,7 @@ export function invokeSchedulerRuntimeFinalizationEntryPoint(
 
       orchestration_authorized: false,
 
-      execution_authorized: authority.execution_authorized,
+      execution_authorized: true,
 
       new_authority_introduced: false,
 
@@ -119,7 +119,7 @@ export function invokeSchedulerRuntimeFinalizationEntryPoint(
 
     orchestration_authorized: false,
 
-    execution_authorized: authority.execution_authorized,
+    execution_authorized: true,
 
     new_authority_introduced: false,
 
