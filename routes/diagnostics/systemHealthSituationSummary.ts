@@ -1,17 +1,9 @@
-import express from "express";
-const router = express.Router();
 
-import { getSystemSituationSummary } from "../../src/cognition.js";
-import type { SystemSituationSignals } from "../../src/cognition.js";
+import { getSystemSituationSummary } from "../../src/cognition";
 
-export type SystemHealthSituationSummaryPayload = {
-  situationSummary: string;
-};
+export function buildSystemHealthSituationSummary() {
 
-export function buildSystemHealthSituationSummaryPayload(
-  signals: SystemSituationSignals
-): SystemHealthSituationSummaryPayload {
-  return {
-    situationSummary: getSystemSituationSummary(signals),
-  };
+  return getSystemSituationSummary();
+
 }
+
