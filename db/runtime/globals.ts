@@ -1,17 +1,17 @@
 
-import { db } from "./index";
+import db from "./index";
 
 declare global {
 
-  var db: typeof db;
+  var db: any;
 
-  var sqlite: typeof db;
+  var sqlite: any;
 
 }
 
-globalThis.db = db;
+globalThis.db = db as any;
 
-globalThis.sqlite = db;
+globalThis.sqlite = db as any;
 
 export {};
 
