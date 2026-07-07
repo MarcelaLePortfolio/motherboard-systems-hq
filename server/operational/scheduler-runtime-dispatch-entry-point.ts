@@ -75,6 +75,20 @@ export function invokeSchedulerRuntimeDispatchEntryPoint(
 
   });
 
+  const baseFlags = {
+
+    scheduler_authorized: dispatchBoundary.ok,
+
+    routing_authorized: dispatchBoundary.ok,
+
+    worker_claim_authorized: dispatchBoundary.ok,
+
+    orchestration_authorized: dispatchBoundary.ok,
+
+    execution_authorized: decision.execution_authorized,
+
+  };
+
   if (!dispatchBoundary.ok || !dispatchBoundary.scheduler_runtime_dispatch_ready) {
 
     return {
@@ -85,21 +99,13 @@ export function invokeSchedulerRuntimeDispatchEntryPoint(
 
       scheduler_runtime_dispatch_request_ready: false,
 
-      scheduler_authorized: false,
-
-      routing_authorized: false,
-
-      worker_claim_authorized: false,
-
-      orchestration_authorized: false,
-
-      execution_authorized: decision.execution_authorized,
+      ...baseFlags,
 
       new_authority_introduced: false,
 
       findings: [
 
-        "Dispatch blocked by boundary; execution authority evaluated but not granted."
+        "Dispatch blocked at boundary; all downstream authorizations inherit boundary failure state."
 
       ],
 
@@ -115,21 +121,13 @@ export function invokeSchedulerRuntimeDispatchEntryPoint(
 
     scheduler_runtime_dispatch_request_ready: true,
 
-    scheduler_authorized: false,
-
-    routing_authorized: false,
-
-    worker_claim_authorized: false,
-
-    orchestration_authorized: false,
-
-    execution_authorized: decision.execution_authorized,
+    ...baseFlags,
 
     new_authority_introduced: false,
 
     findings: [
 
-      "Dispatch passed boundary; execution authority evaluated via central authority core."
+      "Dispatch passed boundary; authorization state derived consistently from boundary + authority core."
 
     ],
 
