@@ -11,6 +11,8 @@
 
     "strict": true,
 
+    "noEmit": true,
+
     "esModuleInterop": true,
 
     "allowSyntheticDefaultImports": true,
@@ -21,21 +23,13 @@
 
     "forceConsistentCasingInFileNames": true,
 
-    "noEmit": true,
-
     "isolatedModules": true,
 
     "types": ["node"],
 
     "lib": ["ES2021"],
 
-    "baseUrl": ".",
-
-    "paths": {
-
-      "*": ["./*"]
-
-    }
+    "baseUrl": "."
 
   },
 
@@ -54,8 +48,6 @@
   "exclude": [
 
     "scripts",
-
-    "scripts/_local",
 
     "snapshots",
 
