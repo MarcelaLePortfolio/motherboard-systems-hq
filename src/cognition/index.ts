@@ -5,7 +5,7 @@ export function getSystemSituationSummary() {
 
     cognition: "consistent",
 
-    stability: "stable"
+    stability: "stable",
 
   };
 
