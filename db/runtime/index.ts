@@ -1,9 +1,11 @@
 
 import Database from "better-sqlite3";
 
-const db = new Database("motherboard.sqlite");
+export const db = new Database("motherboard.sqlite");
 
-export { db };
+// legacy compatibility layer (temporary)
+
+export const sqlite = db;
 
 export default db;
 

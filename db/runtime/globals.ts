@@ -1,5 +1,5 @@
 
-import db from "./index";
+import { db, sqlite } from "./index";
 
 declare global {
 
@@ -9,9 +9,9 @@ declare global {
 
 }
 
-globalThis.db = db as any;
+globalThis.db = db;
 
-globalThis.sqlite = db as any;
+globalThis.sqlite = sqlite;
 
 export {};
 
