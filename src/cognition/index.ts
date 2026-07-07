@@ -11,3 +11,15 @@ export function getSystemSituationSummary() {
 
 }
 
+export function getSituationSummarySnapshot() {
+
+  return getSystemSituationSummary();
+
+}
+
+export type SystemSituationSignals = {
+
+  healthAnomaly?: boolean;
+
+};
+
