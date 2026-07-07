@@ -1,40 +1,33 @@
 
 import express from "express";
 
+import { executeCadeAction } from "../server/cade/cade-executor";
 
 const router = express.Router();
 
-router.get("/recent", async (req, res) => {
+/**
 
-  try {
+ * Minimal execution gateway for Cade
 
-    const rows = sqlite
+ */
 
-      .prepare(`
+router.post("/cade/execute", async (req, res) => {
 
-        SELECT *
+  const result = await executeCadeAction({
 
-        FROM task_events
+    action: req.body.action,
 
-        WHERE agent = ?
+    payload: req.body.payload
 
-        ORDER BY created_at DESC
+  });
 
-        LIMIT 10
+  res.json({
 
-      `)
+    status: "ok",
 
-      .all("Cade");
+    result
 
-    res.json(rows);
-
-  } catch (err) {
-
-    console.error("❌ Error fetching Cade events:", err);
-
-    res.status(500).json({ error: "Failed to fetch Cade events" });
-
-  }
+  });
 
 });
 
