@@ -1,7 +1,7 @@
-import { delegateToCadeV2 } from "../relay/agent-to-cade.ts";
-import { delegateToEffieV2 } from "../relay/agent-to-effie.ts";
+import { delegateToCadeV2 } from "../relay/agent-to-cade.js";
+import { delegateToEffieV2 } from "../relay/agent-to-effie.js";
  
-import { log } from "../utils/log.ts";
+import { log } from "../utils/log.js";
 
 /**
  * Full Matilda task runner implementation

@@ -9,13 +9,13 @@ import {
 
   type ProductionDelegationConsumerResult,
 
-} from "../delegation/production-delegation-consumer.ts";
+} from "../delegation/production-delegation-consumer.js";
 
 import type {
 
   GovernanceDelegationPersistenceFunction,
 
-} from "../delegation/production-delegation-entry-point.ts";
+} from "../delegation/production-delegation-entry-point.js";
 
 export type GovernanceDelegationRouteBody = {
 

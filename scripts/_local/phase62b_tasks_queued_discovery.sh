@@ -67,9 +67,9 @@ find . \
   -path './build' -prune -o \
   -type f \( -name '*.sql' -o -name '*.ts' -o -name '*.js' \) -print | \
 while IFS= read -r file; do
-  if grep -qE "create table.*tasks|table.*tasks|tasks\s*[:=]|export const tasks|pgTable\\(['\"]tasks|sqliteTable\\(['\"]tasks" "$file"; then
+  if grep -qE "create table.*tasks|table.*tasks|tasks\s*[:=]|export const tasks|pgTable\\(['\"]tasks|dbTable\\(['\"]tasks" "$file"; then
     echo "FILE: $file"
-    grep -nE "create table.*tasks|table.*tasks|status|run_state|state|queued|pending|pgTable\\(['\"]tasks|sqliteTable\\(['\"]tasks" "$file" || true
+    grep -nE "create table.*tasks|table.*tasks|status|run_state|state|queued|pending|pgTable\\(['\"]tasks|dbTable\\(['\"]tasks" "$file" || true
     echo
   fi
 done

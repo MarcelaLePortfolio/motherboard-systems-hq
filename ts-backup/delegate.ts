@@ -1,6 +1,5 @@
 import express from "express";
-import { sqlite } from "../db/client";
-import { cadeCreateWebpage } from "../scripts/agents/cade-create-webpage.js";
+import { cadeCreateWebpage } from "../scripts/agents/cade-create-webpage";
 
 export const router = express.Router();
 
@@ -62,12 +61,12 @@ router.post("/", async (req, res) => {
       .prepare("INSERT INTO reflection_index (content, created_at) VALUES (?, datetime('now'))")
       .run(`<0001fb11> 🚀 Delegation executed: ${instruction}`);
 
-    return res.json({ ok: true, result });
+    return reson({ ok: true, result });
   } catch (err: any) {
     console.error("Delegation error:", err);
     sqlite
       .prepare("INSERT INTO reflection_index (content, created_at) VALUES (?, datetime('now'))")
       .run(`<0001fb11> ❌ Delegation failed: ${String((err as Error).message || err)}`);
-    return res.status(500).json({ ok: false, error: String(err) });
+    return res.status(500)on({ ok: false, error: String(err) });
   }
 });

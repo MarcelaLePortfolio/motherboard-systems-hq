@@ -3,9 +3,9 @@ import test from "node:test";
 
 import assert from "node:assert/strict";
 
-import { authorizeSchedulerRuntimeFinalizationReadinessTransition } from "./scheduler-runtime-finalization-readiness-authorization-boundary.ts";
+import { authorizeSchedulerRuntimeFinalizationReadinessTransition } from "./scheduler-runtime-finalization-readiness-authorization-boundary";
 
-import type { ProductionSchedulerRuntimeFinalizationReadinessConsumerResult } from "./production-scheduler-runtime-finalization-readiness-consumer.ts";
+import type { ProductionSchedulerRuntimeFinalizationReadinessConsumerResult } from "./production-scheduler-runtime-finalization-readiness-consumer";
 
 const consumedFinalizationReadinessRequest: ProductionSchedulerRuntimeFinalizationReadinessConsumerResult = {
 
@@ -71,27 +71,27 @@ test("scheduler runtime finalization readiness authorization boundary fails clos
 
     production_scheduler_runtime_finalization_readiness_consumer: {
 
-      ok: false,
+            ok: false,
 
-      consumer: "production_scheduler_runtime_finalization_readiness_consumer",
+            consumer: "production_scheduler_runtime_finalization_readiness_consumer",
 
-      scheduler_runtime_finalization_readiness_consumed: false,
+            scheduler_runtime_finalization_readiness_consumed: false,
 
-      scheduler_authorized: false,
+            scheduler_authorized: false,
 
-      routing_authorized: false,
+            routing_authorized: false,
 
-      worker_claim_authorized: false,
+            worker_claim_authorized: false,
 
-      orchestration_authorized: false,
+            orchestration_authorized: false,
 
-      execution_authorized: false,
+            execution_authorized: false,
 
-      new_authority_introduced: false,
+            new_authority_introduced: false,
 
-      findings: ["test scheduler runtime finalization readiness consumer failure"],
+            findings: ["test scheduler runtime finalization readiness consumer failure"],
 
-    },
+          },
 
   });
 

@@ -1,3 +1,4 @@
+import Database from "better-sqlite3";
 declare const db: any;
 declare const sqlite: any;
 declare const task_events: any;

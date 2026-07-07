@@ -12,7 +12,6 @@ import Database from "better-sqlite3";
 
 import path from "path";
 import fs from "fs";
-import { db } from "../db/client";
 import { task_events } from "../db/audit";
 import { desc } from "drizzle-orm";
 
@@ -24,7 +23,7 @@ import { desc } from "drizzle-orm";
   const size = exists ? fs.statSync(dbPath).size : 0;
   let rows = [];
   try {
-    rows = db.select().from(task_events).orderBy(desc(task_events.created_at)).limit(10).all();
+    rows = sqlite.select().from(task_events).orderBy(desc(task_events.created_at)).limit(10).all();
   } catch (err) {
     console.error("❌ Query failed:", err);
   }
@@ -38,5 +37,5 @@ import { desc } from "drizzle-orm";
 
     console.log("<0001f9ef> Direct SQLite query returned", raw.length, "rows");
 
-  res.json({ cwd: process.cwd(), dbPath, exists, size, rowCount: rows.length, rows });
+  reson({ cwd: process.cwd(), dbPath, exists, size, rowCount: rows.length, rows });
 });

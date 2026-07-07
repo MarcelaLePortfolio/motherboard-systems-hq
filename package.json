@@ -1,36 +1,26 @@
 {
+
+  "name": "motherboard-systems-hq-clean",
+
+  "version": "1.0.0",
+
   "type": "module",
+
   "scripts": {
-    "build:dashboard-bundle": "esbuild public/js/dashboard-bundle-entry.js --bundle --outfile=public/bundle.js --sourcemap",
-    "test:orchestration": "node --import tsx --test server/orchestration/*.test.ts",
-    "test": "bash ./scripts/phase42_scope_gate.sh && (echo \"(no test script)\" && exit 0)",
-    "desktop": "electron desktop/main.mjs"
+
+    "build": "echo build",
+
+    "test": "echo test",
+
+    "dev": "echo dev"
+
   },
-  "devDependencies": {
-    "@types/better-sqlite3": "^7.6.13",
-    "@types/cors": "^2.8.19",
-    "@types/express": "^5.0.6",
-    "@types/node": "^24.10.1",
-    "@types/uuid": "^10.0.0",
-    "drizzle-kit": "^0.31.8",
-    "electron": "^43.0.0",
-    "esbuild": "^0.27.0",
-    "tsx": "^4.21.0",
-    "typescript": "^5.9.3"
-  },
+
   "dependencies": {
-    "better-sqlite3": "^12.4.1",
-    "body-parser": "^2.2.0",
-    "chart.js": "^4.5.1",
-    "chokidar": "^4.0.3",
-    "cors": "^2.8.5",
-    "drizzle-orm": "^0.45.1",
-    "express": "^5.2.1",
-    "node-fetch": "^3.3.2",
-    "pg": "^8.16.3",
-    "proper-lockfile": "^4.1.2",
-    "serve": "^14.2.5",
-    "sqlite3": "^5.1.7",
-    "uuid": "^13.0.0"
+
+    "ts-morph": "^28.0.0"
+
   }
+
 }
+

@@ -1,5 +1,4 @@
 import fs from "fs";
-import { db } from "../../db/client.ts";
 
 export async function validateTaskEvent(eventId: string, payload: any, result: any) {
   console.log(`<0001f9fd> 🧩 Validating task event: ${eventId}`);
@@ -11,7 +10,7 @@ export async function validateTaskEvent(eventId: string, payload: any, result: a
       if (!fs.existsSync(result)) status = "error";
     }
 
-    const stmt = db.prepare("UPDATE task_events SET status=@status WHERE id=@id");
+    const stmt = sqlite.prepare("UPDATE task_events SET status=@status WHERE id=@id");
     stmt.run({ id: eventId, status });
 
     console.log(`<0001f9fd> ✅ Validation complete — status: ${status}`);

@@ -3,9 +3,9 @@ import test from "node:test";
 
 import assert from "node:assert/strict";
 
-import { invokeSchedulerEntryPoint } from "./scheduler-entry-point.ts";
+import { invokeSchedulerEntryPoint } from "./scheduler-entry-point";
 
-import type { SchedulerReadinessBoundaryResult } from "./scheduler-readiness-boundary.ts";
+import type { SchedulerReadinessBoundaryResult } from "./scheduler-readiness-boundary";
 
 const readySchedulerBoundary: SchedulerReadinessBoundaryResult = {
 
@@ -63,27 +63,27 @@ test("scheduler entry point fails closed when readiness is absent", () => {
 
     scheduler_readiness: {
 
-      ok: false,
+            ok: false,
 
-      boundary: "scheduler_readiness",
+            boundary: "scheduler_readiness",
 
-      scheduler_ready: false,
+            scheduler_ready: false,
 
-      scheduler_authorized: false,
+            scheduler_authorized: false,
 
-      routing_authorized: false,
+            routing_authorized: false,
 
-      worker_claim_authorized: false,
+            worker_claim_authorized: false,
 
-      orchestration_authorized: false,
+            orchestration_authorized: false,
 
-      execution_authorized: false,
+            execution_authorized: false,
 
-      new_authority_introduced: false,
+            new_authority_introduced: false,
 
-      findings: ["test scheduler readiness failure"],
+            findings: ["test scheduler readiness failure"],
 
-    },
+          },
 
   });
 

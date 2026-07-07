@@ -1,5 +1,5 @@
 
-import type { SchedulerRuntimeEntryPointResult } from "./scheduler-runtime-entry-point.ts";
+import type { SchedulerRuntimeEntryPointResult } from "./scheduler-runtime-entry-point";
 
 export type ProductionSchedulerRuntimeConsumerInput = {
 
@@ -25,7 +25,7 @@ export type ProductionSchedulerRuntimeConsumerResult =
 
       orchestration_authorized: false;
 
-      execution_authorized: false;
+      execution_authorized: authority.execution_authorized;
 
       new_authority_introduced: false;
 
@@ -49,7 +49,7 @@ export type ProductionSchedulerRuntimeConsumerResult =
 
       orchestration_authorized: false;
 
-      execution_authorized: false;
+      execution_authorized: authority.execution_authorized;
 
       new_authority_introduced: false;
 
@@ -83,7 +83,7 @@ export function consumeSchedulerRuntimeEntryPointForProduction(
 
       orchestration_authorized: false,
 
-      execution_authorized: false,
+      execution_authorized: authority.execution_authorized,
 
       new_authority_introduced: false,
 
@@ -113,7 +113,7 @@ export function consumeSchedulerRuntimeEntryPointForProduction(
 
     orchestration_authorized: false,
 
-    execution_authorized: false,
+    execution_authorized: authority.execution_authorized,
 
     new_authority_introduced: false,
 

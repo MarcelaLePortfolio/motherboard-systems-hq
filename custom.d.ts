@@ -1,3 +1,4 @@
+import Database from "better-sqlite3";
 // Ambient placeholders
 declare const db: any;
 declare const sqlite: any;

@@ -4,7 +4,7 @@ export async function retryCreateAgent(agentName: string, maxRetries = 3, delayM
   for (let i = 1; i <= maxRetries; i++) {
     console.log(`<0001fad5> Attempt ${i} to create agent: ${agentName}`);
     const result = await new Promise((resolve) => {
-      const proc = spawn("node", ["scripts/run-create-atlas.js", agentName]);
+      const proc = spawn("node", ["scripts/run-create-atlas", agentName]);
       proc.on("exit", (code) => resolve(code === 0));
     });
 

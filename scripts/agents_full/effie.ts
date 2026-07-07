@@ -1,5 +1,5 @@
  
-import { log } from '../utils/log.js';
+import { log } from '../utils/log';
 import { promises as fs } from 'fs';
 ////import path from 'path';
 

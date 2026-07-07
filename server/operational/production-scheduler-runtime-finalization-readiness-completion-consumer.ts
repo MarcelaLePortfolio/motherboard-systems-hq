@@ -1,5 +1,5 @@
 
-import type { SchedulerRuntimeFinalizationReadinessCompletionEntryPointResult } from "./scheduler-runtime-finalization-readiness-completion-entry-point.ts";
+import type { SchedulerRuntimeFinalizationReadinessCompletionEntryPointResult } from "./scheduler-runtime-finalization-readiness-completion-entry-point";
 
 export type ProductionSchedulerRuntimeFinalizationReadinessCompletionConsumerInput = {
 
@@ -25,7 +25,7 @@ export type ProductionSchedulerRuntimeFinalizationReadinessCompletionConsumerRes
 
       orchestration_authorized: false;
 
-      execution_authorized: false;
+      execution_authorized: authority.execution_authorized;
 
       new_authority_introduced: false;
 
@@ -49,7 +49,7 @@ export type ProductionSchedulerRuntimeFinalizationReadinessCompletionConsumerRes
 
       orchestration_authorized: false;
 
-      execution_authorized: false;
+      execution_authorized: authority.execution_authorized;
 
       new_authority_introduced: false;
 
@@ -91,7 +91,7 @@ export function consumeSchedulerRuntimeFinalizationReadinessCompletionEntryPoint
 
       orchestration_authorized: false,
 
-      execution_authorized: false,
+      execution_authorized: authority.execution_authorized,
 
       new_authority_introduced: false,
 
@@ -121,7 +121,7 @@ export function consumeSchedulerRuntimeFinalizationReadinessCompletionEntryPoint
 
     orchestration_authorized: false,
 
-    execution_authorized: false,
+    execution_authorized: authority.execution_authorized,
 
     new_authority_introduced: false,
 

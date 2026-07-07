@@ -3,9 +3,9 @@ import test from "node:test";
 
 import assert from "node:assert/strict";
 
-import { consumeSchedulerRuntimeFinalizationReadinessEntryPointForProduction } from "./production-scheduler-runtime-finalization-readiness-consumer.ts";
+import { consumeSchedulerRuntimeFinalizationReadinessEntryPointForProduction } from "./production-scheduler-runtime-finalization-readiness-consumer";
 
-import type { SchedulerRuntimeFinalizationReadinessEntryPointResult } from "./scheduler-runtime-finalization-readiness-entry-point.ts";
+import type { SchedulerRuntimeFinalizationReadinessEntryPointResult } from "./scheduler-runtime-finalization-readiness-entry-point";
 
 const readyFinalizationReadinessEntryPoint: SchedulerRuntimeFinalizationReadinessEntryPointResult = {
 
@@ -69,27 +69,27 @@ test("production scheduler runtime finalization readiness consumer fails closed 
 
       scheduler_runtime_finalization_readiness_entry_point: {
 
-        ok: false,
+                ok: false,
 
-        entry_point: "scheduler_runtime_finalization_readiness_entry_point",
+                entry_point: "scheduler_runtime_finalization_readiness_entry_point",
 
-        scheduler_runtime_finalization_readiness_request_ready: false,
+                scheduler_runtime_finalization_readiness_request_ready: false,
 
-        scheduler_authorized: false,
+                scheduler_authorized: false,
 
-        routing_authorized: false,
+                routing_authorized: false,
 
-        worker_claim_authorized: false,
+                worker_claim_authorized: false,
 
-        orchestration_authorized: false,
+                orchestration_authorized: false,
 
-        execution_authorized: false,
+                execution_authorized: false,
 
-        new_authority_introduced: false,
+                new_authority_introduced: false,
 
-        findings: ["test scheduler runtime finalization readiness entry point failure"],
+                findings: ["test scheduler runtime finalization readiness entry point failure"],
 
-      },
+              },
 
     });
 

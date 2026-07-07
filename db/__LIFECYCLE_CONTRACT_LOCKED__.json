@@ -1,0 +1,5 @@
+{
+  "source": "db/governance-lifecycle-composition.ts",
+  "locked": true,
+  "reason": "prevent contract drift during runtime reconciliation"
+}

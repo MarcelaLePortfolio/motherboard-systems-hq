@@ -81,7 +81,7 @@ backups/source_20260527_154717.tar.gz
 ./PHASE_82_2_TASK_EXECUTION_DURATION_PURE_FUNCTION.md
 ./taskRouter.ts
 ./PHASE_83_2_TASK_QUEUE_WAIT_DURATION_PURE_FUNCTION.md
-./docker-entrypoint-initdb.d
+./docker-entrypoint-initsqlite.d
 ./submit-task.ts
 ./PHASE_82_1_TASK_EXECUTION_DURATION_DEFINITION.md
 ./PHASE62B_TASKS_COMPLETE_500_INSPECTION_20260317T165843Z.txt
@@ -283,7 +283,7 @@ backups/source_20260527_154717.tar.gz
 ./PHASE_82_2_TASK_EXECUTION_DURATION_PURE_FUNCTION.md
 ./taskRouter.ts
 ./PHASE_83_2_TASK_QUEUE_WAIT_DURATION_PURE_FUNCTION.md
-./docker-entrypoint-initdb.d
+./docker-entrypoint-initsqlite.d
 ./submit-task.ts
 ./PHASE_82_1_TASK_EXECUTION_DURATION_DEFINITION.md
 ./PHASE62B_TASKS_COMPLETE_500_INSPECTION_20260317T165843Z.txt
@@ -485,7 +485,7 @@ backups/source_20260527_154717.tar.gz
 ./PHASE_82_2_TASK_EXECUTION_DURATION_PURE_FUNCTION.md
 ./taskRouter.ts
 ./PHASE_83_2_TASK_QUEUE_WAIT_DURATION_PURE_FUNCTION.md
-./docker-entrypoint-initdb.d
+./docker-entrypoint-initsqlite.d
 ./submit-task.ts
 ./PHASE_82_1_TASK_EXECUTION_DURATION_DEFINITION.md
 ./PHASE62B_TASKS_COMPLETE_500_INSPECTION_20260317T165843Z.txt
@@ -687,7 +687,7 @@ backups/source_20260527_154717.tar.gz
 ./PHASE_82_2_TASK_EXECUTION_DURATION_PURE_FUNCTION.md
 ./taskRouter.ts
 ./PHASE_83_2_TASK_QUEUE_WAIT_DURATION_PURE_FUNCTION.md
-./docker-entrypoint-initdb.d
+./docker-entrypoint-initsqlite.d
 ./submit-task.ts
 ./PHASE_82_1_TASK_EXECUTION_DURATION_DEFINITION.md
 ./PHASE62B_TASKS_COMPLETE_500_INSPECTION_20260317T165843Z.txt
@@ -889,7 +889,7 @@ backups/source_20260527_154717.tar.gz
 ./PHASE_82_2_TASK_EXECUTION_DURATION_PURE_FUNCTION.md
 ./taskRouter.ts
 ./PHASE_83_2_TASK_QUEUE_WAIT_DURATION_PURE_FUNCTION.md
-./docker-entrypoint-initdb.d
+./docker-entrypoint-initsqlite.d
 ./submit-task.ts
 ./PHASE_82_1_TASK_EXECUTION_DURATION_DEFINITION.md
 ./PHASE62B_TASKS_COMPLETE_500_INSPECTION_20260317T165843Z.txt
@@ -1040,7 +1040,7 @@ backups/source_20260527_154717.tar.gz
 ===== INSPECT RIO DRIVE TARBALL CONTENTS =====
 
 ----- /Volumes/Rio Drive/backups/source_20260527_221257.tar.gz -----
-./files/docker-entrypoint-initdb.d
+./files/docker-entrypoint-initsqlite.d
 ./files/.dockerignore
 ./files/Dockerfile
 ./files/Dockerfile.backup-scheduler
@@ -1242,7 +1242,7 @@ backups/source_20260527_154717.tar.gz
 ./files/snapshots/20251114-114707/scripts/_local/matilda_tasks/onboard_agent.mjs
 
 ----- /Volumes/Rio Drive/backups/source_20260528_000027.tar.gz -----
-./files/docker-entrypoint-initdb.d
+./files/docker-entrypoint-initsqlite.d
 ./files/.dockerignore
 ./files/Dockerfile
 ./files/Dockerfile.backup-scheduler
@@ -1444,7 +1444,7 @@ backups/source_20260527_154717.tar.gz
 ./files/snapshots/20251114-114707/scripts/_local/matilda_tasks
 
 ----- /Volumes/Rio Drive/backups/source_20260528_000826.tar.gz -----
-./files/docker-entrypoint-initdb.d
+./files/docker-entrypoint-initsqlite.d
 ./files/.dockerignore
 ./files/Dockerfile
 ./files/Dockerfile.backup-scheduler
@@ -1646,7 +1646,7 @@ backups/source_20260527_154717.tar.gz
 ./files/server/api/tasks-mutations
 
 ----- /Volumes/Rio Drive/backups/source_20260528_001220.tar.gz -----
-./files/docker-entrypoint-initdb.d
+./files/docker-entrypoint-initsqlite.d
 ./files/.dockerignore
 ./files/COMPOSE_IMAGE_JSON_FAILURE_DIAGNOSIS.txt
 ./files/COMPOSE_RUNTIME_BASELINE_VALIDATION.txt
@@ -1848,7 +1848,7 @@ backups/source_20260527_154717.tar.gz
 ./files/snapshots/20251114-114821/db/main_backup_before_type_patch.sqlite
 
 ----- /Volumes/Rio Drive/backups/source_20260528_001238.tar.gz -----
-./files/docker-entrypoint-initdb.d
+./files/docker-entrypoint-initsqlite.d
 ./files/.dockerignore
 ./files/COMPOSE_IMAGE_JSON_FAILURE_DIAGNOSIS.txt
 ./files/COMPOSE_RUNTIME_BASELINE_VALIDATION.txt

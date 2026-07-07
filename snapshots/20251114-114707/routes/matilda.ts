@@ -20,12 +20,12 @@ router.post("/matilda", async (req, res) => {
           { role: "user", content: message }
         ]
       })
-    }).then(r => r.json());
+    }).then(r => ron());
 
     reply = response?.choices?.[0]?.message?.content || "(no reply)";
   } catch (err:any) {
     reply = `(matilda error: ${err.message})`;
   }
 
-  return res.json({ reply });
+  return reson({ reply });
 });

@@ -9,11 +9,11 @@ cp db/main.db db/backups/main_$(date +"%Y%m%d_%H%M%S").db
 
 echo "�� Clearing temporary and log data..."
 rm -rf public/tmp/*
-sqlite3 db/main.db "DELETE FROM task_events;"
-sqlite3 db/main.db "DELETE FROM reflection_index;"
+db3 db/main.db "DELETE FROM task_events;"
+db3 db/main.db "DELETE FROM reflection_index;"
 
 echo "🌱 Seeding initial reflection log..."
-sqlite3 db/main.db "INSERT INTO reflection_index (content) VALUES ('🌅 Demo baseline restored — system ready for cinematic playback.');"
+db3 db/main.db "INSERT INTO reflection_index (content) VALUES ('🌅 Demo baseline restored — system ready for cinematic playback.');"
 
 echo "🚀 Restarting all agents via PM2..."
 pm2 restart all

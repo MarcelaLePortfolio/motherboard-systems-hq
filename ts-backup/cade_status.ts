@@ -1,4 +1,4 @@
-import { broadcastLogUpdate } from "../../routes/eventsAgents.js";
+import { broadcastLogUpdate } from "../../routes/eventsAgents";
 
 let cadeStatus: "idle" | "busy" | "online" = "idle";
 

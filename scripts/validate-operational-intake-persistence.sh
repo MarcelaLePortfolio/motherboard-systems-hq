@@ -7,7 +7,7 @@ DB_FILE="$(mktemp)"
 
 trap 'rm -f "$DB_FILE"' EXIT
 
-sqlite3 "$DB_FILE" <<'SQL'
+db3 "$DB_FILE" <<'SQL'
 
 PRAGMA foreign_keys = ON;
 

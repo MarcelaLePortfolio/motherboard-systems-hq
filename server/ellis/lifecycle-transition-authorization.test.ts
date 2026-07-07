@@ -3,9 +3,9 @@ import test from "node:test";
 
 import assert from "node:assert/strict";
 
-import { evaluateGovernanceLifecycleAssignmentBoundary } from "./assignment-boundary.ts";
+import { evaluateGovernanceLifecycleAssignmentBoundary } from "./assignment-boundary";
 
-import { authorizeGovernanceLifecycleAssignmentTransition } from "./lifecycle-transition-authorization.ts";
+import { authorizeGovernanceLifecycleAssignmentTransition } from "./lifecycle-transition-authorization";
 
 function readyBoundary() {
 

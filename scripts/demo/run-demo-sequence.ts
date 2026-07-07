@@ -1,6 +1,5 @@
 // <0001fad9> Phase 6.0 — Demo Scenario Assembly
 console.log("🧩 Forcing SQLite path → db/main.db");
-import { sqlite } from "../../db/client";
 
 export async function runDemoSequence() {
   console.log("🎬 Starting Demo Sequence...");
@@ -36,6 +35,6 @@ export async function runDemoSequence() {
   }
 }
 
-if (process.argv[1].includes("run-demo-sequence.ts")) {
+if (process.argv[1].includes("run-demo-sequence")) {
   runDemoSequence();
 }

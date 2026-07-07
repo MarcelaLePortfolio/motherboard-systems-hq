@@ -3,7 +3,7 @@ import test from "node:test";
 
 import assert from "node:assert/strict";
 
-import { invokeEllisFromEnvelope } from "./invocation.ts";
+import { invokeEllisFromEnvelope } from "./invocation";
 
 test("ellis invocation adapter normalizes comma-separated envelope capabilities without actor assignment", () => {
 

@@ -3,9 +3,9 @@ import test from "node:test";
 
 import assert from "node:assert/strict";
 
-import { consumeSchedulerDispatchContractForProduction } from "./production-scheduler-dispatch-consumer.ts";
+import { consumeSchedulerDispatchContractForProduction } from "./production-scheduler-dispatch-consumer";
 
-import type { SchedulerDispatchContractResult } from "./scheduler-dispatch-contract.ts";
+import type { SchedulerDispatchContractResult } from "./scheduler-dispatch-contract";
 
 const readyDispatchContract: SchedulerDispatchContractResult = {
 
@@ -75,29 +75,29 @@ test("production scheduler dispatch consumer fails closed when dispatch contract
 
     scheduler_dispatch_contract: {
 
-      ok: false,
+            ok: false,
 
-      contract: "scheduler_dispatch_contract",
+            contract: "scheduler_dispatch_contract",
 
-      scheduler_dispatch_ready: false,
+            scheduler_dispatch_ready: false,
 
-      scheduler_transition_authorized: false,
+            scheduler_transition_authorized: false,
 
-      scheduler_authorized: false,
+            scheduler_authorized: false,
 
-      routing_authorized: false,
+            routing_authorized: false,
 
-      worker_claim_authorized: false,
+            worker_claim_authorized: false,
 
-      orchestration_authorized: false,
+            orchestration_authorized: false,
 
-      execution_authorized: false,
+            execution_authorized: false,
 
-      new_authority_introduced: false,
+            new_authority_introduced: false,
 
-      findings: ["test scheduler dispatch contract failure"],
+            findings: ["test scheduler dispatch contract failure"],
 
-    },
+          },
 
   });
 

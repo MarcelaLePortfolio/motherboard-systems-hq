@@ -7,7 +7,7 @@ import {
 
   type CreateGovernanceDelegationInput,
 
-} from "../../db/governance-runtime.ts";
+} from "../../db/governance-runtime.js";
 
 import {
 
@@ -19,7 +19,7 @@ import {
 
   type ProductionDelegationEntryPointResult,
 
-} from "./production-delegation-entry-point.ts";
+} from "./production-delegation-entry-point";
 
 export type ProductionDelegationConsumerInput = Omit<
 

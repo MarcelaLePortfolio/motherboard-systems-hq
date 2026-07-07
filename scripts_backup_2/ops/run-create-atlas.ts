@@ -11,8 +11,8 @@ const mode = process.argv.includes("--live") ? "live" : "demo";
     mode,
     paceMs: 1000,
     targetDir: "projects/Atlas",
-    reflectionsPath: "public/tmp/reflections.json",
-    statusPath: "public/tmp/atlas-status.json"
+    reflectionsPath: "public/tmp/reflectionson",
+    statusPath: "public/tmp/atlas-statuson"
   });
   console.log("✅ Atlas creation complete.");
 })();

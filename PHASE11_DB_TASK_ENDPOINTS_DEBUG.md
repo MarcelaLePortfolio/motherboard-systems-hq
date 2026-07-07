@@ -11,7 +11,7 @@
 - Helper scripts added:
   - scripts/db/create-postgres-role.sh
     - Ensures role "postgres" exists with LOGIN and password "password".
-  - scripts/db/create-dashboard-db.sh
+  - scripts/db/create-dashboard-sqlite.sh
     - Ensures database "dashboard_db" exists (OWNER postgres).
 
 ## Recent Changes

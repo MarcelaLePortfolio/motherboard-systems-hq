@@ -1,7 +1,6 @@
 // <0001faf3> Phase 6.4 — Reset + Roundtrip Validation (ESM Compatible)
 import { fileURLToPath } from "url";
 import { dirname } from "path";
-import { sqlite } from "../db/client";
 
 export function resetRoundtrip() {
   try {

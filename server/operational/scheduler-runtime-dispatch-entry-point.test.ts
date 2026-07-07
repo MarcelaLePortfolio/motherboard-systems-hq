@@ -3,9 +3,9 @@ import test from "node:test";
 
 import assert from "node:assert/strict";
 
-import { invokeSchedulerRuntimeDispatchEntryPoint } from "./scheduler-runtime-dispatch-entry-point.ts";
+import { invokeSchedulerRuntimeDispatchEntryPoint } from "./scheduler-runtime-dispatch-entry-point";
 
-import type { SchedulerRuntimeDispatchBoundaryResult } from "./scheduler-runtime-dispatch-boundary.ts";
+import type { SchedulerRuntimeDispatchBoundaryResult } from "./scheduler-runtime-dispatch-boundary";
 
 const readyDispatchBoundary: SchedulerRuntimeDispatchBoundaryResult = {
 
@@ -63,27 +63,27 @@ test("scheduler runtime dispatch entry point fails closed when dispatch readines
 
     scheduler_runtime_dispatch_boundary: {
 
-      ok: false,
+            ok: false,
 
-      boundary: "scheduler_runtime_dispatch",
+            boundary: "scheduler_runtime_dispatch",
 
-      scheduler_runtime_dispatch_ready: false,
+            scheduler_runtime_dispatch_ready: false,
 
-      scheduler_authorized: false,
+            scheduler_authorized: false,
 
-      routing_authorized: false,
+            routing_authorized: false,
 
-      worker_claim_authorized: false,
+            worker_claim_authorized: false,
 
-      orchestration_authorized: false,
+            orchestration_authorized: false,
 
-      execution_authorized: false,
+            execution_authorized: false,
 
-      new_authority_introduced: false,
+            new_authority_introduced: false,
 
-      findings: ["test scheduler runtime dispatch boundary failure"],
+            findings: ["test scheduler runtime dispatch boundary failure"],
 
-    },
+          },
 
   });
 

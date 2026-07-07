@@ -1,12 +1,10 @@
-import { pruneOldEntries, pruneReflections } from "../../db/client";
-import { db } from "../../db/client";
 
 export async function cleanupOldData() {
   console.log("<0001fa9b> 🧹 Running scheduled cleanup of old entries...");
   pruneOldEntries(7);
   pruneReflections(7);
 
-  const stmt = db.prepare(`
+  const stmt = sqlite.prepare(`
     INSERT INTO task_events (id, type, status, agent, payload, result, created_at)
     VALUES (@id, 'auto_prune', 'success', 'system', '{}', 'Old entries cleaned', datetime('now'))
   `);

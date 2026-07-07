@@ -3,9 +3,9 @@ import test from "node:test";
 
 import assert from "node:assert/strict";
 
-import { authorizeSchedulerRuntimeFinalizationReadinessCompletionTransition } from "./scheduler-runtime-finalization-readiness-completion-authorization-boundary.ts";
+import { authorizeSchedulerRuntimeFinalizationReadinessCompletionTransition } from "./scheduler-runtime-finalization-readiness-completion-authorization-boundary";
 
-import type { ProductionSchedulerRuntimeFinalizationReadinessCompletionConsumerResult } from "./production-scheduler-runtime-finalization-readiness-completion-consumer.ts";
+import type { ProductionSchedulerRuntimeFinalizationReadinessCompletionConsumerResult } from "./production-scheduler-runtime-finalization-readiness-completion-consumer";
 
 const consumedCompletionReadiness: ProductionSchedulerRuntimeFinalizationReadinessCompletionConsumerResult = {
 
@@ -75,31 +75,31 @@ test("scheduler runtime finalization readiness completion authorization boundary
 
       production_scheduler_runtime_finalization_readiness_completion_consumer: {
 
-        ok: false,
+                ok: false,
 
-        consumer: "production_scheduler_runtime_finalization_readiness_completion_consumer",
+                consumer: "production_scheduler_runtime_finalization_readiness_completion_consumer",
 
-        scheduler_runtime_finalization_readiness_completion_consumed: false,
+                scheduler_runtime_finalization_readiness_completion_consumed: false,
 
-        scheduler_authorized: false,
+                scheduler_authorized: false,
 
-        routing_authorized: false,
+                routing_authorized: false,
 
-        worker_claim_authorized: false,
+                worker_claim_authorized: false,
 
-        orchestration_authorized: false,
+                orchestration_authorized: false,
 
-        execution_authorized: false,
+                execution_authorized: false,
 
-        new_authority_introduced: false,
+                new_authority_introduced: false,
 
-        findings: [
+                findings: [
 
-          "test scheduler runtime finalization readiness completion consumer failure",
+                  "test scheduler runtime finalization readiness completion consumer failure",
 
-        ],
+                ],
 
-      },
+              },
 
     });
 

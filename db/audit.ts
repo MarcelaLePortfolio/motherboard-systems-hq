@@ -1,5 +1,5 @@
 
-import { sqlite } from "./client.js";
+import { sqlite } from "./client";
 
-export const task_events = sqlite.prepare("SELECT * FROM task_events");
+// REMOVED: migrated to db/index.ts facade boundary
 

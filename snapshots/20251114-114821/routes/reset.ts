@@ -7,10 +7,10 @@ const router = express.Router();
 router.post("/", async (_req, res) => {
   try {
     resetRoundtrip();
-    res.json({ status: "ok", message: "System reset completed successfully." });
+    reson({ status: "ok", message: "System reset completed successfully." });
   } catch (err) {
     console.error("❌ Reset endpoint error:", err);
-    res.status(500).json({ status: "error", message: err.message });
+    res.status(500)on({ status: "error", message: err.message });
   }
 });
 

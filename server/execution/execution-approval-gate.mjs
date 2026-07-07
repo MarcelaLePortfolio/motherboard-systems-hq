@@ -1,4 +1,4 @@
-import { evaluateExecutionSwitch } from "./matilda-execution-switch-evaluator.ts";
+import { evaluateExecutionSwitch } from "./matilda-execution-switch-evaluator.js";
 
 function fail(code, message) {
 

@@ -24,35 +24,35 @@ import { dbDelegateTask, dbCompleteTask } from "./server/tasks-mutations.mjs";
 import taskEventsSSE from "./server/routes/task-events-sse.mjs";
 import apiTasksMutationsRouter from "./server/routes/api-tasks-mutations.mjs";
 import governedPlanningRouter from "./server/routes/governed-planning-route.mjs";
-import governanceLifecycleRouter from "./server/routes/governance-lifecycle-route.ts";
+import governanceLifecycleRouter from "./server/routes/governance-lifecycle-route.js";
 
-import { createGovernancePackage } from "./db/governance-runtime.ts";
+import { createGovernancePackage } from "./db/governance-runtime.js";
 
-import { createGovernancePackageRouter } from "./server/routes/governance-package-route.ts";
+import { createGovernancePackageRouter } from "./server/routes/governance-package-route.js";
 
-import matildaInterpretationLedgerRouter from "./server/routes/matilda-interpretation-ledger-route.ts";
-import matildaLivingDraftRouter from "./server/routes/matilda-living-draft-route.ts";
-import matildaDraftSynthesisRouter from "./server/routes/matilda-draft-synthesis-route.ts";
-import matildaReconciledIntentRouter from "./server/routes/matilda-reconciled-intent-route.ts";
-import matildaCanonicalPackageRouter from "./server/routes/matilda-canonical-package-route.ts";
-import matildaDelegationRouter from "./server/routes/matilda-delegation-route.ts";
-import matildaGovernanceValidationRouter from "./server/routes/matilda-governance-validation-route.ts";
-import matildaEnvelopeRouter from "./server/routes/matilda-envelope-route.ts";
-import matildaRoutingRouter from "./server/routes/matilda-routing-route.ts";
-import matildaAssignmentRouter from "./server/routes/matilda-assignment-route.ts";
-import matildaExecutionPlanningRouter from "./server/routes/matilda-execution-planning-route.ts";
-import matildaPreviewRouter from "./server/routes/matilda-preview-route.ts";
-import matildaPreviewConfirmationRouter from "./server/routes/matilda-preview-confirmation-route.ts";
-import matildaExecutionAuthorizationRouter from "./server/routes/matilda-execution-authorization-route.ts";
-import apiChatRouter from "./routes/api-chat.ts";
+import matildaInterpretationLedgerRouter from "./server/routes/matilda-interpretation-ledger-route.js";
+import matildaLivingDraftRouter from "./server/routes/matilda-living-draft-route.js";
+import matildaDraftSynthesisRouter from "./server/routes/matilda-draft-synthesis-route.js";
+import matildaReconciledIntentRouter from "./server/routes/matilda-reconciled-intent-route.js";
+import matildaCanonicalPackageRouter from "./server/routes/matilda-canonical-package-route.js";
+import matildaDelegationRouter from "./server/routes/matilda-delegation-route.js";
+import matildaGovernanceValidationRouter from "./server/routes/matilda-governance-validation-route.js";
+import matildaEnvelopeRouter from "./server/routes/matilda-envelope-route.js";
+import matildaRoutingRouter from "./server/routes/matilda-routing-route.js";
+import matildaAssignmentRouter from "./server/routes/matilda-assignment-route.js";
+import matildaExecutionPlanningRouter from "./server/routes/matilda-execution-planning-route.js";
+import matildaPreviewRouter from "./server/routes/matilda-preview-route.js";
+import matildaPreviewConfirmationRouter from "./server/routes/matilda-preview-confirmation-route.js";
+import matildaExecutionAuthorizationRouter from "./server/routes/matilda-execution-authorization-route.js";
+import apiChatRouter from "./routes/api-chat.js";
 
-import governanceDelegationRouter from "./server/routes/governance-delegation-route.ts";
+import governanceDelegationRouter from "./server/routes/governance-delegation-route.js";
 
-import governanceValidationRouter from "./server/routes/governance-validation-route.ts";
+import governanceValidationRouter from "./server/routes/governance-validation-route.js";
 
-import governanceEnvelopeGateRouter from "./server/routes/governance-envelope-gate-route.ts";
+import governanceEnvelopeGateRouter from "./server/routes/governance-envelope-gate-route.js";
 
-import governanceEnvelopeRouter from "./server/routes/governance-envelope-route.ts";
+import governanceEnvelopeRouter from "./server/routes/governance-envelope-route.js";
 import { handleDelegateTaskSpec as phase23HandleDelegateTaskSpec } from "./server/api/tasks-mutations/delegate-taskspec.mjs";
 import { registerPhase36RunView } from "./server/routes/phase36_run_view.mjs";
 import { getRunsList } from "./server/routes/phase36_run_view.mjs";

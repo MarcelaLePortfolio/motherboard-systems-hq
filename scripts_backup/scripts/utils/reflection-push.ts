@@ -1,5 +1,4 @@
 // 🪞 Phase 7.9 — Reflection Push Utility
-import { sqlite } from "../../db/client";
 
 export function pushReflection(content: string) {
   sqlite

@@ -6,7 +6,7 @@ const router = express.Router();
 
 
 
-import { getAllAgentsStatus } from "../scripts/utils/agentStatus.js";
+import { getAllAgentsStatus } from "../scripts/utils/agentStatus";
 
 
 // 🧠 Basic Server-Sent Events stream for live agent updates

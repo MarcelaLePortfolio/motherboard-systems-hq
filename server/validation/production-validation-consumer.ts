@@ -7,7 +7,7 @@ import {
 
   type CreateGovernanceValidationResultInput,
 
-} from "../../db/governance-runtime.ts";
+} from "../../db/governance-runtime.js";
 
 import {
 
@@ -19,7 +19,7 @@ import {
 
   type ProductionValidationEntryPointResult,
 
-} from "./production-validation-entry-point.ts";
+} from "./production-validation-entry-point";
 
 export type ProductionValidationConsumerInput = Omit<
 

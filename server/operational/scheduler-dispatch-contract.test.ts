@@ -3,11 +3,11 @@ import test from "node:test";
 
 import assert from "node:assert/strict";
 
-import { buildSchedulerDispatchContract } from "./scheduler-dispatch-contract.ts";
+import { buildSchedulerDispatchContract } from "./scheduler-dispatch-contract";
 
-import type { SchedulerAuthorizationBoundaryResult } from "./scheduler-authorization-boundary.ts";
+import type { SchedulerAuthorizationBoundaryResult } from "./scheduler-authorization-boundary";
 
-import type { OperationalIntakeRecord } from "../../db/operational-intake-runtime.ts";
+import type { OperationalIntakeRecord } from "../../db/operational-intake-runtime.js";
 
 const schedulerAuthorization: SchedulerAuthorizationBoundaryResult = {
 
@@ -129,27 +129,27 @@ test("scheduler dispatch contract fails closed without scheduler transition auth
 
     scheduler_authorization: {
 
-      ok: false,
+            ok: false,
 
-      boundary: "scheduler_authorization",
+            boundary: "scheduler_authorization",
 
-      scheduler_transition_authorized: false,
+            scheduler_transition_authorized: false,
 
-      scheduler_authorized: false,
+            scheduler_authorized: false,
 
-      routing_authorized: false,
+            routing_authorized: false,
 
-      worker_claim_authorized: false,
+            worker_claim_authorized: false,
 
-      orchestration_authorized: false,
+            orchestration_authorized: false,
 
-      execution_authorized: false,
+            execution_authorized: false,
 
-      new_authority_introduced: false,
+            new_authority_introduced: false,
 
-      findings: ["test scheduler authorization failure"],
+            findings: ["test scheduler authorization failure"],
 
-    },
+          },
 
     operational_intake: operationalIntake,
 

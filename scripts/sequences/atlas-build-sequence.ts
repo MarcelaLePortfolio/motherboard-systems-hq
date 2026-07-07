@@ -1,11 +1,10 @@
-import { db } from "../../db/client.ts";
-import { reflection_index } from "../../db/reflection_index.ts";
+import { reflection_index } from "../../db/reflection_index";
 
 const delay = (ms: number) => new Promise(res => setTimeout(res, ms));
 
 async function logReflection(actor: string, message: string) {
   try {
-    await db.insert(reflection_index).values({
+    await sqlite.insert(reflection_index).values({
       id: crypto.randomUUID(),
       source: actor,
       content: message,

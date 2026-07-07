@@ -45,7 +45,7 @@ function createTestDb() {
 
 }
 
-function insertEnvelope(sqlite: Database, envelopeId: string, lifecycleState: string) {
+function insertEnvelope(sqlite: any, envelopeId: string, lifecycleState: string) {
 
   sqlite
 

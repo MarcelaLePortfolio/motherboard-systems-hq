@@ -7,8 +7,7 @@ const router = express.Router();
 
 
 
-import { sqlite } from "../db/client";
-import { cadeCreateWebpage } from "../scripts/agents/cade-create-webpage.js";
+import { cadeCreateWebpage } from "../scripts/agents/cade-create-webpage";
 
 
   const instructionRaw = req.body?.instruction || "";
@@ -68,12 +67,12 @@ import { cadeCreateWebpage } from "../scripts/agents/cade-create-webpage.js";
       .prepare("INSERT INTO reflection_index (content, created_at) VALUES (?, datetime('now'))")
       .run(`<0001fb11> 🚀 Delegation executed: ${instruction}`);
 
-    return res.json({ ok: true, result });
+    return reson({ ok: true, result });
   } catch (err: any) {
     console.error("Delegation error:", err);
     sqlite
       .prepare("INSERT INTO reflection_index (content, created_at) VALUES (?, datetime('now'))")
       .run(`<0001fb11> ❌ Delegation failed: ${String(err.message || err)}`);
-    return res.status(500).json({ ok: false, error: String(err) });
+    return res.status(500)on({ ok: false, error: String(err) });
   }
 });

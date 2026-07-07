@@ -1,3 +1,4 @@
+import Database from "better-sqlite3";
 
 Persistence Surface Inspection Finding
 
@@ -21,9 +22,9 @@ Database client:
 
 - db/client.ts uses better-sqlite3.
 
-- Active database path is db/main.db.
+- Active database path is db/main.sqlite.
 
-- sqlite is exported as an alias of db.
+- sqlite is exported as an alias of sqlite.
 
 Existing Drizzle-modeled tables:
 

@@ -1,5 +1,4 @@
 import express from "express";
-import { sqlite } from "../../db/client";
 
 const router = express.Router();
 
@@ -16,14 +15,14 @@ router.post("/delegate", (req, res) => {
 
     const info = stmt.run(type, agent, "received", payload);
 
-    res.json({
+    reson({
       ok: true,
       message: "Task received",
       task_id: info.lastInsertRowid
     });
   } catch (err) {
     console.error("❌ /delegate error:", err);
-    res.status(500).json({ ok: false, error: "delegate_error" });
+    res.status(500)on({ ok: false, error: "delegate_error" });
   }
 });
 

@@ -4,9 +4,8 @@
 import { execSync } from "child_process";
 import fs from "fs";
 import path from "path";
-import { sqlite } from "../../db/client";
 
-const reflectionsPath = path.join(process.cwd(), "public", "tmp", "reflections.json");
+const reflectionsPath = path.join(process.cwd(), "public", "tmp", "reflectionson");
 
 function delay(ms: number) {
   return new Promise((resolve) => setTimeout(resolve, ms));
@@ -19,14 +18,14 @@ async function runDemoPlayback() {
     execSync("bash scripts/demo/restore-demo-baseline.sh", { stdio: "inherit" });
 
     console.log("💾 Creating fallback Atlas task...");
-    execSync("npx tsx scripts/demo/run-create-atlas.ts", { stdio: "inherit" });
+    execSync("npx tsx scripts/demo/run-create-atlas", { stdio: "inherit" });
 
     console.log("🌱 Loading reflections from snapshot...");
     const reflections = JSON.parse(fs.readFileSync(reflectionsPath, "utf8"));
 
     console.log("🪞 Playing reflections at cinematic 1 Hz...");
     for (const reflection of reflections.reverse()) {
-      sqlite
+      db
         .prepare("INSERT INTO reflection_index (content, created_at) VALUES (?, datetime('now'))")
         .run(reflection.content);
       console.log(`✨ ${reflection.content}`);

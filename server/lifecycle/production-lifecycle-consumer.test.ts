@@ -3,7 +3,7 @@ import test from "node:test";
 
 import assert from "node:assert/strict";
 
-import { consumeProductionLifecycleEntryPoint } from "./production-lifecycle-consumer.ts";
+import { consumeProductionLifecycleEntryPoint } from "./production-lifecycle-consumer";
 
 const handshake = {
 

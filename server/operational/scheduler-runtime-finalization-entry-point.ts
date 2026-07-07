@@ -1,5 +1,5 @@
 
-import type { SchedulerRuntimeFinalizationBoundaryResult } from "./scheduler-runtime-finalization-boundary.ts";
+import type { SchedulerRuntimeFinalizationBoundaryResult } from "./scheduler-runtime-finalization-boundary";
 
 export type SchedulerRuntimeFinalizationEntryPointInput = {
 
@@ -25,7 +25,7 @@ export type SchedulerRuntimeFinalizationEntryPointResult =
 
       orchestration_authorized: false;
 
-      execution_authorized: false;
+      execution_authorized: authority.execution_authorized;
 
       new_authority_introduced: false;
 
@@ -49,7 +49,7 @@ export type SchedulerRuntimeFinalizationEntryPointResult =
 
       orchestration_authorized: false;
 
-      execution_authorized: false;
+      execution_authorized: authority.execution_authorized;
 
       new_authority_introduced: false;
 
@@ -89,7 +89,7 @@ export function invokeSchedulerRuntimeFinalizationEntryPoint(
 
       orchestration_authorized: false,
 
-      execution_authorized: false,
+      execution_authorized: authority.execution_authorized,
 
       new_authority_introduced: false,
 
@@ -119,7 +119,7 @@ export function invokeSchedulerRuntimeFinalizationEntryPoint(
 
     orchestration_authorized: false,
 
-    execution_authorized: false,
+    execution_authorized: authority.execution_authorized,
 
     new_authority_introduced: false,
 

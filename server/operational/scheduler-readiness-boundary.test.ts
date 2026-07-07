@@ -3,11 +3,11 @@ import test from "node:test";
 
 import assert from "node:assert/strict";
 
-import { evaluateSchedulerReadinessBoundary } from "./scheduler-readiness-boundary.ts";
+import { evaluateSchedulerReadinessBoundary } from "./scheduler-readiness-boundary";
 
-import type { ProductionOperationalConsumerResult } from "./production-operational-consumer.ts";
+import type { ProductionOperationalConsumerResult } from "./production-operational-consumer";
 
-import type { OperationalIntakeRecord } from "../../db/operational-intake-runtime.ts";
+import type { OperationalIntakeRecord } from "../../db/operational-intake-runtime.js";
 
 const operationalIntake: OperationalIntakeRecord = {
 
@@ -111,29 +111,29 @@ test("scheduler readiness boundary fails closed when operational consumption fai
 
     operational_consumption: {
 
-      ok: false,
+            ok: false,
 
-      consumer: "production_operational_consumer",
+            consumer: "production_operational_consumer",
 
-      operational_intake: operationalIntake,
+            operational_intake: operationalIntake,
 
-      downstream_consumption_ready: false,
+            downstream_consumption_ready: false,
 
-      scheduler_authorized: false,
+            scheduler_authorized: false,
 
-      routing_authorized: false,
+            routing_authorized: false,
 
-      worker_claim_authorized: false,
+            worker_claim_authorized: false,
 
-      orchestration_authorized: false,
+            orchestration_authorized: false,
 
-      execution_authorized: false,
+            execution_authorized: false,
 
-      new_authority_introduced: false,
+            new_authority_introduced: false,
 
-      findings: ["test operational consumption failure"],
+            findings: ["test operational consumption failure"],
 
-    },
+          },
 
   });
 

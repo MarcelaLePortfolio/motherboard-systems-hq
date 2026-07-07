@@ -1,5 +1,5 @@
 
-import type { ProductionSchedulerExecutionConsumerResult } from "./production-scheduler-execution-consumer.ts";
+import type { ProductionSchedulerExecutionConsumerResult } from "./production-scheduler-execution-consumer";
 
 export type SchedulerRuntimeBoundaryInput = {
 

@@ -998,7 +998,7 @@ snapshots/20251114-114707/scripts/agents_stubs/effie.ts:18:  handler: effieComma
 
 FILE: snapshots/20251114-114707/scripts/cli/matilda.ts
 --------------------------------------------------
-snapshots/20251114-114707/scripts/cli/matilda.ts:2:import { ask } from "../agents/matilda/askRouter.ts";
+snapshots/20251114-114707/scripts/cli/matilda.ts:2:import { ask } from "../agents/matilda/askRouter.js";
 
 FILE: snapshots/20251114-114707/scripts/servers/ops-sse-server.ts
 --------------------------------------------------
@@ -1192,7 +1192,7 @@ snapshots/20251114-114821/scripts/agents_stubs/effie.ts:18:  handler: effieComma
 
 FILE: snapshots/20251114-114821/scripts/cli/matilda.ts
 --------------------------------------------------
-snapshots/20251114-114821/scripts/cli/matilda.ts:2:import { ask } from "../agents/matilda/askRouter.ts";
+snapshots/20251114-114821/scripts/cli/matilda.ts:2:import { ask } from "../agents/matilda/askRouter.js";
 
 FILE: snapshots/20251114-114821/scripts/servers/ops-sse-server.ts
 --------------------------------------------------

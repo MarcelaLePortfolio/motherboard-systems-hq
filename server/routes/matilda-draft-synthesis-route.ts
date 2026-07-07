@@ -1,7 +1,7 @@
 
 import express from "express";
 
-import { synthesizeLivingDraft } from "../../db/matilda-draft-synthesis-runtime.ts";
+import { synthesizeLivingDraft } from "../../db/matilda-draft-synthesis-runtime.js";
 
 const router = express.Router();
 

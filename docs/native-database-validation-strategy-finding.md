@@ -1,3 +1,4 @@
+import Database from "better-sqlite3";
 
 # Native Database Validation Strategy Finding
 

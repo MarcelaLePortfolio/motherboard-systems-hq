@@ -9,13 +9,13 @@ import {
 
   handleGovernanceLifecycleRouteRequest,
 
-} from "./governance-lifecycle-route.ts";
+} from "./governance-lifecycle-route";
 
 import type {
 
   GovernanceLifecyclePersistenceFunction,
 
-} from "../../db/governance-lifecycle-composition.ts";
+} from "../../db/governance-lifecycle-composition.js";
 
 const departmentHandshake = {
 

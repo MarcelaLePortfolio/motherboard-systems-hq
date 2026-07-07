@@ -3,9 +3,9 @@ import test from "node:test";
 
 import assert from "node:assert/strict";
 
-import { buildSchedulerRuntimeFinalizationContract } from "./scheduler-runtime-finalization-contract.ts";
+import { buildSchedulerRuntimeFinalizationContract } from "./scheduler-runtime-finalization-contract";
 
-import type { SchedulerRuntimeFinalizationAuthorizationBoundaryResult } from "./scheduler-runtime-finalization-authorization-boundary.ts";
+import type { SchedulerRuntimeFinalizationAuthorizationBoundaryResult } from "./scheduler-runtime-finalization-authorization-boundary";
 
 const authorizedRuntimeFinalizationTransition: SchedulerRuntimeFinalizationAuthorizationBoundaryResult = {
 
@@ -67,27 +67,27 @@ test("scheduler runtime finalization contract fails closed without runtime final
 
     scheduler_runtime_finalization_authorization: {
 
-      ok: false,
+            ok: false,
 
-      boundary: "scheduler_runtime_finalization_authorization",
+            boundary: "scheduler_runtime_finalization_authorization",
 
-      scheduler_runtime_finalization_transition_authorized: false,
+            scheduler_runtime_finalization_transition_authorized: false,
 
-      scheduler_authorized: false,
+            scheduler_authorized: false,
 
-      routing_authorized: false,
+            routing_authorized: false,
 
-      worker_claim_authorized: false,
+            worker_claim_authorized: false,
 
-      orchestration_authorized: false,
+            orchestration_authorized: false,
 
-      execution_authorized: false,
+            execution_authorized: false,
 
-      new_authority_introduced: false,
+            new_authority_introduced: false,
 
-      findings: ["test scheduler runtime finalization authorization failure"],
+            findings: ["test scheduler runtime finalization authorization failure"],
 
-    },
+          },
 
   });
 

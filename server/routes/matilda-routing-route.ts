@@ -1,7 +1,7 @@
 
 import express from "express";
 
-import { createRouting } from "../../db/matilda-routing-runtime.ts";
+import { createRouting } from "../../db/matilda-routing-runtime.js";
 
 const router = express.Router();
 

@@ -1,8 +1,9 @@
-// ✅ Phase 7.7.1 — Delegation Logging Route (isolated for testing)
 import express from "express";
-import { sqlite } from "../db/client";
-
 const router = express.Router();
+
+
+// ✅ Phase 7.7.1 — Delegation Logging Route (isolated for testing)
+
 
 router.post("/", (req, res) => {
   try {
@@ -21,4 +22,3 @@ router.post("/", (req, res) => {
   }
 });
 
-export default router;

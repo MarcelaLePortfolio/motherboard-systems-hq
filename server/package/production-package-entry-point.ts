@@ -5,7 +5,7 @@ import type {
 
   CreateGovernancePackageInput,
 
-} from "../../db/governance-runtime.ts";
+} from "../../db/governance-runtime.js";
 
 export type GovernancePackagePersistenceFunction = (
 

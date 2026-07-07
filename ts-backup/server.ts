@@ -15,7 +15,7 @@ app.use(express.static(path.join(process.cwd(), "public")));
 
 // Health check endpoint for PM2 / curl tests
 app.get("/health", (_req, res) => {
-  res.status(200).json({ ok: true, message: "Server healthy." });
+  res.status(200)on({ ok: true, message: "Server healthy." });
 });
 
 // Fallback 404

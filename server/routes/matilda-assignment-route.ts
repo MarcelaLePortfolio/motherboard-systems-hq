@@ -1,7 +1,7 @@
 
 import express from "express";
 
-import { createAssignment } from "../../db/matilda-assignment-runtime.ts";
+import { createAssignment } from "../../db/matilda-assignment-runtime.js";
 
 const router = express.Router();
 

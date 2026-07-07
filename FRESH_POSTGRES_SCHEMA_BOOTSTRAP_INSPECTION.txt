@@ -6,7 +6,7 @@ NAME                                      IMAGE                COMMAND          
 motherboard-systems-hq-clean-postgres-1   postgres:16-alpine   "docker-entrypoint.s…"   postgres   2 minutes ago   Up 2 minutes   0.0.0.0:5432->5432/tcp, [::]:5432->5432/tcp
 
 ===== SQL / MIGRATION CANDIDATES =====
-docker-entrypoint-initdb.d/00_phase54_bootstrap.sql
+docker-entrypoint-initsqlite.d/00_phase54_bootstrap.sql
 drizzle_pg/0001_create_task_events.sql
 drizzle_pg/0001_create_tasks.sql
 drizzle_pg/0001_phase31_7_failed_at_guard.sql
@@ -29,7 +29,7 @@ server/contracts/execution-envelope.v1.mjs
 server/db_bootstrap_tasks_retry_semantics.mjs
 server/db_bootstrap_tasks_task_id.mjs
 server/db_wait_ready.mjs
-server/db.js
+server/sqlite.js
 server/emit-after-response.mjs
 server/enforcement/phase44_mutation_allowlist.mjs
 server/enforcement/phase44_mutation_enforcer.mjs
@@ -158,15 +158,15 @@ sql/policy/action_tier_policy.sql
 sql/policy/action_tier_validate.sql
 
 ===== TASK TABLE REFERENCES =====
-docker-entrypoint-initdb.d/00_phase54_bootstrap.sql:7:CREATE TABLE IF NOT EXISTS public.tasks (
-docker-entrypoint-initdb.d/00_phase54_bootstrap.sql:42:-- task_events: ensure table exists, ensure ts is bigint epoch-ms
-docker-entrypoint-initdb.d/00_phase54_bootstrap.sql:43:CREATE TABLE IF NOT EXISTS public.task_events (
-docker-entrypoint-initdb.d/00_phase54_bootstrap.sql:53:CREATE INDEX IF NOT EXISTS task_events_task_id_idx ON public.task_events(task_id);
-docker-entrypoint-initdb.d/00_phase54_bootstrap.sql:54:CREATE INDEX IF NOT EXISTS task_events_created_at_idx ON public.task_events(created_at);
-docker-entrypoint-initdb.d/00_phase54_bootstrap.sql:63:      AND table_name='task_events'
-docker-entrypoint-initdb.d/00_phase54_bootstrap.sql:67:    EXECUTE 'ALTER TABLE public.task_events DROP COLUMN ts';
-docker-entrypoint-initdb.d/00_phase54_bootstrap.sql:74:      AND table_name='task_events'
-docker-entrypoint-initdb.d/00_phase54_bootstrap.sql:77:    EXECUTE 'ALTER TABLE public.task_events ADD COLUMN ts bigint NOT NULL DEFAULT (extract(epoch from now()) * 1000)::bigint';
+docker-entrypoint-initsqlite.d/00_phase54_bootstrap.sql:7:CREATE TABLE IF NOT EXISTS public.tasks (
+docker-entrypoint-initsqlite.d/00_phase54_bootstrap.sql:42:-- task_events: ensure table exists, ensure ts is bigint epoch-ms
+docker-entrypoint-initsqlite.d/00_phase54_bootstrap.sql:43:CREATE TABLE IF NOT EXISTS public.task_events (
+docker-entrypoint-initsqlite.d/00_phase54_bootstrap.sql:53:CREATE INDEX IF NOT EXISTS task_events_task_id_idx ON public.task_events(task_id);
+docker-entrypoint-initsqlite.d/00_phase54_bootstrap.sql:54:CREATE INDEX IF NOT EXISTS task_events_created_at_idx ON public.task_events(created_at);
+docker-entrypoint-initsqlite.d/00_phase54_bootstrap.sql:63:      AND table_name='task_events'
+docker-entrypoint-initsqlite.d/00_phase54_bootstrap.sql:67:    EXECUTE 'ALTER TABLE public.task_events DROP COLUMN ts';
+docker-entrypoint-initsqlite.d/00_phase54_bootstrap.sql:74:      AND table_name='task_events'
+docker-entrypoint-initsqlite.d/00_phase54_bootstrap.sql:77:    EXECUTE 'ALTER TABLE public.task_events ADD COLUMN ts bigint NOT NULL DEFAULT (extract(epoch from now()) * 1000)::bigint';
 drizzle/0002_phase32_retry_backoff_minimal.sql:3:ALTER TABLE tasks
 drizzle/meta/0000_snapshot.json:59:    "task_events": {
 drizzle/meta/0000_snapshot.json:60:      "name": "task_events",

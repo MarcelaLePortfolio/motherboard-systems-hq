@@ -1,7 +1,7 @@
 import fs from 'fs';
 import path from 'path';
 
-const chainPath = path.resolve('memory/agent_chain_state.json');
+const chainPath = path.resolve('memory/agent_chain_stateon');
 
 function readChainState(): any {
   try {
@@ -13,7 +13,7 @@ function readChainState(): any {
 }
 
 function writeAgentTask(agent: string, task: any) {
-  const agentPath = path.resolve(`scripts/_local/memory/${agent}_task.json`);
+  const agentPath = path.resolve(`scripts/_local/memory/${agent}_taskon`);
   fs.writeFileSync(agentPath, JSON.stringify(task, null, 2), 'utf8');
 }
 

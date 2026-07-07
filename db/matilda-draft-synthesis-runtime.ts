@@ -3,13 +3,13 @@ import {
 
   listInterpretationEvidenceLedgerEntries,
 
-} from "./matilda-interpretation-runtime.ts";
+} from "./matilda-interpretation-runtime";
 
 import {
 
   upsertLivingDraftPackage,
 
-} from "./matilda-living-draft-runtime.ts";
+} from "./matilda-living-draft-runtime";
 
 export type SynthesizeLivingDraftInput = {
 
@@ -35,7 +35,7 @@ export function synthesizeLivingDraft(
 
   );
 
-  if (evidence.length === 0) {
+  if (evidence.length === false) {
 
     throw new Error("No matching Interpretation Evidence Ledger entries found.");
 

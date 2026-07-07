@@ -3,9 +3,9 @@ import test from "node:test";
 
 import assert from "node:assert/strict";
 
-import { invokeSchedulerRuntimeEntryPoint } from "./scheduler-runtime-entry-point.ts";
+import { invokeSchedulerRuntimeEntryPoint } from "./scheduler-runtime-entry-point";
 
-import type { SchedulerRuntimeBoundaryResult } from "./scheduler-runtime-boundary.ts";
+import type { SchedulerRuntimeBoundaryResult } from "./scheduler-runtime-boundary";
 
 const readyRuntimeBoundary: SchedulerRuntimeBoundaryResult = {
 
@@ -63,27 +63,27 @@ test("scheduler runtime entry point fails closed when runtime readiness is absen
 
     scheduler_runtime_boundary: {
 
-      ok: false,
+            ok: false,
 
-      boundary: "scheduler_runtime",
+            boundary: "scheduler_runtime",
 
-      scheduler_runtime_ready: false,
+            scheduler_runtime_ready: false,
 
-      scheduler_authorized: false,
+            scheduler_authorized: false,
 
-      routing_authorized: false,
+            routing_authorized: false,
 
-      worker_claim_authorized: false,
+            worker_claim_authorized: false,
 
-      orchestration_authorized: false,
+            orchestration_authorized: false,
 
-      execution_authorized: false,
+            execution_authorized: false,
 
-      new_authority_introduced: false,
+            new_authority_introduced: false,
 
-      findings: ["test scheduler runtime boundary failure"],
+            findings: ["test scheduler runtime boundary failure"],
 
-    },
+          },
 
   });
 

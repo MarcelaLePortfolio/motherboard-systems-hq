@@ -38,7 +38,7 @@ export async function startWatchdog() {
 }
 
 // 🧭 Daily auto-prune scheduler (runs every 24 hours)
-import { cleanupOldData } from "./pruneDatabase.ts";
+import { cleanupOldData } from "./pruneDatabase";
 
 const DAY_MS = 24 * 60 * 60 * 1000;
 setInterval(() => {

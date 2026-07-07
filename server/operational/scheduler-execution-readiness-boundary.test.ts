@@ -3,9 +3,9 @@ import test from "node:test";
 
 import assert from "node:assert/strict";
 
-import { evaluateSchedulerExecutionReadinessBoundary } from "./scheduler-execution-readiness-boundary.ts";
+import { evaluateSchedulerExecutionReadinessBoundary } from "./scheduler-execution-readiness-boundary";
 
-import type { ProductionSchedulerDispatchConsumerResult } from "./production-scheduler-dispatch-consumer.ts";
+import type { ProductionSchedulerDispatchConsumerResult } from "./production-scheduler-dispatch-consumer";
 
 const consumedDispatch: ProductionSchedulerDispatchConsumerResult = {
 
@@ -63,27 +63,27 @@ test("scheduler execution readiness boundary fails closed when dispatch was not 
 
     production_scheduler_dispatch_consumer: {
 
-      ok: false,
+            ok: false,
 
-      consumer: "production_scheduler_dispatch_consumer",
+            consumer: "production_scheduler_dispatch_consumer",
 
-      scheduler_dispatch_consumed: false,
+            scheduler_dispatch_consumed: false,
 
-      scheduler_authorized: false,
+            scheduler_authorized: false,
 
-      routing_authorized: false,
+            routing_authorized: false,
 
-      worker_claim_authorized: false,
+            worker_claim_authorized: false,
 
-      orchestration_authorized: false,
+            orchestration_authorized: false,
 
-      execution_authorized: false,
+            execution_authorized: false,
 
-      new_authority_introduced: false,
+            new_authority_introduced: false,
 
-      findings: ["test scheduler dispatch consumer failure"],
+            findings: ["test scheduler dispatch consumer failure"],
 
-    },
+          },
 
   });
 

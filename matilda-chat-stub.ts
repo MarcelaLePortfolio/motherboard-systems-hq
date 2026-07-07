@@ -19,7 +19,7 @@
 
  */
 
-import { createInterpretationEvidenceLedgerEntry } from "./db/matilda-interpretation-runtime.ts";
+import { createInterpretationEvidenceLedgerEntry } from "./db/matilda-interpretation-runtime";
 
 export type MatildaChatInput = {
 

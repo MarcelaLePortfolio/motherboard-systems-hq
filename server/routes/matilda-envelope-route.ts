@@ -1,7 +1,7 @@
 
 import express from "express";
 
-import { createEnvelope } from "../../db/matilda-envelope-runtime.ts";
+import { createEnvelope } from "../../db/matilda-envelope-runtime.js";
 
 const router = express.Router();
 

@@ -1,8 +1,7 @@
 // <0001fad3> Phase 5.0 — Ensure SQLite schema for OPS stream
-import { sqlite } from "../../db/client";
 
 try {
-  sqlite
+  db
     .prepare(`CREATE TABLE IF NOT EXISTS task_events (
       id INTEGER PRIMARY KEY AUTOINCREMENT,
       description TEXT,

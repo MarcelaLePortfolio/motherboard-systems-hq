@@ -3,9 +3,9 @@ import test from "node:test";
 
 import assert from "node:assert/strict";
 
-import { invokeSchedulerRuntimeFinalizationReadinessCompletionEntryPoint } from "./scheduler-runtime-finalization-readiness-completion-entry-point.ts";
+import { invokeSchedulerRuntimeFinalizationReadinessCompletionEntryPoint } from "./scheduler-runtime-finalization-readiness-completion-entry-point";
 
-import type { SchedulerRuntimeFinalizationReadinessCompletionBoundaryResult } from "./scheduler-runtime-finalization-readiness-completion-boundary.ts";
+import type { SchedulerRuntimeFinalizationReadinessCompletionBoundaryResult } from "./scheduler-runtime-finalization-readiness-completion-boundary";
 
 const completedFinalizationReadinessBoundary: SchedulerRuntimeFinalizationReadinessCompletionBoundaryResult = {
 
@@ -71,27 +71,27 @@ test("scheduler runtime finalization readiness completion entry point fails clos
 
     scheduler_runtime_finalization_readiness_completion_boundary: {
 
-      ok: false,
+            ok: false,
 
-      boundary: "scheduler_runtime_finalization_readiness_completion",
+            boundary: "scheduler_runtime_finalization_readiness_completion",
 
-      scheduler_runtime_finalization_readiness_complete: false,
+            scheduler_runtime_finalization_readiness_complete: false,
 
-      scheduler_authorized: false,
+            scheduler_authorized: false,
 
-      routing_authorized: false,
+            routing_authorized: false,
 
-      worker_claim_authorized: false,
+            worker_claim_authorized: false,
 
-      orchestration_authorized: false,
+            orchestration_authorized: false,
 
-      execution_authorized: false,
+            execution_authorized: false,
 
-      new_authority_introduced: false,
+            new_authority_introduced: false,
 
-      findings: ["test scheduler runtime finalization readiness completion boundary failure"],
+            findings: ["test scheduler runtime finalization readiness completion boundary failure"],
 
-    },
+          },
 
   });
 

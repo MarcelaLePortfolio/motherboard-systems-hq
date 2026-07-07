@@ -3,9 +3,9 @@ import test from "node:test";
 
 import assert from "node:assert/strict";
 
-import { buildSchedulerRuntimeContract } from "./scheduler-runtime-contract.ts";
+import { buildSchedulerRuntimeContract } from "./scheduler-runtime-contract";
 
-import type { SchedulerRuntimeAuthorizationBoundaryResult } from "./scheduler-runtime-authorization-boundary.ts";
+import type { SchedulerRuntimeAuthorizationBoundaryResult } from "./scheduler-runtime-authorization-boundary";
 
 const authorizedRuntimeTransition: SchedulerRuntimeAuthorizationBoundaryResult = {
 
@@ -65,27 +65,27 @@ test("scheduler runtime contract fails closed without runtime transition authori
 
     scheduler_runtime_authorization: {
 
-      ok: false,
+            ok: false,
 
-      boundary: "scheduler_runtime_authorization",
+            boundary: "scheduler_runtime_authorization",
 
-      scheduler_runtime_transition_authorized: false,
+            scheduler_runtime_transition_authorized: false,
 
-      scheduler_authorized: false,
+            scheduler_authorized: false,
 
-      routing_authorized: false,
+            routing_authorized: false,
 
-      worker_claim_authorized: false,
+            worker_claim_authorized: false,
 
-      orchestration_authorized: false,
+            orchestration_authorized: false,
 
-      execution_authorized: false,
+            execution_authorized: false,
 
-      new_authority_introduced: false,
+            new_authority_introduced: false,
 
-      findings: ["test scheduler runtime authorization failure"],
+            findings: ["test scheduler runtime authorization failure"],
 
-    },
+          },
 
   });
 

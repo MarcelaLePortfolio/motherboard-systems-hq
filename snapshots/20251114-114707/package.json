@@ -1,3 +1,4 @@
+import Database from "better-sqlite3";
 {
   "name": "motherboard-systems-hq",
   "version": "1.0.0",

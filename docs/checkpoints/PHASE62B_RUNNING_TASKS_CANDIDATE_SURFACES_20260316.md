@@ -2607,20 +2607,20 @@ SHORTLIST
 ./PHASE11_DB_ENDPOINTS_STATUS.md:136:Which database it targets (dashboard_db vs motherboarddb),
 ./PHASE11_DB_ENDPOINTS_STATUS.md:140:Normalize DB credentials for the dashboard container:
 ./PHASE11_DB_ENDPOINTS_STATUS.md:146:Adjust server.mjs to use user/password@postgres:5432/dashboard_db (or a clearly chosen DB).
-./PHASE11_DB_ENDPOINTS_STATUS.md:158:A SQL bootstrap file (e.g., scripts/db/bootstrap-dashboard-db.sql) and
-./PHASE11_DB_ENDPOINTS_STATUS.md:160:A small helper script that runs psql against dashboard_db.
+./PHASE11_DB_ENDPOINTS_STATUS.md:158:A SQL bootstrap file (e.g., scripts/db/bootstrap-dashboard-sqlite.sql) and
+./PHASE11_DB_ENDPOINTS_STATUS.md:160:A small helper script that runs psql against dashboard_sqlite.
 ./PHASE11_DB_ENDPOINTS_STATUS.md:36:dashboard_db (successfully created by helper)
-./PHASE11_DB_ENDPOINTS_STATUS.md:44:scripts/db/create-dashboard-db.sh
+./PHASE11_DB_ENDPOINTS_STATUS.md:44:scripts/db/create-dashboard-sqlite.sh
 ./PHASE11_DB_ENDPOINTS_STATUS.md:46:Ensures dashboard_db exists, owned by postgres.
 ./PHASE11_DB_ENDPOINTS_STATUS.md:52:Recent docker-compose logs --tail=200 dashboard shows:
 ./PHASE11_DB_ENDPOINTS_STATUS.md:64:This indicates the Node pg.Pool is trying to connect as postgres without matching password configuration and without a DATABASE_URL override in the dashboard container environment.
 ./PHASE11_DB_ENDPOINTS_STATUS.md:68:error: database "dashboard_db" does not exist
 ./PHASE11_DB_ENDPOINTS_STATUS.md:7:Branch: feature/v11-dashboard-bundle
-./PHASE11_DB_ENDPOINTS_STATUS.md:70:This happened prior to creating dashboard_db. After helper run and container restart, this should be resolved but the logs still contain historical entries.
+./PHASE11_DB_ENDPOINTS_STATUS.md:70:This happened prior to creating dashboard_sqlite. After helper run and container restart, this should be resolved but the logs still contain historical entries.
 ./PHASE11_DB_ENDPOINTS_STATUS.md:86:These still power the dashboard behavior and are not using Postgres. Phase 11 visual + stub behavior remains stable.
 ./PHASE11_DB_ENDPOINTS_STATUS.md:9:Stack: docker-compose (dashboard + postgres)
 ./PHASE11_DB_ENDPOINTS_STATUS.md:98:Missing DB dashboard_db (now addressed), and
-./PHASE11_DB_TASK_ENDPOINTS_DEBUG.md:14:  - scripts/db/create-dashboard-db.sh
+./PHASE11_DB_TASK_ENDPOINTS_DEBUG.md:14:  - scripts/db/create-dashboard-sqlite.sh
 ./PHASE11_DB_TASK_ENDPOINTS_DEBUG.md:15:    - Ensures database "dashboard_db" exists (OWNER postgres).
 ./PHASE11_DB_TASK_ENDPOINTS_DEBUG.md:20:- Successfully created database "dashboard_db".
 ./PHASE11_DB_TASK_ENDPOINTS_DEBUG.md:25:    - "database \"dashboard_db\" does not exist"
@@ -5880,12 +5880,12 @@ SHORTLIST
 ./scripts/dashboard-reflections.js:7:  const evtSource = new EventSource("http://localhost:3101/events/reflections");
 ./scripts/dashboard-reflections.js:8:  evtSource.onopen = () => console.log("<0001fe11> Connected to Reflections SSE");
 ./scripts/dashboard-reflections.js:9:  evtSource.onerror = (err) => console.warn("⚠️ Reflections SSE error", err);
-./scripts/db/create-dashboard-db.sh
-./scripts/db/create-dashboard-db.sh:14:  EXISTS=$(psql -U "$POSTGRES_USER" -d "$POSTGRES_DB" -tAc "SELECT 1 FROM pg_database WHERE datname = '\''dashboard_db'\''")
-./scripts/db/create-dashboard-db.sh:17:    echo "🆕 Creating database dashboard_db owned by postgres..."
-./scripts/db/create-dashboard-db.sh:18:    psql -U "$POSTGRES_USER" -d "$POSTGRES_DB" -c "CREATE DATABASE dashboard_db OWNER postgres;"
-./scripts/db/create-dashboard-db.sh:20:    echo "✅ Database dashboard_db already exists."
-./scripts/db/create-dashboard-db.sh:4:echo "🗄️ Ensuring 'dashboard_db' database exists in docker postgres container..."
+./scripts/db/create-dashboard-sqlite.sh
+./scripts/db/create-dashboard-sqlite.sh:14:  EXISTS=$(psql -U "$POSTGRES_USER" -d "$POSTGRES_DB" -tAc "SELECT 1 FROM pg_database WHERE datname = '\''dashboard_db'\''")
+./scripts/db/create-dashboard-sqlite.sh:17:    echo "🆕 Creating database dashboard_db owned by postgres..."
+./scripts/db/create-dashboard-sqlite.sh:18:    psql -U "$POSTGRES_USER" -d "$POSTGRES_DB" -c "CREATE DATABASE dashboard_db OWNER postgres;"
+./scripts/db/create-dashboard-sqlite.sh:20:    echo "✅ Database dashboard_db already exists."
+./scripts/db/create-dashboard-sqlite.sh:4:echo "🗄️ Ensuring 'dashboard_db' database exists in docker postgres container..."
 ./scripts/db/inspect-dashboard-db-env.sh
 ./scripts/db/inspect-dashboard-db-env.sh:26:    echo "psql not installed in dashboard container."
 ./scripts/db/inspect-dashboard-db-env.sh:4:echo "🔎 Inspecting dashboard container DB env + connectivity..."
@@ -6090,7 +6090,7 @@ SHORTLIST
 ./scripts/phase22_wire_task_events_ui.sh:276:  echo "WARN: public/dashboard.html not found; skipping HTML injection."
 ./scripts/phase22_wire_task_events_ui.sh:279:  "public/js/dashboard-bundle-entry.js"
 ./scripts/phase22_wire_task_events_ui.sh:280:  "public/js/dashboard-bundle-entry.mjs"
-./scripts/phase22_wire_task_events_ui.sh:281:  "public/js/dashboard-bundle-entry.ts"
+./scripts/phase22_wire_task_events_ui.sh:281:  "public/js/dashboard-bundle-entry.js"
 ./scripts/phase22_wire_task_events_ui.sh:282:  "public/js/dashboard-bundle-entry.tsx"
 ./scripts/phase22_wire_task_events_ui.sh:283:  "public/js/dashboard-bundle-entry.jsx"
 ./scripts/phase22_wire_task_events_ui.sh:284:  "public/js/dashboard-bundle-entry.mts"

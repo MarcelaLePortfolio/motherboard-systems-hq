@@ -1,0 +1,71 @@
+db/matilda-interpretation-runtime.ts(96,36): error TS2367: This comparison appears to be unintentional because the types 'number' and 'boolean' have no overlap.
+db/matilda-living-draft-runtime.ts(90,36): error TS2367: This comparison appears to be unintentional because the types 'number' and 'boolean' have no overlap.
+db/matilda-living-draft-runtime.ts(122,7): error TS2367: This comparison appears to be unintentional because the types 'number' and 'boolean' have no overlap.
+db/operational-intake-runtime.ts(142,5): error TS2322: Type 'boolean' is not assignable to type 'true'.
+db/operational-intake-runtime.ts(142,37): error TS2367: This comparison appears to be unintentional because the types 'number' and 'boolean' have no overlap.
+db/operational-intake-runtime.ts(144,5): error TS2322: Type 'boolean' is not assignable to type 'true'.
+db/operational-intake-runtime.ts(144,36): error TS2367: This comparison appears to be unintentional because the types 'number' and 'boolean' have no overlap.
+db/operational-intake-runtime.ts(146,5): error TS2322: Type 'boolean' is not assignable to type 'true'.
+db/operational-intake-runtime.ts(146,37): error TS2367: This comparison appears to be unintentional because the types 'number' and 'boolean' have no overlap.
+db/operational-intake-runtime.ts(148,5): error TS2322: Type 'boolean' is not assignable to type 'false'.
+db/operational-intake-runtime.ts(148,25): error TS2367: This comparison appears to be unintentional because the types 'number' and 'boolean' have no overlap.
+db/operational-intake-runtime.ts(150,5): error TS2322: Type 'boolean' is not assignable to type 'false'.
+db/operational-intake-runtime.ts(150,27): error TS2367: This comparison appears to be unintentional because the types 'number' and 'boolean' have no overlap.
+db/operational-intake-runtime.ts(152,5): error TS2322: Type 'boolean' is not assignable to type 'false'.
+db/operational-intake-runtime.ts(152,30): error TS2367: This comparison appears to be unintentional because the types 'number' and 'boolean' have no overlap.
+db/operational-intake-runtime.ts(154,5): error TS2322: Type 'boolean' is not assignable to type 'false'.
+db/operational-intake-runtime.ts(154,27): error TS2367: This comparison appears to be unintentional because the types 'number' and 'boolean' have no overlap.
+routes/api-chat.ts(41,18): error TS2349: This expression is not callable.
+  Type 'Number' has no call signatures.
+routes/api-chat.ts(81,21): error TS2554: Expected 0 arguments, but got 1.
+routes/api-chat.ts(103,16): error TS2349: This expression is not callable.
+  Type 'Number' has no call signatures.
+routes/cade.ts(10,24): error TS2339: Property 'Router' does not exist on type 'typeof import("express")'.
+routes/tasks.ts(16,24): error TS2339: Property 'Router' does not exist on type 'typeof import("express")'.
+scripts/reset-roundtrip.ts(34,34): error TS1343: The 'import.meta' meta-property is only allowed when the '--module' option is 'es2020', 'es2022', 'esnext', 'system', 'node16', 'node18', 'node20', or 'nodenext'.
+scripts/utils/ollamaChat.ts(32,13): error TS2339: Property 'response' does not exist on type 'unknown'.
+scripts/utils/ollamaChat.ts(33,13): error TS2339: Property 'message' does not exist on type 'unknown'.
+scripts/utils/ollamaChat.ts(34,13): error TS2339: Property 'output' does not exist on type 'unknown'.
+scripts/utils/ollamaChat.ts(35,13): error TS2339: Property 'content' does not exist on type 'unknown'.
+scripts/utils/ollamaChat.ts(36,13): error TS2339: Property 'text' does not exist on type 'unknown'.
+server/ellis/assignment-boundary.ts(396,48): error TS2339: Property 'requires_ellis_recoordination' does not exist on type '{ ok: true; capability_status: "CAPABILITY_CONFIRMED"; findings: string[]; } | { ok: false; capability_status?: "CAPABILITY_CONFIRMED" | "CAPABILITY_CONFLICT_REPORTED"; requires_ellis_recoordination: boolean; findings: string[]; }'.
+  Property 'requires_ellis_recoordination' does not exist on type '{ ok: true; capability_status: "CAPABILITY_CONFIRMED"; findings: string[]; }'.
+server/execution/matilda-execution-registry-validate.ts(10,54): error TS2339: Property 'transitions' does not exist on type '{ states: string[]; final_state_is_derived_only: boolean; }'.
+server/execution/matilda-execution-switch-evaluator.ts(24,54): error TS2339: Property 'transitions' does not exist on type '{ states: string[]; final_state_is_derived_only: boolean; }'.
+server/execution/matilda-execution-transition-table.ts(10,41): error TS2339: Property 'transitions' does not exist on type '{ states: string[]; final_state_is_derived_only: boolean; }'.
+server/lifecycle/production-lifecycle-consumer.test.ts(106,25): error TS2339: Property 'lifecycle' does not exist on type '{ ok: true; entry: ProductionLifecycleEntryPointResult; operational_intake: OperationalIntakeRecord; operational_consumption: ProductionOperationalConsumerResult; findings: string[]; }'.
+server/lifecycle/production-lifecycle-consumer.test.ts(108,25): error TS2339: Property 'lifecycle' does not exist on type '{ ok: true; entry: ProductionLifecycleEntryPointResult; operational_intake: OperationalIntakeRecord; operational_consumption: ProductionOperationalConsumerResult; findings: string[]; }'.
+server/lifecycle/production-lifecycle-consumer.test.ts(134,45): error TS2339: Property 'lifecycle' does not exist on type '{ ok: true; entry: ProductionLifecycleEntryPointResult; operational_intake: OperationalIntakeRecord; operational_consumption: ProductionOperationalConsumerResult; findings: string[]; }'.
+server/orchestration/deps.ts(43,81): error TS2339: Property 'error' does not exist on type 'DepsResolution'.
+  Property 'error' does not exist on type '{ ok: true; blockedBy: string[]; }'.
+server/orchestration/operator-commands.test.ts(39,3): error TS2578: Unused '@ts-expect-error' directive.
+server/routes/governance-delegation-route.ts(252,12): error TS2694: Namespace '"express"' has no exported member 'Router'.
+server/routes/governance-delegation-route.ts(254,26): error TS2339: Property 'Router' does not exist on type 'typeof import("express")'.
+server/routes/governance-envelope-gate-route.ts(260,12): error TS2694: Namespace '"express"' has no exported member 'Router'.
+server/routes/governance-envelope-gate-route.ts(262,26): error TS2339: Property 'Router' does not exist on type 'typeof import("express")'.
+server/routes/governance-envelope-route.ts(260,12): error TS2694: Namespace '"express"' has no exported member 'Router'.
+server/routes/governance-envelope-route.ts(262,26): error TS2339: Property 'Router' does not exist on type 'typeof import("express")'.
+server/routes/governance-lifecycle-route.test.ts(222,35): error TS2339: Property 'lifecycle' does not exist on type '{ ok: true; entry: ProductionLifecycleEntryPointResult; operational_intake: OperationalIntakeRecord; operational_consumption: ProductionOperationalConsumerResult; findings: string[]; }'.
+server/routes/governance-lifecycle-route.test.ts(230,55): error TS2339: Property 'lifecycle' does not exist on type '{ ok: true; entry: ProductionLifecycleEntryPointResult; operational_intake: OperationalIntakeRecord; operational_consumption: ProductionOperationalConsumerResult; findings: string[]; }'.
+server/routes/governance-lifecycle-route.ts(238,12): error TS2694: Namespace '"express"' has no exported member 'Router'.
+server/routes/governance-lifecycle-route.ts(240,26): error TS2339: Property 'Router' does not exist on type 'typeof import("express")'.
+server/routes/governance-package-route.ts(272,12): error TS2694: Namespace '"express"' has no exported member 'Router'.
+server/routes/governance-package-route.ts(274,26): error TS2339: Property 'Router' does not exist on type 'typeof import("express")'.
+server/routes/governance-validation-route.ts(270,12): error TS2694: Namespace '"express"' has no exported member 'Router'.
+server/routes/governance-validation-route.ts(272,26): error TS2339: Property 'Router' does not exist on type 'typeof import("express")'.
+server/routes/matilda-assignment-route.ts(6,24): error TS2339: Property 'Router' does not exist on type 'typeof import("express")'.
+server/routes/matilda-canonical-package-route.ts(6,24): error TS2339: Property 'Router' does not exist on type 'typeof import("express")'.
+server/routes/matilda-delegation-route.ts(6,24): error TS2339: Property 'Router' does not exist on type 'typeof import("express")'.
+server/routes/matilda-draft-synthesis-route.ts(6,24): error TS2339: Property 'Router' does not exist on type 'typeof import("express")'.
+server/routes/matilda-envelope-route.ts(6,24): error TS2339: Property 'Router' does not exist on type 'typeof import("express")'.
+server/routes/matilda-execution-authorization-route.ts(6,24): error TS2339: Property 'Router' does not exist on type 'typeof import("express")'.
+server/routes/matilda-execution-planning-route.ts(6,24): error TS2339: Property 'Router' does not exist on type 'typeof import("express")'.
+server/routes/matilda-governance-validation-route.ts(6,24): error TS2339: Property 'Router' does not exist on type 'typeof import("express")'.
+server/routes/matilda-interpretation-ledger-route.ts(12,68): error TS2694: Namespace '"express"' has no exported member 'Router'.
+server/routes/matilda-interpretation-ledger-route.ts(14,26): error TS2339: Property 'Router' does not exist on type 'typeof import("express")'.
+server/routes/matilda-living-draft-route.ts(12,59): error TS2694: Namespace '"express"' has no exported member 'Router'.
+server/routes/matilda-living-draft-route.ts(14,26): error TS2339: Property 'Router' does not exist on type 'typeof import("express")'.
+server/routes/matilda-preview-confirmation-route.ts(6,24): error TS2339: Property 'Router' does not exist on type 'typeof import("express")'.
+server/routes/matilda-preview-route.ts(6,24): error TS2339: Property 'Router' does not exist on type 'typeof import("express")'.
+server/routes/matilda-reconciled-intent-route.ts(6,24): error TS2339: Property 'Router' does not exist on type 'typeof import("express")'.
+server/routes/matilda-routing-route.ts(6,24): error TS2339: Property 'Router' does not exist on type 'typeof import("express")'.

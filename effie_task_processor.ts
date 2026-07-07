@@ -2,7 +2,7 @@
 import { readFileSync, writeFileSync } from "fs";
 import { exec } from "child_process";
 
-const filePath = "./memory/agent_chain_state.json";
+const filePath = "./memory/agent_chain_stateon";
 
 function loadTasks(): any[] {
   try {

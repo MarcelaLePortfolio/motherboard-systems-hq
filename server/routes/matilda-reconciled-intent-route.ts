@@ -1,7 +1,7 @@
 
 import express from "express";
 
-import { generateReconciledIntentSummary } from "../../db/matilda-reconciled-intent-runtime.ts";
+import { generateReconciledIntentSummary } from "../../db/matilda-reconciled-intent-runtime.js";
 
 const router = express.Router();
 

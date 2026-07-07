@@ -23,7 +23,7 @@ text = text.replace(
 
 )
 
-needle = '''  const duplicatePath = db.prepare(`
+needle = '''  const duplicatePath = sqlite.prepare(`
 
     SELECT project_id
 
@@ -39,7 +39,7 @@ needle = '''  const duplicatePath = db.prepare(`
 
 replacement = '''  validateExistingGitRepository(projectRootPath);
 
-  const duplicatePath = db.prepare(`
+  const duplicatePath = sqlite.prepare(`
 
     SELECT project_id
 
@@ -75,7 +75,7 @@ import Database from "better-sqlite3";
 
 const db = new Database(path.join(process.cwd(), "db", "main.db"));
 
-const result = db.prepare(`
+const result = sqlite.prepare(`
 
   DELETE FROM project_registry
 

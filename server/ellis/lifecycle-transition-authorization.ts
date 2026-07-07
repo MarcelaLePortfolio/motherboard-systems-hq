@@ -1,5 +1,5 @@
 
-import type { GovernanceLifecycleAssignmentBoundaryResult } from "./assignment-boundary.ts";
+import type { GovernanceLifecycleAssignmentBoundaryResult } from "./assignment-boundary";
 
 export type GovernanceLifecycleTransitionAuthorizationInput = {
 

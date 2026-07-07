@@ -5,7 +5,7 @@ import Database from "better-sqlite3";
 
 const db = new Database("motherboard.sqlite");
 
-db.exec(`
+sqlite.exec(`
 
 CREATE TABLE IF NOT EXISTS matilda_routing (
 
@@ -61,7 +61,7 @@ export function createRouting({
 
     "Envelope satisfies governance requirements and is eligible for assignment.";
 
-  db.prepare(`
+  sqlite.prepare(`
 
     INSERT INTO matilda_routing (
 

@@ -8,7 +8,7 @@ const router = express.Router();
 
 
 
-  res.json({
+  reson({
     ok: true,
     timestamp: new Date().toISOString(),
     message: "<0001fa7f> Agents Status route active",

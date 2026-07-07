@@ -1,9 +1,11 @@
-// Phase 9 Restoration — Real-time Reflection SSE (one row per event)
 import express from "express";
+const router = express.Router();
+
+
+// Phase 9 Restoration — Real-time Reflection SSE (one row per event)
 import path from "path";
 import DatabaseModule from "better-sqlite3";
 
-const router = express.Router();
 
 router.get("/events/reflections", (req, res) => {
   res.writeHead(200, {
@@ -35,4 +37,3 @@ router.get("/events/reflections", (req, res) => {
   req.on("close", () => clearInterval(interval));
 });
 
-export default router;

@@ -4,7 +4,7 @@ import path from "path";
 import Database from "better-sqlite3";
 
 const dbPath = path.join(process.cwd(), "db", "main.db");
-const outputPath = path.join(process.cwd(), "public", "tmp", "reflections.json");
+const outputPath = path.join(process.cwd(), "public", "tmp", "reflectionson");
 
 try {
   const db = new Database(dbPath);
@@ -18,7 +18,7 @@ try {
   fs.writeFileSync(outputPath, JSON.stringify(rows, null, 2), "utf8");
 
   console.log(`✅ Reflections exported → ${outputPath}`);
-  db.close();
+  sqlite.close();
 } catch (err) {
   console.error("❌ Reflection loader failed:", err);
 }

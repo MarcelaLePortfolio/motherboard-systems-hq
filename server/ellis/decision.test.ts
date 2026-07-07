@@ -3,7 +3,7 @@ import test from "node:test";
 
 import assert from "node:assert/strict";
 
-import { evaluateEllisDecision } from "./decision.ts";
+import { evaluateEllisDecision } from "./decision";
 
 test("Ellis decision blocks missing required capabilities", () => {
 

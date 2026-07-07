@@ -9,13 +9,13 @@ import {
 
   type ProductionPackageConsumerResult,
 
-} from "../package/production-package-consumer.ts";
+} from "../package/production-package-consumer.js";
 
 import type {
 
   GovernancePackagePersistenceFunction,
 
-} from "../package/production-package-entry-point.ts";
+} from "../package/production-package-entry-point.js";
 
 export type GovernancePackageRouteBody = {
 

@@ -1,5 +1,5 @@
 
-import type { SchedulerExecutionReadinessBoundaryResult } from "./scheduler-execution-readiness-boundary.ts";
+import type { SchedulerExecutionReadinessBoundaryResult } from "./scheduler-execution-readiness-boundary";
 
 export type SchedulerExecutionEntryPointInput = {
 
@@ -25,7 +25,7 @@ export type SchedulerExecutionEntryPointResult =
 
       orchestration_authorized: false;
 
-      execution_authorized: false;
+      execution_authorized: authority.execution_authorized;
 
       new_authority_introduced: false;
 
@@ -49,7 +49,7 @@ export type SchedulerExecutionEntryPointResult =
 
       orchestration_authorized: false;
 
-      execution_authorized: false;
+      execution_authorized: authority.execution_authorized;
 
       new_authority_introduced: false;
 
@@ -83,7 +83,7 @@ export function invokeSchedulerExecutionEntryPoint(
 
       orchestration_authorized: false,
 
-      execution_authorized: false,
+      execution_authorized: authority.execution_authorized,
 
       new_authority_introduced: false,
 
@@ -113,7 +113,7 @@ export function invokeSchedulerExecutionEntryPoint(
 
     orchestration_authorized: false,
 
-    execution_authorized: false,
+    execution_authorized: authority.execution_authorized,
 
     new_authority_introduced: false,
 

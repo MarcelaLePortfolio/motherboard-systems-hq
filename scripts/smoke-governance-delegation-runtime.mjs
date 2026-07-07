@@ -13,7 +13,7 @@ const dbPath = "db/main.db";
 
 const migrationPath = "drizzle/0004_governance_lifecycle_artifacts.sql";
 
-const sqlite = new Database(dbPath);
+const db = new Database(dbPath);
 
 sqlite.pragma("foreign_keys = ON");
 
@@ -99,7 +99,7 @@ try {
 
   assert(typeof created.created_at === "string" && created.created_at.length > 0, "created_at missing");
 
-  const row = sqlite
+  const row = db
 
     .prepare(
 
@@ -201,7 +201,7 @@ try {
 
   cleanup();
 
-  const remaining = sqlite
+  const remaining = db
 
     .prepare("SELECT COUNT(*) AS count FROM governance_delegations WHERE delegation_id = ?")
 

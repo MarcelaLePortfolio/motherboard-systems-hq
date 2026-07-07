@@ -3,9 +3,9 @@ import test from "node:test";
 
 import assert from "node:assert/strict";
 
-import { consumeSchedulerRuntimeFinalizationReadinessCompletionContractForProduction } from "./production-scheduler-runtime-finalization-readiness-completion-contract-consumer.ts";
+import { consumeSchedulerRuntimeFinalizationReadinessCompletionContractForProduction } from "./production-scheduler-runtime-finalization-readiness-completion-contract-consumer";
 
-import type { SchedulerRuntimeFinalizationReadinessCompletionContractResult } from "./scheduler-runtime-finalization-readiness-completion-contract.ts";
+import type { SchedulerRuntimeFinalizationReadinessCompletionContractResult } from "./scheduler-runtime-finalization-readiness-completion-contract";
 
 const readyCompletionContract: SchedulerRuntimeFinalizationReadinessCompletionContractResult =
 
@@ -85,37 +85,37 @@ test("production scheduler runtime finalization readiness completion contract co
 
       scheduler_runtime_finalization_readiness_completion_contract: {
 
-        ok: false,
+                ok: false,
 
-        contract: "scheduler_runtime_finalization_readiness_completion_contract",
+                contract: "scheduler_runtime_finalization_readiness_completion_contract",
 
-        scheduler_runtime_finalization_readiness_completion_contract_ready:
+                scheduler_runtime_finalization_readiness_completion_contract_ready:
 
-          false,
+                  false,
 
-        scheduler_runtime_finalization_readiness_completion_transition_authorized:
+                scheduler_runtime_finalization_readiness_completion_transition_authorized:
 
-          false,
+                  false,
 
-        scheduler_authorized: false,
+                scheduler_authorized: false,
 
-        routing_authorized: false,
+                routing_authorized: false,
 
-        worker_claim_authorized: false,
+                worker_claim_authorized: false,
 
-        orchestration_authorized: false,
+                orchestration_authorized: false,
 
-        execution_authorized: false,
+                execution_authorized: false,
 
-        new_authority_introduced: false,
+                new_authority_introduced: false,
 
-        findings: [
+                findings: [
 
-          "test scheduler runtime finalization readiness completion contract failure",
+                  "test scheduler runtime finalization readiness completion contract failure",
 
-        ],
+                ],
 
-      },
+              },
 
     });
 

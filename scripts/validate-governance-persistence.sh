@@ -19,7 +19,7 @@ echo
 
 echo "0. Prepare disposable governance database"
 
-sqlite3 "$DB" < drizzle/0004_governance_lifecycle_artifacts.sql
+db3 "$DB" < drizzle/0004_governance_lifecycle_artifacts.sql
 
 echo "PASS: disposable governance schema loaded"
 
@@ -27,7 +27,7 @@ echo
 
 echo "1. Verify PRAGMA foreign_keys is ON"
 
-FK="$(sqlite3 "$DB" "PRAGMA foreign_keys = ON; PRAGMA foreign_keys;")"
+FK="$(db3 "$DB" "PRAGMA foreign_keys = ON; PRAGMA foreign_keys;")"
 
 echo "$FK"
 
@@ -43,7 +43,7 @@ echo
 
 echo "2. Invalid Delegation referencing missing Package should fail"
 
-if sqlite3 "$DB" "PRAGMA foreign_keys = ON;
+if db3 "$DB" "PRAGMA foreign_keys = ON;
 
 INSERT INTO governance_delegations (
 
@@ -69,7 +69,7 @@ echo
 
 echo "3. Invalid Validation Result referencing missing Delegation should fail"
 
-if sqlite3 "$DB" "PRAGMA foreign_keys = ON;
+if db3 "$DB" "PRAGMA foreign_keys = ON;
 
 INSERT INTO governance_validation_results (
 
@@ -101,7 +101,7 @@ echo
 
 echo "4. Invalid Envelope Gate referencing missing Validation Result should fail"
 
-if sqlite3 "$DB" "PRAGMA foreign_keys = ON;
+if db3 "$DB" "PRAGMA foreign_keys = ON;
 
 INSERT INTO governance_envelope_gates (
 
@@ -131,7 +131,7 @@ echo
 
 echo "5. Invalid Envelope referencing missing Gate should fail"
 
-if sqlite3 "$DB" "PRAGMA foreign_keys = ON;
+if db3 "$DB" "PRAGMA foreign_keys = ON;
 
 INSERT INTO governance_envelopes (
 
@@ -161,7 +161,7 @@ echo
 
 echo "6. Valid full artifact chain should succeed inside rollback transaction"
 
-sqlite3 "$DB" "PRAGMA foreign_keys = ON;
+db3 "$DB" "PRAGMA foreign_keys = ON;
 
 BEGIN TRANSACTION;
 

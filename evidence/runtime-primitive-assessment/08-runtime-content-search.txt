@@ -12,11 +12,11 @@
 ./ACTIVE_CADE_RUNTIME_REFERENCE_AUDIT.txt:293:PHASE80_2_DEEP_DASHBOARD_INVENTORY_20260317T183521Z.md:1529:./scripts/_local/agent-runtime/launch-cade.ts:5:import { routeTask } from "../handlers/taskRouter";
 ./ACTIVE_CADE_RUNTIME_REFERENCE_AUDIT.txt:294:PHASE80_2_DEEP_DASHBOARD_INVENTORY_20260317T183521Z.md:1560:./ts-backup/launch-cade.ts:5:import { routeTask } from "../handlers/taskRouter";
 ./ACTIVE_CADE_RUNTIME_REFERENCE_AUDIT.txt:295:PHASE80_2_DEEP_DASHBOARD_INVENTORY_20260317T183521Z.md:1649:./scripts_backup_2/_local/agent-runtime/launch-cade.ts:5:import { routeTask } from "../handlers/taskRouter";
-./ACTIVE_CADE_RUNTIME_REFERENCE_AUDIT.txt:380:snapshots/20251114-114821/scripts/agents_full/matilda.ts.bak:1:import { delegateToCadeV2 } from "../relay/agent-to-cade.ts";
-./ACTIVE_CADE_RUNTIME_REFERENCE_AUDIT.txt:381:snapshots/20251114-114707/scripts/agents_full/matilda.ts.bak:1:import { delegateToCadeV2 } from "../relay/agent-to-cade.ts";
-./ACTIVE_CADE_RUNTIME_REFERENCE_AUDIT.txt:382:scripts_backup/agents_full/matilda.ts.bak:1:import { delegateToCadeV2 } from "../relay/agent-to-cade.ts";
-./ACTIVE_CADE_RUNTIME_REFERENCE_AUDIT.txt:383:scripts_backup/scripts/agents_full/matilda.ts.bak:1:import { delegateToCadeV2 } from "../relay/agent-to-cade.ts";
-./ACTIVE_CADE_RUNTIME_REFERENCE_AUDIT.txt:386:scripts/agents_full/matilda.ts.bak:1:import { delegateToCadeV2 } from "../relay/agent-to-cade.ts";
+./ACTIVE_CADE_RUNTIME_REFERENCE_AUDIT.txt:380:snapshots/20251114-114821/scripts/agents_full/matilda.ts.bak:1:import { delegateToCadeV2 } from "../relay/agent-to-cade.js";
+./ACTIVE_CADE_RUNTIME_REFERENCE_AUDIT.txt:381:snapshots/20251114-114707/scripts/agents_full/matilda.ts.bak:1:import { delegateToCadeV2 } from "../relay/agent-to-cade.js";
+./ACTIVE_CADE_RUNTIME_REFERENCE_AUDIT.txt:382:scripts_backup/agents_full/matilda.ts.bak:1:import { delegateToCadeV2 } from "../relay/agent-to-cade.js";
+./ACTIVE_CADE_RUNTIME_REFERENCE_AUDIT.txt:383:scripts_backup/scripts/agents_full/matilda.ts.bak:1:import { delegateToCadeV2 } from "../relay/agent-to-cade.js";
+./ACTIVE_CADE_RUNTIME_REFERENCE_AUDIT.txt:386:scripts/agents_full/matilda.ts.bak:1:import { delegateToCadeV2 } from "../relay/agent-to-cade.js";
 ./ACTIVE_CADE_RUNTIME_REFERENCE_AUDIT.txt:389:TARGET: routeTask
 ./ACTIVE_CADE_RUNTIME_REFERENCE_AUDIT.txt:392:ACTIVE_CADE_RUNTIME_REFERENCE_AUDIT.py:48:    "routeTask",
 ./ACTIVE_CADE_RUNTIME_REFERENCE_AUDIT.txt:393:taskRouter.ts:5:export async function routeTask(task: any): Promise<string> {
@@ -59,24 +59,24 @@
 ./ACTIVE_CADE_RUNTIME_REFERENCE_AUDIT.txt:698:TARGET: delegateToCadeV2
 ./ACTIVE_CADE_RUNTIME_REFERENCE_AUDIT.txt:701:agent-to-cade.ts:1:export async function delegateToCadeV2(payload: { command: string; args?: Record<string, any>; sourceAgent?: string }) {
 ./ACTIVE_CADE_RUNTIME_REFERENCE_AUDIT.txt:702:ACTIVE_CADE_RUNTIME_REFERENCE_AUDIT.py:54:    "delegateToCadeV2",
-./ACTIVE_CADE_RUNTIME_REFERENCE_AUDIT.txt:703:snapshots/20251114-114821/scripts/agents_full/matilda.ts.bak:1:import { delegateToCadeV2 } from "../relay/agent-to-cade.ts";
+./ACTIVE_CADE_RUNTIME_REFERENCE_AUDIT.txt:703:snapshots/20251114-114821/scripts/agents_full/matilda.ts.bak:1:import { delegateToCadeV2 } from "../relay/agent-to-cade.js";
 ./ACTIVE_CADE_RUNTIME_REFERENCE_AUDIT.txt:704:snapshots/20251114-114821/scripts/agents_full/matilda.ts.bak:20:    result = await delegateToCadeV2({ command, args, sourceAgent: "matilda" });
 ./ACTIVE_CADE_RUNTIME_REFERENCE_AUDIT.txt:705:snapshots/20251114-114821/scripts/agents_full/matilda.ts.bak:31:        result = await delegateToCadeV2({ command: step.command, args: step.args, sourceAgent: "matilda" });
 ./ACTIVE_CADE_RUNTIME_REFERENCE_AUDIT.txt:706:snapshots/20251114-114821/scripts/relay/agent-to-cade.ts:1:export async function delegateToCadeV2(payload: { command: string; args?: Record<string, any>; sourceAgent?: string }) {
-./ACTIVE_CADE_RUNTIME_REFERENCE_AUDIT.txt:707:snapshots/20251114-114707/scripts/agents_full/matilda.ts.bak:1:import { delegateToCadeV2 } from "../relay/agent-to-cade.ts";
+./ACTIVE_CADE_RUNTIME_REFERENCE_AUDIT.txt:707:snapshots/20251114-114707/scripts/agents_full/matilda.ts.bak:1:import { delegateToCadeV2 } from "../relay/agent-to-cade.js";
 ./ACTIVE_CADE_RUNTIME_REFERENCE_AUDIT.txt:708:snapshots/20251114-114707/scripts/agents_full/matilda.ts.bak:20:    result = await delegateToCadeV2({ command, args, sourceAgent: "matilda" });
 ./ACTIVE_CADE_RUNTIME_REFERENCE_AUDIT.txt:709:snapshots/20251114-114707/scripts/agents_full/matilda.ts.bak:31:        result = await delegateToCadeV2({ command: step.command, args: step.args, sourceAgent: "matilda" });
 ./ACTIVE_CADE_RUNTIME_REFERENCE_AUDIT.txt:710:snapshots/20251114-114707/scripts/relay/agent-to-cade.ts:1:export async function delegateToCadeV2(payload: { command: string; args?: Record<string, any>; sourceAgent?: string }) {
-./ACTIVE_CADE_RUNTIME_REFERENCE_AUDIT.txt:711:scripts_backup/agents_full/matilda.ts.bak:1:import { delegateToCadeV2 } from "../relay/agent-to-cade.ts";
+./ACTIVE_CADE_RUNTIME_REFERENCE_AUDIT.txt:711:scripts_backup/agents_full/matilda.ts.bak:1:import { delegateToCadeV2 } from "../relay/agent-to-cade.js";
 ./ACTIVE_CADE_RUNTIME_REFERENCE_AUDIT.txt:712:scripts_backup/agents_full/matilda.ts.bak:20:    result = await delegateToCadeV2({ command, args, sourceAgent: "matilda" });
 ./ACTIVE_CADE_RUNTIME_REFERENCE_AUDIT.txt:713:scripts_backup/agents_full/matilda.ts.bak:31:        result = await delegateToCadeV2({ command: step.command, args: step.args, sourceAgent: "matilda" });
-./ACTIVE_CADE_RUNTIME_REFERENCE_AUDIT.txt:714:scripts_backup/scripts/agents_full/matilda.ts.bak:1:import { delegateToCadeV2 } from "../relay/agent-to-cade.ts";
+./ACTIVE_CADE_RUNTIME_REFERENCE_AUDIT.txt:714:scripts_backup/scripts/agents_full/matilda.ts.bak:1:import { delegateToCadeV2 } from "../relay/agent-to-cade.js";
 ./ACTIVE_CADE_RUNTIME_REFERENCE_AUDIT.txt:715:scripts_backup/scripts/agents_full/matilda.ts.bak:20:    result = await delegateToCadeV2({ command, args, sourceAgent: "matilda" });
 ./ACTIVE_CADE_RUNTIME_REFERENCE_AUDIT.txt:716:scripts_backup/scripts/agents_full/matilda.ts.bak:31:        result = await delegateToCadeV2({ command: step.command, args: step.args, sourceAgent: "matilda" });
 ./ACTIVE_CADE_RUNTIME_REFERENCE_AUDIT.txt:717:scripts_backup/scripts/relay/agent-to-cade.ts:1:export async function delegateToCadeV2(payload: { command: string; args?: Record<string, any>; sourceAgent?: string }) {
 ./ACTIVE_CADE_RUNTIME_REFERENCE_AUDIT.txt:718:scripts_backup/relay/agent-to-cade.ts:1:export async function delegateToCadeV2(payload: { command: string; args?: Record<string, any>; sourceAgent?: string }) {
 ./ACTIVE_CADE_RUNTIME_REFERENCE_AUDIT.txt:719:docs/contracts/CADE_RUNTIME_ARCHAEOLOGY_FINDINGS.md:92:- Contains a stubbed `delegateToCadeV2`
-./ACTIVE_CADE_RUNTIME_REFERENCE_AUDIT.txt:720:scripts/agents_full/matilda.ts.bak:1:import { delegateToCadeV2 } from "../relay/agent-to-cade.ts";
+./ACTIVE_CADE_RUNTIME_REFERENCE_AUDIT.txt:720:scripts/agents_full/matilda.ts.bak:1:import { delegateToCadeV2 } from "../relay/agent-to-cade.js";
 ./ACTIVE_CADE_RUNTIME_REFERENCE_AUDIT.txt:721:scripts/agents_full/matilda.ts.bak:20:    result = await delegateToCadeV2({ command, args, sourceAgent: "matilda" });
 ./ACTIVE_CADE_RUNTIME_REFERENCE_AUDIT.txt:722:scripts/agents_full/matilda.ts.bak:31:        result = await delegateToCadeV2({ command: step.command, args: step.args, sourceAgent: "matilda" });
 ./ACTIVE_CADE_RUNTIME_REFERENCE_AUDIT.txt:723:scripts/relay/agent-to-cade.ts:1:export async function delegateToCadeV2(payload: { command: string; args?: Record<string, any>; sourceAgent?: string }) {
@@ -440,7 +440,7 @@
 ./GOVERNED_ROUTE_REGISTRATION_DISCOVERY.txt:992:snapshots/20251114-114707/scripts/agents_stubs/cade.ts:18:  handler: cadeCommandRouter
 ./GOVERNED_ROUTE_REGISTRATION_DISCOVERY.txt:996:snapshots/20251114-114707/scripts/agents_stubs/effie.ts:7:export async function effieCommandRouter(command: string, args: any) {
 ./GOVERNED_ROUTE_REGISTRATION_DISCOVERY.txt:997:snapshots/20251114-114707/scripts/agents_stubs/effie.ts:18:  handler: effieCommandRouter
-./GOVERNED_ROUTE_REGISTRATION_DISCOVERY.txt:1001:snapshots/20251114-114707/scripts/cli/matilda.ts:2:import { ask } from "../agents/matilda/askRouter.ts";
+./GOVERNED_ROUTE_REGISTRATION_DISCOVERY.txt:1001:snapshots/20251114-114707/scripts/cli/matilda.ts:2:import { ask } from "../agents/matilda/askRouter.js";
 ./GOVERNED_ROUTE_REGISTRATION_DISCOVERY.txt:1026:snapshots/20251114-114821/routes/agentsStatus.js:2:const router = express.Router();
 ./GOVERNED_ROUTE_REGISTRATION_DISCOVERY.txt:1031:snapshots/20251114-114821/routes/agentsStatus.ts:2:export const agentsStatusRouter = express.Router();
 ./GOVERNED_ROUTE_REGISTRATION_DISCOVERY.txt:1032:snapshots/20251114-114821/routes/agentsStatus.ts:4:agentsStatusRouter.get("/", (_req, res) => {
@@ -486,7 +486,7 @@
 ./GOVERNED_ROUTE_REGISTRATION_DISCOVERY.txt:1186:snapshots/20251114-114821/scripts/agents_stubs/cade.ts:18:  handler: cadeCommandRouter
 ./GOVERNED_ROUTE_REGISTRATION_DISCOVERY.txt:1190:snapshots/20251114-114821/scripts/agents_stubs/effie.ts:7:export async function effieCommandRouter(command: string, args: any) {
 ./GOVERNED_ROUTE_REGISTRATION_DISCOVERY.txt:1191:snapshots/20251114-114821/scripts/agents_stubs/effie.ts:18:  handler: effieCommandRouter
-./GOVERNED_ROUTE_REGISTRATION_DISCOVERY.txt:1195:snapshots/20251114-114821/scripts/cli/matilda.ts:2:import { ask } from "../agents/matilda/askRouter.ts";
+./GOVERNED_ROUTE_REGISTRATION_DISCOVERY.txt:1195:snapshots/20251114-114821/scripts/cli/matilda.ts:2:import { ask } from "../agents/matilda/askRouter.js";
 ./GOVERNED_ROUTE_REGISTRATION_DISCOVERY.txt:1223:systemChronicle.ts:2:export const systemChronicle = express.Router();
 ./GOVERNED_ROUTE_REGISTRATION_DISCOVERY.txt:1228:systemHealth.ts:2:export const systemHealth = express.Router();
 ./GOVERNED_ROUTE_REGISTRATION_DISCOVERY.txt:1232:tasks.ts:3:console.log("<0001f9ed> Active tasksRouter loaded from:", import.meta.url);
@@ -554,7 +554,6 @@
 ./dist/routes/matilda.js:4:export const router = express.Router();
 ./dist/routes/matilda.js:5:router.use(express.json());
 ./dist/routes/matilda.js:16:router.post("/", async (req, res) => {
-./dist/tsconfig.tsbuildinfo:1:{"root":["../scripts/reset-roundtrip.ts","../scripts/run-create-atlas.ts","../scripts/server.cjs","../scripts/write-agent-status.cjs","../scripts/_archive/effie_delegate.js","../scripts/_archive/matilda_delegate.js","../scripts/_archive/onboard_agent.mjs","../scripts/_local/dev-server.ts","../scripts/_local/memory_prune.cjs","../scripts/_local/run-effie-maint.ts","../scripts/_local/sse-ops.ts","../scripts/_local/sse-reflections.ts","../scripts/_local/submit-task.ts","../scripts/_local/test-cade-state.ts","../scripts/_local/test_runtime_simulation.ts","../scripts/_local/agent-runtime/atlas-awakening-sequence.ts","../scripts/_local/agent-runtime/cade-processor.ts","../scripts/_local/agent-runtime/cade_runtime.mts","../scripts/_local/agent-runtime/effie_runtime.js","../scripts/_local/agent-runtime/launch-atlas.ts","../scripts/_local/agent-runtime/launch-cade.ts","../scripts/_local/agent-runtime/launch-effie.ts","../scripts/_local/agent-runtime/launch-matilda.ts","../scripts/_local/agent-runtime/matilda-auto-deploy-patch.js","../scripts/_local/agent-runtime/matilda-liaison.js","../scripts/_local/agent-runtime/matilda-stub.mts","../scripts/_local/agent-runtime/matilda_runtime.cjs","../scripts/_local/agent-runtime/matilda_runtime.mts","../scripts/_local/agent-runtime/matilda_task_processor.ts","../scripts/_local/agent-runtime/run-cade-task-processor.js","../scripts/_local/agent-runtime/shared_utils.js","../scripts/_local/agent-runtime/submit-task.ts","../scripts/_local/agent-runtime/db-init/prepare-db.js","../scripts/_local/agent-runtime/handlers/handlegeneratefile.mjs","../scripts/_local/agent-runtime/handlers/handletask.ts","../scripts/_local/agent-runtime/tools/generatemarkdownfile.mjs","../scripts/_local/agent-runtime/utils/cade_task_processor.bak.ts","../scripts/_local/agent-runtime/utils/cade_task_processor.ts","../scripts/_local/agent-runtime/utils/cade_task_processor_clean.ts","../scripts/_local/agent-runtime/utils/clean_rogue_buttons.js","../scripts/_local/agent-runtime/utils/clean_settings_tab.js","../scripts/_local/agent-runtime/utils/delegatetocade.js","../scripts/_local/agent-runtime/utils/effie_task_processor.ts","../scripts/_local/agent-runtime/utils/fix_settings_tab.js","../scripts/_local/agent-runtime/utils/matilda_task_processor.ts","../scripts/_local/agent-runtime/utils/merge_tracker_tasks.js","../scripts/_local/agent-runtime/utils/update_tab_switch.js","../scripts/_local/dev/patch-package-json.mjs","../scripts/_local/dev/skip-ui-build.js","../scripts/_local/handlers/buildui.ts","../scripts/_local/handlers/commit.ts","../scripts/_local/handlers/install.ts","../scripts/_local/handlers/taskrouter.ts","../scripts/_local/matilda_tasks/onboard_agent.mjs","../scripts/_local/route-loader/ops-sse-bootstrap.ts","../scripts/_local/route-loader/ops-sse-server.ts","../scripts/_local/route-loader/reflection-sse-server.ts","../scripts/_local/utils/chain.mjs","../scripts/_local/utils/chain.ts","../scripts/_local/utils/chainstate.ts","../scripts/_local/utils/log.mjs","../scripts/_local/utils/log.ts","../scripts/agents/cade-create-webpage.ts","../scripts/agents/cade-delegation-watcher.ts","../scripts/agents/cade-runner.ts","../scripts/agents/cade.ts","../scripts/agents/cade_status.ts","../scripts/agents/effie.ts","../scripts/agents/matilda.mts","../scripts/agents/effie/maintenance.ts","../scripts/agents/matilda/askrouter.runtime.ts","../scripts/agents/matilda/askrouter.ts","../scripts/agents/matilda/matilda.ts","../scripts/agents/utils/ensurepaths.ts","../scripts/agents/utils/retrycreateagent.ts","../scripts/agents_backup_empty_20250805_1210/matilda.mts","../scripts/agents_full/cade.ts","../scripts/agents_full/effie.ts","../scripts/agents_full/matilda.ts","../scripts/agents_stubs/cade.ts","../scripts/agents_stubs/effie.ts","../scripts/agents_stubs/matilda.ts","../scripts/api/command.cjs","../scripts/cli/matilda.ts","../scripts/demo/reflection-pacer.js","../scripts/demo/run-create-atlas.ts","../scripts/demo/run-demo-playback.ts","../scripts/demo/run-demo-sequence.ts","../scripts/demo/run-live-delegation.ts","../scripts/demo/verify-dashboard-sync.ts","../scripts/diagnostics/test-rehydration.ts","../scripts/loaders/reflection-loader.ts","../scripts/mirror/agent.mjs","../scripts/mirror/agent.ts","../scripts/ops/create-entity.ts","../scripts/ops/run-create-atlas.ts","../scripts/relay/agent-to-cade.ts","../scripts/relay/agent-to-effie.ts","../scripts/sequences/atlas-build-sequence.ts","../scripts/sequences/create-cheese-page.ts","../scripts/sequences/demo-cinematic-sequence.ts","../scripts/sequences/prewarm-all-agents.ts","../scripts/sequences/prewarm-demo.ts","../scripts/servers/ops-sse-server.ts","../scripts/servers/reflection-sse-server.ts","../scripts/skills/createfile.ts","../scripts/skills/readfile.ts","../scripts/sse/reflections-sse-server.ts","../scripts/streams/reflection-sse-lite.ts","../scripts/utils/agentstatus.js","../scripts/utils/agentwatchdog.ts","../scripts/utils/ensure-task-events-main.ts","../scripts/utils/ensure-task-events.ts","../scripts/utils/log.ts","../scripts/utils/ollamachat.ts","../scripts/utils/ollamaplan.ts","../scripts/utils/prunedatabase.ts","../scripts/utils/reflection-push.ts","../scripts/utils/runskill.ts","../scripts/utils/validatetaskevent.ts","../scripts/watchers/reflection-watcher.ts","../routes/agentsstatus.ts","../routes/cade.ts","../routes/delegate.ts","../routes/delegations.ts","../routes/events.ts","../routes/eventsagents.ts","../routes/logs.ts","../routes/matilda.ts","../routes/reflections.ts","../routes/reset.ts","../routes/tasks.ts","../routes/diagnostics/autonomicadaptation.ts","../routes/diagnostics/introspectivesim.ts","../routes/diagnostics/persistentinsight.ts","../routes/diagnostics/systemchronicle.ts","../routes/diagnostics/systemhealth.ts","../db/audit.ts","../db/client.ts","../types/ambient-placeholders.d.ts","../types/any-stubs.d.ts","../types/custom-any.d.ts","../types/custom.d.ts","../types/sse-any.d.ts","../types/sse-globals.d.ts","../types/sse-overrides.d.ts","../types/sse-stubs.d.ts"],"errors":true,"version":"5.9.3"}
 ./dist/routes/reset.js:4:const router = express.Router();
 ./dist/routes/reset.js:5:router.post("/", async (_req, res) => {
 ./dist/routes/reset.js:15:export default router;
@@ -728,8 +727,8 @@
 ./snapshots/20251114-114707/scripts/_local/agent-runtime/matilda-liaison.js:18:  await delegateToCade(taskDescription);
 ./snapshots/20251114-114821/scripts/_local/agent-runtime/matilda-liaison.js:8:import { delegateToCade } from './utils/delegateToCade.js';
 ./snapshots/20251114-114821/scripts/_local/agent-runtime/matilda-liaison.js:18:  await delegateToCade(taskDescription);
-./snapshots/20251114-114707/scripts/agents_full/matilda.ts.bak:1:import { delegateToCadeV2 } from "../relay/agent-to-cade.ts";
-./snapshots/20251114-114707/scripts/agents_full/matilda.ts.bak:2:import { delegateToEffieV2 } from "../relay/agent-to-effie.ts";
+./snapshots/20251114-114707/scripts/agents_full/matilda.ts.bak:1:import { delegateToCadeV2 } from "../relay/agent-to-cade.js";
+./snapshots/20251114-114707/scripts/agents_full/matilda.ts.bak:2:import { delegateToEffieV2 } from "../relay/agent-to-effie.js";
 ./snapshots/20251114-114707/scripts/agents_full/matilda.ts.bak:20:    result = await delegateToCadeV2({ command, args, sourceAgent: "matilda" });
 ./snapshots/20251114-114707/scripts/agents_full/matilda.ts.bak:22:    result = await delegateToEffieV2({ command, args, sourceAgent: "matilda" });
 ./snapshots/20251114-114707/scripts/agents_full/matilda.ts.bak:31:        result = await delegateToCadeV2({ command: step.command, args: step.args, sourceAgent: "matilda" });
@@ -1215,7 +1214,7 @@
 ./snapshots/20251114-114707/scripts/agents_full/effie.ts:6:export async function effieCommandRouter(command: string, args?: Record<string, any>) {
 ./snapshots/20251114-114707/scripts/agents_full/effie.ts:48:  handler: effieCommandRouter
 ./snapshots/20251114-114707/scripts/relay/agent-to-effie.ts:1:export async function delegateToEffieV2(payload: { command: string; args?: Record<string, any>; sourceAgent?: string }) {
-./snapshots/20251114-114707/scripts/cli/matilda.ts:2:import { ask } from "../agents/matilda/askRouter.ts";
+./snapshots/20251114-114707/scripts/cli/matilda.ts:2:import { ask } from "../agents/matilda/askRouter.js";
 ./snapshots/20251114-114821/scripts/relay/agent-to-effie.ts:1:export async function delegateToEffieV2(payload: { command: string; args?: Record<string, any>; sourceAgent?: string }) {
 ./snapshots/20251114-114707/scripts/relay/agent-to-cade.ts:1:export async function delegateToCadeV2(payload: { command: string; args?: Record<string, any>; sourceAgent?: string }) {
 ./snapshots/20251114-114821/scripts/relay/agent-to-cade.ts:1:export async function delegateToCadeV2(payload: { command: string; args?: Record<string, any>; sourceAgent?: string }) {
@@ -1247,8 +1246,8 @@
 ./snapshots/20251114-114707/scripts/agents/effie.ts:48:  handler: effieCommandRouter
 ./snapshots/20251114-114707/scripts/_local/agent-runtime/utils/delegateToCade.js:2:// delegateToCade.js – Cade receives only the raw task description
 ./snapshots/20251114-114707/scripts/_local/agent-runtime/utils/delegateToCade.js:7:export async function delegateToCade(taskDescription) {
-./snapshots/20251114-114821/scripts/agents_full/matilda.ts.bak:1:import { delegateToCadeV2 } from "../relay/agent-to-cade.ts";
-./snapshots/20251114-114821/scripts/agents_full/matilda.ts.bak:2:import { delegateToEffieV2 } from "../relay/agent-to-effie.ts";
+./snapshots/20251114-114821/scripts/agents_full/matilda.ts.bak:1:import { delegateToCadeV2 } from "../relay/agent-to-cade.js";
+./snapshots/20251114-114821/scripts/agents_full/matilda.ts.bak:2:import { delegateToEffieV2 } from "../relay/agent-to-effie.js";
 ./snapshots/20251114-114821/scripts/agents_full/matilda.ts.bak:20:    result = await delegateToCadeV2({ command, args, sourceAgent: "matilda" });
 ./snapshots/20251114-114821/scripts/agents_full/matilda.ts.bak:22:    result = await delegateToEffieV2({ command, args, sourceAgent: "matilda" });
 ./snapshots/20251114-114821/scripts/agents_full/matilda.ts.bak:31:        result = await delegateToCadeV2({ command: step.command, args: step.args, sourceAgent: "matilda" });
@@ -1263,7 +1262,7 @@
 ./routes_backup/diagnostics/systemChronicle.js:2:const router = express.Router();
 ./routes_backup/diagnostics/systemChronicle.js:4:router.get("/", (req, res) => {
 ./routes_backup/diagnostics/systemChronicle.js:12:export default router;
-./snapshots/20251114-114821/scripts/cli/matilda.ts:2:import { ask } from "../agents/matilda/askRouter.ts";
+./snapshots/20251114-114821/scripts/cli/matilda.ts:2:import { ask } from "../agents/matilda/askRouter.js";
 ./routes_backup/diagnostics/persistentInsight.js:2:const router = express.Router();
 ./routes_backup/diagnostics/persistentInsight.js:4:router.get("/", (req, res) => {
 ./routes_backup/diagnostics/persistentInsight.js:11:export default router;
@@ -1705,8 +1704,8 @@
 ./docs/phase17/PHASE17_NEXT_WIRING_PLAN.md:8:3) Routing + dependencies: server/orchestration/router.ts, deps.ts
 ./docs/phase17/PHASE17_NEXT_WIRING_PLAN.md:20:   - deps check -> router -> scheduler eligibility -> emit transitions
 ./docs/phase17/PHASE17_NEXT_WIRING_PLAN.md:26:- No agent execution yet. Phase 18 only proves deterministic state evolution + routing decisions.
-./scripts_backup/agents_full/matilda.ts.bak:1:import { delegateToCadeV2 } from "../relay/agent-to-cade.ts";
-./scripts_backup/agents_full/matilda.ts.bak:2:import { delegateToEffieV2 } from "../relay/agent-to-effie.ts";
+./scripts_backup/agents_full/matilda.ts.bak:1:import { delegateToCadeV2 } from "../relay/agent-to-cade.js";
+./scripts_backup/agents_full/matilda.ts.bak:2:import { delegateToEffieV2 } from "../relay/agent-to-effie.js";
 ./scripts_backup/agents_full/matilda.ts.bak:20:    result = await delegateToCadeV2({ command, args, sourceAgent: "matilda" });
 ./scripts_backup/agents_full/matilda.ts.bak:22:    result = await delegateToEffieV2({ command, args, sourceAgent: "matilda" });
 ./scripts_backup/agents_full/matilda.ts.bak:31:        result = await delegateToCadeV2({ command: step.command, args: step.args, sourceAgent: "matilda" });
@@ -1882,8 +1881,8 @@
 ./scripts_backup/scripts/agents_backup_empty_20250805_1210/matilda.ts.bak:3:`;  await Bun.write(orchestrationLog, fullLog, { append: true });}export async function matildaOrchestrate(task: {  description: string;  steps: {    agent: 'cade' | 'effie';    command: string;    args?: Record<string, any>;  }[];}) {  await log(` Orchestration started: ${task.description}`);  const results = [];  for (const step of task.steps) {    const { agent, command, args } = step;    let result;    try {      if (agent === 'cade') {        result = await delegateToCade({ command, args, sourceAgent: 'matilda' });      } else if (agent === 'effie') {        result = await delegateToEffie({ command, args, sourceAgent: 'matilda' });      } else {        throw new Error(`Unknown agent: ${agent}`);      }      results.push({ agent, command, result });    } catch (err: any) {      results.push({ agent, command, error: err.message });    }  }  await log({ description: task.description, results });  return { status: 'complete', results };}
 ./docs/checkpoints/PHASE61_5_5U_TRACE_OPS_STATE_WRITERS_20260310_173753.txt:48:app.use("/api/tasks", apiTasksRouter);
 ./docs/checkpoints/PHASE61_5_5U_TRACE_OPS_STATE_WRITERS_20260310_173753.txt:49:app.use("/api/tasks-mutations", apiTasksMutationsRouter);
-./scripts_backup/scripts/agents_full/matilda.ts.bak:1:import { delegateToCadeV2 } from "../relay/agent-to-cade.ts";
-./scripts_backup/scripts/agents_full/matilda.ts.bak:2:import { delegateToEffieV2 } from "../relay/agent-to-effie.ts";
+./scripts_backup/scripts/agents_full/matilda.ts.bak:1:import { delegateToCadeV2 } from "../relay/agent-to-cade.js";
+./scripts_backup/scripts/agents_full/matilda.ts.bak:2:import { delegateToEffieV2 } from "../relay/agent-to-effie.js";
 ./scripts_backup/scripts/agents_full/matilda.ts.bak:20:    result = await delegateToCadeV2({ command, args, sourceAgent: "matilda" });
 ./scripts_backup/scripts/agents_full/matilda.ts.bak:22:    result = await delegateToEffieV2({ command, args, sourceAgent: "matilda" });
 ./scripts_backup/scripts/agents_full/matilda.ts.bak:31:        result = await delegateToCadeV2({ command: step.command, args: step.args, sourceAgent: "matilda" });
@@ -2082,8 +2081,8 @@
 ./scripts/inspect-governance-validation-operationalization.sh:18:  grep -RniE "operationalizes|operationalization|Governance Validation|consumes Delegation|Envelope created|Envelope creation|routing|assignment|planning" docs/governance docs/contracts 2>/dev/null || true
 ./scripts/phase88_14_5_restart_and_verify_system_health_mount.sh:66:  rg -n 'systemHealthRouter|diagnostics/system-health|diagnostics/systemHealth' server.mjs
 ./scripts/smoke-governance-package-runtime.mjs:70:    containment: "No routes, UI, delegation, validation, gates, envelopes, routing, assignment, or execution",
-./scripts/agents_full/matilda.ts.bak:1:import { delegateToCadeV2 } from "../relay/agent-to-cade.ts";
-./scripts/agents_full/matilda.ts.bak:2:import { delegateToEffieV2 } from "../relay/agent-to-effie.ts";
+./scripts/agents_full/matilda.ts.bak:1:import { delegateToCadeV2 } from "../relay/agent-to-cade.js";
+./scripts/agents_full/matilda.ts.bak:2:import { delegateToEffieV2 } from "../relay/agent-to-effie.js";
 ./scripts/agents_full/matilda.ts.bak:20:    result = await delegateToCadeV2({ command, args, sourceAgent: "matilda" });
 ./scripts/agents_full/matilda.ts.bak:22:    result = await delegateToEffieV2({ command, args, sourceAgent: "matilda" });
 ./scripts/agents_full/matilda.ts.bak:31:        result = await delegateToCadeV2({ command: step.command, args: step.args, sourceAgent: "matilda" });
@@ -2228,7 +2227,7 @@
 ./PHASE80_2_DEEP_DASHBOARD_INVENTORY_20260317T183521Z.md:356:./dist/routes/cade.js:7:cadeRouter.get("/recent", async (_req, res) => {
 ./PHASE80_2_DEEP_DASHBOARD_INVENTORY_20260317T183521Z.md:357:./snapshots/20251114-114821/scripts/agents/effie.ts:6:export async function effieCommandRouter(command: string, args?: Record<string, any>) {
 ./PHASE80_2_DEEP_DASHBOARD_INVENTORY_20260317T183521Z.md:358:./snapshots/20251114-114821/scripts/agents/effie.ts:48:  handler: effieCommandRouter
-./PHASE80_2_DEEP_DASHBOARD_INVENTORY_20260317T183521Z.md:359:./snapshots/20251114-114821/scripts/cli/matilda.ts:2:import { ask } from "../agents/matilda/askRouter.ts";
+./PHASE80_2_DEEP_DASHBOARD_INVENTORY_20260317T183521Z.md:359:./snapshots/20251114-114821/scripts/cli/matilda.ts:2:import { ask } from "../agents/matilda/askRouter.js";
 ./PHASE80_2_DEEP_DASHBOARD_INVENTORY_20260317T183521Z.md:360:./snapshots/20251114-114821/scripts/agents_full/effie.ts:6:export async function effieCommandRouter(command: string, args?: Record<string, any>) {
 ./PHASE80_2_DEEP_DASHBOARD_INVENTORY_20260317T183521Z.md:361:./snapshots/20251114-114821/scripts/agents_full/effie.ts:48:  handler: effieCommandRouter
 ./PHASE80_2_DEEP_DASHBOARD_INVENTORY_20260317T183521Z.md:362:./snapshots/20251114-114821/scripts/agents_full/cade.ts:29:export async function cadeCommandRouter(command: string, args?: any): Promise<any> {
@@ -2274,7 +2273,7 @@
 ./PHASE80_2_DEEP_DASHBOARD_INVENTORY_20260317T183521Z.md:411:./snapshots/20251114-114821/routes/matilda.ts:3:export const router = express.Router();
 ./PHASE80_2_DEEP_DASHBOARD_INVENTORY_20260317T183521Z.md:412:./snapshots/20251114-114707/scripts/agents/effie.ts:6:export async function effieCommandRouter(command: string, args?: Record<string, any>) {
 ./PHASE80_2_DEEP_DASHBOARD_INVENTORY_20260317T183521Z.md:413:./snapshots/20251114-114707/scripts/agents/effie.ts:48:  handler: effieCommandRouter
-./PHASE80_2_DEEP_DASHBOARD_INVENTORY_20260317T183521Z.md:414:./snapshots/20251114-114707/scripts/cli/matilda.ts:2:import { ask } from "../agents/matilda/askRouter.ts";
+./PHASE80_2_DEEP_DASHBOARD_INVENTORY_20260317T183521Z.md:414:./snapshots/20251114-114707/scripts/cli/matilda.ts:2:import { ask } from "../agents/matilda/askRouter.js";
 ./PHASE80_2_DEEP_DASHBOARD_INVENTORY_20260317T183521Z.md:415:./snapshots/20251114-114707/scripts/agents_full/effie.ts:6:export async function effieCommandRouter(command: string, args?: Record<string, any>) {
 ./PHASE80_2_DEEP_DASHBOARD_INVENTORY_20260317T183521Z.md:416:./snapshots/20251114-114707/scripts/agents_full/effie.ts:48:  handler: effieCommandRouter
 ./PHASE80_2_DEEP_DASHBOARD_INVENTORY_20260317T183521Z.md:417:./snapshots/20251114-114707/scripts/agents_full/cade.ts:29:export async function cadeCommandRouter(command: string, args?: any): Promise<any> {

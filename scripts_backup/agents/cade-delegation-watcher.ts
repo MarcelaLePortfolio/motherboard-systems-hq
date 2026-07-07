@@ -1,10 +1,9 @@
 import fs from "fs";
 
 import path from "path";
-import { sqlite } from "../../db/client";
 
 let pushReflection;
-(async () => { ({ pushReflection } = await import("../utils/reflection-push.js")); })();
+(async () => { ({ pushReflection } = await import("../utils/reflection-push")); })();
 
 
 const OUT_PATH = path.join(process.cwd(), "public", "delegation_success.html");

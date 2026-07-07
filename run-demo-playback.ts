@@ -4,9 +4,8 @@
 import { execSync } from "child_process";
 import fs from "fs";
 import path from "path";
-import { sqlite } from "../../db/client";
 
-const reflectionsPath = path.join(process.cwd(), "public", "tmp", "reflections.json");
+const reflectionsPath = path.join(process.cwd(), "public", "tmp", "reflectionson");
 
 function delay(ms: number) {
   return new Promise((resolve) => setTimeout(resolve, ms));

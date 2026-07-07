@@ -1,5 +1,5 @@
 
-import type { SchedulerRuntimeFinalizationContractResult } from "./scheduler-runtime-finalization-contract.ts";
+import type { SchedulerRuntimeFinalizationContractResult } from "./scheduler-runtime-finalization-contract";
 
 export type ProductionSchedulerRuntimeFinalizationContractConsumerInput = {
 

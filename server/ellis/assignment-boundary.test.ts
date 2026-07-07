@@ -3,7 +3,7 @@ import test from "node:test";
 
 import assert from "node:assert/strict";
 
-import { evaluateGovernanceLifecycleAssignmentBoundary } from "./assignment-boundary.ts";
+import { evaluateGovernanceLifecycleAssignmentBoundary } from "./assignment-boundary";
 
 test("assignment boundary blocks non-envelope-created lifecycle state", () => {
 

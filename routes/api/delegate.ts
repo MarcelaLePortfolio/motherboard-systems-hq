@@ -1,7 +1,8 @@
 import express from "express";
-import { sqlite } from "../../db/client";
-
 const router = express.Router();
+
+
+
 
 // POST /delegate
 router.post("/delegate", (req, res) => {
@@ -33,4 +34,3 @@ router.post("/delegate", (req, res) => {
   }
 });
 
-export default router;

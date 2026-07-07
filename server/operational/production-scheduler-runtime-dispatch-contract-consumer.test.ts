@@ -3,9 +3,9 @@ import test from "node:test";
 
 import assert from "node:assert/strict";
 
-import { consumeSchedulerRuntimeDispatchContractForProduction } from "./production-scheduler-runtime-dispatch-contract-consumer.ts";
+import { consumeSchedulerRuntimeDispatchContractForProduction } from "./production-scheduler-runtime-dispatch-contract-consumer";
 
-import type { SchedulerRuntimeDispatchContractResult } from "./scheduler-runtime-dispatch-contract.ts";
+import type { SchedulerRuntimeDispatchContractResult } from "./scheduler-runtime-dispatch-contract";
 
 const readyDispatchContract: SchedulerRuntimeDispatchContractResult = {
 
@@ -65,29 +65,29 @@ test("production scheduler runtime dispatch contract consumer fails closed when 
 
     scheduler_runtime_dispatch_contract: {
 
-      ok: false,
+            ok: false,
 
-      contract: "scheduler_runtime_dispatch_contract",
+            contract: "scheduler_runtime_dispatch_contract",
 
-      scheduler_runtime_dispatch_contract_ready: false,
+            scheduler_runtime_dispatch_contract_ready: false,
 
-      scheduler_runtime_dispatch_transition_authorized: false,
+            scheduler_runtime_dispatch_transition_authorized: false,
 
-      scheduler_authorized: false,
+            scheduler_authorized: false,
 
-      routing_authorized: false,
+            routing_authorized: false,
 
-      worker_claim_authorized: false,
+            worker_claim_authorized: false,
 
-      orchestration_authorized: false,
+            orchestration_authorized: false,
 
-      execution_authorized: false,
+            execution_authorized: false,
 
-      new_authority_introduced: false,
+            new_authority_introduced: false,
 
-      findings: ["test scheduler runtime dispatch contract failure"],
+            findings: ["test scheduler runtime dispatch contract failure"],
 
-    },
+          },
 
   });
 

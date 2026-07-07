@@ -298,7 +298,7 @@ PHASE62B_TASKS_QUEUED_DISCOVERY_OUTPUT.txt:239:./snapshots/20251114-114707/scrip
 tools/restore-motherboard.sh:48:pm2 start scripts/_local/agent-runtime/launch-cade.ts --interpreter "$TSX" --name cade --cwd "$PWD"
 tools/restore-from-latest.sh:40:pm2 start "./node_modules/.bin/tsx" scripts/_local/launch-cade.ts --name cade
 tools/restore-ui.sh:35:pm2 start scripts/_local/agent-runtime/launch-cade.ts --interpreter "$TSX" --name cade --cwd "$PWD"
-tools/verify-critical.sh:44:  "scripts/_local/agent-runtime/launch-cade.ts"
+tools/verify-critical.sh:44:  "scripts/_local/agent-runtime/launch-cade.js"
 snapshots/20251114-114821/package.json:6:    "start": "pm2 start scripts/_local/agent-runtime/launch-cade.ts --interpreter tsx --name cade",
 snapshots/20251114-114821/scripts/system/toggle_agents.sh:25:pm2 start "$NODE_BIN" --name cade --interpreter none -- --import tsx ./scripts/_local/agent-runtime/launch-cade.ts
 snapshots/20251114-114707/package.json:6:    "start": "pm2 start scripts/_local/agent-runtime/launch-cade.ts --interpreter tsx --name cade",
@@ -377,13 +377,13 @@ broken_eslint_files.txt:44:/Users/marcela-dev/Desktop/Motherboard_Systems_HQ/src
 ACTIVE_CADE_RUNTIME_REFERENCE_AUDIT.py:46:    "agent-to-cade",
 PHASE62B_TASKS_QUEUED_DISCOVERY_OUTPUT.txt:74:./snapshots/20251114-114821/scripts/relay/agent-to-cade.ts
 PHASE62B_TASKS_QUEUED_DISCOVERY_OUTPUT.txt:206:./snapshots/20251114-114707/scripts/relay/agent-to-cade.ts
-snapshots/20251114-114821/scripts/agents_full/matilda.ts.bak:1:import { delegateToCadeV2 } from "../relay/agent-to-cade.ts";
-snapshots/20251114-114707/scripts/agents_full/matilda.ts.bak:1:import { delegateToCadeV2 } from "../relay/agent-to-cade.ts";
-scripts_backup/agents_full/matilda.ts.bak:1:import { delegateToCadeV2 } from "../relay/agent-to-cade.ts";
-scripts_backup/scripts/agents_full/matilda.ts.bak:1:import { delegateToCadeV2 } from "../relay/agent-to-cade.ts";
+snapshots/20251114-114821/scripts/agents_full/matilda.ts.bak:1:import { delegateToCadeV2 } from "../relay/agent-to-cade.js";
+snapshots/20251114-114707/scripts/agents_full/matilda.ts.bak:1:import { delegateToCadeV2 } from "../relay/agent-to-cade.js";
+scripts_backup/agents_full/matilda.ts.bak:1:import { delegateToCadeV2 } from "../relay/agent-to-cade.js";
+scripts_backup/scripts/agents_full/matilda.ts.bak:1:import { delegateToCadeV2 } from "../relay/agent-to-cade.js";
 docs/contracts/CADE_RUNTIME_ARCHAEOLOGY_FINDINGS.md:28:- agent-to-cade.ts
 docs/contracts/CADE_RUNTIME_ARCHAEOLOGY_FINDINGS.md:90:### agent-to-cade.ts
-scripts/agents_full/matilda.ts.bak:1:import { delegateToCadeV2 } from "../relay/agent-to-cade.ts";
+scripts/agents_full/matilda.ts.bak:1:import { delegateToCadeV2 } from "../relay/agent-to-cade.js";
 
 ==================================================================
 TARGET: routeTask
@@ -445,8 +445,8 @@ launch-matilda.ts:2:import { createAgentRuntime } from "../../../mirror/agent";
 launch-matilda.ts:5:createAgentRuntime(matilda);
 launch-atlas.ts:2:import { createAgentRuntime } from "../../../mirror/agent";
 launch-atlas.ts:5:createAgentRuntime(atlas);
-snapshots/20251114-114821/scripts/agents_backup_empty_20250805_1210/cade.ts.bak:2:import { createAgentRuntime } from "../../\1.ts";export const cade = { name: "Cade", port: 3012 };createAgentRuntime(cade);
-snapshots/20251114-114821/scripts/agents_backup_empty_20250805_1210/effie.ts.bak:2:import { createAgentRuntime } from "../../\1.ts";export const effie = { name: "Effie", port: 3013 };createAgentRuntime(effie);
+snapshots/20251114-114821/scripts/agents_backup_empty_20250805_1210/cade.ts.bak:2:import { createAgentRuntime } from "../../\1.js";export const cade = { name: "Cade", port: 3012 };createAgentRuntime(cade);
+snapshots/20251114-114821/scripts/agents_backup_empty_20250805_1210/effie.ts.bak:2:import { createAgentRuntime } from "../../\1.js";export const effie = { name: "Effie", port: 3013 };createAgentRuntime(effie);
 snapshots/20251114-114821/scripts/_local/agent-runtime/launch-cade.ts:2:import { createAgentRuntime } from "../../mirror/agent.mjs";
 snapshots/20251114-114821/scripts/_local/agent-runtime/launch-cade.ts:37:createAgentRuntime(cade);
 snapshots/20251114-114821/scripts/_local/agent-runtime/launch-effie.ts:2:import { createAgentRuntime } from "../../mirror/agent.mjs";
@@ -454,8 +454,8 @@ snapshots/20251114-114821/scripts/_local/agent-runtime/launch-effie.ts:7:createA
 snapshots/20251114-114821/scripts/_local/agent-runtime/launch-matilda.ts:2:import { createAgentRuntime } from "../../mirror/agent";
 snapshots/20251114-114821/scripts/_local/agent-runtime/launch-matilda.ts:5:createAgentRuntime(matilda);
 snapshots/20251114-114821/scripts/mirror/agent.mjs:12:export function createAgentRuntime(agent) {
-snapshots/20251114-114707/scripts/agents_backup_empty_20250805_1210/cade.ts.bak:2:import { createAgentRuntime } from "../../\1.ts";export const cade = { name: "Cade", port: 3012 };createAgentRuntime(cade);
-snapshots/20251114-114707/scripts/agents_backup_empty_20250805_1210/effie.ts.bak:2:import { createAgentRuntime } from "../../\1.ts";export const effie = { name: "Effie", port: 3013 };createAgentRuntime(effie);
+snapshots/20251114-114707/scripts/agents_backup_empty_20250805_1210/cade.ts.bak:2:import { createAgentRuntime } from "../../\1.js";export const cade = { name: "Cade", port: 3012 };createAgentRuntime(cade);
+snapshots/20251114-114707/scripts/agents_backup_empty_20250805_1210/effie.ts.bak:2:import { createAgentRuntime } from "../../\1.js";export const effie = { name: "Effie", port: 3013 };createAgentRuntime(effie);
 snapshots/20251114-114707/scripts/_local/agent-runtime/launch-cade.ts:2:import { createAgentRuntime } from "../../mirror/agent.mjs";
 snapshots/20251114-114707/scripts/_local/agent-runtime/launch-cade.ts:37:createAgentRuntime(cade);
 snapshots/20251114-114707/scripts/_local/agent-runtime/launch-effie.ts:2:import { createAgentRuntime } from "../../mirror/agent.mjs";
@@ -469,12 +469,12 @@ agents/atlas.ts:2:import { createAgentRuntime } from "../mirror/agent";
 agents/atlas.ts:10:createAgentRuntime(atlas);
 scripts_backup/run-create-atlas.ts:29:import { createAgentRuntime } from "../mirror/agent";
 scripts_backup/run-create-atlas.ts:35:createAgentRuntime(atlas);
-scripts_backup/agents_backup_empty_20250805_1210/cade.ts.bak:2:import { createAgentRuntime } from "../../\1.ts";export const cade = { name: "Cade", port: 3012 };createAgentRuntime(cade);
-scripts_backup/agents_backup_empty_20250805_1210/effie.ts.bak:2:import { createAgentRuntime } from "../../\1.ts";export const effie = { name: "Effie", port: 3013 };createAgentRuntime(effie);
+scripts_backup/agents_backup_empty_20250805_1210/cade.ts.bak:2:import { createAgentRuntime } from "../../\1.js";export const cade = { name: "Cade", port: 3012 };createAgentRuntime(cade);
+scripts_backup/agents_backup_empty_20250805_1210/effie.ts.bak:2:import { createAgentRuntime } from "../../\1.js";export const effie = { name: "Effie", port: 3013 };createAgentRuntime(effie);
 scripts_backup/scripts/run-create-atlas.ts:29:import { createAgentRuntime } from "../mirror/agent";
 scripts_backup/scripts/run-create-atlas.ts:35:createAgentRuntime(atlas);
-scripts_backup/scripts/agents_backup_empty_20250805_1210/cade.ts.bak:2:import { createAgentRuntime } from "../../\1.ts";export const cade = { name: "Cade", port: 3012 };createAgentRuntime(cade);
-scripts_backup/scripts/agents_backup_empty_20250805_1210/effie.ts.bak:2:import { createAgentRuntime } from "../../\1.ts";export const effie = { name: "Effie", port: 3013 };createAgentRuntime(effie);
+scripts_backup/scripts/agents_backup_empty_20250805_1210/cade.ts.bak:2:import { createAgentRuntime } from "../../\1.js";export const cade = { name: "Cade", port: 3012 };createAgentRuntime(cade);
+scripts_backup/scripts/agents_backup_empty_20250805_1210/effie.ts.bak:2:import { createAgentRuntime } from "../../\1.js";export const effie = { name: "Effie", port: 3013 };createAgentRuntime(effie);
 scripts_backup/scripts/_local/agent-runtime/launch-cade.ts:2:import { createAgentRuntime } from "../../mirror/agent";
 scripts_backup/scripts/_local/agent-runtime/launch-cade.ts:37:createAgentRuntime(cade);
 scripts_backup/scripts/_local/agent-runtime/launch-effie.ts:2:import { createAgentRuntime } from "../../mirror/agent";
@@ -499,8 +499,8 @@ scripts/run-create-atlas.ts:29:import { createAgentRuntime } from "../mirror/age
 scripts/run-create-atlas.ts:35:createAgentRuntime(atlas);
 scripts/launch-matilda.ts:2:import { createAgentRuntime } from "../../../mirror/agent";
 scripts/launch-matilda.ts:5:createAgentRuntime(matilda);
-scripts/agents_backup_empty_20250805_1210/cade.ts.bak:2:import { createAgentRuntime } from "../../\1.ts";export const cade = { name: "Cade", port: 3012 };createAgentRuntime(cade);
-scripts/agents_backup_empty_20250805_1210/effie.ts.bak:2:import { createAgentRuntime } from "../../\1.ts";export const effie = { name: "Effie", port: 3013 };createAgentRuntime(effie);
+scripts/agents_backup_empty_20250805_1210/cade.ts.bak:2:import { createAgentRuntime } from "../../\1.js";export const cade = { name: "Cade", port: 3012 };createAgentRuntime(cade);
+scripts/agents_backup_empty_20250805_1210/effie.ts.bak:2:import { createAgentRuntime } from "../../\1.js";export const effie = { name: "Effie", port: 3013 };createAgentRuntime(effie);
 scripts/_local/agent-runtime/launch-matilda.mjs:1:import { createAgentRuntime } from "../mirror/agent.mjs";  # adjust path relative to launch-matilda.mjs
 scripts/_local/agent-runtime/launch-matilda.mjs:4:createAgentRuntime(matilda);
 scripts/_local/agent-runtime/launch-cade.ts:2:import { createAgentRuntime } from "../../mirror/agent";
@@ -700,24 +700,24 @@ TARGET: delegateToCadeV2
 
 agent-to-cade.ts:1:export async function delegateToCadeV2(payload: { command: string; args?: Record<string, any>; sourceAgent?: string }) {
 ACTIVE_CADE_RUNTIME_REFERENCE_AUDIT.py:54:    "delegateToCadeV2",
-snapshots/20251114-114821/scripts/agents_full/matilda.ts.bak:1:import { delegateToCadeV2 } from "../relay/agent-to-cade.ts";
+snapshots/20251114-114821/scripts/agents_full/matilda.ts.bak:1:import { delegateToCadeV2 } from "../relay/agent-to-cade.js";
 snapshots/20251114-114821/scripts/agents_full/matilda.ts.bak:20:    result = await delegateToCadeV2({ command, args, sourceAgent: "matilda" });
 snapshots/20251114-114821/scripts/agents_full/matilda.ts.bak:31:        result = await delegateToCadeV2({ command: step.command, args: step.args, sourceAgent: "matilda" });
 snapshots/20251114-114821/scripts/relay/agent-to-cade.ts:1:export async function delegateToCadeV2(payload: { command: string; args?: Record<string, any>; sourceAgent?: string }) {
-snapshots/20251114-114707/scripts/agents_full/matilda.ts.bak:1:import { delegateToCadeV2 } from "../relay/agent-to-cade.ts";
+snapshots/20251114-114707/scripts/agents_full/matilda.ts.bak:1:import { delegateToCadeV2 } from "../relay/agent-to-cade.js";
 snapshots/20251114-114707/scripts/agents_full/matilda.ts.bak:20:    result = await delegateToCadeV2({ command, args, sourceAgent: "matilda" });
 snapshots/20251114-114707/scripts/agents_full/matilda.ts.bak:31:        result = await delegateToCadeV2({ command: step.command, args: step.args, sourceAgent: "matilda" });
 snapshots/20251114-114707/scripts/relay/agent-to-cade.ts:1:export async function delegateToCadeV2(payload: { command: string; args?: Record<string, any>; sourceAgent?: string }) {
-scripts_backup/agents_full/matilda.ts.bak:1:import { delegateToCadeV2 } from "../relay/agent-to-cade.ts";
+scripts_backup/agents_full/matilda.ts.bak:1:import { delegateToCadeV2 } from "../relay/agent-to-cade.js";
 scripts_backup/agents_full/matilda.ts.bak:20:    result = await delegateToCadeV2({ command, args, sourceAgent: "matilda" });
 scripts_backup/agents_full/matilda.ts.bak:31:        result = await delegateToCadeV2({ command: step.command, args: step.args, sourceAgent: "matilda" });
-scripts_backup/scripts/agents_full/matilda.ts.bak:1:import { delegateToCadeV2 } from "../relay/agent-to-cade.ts";
+scripts_backup/scripts/agents_full/matilda.ts.bak:1:import { delegateToCadeV2 } from "../relay/agent-to-cade.js";
 scripts_backup/scripts/agents_full/matilda.ts.bak:20:    result = await delegateToCadeV2({ command, args, sourceAgent: "matilda" });
 scripts_backup/scripts/agents_full/matilda.ts.bak:31:        result = await delegateToCadeV2({ command: step.command, args: step.args, sourceAgent: "matilda" });
 scripts_backup/scripts/relay/agent-to-cade.ts:1:export async function delegateToCadeV2(payload: { command: string; args?: Record<string, any>; sourceAgent?: string }) {
 scripts_backup/relay/agent-to-cade.ts:1:export async function delegateToCadeV2(payload: { command: string; args?: Record<string, any>; sourceAgent?: string }) {
 docs/contracts/CADE_RUNTIME_ARCHAEOLOGY_FINDINGS.md:92:- Contains a stubbed `delegateToCadeV2`
-scripts/agents_full/matilda.ts.bak:1:import { delegateToCadeV2 } from "../relay/agent-to-cade.ts";
+scripts/agents_full/matilda.ts.bak:1:import { delegateToCadeV2 } from "../relay/agent-to-cade.js";
 scripts/agents_full/matilda.ts.bak:20:    result = await delegateToCadeV2({ command, args, sourceAgent: "matilda" });
 scripts/agents_full/matilda.ts.bak:31:        result = await delegateToCadeV2({ command: step.command, args: step.args, sourceAgent: "matilda" });
 scripts/relay/agent-to-cade.ts:1:export async function delegateToCadeV2(payload: { command: string; args?: Record<string, any>; sourceAgent?: string }) {
@@ -729,6 +729,6 @@ PACKAGE SCRIPTS
 
   "scripts": {
     "build:dashboard-bundle": "esbuild public/js/dashboard-bundle-entry.js --bundle --outfile=public/bundle.js --sourcemap",
-    "test:orchestration": "node --import tsx --test server/orchestration/*.test.ts",
+    "test:orchestration": "node --import tsx --test server/orchestration/*.test.js",
     "test": "bash ./scripts/phase42_scope_gate.sh && (echo \"(no test script)\" && exit 0)"
   },

@@ -5,7 +5,7 @@ import Database from "better-sqlite3";
 
 const db = new Database("motherboard.sqlite");
 
-db.exec(`
+sqlite.exec(`
 
 CREATE TABLE IF NOT EXISTS matilda_envelopes (
 
@@ -73,7 +73,7 @@ export function createEnvelope({
 
     "Envelope -> Routing -> Assignment -> Cade Execution";
 
-  db.prepare(`
+  sqlite.prepare(`
 
     INSERT INTO matilda_envelopes (
 

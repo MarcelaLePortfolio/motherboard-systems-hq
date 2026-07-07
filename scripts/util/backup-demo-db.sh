@@ -24,11 +24,11 @@ fi
 echo "💾 Creating single-rotation backup of $DB_PATH"
 tmp_file="${BACKUP_FILE}.tmp"
 
-sqlite3 "$DB_PATH" "PRAGMA wal_checkpoint(FULL);" >/dev/null
+db3 "$DB_PATH" "PRAGMA wal_checkpoint(FULL);" >/dev/null
 
-sqlite3 "$DB_PATH" ".backup '$tmp_file'"
+db3 "$DB_PATH" ".backup '$tmp_file'"
 
-integrity=$(sqlite3 "$tmp_file" "PRAGMA integrity_check;")
+integrity=$(db3 "$tmp_file" "PRAGMA integrity_check;")
 if [[ "$integrity" != "ok" ]]; then
   echo "❌ Backup integrity_check failed: $integrity"
   rm -f "$tmp_file"

@@ -39,7 +39,7 @@ export function loadCadeExecutionRegistry(): CadeExecutionRegistry {
 
   const raw = fs.readFileSync(
 
-    "docs/governance/CADE_EXECUTION_SOURCE_OF_TRUTH_REGISTRY.json",
+    "docs/governance/CADE_EXECUTION_SOURCE_OF_TRUTH_REGISTRYon",
 
     "utf-8"
 

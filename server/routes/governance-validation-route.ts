@@ -9,13 +9,13 @@ import {
 
   type ProductionValidationConsumerResult,
 
-} from "../validation/production-validation-consumer.ts";
+} from "../validation/production-validation-consumer.js";
 
 import type {
 
   GovernanceValidationPersistenceFunction,
 
-} from "../validation/production-validation-entry-point.ts";
+} from "../validation/production-validation-entry-point.js";
 
 export type GovernanceValidationRouteBody = {
 

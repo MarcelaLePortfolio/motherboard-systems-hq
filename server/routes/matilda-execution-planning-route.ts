@@ -1,7 +1,7 @@
 
 import express from "express";
 
-import { createExecutionPlan } from "../../db/matilda-execution-planning-runtime.ts";
+import { createExecutionPlan } from "../../db/matilda-execution-planning-runtime.js";
 
 const router = express.Router();
 

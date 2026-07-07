@@ -1,7 +1,7 @@
 
 import express from "express";
 
-import { createPreview } from "../../db/matilda-preview-runtime.ts";
+import { createPreview } from "../../db/matilda-preview-runtime.js";
 
 const router = express.Router();
 

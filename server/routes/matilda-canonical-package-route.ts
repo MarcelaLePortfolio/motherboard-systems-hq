@@ -1,7 +1,7 @@
 
 import express from "express";
 
-import { createCanonicalPackageFromApprovedSummary } from "../../db/matilda-canonical-package-runtime.ts";
+import { createCanonicalPackageFromApprovedSummary } from "../../db/matilda-canonical-package-runtime.js";
 
 const router = express.Router();
 

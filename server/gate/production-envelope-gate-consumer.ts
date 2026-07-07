@@ -7,7 +7,7 @@ import {
 
   type CreateGovernanceEnvelopeGateInput,
 
-} from "../../db/governance-runtime.ts";
+} from "../../db/governance-runtime.js";
 
 import {
 
@@ -19,7 +19,7 @@ import {
 
   type ProductionEnvelopeGateEntryPointResult,
 
-} from "./production-envelope-gate-entry-point.ts";
+} from "./production-envelope-gate-entry-point";
 
 export type ProductionEnvelopeGateConsumerInput = Omit<
 

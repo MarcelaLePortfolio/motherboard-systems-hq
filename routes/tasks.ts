@@ -1,7 +1,6 @@
 
 import express from "express";
 
-import { sqlite } from "../db/client.js";
 
 const router = express.Router();
 

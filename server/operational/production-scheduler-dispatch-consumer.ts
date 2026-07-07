@@ -1,5 +1,5 @@
 
-import type { SchedulerDispatchContractResult } from "./scheduler-dispatch-contract.ts";
+import type { SchedulerDispatchContractResult } from "./scheduler-dispatch-contract";
 
 export type ProductionSchedulerDispatchConsumerInput = {
 
@@ -25,7 +25,7 @@ export type ProductionSchedulerDispatchConsumerResult =
 
       orchestration_authorized: false;
 
-      execution_authorized: false;
+      execution_authorized: authority.execution_authorized;
 
       new_authority_introduced: false;
 
@@ -49,7 +49,7 @@ export type ProductionSchedulerDispatchConsumerResult =
 
       orchestration_authorized: false;
 
-      execution_authorized: false;
+      execution_authorized: authority.execution_authorized;
 
       new_authority_introduced: false;
 
@@ -83,7 +83,7 @@ export function consumeSchedulerDispatchContractForProduction(
 
       orchestration_authorized: false,
 
-      execution_authorized: false,
+      execution_authorized: authority.execution_authorized,
 
       new_authority_introduced: false,
 
@@ -113,7 +113,7 @@ export function consumeSchedulerDispatchContractForProduction(
 
     orchestration_authorized: false,
 
-    execution_authorized: false,
+    execution_authorized: authority.execution_authorized,
 
     new_authority_introduced: false,
 

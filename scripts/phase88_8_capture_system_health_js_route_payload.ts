@@ -1,4 +1,4 @@
-import router from "../routes/diagnostics/systemHealth.js";
+import router from "../routes/diagnostics/systemHealth";
 
 type JsonBody = Record<string, unknown>;
 

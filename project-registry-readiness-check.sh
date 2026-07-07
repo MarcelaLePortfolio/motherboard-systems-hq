@@ -41,5 +41,5 @@ echo
 
 echo "=== server db ==="
 
-sed -n '1,220p' server/db.js
+sed -n '1,220p' server/sqlite.js
 

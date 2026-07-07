@@ -1,5 +1,5 @@
 
-import { listLivingDraftPackages } from "./matilda-living-draft-runtime.ts";
+import { listLivingDraftPackages } from "./matilda-living-draft-runtime";
 
 export type GenerateReconciledIntentSummaryInput = {
 

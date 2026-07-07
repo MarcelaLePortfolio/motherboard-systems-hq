@@ -1,7 +1,7 @@
 import { readFileSync, writeFileSync } from "fs";
 import { exec } from "child_process";
 
-const filePath = "./memory/agent_chain_state.json";
+const filePath = "./memory/agent_chain_stateon";
 
 function loadTasks(): any[] {
   try {
@@ -42,7 +42,7 @@ async function processTasks(): Promise<void> {
             await runShellCommand(task.command);
             break;
           case "write_db":
-            const tablePath = "./memory/"+task.table+".json";
+            const tablePath = "./memory/"+task.table+"on";
             let rows = [];
             try {
               rows = JSON.parse(readFileSync(tablePath, "utf-8"));

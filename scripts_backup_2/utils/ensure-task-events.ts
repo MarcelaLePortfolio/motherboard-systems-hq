@@ -1,5 +1,4 @@
 // <0001fad3> Phase 5.0 — Ensure SQLite schema for OPS stream
-import { sqlite } from "../../db/client";
 
 try {
   sqlite

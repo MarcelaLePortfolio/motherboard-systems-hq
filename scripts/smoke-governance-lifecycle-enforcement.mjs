@@ -5,7 +5,7 @@ import {
 
   assertValidationEligible,
 
-} from "../db/governance-lifecycle-enforcement.ts";
+} from "../db/governance-lifecycle-enforcement.js";
 
 function assert(condition, message) {
 

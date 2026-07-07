@@ -1,7 +1,7 @@
 
-import type { SchedulerAuthorizationBoundaryResult } from "./scheduler-authorization-boundary.ts";
+import type { SchedulerAuthorizationBoundaryResult } from "./scheduler-authorization-boundary";
 
-import type { OperationalIntakeRecord } from "../../db/operational-intake-runtime.ts";
+import type { OperationalIntakeRecord } from "../../db/operational-intake-runtime.js";
 
 export type SchedulerDispatchContractInput = {
 

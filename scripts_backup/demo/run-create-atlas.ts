@@ -1,7 +1,6 @@
 // <0001faf6> Phase 9.2 — Atlas fallback task creation utility
 // Allows manual or automated creation of Atlas demo tasks for validation
 
-import { sqlite } from "../../db/client";
 import { randomUUID } from "crypto";
 
 console.log("🌍 Creating Atlas fallback task...");

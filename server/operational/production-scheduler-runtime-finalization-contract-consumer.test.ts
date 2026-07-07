@@ -3,9 +3,9 @@ import test from "node:test";
 
 import assert from "node:assert/strict";
 
-import { consumeSchedulerRuntimeFinalizationContractForProduction } from "./production-scheduler-runtime-finalization-contract-consumer.ts";
+import { consumeSchedulerRuntimeFinalizationContractForProduction } from "./production-scheduler-runtime-finalization-contract-consumer";
 
-import type { SchedulerRuntimeFinalizationContractResult } from "./scheduler-runtime-finalization-contract.ts";
+import type { SchedulerRuntimeFinalizationContractResult } from "./scheduler-runtime-finalization-contract";
 
 const readyFinalizationContract: SchedulerRuntimeFinalizationContractResult = {
 
@@ -65,29 +65,29 @@ test("production scheduler runtime finalization contract consumer fails closed w
 
     scheduler_runtime_finalization_contract: {
 
-      ok: false,
+            ok: false,
 
-      contract: "scheduler_runtime_finalization_contract",
+            contract: "scheduler_runtime_finalization_contract",
 
-      scheduler_runtime_finalization_contract_ready: false,
+            scheduler_runtime_finalization_contract_ready: false,
 
-      scheduler_runtime_finalization_transition_authorized: false,
+            scheduler_runtime_finalization_transition_authorized: false,
 
-      scheduler_authorized: false,
+            scheduler_authorized: false,
 
-      routing_authorized: false,
+            routing_authorized: false,
 
-      worker_claim_authorized: false,
+            worker_claim_authorized: false,
 
-      orchestration_authorized: false,
+            orchestration_authorized: false,
 
-      execution_authorized: false,
+            execution_authorized: false,
 
-      new_authority_introduced: false,
+            new_authority_introduced: false,
 
-      findings: ["test scheduler runtime finalization contract failure"],
+            findings: ["test scheduler runtime finalization contract failure"],
 
-    },
+          },
 
   });
 

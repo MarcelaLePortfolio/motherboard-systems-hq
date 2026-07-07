@@ -1,5 +1,4 @@
 // <0001fae4> Phase 6.1 — Live Delegation Simulation (Schema-Aligned)
-import { sqlite } from "../../db/client";
 
 function insertReflection(content: string) {
   sqlite.prepare("INSERT INTO reflection_index (content) VALUES (?)").run(content);

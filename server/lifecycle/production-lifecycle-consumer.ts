@@ -13,13 +13,13 @@ import type {
 
   GovernanceLifecyclePersistenceFunction,
 
-} from "../../db/governance-lifecycle-composition";
+} from "../../db/governance-lifecycle-composition.js";
 
 import {
 
   persistGovernanceEnvelopeLifecycleTransition,
 
-} from "../../db/governance-lifecycle-persistence";
+} from "../../db/governance-lifecycle-persistence.js";
 
 import {
 
@@ -29,7 +29,7 @@ import {
 
   type OperationalIntakeRecord,
 
-} from "../../db/operational-intake-runtime";
+} from "../../db/operational-intake-runtime.js";
 
 import {
 
@@ -39,7 +39,7 @@ import {
 
   type ProductionOperationalConsumerResult,
 
-} from "../operational/production-operational-consumer";
+} from "../operational/production-operational-consumer.js";
 
 export type OperationalIntakeCreationFunction = (
 

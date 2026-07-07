@@ -4,7 +4,7 @@
  * - 201 when POLICY_ENFORCE_ENABLED is falsey (and performs a minimal DB write)
  * - 403 when POLICY_ENFORCE_ENABLED is truthy
  */
-import { pool } from "../db.js";
+import { pool } from "../sqlite.js";
 
 function isTrue(v) {
   const s = String(v || "").trim().toLowerCase();

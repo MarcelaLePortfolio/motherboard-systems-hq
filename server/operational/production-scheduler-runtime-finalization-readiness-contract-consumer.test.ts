@@ -3,9 +3,9 @@ import test from "node:test";
 
 import assert from "node:assert/strict";
 
-import { consumeSchedulerRuntimeFinalizationReadinessContractForProduction } from "./production-scheduler-runtime-finalization-readiness-contract-consumer.ts";
+import { consumeSchedulerRuntimeFinalizationReadinessContractForProduction } from "./production-scheduler-runtime-finalization-readiness-contract-consumer";
 
-import type { SchedulerRuntimeFinalizationReadinessContractResult } from "./scheduler-runtime-finalization-readiness-contract.ts";
+import type { SchedulerRuntimeFinalizationReadinessContractResult } from "./scheduler-runtime-finalization-readiness-contract";
 
 const readyFinalizationReadinessContract: SchedulerRuntimeFinalizationReadinessContractResult = {
 
@@ -77,29 +77,29 @@ test("production scheduler runtime finalization readiness contract consumer fail
 
       scheduler_runtime_finalization_readiness_contract: {
 
-        ok: false,
+                ok: false,
 
-        contract: "scheduler_runtime_finalization_readiness_contract",
+                contract: "scheduler_runtime_finalization_readiness_contract",
 
-        scheduler_runtime_finalization_readiness_contract_ready: false,
+                scheduler_runtime_finalization_readiness_contract_ready: false,
 
-        scheduler_runtime_finalization_readiness_transition_authorized: false,
+                scheduler_runtime_finalization_readiness_transition_authorized: false,
 
-        scheduler_authorized: false,
+                scheduler_authorized: false,
 
-        routing_authorized: false,
+                routing_authorized: false,
 
-        worker_claim_authorized: false,
+                worker_claim_authorized: false,
 
-        orchestration_authorized: false,
+                orchestration_authorized: false,
 
-        execution_authorized: false,
+                execution_authorized: false,
 
-        new_authority_introduced: false,
+                new_authority_introduced: false,
 
-        findings: ["test scheduler runtime finalization readiness contract failure"],
+                findings: ["test scheduler runtime finalization readiness contract failure"],
 
-      },
+              },
 
     });
 

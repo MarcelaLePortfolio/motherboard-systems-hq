@@ -8,7 +8,7 @@ const dbDir = path.join(process.cwd(), "db");
 const dbPath = path.join(dbDir, "main.db");
 const walPath = dbPath + "-wal";
 const shmPath = dbPath + "-shm";
-const outputPath = path.join(process.cwd(), "public", "tmp", "reflections.json");
+const outputPath = path.join(process.cwd(), "public", "tmp", "reflectionson");
 
 function exportReflections() {
   try {
@@ -18,7 +18,7 @@ function exportReflections() {
       .all();
     fs.mkdirSync(path.dirname(outputPath), { recursive: true });
     fs.writeFileSync(outputPath, JSON.stringify(rows, null, 2), "utf8");
-    db.close();
+    sqlite.close();
     console.log(`<0001f7e0> Reflections auto-exported → ${outputPath}`);
   } catch (err) {
     console.error("❌ Reflection watcher export failed:", err);
@@ -33,6 +33,6 @@ const watcher = chokidar.watch([dbPath, walPath, shmPath], {
   ignoreInitial: true,
 });
 watcher.on("change", (file) => {
-  console.log(`🔁 Detected change in ${path.basename(file)} — regenerating reflections.json...`);
+  console.log(`🔁 Detected change in ${path.basename(file)} — regenerating reflectionson...`);
   exportReflections();
 });

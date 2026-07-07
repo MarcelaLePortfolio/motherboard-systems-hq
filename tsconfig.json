@@ -5,45 +5,27 @@
 
     "target": "ES2022",
 
-    "lib": ["ES2022"],
+    "module": "ESNext",
 
-    "module": "CommonJS",
-
-    "moduleResolution": "node",
+    "moduleResolution": "Bundler",
 
     "esModuleInterop": true,
 
     "allowSyntheticDefaultImports": true,
 
+    "resolveJsonModule": true,
+
     "skipLibCheck": true,
 
     "strict": false,
 
-    "allowJs": true,
-
-    "resolveJsonModule": true,
-
-    "outDir": "./dist",
-
-    "rootDir": "./",
-
-    "noEmitOnError": false
+    "noImplicitAny": false
 
   },
 
-  "include": [
+  "include": ["server", "db", "routes", "scripts"],
 
-    "./scripts",
-
-    "./routes",
-
-    "./db",
-
-    "./server",
-
-    "./types"
-
-  ]
+  "exclude": ["node_modules", "dist"]
 
 }
 

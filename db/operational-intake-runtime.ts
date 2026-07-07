@@ -11,7 +11,7 @@ export type CreateOperationalIntakeRecordInput = {
 
   intake_created_at?: string | null;
 
-  db?: Database;
+  db?: any;
 
 };
 
@@ -139,19 +139,19 @@ function mapOperationalIntakeRecord(row: OperationalIntakeRecordRow): Operationa
 
     intake_status: "RECORDED",
 
-    governance_authority_preserved: row.governance_authority_preserved === 1,
+    governance_authority_preserved: row.governance_authority_preserved === true,
 
-    lifecycle_authority_preserved: row.lifecycle_authority_preserved === 1,
+    lifecycle_authority_preserved: row.lifecycle_authority_preserved === true,
 
-    assignment_authority_preserved: row.assignment_authority_preserved === 1,
+    assignment_authority_preserved: row.assignment_authority_preserved === true,
 
-    routing_authorized: row.routing_authorized === 1,
+    routing_authorized: row.routing_authorized === true,
 
-    scheduler_authorized: row.scheduler_authorized === 1,
+    scheduler_authorized: row.scheduler_authorized === true,
 
-    worker_claim_authorized: row.worker_claim_authorized === 1,
+    worker_claim_authorized: row.worker_claim_authorized === true,
 
-    execution_authorized: row.execution_authorized === 1,
+    execution_authorized: row.execution_authorized === true,
 
   };
 

@@ -18,7 +18,7 @@ export async function ollamaChat(message: string): Promise<string> {
       return "🤖 (chat unavailable)";
     }
 
-    const data = await res.json();
+    const data = await reson();
 
     console.log("<0001fa9f> 🧩 Full Ollama raw payload:", JSON.stringify(data, null, 2));
 

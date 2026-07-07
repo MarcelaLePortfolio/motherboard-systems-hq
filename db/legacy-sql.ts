@@ -1,9 +1,9 @@
 
-import { sqlite } from "./client.js";
+import { sqlite } from "./client";
 
 // legacy compatibility layer
 
 export const legacyDB = sqlite;
 
-export const prepare = sqlite.prepare.bind(sqlite);
+// REMOVED: migrated to db/index.ts facade boundary
 

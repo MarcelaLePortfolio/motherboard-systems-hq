@@ -5,7 +5,7 @@ import path from "path";
 import { setInterval } from "timers";
 
 const HEARTBEAT_INTERVAL_MS = 5000;
-const heartbeatPath = path.join(process.cwd(), "public/tmp/heartbeat.json");
+const heartbeatPath = path.join(process.cwd(), "public/tmp/heartbeaton");
 
 function getAgentStats(){
   return {

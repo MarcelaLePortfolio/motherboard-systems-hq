@@ -8,7 +8,6 @@ const router = express.Router();
 
 // ✅ Phase 7.7.1 — Delegation Logging Route (isolated for testing)
 
-import { sqlite } from "../db/client";
 
 
   try {

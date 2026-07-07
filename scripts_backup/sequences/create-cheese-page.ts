@@ -1,4 +1,4 @@
-import { cadeCreateWebpage } from "../agents/cade-create-webpage.js";
+import { cadeCreateWebpage } from "../agents/cade-create-webpage";
 
 const html = `<!DOCTYPE html>
 <html lang="en">

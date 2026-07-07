@@ -105,7 +105,7 @@ phase65b-running-tasks-hydration
 ./snapshots/20251114-114821/scripts/_local/agent-runtime/submit-task.ts
 ./snapshots/20251114-114821/scripts/_local/agent-runtime/shared_utils.js
 ./snapshots/20251114-114821/scripts/_local/agent-runtime/launch-cade.ts
-./snapshots/20251114-114821/scripts/_local/agent-runtime/db-init/prepare-db.js
+./snapshots/20251114-114821/scripts/_local/agent-runtime/db-init/prepare-sqlite.js
 ./snapshots/20251114-114821/scripts/_local/agent-runtime/matilda-liaison.js
 ./snapshots/20251114-114821/scripts/_local/agent-runtime/effie_runtime.js
 ./snapshots/20251114-114821/scripts/_local/agent-runtime/launch-effie.ts
@@ -123,7 +123,6 @@ phase65b-running-tasks-hydration
 ./snapshots/20251114-114821/scripts/watchers/reflection-watcher.ts
 ./snapshots/20251114-114821/db/reflection_index.ts
 ./snapshots/20251114-114821/db/seeds/phase4_demo_seed.sql
-./snapshots/20251114-114821/db/client.ts
 ./snapshots/20251114-114821/db/audit.ts
 ./snapshots/20251114-114821/index.ts
 ./snapshots/20251114-114821/server.ts
@@ -237,7 +236,7 @@ phase65b-running-tasks-hydration
 ./snapshots/20251114-114707/scripts/_local/agent-runtime/submit-task.ts
 ./snapshots/20251114-114707/scripts/_local/agent-runtime/shared_utils.js
 ./snapshots/20251114-114707/scripts/_local/agent-runtime/launch-cade.ts
-./snapshots/20251114-114707/scripts/_local/agent-runtime/db-init/prepare-db.js
+./snapshots/20251114-114707/scripts/_local/agent-runtime/db-init/prepare-sqlite.js
 ./snapshots/20251114-114707/scripts/_local/agent-runtime/matilda-liaison.js
 ./snapshots/20251114-114707/scripts/_local/agent-runtime/effie_runtime.js
 ./snapshots/20251114-114707/scripts/_local/agent-runtime/launch-effie.ts
@@ -255,7 +254,6 @@ phase65b-running-tasks-hydration
 ./snapshots/20251114-114707/scripts/watchers/reflection-watcher.ts
 ./snapshots/20251114-114707/db/reflection_index.ts
 ./snapshots/20251114-114707/db/seeds/phase4_demo_seed.sql
-./snapshots/20251114-114707/db/client.ts
 ./snapshots/20251114-114707/db/audit.ts
 ./snapshots/20251114-114707/index.ts
 ./snapshots/20251114-114707/server.ts
@@ -2017,7 +2015,7 @@ FILE: ./scripts_backup/_local/agent-runtime/utils/matilda_task_processor.ts
 21:  const state = readChainState();
 22:  const tasks = state?.tasks;
 
-FILE: ./docker-entrypoint-initdb.d/00_phase54_bootstrap.sql
+FILE: ./docker-entrypoint-initsqlite.d/00_phase54_bootstrap.sql
 10:  status text,
 
 FILE: ./exports/dashboard_phase6.8/js/dashboard-ops.js

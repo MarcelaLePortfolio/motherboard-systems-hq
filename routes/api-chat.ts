@@ -1,29 +1,13 @@
 
-import express from "express";
+import express, { Request, Response } from "express";
 
-import type { Request, Response } from "express";
+import { runMatildaStub } from "../matilda-chat-stub.js";
 
-import { runMatildaStub } from "../matilda-chat-stub.ts";
+import type { MatildaChatResult } from "../matilda-chat-stub.js";
 
-import type { MatildaChatResult } from "../matilda-chat-stub.ts";
-
-import { runMatildaChatDraftIntegration } from "../db/matilda-chat-draft-integration.ts";
+import { runMatildaChatDraftIntegration } from "../db/matilda-chat-draft-integration.js";
 
 const router = express.Router();
-
-/**
-
- * POST /api/chat
-
- *
-
- * Matilda chat endpoint.
-
- * Preserves an IEL entry through runMatildaStub(), then best-effort updates
-
- * the non-authoritative Living Draft Package.
-
- */
 
 router.post("/api/chat", async (req: Request, res: Response) => {
 
@@ -75,7 +59,7 @@ router.post("/api/chat", async (req: Request, res: Response) => {
 
     } catch (draftError) {
 
-      console.warn("[/api/chat] Living Draft synthesis failed:", draftError);
+      console.warn("[/api/chat] Draft synthesis failed:", draftError);
 
     }
 
@@ -99,13 +83,13 @@ router.post("/api/chat", async (req: Request, res: Response) => {
 
   } catch (err) {
 
-    console.error("[/api/chat] Matilda pipeline error:", err);
+    console.error("[/api/chat] Error:", err);
 
     return res.status(500).json({
 
       ok: false,
 
-      error: "Matilda pipeline encountered an unexpected error.",
+      error: "Unexpected error",
 
     });
 

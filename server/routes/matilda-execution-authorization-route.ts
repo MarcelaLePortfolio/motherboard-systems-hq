@@ -1,7 +1,7 @@
 
 import express from "express";
 
-import { createExecutionAuthorization } from "../../db/matilda-execution-authorization-runtime.ts";
+import { createExecutionAuthorization } from "../../db/matilda-execution-authorization-runtime.js";
 
 const router = express.Router();
 

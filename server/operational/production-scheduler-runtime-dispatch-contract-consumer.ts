@@ -1,5 +1,5 @@
 
-import type { SchedulerRuntimeDispatchContractResult } from "./scheduler-runtime-dispatch-contract.ts";
+import type { SchedulerRuntimeDispatchContractResult } from "./scheduler-runtime-dispatch-contract";
 
 export type ProductionSchedulerRuntimeDispatchContractConsumerInput = {
 

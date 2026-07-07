@@ -1,5 +1,5 @@
 
-import type { ProductionOperationalConsumerResult } from "./production-operational-consumer.ts";
+import type { ProductionOperationalConsumerResult } from "./production-operational-consumer";
 
 export type SchedulerReadinessBoundaryInput = {
 

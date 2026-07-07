@@ -17,7 +17,7 @@ const testProjectIds = [
 
 ];
 
-const deleteProject = db.prepare(`
+const deleteProject = sqlite.prepare(`
 
   DELETE FROM project_registry
 

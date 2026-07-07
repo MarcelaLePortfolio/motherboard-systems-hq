@@ -1,7 +1,6 @@
 // <0001faef> Phase 9.2b — OPS SSE Server Rebuild
 import express from "express";
 import cors from "cors";
-import { sqlite } from "../../db/client";
 
 const app = express();
 app.use(cors());

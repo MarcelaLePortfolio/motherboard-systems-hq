@@ -5,7 +5,7 @@ import { randomUUID } from "node:crypto";
 
 import { once } from "node:events";
 
-import { createGovernanceLifecycleRouter } from "../server/routes/governance-lifecycle-route.ts";
+import { createGovernanceLifecycleRouter } from "../server/routes/governance-lifecycle-route.js";
 
 const PORT = Number(process.env.GOVERNANCE_LIFECYCLE_RUNTIME_PORT ?? 3100);
 

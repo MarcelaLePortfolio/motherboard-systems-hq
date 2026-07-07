@@ -1,7 +1,7 @@
 
-import { listInterpretationEvidenceLedgerEntries } from "./matilda-interpretation-runtime.ts";
+import { listInterpretationEvidenceLedgerEntries } from "./matilda-interpretation-runtime";
 
-import { synthesizeLivingDraft } from "./matilda-draft-synthesis-runtime.ts";
+import { synthesizeLivingDraft } from "./matilda-draft-synthesis-runtime";
 
 export type RunMatildaChatDraftIntegrationInput = {
 

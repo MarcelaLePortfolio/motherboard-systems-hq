@@ -1,5 +1,5 @@
 
-import type { ProductionSchedulerRuntimeDispatchContractConsumerResult } from "./production-scheduler-runtime-dispatch-contract-consumer.ts";
+import type { ProductionSchedulerRuntimeDispatchContractConsumerResult } from "./production-scheduler-runtime-dispatch-contract-consumer";
 
 export type SchedulerRuntimeFinalizationBoundaryInput = {
 

@@ -1,3 +1,4 @@
+import Database from "better-sqlite3";
 
 #!/usr/bin/env bash
 

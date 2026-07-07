@@ -1,5 +1,5 @@
 
-import type { SchedulerRuntimeAuthorizationBoundaryResult } from "./scheduler-runtime-authorization-boundary.ts";
+import type { SchedulerRuntimeAuthorizationBoundaryResult } from "./scheduler-runtime-authorization-boundary";
 
 export type SchedulerRuntimeContractInput = {
 

@@ -1,3 +1,6 @@
+import express from "express";
+const router = express.Router();
+
 function mapStatusToSeverity(status) {
   switch (status) {
     case "healthy":

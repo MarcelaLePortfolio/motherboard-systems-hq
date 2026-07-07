@@ -1,3 +1,6 @@
+import express from "express";
+const router = express.Router();
+
 import router from "./systemHealth";
 
 type JsonBody = Record<string, unknown>;
@@ -12,7 +15,6 @@ function findGetHandler() {
   const stack = (router as unknown as { stack?: Array<{ route?: { path?: string; methods?: Record<string, boolean>; stack?: Array<{ handle: Function }> } }> }).stack;
 
   if (!stack) {
-    throw new Error("Router stack missing");
   }
 
   for (const layer of stack) {

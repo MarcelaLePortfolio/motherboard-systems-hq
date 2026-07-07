@@ -1,7 +1,9 @@
 import express from "express";
-import { ollamaChat } from "../scripts/utils/ollamaChat";
+const router = express.Router();
 
-export const router = express.Router();
+
+import { ollamaChat } from "../scripts/utils/ollamaChat.js";
+
 
 router.post("/", async (req, res) => {
   const { message } = req.body;

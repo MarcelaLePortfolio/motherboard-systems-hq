@@ -7,7 +7,7 @@ import {
 
   type CreateGovernancePackageInput,
 
-} from "../../db/governance-runtime.ts";
+} from "../../db/governance-runtime.js";
 
 import {
 
@@ -19,7 +19,7 @@ import {
 
   type ProductionPackageEntryPointResult,
 
-} from "./production-package-entry-point.ts";
+} from "./production-package-entry-point";
 
 export type ProductionPackageConsumerInput = Omit<
 

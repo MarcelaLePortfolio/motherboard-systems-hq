@@ -290,9 +290,9 @@ SECTION: KEYWORD HITS — diagnostics|status|health|operator|summary
 ./ops-sse-bootstrap.ts:13:    status TEXT DEFAULT 'pending',
 ./PHASE62B_SUCCESS_RATE_LIVE_HYDRATION_READINESS_SUMMARY.txt:32:344:      "task.status",
 ./PHASE62B_SUCCESS_RATE_LIVE_HYDRATION_READINESS_SUMMARY.txt:37:== key decision summary ==
-./init_db.sql:3:CREATE TABLE IF NOT EXISTS agent_status (
-./init_db.sql:6:    status VARCHAR(20) NOT NULL, -- 'IDLE', 'BUSY', 'OFFLINE', 'ERROR'
-./init_db.sql:12:INSERT INTO agent_status (agent_name, status, current_task) VALUES
+./init_sqlite.sql:3:CREATE TABLE IF NOT EXISTS agent_status (
+./init_sqlite.sql:6:    status VARCHAR(20) NOT NULL, -- 'IDLE', 'BUSY', 'OFFLINE', 'ERROR'
+./init_sqlite.sql:12:INSERT INTO agent_status (agent_name, status, current_task) VALUES
 ./PHASE11_TASK_DELEGATION_RUN_SEQUENCE.md:8:- Container: dashboard + Postgres running and healthy
 ./PHASE11_TASK_DELEGATION_RUN_SEQUENCE.md:43:- HTTP status from curl (aiming for 200 or expected success)
 ./PHASE11_TASK_DELEGATION_RUN_SEQUENCE.md:44:- Response body (look for any task identifier or status)
@@ -499,7 +499,7 @@ SECTION: KEYWORD HITS — diagnostics|status|health|operator|summary
 ./PHASE11_OPS_EVENT_STREAM_VERIFICATION.md:195:* [ ] No recurring `Error fetching PM2 status` spam.
 ./PHASE11_OPS_EVENT_STREAM_VERIFICATION.md:222:   * Dashboard awareness of `pm2-status` (via `window.lastOpsStatusSnapshot`).
 ./PHASE11_OPS_EVENT_STREAM_VERIFICATION.md:223:   * Unchanged OPS status pill behavior tied to `window.lastOpsHeartbeat`.
-./src/cognition/systemSituationSummaryCli.smoke.ts:14:      "scripts/phase87_17_system_situation_summary_cli.ts",
+./src/cognition/systemSituationSummaryCli.smoke.ts:14:      "scripts/phase87_17_system_situation_summary_cli.js",
 ./src/cognition/systemSituationSummaryCli.smoke.ts:20:        operatorAttention: "none",
 ./src/cognition/systemSituationSummaryCli.smoke.ts:33:  assert(output === expected, "System situation summary CLI output mismatch");
 ./src/cognition/systemSituationSummaryCli.smoke.ts:41:  throw new Error("System situation summary CLI smoke failed");
@@ -654,7 +654,7 @@ SECTION: KEYWORD HITS — diagnostics|status|health|operator|summary
 ./temp_delegate_code.js:15:        status: 'acknowledged',
 ./temp_delegate_code.js:27:            return res.status(500).json({ success: false, message: 'Delegation acknowledged, but failed to log task event for streaming.' });
 ./temp_delegate_code.js:31:        res.status(200).json({ 
-./src/cognition/situationSummaryCli.smoke.ts:14:      "scripts/phase87_13_situation_summary_cli.ts",
+./src/cognition/situationSummaryCli.smoke.ts:14:      "scripts/phase87_13_situation_summary_cli.js",
 ./src/cognition/situationSummaryCli.smoke.ts:20:        operatorAttention: "none",
 ./src/cognition/situationSummaryCli.smoke.ts:27:    summary: {
 ./src/cognition/situationSummaryCli.smoke.ts:32:      operatorAttentionState: string;
@@ -1265,9 +1265,9 @@ SECTION: KEYWORD HITS — diagnostics|status|health|operator|summary
 ./PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:290:./ops-sse-bootstrap.ts:13:    status TEXT DEFAULT 'pending',
 ./PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:291:./PHASE62B_SUCCESS_RATE_LIVE_HYDRATION_READINESS_SUMMARY.txt:32:344:      "task.status",
 ./PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:292:./PHASE62B_SUCCESS_RATE_LIVE_HYDRATION_READINESS_SUMMARY.txt:37:== key decision summary ==
-./PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:293:./init_db.sql:3:CREATE TABLE IF NOT EXISTS agent_status (
-./PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:294:./init_db.sql:6:    status VARCHAR(20) NOT NULL, -- 'IDLE', 'BUSY', 'OFFLINE', 'ERROR'
-./PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:295:./init_db.sql:12:INSERT INTO agent_status (agent_name, status, current_task) VALUES
+./PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:293:./init_sqlite.sql:3:CREATE TABLE IF NOT EXISTS agent_status (
+./PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:294:./init_sqlite.sql:6:    status VARCHAR(20) NOT NULL, -- 'IDLE', 'BUSY', 'OFFLINE', 'ERROR'
+./PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:295:./init_sqlite.sql:12:INSERT INTO agent_status (agent_name, status, current_task) VALUES
 ./PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:296:./PHASE11_TASK_DELEGATION_RUN_SEQUENCE.md:8:- Container: dashboard + Postgres running and healthy
 ./PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:297:./PHASE11_TASK_DELEGATION_RUN_SEQUENCE.md:43:- HTTP status from curl (aiming for 200 or expected success)
 ./PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:298:./PHASE11_TASK_DELEGATION_RUN_SEQUENCE.md:44:- Response body (look for any task identifier or status)
@@ -1474,7 +1474,7 @@ SECTION: KEYWORD HITS — diagnostics|status|health|operator|summary
 ./PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:499:./PHASE11_OPS_EVENT_STREAM_VERIFICATION.md:195:* [ ] No recurring `Error fetching PM2 status` spam.
 ./PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:500:./PHASE11_OPS_EVENT_STREAM_VERIFICATION.md:222:   * Dashboard awareness of `pm2-status` (via `window.lastOpsStatusSnapshot`).
 ./PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:501:./PHASE11_OPS_EVENT_STREAM_VERIFICATION.md:223:   * Unchanged OPS status pill behavior tied to `window.lastOpsHeartbeat`.
-./PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:502:./src/cognition/systemSituationSummaryCli.smoke.ts:14:      "scripts/phase87_17_system_situation_summary_cli.ts",
+./PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:502:./src/cognition/systemSituationSummaryCli.smoke.ts:14:      "scripts/phase87_17_system_situation_summary_cli.js",
 ./PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:503:./src/cognition/systemSituationSummaryCli.smoke.ts:20:        operatorAttention: "none",
 ./PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:504:./src/cognition/systemSituationSummaryCli.smoke.ts:33:  assert(output === expected, "System situation summary CLI output mismatch");
 ./PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:505:./src/cognition/systemSituationSummaryCli.smoke.ts:41:  throw new Error("System situation summary CLI smoke failed");
@@ -1629,7 +1629,7 @@ SECTION: KEYWORD HITS — diagnostics|status|health|operator|summary
 ./PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:654:./temp_delegate_code.js:15:        status: 'acknowledged',
 ./PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:655:./temp_delegate_code.js:27:            return res.status(500).json({ success: false, message: 'Delegation acknowledged, but failed to log task event for streaming.' });
 ./PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:656:./temp_delegate_code.js:31:        res.status(200).json({ 
-./PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:657:./src/cognition/situationSummaryCli.smoke.ts:14:      "scripts/phase87_13_situation_summary_cli.ts",
+./PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:657:./src/cognition/situationSummaryCli.smoke.ts:14:      "scripts/phase87_13_situation_summary_cli.js",
 ./PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:658:./src/cognition/situationSummaryCli.smoke.ts:20:        operatorAttention: "none",
 ./PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:659:./src/cognition/situationSummaryCli.smoke.ts:27:    summary: {
 ./PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:660:./src/cognition/situationSummaryCli.smoke.ts:32:      operatorAttentionState: string;
@@ -1770,7 +1770,7 @@ SECTION: KEYWORD HITS — diagnostics|status|health|operator|summary
 ./snapshots/20251114-114707/scripts/agents_full/matilda.ts.bak:12:  if (!task || !task.steps) return { status: "ok", result: "No steps to run." };
 ./snapshots/20251114-114707/scripts/agents_full/matilda.ts.bak:44:  return { status: "complete", results };
 ./snapshots/20251114-114707/scripts/_local/dev/skip-ui-build.js:12:process.exit(res.status ?? 1);
-./snapshots/20251114-114707/scripts/_local/agent-runtime/db-init/prepare-db.js:13:    task_summary TEXT,
+./snapshots/20251114-114707/scripts/_local/agent-runtime/db-init/prepare-sqlite.js:13:    task_summary TEXT,
 ./agent.ts:27:      res.end(JSON.stringify({ status: "online", agent: name, path: req.url }));
 ./snapshots/20251114-114707/scripts/_local/agent-runtime/utils/effie_task_processor.ts:41:    if (task.status === "Pending" && task.agent === "Effie" && task.type === "run_shell") {
 ./snapshots/20251114-114707/scripts/_local/agent-runtime/utils/effie_task_processor.ts:44:        task.status = "Completed";
@@ -1897,7 +1897,7 @@ SECTION: KEYWORD HITS — diagnostics|status|health|operator|summary
 ./PHASE_80_7_TELEMETRY_EXPOSURE_SAFETY_GATES.md:97:Exposure requires explicit operator approval.
 ./snapshots/20251114-114707/scripts/utils/validateTaskEvent.ts:7:    let status = "success";
 ./snapshots/20251114-114707/scripts/utils/validateTaskEvent.ts:11:      if (!fs.existsSync(result)) status = "error";
-./snapshots/20251114-114707/scripts/utils/validateTaskEvent.ts:14:    const stmt = db.prepare("UPDATE task_events SET status=@status WHERE id=@id");
+./snapshots/20251114-114707/scripts/utils/validateTaskEvent.ts:14:    const stmt = sqlite.prepare("UPDATE task_events SET status=@status WHERE id=@id");
 ./snapshots/20251114-114707/scripts/utils/validateTaskEvent.ts:15:    stmt.run({ id: eventId, status });
 ./snapshots/20251114-114707/scripts/utils/validateTaskEvent.ts:17:    console.log(`<0001f9fd> ✅ Validation complete — status: ${status}`);
 ./snapshots/20251114-114707/scripts/utils/validateTaskEvent.ts:18:    return status;
@@ -2097,7 +2097,7 @@ SECTION: KEYWORD HITS — diagnostics|status|health|operator|summary
 ./PHASE35_HANDOFF.md:37:git status -sb
 ./validateTaskEvent.ts:7:    let status = "success";
 ./validateTaskEvent.ts:11:      if (!fs.existsSync(result)) status = "error";
-./validateTaskEvent.ts:14:    const stmt = db.prepare("UPDATE task_events SET status=@status WHERE id=@id");
+./validateTaskEvent.ts:14:    const stmt = sqlite.prepare("UPDATE task_events SET status=@status WHERE id=@id");
 ./validateTaskEvent.ts:15:    stmt.run({ id: eventId, status });
 ./validateTaskEvent.ts:17:    console.log(`<0001f9fd> ✅ Validation complete — status: ${status}`);
 ./validateTaskEvent.ts:18:    return status;
@@ -2644,7 +2644,7 @@ SECTION: KEYWORD HITS — diagnostics|status|health|operator|summary
 ./PHASE11_BUNDLING_STEP3B_BROADCAST_STATUS.md:109:  console.error("Failed to initialize dashboard status from bundle entry:", err);
 ./PHASE11_BUNDLING_STEP3B_BROADCAST_STATUS.md:115:Status early (so health/metrics are ready).
 ./PHASE11_BUNDLING_STEP3B_BROADCAST_STATUS.md:155:The next logical STEP 3B move is a guarded init for dashboard-status.js (or another clearly scoped module), followed by incremental verification.
-./scripts_backup/_local/agent-runtime/db-init/prepare-db.js:13:    task_summary TEXT,
+./scripts_backup/_local/agent-runtime/db-init/prepare-sqlite.js:13:    task_summary TEXT,
 ./snapshots/20251114-114821/scripts/mirror/agent.mjs:27:      res.end(JSON.stringify({ status: "online", agent: name, path: req.url }));
 ./server/routes/phase40_6_shadow_audit_task_events.mjs:46:      res.status(500).json({
 ./docs/MATILDA_CHAT_RECOMMENDED_MILESTONES.md:75:      - [ ] JS/CSS bundling status.
@@ -2726,7 +2726,7 @@ SECTION: KEYWORD HITS — diagnostics|status|health|operator|summary
 ./server/worker/phase34_claim_task_id_for_test.sql:10:  AND status = 'created'
 ./scripts_backup/utils/validateTaskEvent.ts:7:    let status = "success";
 ./scripts_backup/utils/validateTaskEvent.ts:11:      if (!fs.existsSync(result)) status = "error";
-./scripts_backup/utils/validateTaskEvent.ts:14:    const stmt = db.prepare("UPDATE task_events SET status=@status WHERE id=@id");
+./scripts_backup/utils/validateTaskEvent.ts:14:    const stmt = sqlite.prepare("UPDATE task_events SET status=@status WHERE id=@id");
 ./scripts_backup/utils/validateTaskEvent.ts:15:    stmt.run({ id: eventId, status });
 ./scripts_backup/utils/validateTaskEvent.ts:17:    console.log(`<0001f9fd> ✅ Validation complete — status: ${status}`);
 ./scripts_backup/utils/validateTaskEvent.ts:18:    return status;
@@ -2751,7 +2751,7 @@ SECTION: KEYWORD HITS — diagnostics|status|health|operator|summary
 ./PHASE11_DASHBOARD_VISUAL_CHECK_RUN_THIS_NEXT.md:26:   * [ ] Uptime/health/metrics visible
 ./PHASE11_DASHBOARD_VISUAL_CHECK_RUN_THIS_NEXT.md:30:   * [ ] Task delegation button + status visible
 ./PHASE11_DASHBOARD_VISUAL_CHECK_RUN_THIS_NEXT.md:55:  * Pick a low-risk module (e.g., `dashboard-graph-loader.js` or `dashboard-status.js`)
-./docker-entrypoint-initdb.d/00_phase54_bootstrap.sql:10:  status text,
+./docker-entrypoint-initsqlite.d/00_phase54_bootstrap.sql:10:  status text,
 ./snapshots/20251114-114821/scripts/_local/dev-server-agent-status-check.txt:3:📂 Verifying existence of: ui/dashboard/agent-status.json
 ./snapshots/20251114-114821/scripts/_local/dev-server-agent-status-check.txt:4:📂 Full path: $(realpath ui/dashboard/agent-status.json)
 ./docs/PHASE62B_RUNNING_TASKS_IMPLEMENTATION_START.md:81:operator logic
@@ -2888,7 +2888,7 @@ SECTION: KEYWORD HITS — diagnostics|status|health|operator|summary
 ./server/worker/phase27_claim_one.sql:23:    status = 'running',
 ./docs/notes/pr84-run_view-terminal-precedence.md:5:If run observability derives `task_status` / `is_terminal` from the mutable `tasks.status` alone,
 ./docs/notes/pr84-run_view-terminal-precedence.md:10:- `task_status` derives from `terminal_event_kind` when present
-./snapshots/20251114-114821/scripts/_local/agent-runtime/db-init/prepare-db.js:13:    task_summary TEXT,
+./snapshots/20251114-114821/scripts/_local/agent-runtime/db-init/prepare-sqlite.js:13:    task_summary TEXT,
 ./scripts_backup/write-agent-status.cjs:10:  const statusMap = {};
 ./scripts_backup/write-agent-status.cjs:14:    statusMap[name] = proc?.pm2_env?.status || "unknown";
 ./scripts_backup/write-agent-status.cjs:17:  const targetPath = path.join(__dirname, "../ui/dashboard/public/agent-status.json");
@@ -3142,7 +3142,7 @@ SECTION: KEYWORD HITS — diagnostics|status|health|operator|summary
 ./PHASE11_DASHBOARD_RENDERING_VERIFICATION_CHECKLIST.md:51:* [ ] Task delegation controls (button + status text) are visible
 ./PHASE11_DASHBOARD_RENDERING_VERIFICATION_CHECKLIST.md:75:* [ ] Static assets (CSS, JS, bundle) load with 200/304 status
 ./PHASE11_DASHBOARD_RENDERING_VERIFICATION_CHECKLIST.md:93:  * [ ] Button updates text or status output
-./scripts_backup_2/_local/agent-runtime/db-init/prepare-db.js:13:    task_summary TEXT,
+./scripts_backup_2/_local/agent-runtime/db-init/prepare-sqlite.js:13:    task_summary TEXT,
 ./scripts_backup/_local/agent-runtime/memory/brandy_chain_state.json:4:"status": "Idle",
 ./snapshots/20251114-114821/scripts/_local/agent-runtime/output/welcome_kit.md:8:- **Matilda**: Delegation, task routing, and status output.
 ./scripts_backup_2/_local/agent-runtime/launch-cade.ts:9:  if (state?.agent !== "Cade" || state?.status !== "Assigned") return;
@@ -3426,10 +3426,10 @@ SECTION: KEYWORD HITS — diagnostics|status|health|operator|summary
 ./server/orchestration/router.test.ts:9:function agent(id: AgentSnapshot["id"], healthy: boolean, busy: boolean, caps: string[]): AgentSnapshot {
 ./server/orchestration/router.test.ts:10:  return { id, healthy, busy, caps };
 ./server/orchestration/router.test.ts:18:test("router: chooses first eligible healthy non-busy agent with caps", () => {
-./scripts_backup/scripts/_local/agent-runtime/db-init/prepare-db.js:13:    task_summary TEXT,
+./scripts_backup/scripts/_local/agent-runtime/db-init/prepare-sqlite.js:13:    task_summary TEXT,
 ./scripts_backup/scripts/utils/validateTaskEvent.ts:7:    let status = "success";
 ./scripts_backup/scripts/utils/validateTaskEvent.ts:11:      if (!fs.existsSync(result)) status = "error";
-./scripts_backup/scripts/utils/validateTaskEvent.ts:14:    const stmt = db.prepare("UPDATE task_events SET status=@status WHERE id=@id");
+./scripts_backup/scripts/utils/validateTaskEvent.ts:14:    const stmt = sqlite.prepare("UPDATE task_events SET status=@status WHERE id=@id");
 ./scripts_backup/scripts/utils/validateTaskEvent.ts:15:    stmt.run({ id: eventId, status });
 ./scripts_backup/scripts/utils/validateTaskEvent.ts:17:    console.log(`<0001f9fd> ✅ Validation complete — status: ${status}`);
 ./scripts_backup/scripts/utils/validateTaskEvent.ts:18:    return status;
@@ -4072,7 +4072,7 @@ SECTION: KEYWORD HITS — diagnostics|status|health|operator|summary
 ./public/dashboard.html.bad_structure:516:<script src="scripts/agent-status-row.js"></script>
 ./snapshots/20251114-114821/scripts/utils/validateTaskEvent.ts:7:    let status = "success";
 ./snapshots/20251114-114821/scripts/utils/validateTaskEvent.ts:11:      if (!fs.existsSync(result)) status = "error";
-./snapshots/20251114-114821/scripts/utils/validateTaskEvent.ts:14:    const stmt = db.prepare("UPDATE task_events SET status=@status WHERE id=@id");
+./snapshots/20251114-114821/scripts/utils/validateTaskEvent.ts:14:    const stmt = sqlite.prepare("UPDATE task_events SET status=@status WHERE id=@id");
 ./snapshots/20251114-114821/scripts/utils/validateTaskEvent.ts:15:    stmt.run({ id: eventId, status });
 ./snapshots/20251114-114821/scripts/utils/validateTaskEvent.ts:17:    console.log(`<0001f9fd> ✅ Validation complete — status: ${status}`);
 ./snapshots/20251114-114821/scripts/utils/validateTaskEvent.ts:18:    return status;
@@ -6457,7 +6457,7 @@ SECTION: KEYWORD HITS — diagnostics|status|health|operator|summary
 ./docs/checkpoints/PHASE62_2_LAYOUT_CONTRACT_PROTECTED_STABLE_20260311.md:29:- Atlas band before Atlas status card
 ./scripts_backup_2/utils/validateTaskEvent.ts:7:    let status = "success";
 ./scripts_backup_2/utils/validateTaskEvent.ts:11:      if (!fs.existsSync(result)) status = "error";
-./scripts_backup_2/utils/validateTaskEvent.ts:14:    const stmt = db.prepare("UPDATE task_events SET status=@status WHERE id=@id");
+./scripts_backup_2/utils/validateTaskEvent.ts:14:    const stmt = sqlite.prepare("UPDATE task_events SET status=@status WHERE id=@id");
 ./scripts_backup_2/utils/validateTaskEvent.ts:15:    stmt.run({ id: eventId, status });
 ./scripts_backup_2/utils/validateTaskEvent.ts:17:    console.log(`<0001f9fd> ✅ Validation complete — status: ${status}`);
 ./scripts_backup_2/utils/validateTaskEvent.ts:18:    return status;
@@ -7080,7 +7080,7 @@ SECTION: KEYWORD HITS — diagnostics|status|health|operator|summary
 ./scripts/agents/cade_status.ts:19:    console.error("❌ broadcastLogUpdate failed (status):", err);
 ./scripts/utils/validateTaskEvent.ts:7:    let status = "success";
 ./scripts/utils/validateTaskEvent.ts:11:      if (!fs.existsSync(result)) status = "error";
-./scripts/utils/validateTaskEvent.ts:14:    const stmt = db.prepare("UPDATE task_events SET status=@status WHERE id=@id");
+./scripts/utils/validateTaskEvent.ts:14:    const stmt = sqlite.prepare("UPDATE task_events SET status=@status WHERE id=@id");
 ./scripts/utils/validateTaskEvent.ts:15:    stmt.run({ id: eventId, status });
 ./scripts/utils/validateTaskEvent.ts:17:    console.log(`<0001f9fd> ✅ Validation complete — status: ${status}`);
 ./scripts/utils/validateTaskEvent.ts:18:    return status;
@@ -7888,7 +7888,7 @@ SECTION: KEYWORD HITS — diagnostics|status|health|operator|summary
 ./scripts/_local/phase62b_inspect_run_id_contract_mismatch.sh:113:  "status":"failed",
 ./scripts/_local/phase62b_inspect_run_id_contract_mismatch.sh:131:  "status":"completed",
 ./scripts/_local/phase62b_inspect_run_id_contract_mismatch.sh:173:echo "summary_written=${SUMMARY}"
-./scripts/_local/agent-runtime/db-init/prepare-db.js:13:    task_summary TEXT,
+./scripts/_local/agent-runtime/db-init/prepare-sqlite.js:13:    task_summary TEXT,
 ./scripts/_local/phase62b_running_tasks_discovery.sh:25:  echo "git status --short"
 ./scripts/_local/phase62b_running_tasks_discovery.sh:26:  git status --short || true
 ./routes/api/delegate.ts:14:      "INSERT INTO task_events (type, agent, status, payload) VALUES (?, ?, ?, ?)"
@@ -9275,7 +9275,7 @@ SECTION: KEYWORD HITS — diagnostics|status|health|operator|summary
 ./PHASE62B_POST_REBUILD_SUCCESS_SINGLE_WRITER_SUMMARY.txt:27:== key decision summary ==
 ./ts-backup/validateTaskEvent.ts:7:    let status = "success";
 ./ts-backup/validateTaskEvent.ts:11:      if (!fs.existsSync(result)) status = "error";
-./ts-backup/validateTaskEvent.ts:14:    const stmt = db.prepare("UPDATE task_events SET status=@status WHERE id=@id");
+./ts-backup/validateTaskEvent.ts:14:    const stmt = sqlite.prepare("UPDATE task_events SET status=@status WHERE id=@id");
 ./ts-backup/validateTaskEvent.ts:15:    stmt.run({ id: eventId, status });
 ./ts-backup/validateTaskEvent.ts:17:    console.log(`<0001f9fd> ✅ Validation complete — status: ${status}`);
 ./ts-backup/validateTaskEvent.ts:18:    return status;

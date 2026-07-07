@@ -6,8 +6,7 @@ console.log("<0001f9ed> Active tasksRouter loaded from:", import.meta.url);
 import express from "express";
 import path from "path";
 import fs from "fs";
-import { db } from "../db/client.ts";
-import { task_events } from "../db/audit.ts";
+import { task_events } from "../db/audit";
 import { desc } from "drizzle-orm";
 
 export const tasksRouter = express.Router();
@@ -20,7 +19,7 @@ tasksRouter.get("/recent", async (_req, res) => {
   const size = exists ? fs.statSync(dbPath).size : 0;
   let rows = [];
   try {
-    rows = db.select().from(task_events).orderBy(desc(task_events.created_at)).limit(10).all();
+    rows = sqlite.select().from(task_events).orderBy(desc(task_events.created_at)).limit(10).all();
   } catch (err) {
     console.error("❌ Query failed:", err);
   }
@@ -34,5 +33,5 @@ tasksRouter.get("/recent", async (_req, res) => {
 
     console.log("<0001f9ef> Direct SQLite query returned", raw.length, "rows");
 
-  res.json({ cwd: process.cwd(), dbPath, exists, size, rowCount: rows.length, rows });
+  reson({ cwd: process.cwd(), dbPath, exists, size, rowCount: rows.length, rows });
 });

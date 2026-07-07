@@ -1,6 +1,6 @@
  
-import { handleInstallTask } from "./install.js";
-import { handleBuildUITask } from "./buildUI.js";
+import { handleInstallTask } from "./install";
+import { handleBuildUITask } from "./buildUI";
 
 export async function routeTask(task: any): Promise<string> {
   const type = task?.type;

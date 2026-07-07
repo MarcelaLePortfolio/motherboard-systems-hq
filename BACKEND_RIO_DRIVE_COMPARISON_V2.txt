@@ -23,7 +23,7 @@ server/_lib/retry.mjs
 server/api/tasks-mutations/delegate-taskspec.mjs
 server/artifacts.mjs
 server/contracts/execution-envelope.v1.mjs
-server/db.js
+server/sqlite.js
 server/db_bootstrap_tasks_retry_semantics.mjs
 server/db_bootstrap_tasks_task_id.mjs
 server/db_wait_ready.mjs
@@ -492,7 +492,7 @@ DIFFERS
 1779909214 size=319 /Volumes/Rio Drive/Motherboard_External_Backup/snapshots/20260527_141840/project/server/emit-after-response.mjs
 1779909214 size=317 /Volumes/Rio Drive/Motherboard_External_Backup/snapshots/20260527_141840/project/server/worker/phase35_mark_success_pg.sql
 1779909214 size=317 /Volumes/Rio Drive/Motherboard_External_Backup/snapshots/20260527_141840/project/docker-compose.phase45_1.startup_determinism.yml
-1779909214 size=312 /Volumes/Rio Drive/Motherboard_External_Backup/snapshots/20260527_141840/project/server/db.js
+1779909214 size=312 /Volumes/Rio Drive/Motherboard_External_Backup/snapshots/20260527_141840/project/server/sqlite.js
 1779909214 size=311 /Volumes/Rio Drive/Motherboard_External_Backup/snapshots/20260527_141840/project/server/worker/phase32_mark_success.sql
 1779909214 size=296 /Volumes/Rio Drive/Motherboard_External_Backup/snapshots/20260527_141840/project/src/cognition/getSituationSummary.ts
 1779909214 size=292 /Volumes/Rio Drive/Motherboard_External_Backup/snapshots/20260527_141840/project/server/db_bootstrap_tasks_task_id.mjs

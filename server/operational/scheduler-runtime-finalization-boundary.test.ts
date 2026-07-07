@@ -3,9 +3,9 @@ import test from "node:test";
 
 import assert from "node:assert/strict";
 
-import { authorizeSchedulerRuntimeFinalizationTransition } from "./scheduler-runtime-finalization-boundary.ts";
+import { authorizeSchedulerRuntimeFinalizationTransition } from "./scheduler-runtime-finalization-boundary";
 
-import type { ProductionSchedulerRuntimeDispatchContractConsumerResult } from "./production-scheduler-runtime-dispatch-contract-consumer.ts";
+import type { ProductionSchedulerRuntimeDispatchContractConsumerResult } from "./production-scheduler-runtime-dispatch-contract-consumer";
 
 const consumedRuntimeDispatchContract: ProductionSchedulerRuntimeDispatchContractConsumerResult = {
 
@@ -65,27 +65,27 @@ test("scheduler runtime finalization boundary fails closed when runtime dispatch
 
     production_scheduler_runtime_dispatch_contract_consumer: {
 
-      ok: false,
+            ok: false,
 
-      consumer: "production_scheduler_runtime_dispatch_contract_consumer",
+            consumer: "production_scheduler_runtime_dispatch_contract_consumer",
 
-      scheduler_runtime_dispatch_contract_consumed: false,
+            scheduler_runtime_dispatch_contract_consumed: false,
 
-      scheduler_authorized: false,
+            scheduler_authorized: false,
 
-      routing_authorized: false,
+            routing_authorized: false,
 
-      worker_claim_authorized: false,
+            worker_claim_authorized: false,
 
-      orchestration_authorized: false,
+            orchestration_authorized: false,
 
-      execution_authorized: false,
+            execution_authorized: false,
 
-      new_authority_introduced: false,
+            new_authority_introduced: false,
 
-      findings: ["test scheduler runtime dispatch contract consumer failure"],
+            findings: ["test scheduler runtime dispatch contract consumer failure"],
 
-    },
+          },
 
   });
 

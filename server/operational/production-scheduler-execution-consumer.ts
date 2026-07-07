@@ -1,5 +1,5 @@
 
-import type { SchedulerExecutionEntryPointResult } from "./scheduler-execution-entry-point.ts";
+import type { SchedulerExecutionEntryPointResult } from "./scheduler-execution-entry-point";
 
 export type ProductionSchedulerExecutionConsumerInput = {
 
@@ -25,7 +25,7 @@ export type ProductionSchedulerExecutionConsumerResult =
 
       orchestration_authorized: false;
 
-      execution_authorized: false;
+      execution_authorized: authority.execution_authorized;
 
       new_authority_introduced: false;
 
@@ -49,7 +49,7 @@ export type ProductionSchedulerExecutionConsumerResult =
 
       orchestration_authorized: false;
 
-      execution_authorized: false;
+      execution_authorized: authority.execution_authorized;
 
       new_authority_introduced: false;
 
@@ -83,7 +83,7 @@ export function consumeSchedulerExecutionEntryPointForProduction(
 
       orchestration_authorized: false,
 
-      execution_authorized: false,
+      execution_authorized: authority.execution_authorized,
 
       new_authority_introduced: false,
 
@@ -113,7 +113,7 @@ export function consumeSchedulerExecutionEntryPointForProduction(
 
     orchestration_authorized: false,
 
-    execution_authorized: false,
+    execution_authorized: authority.execution_authorized,
 
     new_authority_introduced: false,
 

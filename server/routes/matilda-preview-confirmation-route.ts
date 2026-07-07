@@ -1,7 +1,7 @@
 
 import express from "express";
 
-import { createPreviewConfirmation } from "../../db/matilda-preview-confirmation-runtime.ts";
+import { createPreviewConfirmation } from "../../db/matilda-preview-confirmation-runtime.js";
 
 const router = express.Router();
 

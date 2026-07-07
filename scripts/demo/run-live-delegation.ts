@@ -1,11 +1,10 @@
 // <0001fae4> Phase 6.1 — Live Delegation Simulation (Schema-Aligned)
-import { sqlite } from "../../db/client";
 
 function insertReflection(content: string) {
   sqlite.prepare("INSERT INTO reflection_index (content) VALUES (?)").run(content);
 }
 function insertTask(description: string, type = "delegation") {
-  sqlite
+  db
     .prepare("INSERT INTO task_events (description, event_type, created_at) VALUES (?, ?, datetime('now'))")
     .run(description, type);
 }

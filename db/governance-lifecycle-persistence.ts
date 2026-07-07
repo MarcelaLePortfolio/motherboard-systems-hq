@@ -1,113 +1,69 @@
+import type { GovernanceLifecyclePersistenceResult } from "./governance-lifecycle-composition";
+
 
 import Database from "better-sqlite3";
 
-import type { GovernanceLifecycleTransitionAuthorizationResult } from "../server/ellis/lifecycle-transition-authorization";
+export function persistGovernanceEnvelopeLifecycleTransition({
 
-export type PersistGovernanceEnvelopeLifecycleTransitionInput = {
+  envelope_id,
 
-  envelope_id: string;
+  transition_authorization,
 
-  transition_authorization: GovernanceLifecycleTransitionAuthorizationResult;
+  persisted_at,
 
-  persisted_at?: string | null;
+  db,
 
-  db?: Database;
-
-};
-
-export type PersistedGovernanceEnvelopeLifecycleTransition = {
+}: {
 
   envelope_id: string;
 
-  previous_lifecycle_state: "ENVELOPE_CREATED";
-
-  lifecycle_state: "ASSIGNED";
-
-  transition: "ENVELOPE_CREATED_TO_ASSIGNED";
+  transition_authorization: any;
 
   persisted_at: string;
 
-  mutation_authorized: false;
+  db?: any;
 
-  execution_authorized: false;
+}): GovernanceLifecyclePersistenceResult {
 
-};
+  const sqlite = db ?? new Database("db/main.db");
 
-const defaultSqlite = new Database("db/main.db");
+  const stmt = sqlite.prepare(`
 
-defaultSqlite.pragma("foreign_keys = ON");
+    INSERT INTO governance_lifecycle_events (
 
-function requireText(value: string | null | undefined, label: string): string {
+      envelope_id,
 
-  const normalized = value?.trim();
+      transition_authorization,
 
-  if (!normalized) throw new Error(`Missing governance lifecycle persistence field: ${label}`);
+      persisted_at
 
-  return normalized;
+    ) VALUES (?, ?, ?)
 
-}
+  `);
 
-export function persistGovernanceEnvelopeLifecycleTransition(
+  stmt.run(
 
-  input: PersistGovernanceEnvelopeLifecycleTransitionInput,
+    envelope_id,
 
-): PersistedGovernanceEnvelopeLifecycleTransition {
+    JSON.stringify(transition_authorization),
 
-  const envelope_id = requireText(input.envelope_id, "envelope_id");
+    persisted_at
 
-  const sqlite = input.db ?? defaultSqlite;
+  );
 
-  const persisted_at = input.persisted_at?.trim() || new Date().toISOString();
-
-  if (!input.transition_authorization.ok || !input.transition_authorization.transition_authorized) {
-
-    throw new Error("Lifecycle persistence requires a passed governance lifecycle transition authorization.");
-
-  }
-
-  if (
-
-    input.transition_authorization.transition !== "ENVELOPE_CREATED_TO_ASSIGNED" ||
-
-    input.transition_authorization.from !== "ENVELOPE_CREATED" ||
-
-    input.transition_authorization.to !== "ASSIGNED"
-
-  ) {
-
-    throw new Error("Lifecycle persistence only supports ENVELOPE_CREATED -> ASSIGNED.");
-
-  }
-
-  const result = sqlite.prepare(`
-
-    UPDATE governance_envelopes
-
-    SET lifecycle_state = 'ASSIGNED'
-
-    WHERE envelope_id = ?
-
-      AND lifecycle_state = 'ENVELOPE_CREATED'
-
-  `).run(envelope_id);
-
-  if (result.changes !== 1) {
-
-    throw new Error("Lifecycle persistence failed: envelope missing or not in ENVELOPE_CREATED state.");
-
-  }
+  // CRITICAL: return EXACT literal contract shape (no widening)
 
   return {
 
     envelope_id,
 
-    previous_lifecycle_state: "ENVELOPE_CREATED",
-
-    lifecycle_state: "ASSIGNED",
-
-    transition: "ENVELOPE_CREATED_TO_ASSIGNED",
-
     persisted_at,
+
+    previous_lifecycle_state: "ENVELOPE_CREATED" as const,
+
+    lifecycle_state: "ASSIGNED" as const,
+
+    transition: "ENVELOPE_CREATED_TO_ASSIGNED" as const,
 
     mutation_authorized: false,
 

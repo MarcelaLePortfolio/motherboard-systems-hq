@@ -3,9 +3,9 @@ import test from "node:test";
 
 import assert from "node:assert/strict";
 
-import { consumeSchedulerRuntimeFinalizationEntryPointForProduction } from "./production-scheduler-runtime-finalization-consumer.ts";
+import { consumeSchedulerRuntimeFinalizationEntryPointForProduction } from "./production-scheduler-runtime-finalization-consumer";
 
-import type { SchedulerRuntimeFinalizationEntryPointResult } from "./scheduler-runtime-finalization-entry-point.ts";
+import type { SchedulerRuntimeFinalizationEntryPointResult } from "./scheduler-runtime-finalization-entry-point";
 
 const readyFinalizationEntryPoint: SchedulerRuntimeFinalizationEntryPointResult = {
 
@@ -63,27 +63,27 @@ test("production scheduler runtime finalization consumer fails closed when final
 
     scheduler_runtime_finalization_entry_point: {
 
-      ok: false,
+            ok: false,
 
-      entry_point: "scheduler_runtime_finalization_entry_point",
+            entry_point: "scheduler_runtime_finalization_entry_point",
 
-      scheduler_runtime_finalization_request_ready: false,
+            scheduler_runtime_finalization_request_ready: false,
 
-      scheduler_authorized: false,
+            scheduler_authorized: false,
 
-      routing_authorized: false,
+            routing_authorized: false,
 
-      worker_claim_authorized: false,
+            worker_claim_authorized: false,
 
-      orchestration_authorized: false,
+            orchestration_authorized: false,
 
-      execution_authorized: false,
+            execution_authorized: false,
 
-      new_authority_introduced: false,
+            new_authority_introduced: false,
 
-      findings: ["test scheduler runtime finalization entry point failure"],
+            findings: ["test scheduler runtime finalization entry point failure"],
 
-    },
+          },
 
   });
 

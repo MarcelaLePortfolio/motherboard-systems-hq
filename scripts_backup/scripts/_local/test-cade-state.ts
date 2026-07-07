@@ -4,7 +4,7 @@ import path from "path";
 import { fileURLToPath } from "url";
 import lockfile from "proper-lockfile";
 
-const statePath = path.resolve(process.cwd(), "memory", "agent_chain_state.json");
+const statePath = path.resolve(process.cwd(), "memory", "agent_chain_stateon");
 
 function log(msg: string) {
   console.log(`[CADE-STATE-TEST] ${msg}`);

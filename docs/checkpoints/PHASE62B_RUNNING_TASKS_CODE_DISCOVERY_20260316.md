@@ -227,7 +227,7 @@ CANDIDATE FILES — task events / telemetry / SSE / reducer / dashboard tiles
 ./PHASE42_0.md:19:- No dashboard feature creep
 ./PHASE11_AFTER_STUBS_NEXT_STEP.md:62:- Task Delegation UI validation in container dashboard
 ./PHASE11_DB_TASK_ENDPOINTS_DEBUG.md:5:- Docker Compose stack is running: dashboard + postgres.
-./PHASE11_DB_TASK_ENDPOINTS_DEBUG.md:14:  - scripts/db/create-dashboard-db.sh
+./PHASE11_DB_TASK_ENDPOINTS_DEBUG.md:14:  - scripts/db/create-dashboard-sqlite.sh
 ./PHASE11_DB_TASK_ENDPOINTS_DEBUG.md:15:    - Ensures database "dashboard_db" exists (OWNER postgres).
 ./PHASE11_DB_TASK_ENDPOINTS_DEBUG.md:20:- Successfully created database "dashboard_db".
 ./PHASE11_DB_TASK_ENDPOINTS_DEBUG.md:25:    - "database \"dashboard_db\" does not exist"
@@ -932,12 +932,12 @@ CANDIDATE FILES — task events / telemetry / SSE / reducer / dashboard tiles
 ./PHASE11_DB_ENDPOINTS_STATUS.md:7:Branch: feature/v11-dashboard-bundle
 ./PHASE11_DB_ENDPOINTS_STATUS.md:9:Stack: docker-compose (dashboard + postgres)
 ./PHASE11_DB_ENDPOINTS_STATUS.md:36:dashboard_db (successfully created by helper)
-./PHASE11_DB_ENDPOINTS_STATUS.md:44:scripts/db/create-dashboard-db.sh
+./PHASE11_DB_ENDPOINTS_STATUS.md:44:scripts/db/create-dashboard-sqlite.sh
 ./PHASE11_DB_ENDPOINTS_STATUS.md:46:Ensures dashboard_db exists, owned by postgres.
 ./PHASE11_DB_ENDPOINTS_STATUS.md:52:Recent docker-compose logs --tail=200 dashboard shows:
 ./PHASE11_DB_ENDPOINTS_STATUS.md:64:This indicates the Node pg.Pool is trying to connect as postgres without matching password configuration and without a DATABASE_URL override in the dashboard container environment.
 ./PHASE11_DB_ENDPOINTS_STATUS.md:68:error: database "dashboard_db" does not exist
-./PHASE11_DB_ENDPOINTS_STATUS.md:70:This happened prior to creating dashboard_db. After helper run and container restart, this should be resolved but the logs still contain historical entries.
+./PHASE11_DB_ENDPOINTS_STATUS.md:70:This happened prior to creating dashboard_sqlite. After helper run and container restart, this should be resolved but the logs still contain historical entries.
 ./PHASE11_DB_ENDPOINTS_STATUS.md:86:These still power the dashboard behavior and are not using Postgres. Phase 11 visual + stub behavior remains stable.
 ./PHASE11_DB_ENDPOINTS_STATUS.md:98:Missing DB dashboard_db (now addressed), and
 ./PHASE11_DB_ENDPOINTS_STATUS.md:104:Core Phase 11 dashboard + stubbed endpoints remain healthy.
@@ -946,8 +946,8 @@ CANDIDATE FILES — task events / telemetry / SSE / reducer / dashboard tiles
 ./PHASE11_DB_ENDPOINTS_STATUS.md:136:Which database it targets (dashboard_db vs motherboarddb),
 ./PHASE11_DB_ENDPOINTS_STATUS.md:140:Normalize DB credentials for the dashboard container:
 ./PHASE11_DB_ENDPOINTS_STATUS.md:146:Adjust server.mjs to use user/password@postgres:5432/dashboard_db (or a clearly chosen DB).
-./PHASE11_DB_ENDPOINTS_STATUS.md:158:A SQL bootstrap file (e.g., scripts/db/bootstrap-dashboard-db.sql) and
-./PHASE11_DB_ENDPOINTS_STATUS.md:160:A small helper script that runs psql against dashboard_db.
+./PHASE11_DB_ENDPOINTS_STATUS.md:158:A SQL bootstrap file (e.g., scripts/db/bootstrap-dashboard-sqlite.sql) and
+./PHASE11_DB_ENDPOINTS_STATUS.md:160:A small helper script that runs psql against dashboard_sqlite.
 ./PHASE11_BUNDLING_STEP3_IMPLEMENTATION_PLAN.md:9:Wires public/js/dashboard-bundle-entry.js as the main entrypoint
 ./PHASE11_BUNDLING_STEP3_IMPLEMENTATION_PLAN.md:11:Imports and initializes all required dashboard modules
 ./PHASE11_BUNDLING_STEP3_IMPLEMENTATION_PLAN.md:13:Avoids double-listeners (SSE + chat + delegation)
@@ -4915,7 +4915,7 @@ CANDIDATE FILES — task events / telemetry / SSE / reducer / dashboard tiles
 ./scripts/phase22_wire_task_events_ui.sh:276:  echo "WARN: public/dashboard.html not found; skipping HTML injection."
 ./scripts/phase22_wire_task_events_ui.sh:279:  "public/js/dashboard-bundle-entry.js"
 ./scripts/phase22_wire_task_events_ui.sh:280:  "public/js/dashboard-bundle-entry.mjs"
-./scripts/phase22_wire_task_events_ui.sh:281:  "public/js/dashboard-bundle-entry.ts"
+./scripts/phase22_wire_task_events_ui.sh:281:  "public/js/dashboard-bundle-entry.js"
 ./scripts/phase22_wire_task_events_ui.sh:282:  "public/js/dashboard-bundle-entry.tsx"
 ./scripts/phase22_wire_task_events_ui.sh:283:  "public/js/dashboard-bundle-entry.jsx"
 ./scripts/phase22_wire_task_events_ui.sh:284:  "public/js/dashboard-bundle-entry.mts"
@@ -5047,11 +5047,11 @@ CANDIDATE FILES — task events / telemetry / SSE / reducer / dashboard tiles
 ./scripts_backup/scripts/demo/reflection-pacer.js:2:// Ensures dashboard reflections appear smoothly, one per second.
 ./scripts_backup/scripts/demo/reflection-pacer.js:8:const evtSource = new EventSource("http://localhost:3101/events/reflections");
 ./ts-backup/reset-roundtrip.ts:27:    console.log("⚙️ Reset complete. Ready for dashboard auto-refresh.");
-./scripts/db/create-dashboard-db.sh:4:echo "🗄️ Ensuring 'dashboard_db' database exists in docker postgres container..."
-./scripts/db/create-dashboard-db.sh:14:  EXISTS=$(psql -U "$POSTGRES_USER" -d "$POSTGRES_DB" -tAc "SELECT 1 FROM pg_database WHERE datname = '\''dashboard_db'\''")
-./scripts/db/create-dashboard-db.sh:17:    echo "🆕 Creating database dashboard_db owned by postgres..."
-./scripts/db/create-dashboard-db.sh:18:    psql -U "$POSTGRES_USER" -d "$POSTGRES_DB" -c "CREATE DATABASE dashboard_db OWNER postgres;"
-./scripts/db/create-dashboard-db.sh:20:    echo "✅ Database dashboard_db already exists."
+./scripts/db/create-dashboard-sqlite.sh:4:echo "🗄️ Ensuring 'dashboard_db' database exists in docker postgres container..."
+./scripts/db/create-dashboard-sqlite.sh:14:  EXISTS=$(psql -U "$POSTGRES_USER" -d "$POSTGRES_DB" -tAc "SELECT 1 FROM pg_database WHERE datname = '\''dashboard_db'\''")
+./scripts/db/create-dashboard-sqlite.sh:17:    echo "🆕 Creating database dashboard_db owned by postgres..."
+./scripts/db/create-dashboard-sqlite.sh:18:    psql -U "$POSTGRES_USER" -d "$POSTGRES_DB" -c "CREATE DATABASE dashboard_db OWNER postgres;"
+./scripts/db/create-dashboard-sqlite.sh:20:    echo "✅ Database dashboard_db already exists."
 ./scripts_backup/scripts/demo/run-create-atlas.ts:22:  console.log("Use dashboard to verify task appearance in Recent Tasks panel.");
 ./scripts/db/inspect-dashboard-db-env.sh:4:echo "🔎 Inspecting dashboard container DB env + connectivity..."
 ./scripts/db/inspect-dashboard-db-env.sh:7:docker-compose exec dashboard sh -c '
@@ -6792,7 +6792,7 @@ LIKELY TELEMETRY SURFACES
 ./scripts/dashboard-chat.js
 ./scripts/dashboard-ops.js
 ./scripts/dashboard-reflections.js
-./scripts/db/create-dashboard-db.sh
+./scripts/db/create-dashboard-sqlite.sh
 ./scripts/db/inspect-dashboard-db-env.sh
 ./scripts/debug-dashboard-container.sh
 ./scripts/demo/verify-dashboard-sync.ts

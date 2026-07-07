@@ -56,7 +56,7 @@ function writeTemplateSet(stagingDir: string, name: string, kind: string) {
   const header = `# ${name}\nThis ${kind} was scaffolded live by Atlas.\n`;
   const base = {
     [path.join(stagingDir, "README.md")]: header,
-    [path.join(stagingDir, `${kind}.config.json`)]: JSON.stringify({
+    [path.join(stagingDir, `${kind}.configon`)]: JSON.stringify({
       name, kind, version: "0.1.0", created_at: new Date().toISOString()
     }, null, 2)
   };
@@ -95,7 +95,7 @@ function registerEntity(name: string, kind: string) {
   try {
     const Database = DatabaseModule;
     const db = new Database(path.join(process.cwd(), "db", "main.db"));
-    db.prepare(`
+    sqlite.prepare(`
       CREATE TABLE IF NOT EXISTS entities_status (
         id INTEGER PRIMARY KEY,
         name TEXT UNIQUE,
@@ -103,12 +103,12 @@ function registerEntity(name: string, kind: string) {
         status TEXT,
         created_at TEXT DEFAULT CURRENT_TIMESTAMP
       )`).run();
-    db.prepare(`
+    sqlite.prepare(`
       INSERT INTO entities_status (name, kind, status)
       VALUES (@name, @kind, @status)
       ON CONFLICT(name) DO UPDATE SET status=excluded.status
     `).run({ name, kind, status: "online" });
-    db.prepare(`
+    sqlite.prepare(`
       CREATE TABLE IF NOT EXISTS agents_status (
         id INTEGER PRIMARY KEY,
         name TEXT UNIQUE,
@@ -116,7 +116,7 @@ function registerEntity(name: string, kind: string) {
         pid INTEGER,
         created_at TEXT DEFAULT CURRENT_TIMESTAMP
       )`).run();
-    db.prepare(`
+    sqlite.prepare(`
       INSERT INTO agents_status (name, status)
       VALUES (@name, @status)
       ON CONFLICT(name) DO UPDATE SET status=excluded.status
@@ -131,8 +131,8 @@ export async function createEntity(opts: CreateOptions) {
   const kind = opts.kind || "project";
   const paceMs = opts.paceMs ?? 1000;
   const targetDir = opts.targetDir ?? path.join("projects", name);
-  const reflectionsPath = opts.reflectionsPath ?? path.join("public", "tmp", "reflections.json");
-  const statusPath = opts.statusPath ?? path.join("public", "tmp", `${name.toLowerCase()}-status.json`);
+  const reflectionsPath = opts.reflectionsPath ?? path.join("public", "tmp", "reflectionson");
+  const statusPath = opts.statusPath ?? path.join("public", "tmp", `${name.toLowerCase()}-statuson`);
 
   ensureDir(path.dirname(reflectionsPath));
   ensureDir(path.dirname(statusPath));

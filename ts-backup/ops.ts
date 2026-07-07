@@ -19,7 +19,7 @@ function processOps(){
 }
 
 function emitOpsSSE(){
-  const ssePath = path.join(process.cwd(), "public/tmp/ops.json");
+  const ssePath = path.join(process.cwd(), "public/tmp/opson");
   const status = { timestamp: new Date().toISOString(), activeTasks: Math.floor(Math.random()*5) };
   fs.writeFileSync(ssePath, JSON.stringify(status, null, 2), "utf8");
 }

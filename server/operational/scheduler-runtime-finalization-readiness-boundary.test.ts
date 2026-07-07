@@ -3,9 +3,9 @@ import test from "node:test";
 
 import assert from "node:assert/strict";
 
-import { evaluateSchedulerRuntimeFinalizationReadinessBoundary } from "./scheduler-runtime-finalization-readiness-boundary.ts";
+import { evaluateSchedulerRuntimeFinalizationReadinessBoundary } from "./scheduler-runtime-finalization-readiness-boundary";
 
-import type { ProductionSchedulerRuntimeFinalizationContractConsumerResult } from "./production-scheduler-runtime-finalization-contract-consumer.ts";
+import type { ProductionSchedulerRuntimeFinalizationContractConsumerResult } from "./production-scheduler-runtime-finalization-contract-consumer";
 
 const consumedFinalizationContract: ProductionSchedulerRuntimeFinalizationContractConsumerResult = {
 
@@ -65,27 +65,27 @@ test("scheduler runtime finalization readiness boundary fails closed when finali
 
     production_scheduler_runtime_finalization_contract_consumer: {
 
-      ok: false,
+            ok: false,
 
-      consumer: "production_scheduler_runtime_finalization_contract_consumer",
+            consumer: "production_scheduler_runtime_finalization_contract_consumer",
 
-      scheduler_runtime_finalization_contract_consumed: false,
+            scheduler_runtime_finalization_contract_consumed: false,
 
-      scheduler_authorized: false,
+            scheduler_authorized: false,
 
-      routing_authorized: false,
+            routing_authorized: false,
 
-      worker_claim_authorized: false,
+            worker_claim_authorized: false,
 
-      orchestration_authorized: false,
+            orchestration_authorized: false,
 
-      execution_authorized: false,
+            execution_authorized: false,
 
-      new_authority_introduced: false,
+            new_authority_introduced: false,
 
-      findings: ["test scheduler runtime finalization contract consumer failure"],
+            findings: ["test scheduler runtime finalization contract consumer failure"],
 
-    },
+          },
 
   });
 

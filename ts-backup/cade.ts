@@ -1,6 +1,5 @@
 import express from "express";
-import { db } from "../db/client.js";
-import { task_events } from "../db/audit.js";
+import { task_events } from "../db/audit";
 import { desc } from "drizzle-orm";
 
 export const cadeRouter = express.Router();
@@ -15,9 +14,9 @@ cadeRouter.get("/recent", async (_req, res) => {
       .orderBy(desc(task_events.created_at))
       .limit(10)
       .all();
-    res.json(rows);
+    reson(rows);
   } catch (err) {
     console.error("❌ Error fetching Cade events:", err);
-    res.status(500).json({ error: "Failed to fetch Cade events" });
+    res.status(500)on({ error: "Failed to fetch Cade events" });
   }
 });

@@ -3,9 +3,9 @@ import test from "node:test";
 
 import assert from "node:assert/strict";
 
-import { consumeOperationalIntakeForProduction } from "./production-operational-consumer.ts";
+import { consumeOperationalIntakeForProduction } from "./production-operational-consumer";
 
-import type { OperationalIntakeRecord } from "../../db/operational-intake-runtime.ts";
+import type { OperationalIntakeRecord } from "../../db/operational-intake-runtime.js";
 
 const recordedOperationalIntake: OperationalIntakeRecord = {
 

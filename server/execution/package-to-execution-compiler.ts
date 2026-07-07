@@ -1,5 +1,5 @@
 
-import type { ExecutionTask } from "../orchestrator/phase18_store.mjs";
+import type { ExecutionTask } from "../orchestrator/phase18_store.mjs.js";
 
 export type CanonicalPackage = {
 

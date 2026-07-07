@@ -7,7 +7,7 @@ import {
 
   listInterpretationEvidenceLedgerEntries,
 
-} from "../../db/matilda-interpretation-runtime.ts";
+} from "../../db/matilda-interpretation-runtime.js";
 
 export function createMatildaInterpretationLedgerRouter(): express.Router {
 

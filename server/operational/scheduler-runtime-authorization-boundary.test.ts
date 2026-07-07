@@ -3,9 +3,9 @@ import test from "node:test";
 
 import assert from "node:assert/strict";
 
-import { authorizeSchedulerRuntimeTransition } from "./scheduler-runtime-authorization-boundary.ts";
+import { authorizeSchedulerRuntimeTransition } from "./scheduler-runtime-authorization-boundary";
 
-import type { ProductionSchedulerRuntimeConsumerResult } from "./production-scheduler-runtime-consumer.ts";
+import type { ProductionSchedulerRuntimeConsumerResult } from "./production-scheduler-runtime-consumer";
 
 const consumedRuntimeRequest: ProductionSchedulerRuntimeConsumerResult = {
 
@@ -63,27 +63,27 @@ test("scheduler runtime authorization boundary fails closed when runtime request
 
     production_scheduler_runtime_consumer: {
 
-      ok: false,
+            ok: false,
 
-      consumer: "production_scheduler_runtime_consumer",
+            consumer: "production_scheduler_runtime_consumer",
 
-      scheduler_runtime_consumed: false,
+            scheduler_runtime_consumed: false,
 
-      scheduler_authorized: false,
+            scheduler_authorized: false,
 
-      routing_authorized: false,
+            routing_authorized: false,
 
-      worker_claim_authorized: false,
+            worker_claim_authorized: false,
 
-      orchestration_authorized: false,
+            orchestration_authorized: false,
 
-      execution_authorized: false,
+            execution_authorized: false,
 
-      new_authority_introduced: false,
+            new_authority_introduced: false,
 
-      findings: ["test scheduler runtime consumer failure"],
+            findings: ["test scheduler runtime consumer failure"],
 
-    },
+          },
 
   });
 

@@ -3,7 +3,7 @@ import fs from "fs";
 import path from "path";
 import lockfile from "proper-lockfile";
 
-const statePath = path.resolve(process.cwd(), "memory", "agent_chain_state.json");
+const statePath = path.resolve(process.cwd(), "memory", "agent_chain_stateon");
 
 export async function readChainState(): Promise<any | null> {
   try {

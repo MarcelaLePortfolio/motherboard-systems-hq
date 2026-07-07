@@ -1,7 +1,6 @@
 // <0001faef> Phase 9.2b — OPS SSE Server Rebuild
 import express from "express";
 import cors from "cors";
-import { sqlite } from "../../db/client";
 
 const app = express();
 app.use(cors());
@@ -15,7 +14,7 @@ app.get("/events/ops", (req, res) => {
   res.write(`data: {"status":"connected"}\n\n`);
 
   const sendUpdate = () => {
-    const rows = sqlite
+    const rows = db
       .prepare("SELECT id, status, agent, created_at FROM task_events ORDER BY created_at DESC LIMIT 10")
       .all();
     res.write(`data: ${JSON.stringify(rows)}\n\n`);

@@ -67,7 +67,7 @@ async function getAgentStatus() {
 }
 
 createServer(async (req, res) => {
-  if (req.url === "/agent-status.json") {
+  if (req.url === "/agent-statuson") {
     const status = await getAgentStatus();
     res.writeHead(200, { "Content-Type": "application/json" });
     res.end(JSON.stringify(status));

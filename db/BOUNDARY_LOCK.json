@@ -1,0 +1,5 @@
+{
+  "db": "db/client.ts",
+  "lifecycle": "db/governance-lifecycle-composition.ts",
+  "rule": "ONLY these modules define system truth boundaries"
+}

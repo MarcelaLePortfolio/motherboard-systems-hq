@@ -1,6 +1,6 @@
 // <0001fb08> Phase 9.9i — Matilda Fully Decoupled Chat & Delegation
-import { ollamaPlan } from "../../scripts/utils/ollamaPlan.ts";
-import { chatWithOllama } from "./utils/matilda_chat.ts";
+import { ollamaPlan } from "../../scripts/utils/ollamaPlan.js";
+import { chatWithOllama } from "./utils/matilda_chat.js";
 
 export const matilda = {
   name: "Matilda",

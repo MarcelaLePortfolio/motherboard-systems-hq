@@ -1,8 +1,10 @@
-// <0001faf2> Phase 6.4 — Reset Endpoint
 import express from "express";
-import { resetRoundtrip } from "../scripts/reset-roundtrip";
-
 const router = express.Router();
+
+
+// <0001faf2> Phase 6.4 — Reset Endpoint
+import { resetRoundtrip } from "../scripts/reset-roundtrip.js";
+
 
 router.post("/", async (_req, res) => {
   try {
@@ -14,4 +16,3 @@ router.post("/", async (_req, res) => {
   }
 });
 
-export default router;

@@ -1,7 +1,7 @@
 
 import express from "express";
 
-import { validateGovernance } from "../../db/matilda-governance-validation-runtime.ts";
+import { validateGovernance } from "../../db/matilda-governance-validation-runtime.js";
 
 const router = express.Router();
 

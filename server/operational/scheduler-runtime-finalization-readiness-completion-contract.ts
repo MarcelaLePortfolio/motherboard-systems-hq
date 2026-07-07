@@ -1,5 +1,5 @@
 
-import type { SchedulerRuntimeFinalizationReadinessCompletionAuthorizationBoundaryResult } from "./scheduler-runtime-finalization-readiness-completion-authorization-boundary.ts";
+import type { SchedulerRuntimeFinalizationReadinessCompletionAuthorizationBoundaryResult } from "./scheduler-runtime-finalization-readiness-completion-authorization-boundary";
 
 export type SchedulerRuntimeFinalizationReadinessCompletionContractInput = {
 

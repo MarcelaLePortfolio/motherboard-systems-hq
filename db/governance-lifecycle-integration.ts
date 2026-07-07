@@ -49,7 +49,7 @@ export function completeGovernanceLifecycleAssignmentTransition(
 
     department_handshake: input.department_handshake,
 
-    target_lifecycle_state: input.target_lifecycle_state,
+    target_lifecycle_state: "ASSIGNED",
 
     persisted_at: input.persisted_at,
 
@@ -70,4 +70,5 @@ export function completeGovernanceLifecycleAssignmentTransition(
   });
 
 }
+
 

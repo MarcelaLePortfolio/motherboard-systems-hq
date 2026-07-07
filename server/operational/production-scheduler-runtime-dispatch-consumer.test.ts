@@ -3,9 +3,9 @@ import test from "node:test";
 
 import assert from "node:assert/strict";
 
-import { consumeSchedulerRuntimeDispatchEntryPointForProduction } from "./production-scheduler-runtime-dispatch-consumer.ts";
+import { consumeSchedulerRuntimeDispatchEntryPointForProduction } from "./production-scheduler-runtime-dispatch-consumer";
 
-import type { SchedulerRuntimeDispatchEntryPointResult } from "./scheduler-runtime-dispatch-entry-point.ts";
+import type { SchedulerRuntimeDispatchEntryPointResult } from "./scheduler-runtime-dispatch-entry-point";
 
 const readyDispatchEntryPoint: SchedulerRuntimeDispatchEntryPointResult = {
 
@@ -63,27 +63,27 @@ test("production scheduler runtime dispatch consumer fails closed when dispatch 
 
     scheduler_runtime_dispatch_entry_point: {
 
-      ok: false,
+            ok: false,
 
-      entry_point: "scheduler_runtime_dispatch_entry_point",
+            entry_point: "scheduler_runtime_dispatch_entry_point",
 
-      scheduler_runtime_dispatch_request_ready: false,
+            scheduler_runtime_dispatch_request_ready: false,
 
-      scheduler_authorized: false,
+            scheduler_authorized: false,
 
-      routing_authorized: false,
+            routing_authorized: false,
 
-      worker_claim_authorized: false,
+            worker_claim_authorized: false,
 
-      orchestration_authorized: false,
+            orchestration_authorized: false,
 
-      execution_authorized: false,
+            execution_authorized: false,
 
-      new_authority_introduced: false,
+            new_authority_introduced: false,
 
-      findings: ["test scheduler runtime dispatch entry point failure"],
+            findings: ["test scheduler runtime dispatch entry point failure"],
 
-    },
+          },
 
   });
 

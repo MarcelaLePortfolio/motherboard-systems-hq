@@ -1,7 +1,7 @@
 
 import express from "express";
 
-import { createDelegation } from "../../db/matilda-delegation-runtime.ts";
+import { createDelegation } from "../../db/matilda-delegation-runtime.js";
 
 const router = express.Router();
 

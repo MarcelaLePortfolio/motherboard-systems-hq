@@ -11,13 +11,13 @@ import {
 
   type ProductionLifecycleConsumerResult,
 
-} from "../lifecycle/production-lifecycle-consumer.ts";
+} from "../lifecycle/production-lifecycle-consumer.js";
 
 import type {
 
   GovernanceLifecyclePersistenceFunction,
 
-} from "../../db/governance-lifecycle-composition.ts";
+} from "../../db/governance-lifecycle-composition.js";
 
 export type GovernanceLifecycleRouteBody = {
 

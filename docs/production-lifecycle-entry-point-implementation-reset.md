@@ -1,3 +1,4 @@
+import Database from "better-sqlite3";
 
 # Production Lifecycle Entry Point Implementation Reset
 

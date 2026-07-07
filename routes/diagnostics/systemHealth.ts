@@ -1,9 +1,11 @@
-
 import express from "express";
+const router = express.Router();
+
+
+
 
 import { buildSystemHealthSituationSummaryPayload } from "./systemHealthSituationSummary";
 
-const router = express.Router();
 
 export function buildSystemHealthSnapshot() {
 
@@ -77,5 +79,4 @@ router.get("/", (_req, res) => {
 
 });
 
-export default router;
 

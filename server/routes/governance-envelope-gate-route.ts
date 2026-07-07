@@ -9,13 +9,13 @@ import {
 
   type ProductionEnvelopeGateConsumerResult,
 
-} from "../gate/production-envelope-gate-consumer.ts";
+} from "../gate/production-envelope-gate-consumer.js";
 
 import type {
 
   GovernanceEnvelopeGatePersistenceFunction,
 
-} from "../gate/production-envelope-gate-entry-point.ts";
+} from "../gate/production-envelope-gate-entry-point.js";
 
 export type GovernanceEnvelopeGateRouteBody = {
 

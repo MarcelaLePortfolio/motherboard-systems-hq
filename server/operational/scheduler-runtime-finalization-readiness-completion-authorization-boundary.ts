@@ -1,5 +1,5 @@
 
-import type { ProductionSchedulerRuntimeFinalizationReadinessCompletionConsumerResult } from "./production-scheduler-runtime-finalization-readiness-completion-consumer.ts";
+import type { ProductionSchedulerRuntimeFinalizationReadinessCompletionConsumerResult } from "./production-scheduler-runtime-finalization-readiness-completion-consumer";
 
 export type SchedulerRuntimeFinalizationReadinessCompletionAuthorizationBoundaryInput = {
 

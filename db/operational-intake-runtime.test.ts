@@ -5,15 +5,15 @@ import { describe, it } from "node:test";
 
 import Database from "better-sqlite3";
 
-import { createOperationalIntakeRecord } from "./operational-intake-runtime.ts";
+import { createOperationalIntakeRecord } from "./operational-intake-runtime";
 
 function createTestDb() {
 
   const db = new Database(":memory:");
 
-  db.pragma("foreign_keys = ON");
+  sqlite.pragma("foreign_keys = ON");
 
-  db.exec(`
+  sqlite.exec(`
 
     CREATE TABLE governance_packages (
 
@@ -249,9 +249,9 @@ function createTestDb() {
 
 }
 
-function seedGovernanceLineage(db: Database, lifecycleState = "ASSIGNED") {
+function seedGovernanceLineage(db: any, lifecycleState = "ASSIGNED") {
 
-  db.exec(`
+  sqlite.exec(`
 
     INSERT INTO governance_packages (
 
@@ -399,7 +399,7 @@ function seedGovernanceLineage(db: Database, lifecycleState = "ASSIGNED") {
 
   `);
 
-  db.prepare(`
+  sqlite.prepare(`
 
     INSERT INTO governance_envelopes (
 
@@ -557,7 +557,7 @@ describe("createOperationalIntakeRecord", () => {
 
     assert.equal(
 
-      db.prepare("SELECT COUNT(*) AS count FROM operational_intake_records").get().count,
+      sqlite.prepare("SELECT COUNT(*) AS count FROM operational_intake_records").get().count,
 
       1,
 

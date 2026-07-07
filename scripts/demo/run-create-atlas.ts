@@ -1,7 +1,6 @@
 // <0001faf6> Phase 9.2 — Atlas fallback task creation utility
 // Allows manual or automated creation of Atlas demo tasks for validation
 
-import { sqlite } from "../../db/client";
 import { randomUUID } from "crypto";
 
 console.log("🌍 Creating Atlas fallback task...");
@@ -12,7 +11,7 @@ try {
   const status = "queued";
   const payload = JSON.stringify({ origin: "manual-fallback", timestamp: new Date().toISOString() });
 
-  sqlite
+  db
     .prepare(
       "INSERT INTO task_events (id, type, status, agent, payload, created_at) VALUES (?, ?, ?, ?, ?, datetime('now'))"
     )

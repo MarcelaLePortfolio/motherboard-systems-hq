@@ -3,4 +3,4 @@ services:
     volumes:
       - ./server/sql:/migrations/server_sql:ro
       - ./drizzle_pg:/migrations/drizzle_pg:ro
-      - ./server/sql/phase54_bootstrap.sql:/docker-entrypoint-initdb.d/00_phase54_bootstrap.sql:ro
+      - ./server/sql/phase54_bootstrap.sql:/docker-entrypoint-initsqlite.d/00_phase54_bootstrap.sql:ro

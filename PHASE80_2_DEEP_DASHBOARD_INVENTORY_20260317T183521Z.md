@@ -1,3 +1,4 @@
+import Database from "better-sqlite3";
 # Phase 80.2 — Deep Dashboard Inventory
 
 Generated: 20260317T183521Z
@@ -356,7 +357,7 @@ dashboard/src/telemetry/queueLatency.ts
 ./dist/routes/cade.js:7:cadeRouter.get("/recent", async (_req, res) => {
 ./snapshots/20251114-114821/scripts/agents/effie.ts:6:export async function effieCommandRouter(command: string, args?: Record<string, any>) {
 ./snapshots/20251114-114821/scripts/agents/effie.ts:48:  handler: effieCommandRouter
-./snapshots/20251114-114821/scripts/cli/matilda.ts:2:import { ask } from "../agents/matilda/askRouter.ts";
+./snapshots/20251114-114821/scripts/cli/matilda.ts:2:import { ask } from "../agents/matilda/askRouter.js";
 ./snapshots/20251114-114821/scripts/agents_full/effie.ts:6:export async function effieCommandRouter(command: string, args?: Record<string, any>) {
 ./snapshots/20251114-114821/scripts/agents_full/effie.ts:48:  handler: effieCommandRouter
 ./snapshots/20251114-114821/scripts/agents_full/cade.ts:29:export async function cadeCommandRouter(command: string, args?: any): Promise<any> {
@@ -411,7 +412,7 @@ dashboard/src/telemetry/queueLatency.ts
 ./snapshots/20251114-114821/routes/matilda.ts:3:export const router = express.Router();
 ./snapshots/20251114-114707/scripts/agents/effie.ts:6:export async function effieCommandRouter(command: string, args?: Record<string, any>) {
 ./snapshots/20251114-114707/scripts/agents/effie.ts:48:  handler: effieCommandRouter
-./snapshots/20251114-114707/scripts/cli/matilda.ts:2:import { ask } from "../agents/matilda/askRouter.ts";
+./snapshots/20251114-114707/scripts/cli/matilda.ts:2:import { ask } from "../agents/matilda/askRouter.js";
 ./snapshots/20251114-114707/scripts/agents_full/effie.ts:6:export async function effieCommandRouter(command: string, args?: Record<string, any>) {
 ./snapshots/20251114-114707/scripts/agents_full/effie.ts:48:  handler: effieCommandRouter
 ./snapshots/20251114-114707/scripts/agents_full/cade.ts:29:export async function cadeCommandRouter(command: string, args?: any): Promise<any> {

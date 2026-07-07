@@ -12,6 +12,6 @@ const task = {
   timeoutMs: 3000,
 };
 
-const QUEUE_PATH = path.resolve(`memory/queue/${taskId}.json`);
+const QUEUE_PATH = path.resolve(`memory/queue/${taskId}on`);
 fs.writeFileSync(QUEUE_PATH, JSON.stringify(task, null, 2));
 console.log(`📬 Submitted task for ${agent}:`, QUEUE_PATH);

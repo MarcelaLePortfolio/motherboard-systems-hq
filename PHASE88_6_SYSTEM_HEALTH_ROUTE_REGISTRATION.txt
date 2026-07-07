@@ -114,15 +114,15 @@ SECTION: IMPORT / REFERENCE HITS
 ./ts-backup/systemHealth.ts:2:export const systemHealth = express.Router();
 ./ts-backup/systemHealth.ts:4:systemHealth.get("/", (_req, res) => {
 ./scripts/phase88_5_capture_system_health_route_payload.ts:1:import router from "../routes/diagnostics/systemHealth";
-./scripts/phase88_3_find_authoritative_system_health_route.sh:7:  "routes/diagnostics/systemHealth.ts"
+./scripts/phase88_3_find_authoritative_system_health_route.sh:7:  "routes/diagnostics/systemHealth.js"
 ./scripts/phase88_3_find_authoritative_system_health_route.sh:8:  "routes/diagnostics/systemHealth.js"
-./scripts/phase88_3_find_authoritative_system_health_route.sh:9:  "routes/routes/diagnostics/systemHealth.ts"
+./scripts/phase88_3_find_authoritative_system_health_route.sh:9:  "routes/routes/diagnostics/systemHealth.js"
 ./scripts/phase88_3_find_authoritative_system_health_route.sh:10:  "routes/routes/diagnostics/systemHealth.js"
-./scripts/phase88_3_find_authoritative_system_health_route.sh:11:  "routes_backup/diagnostics/systemHealth.ts"
+./scripts/phase88_3_find_authoritative_system_health_route.sh:11:  "routes_backup/diagnostics/systemHealth.js"
 ./scripts/phase88_3_find_authoritative_system_health_route.sh:12:  "routes_backup/diagnostics/systemHealth.js"
 ./scripts/phase88_1_run_system_health_attachment_smoke.sh:13:  npx tsx routes/diagnostics/systemHealthSituationSummary.smoke.ts
 ./scripts/phase88_4_run_system_health_route_smoke.sh:13:  npx tsx routes/diagnostics/systemHealth.route.smoke.ts
-./scripts/phase88_2_inspect_system_health_route.sh:5:TARGET="routes/diagnostics/systemHealth.ts"
+./scripts/phase88_2_inspect_system_health_route.sh:5:TARGET="routes/diagnostics/systemHealth.js"
 ./scripts/phase88_2_inspect_system_health_route.sh:33:  sed -n '1,220p' routes/diagnostics/systemHealthSituationSummary.ts
 ./scripts/phase88_2_inspect_system_health_route.sh:37:  echo "Use this inspection to patch routes/diagnostics/systemHealth.ts with the narrowest possible read-only situationSummary attachment."
 ./scripts/phase88_6_find_system_health_route_registration.sh:22:      'systemHealth|diagnostics/systemHealth' .
@@ -298,15 +298,15 @@ routes/api/logs.ts:4:const router = express.Router();
 ./PHASE88_6_SYSTEM_HEALTH_ROUTE_REGISTRATION.txt:111:./routes/routes/diagnostics/systemHealth.ts:4:systemHealth.get("/", (_req, res) => {
 ./PHASE88_6_SYSTEM_HEALTH_ROUTE_REGISTRATION.txt:114:./ts-backup/systemHealth.ts:2:export const systemHealth = express.Router();
 ./PHASE88_6_SYSTEM_HEALTH_ROUTE_REGISTRATION.txt:116:./scripts/phase88_5_capture_system_health_route_payload.ts:1:import router from "../routes/diagnostics/systemHealth";
-./PHASE88_6_SYSTEM_HEALTH_ROUTE_REGISTRATION.txt:117:./scripts/phase88_3_find_authoritative_system_health_route.sh:7:  "routes/diagnostics/systemHealth.ts"
+./PHASE88_6_SYSTEM_HEALTH_ROUTE_REGISTRATION.txt:117:./scripts/phase88_3_find_authoritative_system_health_route.sh:7:  "routes/diagnostics/systemHealth.js"
 ./PHASE88_6_SYSTEM_HEALTH_ROUTE_REGISTRATION.txt:118:./scripts/phase88_3_find_authoritative_system_health_route.sh:8:  "routes/diagnostics/systemHealth.js"
-./PHASE88_6_SYSTEM_HEALTH_ROUTE_REGISTRATION.txt:119:./scripts/phase88_3_find_authoritative_system_health_route.sh:9:  "routes/routes/diagnostics/systemHealth.ts"
+./PHASE88_6_SYSTEM_HEALTH_ROUTE_REGISTRATION.txt:119:./scripts/phase88_3_find_authoritative_system_health_route.sh:9:  "routes/routes/diagnostics/systemHealth.js"
 ./PHASE88_6_SYSTEM_HEALTH_ROUTE_REGISTRATION.txt:120:./scripts/phase88_3_find_authoritative_system_health_route.sh:10:  "routes/routes/diagnostics/systemHealth.js"
-./PHASE88_6_SYSTEM_HEALTH_ROUTE_REGISTRATION.txt:121:./scripts/phase88_3_find_authoritative_system_health_route.sh:11:  "routes_backup/diagnostics/systemHealth.ts"
+./PHASE88_6_SYSTEM_HEALTH_ROUTE_REGISTRATION.txt:121:./scripts/phase88_3_find_authoritative_system_health_route.sh:11:  "routes_backup/diagnostics/systemHealth.js"
 ./PHASE88_6_SYSTEM_HEALTH_ROUTE_REGISTRATION.txt:122:./scripts/phase88_3_find_authoritative_system_health_route.sh:12:  "routes_backup/diagnostics/systemHealth.js"
 ./PHASE88_6_SYSTEM_HEALTH_ROUTE_REGISTRATION.txt:123:./scripts/phase88_1_run_system_health_attachment_smoke.sh:13:  npx tsx routes/diagnostics/systemHealthSituationSummary.smoke.ts
 ./PHASE88_6_SYSTEM_HEALTH_ROUTE_REGISTRATION.txt:124:./scripts/phase88_4_run_system_health_route_smoke.sh:13:  npx tsx routes/diagnostics/systemHealth.route.smoke.ts
-./PHASE88_6_SYSTEM_HEALTH_ROUTE_REGISTRATION.txt:125:./scripts/phase88_2_inspect_system_health_route.sh:5:TARGET="routes/diagnostics/systemHealth.ts"
+./PHASE88_6_SYSTEM_HEALTH_ROUTE_REGISTRATION.txt:125:./scripts/phase88_2_inspect_system_health_route.sh:5:TARGET="routes/diagnostics/systemHealth.js"
 ./PHASE88_6_SYSTEM_HEALTH_ROUTE_REGISTRATION.txt:126:./scripts/phase88_2_inspect_system_health_route.sh:33:  sed -n '1,220p' routes/diagnostics/systemHealthSituationSummary.ts
 ./PHASE88_6_SYSTEM_HEALTH_ROUTE_REGISTRATION.txt:127:./scripts/phase88_2_inspect_system_health_route.sh:37:  echo "Use this inspection to patch routes/diagnostics/systemHealth.ts with the narrowest possible read-only situationSummary attachment."
 ./PHASE88_6_SYSTEM_HEALTH_ROUTE_REGISTRATION.txt:128:./scripts/phase88_6_find_system_health_route_registration.sh:22:      'systemHealth|diagnostics/systemHealth' .
@@ -1026,11 +1026,11 @@ routes/api/logs.ts:4:const router = express.Router();
 ./PHASE_82_4_TASK_EXECUTION_DURATION_REGISTRY_ENTRY.md:92:Operator diagnostics
 ./server.mjs.backup-20251118-161525:9:app.use(bodyParser.json());
 ./scripts/demo/TASKS_PHASE9_1.md:8:   - Target `#recent-logs` or similar class within diagnostics overview.
-./scripts/phase88_3_find_authoritative_system_health_route.sh:7:  "routes/diagnostics/systemHealth.ts"
+./scripts/phase88_3_find_authoritative_system_health_route.sh:7:  "routes/diagnostics/systemHealth.js"
 ./scripts/phase88_3_find_authoritative_system_health_route.sh:8:  "routes/diagnostics/systemHealth.js"
-./scripts/phase88_3_find_authoritative_system_health_route.sh:9:  "routes/routes/diagnostics/systemHealth.ts"
+./scripts/phase88_3_find_authoritative_system_health_route.sh:9:  "routes/routes/diagnostics/systemHealth.js"
 ./scripts/phase88_3_find_authoritative_system_health_route.sh:10:  "routes/routes/diagnostics/systemHealth.js"
-./scripts/phase88_3_find_authoritative_system_health_route.sh:11:  "routes_backup/diagnostics/systemHealth.ts"
+./scripts/phase88_3_find_authoritative_system_health_route.sh:11:  "routes_backup/diagnostics/systemHealth.js"
 ./scripts/phase88_3_find_authoritative_system_health_route.sh:12:  "routes_backup/diagnostics/systemHealth.js"
 ./scripts/phase88_5_capture_system_health_route_payload.ts:1:import router from "../routes/diagnostics/systemHealth";
 ./docs/checkpoints/PHASE62B_RUNNING_TASKS_CANDIDATE_SURFACES_20260316.md:1279:./docs/checkpoints/PHASE72_OPERATOR_GUIDANCE_LAYER_COMPLETE.md:9:telemetry, and diagnostics layers without modifying reducers, UI structure,
@@ -1082,7 +1082,7 @@ routes/api/logs.ts:4:const router = express.Router();
 ./public/dashboard.css:244:html body #diagnosticsOverview,
 ./public/dashboard.css:245:html body #diagnosticsOverview *:not(img),
 ./public/dashboard.css:285:#diagnostics, #diagnosticsOverview, section#diagnostics, .diagnostics, .diagnostics-overview {
-./scripts/phase88_2_inspect_system_health_route.sh:5:TARGET="routes/diagnostics/systemHealth.ts"
+./scripts/phase88_2_inspect_system_health_route.sh:5:TARGET="routes/diagnostics/systemHealth.js"
 ./scripts/phase88_2_inspect_system_health_route.sh:33:  sed -n '1,220p' routes/diagnostics/systemHealthSituationSummary.ts
 ./scripts/phase88_2_inspect_system_health_route.sh:37:  echo "Use this inspection to patch routes/diagnostics/systemHealth.ts with the narrowest possible read-only situationSummary attachment."
 ./snapshots/20251114-114821/routes/diagnostics/persistentInsight.ts:2:export const persistentInsight = express.Router();

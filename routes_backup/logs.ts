@@ -7,7 +7,6 @@ const router = express.Router();
 
 
 import { desc, sql } from "drizzle-orm";
-import { db } from "../db/client";
 import { task_events } from "../db/audit";
 
 
@@ -20,10 +19,10 @@ import { task_events } from "../db/audit";
       .orderBy(desc(task_events.created_at))
       .limit(10);
 
-    res.json(rows);
+    reson(rows);
   } catch (err) {
     console.error("❌ /logs/recent failed:", err);
-    res.status(500).json({ error: "Failed to load logs" });
+    res.status(500)on({ error: "Failed to load logs" });
   }
 });
 

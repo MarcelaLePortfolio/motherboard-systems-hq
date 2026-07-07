@@ -3,9 +3,9 @@ import test from "node:test";
 
 import assert from "node:assert/strict";
 
-import { authorizeSchedulerRuntimeDispatchTransition } from "./scheduler-runtime-dispatch-authorization-boundary.ts";
+import { authorizeSchedulerRuntimeDispatchTransition } from "./scheduler-runtime-dispatch-authorization-boundary";
 
-import type { ProductionSchedulerRuntimeDispatchConsumerResult } from "./production-scheduler-runtime-dispatch-consumer.ts";
+import type { ProductionSchedulerRuntimeDispatchConsumerResult } from "./production-scheduler-runtime-dispatch-consumer";
 
 const consumedRuntimeDispatch: ProductionSchedulerRuntimeDispatchConsumerResult = {
 
@@ -63,27 +63,27 @@ test("scheduler runtime dispatch authorization boundary fails closed when runtim
 
     production_scheduler_runtime_dispatch_consumer: {
 
-      ok: false,
+            ok: false,
 
-      consumer: "production_scheduler_runtime_dispatch_consumer",
+            consumer: "production_scheduler_runtime_dispatch_consumer",
 
-      scheduler_runtime_dispatch_consumed: false,
+            scheduler_runtime_dispatch_consumed: false,
 
-      scheduler_authorized: false,
+            scheduler_authorized: false,
 
-      routing_authorized: false,
+            routing_authorized: false,
 
-      worker_claim_authorized: false,
+            worker_claim_authorized: false,
 
-      orchestration_authorized: false,
+            orchestration_authorized: false,
 
-      execution_authorized: false,
+            execution_authorized: false,
 
-      new_authority_introduced: false,
+            new_authority_introduced: false,
 
-      findings: ["test scheduler runtime dispatch consumer failure"],
+            findings: ["test scheduler runtime dispatch consumer failure"],
 
-    },
+          },
 
   });
 

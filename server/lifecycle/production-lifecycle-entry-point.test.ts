@@ -13,7 +13,7 @@ import type {
 
   GovernanceLifecyclePersistenceFunction,
 
-} from "../../db/governance-lifecycle-composition";
+} from "../../db/governance-lifecycle-composition.js";
 
 const fakePersist: GovernanceLifecyclePersistenceFunction = ({
 

@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { getAllAgentsStatus } from "../scripts/utils/agentStatus.js";
+import { getAllAgentsStatus } from "../scripts/utils/agentStatus";
 
 const router = Router();
 

@@ -7,7 +7,7 @@ import {
 
   upsertLivingDraftPackage,
 
-} from "../../db/matilda-living-draft-runtime.ts";
+} from "../../db/matilda-living-draft-runtime.js";
 
 export function createMatildaLivingDraftRouter(): express.Router {
 

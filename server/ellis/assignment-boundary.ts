@@ -5,9 +5,9 @@ import {
 
   type EllisEnvelopeShape,
 
-} from "./invocation.ts";
+} from "./invocation";
 
-import type { EllisDecision } from "./decision.ts";
+import type { EllisDecision } from "./decision";
 
 export type DepartmentAssignmentHandshake = {
 

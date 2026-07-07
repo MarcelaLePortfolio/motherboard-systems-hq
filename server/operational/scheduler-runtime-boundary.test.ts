@@ -3,9 +3,9 @@ import test from "node:test";
 
 import assert from "node:assert/strict";
 
-import { evaluateSchedulerRuntimeBoundary } from "./scheduler-runtime-boundary.ts";
+import { evaluateSchedulerRuntimeBoundary } from "./scheduler-runtime-boundary";
 
-import type { ProductionSchedulerExecutionConsumerResult } from "./production-scheduler-execution-consumer.ts";
+import type { ProductionSchedulerExecutionConsumerResult } from "./production-scheduler-execution-consumer";
 
 const consumedExecutionRequest: ProductionSchedulerExecutionConsumerResult = {
 
@@ -63,27 +63,27 @@ test("scheduler runtime boundary fails closed when execution request was not con
 
     production_scheduler_execution_consumer: {
 
-      ok: false,
+            ok: false,
 
-      consumer: "production_scheduler_execution_consumer",
+            consumer: "production_scheduler_execution_consumer",
 
-      scheduler_execution_consumed: false,
+            scheduler_execution_consumed: false,
 
-      scheduler_authorized: false,
+            scheduler_authorized: false,
 
-      routing_authorized: false,
+            routing_authorized: false,
 
-      worker_claim_authorized: false,
+            worker_claim_authorized: false,
 
-      orchestration_authorized: false,
+            orchestration_authorized: false,
 
-      execution_authorized: false,
+            execution_authorized: false,
 
-      new_authority_introduced: false,
+            new_authority_introduced: false,
 
-      findings: ["test scheduler execution consumer failure"],
+            findings: ["test scheduler execution consumer failure"],
 
-    },
+          },
 
   });
 

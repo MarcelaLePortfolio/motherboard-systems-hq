@@ -1,7 +1,7 @@
  
 /**
  * submit-task.ts
- * Post a task to memory/agent_chain_state.json without fragile heredocs.
+ * Post a task to memory/agent_chain_stateon without fragile heredocs.
  *
  * Usage examples:
  *   tsx scripts/_local/agent-runtime/submit-task.ts run_shell --cmd "echo hello
@@ -15,7 +15,7 @@ import * as path from 'path';
 
 type Params = Record<string, string | number | boolean>;
 const PROJECT_ROOT = process.cwd();
-const STATE_FILE = path.join(PROJECT_ROOT, 'memory', 'agent_chain_state.json');
+const STATE_FILE = path.join(PROJECT_ROOT, 'memory', 'agent_chain_stateon');
 
 function parseArgs(argv: string[]) {
   const out: Params = {};

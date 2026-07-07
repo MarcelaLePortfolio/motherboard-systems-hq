@@ -1,7 +1,8 @@
 import express from "express";
-import { sqlite } from "../../db/client";
-
 const router = express.Router();
+
+
+
 
 // GET /logs/recent
 router.get("/logs/recent", (req, res) => {
@@ -17,4 +18,3 @@ router.get("/logs/recent", (req, res) => {
   }
 });
 
-export default router;
