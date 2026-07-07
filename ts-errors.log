@@ -1,6 +1,23 @@
-db/matilda-interpretation-runtime.ts(96,36): error TS2367: This comparison appears to be unintentional because the types 'number' and 'boolean' have no overlap.
-db/matilda-living-draft-runtime.ts(90,36): error TS2367: This comparison appears to be unintentional because the types 'number' and 'boolean' have no overlap.
-db/matilda-living-draft-runtime.ts(122,7): error TS2367: This comparison appears to be unintentional because the types 'number' and 'boolean' have no overlap.
+db/governance-lifecycle-persistence.ts(4,22): error TS2307: Cannot find module 'better-sqlite3' or its corresponding type declarations.
+db/governance-runtime.ts(2,22): error TS2307: Cannot find module 'better-sqlite3' or its corresponding type declarations.
+db/matilda-assignment-runtime.ts(4,22): error TS2307: Cannot find module 'better-sqlite3' or its corresponding type declarations.
+db/matilda-assignment-runtime.ts(8,1): error TS2304: Cannot find name 'sqlite'.
+db/matilda-assignment-runtime.ts(64,3): error TS2304: Cannot find name 'sqlite'.
+db/matilda-canonical-package-runtime.ts(4,22): error TS2307: Cannot find module 'better-sqlite3' or its corresponding type declarations.
+db/matilda-canonical-package-runtime.ts(6,49): error TS5097: An import path can only end with a '.ts' extension when 'allowImportingTsExtensions' is enabled.
+db/matilda-delegation-runtime.ts(4,22): error TS2307: Cannot find module 'better-sqlite3' or its corresponding type declarations.
+db/matilda-envelope-runtime.ts(4,22): error TS2307: Cannot find module 'better-sqlite3' or its corresponding type declarations.
+db/matilda-envelope-runtime.ts(8,1): error TS2304: Cannot find name 'sqlite'.
+db/matilda-envelope-runtime.ts(76,3): error TS2304: Cannot find name 'sqlite'.
+db/matilda-governance-validation-runtime.ts(4,22): error TS2307: Cannot find module 'better-sqlite3' or its corresponding type declarations.
+db/matilda-governance-validation-runtime.ts(8,1): error TS2304: Cannot find name 'sqlite'.
+db/matilda-governance-validation-runtime.ts(76,3): error TS2304: Cannot find name 'sqlite'.
+db/matilda-interpretation-runtime.ts(2,22): error TS2307: Cannot find module 'better-sqlite3' or its corresponding type declarations.
+db/matilda-living-draft-runtime.ts(2,22): error TS2307: Cannot find module 'better-sqlite3' or its corresponding type declarations.
+db/matilda-routing-runtime.ts(4,22): error TS2307: Cannot find module 'better-sqlite3' or its corresponding type declarations.
+db/matilda-routing-runtime.ts(8,1): error TS2304: Cannot find name 'sqlite'.
+db/matilda-routing-runtime.ts(64,3): error TS2304: Cannot find name 'sqlite'.
+db/operational-intake-runtime.ts(2,22): error TS2307: Cannot find module 'better-sqlite3' or its corresponding type declarations.
 db/operational-intake-runtime.ts(142,5): error TS2322: Type 'boolean' is not assignable to type 'true'.
 db/operational-intake-runtime.ts(142,37): error TS2367: This comparison appears to be unintentional because the types 'number' and 'boolean' have no overlap.
 db/operational-intake-runtime.ts(144,5): error TS2322: Type 'boolean' is not assignable to type 'true'.
@@ -15,57 +32,196 @@ db/operational-intake-runtime.ts(152,5): error TS2322: Type 'boolean' is not ass
 db/operational-intake-runtime.ts(152,30): error TS2367: This comparison appears to be unintentional because the types 'number' and 'boolean' have no overlap.
 db/operational-intake-runtime.ts(154,5): error TS2322: Type 'boolean' is not assignable to type 'false'.
 db/operational-intake-runtime.ts(154,27): error TS2367: This comparison appears to be unintentional because the types 'number' and 'boolean' have no overlap.
-routes/api-chat.ts(41,18): error TS2349: This expression is not callable.
-  Type 'Number' has no call signatures.
-routes/api-chat.ts(81,21): error TS2554: Expected 0 arguments, but got 1.
-routes/api-chat.ts(103,16): error TS2349: This expression is not callable.
-  Type 'Number' has no call signatures.
-routes/cade.ts(10,24): error TS2339: Property 'Router' does not exist on type 'typeof import("express")'.
-routes/tasks.ts(16,24): error TS2339: Property 'Router' does not exist on type 'typeof import("express")'.
-scripts/reset-roundtrip.ts(34,34): error TS1343: The 'import.meta' meta-property is only allowed when the '--module' option is 'es2020', 'es2022', 'esnext', 'system', 'node16', 'node18', 'node20', or 'nodenext'.
-scripts/utils/ollamaChat.ts(32,13): error TS2339: Property 'response' does not exist on type 'unknown'.
-scripts/utils/ollamaChat.ts(33,13): error TS2339: Property 'message' does not exist on type 'unknown'.
-scripts/utils/ollamaChat.ts(34,13): error TS2339: Property 'output' does not exist on type 'unknown'.
-scripts/utils/ollamaChat.ts(35,13): error TS2339: Property 'content' does not exist on type 'unknown'.
-scripts/utils/ollamaChat.ts(36,13): error TS2339: Property 'text' does not exist on type 'unknown'.
-server/ellis/assignment-boundary.ts(396,48): error TS2339: Property 'requires_ellis_recoordination' does not exist on type '{ ok: true; capability_status: "CAPABILITY_CONFIRMED"; findings: string[]; } | { ok: false; capability_status?: "CAPABILITY_CONFIRMED" | "CAPABILITY_CONFLICT_REPORTED"; requires_ellis_recoordination: boolean; findings: string[]; }'.
-  Property 'requires_ellis_recoordination' does not exist on type '{ ok: true; capability_status: "CAPABILITY_CONFIRMED"; findings: string[]; }'.
+db/reflection_index.ts(1,44): error TS2307: Cannot find module 'drizzle-orm/sqlite-core' or its corresponding type declarations.
+routes/api/delegate.ts(14,18): error TS2304: Cannot find name 'sqlite'.
+routes/api/logs.ts(10,18): error TS2304: Cannot find name 'sqlite'.
+routes/api/tasks.ts(10,18): error TS2304: Cannot find name 'sqlite'.
+routes/cade.ts(11,18): error TS2304: Cannot find name 'sqlite'.
+routes/delegate.ts(62,5): error TS2304: Cannot find name 'db'.
+routes/delegate.ts(69,5): error TS2304: Cannot find name 'db'.
+routes/delegations.ts(12,18): error TS2304: Cannot find name 'sqlite'.
+routes/diagnostics/systemHealth.js.route.smoke.ts(4,8): error TS1192: Module '"/Users/marcela-dev/Projects/motherboard-systems-hq-clean/routes/diagnostics/systemHealth"' has no default export.
+routes/diagnostics/systemHealth.js.route.smoke.ts(30,23): error TS18048: 'stack' is possibly 'undefined'.
+routes/diagnostics/systemHealth.route.smoke.ts(4,8): error TS1192: Module '"/Users/marcela-dev/Projects/motherboard-systems-hq-clean/routes/diagnostics/systemHealth"' has no default export.
+routes/diagnostics/systemHealth.route.smoke.ts(20,23): error TS18048: 'stack' is possibly 'undefined'.
+routes/diagnostics/systemHealthSituationSummary.ts(4,43): error TS2307: Cannot find module '../../src/cognition.js' or its corresponding type declarations.
+routes/diagnostics/systemHealthSituationSummary.ts(5,45): error TS2307: Cannot find module '../../src/cognition.js' or its corresponding type declarations.
+routes/reflections.ts(7,28): error TS2307: Cannot find module 'better-sqlite3' or its corresponding type declarations.
+routes/reflections.ts(18,7): error TS2339: Property 'flush' does not exist on type 'Response<any, Record<string, any>, number>'.
+routes/reflections.ts(32,11): error TS2339: Property 'flush' does not exist on type 'Response<any, Record<string, any>, number>'.
+routes/reset.ts(15,54): error TS18046: 'err' is of type 'unknown'.
+routes/tasks.ts(11,18): error TS2304: Cannot find name 'sqlite'.
+scripts/_local/agent-runtime/launch-matilda.ts(3,25): error TS2307: Cannot find module '../../../agents/matilda' or its corresponding type declarations.
+scripts/_local/phase72_operator_guidance_command.ts(50,3): error TS1343: The 'import.meta' meta-property is only allowed when the '--module' option is 'es2020', 'es2022', 'esnext', 'system', 'node16', 'node18', 'node20', or 'nodenext'.
+scripts/_local/phase76_operator_playbooks.ts(47,15): error TS2339: Property 'healthAnomaly' does not exist on type 'OperatorSignals'.
+scripts/_local/phase76_playbook_selection_smoke.ts(38,5): error TS2353: Object literal may only specify known properties, and 'healthAnomaly' does not exist in type 'OperatorSignals'.
+scripts/_local/phase76_playbook_smoke.ts(37,5): error TS2353: Object literal may only specify known properties, and 'healthAnomaly' does not exist in type 'OperatorSignals'.
+scripts/_local/route-loader/ops-sse-bootstrap.ts(2,22): error TS2307: Cannot find module 'better-sqlite3' or its corresponding type declarations.
+scripts/_local/route-loader/ops-sse-bootstrap.ts(10,3): error TS2304: Cannot find name 'sqlite'.
+scripts/_local/route-loader/ops-sse-bootstrap.ts(20,3): error TS2304: Cannot find name 'sqlite'.
+scripts/_local/route-loader/ops-sse-server.ts(3,18): error TS2307: Cannot find module 'cors' or its corresponding type declarations.
+scripts/_local/route-loader/ops-sse-server.ts(4,22): error TS2307: Cannot find module 'better-sqlite3' or its corresponding type declarations.
+scripts/_local/route-loader/reflection-sse-server.ts(3,18): error TS2307: Cannot find module 'cors' or its corresponding type declarations.
+scripts/_local/route-loader/reflection-sse-server.ts(4,22): error TS2307: Cannot find module 'better-sqlite3' or its corresponding type declarations.
+scripts/_local/submit-task.ts(3,30): error TS2307: Cannot find module 'uuid' or its corresponding type declarations.
+scripts/_local/test-cade-state.ts(5,22): error TS2307: Cannot find module 'proper-lockfile' or its corresponding type declarations.
+scripts/_local/utils/chainState.ts(4,22): error TS2307: Cannot find module 'proper-lockfile' or its corresponding type declarations.
+scripts/agents/cade-delegation-watcher.ts(5,5): error TS7034: Variable 'pushReflection' implicitly has type 'any' in some locations where its type cannot be determined.
+scripts/agents/cade-delegation-watcher.ts(19,3): error TS2304: Cannot find name 'sqlite'.
+scripts/agents/cade-delegation-watcher.ts(26,3): error TS7005: Variable 'pushReflection' implicitly has an 'any' type.
+scripts/agents/cade-delegation-watcher.ts(31,19): error TS2304: Cannot find name 'sqlite'.
+scripts/agents/reflections.ts(4,28): error TS2307: Cannot find module 'better-sqlite3' or its corresponding type declarations.
+scripts/db-stabilize-pass.ts(1,22): error TS2307: Cannot find module 'better-sqlite3' or its corresponding type declarations.
+scripts/demo/run-create-atlas.ts(14,3): error TS2304: Cannot find name 'db'.
+scripts/demo/run-demo-playback.ts(28,7): error TS2304: Cannot find name 'db'.
+scripts/demo/run-demo-sequence.ts(7,5): error TS2304: Cannot find name 'sqlite'.
+scripts/demo/run-demo-sequence.ts(8,5): error TS2304: Cannot find name 'sqlite'.
+scripts/demo/run-demo-sequence.ts(18,7): error TS2304: Cannot find name 'sqlite'.
+scripts/demo/run-demo-sequence.ts(28,7): error TS2304: Cannot find name 'sqlite'.
+scripts/demo/run-live-delegation.ts(4,3): error TS2304: Cannot find name 'sqlite'.
+scripts/demo/run-live-delegation.ts(7,3): error TS2304: Cannot find name 'db'.
+scripts/demo/verify-dashboard-sync.ts(2,19): error TS2307: Cannot find module 'node-fetch' or its corresponding type declarations.
+scripts/fix-lifecycle-runtime-drift.ts(14,36): error TS2769: No overload matches this call.
+  Overload 1 of 4, '(command: string, options: ExecSyncOptionsWithStringEncoding): string', gave the following error.
+    Argument of type 'string' is not assignable to parameter of type 'ExecSyncOptionsWithStringEncoding'.
+  Overload 2 of 4, '(command: string, options: ExecSyncOptionsWithBufferEncoding): NonSharedBuffer', gave the following error.
+    Type '"utf8"' has no properties in common with type 'ExecSyncOptionsWithBufferEncoding'.
+  Overload 3 of 4, '(command: string, options?: ExecSyncOptions | undefined): string | NonSharedBuffer', gave the following error.
+    Type '"utf8"' has no properties in common with type 'ExecSyncOptions'.
+scripts/fix-lifecycle-runtime-drift.ts(18,1): error TS2322: Type 'string' is not assignable to type 'NonSharedBuffer & string'.
+  Type 'string' is not assignable to type 'NonSharedBuffer'.
+scripts/fix-lifecycle-runtime-drift.ts(26,1): error TS2322: Type 'string' is not assignable to type 'NonSharedBuffer & string'.
+  Type 'string' is not assignable to type 'NonSharedBuffer'.
+scripts/fix-lifecycle-runtime-drift.ts(36,1): error TS2322: Type 'string' is not assignable to type 'NonSharedBuffer & string'.
+  Type 'string' is not assignable to type 'NonSharedBuffer'.
+scripts/fix-lifecycle-runtime-drift.ts(46,1): error TS2322: Type 'string' is not assignable to type 'NonSharedBuffer & string'.
+  Type 'string' is not assignable to type 'NonSharedBuffer'.
+scripts/fix-lifecycle-runtime-drift.ts(56,1): error TS2322: Type 'string' is not assignable to type 'NonSharedBuffer & string'.
+  Type 'string' is not assignable to type 'NonSharedBuffer'.
+scripts/launch-matilda.ts(2,36): error TS2307: Cannot find module '../../../mirror/agent' or its corresponding type declarations.
+scripts/launch-matilda.ts(3,25): error TS7016: Could not find a declaration file for module '../../../agents/matilda'. '/Users/marcela-dev/agents/matilda.js' implicitly has an 'any' type.
+scripts/loaders/reflection-loader.ts(4,22): error TS2307: Cannot find module 'better-sqlite3' or its corresponding type declarations.
+scripts/loaders/reflection-loader.ts(21,3): error TS2304: Cannot find name 'sqlite'.
+scripts/ops/create-entity.ts(93,28): error TS2307: Cannot find module 'better-sqlite3' or its corresponding type declarations.
+scripts/ops/create-entity.ts(98,5): error TS2304: Cannot find name 'sqlite'.
+scripts/ops/create-entity.ts(106,5): error TS2304: Cannot find name 'sqlite'.
+scripts/ops/create-entity.ts(111,5): error TS2304: Cannot find name 'sqlite'.
+scripts/ops/create-entity.ts(119,5): error TS2304: Cannot find name 'sqlite'.
+scripts/ops/create-entity.ts(125,56): error TS2339: Property 'message' does not exist on type '{}'.
+scripts/phase88_5_capture_system_health_route_payload.ts(1,8): error TS1192: Module '"/Users/marcela-dev/Projects/motherboard-systems-hq-clean/routes/diagnostics/systemHealth"' has no default export.
+scripts/phase88_8_capture_system_health_js_route_payload.ts(1,8): error TS1192: Module '"/Users/marcela-dev/Projects/motherboard-systems-hq-clean/routes/diagnostics/systemHealth"' has no default export.
+scripts/reset-roundtrip.ts(9,5): error TS2304: Cannot find name 'sqlite'.
+scripts/reset-roundtrip.ts(17,24): error TS2304: Cannot find name 'sqlite'.
+scripts/reset-roundtrip.ts(18,30): error TS2304: Cannot find name 'sqlite'.
+scripts/reset-roundtrip.ts(33,34): error TS1343: The 'import.meta' meta-property is only allowed when the '--module' option is 'es2020', 'es2022', 'esnext', 'system', 'node16', 'node18', 'node20', or 'nodenext'.
+scripts/sequences/atlas-build-sequence.ts(7,11): error TS2304: Cannot find name 'sqlite'.
+scripts/sequences/atlas-build-sequence.ts(45,5): error TS1343: The 'import.meta' meta-property is only allowed when the '--module' option is 'es2020', 'es2022', 'esnext', 'system', 'node16', 'node18', 'node20', or 'nodenext'.
+scripts/sequences/atlas-build-sequence.ts(45,17): error TS2339: Property 'main' does not exist on type 'ImportMeta'.
+scripts/sequences/create-cheese-page.ts(24,1): error TS1378: Top-level 'await' expressions are only allowed when the 'module' option is set to 'es2022', 'esnext', 'system', 'node16', 'node18', 'node20', 'nodenext', or 'preserve', and the 'target' option is set to 'es2017' or higher.
+scripts/servers/ops-sse-server.ts(3,18): error TS2307: Cannot find module 'cors' or its corresponding type declarations.
+scripts/servers/ops-sse-server.ts(17,18): error TS2304: Cannot find name 'db'.
+scripts/servers/reflection-sse-server.ts(3,18): error TS2307: Cannot find module 'cors' or its corresponding type declarations.
+scripts/servers/reflection-sse-server.ts(4,28): error TS2307: Cannot find module 'better-sqlite3' or its corresponding type declarations.
+scripts/servers/reflection-sse-server.ts(18,7): error TS2339: Property 'flush' does not exist on type 'Response<any, Record<string, any>, number>'.
+scripts/servers/reflection-sse-server.ts(33,13): error TS2339: Property 'flush' does not exist on type 'Response<any, Record<string, any>, number>'.
+scripts/sse/reflections-sse-server.ts(3,18): error TS2307: Cannot find module 'cors' or its corresponding type declarations.
+scripts/stabilize-db-facade.ts(1,22): error TS2307: Cannot find module 'better-sqlite3' or its corresponding type declarations.
+scripts/utils/agentWatchdog.ts(32,53): error TS18046: 'err' is of type 'unknown'.
+scripts/utils/ensure-task-events-main.ts(2,22): error TS2307: Cannot find module 'better-sqlite3' or its corresponding type declarations.
+scripts/utils/ensure-task-events-main.ts(10,3): error TS2304: Cannot find name 'sqlite'.
+scripts/utils/ensure-task-events-main.ts(20,3): error TS2304: Cannot find name 'sqlite'.
+scripts/utils/ensure-task-events.ts(4,3): error TS2304: Cannot find name 'db'.
+scripts/utils/ollamaChat.ts(21,24): error TS2304: Cannot find name 'reson'.
+scripts/utils/pruneDatabase.ts(7,16): error TS2304: Cannot find name 'sqlite'.
+scripts/utils/reflection-push.ts(4,3): error TS2304: Cannot find name 'db'.
+scripts/utils/runSkill.ts(11,22): error TS18046: 'err' is of type 'unknown'.
+scripts/utils/validateTaskEvent.ts(13,18): error TS2304: Cannot find name 'sqlite'.
+scripts/watchers/reflection-watcher.ts(4,22): error TS2307: Cannot find module 'better-sqlite3' or its corresponding type declarations.
+scripts/watchers/reflection-watcher.ts(5,22): error TS2307: Cannot find module 'chokidar' or its corresponding type declarations.
+scripts/watchers/reflection-watcher.ts(21,5): error TS2304: Cannot find name 'sqlite'.
+scripts/watchers/reflection-watcher.ts(35,23): error TS7006: Parameter 'file' implicitly has an 'any' type.
+server/ellis/assignment-boundary.ts(126,6): error TS2550: Property 'replaceAll' does not exist on type 'string'. Do you need to change your target library? Try changing the 'lib' compiler option to 'es2021' or later.
+server/ellis/lifecycle-transition-authorization.ts(62,51): error TS2550: Property 'replaceAll' does not exist on type 'string'. Do you need to change your target library? Try changing the 'lib' compiler option to 'es2021' or later.
 server/execution/matilda-execution-registry-validate.ts(10,54): error TS2339: Property 'transitions' does not exist on type '{ states: string[]; final_state_is_derived_only: boolean; }'.
 server/execution/matilda-execution-switch-evaluator.ts(24,54): error TS2339: Property 'transitions' does not exist on type '{ states: string[]; final_state_is_derived_only: boolean; }'.
 server/execution/matilda-execution-transition-table.ts(10,41): error TS2339: Property 'transitions' does not exist on type '{ states: string[]; final_state_is_derived_only: boolean; }'.
+server/execution/package-to-execution-compiler.ts(2,36): error TS2307: Cannot find module '../orchestrator/phase18_store.mjs.js' or its corresponding type declarations.
+server/execution/pec-runtime-binder.ts(4,23): error TS2307: Cannot find module '../orchestrator/phase18_store.mjs.js' or its corresponding type declarations.
+server/execution/pec-runtime-binder.ts(14,42): error TS7006: Parameter 'pkg' implicitly has an 'any' type.
 server/lifecycle/production-lifecycle-consumer.test.ts(106,25): error TS2339: Property 'lifecycle' does not exist on type '{ ok: true; entry: ProductionLifecycleEntryPointResult; operational_intake: OperationalIntakeRecord; operational_consumption: ProductionOperationalConsumerResult; findings: string[]; }'.
 server/lifecycle/production-lifecycle-consumer.test.ts(108,25): error TS2339: Property 'lifecycle' does not exist on type '{ ok: true; entry: ProductionLifecycleEntryPointResult; operational_intake: OperationalIntakeRecord; operational_consumption: ProductionOperationalConsumerResult; findings: string[]; }'.
 server/lifecycle/production-lifecycle-consumer.test.ts(134,45): error TS2339: Property 'lifecycle' does not exist on type '{ ok: true; entry: ProductionLifecycleEntryPointResult; operational_intake: OperationalIntakeRecord; operational_consumption: ProductionOperationalConsumerResult; findings: string[]; }'.
-server/orchestration/deps.ts(43,81): error TS2339: Property 'error' does not exist on type 'DepsResolution'.
-  Property 'error' does not exist on type '{ ok: true; blockedBy: string[]; }'.
+server/lifecycle/production-lifecycle-consumer.test.ts(228,18): error TS18048: 'result.operational_consumption' is possibly 'undefined'.
+server/lifecycle/production-lifecycle-consumer.test.ts(230,18): error TS18048: 'result.operational_consumption' is possibly 'undefined'.
+server/lifecycle/production-lifecycle-consumer.test.ts(232,18): error TS18048: 'result.operational_consumption' is possibly 'undefined'.
+server/lifecycle/production-lifecycle-consumer.test.ts(234,18): error TS18048: 'result.operational_consumption' is possibly 'undefined'.
+server/lifecycle/production-lifecycle-consumer.test.ts(236,18): error TS18048: 'result.operational_consumption' is possibly 'undefined'.
+server/lifecycle/production-lifecycle-consumer.test.ts(238,18): error TS18048: 'result.operational_consumption' is possibly 'undefined'.
+server/lifecycle/production-lifecycle-consumer.ts(118,7): error TS2322: Type 'string | null | undefined' is not assignable to type 'string'.
+  Type 'undefined' is not assignable to type 'string'.
+server/operational/production-operational-consumer.ts(30,29): error TS2503: Cannot find namespace 'authority'.
+server/operational/production-operational-consumer.ts(56,29): error TS2503: Cannot find namespace 'authority'.
+server/operational/production-operational-consumer.ts(92,29): error TS2304: Cannot find name 'authority'.
+server/operational/production-operational-consumer.ts(126,29): error TS2304: Cannot find name 'authority'.
+server/operational/production-operational-consumer.ts(158,27): error TS2304: Cannot find name 'authority'.
+server/operational/production-scheduler-consumer.ts(28,29): error TS2503: Cannot find namespace 'authority'.
+server/operational/production-scheduler-consumer.ts(52,29): error TS2503: Cannot find namespace 'authority'.
+server/operational/production-scheduler-consumer.ts(86,29): error TS2304: Cannot find name 'authority'.
+server/operational/production-scheduler-consumer.ts(116,27): error TS2304: Cannot find name 'authority'.
+server/operational/production-scheduler-dispatch-consumer.ts(28,29): error TS2503: Cannot find namespace 'authority'.
+server/operational/production-scheduler-dispatch-consumer.ts(52,29): error TS2503: Cannot find namespace 'authority'.
+server/operational/production-scheduler-dispatch-consumer.ts(86,29): error TS2304: Cannot find name 'authority'.
+server/operational/production-scheduler-dispatch-consumer.ts(116,27): error TS2304: Cannot find name 'authority'.
+server/operational/production-scheduler-execution-consumer.ts(28,29): error TS2503: Cannot find namespace 'authority'.
+server/operational/production-scheduler-execution-consumer.ts(52,29): error TS2503: Cannot find namespace 'authority'.
+server/operational/production-scheduler-execution-consumer.ts(86,29): error TS2304: Cannot find name 'authority'.
+server/operational/production-scheduler-execution-consumer.ts(116,27): error TS2304: Cannot find name 'authority'.
+server/operational/production-scheduler-runtime-consumer.test.ts(8,15): error TS2724: '"./scheduler-runtime-entry-point"' has no exported member named 'SchedulerRuntimeEntryPointResult'. Did you mean 'schedulerRuntimeEntryPoint'?
+server/operational/production-scheduler-runtime-consumer.ts(2,15): error TS2724: '"./scheduler-runtime-entry-point"' has no exported member named 'SchedulerRuntimeEntryPointResult'. Did you mean 'schedulerRuntimeEntryPoint'?
+server/operational/production-scheduler-runtime-consumer.ts(28,29): error TS2503: Cannot find namespace 'authority'.
+server/operational/production-scheduler-runtime-consumer.ts(52,29): error TS2503: Cannot find namespace 'authority'.
+server/operational/production-scheduler-runtime-consumer.ts(86,29): error TS2304: Cannot find name 'authority'.
+server/operational/production-scheduler-runtime-consumer.ts(116,27): error TS2304: Cannot find name 'authority'.
+server/operational/production-scheduler-runtime-dispatch-consumer.ts(28,29): error TS2503: Cannot find namespace 'authority'.
+server/operational/production-scheduler-runtime-dispatch-consumer.ts(52,29): error TS2503: Cannot find namespace 'authority'.
+server/operational/production-scheduler-runtime-dispatch-consumer.ts(86,29): error TS2304: Cannot find name 'authority'.
+server/operational/production-scheduler-runtime-dispatch-consumer.ts(116,27): error TS2304: Cannot find name 'authority'.
+server/operational/production-scheduler-runtime-finalization-consumer.ts(28,29): error TS2503: Cannot find namespace 'authority'.
+server/operational/production-scheduler-runtime-finalization-consumer.ts(52,29): error TS2503: Cannot find namespace 'authority'.
+server/operational/production-scheduler-runtime-finalization-consumer.ts(92,29): error TS2304: Cannot find name 'authority'.
+server/operational/production-scheduler-runtime-finalization-consumer.ts(122,27): error TS2304: Cannot find name 'authority'.
+server/operational/production-scheduler-runtime-finalization-readiness-completion-consumer.ts(28,29): error TS2503: Cannot find namespace 'authority'.
+server/operational/production-scheduler-runtime-finalization-readiness-completion-consumer.ts(52,29): error TS2503: Cannot find namespace 'authority'.
+server/operational/production-scheduler-runtime-finalization-readiness-completion-consumer.ts(94,29): error TS2304: Cannot find name 'authority'.
+server/operational/production-scheduler-runtime-finalization-readiness-completion-consumer.ts(124,27): error TS2304: Cannot find name 'authority'.
+server/operational/production-scheduler-runtime-finalization-readiness-consumer.ts(28,29): error TS2503: Cannot find namespace 'authority'.
+server/operational/production-scheduler-runtime-finalization-readiness-consumer.ts(52,29): error TS2503: Cannot find namespace 'authority'.
+server/operational/production-scheduler-runtime-finalization-readiness-consumer.ts(94,29): error TS2304: Cannot find name 'authority'.
+server/operational/production-scheduler-runtime-finalization-readiness-consumer.ts(124,27): error TS2304: Cannot find name 'authority'.
+server/operational/scheduler-entry-point.ts(28,29): error TS2503: Cannot find namespace 'authority'.
+server/operational/scheduler-entry-point.ts(52,29): error TS2503: Cannot find namespace 'authority'.
+server/operational/scheduler-entry-point.ts(86,29): error TS2304: Cannot find name 'authority'.
+server/operational/scheduler-entry-point.ts(116,27): error TS2304: Cannot find name 'authority'.
+server/operational/scheduler-execution-entry-point.ts(28,29): error TS2503: Cannot find namespace 'authority'.
+server/operational/scheduler-execution-entry-point.ts(52,29): error TS2503: Cannot find namespace 'authority'.
+server/operational/scheduler-execution-entry-point.ts(86,29): error TS2304: Cannot find name 'authority'.
+server/operational/scheduler-execution-entry-point.ts(116,27): error TS2304: Cannot find name 'authority'.
+server/operational/scheduler-runtime-entry-point.test.ts(6,10): error TS2724: '"./scheduler-runtime-entry-point"' has no exported member named 'invokeSchedulerRuntimeEntryPoint'. Did you mean 'schedulerRuntimeEntryPoint'?
+server/operational/scheduler-runtime-finalization-entry-point.ts(28,29): error TS2503: Cannot find namespace 'authority'.
+server/operational/scheduler-runtime-finalization-entry-point.ts(52,29): error TS2503: Cannot find namespace 'authority'.
+server/operational/scheduler-runtime-finalization-entry-point.ts(92,29): error TS2304: Cannot find name 'authority'.
+server/operational/scheduler-runtime-finalization-entry-point.ts(122,27): error TS2304: Cannot find name 'authority'.
+server/operational/scheduler-runtime-finalization-readiness-completion-entry-point.ts(28,29): error TS2503: Cannot find namespace 'authority'.
+server/operational/scheduler-runtime-finalization-readiness-completion-entry-point.ts(52,29): error TS2503: Cannot find namespace 'authority'.
+server/operational/scheduler-runtime-finalization-readiness-completion-entry-point.ts(94,29): error TS2304: Cannot find name 'authority'.
+server/operational/scheduler-runtime-finalization-readiness-completion-entry-point.ts(124,27): error TS2304: Cannot find name 'authority'.
+server/operational/scheduler-runtime-finalization-readiness-entry-point.ts(28,29): error TS2503: Cannot find namespace 'authority'.
+server/operational/scheduler-runtime-finalization-readiness-entry-point.ts(52,29): error TS2503: Cannot find namespace 'authority'.
+server/operational/scheduler-runtime-finalization-readiness-entry-point.ts(86,29): error TS2304: Cannot find name 'authority'.
+server/operational/scheduler-runtime-finalization-readiness-entry-point.ts(116,27): error TS2304: Cannot find name 'authority'.
 server/orchestration/operator-commands.test.ts(39,3): error TS2578: Unused '@ts-expect-error' directive.
-server/routes/governance-delegation-route.ts(252,12): error TS2694: Namespace '"express"' has no exported member 'Router'.
-server/routes/governance-delegation-route.ts(254,26): error TS2339: Property 'Router' does not exist on type 'typeof import("express")'.
-server/routes/governance-envelope-gate-route.ts(260,12): error TS2694: Namespace '"express"' has no exported member 'Router'.
-server/routes/governance-envelope-gate-route.ts(262,26): error TS2339: Property 'Router' does not exist on type 'typeof import("express")'.
-server/routes/governance-envelope-route.ts(260,12): error TS2694: Namespace '"express"' has no exported member 'Router'.
-server/routes/governance-envelope-route.ts(262,26): error TS2339: Property 'Router' does not exist on type 'typeof import("express")'.
 server/routes/governance-lifecycle-route.test.ts(222,35): error TS2339: Property 'lifecycle' does not exist on type '{ ok: true; entry: ProductionLifecycleEntryPointResult; operational_intake: OperationalIntakeRecord; operational_consumption: ProductionOperationalConsumerResult; findings: string[]; }'.
 server/routes/governance-lifecycle-route.test.ts(230,55): error TS2339: Property 'lifecycle' does not exist on type '{ ok: true; entry: ProductionLifecycleEntryPointResult; operational_intake: OperationalIntakeRecord; operational_consumption: ProductionOperationalConsumerResult; findings: string[]; }'.
-server/routes/governance-lifecycle-route.ts(238,12): error TS2694: Namespace '"express"' has no exported member 'Router'.
-server/routes/governance-lifecycle-route.ts(240,26): error TS2339: Property 'Router' does not exist on type 'typeof import("express")'.
-server/routes/governance-package-route.ts(272,12): error TS2694: Namespace '"express"' has no exported member 'Router'.
-server/routes/governance-package-route.ts(274,26): error TS2339: Property 'Router' does not exist on type 'typeof import("express")'.
-server/routes/governance-validation-route.ts(270,12): error TS2694: Namespace '"express"' has no exported member 'Router'.
-server/routes/governance-validation-route.ts(272,26): error TS2339: Property 'Router' does not exist on type 'typeof import("express")'.
-server/routes/matilda-assignment-route.ts(6,24): error TS2339: Property 'Router' does not exist on type 'typeof import("express")'.
-server/routes/matilda-canonical-package-route.ts(6,24): error TS2339: Property 'Router' does not exist on type 'typeof import("express")'.
-server/routes/matilda-delegation-route.ts(6,24): error TS2339: Property 'Router' does not exist on type 'typeof import("express")'.
-server/routes/matilda-draft-synthesis-route.ts(6,24): error TS2339: Property 'Router' does not exist on type 'typeof import("express")'.
-server/routes/matilda-envelope-route.ts(6,24): error TS2339: Property 'Router' does not exist on type 'typeof import("express")'.
-server/routes/matilda-execution-authorization-route.ts(6,24): error TS2339: Property 'Router' does not exist on type 'typeof import("express")'.
-server/routes/matilda-execution-planning-route.ts(6,24): error TS2339: Property 'Router' does not exist on type 'typeof import("express")'.
-server/routes/matilda-governance-validation-route.ts(6,24): error TS2339: Property 'Router' does not exist on type 'typeof import("express")'.
-server/routes/matilda-interpretation-ledger-route.ts(12,68): error TS2694: Namespace '"express"' has no exported member 'Router'.
-server/routes/matilda-interpretation-ledger-route.ts(14,26): error TS2339: Property 'Router' does not exist on type 'typeof import("express")'.
-server/routes/matilda-living-draft-route.ts(12,59): error TS2694: Namespace '"express"' has no exported member 'Router'.
-server/routes/matilda-living-draft-route.ts(14,26): error TS2339: Property 'Router' does not exist on type 'typeof import("express")'.
-server/routes/matilda-preview-confirmation-route.ts(6,24): error TS2339: Property 'Router' does not exist on type 'typeof import("express")'.
-server/routes/matilda-preview-route.ts(6,24): error TS2339: Property 'Router' does not exist on type 'typeof import("express")'.
-server/routes/matilda-reconciled-intent-route.ts(6,24): error TS2339: Property 'Router' does not exist on type 'typeof import("express")'.
-server/routes/matilda-routing-route.ts(6,24): error TS2339: Property 'Router' does not exist on type 'typeof import("express")'.
+server/routes/governance-lifecycle-route.ts(134,5): error TS2322: Type '(EllisEnvelopeShape & { lifecycle_state?: string | null | undefined; }) | undefined' is not assignable to type 'EllisEnvelopeShape & { lifecycle_state?: string | null | undefined; }'.
+  Type 'undefined' is not assignable to type 'EllisEnvelopeShape & { lifecycle_state?: string | null | undefined; }'.
+    Type 'undefined' is not assignable to type 'EllisEnvelopeShape'.
