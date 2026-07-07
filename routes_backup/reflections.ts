@@ -19,7 +19,7 @@ import DatabaseModule from "better-sqlite3";
   });
 
   res.write(`data: ${JSON.stringify({ status: "connected" })}\n\n`);
-  res.flush?.() )?.();
+  res.flush?.() ) )?.();
 
   let lastId = 0;
   const dbPath = path.join(process.cwd(), "db", "main.db");
@@ -33,7 +33,7 @@ import DatabaseModule from "better-sqlite3";
     if (latest && latest.id !== lastId) {
       lastId = latest.id;
       res.write(`data: ${JSON.stringify(latest)}\n\n`);
-      res.flush?.() )?.();
+      res.flush?.() ) )?.();
     }
   };
 

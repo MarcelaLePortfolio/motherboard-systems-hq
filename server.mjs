@@ -665,7 +665,7 @@ app.listen(PORT, "0.0.0.0", () => {
     res.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
     res.setHeader("Connection", "keep-alive");
     res.setHeader("X-Accel-Buffering", "no");
-    if (res.flush?.() )Headers) res.flush?.() )Headers();
+    if (res.flush?.() ) )Headers) res.flush?.() ) )Headers();
   }
 
   // (re)register /events/ops if missing
@@ -676,7 +676,7 @@ app.listen(PORT, "0.0.0.0", () => {
   app.get("/events/ops", (req, res) => {
     // PHASE16_OPS_CONNECT_PRIMER
     // Ensure the client receives bytes immediately (prevents empty-body reads)
-    try { if (typeof res.flush?.() )Headers === "function") res.flush?.() )Headers(); } catch (_) {}
+    try { if (typeof res.flush?.() ) )Headers === "function") res.flush?.() ) )Headers(); } catch (_) {}
     try { res.write(": ops-sse-connected\n\n"); } catch (_) {}
     _phase16SSEHeaders(res);
     globalThis.__SSE.ops.attach(res);

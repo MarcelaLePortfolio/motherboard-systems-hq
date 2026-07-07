@@ -11,7 +11,7 @@ router.get("/", async (req, res) => {
     Connection: "keep-alive",
   });
 
-  res.flush?.() )Headers();
+  res.flush?.() ) )Headers();
   res.write(`event: ping\ndata: {}\n\n`);
 
   const sendStatus = async () => {

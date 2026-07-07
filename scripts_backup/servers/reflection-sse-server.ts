@@ -19,7 +19,7 @@ app.get("/events/reflections", (req, res) => {
   });
 
   res.write(`data: ${JSON.stringify({ status: "connected" })}\n\n`);
-  res.flush?.() )?.();
+  res.flush?.() ) )?.();
 
   const dbPath = path.join(process.cwd(), "db", "main.db");
   const Database = DatabaseModule;
@@ -34,7 +34,7 @@ app.get("/events/reflections", (req, res) => {
       if (latest && latest.id !== lastId) {
         lastId = latest.id;
         res.write(`data: ${JSON.stringify(latest)}\n\n`);
-        res.flush?.() )?.();
+        res.flush?.() ) )?.();
       }
     } catch (err) {
       console.error("Reflection SSE error:", err);

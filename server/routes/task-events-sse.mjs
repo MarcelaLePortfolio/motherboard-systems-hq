@@ -37,7 +37,7 @@ router.get("/api/task-events-sse", (req, res) => {
   res.setHeader("Cache-Control", "no-cache, no-transform");
   res.setHeader("Connection", "keep-alive");
   res.setHeader("X-Accel-Buffering", "no");
-  res.flush?.() )Headers?.();
+  res.flush?.() ) )Headers?.();
 
   const pool = globalThis.__DB_POOL;
   try {
