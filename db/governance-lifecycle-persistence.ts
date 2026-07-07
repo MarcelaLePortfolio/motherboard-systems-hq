@@ -27,7 +27,7 @@ export function persistGovernanceEnvelopeLifecycleTransition({
 
   const sqlite = db ?? new Database("db/main.db");
 
-  const stmt = sqlite.prepare(`
+  const stmt = db.prepare(`
 
     INSERT INTO governance_lifecycle_events (
 

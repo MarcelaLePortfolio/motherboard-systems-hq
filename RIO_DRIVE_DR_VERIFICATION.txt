@@ -36,7 +36,7 @@ drwx------  1 marcela-dev  staff   1.0M May 27 16:06 /Volumes/Rio Drive/backups/
 ./files/dashboard/
 ./files/db/
 ./files/dist/
-./files/docker-entrypoint-initsqlite.d/
+./files/docker-entrypoint-initdb.d/
 ./files/docs/
 ./files/.phase88_14_10_server.pid
 ./files/.DS_Store

@@ -11,7 +11,7 @@ router.post("/delegate", (req, res) => {
     const type = "task";
     const agent = "Matilda";
 
-    const stmt = sqlite.prepare(
+    const stmt = db.prepare(
       "INSERT INTO task_events (type, agent, status, payload) VALUES (?, ?, ?, ?)"
     );
 

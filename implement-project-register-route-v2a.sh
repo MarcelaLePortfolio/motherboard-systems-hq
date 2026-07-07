@@ -63,7 +63,7 @@ export function registerProject(projectInput = {}, metadata = {}) {
 
   }
 
-  const duplicatePath = sqlite.prepare(`
+  const duplicatePath = db.prepare(`
 
     SELECT project_id
 
@@ -89,7 +89,7 @@ export function registerProject(projectInput = {}, metadata = {}) {
 
   const timestamp = nowIso();
 
-  sqlite.prepare(`
+  db.prepare(`
 
     INSERT INTO project_registry (
 

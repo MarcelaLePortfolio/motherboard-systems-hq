@@ -85,7 +85,7 @@ INJECT
     res.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
     res.setHeader("Connection", "keep-alive");
     res.setHeader("X-Accel-Buffering", "no");
-    if (res.flushHeaders) res.flushHeaders();
+    if (res.flush?.bind(res)Headers) res.flush?.bind(res)Headers();
   }
 
   app.get("/events/ops", (req, res) => {

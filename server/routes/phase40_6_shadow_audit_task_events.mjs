@@ -10,7 +10,7 @@ export function registerPhase40_6ShadowAuditTaskEvents(app, { db }) {
     const excludePrefix = String((req.query && req.query.exclude_prefix) || "");
 
     try {
-      const r = await sqlite.query(sqlText);
+      const r = await db.query(sqlText);
 
       // Support both shapes:
       // - Array (some wrappers)

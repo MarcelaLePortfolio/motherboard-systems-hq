@@ -73,7 +73,7 @@ try {
 
     code: err.code,
 
-    message: err.message,
+    message: (err as any).message,
 
     mutation_performed: false,
 

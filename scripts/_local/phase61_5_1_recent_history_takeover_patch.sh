@@ -199,7 +199,7 @@ cat > "$TARGET_JS" << 'JS'
       renderRows(listEl, html);
     } catch (err) {
       statusEl.textContent = "Recent Tasks unavailable";
-      renderEmpty(listEl, `Error loading Recent Tasks: ${err.message}`);
+      renderEmpty(listEl, `Error loading Recent Tasks: ${(err as any).message}`);
     }
   }
 
@@ -232,7 +232,7 @@ cat > "$TARGET_JS" << 'JS'
       renderRows(listEl, html);
     } catch (err) {
       statusEl.textContent = "Task History unavailable";
-      renderEmpty(listEl, `Error loading Task History: ${err.message}`);
+      renderEmpty(listEl, `Error loading Task History: ${(err as any).message}`);
     }
   }
 

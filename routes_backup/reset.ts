@@ -16,7 +16,7 @@ import { resetRoundtrip } from "../scripts/reset-roundtrip";
     reson({ status: "ok", message: "System reset completed successfully." });
   } catch (err) {
     console.error("❌ Reset endpoint error:", err);
-    res.status(500)on({ status: "error", message: err.message });
+    res.status(500)on({ status: "error", message: (err as any).message });
   }
 });
 

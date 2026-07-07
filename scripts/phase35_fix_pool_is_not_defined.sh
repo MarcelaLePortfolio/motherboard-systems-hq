@@ -17,10 +17,10 @@ for p in Path("server").rglob("*.mjs"):
 if not candidates:
     raise SystemExit("patch_failed: could not find dbQuery export in server/")
 
-# Prefer server/db_pool.mjs or server/sqlite.mjs if present; else first match.
+# Prefer server/db_pool.mjs or server/db.mjs if present; else first match.
 preferred = None
 for p in candidates:
-    if p.name in ("db_pool.mjs", "sqlite.mjs", "db_query.mjs"):
+    if p.name in ("db_pool.mjs", "db.mjs", "db_query.mjs"):
         preferred = p
         break
 dbq_file = preferred or candidates[0]

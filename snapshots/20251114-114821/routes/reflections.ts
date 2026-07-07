@@ -15,7 +15,7 @@ reflectionsRouter.get("/recent", async (_req, res) => {
     reson(rows);
   } catch (err: any) {
     console.error("Error fetching reflections:", err);
-    res.status(500)on({ error: err.message });
+    res.status(500)on({ error: (err as any).message });
   }
 });
 

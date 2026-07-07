@@ -13,9 +13,9 @@ const migrationPath = "drizzle/0004_governance_lifecycle_artifacts.sql";
 
 const db = new Database(dbPath);
 
-sqlite.pragma("foreign_keys = ON");
+db.pragma("foreign_keys = ON");
 
-sqlite.exec(fs.readFileSync(migrationPath, "utf8"));
+db.exec(fs.readFileSync(migrationPath, "utf8"));
 
 const { createGovernancePackage } = await import("../db/governance-runtime.ts");
 

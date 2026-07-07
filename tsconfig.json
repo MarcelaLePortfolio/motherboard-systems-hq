@@ -3,25 +3,15 @@
 
   "compilerOptions": {
 
-    "target": "ES2020",
+    "target": "ES2022",
 
-    "module": "CommonJS",
+    "module": "NodeNext",
 
-    "moduleResolution": "node",
-
-    "rootDir": ".",
-
-    "outDir": "dist",
+    "moduleResolution": "NodeNext",
 
     "strict": true,
 
-    "esModuleInterop": true,
-
     "skipLibCheck": true,
-
-    "forceConsistentCasingInFileNames": true,
-
-    "resolveJsonModule": true,
 
     "types": ["node"]
 
@@ -29,19 +19,29 @@
 
   "include": [
 
-    "server/**/*.ts",
+    "server/**/*",
 
-    "scripts/**/*.ts",
+    "db/**/*",
 
-    "routes/**/*.ts"
+    "routes/**/*",
+
+    "src/**/*",
+
+    "scripts/**/*"
 
   ],
 
   "exclude": [
 
-    "node_modules",
+    "scripts_backup/**",
 
-    "dist"
+    "scripts_backup_2/**",
+
+    "ts-backup/**",
+
+    "snapshots/**",
+
+    "node_modules/**"
 
   ]
 

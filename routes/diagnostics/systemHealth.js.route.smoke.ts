@@ -1,7 +1,7 @@
 import express from "express";
 const router = express.Router();
 
-import router from "./systemHealth";
+import { router } from "./systemHealth";
 
 type JsonBody = Record<string, unknown>;
 

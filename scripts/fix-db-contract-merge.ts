@@ -12,13 +12,13 @@ done
 
 `, { stdio: "inherit" });
 
-// 2. Remove accidental "sqlite." usage remnants in runtime files
+// 2. Remove accidental "db." usage remnants in runtime files
 
 execSync(`
 
 rg "db\\." -l | while read f; do
 
-  sed -i '' 's/db\\./sqlite./g' "$f"
+  sed -i '' 's/db\\./db./g' "$f"
 
 done
 

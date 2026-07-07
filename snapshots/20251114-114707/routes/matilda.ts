@@ -24,7 +24,7 @@ router.post("/matilda", async (req, res) => {
 
     reply = response?.choices?.[0]?.message?.content || "(no reply)";
   } catch (err:any) {
-    reply = `(matilda error: ${err.message})`;
+    reply = `(matilda error: ${(err as any).message})`;
   }
 
   return reson({ reply });

@@ -84,7 +84,7 @@ commit 9d97912d5aca723e5ec7981cf4c81e2a79425ab5
 Author: Marcela Gama Le <youremail@example.com>
 Date:   2025-08-21
 
-    ✅ Restored and verified task-sqlite.ts with JSON + SQLite sync
+    ✅ Restored and verified task-db.ts with JSON + SQLite sync
 
 commit 896f9b5e1d5c4f3659b6fe060e6b4c823d5d1e8c
 Author: Marcela Gama Le <youremail@example.com>
@@ -13719,7 +13719,7 @@ commit 2c664840ab1f6df7bea04d7f3e977eda72159621
 Author: Marcela Gama Le <marcelagamale@gmail.com>
 Date:   2026-02-12
 
-    Phase 37.9: restore ../sqlite.js import and make server/sqlite.js canonical pool owner
+    Phase 37.9: restore ../db.js import and make server/db.js canonical pool owner
 
 commit fccc4893b970d79a5d3dba8749537422cdbde5d2
 Merge: eb27e604 2c664840
@@ -14667,7 +14667,7 @@ commit d62b6a9a2e0e1a43088b7cc67f32f6117c107036
 Author: Marcela Gama Le <marcelagamale@gmail.com>
 Date:   2026-02-18
 
-    Phase 40.6: fix shadow audit route crash; unify sqlite.query return shapes; always return debug
+    Phase 40.6: fix shadow audit route crash; unify db.query return shapes; always return debug
 
 commit a829cc11429a40981d68d52beeb46369800839b5
 Author: Marcela Gama Le <marcelagamale@gmail.com>
@@ -14753,7 +14753,7 @@ Date:   2026-02-19
     
     * Phase 40.6: return rows+debug from shadow audit endpoint (fix filtered payload)
     
-    * Phase 40.6: fix shadow audit route crash; unify sqlite.query return shapes; always return debug
+    * Phase 40.6: fix shadow audit route crash; unify db.query return shapes; always return debug
     
     * Phase 41: add deterministic scenario matrix + read-only run_view invariants gate
     

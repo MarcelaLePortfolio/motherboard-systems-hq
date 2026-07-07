@@ -606,7 +606,7 @@
 
     } catch (err) {
 
-      await phase717RetryModal({ title: "Retry failed", message: `${err && err.message ? err.message : String(err)}`, confirmLabel: "Close", cancelLabel: null, tone: "error" });
+      await phase717RetryModal({ title: "Retry failed", message: `${err && (err as any).message ? (err as any).message : String(err)}`, confirmLabel: "Close", cancelLabel: null, tone: "error" });
 
     } finally {
 

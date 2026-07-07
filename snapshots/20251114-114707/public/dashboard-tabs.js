@@ -82,7 +82,7 @@ async function controlAgent(agent, action) {
 ${data.message || ""}`);
     fetchSettings();
   } catch (err) {
-    alert(`${agent} ${action} failed: ${err.message}`);
+    alert(`${agent} ${action} failed: ${(err as any).message}`);
   }
 }
 

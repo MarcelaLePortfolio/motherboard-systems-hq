@@ -1189,7 +1189,7 @@ document.addEventListener("DOMContentLoaded", async function () {
         const data = await res.json();
         output.textContent = data.reply || JSON.stringify(data, null, 2);
       } catch (err) {
-        output.textContent = "UI error: " + err.message;
+        output.textContent = "UI error: " + (err as any).message;
       }
     });
   }

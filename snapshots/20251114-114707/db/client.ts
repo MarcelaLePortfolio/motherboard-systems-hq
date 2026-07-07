@@ -8,7 +8,7 @@ const sqlite = new Database(dbPath, { fileMustExist: true });
 export const db = drizzle(sqlite);
 
 export function pruneReflections(days = 7) {
-  const stmt = sqlite.prepare(
+  const stmt = db.prepare(
     "DELETE FROM reflection_index WHERE created_at < datetime('now', '-' || ? || ' days')"
   );
   const info = stmt.run(days);

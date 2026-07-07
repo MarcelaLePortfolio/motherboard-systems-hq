@@ -23,7 +23,7 @@ import { desc } from "drizzle-orm";
   const size = exists ? fs.statSync(dbPath).size : 0;
   let rows = [];
   try {
-    rows = sqlite.select().from(task_events).orderBy(desc(task_events.created_at)).limit(10).all();
+    rows = db.select().from(task_events).orderBy(desc(task_events.created_at)).limit(10).all();
   } catch (err) {
     console.error("❌ Query failed:", err);
   }

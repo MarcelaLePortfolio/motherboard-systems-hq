@@ -16,7 +16,7 @@ function executeDelegation(task: any) {
   fs.writeFileSync(OUT_PATH, html, "utf8");
 
   // Mark as completed
-  sqlite.prepare(
+  db.prepare(
     "UPDATE task_events SET status = 'completed' WHERE id = ?"
   ).run(task.id);
 
@@ -28,7 +28,7 @@ function executeDelegation(task: any) {
 
 
 function checkPendingDelegations() {
-  const pending = sqlite.prepare(
+  const pending = db.prepare(
     "SELECT id, description FROM task_events WHERE event_type = 'delegation' AND status = 'pending'"
   ).all();
 

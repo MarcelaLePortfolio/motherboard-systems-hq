@@ -24,7 +24,7 @@ function readTask() {
     log(`Read task data: ${rawData}`);
     return JSON.parse(rawData);
   } catch (err: any) {
-    log(`❌ Failed to parse task JSON: ${err.message}`);
+    log(`❌ Failed to parse task JSON: ${(err as any).message}`);
     return null;
   }
 }

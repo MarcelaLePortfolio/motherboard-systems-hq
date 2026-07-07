@@ -6,7 +6,7 @@ export function resetRoundtrip() {
   try {
     console.log("🔁 Starting full system reset...");
 
-    sqlite.exec(`
+    db.exec(`
       DELETE FROM task_events;
       DELETE FROM reflection_index;
       VACUUM;
@@ -14,8 +14,8 @@ export function resetRoundtrip() {
 
     console.log("✅ Database cleared (task_events + reflection_index).");
 
-    const checkTasks = sqlite.prepare("SELECT COUNT(*) as c FROM task_events").get();
-    const checkReflections = sqlite.prepare("SELECT COUNT(*) as c FROM reflection_index").get();
+    const checkTasks = db.prepare("SELECT COUNT(*) as c FROM task_events").get();
+    const checkReflections = db.prepare("SELECT COUNT(*) as c FROM reflection_index").get();
 
     if (checkTasks.c === 0 && checkReflections.c === 0) {
       console.log("✅ Validation passed — no orphaned entries remain.");

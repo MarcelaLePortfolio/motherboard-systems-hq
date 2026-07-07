@@ -14,7 +14,7 @@ Findings:
 - 
 - ## 1) Lifecycle-ish keywords
 - public/dashboard-tabs.js:42:  if (e.event.startsWith("completed-task")) div.classList.add("complete");
-- public/dashboard-tabs.js:85:    alert(`${agent} ${action} failed: ${err.message}`);
+- public/dashboard-tabs.js:85:    alert(`${agent} ${action} failed: ${(err as any).message}`);
 - public/dashboard.backup.js:76:    console.error("❌ Chat fetch failed:", err);
 - public/dashboard.html.bad_structure:186:    console.error("Delegation failed:", err);
 - public/dashboard.html.bad_structure:270:    console.error("Delegation failed:", err);
@@ -46,7 +46,7 @@ Findings:
 - public/tmp/reflections.json:209:    "content": "🤖 Cade completed a delegation task successfully.",
 - public/tmp/reflections.json:214:    "content": "🤖 Cade completed a delegation task successfully.",
 - public/dashboard-tabs.backup.js:41:  if (e.event.startsWith("completed-task")) div.classList.add("complete");
-- public/dashboard-tabs.backup.js:83:    alert(`${agent} ${action} failed: ${err.message}`);
+- public/dashboard-tabs.backup.js:83:    alert(`${agent} ${action} failed: ${(err as any).message}`);
 - public/js/task-events-sse-client.js:69:    counts.textContent = "created:0  completed:0  failed:0";
 - public/js/task-events-sse-client.js:130:  const tally = { created: 0, completed: 0, failed: 0 };
 - public/js/task-events-sse-client.js:133:    if (kind === "task.created") tally.created += 1;

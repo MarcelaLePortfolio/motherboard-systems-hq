@@ -7,7 +7,7 @@ const sqlite = new Database("motherboard.sqlite");
 
 function ensureDelegationTable() {
 
-  sqlite.exec(`
+  db.exec(`
 
     CREATE TABLE IF NOT EXISTS matilda_delegations (
 
@@ -63,7 +63,7 @@ export function createDelegation({
 
   const delegation_id = `delegation-${randomUUID()}`;
 
-  sqlite.prepare(`
+  db.prepare(`
 
     INSERT INTO matilda_delegations (
 

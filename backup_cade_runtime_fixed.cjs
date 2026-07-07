@@ -28,7 +28,7 @@ function handleTask(task) {
         return { error: `Unknown task type: ${task.type}` };
     }
   } catch (err) {
-    return { error: err.message };
+    return { error: (err as any).message };
   }
 }
 
@@ -46,7 +46,7 @@ function processTask() {
     log(`Read task data: ${rawData}`);
     task = JSON.parse(rawData);
   } catch (err) {
-    log(`❌ Failed to parse task JSON: ${err.message}`);
+    log(`❌ Failed to parse task JSON: ${(err as any).message}`);
     return;
   }
 
@@ -56,8 +56,8 @@ function processTask() {
     const result = handleTask(task);
     writeResume(result);
   } catch (err) {
-    log(`❌ Error during task handling: ${err.message}`);
-    writeResume({ error: err.message });
+    log(`❌ Error during task handling: ${(err as any).message}`);
+    writeResume({ error: (err as any).message });
   }
 }
 

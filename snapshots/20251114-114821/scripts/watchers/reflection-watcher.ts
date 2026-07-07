@@ -18,7 +18,7 @@ function exportReflections() {
       .all();
     fs.mkdirSync(path.dirname(outputPath), { recursive: true });
     fs.writeFileSync(outputPath, JSON.stringify(rows, null, 2), "utf8");
-    sqlite.close();
+    db.close();
     console.log(`<0001f7e0> Reflections auto-exported → ${outputPath}`);
   } catch (err) {
     console.error("❌ Reflection watcher export failed:", err);

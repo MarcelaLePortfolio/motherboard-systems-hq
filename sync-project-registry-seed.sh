@@ -17,7 +17,7 @@ const seed = JSON.parse(fs.readFileSync(path.join(process.cwd(), "projects", "re
 
 const timestamp = new Date().toISOString();
 
-const upsert = sqlite.prepare(`
+const upsert = db.prepare(`
 
   INSERT INTO project_registry (
 

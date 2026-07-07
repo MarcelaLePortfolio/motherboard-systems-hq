@@ -359,7 +359,7 @@ router.post(
 
             message:
 
-              err.message ||
+              (err as any).message ||
 
               "unknown governed planning route error",
 

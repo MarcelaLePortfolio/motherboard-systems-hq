@@ -7,7 +7,7 @@ const router = express.Router();
 // GET /tasks/recent
 router.get("/tasks/recent", (req, res) => {
   try {
-    const rows = sqlite.prepare(
+    const rows = db.prepare(
       "SELECT id, type, agent, status, payload, result, created_at FROM task_events ORDER BY created_at DESC LIMIT 20"
     ).all();
 

@@ -27,7 +27,7 @@ function delegateTaskToAgent(task: any, targetAgent = 'cade') {
     fs.writeFileSync(taskFilePath, JSON.stringify(delegatedTask, null, 2));
     console.log(`📤 Matilda delegated task to \${targetAgent}:`, taskFilePath);
   } catch (err: any) {
-    console.error(`❌ Failed to delegate task to \${targetAgent}:`, err.message);
+    console.error(`❌ Failed to delegate task to \${targetAgent}:`, (err as any).message);
   }
 }
 console.log("🤖 Matilda Runtime Started — Ready for tasks!");
@@ -61,7 +61,7 @@ function pollQueue() {
         }
 
       } catch (err: any) {
-        console.error("❌ Failed to process task:", filePath, err.message);
+        console.error("❌ Failed to process task:", filePath, (err as any).message);
       }
     }
   }, 3000);

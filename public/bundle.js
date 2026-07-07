@@ -792,7 +792,7 @@
         }
         setSuccess(data);
       } catch (err) {
-        setError(err && err.message ? err.message : String(err));
+        setError(err && (err as any).message ? (err as any).message : String(err));
       } finally {
         if (waitingTimer) window.clearTimeout(waitingTimer);
         if (btn) {
@@ -2196,7 +2196,7 @@ ${detailMessage}`, confirmLabel: "Submit", cancelLabel: "Cancel" });
         await phase717RetryModal({ title: "Retry submitted", message: `Retry submitted: ${data.task_id || data.id || "created"}`, confirmLabel: "Close", cancelLabel: null, tone: "success" });
         await refresh();
       } catch (err) {
-        await phase717RetryModal({ title: "Retry failed", message: `${err && err.message ? err.message : String(err)}`, confirmLabel: "Close", cancelLabel: null, tone: "error" });
+        await phase717RetryModal({ title: "Retry failed", message: `${err && (err as any).message ? (err as any).message : String(err)}`, confirmLabel: "Close", cancelLabel: null, tone: "error" });
       } finally {
         if (button) {
           button.disabled = false;

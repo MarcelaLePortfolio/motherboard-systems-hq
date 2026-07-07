@@ -69,7 +69,7 @@ function scanAndExecuteTasks() {
         console.log(`📄 Read from ${task.path}:`, contents);
         fs.unlinkSync(filePath);
       } catch (err) {
-        console.error("❌ Read failed:", err.message);
+        console.error("❌ Read failed:", (err as any).message);
       }
     }
   }

@@ -7,7 +7,7 @@ VIOLATIONS=$(grep -R "sqlite\.prepare" routes scripts || true)
 
 if [ ! -z "$VIOLATIONS" ]; then
 
-  echo "❌ Found forbidden sqlite.prepare usage:"
+  echo "❌ Found forbidden db.prepare usage:"
 
   echo "$VIOLATIONS"
 

@@ -51,7 +51,7 @@ Findings:
 
 - Migration applied without visible error.
 
-- All 5 dedicated governance tables exist in db/main.sqlite.
+- All 5 dedicated governance tables exist in db/main.db.
 
 - Table definitions preserve the approved artifact chain.
 

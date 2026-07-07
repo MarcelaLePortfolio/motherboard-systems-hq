@@ -38,7 +38,7 @@ const broker: SSEBroker = globalAny.__SSE_BROKER__;
   res.setHeader("Content-Type", "text/event-stream");
   res.setHeader("Cache-Control", "no-cache");
   res.setHeader("Connection", "keep-alive");
-  res.flushHeaders();
+  res.flush?.bind(res)Headers();
 
   broker.addClient(res);
 

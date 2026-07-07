@@ -11,9 +11,9 @@ function createTestDb() {
 
   const db = new Database(":memory:");
 
-  sqlite.pragma("foreign_keys = ON");
+  db.pragma("foreign_keys = ON");
 
-  sqlite.exec(`
+  db.exec(`
 
     CREATE TABLE governance_packages (
 
@@ -251,7 +251,7 @@ function createTestDb() {
 
 function seedGovernanceLineage(db: any, lifecycleState = "ASSIGNED") {
 
-  sqlite.exec(`
+  db.exec(`
 
     INSERT INTO governance_packages (
 
@@ -399,7 +399,7 @@ function seedGovernanceLineage(db: any, lifecycleState = "ASSIGNED") {
 
   `);
 
-  sqlite.prepare(`
+  db.prepare(`
 
     INSERT INTO governance_envelopes (
 
@@ -557,7 +557,7 @@ describe("createOperationalIntakeRecord", () => {
 
     assert.equal(
 
-      sqlite.prepare("SELECT COUNT(*) AS count FROM operational_intake_records").get().count,
+      db.prepare("SELECT COUNT(*) AS count FROM operational_intake_records").get().count,
 
       1,
 

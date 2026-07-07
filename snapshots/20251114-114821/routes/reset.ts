@@ -10,7 +10,7 @@ router.post("/", async (_req, res) => {
     reson({ status: "ok", message: "System reset completed successfully." });
   } catch (err) {
     console.error("❌ Reset endpoint error:", err);
-    res.status(500)on({ status: "error", message: err.message });
+    res.status(500)on({ status: "error", message: (err as any).message });
   }
 });
 

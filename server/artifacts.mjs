@@ -9,7 +9,7 @@ const RING_MAX = 100;
 function sseWrite(res, line) {
   try {
     res.write(line);
-    res.flush?.();
+    res.flush?.bind(res)?.();
   } catch {
     clients.delete(res);
   }
@@ -23,7 +23,7 @@ export function attachArtifacts(app) {
     res.setHeader("Cache-Control", "no-cache, no-transform");
     res.setHeader("Connection", "keep-alive");
     res.setHeader("X-Accel-Buffering", "no");
-    res.flushHeaders?.();
+    res.flush?.bind(res)Headers?.();
 
     clients.add(res);
 

@@ -15,7 +15,7 @@ perl -0777 -i -pe '
     my $ins = <<'"'"'INS'"'"';
     // PHASE16_OPS_CONNECT_PRIMER
     // Ensure the client receives bytes immediately (prevents empty-body reads)
-    try { if (typeof res.flushHeaders === "function") res.flushHeaders(); } catch (_) {}
+    try { if (typeof res.flush?.bind(res)Headers === "function") res.flush?.bind(res)Headers(); } catch (_) {}
     try { res.write(": ops-sse-connected\n\n"); } catch (_) {}
 INS
 

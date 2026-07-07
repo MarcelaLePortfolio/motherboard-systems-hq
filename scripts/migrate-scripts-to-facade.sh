@@ -17,7 +17,7 @@ for f in $FILES; do
 
     print ""
 
-    print "// MIGRATED FROM sqlite.prepare -> db facade"
+    print "// MIGRATED FROM db.prepare -> db facade"
 
     print "// TODO: verify query mapping"
 

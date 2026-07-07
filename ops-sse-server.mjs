@@ -124,7 +124,7 @@ const server = http.createServer((req, res) => {
           source: "pm2-status",
           timestamp: nowTs(),
           message: "Failed to read pm2 jlist",
-          detail: err && err.message ? err.message : String(err),
+          detail: err && (err as any).message ? (err as any).message : String(err),
         });
       });
   }, 15000);

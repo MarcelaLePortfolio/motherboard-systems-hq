@@ -23,13 +23,13 @@ rm -f "$OUTPUT"
 
   echo "===== SQL / MIGRATION CANDIDATES ====="
 
-  find docker-entrypoint-initsqlite.d drizzle drizzle_pg server sql -type f \( -name "*.sql" -o -name "*.mjs" -o -name "*.js" -o -name "*.ts" \) 2>/dev/null | sort | head -200
+  find docker-entrypoint-initdb.d drizzle drizzle_pg server sql -type f \( -name "*.sql" -o -name "*.mjs" -o -name "*.js" -o -name "*.ts" \) 2>/dev/null | sort | head -200
 
   echo
 
   echo "===== TASK TABLE REFERENCES ====="
 
-  grep -Rni "create table.*tasks\|CREATE TABLE.*tasks\|alter table tasks\|task_events" docker-entrypoint-initsqlite.d drizzle drizzle_pg server sql 2>/dev/null | head -200 || true
+  grep -Rni "create table.*tasks\|CREATE TABLE.*tasks\|alter table tasks\|task_events" docker-entrypoint-initdb.d drizzle drizzle_pg server sql 2>/dev/null | head -200 || true
 
   echo
 

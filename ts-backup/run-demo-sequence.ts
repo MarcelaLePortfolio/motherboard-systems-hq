@@ -4,8 +4,8 @@ console.log("🧩 Forcing SQLite path → db/main.db");
 export async function runDemoSequence() {
   console.log("🎬 Starting Demo Sequence...");
   try {
-    sqlite.prepare("DELETE FROM reflection_index").run();
-    sqlite.prepare("DELETE FROM task_events").run();
+    db.prepare("DELETE FROM reflection_index").run();
+    db.prepare("DELETE FROM task_events").run();
 
     const reflections = [
       "Matilda initialized demo mode.",
@@ -15,7 +15,7 @@ export async function runDemoSequence() {
       "Demo sequence complete — OPS stable."
     ];
     reflections.forEach(r =>
-      sqlite.prepare("INSERT INTO reflection_index (content) VALUES (?)").run(r)
+      db.prepare("INSERT INTO reflection_index (content) VALUES (?)").run(r)
     );
 
     const tasks = [
@@ -25,7 +25,7 @@ export async function runDemoSequence() {
       "Simulate reflection updates"
     ];
     tasks.forEach(t =>
-      sqlite.prepare("INSERT INTO task_events (description, status) VALUES (?, 'completed')").run(t)
+      db.prepare("INSERT INTO task_events (description, status) VALUES (?, 'completed')").run(t)
     );
 
     console.log("✅ Demo data injected successfully!");

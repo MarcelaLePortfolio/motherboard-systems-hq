@@ -11,7 +11,7 @@ function createTestDb() {
 
   const sqlite = new Database(":memory:");
 
-  sqlite.exec(`
+  db.exec(`
 
     CREATE TABLE governance_envelopes (
 

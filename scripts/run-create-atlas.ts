@@ -56,6 +56,6 @@ createAgentRuntime(atlas);
 
 createAtlas().catch((err) => {
   console.error("❌ Atlas build failed:", err);
-  logReflection("❌ Atlas build encountered an error: " + err.message);
+  logReflection("❌ Atlas build encountered an error: " + (err as any).message);
   process.exit(1);
 });

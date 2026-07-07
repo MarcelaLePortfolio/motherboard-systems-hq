@@ -53,7 +53,7 @@ register_fn = '''export function registerProject(projectInput = {}, metadata = {
 
   const timestamp = nowIso();
 
-  sqlite.prepare(`
+  db.prepare(`
 
     INSERT INTO project_registry (
 

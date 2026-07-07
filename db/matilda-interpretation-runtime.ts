@@ -3,7 +3,7 @@ import Database from "better-sqlite3";
 
 const sqlite = new Database("db/main.db");
 
-sqlite.pragma("foreign_keys = ON");
+db.pragma("foreign_keys = ON");
 
 export type CreateInterpretationEvidenceLedgerEntryInput = {
 
@@ -53,7 +53,7 @@ const requiredTextFields = [
 
 function ensureInterpretationEvidenceLedgerTable() {
 
-  sqlite.exec(`
+  db.exec(`
 
     CREATE TABLE IF NOT EXISTS matilda_interpretation_evidence_ledger (
 
@@ -133,7 +133,7 @@ export function createInterpretationEvidenceLedgerEntry(
 
   const created_at = new Date().toISOString();
 
-  sqlite.prepare(`
+  db.prepare(`
 
     INSERT INTO matilda_interpretation_evidence_ledger (
 
@@ -219,7 +219,7 @@ export function listInterpretationEvidenceLedgerEntries(limit = 20) {
 
   ensureInterpretationEvidenceLedgerTable();
 
-  return sqlite.prepare(`
+  return db.prepare(`
 
     SELECT
 

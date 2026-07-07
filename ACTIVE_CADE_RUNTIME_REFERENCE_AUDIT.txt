@@ -341,28 +341,28 @@ PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:9343:./ts-backup/cade-delegation-watch
 PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:9344:./ts-backup/cade-delegation-watcher.ts:33:    "SELECT id, description FROM task_events WHERE event_type = 'delegation' AND status = 'pending'"
 PHASE62B_TASKS_QUEUED_DISCOVERY_OUTPUT.txt:49:./snapshots/20251114-114821/scripts/agents/cade-delegation-watcher.ts
 PHASE62B_TASKS_QUEUED_DISCOVERY_OUTPUT.txt:181:./snapshots/20251114-114707/scripts/agents/cade-delegation-watcher.ts
-PHASE62B_TASKS_QUEUED_DISCOVERY_OUTPUT.txt:1188:./snapshots/20251114-114821/scripts/agents/cade-delegation-watcher.ts:32:  const pending = sqlite.prepare(
+PHASE62B_TASKS_QUEUED_DISCOVERY_OUTPUT.txt:1188:./snapshots/20251114-114821/scripts/agents/cade-delegation-watcher.ts:32:  const pending = db.prepare(
 PHASE62B_TASKS_QUEUED_DISCOVERY_OUTPUT.txt:1189:./snapshots/20251114-114821/scripts/agents/cade-delegation-watcher.ts:33:    "SELECT id, description FROM task_events WHERE event_type = 'delegation' AND status = 'pending'"
 PHASE62B_TASKS_QUEUED_DISCOVERY_OUTPUT.txt:1190:./snapshots/20251114-114821/scripts/agents/cade-delegation-watcher.ts:36:  for (const task of pending) executeDelegation(task);
-PHASE62B_TASKS_QUEUED_DISCOVERY_OUTPUT.txt:1196:./snapshots/20251114-114707/scripts/agents/cade-delegation-watcher.ts:32:  const pending = sqlite.prepare(
+PHASE62B_TASKS_QUEUED_DISCOVERY_OUTPUT.txt:1196:./snapshots/20251114-114707/scripts/agents/cade-delegation-watcher.ts:32:  const pending = db.prepare(
 PHASE62B_TASKS_QUEUED_DISCOVERY_OUTPUT.txt:1197:./snapshots/20251114-114707/scripts/agents/cade-delegation-watcher.ts:33:    "SELECT id, description FROM task_events WHERE event_type = 'delegation' AND status = 'pending'"
 PHASE62B_TASKS_QUEUED_DISCOVERY_OUTPUT.txt:1198:./snapshots/20251114-114707/scripts/agents/cade-delegation-watcher.ts:36:  for (const task of pending) executeDelegation(task);
-PHASE62B_TASKS_QUEUED_DISCOVERY_OUTPUT.txt:1247:./scripts_backup/agents/cade-delegation-watcher.ts:32:  const pending = sqlite.prepare(
+PHASE62B_TASKS_QUEUED_DISCOVERY_OUTPUT.txt:1247:./scripts_backup/agents/cade-delegation-watcher.ts:32:  const pending = db.prepare(
 PHASE62B_TASKS_QUEUED_DISCOVERY_OUTPUT.txt:1248:./scripts_backup/agents/cade-delegation-watcher.ts:33:    "SELECT id, description FROM task_events WHERE event_type = 'delegation' AND status = 'pending'"
 PHASE62B_TASKS_QUEUED_DISCOVERY_OUTPUT.txt:1249:./scripts_backup/agents/cade-delegation-watcher.ts:36:  for (const task of pending) executeDelegation(task);
-PHASE62B_TASKS_QUEUED_DISCOVERY_OUTPUT.txt:1253:./scripts_backup/scripts/agents/cade-delegation-watcher.ts:32:  const pending = sqlite.prepare(
+PHASE62B_TASKS_QUEUED_DISCOVERY_OUTPUT.txt:1253:./scripts_backup/scripts/agents/cade-delegation-watcher.ts:32:  const pending = db.prepare(
 PHASE62B_TASKS_QUEUED_DISCOVERY_OUTPUT.txt:1254:./scripts_backup/scripts/agents/cade-delegation-watcher.ts:33:    "SELECT id, description FROM task_events WHERE event_type = 'delegation' AND status = 'pending'"
 PHASE62B_TASKS_QUEUED_DISCOVERY_OUTPUT.txt:1255:./scripts_backup/scripts/agents/cade-delegation-watcher.ts:36:  for (const task of pending) executeDelegation(task);
-PHASE62B_TASKS_QUEUED_DISCOVERY_OUTPUT.txt:1373:./cade-delegation-watcher.ts:32:  const pending = sqlite.prepare(
+PHASE62B_TASKS_QUEUED_DISCOVERY_OUTPUT.txt:1373:./cade-delegation-watcher.ts:32:  const pending = db.prepare(
 PHASE62B_TASKS_QUEUED_DISCOVERY_OUTPUT.txt:1374:./cade-delegation-watcher.ts:33:    "SELECT id, description FROM task_events WHERE event_type = 'delegation' AND status = 'pending'"
 PHASE62B_TASKS_QUEUED_DISCOVERY_OUTPUT.txt:1375:./cade-delegation-watcher.ts:36:  for (const task of pending) executeDelegation(task);
-PHASE62B_TASKS_QUEUED_DISCOVERY_OUTPUT.txt:1429:./scripts/agents/cade-delegation-watcher.ts:32:  const pending = sqlite.prepare(
+PHASE62B_TASKS_QUEUED_DISCOVERY_OUTPUT.txt:1429:./scripts/agents/cade-delegation-watcher.ts:32:  const pending = db.prepare(
 PHASE62B_TASKS_QUEUED_DISCOVERY_OUTPUT.txt:1430:./scripts/agents/cade-delegation-watcher.ts:33:    "SELECT id, description FROM task_events WHERE event_type = 'delegation' AND status = 'pending'"
 PHASE62B_TASKS_QUEUED_DISCOVERY_OUTPUT.txt:1431:./scripts/agents/cade-delegation-watcher.ts:36:  for (const task of pending) executeDelegation(task);
-PHASE62B_TASKS_QUEUED_DISCOVERY_OUTPUT.txt:1523:./ts-backup/cade-delegation-watcher.ts:32:  const pending = sqlite.prepare(
+PHASE62B_TASKS_QUEUED_DISCOVERY_OUTPUT.txt:1523:./ts-backup/cade-delegation-watcher.ts:32:  const pending = db.prepare(
 PHASE62B_TASKS_QUEUED_DISCOVERY_OUTPUT.txt:1524:./ts-backup/cade-delegation-watcher.ts:33:    "SELECT id, description FROM task_events WHERE event_type = 'delegation' AND status = 'pending'"
 PHASE62B_TASKS_QUEUED_DISCOVERY_OUTPUT.txt:1525:./ts-backup/cade-delegation-watcher.ts:36:  for (const task of pending) executeDelegation(task);
-PHASE62B_TASKS_QUEUED_DISCOVERY_OUTPUT.txt:1538:./scripts_backup_2/agents/cade-delegation-watcher.ts:32:  const pending = sqlite.prepare(
+PHASE62B_TASKS_QUEUED_DISCOVERY_OUTPUT.txt:1538:./scripts_backup_2/agents/cade-delegation-watcher.ts:32:  const pending = db.prepare(
 PHASE62B_TASKS_QUEUED_DISCOVERY_OUTPUT.txt:1539:./scripts_backup_2/agents/cade-delegation-watcher.ts:33:    "SELECT id, description FROM task_events WHERE event_type = 'delegation' AND status = 'pending'"
 PHASE62B_TASKS_QUEUED_DISCOVERY_OUTPUT.txt:1540:./scripts_backup_2/agents/cade-delegation-watcher.ts:36:  for (const task of pending) executeDelegation(task);
 docs/contracts/CADE_RUNTIME_ARCHAEOLOGY_FINDINGS.md:26:- cade-delegation-watcher.ts

@@ -36,7 +36,7 @@ try {
       }
       results.push({ agent: step.agent, command: step.command, result });
     } catch (err: any) {
-      results.push({ agent: step.agent, command: step.command, error: err.message });
+      results.push({ agent: step.agent, command: step.command, error: (err as any).message });
     }
   }  }
 

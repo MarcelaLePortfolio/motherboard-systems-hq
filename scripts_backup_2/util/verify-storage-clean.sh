@@ -24,7 +24,7 @@ echo "────────────────────────�
 
 echo "📦 Checking for stray .db/.sqlite/.zip files..."
 STRAYS=$(find . -type f \( -name "*.db" -o -name "*.sqlite" -o -name "*.zip" \) \
-  | grep -v -E "$(printf "|%s" "${APPROVED_PATHS[@]}")|legacy_db_archive|demo_backup_latest.sqlite.md5" || true)
+  | grep -v -E "$(printf "|%s" "${APPROVED_PATHS[@]}")|legacy_db_archive|demo_backup_latest.db.md5" || true)
 
 if [[ -n "$STRAYS" ]]; then
   echo "⚠️ Found potential leftovers:"

@@ -4,7 +4,7 @@ export async function cleanupOldData() {
   pruneOldEntries(7);
   pruneReflections(7);
 
-  const stmt = sqlite.prepare(`
+  const stmt = db.prepare(`
     INSERT INTO task_events (id, type, status, agent, payload, result, created_at)
     VALUES (@id, 'auto_prune', 'success', 'system', '{}', 'Old entries cleaned', datetime('now'))
   `);

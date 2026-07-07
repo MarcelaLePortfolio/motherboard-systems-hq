@@ -95,7 +95,7 @@ function registerEntity(name: string, kind: string) {
   try {
     const Database = DatabaseModule;
     const db = new Database(path.join(process.cwd(), "db", "main.db"));
-    sqlite.prepare(`
+    db.prepare(`
       CREATE TABLE IF NOT EXISTS entities_status (
         id INTEGER PRIMARY KEY,
         name TEXT UNIQUE,
@@ -103,12 +103,12 @@ function registerEntity(name: string, kind: string) {
         status TEXT,
         created_at TEXT DEFAULT CURRENT_TIMESTAMP
       )`).run();
-    sqlite.prepare(`
+    db.prepare(`
       INSERT INTO entities_status (name, kind, status)
       VALUES (@name, @kind, @status)
       ON CONFLICT(name) DO UPDATE SET status=excluded.status
     `).run({ name, kind, status: "online" });
-    sqlite.prepare(`
+    db.prepare(`
       CREATE TABLE IF NOT EXISTS agents_status (
         id INTEGER PRIMARY KEY,
         name TEXT UNIQUE,
@@ -116,7 +116,7 @@ function registerEntity(name: string, kind: string) {
         pid INTEGER,
         created_at TEXT DEFAULT CURRENT_TIMESTAMP
       )`).run();
-    sqlite.prepare(`
+    db.prepare(`
       INSERT INTO agents_status (name, status)
       VALUES (@name, @status)
       ON CONFLICT(name) DO UPDATE SET status=excluded.status

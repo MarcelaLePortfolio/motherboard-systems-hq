@@ -53,7 +53,7 @@ router.post("/api/matilda/preview", (req, res) => {
 
       ok: false,
 
-      error: err instanceof Error ? err.message : "Unknown error",
+      error: err instanceof Error ? (err as any).message : "Unknown error",
 
     });
 

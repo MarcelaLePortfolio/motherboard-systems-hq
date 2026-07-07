@@ -80,7 +80,7 @@ async function controlAgent(agent, action) {
     alert(`${agent} ${action}: ${data.success ? "OK" : "Failed"}\n${data.message || ""}`);
     fetchSettings();
   } catch (err) {
-    alert(`${agent} ${action} failed: ${err.message}`);
+    alert(`${agent} ${action} failed: ${(err as any).message}`);
   }
 }
 

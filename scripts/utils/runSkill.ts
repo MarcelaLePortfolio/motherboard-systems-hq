@@ -8,6 +8,6 @@ export async function runSkill(skillName: string, params: any): Promise<string> 
     return result;
   } catch (err) {
     console.error("❌ runSkill error:", err);
-    return `error: ${err.message}`;
+    return `error: ${(err as any).message}`;
   }
 }

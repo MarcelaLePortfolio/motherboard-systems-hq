@@ -5,7 +5,7 @@ const router = express.Router();
 // GET /logs/recent
 router.get("/logs/recent", (req, res) => {
   try {
-    const rows = sqlite.prepare(
+    const rows = db.prepare(
       "SELECT id, content, created_at FROM reflection_index ORDER BY created_at DESC LIMIT 20"
     ).all();
 

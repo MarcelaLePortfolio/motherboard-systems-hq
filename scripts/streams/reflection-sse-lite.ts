@@ -17,7 +17,7 @@ export function broadcastReflections() {
       }
     );
     req.on("error", (err) => {
-      console.error("❌ SSE broadcast error:", err.message);
+      console.error("❌ SSE broadcast error:", (err as any).message);
     });
     req.end();
   } catch (err) {

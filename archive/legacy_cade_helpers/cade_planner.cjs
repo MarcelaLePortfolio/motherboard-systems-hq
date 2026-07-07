@@ -21,7 +21,7 @@ function loadInstruction() {
     if (!data || !data.instruction) return null;
     return data.instruction;
   } catch (err) {
-    log(`❌ Failed to parse instructions: ${err.message}`);
+    log(`❌ Failed to parse instructions: ${(err as any).message}`);
     return null;
   }
 }

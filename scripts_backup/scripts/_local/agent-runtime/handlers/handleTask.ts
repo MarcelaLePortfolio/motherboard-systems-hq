@@ -31,7 +31,7 @@ function handleTask(task: Task): void {
       fs.writeFileSync(filePath, content, "utf8");
       log(`📄 File generated: \${filePath}`);
     } catch (err: any) {
-      log(`❌ File write error: \${err.message}`);
+      log(`❌ File write error: \${(err as any).message}`);
     }
   }
 
@@ -40,7 +40,7 @@ function handleTask(task: Task): void {
       const result = execSync(task.command!, { encoding: "utf8" });
       log(`💻 Shell result:\\n\${result}`);
     } catch (err: any) {
-      log(`❌ Shell execution error:\\n\${err.message}`);
+      log(`❌ Shell execution error:\\n\${(err as any).message}`);
     }
   }
 

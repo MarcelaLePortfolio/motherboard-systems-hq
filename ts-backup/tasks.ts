@@ -19,7 +19,7 @@ tasksRouter.get("/recent", async (_req, res) => {
   const size = exists ? fs.statSync(dbPath).size : 0;
   let rows: any[] = [];
   try {
-    rows = sqlite.select().from(task_events).orderBy(desc(task_events.created_at)).limit(10).all();
+    rows = db.select().from(task_events).orderBy(desc(task_events.created_at)).limit(10).all();
   } catch (err) {
     console.error("❌ Query failed:", err);
   }

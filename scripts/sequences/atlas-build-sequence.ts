@@ -4,7 +4,7 @@ const delay = (ms: number) => new Promise(res => setTimeout(res, ms));
 
 async function logReflection(actor: string, message: string) {
   try {
-    await sqlite.insert(reflection_index).values({
+    await db.insert(reflection_index).values({
       id: crypto.randomUUID(),
       source: actor,
       content: message,

@@ -29,6 +29,6 @@ export async function runSkill(task: { type: string; params?: any }) {
         return { status: "error", message: `Unknown task type: ${task.type}` };
     }
   } catch (err: any) {
-    return { status: "error", message: err.message };
+    return { status: "error", message: (err as any).message };
   }
 }

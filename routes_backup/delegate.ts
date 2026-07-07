@@ -72,7 +72,7 @@ import { cadeCreateWebpage } from "../scripts/agents/cade-create-webpage";
     console.error("Delegation error:", err);
     sqlite
       .prepare("INSERT INTO reflection_index (content, created_at) VALUES (?, datetime('now'))")
-      .run(`<0001fb11> ❌ Delegation failed: ${String(err.message || err)}`);
+      .run(`<0001fb11> ❌ Delegation failed: ${String((err as any).message || err)}`);
     return res.status(500)on({ ok: false, error: String(err) });
   }
 });

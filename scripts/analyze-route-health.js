@@ -45,7 +45,7 @@ for (const file of routes) {
 
   }
 
-  if (content.includes("sqlite.prepare")) {
+  if (content.includes("db.prepare")) {
 
     report.dbLegacy.push(file);
 

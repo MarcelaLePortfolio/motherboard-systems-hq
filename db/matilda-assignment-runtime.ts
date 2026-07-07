@@ -5,7 +5,7 @@ import Database from "better-sqlite3";
 
 const db = new Database("motherboard.sqlite");
 
-sqlite.exec(`
+db.exec(`
 
 CREATE TABLE IF NOT EXISTS matilda_assignments (
 
@@ -61,7 +61,7 @@ export function createAssignment({
 
     "Routing decision established assignment eligibility for the selected agent.";
 
-  sqlite.prepare(`
+  db.prepare(`
 
     INSERT INTO matilda_assignments (
 

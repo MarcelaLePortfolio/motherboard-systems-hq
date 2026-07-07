@@ -34,8 +34,8 @@ export async function effieCommandRouter(command: string, args?: Record<string, 
         return { status: 'error', message: `Unknown command: ${command}` };
     }
   } catch (err: any) {
-    await log(`Effie error: ${err.message}`);
-    return { status: 'error', message: err.message };
+    await log(`Effie error: ${(err as any).message}`);
+    return { status: 'error', message: (err as any).message };
   }
 }
 

@@ -18,7 +18,7 @@ try {
   fs.writeFileSync(outputPath, JSON.stringify(rows, null, 2), "utf8");
 
   console.log(`✅ Reflections exported → ${outputPath}`);
-  sqlite.close();
+  db.close();
 } catch (err) {
   console.error("❌ Reflection loader failed:", err);
 }

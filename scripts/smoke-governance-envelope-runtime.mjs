@@ -21,9 +21,9 @@ const migrationPath = "drizzle/0004_governance_lifecycle_artifacts.sql";
 
 const db = new Database(dbPath);
 
-sqlite.pragma("foreign_keys = ON");
+db.pragma("foreign_keys = ON");
 
-sqlite.exec(fs.readFileSync(migrationPath, "utf8"));
+db.exec(fs.readFileSync(migrationPath, "utf8"));
 
 const {
 
@@ -41,19 +41,19 @@ const {
 
 function cleanup() {
 
-  sqlite.prepare("DELETE FROM governance_envelopes WHERE envelope_id = ?").run(envelopeId);
+  db.prepare("DELETE FROM governance_envelopes WHERE envelope_id = ?").run(envelopeId);
 
-  sqlite.prepare("DELETE FROM governance_envelopes WHERE envelope_id = ?").run("smoke-governance-envelope-runtime-missing-field");
+  db.prepare("DELETE FROM governance_envelopes WHERE envelope_id = ?").run("smoke-governance-envelope-runtime-missing-field");
 
-  sqlite.prepare("DELETE FROM governance_envelopes WHERE envelope_id = ?").run("smoke-governance-envelope-runtime-missing-gate");
+  db.prepare("DELETE FROM governance_envelopes WHERE envelope_id = ?").run("smoke-governance-envelope-runtime-missing-gate");
 
-  sqlite.prepare("DELETE FROM governance_envelope_gates WHERE envelope_gate_id = ?").run(envelopeGateId);
+  db.prepare("DELETE FROM governance_envelope_gates WHERE envelope_gate_id = ?").run(envelopeGateId);
 
-  sqlite.prepare("DELETE FROM governance_validation_results WHERE validation_result_id = ?").run(validationResultId);
+  db.prepare("DELETE FROM governance_validation_results WHERE validation_result_id = ?").run(validationResultId);
 
-  sqlite.prepare("DELETE FROM governance_delegations WHERE delegation_id = ?").run(delegationId);
+  db.prepare("DELETE FROM governance_delegations WHERE delegation_id = ?").run(delegationId);
 
-  sqlite.prepare("DELETE FROM governance_packages WHERE package_id = ? AND package_version = ?").run(packageId, packageVersion);
+  db.prepare("DELETE FROM governance_packages WHERE package_id = ? AND package_version = ?").run(packageId, packageVersion);
 
 }
 

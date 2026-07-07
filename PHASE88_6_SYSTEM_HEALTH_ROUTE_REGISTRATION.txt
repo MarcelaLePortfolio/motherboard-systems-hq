@@ -105,7 +105,7 @@ SECTION: IMPORT / REFERENCE HITS
 ./PHASE62B_TASKS_QUEUED_DISCOVERY_OUTPUT.txt:480:./routes/routes/diagnostics/systemHealth.js
 ./PHASE62B_TASKS_QUEUED_DISCOVERY_OUTPUT.txt:484:./routes/routes/diagnostics/systemHealth.ts
 ./routes/diagnostics/systemHealth.ts:2:import { buildSystemHealthSituationSummaryPayload } from "./systemHealthSituationSummary";
-./routes/diagnostics/systemHealth.route.smoke.ts:1:import router from "./systemHealth";
+./routes/diagnostics/systemHealth.route.smoke.ts:1:import { router } from "./systemHealth";
 ./routes/diagnostics/systemHealthSituationSummary.smoke.ts:3:} from "./systemHealthSituationSummary";
 ./routes/routes/diagnostics/systemHealth.ts:2:export const systemHealth = express.Router();
 ./routes/routes/diagnostics/systemHealth.ts:4:systemHealth.get("/", (_req, res) => {
@@ -292,7 +292,7 @@ routes/api/logs.ts:4:const router = express.Router();
 ./PHASE88_6_SYSTEM_HEALTH_ROUTE_REGISTRATION.txt:105:./PHASE62B_TASKS_QUEUED_DISCOVERY_OUTPUT.txt:480:./routes/routes/diagnostics/systemHealth.js
 ./PHASE88_6_SYSTEM_HEALTH_ROUTE_REGISTRATION.txt:106:./PHASE62B_TASKS_QUEUED_DISCOVERY_OUTPUT.txt:484:./routes/routes/diagnostics/systemHealth.ts
 ./PHASE88_6_SYSTEM_HEALTH_ROUTE_REGISTRATION.txt:107:./routes/diagnostics/systemHealth.ts:2:import { buildSystemHealthSituationSummaryPayload } from "./systemHealthSituationSummary";
-./PHASE88_6_SYSTEM_HEALTH_ROUTE_REGISTRATION.txt:108:./routes/diagnostics/systemHealth.route.smoke.ts:1:import router from "./systemHealth";
+./PHASE88_6_SYSTEM_HEALTH_ROUTE_REGISTRATION.txt:108:./routes/diagnostics/systemHealth.route.smoke.ts:1:import { router } from "./systemHealth";
 ./PHASE88_6_SYSTEM_HEALTH_ROUTE_REGISTRATION.txt:109:./routes/diagnostics/systemHealthSituationSummary.smoke.ts:3:} from "./systemHealthSituationSummary";
 ./PHASE88_6_SYSTEM_HEALTH_ROUTE_REGISTRATION.txt:110:./routes/routes/diagnostics/systemHealth.ts:2:export const systemHealth = express.Router();
 ./PHASE88_6_SYSTEM_HEALTH_ROUTE_REGISTRATION.txt:111:./routes/routes/diagnostics/systemHealth.ts:4:systemHealth.get("/", (_req, res) => {

@@ -1208,7 +1208,7 @@
         }
         setSuccess(data);
       } catch (err) {
-        setError(err && err.message ? err.message : String(err));
+        setError(err && (err as any).message ? (err as any).message : String(err));
       } finally {
         if (waitingTimer) window.clearTimeout(waitingTimer);
         if (btn) {

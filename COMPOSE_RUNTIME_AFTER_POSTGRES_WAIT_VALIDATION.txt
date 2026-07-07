@@ -65,7 +65,7 @@ waiting for server to start....2026-05-28 08:08:08.326 UTC [41] LOG:  starting P
  done
 server started
 
-/usr/local/bin/docker-entrypoint.sh: ignoring /docker-entrypoint-initsqlite.d/*
+/usr/local/bin/docker-entrypoint.sh: ignoring /docker-entrypoint-initdb.d/*
 
 waiting for server to shut down....2026-05-28 08:08:08.426 UTC [41] LOG:  received fast shutdown request
 2026-05-28 08:08:08.427 UTC [41] LOG:  aborting any active transactions

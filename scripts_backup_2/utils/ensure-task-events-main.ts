@@ -7,7 +7,7 @@ const db = new Database(dbPath);
 console.log("🧩 Directly accessing:", dbPath);
 
 try {
-  sqlite.prepare(`CREATE TABLE IF NOT EXISTS task_events (
+  db.prepare(`CREATE TABLE IF NOT EXISTS task_events (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     description TEXT,
     status TEXT DEFAULT 'pending',
@@ -17,5 +17,5 @@ try {
 } catch (err) {
   console.error("❌ Failed to verify or create task_events:", err);
 } finally {
-  sqlite.close();
+  db.close();
 }

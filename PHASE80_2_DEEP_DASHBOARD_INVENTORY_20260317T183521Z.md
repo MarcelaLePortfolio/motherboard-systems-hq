@@ -502,10 +502,10 @@ dashboard/src/telemetry/queueLatency.ts
 ./node_modules/@types/node/fs.d.ts:462:         * Appends writes to dest file instead of truncating it.
 ./node_modules/@types/node/fs.d.ts:2083:     *   // Prints: /tmp/foo-itXde2 or C:\Users\...\AppData\Local\Temp\foo-itXde2
 ./node_modules/@types/node/child_process.d.ts:351:         * Applications should avoid using such messages or listening for `'internalMessage'` events as it is subject to change without notice.
-./node_modules/@types/node/sqlite.d.ts:141:    interface ApplyChangesetOptions {
-./node_modules/@types/node/sqlite.d.ts:155:         * * `SQLITE_CHANGESET_FOREIGN_KEY`: Applying a change would result in a foreign key violation.
-./node_modules/@types/node/sqlite.d.ts:156:         * * `SQLITE_CHANGESET_CONSTRAINT`: Applying a change results in a `UNIQUE`, `CHECK`, or `NOT NULL` constraint
-./node_modules/@types/node/sqlite.d.ts:492:        applyChangeset(changeset: Uint8Array, options?: ApplyChangesetOptions): boolean;
+./node_modules/@types/node/db.d.ts:141:    interface ApplyChangesetOptions {
+./node_modules/@types/node/db.d.ts:155:         * * `SQLITE_CHANGESET_FOREIGN_KEY`: Applying a change would result in a foreign key violation.
+./node_modules/@types/node/db.d.ts:156:         * * `SQLITE_CHANGESET_CONSTRAINT`: Applying a change results in a `UNIQUE`, `CHECK`, or `NOT NULL` constraint
+./node_modules/@types/node/db.d.ts:492:        applyChangeset(changeset: Uint8Array, options?: ApplyChangesetOptions): boolean;
 ./node_modules/@types/node/util.d.ts:1506:    type ApplyOptionalModifiers<O extends ParseArgsOptionsConfig, V extends Record<keyof O, unknown>> = (
 ./node_modules/@types/node/util.d.ts:1513:        & (T["options"] extends ParseArgsOptionsConfig ? ApplyOptionalModifiers<
 ./node_modules/on-headers/index.js:19:var isAppendHeaderSupported = typeof http.ServerResponse.prototype.appendHeader === 'function'

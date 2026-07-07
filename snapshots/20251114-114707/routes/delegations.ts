@@ -7,7 +7,7 @@ router.post("/", (req, res) => {
   try {
     const { description, event_type = "delegation", agent = "Cade", status = "pending" } = req.body;
 
-    const stmt = sqlite.prepare(`
+    const stmt = db.prepare(`
       INSERT INTO task_events (description, event_type, agent, status)
       VALUES (?, ?, ?, ?)
     `);

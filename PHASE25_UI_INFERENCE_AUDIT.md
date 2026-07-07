@@ -6,7 +6,7 @@ Scope:
 
 Findings:
 - public/dashboard-tabs.js:42:  if (e.event.startsWith("completed-task")) div.classList.add("complete");
-- public/dashboard-tabs.js:85:    alert(`${agent} ${action} failed: ${err.message}`);
+- public/dashboard-tabs.js:85:    alert(`${agent} ${action} failed: ${(err as any).message}`);
 - public/dashboard-logs.v3.js:18:      console.error(`❌ Fetch failed for ${endpoint}:`, err);
 - public/dashboard.html.bad_structure:186:    console.error("Delegation failed:", err);
 - public/dashboard.html.bad_structure:270:    console.error("Delegation failed:", err);
@@ -32,7 +32,7 @@ Findings:
 - public/dashboard.html.bak.1762457360:329:        console.error("Matilda fetch failed:", err);
 - public/dashboard.html.bak.1762372376:215:        console.error("Matilda fetch failed:", err);
 - public/dashboard-tabs.backup.js:41:  if (e.event.startsWith("completed-task")) div.classList.add("complete");
-- public/dashboard-tabs.backup.js:83:    alert(`${agent} ${action} failed: ${err.message}`);
+- public/dashboard-tabs.backup.js:83:    alert(`${agent} ${action} failed: ${(err as any).message}`);
 - public/dashboard.html.bak:186:    console.error("Delegation failed:", err);
 - public/dashboard.html.bak:270:    console.error("Delegation failed:", err);
 - public/dashboard.html.bak:287:    console.error("Delegation failed:", err);

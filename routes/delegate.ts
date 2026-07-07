@@ -68,7 +68,7 @@ router.post("/", async (req, res) => {
     console.error("Delegation error:", err);
     db
       .prepare("INSERT INTO reflection_index (content, created_at) VALUES (?, datetime('now'))")
-      .run(`<0001fb11> ❌ Delegation failed: ${String(err.message || err)}`);
+      .run(`<0001fb11> ❌ Delegation failed: ${String((err as any).message || err)}`);
     return res.status(500).json({ ok: false, error: String(err) });
   }
 });

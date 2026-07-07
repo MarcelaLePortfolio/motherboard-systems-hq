@@ -29,7 +29,7 @@ export async function startWatchdog() {
         }
       }
     } catch (err) {
-      console.error("<0001fa99> ❌ Watchdog error:", err.message);
+      console.error("<0001fa99> ❌ Watchdog error:", (err as any).message);
     }
   };
 

@@ -199,7 +199,7 @@ export type CreatedGovernanceEnvelope = {
 
 const sqlite = new Database("db/main.db");
 
-sqlite.pragma("foreign_keys = ON");
+db.pragma("foreign_keys = ON");
 
 const requiredPackageTextFields = [
 

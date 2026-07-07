@@ -41,7 +41,7 @@ scripts/db/create-postgres-role.sh
 
 Ensures role postgres exists with LOGIN and password.
 
-scripts/db/create-dashboard-sqlite.sh
+scripts/db/create-dashboard-db.sh
 
 Ensures dashboard_db exists, owned by postgres.
 
@@ -67,7 +67,7 @@ DB existence issues (now resolved at the Postgres level):
 
 error: database "dashboard_db" does not exist
 
-This happened prior to creating dashboard_sqlite. After helper run and container restart, this should be resolved but the logs still contain historical entries.
+This happened prior to creating dashboard_db. After helper run and container restart, this should be resolved but the logs still contain historical entries.
 
 Schema-level error when a DB connection succeeds:
 
@@ -151,13 +151,13 @@ At minimum, create the tables the code expects, including:
 
 agent_status (to resolve error relation "agent_status" does not exist).
 
-Any task-related table(s) required by /api/delegate-task-db and /api/complete-task-sqlite.
+Any task-related table(s) required by /api/delegate-task-db and /api/complete-task-db.
 
 This can be done with:
 
-A SQL bootstrap file (e.g., scripts/db/bootstrap-dashboard-sqlite.sql) and
+A SQL bootstrap file (e.g., scripts/db/bootstrap-dashboard-db.sql) and
 
-A small helper script that runs psql against dashboard_sqlite.
+A small helper script that runs psql against dashboard_db.
 
 Re-test DB-backed endpoints in isolation:
 

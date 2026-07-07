@@ -3,7 +3,7 @@ import Database from "better-sqlite3";
 
 const sqlite = new Database("db/main.db");
 
-sqlite.pragma("foreign_keys = ON");
+db.pragma("foreign_keys = ON");
 
 export type UpsertLivingDraftPackageInput = {
 
@@ -47,7 +47,7 @@ export type LivingDraftPackageRecord = UpsertLivingDraftPackageInput & {
 
 function ensureLivingDraftPackageTable() {
 
-  sqlite.exec(`
+  db.exec(`
 
     CREATE TABLE IF NOT EXISTS matilda_living_draft_packages (
 
@@ -169,7 +169,7 @@ export function upsertLivingDraftPackage(
 
   const updated_at = timestamp;
 
-  sqlite.prepare(`
+  db.prepare(`
 
     INSERT INTO matilda_living_draft_packages (
 

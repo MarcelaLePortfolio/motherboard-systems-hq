@@ -13,11 +13,11 @@ Findings:
 
 Active route pattern:
 
-- routes/api/tasks.ts reads from task_events using sqlite.prepare.
+- routes/api/tasks.ts reads from task_events using db.prepare.
 
 - routes/api/tasks.ts expects task_events columns: id, type, agent, status, payload, result, created_at.
 
-- routes/tasks.ts is a fallback/debug-style route that queries task_events through db/audit and also directly opens motherboard.sqlite.
+- routes/tasks.ts is a fallback/debug-style route that queries task_events through db/audit and also directly opens motherboard.db.
 
 Schema mismatch observed:
 

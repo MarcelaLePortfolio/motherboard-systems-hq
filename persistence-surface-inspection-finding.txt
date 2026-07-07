@@ -22,9 +22,9 @@ Database client:
 
 - db/client.ts uses better-sqlite3.
 
-- Active database path is db/main.sqlite.
+- Active database path is db/main.db.
 
-- sqlite is exported as an alias of sqlite.
+- sqlite is exported as an alias of db.
 
 Existing Drizzle-modeled tables:
 

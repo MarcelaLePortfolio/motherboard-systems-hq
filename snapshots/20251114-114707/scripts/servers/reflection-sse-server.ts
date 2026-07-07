@@ -9,7 +9,7 @@ app.get("/events/reflections", (req, res) => {
   res.setHeader("Content-Type", "text/event-stream");
   res.setHeader("Cache-Control", "no-cache");
   res.setHeader("Connection", "keep-alive");
-  res.flushHeaders();
+  res.flush?.bind(res)Headers();
 
   res.write(`data: {"status":"connected"}\n\n`);
 

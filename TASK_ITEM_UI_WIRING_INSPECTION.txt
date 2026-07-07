@@ -231,7 +231,7 @@ public/js/phase530_visible_panels_bridge.js:585:          title: `${label} ${tas
 public/js/phase530_visible_panels_bridge.js:587:          meta: { retry_of_task_id: taskId },
 public/js/phase530_visible_panels_bridge.js:595:      const data = await res.json();
 public/js/phase530_visible_panels_bridge.js:603:      await phase717RetryModal({ title: "Retry submitted", message: `Retry submitted: ${data.task_id || data.id || "created"}`, confirmLabel: "Close", cancelLabel: null, tone: "success" });
-public/js/phase530_visible_panels_bridge.js:609:      await phase717RetryModal({ title: "Retry failed", message: `${err && err.message ? err.message : String(err)}`, confirmLabel: "Close", cancelLabel: null, tone: "error" });
+public/js/phase530_visible_panels_bridge.js:609:      await phase717RetryModal({ title: "Retry failed", message: `${err && (err as any).message ? (err as any).message : String(err)}`, confirmLabel: "Close", cancelLabel: null, tone: "error" });
 public/js/phase530_visible_panels_bridge.js:627:    const detailButton = event.target.closest("[data-phase717-inspect-details]");
 public/js/phase530_visible_panels_bridge.js:629:    const traceButton = event.target.closest("[data-phase717-inspect-trace]");
 public/js/phase530_visible_panels_bridge.js:631:    const logsButton = event.target.closest("[data-phase717-inspect-logs]");

@@ -10,7 +10,7 @@ export async function validateTaskEvent(eventId: string, payload: any, result: a
       if (!fs.existsSync(result)) status = "error";
     }
 
-    const stmt = sqlite.prepare("UPDATE task_events SET status=@status WHERE id=@id");
+    const stmt = db.prepare("UPDATE task_events SET status=@status WHERE id=@id");
     stmt.run({ id: eventId, status });
 
     console.log(`<0001f9fd> ✅ Validation complete — status: ${status}`);

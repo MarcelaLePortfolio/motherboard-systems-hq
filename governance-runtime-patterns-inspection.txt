@@ -204,7 +204,7 @@ export type CreatedGovernanceEnvelope = {
 
 const sqlite = new Database("db/main.db");
 
-sqlite.pragma("foreign_keys = ON");
+db.pragma("foreign_keys = ON");
 
 const requiredPackageTextFields = [
 
@@ -336,7 +336,7 @@ export function persistGovernanceEnvelopeLifecycleTransition(
 
   }
 
-  const result = sqlite.prepare(`
+  const result = db.prepare(`
 
     UPDATE governance_envelopes
 

@@ -31,7 +31,7 @@ function normalizeProjectId(value) {
 
 export function ensureProjectRegistry() {
 
-  sqlite.exec(`
+  db.exec(`
 
     CREATE TABLE IF NOT EXISTS project_registry (
 
@@ -75,7 +75,7 @@ export function ensureProjectRegistry() {
 
   `);
 
-  const projectCount = sqlite.prepare("SELECT COUNT(*) AS count FROM project_registry").get().count;
+  const projectCount = db.prepare("SELECT COUNT(*) AS count FROM project_registry").get().count;
 
   if (projectCount === 0 && fs.existsSync(seedPath)) {
 
@@ -83,7 +83,7 @@ export function ensureProjectRegistry() {
 
     const timestamp = nowIso();
 
-    const insert = sqlite.prepare(`
+    const insert = db.prepare(`
 
       INSERT INTO project_registry (
 
@@ -141,7 +141,7 @@ export function ensureProjectRegistry() {
 
     if (seed.activeProjectId) {
 
-      sqlite.prepare(`
+      db.prepare(`
 
         INSERT OR REPLACE INTO active_context (
 
@@ -163,11 +163,11 @@ export function ensureProjectRegistry() {
 
   }
 
-  const active = sqlite.prepare("SELECT current_project_id FROM active_context WHERE singleton_id = 1").get();
+  const active = db.prepare("SELECT current_project_id FROM active_context WHERE singleton_id = 1").get();
 
   if (!active) {
 
-    const fallback = sqlite.prepare(`
+    const fallback = db.prepare(`
 
       SELECT project_id
 
@@ -183,7 +183,7 @@ export function ensureProjectRegistry() {
 
     if (fallback?.project_id) {
 
-      sqlite.prepare(`
+      db.prepare(`
 
         INSERT OR REPLACE INTO active_context (
 
@@ -211,7 +211,7 @@ export function getProjectRegistryState() {
 
   ensureProjectRegistry();
 
-  const projects = sqlite.prepare(`
+  const projects = db.prepare(`
 
     SELECT
 
@@ -241,7 +241,7 @@ export function getProjectRegistryState() {
 
   `).all();
 
-  const activeContext = sqlite.prepare(`
+  const activeContext = db.prepare(`
 
     SELECT
 
@@ -279,7 +279,7 @@ export function setActiveProject(projectId, metadata = {}) {
 
   const normalizedProjectId = normalizeProjectId(projectId);
 
-  const project = sqlite.prepare(`
+  const project = db.prepare(`
 
     SELECT project_id
 
@@ -307,9 +307,9 @@ export function setActiveProject(projectId, metadata = {}) {
 
   const timestamp = nowIso();
 
-  const transaction = sqlite.transaction(() => {
+  const transaction = db.transaction(() => {
 
-    sqlite.prepare(`
+    db.prepare(`
 
       UPDATE project_registry
 
@@ -319,7 +319,7 @@ export function setActiveProject(projectId, metadata = {}) {
 
     `).run(timestamp, timestamp, normalizedProjectId);
 
-    sqlite.prepare(`
+    db.prepare(`
 
       INSERT OR REPLACE INTO active_context (
 

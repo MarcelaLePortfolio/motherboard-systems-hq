@@ -43,7 +43,7 @@ export async function cadeCommandRouter(command: string, args?: any): Promise<an
         const content = await readFile(filepath, 'utf8');
         return { status: 'success', result: { content } };
       } catch (err: any) {
-        return { status: 'error', message: err.message };
+        return { status: 'error', message: (err as any).message };
       }
 
     case 'write to file':
@@ -54,7 +54,7 @@ export async function cadeCommandRouter(command: string, args?: any): Promise<an
         await writeFile(filepath, content, 'utf8');
         return { status: 'success', result: { content } };
       } catch (err: any) {
-        return { status: 'error', message: err.message };
+        return { status: 'error', message: (err as any).message };
       }
 
     case 'launch script':
@@ -65,7 +65,7 @@ export async function cadeCommandRouter(command: string, args?: any): Promise<an
         const { stdout } = await execAsync("bash \"" + filepath + "\"");
         return { status: 'success', result: { stdout } };
       } catch (err: any) {
-        return { status: 'error', message: err.message };
+        return { status: 'error', message: (err as any).message };
       }
 
     case 'move file':
@@ -76,7 +76,7 @@ export async function cadeCommandRouter(command: string, args?: any): Promise<an
         await rename(fromPath, toPath);
         return { status: 'success', result: { message: `Moved file from ${fromPath} to ${toPath}` } };
       } catch (err: any) {
-        return { status: 'error', message: err.message };
+        return { status: 'error', message: (err as any).message };
       }
 
     case 'delete file':
@@ -86,7 +86,7 @@ export async function cadeCommandRouter(command: string, args?: any): Promise<an
         await unlink(targetPath);
         return { status: 'success', result: { message: `Deleted file at ${targetPath}` } };
       } catch (err: any) {
-        return { status: 'error', message: err.message };
+        return { status: 'error', message: (err as any).message };
       }
 
     case 'open url':
@@ -97,7 +97,7 @@ export async function cadeCommandRouter(command: string, args?: any): Promise<an
         await execAsync(opener + " \"" + url + "\"");
         return { status: 'success', result: { message: `Opened URL: ${url}` } };
       } catch (err: any) {
-        return { status: 'error', message: err.message };
+        return { status: 'error', message: (err as any).message };
       }
 
     case 'git commit and push':
@@ -110,7 +110,7 @@ export async function cadeCommandRouter(command: string, args?: any): Promise<an
         const { stdout } = await execAsync('git push');
         return { status: 'success', result: { stdout } };
       } catch (err: any) {
-        return { status: 'error', message: err.message };
+        return { status: 'error', message: (err as any).message };
       }
 
     case 'package':
@@ -123,7 +123,7 @@ export async function cadeCommandRouter(command: string, args?: any): Promise<an
         }
         return { status: 'success', result: { results } };
       } catch (err: any) {
-        return { status: 'error', message: err.message };
+        return { status: 'error', message: (err as any).message };
       }
 
     default:

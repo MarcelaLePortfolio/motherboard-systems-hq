@@ -32,7 +32,7 @@ DO NOT enforce transitions yet.
 After normalize:
 - call validateNewTask(task)
 - on error:
-    return res.status(400).json({ ok:false, error: err.message })
+    return res.status(400).json({ ok:false, error: (err as any).message })
 
 ---
 

@@ -57,7 +57,7 @@ router.post("/api/matilda/governance-validation", (req, res) => {
 
       ok: false,
 
-      error: err instanceof Error ? err.message : "Unknown error",
+      error: err instanceof Error ? (err as any).message : "Unknown error",
 
     });
 

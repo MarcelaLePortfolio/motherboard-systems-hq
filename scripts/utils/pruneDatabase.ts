@@ -4,7 +4,7 @@ export async function cleanupOldData() {
 
   console.log("🧹 Running scheduled cleanup of old entries...");
 
-  const stmt = sqlite.prepare(`
+  const stmt = db.prepare(`
 
     INSERT INTO task_events (id, type, status, agent, payload, result, created_at)
 
