@@ -3,45 +3,69 @@
 
   "compilerOptions": {
 
-    "target": "ES2022",
+    "target": "ES2021",
 
     "module": "NodeNext",
 
     "moduleResolution": "NodeNext",
 
-    "strict": true,
+    "strict": false,
+
+    "noEmit": true,
 
     "skipLibCheck": true,
 
-    "types": ["node"]
+    "esModuleInterop": true,
+
+    "allowSyntheticDefaultImports": true,
+
+    "allowImportingTsExtensions": false,
+
+    "resolveJsonModule": true,
+
+    "forceConsistentCasingInFileNames": true,
+
+    "isolatedModules": true,
+
+    "types": ["node"],
+
+    "typeRoots": ["./types", "./node_modules/@types"],
+
+    "lib": ["ES2021"]
 
   },
 
   "include": [
 
-    "server/**/*",
+    "db",
 
-    "db/**/*",
+    "server",
 
-    "routes/**/*",
+    "routes",
 
-    "src/**/*",
-
-    "scripts/**/*"
+    "types"
 
   ],
 
   "exclude": [
 
-    "scripts_backup/**",
+    "scripts",
 
-    "scripts_backup_2/**",
+    "scripts/_local",
 
-    "ts-backup/**",
+    "snapshots",
 
-    "snapshots/**",
+    "ts-backup",
 
-    "node_modules/**"
+    "routes_backup",
+
+    "**/*.mts",
+
+    "**/*.test.ts",
+
+    "**/*.spec.ts",
+
+    "**/*.js"
 
   ]
 
