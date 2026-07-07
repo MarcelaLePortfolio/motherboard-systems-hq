@@ -20,7 +20,7 @@ function __phase16_writeSSEHeaders(req, res) {
   try { res.setHeader("Cache-Control", "no-cache, no-transform"); } catch {}
   try { res.setHeader("Connection", "keep-alive"); } catch {}
   try { res.setHeader("X-Accel-Buffering", "no"); } catch {}
-  try { res.flush?.bind(res)Headers && res.flush?.bind(res)Headers(); } catch {}
+  try { res.flush?.() )Headers && res.flush?.() )Headers(); } catch {}
 }
 
 function sseHeaders(res) {
@@ -30,7 +30,7 @@ function sseHeaders(res) {
   res.setHeader("Connection", "keep-alive");
   res.setHeader("X-Accel-Buffering", "no");
   // Express flushHeaders() exists; if not, ignore.
-  try { res.flush?.bind(res)Headers(); } catch (_) {}
+  try { res.flush?.() )Headers(); } catch (_) {}
 }
 
 function writeLine(res, line) {
@@ -126,8 +126,8 @@ function makeStream(kind) {
       if (once) {
         // Write at least one full SSE frame before ending.
         try { res.write(": once\n\n"); } catch (_) {}
-        try { res.flush?.bind(res) && res.flush?.bind(res)(); } catch (_) {}
-        try { res.flush?.bind(res)Headers && res.flush?.bind(res)Headers(); } catch (_) {}
+        try { res.flush?.() ) && res.flush?.() )(); } catch (_) {}
+        try { res.flush?.() )Headers && res.flush?.() )Headers(); } catch (_) {}
         setTimeout(() => { try { res.end(); } catch (_) {} }, 250);
         return;
       }

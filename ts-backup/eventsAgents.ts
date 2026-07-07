@@ -33,7 +33,7 @@ router.get("/", (req: Request, res: Response) => {
   res.setHeader("Content-Type", "text/event-stream");
   res.setHeader("Cache-Control", "no-cache");
   res.setHeader("Connection", "keep-alive");
-  res.flush?.bind(res)Headers();
+  res.flush?.() )Headers();
 
   broker.addClient(res);
 

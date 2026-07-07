@@ -15,7 +15,7 @@ router.get("/events/reflections", (req, res) => {
   });
 
   res.write(`data: ${JSON.stringify({ status: "connected" })}\n\n`);
-  res.flush?.bind(res)?.();
+  res.flush?.() )?.();
 
   let lastId = 0;
   const dbPath = path.join(process.cwd(), "db", "main.db");
@@ -29,7 +29,7 @@ router.get("/events/reflections", (req, res) => {
     if (latest && latest.id !== lastId) {
       lastId = latest.id;
       res.write(`data: ${JSON.stringify(latest)}\n\n`);
-      res.flush?.bind(res)?.();
+      res.flush?.() )?.();
     }
   };
 

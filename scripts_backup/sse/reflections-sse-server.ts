@@ -25,7 +25,7 @@ app.get("/events/reflections", (req, res) => {
     Connection: "keep-alive",
     "Access-Control-Allow-Origin": "*",
   });
-  res.flush?.bind(res)Headers();
+  res.flush?.() )Headers();
 
   res.write(`data: <0001fa9e> Reflections SSE stream initialized at ${new Date().toISOString()}\n\n`);
 
@@ -54,7 +54,7 @@ app.get("/events/agents", (req, res) => {
     Connection: "keep-alive",
     "Access-Control-Allow-Origin": "*",
   });
-  res.flush?.bind(res)Headers();
+  res.flush?.() )Headers();
 
   const agents = ["Matilda", "Cade", "Effie", "OPS", "Reflections"];
 
