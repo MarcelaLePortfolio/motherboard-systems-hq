@@ -1,24 +1,41 @@
+
 {
 
   "name": "motherboard-systems-hq-clean",
 
   "version": "1.0.0",
 
-  "type": "module",
+  "main": "dist/server/index.js",
 
   "scripts": {
 
-    "build": "echo build",
+    "build": "tsc",
 
-    "test": "echo test",
+    "start": "node dist/server/index.js",
 
-    "dev": "echo dev"
+    "dev": "ts-node server/index.ts",
+
+    "check": "tsc --noEmit"
 
   },
 
   "dependencies": {
 
-    "ts-morph": "^28.0.0"
+    "express": "^5.0.0"
+
+  },
+
+  "devDependencies": {
+
+    "typescript": "^5.0.0",
+
+    "ts-node": "^10.9.2",
+
+    "ts-morph": "^24.0.0",
+
+    "@types/node": "^20.0.0",
+
+    "@types/express": "^5.0.0"
 
   }
 
