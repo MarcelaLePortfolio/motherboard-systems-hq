@@ -1,0 +1,135 @@
+
+/* CLEAN BASE LAYOUT (NO PHASE SYSTEMS) */
+
+html, body {
+
+  height: 100%;
+
+  margin: 0;
+
+  background: #0b1220;
+
+  color: #e5e7eb;
+
+  font-family: ui-sans-serif;
+
+}
+
+#app {
+
+  display: grid;
+
+  grid-template-columns: 1fr 1fr;
+
+  gap: 16px;
+
+  padding: 16px;
+
+  align-items: stretch;
+
+}
+
+/* left + right stability */
+
+#ops, #tasks, #agent-status {
+
+  background: #111827;
+
+  border-radius: 12px;
+
+  padding: 12px;
+
+  min-height: 200px;
+
+  overflow: auto;
+
+}
+
+/* --- CRITICAL LAYOUT FIX: equal height workspace system --- */
+
+#phase61-workspace-grid {
+
+  align-items: stretch !important;
+
+}
+
+#operator-workspace-card,
+
+#observational-workspace-card,
+
+#atlas-status-card,
+
+#agent-status-container {
+
+  display: flex !important;
+
+  flex-direction: column !important;
+
+  height: 100% !important;
+
+  min-height: 0 !important;
+
+}
+
+/* ensure inner panels can expand */
+
+#operator-workspace-card > div,
+
+#observational-workspace-card > div {
+
+  flex: 1 1 auto !important;
+
+  min-height: 0 !important;
+
+}
+
+/* --- TELEMETRY: force bottom-fill behavior --- */
+
+#telemetry-console,
+
+.telemetry-console,
+
+#observational-workspace-card .telemetry,
+
+#observational-workspace-card [data-panel="telemetry"] {
+
+  flex: 1 1 auto !important;
+
+  min-height: 0 !important;
+
+  display: flex !important;
+
+  flex-direction: column !important;
+
+}
+
+/* planning preview must fill remaining space */
+
+#planning-preview,
+
+.planning-preview,
+
+[data-panel="planning-preview"] {
+
+  flex: 1 1 auto !important;
+
+  min-height: 0 !important;
+
+  display: flex !important;
+
+}
+
+/* --- AGENT BADGE DUPLICATION FIX (visual-only safeguard) --- */
+
+#agent-status-container .w-3.h-3 + .w-3.h-3 {
+
+  display: none !important;
+
+}
+
+#agent-status-container .rounded-full + .rounded-full {
+
+  display: none !important;
+
+}
+
