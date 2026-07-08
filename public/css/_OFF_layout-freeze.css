@@ -1,0 +1,31 @@
+
+/* HARD LAYOUT STABILIZATION LAYER */
+
+.phase59-shell,
+
+.phase60-shell,
+
+._DISABLED._DISABLED_phase61-shell {
+
+  all: unset !important;
+
+}
+
+#DISABLED._DISABLED._DISABLED_phase61-workspace-grid,
+
+#workspace-row {
+
+  display: grid !important;
+
+  grid-template-columns: 1fr 1fr !important;
+
+}
+
+#ops, #tasks, #agent-status {
+
+  min-height: 200px !important;
+
+  overflow: auto !important;
+
+}
+

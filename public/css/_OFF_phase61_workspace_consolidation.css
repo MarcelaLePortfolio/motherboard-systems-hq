@@ -7,27 +7,27 @@
 */
 
 :root {
-  --phase61-max: 1440px;
-  --phase61-gap: 1.5rem;
-  --phase61-panel-min: 320px;
+  -._DISABLED._DISABLED_phase61-max: 1440px;
+  -._DISABLED._DISABLED_phase61-gap: 1.5rem;
+  -._DISABLED._DISABLED_phase61-panel-min: 320px;
 }
 
 .phase59-shell,
 body > #agent-status-container,
 body > main,
 body > #reflections {
-  width: min(100%, var(--phase61-max));
+  width: min(100%, var(-._DISABLED._DISABLED_phase61-max));
 }
 
-#phase61-workspace-grid {
+#DISABLED._DISABLED._DISABLED_phase61-workspace-grid {
   display: grid;
   grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr);
-  gap: var(--phase61-gap);
+  gap: var(-._DISABLED._DISABLED_phase61-gap);
   align-items: start;
 }
 
-#phase61-operator-column,
-#phase61-telemetry-column,
+._DISABLED._DISABLED_phase61-operator-column,
+._DISABLED._DISABLED_phase61-telemetry-column,
 #operator-tools-grid,
 #activity-panels-grid {
   min-width: 0;
@@ -113,7 +113,7 @@ body > #reflections {
 }
 
 @media (max-width: 1279px) {
-  #phase61-workspace-grid {
+  #DISABLED._DISABLED._DISABLED_phase61-workspace-grid {
     grid-template-columns: minmax(0, 1fr);
   }
 

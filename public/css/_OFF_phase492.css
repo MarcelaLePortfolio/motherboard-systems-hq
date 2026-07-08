@@ -1,15 +1,15 @@
 
 /* Phase492 — telemetry console equals operator workspace height and scrolls internally */
 
-#phase61-workspace-grid {
+#DISABLED._DISABLED._DISABLED_phase61-workspace-grid {
 
   align-items: start !important;
 
 }
 
-#phase61-operator-column,
+._DISABLED._DISABLED_phase61-operator-column,
 
-#phase61-telemetry-column {
+._DISABLED._DISABLED_phase61-telemetry-column {
 
   min-height: 0 !important;
 

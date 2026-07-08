@@ -93,16 +93,16 @@
 }
 
 /* Phase 61 polish — match observational workspace height to Matilda chat console only */
-#phase61-workspace-grid {
+#DISABLED._DISABLED._DISABLED_phase61-workspace-grid {
   align-items: start;
 }
 
-#phase61-operator-column,
-#phase61-telemetry-column {
+._DISABLED._DISABLED_phase61-operator-column,
+._DISABLED._DISABLED_phase61-telemetry-column {
   align-self: start;
 }
 
-#phase61-telemetry-column {
+._DISABLED._DISABLED_phase61-telemetry-column {
   display: block;
 }
 
