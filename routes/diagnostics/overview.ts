@@ -1,21 +1,23 @@
 
 import express from "express";
 
-import { evaluateAuthority } from "../../server/authority/authority-gate";
-
 const router = express.Router();
 
-router.get("/overview", (req, res) => {
+router.get("/overview", (req: any, res) => {
 
-  const authority = evaluateAuthority({
+  const authority = req.authority ?? {
 
-    mode: "diagnostic",
+    execution_authorized: false,
 
-    source: "overview"
+    reason: "missing_middleware",
 
-  });
+    confidence: 0
 
-  const system = authority.confidence > 0.8 ? "healthy"
+  };
+
+  const system =
+
+    authority.confidence > 0.8 ? "healthy"
 
     : authority.confidence > 0.5 ? "degraded"
 

@@ -1,10 +1,4 @@
 
-/**
-
- * Execution Event Bus (single source of truth for Atlas)
-
- */
-
 export type ExecutionEvent = {
 
   id: string;
@@ -21,23 +15,19 @@ export type ExecutionEvent = {
 
 };
 
-const eventLog: ExecutionEvent[] = [];
+/**
 
-export function emitEvent(event: ExecutionEvent) {
+ * Backwards compatibility shim.
 
-  eventLog.push(event);
+ * Events now live in persistent store.
 
-}
+ */
+
+import { getPersistentEvents } from "./execution-event-store";
 
 export function getEvents(): ExecutionEvent[] {
 
-  return eventLog;
-
-}
-
-export function clearEvents() {
-
-  eventLog.length = 0;
+  return getPersistentEvents();
 
 }
 

@@ -1,31 +1,15 @@
 
-import { emitEvent } from "../events/execution-event-bus";
+import { emitPersistentEvent } from "../events/execution-event-store";
 
-export function recordExecutionEvent(event: {
+export function recordExecutionEvent(event: any) {
 
-  action: string;
-
-  input?: any;
-
-  output?: any;
-
-  affectedFiles?: string[];
-
-}) {
-
-  emitEvent({
+  emitPersistentEvent({
 
     id: crypto.randomUUID(),
 
-    action: event.action,
-
     timestamp: Date.now(),
 
-    input: event.input,
-
-    output: event.output,
-
-    affectedFiles: event.affectedFiles
+    ...event
 
   });
 

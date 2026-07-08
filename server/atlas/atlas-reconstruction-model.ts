@@ -1,71 +1,81 @@
 
-/**
+import { ExecutionEvent } from "../events/execution-event-bus";
 
- * Atlas Reconstruction Model v1
+import { buildCausalGraph } from "./causal-graph";
 
- *
-
- * Purpose:
-
- * Reconstruct "why" from execution history, not from execution agents.
-
- */
-
-export type ExecutionEvent = {
-
-  action: string;
-
-  timestamp: number;
-
-  input?: any;
-
-  output?: any;
-
-  affectedFiles?: string[];
-
-};
-
-export type SystemStateSnapshot = {
-
-  before: Record<string, any>;
-
-  after: Record<string, any>;
-
-};
+import { pruneCausalGraph } from "./causal-prune";
 
 export type AtlasExplanation = {
 
-  why: string;
+  summary: string;
+
+  causalChain: string[];
 
   confidence: number;
 
-  supportingEvents: ExecutionEvent[];
+  graph: any[];
 
 };
+
+function computeConfidence(graph: any[]) {
+
+  if (!graph.length) return 0;
+
+  const total = graph.reduce((sum: number, n: any) => {
+
+    return sum + (n.weight ?? 0);
+
+  }, 0);
+
+  return Math.min(1, total / Math.max(graph.length, 1));
+
+}
 
 export function reconstructWhy(
 
   intent: any,
 
-  events: ExecutionEvent[],
-
-  state: SystemStateSnapshot
+  events: ExecutionEvent[]
 
 ): AtlasExplanation {
 
-  const lastEvent = events[events.length - 1];
+  if (!events || events.length === 0) {
 
-  const why =
+    return {
 
-    `Action '${lastEvent?.action}' aligns with intent and produced a state change.`;
+      summary: "No execution history available",
+
+      causalChain: [],
+
+      confidence: 0,
+
+      graph: []
+
+    };
+
+  }
+
+  const rawGraph = buildCausalGraph(events);
+
+  const graph = pruneCausalGraph(rawGraph);
+
+  const causalChain = graph.map((n: any, i: number) =>
+
+    `${i + 1}. ${n.type} → ${n.file ?? "unknown"} (w=${n.weight})`
+
+  );
+
+  const last = graph[graph.length - 1];
 
   return {
 
-    why,
+    summary: `Pruned causal reasoning complete. Nodes=${graph.length}. Strongest=${last?.type ?? "none"}`,
 
-    confidence: 0.6,
+    causalChain,
 
-    supportingEvents: events
+    confidence: computeConfidence(graph),
+
+    graph
 
   };
 

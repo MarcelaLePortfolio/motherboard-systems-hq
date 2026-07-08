@@ -1,29 +1,25 @@
 
 import express from "express";
 
-import { evaluateAuthority } from "../../server/authority/authority-gate";
-
 const router = express.Router();
 
-router.get("/system-health", (req, res) => {
+/**
 
-  const rawMode = req.query.mode;
+ * NOW fully middleware-driven (no direct evaluation)
 
-  const mode =
+ */
 
-    rawMode === "simulation" || rawMode === "runtime" || rawMode === "diagnostic"
+router.get("/system-health", (req: any, res) => {
 
-      ? rawMode
+  const authority = req.authority ?? {
 
-      : "diagnostic";
+    execution_authorized: false,
 
-  const authority = evaluateAuthority({
+    reason: "missing_middleware",
 
-    mode,
+    confidence: 0
 
-    source: "systemHealth"
-
-  });
+  };
 
   const healthScore =
 

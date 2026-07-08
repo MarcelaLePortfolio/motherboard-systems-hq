@@ -1,6 +1,8 @@
 
 import { recordExecutionEvent } from "./cade-event-wrapper";
 
+import { createFile, updateFile, deleteFile } from "./cade-effects";
+
 export type CadeAction =
 
   | "create_file"
@@ -15,49 +17,57 @@ export async function executeCadeAction(input: {
 
   payload: any;
 
+  executionId?: string;
+
 }) {
 
-  // minimal simulation layer for now
+  if (!input?.action) {
 
-  let result;
+    return { status: "error", error: "missing_action" };
+
+  }
+
+  let result: any;
 
   if (input.action === "create_file") {
 
-    result = {
+    const file = createFile(input.payload.filename, input.payload.content);
 
-      status: "ok",
-
-      file: input.payload?.filename ?? "unknown"
-
-    };
+    result = { status: "ok", file };
 
   }
 
-  if (input.action === "update_file") {
+  else if (input.action === "update_file") {
 
-    result = {
+    const file = updateFile(input.payload.filename, input.payload.content);
 
-      status: "ok",
-
-      updated: input.payload?.filename ?? "unknown"
-
-    };
+    result = { status: "ok", file };
 
   }
 
-  if (input.action === "delete_file") {
+  else if (input.action === "delete_file") {
+
+    const file = deleteFile(input.payload.filename);
+
+    result = { status: "ok", file };
+
+  }
+
+  else {
 
     result = {
 
-      status: "ok",
+      status: "error",
 
-      deleted: input.payload?.filename ?? "unknown"
+      error: "unknown_action"
 
     };
 
   }
 
   recordExecutionEvent({
+
+    id: input.executionId || crypto.randomUUID(),
 
     action: input.action,
 

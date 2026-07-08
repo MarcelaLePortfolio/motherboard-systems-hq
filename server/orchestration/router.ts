@@ -1,55 +1,129 @@
+
 import type { PolicyContext } from "./policy";
+
+import { executeCadeAction } from "../cade/cade-executor";
 
 export type AgentId = "matilda" | "cade" | "effie" | "atlas" | "unknown";
 
 export type AgentSnapshot = {
+
   id: AgentId;
+
   healthy: boolean;
-  // simple capacity signal (Phase 17.3); scheduling/throttling lands in 17.4
+
   busy: boolean;
-  caps: string[]; // capability tags
+
+  caps: string[];
+
 };
 
 export type RouteRequest = {
+
   taskId: string;
+
   kind: string;
+
   requiredCaps?: string[];
+
+  payload?: any;
+
+  // NEW: execution capability flag (DEFAULT FALSE BEHAVIOR)
+
+  execute?: boolean;
+
 };
 
 export type RouteResult =
-  | { ok: true; assignedAgent: AgentId; reason: string }
+
+  | { ok: true; assignedAgent: AgentId; reason: string; result?: any }
+
   | { ok: false; reason: string };
 
-function hasAllCaps(agent: AgentSnapshot, required: string[]): boolean {
+function hasAllCaps(agent: AgentSnapshot, required: string[]) {
+
   const set = new Set(agent.caps || []);
+
   return required.every((c) => set.has(c));
+
 }
 
-/**
- * Routing rules (Phase 17.3, pure):
- * - If operatorMode is PAUSE or DRAIN, do not route (scheduler will handle later; return ok:false).
- * - Prefer first healthy, not-busy agent that satisfies requiredCaps.
- * - If none available, return ok:false.
- *
- * NOTE: Kind->caps mapping stays external for now; caller provides requiredCaps.
- */
-export function routeTask(ctx: PolicyContext, req: RouteRequest, agents: AgentSnapshot[]): RouteResult {
+export async function routeTask(
+
+  ctx: PolicyContext,
+
+  req: RouteRequest,
+
+  agents: AgentSnapshot[]
+
+): Promise<RouteResult> {
+
   if (ctx.operatorMode === "PAUSE" || ctx.operatorMode === "DRAIN") {
+
     return { ok: false, reason: `operatorMode=${ctx.operatorMode} blocks routing` };
+
   }
 
   const required = req.requiredCaps || [];
 
   const candidates = agents
+
     .filter((a) => a.healthy)
+
     .filter((a) => !a.busy)
+
     .filter((a) => hasAllCaps(a, required));
 
   if (candidates.length === 0) {
-    return { ok: false, reason: `no available agent for caps=[${required.join(",")}] kind=${req.kind}` };
+
+    return {
+
+      ok: false,
+
+      reason: `no available agent for caps=[${required.join(",")}] kind=${req.kind}`
+
+    };
+
   }
 
-  // deterministic: stable order (caller controls ordering)
   const chosen = candidates[0];
-  return { ok: true, assignedAgent: chosen.id, reason: `chosen=${chosen.id} caps_ok kind=${req.kind}` };
+
+  // IMPORTANT: execution gate exists but is NOT enabled by default usage
+
+  if (req.execute === true && chosen.id === "cade") {
+
+    const result = await executeCadeAction({
+
+      action: req.kind as any,
+
+      payload: req.payload
+
+    });
+
+    return {
+
+      ok: true,
+
+      assignedAgent: chosen.id,
+
+      result,
+
+      reason: `executed_by_cade kind=${req.kind}`
+
+    };
+
+  }
+
+  return {
+
+    ok: true,
+
+    assignedAgent: chosen.id,
+
+    reason: `routed_only chosen=${chosen.id} kind=${req.kind}`
+
+  };
+
 }
+
+export default routeTask;
+

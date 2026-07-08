@@ -1,31 +1,11 @@
 
 import fs from "fs";
 
-const FILE = "events.log.json";
+import path from "path";
 
-export type ExecutionEvent = {
+import { ExecutionEvent } from "./execution-event-bus";
 
-  id: string;
-
-  action: string;
-
-  timestamp: number;
-
-  input?: any;
-
-  output?: any;
-
-  affectedFiles?: string[];
-
-  intent?: {
-
-    raw: any;
-
-    source: string;
-
-  };
-
-};
+const FILE = path.join(process.cwd(), "events.log.json");
 
 function readStore(): ExecutionEvent[] {
 
@@ -41,7 +21,7 @@ function writeStore(events: ExecutionEvent[]) {
 
 }
 
-export function emitEvent(event: ExecutionEvent) {
+export function emitPersistentEvent(event: ExecutionEvent) {
 
   const events = readStore();
 
@@ -51,13 +31,13 @@ export function emitEvent(event: ExecutionEvent) {
 
 }
 
-export function getEvents(): ExecutionEvent[] {
+export function getPersistentEvents(): ExecutionEvent[] {
 
   return readStore();
 
 }
 
-export function clearEvents() {
+export function clearPersistentEvents() {
 
   writeStore([]);
 

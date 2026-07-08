@@ -3,7 +3,7 @@ import express from "express";
 
 const router = express.Router();
 
-router.get("/authority", (req: any, res) => {
+router.get("/authority-snapshot", (req: any, res) => {
 
   res.json({
 
