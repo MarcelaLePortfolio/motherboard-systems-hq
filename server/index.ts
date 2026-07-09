@@ -1,5 +1,14 @@
+
+import { mountRootRedirect } from "./routes/root-redirect";
+
+import sseRouter from "./routes/sse";
+
+import { mountMinimalUI } from "./routes/minimal-ui";
+
 import { mountApiUiCompat } from "./routes/api-ui-compat";
+
 import taskEventsRouter from "./routes/task-events-sse.mjs";
+
 import { mountApiCompat } from "./routes/api-compat";
 
 import express from "express";
@@ -9,6 +18,8 @@ import cors from "cors";
 import cadeRouter from "./routes/cade";
 
 import atlasRouter from "./routes/atlas/why";
+
+import eventsSurfaceRouter from "./routes/events-surface";
 
 import { getEvents } from "./events/execution-event-bus";
 
@@ -20,7 +31,7 @@ app.use(cors());
 
 app.use(express.json());
 
-// 🔹 Dashboard (IMPORTANT FIX)
+// 🔹 Dashboard
 
 mountDashboard(app);
 
@@ -29,7 +40,12 @@ mountDashboard(app);
 app.use(cadeRouter);
 
 app.use(atlasRouter);
+
 app.use(taskEventsRouter);
+
+// ✅ STATE SURFACE LAYER (NEW)
+
+app.use(eventsSurfaceRouter);
 
 // Health check
 
@@ -55,9 +71,23 @@ app.listen(PORT, () => {
 
 });
 
-
-// mountApiCompat(app);
-
-
-
 mountApiUiCompat(app);
+
+mountMinimalUI(app);
+
+app.use(sseRouter);
+
+// temporary SSE heartbeat
+
+import { emitSSE } from "./events/sse-bus";
+
+setInterval(() => {
+
+  emitSSE("ops", { type: "heartbeat", source: "ops", message: "heartbeat" });
+
+  emitSSE("reflections", { type: "heartbeat", source: "reflections", message: "heartbeat" });
+
+}, 3000);
+
+mountRootRedirect(app);
+
