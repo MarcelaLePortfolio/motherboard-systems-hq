@@ -1,5 +1,5 @@
 
-console.log("[PROJECT PICKER] hardened boot script loading");
+console.log("[PROJECT PICKER] hardened non-blocking boot loading");
 
 (() => {
 
@@ -25,38 +25,6 @@ console.log("[PROJECT PICKER] hardened boot script loading");
 
   }
 
-  async function fetchProjects() {
-
-    try {
-
-      const res = await fetch(URL, {
-
-        headers: { "Accept": "application/json" }
-
-      });
-
-      const text = await res.text();
-
-      const json = safeJsonParse(text);
-
-      if (!json || typeof json !== "object") {
-
-        return { projects: [], activeProject: "default" };
-
-      }
-
-      return json;
-
-    } catch (e) {
-
-      console.warn("[project-picker] fetch failed:", e);
-
-      return { projects: [], activeProject: "default" };
-
-    }
-
-  }
-
   function ensureDOM() {
 
     const root = document.getElementById("project-switcher");
@@ -67,25 +35,69 @@ console.log("[PROJECT PICKER] hardened boot script loading");
 
   }
 
+  function renderSkeleton() {
+
+    const { mount } = ensureDOM();
+
+    if (!mount) return;
+
+    mount.innerHTML = `
+
+      <div class="flex justify-between items-center mb-2 animate-pulse">
+
+        <div class="h-6 w-24 bg-gray-700 rounded"></div>
+
+        <div class="h-6 w-16 bg-gray-700 rounded"></div>
+
+      </div>
+
+      <div class="h-10 bg-gray-800 rounded"></div>
+
+    `;
+
+  }
+
+  async function fetchWithTimeout(url, timeout = 2500) {
+
+    const controller = new AbortController();
+
+    const id = setTimeout(() => controller.abort(), timeout);
+
+    try {
+
+      const res = await fetch(url, {
+
+        headers: { "Accept": "application/json" },
+
+        signal: controller.signal
+
+      });
+
+      const text = await res.text();
+
+      return safeJsonParse(text);
+
+    } catch (e) {
+
+      console.warn("[project-picker] fetch timeout/fail:", e);
+
+      return null;
+
+    } finally {
+
+      clearTimeout(id);
+
+    }
+
+  }
+
   function render(projects, active) {
 
-    const { root, mount } = ensureDOM();
+    const { mount } = ensureDOM();
 
-    if (!root || !mount) {
+    if (!mount) return false;
 
-      console.warn("[project-picker] DOM missing, retrying mount...");
-
-      return false;
-
-    }
-
-    if (!Array.isArray(projects)) {
-
-      console.warn("[project-picker] projects invalid shape");
-
-      projects = [];
-
-    }
+    if (!Array.isArray(projects)) projects = [];
 
     mount.innerHTML = `
 
@@ -135,11 +147,7 @@ console.log("[PROJECT PICKER] hardened boot script loading");
 
     if (activeBtn && list) {
 
-      activeBtn.onclick = () => {
-
-        list.classList.toggle("hidden");
-
-      };
+      activeBtn.onclick = () => list.classList.toggle("hidden");
 
     }
 
@@ -191,6 +199,18 @@ console.log("[PROJECT PICKER] hardened boot script loading");
 
   }
 
+  async function hydrate() {
+
+    const data = await fetchWithTimeout(URL);
+
+    const projects = data?.projects || [];
+
+    const active = data?.activeProject || projects[0]?.id || "default";
+
+    render(projects, active);
+
+  }
+
   async function boot(attempt = 0) {
 
     const { root, mount } = ensureDOM();
@@ -201,29 +221,23 @@ console.log("[PROJECT PICKER] hardened boot script loading");
 
         setTimeout(() => boot(attempt + 1), 300);
 
-      } else {
-
-        console.error("[project-picker] failed to mount after retries");
-
       }
 
       return;
 
     }
 
-    const data = await fetchProjects();
+    renderSkeleton();
 
-    const projects = data.projects || [];
+    setTimeout(() => {
 
-    const active = data.activeProject || projects[0]?.id || "default";
+      hydrate().catch((e) => {
 
-    const ok = render(projects, active);
+        console.warn("[project-picker] hydrate failed:", e);
 
-    if (!ok && attempt < MAX_RETRIES) {
+      });
 
-      setTimeout(() => boot(attempt + 1), 300);
-
-    }
+    }, 0);
 
   }
 
@@ -247,13 +261,7 @@ console.log("[PROJECT PICKER] hardened boot script loading");
 
     installGlobalSafety();
 
-    if (window[BOOT_FLAG]) {
-
-      console.warn("[project-picker] already booted, skipping duplicate init");
-
-      return;
-
-    }
+    if (window[BOOT_FLAG]) return;
 
     window[BOOT_FLAG] = true;
 
