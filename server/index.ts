@@ -13,7 +13,7 @@ const apiCompat = (_req: any, _res: any, next: any) => next();
 
 /**
 
- * Root redirect handler (stub replacement for ./routes/root-redirect)
+ * Root redirect handler
 
  */
 
@@ -29,7 +29,7 @@ function mountRootRedirect(app: any) {
 
 /**
 
- * Minimal UI handler (stub replacement for ./routes/minimal-ui)
+ * Minimal UI handler
 
  */
 
@@ -59,7 +59,7 @@ function mountMinimalUI(app: any) {
 
 /**
 
- * SSE router stub (replacement for ./routes/sse)
+ * SSE router stub
 
  */
 
@@ -71,7 +71,7 @@ function sseRouter(_app: any) {
 
 /**
 
- * SSE event emitter stub (replacement for ./events/sse-bus)
+ * SSE event emitter stub
 
  */
 
@@ -95,7 +95,7 @@ const PORT = process.env.PORT || 3000;
 
 app.listen(PORT, () => {
 
-  console.log(\`Server running on port \${PORT}\`);
+  console.log(`Server running on port ${PORT}`);
 
 });
 
