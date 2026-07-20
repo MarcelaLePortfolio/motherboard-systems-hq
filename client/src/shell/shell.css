@@ -1,0 +1,80 @@
+/*
+  Structural styling only for this corridor.
+
+  In scope: viewport/root sizing, persistent shell regions,
+  navigation-region and workspace-mount boundaries, basic spacing,
+  inert placeholder presentation.
+
+  Out of scope, deliberately: a design system, a visual identity,
+  a color palette beyond what is needed to make region boundaries
+  legible, typography choices, or any domain-specific presentation.
+  These are left open for a later corridor.
+*/
+
+html,
+body,
+#root {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+.shell-frame {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  min-height: 100vh;
+}
+
+.shell-orientation {
+  flex: 0 0 auto;
+  padding: 0.75rem 1rem;
+  border-bottom: 1px solid #ccc;
+}
+
+.shell-orientation__label {
+  font-size: 0.875rem;
+}
+
+.shell-body {
+  flex: 1 1 auto;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+}
+
+.shell-navigation-region {
+  flex: 0 0 auto;
+  box-sizing: border-box;
+  padding: 1rem;
+  border-bottom: 1px dashed #ccc;
+  overflow-y: auto;
+}
+
+.shell-navigation-region__notice {
+  font-size: 0.8125rem;
+  line-height: 1.4;
+}
+
+.shell-workspace-mount {
+  flex: 1 1 auto;
+  box-sizing: border-box;
+  padding: 1rem;
+  overflow-y: auto;
+  min-width: 0;
+}
+
+.shell-placeholder-workspace {
+  border: 1px dashed #ccc;
+  padding: 1rem;
+}
+
+.shell-placeholder-workspace__notice {
+  font-size: 0.875rem;
+  line-height: 1.4;
+  margin: 0 0 0.5rem 0;
+}
+
+.shell-placeholder-workspace__notice:last-child {
+  margin-bottom: 0;
+}
