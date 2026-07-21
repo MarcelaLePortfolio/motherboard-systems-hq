@@ -3,9 +3,11 @@
 import express from "express";
 import path from "path";
 import { pathToFileURL } from "url";
+import apiChatRouter from "../routes/api-chat";
 const app = express();
 
 app.use(express.json());
+app.use(apiChatRouter);
 
 app.get("/ui", (_req, res) => {
   res.send(`

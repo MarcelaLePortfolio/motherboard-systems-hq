@@ -35,7 +35,7 @@ export function synthesizeLivingDraft(
 
   );
 
-  if (evidence.length === false) {
+  if (evidence.length === 0) {
 
     throw new Error("No matching Interpretation Evidence Ledger entries found.");
 

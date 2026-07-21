@@ -9,7 +9,7 @@ const sqlite = new Database("motherboard.sqlite");
 
 function ensureCanonicalPackageTable() {
 
-  db.exec(`
+  sqlite.exec(`
 
     CREATE TABLE IF NOT EXISTS matilda_canonical_packages (
 
@@ -75,7 +75,7 @@ export function createCanonicalPackageFromApprovedSummary({
 
   const package_id = `pkg-${randomUUID()}`;
 
-  db.prepare(`
+  sqlite.prepare(`
 
     INSERT INTO matilda_canonical_packages (
 

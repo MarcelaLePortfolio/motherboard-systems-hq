@@ -1,11 +1,11 @@
 
 import express, { Request, Response } from "express";
 
-import { runMatildaStub } from "../matilda-chat-stub.js";
+import { runMatildaStub } from "../matilda-chat-stub";
 
-import type { MatildaChatResult } from "../matilda-chat-stub.js";
+import type { MatildaChatResult } from "../matilda-chat-stub";
 
-import { runMatildaChatDraftIntegration } from "../db/matilda-chat-draft-integration.js";
+import { runMatildaChatDraftIntegration } from "../db/matilda-chat-draft-integration";
 
 const router = express.Router();
 
