@@ -1,5 +1,6 @@
 import NavigationRegion from "./NavigationRegion";
 import WorkspaceMount from "./WorkspaceMount";
+import ProjectContextControl from "../project-context/ProjectContextControl";
 import "./shell.css";
 
 // Shell: the persistent application frame.
@@ -29,10 +30,7 @@ export default function Shell() {
         </div>
 
         <div className="shell-project-context" data-shell-region="project-context">
-          <button className="shell-project-picker" type="button">
-            <span>Motherboard Systems HQ</span>
-            <span aria-hidden="true">⌄</span>
-          </button>
+          <ProjectContextControl />
         </div>
       </header>
 
