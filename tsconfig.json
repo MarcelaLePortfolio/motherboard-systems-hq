@@ -9,6 +9,10 @@
 
     "moduleResolution": "NodeNext",
 
+    "rootDir": ".",
+
+    "outDir": "dist",
+
     "esModuleInterop": true,
 
     "allowSyntheticDefaultImports": true,
