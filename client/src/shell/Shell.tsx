@@ -19,9 +19,21 @@ export default function Shell() {
   return (
     <div className="shell-frame" data-shell-region="frame">
       <header className="shell-orientation" data-shell-region="orientation">
-        <span className="shell-orientation__label">
-          Shell Bootstrap — Corridor 1
-        </span>
+        <div className="shell-identity" data-shell-region="identity">
+          <span className="shell-identity__mark" aria-hidden="true">
+            M
+          </span>
+          <span className="shell-identity__label">
+            Motherboard Systems HQ
+          </span>
+        </div>
+
+        <div className="shell-project-context" data-shell-region="project-context">
+          <button className="shell-project-picker" type="button">
+            <span>Motherboard Systems HQ</span>
+            <span aria-hidden="true">⌄</span>
+          </button>
+        </div>
       </header>
 
       <div className="shell-body">

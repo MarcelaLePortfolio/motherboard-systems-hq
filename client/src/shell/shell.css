@@ -5,10 +5,12 @@
   navigation-region and workspace-mount boundaries, basic spacing,
   inert placeholder presentation.
 
-  Out of scope, deliberately: a design system, a visual identity,
-  a color palette beyond what is needed to make region boundaries
-  legible, typography choices, or any domain-specific presentation.
-  These are left open for a later corridor.
+  In scope also: minimal persistent shell identity and project-context
+  chrome needed to establish the frame's structural regions.
+
+  Out of scope, deliberately: a full design system, developed visual
+  identity, color palette, typography system, or domain-specific
+  presentation. These are left open for a later corridor.
 */
 
 html,
@@ -28,40 +30,74 @@ body,
 
 .shell-orientation {
   flex: 0 0 auto;
-  padding: 0.75rem 1rem;
+  display: grid;
+  grid-template-columns: 280px minmax(0, 1fr);
+  min-height: 64px;
   border-bottom: 1px solid #ccc;
 }
 
-.shell-orientation__label {
-  font-size: 0.875rem;
+.shell-identity {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  box-sizing: border-box;
+  padding: 0.75rem 1rem;
+  border-right: 1px dashed #ccc;
+}
+
+.shell-identity__mark {
+  font-size: 1.25rem;
+}
+
+.shell-identity__label {
+  font-size: 0.9375rem;
+}
+
+.shell-project-context {
+  display: flex;
+  align-items: center;
+  box-sizing: border-box;
+  padding: 0.75rem 1rem;
+  min-width: 0;
+}
+
+.shell-project-picker {
+  display: inline-flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  min-width: 260px;
+  padding: 0.5rem 0.75rem;
+  font: inherit;
+  background: transparent;
+  border: 1px solid #ccc;
+  border-radius: 0.375rem;
 }
 
 .shell-body {
   flex: 1 1 auto;
-  display: flex;
-  flex-direction: column;
+  display: grid;
+  grid-template-columns: 280px minmax(0, 1fr);
   min-height: 0;
 }
 
 .shell-navigation-region {
-  flex: 0 0 auto;
   box-sizing: border-box;
   padding: 1rem;
-  border-bottom: 1px dashed #ccc;
+  border-right: 1px dashed #ccc;
+  overflow-y: auto;
+}
+
+.shell-workspace-mount {
+  box-sizing: border-box;
+  padding: 1rem;
+  min-width: 0;
   overflow-y: auto;
 }
 
 .shell-navigation-region__notice {
   font-size: 0.8125rem;
   line-height: 1.4;
-}
-
-.shell-workspace-mount {
-  flex: 1 1 auto;
-  box-sizing: border-box;
-  padding: 1rem;
-  overflow-y: auto;
-  min-width: 0;
 }
 
 .shell-placeholder-workspace {
