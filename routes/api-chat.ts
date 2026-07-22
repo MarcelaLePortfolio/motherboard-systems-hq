@@ -1,5 +1,7 @@
 
 import express, { Request, Response } from "express";
+import path from "path";
+import { pathToFileURL } from "url";
 
 import { runMatildaStub } from "../matilda-chat-stub";
 
@@ -76,7 +78,30 @@ router.post("/api/chat", async (req: Request, res: Response) => {
 
     try {
 
-      conversationalReply = await ollamaChat(message.trim());
+      let projectDisplayName: string | null = null;
+
+      if (project_id) {
+
+        const registryPath = pathToFileURL(
+          path.resolve(process.cwd(), "server", "project-registry.mjs")
+        ).href;
+
+        const { getProjectRegistryState } = await import(registryPath);
+        const registryState = getProjectRegistryState();
+
+        const project = registryState.projects.find(
+          (candidate: { projectId: string }) =>
+            candidate.projectId === project_id
+        );
+
+        projectDisplayName = project?.displayName ?? null;
+
+      }
+
+      conversationalReply = await ollamaChat(message.trim(), {
+        projectId: project_id,
+        projectDisplayName,
+      });
 
     } catch (ollamaError) {
 

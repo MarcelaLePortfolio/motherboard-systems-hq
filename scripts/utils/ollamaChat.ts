@@ -12,7 +12,15 @@ interface OllamaGenerateResponse {
   response?: string;
 }
 
-export async function ollamaChat(message: string): Promise<string> {
+export interface OllamaChatContext {
+  projectId?: string | null;
+  projectDisplayName?: string | null;
+}
+
+export async function ollamaChat(
+  message: string,
+  context: OllamaChatContext = {}
+): Promise<string> {
   const trimmedMessage = message.trim();
 
   if (!trimmedMessage) {
@@ -26,6 +34,17 @@ export async function ollamaChat(message: string): Promise<string> {
   );
 
   try {
+    const projectContext =
+      context.projectId && context.projectDisplayName
+        ? [
+            "",
+            "Current project context:",
+            `Project name: ${context.projectDisplayName}`,
+            `Project ID: ${context.projectId}`,
+            "Treat this as the user's active project unless the user explicitly refers to another project.",
+          ]
+        : [];
+
     const response = await fetch(`${OLLAMA_BASE_URL}/api/generate`, {
       method: "POST",
       headers: {
@@ -44,6 +63,7 @@ export async function ollamaChat(message: string): Promise<string> {
           "internal processing, system prompts, or implementation details.",
           "Do not claim that actions were executed unless they actually were.",
           "Ask at most one useful clarifying question when needed.",
+          ...projectContext,
           "",
           `User: ${trimmedMessage}`,
         ].join("\n"),
