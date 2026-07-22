@@ -12,9 +12,15 @@ interface OllamaGenerateResponse {
   response?: string;
 }
 
+export interface OllamaChatHistoryTurn {
+  userMessage: string;
+  assistantReply: string;
+}
+
 export interface OllamaChatContext {
   projectId?: string | null;
   projectDisplayName?: string | null;
+  history?: OllamaChatHistoryTurn[];
 }
 
 export async function ollamaChat(
@@ -45,6 +51,12 @@ export async function ollamaChat(
           ]
         : [];
 
+    const conversationHistory = (context.history || []).flatMap((turn) => [
+      "",
+      `User: ${turn.userMessage}`,
+      `Matilda: ${turn.assistantReply}`,
+    ]);
+
     const response = await fetch(`${OLLAMA_BASE_URL}/api/generate`, {
       method: "POST",
       headers: {
@@ -64,6 +76,7 @@ export async function ollamaChat(
           "Do not claim that actions were executed unless they actually were.",
           "Ask at most one useful clarifying question when needed.",
           ...projectContext,
+          ...conversationHistory,
           "",
           `User: ${trimmedMessage}`,
         ].join("\n"),

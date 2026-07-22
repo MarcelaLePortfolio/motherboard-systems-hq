@@ -8,6 +8,10 @@ import { runMatildaStub } from "../matilda-chat-stub";
 import type { MatildaChatResult } from "../matilda-chat-stub";
 
 import { runMatildaChatDraftIntegration } from "../db/matilda-chat-draft-integration";
+import {
+  createMatildaConversationTurn,
+  listMatildaConversationTurns,
+} from "../db/matilda-conversation-runtime";
 import { ollamaChat } from "../scripts/utils/ollamaChat";
 
 const router = express.Router();
@@ -98,10 +102,27 @@ router.post("/api/chat", async (req: Request, res: Response) => {
 
       }
 
+      const history = project_id
+        ? listMatildaConversationTurns(project_id, 20).map((turn) => ({
+            userMessage: turn.user_message,
+            assistantReply: turn.assistant_reply,
+          }))
+        : [];
+
       conversationalReply = await ollamaChat(message.trim(), {
         projectId: project_id,
         projectDisplayName,
+        history,
       });
+
+      if (project_id) {
+        createMatildaConversationTurn({
+          project_id,
+          user_message: message.trim(),
+          assistant_reply: conversationalReply,
+          interpretation_entry_id: result.meta.interpretation_entry_id,
+        });
+      }
 
     } catch (ollamaError) {
 
