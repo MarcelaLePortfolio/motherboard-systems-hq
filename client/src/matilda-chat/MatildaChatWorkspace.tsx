@@ -10,9 +10,16 @@ export default function MatildaChatWorkspace() {
     useProjectContext();
 
   const [message, setMessage] = useState("");
-  const [result, setResult] = useState<MatildaChatResponse | null>(null);
+  const [resultsByProject, setResultsByProject] = useState<
+    Record<string, MatildaChatResponse>
+  >({});
   const [submitting, setSubmitting] = useState(false);
   const [requestError, setRequestError] = useState<string | null>(null);
+
+  const activeProjectId = registry?.activeProjectId ?? null;
+  const result = activeProjectId
+    ? resultsByProject[activeProjectId] ?? null
+    : null;
 
   const activeProjectLabel = projectLoading
     ? "Loading active project…"
@@ -44,7 +51,10 @@ export default function MatildaChatWorkspace() {
         projectId,
       });
 
-      setResult(response);
+      setResultsByProject((current) => ({
+        ...current,
+        [projectId]: response,
+      }));
       setMessage("");
     } catch (error) {
       setRequestError(
