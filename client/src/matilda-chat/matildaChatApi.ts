@@ -17,9 +17,15 @@ export interface MatildaChatResponse {
   execution_authorized: boolean;
 }
 
+export interface SendMatildaMessageInput {
+  message: string;
+  projectId: string;
+}
+
 export async function sendMatildaMessage(
-  message: string
+  input: SendMatildaMessageInput
 ): Promise<MatildaChatResponse> {
+
   const response = await fetch("/api/chat", {
     method: "POST",
     headers: {
@@ -27,7 +33,8 @@ export async function sendMatildaMessage(
     },
     body: JSON.stringify({
       agent: "matilda",
-      message,
+      project_id: input.projectId,
+      message: input.message,
     }),
   });
 

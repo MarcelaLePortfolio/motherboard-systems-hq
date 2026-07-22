@@ -33,7 +33,17 @@ export default function MatildaChatWorkspace() {
     setRequestError(null);
 
     try {
-      const response = await sendMatildaMessage(trimmedMessage);
+      const projectId = registry?.activeProjectId;
+
+      if (!projectId) {
+        throw new Error("No active project selected.");
+      }
+
+      const response = await sendMatildaMessage({
+        message: trimmedMessage,
+        projectId,
+      });
+
       setResult(response);
       setMessage("");
     } catch (error) {

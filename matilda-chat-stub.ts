@@ -27,6 +27,8 @@ export type MatildaChatInput = {
 
   agent?: string | null;
 
+  project_id?: string | null;
+
 };
 
 export type MatildaChatMeta = {

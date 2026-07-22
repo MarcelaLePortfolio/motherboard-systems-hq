@@ -14,11 +14,13 @@ router.post("/api/chat", async (req: Request, res: Response) => {
 
   try {
 
-    const { message, agent } = (req.body || {}) as {
+    const { message, agent, project_id } = (req.body || {}) as {
 
       message?: string;
 
       agent?: string | null;
+
+      project_id?: string | null;
 
     };
 
@@ -39,6 +41,8 @@ router.post("/api/chat", async (req: Request, res: Response) => {
       message,
 
       agent: agent ?? "matilda",
+
+      project_id,
 
     });
 
