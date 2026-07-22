@@ -6,6 +6,7 @@ import { runMatildaStub } from "../matilda-chat-stub";
 import type { MatildaChatResult } from "../matilda-chat-stub";
 
 import { runMatildaChatDraftIntegration } from "../db/matilda-chat-draft-integration";
+import { ollamaChat } from "../scripts/utils/ollamaChat";
 
 const router = express.Router();
 
@@ -63,9 +64,28 @@ router.post("/api/chat", async (req: Request, res: Response) => {
 
     }
 
+    let conversationalReply: string;
+
+    try {
+
+      conversationalReply = await ollamaChat(message.trim());
+
+    } catch (ollamaError) {
+
+      console.error("[/api/chat] Ollama response failed:", ollamaError);
+
+      return res.status(503).json({
+        ok: false,
+        error: "Matilda's conversational model is currently unavailable.",
+      });
+
+    }
+
     return res.json({
 
       ...result,
+
+      reply: conversationalReply,
 
       draft_package_updated: draftPackageUpdated,
 

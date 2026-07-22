@@ -160,3 +160,182 @@ body,
   background: #f0f0f0;
   font-weight: 600;
 }
+
+/* Matilda Chat workspace */
+
+.matilda-chat-workspace {
+  display: flex;
+  flex-direction: column;
+  min-height: 100%;
+  border: 1px solid #ccc;
+  border-radius: 0.5rem;
+  overflow: hidden;
+}
+
+.matilda-chat-workspace__header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 1.25rem;
+  border-bottom: 1px solid #ddd;
+}
+
+.matilda-chat-workspace__header h1 {
+  margin: 0.125rem 0 0.375rem;
+  font-size: 1.5rem;
+}
+
+.matilda-chat-workspace__eyebrow {
+  margin: 0;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.matilda-chat-workspace__context {
+  margin: 0;
+  font-size: 0.875rem;
+}
+
+.matilda-chat-workspace__status {
+  flex: 0 0 auto;
+  padding: 0.375rem 0.625rem;
+  font-size: 0.75rem;
+  border: 1px solid #ccc;
+  border-radius: 999px;
+}
+
+.matilda-chat-workspace__notice {
+  padding: 0.625rem 1.25rem;
+  font-size: 0.8125rem;
+  border-bottom: 1px solid #e5e5e5;
+  background: #fafafa;
+}
+
+.matilda-chat-workspace__conversation {
+  flex: 1 1 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  min-height: 240px;
+  padding: 1.25rem;
+}
+
+.matilda-chat-workspace__empty {
+  margin: auto;
+  font-size: 0.9375rem;
+}
+
+.matilda-chat-message {
+  max-width: 760px;
+  padding: 1rem;
+  border: 1px solid #ddd;
+  border-radius: 0.5rem;
+}
+
+.matilda-chat-message--user {
+  align-self: flex-end;
+}
+
+.matilda-chat-message--matilda {
+  align-self: flex-start;
+}
+
+.matilda-chat-message__author {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.matilda-chat-message p {
+  margin: 0;
+  white-space: pre-wrap;
+  line-height: 1.5;
+}
+
+.matilda-chat-message__metadata {
+  display: grid;
+  gap: 0.5rem;
+  margin: 1rem 0 0;
+  padding-top: 1rem;
+  border-top: 1px solid #e5e5e5;
+}
+
+.matilda-chat-message__metadata div {
+  display: grid;
+  grid-template-columns: 150px minmax(0, 1fr);
+  gap: 0.75rem;
+}
+
+.matilda-chat-message__metadata dt {
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+.matilda-chat-message__metadata dd {
+  min-width: 0;
+  margin: 0;
+  overflow-wrap: anywhere;
+  font-size: 0.75rem;
+}
+
+.matilda-chat-workspace__error {
+  margin: 0;
+  padding: 0.75rem;
+  border: 1px solid currentColor;
+  border-radius: 0.375rem;
+}
+
+.matilda-chat-composer {
+  display: flex;
+  flex-direction: column;
+  gap: 0.625rem;
+  padding: 1.25rem;
+  border-top: 1px solid #ddd;
+}
+
+.matilda-chat-composer label {
+  font-size: 0.8125rem;
+  font-weight: 600;
+}
+
+.matilda-chat-composer textarea {
+  box-sizing: border-box;
+  width: 100%;
+  resize: vertical;
+  padding: 0.75rem;
+  font: inherit;
+  line-height: 1.5;
+  border: 1px solid #bbb;
+  border-radius: 0.375rem;
+}
+
+.matilda-chat-composer__actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.matilda-chat-composer__actions span {
+  font-size: 0.75rem;
+  line-height: 1.4;
+}
+
+.matilda-chat-composer__actions button {
+  flex: 0 0 auto;
+  padding: 0.625rem 1rem;
+  font: inherit;
+  border: 1px solid #999;
+  border-radius: 0.375rem;
+  cursor: pointer;
+}
+
+.matilda-chat-composer__actions button:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}

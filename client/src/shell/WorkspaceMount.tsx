@@ -1,18 +1,10 @@
-import PlaceholderWorkspace from "./PlaceholderWorkspace";
+import MatildaChatWorkspace from "../matilda-chat/MatildaChatWorkspace";
 
-// WorkspaceMount: a stable, generic hosting area for whatever the
-// primary workspace turns out to be (Matilda, Packages Inbox, or
-// any other future workspace).
+// WorkspaceMount: the stable hosting boundary for the active workspace.
 //
-// This component knows nothing about domain content. It does not
-// interpret packages, lifecycle state, agents, or backend data. In
-// this corridor it hosts exactly one thing: an inert placeholder
-// that proves the mount point itself is stable and reachable.
-//
-// A later, separate corridor is responsible for deciding how real
-// workspaces get mounted here (e.g. by reference, by route, by
-// some other mechanism) — that decision is intentionally not made
-// by this file.
+// The first mounted workspace is Matilda Chat. Workspace selection and
+// navigation remain deferred; this component does not interpret project,
+// package, lifecycle, or authority state itself.
 export default function WorkspaceMount() {
   return (
     <main
@@ -20,7 +12,7 @@ export default function WorkspaceMount() {
       data-shell-region="workspace-mount"
       aria-label="Workspace content area"
     >
-      <PlaceholderWorkspace />
+      <MatildaChatWorkspace />
     </main>
   );
 }

@@ -8,3 +8,12 @@ files/**/*.log
 files/**/snapshot*
 files/**/rollback*
 files/**/dashboard-*.html
+
+node_modules/
+
+# Build output
+dist/
+client/dist/
+
+# Runtime database
+db/*.db
