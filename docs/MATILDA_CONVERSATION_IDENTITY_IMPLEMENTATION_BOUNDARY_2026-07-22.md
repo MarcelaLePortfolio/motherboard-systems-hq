@@ -66,8 +66,8 @@ Example identifier:
 
 Expected relationship:
 
-conversation_id
-→ project_id
+project_id
+→ conversation_id
 
 ---
 
