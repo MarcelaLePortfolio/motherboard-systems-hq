@@ -50,17 +50,21 @@ router.post("/api/chat", async (req: Request, res: Response) => {
 
     try {
 
-      runMatildaChatDraftIntegration({
+      if (project_id) {
 
-        draft_package_id: "draft-active-conversation",
+        runMatildaChatDraftIntegration({
 
-        lineage_id: "matilda-active-conversation",
+          draft_package_id: `matilda-draft-${project_id}`,
 
-        latest_entry_id: result.meta.interpretation_entry_id,
+          lineage_id: `matilda-lineage-${project_id}`,
 
-      });
+          latest_entry_id: result.meta.interpretation_entry_id,
 
-      draftPackageUpdated = true;
+        });
+
+        draftPackageUpdated = true;
+
+      }
 
     } catch (draftError) {
 
