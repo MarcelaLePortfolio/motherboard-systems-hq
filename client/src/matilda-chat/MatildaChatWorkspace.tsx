@@ -10,17 +10,32 @@ export default function MatildaChatWorkspace() {
   const { registry, loading: projectLoading, error: projectError } =
     useProjectContext();
 
-  const [message, setMessage] = useState("");
+  const [messagesByProject, setMessagesByProject] = useState<
+    Record<string, string>
+  >({});
   const [turnsByProject, setTurnsByProject] = useState<
     Record<string, MatildaConversationTurn[]>
   >({});
-  const [submitting, setSubmitting] = useState(false);
-  const [requestError, setRequestError] = useState<string | null>(null);
+  const [submittingByProject, setSubmittingByProject] = useState<
+    Record<string, boolean>
+  >({});
+  const [errorsByProject, setErrorsByProject] = useState<
+    Record<string, string | null>
+  >({});
 
   const activeProjectId = registry?.activeProjectId ?? null;
+  const message = activeProjectId
+    ? messagesByProject[activeProjectId] ?? ""
+    : "";
   const turns = activeProjectId
     ? turnsByProject[activeProjectId] ?? []
     : [];
+  const submitting = activeProjectId
+    ? submittingByProject[activeProjectId] ?? false
+    : false;
+  const requestError = activeProjectId
+    ? errorsByProject[activeProjectId] ?? null
+    : null;
 
   useEffect(() => {
     if (!activeProjectId) {
@@ -42,11 +57,13 @@ export default function MatildaChatWorkspace() {
       })
       .catch((error) => {
         if (!cancelled) {
-          setRequestError(
-            error instanceof Error
-              ? error.message
-              : "Unable to load Matilda chat history"
-          );
+          setErrorsByProject((current) => ({
+            ...current,
+            [activeProjectId]:
+              error instanceof Error
+                ? error.message
+                : "Unable to load Matilda chat history",
+          }));
         }
       });
 
@@ -70,15 +87,22 @@ export default function MatildaChatWorkspace() {
       return;
     }
 
-    setSubmitting(true);
-    setRequestError(null);
+    const projectId = registry?.activeProjectId;
+
+    if (!projectId) {
+      return;
+    }
+
+    setSubmittingByProject((current) => ({
+      ...current,
+      [projectId]: true,
+    }));
+    setErrorsByProject((current) => ({
+      ...current,
+      [projectId]: null,
+    }));
 
     try {
-      const projectId = registry?.activeProjectId;
-
-      if (!projectId) {
-        throw new Error("No active project selected.");
-      }
 
       const response = await sendMatildaMessage({
         message: trimmedMessage,
@@ -101,13 +125,23 @@ export default function MatildaChatWorkspace() {
           persistedTurn,
         ],
       }));
-      setMessage("");
+      setMessagesByProject((current) => ({
+        ...current,
+        [projectId]: "",
+      }));
     } catch (error) {
-      setRequestError(
-        error instanceof Error ? error.message : "Unknown Matilda chat error"
-      );
+      setErrorsByProject((current) => ({
+        ...current,
+        [projectId]:
+          error instanceof Error
+            ? error.message
+            : "Unknown Matilda chat error",
+      }));
     } finally {
-      setSubmitting(false);
+      setSubmittingByProject((current) => ({
+        ...current,
+        [projectId]: false,
+      }));
     }
   }
 
@@ -166,7 +200,18 @@ export default function MatildaChatWorkspace() {
           rows={4}
           value={message}
           disabled={submitting}
-          onChange={(event) => setMessage(event.target.value)}
+          onChange={(event) => {
+            if (!activeProjectId) {
+              return;
+            }
+
+            const nextMessage = event.target.value;
+
+            setMessagesByProject((current) => ({
+              ...current,
+              [activeProjectId]: nextMessage,
+            }));
+          }}
           placeholder="Describe what you want Matilda to help interpret…"
         />
 
