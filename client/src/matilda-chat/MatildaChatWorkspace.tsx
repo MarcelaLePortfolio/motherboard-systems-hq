@@ -16,6 +16,9 @@ export default function MatildaChatWorkspace() {
   const [turnsByProject, setTurnsByProject] = useState<
     Record<string, MatildaConversationTurn[]>
   >({});
+  const [conversationIdsByProject, setConversationIdsByProject] = useState<
+    Record<string, string>
+  >({});
   const [submittingByProject, setSubmittingByProject] = useState<
     Record<string, boolean>
   >({});
@@ -30,6 +33,9 @@ export default function MatildaChatWorkspace() {
   const turns = activeProjectId
     ? turnsByProject[activeProjectId] ?? []
     : [];
+  const conversationId = activeProjectId
+    ? conversationIdsByProject[activeProjectId] ?? null
+    : null;
   const submitting = activeProjectId
     ? submittingByProject[activeProjectId] ?? false
     : false;
@@ -50,6 +56,10 @@ export default function MatildaChatWorkspace() {
           return;
         }
 
+        setConversationIdsByProject((current) => ({
+          ...current,
+          [activeProjectId]: history.conversation_id,
+        }));
         setTurnsByProject((current) => ({
           ...current,
           [activeProjectId]: history.turns,
@@ -93,6 +103,17 @@ export default function MatildaChatWorkspace() {
       return;
     }
 
+    const activeConversationId =
+      conversationIdsByProject[projectId] ?? null;
+
+    if (!activeConversationId) {
+      setErrorsByProject((current) => ({
+        ...current,
+        [projectId]: "Matilda conversation is still loading.",
+      }));
+      return;
+    }
+
     setSubmittingByProject((current) => ({
       ...current,
       [projectId]: true,
@@ -107,11 +128,13 @@ export default function MatildaChatWorkspace() {
       const response = await sendMatildaMessage({
         message: trimmedMessage,
         projectId,
+        conversationId: activeConversationId,
       });
 
       const persistedTurn: MatildaConversationTurn = {
         turn_id: `pending-${response.meta.interpretation_entry_id}`,
         project_id: projectId,
+        conversation_id: activeConversationId,
         user_message: response.message,
         assistant_reply: response.reply,
         interpretation_entry_id: response.meta.interpretation_entry_id,
@@ -218,7 +241,11 @@ export default function MatildaChatWorkspace() {
         <div className="matilda-chat-composer__actions">
           <button
             type="submit"
-            disabled={submitting || !message.trim()}
+            disabled={
+              submitting ||
+              !message.trim() ||
+              !conversationId
+            }
           >
             {submitting ? "Sending…" : "Send"}
           </button>

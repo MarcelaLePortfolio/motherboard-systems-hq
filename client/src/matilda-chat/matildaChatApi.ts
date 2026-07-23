@@ -20,6 +20,7 @@ export interface MatildaChatResponse {
 export interface MatildaConversationTurn {
   turn_id: string;
   project_id: string;
+  conversation_id: string;
   user_message: string;
   assistant_reply: string;
   interpretation_entry_id: string;
@@ -29,12 +30,14 @@ export interface MatildaConversationTurn {
 export interface MatildaChatHistoryResponse {
   ok: boolean;
   project_id: string;
+  conversation_id: string;
   turns: MatildaConversationTurn[];
 }
 
 export interface SendMatildaMessageInput {
   message: string;
   projectId: string;
+  conversationId: string;
 }
 
 export async function sendMatildaMessage(
@@ -49,6 +52,7 @@ export async function sendMatildaMessage(
     body: JSON.stringify({
       agent: "matilda",
       project_id: input.projectId,
+      conversation_id: input.conversationId,
       message: input.message,
     }),
   });

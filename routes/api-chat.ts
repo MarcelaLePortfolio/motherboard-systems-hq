@@ -10,6 +10,7 @@ import type { MatildaChatResult } from "../matilda-chat-stub";
 import { runMatildaChatDraftIntegration } from "../db/matilda-chat-draft-integration";
 import {
   createMatildaConversationTurn,
+  getOrCreateActiveMatildaConversation,
   listMatildaConversationTurns,
 } from "../db/matilda-conversation-runtime";
 import { ollamaChat } from "../scripts/utils/ollamaChat";
@@ -30,11 +31,18 @@ router.get("/api/chat/history", (req: Request, res: Response) => {
       });
     }
 
-    const turns = listMatildaConversationTurns(projectId, 100);
+    const conversation =
+      getOrCreateActiveMatildaConversation(projectId);
+    const turns = listMatildaConversationTurns(
+      projectId,
+      100,
+      conversation.conversation_id
+    );
 
     return res.json({
       ok: true,
       project_id: projectId,
+      conversation_id: conversation.conversation_id,
       turns,
     });
   } catch (error) {
@@ -51,15 +59,18 @@ router.post("/api/chat", async (req: Request, res: Response) => {
 
   try {
 
-    const { message, agent, project_id } = (req.body || {}) as {
+    const { message, agent, project_id, conversation_id } =
+      (req.body || {}) as {
 
-      message?: string;
+        message?: string;
 
-      agent?: string | null;
+        agent?: string | null;
 
-      project_id?: string | null;
+        project_id?: string | null;
 
-    };
+        conversation_id?: string | null;
+
+      };
 
     if (typeof message !== "string" || !message.trim()) {
 
@@ -135,12 +146,23 @@ router.post("/api/chat", async (req: Request, res: Response) => {
 
       }
 
-      const history = project_id
-        ? listMatildaConversationTurns(project_id, 20).map((turn) => ({
-            userMessage: turn.user_message,
-            assistantReply: turn.assistant_reply,
-          }))
-        : [];
+      const activeConversation = project_id
+        ? getOrCreateActiveMatildaConversation(project_id)
+        : null;
+      const resolvedConversationId =
+        conversation_id || activeConversation?.conversation_id || null;
+
+      const history =
+        project_id && resolvedConversationId
+          ? listMatildaConversationTurns(
+              project_id,
+              20,
+              resolvedConversationId
+            ).map((turn) => ({
+              userMessage: turn.user_message,
+              assistantReply: turn.assistant_reply,
+            }))
+          : [];
 
       conversationalReply = await ollamaChat(message.trim(), {
         projectId: project_id,
@@ -151,6 +173,7 @@ router.post("/api/chat", async (req: Request, res: Response) => {
       if (project_id) {
         createMatildaConversationTurn({
           project_id,
+          conversation_id: resolvedConversationId,
           user_message: message.trim(),
           assistant_reply: conversationalReply,
           interpretation_entry_id: result.meta.interpretation_entry_id,
