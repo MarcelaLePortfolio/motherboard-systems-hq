@@ -128,6 +128,10 @@ test("conversation identity remains explicit across IEL and Living Draft lineage
       path.join(repositoryRoot, "db", "matilda-living-draft-runtime.ts")
     );
 
+    const draftSynthesisRuntime = require(
+      path.join(repositoryRoot, "db", "matilda-draft-synthesis-runtime.ts")
+    );
+
     interpretationRuntime.listInterpretationEvidenceLedgerEntries(20);
     livingDraftRuntime.listLivingDraftPackages(20);
 
@@ -211,6 +215,42 @@ test("conversation identity remains explicit across IEL and Living Draft lineage
       draft_project: "hq",
       draft_conversation: "conversation-hq-test",
     });
+
+    interpretationRuntime.createInterpretationEvidenceLedgerEntry({
+      entry_id: "iel-foreign-conversation",
+      actor: "matilda",
+      project_id: "hq",
+      conversation_id: "conversation-hq-other",
+      interpretation_event: "Cross-conversation isolation validation",
+      minimum_sufficient_context: "Bounded test context",
+      supporting_raw_evidence: "Foreign conversation evidence",
+      matilda_observation: "Must not enter another conversation's draft",
+    });
+
+    assert.throws(
+      () =>
+        draftSynthesisRuntime.synthesizeLivingDraft({
+          draft_package_id: "draft-cross-conversation",
+          lineage_id: "lineage-cross-conversation",
+          project_id: "hq",
+          conversation_id: "conversation-hq-test",
+          evidence_entry_ids: [
+            "iel-explicit",
+            "iel-foreign-conversation",
+          ],
+        }),
+      /does not belong to the requested project conversation/,
+    );
+
+    const crossConversationDraftCount = database
+      .prepare(`
+        SELECT COUNT(*) AS count
+        FROM matilda_living_draft_packages
+        WHERE draft_package_id = 'draft-cross-conversation'
+      `)
+      .get() as { count: number };
+
+    assert.equal(crossConversationDraftCount.count, 0);
 
     database.close();
   } finally {

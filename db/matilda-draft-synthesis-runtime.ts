@@ -45,6 +45,24 @@ export function synthesizeLivingDraft(
 
   }
 
+  if (input.project_id && input.conversation_id) {
+
+    const mismatchedEvidence = evidence.find(
+      (entry: any) =>
+        entry.project_id !== input.project_id
+        || entry.conversation_id !== input.conversation_id,
+    );
+
+    if (mismatchedEvidence) {
+
+      throw new Error(
+        `Interpretation evidence entry ${mismatchedEvidence.entry_id} does not belong to the requested project conversation.`,
+      );
+
+    }
+
+  }
+
   const interpretation = evidence
 
     .map((entry: any) => entry.matilda_observation)
