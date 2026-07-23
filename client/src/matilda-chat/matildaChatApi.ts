@@ -27,6 +27,38 @@ export interface MatildaConversationTurn {
   created_at: string;
 }
 
+export interface MatildaConversationSummary {
+  conversation_id: string;
+  project_id: string;
+  status: string;
+  created_at: string;
+  updated_at: string;
+  last_active_at: string;
+  title: string;
+  turn_count: number;
+  is_active: number;
+}
+
+export interface MatildaConversationListResponse {
+  ok: boolean;
+  project_id: string;
+  conversations: MatildaConversationSummary[];
+}
+
+export interface MatildaConversationControlResponse {
+  ok: boolean;
+  project_id: string;
+  conversation: {
+    conversation_id: string;
+    project_id: string;
+    status: string;
+    created_at: string;
+    updated_at: string;
+    last_active_at: string;
+  };
+  conversations: MatildaConversationSummary[];
+}
+
 export interface MatildaChatHistoryResponse {
   ok: boolean;
   project_id: string;
@@ -105,4 +137,83 @@ export async function getMatildaChatHistory(
   }
 
   return response.json() as Promise<MatildaChatHistoryResponse>;
+}
+
+
+async function readConversationControlResponse<T>(
+  response: Response,
+  fallbackMessage: string
+): Promise<T> {
+  if (!response.ok) {
+    let errorMessage = fallbackMessage;
+
+    try {
+      const body = (await response.json()) as { error?: string };
+
+      if (body.error) {
+        errorMessage = body.error;
+      }
+    } catch {
+      // Preserve the fallback when the response is not JSON.
+    }
+
+    throw new Error(
+      `${errorMessage} (${response.status} ${response.statusText})`
+    );
+  }
+
+  return response.json() as Promise<T>;
+}
+
+export async function getMatildaConversations(
+  projectId: string
+): Promise<MatildaConversationListResponse> {
+  const response = await fetch(
+    `/api/chat/conversations?project_id=${encodeURIComponent(projectId)}`
+  );
+
+  return readConversationControlResponse(
+    response,
+    "Failed to load Matilda conversations"
+  );
+}
+
+export async function createMatildaConversation(
+  projectId: string
+): Promise<MatildaConversationControlResponse> {
+  const response = await fetch("/api/chat/conversations", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      project_id: projectId,
+    }),
+  });
+
+  return readConversationControlResponse(
+    response,
+    "Failed to create Matilda conversation"
+  );
+}
+
+export async function setActiveMatildaConversation(
+  projectId: string,
+  conversationId: string
+): Promise<MatildaConversationControlResponse> {
+  const response = await fetch("/api/chat/conversations/active", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      project_id: projectId,
+      conversation_id: conversationId,
+    }),
+  });
+
+  return readConversationControlResponse(
+    response,
+    "Failed to switch Matilda conversation"
+  );
 }

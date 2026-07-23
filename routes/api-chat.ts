@@ -9,13 +9,121 @@ import type { MatildaChatResult } from "../matilda-chat-stub";
 
 import { runMatildaChatDraftIntegration } from "../db/matilda-chat-draft-integration";
 import {
+  createMatildaConversation,
   createMatildaConversationTurn,
   getOrCreateActiveMatildaConversation,
+  listMatildaConversations,
   listMatildaConversationTurns,
+  requireActiveMatildaConversation,
+  setActiveMatildaConversation,
 } from "../db/matilda-conversation-runtime";
 import { ollamaChat } from "../scripts/utils/ollamaChat";
 
 const router = express.Router();
+
+router.get("/api/chat/conversations", (req: Request, res: Response) => {
+  try {
+    const projectId =
+      typeof req.query.project_id === "string"
+        ? req.query.project_id.trim()
+        : "";
+
+    if (!projectId) {
+      return res.status(400).json({
+        ok: false,
+        error: "Missing or invalid 'project_id' query parameter.",
+      });
+    }
+
+    return res.json({
+      ok: true,
+      project_id: projectId,
+      conversations: listMatildaConversations(projectId),
+    });
+  } catch (error) {
+    console.error("[/api/chat/conversations] Error:", error);
+
+    return res.status(500).json({
+      ok: false,
+      error: "Unable to load Matilda conversations.",
+    });
+  }
+});
+
+router.post("/api/chat/conversations", (req: Request, res: Response) => {
+  try {
+    const projectId =
+      typeof req.body?.project_id === "string"
+        ? req.body.project_id.trim()
+        : "";
+
+    if (!projectId) {
+      return res.status(400).json({
+        ok: false,
+        error: "Missing or invalid 'project_id' in request body.",
+      });
+    }
+
+    const conversation = createMatildaConversation(projectId);
+
+    return res.status(201).json({
+      ok: true,
+      project_id: projectId,
+      conversation,
+      conversations: listMatildaConversations(projectId),
+    });
+  } catch (error) {
+    console.error("[POST /api/chat/conversations] Error:", error);
+
+    return res.status(500).json({
+      ok: false,
+      error: "Unable to create Matilda conversation.",
+    });
+  }
+});
+
+router.post("/api/chat/conversations/active", (req: Request, res: Response) => {
+  try {
+    const projectId =
+      typeof req.body?.project_id === "string"
+        ? req.body.project_id.trim()
+        : "";
+    const conversationId =
+      typeof req.body?.conversation_id === "string"
+        ? req.body.conversation_id.trim()
+        : "";
+
+    if (!projectId || !conversationId) {
+      return res.status(400).json({
+        ok: false,
+        error:
+          "Missing or invalid 'project_id' or 'conversation_id' in request body.",
+      });
+    }
+
+    const conversation = setActiveMatildaConversation(
+      projectId,
+      conversationId
+    );
+
+    return res.json({
+      ok: true,
+      project_id: projectId,
+      conversation,
+      conversations: listMatildaConversations(projectId),
+    });
+  } catch (error) {
+    console.error("[POST /api/chat/conversations/active] Error:", error);
+
+    return res.status(404).json({
+      ok: false,
+      error:
+        error instanceof Error
+          ? error.message
+          : "Unable to switch Matilda conversation.",
+    });
+  }
+});
 
 router.get("/api/chat/history", (req: Request, res: Response) => {
   try {
@@ -84,13 +192,43 @@ router.post("/api/chat", async (req: Request, res: Response) => {
 
     }
 
+    const normalizedProjectId =
+      typeof project_id === "string" ? project_id.trim() : "";
+    const normalizedConversationId =
+      typeof conversation_id === "string"
+        ? conversation_id.trim()
+        : "";
+
+    if (!normalizedProjectId || !normalizedConversationId) {
+      return res.status(400).json({
+        ok: false,
+        error:
+          "Missing or invalid 'project_id' or 'conversation_id' in request body.",
+      });
+    }
+
+    try {
+      requireActiveMatildaConversation(
+        normalizedProjectId,
+        normalizedConversationId
+      );
+    } catch (error) {
+      return res.status(409).json({
+        ok: false,
+        error:
+          error instanceof Error
+            ? error.message
+            : "Matilda conversation is unavailable.",
+      });
+    }
+
     const result: MatildaChatResult = await runMatildaStub({
 
       message,
 
       agent: agent ?? "matilda",
 
-      project_id,
+      project_id: normalizedProjectId,
 
     });
 
@@ -98,15 +236,17 @@ router.post("/api/chat", async (req: Request, res: Response) => {
 
     try {
 
-      if (project_id) {
+      if (normalizedProjectId) {
 
         runMatildaChatDraftIntegration({
 
-          project_id,
+          project_id: normalizedProjectId,
 
-          draft_package_id: `matilda-draft-${project_id}`,
+          conversation_id: normalizedConversationId,
 
-          lineage_id: `matilda-lineage-${project_id}`,
+          draft_package_id: `matilda-draft-${normalizedConversationId}`,
+
+          lineage_id: `matilda-lineage-${normalizedConversationId}`,
 
           latest_entry_id: result.meta.interpretation_entry_id,
 
@@ -128,7 +268,7 @@ router.post("/api/chat", async (req: Request, res: Response) => {
 
       let projectDisplayName: string | null = null;
 
-      if (project_id) {
+      if (normalizedProjectId) {
 
         const registryPath = pathToFileURL(
           path.resolve(process.cwd(), "server", "project-registry.mjs")
@@ -139,23 +279,22 @@ router.post("/api/chat", async (req: Request, res: Response) => {
 
         const project = registryState.projects.find(
           (candidate: { projectId: string }) =>
-            candidate.projectId === project_id
+            candidate.projectId === normalizedProjectId
         );
 
         projectDisplayName = project?.displayName ?? null;
 
       }
 
-      const activeConversation = project_id
-        ? getOrCreateActiveMatildaConversation(project_id)
-        : null;
+      const activeConversation =
+        getOrCreateActiveMatildaConversation(normalizedProjectId);
       const resolvedConversationId =
-        conversation_id || activeConversation?.conversation_id || null;
+        normalizedConversationId || activeConversation.conversation_id;
 
       const history =
-        project_id && resolvedConversationId
+        normalizedProjectId && resolvedConversationId
           ? listMatildaConversationTurns(
-              project_id,
+              normalizedProjectId,
               20,
               resolvedConversationId
             ).map((turn) => ({
@@ -165,14 +304,14 @@ router.post("/api/chat", async (req: Request, res: Response) => {
           : [];
 
       conversationalReply = await ollamaChat(message.trim(), {
-        projectId: project_id,
+        projectId: normalizedProjectId,
         projectDisplayName,
         history,
       });
 
-      if (project_id) {
+      if (normalizedProjectId) {
         createMatildaConversationTurn({
-          project_id,
+          project_id: normalizedProjectId,
           conversation_id: resolvedConversationId,
           user_message: message.trim(),
           assistant_reply: conversationalReply,

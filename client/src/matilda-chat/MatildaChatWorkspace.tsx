@@ -1,8 +1,12 @@
 import { FormEvent, useEffect, useState } from "react";
 import { useProjectContext } from "../project-context/useProjectContext";
 import {
+  createMatildaConversation,
   getMatildaChatHistory,
+  getMatildaConversations,
   sendMatildaMessage,
+  setActiveMatildaConversation,
+  type MatildaConversationSummary,
   type MatildaConversationTurn,
 } from "./matildaChatApi";
 
@@ -18,6 +22,12 @@ export default function MatildaChatWorkspace() {
   >({});
   const [conversationIdsByProject, setConversationIdsByProject] = useState<
     Record<string, string>
+  >({});
+  const [conversationsByProject, setConversationsByProject] = useState<
+    Record<string, MatildaConversationSummary[]>
+  >({});
+  const [switchingByProject, setSwitchingByProject] = useState<
+    Record<string, boolean>
   >({});
   const [submittingByProject, setSubmittingByProject] = useState<
     Record<string, boolean>
@@ -36,8 +46,14 @@ export default function MatildaChatWorkspace() {
   const conversationId = activeProjectId
     ? conversationIdsByProject[activeProjectId] ?? null
     : null;
+  const conversations = activeProjectId
+    ? conversationsByProject[activeProjectId] ?? []
+    : [];
   const submitting = activeProjectId
     ? submittingByProject[activeProjectId] ?? false
+    : false;
+  const switching = activeProjectId
+    ? switchingByProject[activeProjectId] ?? false
     : false;
   const requestError = activeProjectId
     ? errorsByProject[activeProjectId] ?? null
@@ -50,12 +66,19 @@ export default function MatildaChatWorkspace() {
 
     let cancelled = false;
 
-    void getMatildaChatHistory(activeProjectId)
-      .then((history) => {
+    void Promise.all([
+      getMatildaConversations(activeProjectId),
+      getMatildaChatHistory(activeProjectId),
+    ])
+      .then(([conversationState, history]) => {
         if (cancelled) {
           return;
         }
 
+        setConversationsByProject((current) => ({
+          ...current,
+          [activeProjectId]: conversationState.conversations,
+        }));
         setConversationIdsByProject((current) => ({
           ...current,
           [activeProjectId]: history.conversation_id,
@@ -87,6 +110,113 @@ export default function MatildaChatWorkspace() {
     : projectError
       ? "Active project unavailable"
       : registry?.activeProject?.displayName ?? "No active project";
+
+  async function handleCreateConversation() {
+    const projectId = registry?.activeProjectId;
+
+    if (!projectId || switchingByProject[projectId]) {
+      return;
+    }
+
+    setSwitchingByProject((current) => ({
+      ...current,
+      [projectId]: true,
+    }));
+    setErrorsByProject((current) => ({
+      ...current,
+      [projectId]: null,
+    }));
+
+    try {
+      const response = await createMatildaConversation(projectId);
+
+      setConversationsByProject((current) => ({
+        ...current,
+        [projectId]: response.conversations,
+      }));
+      setConversationIdsByProject((current) => ({
+        ...current,
+        [projectId]: response.conversation.conversation_id,
+      }));
+      setTurnsByProject((current) => ({
+        ...current,
+        [projectId]: [],
+      }));
+      setMessagesByProject((current) => ({
+        ...current,
+        [projectId]: "",
+      }));
+    } catch (error) {
+      setErrorsByProject((current) => ({
+        ...current,
+        [projectId]:
+          error instanceof Error
+            ? error.message
+            : "Unable to create Matilda conversation",
+      }));
+    } finally {
+      setSwitchingByProject((current) => ({
+        ...current,
+        [projectId]: false,
+      }));
+    }
+  }
+
+  async function handleSwitchConversation(nextConversationId: string) {
+    const projectId = registry?.activeProjectId;
+
+    if (
+      !projectId ||
+      !nextConversationId ||
+      nextConversationId === conversationIdsByProject[projectId] ||
+      switchingByProject[projectId]
+    ) {
+      return;
+    }
+
+    setSwitchingByProject((current) => ({
+      ...current,
+      [projectId]: true,
+    }));
+    setErrorsByProject((current) => ({
+      ...current,
+      [projectId]: null,
+    }));
+
+    try {
+      const response = await setActiveMatildaConversation(
+        projectId,
+        nextConversationId
+      );
+      const history = await getMatildaChatHistory(projectId);
+
+      setConversationsByProject((current) => ({
+        ...current,
+        [projectId]: response.conversations,
+      }));
+      setConversationIdsByProject((current) => ({
+        ...current,
+        [projectId]: history.conversation_id,
+      }));
+      setTurnsByProject((current) => ({
+        ...current,
+        [projectId]: history.turns,
+      }));
+    } catch (error) {
+      setErrorsByProject((current) => ({
+        ...current,
+        [projectId]:
+          error instanceof Error
+            ? error.message
+            : "Unable to switch Matilda conversation",
+      }));
+    } finally {
+      setSwitchingByProject((current) => ({
+        ...current,
+        [projectId]: false,
+      }));
+    }
+  }
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -183,6 +313,37 @@ export default function MatildaChatWorkspace() {
           </p>
         </div>
 
+        <div className="matilda-chat-workspace__thread-controls">
+          <label htmlFor="matilda-conversation-select">
+            Conversation
+          </label>
+          <select
+            id="matilda-conversation-select"
+            value={conversationId ?? ""}
+            disabled={!activeProjectId || switching || submitting}
+            onChange={(event) => {
+              void handleSwitchConversation(event.target.value);
+            }}
+          >
+            {conversations.map((conversation) => (
+              <option
+                key={conversation.conversation_id}
+                value={conversation.conversation_id}
+              >
+                {conversation.title}
+              </option>
+            ))}
+          </select>
+          <button
+            type="button"
+            disabled={!activeProjectId || switching || submitting}
+            onClick={() => {
+              void handleCreateConversation();
+            }}
+          >
+            {switching ? "Loading…" : "New conversation"}
+          </button>
+        </div>
       </header>
 
       <div
@@ -222,7 +383,7 @@ export default function MatildaChatWorkspace() {
           id="matilda-message"
           rows={4}
           value={message}
-          disabled={submitting}
+          disabled={submitting || switching}
           onChange={(event) => {
             if (!activeProjectId) {
               return;
@@ -243,6 +404,7 @@ export default function MatildaChatWorkspace() {
             type="submit"
             disabled={
               submitting ||
+              switching ||
               !message.trim() ||
               !conversationId
             }

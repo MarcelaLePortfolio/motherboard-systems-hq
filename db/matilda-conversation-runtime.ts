@@ -11,6 +11,20 @@ export interface MatildaConversation {
   last_active_at: string;
 }
 
+export interface MatildaActiveConversationContext {
+  project_id: string;
+  conversation_id: string;
+  source: string;
+  action: string;
+  updated_at: string;
+}
+
+export interface MatildaConversationSummary extends MatildaConversation {
+  title: string;
+  turn_count: number;
+  is_active: boolean;
+}
+
 export interface MatildaConversationTurn {
   turn_id: string;
   project_id: string;
@@ -52,10 +66,20 @@ function ensureMatildaConversationTables() {
       last_active_at TEXT NOT NULL
     );
 
-    CREATE UNIQUE INDEX IF NOT EXISTS
-      idx_matilda_conversations_one_active_per_project
-    ON matilda_conversations (project_id)
-    WHERE status = 'active';
+    DROP INDEX IF EXISTS
+      idx_matilda_conversations_one_active_per_project;
+
+    CREATE INDEX IF NOT EXISTS
+      idx_matilda_conversations_project_activity
+    ON matilda_conversations (project_id, last_active_at DESC);
+
+    CREATE TABLE IF NOT EXISTS matilda_active_conversation_context (
+      project_id TEXT PRIMARY KEY,
+      conversation_id TEXT NOT NULL,
+      source TEXT NOT NULL DEFAULT 'system',
+      action TEXT NOT NULL DEFAULT 'seed',
+      updated_at TEXT NOT NULL
+    );
 
     CREATE TABLE IF NOT EXISTS matilda_conversation_turns (
       turn_id TEXT PRIMARY KEY,
@@ -111,6 +135,16 @@ function ensureMatildaConversationTables() {
       )
   `);
 
+  const seedActiveConversation = sqlite.prepare(`
+    INSERT OR IGNORE INTO matilda_active_conversation_context (
+      project_id,
+      conversation_id,
+      source,
+      action,
+      updated_at
+    ) VALUES (?, ?, 'migration', 'seed_active_conversation', ?)
+  `);
+
   const migrate = sqlite.transaction(() => {
     for (const project of projects) {
       const conversationId = defaultConversationId(project.project_id);
@@ -124,6 +158,11 @@ function ensureMatildaConversationTables() {
       );
 
       backfillTurns.run(conversationId, project.project_id);
+      seedActiveConversation.run(
+        project.project_id,
+        conversationId,
+        timestamp
+      );
     }
   });
 
@@ -140,6 +179,39 @@ function ensureMatildaConversationTables() {
   `);
 }
 
+function getConversationForProject(
+  projectId: string,
+  conversationId: string
+): MatildaConversation | null {
+  ensureMatildaConversationTables();
+
+  const project_id = requireText(projectId, "project_id");
+  const conversation_id = requireText(
+    conversationId,
+    "conversation_id"
+  );
+
+  return (
+    sqlite
+      .prepare(`
+        SELECT
+          conversation_id,
+          project_id,
+          status,
+          created_at,
+          updated_at,
+          last_active_at
+        FROM matilda_conversations
+        WHERE project_id = ?
+          AND conversation_id = ?
+        LIMIT 1
+      `)
+      .get(project_id, conversation_id) as
+      | MatildaConversation
+      | undefined
+  ) ?? null;
+}
+
 export function getOrCreateActiveMatildaConversation(
   projectId: string
 ): MatildaConversation {
@@ -147,24 +219,26 @@ export function getOrCreateActiveMatildaConversation(
 
   const project_id = requireText(projectId, "project_id");
 
-  const existing = sqlite
+  const selected = sqlite
     .prepare(`
       SELECT
-        conversation_id,
-        project_id,
-        status,
-        created_at,
-        updated_at,
-        last_active_at
-      FROM matilda_conversations
-      WHERE project_id = ?
-        AND status = 'active'
+        c.conversation_id,
+        c.project_id,
+        c.status,
+        c.created_at,
+        c.updated_at,
+        c.last_active_at
+      FROM matilda_active_conversation_context AS context
+      JOIN matilda_conversations AS c
+        ON c.conversation_id = context.conversation_id
+       AND c.project_id = context.project_id
+      WHERE context.project_id = ?
       LIMIT 1
     `)
     .get(project_id) as MatildaConversation | undefined;
 
-  if (existing) {
-    return existing;
+  if (selected) {
+    return selected;
   }
 
   const timestamp = new Date().toISOString();
@@ -177,25 +251,219 @@ export function getOrCreateActiveMatildaConversation(
     last_active_at: timestamp,
   };
 
-  sqlite.prepare(`
-    INSERT INTO matilda_conversations (
-      conversation_id,
-      project_id,
-      status,
-      created_at,
-      updated_at,
-      last_active_at
-    ) VALUES (
-      @conversation_id,
-      @project_id,
-      @status,
-      @created_at,
-      @updated_at,
-      @last_active_at
-    )
-  `).run(conversation);
+  const transaction = sqlite.transaction(() => {
+    sqlite.prepare(`
+      INSERT OR IGNORE INTO matilda_conversations (
+        conversation_id,
+        project_id,
+        status,
+        created_at,
+        updated_at,
+        last_active_at
+      ) VALUES (
+        @conversation_id,
+        @project_id,
+        @status,
+        @created_at,
+        @updated_at,
+        @last_active_at
+      )
+    `).run(conversation);
+
+    sqlite.prepare(`
+      INSERT OR REPLACE INTO matilda_active_conversation_context (
+        project_id,
+        conversation_id,
+        source,
+        action,
+        updated_at
+      ) VALUES (?, ?, 'system', 'initialize_active_conversation', ?)
+    `).run(project_id, conversation.conversation_id, timestamp);
+  });
+
+  transaction();
+
+  return getConversationForProject(
+    project_id,
+    conversation.conversation_id
+  ) as MatildaConversation;
+}
+
+export function requireActiveMatildaConversation(
+  projectId: string,
+  conversationId: string
+): MatildaConversation {
+  const project_id = requireText(projectId, "project_id");
+  const conversation_id = requireText(
+    conversationId,
+    "conversation_id"
+  );
+  const active = getOrCreateActiveMatildaConversation(project_id);
+
+  if (active.conversation_id !== conversation_id) {
+    throw new Error(
+      "Matilda conversation does not match the active project conversation."
+    );
+  }
+
+  return active;
+}
+
+export function listMatildaConversations(
+  projectId: string
+): MatildaConversationSummary[] {
+  ensureMatildaConversationTables();
+
+  const project_id = requireText(projectId, "project_id");
+  const activeConversation =
+    getOrCreateActiveMatildaConversation(project_id);
+
+  return sqlite
+    .prepare(`
+      SELECT
+        c.conversation_id,
+        c.project_id,
+        c.status,
+        c.created_at,
+        c.updated_at,
+        c.last_active_at,
+        COALESCE(
+          (
+            SELECT NULLIF(TRIM(t.user_message), '')
+            FROM matilda_conversation_turns AS t
+            WHERE t.project_id = c.project_id
+              AND t.conversation_id = c.conversation_id
+            ORDER BY t.created_at ASC
+            LIMIT 1
+          ),
+          'New conversation'
+        ) AS title,
+        (
+          SELECT COUNT(*)
+          FROM matilda_conversation_turns AS t
+          WHERE t.project_id = c.project_id
+            AND t.conversation_id = c.conversation_id
+        ) AS turn_count,
+        CASE
+          WHEN c.conversation_id = ? THEN 1
+          ELSE 0
+        END AS is_active
+      FROM matilda_conversations AS c
+      WHERE c.project_id = ?
+        AND c.status = 'active'
+      ORDER BY
+        is_active DESC,
+        c.last_active_at DESC,
+        c.created_at DESC
+    `)
+    .all(
+      activeConversation.conversation_id,
+      project_id
+    ) as MatildaConversationSummary[];
+}
+
+export function createMatildaConversation(
+  projectId: string
+): MatildaConversation {
+  ensureMatildaConversationTables();
+
+  const project_id = requireText(projectId, "project_id");
+  const timestamp = new Date().toISOString();
+  const conversation: MatildaConversation = {
+    conversation_id: `matilda-conversation-${project_id}-${Date.now()}-${Math.random()
+      .toString(36)
+      .slice(2, 8)}`,
+    project_id,
+    status: "active",
+    created_at: timestamp,
+    updated_at: timestamp,
+    last_active_at: timestamp,
+  };
+
+  const transaction = sqlite.transaction(() => {
+    sqlite.prepare(`
+      INSERT INTO matilda_conversations (
+        conversation_id,
+        project_id,
+        status,
+        created_at,
+        updated_at,
+        last_active_at
+      ) VALUES (
+        @conversation_id,
+        @project_id,
+        @status,
+        @created_at,
+        @updated_at,
+        @last_active_at
+      )
+    `).run(conversation);
+
+    sqlite.prepare(`
+      INSERT OR REPLACE INTO matilda_active_conversation_context (
+        project_id,
+        conversation_id,
+        source,
+        action,
+        updated_at
+      ) VALUES (?, ?, 'dashboard', 'create_conversation', ?)
+    `).run(project_id, conversation.conversation_id, timestamp);
+  });
+
+  transaction();
 
   return conversation;
+}
+
+export function setActiveMatildaConversation(
+  projectId: string,
+  conversationId: string
+): MatildaConversation {
+  ensureMatildaConversationTables();
+
+  const project_id = requireText(projectId, "project_id");
+  const conversation_id = requireText(
+    conversationId,
+    "conversation_id"
+  );
+  const conversation = getConversationForProject(
+    project_id,
+    conversation_id
+  );
+
+  if (!conversation || conversation.status !== "active") {
+    throw new Error(
+      "Matilda conversation is unavailable for the requested project."
+    );
+  }
+
+  const timestamp = new Date().toISOString();
+
+  const transaction = sqlite.transaction(() => {
+    sqlite.prepare(`
+      INSERT OR REPLACE INTO matilda_active_conversation_context (
+        project_id,
+        conversation_id,
+        source,
+        action,
+        updated_at
+      ) VALUES (?, ?, 'dashboard', 'switch_conversation', ?)
+    `).run(project_id, conversation_id, timestamp);
+
+    sqlite.prepare(`
+      UPDATE matilda_conversations
+      SET last_active_at = ?
+      WHERE project_id = ?
+        AND conversation_id = ?
+    `).run(timestamp, project_id, conversation_id);
+  });
+
+  transaction();
+
+  return getConversationForProject(
+    project_id,
+    conversation_id
+  ) as MatildaConversation;
 }
 
 export function createMatildaConversationTurn(
@@ -209,11 +477,7 @@ export function createMatildaConversationTurn(
     ? requireText(input.conversation_id, "conversation_id")
     : activeConversation.conversation_id;
 
-  if (conversation_id !== activeConversation.conversation_id) {
-    throw new Error(
-      "Matilda conversation does not match the active project conversation."
-    );
-  }
+  requireActiveMatildaConversation(project_id, conversation_id);
 
   const record: MatildaConversationTurn = {
     turn_id: `matilda-turn-${Date.now()}-${Math.random()
@@ -278,11 +542,7 @@ export function listMatildaConversationTurns(
     ? requireText(conversationId, "conversation_id")
     : activeConversation.conversation_id;
 
-  if (conversation_id !== activeConversation.conversation_id) {
-    throw new Error(
-      "Matilda conversation does not match the active project conversation."
-    );
-  }
+  requireActiveMatildaConversation(project_id, conversation_id);
 
   const boundedLimit = Math.max(1, Math.min(Number(limit) || 20, 100));
 

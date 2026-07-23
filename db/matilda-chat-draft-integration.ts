@@ -7,6 +7,8 @@ export type RunMatildaChatDraftIntegrationInput = {
 
   project_id: string;
 
+  conversation_id: string;
+
   draft_package_id: string;
 
   lineage_id: string;
@@ -24,6 +26,7 @@ export function runMatildaChatDraftIntegration(
   const evidenceEntryIds = listMatildaConversationTurns(
     input.project_id,
     100,
+    input.conversation_id,
   )
 
     .map((turn) => turn.interpretation_entry_id)
