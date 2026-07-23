@@ -357,7 +357,10 @@ export default function MatildaChatWorkspace() {
         )}
 
         {turns.map((turn) => (
-          <div key={turn.turn_id}>
+          <div
+            key={turn.turn_id}
+            className="matilda-chat-turn"
+          >
             <article className="matilda-chat-message matilda-chat-message--user">
               <span className="matilda-chat-message__author">You</span>
               <p>{turn.user_message}</p>
@@ -395,6 +398,16 @@ export default function MatildaChatWorkspace() {
               ...current,
               [activeProjectId]: nextMessage,
             }));
+          }}
+          onKeyDown={(event) => {
+            if (
+              event.key === "Enter" &&
+              !event.shiftKey &&
+              !event.nativeEvent.isComposing
+            ) {
+              event.preventDefault();
+              event.currentTarget.form?.requestSubmit();
+            }
           }}
           placeholder="Describe what you want Matilda to help interpret…"
         />

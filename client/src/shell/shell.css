@@ -339,3 +339,147 @@ body,
   cursor: not-allowed;
   opacity: 0.5;
 }
+
+/* Matilda Chat production controls */
+
+.matilda-chat-workspace__thread-controls {
+  display: grid;
+  grid-template-columns: minmax(180px, 260px) auto;
+  align-items: end;
+  gap: 0.625rem;
+}
+
+.matilda-chat-workspace__thread-controls label {
+  grid-column: 1 / -1;
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+.matilda-chat-workspace__thread-controls select,
+.matilda-chat-workspace__thread-controls button {
+  box-sizing: border-box;
+  min-height: 2.5rem;
+  padding: 0.5rem 0.75rem;
+  font: inherit;
+  border: 1px solid #bbb;
+  border-radius: 0.375rem;
+  background: #fff;
+}
+
+.matilda-chat-workspace__thread-controls select {
+  min-width: 0;
+  width: 100%;
+}
+
+.matilda-chat-workspace__thread-controls button {
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+.matilda-chat-workspace__thread-controls select:disabled,
+.matilda-chat-workspace__thread-controls button:disabled {
+  cursor: not-allowed;
+  opacity: 0.55;
+}
+
+.matilda-chat-workspace__conversation {
+  overflow-y: auto;
+}
+
+.matilda-chat-composer textarea:focus-visible,
+.matilda-chat-workspace__thread-controls select:focus-visible,
+.matilda-chat-workspace__thread-controls button:focus-visible,
+.matilda-chat-composer__actions button:focus-visible {
+  outline: 2px solid currentColor;
+  outline-offset: 2px;
+}
+
+@media (max-width: 760px) {
+  .shell-orientation,
+  .shell-body {
+    grid-template-columns: 1fr;
+  }
+
+  .shell-identity,
+  .shell-navigation-region {
+    border-right: 0;
+    border-bottom: 1px dashed #ccc;
+  }
+
+  .shell-project-picker {
+    min-width: 0;
+    width: 100%;
+  }
+
+  .matilda-chat-workspace__header {
+    flex-direction: column;
+  }
+
+  .matilda-chat-workspace__thread-controls {
+    width: 100%;
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .matilda-chat-workspace__thread-controls label {
+    grid-column: auto;
+  }
+
+  .matilda-chat-workspace__thread-controls button {
+    width: 100%;
+  }
+}
+
+.matilda-chat-turn {
+  display: flex;
+  flex-direction: column;
+  gap: 0.875rem;
+}
+
+.matilda-chat-turn + .matilda-chat-turn {
+  margin-top: 0.5rem;
+}
+
+.matilda-chat-message {
+  box-sizing: border-box;
+  width: fit-content;
+  max-width: min(760px, 82%);
+}
+
+.matilda-chat-message--user {
+  align-self: flex-end;
+  border-bottom-right-radius: 0.125rem;
+}
+
+.matilda-chat-message--matilda {
+  align-self: flex-start;
+  border-bottom-left-radius: 0.125rem;
+}
+
+.matilda-chat-composer {
+  position: relative;
+}
+
+.matilda-chat-composer textarea {
+  min-height: 5.5rem;
+  padding-right: 5.75rem;
+}
+
+.matilda-chat-composer__actions {
+  position: absolute;
+  right: 2rem;
+  bottom: 2rem;
+}
+
+.matilda-chat-composer__actions button {
+  min-width: 4.5rem;
+}
+
+@media (max-width: 760px) {
+  .matilda-chat-composer textarea {
+    padding-right: 0.75rem;
+  }
+
+  .matilda-chat-composer__actions {
+    position: static;
+  }
+}
