@@ -17,6 +17,21 @@ export interface MatildaChatResponse {
   execution_authorized: boolean;
 }
 
+export interface MatildaConversationTurn {
+  turn_id: string;
+  project_id: string;
+  user_message: string;
+  assistant_reply: string;
+  interpretation_entry_id: string;
+  created_at: string;
+}
+
+export interface MatildaChatHistoryResponse {
+  ok: boolean;
+  project_id: string;
+  turns: MatildaConversationTurn[];
+}
+
 export interface SendMatildaMessageInput {
   message: string;
   projectId: string;
@@ -57,4 +72,33 @@ export async function sendMatildaMessage(
   }
 
   return response.json() as Promise<MatildaChatResponse>;
+}
+
+
+export async function getMatildaChatHistory(
+  projectId: string
+): Promise<MatildaChatHistoryResponse> {
+  const response = await fetch(
+    `/api/chat/history?project_id=${encodeURIComponent(projectId)}`
+  );
+
+  if (!response.ok) {
+    let errorMessage = "Matilda chat history request failed";
+
+    try {
+      const body = (await response.json()) as { error?: string };
+
+      if (body.error) {
+        errorMessage = body.error;
+      }
+    } catch {
+      // Preserve the fallback when the response is not JSON.
+    }
+
+    throw new Error(
+      `${errorMessage} (${response.status} ${response.statusText})`
+    );
+  }
+
+  return response.json() as Promise<MatildaChatHistoryResponse>;
 }

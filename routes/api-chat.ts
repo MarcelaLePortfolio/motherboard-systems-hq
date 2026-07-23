@@ -16,6 +16,37 @@ import { ollamaChat } from "../scripts/utils/ollamaChat";
 
 const router = express.Router();
 
+router.get("/api/chat/history", (req: Request, res: Response) => {
+  try {
+    const projectId =
+      typeof req.query.project_id === "string"
+        ? req.query.project_id.trim()
+        : "";
+
+    if (!projectId) {
+      return res.status(400).json({
+        ok: false,
+        error: "Missing or invalid 'project_id' query parameter.",
+      });
+    }
+
+    const turns = listMatildaConversationTurns(projectId, 100);
+
+    return res.json({
+      ok: true,
+      project_id: projectId,
+      turns,
+    });
+  } catch (error) {
+    console.error("[/api/chat/history] Error:", error);
+
+    return res.status(500).json({
+      ok: false,
+      error: "Unable to load Matilda chat history.",
+    });
+  }
+});
+
 router.post("/api/chat", async (req: Request, res: Response) => {
 
   try {

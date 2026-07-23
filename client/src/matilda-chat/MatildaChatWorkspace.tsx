@@ -1,9 +1,14 @@
-import { FormEvent, useState } from "react";
+import { FormEvent, useEffect, useState } from "react";
 import { useProjectContext } from "../project-context/useProjectContext";
 import {
+  getMatildaChatHistory,
   sendMatildaMessage,
-  type MatildaChatResponse,
 } from "./matildaChatApi";
+
+interface MatildaVisibleExchange {
+  message: string;
+  reply: string;
+}
 
 export default function MatildaChatWorkspace() {
   const { registry, loading: projectLoading, error: projectError } =
@@ -11,7 +16,7 @@ export default function MatildaChatWorkspace() {
 
   const [message, setMessage] = useState("");
   const [resultsByProject, setResultsByProject] = useState<
-    Record<string, MatildaChatResponse>
+    Record<string, MatildaVisibleExchange>
   >({});
   const [submitting, setSubmitting] = useState(false);
   const [requestError, setRequestError] = useState<string | null>(null);
@@ -20,6 +25,53 @@ export default function MatildaChatWorkspace() {
   const result = activeProjectId
     ? resultsByProject[activeProjectId] ?? null
     : null;
+
+  useEffect(() => {
+    if (!activeProjectId) {
+      return;
+    }
+
+    let cancelled = false;
+
+    void getMatildaChatHistory(activeProjectId)
+      .then((history) => {
+        if (cancelled) {
+          return;
+        }
+
+        const latestTurn = history.turns.at(-1);
+
+        if (!latestTurn) {
+          setResultsByProject((current) => {
+            const next = { ...current };
+            delete next[activeProjectId];
+            return next;
+          });
+          return;
+        }
+
+        setResultsByProject((current) => ({
+          ...current,
+          [activeProjectId]: {
+            message: latestTurn.user_message,
+            reply: latestTurn.assistant_reply,
+          },
+        }));
+      })
+      .catch((error) => {
+        if (!cancelled) {
+          setRequestError(
+            error instanceof Error
+              ? error.message
+              : "Unable to load Matilda chat history"
+          );
+        }
+      });
+
+    return () => {
+      cancelled = true;
+    };
+  }, [activeProjectId]);
 
   const activeProjectLabel = projectLoading
     ? "Loading active project…"
