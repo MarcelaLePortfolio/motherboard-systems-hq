@@ -3,28 +3,24 @@ import { useProjectContext } from "../project-context/useProjectContext";
 import {
   getMatildaChatHistory,
   sendMatildaMessage,
+  type MatildaConversationTurn,
 } from "./matildaChatApi";
-
-interface MatildaVisibleExchange {
-  message: string;
-  reply: string;
-}
 
 export default function MatildaChatWorkspace() {
   const { registry, loading: projectLoading, error: projectError } =
     useProjectContext();
 
   const [message, setMessage] = useState("");
-  const [resultsByProject, setResultsByProject] = useState<
-    Record<string, MatildaVisibleExchange>
+  const [turnsByProject, setTurnsByProject] = useState<
+    Record<string, MatildaConversationTurn[]>
   >({});
   const [submitting, setSubmitting] = useState(false);
   const [requestError, setRequestError] = useState<string | null>(null);
 
   const activeProjectId = registry?.activeProjectId ?? null;
-  const result = activeProjectId
-    ? resultsByProject[activeProjectId] ?? null
-    : null;
+  const turns = activeProjectId
+    ? turnsByProject[activeProjectId] ?? []
+    : [];
 
   useEffect(() => {
     if (!activeProjectId) {
@@ -39,23 +35,9 @@ export default function MatildaChatWorkspace() {
           return;
         }
 
-        const latestTurn = history.turns.at(-1);
-
-        if (!latestTurn) {
-          setResultsByProject((current) => {
-            const next = { ...current };
-            delete next[activeProjectId];
-            return next;
-          });
-          return;
-        }
-
-        setResultsByProject((current) => ({
+        setTurnsByProject((current) => ({
           ...current,
-          [activeProjectId]: {
-            message: latestTurn.user_message,
-            reply: latestTurn.assistant_reply,
-          },
+          [activeProjectId]: history.turns,
         }));
       })
       .catch((error) => {
@@ -103,9 +85,21 @@ export default function MatildaChatWorkspace() {
         projectId,
       });
 
-      setResultsByProject((current) => ({
+      const persistedTurn: MatildaConversationTurn = {
+        turn_id: `pending-${response.meta.interpretation_entry_id}`,
+        project_id: projectId,
+        user_message: response.message,
+        assistant_reply: response.reply,
+        interpretation_entry_id: response.meta.interpretation_entry_id,
+        created_at: response.meta.timestamp,
+      };
+
+      setTurnsByProject((current) => ({
         ...current,
-        [projectId]: response,
+        [projectId]: [
+          ...(current[projectId] ?? []),
+          persistedTurn,
+        ],
       }));
       setMessage("");
     } catch (error) {
@@ -138,25 +132,25 @@ export default function MatildaChatWorkspace() {
         className="matilda-chat-workspace__conversation"
         aria-live="polite"
       >
-        {!result && !requestError && (
+        {turns.length === 0 && !requestError && (
           <p className="matilda-chat-workspace__empty">
             Start a conversation with Matilda.
           </p>
         )}
 
-        {result && (
-          <>
+        {turns.map((turn) => (
+          <div key={turn.turn_id}>
             <article className="matilda-chat-message matilda-chat-message--user">
               <span className="matilda-chat-message__author">You</span>
-              <p>{result.message}</p>
+              <p>{turn.user_message}</p>
             </article>
 
             <article className="matilda-chat-message matilda-chat-message--matilda">
               <span className="matilda-chat-message__author">Matilda</span>
-              <p>{result.reply}</p>
+              <p>{turn.assistant_reply}</p>
             </article>
-          </>
-        )}
+          </div>
+        ))}
 
         {requestError && (
           <p className="matilda-chat-workspace__error" role="alert">
