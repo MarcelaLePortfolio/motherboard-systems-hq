@@ -11,6 +11,10 @@ export type UpsertLivingDraftPackageInput = {
 
   lineage_id: string;
 
+  project_id?: string | null;
+
+  conversation_id?: string | null;
+
   current_interpretation: string;
 
   proposed_work?: string | null;
@@ -55,6 +59,10 @@ function ensureLivingDraftPackageTable() {
 
       lineage_id TEXT NOT NULL,
 
+      project_id TEXT,
+
+      conversation_id TEXT,
+
       current_interpretation TEXT NOT NULL,
 
       proposed_work TEXT,
@@ -83,6 +91,106 @@ function ensureLivingDraftPackageTable() {
 
   `);
 
+
+  const columns = sqlite
+    .prepare("PRAGMA table_info(matilda_living_draft_packages)")
+    .all() as Array<{ name: string }>;
+
+  if (!columns.some((column) => column.name === "project_id")) {
+    sqlite.exec(`
+      ALTER TABLE matilda_living_draft_packages
+      ADD COLUMN project_id TEXT;
+    `);
+  }
+
+  if (!columns.some((column) => column.name === "conversation_id")) {
+    sqlite.exec(`
+      ALTER TABLE matilda_living_draft_packages
+      ADD COLUMN conversation_id TEXT;
+    `);
+  }
+
+  const requiredTables = sqlite
+    .prepare(`
+      SELECT COUNT(*) AS table_count
+      FROM sqlite_master
+      WHERE type = 'table'
+        AND name IN (
+          'matilda_interpretation_evidence_ledger',
+          'matilda_conversation_turns'
+        )
+    `)
+    .get() as { table_count: number };
+
+  if (requiredTables.table_count === 2) {
+    const drafts = sqlite
+      .prepare(`
+        SELECT draft_package_id, evidence_entry_ids
+        FROM matilda_living_draft_packages
+        WHERE project_id IS NULL
+           OR TRIM(project_id) = ''
+           OR conversation_id IS NULL
+           OR TRIM(conversation_id) = ''
+      `)
+      .all() as Array<{
+        draft_package_id: string;
+        evidence_entry_ids: string;
+      }>;
+
+    const resolveOwnership = sqlite.prepare(`
+      SELECT
+        GROUP_CONCAT(DISTINCT turns.project_id) AS projects,
+        GROUP_CONCAT(DISTINCT turns.conversation_id) AS conversations,
+        COUNT(DISTINCT turns.project_id) AS project_count,
+        COUNT(DISTINCT turns.conversation_id) AS conversation_count
+      FROM json_each(?) AS evidence
+      JOIN matilda_conversation_turns AS turns
+        ON turns.interpretation_entry_id = evidence.value
+    `);
+
+    const updateOwnership = sqlite.prepare(`
+      UPDATE matilda_living_draft_packages
+      SET project_id = ?, conversation_id = ?
+      WHERE draft_package_id = ?
+    `);
+
+    const backfill = sqlite.transaction(() => {
+      for (const draft of drafts) {
+        const ownership = resolveOwnership.get(
+          draft.evidence_entry_ids
+        ) as {
+          projects: string | null;
+          conversations: string | null;
+          project_count: number;
+          conversation_count: number;
+        };
+
+        if (
+          ownership.project_count === 1
+          && ownership.conversation_count === 1
+          && ownership.projects
+          && ownership.conversations
+        ) {
+          updateOwnership.run(
+            ownership.projects,
+            ownership.conversations,
+            draft.draft_package_id
+          );
+        }
+      }
+    });
+
+    backfill();
+  }
+
+  sqlite.exec(`
+    CREATE INDEX IF NOT EXISTS
+      idx_matilda_living_drafts_conversation_updated
+    ON matilda_living_draft_packages (
+      conversation_id,
+      updated_at
+    );
+  `);
 }
 
 function requireText(value: unknown, field: string): string {
@@ -177,6 +285,10 @@ export function upsertLivingDraftPackage(
 
       lineage_id,
 
+      project_id,
+
+      conversation_id,
+
       current_interpretation,
 
       proposed_work,
@@ -206,6 +318,10 @@ export function upsertLivingDraftPackage(
       @draft_package_id,
 
       @lineage_id,
+
+      @project_id,
+
+      @conversation_id,
 
       @current_interpretation,
 
@@ -237,6 +353,10 @@ export function upsertLivingDraftPackage(
 
       lineage_id = excluded.lineage_id,
 
+      project_id = excluded.project_id,
+
+      conversation_id = excluded.conversation_id,
+
       current_interpretation = excluded.current_interpretation,
 
       proposed_work = excluded.proposed_work,
@@ -264,6 +384,10 @@ export function upsertLivingDraftPackage(
     draft_package_id,
 
     lineage_id,
+
+    project_id: optionalText(input.project_id),
+
+    conversation_id: optionalText(input.conversation_id),
 
     current_interpretation,
 
@@ -296,6 +420,10 @@ export function upsertLivingDraftPackage(
     draft_package_id,
 
     lineage_id,
+
+    project_id: optionalText(input.project_id),
+
+    conversation_id: optionalText(input.conversation_id),
 
     current_interpretation,
 
@@ -338,6 +466,10 @@ export function listLivingDraftPackages(limit = 20) {
         draft_package_id,
 
         lineage_id,
+
+        project_id,
+
+        conversation_id,
 
         current_interpretation,
 

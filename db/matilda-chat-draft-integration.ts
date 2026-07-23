@@ -45,6 +45,10 @@ export function runMatildaChatDraftIntegration(
 
     lineage_id: input.lineage_id,
 
+    project_id: input.project_id,
+
+    conversation_id: input.conversation_id,
+
     evidence_entry_ids: evidenceEntryIds,
 
   });

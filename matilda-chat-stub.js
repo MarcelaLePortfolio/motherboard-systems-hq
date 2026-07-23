@@ -41,6 +41,8 @@ async function runMatildaStub(input) {
     const ielEntry = (0, matilda_interpretation_runtime_1.createInterpretationEvidenceLedgerEntry)({
         entry_id: makeInterpretationEntryId(),
         actor: agent,
+        project_id: input.project_id,
+        conversation_id: input.conversation_id,
         interpretation_event: "Matilda received a chat interaction and preserved upstream interpretation evidence before any Package creation.",
         minimum_sufficient_context: "Matilda chat interaction received through /api/chat during the Conversation Engine IEL integration corridor.",
         supporting_raw_evidence: clampText(message),

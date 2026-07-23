@@ -17,6 +17,10 @@ export type SynthesizeLivingDraftInput = {
 
   lineage_id: string;
 
+  project_id?: string | null;
+
+  conversation_id?: string | null;
+
   evidence_entry_ids: string[];
 
 };
@@ -62,6 +66,10 @@ export function synthesizeLivingDraft(
     draft_package_id: input.draft_package_id,
 
     lineage_id: input.lineage_id,
+
+    project_id: input.project_id,
+
+    conversation_id: input.conversation_id,
 
     current_interpretation: interpretation,
 

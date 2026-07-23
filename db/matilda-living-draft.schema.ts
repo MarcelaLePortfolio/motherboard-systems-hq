@@ -11,6 +11,10 @@ export const matilda_living_draft_packages = sqliteTable(
 
     lineage_id: text("lineage_id").notNull(),
 
+    project_id: text("project_id"),
+
+    conversation_id: text("conversation_id"),
+
     current_interpretation: text("current_interpretation").notNull(),
 
     proposed_work: text("proposed_work"),

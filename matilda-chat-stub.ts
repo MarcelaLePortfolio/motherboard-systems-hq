@@ -29,6 +29,8 @@ export type MatildaChatInput = {
 
   project_id?: string | null;
 
+  conversation_id?: string | null;
+
 };
 
 export type MatildaChatMeta = {
@@ -100,6 +102,10 @@ export async function runMatildaStub(
     entry_id: makeInterpretationEntryId(),
 
     actor: agent,
+
+    project_id: input.project_id,
+
+    conversation_id: input.conversation_id,
 
     interpretation_event:
 

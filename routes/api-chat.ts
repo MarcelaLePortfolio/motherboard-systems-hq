@@ -230,6 +230,8 @@ router.post("/api/chat", async (req: Request, res: Response) => {
 
       project_id: normalizedProjectId,
 
+      conversation_id: normalizedConversationId,
+
     });
 
     let draftPackageUpdated = false;
