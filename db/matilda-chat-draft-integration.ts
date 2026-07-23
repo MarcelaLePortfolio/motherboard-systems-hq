@@ -1,9 +1,11 @@
 
-import { listInterpretationEvidenceLedgerEntries } from "./matilda-interpretation-runtime";
+import { listMatildaConversationTurns } from "./matilda-conversation-runtime";
 
 import { synthesizeLivingDraft } from "./matilda-draft-synthesis-runtime";
 
 export type RunMatildaChatDraftIntegrationInput = {
+
+  project_id: string;
 
   draft_package_id: string;
 
@@ -19,17 +21,18 @@ export function runMatildaChatDraftIntegration(
 
 ) {
 
-  const entries = listInterpretationEvidenceLedgerEntries(100);
+  const evidenceEntryIds = listMatildaConversationTurns(
+    input.project_id,
+    100,
+  )
 
-  const evidenceEntryIds = entries
+    .map((turn) => turn.interpretation_entry_id)
 
-    .filter((entry: any) => entry.entry_id)
-
-    .map((entry: any) => entry.entry_id);
+    .filter(Boolean);
 
   if (!evidenceEntryIds.includes(input.latest_entry_id)) {
 
-    evidenceEntryIds.unshift(input.latest_entry_id);
+    evidenceEntryIds.push(input.latest_entry_id);
 
   }
 

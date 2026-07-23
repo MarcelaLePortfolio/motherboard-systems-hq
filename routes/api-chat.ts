@@ -91,6 +91,8 @@ router.post("/api/chat", async (req: Request, res: Response) => {
 
         runMatildaChatDraftIntegration({
 
+          project_id,
+
           draft_package_id: `matilda-draft-${project_id}`,
 
           lineage_id: `matilda-lineage-${project_id}`,
