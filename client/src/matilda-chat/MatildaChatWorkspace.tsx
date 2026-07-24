@@ -254,22 +254,24 @@ export default function MatildaChatWorkspace() {
     }));
 
     try {
-
       const response = await sendMatildaMessage({
         message: trimmedMessage,
         projectId,
         conversationId: activeConversationId,
       });
 
-      const persistedTurn: MatildaConversationTurn = {
-        turn_id: `pending-${response.meta.interpretation_entry_id}`,
-        project_id: projectId,
-        conversation_id: activeConversationId,
-        user_message: response.message,
-        assistant_reply: response.reply,
-        interpretation_entry_id: response.meta.interpretation_entry_id,
-        created_at: response.meta.timestamp,
-      };
+      const persistedTurn = response.turn;
+
+      if (
+        persistedTurn.project_id !== projectId ||
+        persistedTurn.conversation_id !== activeConversationId ||
+        persistedTurn.interpretation_entry_id !==
+          response.meta.interpretation_entry_id
+      ) {
+        throw new Error(
+          "Matilda returned a persisted turn with mismatched conversation lineage."
+        );
+      }
 
       setTurnsByProject((current) => ({
         ...current,

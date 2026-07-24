@@ -1,9 +1,20 @@
+export interface MatildaConversationTurn {
+  turn_id: string;
+  project_id: string;
+  conversation_id: string;
+  user_message: string;
+  assistant_reply: string;
+  interpretation_entry_id: string;
+  created_at: string;
+}
+
 export interface MatildaChatResponse {
   ok: boolean;
   agent: string;
   message: string;
   reasoning: string;
   reply: string;
+  turn: MatildaConversationTurn;
   meta: {
     timestamp: string;
     pipeline: "matilda-stub";
@@ -15,16 +26,6 @@ export interface MatildaChatResponse {
   validation_authorized: boolean;
   envelope_authorized: boolean;
   execution_authorized: boolean;
-}
-
-export interface MatildaConversationTurn {
-  turn_id: string;
-  project_id: string;
-  conversation_id: string;
-  user_message: string;
-  assistant_reply: string;
-  interpretation_entry_id: string;
-  created_at: string;
 }
 
 export interface MatildaConversationSummary {
@@ -75,7 +76,6 @@ export interface SendMatildaMessageInput {
 export async function sendMatildaMessage(
   input: SendMatildaMessageInput
 ): Promise<MatildaChatResponse> {
-
   const response = await fetch("/api/chat", {
     method: "POST",
     headers: {
@@ -110,7 +110,6 @@ export async function sendMatildaMessage(
   return response.json() as Promise<MatildaChatResponse>;
 }
 
-
 export async function getMatildaChatHistory(
   projectId: string
 ): Promise<MatildaChatHistoryResponse> {
@@ -138,7 +137,6 @@ export async function getMatildaChatHistory(
 
   return response.json() as Promise<MatildaChatHistoryResponse>;
 }
-
 
 async function readConversationControlResponse<T>(
   response: Response,
