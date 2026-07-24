@@ -18,6 +18,7 @@ import {
   setActiveMatildaConversation,
 } from "../db/matilda-conversation-runtime";
 import { ollamaChat } from "../scripts/utils/ollamaChat";
+import { retrieveMatildaProjectContext } from "../server/matilda-project-context-retrieval";
 
 const router = express.Router();
 
@@ -269,6 +270,7 @@ router.post("/api/chat", async (req: Request, res: Response) => {
     try {
 
       let projectDisplayName: string | null = null;
+      let projectRootPath: string | null = null;
 
       if (normalizedProjectId) {
 
@@ -285,8 +287,15 @@ router.post("/api/chat", async (req: Request, res: Response) => {
         );
 
         projectDisplayName = project?.displayName ?? null;
+        projectRootPath = project?.projectRootPath ?? null;
 
       }
+
+      const projectContextRetrieval = retrieveMatildaProjectContext({
+        projectId: normalizedProjectId,
+        projectRootPath,
+        message: message.trim(),
+      });
 
       const activeConversation =
         getOrCreateActiveMatildaConversation(normalizedProjectId);
@@ -309,6 +318,8 @@ router.post("/api/chat", async (req: Request, res: Response) => {
         projectId: normalizedProjectId,
         projectDisplayName,
         history,
+        projectContextExcerpts: projectContextRetrieval.excerpts,
+        projectContextWarning: projectContextRetrieval.warning,
       });
 
       if (normalizedProjectId) {

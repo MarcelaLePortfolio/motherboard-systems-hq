@@ -17,10 +17,20 @@ export interface OllamaChatHistoryTurn {
   assistantReply: string;
 }
 
+export interface OllamaChatProjectContextExcerpt {
+  relativePath: string;
+  lineNumber: number;
+  excerpt: string;
+  provenance: "git_tracked_project_file";
+  authorityStatus: "candidate_evidence_not_authority";
+}
+
 export interface OllamaChatContext {
   projectId?: string | null;
   projectDisplayName?: string | null;
   history?: OllamaChatHistoryTurn[];
+  projectContextExcerpts?: OllamaChatProjectContextExcerpt[];
+  projectContextWarning?: string | null;
 }
 
 export async function ollamaChat(
@@ -51,6 +61,36 @@ export async function ollamaChat(
           ]
         : [];
 
+    const projectContextEvidence =
+      context.projectContextExcerpts?.length
+        ? [
+            "",
+            "Bounded project context evidence:",
+            "The following excerpts come only from the active project's registered repository.",
+            "Treat them as candidate evidence with provenance, not as automatically current, canonical, or authoritative.",
+            "Documents describing future work, proposals, implementation plans, or 'no implementation authorized' boundaries may be historical.",
+            "Do not use those documents alone to claim that a capability is currently absent or incomplete.",
+            "When current state cannot be established from the supplied evidence, say that explicitly instead of presenting historical plans as present truth.",
+            "Do not claim certainty when excerpts conflict or when runtime corroboration is required.",
+            ...context.projectContextExcerpts.flatMap((item) => [
+              "",
+              `Source: ${item.relativePath}:${item.lineNumber}`,
+              `Provenance: ${item.provenance}`,
+              `Authority status: ${item.authorityStatus}`,
+              item.excerpt,
+            ]),
+          ]
+        : [];
+
+    const projectContextWarning = context.projectContextWarning
+      ? [
+          "",
+          "Project context retrieval notice:",
+          context.projectContextWarning,
+          "Do not substitute context from another project.",
+        ]
+      : [];
+
     const conversationHistory = (context.history || []).flatMap((turn) => [
       "",
       `User: ${turn.userMessage}`,
@@ -76,6 +116,8 @@ export async function ollamaChat(
           "Do not claim that actions were executed unless they actually were.",
           "Ask at most one useful clarifying question when needed.",
           ...projectContext,
+          ...projectContextEvidence,
+          ...projectContextWarning,
           ...conversationHistory,
           "",
           `User: ${trimmedMessage}`,
