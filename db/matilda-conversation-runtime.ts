@@ -1,5 +1,7 @@
 import Database from "better-sqlite3";
 
+import type { MatildaProjectContextRetrievalResult } from "../server/matilda-project-context-retrieval";
+
 const sqlite = new Database("db/main.db");
 
 export interface MatildaConversation {
@@ -25,6 +27,18 @@ export interface MatildaConversationSummary extends MatildaConversation {
   is_active: boolean;
 }
 
+export interface MatildaProjectContextEvidenceTrace {
+  trace_id: string;
+  project_id: string;
+  conversation_id: string;
+  interpretation_entry_id: string;
+  retrieval: MatildaProjectContextRetrievalResult;
+  artifact_classification_status: "not_performed";
+  conflict_observation_status: "not_evaluated";
+  authority_resolution_status: "not_performed";
+  created_at: string;
+}
+
 export interface MatildaConversationTurn {
   turn_id: string;
   project_id: string;
@@ -32,6 +46,7 @@ export interface MatildaConversationTurn {
   user_message: string;
   assistant_reply: string;
   interpretation_entry_id: string;
+  project_context_evidence_trace: MatildaProjectContextEvidenceTrace | null;
   created_at: string;
 }
 
@@ -41,6 +56,7 @@ export interface CreateMatildaConversationTurnInput {
   user_message: string;
   assistant_reply: string;
   interpretation_entry_id: string;
+  project_context_retrieval: MatildaProjectContextRetrievalResult;
 }
 
 function requireText(value: unknown, field: string): string {
@@ -88,6 +104,7 @@ function ensureMatildaConversationTables() {
       user_message TEXT NOT NULL,
       assistant_reply TEXT NOT NULL,
       interpretation_entry_id TEXT NOT NULL,
+      project_context_evidence_trace_json TEXT,
       created_at TEXT NOT NULL
     );
   `);
@@ -100,6 +117,17 @@ function ensureMatildaConversationTables() {
     sqlite.exec(`
       ALTER TABLE matilda_conversation_turns
       ADD COLUMN conversation_id TEXT;
+    `);
+  }
+
+  if (
+    !columns.some(
+      (column) => column.name === "project_context_evidence_trace_json"
+    )
+  ) {
+    sqlite.exec(`
+      ALTER TABLE matilda_conversation_turns
+      ADD COLUMN project_context_evidence_trace_json TEXT;
     `);
   }
 
@@ -466,6 +494,31 @@ export function setActiveMatildaConversation(
   ) as MatildaConversation;
 }
 
+function parseProjectContextEvidenceTrace(
+  value: string | null
+): MatildaProjectContextEvidenceTrace | null {
+  if (!value) {
+    return null;
+  }
+
+  try {
+    const parsed = JSON.parse(value) as unknown;
+
+    if (
+      typeof parsed !== "object" ||
+      parsed === null ||
+      !("trace_id" in parsed) ||
+      typeof parsed.trace_id !== "string"
+    ) {
+      return null;
+    }
+
+    return parsed as MatildaProjectContextEvidenceTrace;
+  } catch {
+    return null;
+  }
+}
+
 export function createMatildaConversationTurn(
   input: CreateMatildaConversationTurnInput
 ): MatildaConversationTurn {
@@ -479,6 +532,32 @@ export function createMatildaConversationTurn(
 
   requireActiveMatildaConversation(project_id, conversation_id);
 
+  if (input.project_context_retrieval.projectId.trim() !== project_id) {
+    throw new Error(
+      "Matilda project-context retrieval does not match the turn project."
+    );
+  }
+
+  const timestamp = new Date().toISOString();
+  const interpretation_entry_id = requireText(
+    input.interpretation_entry_id,
+    "interpretation_entry_id"
+  );
+
+  const projectContextEvidenceTrace: MatildaProjectContextEvidenceTrace = {
+    trace_id: `matilda-context-trace-${Date.now()}-${Math.random()
+      .toString(36)
+      .slice(2, 8)}`,
+    project_id,
+    conversation_id,
+    interpretation_entry_id,
+    retrieval: input.project_context_retrieval,
+    artifact_classification_status: "not_performed",
+    conflict_observation_status: "not_evaluated",
+    authority_resolution_status: "not_performed",
+    created_at: timestamp,
+  };
+
   const record: MatildaConversationTurn = {
     turn_id: `matilda-turn-${Date.now()}-${Math.random()
       .toString(36)
@@ -487,11 +566,9 @@ export function createMatildaConversationTurn(
     conversation_id,
     user_message: requireText(input.user_message, "user_message"),
     assistant_reply: requireText(input.assistant_reply, "assistant_reply"),
-    interpretation_entry_id: requireText(
-      input.interpretation_entry_id,
-      "interpretation_entry_id"
-    ),
-    created_at: new Date().toISOString(),
+    interpretation_entry_id,
+    project_context_evidence_trace: projectContextEvidenceTrace,
+    created_at: timestamp,
   };
 
   const transaction = sqlite.transaction(() => {
@@ -503,6 +580,7 @@ export function createMatildaConversationTurn(
         user_message,
         assistant_reply,
         interpretation_entry_id,
+        project_context_evidence_trace_json,
         created_at
       ) VALUES (
         @turn_id,
@@ -511,9 +589,21 @@ export function createMatildaConversationTurn(
         @user_message,
         @assistant_reply,
         @interpretation_entry_id,
+        @project_context_evidence_trace_json,
         @created_at
       )
-    `).run(record);
+    `).run({
+      turn_id: record.turn_id,
+      project_id: record.project_id,
+      conversation_id: record.conversation_id,
+      user_message: record.user_message,
+      assistant_reply: record.assistant_reply,
+      interpretation_entry_id: record.interpretation_entry_id,
+      project_context_evidence_trace_json: JSON.stringify(
+        projectContextEvidenceTrace
+      ),
+      created_at: record.created_at,
+    });
 
     sqlite.prepare(`
       UPDATE matilda_conversations
@@ -546,7 +636,7 @@ export function listMatildaConversationTurns(
 
   const boundedLimit = Math.max(1, Math.min(Number(limit) || 20, 100));
 
-  return sqlite.prepare(`
+  const rows = sqlite.prepare(`
     SELECT
       turn_id,
       project_id,
@@ -554,6 +644,7 @@ export function listMatildaConversationTurns(
       user_message,
       assistant_reply,
       interpretation_entry_id,
+      project_context_evidence_trace_json,
       created_at
     FROM (
       SELECT
@@ -563,6 +654,7 @@ export function listMatildaConversationTurns(
         user_message,
         assistant_reply,
         interpretation_entry_id,
+        project_context_evidence_trace_json,
         created_at
       FROM matilda_conversation_turns
       WHERE project_id = ?
@@ -575,5 +667,27 @@ export function listMatildaConversationTurns(
     project_id,
     conversation_id,
     boundedLimit
-  ) as MatildaConversationTurn[];
+  ) as Array<{
+    turn_id: string;
+    project_id: string;
+    conversation_id: string;
+    user_message: string;
+    assistant_reply: string;
+    interpretation_entry_id: string;
+    project_context_evidence_trace_json: string | null;
+    created_at: string;
+  }>;
+
+  return rows.map((row) => ({
+    turn_id: row.turn_id,
+    project_id: row.project_id,
+    conversation_id: row.conversation_id,
+    user_message: row.user_message,
+    assistant_reply: row.assistant_reply,
+    interpretation_entry_id: row.interpretation_entry_id,
+    project_context_evidence_trace: parseProjectContextEvidenceTrace(
+      row.project_context_evidence_trace_json
+    ),
+    created_at: row.created_at,
+  }));
 }

@@ -1,3 +1,34 @@
+export interface MatildaProjectContextExcerpt {
+  projectId: string;
+  relativePath: string;
+  lineNumber: number;
+  excerpt: string;
+  provenance: "git_tracked_project_file";
+  authorityStatus: "candidate_evidence_not_authority";
+}
+
+export interface MatildaProjectContextRetrievalResult {
+  projectId: string;
+  projectRootPath: string | null;
+  available: boolean;
+  searched: boolean;
+  queryTerms: string[];
+  excerpts: MatildaProjectContextExcerpt[];
+  warning: string | null;
+}
+
+export interface MatildaProjectContextEvidenceTrace {
+  trace_id: string;
+  project_id: string;
+  conversation_id: string;
+  interpretation_entry_id: string;
+  retrieval: MatildaProjectContextRetrievalResult;
+  artifact_classification_status: "not_performed";
+  conflict_observation_status: "not_evaluated";
+  authority_resolution_status: "not_performed";
+  created_at: string;
+}
+
 export interface MatildaConversationTurn {
   turn_id: string;
   project_id: string;
@@ -5,6 +36,7 @@ export interface MatildaConversationTurn {
   user_message: string;
   assistant_reply: string;
   interpretation_entry_id: string;
+  project_context_evidence_trace: MatildaProjectContextEvidenceTrace | null;
   created_at: string;
 }
 

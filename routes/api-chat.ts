@@ -286,6 +286,7 @@ router.post("/api/chat", async (req: Request, res: Response) => {
         user_message: message.trim(),
         assistant_reply: conversationalReply,
         interpretation_entry_id: result.meta.interpretation_entry_id,
+        project_context_retrieval: projectContextRetrieval,
       });
     } catch (ollamaError) {
       console.error("[/api/chat] Ollama response failed:", ollamaError);

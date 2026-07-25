@@ -132,6 +132,10 @@ test("conversation identity remains explicit across IEL and Living Draft lineage
       path.join(repositoryRoot, "db", "matilda-draft-synthesis-runtime.ts")
     );
 
+    const conversationRuntime = require(
+      path.join(repositoryRoot, "db", "matilda-conversation-runtime.ts")
+    );
+
     interpretationRuntime.listInterpretationEvidenceLedgerEntries(20);
     livingDraftRuntime.listLivingDraftPackages(20);
 
@@ -214,6 +218,90 @@ test("conversation identity remains explicit across IEL and Living Draft lineage
       iel_conversation: "conversation-hq-test",
       draft_project: "hq",
       draft_conversation: "conversation-hq-test",
+    });
+
+    const activeConversation =
+      conversationRuntime.getOrCreateActiveMatildaConversation("hq");
+
+    interpretationRuntime.createInterpretationEvidenceLedgerEntry({
+      entry_id: "iel-project-context-trace",
+      actor: "matilda",
+      project_id: "hq",
+      conversation_id: activeConversation.conversation_id,
+      interpretation_event: "Project-context evidence trace validation",
+      minimum_sufficient_context: "Bounded test context",
+      supporting_raw_evidence: "Retrieved project evidence",
+      matilda_observation: "The retrieval used by the response must persist",
+    });
+
+    const tracedTurn = conversationRuntime.createMatildaConversationTurn({
+      project_id: "hq",
+      conversation_id: activeConversation.conversation_id,
+      user_message: "How does conversation identity work?",
+      assistant_reply: "Conversation identity is project scoped.",
+      interpretation_entry_id: "iel-project-context-trace",
+      project_context_retrieval: {
+        projectId: "hq",
+        projectRootPath: temporaryRoot,
+        available: true,
+        searched: true,
+        queryTerms: ["conversation", "identity"],
+        excerpts: [
+          {
+            projectId: "hq",
+            relativePath: "db/matilda-conversation-runtime.ts",
+            lineNumber: 30,
+            excerpt: "export interface MatildaConversationTurn",
+            provenance: "git_tracked_project_file",
+            authorityStatus: "candidate_evidence_not_authority",
+          },
+        ],
+        warning: null,
+      },
+    });
+
+    assert.equal(
+      tracedTurn.project_context_evidence_trace?.retrieval.excerpts[0]
+        .relativePath,
+      "db/matilda-conversation-runtime.ts"
+    );
+    assert.equal(
+      tracedTurn.project_context_evidence_trace?.authority_resolution_status,
+      "not_performed"
+    );
+
+    const restoredTraceTurn =
+      conversationRuntime
+        .listMatildaConversationTurns(
+          "hq",
+          100,
+          activeConversation.conversation_id
+        )
+        .find(
+          (turn: { turn_id: string }) =>
+            turn.turn_id === tracedTurn.turn_id
+        );
+
+    assert.ok(restoredTraceTurn);
+    assert.equal(
+      restoredTraceTurn.project_context_evidence_trace.trace_id,
+      tracedTurn.project_context_evidence_trace.trace_id
+    );
+    assert.deepEqual(
+      restoredTraceTurn.project_context_evidence_trace.retrieval.queryTerms,
+      ["conversation", "identity"]
+    );
+
+    const traceColumn = database
+      .prepare(`
+        SELECT name
+        FROM pragma_table_info('matilda_conversation_turns')
+        WHERE name = 'project_context_evidence_trace_json'
+      `)
+      .get() as { name: string } | undefined;
+
+    assert.deepEqual(traceColumn, {
+      name: "project_context_evidence_trace_json",
     });
 
     interpretationRuntime.createInterpretationEvidenceLedgerEntry({
