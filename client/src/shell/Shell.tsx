@@ -6,7 +6,7 @@ import "./shell.css";
 
 export default function Shell() {
   const [activeWorkspace, setActiveWorkspace] =
-    useState<ShellWorkspace>("chat");
+    useState<ShellWorkspace>("conversation");
 
   return (
     <div className="shell-frame" data-shell-region="frame">

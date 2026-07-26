@@ -1,33 +1,25 @@
-import { useProjectContext } from "../project-context/useProjectContext";
+type PlaceholderWorkspaceProps = {
+  title: string;
+};
 
-// PlaceholderWorkspace: bootstrap validation content only.
-//
-// This remains a temporary validation surface, not a real workspace.
-// It consumes shared Project Context only to prove that the workspace
-// region and Project Switcher observe one authoritative lifecycle.
-export default function PlaceholderWorkspace() {
-  const { registry, loading, error } = useProjectContext();
-
-  let activeProjectLabel = "Loading Active Context…";
-
-  if (error) {
-    activeProjectLabel = "Active Context unavailable";
-  } else if (!loading) {
-    activeProjectLabel =
-      registry?.activeProject?.displayName ?? "No Active Project";
-  }
-
+export default function PlaceholderWorkspace({
+  title,
+}: PlaceholderWorkspaceProps) {
   return (
-    <div
-      className="shell-placeholder-workspace"
-      data-shell-region="placeholder-workspace"
+    <section
+      className="placeholder-workspace"
+      aria-labelledby="placeholder-title"
     >
-      <p className="shell-placeholder-workspace__notice">
-        Bootstrap validation placeholder — not a real workspace.
+      <h1 id="placeholder-title">{title}</h1>
+
+      <p>
+        This headquarters workspace has been established.
       </p>
-      <p className="shell-placeholder-workspace__notice">
-        Shared Active Context: {activeProjectLabel}
+
+      <p>
+        Live functionality for {title} will be connected in a future
+        implementation corridor.
       </p>
-    </div>
+    </section>
   );
 }
