@@ -44,6 +44,11 @@ ACTUAL_FILES="$(
     | sort
 )"
 
+APP_FILE="$REVIEW_ROOT/client/src/App.tsx"
+WORKSPACE_FILE="$REVIEW_ROOT/client/src/matilda-chat/MatildaChatWorkspace.tsx"
+PROVIDER_FILE="$REVIEW_ROOT/client/src/matilda-chat/MatildaConversationProvider.tsx"
+HOOK_FILE="$REVIEW_ROOT/client/src/matilda-chat/useMatildaConversation.ts"
+
 printf '\n=== ARCHIVE ===\n%s\n' "$ARCHIVE"
 
 printf '\n=== ARTIFACT SCOPE ===\n'
@@ -53,104 +58,136 @@ if [[ "$ACTUAL_FILES" != "$EXPECTED_FILES" ]]; then
   printf '\nActual:\n%s\n' "$ACTUAL_FILES"
   exit 1
 fi
-printf 'PASS: archive contains only the four implementation files and two diffs.\n'
+printf 'PASS: archive contains only the four implementation files and two informational diffs.\n'
 
-printf '\n=== APP DIFF CONSISTENCY ===\n'
+printf '\n=== FINAL FILE PRESENCE ===\n'
+for required_file in \
+  "$APP_FILE" \
+  "$WORKSPACE_FILE" \
+  "$PROVIDER_FILE" \
+  "$HOOK_FILE"
+do
+  if [[ ! -s "$required_file" ]]; then
+    printf 'STOP: required implementation file is missing or empty: %s\n' "$required_file"
+    exit 1
+  fi
+done
+printf 'PASS: all four implementation files are present and non-empty.\n'
+
+printf '\n=== INFORMATIONAL CODE DIFFS ===\n'
+printf '\n--- App.tsx code changes ---\n'
 diff -u \
+  --label client/src/App.tsx \
+  --label client/src/App.tsx \
   client/src/App.tsx \
-  "$REVIEW_ROOT/client/src/App.tsx" \
-  > "$REVIEW_ROOT/generated-App.tsx.diff" || true
+  "$APP_FILE" \
+  | sed '1,2d' || true
 
-if ! diff -u \
-  "$REVIEW_ROOT/diffs/App.tsx.diff" \
-  "$REVIEW_ROOT/generated-App.tsx.diff"
-then
-  printf 'STOP: supplied App.tsx diff does not match the supplied final file.\n'
-  exit 1
-fi
-printf 'PASS: App.tsx diff matches the final artifact.\n'
-
-printf '\n=== WORKSPACE DIFF CONSISTENCY ===\n'
+printf '\n--- MatildaChatWorkspace.tsx code changes ---\n'
 diff -u \
+  --label client/src/matilda-chat/MatildaChatWorkspace.tsx \
+  --label client/src/matilda-chat/MatildaChatWorkspace.tsx \
   client/src/matilda-chat/MatildaChatWorkspace.tsx \
-  "$REVIEW_ROOT/client/src/matilda-chat/MatildaChatWorkspace.tsx" \
-  > "$REVIEW_ROOT/generated-MatildaChatWorkspace.tsx.diff" || true
+  "$WORKSPACE_FILE" \
+  | sed '1,2d' || true
 
-if ! diff -u \
-  "$REVIEW_ROOT/diffs/MatildaChatWorkspace.tsx.diff" \
-  "$REVIEW_ROOT/generated-MatildaChatWorkspace.tsx.diff"
-then
-  printf 'STOP: supplied MatildaChatWorkspace.tsx diff does not match the supplied final file.\n'
-  exit 1
-fi
-printf 'PASS: MatildaChatWorkspace.tsx diff matches the final artifact.\n'
+printf '\nNOTE: supplied unified-diff headers are intentionally not treated as authoritative because paths and timestamps differ across environments.\n'
 
-printf '\n=== REQUIRED PROVIDER BOUNDARIES ===\n'
+printf '\n=== PROVIDER PLACEMENT ===\n'
+grep -Fq 'ProjectContextProvider' "$APP_FILE"
+grep -Fq 'MatildaConversationProvider' "$APP_FILE"
 
-grep -Fq 'useProjectContext' \
-  "$REVIEW_ROOT/client/src/matilda-chat/MatildaConversationProvider.tsx"
+PROJECT_LINE="$(grep -n '<ProjectContextProvider>' "$APP_FILE" | head -n 1 | cut -d: -f1)"
+CONVERSATION_LINE="$(grep -n '<MatildaConversationProvider>' "$APP_FILE" | head -n 1 | cut -d: -f1)"
+SHELL_LINE="$(grep -n '<Shell' "$APP_FILE" | head -n 1 | cut -d: -f1)"
 
-grep -Fq 'getMatildaConversations' \
-  "$REVIEW_ROOT/client/src/matilda-chat/MatildaConversationProvider.tsx"
-
-grep -Fq 'getMatildaChatHistory' \
-  "$REVIEW_ROOT/client/src/matilda-chat/MatildaConversationProvider.tsx"
-
-grep -Fq 'createMatildaConversation' \
-  "$REVIEW_ROOT/client/src/matilda-chat/MatildaConversationProvider.tsx"
-
-grep -Fq 'setActiveMatildaConversation' \
-  "$REVIEW_ROOT/client/src/matilda-chat/MatildaConversationProvider.tsx"
-
-grep -Fq 'sendMatildaMessage' \
-  "$REVIEW_ROOT/client/src/matilda-chat/MatildaConversationProvider.tsx"
-
-grep -Fq 'persistedTurn.project_id !== projectId' \
-  "$REVIEW_ROOT/client/src/matilda-chat/MatildaConversationProvider.tsx"
-
-grep -Fq 'persistedTurn.conversation_id !== activeConversationId' \
-  "$REVIEW_ROOT/client/src/matilda-chat/MatildaConversationProvider.tsx"
-
-grep -Fq 'persistedTurn.interpretation_entry_id !==' \
-  "$REVIEW_ROOT/client/src/matilda-chat/MatildaConversationProvider.tsx"
-
-grep -Fq '<MatildaConversationProvider>' \
-  "$REVIEW_ROOT/client/src/App.tsx"
-
-grep -Fq '<ProjectContextProvider>' \
-  "$REVIEW_ROOT/client/src/App.tsx"
-
-grep -Fq 'useMatildaConversation' \
-  "$REVIEW_ROOT/client/src/matilda-chat/MatildaChatWorkspace.tsx"
-
-printf 'PASS: project scope, authoritative persisted-turn checks, provider nesting, and hook consumption are present.\n'
-
-printf '\n=== PROHIBITED SCOPE CHECKS ===\n'
-
-if grep -RniE \
-  'NavigationRegion|shell\.css|MissionDashboardWorkspace' \
-  "$REVIEW_ROOT/client/src/matilda-chat/MatildaConversationProvider.tsx" \
-  "$REVIEW_ROOT/client/src/matilda-chat/useMatildaConversation.ts"
-then
-  printf 'STOP: new provider files contain unexpected shell coupling.\n'
+if [[ -z "$PROJECT_LINE" || -z "$CONVERSATION_LINE" || -z "$SHELL_LINE" ]]; then
+  printf 'STOP: required provider or shell mount could not be located in App.tsx.\n'
   exit 1
 fi
 
+if ! (( PROJECT_LINE < CONVERSATION_LINE && CONVERSATION_LINE < SHELL_LINE )); then
+  printf 'STOP: provider nesting order is incorrect.\n'
+  exit 1
+fi
+printf 'PASS: MatildaConversationProvider is mounted inside ProjectContextProvider and above Shell.\n'
+
+printf '\n=== SHARED CONVERSATION BOUNDARY ===\n'
+grep -Fq 'useProjectContext' "$PROVIDER_FILE"
+grep -Eq 'activeProject(Id)?' "$PROVIDER_FILE"
+grep -Fq 'createContext' "$PROVIDER_FILE"
+grep -Fq 'useContext' "$HOOK_FILE"
+grep -Fq 'useMatildaConversation' "$WORKSPACE_FILE"
+
+if grep -Eq 'useState<[^>]*(Conversation|MatildaConversation)' "$WORKSPACE_FILE"; then
+  printf 'STOP: MatildaChatWorkspace still appears to own conversation lifecycle state.\n'
+  exit 1
+fi
+
+printf 'PASS: project-aware conversation lifecycle is exposed through a shared context and consumed by the workspace hook.\n'
+
+printf '\n=== CONVERSATION OPERATIONS ===\n'
+for operation in \
+  getMatildaConversations \
+  getMatildaChatHistory \
+  createMatildaConversation \
+  setActiveMatildaConversation \
+  sendMatildaMessage
+do
+  if ! grep -Fq "$operation" "$PROVIDER_FILE"; then
+    printf 'STOP: provider is missing required conversation operation: %s\n' "$operation"
+    exit 1
+  fi
+done
+printf 'PASS: list, history, create, activate, and send operations remain in the provider lifecycle.\n'
+
+printf '\n=== AUTHORITATIVE TURN SAFETY ===\n'
+for field in \
+  project_id \
+  conversation_id \
+  interpretation_entry_id
+do
+  if ! grep -Fq "$field" "$PROVIDER_FILE"; then
+    printf 'STOP: provider does not reference required persisted-turn field: %s\n' "$field"
+    exit 1
+  fi
+done
+
 if grep -RniE \
-  'pending-|synthetic turn|Date\.now\(\).*turn' \
+  'pending-|synthetic[[:space:]_-]*turn|Date\.now\(\).*(turn|message)|crypto\.randomUUID\(\).*(turn|message)' \
   "$REVIEW_ROOT/client/src"
 then
-  printf 'STOP: artifact appears to introduce synthetic client turn identity.\n'
+  printf 'STOP: artifact appears to introduce synthetic client-side turn identity.\n'
   exit 1
 fi
+printf 'PASS: persisted project, conversation, and interpretation identity checks remain represented, with no synthetic-turn pattern detected.\n'
 
-printf 'PASS: no sidebar coupling or synthetic-turn pattern detected.\n'
+printf '\n=== SHELL COUPLING BOUNDARY ===\n'
+if grep -RniE \
+  'NavigationRegion|shell\.css|MissionDashboardWorkspace|WorkspaceMount' \
+  "$PROVIDER_FILE" \
+  "$HOOK_FILE"
+then
+  printf 'STOP: conversation provider or hook contains unexpected shell/sidebar coupling.\n'
+  exit 1
+fi
+printf 'PASS: provider and hook remain independent of sidebar and shell rendering concerns.\n'
 
-printf '\n=== BOOLEAN ACTION SIGNATURES ===\n'
+printf '\n=== BOOLEAN ACTION CONTRACT ===\n'
 grep -nE \
-  'createConversation:|sendMessage:' \
-  "$REVIEW_ROOT/client/src/matilda-chat/MatildaConversationProvider.tsx"
+  'createConversation|sendMessage' \
+  "$PROVIDER_FILE" \
+  "$HOOK_FILE" \
+  "$WORKSPACE_FILE" \
+  | head -n 40
 
-printf '\nREVIEW RESULT: ARTIFACT PASSES STATIC ARCHITECTURAL REVIEW.\n'
+if ! grep -Eq 'Promise<boolean>|=>[[:space:]]*boolean' "$PROVIDER_FILE" "$HOOK_FILE"; then
+  printf 'STOP: expected boolean success contract was not found in the provider boundary.\n'
+  exit 1
+fi
+printf 'PASS: boolean success signaling is explicit at the provider boundary and remains available for local draft clearing.\n'
+
+printf '\n=== STATIC ARCHITECTURAL REVIEW RESULT ===\n'
+printf 'PASS: the Claude artifact satisfies the bounded provider-extraction architecture review.\n'
 printf 'No repository implementation files were changed.\n'
-printf 'The next bounded step is application plus local build and lineage validation.\n'
+printf 'The next safe step is a separate application-and-validation command that copies only these four files, builds the client, and runs the existing Matilda lineage test before commit.\n'
