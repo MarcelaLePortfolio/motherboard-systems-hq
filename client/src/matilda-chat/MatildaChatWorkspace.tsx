@@ -1,109 +1,31 @@
-import { FormEvent, useEffect, useState } from "react";
+import { FormEvent, useState } from "react";
 import { useProjectContext } from "../project-context/useProjectContext";
-import {
-  createMatildaConversation,
-  getMatildaChatHistory,
-  getMatildaConversations,
-  sendMatildaMessage,
-  setActiveMatildaConversation,
-  type MatildaConversationSummary,
-  type MatildaConversationTurn,
-} from "./matildaChatApi";
+import { useMatildaConversation } from "./useMatildaConversation";
 
 export default function MatildaChatWorkspace() {
   const { registry, loading: projectLoading, error: projectError } =
     useProjectContext();
 
+  const {
+    activeProjectId,
+    conversationId,
+    turns,
+    conversations,
+    switching,
+    submitting,
+    requestError,
+    createConversation,
+    switchConversation,
+    sendMessage,
+  } = useMatildaConversation();
+
   const [messagesByProject, setMessagesByProject] = useState<
     Record<string, string>
   >({});
-  const [turnsByProject, setTurnsByProject] = useState<
-    Record<string, MatildaConversationTurn[]>
-  >({});
-  const [conversationIdsByProject, setConversationIdsByProject] = useState<
-    Record<string, string>
-  >({});
-  const [conversationsByProject, setConversationsByProject] = useState<
-    Record<string, MatildaConversationSummary[]>
-  >({});
-  const [switchingByProject, setSwitchingByProject] = useState<
-    Record<string, boolean>
-  >({});
-  const [submittingByProject, setSubmittingByProject] = useState<
-    Record<string, boolean>
-  >({});
-  const [errorsByProject, setErrorsByProject] = useState<
-    Record<string, string | null>
-  >({});
 
-  const activeProjectId = registry?.activeProjectId ?? null;
   const message = activeProjectId
     ? messagesByProject[activeProjectId] ?? ""
     : "";
-  const turns = activeProjectId
-    ? turnsByProject[activeProjectId] ?? []
-    : [];
-  const conversationId = activeProjectId
-    ? conversationIdsByProject[activeProjectId] ?? null
-    : null;
-  const conversations = activeProjectId
-    ? conversationsByProject[activeProjectId] ?? []
-    : [];
-  const submitting = activeProjectId
-    ? submittingByProject[activeProjectId] ?? false
-    : false;
-  const switching = activeProjectId
-    ? switchingByProject[activeProjectId] ?? false
-    : false;
-  const requestError = activeProjectId
-    ? errorsByProject[activeProjectId] ?? null
-    : null;
-
-  useEffect(() => {
-    if (!activeProjectId) {
-      return;
-    }
-
-    let cancelled = false;
-
-    void Promise.all([
-      getMatildaConversations(activeProjectId),
-      getMatildaChatHistory(activeProjectId),
-    ])
-      .then(([conversationState, history]) => {
-        if (cancelled) {
-          return;
-        }
-
-        setConversationsByProject((current) => ({
-          ...current,
-          [activeProjectId]: conversationState.conversations,
-        }));
-        setConversationIdsByProject((current) => ({
-          ...current,
-          [activeProjectId]: history.conversation_id,
-        }));
-        setTurnsByProject((current) => ({
-          ...current,
-          [activeProjectId]: history.turns,
-        }));
-      })
-      .catch((error) => {
-        if (!cancelled) {
-          setErrorsByProject((current) => ({
-            ...current,
-            [activeProjectId]:
-              error instanceof Error
-                ? error.message
-                : "Unable to load Matilda chat history",
-          }));
-        }
-      });
-
-    return () => {
-      cancelled = true;
-    };
-  }, [activeProjectId]);
 
   const activeProjectLabel = projectLoading
     ? "Loading active project…"
@@ -112,190 +34,33 @@ export default function MatildaChatWorkspace() {
       : registry?.activeProject?.displayName ?? "No active project";
 
   async function handleCreateConversation() {
-    const projectId = registry?.activeProjectId;
+    const created = await createConversation();
 
-    if (!projectId || switchingByProject[projectId]) {
-      return;
-    }
-
-    setSwitchingByProject((current) => ({
-      ...current,
-      [projectId]: true,
-    }));
-    setErrorsByProject((current) => ({
-      ...current,
-      [projectId]: null,
-    }));
-
-    try {
-      const response = await createMatildaConversation(projectId);
-
-      setConversationsByProject((current) => ({
-        ...current,
-        [projectId]: response.conversations,
-      }));
-      setConversationIdsByProject((current) => ({
-        ...current,
-        [projectId]: response.conversation.conversation_id,
-      }));
-      setTurnsByProject((current) => ({
-        ...current,
-        [projectId]: [],
-      }));
+    if (created && activeProjectId) {
       setMessagesByProject((current) => ({
         ...current,
-        [projectId]: "",
-      }));
-    } catch (error) {
-      setErrorsByProject((current) => ({
-        ...current,
-        [projectId]:
-          error instanceof Error
-            ? error.message
-            : "Unable to create Matilda conversation",
-      }));
-    } finally {
-      setSwitchingByProject((current) => ({
-        ...current,
-        [projectId]: false,
+        [activeProjectId]: "",
       }));
     }
   }
 
   async function handleSwitchConversation(nextConversationId: string) {
-    const projectId = registry?.activeProjectId;
-
-    if (
-      !projectId ||
-      !nextConversationId ||
-      nextConversationId === conversationIdsByProject[projectId] ||
-      switchingByProject[projectId]
-    ) {
-      return;
-    }
-
-    setSwitchingByProject((current) => ({
-      ...current,
-      [projectId]: true,
-    }));
-    setErrorsByProject((current) => ({
-      ...current,
-      [projectId]: null,
-    }));
-
-    try {
-      const response = await setActiveMatildaConversation(
-        projectId,
-        nextConversationId
-      );
-      const history = await getMatildaChatHistory(projectId);
-
-      setConversationsByProject((current) => ({
-        ...current,
-        [projectId]: response.conversations,
-      }));
-      setConversationIdsByProject((current) => ({
-        ...current,
-        [projectId]: history.conversation_id,
-      }));
-      setTurnsByProject((current) => ({
-        ...current,
-        [projectId]: history.turns,
-      }));
-    } catch (error) {
-      setErrorsByProject((current) => ({
-        ...current,
-        [projectId]:
-          error instanceof Error
-            ? error.message
-            : "Unable to switch Matilda conversation",
-      }));
-    } finally {
-      setSwitchingByProject((current) => ({
-        ...current,
-        [projectId]: false,
-      }));
-    }
+    await switchConversation(nextConversationId);
   }
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
 
-    const trimmedMessage = message.trim();
-
-    if (!trimmedMessage || submitting) {
+    if (!activeProjectId) {
       return;
     }
 
-    const projectId = registry?.activeProjectId;
+    const sent = await sendMessage(message);
 
-    if (!projectId) {
-      return;
-    }
-
-    const activeConversationId =
-      conversationIdsByProject[projectId] ?? null;
-
-    if (!activeConversationId) {
-      setErrorsByProject((current) => ({
-        ...current,
-        [projectId]: "Matilda conversation is still loading.",
-      }));
-      return;
-    }
-
-    setSubmittingByProject((current) => ({
-      ...current,
-      [projectId]: true,
-    }));
-    setErrorsByProject((current) => ({
-      ...current,
-      [projectId]: null,
-    }));
-
-    try {
-      const response = await sendMatildaMessage({
-        message: trimmedMessage,
-        projectId,
-        conversationId: activeConversationId,
-      });
-
-      const persistedTurn = response.turn;
-
-      if (
-        persistedTurn.project_id !== projectId ||
-        persistedTurn.conversation_id !== activeConversationId ||
-        persistedTurn.interpretation_entry_id !==
-          response.meta.interpretation_entry_id
-      ) {
-        throw new Error(
-          "Matilda returned a persisted turn with mismatched conversation lineage."
-        );
-      }
-
-      setTurnsByProject((current) => ({
-        ...current,
-        [projectId]: [
-          ...(current[projectId] ?? []),
-          persistedTurn,
-        ],
-      }));
+    if (sent) {
       setMessagesByProject((current) => ({
         ...current,
-        [projectId]: "",
-      }));
-    } catch (error) {
-      setErrorsByProject((current) => ({
-        ...current,
-        [projectId]:
-          error instanceof Error
-            ? error.message
-            : "Unknown Matilda chat error",
-      }));
-    } finally {
-      setSubmittingByProject((current) => ({
-        ...current,
-        [projectId]: false,
+        [activeProjectId]: "",
       }));
     }
   }
