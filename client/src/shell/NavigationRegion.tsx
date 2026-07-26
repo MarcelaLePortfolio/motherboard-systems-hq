@@ -1,112 +1,49 @@
-export type ShellWorkspace =
-  | "mission-control"
-  | "conversation"
-  | "engineering"
-  | "operations-department"
-  | "atlas"
-  | "effie"
-  | "cade"
-  | "executive-review"
-  | "operations"
-  | "archives"
-  | "media-library"
-  | "settings";
+export type ShellWorkspace = "dashboard" | "chat";
 
 type NavigationRegionProps = {
   activeWorkspace: ShellWorkspace;
   onSelectWorkspace: (workspace: ShellWorkspace) => void;
 };
 
-const conversationThreads = [
-  "Retrieval Runtime",
-  "UI Shell",
-  "Mobile App",
-];
-
 export default function NavigationRegion({
   activeWorkspace,
   onSelectWorkspace,
 }: NavigationRegionProps) {
   return (
-    <aside
+    <nav
       className="shell-navigation-region"
       data-shell-region="navigation"
-      aria-label="Headquarters navigation"
+      aria-label="Primary navigation"
     >
-      <button
-        type="button"
-        className={activeWorkspace === "mission-control" ? "active" : ""}
-        onClick={() => onSelectWorkspace("mission-control")}
-      >
-        Mission Control
-      </button>
+      <section aria-labelledby="shell-navigation-primary">
+        <h2 id="shell-navigation-primary">Workspace</h2>
 
-      <section className="shell-nav-group">
-        <h2>Conversations</h2>
-
-        <div className="shell-nav-scroll">
-          {conversationThreads.map((thread) => (
-            <button
-              key={thread}
-              type="button"
-              className={
-                activeWorkspace === "conversation" ? "active" : ""
-              }
-              onClick={() => onSelectWorkspace("conversation")}
-            >
-              {thread}
-            </button>
-          ))}
-        </div>
-      </section>
-
-      <section className="shell-nav-group">
-        <h2>Departments</h2>
-
-        <button onClick={() => onSelectWorkspace("engineering")}>
-          Engineering
+        <button
+          type="button"
+          aria-current={activeWorkspace === "dashboard" ? "page" : undefined}
+          onClick={() => onSelectWorkspace("dashboard")}
+        >
+          Dashboard
         </button>
 
-        <button onClick={() => onSelectWorkspace("operations-department")}>
-          Operations
-        </button>
-
-        <button onClick={() => onSelectWorkspace("atlas")}>
-          Atlas
-        </button>
-
-        <button onClick={() => onSelectWorkspace("effie")}>
-          Effie
-        </button>
-
-        <button onClick={() => onSelectWorkspace("cade")}>
-          Cade
+        <button
+          type="button"
+          aria-current={activeWorkspace === "chat" ? "page" : undefined}
+          onClick={() => onSelectWorkspace("chat")}
+        >
+          Chats
         </button>
       </section>
 
-      <section className="shell-nav-group">
-        <button onClick={() => onSelectWorkspace("executive-review")}>
-          Executive Review
-        </button>
-
-        <button onClick={() => onSelectWorkspace("operations")}>
-          Operations
-        </button>
-
-        <button onClick={() => onSelectWorkspace("archives")}>
-          Archives
-        </button>
-
-        <button onClick={() => onSelectWorkspace("media-library")}>
-          Media Library
-        </button>
+      <section aria-labelledby="shell-navigation-departments">
+        <h2 id="shell-navigation-departments">Departments</h2>
+        <p>Department navigation is intentionally deferred.</p>
       </section>
 
-      <footer className="shell-navigation-footer">
-        <button onClick={() => onSelectWorkspace("settings")}>
-          Settings
-        </button>
-      </footer>
-    </aside>
+      <section aria-labelledby="shell-navigation-system">
+        <h2 id="shell-navigation-system">System</h2>
+        <p>Diagnostics is intentionally deferred.</p>
+      </section>
+    </nav>
   );
 }
