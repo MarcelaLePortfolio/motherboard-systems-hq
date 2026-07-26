@@ -1,25 +1,49 @@
-// NavigationRegion: a structural placeholder only.
-//
-// The primary navigation model (workspace-oriented, agent-oriented,
-// or hybrid) is a deliberately deferred architectural decision.
-// This component must not be read as an answer to that question.
-//
-// It renders no sidebar, no tabs, no route list, no agent list, and
-// no workspace list. It exists only to reserve the navigation
-// region's boundary in the frame and to prove the frame can host
-// something there later, whatever that turns out to be.
-export default function NavigationRegion() {
+export type ShellWorkspace = "dashboard" | "chat";
+
+type NavigationRegionProps = {
+  activeWorkspace: ShellWorkspace;
+  onSelectWorkspace: (workspace: ShellWorkspace) => void;
+};
+
+export default function NavigationRegion({
+  activeWorkspace,
+  onSelectWorkspace,
+}: NavigationRegionProps) {
   return (
     <nav
       className="shell-navigation-region"
       data-shell-region="navigation"
-      aria-label="Navigation (provisional placeholder — model not yet decided)"
+      aria-label="Primary navigation"
     >
-      <p className="shell-navigation-region__notice">
-        Navigation model not yet decided.
-        <br />
-        This region is a structural placeholder only.
-      </p>
+      <section aria-labelledby="shell-navigation-primary">
+        <h2 id="shell-navigation-primary">Workspace</h2>
+
+        <button
+          type="button"
+          aria-current={activeWorkspace === "dashboard" ? "page" : undefined}
+          onClick={() => onSelectWorkspace("dashboard")}
+        >
+          Dashboard
+        </button>
+
+        <button
+          type="button"
+          aria-current={activeWorkspace === "chat" ? "page" : undefined}
+          onClick={() => onSelectWorkspace("chat")}
+        >
+          Chats
+        </button>
+      </section>
+
+      <section aria-labelledby="shell-navigation-departments">
+        <h2 id="shell-navigation-departments">Departments</h2>
+        <p>Department navigation is intentionally deferred.</p>
+      </section>
+
+      <section aria-labelledby="shell-navigation-system">
+        <h2 id="shell-navigation-system">System</h2>
+        <p>Diagnostics is intentionally deferred.</p>
+      </section>
     </nav>
   );
 }

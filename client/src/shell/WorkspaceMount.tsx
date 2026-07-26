@@ -1,18 +1,25 @@
 import MatildaChatWorkspace from "../matilda-chat/MatildaChatWorkspace";
+import MissionDashboardWorkspace from "./MissionDashboardWorkspace";
+import type { ShellWorkspace } from "./NavigationRegion";
 
-// WorkspaceMount: the stable hosting boundary for the active workspace.
-//
-// The first mounted workspace is Matilda Chat. Workspace selection and
-// navigation remain deferred; this component does not interpret project,
-// package, lifecycle, or authority state itself.
-export default function WorkspaceMount() {
+type WorkspaceMountProps = {
+  activeWorkspace: ShellWorkspace;
+};
+
+export default function WorkspaceMount({
+  activeWorkspace,
+}: WorkspaceMountProps) {
   return (
     <main
       className="shell-workspace-mount"
       data-shell-region="workspace-mount"
       aria-label="Workspace content area"
     >
-      <MatildaChatWorkspace />
+      {activeWorkspace === "dashboard" ? (
+        <MissionDashboardWorkspace />
+      ) : (
+        <MatildaChatWorkspace />
+      )}
     </main>
   );
 }
