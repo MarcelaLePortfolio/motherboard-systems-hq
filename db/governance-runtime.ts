@@ -199,7 +199,7 @@ export type CreatedGovernanceEnvelope = {
 
 const sqlite = new Database("db/main.db");
 
-db.pragma("foreign_keys = ON");
+sqlite.pragma("foreign_keys = ON");
 
 const requiredPackageTextFields = [
 
@@ -447,7 +447,7 @@ export function createGovernancePackage(input: CreateGovernancePackageInput): Cr
 
   const created_at = new Date().toISOString();
 
-  db.prepare(`
+  sqlite.prepare(`
 
     INSERT INTO governance_packages (
 
@@ -557,7 +557,7 @@ export function createGovernanceDelegation(
 
   const created_at = new Date().toISOString();
 
-  db.prepare(`
+  sqlite.prepare(`
 
     INSERT INTO governance_delegations (
 
@@ -651,7 +651,7 @@ export function createGovernanceValidationResult(
 
   const created_at = new Date().toISOString();
 
-  db.prepare(`
+  sqlite.prepare(`
 
     INSERT INTO governance_validation_results (
 
@@ -779,7 +779,7 @@ export function createGovernanceEnvelopeGate(
 
   const created_at = new Date().toISOString();
 
-  db.prepare(`
+  sqlite.prepare(`
 
     INSERT INTO governance_envelope_gates (
 
@@ -891,7 +891,7 @@ export function createGovernanceEnvelope(
 
   const created_at = new Date().toISOString();
 
-  db.prepare(`
+  sqlite.prepare(`
 
     INSERT INTO governance_envelopes (
 
