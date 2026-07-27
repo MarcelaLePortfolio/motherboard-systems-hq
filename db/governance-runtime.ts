@@ -1,6 +1,8 @@
 
 import Database from "better-sqlite3";
 
+import { ensureGovernanceLifecycleEventTable } from "./governance-lifecycle-persistence";
+
 export type CreateGovernancePackageInput = {
 
   package_id: string;
@@ -288,6 +290,8 @@ export function ensureGovernanceRuntimeTables(): void {
         REFERENCES governance_envelope_gates(envelope_gate_id)
     );
   `);
+
+  ensureGovernanceLifecycleEventTable(sqlite);
 }
 
 const requiredPackageTextFields = [
