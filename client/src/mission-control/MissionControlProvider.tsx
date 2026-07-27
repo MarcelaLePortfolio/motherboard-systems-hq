@@ -3,13 +3,14 @@ import {
   useCallback,
   useContext,
   useMemo,
+  useRef,
   useState,
   type PropsWithChildren,
 } from "react";
 
 import {
   getMissionReadModel,
-  type MissionReadModel,
+  MissionReadNotFoundError,
 } from "./missionReadApi";
 import {
   mapMissionReadToPresentation,
@@ -45,39 +46,55 @@ export function MissionControlProvider({
   const [lastPackageId, setLastPackageId] =
     useState<string | null>(null);
 
+  const requestSequenceRef = useRef(0);
+
   const loadMission = useCallback(async (packageId: string) => {
+    const normalizedPackageId = packageId.trim();
+    const requestSequence = requestSequenceRef.current + 1;
+
+    requestSequenceRef.current = requestSequence;
+    setLastPackageId(normalizedPackageId);
     setStatus("loading");
     setError(null);
 
     try {
-      const readModel: MissionReadModel =
-        await getMissionReadModel(packageId);
+      const readModel = await getMissionReadModel(normalizedPackageId);
+
+      if (requestSequence !== requestSequenceRef.current) {
+        return;
+      }
 
       setMission(mapMissionReadToPresentation(readModel));
-      setLastPackageId(packageId);
       setStatus("ready");
-    } catch (err) {
-      const message =
-        err instanceof Error ? err.message : "Unknown error";
-
-      if (message.includes("not found")) {
-        setStatus("not_found");
-      } else {
-        setStatus("error");
+    } catch (caughtError) {
+      if (requestSequence !== requestSequenceRef.current) {
+        return;
       }
+
+      const message =
+        caughtError instanceof Error
+          ? caughtError.message
+          : "Unknown Mission Read error.";
 
       setMission(null);
       setError(message);
+      setStatus(
+        caughtError instanceof MissionReadNotFoundError
+          ? "not_found"
+          : "error",
+      );
     }
   }, []);
 
   const refresh = useCallback(async () => {
-    if (lastPackageId) {
-      await loadMission(lastPackageId);
+    if (!lastPackageId) {
+      return;
     }
+
+    await loadMission(lastPackageId);
   }, [lastPackageId, loadMission]);
 
-  const value = useMemo(
+  const value = useMemo<MissionControlContextValue>(
     () => ({
       status,
       mission,
@@ -95,13 +112,11 @@ export function MissionControlProvider({
   );
 }
 
-export function useMissionControlContext() {
+export function useMissionControlContext(): MissionControlContextValue {
   const context = useContext(MissionControlContext);
 
   if (!context) {
-    throw new Error(
-      "MissionControlProvider is required.",
-    );
+    throw new Error("MissionControlProvider is required.");
   }
 
   return context;
