@@ -17,3 +17,7 @@ client/dist/
 
 # Runtime database
 db/*.db
+
+# AI collaboration artifacts
+_claude_handoff/
+frontend-rebuild-handoff-v1.zip
