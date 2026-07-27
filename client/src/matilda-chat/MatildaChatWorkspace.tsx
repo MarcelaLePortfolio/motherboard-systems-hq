@@ -10,12 +10,9 @@ export default function MatildaChatWorkspace() {
     activeProjectId,
     conversationId,
     turns,
-    conversations,
     switching,
     submitting,
     requestError,
-    createConversation,
-    switchConversation,
     sendMessage,
   } = useMatildaConversation();
 
@@ -32,21 +29,6 @@ export default function MatildaChatWorkspace() {
     : projectError
       ? "Active project unavailable"
       : registry?.activeProject?.displayName ?? "No active project";
-
-  async function handleCreateConversation() {
-    const created = await createConversation();
-
-    if (created && activeProjectId) {
-      setMessagesByProject((current) => ({
-        ...current,
-        [activeProjectId]: "",
-      }));
-    }
-  }
-
-  async function handleSwitchConversation(nextConversationId: string) {
-    await switchConversation(nextConversationId);
-  }
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -79,38 +61,6 @@ export default function MatildaChatWorkspace() {
             Project context: <strong>{activeProjectLabel}</strong>
           </p>
         </div>
-
-        <div className="matilda-chat-workspace__thread-controls">
-          <label htmlFor="matilda-conversation-select">
-            Conversation
-          </label>
-          <select
-            id="matilda-conversation-select"
-            value={conversationId ?? ""}
-            disabled={!activeProjectId || switching || submitting}
-            onChange={(event) => {
-              void handleSwitchConversation(event.target.value);
-            }}
-          >
-            {conversations.map((conversation) => (
-              <option
-                key={conversation.conversation_id}
-                value={conversation.conversation_id}
-              >
-                {conversation.title}
-              </option>
-            ))}
-          </select>
-          <button
-            type="button"
-            disabled={!activeProjectId || switching || submitting}
-            onClick={() => {
-              void handleCreateConversation();
-            }}
-          >
-            {switching ? "Loading…" : "New conversation"}
-          </button>
-        </div>
       </header>
 
       <div
@@ -124,10 +74,7 @@ export default function MatildaChatWorkspace() {
         )}
 
         {turns.map((turn) => (
-          <div
-            key={turn.turn_id}
-            className="matilda-chat-turn"
-          >
+          <div key={turn.turn_id} className="matilda-chat-turn">
             <article className="matilda-chat-message matilda-chat-message--user">
               <span className="matilda-chat-message__author">You</span>
               <p>{turn.user_message}</p>
