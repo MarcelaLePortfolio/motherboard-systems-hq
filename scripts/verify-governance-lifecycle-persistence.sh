@@ -11,6 +11,7 @@ npx tsc \
   db/governance-lifecycle-persistence.ts
 
 npx ts-node \
+  --transpile-only \
   --compiler-options '{"module":"CommonJS","moduleResolution":"Node","esModuleInterop":true,"lib":["ES2022"]}' \
   --eval '
 const Database = require("better-sqlite3");
@@ -20,20 +21,23 @@ const {
 
 const sqlite = new Database(":memory:");
 
-sqlite.exec(`
+sqlite.prepare(`
 CREATE TABLE governance_envelopes (
   envelope_id TEXT PRIMARY KEY,
   lifecycle_state TEXT NOT NULL
-);
+)
+`).run();
 
+sqlite.prepare(`
 INSERT INTO governance_envelopes (
   envelope_id,
   lifecycle_state
-) VALUES (
-  ''lifecycle-persistence-smoke'',
-  ''ENVELOPE_CREATED''
+)
+VALUES (?, ?)
+`).run(
+  "lifecycle-persistence-smoke",
+  "ENVELOPE_CREATED"
 );
-`);
 
 const result = persistGovernanceEnvelopeLifecycleTransition({
   envelope_id: "lifecycle-persistence-smoke",
@@ -45,34 +49,36 @@ const result = persistGovernanceEnvelopeLifecycleTransition({
   db: sqlite
 });
 
-const envelopeRow = sqlite.prepare(
-  "SELECT lifecycle_state FROM governance_envelopes WHERE envelope_id=?"
-).get("lifecycle-persistence-smoke");
+const envelopeRow = sqlite.prepare(`
+SELECT lifecycle_state
+FROM governance_envelopes
+WHERE envelope_id = ?
+`).get("lifecycle-persistence-smoke");
 
-const lifecycleEventRow = sqlite.prepare(
-  "SELECT transition_authorization FROM governance_lifecycle_events WHERE envelope_id=?"
-).get("lifecycle-persistence-smoke");
+const lifecycleEventRow = sqlite.prepare(`
+SELECT transition_authorization, persisted_at
+FROM governance_lifecycle_events
+WHERE envelope_id = ?
+`).get("lifecycle-persistence-smoke");
 
-if (result.lifecycle_state !== "ASSIGNED") {
-  throw new Error("Bad return state.");
-}
+if (result.lifecycle_state !== "ASSIGNED")
+  throw new Error("Incorrect lifecycle state returned.");
 
-if (!envelopeRow || envelopeRow.lifecycle_state !== "ASSIGNED") {
-  throw new Error("Envelope not updated.");
-}
+if (!envelopeRow || envelopeRow.lifecycle_state !== "ASSIGNED")
+  throw new Error("Envelope state not updated.");
 
-if (!lifecycleEventRow) {
+if (!lifecycleEventRow)
   throw new Error("Lifecycle event missing.");
-}
 
-const auth = JSON.parse(lifecycleEventRow.transition_authorization);
+const auth = JSON.parse(
+  lifecycleEventRow.transition_authorization
+);
 
 if (
   auth.ok !== true ||
   auth.transition !== "ENVELOPE_CREATED_TO_ASSIGNED"
-) {
-  throw new Error("Authorization not persisted.");
-}
+)
+  throw new Error("Authorization payload incorrect.");
 
 console.log("Lifecycle persistence verification passed.");
 '
