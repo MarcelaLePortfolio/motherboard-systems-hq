@@ -21,15 +21,15 @@ export function createMissionReadRepository(
   const packageStatement = db.prepare(`
     SELECT
       package_id,
-      package_version,
-      project_id
+      package_version
     FROM governance_packages
     WHERE package_id = ?
     LIMIT 1
   `);
 
-  const lifecycleStatement = db.prepare(`
+  const envelopeStatement = db.prepare(`
     SELECT
+      envelope_id,
       lifecycle_state
     FROM governance_envelopes
     WHERE package_id = ?
@@ -39,7 +39,7 @@ export function createMissionReadRepository(
   const lifecycleCountStatement = db.prepare(`
     SELECT COUNT(*) AS count
     FROM governance_lifecycle_events
-    WHERE package_id = ?
+    WHERE envelope_id = ?
   `);
 
   return {
@@ -50,7 +50,6 @@ export function createMissionReadRepository(
         | {
             package_id: string;
             package_version: number;
-            project_id: string | null;
           }
         | undefined;
 
@@ -58,22 +57,23 @@ export function createMissionReadRepository(
         return null;
       }
 
-      const lifecycle = lifecycleStatement.get(packageId) as
+      const envelope = envelopeStatement.get(packageId) as
         | {
+            envelope_id: string;
             lifecycle_state: string | null;
           }
         | undefined;
 
-      const count = lifecycleCountStatement.get(packageId) as {
-        count: number;
-      };
+      const lifecycleCount = envelope
+        ? (lifecycleCountStatement.get(envelope.envelope_id) as { count: number })
+        : { count: 0 };
 
       return {
         package_id: pkg.package_id,
         package_version: pkg.package_version,
-        project_id: pkg.project_id,
-        lifecycle_state: lifecycle?.lifecycle_state ?? null,
-        lifecycle_event_count: count.count,
+        project_id: null,
+        lifecycle_state: envelope?.lifecycle_state ?? null,
+        lifecycle_event_count: lifecycleCount.count,
         integrity_warnings: [],
       };
     },
