@@ -1,14 +1,23 @@
-import express, { Request, Response } from "express";
+import express from "express";
+import Database from "better-sqlite3";
 
 import { createMissionReadRepository } from "../db/mission-read-repository";
 import { assembleMissionReadModel } from "../db/mission-read-model-assembler";
-import { db } from "../db/runtime/db";
 
 const router = express.Router();
 
+/*
+ * Mission Read is part of the governance persistence family.
+ * Use the same authoritative database as governance-runtime
+ * and the Mission Read integration tests.
+ */
+const db = new Database("db/main.db", {
+  readonly: true,
+});
+
 router.get(
   "/api/mission-read/:packageId",
-  async (req: Request, res: Response) => {
+  async (req, res) => {
     try {
       const packageId = req.params.packageId?.trim();
 
@@ -41,7 +50,7 @@ router.get(
         error: "Unable to assemble Mission Read Model.",
       });
     }
-  }
+  },
 );
 
 export default router;
