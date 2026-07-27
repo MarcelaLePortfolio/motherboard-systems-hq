@@ -14,8 +14,9 @@ npx ts-node \
   --compiler-options '{"module":"CommonJS","moduleResolution":"Node","esModuleInterop":true,"lib":["ES2022"]}' \
   --eval '
 const Database = require("better-sqlite3");
-const { persistGovernanceEnvelopeLifecycleTransition } =
-  require("./db/governance-lifecycle-persistence");
+const {
+  persistGovernanceEnvelopeLifecycleTransition,
+} = require("./db/governance-lifecycle-persistence");
 
 const sqlite = new Database(":memory:");
 
@@ -25,8 +26,13 @@ CREATE TABLE governance_envelopes (
   lifecycle_state TEXT NOT NULL
 );
 
-INSERT INTO governance_envelopes
-VALUES ("lifecycle-persistence-smoke","ENVELOPE_CREATED");
+INSERT INTO governance_envelopes (
+  envelope_id,
+  lifecycle_state
+) VALUES (
+  ''lifecycle-persistence-smoke'',
+  ''ENVELOPE_CREATED''
+);
 `);
 
 const result = persistGovernanceEnvelopeLifecycleTransition({
@@ -47,13 +53,26 @@ const lifecycleEventRow = sqlite.prepare(
   "SELECT transition_authorization FROM governance_lifecycle_events WHERE envelope_id=?"
 ).get("lifecycle-persistence-smoke");
 
-if (result.lifecycle_state !== "ASSIGNED") throw new Error("Bad return state.");
-if (!envelopeRow || envelopeRow.lifecycle_state !== "ASSIGNED") throw new Error("Envelope not updated.");
-if (!lifecycleEventRow) throw new Error("Lifecycle event missing.");
+if (result.lifecycle_state !== "ASSIGNED") {
+  throw new Error("Bad return state.");
+}
+
+if (!envelopeRow || envelopeRow.lifecycle_state !== "ASSIGNED") {
+  throw new Error("Envelope not updated.");
+}
+
+if (!lifecycleEventRow) {
+  throw new Error("Lifecycle event missing.");
+}
 
 const auth = JSON.parse(lifecycleEventRow.transition_authorization);
 
-if (!auth.ok) throw new Error("Authorization not persisted.");
+if (
+  auth.ok !== true ||
+  auth.transition !== "ENVELOPE_CREATED_TO_ASSIGNED"
+) {
+  throw new Error("Authorization not persisted.");
+}
 
 console.log("Lifecycle persistence verification passed.");
 '
