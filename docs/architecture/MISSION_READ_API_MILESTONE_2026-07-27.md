@@ -28,8 +28,6 @@ The Mission Read API reads from:
 
 db/main.db
 
-This is the authoritative persistence source for the current governance model.
-
 The legacy Matilda runtime continues to use:
 
 motherboard.sqlite
@@ -59,8 +57,12 @@ No legacy persistence behavior was modified.
 
 ## Deferred Work
 
-Database Authority Unification remains a separate architectural corridor and was intentionally not addressed in this implementation.
+Database Authority Unification remains a separate architectural corridor.
 
-## Outcome
+## Disaster Recovery Checkpoint
 
-The Mission Read pipeline is now available through a validated read-only HTTP API and is ready for Mission Control consumption.
+Validated implementation protected by:
+
+DR checkpoint: 20260727_142638
+
+Offsite R2 synchronization was skipped because it is not configured for this repository.
