@@ -55,14 +55,6 @@ export default function NavigationRegion({
         >
           Dashboard
         </button>
-
-        <button
-          type="button"
-          aria-current={activeWorkspace === "chat" ? "page" : undefined}
-          onClick={() => onSelectWorkspace("chat")}
-        >
-          Chats
-        </button>
       </section>
 
       <section
