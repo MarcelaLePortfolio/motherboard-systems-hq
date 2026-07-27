@@ -4,10 +4,12 @@ import express from "express";
 import path from "path";
 import { pathToFileURL } from "url";
 import apiChatRouter from "../routes/api-chat";
+import missionReadRouter from "../routes/api-mission-read";
 const app = express();
 
 app.use(express.json());
 app.use(apiChatRouter);
+app.use(missionReadRouter);
 
 app.get("/ui", (_req, res) => {
   res.send(`
