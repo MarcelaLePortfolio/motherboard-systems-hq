@@ -1,3 +1,5 @@
+import { useMissionControl } from "../mission-control/useMissionControl";
+
 const missionStages = [
   "Delegated",
   "Governance Validation",
@@ -9,6 +11,8 @@ const missionStages = [
 ];
 
 export default function MissionDashboardWorkspace() {
+  const { status, mission, error } = useMissionControl();
+
   return (
     <section
       className="mission-dashboard-workspace"
@@ -23,11 +27,38 @@ export default function MissionDashboardWorkspace() {
       </header>
 
       <div className="mission-dashboard-workspace__empty-state">
-        <h2>No delegated mission is currently active.</h2>
+        <h2>Mission Control State</h2>
+
         <p>
-          When a Package is delegated, this view will show its authoritative
-          real-time status from Governance Validation through completion.
+          <strong>Status:</strong> {status}
         </p>
+
+        {error ? (
+          <p>
+            <strong>Error:</strong> {error}
+          </p>
+        ) : null}
+
+        {mission ? (
+          <>
+            <p>
+              <strong>Package:</strong> {mission.packageId}
+            </p>
+            <p>
+              <strong>Stage:</strong> {mission.stage}
+            </p>
+            <p>
+              <strong>Owner:</strong> {mission.owner}
+            </p>
+            <p>
+              <strong>Health:</strong> {mission.health}
+            </p>
+          </>
+        ) : (
+          <p>
+            No authoritative mission has been loaded into Mission Control.
+          </p>
+        )}
       </div>
 
       <ol
@@ -43,8 +74,8 @@ export default function MissionDashboardWorkspace() {
       </ol>
 
       <p className="mission-dashboard-workspace__boundary">
-        This initial surface does not infer, simulate, or fabricate operational
-        state. Runtime pipeline binding remains a separate implementation slice.
+        This surface renders authoritative Mission Control state only.
+        Runtime mission selection and loading remain a separate corridor.
       </p>
     </section>
   );
