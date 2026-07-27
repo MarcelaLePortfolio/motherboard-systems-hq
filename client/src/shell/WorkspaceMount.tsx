@@ -1,4 +1,7 @@
 import MatildaChatWorkspace from "../matilda-chat/MatildaChatWorkspace";
+import {
+  MissionControlProvider,
+} from "../mission-control/MissionControlProvider";
 import MissionDashboardWorkspace from "./MissionDashboardWorkspace";
 import type { ShellWorkspace } from "./NavigationRegion";
 
@@ -16,7 +19,9 @@ export default function WorkspaceMount({
       aria-label="Workspace content area"
     >
       {activeWorkspace === "dashboard" ? (
-        <MissionDashboardWorkspace />
+        <MissionControlProvider>
+          <MissionDashboardWorkspace />
+        </MissionControlProvider>
       ) : (
         <MatildaChatWorkspace />
       )}
