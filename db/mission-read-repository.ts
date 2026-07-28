@@ -36,10 +36,13 @@ export function createMissionReadRepository(
     LIMIT 1
   `);
 
-  const lifecycleCountStatement = db.prepare(`
-    SELECT COUNT(*) AS count
+  const lifecycleEventsStatement = db.prepare(`
+    SELECT
+      transition_authorization,
+      persisted_at
     FROM governance_lifecycle_events
     WHERE envelope_id = ?
+    ORDER BY persisted_at ASC, event_id ASC
   `);
 
   return {
@@ -64,16 +67,20 @@ export function createMissionReadRepository(
           }
         | undefined;
 
-      const lifecycleCount = envelope
-        ? (lifecycleCountStatement.get(envelope.envelope_id) as { count: number })
-        : { count: 0 };
+      const lifecycleEvents = envelope
+        ? (lifecycleEventsStatement.all(envelope.envelope_id) as Array<{
+            transition_authorization: string;
+            persisted_at: string;
+          }>)
+        : [];
 
       return {
         package_id: pkg.package_id,
         package_version: pkg.package_version,
         project_id: null,
         lifecycle_state: envelope?.lifecycle_state ?? null,
-        lifecycle_event_count: lifecycleCount.count,
+        lifecycle_event_count: lifecycleEvents.length,
+        lifecycle_events: lifecycleEvents,
         integrity_warnings: [],
       };
     },

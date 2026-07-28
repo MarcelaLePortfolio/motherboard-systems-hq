@@ -5,6 +5,11 @@ import type {
   MissionHealth,
 } from "./mission-read-model-types.js";
 
+export interface MissionLifecycleEvidence {
+  transition_authorization: string;
+  persisted_at: string;
+}
+
 export interface MissionAssemblyInput {
   package_id: string;
   package_version: number;
@@ -13,6 +18,7 @@ export interface MissionAssemblyInput {
   lifecycle_state: string | null;
 
   lifecycle_event_count: number;
+  lifecycle_events?: readonly MissionLifecycleEvidence[];
 
   integrity_warnings?: readonly string[];
 }
@@ -30,6 +36,29 @@ function deriveStage(input: MissionAssemblyInput): MissionStage {
     default:
       return "UNKNOWN";
   }
+}
+
+function assembleTimeline(
+  events: readonly MissionLifecycleEvidence[],
+): MissionReadModel["timeline"] {
+  return events
+    .map((event, sourceIndex) => ({
+      event,
+      sourceIndex,
+    }))
+    .sort((left, right) => {
+      const timestampOrder = left.event.persisted_at.localeCompare(
+        right.event.persisted_at,
+      );
+
+      return timestampOrder !== 0
+        ? timestampOrder
+        : left.sourceIndex - right.sourceIndex;
+    })
+    .map(({ event }) => ({
+      event_type: event.transition_authorization,
+      timestamp: event.persisted_at,
+    }));
 }
 
 export function assembleMissionReadModel(
@@ -69,6 +98,6 @@ export function assembleMissionReadModel(
       latest_timestamp: null,
     },
 
-    timeline: [],
+    timeline: assembleTimeline(input.lifecycle_events ?? []),
   };
 }
