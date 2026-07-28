@@ -49,6 +49,13 @@ export interface MissionEvidence {
   latest_timestamp: string | null;
 }
 
+export interface MissionTimelineEntry {
+  event_type?: string;
+  stage?: MissionStage;
+  timestamp?: string;
+  [key: string]: unknown;
+}
+
 export interface MissionSummary {
   identity: MissionIdentity;
   stage: MissionStage;
@@ -59,5 +66,5 @@ export interface MissionSummary {
 }
 
 export interface MissionReadModel extends MissionSummary {
-  timeline: readonly unknown[];
+  timeline: readonly MissionTimelineEntry[];
 }
