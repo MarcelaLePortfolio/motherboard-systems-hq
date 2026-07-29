@@ -1,82 +1,47 @@
-import { useMissionControl } from "../mission-control/useMissionControl";
+import React from 'react';
+import { useMissionControl } from '../mission-control/useMissionControl';
 
-const missionStages = [
-  "Delegated",
-  "Governance Validation",
-  "Envelope Construction",
-  "Assigned",
-  "Executing",
-  "Outcome Review",
-  "Complete",
-];
-
+/**
+ * MissionDashboardWorkspace
+ * Reads the authoritative governance timeline and renders each stage.
+ * The most-recent stage is highlighted; if no timeline exists, show a placeholder.
+ */
 export default function MissionDashboardWorkspace() {
-  const { status, mission, error } = useMissionControl();
+  const { timeline } = useMissionControl();               // authoritative data
+
+  const stages = React.useMemo(() => {
+    if (!timeline?.length) return [];
+    const ordered: string[] = [];
+    timeline.forEach(({ stage }: { stage: string }) => {
+      if (stage && !ordered.includes(stage)) ordered.push(stage);
+    });
+    return ordered;
+  }, [timeline]);
+
+  if (!stages.length) {
+    return (
+      <div className="p-4 text-sm text-gray-500">
+        No mission in progress.
+      </div>
+    );
+  }
+
+  const currentStage = stages[stages.length - 1];
 
   return (
-    <section
-      className="mission-dashboard-workspace"
-      data-workspace="mission-dashboard"
-      aria-labelledby="mission-dashboard-title"
-    >
-      <header className="mission-dashboard-workspace__header">
-        <div>
-          <p className="mission-dashboard-workspace__eyebrow">Dashboard</p>
-          <h1 id="mission-dashboard-title">Mission</h1>
+    <div className="flex flex-col gap-2">
+      {stages.map((stage) => (
+        <div
+          key={stage}
+          className={`rounded px-3 py-2 border transition-colors ${
+            stage === currentStage
+              ? 'border-blue-500 bg-blue-50 font-semibold'
+              : 'border-gray-200 bg-white'
+          }`}
+        >
+          {stage}
         </div>
-      </header>
-
-      <div className="mission-dashboard-workspace__empty-state">
-        <h2>Mission Control State</h2>
-
-        <p>
-          <strong>Status:</strong> {status}
-        </p>
-
-        {error ? (
-          <p>
-            <strong>Error:</strong> {error}
-          </p>
-        ) : null}
-
-        {mission ? (
-          <>
-            <p>
-              <strong>Package:</strong> {mission.packageId}
-            </p>
-            <p>
-              <strong>Stage:</strong> {mission.stage}
-            </p>
-            <p>
-              <strong>Owner:</strong> {mission.owner}
-            </p>
-            <p>
-              <strong>Health:</strong> {mission.health}
-            </p>
-          </>
-        ) : (
-          <p>
-            No authoritative mission has been loaded into Mission Control.
-          </p>
-        )}
-      </div>
-
-      <ol
-        className="mission-dashboard-workspace__pipeline"
-        aria-label="Mission pipeline"
-      >
-        {missionStages.map((stage) => (
-          <li key={stage} className="mission-dashboard-workspace__stage">
-            <span aria-hidden="true">○</span>
-            <span>{stage}</span>
-          </li>
-        ))}
-      </ol>
-
-      <p className="mission-dashboard-workspace__boundary">
-        This surface renders authoritative Mission Control state only.
-        Runtime mission selection and loading remain a separate corridor.
-      </p>
-    </section>
+      ))}
+    </div>
   );
 }
