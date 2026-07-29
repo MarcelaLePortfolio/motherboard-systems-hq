@@ -16,6 +16,12 @@ const fakeCreatePackage: GovernancePackagePersistenceFunction = (input) => ({
   package_id: input.package_id,
 
   package_version: input.package_version,
+  project_id: input.project_id,
+  conversation_id: input.conversation_id,
+
+  project_id: "hq",
+
+  conversation_id: "conversation-governance-bridge",
 
   created_at: "2026-06-26T22:02:08.000Z",
 
@@ -32,6 +38,10 @@ test(
       package_id: "pkg-production-package-entry-point-success",
 
       package_version: 1,
+
+      project_id: "hq",
+
+      conversation_id: "conversation-governance-bridge",
 
       requested_outcome: "Create first canonical governance Package",
 
@@ -100,6 +110,10 @@ test(
       package_id: "",
 
       package_version: 1,
+
+      project_id: "hq",
+
+      conversation_id: "conversation-governance-bridge",
 
       requested_outcome: "Missing package id",
 

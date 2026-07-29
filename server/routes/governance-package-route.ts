@@ -23,6 +23,10 @@ export type GovernancePackageRouteBody = {
 
   package_version?: unknown;
 
+  project_id?: unknown;
+
+  conversation_id?: unknown;
+
   requested_outcome?: unknown;
 
   scope?: unknown;
@@ -146,6 +150,10 @@ export function buildGovernancePackageRouteRequest(
     package_id: normalizeText(body.package_id),
 
     package_version: normalizePackageVersion(body.package_version),
+
+    project_id: normalizeText(body.project_id),
+
+    conversation_id: normalizeText(body.conversation_id),
 
     requested_outcome: normalizeText(body.requested_outcome),
 

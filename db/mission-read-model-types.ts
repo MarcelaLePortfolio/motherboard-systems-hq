@@ -40,6 +40,7 @@ export interface MissionIdentity {
   package_id: string;
   package_version: number;
   project_id: string | null;
+  conversation_id: string | null;
 }
 
 export interface MissionEvidence {

@@ -21,7 +21,9 @@ export function createMissionReadRepository(
   const packageStatement = db.prepare(`
     SELECT
       package_id,
-      package_version
+      package_version,
+      project_id,
+      conversation_id
     FROM governance_packages
     WHERE package_id = ?
     LIMIT 1
@@ -53,6 +55,8 @@ export function createMissionReadRepository(
         | {
             package_id: string;
             package_version: number;
+            project_id: string | null;
+            conversation_id: string | null;
           }
         | undefined;
 
@@ -77,7 +81,8 @@ export function createMissionReadRepository(
       return {
         package_id: pkg.package_id,
         package_version: pkg.package_version,
-        project_id: null,
+        project_id: pkg.project_id,
+        conversation_id: pkg.conversation_id,
         lifecycle_state: envelope?.lifecycle_state ?? null,
         lifecycle_event_count: lifecycleEvents.length,
         lifecycle_events: lifecycleEvents,

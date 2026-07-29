@@ -65,6 +65,10 @@ try {
 
     package_version: packageVersion,
 
+    project_id: "hq",
+
+    conversation_id: "conversation-governance-bridge",
+
     requested_outcome: "Provide Package lineage for governance Validation runtime smoke validation",
 
     scope: "Validation runtime smoke test only",
@@ -91,6 +95,10 @@ try {
 
     package_version: packageVersion,
 
+    project_id: "hq",
+
+    conversation_id: "conversation-governance-bridge",
+
     authorization_state: "authorized",
 
     delegated_by: "smoke-test",
@@ -104,6 +112,10 @@ try {
     package_id: packageId,
 
     package_version: packageVersion,
+
+    project_id: "hq",
+
+    conversation_id: "conversation-governance-bridge",
 
     delegation_id: delegationId,
 
@@ -167,6 +179,10 @@ try {
 
       package_version: packageVersion,
 
+      project_id: "hq",
+
+      conversation_id: "conversation-governance-bridge",
+
       delegation_id: delegationId,
 
       validation_status: "ready",
@@ -193,6 +209,10 @@ try {
 
       package_version: packageVersion,
 
+      project_id: "hq",
+
+      conversation_id: "conversation-governance-bridge",
+
       delegation_id: delegationId,
 
       validation_status: "",
@@ -218,6 +238,10 @@ try {
       package_id: packageId,
 
       package_version: packageVersion,
+
+      project_id: "hq",
+
+      conversation_id: "conversation-governance-bridge",
 
       delegation_id: "missing-governance-delegation",
 

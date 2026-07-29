@@ -9,6 +9,10 @@ export type CreateGovernancePackageInput = {
 
   package_version: number;
 
+  project_id: string;
+
+  conversation_id: string;
+
   requested_outcome: string;
 
   scope: string;
@@ -32,6 +36,10 @@ export type CreatedGovernancePackage = {
   package_id: string;
 
   package_version: number;
+
+  project_id: string;
+
+  conversation_id: string;
 
   created_at: string;
 
@@ -208,6 +216,8 @@ export function ensureGovernanceRuntimeTables(): void {
     CREATE TABLE IF NOT EXISTS governance_packages (
       package_id TEXT NOT NULL,
       package_version INTEGER NOT NULL,
+      project_id TEXT,
+      conversation_id TEXT,
       requested_outcome TEXT,
       scope TEXT,
       containment TEXT,
@@ -291,12 +301,38 @@ export function ensureGovernanceRuntimeTables(): void {
     );
   `);
 
+  const governancePackageColumns = sqlite
+    .prepare("PRAGMA table_info(governance_packages)")
+    .all() as Array<{ name: string }>;
+
+  if (!governancePackageColumns.some((column) => column.name === "project_id")) {
+    sqlite.exec(`
+      ALTER TABLE governance_packages
+      ADD COLUMN project_id TEXT;
+    `);
+  }
+
+  if (
+    !governancePackageColumns.some(
+      (column) => column.name === "conversation_id",
+    )
+  ) {
+    sqlite.exec(`
+      ALTER TABLE governance_packages
+      ADD COLUMN conversation_id TEXT;
+    `);
+  }
+
   ensureGovernanceLifecycleEventTable(sqlite);
 }
 
 const requiredPackageTextFields = [
 
   "package_id",
+
+  "project_id",
+
+  "conversation_id",
 
   "requested_outcome",
 
@@ -530,6 +566,10 @@ export function createGovernancePackage(input: CreateGovernancePackageInput): Cr
 
   const package_version = requirePackageVersion(input.package_version, "Package");
 
+  const project_id = requirePackageText(input, "project_id");
+
+  const conversation_id = requirePackageText(input, "conversation_id");
+
   const requested_outcome = requirePackageText(input, "requested_outcome");
 
   const scope = requirePackageText(input, "scope");
@@ -549,6 +589,10 @@ export function createGovernancePackage(input: CreateGovernancePackageInput): Cr
       package_id,
 
       package_version,
+
+      project_id,
+
+      conversation_id,
 
       requested_outcome,
 
@@ -573,6 +617,10 @@ export function createGovernancePackage(input: CreateGovernancePackageInput): Cr
       @package_id,
 
       @package_version,
+
+      @project_id,
+
+      @conversation_id,
 
       @requested_outcome,
 
@@ -600,6 +648,10 @@ export function createGovernancePackage(input: CreateGovernancePackageInput): Cr
 
     package_version,
 
+    project_id,
+
+    conversation_id,
+
     requested_outcome,
 
     scope,
@@ -625,6 +677,10 @@ export function createGovernancePackage(input: CreateGovernancePackageInput): Cr
     package_id,
 
     package_version,
+
+    project_id,
+
+    conversation_id,
 
     created_at,
 

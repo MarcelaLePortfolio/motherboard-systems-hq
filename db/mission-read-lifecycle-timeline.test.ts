@@ -6,6 +6,7 @@ const mission = assembleMissionReadModel({
   package_id: "pkg-lifecycle-timeline-test",
   package_version: 1,
   project_id: null,
+  conversation_id: null,
   lifecycle_state: "ASSIGNED",
   lifecycle_event_count: 3,
   lifecycle_events: [

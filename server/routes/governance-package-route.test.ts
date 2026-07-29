@@ -23,6 +23,10 @@ test(
 
       package_version: 1,
 
+      project_id: "hq",
+
+      conversation_id: "conversation-governance-bridge",
+
       requested_outcome: "Create first canonical governance Package",
 
       scope: "Package route only",
@@ -71,6 +75,10 @@ test(
 
         package_version: 1,
 
+        project_id: "hq",
+
+        conversation_id: "conversation-governance-bridge",
+
         requested_outcome: "Create first canonical governance Package",
 
         scope: "Package route only",
@@ -90,6 +98,12 @@ test(
           package_id: input.package_id,
 
           package_version: input.package_version,
+          project_id: input.project_id,
+          conversation_id: input.conversation_id,
+
+          project_id: "hq",
+
+          conversation_id: "conversation-governance-bridge",
 
           created_at: "2026-06-26T22:02:08.000Z",
 
@@ -152,6 +166,10 @@ test("governance Package route handler fails closed", () => {
       package_id: "",
 
       package_version: 1,
+
+      project_id: "hq",
+
+      conversation_id: "conversation-governance-bridge",
 
       requested_outcome: "Missing package id",
 

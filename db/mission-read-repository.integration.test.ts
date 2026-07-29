@@ -25,9 +25,13 @@ async function main(): Promise<void> {
     assert.equal(mission.package_id, packageRow.package_id);
     assert.equal(typeof mission.package_version, "number");
     assert.equal(
-      mission.project_id,
-      null,
-      "Project identity must remain null until authoritative project linkage is persisted.",
+      mission.project_id === null || typeof mission.project_id === "string",
+      true,
+    );
+    assert.equal(
+      mission.conversation_id === null ||
+        typeof mission.conversation_id === "string",
+      true,
     );
     assert.equal(typeof mission.lifecycle_event_count, "number");
 

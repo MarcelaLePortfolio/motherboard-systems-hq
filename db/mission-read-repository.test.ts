@@ -9,7 +9,9 @@ async function main(): Promise<void> {
   db.exec(`
     CREATE TABLE governance_packages (
       package_id TEXT PRIMARY KEY,
-      package_version INTEGER NOT NULL
+      package_version INTEGER NOT NULL,
+      project_id TEXT,
+      conversation_id TEXT
     );
 
     CREATE TABLE governance_envelopes (

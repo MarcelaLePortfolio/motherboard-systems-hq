@@ -63,6 +63,10 @@ try {
 
     package_version: packageVersion,
 
+    project_id: "hq",
+
+    conversation_id: "conversation-governance-bridge",
+
     requested_outcome: "Verify DB-only governance Package runtime creation",
 
     scope: "Package runtime smoke test only",
@@ -113,6 +117,10 @@ try {
 
       package_version: packageVersion,
 
+      project_id: "hq",
+
+      conversation_id: "conversation-governance-bridge",
+
       requested_outcome: "Duplicate should fail",
 
       scope: "Duplicate smoke",
@@ -142,6 +150,10 @@ try {
       package_id: "smoke-governance-package-runtime-missing-field",
 
       package_version: 1,
+
+      project_id: "hq",
+
+      conversation_id: "conversation-governance-bridge",
 
       requested_outcome: "",
 

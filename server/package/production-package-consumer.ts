@@ -57,6 +57,10 @@ export function consumeProductionPackageEntryPoint(
 
     package_version: input.package_version,
 
+    project_id: input.project_id,
+
+    conversation_id: input.conversation_id,
+
     requested_outcome: input.requested_outcome,
 
     scope: input.scope,
