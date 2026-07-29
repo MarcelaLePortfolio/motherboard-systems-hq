@@ -1,53 +1,57 @@
+import { randomUUID } from "node:crypto";
 
-export type ReconciledIntentSummary = {
+import { getLivingDraftPackageById } from "./matilda-living-draft-read-runtime";
 
-  summary_id: string;
-
-  draft_package_id: string | null;
-
-  lineage_id: string;
-
-  interpreted_objective: string;
-
-  proposed_work: any[];
-
-  proposed_artifacts: any[];
-
-  in_scope: any[];
-
-  constraints: any[];
-
-  expected_outcome: string;
-
-  approval_required: boolean;
-
+export type GenerateReconciledIntentSummaryInput = {
+  draft_package_id?: unknown;
 };
 
-export function generateReconciledIntentSummary(input: any = {}): ReconciledIntentSummary {
+export type ReconciledIntentSummary = {
+  summary_id: string;
+  draft_package_id: string;
+  lineage_id: string;
+  project_id: string | null;
+  conversation_id: string | null;
+  interpreted_objective: string;
+  intended_work: string | null;
+  intended_artifacts: string | null;
+  scope: {
+    in_scope: string | null;
+    out_of_scope: string | null;
+  };
+  constraints: string | null;
+  expected_outcome: string | null;
+  unresolved_questions: string | null;
+  evidence_entry_ids: string[];
+  source_draft_status: string;
+  approval_required: true;
+  generated_at: string;
+};
+
+export function generateReconciledIntentSummary(
+  input: GenerateReconciledIntentSummaryInput = {},
+): ReconciledIntentSummary {
+  const draft = getLivingDraftPackageById(input.draft_package_id);
 
   return {
-
-    summary_id: crypto.randomUUID?.() ?? "temp-id",
-
-    draft_package_id: input?.draft_package_id ?? null,
-
-    lineage_id: "temp-lineage",
-
-    interpreted_objective: "pending",
-
-    proposed_work: [],
-
-    proposed_artifacts: [],
-
-    in_scope: [],
-
-    constraints: [],
-
-    expected_outcome: "pending",
-
-    approval_required: false
-
+    summary_id: randomUUID(),
+    draft_package_id: draft.draft_package_id,
+    lineage_id: draft.lineage_id,
+    project_id: draft.project_id,
+    conversation_id: draft.conversation_id,
+    interpreted_objective: draft.current_interpretation,
+    intended_work: draft.proposed_work,
+    intended_artifacts: draft.proposed_artifacts,
+    scope: {
+      in_scope: draft.in_scope,
+      out_of_scope: draft.out_of_scope,
+    },
+    constraints: draft.constraints,
+    expected_outcome: draft.expected_outcome,
+    unresolved_questions: draft.unresolved_questions,
+    evidence_entry_ids: draft.evidence_entry_ids,
+    source_draft_status: draft.status,
+    approval_required: true,
+    generated_at: new Date().toISOString(),
   };
-
 }
-
