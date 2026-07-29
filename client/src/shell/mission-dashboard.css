@@ -341,3 +341,44 @@
     width: 100%;
   }
 }
+
+/* Mission Control Executive Hierarchy */
+
+.mission-card--current {
+  min-height: 18rem;
+  padding: 2rem;
+  border: 2px solid #bfdbfe;
+  background:
+    linear-gradient(
+      180deg,
+      rgba(219,234,254,.65),
+      rgba(255,255,255,.98)
+    );
+  box-shadow:
+    0 8px 30px rgba(15,23,42,.10);
+}
+
+.mission-card--current .mission-card__title {
+  font-size: .8rem;
+}
+
+.mission-card--current .mission-current__name {
+  font-size: clamp(1.9rem,3vw,2.8rem);
+  line-height:1.1;
+}
+
+.mission-card--status {
+  border-top:6px solid #2563eb;
+}
+
+.mission-card--status .mission-card__value {
+  font-size:1.5rem;
+}
+
+.mission-card--lifecycle {
+  margin-top:.5rem;
+}
+
+.mission-dashboard__supporting-stack {
+  gap:1.5rem;
+}
