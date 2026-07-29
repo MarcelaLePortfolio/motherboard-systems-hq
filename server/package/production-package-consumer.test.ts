@@ -39,10 +39,6 @@ test(
         project_id: input.project_id,
         conversation_id: input.conversation_id,
 
-        project_id: "hq",
-
-        conversation_id: "conversation-governance-bridge",
-
         created_at: "2026-06-26T22:02:08.000Z",
 
       }),

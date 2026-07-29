@@ -28,31 +28,33 @@ npx tsc \
   --noEmit \
   --pretty false
 
-printf '\n=== PACKAGE PIPELINE TESTS ===\n'
-node --test --import tsx \
-  server/package/production-package-entry-point.test.ts \
-  server/package/production-package-consumer.test.ts \
-  server/routes/governance-package-route.test.ts
+run_ts_test() {
+  node --import tsx --test "$1"
+}
 
-printf '\n=== MISSION READ TESTS ===\n'
-node --test --import tsx \
-  db/mission-read-lifecycle-timeline.test.ts \
-  db/mission-read-repository.test.ts
+printf '\n=== PACKAGE ENTRY-POINT TEST ===\n'
+run_ts_test server/package/production-package-entry-point.test.ts
+
+printf '\n=== PACKAGE CONSUMER TEST ===\n'
+run_ts_test server/package/production-package-consumer.test.ts
+
+printf '\n=== GOVERNANCE PACKAGE ROUTE TEST ===\n'
+run_ts_test server/routes/governance-package-route.test.ts
+
+printf '\n=== MISSION TIMELINE TEST ===\n'
+run_ts_test db/mission-read-lifecycle-timeline.test.ts
+
+printf '\n=== MISSION REPOSITORY TEST ===\n'
+run_ts_test db/mission-read-repository.test.ts
 
 printf '\n=== GOVERNANCE PACKAGE SMOKE ===\n'
-node scripts/smoke-governance-package-runtime.mjs
+node --import tsx scripts/smoke-governance-package-runtime.mjs
 
 printf '\n=== GOVERNANCE PERSISTENCE SMOKE ===\n'
 bash scripts/verify-governance-runtime-persistence.sh
 
 printf '\n=== DIFF SAFETY CHECK ===\n'
 git diff --check
-git diff --stat
 
-printf '\n=== REMOVE TEMPORARY PATCH HELPERS ===\n'
-rm -f \
-  scripts/apply-governance-identity-bridge.py \
-  scripts/fix-governance-package-required-identity-fields.py
-
-printf '\n=== FINAL STATUS ===\n'
+printf '\n=== VALIDATION COMPLETE ===\n'
 git status --short
