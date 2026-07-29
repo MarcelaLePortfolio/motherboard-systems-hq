@@ -7,7 +7,8 @@ import { useMissionControl } from '../mission-control/useMissionControl';
  * The most-recent stage is highlighted; if no timeline exists, show a placeholder.
  */
 export default function MissionDashboardWorkspace() {
-  const { timeline, loadMission } = useMissionControl();  // authoritative data
+  const { mission, loadMission } = useMissionControl();  // authoritative data
+  const timeline = mission?.timeline ?? [];
 
   useEffect(() => {
     void loadMission("corridor-smoke");
