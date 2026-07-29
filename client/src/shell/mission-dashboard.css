@@ -40,7 +40,36 @@
 .mission-dashboard__grid {
   display: grid;
   grid-template-columns: minmax(0, 1.25fr) minmax(0, 1.25fr) minmax(16rem, 0.8fr);
+  grid-template-areas:
+    "current current status"
+    "lifecycle lifecycle supporting"
+    "details details agent";
+  align-items: start;
   gap: 1rem;
+}
+
+.mission-card--current {
+  grid-area: current;
+}
+
+.mission-card--status {
+  grid-area: status;
+}
+
+.mission-card--lifecycle {
+  grid-area: lifecycle;
+}
+
+.mission-dashboard__supporting-stack {
+  grid-area: supporting;
+}
+
+.mission-card--details {
+  grid-area: details;
+}
+
+.mission-card--agent {
+  grid-area: agent;
 }
 
 .mission-dashboard__stack {

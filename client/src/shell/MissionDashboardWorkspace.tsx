@@ -66,7 +66,7 @@ function CurrentMissionCard({
   return (
     <MissionCard
       title="Current Mission"
-      className="mission-card--wide"
+      className="mission-card--wide mission-card--current"
     >
       <div className="mission-current">
         <div>
@@ -93,7 +93,7 @@ function MissionStatusCard({
   mission: MissionPresentationModel;
 }) {
   return (
-    <MissionCard title="Mission Status">
+    <MissionCard title="Mission Status" className="mission-card--status">
       <p className="mission-card__value">
         {formatLabel(mission.stage)}
       </p>
@@ -133,7 +133,7 @@ function GovernanceLifecycleCard({
   return (
     <MissionCard
       title="Governance Lifecycle"
-      className="mission-card--wide"
+      className="mission-card--wide mission-card--lifecycle"
     >
       <ol className="mission-timeline">
         {mission.timeline.map((entry, index) => {
@@ -242,7 +242,7 @@ function PackageDetailsCard({
   return (
     <MissionCard
       title="Package Details"
-      className="mission-card--wide"
+      className="mission-card--wide mission-card--details"
     >
       <dl className="mission-details">
         {details.map(([label, value]) => (
@@ -266,7 +266,7 @@ function ActiveAgentCard({
     mission.owner.toUpperCase() !== "UNKNOWN";
 
   return (
-    <MissionCard title="Active Agent">
+    <MissionCard title="Active Agent" className="mission-card--agent">
       <p className="mission-card__value">
         {hasAuthoritativeOwner
           ? formatLabel(mission.owner)
@@ -358,7 +358,7 @@ export default function MissionDashboardWorkspace() {
 
         <GovernanceLifecycleCard mission={mission} />
 
-        <div className="mission-dashboard__stack">
+        <div className="mission-dashboard__stack mission-dashboard__supporting-stack">
           <LatestEventCard mission={mission} />
           <NextStepCard mission={mission} />
         </div>
