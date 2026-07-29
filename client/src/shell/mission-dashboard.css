@@ -39,7 +39,7 @@
 
 .mission-dashboard__grid {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-columns: minmax(0, 1.25fr) minmax(0, 1.25fr) minmax(16rem, 0.8fr);
   gap: 1rem;
 }
 
