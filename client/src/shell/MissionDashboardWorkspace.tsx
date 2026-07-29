@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useMissionControl } from '../mission-control/useMissionControl';
 
 /**
@@ -7,12 +7,17 @@ import { useMissionControl } from '../mission-control/useMissionControl';
  * The most-recent stage is highlighted; if no timeline exists, show a placeholder.
  */
 export default function MissionDashboardWorkspace() {
-  const { timeline } = useMissionControl();               // authoritative data
+  const { timeline, loadMission } = useMissionControl();  // authoritative data
+
+  useEffect(() => {
+    void loadMission("corridor-smoke");
+  }, [loadMission]);
 
   const stages = React.useMemo(() => {
     if (!timeline?.length) return [];
     const ordered: string[] = [];
-    timeline.forEach(({ stage }: { stage: string }) => {
+    timeline.forEach((entry) => {
+      const stage = entry.stage ?? entry.event_type;
       if (stage && !ordered.includes(stage)) ordered.push(stage);
     });
     return ordered;
