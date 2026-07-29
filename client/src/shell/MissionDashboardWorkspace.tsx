@@ -66,7 +66,7 @@ function CurrentMissionCard({
   return (
     <MissionCard
       title="Current Mission"
-      className="mission-card--wide mission-card--current"
+      className="mission-card--current"
     >
       <div className="mission-current">
         <div>
@@ -119,7 +119,7 @@ function GovernanceLifecycleCard({
     return (
       <MissionCard
         title="Governance Lifecycle"
-        className="mission-card--wide"
+        className="mission-card--lifecycle"
       >
         <p className="mission-card__empty">
           No lifecycle activity recorded.
@@ -133,7 +133,7 @@ function GovernanceLifecycleCard({
   return (
     <MissionCard
       title="Governance Lifecycle"
-      className="mission-card--wide mission-card--lifecycle"
+      className="mission-card--lifecycle"
     >
       <ol className="mission-timeline">
         {mission.timeline.map((entry, index) => {
@@ -242,7 +242,7 @@ function PackageDetailsCard({
   return (
     <MissionCard
       title="Package Details"
-      className="mission-card--wide mission-card--details"
+      className="mission-card--details"
     >
       <dl className="mission-details">
         {details.map(([label, value]) => (
@@ -352,19 +352,58 @@ export default function MissionDashboardWorkspace() {
         </button>
       </header>
 
-      <div className="mission-dashboard__grid">
-        <CurrentMissionCard mission={mission} />
-        <MissionStatusCard mission={mission} />
+      <div className="mission-dashboard__composition">
+        <section
+          className="mission-dashboard__hero-region"
+          aria-label="Current mission overview"
+        >
+          <CurrentMissionCard mission={mission} />
+          <MissionStatusCard mission={mission} />
+        </section>
 
-        <GovernanceLifecycleCard mission={mission} />
+        <section
+          className="mission-dashboard__lifecycle-region"
+          aria-label="Governance lifecycle"
+        >
+          <GovernanceLifecycleCard mission={mission} />
+        </section>
 
-        <div className="mission-dashboard__stack mission-dashboard__supporting-stack">
-          <LatestEventCard mission={mission} />
-          <NextStepCard mission={mission} />
-        </div>
+        <section
+          className="mission-dashboard__lower-region"
+          aria-label="Mission operations and evidence"
+        >
+          <div className="mission-dashboard__pipeline-region">
+            <header className="mission-dashboard__region-heading">
+              <p className="mission-dashboard__region-eyebrow">
+                Operational Pipeline
+              </p>
 
-        <PackageDetailsCard mission={mission} />
-        <ActiveAgentCard mission={mission} />
+              <h2 className="mission-dashboard__region-title">
+                What is happening now
+              </h2>
+            </header>
+
+            <div className="mission-dashboard__pipeline-cards">
+              <LatestEventCard mission={mission} />
+              <NextStepCard mission={mission} />
+              <ActiveAgentCard mission={mission} />
+            </div>
+          </div>
+
+          <div className="mission-dashboard__evidence-region">
+            <header className="mission-dashboard__region-heading">
+              <p className="mission-dashboard__region-eyebrow">
+                Mission Evidence
+              </p>
+
+              <h2 className="mission-dashboard__region-title">
+                What supports this view
+              </h2>
+            </header>
+
+            <PackageDetailsCard mission={mission} />
+          </div>
+        </section>
       </div>
     </main>
   );
