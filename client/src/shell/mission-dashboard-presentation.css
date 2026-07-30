@@ -66,7 +66,8 @@
 .mission-card--lifecycle {
   margin-top: 0.5rem;
   padding: 1.5rem 1.75rem;
-  overflow: hidden;
+  overflow-x: auto;
+  overflow-y: hidden;
 }
 
 .mission-card--lifecycle .mission-card__title {
@@ -78,6 +79,7 @@
   grid-template-columns: repeat(auto-fit, minmax(9rem, 1fr));
   align-items: start;
   width: 100%;
+  min-width: 42rem;
 }
 
 .mission-timeline__item {
@@ -156,8 +158,9 @@
   }
 }
 
-@media (max-width: 760px) {
+@media (max-width: 560px) {
   .mission-timeline {
+    min-width: 0;
     grid-template-columns: minmax(0, 1fr);
   }
 
