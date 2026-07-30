@@ -3,6 +3,7 @@ import type { MissionPresentationModel } from "../mission-control/missionPresent
 import type { MissionTimelineEntry } from "../mission-control/missionReadApi";
 import { useMissionControl } from "../mission-control/useMissionControl";
 import "./mission-dashboard.css";
+import "./mission-dashboard-presentation.css";
 
 const ACTIVE_PACKAGE_ID = "corridor-smoke";
 
