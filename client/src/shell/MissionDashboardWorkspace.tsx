@@ -38,7 +38,7 @@ function formatLabel(value: string | null | undefined): string {
 
 function formatTimestamp(value: string | null | undefined): string {
   if (!value) {
-    return "Timestamp unavailable";
+    return "Time unavailable";
   }
 
   const date = new Date(value);
@@ -71,11 +71,12 @@ function CurrentMissionCard({
       <div className="mission-current">
         <div>
           <p className="mission-current__name">
-            {mission.packageId}
+            {formatLabel(mission.packageId)}
           </p>
 
           <p className="mission-card__description">
-            Authoritative governance mission supplied by Mission Read.
+            This mission is moving through the organizational
+            governance lifecycle.
           </p>
         </div>
 
@@ -93,7 +94,10 @@ function MissionStatusCard({
   mission: MissionPresentationModel;
 }) {
   return (
-    <MissionCard title="Mission Status" className="mission-card--status">
+    <MissionCard
+      title="Mission Status"
+      className="mission-card--status"
+    >
       <p className="mission-card__value">
         {formatLabel(mission.stage)}
       </p>
@@ -106,6 +110,10 @@ function MissionStatusCard({
 
         <span>{formatLabel(mission.health)}</span>
       </div>
+
+      <p className="mission-card__description">
+        Current stage and mission health.
+      </p>
     </MissionCard>
   );
 }
@@ -122,7 +130,7 @@ function GovernanceLifecycleCard({
         className="mission-card--lifecycle"
       >
         <p className="mission-card__empty">
-          No lifecycle activity recorded.
+          No lifecycle activity has been recorded.
         </p>
       </MissionCard>
     );
@@ -189,7 +197,7 @@ function LatestEventCard({
       <p className="mission-card__value">
         {latestStage
           ? formatLabel(latestStage)
-          : "No event recorded"}
+          : "No Recent Activity"}
       </p>
 
       <p className="mission-card__metadata">
@@ -211,12 +219,11 @@ function NextStepCard({
       <p className="mission-card__value">
         {mission.awaiting
           ? formatLabel(mission.awaiting)
-          : "No authoritative next step reported"}
+          : "No Pending Action"}
       </p>
 
       <p className="mission-card__description">
-        Execution and assignment remain outside this presentation
-        corridor.
+        The next required action will appear here when available.
       </p>
     </MissionCard>
   );
@@ -228,7 +235,7 @@ function PackageDetailsCard({
   mission: MissionPresentationModel;
 }) {
   const details = [
-    ["Package ID", mission.packageId],
+    ["Mission ID", mission.packageId],
     ["Project", mission.projectId ?? "Unavailable"],
     ["Version", String(mission.version)],
     ["Lifecycle Events", String(mission.lifecycleEventCount)],
@@ -241,7 +248,7 @@ function PackageDetailsCard({
 
   return (
     <MissionCard
-      title="Package Details"
+      title="Mission Details"
       className="mission-card--details"
     >
       <dl className="mission-details">
@@ -266,17 +273,20 @@ function ActiveAgentCard({
     mission.owner.toUpperCase() !== "UNKNOWN";
 
   return (
-    <MissionCard title="Active Agent" className="mission-card--agent">
+    <MissionCard
+      title="Current Owner"
+      className="mission-card--agent"
+    >
       <p className="mission-card__value">
         {hasAuthoritativeOwner
           ? formatLabel(mission.owner)
-          : "Not Assigned"}
+          : "Unassigned"}
       </p>
 
       <p className="mission-card__description">
         {hasAuthoritativeOwner
-          ? "Reported by Mission Read."
-          : "Assignment runtime is not yet available."}
+          ? "Currently responsible for mission progress."
+          : "No department or agent is currently assigned."}
       </p>
     </MissionCard>
   );
@@ -298,7 +308,7 @@ export default function MissionDashboardWorkspace() {
   if (status === "idle" || status === "loading") {
     return (
       <div className="mission-dashboard-state">
-        Loading authoritative mission state…
+        Preparing Mission Control…
       </div>
     );
   }
@@ -306,7 +316,7 @@ export default function MissionDashboardWorkspace() {
   if (status === "not_found") {
     return (
       <div className="mission-dashboard-state">
-        No mission in progress.
+        No mission is currently in progress.
       </div>
     );
   }
@@ -316,7 +326,7 @@ export default function MissionDashboardWorkspace() {
       <div className="mission-dashboard-state mission-dashboard-state--error">
         <p>
           {error ??
-            "Mission Control could not load the mission."}
+            "Mission Control could not load the current mission."}
         </p>
 
         <button
@@ -324,7 +334,7 @@ export default function MissionDashboardWorkspace() {
           onClick={() => void refresh()}
           className="mission-button"
         >
-          Retry
+          Try again
         </button>
       </div>
     );
@@ -339,7 +349,7 @@ export default function MissionDashboardWorkspace() {
           </p>
 
           <h1 className="mission-dashboard__heading">
-            {mission.packageId}
+            Executive Mission Overview
           </h1>
         </div>
 
@@ -348,7 +358,7 @@ export default function MissionDashboardWorkspace() {
           onClick={() => void refresh()}
           className="mission-button"
         >
-          Refresh mission
+          Refresh
         </button>
       </header>
 
@@ -370,16 +380,16 @@ export default function MissionDashboardWorkspace() {
 
         <section
           className="mission-dashboard__lower-region"
-          aria-label="Mission operations and evidence"
+          aria-label="Mission activity and evidence"
         >
           <div className="mission-dashboard__pipeline-region">
             <header className="mission-dashboard__region-heading">
               <p className="mission-dashboard__region-eyebrow">
-                Operational Pipeline
+                Mission Progress
               </p>
 
               <h2 className="mission-dashboard__region-title">
-                What is happening now
+                Current Activity
               </h2>
             </header>
 
@@ -393,11 +403,11 @@ export default function MissionDashboardWorkspace() {
           <div className="mission-dashboard__evidence-region">
             <header className="mission-dashboard__region-heading">
               <p className="mission-dashboard__region-eyebrow">
-                Mission Evidence
+                Mission Record
               </p>
 
               <h2 className="mission-dashboard__region-title">
-                What supports this view
+                Supporting Details
               </h2>
             </header>
 
