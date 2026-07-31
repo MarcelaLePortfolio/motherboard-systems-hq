@@ -9,22 +9,45 @@ type WorkspaceMountProps = {
   activeWorkspace: ShellWorkspace;
 };
 
+function PackagesWorkspacePlaceholder() {
+  return (
+    <section
+      className="shell-placeholder-workspace"
+      aria-labelledby="packages-workspace-heading"
+    >
+      <h1 id="packages-workspace-heading">Packages</h1>
+
+      <p className="shell-placeholder-workspace__notice">
+        Package review is not implemented yet.
+      </p>
+    </section>
+  );
+}
+
 export default function WorkspaceMount({
   activeWorkspace,
 }: WorkspaceMountProps) {
+  let workspace;
+
+  if (activeWorkspace === "dashboard") {
+    workspace = (
+      <MissionControlProvider>
+        <MissionDashboardWorkspace />
+      </MissionControlProvider>
+    );
+  } else if (activeWorkspace === "packages") {
+    workspace = <PackagesWorkspacePlaceholder />;
+  } else {
+    workspace = <MatildaChatWorkspace />;
+  }
+
   return (
     <main
       className="shell-workspace-mount"
       data-shell-region="workspace-mount"
       aria-label="Workspace content area"
     >
-      {activeWorkspace === "dashboard" ? (
-        <MissionControlProvider>
-          <MissionDashboardWorkspace />
-        </MissionControlProvider>
-      ) : (
-        <MatildaChatWorkspace />
-      )}
+      {workspace}
     </main>
   );
 }

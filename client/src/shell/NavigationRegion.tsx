@@ -1,6 +1,6 @@
 import { useMatildaConversation } from "../matilda-chat/useMatildaConversation";
 
-export type ShellWorkspace = "dashboard" | "chat";
+export type ShellWorkspace = "dashboard" | "chat" | "packages";
 
 type NavigationRegionProps = {
   activeWorkspace: ShellWorkspace;
@@ -55,6 +55,14 @@ export default function NavigationRegion({
         >
           Dashboard
         </button>
+
+        <button
+          type="button"
+          aria-current={activeWorkspace === "packages" ? "page" : undefined}
+          onClick={() => onSelectWorkspace("packages")}
+        >
+          Packages
+        </button>
       </section>
 
       <section
@@ -105,7 +113,7 @@ export default function NavigationRegion({
                   disabled={controlsDisabled}
                   onClick={() =>
                     void handleSelectConversation(
-                      conversation.conversation_id
+                      conversation.conversation_id,
                     )
                   }
                 >
