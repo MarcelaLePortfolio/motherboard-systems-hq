@@ -249,7 +249,7 @@ function LatestEventCard({ mission }: { mission: MissionPresentationModel }) {
   const latestStage = latestEntry ? getTimelineStage(latestEntry) : null;
 
   return (
-    <MissionCard title="Latest Event">
+    <MissionCard title="Latest Report">
       <p className="mission-card__value">
         {latestStage ? formatLabel(latestStage) : "No Recent Activity"}
       </p>
