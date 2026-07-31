@@ -1,201 +1,33 @@
+/*
+ * Desktop presentation refinements layered on top of mission-dashboard.css.
+ *
+ * Per the presentation specification (section 6, "Visual Scale") and
+ * CLAUDE_TASK.md's visual requirements, this file intentionally keeps
+ * proportions compact -- it constrains max width and tunes column ratios
+ * for wide viewports, but it does not enlarge hero height, type scale, or
+ * padding beyond the compact base values in mission-dashboard.css.
+ */
+
 .mission-dashboard {
-  width: min(100%, 92rem);
+  width: min(100%, 84rem);
   margin: 0 auto;
-  padding: clamp(1.5rem, 2.5vw, 2.75rem);
 }
 
 .mission-dashboard__header {
-  align-items: center;
-  margin-bottom: 2.25rem;
-  padding-bottom: 1.5rem;
+  padding-bottom: 0.85rem;
   border-bottom: 1px solid rgba(203, 213, 225, 0.8);
 }
 
-.mission-dashboard__heading {
-  max-width: 15ch;
-  font-size: clamp(2.25rem, 4vw, 3.5rem);
-  letter-spacing: -0.04em;
-}
-
-.mission-dashboard__hero-region {
-  grid-template-columns: minmax(0, 2.2fr) minmax(18rem, 0.8fr);
-  gap: 1.5rem;
-}
-
-.mission-card--current {
-  position: relative;
-  min-height: 21rem;
-  overflow: hidden;
-}
-
-.mission-card--current::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background:
-    radial-gradient(
-      circle at 85% 15%,
-      rgba(59, 130, 246, 0.18),
-      transparent 20rem
-    );
-  pointer-events: none;
-}
-
-.mission-card--current .mission-current {
-  position: relative;
-  z-index: 1;
-}
-
-.mission-card--current .mission-current__name {
-  max-width: 13ch;
-  font-size: clamp(2.4rem, 5vw, 4.25rem);
-  letter-spacing: -0.05em;
-}
-
-.mission-card--status {
-  display: flex;
-  min-height: 21rem;
-  flex-direction: column;
-  justify-content: center;
-}
-
-.mission-card--status .mission-card__value {
-  font-size: clamp(2rem, 3vw, 2.75rem);
-}
-
-.mission-card--lifecycle {
-  margin-top: 0.5rem;
-  padding: 1.5rem 1.75rem;
-  overflow-x: auto;
-  overflow-y: hidden;
-}
-
-.mission-card--lifecycle .mission-card__title {
-  margin-bottom: 1.5rem;
-}
-
-.mission-timeline {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(9rem, 1fr));
-  align-items: start;
-  width: 100%;
-  min-width: 42rem;
-}
-
-.mission-timeline__item {
-  position: relative;
-  display: block;
-  min-width: 0;
-  padding: 0 1rem 0 0;
-}
-
-.mission-timeline__item:not(:last-child)::after {
-  content: "";
-  position: absolute;
-  z-index: 0;
-  top: 0.45rem;
-  right: 0;
-  left: 0.9rem;
-  width: calc(100% - 0.9rem);
-  height: 2px;
-  background: #dbe3ef;
-}
-
-.mission-timeline__marker {
-  position: relative;
-  z-index: 1;
-  width: 1rem;
-  height: 1rem;
-  margin: 0 0 0.8rem;
-}
-
-.mission-timeline__item--current .mission-timeline__marker {
-  box-shadow:
-    0 0 0 5px rgba(37, 99, 235, 0.12),
-    0 0 22px rgba(37, 99, 235, 0.2);
-}
-
-.mission-timeline__stage,
-.mission-timeline__timestamp {
-  max-width: 12rem;
-}
-
-.mission-timeline__timestamp {
-  line-height: 1.4;
-}
-
-.mission-dashboard__lower-region {
-  grid-template-columns: 1fr;
-  gap: 1.5rem;
-}
-
-.mission-dashboard__pipeline-cards {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 1rem;
-}
-
-.mission-dashboard__pipeline-cards > .mission-card {
-  min-height: 13rem;
-}
-
-.mission-card--details .mission-details {
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-}
-
-@media (max-width: 960px) {
-  .mission-dashboard__hero-region,
-  .mission-dashboard__pipeline-cards {
-    grid-template-columns: 1fr;
+@media (min-width: 1200px) {
+  .mission-dashboard__hero-region {
+    grid-template-columns: minmax(0, 2.4fr) minmax(16rem, 0.8fr);
   }
 
-  .mission-card--status {
-    min-height: auto;
-  }
-
-  .mission-card--details .mission-details {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+  .mission-dashboard__support-region {
+    grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr) minmax(0, 0.8fr);
   }
 }
 
-@media (max-width: 560px) {
-  .mission-timeline {
-    min-width: 0;
-    grid-template-columns: minmax(0, 1fr);
-  }
-
-  .mission-timeline__item {
-    display: grid;
-    grid-template-columns: 1rem minmax(0, 1fr);
-    gap: 0.85rem;
-    padding: 0 0 1.25rem;
-  }
-
-  .mission-timeline__item:not(:last-child)::after {
-    top: 1rem;
-    right: auto;
-    bottom: 0;
-    left: 0.43rem;
-    width: 1px;
-    height: auto;
-  }
-
-  .mission-timeline__marker {
-    margin: 0.15rem 0 0;
-  }
-
-  .mission-timeline__stage,
-  .mission-timeline__timestamp {
-    max-width: none;
-  }
-}
-
-@media (max-width: 680px) {
-  .mission-dashboard {
-    padding: 1rem;
-  }
-
-  .mission-card--details .mission-details {
-    grid-template-columns: 1fr;
-  }
+.mission-card--history {
+  margin-top: 0.15rem;
 }

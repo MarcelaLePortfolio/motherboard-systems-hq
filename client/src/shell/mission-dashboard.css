@@ -1,217 +1,281 @@
 .mission-dashboard {
   min-height: 100%;
   box-sizing: border-box;
-  padding: 1.5rem;
+  padding: 1rem 1.25rem;
   background:
     radial-gradient(
       circle at top right,
-      rgba(37, 99, 235, 0.08),
-      transparent 32rem
+      rgba(37, 99, 235, 0.06),
+      transparent 28rem
     ),
     #f5f7fb;
   color: #172033;
+  font-size: 0.925rem;
 }
 
 .mission-dashboard__header {
   display: flex;
   align-items: flex-end;
   justify-content: space-between;
-  gap: 1.5rem;
-  margin-bottom: 1.5rem;
+  gap: 1rem;
+  margin-bottom: 1rem;
 }
 
 .mission-dashboard__eyebrow {
   margin: 0;
   color: #64748b;
-  font-size: 0.75rem;
+  font-size: 0.68rem;
   font-weight: 700;
   letter-spacing: 0.12em;
   text-transform: uppercase;
 }
 
 .mission-dashboard__heading {
-  margin: 0.35rem 0 0;
+  margin: 0.2rem 0 0;
   color: #0f172a;
-  font-size: clamp(1.75rem, 3vw, 2.5rem);
-  line-height: 1.1;
+  font-size: clamp(1.35rem, 1.9vw, 1.75rem);
+  line-height: 1.15;
   overflow-wrap: anywhere;
 }
 
 .mission-dashboard__composition {
   display: grid;
-  gap: 1.5rem;
+  gap: 0.85rem;
 }
 
+/* Row 1: Executive Brief (hero) + Mission Status */
 .mission-dashboard__hero-region {
   display: grid;
-  grid-template-columns: minmax(0, 2.4fr) minmax(16rem, 0.8fr);
+  grid-template-columns: minmax(0, 2.2fr) minmax(15rem, 0.9fr);
   align-items: stretch;
-  gap: 1rem;
+  gap: 0.85rem;
 }
 
 .mission-dashboard__hero-region > .mission-card {
   height: 100%;
 }
 
-.mission-dashboard__lifecycle-region,
-.mission-dashboard__lower-region,
-.mission-dashboard__pipeline-region,
-.mission-dashboard__evidence-region {
-  min-width: 0;
-}
-
-.mission-dashboard__lifecycle-region > .mission-card,
-.mission-dashboard__evidence-region > .mission-card {
+/* Row 2: Mission Progress tracker */
+.mission-dashboard__progress-region > .mission-card {
   width: 100%;
 }
 
-.mission-dashboard__lower-region {
+/* Row 3: Latest Event / Next Step / Active Agent */
+.mission-dashboard__action-region {
   display: grid;
-  grid-template-columns: minmax(18rem, 0.9fr) minmax(0, 1.6fr);
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.85rem;
+}
+
+/* Row 4: Mission Pipeline / Package Details / System Overview */
+.mission-dashboard__support-region {
+  display: grid;
+  grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr) minmax(0, 0.85fr);
   align-items: start;
-  gap: 1rem;
+  gap: 0.85rem;
 }
 
-.mission-dashboard__pipeline-region,
-.mission-dashboard__evidence-region {
-  padding: 1rem;
-  border: 1px solid #dce3ee;
-  border-radius: 1rem;
-  background: rgba(248, 250, 252, 0.72);
-}
-
-.mission-dashboard__region-heading {
-  margin-bottom: 0.85rem;
-}
-
-.mission-dashboard__region-eyebrow {
-  margin: 0;
-  color: #64748b;
-  font-size: 0.68rem;
-  font-weight: 800;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-}
-
-.mission-dashboard__region-title {
-  margin: 0.25rem 0 0;
-  color: #0f172a;
-  font-size: 1rem;
-  line-height: 1.25;
-}
-
-.mission-dashboard__pipeline-cards {
-  display: grid;
-  gap: 0.75rem;
+/* Row 5: Governance History */
+.mission-dashboard__history-region > .mission-card {
+  width: 100%;
 }
 
 .mission-card {
   box-sizing: border-box;
   min-width: 0;
-  padding: 1.25rem;
+  padding: 0.9rem 1rem;
   border: 1px solid #dce3ee;
-  border-radius: 1rem;
-  background: rgba(255, 255, 255, 0.96);
+  border-radius: 0.75rem;
+  background: rgba(255, 255, 255, 0.97);
   box-shadow:
     0 1px 2px rgba(15, 23, 42, 0.04),
-    0 10px 30px rgba(15, 23, 42, 0.05);
+    0 6px 18px rgba(15, 23, 42, 0.04);
 }
 
 .mission-card__title {
-  margin: 0 0 1rem;
+  display: flex;
+  align-items: baseline;
+  gap: 0.5rem;
+  margin: 0 0 0.65rem;
   color: #64748b;
-  font-size: 0.72rem;
+  font-size: 0.66rem;
   font-weight: 800;
-  letter-spacing: 0.1em;
+  letter-spacing: 0.09em;
   text-transform: uppercase;
+}
+
+.mission-card__title-eyebrow {
+  color: #94a3b8;
+  font-size: 0.62rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: none;
 }
 
 .mission-card__value {
   margin: 0;
   color: #0f172a;
-  font-size: 1.15rem;
+  font-size: 1.05rem;
   font-weight: 700;
-  line-height: 1.4;
+  line-height: 1.35;
 }
 
 .mission-card__description,
 .mission-card__metadata,
 .mission-card__empty {
-  margin: 0.65rem 0 0;
+  margin: 0.4rem 0 0;
   color: #64748b;
-  font-size: 0.875rem;
-  line-height: 1.55;
+  font-size: 0.8rem;
+  line-height: 1.5;
 }
 
-.mission-card--current {
-  min-height: 18rem;
-  padding: 2rem;
-  border: 2px solid #bfdbfe;
+/* Executive Brief */
+
+.mission-card--brief {
+  min-height: 12rem;
+  padding: 1.1rem 1.25rem;
+  border: 1px solid #bfdbfe;
   background:
     linear-gradient(
       180deg,
-      rgba(219, 234, 254, 0.65),
+      rgba(219, 234, 254, 0.5),
       rgba(255, 255, 255, 0.98)
     );
-  box-shadow:
-    0 8px 30px rgba(15, 23, 42, 0.1);
 }
 
-.mission-card--current .mission-card__title {
-  font-size: 0.8rem;
-}
-
-.mission-card--current .mission-current__name {
-  font-size: clamp(1.9rem, 3vw, 2.8rem);
-  line-height: 1.1;
-}
-
-.mission-card--status {
-  border-top: 6px solid #2563eb;
-}
-
-.mission-card--status .mission-card__value {
-  font-size: 1.5rem;
-}
-
-.mission-current {
+.mission-brief {
   display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
-  gap: 1rem;
+  height: 100%;
+  flex-direction: column;
 }
 
-.mission-current__name {
+.mission-brief__title {
   margin: 0;
   color: #0f172a;
-  font-size: 1.45rem;
+  font-size: 1.3rem;
   font-weight: 750;
+  line-height: 1.2;
+  overflow-wrap: anywhere;
+}
+
+.mission-brief__objective {
+  margin: 0.4rem 0 0;
+  color: #64748b;
+  font-size: 0.82rem;
+  line-height: 1.5;
+  max-width: 46ch;
+}
+
+.mission-brief__facts {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.65rem;
+  margin: 0.9rem 0 0;
+}
+
+.mission-brief__fact dt {
+  margin: 0;
+  color: #94a3b8;
+  font-size: 0.62rem;
+  font-weight: 800;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+}
+
+.mission-brief__fact dd {
+  margin: 0.25rem 0 0;
+  color: #1e293b;
+  font-size: 0.9rem;
+  font-weight: 650;
+}
+
+.mission-brief__health {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.mission-brief__footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  margin-top: auto;
+  padding-top: 0.85rem;
+}
+
+.mission-brief__identifier {
+  color: #94a3b8;
+  font-size: 0.75rem;
+  font-weight: 600;
   overflow-wrap: anywhere;
 }
 
 .mission-badge {
   flex: 0 0 auto;
-  padding: 0.35rem 0.7rem;
+  padding: 0.25rem 0.55rem;
   border: 1px solid #dbe3ef;
   border-radius: 999px;
   background: #f8fafc;
   color: #475569;
-  font-size: 0.75rem;
+  font-size: 0.68rem;
   font-weight: 700;
+}
+
+/* Mission Status */
+
+.mission-card--status {
+  border-top: 4px solid #2563eb;
+}
+
+.mission-status {
+  display: grid;
+  gap: 0.5rem;
+}
+
+.mission-status__row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  font-size: 0.82rem;
+}
+
+.mission-status__label {
+  color: #94a3b8;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  font-size: 0.65rem;
+}
+
+.mission-status__value {
+  color: #1e293b;
+  font-weight: 650;
+  text-align: right;
+}
+
+.mission-status__blocking {
+  margin: 0.35rem 0 0;
+  padding: 0.4rem 0.55rem;
+  border-radius: 0.5rem;
+  background: rgba(239, 68, 68, 0.08);
+  color: #b91c1c;
+  font-size: 0.78rem;
+  font-weight: 650;
 }
 
 .mission-health {
   display: flex;
   align-items: center;
-  gap: 0.5rem;
-  margin-top: 0.8rem;
+  gap: 0.4rem;
   color: #475569;
-  font-size: 0.875rem;
+  font-size: 0.82rem;
 }
 
 .mission-health__indicator {
-  width: 0.6rem;
-  height: 0.6rem;
+  width: 0.55rem;
+  height: 0.55rem;
   border-radius: 999px;
   background: #f59e0b;
   box-shadow: 0 0 0 3px rgba(245, 158, 11, 0.12);
@@ -227,6 +291,94 @@
   box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.12);
 }
 
+/* Mission Progress (operational tracker) */
+
+.mission-card--progress {
+  padding: 0.9rem 1.1rem;
+  overflow-x: auto;
+  overflow-y: hidden;
+}
+
+.mission-progress-track {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(6.5rem, 1fr));
+  align-items: start;
+  width: 100%;
+  min-width: 40rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.mission-progress-track__item {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  min-width: 0;
+  padding: 0 0.85rem 0 0;
+}
+
+.mission-progress-track__item:not(:last-child)::after {
+  content: "";
+  position: absolute;
+  z-index: 0;
+  top: 0.4rem;
+  right: 0;
+  left: 0.8rem;
+  width: calc(100% - 0.8rem);
+  height: 2px;
+  background: #dbe3ef;
+}
+
+.mission-progress-track__item--complete:not(:last-child)::after {
+  background: #86efac;
+}
+
+.mission-progress-track__marker {
+  position: relative;
+  z-index: 1;
+  width: 0.85rem;
+  height: 0.85rem;
+  margin: 0 0 0.45rem;
+  box-sizing: border-box;
+  border: 2px solid #94a3b8;
+  border-radius: 999px;
+  background: #fff;
+}
+
+.mission-progress-track__item--complete .mission-progress-track__marker {
+  border-color: #16a34a;
+  background: #16a34a;
+}
+
+.mission-progress-track__item--current .mission-progress-track__marker {
+  border-color: #2563eb;
+  background: #2563eb;
+  box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.14);
+}
+
+.mission-progress-track__label {
+  color: #1e293b;
+  font-size: 0.78rem;
+  font-weight: 650;
+}
+
+.mission-progress-track__item--current .mission-progress-track__label {
+  color: #1d4ed8;
+}
+
+.mission-progress-track__item--pending .mission-progress-track__label {
+  color: #94a3b8;
+  font-weight: 550;
+}
+
+/* Governance History (chronological evidence) */
+
+.mission-card--history {
+  padding: 0.9rem 1.1rem;
+}
+
 .mission-timeline {
   display: grid;
   gap: 0;
@@ -238,9 +390,9 @@
 .mission-timeline__item {
   position: relative;
   display: grid;
-  grid-template-columns: 1rem minmax(0, 1fr);
-  gap: 0.85rem;
-  padding: 0 0 1.25rem;
+  grid-template-columns: 0.9rem minmax(0, 1fr);
+  gap: 0.7rem;
+  padding: 0 0 0.85rem;
 }
 
 .mission-timeline__item:last-child {
@@ -250,9 +402,9 @@
 .mission-timeline__item:not(:last-child)::after {
   content: "";
   position: absolute;
-  top: 1rem;
+  top: 0.9rem;
   bottom: 0;
-  left: 0.43rem;
+  left: 0.38rem;
   width: 1px;
   background: #dbe3ef;
 }
@@ -260,11 +412,11 @@
 .mission-timeline__marker {
   position: relative;
   z-index: 1;
-  width: 0.85rem;
-  height: 0.85rem;
-  margin-top: 0.15rem;
+  width: 0.75rem;
+  height: 0.75rem;
+  margin-top: 0.1rem;
   box-sizing: border-box;
-  border: 3px solid #94a3b8;
+  border: 2px solid #94a3b8;
   border-radius: 999px;
   background: #fff;
 }
@@ -272,13 +424,13 @@
 .mission-timeline__item--current .mission-timeline__marker {
   border-color: #2563eb;
   background: #2563eb;
-  box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.12);
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.12);
 }
 
 .mission-timeline__stage {
   margin: 0;
   color: #1e293b;
-  font-size: 0.925rem;
+  font-size: 0.85rem;
   font-weight: 700;
 }
 
@@ -287,51 +439,95 @@
 }
 
 .mission-timeline__timestamp {
-  margin: 0.3rem 0 0;
+  margin: 0.2rem 0 0;
   color: #94a3b8;
-  font-size: 0.75rem;
+  font-size: 0.7rem;
 }
+
+/* Mission Pipeline */
+
+.mission-pipeline {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  flex-wrap: wrap;
+}
+
+.mission-pipeline__node {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  min-width: 0;
+}
+
+.mission-pipeline__node-label {
+  color: #94a3b8;
+  font-size: 0.6rem;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.mission-pipeline__node-value {
+  color: #1e293b;
+  font-size: 0.82rem;
+  font-weight: 650;
+  overflow-wrap: anywhere;
+}
+
+.mission-pipeline__arrow {
+  color: #cbd5e1;
+  font-size: 0.9rem;
+}
+
+/* Package Details */
 
 .mission-details {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 1rem;
+  gap: 0.6rem;
   margin: 0;
 }
 
 .mission-details__row {
   min-width: 0;
-  padding: 0.85rem;
+  padding: 0.55rem 0.65rem;
   border: 1px solid #e5eaf2;
-  border-radius: 0.75rem;
+  border-radius: 0.55rem;
   background: #f8fafc;
 }
 
 .mission-details__row dt {
   color: #64748b;
-  font-size: 0.68rem;
+  font-size: 0.6rem;
   font-weight: 800;
-  letter-spacing: 0.08em;
+  letter-spacing: 0.06em;
   text-transform: uppercase;
 }
 
 .mission-details__row dd {
-  margin: 0.4rem 0 0;
+  margin: 0.25rem 0 0;
   color: #1e293b;
-  font-size: 0.875rem;
+  font-size: 0.8rem;
   font-weight: 650;
   overflow-wrap: anywhere;
 }
 
+/* System Overview (deferred) */
+
+.mission-card--system .mission-card__empty {
+  margin-top: 0;
+}
+
 .mission-button {
   box-sizing: border-box;
-  padding: 0.65rem 0.95rem;
+  padding: 0.5rem 0.8rem;
   border: 1px solid #cbd5e1;
-  border-radius: 0.65rem;
+  border-radius: 0.55rem;
   background: #fff;
   color: #1e293b;
   font: inherit;
-  font-size: 0.825rem;
+  font-size: 0.78rem;
   font-weight: 700;
   cursor: pointer;
   box-shadow: 0 1px 2px rgba(15, 23, 42, 0.05);
@@ -362,27 +558,64 @@
   color: #b91c1c;
 }
 
+@media (max-width: 1080px) {
+  .mission-dashboard__support-region {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
 @media (max-width: 960px) {
   .mission-dashboard__hero-region,
-  .mission-dashboard__lower-region {
+  .mission-dashboard__action-region {
     grid-template-columns: minmax(0, 1fr);
+  }
+
+  .mission-progress-track {
+    min-width: 0;
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .mission-progress-track__item {
+    display: grid;
+    grid-template-columns: 0.85rem minmax(0, 1fr);
+    align-items: center;
+    gap: 0.7rem;
+    padding: 0 0 0.85rem;
+  }
+
+  .mission-progress-track__item:not(:last-child)::after {
+    top: 0.85rem;
+    right: auto;
+    bottom: 0;
+    left: 0.4rem;
+    width: 1px;
+    height: auto;
+  }
+
+  .mission-progress-track__marker {
+    margin: 0;
   }
 }
 
 @media (max-width: 680px) {
   .mission-dashboard {
-    padding: 1rem;
+    padding: 0.85rem;
   }
 
-  .mission-dashboard__header,
-  .mission-current {
+  .mission-dashboard__header {
     align-items: stretch;
     flex-direction: column;
+    gap: 0.6rem;
   }
 
-  .mission-dashboard__pipeline-region,
-  .mission-dashboard__evidence-region {
-    padding: 0.75rem;
+  .mission-brief__facts {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .mission-brief__footer {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.4rem;
   }
 
   .mission-details {
