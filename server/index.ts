@@ -3,7 +3,9 @@
 import express from "express";
 import path from "path";
 import { pathToFileURL } from "url";
+
 import apiChatRouter from "../routes/api-chat";
+import packageReadRouter from "../routes/api-package-read";
 import missionReadRouter from "../routes/api-mission-read";
 import { initializeCanonicalPackageSchema } from "../db/matilda-canonical-package-runtime";
 import matildaCanonicalPackageRouter from "./routes/matilda-canonical-package-route";
@@ -15,6 +17,7 @@ app.locals.canonicalPackageSchemaReady = false;
 app.use(express.json());
 app.use(apiChatRouter);
 app.use(missionReadRouter);
+app.use(packageReadRouter);
 app.use(matildaCanonicalPackageRouter);
 
 app.get("/ui", (_req, res) => {
