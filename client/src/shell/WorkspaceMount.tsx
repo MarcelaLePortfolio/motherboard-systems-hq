@@ -21,9 +21,12 @@ type WorkspaceMountProps = {
 export default function WorkspaceMount({
   activeWorkspace,
 }: WorkspaceMountProps) {
-  const {
-    activeProjectId,
-  } = useProjectContext();
+  const { registry } = useProjectContext();
+
+  const activeProjectId =
+    registry?.activeProject?.projectId ??
+    registry?.activeProjectId ??
+    null;
 
   return (
     <main
@@ -40,11 +43,17 @@ export default function WorkspaceMount({
           <PackagesWorkspace />
         </PackageReadProvider>
       ) : activeWorkspace === "approvals" ? (
-        <ApprovalRequestProvider
-          projectId={activeProjectId}
-        >
-          <ApprovalsWorkspace />
-        </ApprovalRequestProvider>
+        activeProjectId ? (
+          <ApprovalRequestProvider
+            projectId={activeProjectId}
+          >
+            <ApprovalsWorkspace />
+          </ApprovalRequestProvider>
+        ) : (
+          <section aria-label="Approvals unavailable">
+            No active project is available.
+          </section>
+        )
       ) : (
         <MatildaChatWorkspace />
       )}

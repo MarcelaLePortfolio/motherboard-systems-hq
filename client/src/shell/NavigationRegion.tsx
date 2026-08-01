@@ -1,6 +1,10 @@
 import { useMatildaConversation } from "../matilda-chat/useMatildaConversation";
 
-export type ShellWorkspace = "dashboard" | "chat" | "packages";
+export type ShellWorkspace =
+  | "dashboard"
+  | "chat"
+  | "packages"
+  | "approvals";
 
 type NavigationRegionProps = {
   activeWorkspace: ShellWorkspace;
@@ -31,7 +35,9 @@ export default function NavigationRegion({
     }
   }
 
-  async function handleSelectConversation(nextConversationId: string) {
+  async function handleSelectConversation(
+    nextConversationId: string,
+  ) {
     onSelectWorkspace("chat");
     await switchConversation(nextConversationId);
   }
@@ -50,18 +56,44 @@ export default function NavigationRegion({
 
         <button
           type="button"
-          aria-current={activeWorkspace === "dashboard" ? "page" : undefined}
-          onClick={() => onSelectWorkspace("dashboard")}
+          aria-current={
+            activeWorkspace === "dashboard"
+              ? "page"
+              : undefined
+          }
+          onClick={() =>
+            onSelectWorkspace("dashboard")
+          }
         >
           Dashboard
         </button>
 
         <button
           type="button"
-          aria-current={activeWorkspace === "packages" ? "page" : undefined}
-          onClick={() => onSelectWorkspace("packages")}
+          aria-current={
+            activeWorkspace === "packages"
+              ? "page"
+              : undefined
+          }
+          onClick={() =>
+            onSelectWorkspace("packages")
+          }
         >
           Packages
+        </button>
+
+        <button
+          type="button"
+          aria-current={
+            activeWorkspace === "approvals"
+              ? "page"
+              : undefined
+          }
+          onClick={() =>
+            onSelectWorkspace("approvals")
+          }
+        >
+          Approvals
         </button>
       </section>
 
@@ -70,13 +102,17 @@ export default function NavigationRegion({
         aria-labelledby="shell-navigation-conversations"
       >
         <div className="shell-conversation-navigation__heading">
-          <h2 id="shell-navigation-conversations">Conversations</h2>
+          <h2 id="shell-navigation-conversations">
+            Conversations
+          </h2>
 
           <button
             type="button"
             className="shell-conversation-navigation__new"
             disabled={controlsDisabled}
-            onClick={() => void handleCreateConversation()}
+            onClick={() =>
+              void handleCreateConversation()
+            }
           >
             {switching ? "Working…" : "New"}
           </button>
@@ -101,15 +137,20 @@ export default function NavigationRegion({
           >
             {conversations.map((conversation) => {
               const active =
-                conversation.conversation_id === conversationId;
+                conversation.conversation_id ===
+                conversationId;
 
               return (
                 <button
                   key={conversation.conversation_id}
                   type="button"
                   className="shell-conversation-navigation__item"
-                  data-active={active ? "" : undefined}
-                  aria-current={active ? "page" : undefined}
+                  data-active={
+                    active ? "" : undefined
+                  }
+                  aria-current={
+                    active ? "page" : undefined
+                  }
                   disabled={controlsDisabled}
                   onClick={() =>
                     void handleSelectConversation(
@@ -127,7 +168,10 @@ export default function NavigationRegion({
         ) : null}
 
         {requestError ? (
-          <p className="shell-conversation-navigation__error" role="status">
+          <p
+            className="shell-conversation-navigation__error"
+            role="status"
+          >
             {requestError}
           </p>
         ) : null}
@@ -137,8 +181,12 @@ export default function NavigationRegion({
         className="shell-navigation-section"
         aria-labelledby="shell-navigation-departments"
       >
-        <h2 id="shell-navigation-departments">Departments</h2>
-        <p>Department navigation is intentionally deferred.</p>
+        <h2 id="shell-navigation-departments">
+          Departments
+        </h2>
+        <p>
+          Department navigation is intentionally deferred.
+        </p>
       </section>
 
       <section
