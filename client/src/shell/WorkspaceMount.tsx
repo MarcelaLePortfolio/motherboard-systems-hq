@@ -1,3 +1,7 @@
+import {
+  ApprovalRequestProvider,
+} from "../approvals/ApprovalRequestProvider";
+import ApprovalsWorkspace from "../approvals/ApprovalsWorkspace";
 import MatildaChatWorkspace from "../matilda-chat/MatildaChatWorkspace";
 import {
   MissionControlProvider,
@@ -6,6 +10,7 @@ import {
   PackageReadProvider,
 } from "../packages/PackageReadProvider";
 import PackagesWorkspace from "../packages/PackagesWorkspace";
+import { useProjectContext } from "../project-context/useProjectContext";
 import MissionDashboardWorkspace from "./MissionDashboardWorkspace";
 import type { ShellWorkspace } from "./NavigationRegion";
 
@@ -16,6 +21,10 @@ type WorkspaceMountProps = {
 export default function WorkspaceMount({
   activeWorkspace,
 }: WorkspaceMountProps) {
+  const {
+    activeProjectId,
+  } = useProjectContext();
+
   return (
     <main
       className="shell-workspace-mount"
@@ -30,6 +39,12 @@ export default function WorkspaceMount({
         <PackageReadProvider>
           <PackagesWorkspace />
         </PackageReadProvider>
+      ) : activeWorkspace === "approvals" ? (
+        <ApprovalRequestProvider
+          projectId={activeProjectId}
+        >
+          <ApprovalsWorkspace />
+        </ApprovalRequestProvider>
       ) : (
         <MatildaChatWorkspace />
       )}
