@@ -8,11 +8,9 @@ import {
   assembleApprovalRequestReadCollection,
 } from "../db/approval-request-model-assembler";
 
-const router = Router();
-
-router.get("/", (req, res) => {
+export function handleApprovalRequestList(req: any, res: any) {
   const projectId =
-    typeof req.query.project_id === "string"
+    typeof req.query?.project_id === "string"
       ? req.query.project_id.trim()
       : "";
 
@@ -22,8 +20,7 @@ router.get("/", (req, res) => {
     });
   }
 
-  const repository =
-    createApprovalRequestRepository();
+  const repository = createApprovalRequestRepository();
 
   try {
     const sources =
@@ -37,10 +34,14 @@ router.get("/", (req, res) => {
         sources,
       );
 
-    return res.json(collection);
+    return res.status(200).json(collection);
   } finally {
     repository.close();
   }
-});
+}
+
+const router = Router();
+
+router.get("/", handleApprovalRequestList);
 
 export default router;

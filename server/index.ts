@@ -7,6 +7,7 @@ import { pathToFileURL } from "url";
 import apiChatRouter from "../routes/api-chat";
 import packageReadRouter from "../routes/api-package-read";
 import missionReadRouter from "../routes/api-mission-read";
+import approvalRequestRouter from "../routes/api-approval-request";
 import { initializeCanonicalPackageSchema } from "../db/matilda-canonical-package-runtime";
 import matildaCanonicalPackageRouter from "./routes/matilda-canonical-package-route";
 
@@ -18,6 +19,7 @@ app.use(express.json());
 app.use(apiChatRouter);
 app.use(missionReadRouter);
 app.use(packageReadRouter);
+app.use("/api/approval-requests", approvalRequestRouter);
 app.use(matildaCanonicalPackageRouter);
 
 app.get("/ui", (_req, res) => {
@@ -82,16 +84,25 @@ async function bootstrap() {
   }
 
   const registryPath = pathToFileURL(
-    path.resolve(process.cwd(), "server", "project-registry.mjs"),
+    path.resolve(
+      process.cwd(),
+      "server",
+      "project-registry.mjs",
+    ),
   ).href;
 
-  const { mountProjectRegistryRoutes } = await import(registryPath);
+  const {
+    mountProjectRegistryRoutes,
+  } = await import(registryPath);
+
   mountProjectRegistryRoutes(app);
 
   const port = process.env.PORT || 3000;
 
   app.listen(port, () => {
-    console.log(`Server listening on port ${port}`);
+    console.log(
+      `Server listening on port ${port}`,
+    );
   });
 }
 
