@@ -2,15 +2,33 @@ import {
   useEffect,
   useMemo,
   useState,
+  type FormEvent,
   type ReactNode,
 } from "react";
 
 import type {
+  ApprovalRequestDecision,
   ApprovalRequestReadModel,
 } from "./approvalRequestApi";
 import { useApprovalRequests } from "./useApprovalRequests";
 
 import "./approvals-workspace.css";
+
+type DecisionActionPresentation = {
+  label: string;
+  consequence: string;
+};
+
+const DECISION_ACTION_PRESENTATION: Record<
+  ApprovalRequestDecision,
+  DecisionActionPresentation
+> = {
+  approve_canonical_package: {
+    label: "Approve",
+    consequence:
+      "Creates the authoritative Canonical Package. It does not delegate or execute the work.",
+  },
+};
 
 function formatTimestamp(value: string): string {
   const timestamp = new Date(value);
@@ -181,6 +199,150 @@ function ArtifactSwitcher({
   );
 }
 
+function DecisionActions({
+  request,
+}: {
+  request: ApprovalRequestReadModel;
+}) {
+  const [changesOpen, setChangesOpen] = useState(false);
+  const [feedback, setFeedback] = useState("");
+  const [feedbackReady, setFeedbackReady] = useState(false);
+
+  useEffect(() => {
+    setChangesOpen(false);
+    setFeedback("");
+    setFeedbackReady(false);
+  }, [request.approval_request_id]);
+
+  const primaryDecision =
+    request.available_decisions[0] ?? null;
+
+  const primaryPresentation = primaryDecision
+    ? DECISION_ACTION_PRESENTATION[primaryDecision]
+    : null;
+
+  function handleFeedbackSubmit(
+    event: FormEvent<HTMLFormElement>,
+  ): void {
+    event.preventDefault();
+
+    if (!feedback.trim()) {
+      return;
+    }
+
+    setFeedbackReady(true);
+  }
+
+  return (
+    <section
+      className="executive-decision-actions"
+      aria-labelledby="executive-decision-actions-title"
+    >
+      <div className="executive-decision-actions__heading">
+        <div>
+          <h3 id="executive-decision-actions-title">
+            Your decision
+          </h3>
+
+          <p>
+            Move this work forward or explain what needs to change.
+          </p>
+        </div>
+
+        <DecisionBadge>Read-only preview</DecisionBadge>
+      </div>
+
+      <div className="executive-decision-actions__options">
+        <div className="executive-decision-option">
+          <button
+            type="button"
+            className="executive-decision-button executive-decision-button--primary"
+            disabled
+            title="Approval submission will be enabled in the authorized mutation corridor."
+          >
+            {primaryPresentation?.label ?? "Approve"}
+          </button>
+
+          <p>
+            {primaryPresentation?.consequence ??
+              "Moves the selected decision forward."}
+          </p>
+        </div>
+
+        <div className="executive-decision-option">
+          <button
+            type="button"
+            className="executive-decision-button"
+            aria-expanded={changesOpen}
+            onClick={() => {
+              setChangesOpen((current) => !current);
+              setFeedbackReady(false);
+            }}
+          >
+            Request Changes
+          </button>
+
+          <p>
+            Returns this draft for revision without granting downstream authority.
+          </p>
+        </div>
+      </div>
+
+      {changesOpen ? (
+        <form
+          className="executive-change-request"
+          onSubmit={handleFeedbackSubmit}
+        >
+          <label htmlFor="executive-change-request-feedback">
+            What should change?
+          </label>
+
+          <textarea
+            id="executive-change-request-feedback"
+            rows={4}
+            value={feedback}
+            placeholder="Describe the correction Matilda should make."
+            onChange={(event) => {
+              setFeedback(event.target.value);
+              setFeedbackReady(false);
+            }}
+          />
+
+          <div className="executive-change-request__footer">
+            <button
+              type="button"
+              onClick={() => {
+                setChangesOpen(false);
+                setFeedback("");
+                setFeedbackReady(false);
+              }}
+            >
+              Cancel
+            </button>
+
+            <button
+              type="submit"
+              disabled={!feedback.trim()}
+            >
+              Prepare Changes Request
+            </button>
+          </div>
+
+          {feedbackReady ? (
+            <p
+              className="executive-change-request__status"
+              role="status"
+            >
+              Feedback is ready. Runtime submission remains disabled until the
+              Request Changes mutation corridor is authorized.
+            </p>
+          ) : null}
+        </form>
+      ) : null}
+    </section>
+  );
+}
+
 function ExecutiveBriefing({
   request,
   artifactNumber,
@@ -337,6 +499,8 @@ function ExecutiveBriefing({
         </dl>
       </details>
 
+      <DecisionActions request={request} />
+
       <footer className="executive-briefing__footer">
         <button
           type="button"
@@ -346,7 +510,7 @@ function ExecutiveBriefing({
         </button>
 
         <p>
-          Decision controls remain disabled in this read-only corridor.
+          No approval, delegation, or execution mutation is enabled.
         </p>
       </footer>
     </article>
@@ -439,8 +603,8 @@ export default function ApprovalsWorkspace() {
       </header>
 
       <div className="executive-inbox-notice">
-        Pending items require executive review. No approval or mutation
-        actions are enabled in this read-only release.
+        Pending items require executive review. Decision submission remains
+        disabled in this presentation corridor.
       </div>
 
       {loading && !collection ? (

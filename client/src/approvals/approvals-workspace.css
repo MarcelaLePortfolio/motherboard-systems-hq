@@ -401,3 +401,111 @@
     transform: rotate(90deg);
   }
 }
+
+.executive-decision-actions {
+  display: grid;
+  gap: 1rem;
+  border-top: 1px solid rgba(110, 120, 140, 0.18);
+  padding-top: 1rem;
+}
+
+.executive-decision-actions__heading {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.executive-decision-actions__heading h3,
+.executive-decision-actions__heading p {
+  margin: 0;
+}
+
+.executive-decision-actions__heading h3 {
+  margin-bottom: 0.25rem;
+  font-size: 1rem;
+}
+
+.executive-decision-actions__heading p {
+  font-size: 0.82rem;
+  opacity: 0.68;
+}
+
+.executive-decision-actions__options {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.75rem;
+}
+
+.executive-decision-option {
+  display: grid;
+  align-content: start;
+  gap: 0.5rem;
+  border: 1px solid rgba(110, 120, 140, 0.2);
+  border-radius: 0.6rem;
+  padding: 0.85rem;
+}
+
+.executive-decision-option p {
+  margin: 0;
+  font-size: 0.78rem;
+  line-height: 1.4;
+  opacity: 0.68;
+}
+
+.executive-decision-button {
+  width: fit-content;
+}
+
+.executive-decision-button--primary {
+  font-weight: 700;
+}
+
+.executive-change-request {
+  display: grid;
+  gap: 0.65rem;
+  border: 1px solid rgba(110, 120, 140, 0.2);
+  border-radius: 0.6rem;
+  background: rgba(255, 255, 255, 0.35);
+  padding: 0.9rem;
+}
+
+.executive-change-request label {
+  font-size: 0.82rem;
+  font-weight: 700;
+}
+
+.executive-change-request textarea {
+  width: 100%;
+  box-sizing: border-box;
+  resize: vertical;
+}
+
+.executive-change-request__footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.65rem;
+}
+
+.executive-change-request__status {
+  margin: 0;
+  font-size: 0.78rem;
+  line-height: 1.4;
+  opacity: 0.72;
+}
+
+@media (max-width: 640px) {
+  .executive-decision-actions__heading {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .executive-decision-actions__options {
+    grid-template-columns: 1fr;
+  }
+
+  .executive-change-request__footer {
+    align-items: stretch;
+    flex-direction: column;
+  }
+}
