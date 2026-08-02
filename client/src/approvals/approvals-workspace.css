@@ -35,6 +35,35 @@
   font-size: 0.88rem;
 }
 
+.executive-inbox-artifact-switcher {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: end;
+  gap: 0.75rem;
+  border: 1px solid rgba(110, 120, 140, 0.22);
+  border-radius: 0.65rem;
+  background: rgba(255, 255, 255, 0.45);
+  padding: 0.75rem;
+}
+
+.executive-inbox-artifact-switcher label {
+  display: grid;
+  gap: 0.3rem;
+  min-width: 0;
+}
+
+.executive-inbox-artifact-switcher label > span {
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  opacity: 0.65;
+}
+
+.executive-inbox-artifact-switcher select {
+  width: 100%;
+  min-width: 0;
+}
+
 .executive-inbox-layout {
   display: grid;
   grid-template-columns: minmax(20rem, 27rem) minmax(0, 1fr);
@@ -135,6 +164,7 @@
 
 .executive-inbox-item__heading strong {
   line-height: 1.25;
+  overflow-wrap: anywhere;
 }
 
 .executive-inbox-item__summary {
@@ -206,6 +236,7 @@
 
 .executive-briefing__status-line {
   justify-content: flex-start;
+  flex-wrap: wrap;
   font-size: 0.78rem;
   opacity: 0.72;
 }
@@ -215,6 +246,7 @@
   border-radius: 0.55rem;
   background: rgba(255, 224, 145, 0.18);
   padding: 0.8rem 0.9rem;
+  overflow-wrap: anywhere;
 }
 
 .executive-briefing__transition {
@@ -252,6 +284,7 @@
 .executive-briefing-section p {
   margin: 0;
   line-height: 1.5;
+  white-space: pre-wrap;
 }
 
 .executive-briefing-grid {
@@ -280,6 +313,7 @@
   margin: 0;
   overflow-wrap: anywhere;
   line-height: 1.4;
+  white-space: pre-wrap;
 }
 
 .executive-briefing-evidence {
@@ -346,6 +380,15 @@
   .executive-briefing__footer {
     align-items: stretch;
     flex-direction: column;
+  }
+
+  .executive-inbox-artifact-switcher {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .executive-inbox-artifact-switcher label {
+    grid-column: 1 / -1;
+    grid-row: 1;
   }
 
   .executive-briefing__transition,
