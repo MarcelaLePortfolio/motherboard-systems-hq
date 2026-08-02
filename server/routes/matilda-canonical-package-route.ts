@@ -3,7 +3,7 @@ import express from "express";
 import {
   CanonicalPackageSchemaUnavailableError,
   createCanonicalPackageFromApprovedSummary,
-} from "../../db/matilda-canonical-package-runtime.js";
+} from "../../db/matilda-canonical-package-runtime";
 
 const router = express.Router();
 
