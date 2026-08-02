@@ -7,11 +7,20 @@ import {
 
 const router = express.Router();
 
+const EXECUTIVE_APPROVAL_ACTOR = "marcela";
+
 router.post("/api/matilda/canonical-package", (req, res) => {
   try {
-    const result = createCanonicalPackageFromApprovedSummary(req.body, {
-      schemaReady: req.app.locals.canonicalPackageSchemaReady === true,
-    });
+    const result = createCanonicalPackageFromApprovedSummary(
+      {
+        draft_package_id: req.body?.draft_package_id,
+        approval_actor: EXECUTIVE_APPROVAL_ACTOR,
+      },
+      {
+        schemaReady:
+          req.app.locals.canonicalPackageSchemaReady === true,
+      },
+    );
 
     return res.json({
       ok: true,
@@ -37,7 +46,8 @@ router.post("/api/matilda/canonical-package", (req, res) => {
 
     return res.status(400).json({
       ok: false,
-      error: err instanceof Error ? err.message : "Unknown error",
+      error:
+        err instanceof Error ? err.message : "Unknown error",
     });
   }
 });

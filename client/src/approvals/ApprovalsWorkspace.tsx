@@ -6,9 +6,10 @@ import {
   type ReactNode,
 } from "react";
 
-import type {
-  ApprovalRequestDecision,
-  ApprovalRequestReadModel,
+import {
+  approveCanonicalPackage,
+  type ApprovalRequestDecision,
+  type ApprovalRequestReadModel,
 } from "./approvalRequestApi";
 import { useApprovalRequests } from "./useApprovalRequests";
 
@@ -201,17 +202,24 @@ function ArtifactSwitcher({
 
 function DecisionActions({
   request,
+  onApproved,
 }: {
   request: ApprovalRequestReadModel;
+  onApproved(): Promise<void>;
 }) {
   const [changesOpen, setChangesOpen] = useState(false);
   const [feedback, setFeedback] = useState("");
   const [feedbackReady, setFeedbackReady] = useState(false);
+  const [approving, setApproving] = useState(false);
+  const [approvalError, setApprovalError] =
+    useState<string | null>(null);
 
   useEffect(() => {
     setChangesOpen(false);
     setFeedback("");
     setFeedbackReady(false);
+    setApproving(false);
+    setApprovalError(null);
   }, [request.approval_request_id]);
 
   const primaryDecision =
@@ -220,6 +228,33 @@ function DecisionActions({
   const primaryPresentation = primaryDecision
     ? DECISION_ACTION_PRESENTATION[primaryDecision]
     : null;
+
+  async function handleApprove(): Promise<void> {
+    if (
+      approving ||
+      primaryDecision !== "approve_canonical_package"
+    ) {
+      return;
+    }
+
+    setApproving(true);
+    setApprovalError(null);
+
+    try {
+      await approveCanonicalPackage(
+        request.draft_package_id,
+      );
+      await onApproved();
+    } catch (error) {
+      setApprovalError(
+        error instanceof Error
+          ? error.message
+          : "The Package could not be approved.",
+      );
+    } finally {
+      setApproving(false);
+    }
+  }
 
   function handleFeedbackSubmit(
     event: FormEvent<HTMLFormElement>,
@@ -248,8 +283,6 @@ function DecisionActions({
             Move this work forward or explain what needs to change.
           </p>
         </div>
-
-        <DecisionBadge>Read-only preview</DecisionBadge>
       </div>
 
       <div className="executive-decision-actions__options">
@@ -257,10 +290,15 @@ function DecisionActions({
           <button
             type="button"
             className="executive-decision-button executive-decision-button--primary"
-            disabled
-            title="Approval submission will be enabled in the authorized mutation corridor."
+            disabled={
+              approving ||
+              primaryDecision !== "approve_canonical_package"
+            }
+            onClick={() => void handleApprove()}
           >
-            {primaryPresentation?.label ?? "Approve"}
+            {approving
+              ? "Approving…"
+              : primaryPresentation?.label ?? "Approve"}
           </button>
 
           <p>
@@ -274,9 +312,11 @@ function DecisionActions({
             type="button"
             className="executive-decision-button"
             aria-expanded={changesOpen}
+            disabled={approving}
             onClick={() => {
               setChangesOpen((current) => !current);
               setFeedbackReady(false);
+              setApprovalError(null);
             }}
           >
             Request Changes
@@ -287,6 +327,15 @@ function DecisionActions({
           </p>
         </div>
       </div>
+
+      {approvalError ? (
+        <p
+          className="executive-change-request__status"
+          role="alert"
+        >
+          {approvalError}
+        </p>
+      ) : null}
 
       {changesOpen ? (
         <form
@@ -333,8 +382,8 @@ function DecisionActions({
               className="executive-change-request__status"
               role="status"
             >
-              Feedback is ready. Runtime submission remains disabled until the
-              Request Changes mutation corridor is authorized.
+              Feedback is ready. Submission remains disabled until the Request
+              Changes persistence corridor is authorized.
             </p>
           ) : null}
         </form>
@@ -348,11 +397,13 @@ function ExecutiveBriefing({
   artifactNumber,
   artifactCount,
   onClose,
+  onApproved,
 }: {
   request: ApprovalRequestReadModel;
   artifactNumber: number;
   artifactCount: number;
   onClose(): void;
+  onApproved(): Promise<void>;
 }) {
   return (
     <article className="executive-briefing">
@@ -499,7 +550,10 @@ function ExecutiveBriefing({
         </dl>
       </details>
 
-      <DecisionActions request={request} />
+      <DecisionActions
+        request={request}
+        onApproved={onApproved}
+      />
 
       <footer className="executive-briefing__footer">
         <button
@@ -510,7 +564,8 @@ function ExecutiveBriefing({
         </button>
 
         <p>
-          No approval, delegation, or execution mutation is enabled.
+          Approval creates a Canonical Package only. Delegation and execution
+          remain unauthorized.
         </p>
       </footer>
     </article>
@@ -603,8 +658,8 @@ export default function ApprovalsWorkspace() {
       </header>
 
       <div className="executive-inbox-notice">
-        Pending items require executive review. Decision submission remains
-        disabled in this presentation corridor.
+        Approving a Living Draft creates its authoritative Canonical Package.
+        It does not delegate or execute the work.
       </div>
 
       {loading && !collection ? (
@@ -700,6 +755,7 @@ export default function ApprovalsWorkspace() {
                   onClose={() =>
                     setSelectedRequestId(null)
                   }
+                  onApproved={refresh}
                 />
               ) : (
                 <div className="executive-inbox-reading-pane__empty">
