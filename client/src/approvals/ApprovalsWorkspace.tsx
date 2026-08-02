@@ -25,16 +25,28 @@ function formatTimestamp(value: string): string {
   }).format(timestamp);
 }
 
-function optionalText(
+function readText(
   value: string | null,
-  fallback = "Not recorded",
+  fallback = "Not recorded.",
 ): string {
   const normalized = value?.trim() ?? "";
 
   return normalized || fallback;
 }
 
-function ApprovalInboxItem({
+function DecisionBadge({
+  children,
+}: {
+  children: ReactNode;
+}) {
+  return (
+    <span className="executive-inbox-badge">
+      {children}
+    </span>
+  );
+}
+
+function DecisionListItem({
   request,
   selected,
   onSelect,
@@ -47,38 +59,33 @@ function ApprovalInboxItem({
     <button
       type="button"
       className={[
-        "approval-inbox-item",
-        selected ? "approval-inbox-item--selected" : "",
+        "executive-inbox-item",
+        selected ? "executive-inbox-item--selected" : "",
       ]
         .filter(Boolean)
         .join(" ")}
       aria-current={selected ? "true" : undefined}
       onClick={onSelect}
     >
-      <span className="approval-inbox-item__topline">
-        <span className="approval-status-badge">
-          Pending
-        </span>
+      <div className="executive-inbox-item__heading">
+        <strong>Approve Canonical Package</strong>
+        <DecisionBadge>Pending</DecisionBadge>
+      </div>
+
+      <p className="executive-inbox-item__summary">
+        {readText(
+          request.evidence.expected_outcome,
+          request.evidence.interpreted_objective,
+        )}
+      </p>
+
+      <div className="executive-inbox-item__meta">
+        <span>Needs review</span>
 
         <time dateTime={request.updated_at}>
           {formatTimestamp(request.updated_at)}
         </time>
-      </span>
-
-      <strong className="approval-inbox-item__title">
-        {request.evidence.interpreted_objective}
-      </strong>
-
-      <span className="approval-inbox-item__type">
-        Canonical Package approval
-      </span>
-
-      <span className="approval-inbox-item__summary">
-        {optionalText(
-          request.evidence.expected_outcome,
-          "Executive review required.",
-        )}
-      </span>
+      </div>
     </button>
   );
 }
@@ -91,41 +98,54 @@ function BriefingSection({
   children: ReactNode;
 }) {
   return (
-    <section className="approval-briefing-section">
+    <section className="executive-briefing-section">
       <h3>{title}</h3>
       {children}
     </section>
   );
 }
 
-function ApprovalBriefing({
+function ExecutiveBriefing({
   request,
+  onClose,
 }: {
   request: ApprovalRequestReadModel;
+  onClose(): void;
 }) {
   return (
-    <article className="approval-briefing">
-      <header className="approval-briefing__header">
+    <article className="executive-briefing">
+      <header className="executive-briefing__header">
         <div>
-          <p className="approval-eyebrow">
-            Executive briefing
-          </p>
+          <div className="executive-briefing__status-line">
+            <DecisionBadge>Needs review</DecisionBadge>
 
-          <h2>
-            {request.evidence.interpreted_objective}
-          </h2>
+            <span>
+              Source status: {request.source_draft_status}
+            </span>
+          </div>
 
-          <p className="approval-briefing__question">
+          <h2>Approve Canonical Package</h2>
+
+          <p className="executive-briefing__question">
             {request.executive_question}
           </p>
         </div>
 
-        <span className="approval-status-badge">
-          Pending
-        </span>
+        <DecisionBadge>Pending</DecisionBadge>
       </header>
 
-      <div className="approval-transition">
+      <div className="executive-briefing__notice">
+        <strong>Decision context:</strong>{" "}
+        this Living Draft is non-authoritative until explicitly approved.
+      </div>
+
+      <BriefingSection title="Executive summary">
+        <p>
+          {readText(request.evidence.interpreted_objective)}
+        </p>
+      </BriefingSection>
+
+      <div className="executive-briefing__transition">
         <div>
           <span>Current state</span>
           <strong>Living Draft Package</strong>
@@ -141,39 +161,35 @@ function ApprovalBriefing({
 
       <BriefingSection title="Requested outcome">
         <p>
-          {optionalText(request.evidence.expected_outcome)}
+          {readText(request.evidence.expected_outcome)}
         </p>
       </BriefingSection>
 
       <BriefingSection title="Proposed work">
         <p>
-          {optionalText(request.evidence.proposed_work)}
+          {readText(request.evidence.proposed_work)}
         </p>
       </BriefingSection>
 
       <BriefingSection title="Proposed artifacts">
         <p>
-          {optionalText(
-            request.evidence.proposed_artifacts,
-          )}
+          {readText(request.evidence.proposed_artifacts)}
         </p>
       </BriefingSection>
 
       <BriefingSection title="Scope">
-        <dl className="approval-briefing-grid">
+        <dl className="executive-briefing-grid">
           <div>
             <dt>In scope</dt>
             <dd>
-              {optionalText(request.evidence.in_scope)}
+              {readText(request.evidence.in_scope)}
             </dd>
           </div>
 
           <div>
             <dt>Out of scope</dt>
             <dd>
-              {optionalText(
-                request.evidence.out_of_scope,
-              )}
+              {readText(request.evidence.out_of_scope)}
             </dd>
           </div>
         </dl>
@@ -181,12 +197,12 @@ function ApprovalBriefing({
 
       <BriefingSection title="Constraints">
         <p>
-          {optionalText(request.evidence.constraints)}
+          {readText(request.evidence.constraints)}
         </p>
       </BriefingSection>
 
       {request.evidence.unresolved_questions ? (
-        <BriefingSection title="Unresolved questions">
+        <BriefingSection title="Open questions">
           <p>
             {request.evidence.unresolved_questions}
           </p>
@@ -195,7 +211,7 @@ function ApprovalBriefing({
 
       <BriefingSection title="Supporting evidence">
         {request.evidence.evidence_entry_ids.length > 0 ? (
-          <ul className="approval-evidence-list">
+          <ul className="executive-briefing-evidence">
             {request.evidence.evidence_entry_ids.map(
               (evidenceId) => (
                 <li key={evidenceId}>
@@ -209,23 +225,18 @@ function ApprovalBriefing({
         )}
       </BriefingSection>
 
-      <details className="approval-technical-details">
+      <details className="executive-briefing-technical">
         <summary>Technical details</summary>
 
-        <dl className="approval-briefing-grid">
+        <dl className="executive-briefing-grid">
           <div>
-            <dt>Approval Request</dt>
+            <dt>Approval request</dt>
             <dd>{request.approval_request_id}</dd>
           </div>
 
           <div>
-            <dt>Living Draft</dt>
+            <dt>Draft package</dt>
             <dd>{request.draft_package_id}</dd>
-          </div>
-
-          <div>
-            <dt>Project</dt>
-            <dd>{request.project_id}</dd>
           </div>
 
           <div>
@@ -239,18 +250,19 @@ function ApprovalBriefing({
             <dt>Lineage</dt>
             <dd>{request.lineage_id}</dd>
           </div>
-
-          <div>
-            <dt>Last updated</dt>
-            <dd>{formatTimestamp(request.updated_at)}</dd>
-          </div>
         </dl>
       </details>
 
-      <footer className="approval-briefing__footer">
+      <footer className="executive-briefing__footer">
+        <button
+          type="button"
+          onClick={onClose}
+        >
+          Close detail
+        </button>
+
         <p>
-          Decision controls are not enabled in this
-          read-only release.
+          Decision controls remain disabled in this read-only corridor.
         </p>
       </footer>
     </article>
@@ -276,44 +288,36 @@ export default function ApprovalsWorkspace() {
   ] = useState<string | null>(null);
 
   useEffect(() => {
-    const selectionStillExists = requests.some(
-      (request) =>
-        request.approval_request_id ===
-        selectedRequestId,
-    );
-
-    if (!selectionStillExists) {
-      setSelectedRequestId(
-        requests[0]?.approval_request_id ?? null,
-      );
+    if (
+      selectedRequestId &&
+      !requests.some(
+        (request) =>
+          request.approval_request_id === selectedRequestId,
+      )
+    ) {
+      setSelectedRequestId(null);
     }
   }, [requests, selectedRequestId]);
 
   const selectedRequest =
     requests.find(
       (request) =>
-        request.approval_request_id ===
-        selectedRequestId,
+        request.approval_request_id === selectedRequestId,
     ) ?? null;
 
   return (
-    <main className="approvals-workspace">
-      <header className="approvals-workspace__header">
+    <main className="executive-inbox-workspace">
+      <header className="executive-inbox-header">
         <div>
-          <p className="approval-eyebrow">
-            Executive inbox
-          </p>
-
-          <h1>Approvals</h1>
+          <h1>Executive Inbox</h1>
 
           <p>
-            Decisions waiting for executive attention.
+            Review decisions generated for the active project.
           </p>
         </div>
 
         <button
           type="button"
-          className="approval-refresh-button"
           onClick={() => void refresh()}
           disabled={loading}
         >
@@ -321,65 +325,61 @@ export default function ApprovalsWorkspace() {
         </button>
       </header>
 
-      <p className="approvals-readonly-note">
-        Read-only preview · Decision controls will be
-        introduced in a separately authorized corridor.
-      </p>
+      <div className="executive-inbox-notice">
+        Pending items require executive review. No approval or mutation
+        actions are enabled in this read-only release.
+      </div>
 
       {loading && !collection ? (
-        <section className="approval-inbox-state">
-          <h2>Loading your executive inbox…</h2>
+        <section className="executive-inbox-state">
+          Loading Executive Inbox…
         </section>
       ) : null}
 
       {error ? (
-        <section className="approval-inbox-state">
-          <h2>Approvals could not be loaded.</h2>
-          <p>{error.message}</p>
+        <section className="executive-inbox-state">
+          <h2>Unable to load Executive Inbox.</h2>
+          <p>Please retry the request.</p>
 
           <button
             type="button"
             onClick={() => void refresh()}
           >
-            Retry
+            Try again
           </button>
         </section>
       ) : null}
 
       {!loading && !error && requests.length === 0 ? (
-        <section className="approval-inbox-state">
-          <h2>Your executive inbox is clear.</h2>
+        <section className="executive-inbox-state">
+          <h2>Your Executive Inbox is clear.</h2>
+
           <p>
-            New decisions will appear here when
-            authoritative project state requires your
-            attention.
+            No decisions currently require executive authority.
           </p>
         </section>
       ) : null}
 
       {!error && requests.length > 0 ? (
-        <div className="approval-inbox-layout">
-          <aside
-            className="approval-inbox"
-            aria-label="Pending executive decisions"
-          >
-            <header className="approval-inbox__header">
+        <div className="executive-inbox-layout">
+          <aside className="executive-inbox-list">
+            <div className="executive-inbox-list__header">
               <div>
-                <p className="approval-eyebrow">
-                  Inbox
-                </p>
-
                 <h2>Pending decisions</h2>
+
+                <p>
+                  Select an item to review its briefing.
+                </p>
               </div>
 
-              <span className="approval-inbox__count">
+              <span className="executive-inbox-count">
                 {requests.length}
               </span>
-            </header>
+            </div>
 
-            <div className="approval-inbox__items">
+            <div className="executive-inbox-list__items">
               {requests.map((request) => (
-                <ApprovalInboxItem
+                <DecisionListItem
                   key={request.approval_request_id}
                   request={request}
                   selected={
@@ -396,16 +396,20 @@ export default function ApprovalsWorkspace() {
             </div>
           </aside>
 
-          {selectedRequest ? (
-            <ApprovalBriefing
-              request={selectedRequest}
-            />
-          ) : (
-            <section className="approval-inbox-state">
-              Select a decision to review its executive
-              briefing.
-            </section>
-          )}
+          <section className="executive-inbox-reading-pane">
+            {selectedRequest ? (
+              <ExecutiveBriefing
+                request={selectedRequest}
+                onClose={() =>
+                  setSelectedRequestId(null)
+                }
+              />
+            ) : (
+              <div className="executive-inbox-reading-pane__empty">
+                Select a decision to view its executive briefing.
+              </div>
+            )}
+          </section>
         </div>
       ) : null}
     </main>
