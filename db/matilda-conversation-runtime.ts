@@ -240,6 +240,29 @@ function getConversationForProject(
   ) ?? null;
 }
 
+function requireConversationForProject(
+  projectId: string,
+  conversationId: string
+): MatildaConversation {
+  const project_id = requireText(projectId, "project_id");
+  const conversation_id = requireText(
+    conversationId,
+    "conversation_id"
+  );
+  const conversation = getConversationForProject(
+    project_id,
+    conversation_id
+  );
+
+  if (!conversation || conversation.status !== "active") {
+    throw new Error(
+      "Matilda conversation is unavailable for the requested project."
+    );
+  }
+
+  return conversation;
+}
+
 export function getOrCreateActiveMatildaConversation(
   projectId: string
 ): MatildaConversation {
@@ -322,13 +345,13 @@ export function requireActiveMatildaConversation(
   conversationId: string
 ): MatildaConversation {
   const project_id = requireText(projectId, "project_id");
-  const conversation_id = requireText(
-    conversationId,
-    "conversation_id"
+  const conversation = requireConversationForProject(
+    project_id,
+    conversationId
   );
   const active = getOrCreateActiveMatildaConversation(project_id);
 
-  if (active.conversation_id !== conversation_id) {
+  if (active.conversation_id !== conversation.conversation_id) {
     throw new Error(
       "Matilda conversation does not match the active project conversation."
     );
@@ -525,12 +548,24 @@ export function createMatildaConversationTurn(
   ensureMatildaConversationTables();
 
   const project_id = requireText(input.project_id, "project_id");
-  const activeConversation = getOrCreateActiveMatildaConversation(project_id);
-  const conversation_id = input.conversation_id
+  const explicitConversationId = input.conversation_id
     ? requireText(input.conversation_id, "conversation_id")
-    : activeConversation.conversation_id;
+    : null;
+  const activeConversation = getOrCreateActiveMatildaConversation(project_id);
+  const conversation_id =
+    explicitConversationId ?? activeConversation.conversation_id;
 
-  requireActiveMatildaConversation(project_id, conversation_id);
+  if (explicitConversationId) {
+    requireConversationForProject(
+      project_id,
+      explicitConversationId
+    );
+  } else {
+    requireActiveMatildaConversation(
+      project_id,
+      conversation_id
+    );
+  }
 
   if (input.project_context_retrieval.projectId.trim() !== project_id) {
     throw new Error(
@@ -627,12 +662,24 @@ export function listMatildaConversationTurns(
   ensureMatildaConversationTables();
 
   const project_id = requireText(projectId, "project_id");
-  const activeConversation = getOrCreateActiveMatildaConversation(project_id);
-  const conversation_id = conversationId
+  const explicitConversationId = conversationId
     ? requireText(conversationId, "conversation_id")
-    : activeConversation.conversation_id;
+    : null;
+  const activeConversation = getOrCreateActiveMatildaConversation(project_id);
+  const conversation_id =
+    explicitConversationId ?? activeConversation.conversation_id;
 
-  requireActiveMatildaConversation(project_id, conversation_id);
+  if (explicitConversationId) {
+    requireConversationForProject(
+      project_id,
+      explicitConversationId
+    );
+  } else {
+    requireActiveMatildaConversation(
+      project_id,
+      conversation_id
+    );
+  }
 
   const boundedLimit = Math.max(1, Math.min(Number(limit) || 20, 100));
 

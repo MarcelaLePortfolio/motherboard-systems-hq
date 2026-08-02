@@ -340,6 +340,128 @@ test("conversation identity remains explicit across IEL and Living Draft lineage
 
     assert.equal(crossConversationDraftCount.count, 0);
 
+    const preservedActiveConversation =
+      conversationRuntime.getOrCreateActiveMatildaConversation("hq");
+
+    const explicitTargetConversation =
+      conversationRuntime.createMatildaConversation("hq");
+
+    conversationRuntime.setActiveMatildaConversation(
+      "hq",
+      preservedActiveConversation.conversation_id
+    );
+
+    assert.equal(
+      conversationRuntime.getOrCreateActiveMatildaConversation("hq")
+        .conversation_id,
+      preservedActiveConversation.conversation_id
+    );
+
+    assert.throws(
+      () =>
+        conversationRuntime.requireActiveMatildaConversation(
+          "hq",
+          explicitTargetConversation.conversation_id
+        ),
+      /does not match the active project conversation/
+    );
+
+    const explicitTargetTurn =
+      conversationRuntime.createMatildaConversationTurn({
+        project_id: "hq",
+        conversation_id:
+          explicitTargetConversation.conversation_id,
+        user_message:
+          "Please revise the reviewed interpretation.",
+        assistant_reply:
+          "I will review the requested revision.",
+        interpretation_entry_id:
+          "iel-explicit-target-conversation",
+        project_context_retrieval: {
+          projectId: "hq",
+          projectRootPath: temporaryRoot,
+          available: true,
+          searched: false,
+          queryTerms: [],
+          excerpts: [],
+          warning: null,
+        },
+      });
+
+    assert.equal(
+      explicitTargetTurn.conversation_id,
+      explicitTargetConversation.conversation_id
+    );
+
+    const explicitTargetTurns =
+      conversationRuntime.listMatildaConversationTurns(
+        "hq",
+        20,
+        explicitTargetConversation.conversation_id
+      );
+
+    assert.equal(explicitTargetTurns.length, 1);
+    assert.equal(
+      explicitTargetTurns[0]?.turn_id,
+      explicitTargetTurn.turn_id
+    );
+    assert.equal(
+      explicitTargetTurns[0]?.user_message,
+      "Please revise the reviewed interpretation."
+    );
+
+    assert.equal(
+      conversationRuntime.getOrCreateActiveMatildaConversation("hq")
+        .conversation_id,
+      preservedActiveConversation.conversation_id
+    );
+
+    assert.throws(
+      () =>
+        conversationRuntime.listMatildaConversationTurns(
+          "other-project",
+          20,
+          explicitTargetConversation.conversation_id
+        ),
+      /unavailable for the requested project/
+    );
+
+    assert.throws(
+      () =>
+        conversationRuntime.createMatildaConversationTurn({
+          project_id: "other-project",
+          conversation_id:
+            explicitTargetConversation.conversation_id,
+          user_message: "Cross-project revision attempt.",
+          assistant_reply: "This must not persist.",
+          interpretation_entry_id:
+            "iel-cross-project-target-attempt",
+          project_context_retrieval: {
+            projectId: "other-project",
+            projectRootPath: temporaryRoot,
+            available: true,
+            searched: false,
+            queryTerms: [],
+            excerpts: [],
+            warning: null,
+          },
+        }),
+      /unavailable for the requested project/
+    );
+
+    const activeContextAfterExplicitAccess = database
+      .prepare(`
+        SELECT conversation_id
+        FROM matilda_active_conversation_context
+        WHERE project_id = 'hq'
+      `)
+      .get() as { conversation_id: string };
+
+    assert.equal(
+      activeContextAfterExplicitAccess.conversation_id,
+      preservedActiveConversation.conversation_id
+    );
+
     database.close();
   } finally {
     process.chdir(repositoryRoot);
