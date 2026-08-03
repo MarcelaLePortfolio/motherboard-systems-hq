@@ -37,11 +37,18 @@ export type UpsertLivingDraftPackageInput = {
 
 };
 
+export type LivingDraftStatus =
+  | "draft_non_authoritative"
+  | "reconciliation_in_progress"
+  | "reconciliation_ready"
+  | "reconciled_interpretation_generated"
+  | "canonical_package_created";
+
 export type LivingDraftPackageRecord = UpsertLivingDraftPackageInput & {
 
   evidence_entry_ids: string[];
 
-  status: string;
+  status: LivingDraftStatus;
 
   created_at: string;
 
@@ -259,7 +266,9 @@ export function upsertLivingDraftPackage(
 
   const evidence_entry_ids = normalizeEvidenceEntryIds(input.evidence_entry_ids);
 
-  const status = optionalText(input.status) || "draft_non_authoritative";
+  const status =
+    (optionalText(input.status) as LivingDraftStatus | null)
+      ?? "draft_non_authoritative";
 
   const existing = sqlite
 
