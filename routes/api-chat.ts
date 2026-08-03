@@ -1,22 +1,17 @@
 import express, { Request, Response } from "express";
-import path from "path";
-import { pathToFileURL } from "url";
 
-import { runMatildaStub } from "../matilda-chat-stub";
-import type { MatildaChatResult } from "../matilda-chat-stub";
-import { runMatildaChatDraftIntegration } from "../db/matilda-chat-draft-integration";
 import {
   createMatildaConversation,
-  createMatildaConversationTurn,
   getOrCreateActiveMatildaConversation,
   listMatildaConversations,
   listMatildaConversationTurns,
   requireActiveMatildaConversation,
   setActiveMatildaConversation,
-  type MatildaConversationTurn,
 } from "../db/matilda-conversation-runtime";
-import { ollamaChat } from "../scripts/utils/ollamaChat";
-import { retrieveMatildaProjectContext } from "../server/matilda-project-context-retrieval";
+import {
+  MatildaConversationWorkflowUnavailableError,
+  runMatildaConversationWorkflow,
+} from "../server/matilda-chat-workflow";
 
 const router = express.Router();
 
@@ -102,7 +97,7 @@ router.post("/api/chat/conversations/active", (req: Request, res: Response) => {
 
     const conversation = setActiveMatildaConversation(
       projectId,
-      conversationId
+      conversationId,
     );
 
     return res.json({
@@ -112,7 +107,10 @@ router.post("/api/chat/conversations/active", (req: Request, res: Response) => {
       conversations: listMatildaConversations(projectId),
     });
   } catch (error) {
-    console.error("[POST /api/chat/conversations/active] Error:", error);
+    console.error(
+      "[POST /api/chat/conversations/active] Error:",
+      error,
+    );
 
     return res.status(404).json({
       ok: false,
@@ -138,11 +136,13 @@ router.get("/api/chat/history", (req: Request, res: Response) => {
       });
     }
 
-    const conversation = getOrCreateActiveMatildaConversation(projectId);
+    const conversation =
+      getOrCreateActiveMatildaConversation(projectId);
+
     const turns = listMatildaConversationTurns(
       projectId,
       100,
-      conversation.conversation_id
+      conversation.conversation_id,
     );
 
     return res.json({
@@ -179,7 +179,10 @@ router.post("/api/chat", async (req: Request, res: Response) => {
     }
 
     const normalizedProjectId =
-      typeof project_id === "string" ? project_id.trim() : "";
+      typeof project_id === "string"
+        ? project_id.trim()
+        : "";
+
     const normalizedConversationId =
       typeof conversation_id === "string"
         ? conversation_id.trim()
@@ -196,7 +199,7 @@ router.post("/api/chat", async (req: Request, res: Response) => {
     try {
       requireActiveMatildaConversation(
         normalizedProjectId,
-        normalizedConversationId
+        normalizedConversationId,
       );
     } catch (error) {
       return res.status(409).json({
@@ -208,115 +211,30 @@ router.post("/api/chat", async (req: Request, res: Response) => {
       });
     }
 
-    const result: MatildaChatResult = await runMatildaStub({
-      message,
-      agent: agent ?? "matilda",
-      project_id: normalizedProjectId,
-      conversation_id: normalizedConversationId,
-    });
-
-    let draftPackageUpdated = false;
-
     try {
-      runMatildaChatDraftIntegration({
+      const result = await runMatildaConversationWorkflow({
+        message: message.trim(),
+        agent: agent ?? "matilda",
         project_id: normalizedProjectId,
         conversation_id: normalizedConversationId,
-        draft_package_id: `matilda-draft-${normalizedConversationId}`,
-        lineage_id: `matilda-lineage-${normalizedConversationId}`,
-        latest_entry_id: result.meta.interpretation_entry_id,
       });
 
-      draftPackageUpdated = true;
-    } catch (draftError) {
-      console.warn("[/api/chat] Draft synthesis failed:", draftError);
+      return res.json(result);
+    } catch (workflowError) {
+      if (
+        workflowError instanceof
+        MatildaConversationWorkflowUnavailableError
+      ) {
+        return res.status(503).json({
+          ok: false,
+          error: workflowError.message,
+        });
+      }
+
+      throw workflowError;
     }
-
-    let conversationalReply: string;
-    let persistedTurn: MatildaConversationTurn | null = null;
-
-    try {
-      let projectDisplayName: string | null = null;
-      let projectRootPath: string | null = null;
-
-      const registryPath = pathToFileURL(
-        path.resolve(process.cwd(), "server", "project-registry.mjs")
-      ).href;
-
-      const { getProjectRegistryState } = await import(registryPath);
-      const registryState = getProjectRegistryState();
-      const project = registryState.projects.find(
-        (candidate: { projectId: string }) =>
-          candidate.projectId === normalizedProjectId
-      );
-
-      projectDisplayName = project?.displayName ?? null;
-      projectRootPath = project?.projectRootPath ?? null;
-
-      const projectContextRetrieval = retrieveMatildaProjectContext({
-        projectId: normalizedProjectId,
-        projectRootPath,
-        message: message.trim(),
-      });
-
-      const activeConversation =
-        getOrCreateActiveMatildaConversation(normalizedProjectId);
-      const resolvedConversationId =
-        normalizedConversationId || activeConversation.conversation_id;
-
-      const history = listMatildaConversationTurns(
-        normalizedProjectId,
-        20,
-        resolvedConversationId
-      ).map((turn) => ({
-        userMessage: turn.user_message,
-        assistantReply: turn.assistant_reply,
-      }));
-
-      conversationalReply = await ollamaChat(message.trim(), {
-        projectId: normalizedProjectId,
-        projectDisplayName,
-        history,
-        projectContextExcerpts: projectContextRetrieval.excerpts,
-        projectContextWarning: projectContextRetrieval.warning,
-      });
-
-      persistedTurn = createMatildaConversationTurn({
-        project_id: normalizedProjectId,
-        conversation_id: resolvedConversationId,
-        user_message: message.trim(),
-        assistant_reply: conversationalReply,
-        interpretation_entry_id: result.meta.interpretation_entry_id,
-        project_context_retrieval: projectContextRetrieval,
-      });
-    } catch (ollamaError) {
-      console.error("[/api/chat] Ollama response failed:", ollamaError);
-
-      return res.status(503).json({
-        ok: false,
-        error: "Matilda's conversational model is currently unavailable.",
-      });
-    }
-
-    if (!persistedTurn) {
-      return res.status(500).json({
-        ok: false,
-        error: "Matilda's conversation turn was not persisted.",
-      });
-    }
-
-    return res.json({
-      ...result,
-      reply: conversationalReply,
-      turn: persistedTurn,
-      draft_package_updated: draftPackageUpdated,
-      canonical_package_created: false,
-      delegation_authorized: false,
-      validation_authorized: false,
-      envelope_authorized: false,
-      execution_authorized: false,
-    });
-  } catch (err) {
-    console.error("[/api/chat] Error:", err);
+  } catch (error) {
+    console.error("[/api/chat] Error:", error);
 
     return res.status(500).json({
       ok: false,
