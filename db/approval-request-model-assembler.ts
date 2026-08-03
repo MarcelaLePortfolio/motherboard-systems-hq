@@ -2,6 +2,10 @@ import type {
   ApprovalRequestSourceRecord,
 } from "./approval-request-repository";
 
+import {
+  assembleReconciledInterpretationSummary,
+} from "./matilda-reconciled-intent-runtime";
+
 export type ApprovalRequestKind =
   | "canonical_package_approval";
 

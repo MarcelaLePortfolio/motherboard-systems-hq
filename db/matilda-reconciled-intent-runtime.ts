@@ -34,6 +34,44 @@ function requireDraftPackageId(value: unknown): string {
   return value.trim();
 }
 
+
+export function assembleReconciledInterpretationSummary(source: {
+  draft_package_id: string;
+  lineage_id: string;
+  project_id: string | null;
+  conversation_id: string | null;
+  current_interpretation: string;
+  proposed_work: string | null;
+  proposed_artifacts: string | null;
+  in_scope: string | null;
+  out_of_scope: string | null;
+  constraints: string | null;
+  expected_outcome: string | null;
+  unresolved_questions: string | null;
+  evidence_entry_ids: string[];
+  status: string;
+}): ReconciledIntentSummary {
+  return {
+    summary_id: randomUUID(),
+    draft_package_id: source.draft_package_id,
+    lineage_id: source.lineage_id,
+    project_id: source.project_id,
+    conversation_id: source.conversation_id,
+    interpreted_objective: source.current_interpretation,
+    proposed_work: source.proposed_work,
+    proposed_artifacts: source.proposed_artifacts,
+    in_scope: source.in_scope,
+    out_of_scope: source.out_of_scope,
+    constraints: source.constraints,
+    expected_outcome: source.expected_outcome,
+    unresolved_questions: source.unresolved_questions,
+    evidence_entry_ids: source.evidence_entry_ids,
+    source_draft_status: source.status,
+    approval_required: true,
+    generated_at: new Date().toISOString(),
+  };
+}
+
 export function generateReconciledIntentSummary(
   input: GenerateReconciledIntentSummaryInput = {},
 ): ReconciledIntentSummary {
