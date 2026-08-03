@@ -37,7 +37,7 @@ Conversation
 
 → Draft Package
 
-→ Reconciled Intent Summary
+→ Reconciled Interpretation Summary
 
 → Approval
 
@@ -57,7 +57,7 @@ Integrate Matilda chat with IEL persistence.
 
 ## Next Objective
 
-Each Matilda chat interaction should preserve an IEL entry before any Draft Package, Reconciled Intent Summary, approval, Package creation, delegation, or execution.
+Each Matilda chat interaction should preserve an IEL entry before any Draft Package, Reconciled Interpretation Summary, approval, Package creation, delegation, or execution.
 
 ## Constraints
 

@@ -252,7 +252,7 @@ Observed corrections included:
 
 - Correction of Governance Validation lifecycle placement.
 
-- Correction of Reconciled Intent Summary terminology versus Preview Summary terminology.
+- Correction of Reconciled Interpretation Summary terminology versus Preview Summary terminology.
 
 - Correction of Package / Delegation / Governance Validation / Envelope boundary compression.
 

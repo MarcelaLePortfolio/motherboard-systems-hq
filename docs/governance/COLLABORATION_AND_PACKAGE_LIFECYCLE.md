@@ -29,7 +29,7 @@ Collaboration
 
 ↓
 
-Reconciled Intent Summary
+Reconciled Interpretation Summary
 
 ↓
 
@@ -75,9 +75,9 @@ No organizational processing occurs during collaboration.
 
 ---
 
-# Reconciled Intent Summary
+# Reconciled Interpretation Summary
 
-A Reconciled Intent Summary is a human-readable representation of the current understanding of intent.
+A Reconciled Interpretation Summary is a human-readable representation of the current understanding of intent.
 
 Purpose:
 
@@ -89,11 +89,11 @@ Purpose:
 
 - Confirm understanding before Package creation
 
-The Reconciled Intent Summary is not a Package.
+The Reconciled Interpretation Summary is not a Package.
 
-The Reconciled Intent Summary is not a governance artifact.
+The Reconciled Interpretation Summary is not a governance artifact.
 
-The Reconciled Intent Summary is a collaboration artifact.
+The Reconciled Interpretation Summary is a collaboration artifact.
 
 ---
 
@@ -125,7 +125,7 @@ A Package is created.
 
 The Package becomes the canonical meaning artifact.
 
-The Package replaces the Reconciled Intent Summary as the authoritative representation of meaning.
+The Package replaces the Reconciled Interpretation Summary as the authoritative representation of meaning.
 
 ---
 

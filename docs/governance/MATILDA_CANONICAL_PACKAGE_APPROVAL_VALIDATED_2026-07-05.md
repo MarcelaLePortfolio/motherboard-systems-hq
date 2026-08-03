@@ -5,7 +5,7 @@ Date: 2026-07-05
 
 ## Corridor
 
-Reconciled Intent Summary
+Reconciled Interpretation Summary
 
 → Explicit Operator Approval
 
@@ -13,7 +13,7 @@ Reconciled Intent Summary
 
 ## Objective
 
-Validate that explicit operator approval can create a Canonical Package from the active Reconciled Intent Summary path.
+Validate that explicit operator approval can create a Canonical Package from the active Reconciled Interpretation Summary path.
 
 ## Validation Result
 
@@ -59,7 +59,7 @@ The route explicitly returned:
 
 ## Milestone Status
 
-Matilda now has a validated approval corridor from Reconciled Intent Summary to Canonical Package.
+Matilda now has a validated approval corridor from Reconciled Interpretation Summary to Canonical Package.
 
 ## Rollback Anchor
 

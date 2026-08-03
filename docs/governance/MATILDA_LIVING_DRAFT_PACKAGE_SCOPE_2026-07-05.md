@@ -39,7 +39,7 @@ Conversation
 
 → Living Draft Package
 
-→ Reconciled Intent Summary
+→ Reconciled Interpretation Summary
 
 → User Approval
 

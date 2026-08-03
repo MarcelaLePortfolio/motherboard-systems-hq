@@ -1,11 +1,11 @@
 
-# Matilda Reconciled Intent Summary Runtime Scope
+# Matilda Reconciled Interpretation Summary Runtime Scope
 
 Date: 2026-07-05
 
 ## Corridor
 
-Living Draft Package → Reconciled Intent Summary
+Living Draft Package → Reconciled Interpretation Summary
 
 ## Current Stable Checkpoint
 
@@ -15,7 +15,7 @@ Latest DR: 20260705_230131
 
 ## Objective
 
-Implement the next Matilda Conversation Engine layer: generating a human-reviewable Reconciled Intent Summary from the current non-authoritative Living Draft Package.
+Implement the next Matilda Conversation Engine layer: generating a human-reviewable Reconciled Interpretation Summary from the current non-authoritative Living Draft Package.
 
 ## Current Validated Flow
 
@@ -37,7 +37,7 @@ Chat
 
 → Living Draft Package synthesis
 
-→ Reconciled Intent Summary
+→ Reconciled Interpretation Summary
 
 → User Approval
 
@@ -53,7 +53,7 @@ Chat
 
 ## In Scope
 
-- Define Reconciled Intent Summary runtime shape.
+- Define Reconciled Interpretation Summary runtime shape.
 
 - Generate summary from a Living Draft Package.
 
@@ -83,7 +83,7 @@ Chat
 
 ## Success Criteria
 
-A runtime call can generate a Reconciled Intent Summary containing:
+A runtime call can generate a Reconciled Interpretation Summary containing:
 
 - summary_id
 
@@ -113,13 +113,13 @@ A runtime call can generate a Reconciled Intent Summary containing:
 
 - status
 
-Generating a Reconciled Intent Summary must not create a Canonical Package.
+Generating a Reconciled Interpretation Summary must not create a Canonical Package.
 
-Generating a Reconciled Intent Summary must not authorize Delegation, Validation, Envelope creation, routing, assignment, or Cade execution.
+Generating a Reconciled Interpretation Summary must not authorize Delegation, Validation, Envelope creation, routing, assignment, or Cade execution.
 
 ## Authority Boundary
 
-Matilda may generate a Reconciled Intent Summary.
+Matilda may generate a Reconciled Interpretation Summary.
 
 Matilda may not treat the summary as approval.
 

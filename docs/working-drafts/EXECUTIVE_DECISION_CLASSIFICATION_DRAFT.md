@@ -31,7 +31,7 @@ POST /api/matilda/canonical-package
 Authoritative source:
 
 - Living Draft Package
-- Reconciled Intent Summary
+- Reconciled Interpretation Summary
 
 Completion object:
 
@@ -43,7 +43,7 @@ Canonical Package exists for the Living Draft Package.
 
 Executive question:
 
-Should this Reconciled Intent Summary become the authoritative Canonical Package?
+Should this Reconciled Interpretation Summary become the authoritative Canonical Package?
 
 Status:
 
@@ -192,7 +192,7 @@ No other executive decision is yet authoritative.
 The first read model should derive pending approval requests from:
 
 - Living Draft Package
-- Reconciled Intent Summary
+- Reconciled Interpretation Summary
 - project ownership
 - absence of a Canonical Package
 
@@ -206,7 +206,7 @@ pending
 
 Executive question:
 
-Should this Reconciled Intent Summary become the authoritative Canonical Package?
+Should this Reconciled Interpretation Summary become the authoritative Canonical Package?
 
 Available decision:
 

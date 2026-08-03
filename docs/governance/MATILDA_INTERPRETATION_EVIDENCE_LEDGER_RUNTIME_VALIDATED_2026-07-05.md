@@ -89,7 +89,7 @@ The Interpretation Evidence Ledger runtime is implemented and validated as the f
 
 ## Next Corridor
 
-Integrate Matilda chat with IEL persistence so each chat interaction can preserve interpretation evidence before any Draft Package, Reconciled Intent Summary, approval, Package creation, or delegation occurs.
+Integrate Matilda chat with IEL persistence so each chat interaction can preserve interpretation evidence before any Draft Package, Reconciled Interpretation Summary, approval, Package creation, or delegation occurs.
 
 ## Rollback Anchor
 

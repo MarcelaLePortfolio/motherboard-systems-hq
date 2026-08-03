@@ -5,7 +5,7 @@ Date: 2026-07-05
 
 ## Corridor
 
-Reconciled Intent Summary
+Reconciled Interpretation Summary
 
 → Explicit Operator Approval
 
@@ -13,7 +13,7 @@ Reconciled Intent Summary
 
 ## Objective
 
-Implement the approval corridor that allows an operator to explicitly approve a Reconciled Intent Summary and create the first Canonical Package.
+Implement the approval corridor that allows an operator to explicitly approve a Reconciled Interpretation Summary and create the first Canonical Package.
 
 Approval is the first authority-changing event in the Conversation Engine.
 
@@ -25,7 +25,7 @@ Nothing before approval is authoritative.
 
 - Canonical Package persistence.
 
-- Immutable snapshot of the approved Reconciled Intent Summary.
+- Immutable snapshot of the approved Reconciled Interpretation Summary.
 
 - Approval timestamp.
 
@@ -107,5 +107,5 @@ Creation of a Canonical Package does not itself authorize downstream execution.
 
 ## Next Milestone
 
-Implement Canonical Package persistence and validate explicit approval from an existing Reconciled Intent Summary.
+Implement Canonical Package persistence and validate explicit approval from an existing Reconciled Interpretation Summary.
 

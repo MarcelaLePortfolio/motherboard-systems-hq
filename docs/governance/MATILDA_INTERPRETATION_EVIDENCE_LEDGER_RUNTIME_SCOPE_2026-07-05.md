@@ -65,7 +65,7 @@ Implement the first runtime layer that allows Matilda to preserve interpretation
 
 - Draft Package synthesis.
 
-- Reconciled Intent Summary generation.
+- Reconciled Interpretation Summary generation.
 
 - Package creation from conversation.
 

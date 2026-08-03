@@ -1,15 +1,15 @@
 
-# Matilda Reconciled Intent Summary Runtime Validated
+# Matilda Reconciled Interpretation Summary Runtime Validated
 
 Date: 2026-07-05
 
 ## Corridor
 
-Living Draft Package → Reconciled Intent Summary
+Living Draft Package → Reconciled Interpretation Summary
 
 ## Objective
 
-Validate that Matilda can generate a human-reviewable Reconciled Intent Summary from the active non-authoritative Living Draft Package.
+Validate that Matilda can generate a human-reviewable Reconciled Interpretation Summary from the active non-authoritative Living Draft Package.
 
 ## Validation Result
 
@@ -45,7 +45,7 @@ POST `/api/matilda/reconciled-intent` successfully generated:
 
 ## Preserved Invariants
 
-Generating the Reconciled Intent Summary did not create or authorize:
+Generating the Reconciled Interpretation Summary did not create or authorize:
 
 - Canonical Package
 

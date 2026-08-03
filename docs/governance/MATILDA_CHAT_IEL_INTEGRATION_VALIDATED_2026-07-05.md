@@ -9,7 +9,7 @@ Matilda Chat → Interpretation Evidence Ledger
 
 ## Objective
 
-Validate that normal Matilda chat interactions preserve Interpretation Evidence Ledger entries before any Draft Package, Reconciled Intent Summary, Package creation, delegation, validation, envelope creation, routing, assignment, or Cade execution.
+Validate that normal Matilda chat interactions preserve Interpretation Evidence Ledger entries before any Draft Package, Reconciled Interpretation Summary, Package creation, delegation, validation, envelope creation, routing, assignment, or Cade execution.
 
 ## Validation Result
 
@@ -41,7 +41,7 @@ The chat interaction did not create:
 
 - Draft Package
 
-- Reconciled Intent Summary
+- Reconciled Interpretation Summary
 
 - Canonical Package
 

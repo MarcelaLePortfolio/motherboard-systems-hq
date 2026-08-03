@@ -4,7 +4,7 @@ Status: Architectural Invariant
 
 ## Purpose
 
-This contract defines how **Request Changes** behaves when an executive reviews a Reconciled Intent Summary in the Executive Inbox.
+This contract defines how **Request Changes** behaves when an executive reviews a Reconciled Interpretation Summary in the Executive Inbox.
 
 Request Changes exists to correct or refine Matilda's interpretation of the user's intent. It is **not** a rejection workflow, a silent backend mutation, or the creation of a separate concept.
 

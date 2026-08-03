@@ -1,15 +1,15 @@
 
-# Matilda Reconciled Intent Summary Scope
+# Matilda Reconciled Interpretation Summary Scope
 
 Date: 2026-07-04
 
 ## Corridor
 
-Matilda Intent Discussion → Reconciled Intent Summary
+Matilda Intent Discussion → Reconciled Interpretation Summary
 
 ## Objective
 
-Implement the first pipeline step where Matilda turns an intent discussion into a reviewable Reconciled Intent Summary before any Package is created.
+Implement the first pipeline step where Matilda turns an intent discussion into a reviewable Reconciled Interpretation Summary before any Package is created.
 
 ## Finding
 
@@ -17,7 +17,7 @@ Existing doctrine defines the lifecycle:
 
 Collaboration
 
-→ Reconciled Intent Summary
+→ Reconciled Interpretation Summary
 
 → Approval
 
@@ -45,13 +45,13 @@ Existing package doctrine defines required Package contents, including:
 
 - Delegation Target
 
-No implemented Reconciled Intent Summary schema or runtime currently exists.
+No implemented Reconciled Interpretation Summary schema or runtime currently exists.
 
 ## In Scope
 
-- Define a Reconciled Intent Summary shape.
+- Define a Reconciled Interpretation Summary shape.
 
-- Add a Matilda-facing route or helper that produces a Reconciled Intent Summary from a discussion input.
+- Add a Matilda-facing route or helper that produces a Reconciled Interpretation Summary from a discussion input.
 
 - Keep the summary human-reviewable.
 
@@ -79,7 +79,7 @@ No implemented Reconciled Intent Summary schema or runtime currently exists.
 
 ## Success Criteria
 
-A request to Matilda can produce a structured Reconciled Intent Summary containing:
+A request to Matilda can produce a structured Reconciled Interpretation Summary containing:
 
 - interpreted objective
 
@@ -111,5 +111,5 @@ Matilda may not create a Package without explicit approval.
 
 ## Next Milestone
 
-Implement Reconciled Intent Summary generation in the Matilda chat stub as a collaboration artifact only.
+Implement Reconciled Interpretation Summary generation in the Matilda chat stub as a collaboration artifact only.
 
