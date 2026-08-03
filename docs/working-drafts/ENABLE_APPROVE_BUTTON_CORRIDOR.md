@@ -23,7 +23,7 @@ Client:
 - Wire the Approve button to the existing endpoint.
 - Display a loading state while approval is in progress.
 - Refresh the Executive Inbox after success.
-- Remove the approved Living Draft from the pending list.
+- Remove the approved Reconciled Intent Summary from the pending approval list.
 
 Server:
 

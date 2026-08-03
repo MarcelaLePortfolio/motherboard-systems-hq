@@ -82,7 +82,7 @@ Introducing an approval before Living Draft creation would be a new architectura
 
 ### Executive Question
 
-> Should this Living Draft Package become the authoritative Canonical Package?
+> Should this Reconciled Intent Summary become the authoritative Canonical Package?
 
 ### Verified Runtime
 

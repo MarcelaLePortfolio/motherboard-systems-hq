@@ -43,7 +43,7 @@ Canonical Package exists for the Living Draft Package.
 
 Executive question:
 
-Should this Living Draft Package become the authoritative Canonical Package?
+Should this Reconciled Intent Summary become the authoritative Canonical Package?
 
 Status:
 
@@ -206,7 +206,7 @@ pending
 
 Executive question:
 
-Should this Living Draft Package become the authoritative Canonical Package?
+Should this Reconciled Intent Summary become the authoritative Canonical Package?
 
 Available decision:
 
