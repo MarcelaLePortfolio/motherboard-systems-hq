@@ -88,45 +88,65 @@ export function assembleApprovalRequestReadModel(
     "draft_package_id",
   );
 
+  const summary = assembleReconciledInterpretationSummary({
+    draft_package_id: draftPackageId,
+    lineage_id: requireText(
+      source.lineage_id,
+      "lineage_id",
+    ),
+    project_id: requireText(
+      source.project_id,
+      "project_id",
+    ),
+    conversation_id: source.conversation_id,
+    current_interpretation: requireText(
+      source.current_interpretation,
+      "current_interpretation",
+    ),
+    proposed_work: source.proposed_work,
+    proposed_artifacts: source.proposed_artifacts,
+    in_scope: source.in_scope,
+    out_of_scope: source.out_of_scope,
+    constraints: source.constraints,
+    expected_outcome: source.expected_outcome,
+    unresolved_questions: source.unresolved_questions,
+    evidence_entry_ids: parseEvidenceEntryIds(
+      source.evidence_entry_ids,
+    ),
+    status: requireText(
+      source.source_draft_status,
+      "source_draft_status",
+    ),
+  });
+
   return {
     approval_request_id:
       `canonical_package_approval:${draftPackageId}`,
     kind: "canonical_package_approval",
     status: "pending",
     project_id: requireText(
-      source.project_id,
+      summary.project_id ?? "",
       "project_id",
     ),
-    conversation_id: source.conversation_id,
-    lineage_id: requireText(
-      source.lineage_id,
-      "lineage_id",
-    ),
-    draft_package_id: draftPackageId,
+    conversation_id: summary.conversation_id,
+    lineage_id: summary.lineage_id,
+    draft_package_id: summary.draft_package_id,
     executive_question:
-      "Should this Reconciled Intent Summary become the authoritative Canonical Package?",
+      "Should this Reconciled Interpretation Summary become the authoritative Canonical Package?",
     available_decisions: [
       "approve_canonical_package",
     ],
-    source_draft_status: requireText(
-      source.source_draft_status,
-      "source_draft_status",
-    ),
+    source_draft_status: summary.source_draft_status,
     evidence: {
-      evidence_entry_ids: parseEvidenceEntryIds(
-        source.evidence_entry_ids,
-      ),
-      interpreted_objective: requireText(
-        source.current_interpretation,
-        "current_interpretation",
-      ),
-      proposed_work: source.proposed_work,
-      proposed_artifacts: source.proposed_artifacts,
-      in_scope: source.in_scope,
-      out_of_scope: source.out_of_scope,
-      constraints: source.constraints,
-      expected_outcome: source.expected_outcome,
-      unresolved_questions: source.unresolved_questions,
+      evidence_entry_ids: summary.evidence_entry_ids,
+      interpreted_objective: summary.interpreted_objective,
+      proposed_work: summary.proposed_work,
+      proposed_artifacts: summary.proposed_artifacts,
+      in_scope: summary.in_scope,
+      out_of_scope: summary.out_of_scope,
+      constraints: summary.constraints,
+      expected_outcome: summary.expected_outcome,
+      unresolved_questions: summary.unresolved_questions,
     },
     created_at: requireText(
       source.created_at,
