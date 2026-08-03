@@ -100,7 +100,7 @@ export function assembleApprovalRequestReadModel(
     ),
     draft_package_id: draftPackageId,
     executive_question:
-      "Should this Living Draft Package become the authoritative Canonical Package?",
+      "Should this Reconciled Intent Summary become the authoritative Canonical Package?",
     available_decisions: [
       "approve_canonical_package",
     ],
