@@ -22,32 +22,39 @@ export interface RunMatildaConversationWorkflowInput {
   conversation_id: string;
 }
 
-export type MatildaConversationWorkflowResult = MatildaChatResult & {
-  reply: string;
-  turn: MatildaConversationTurn;
-  draft_package_updated: boolean;
-  canonical_package_created: false;
-  delegation_authorized: false;
-  validation_authorized: false;
-  envelope_authorized: false;
-  execution_authorized: false;
-};
+export type MatildaConversationWorkflowResult =
+  MatildaChatResult & {
+    reply: string;
+    turn: MatildaConversationTurn;
+    draft_package_updated: boolean;
+    canonical_package_created: false;
+    delegation_authorized: false;
+    validation_authorized: false;
+    envelope_authorized: false;
+    execution_authorized: false;
+  };
 
-export class MatildaConversationWorkflowUnavailableError extends Error {
+export class MatildaConversationWorkflowUnavailableError
+  extends Error {
   constructor(
     message =
       "Matilda's conversational model is currently unavailable.",
   ) {
     super(message);
-    this.name = "MatildaConversationWorkflowUnavailableError";
+    this.name =
+      "MatildaConversationWorkflowUnavailableError";
     Object.setPrototypeOf(
       this,
-      MatildaConversationWorkflowUnavailableError.prototype,
+      MatildaConversationWorkflowUnavailableError
+        .prototype,
     );
   }
 }
 
-function clampText(value: string, maxLength = 4000): string {
+function clampText(
+  value: string,
+  maxLength = 4000,
+): string {
   const text = String(value || "").trim();
 
   return text.length > maxLength
@@ -60,14 +67,16 @@ export async function runMatildaConversationWorkflow(
 ): Promise<MatildaConversationWorkflowResult> {
   const message = input.message.trim();
   const projectId = input.project_id.trim();
-  const conversationId = input.conversation_id.trim();
+  const conversationId =
+    input.conversation_id.trim();
 
-  const result: MatildaChatResult = await runMatildaStub({
-    message,
-    agent: input.agent ?? "matilda",
-    project_id: projectId,
-    conversation_id: conversationId,
-  });
+  const result: MatildaChatResult =
+    await runMatildaStub({
+      message,
+      agent: input.agent ?? "matilda",
+      project_id: projectId,
+      conversation_id: conversationId,
+    });
 
   try {
     let projectDisplayName: string | null = null;
@@ -81,16 +90,28 @@ export async function runMatildaConversationWorkflow(
       ),
     ).href;
 
-    const { getProjectRegistryState } = await import(registryPath);
-    const registryState = getProjectRegistryState();
+    const {
+      getProjectRegistryState,
+    } = await import(registryPath);
 
-    const project = registryState.projects.find(
-      (candidate: { projectId: string }) =>
-        candidate.projectId === projectId,
-    );
+    const registryState =
+      getProjectRegistryState();
 
-    projectDisplayName = project?.displayName ?? null;
-    projectRootPath = project?.projectRootPath ?? null;
+    const project =
+      registryState.projects.find(
+        (candidate: {
+          projectId: string;
+          displayName?: string | null;
+          projectRootPath?: string | null;
+        }) =>
+          candidate.projectId === projectId,
+      );
+
+    projectDisplayName =
+      project?.displayName ?? null;
+
+    projectRootPath =
+      project?.projectRootPath ?? null;
 
     const projectContextRetrieval =
       retrieveMatildaProjectContext({
@@ -99,27 +120,37 @@ export async function runMatildaConversationWorkflow(
         message,
       });
 
-    const history = listMatildaConversationTurns(
-      projectId,
-      20,
-      conversationId,
-    ).map((turn) => ({
-      userMessage: turn.user_message,
-      assistantReply: turn.assistant_reply,
-    }));
+    const history =
+      listMatildaConversationTurns(
+        projectId,
+        20,
+        conversationId,
+      ).map((turn) => ({
+        userMessage: turn.user_message,
+        assistantReply:
+          turn.assistant_reply,
+      }));
 
-    const conversationalReply = await ollamaChat(message, {
-      projectId,
-      projectDisplayName,
-      history,
-      projectContextExcerpts:
-        projectContextRetrieval.excerpts,
-      projectContextWarning:
-        projectContextRetrieval.warning,
-    });
+    const ollamaResult =
+      await ollamaChat(message, {
+        projectId,
+        projectDisplayName,
+        history,
+        projectContextExcerpts:
+          projectContextRetrieval.excerpts,
+        projectContextWarning:
+          projectContextRetrieval.warning,
+      });
+
+    const conversationalReply =
+      ollamaResult.reply;
+
+    const durableInterpretation =
+      ollamaResult.durableInterpretation;
 
     createInterpretationEvidenceLedgerEntry({
-      entry_id: result.meta.interpretation_entry_id,
+      entry_id:
+        result.meta.interpretation_entry_id,
       actor: result.agent,
       project_id: projectId,
       conversation_id: conversationId,
@@ -139,18 +170,25 @@ export async function runMatildaConversationWorkflow(
           user_message: message,
           prior_turn_count: history.length,
           project_context_sources:
-            projectContextRetrieval.excerpts.map((excerpt) => ({
-              relative_path: excerpt.relativePath,
-              line_number: excerpt.lineNumber,
-              provenance: excerpt.provenance,
-              authority_status: excerpt.authorityStatus,
-            })),
+            projectContextRetrieval.excerpts.map(
+              (excerpt) => ({
+                relative_path:
+                  excerpt.relativePath,
+                line_number:
+                  excerpt.lineNumber,
+                provenance:
+                  excerpt.provenance,
+                authority_status:
+                  excerpt.authorityStatus,
+              }),
+            ),
           project_context_warning:
             projectContextRetrieval.warning,
         }),
         12000,
       ),
-      matilda_observation: conversationalReply,
+      matilda_observation:
+        durableInterpretation,
       unresolved_questions: null,
       lineage_references: [
         `project:${projectId}`,
@@ -160,26 +198,35 @@ export async function runMatildaConversationWorkflow(
       supersession_status: "current",
     });
 
-    const persistedTurn = createMatildaConversationTurn({
-      project_id: projectId,
-      conversation_id: conversationId,
-      user_message: message,
-      assistant_reply: conversationalReply,
-      interpretation_entry_id:
-        result.meta.interpretation_entry_id,
-      project_context_retrieval:
-        projectContextRetrieval,
-    });
+    const persistedTurn =
+      createMatildaConversationTurn({
+        project_id: projectId,
+        conversation_id:
+          conversationId,
+        user_message: message,
+        assistant_reply:
+          conversationalReply,
+        interpretation_entry_id:
+          result.meta
+            .interpretation_entry_id,
+        project_context_retrieval:
+          projectContextRetrieval,
+      });
 
     let draftPackageUpdated = false;
 
     try {
       runMatildaChatDraftIntegration({
         project_id: projectId,
-        conversation_id: conversationId,
-        draft_package_id: `matilda-draft-${conversationId}`,
-        lineage_id: `matilda-lineage-${conversationId}`,
-        latest_entry_id: result.meta.interpretation_entry_id,
+        conversation_id:
+          conversationId,
+        draft_package_id:
+          `matilda-draft-${conversationId}`,
+        lineage_id:
+          `matilda-lineage-${conversationId}`,
+        latest_entry_id:
+          result.meta
+            .interpretation_entry_id,
       });
 
       draftPackageUpdated = true;
@@ -194,8 +241,10 @@ export async function runMatildaConversationWorkflow(
       ...result,
       reply: conversationalReply,
       turn: persistedTurn,
-      draft_package_updated: draftPackageUpdated,
-      canonical_package_created: false,
+      draft_package_updated:
+        draftPackageUpdated,
+      canonical_package_created:
+        false,
       delegation_authorized: false,
       validation_authorized: false,
       envelope_authorized: false,

@@ -1,11 +1,9 @@
-
 import { ollamaChat } from "../scripts/utils/ollamaChat.js";
 
 export async function handler(message?: any) {
+  const result = await ollamaChat(
+    String(message ?? ""),
+  );
 
-  const reply = await ollamaChat(String(message ?? ""));
-
-  return reply;
-
+  return result.reply;
 }
-
