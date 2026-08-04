@@ -124,16 +124,39 @@ export async function runMatildaConversationWorkflow(
       project_id: projectId,
       conversation_id: conversationId,
       interpretation_event:
-        "Matilda received a chat interaction and preserved upstream interpretation evidence before any Package creation.",
-      minimum_sufficient_context:
-        "Matilda chat interaction received through /api/chat during the Conversation Engine IEL integration corridor.",
-      supporting_raw_evidence: clampText(message),
-      matilda_observation:
-        "This entry preserves conversation evidence only. It is upstream of Draft Package synthesis, Reconciled Intent Summary generation, approval, canonical Package creation, delegation, validation, envelope creation, routing, assignment, and Cade execution.",
-      unresolved_questions:
-        "Future corridor must determine how this evidence updates a living Draft Package and when the conversation becomes reconciliation-ready.",
-      lineage_references:
-        "MATILDA_NEXT_CORRIDOR_HANDOFF_2026-07-05.md; MATILDA_INTERPRETATION_EVIDENCE_LEDGER_RUNTIME_VALIDATED_2026-07-05.md",
+        "Matilda interpreted the current project-scoped conversation turn using available conversation history and bounded project evidence.",
+      minimum_sufficient_context: [
+        `project:${projectId}`,
+        `conversation:${conversationId}`,
+        `prior_turns:${history.length}`,
+        `project_context_excerpts:${projectContextRetrieval.excerpts.length}`,
+        projectContextRetrieval.warning
+          ? "project_context_warning:present"
+          : "project_context_warning:none",
+      ].join("; "),
+      supporting_raw_evidence: clampText(
+        JSON.stringify({
+          user_message: message,
+          prior_turn_count: history.length,
+          project_context_sources:
+            projectContextRetrieval.excerpts.map((excerpt) => ({
+              relative_path: excerpt.relativePath,
+              line_number: excerpt.lineNumber,
+              provenance: excerpt.provenance,
+              authority_status: excerpt.authorityStatus,
+            })),
+          project_context_warning:
+            projectContextRetrieval.warning,
+        }),
+        12000,
+      ),
+      matilda_observation: conversationalReply,
+      unresolved_questions: null,
+      lineage_references: [
+        `project:${projectId}`,
+        `conversation:${conversationId}`,
+        `interpretation_entry:${result.meta.interpretation_entry_id}`,
+      ].join("; "),
       supersession_status: "current",
     });
 
