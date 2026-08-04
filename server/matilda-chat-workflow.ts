@@ -6,6 +6,7 @@ import {
   type MatildaChatResult,
 } from "../matilda-chat-stub";
 import { runMatildaChatDraftIntegration } from "../db/matilda-chat-draft-integration";
+import { createInterpretationEvidenceLedgerEntry } from "../db/matilda-interpretation-runtime";
 import {
   createMatildaConversationTurn,
   listMatildaConversationTurns,
@@ -46,6 +47,14 @@ export class MatildaConversationWorkflowUnavailableError extends Error {
   }
 }
 
+function clampText(value: string, maxLength = 4000): string {
+  const text = String(value || "").trim();
+
+  return text.length > maxLength
+    ? `${text.slice(0, maxLength - 1)}…`
+    : text;
+}
+
 export async function runMatildaConversationWorkflow(
   input: RunMatildaConversationWorkflowInput,
 ): Promise<MatildaConversationWorkflowResult> {
@@ -59,25 +68,6 @@ export async function runMatildaConversationWorkflow(
     project_id: projectId,
     conversation_id: conversationId,
   });
-
-  let draftPackageUpdated = false;
-
-  try {
-    runMatildaChatDraftIntegration({
-      project_id: projectId,
-      conversation_id: conversationId,
-      draft_package_id: `matilda-draft-${conversationId}`,
-      lineage_id: `matilda-lineage-${conversationId}`,
-      latest_entry_id: result.meta.interpretation_entry_id,
-    });
-
-    draftPackageUpdated = true;
-  } catch (draftError) {
-    console.warn(
-      "[Matilda conversation workflow] Draft synthesis failed:",
-      draftError,
-    );
-  }
 
   try {
     let projectDisplayName: string | null = null;
@@ -128,6 +118,25 @@ export async function runMatildaConversationWorkflow(
         projectContextRetrieval.warning,
     });
 
+    createInterpretationEvidenceLedgerEntry({
+      entry_id: result.meta.interpretation_entry_id,
+      actor: result.agent,
+      project_id: projectId,
+      conversation_id: conversationId,
+      interpretation_event:
+        "Matilda received a chat interaction and preserved upstream interpretation evidence before any Package creation.",
+      minimum_sufficient_context:
+        "Matilda chat interaction received through /api/chat during the Conversation Engine IEL integration corridor.",
+      supporting_raw_evidence: clampText(message),
+      matilda_observation:
+        "This entry preserves conversation evidence only. It is upstream of Draft Package synthesis, Reconciled Intent Summary generation, approval, canonical Package creation, delegation, validation, envelope creation, routing, assignment, and Cade execution.",
+      unresolved_questions:
+        "Future corridor must determine how this evidence updates a living Draft Package and when the conversation becomes reconciliation-ready.",
+      lineage_references:
+        "MATILDA_NEXT_CORRIDOR_HANDOFF_2026-07-05.md; MATILDA_INTERPRETATION_EVIDENCE_LEDGER_RUNTIME_VALIDATED_2026-07-05.md",
+      supersession_status: "current",
+    });
+
     const persistedTurn = createMatildaConversationTurn({
       project_id: projectId,
       conversation_id: conversationId,
@@ -138,6 +147,25 @@ export async function runMatildaConversationWorkflow(
       project_context_retrieval:
         projectContextRetrieval,
     });
+
+    let draftPackageUpdated = false;
+
+    try {
+      runMatildaChatDraftIntegration({
+        project_id: projectId,
+        conversation_id: conversationId,
+        draft_package_id: `matilda-draft-${conversationId}`,
+        lineage_id: `matilda-lineage-${conversationId}`,
+        latest_entry_id: result.meta.interpretation_entry_id,
+      });
+
+      draftPackageUpdated = true;
+    } catch (draftError) {
+      console.warn(
+        "[Matilda conversation workflow] Draft synthesis failed:",
+        draftError,
+      );
+    }
 
     return {
       ...result,

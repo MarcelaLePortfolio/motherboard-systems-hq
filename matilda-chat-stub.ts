@@ -19,7 +19,6 @@
 
  */
 
-import { createInterpretationEvidenceLedgerEntry } from "./db/matilda-interpretation-runtime";
 
 export type MatildaChatInput = {
 
@@ -67,14 +66,6 @@ function makeInterpretationEntryId(): string {
 
 }
 
-function clampText(value: string, maxLength = 4000): string {
-
-  const text = String(value || "").trim();
-
-  return text.length > maxLength ? `${text.slice(0, maxLength - 1)}…` : text;
-
-}
-
 export async function runMatildaStub(
 
   input: MatildaChatInput
@@ -97,41 +88,7 @@ export async function runMatildaStub(
 
   const timestamp = new Date().toISOString();
 
-  const ielEntry = createInterpretationEvidenceLedgerEntry({
-
-    entry_id: makeInterpretationEntryId(),
-
-    actor: agent,
-
-    project_id: input.project_id,
-
-    conversation_id: input.conversation_id,
-
-    interpretation_event:
-
-      "Matilda received a chat interaction and preserved upstream interpretation evidence before any Package creation.",
-
-    minimum_sufficient_context:
-
-      "Matilda chat interaction received through /api/chat during the Conversation Engine IEL integration corridor.",
-
-    supporting_raw_evidence: clampText(message),
-
-    matilda_observation:
-
-      "This entry preserves conversation evidence only. It is upstream of Draft Package synthesis, Reconciled Intent Summary generation, approval, canonical Package creation, delegation, validation, envelope creation, routing, assignment, and Cade execution.",
-
-    unresolved_questions:
-
-      "Future corridor must determine how this evidence updates a living Draft Package and when the conversation becomes reconciliation-ready.",
-
-    lineage_references:
-
-      "MATILDA_NEXT_CORRIDOR_HANDOFF_2026-07-05.md; MATILDA_INTERPRETATION_EVIDENCE_LEDGER_RUNTIME_VALIDATED_2026-07-05.md",
-
-    supersession_status: "current",
-
-  });
+  const interpretationEntryId = makeInterpretationEntryId();
 
   const reasoningParts: string[] = [
 
@@ -139,7 +96,7 @@ export async function runMatildaStub(
 
     `Message length: ${message.length}`,
 
-    `IEL entry created: ${ielEntry.entry_id}`,
+    `IEL identity reserved: ${interpretationEntryId}`,
 
     "Mode: Matilda chat with Interpretation Evidence Ledger persistence",
 
@@ -155,7 +112,7 @@ export async function runMatildaStub(
 
     "I received your message and preserved it in the Interpretation Evidence Ledger.",
 
-    `IEL Entry: ${ielEntry.entry_id}`,
+    `IEL Entry: ${interpretationEntryId}`,
 
     "No Package, Delegation, Envelope, or Cade execution was created from this chat interaction.",
 
@@ -181,7 +138,7 @@ export async function runMatildaStub(
 
       pipeline: "matilda-stub",
 
-      interpretation_entry_id: ielEntry.entry_id,
+      interpretation_entry_id: interpretationEntryId,
 
     },
 
