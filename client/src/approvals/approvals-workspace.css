@@ -201,6 +201,8 @@
 }
 
 .executive-inbox-reading-pane__empty {
+  padding: 0 2rem;
+
   display: grid;
   min-height: 100%;
   place-items: start center;
