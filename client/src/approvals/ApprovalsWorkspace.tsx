@@ -658,8 +658,8 @@ export default function ApprovalsWorkspace() {
       </header>
 
       <div className="executive-inbox-notice">
-        Approving a Living Draft creates its authoritative Canonical Package.
-        It does not delegate or execute the work.
+        Approving a Reconciled Interpretation Summary creates its authoritative
+        Canonical Package. It does not delegate or execute the work.
       </div>
 
       {loading && !collection ? (
@@ -682,17 +682,7 @@ export default function ApprovalsWorkspace() {
         </section>
       ) : null}
 
-      {!loading && !error && requests.length === 0 ? (
-        <section className="executive-inbox-state">
-          <h2>Your Executive Inbox is clear.</h2>
-
-          <p>
-            No decisions currently require executive authority.
-          </p>
-        </section>
-      ) : null}
-
-      {!error && requests.length > 0 ? (
+      {!loading && !error ? (
         <>
           {selectedRequestId ? (
             <ArtifactSwitcher
@@ -726,22 +716,28 @@ export default function ApprovalsWorkspace() {
               </div>
 
               <div className="executive-inbox-list__items">
-                {requests.map((request, index) => (
-                  <DecisionListItem
-                    key={request.approval_request_id}
-                    request={request}
-                    index={index}
-                    selected={
-                      request.approval_request_id ===
-                      selectedRequestId
-                    }
-                    onSelect={() =>
-                      setSelectedRequestId(
-                        request.approval_request_id,
-                      )
-                    }
-                  />
-                ))}
+                {requests.length === 0 ? (
+                  <div className="executive-inbox-reading-pane__empty">
+                    No approval requests currently require executive review.
+                  </div>
+                ) : (
+                  requests.map((request, index) => (
+                    <DecisionListItem
+                      key={request.approval_request_id}
+                      request={request}
+                      index={index}
+                      selected={
+                        request.approval_request_id ===
+                        selectedRequestId
+                      }
+                      onSelect={() =>
+                        setSelectedRequestId(
+                          request.approval_request_id,
+                        )
+                      }
+                    />
+                  ))
+                )}
               </div>
             </aside>
 
@@ -759,7 +755,9 @@ export default function ApprovalsWorkspace() {
                 />
               ) : (
                 <div className="executive-inbox-reading-pane__empty">
-                  Select an approval artifact to view its executive briefing.
+                  {requests.length === 0
+                    ? "Reconciled Interpretation Summaries will appear here after Matilda determines that an interpretation is stable enough for executive review."
+                    : "Select an approval artifact to view its executive briefing."}
                 </div>
               )}
             </section>
