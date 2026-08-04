@@ -116,7 +116,7 @@ function createFixtureDatabase(databasePath: string): void {
       'One pending approval response.',
       NULL,
       '["evidence-api-1"]',
-      'draft_non_authoritative',
+      'reconciliation_ready',
       '2026-08-01T07:00:00.000Z',
       '2026-08-01T07:30:00.000Z'
     );

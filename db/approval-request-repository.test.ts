@@ -99,7 +99,7 @@ function createFixtureDatabase(databasePath: string): void {
     expected_outcome: "One pending approval request.",
     unresolved_questions: null,
     evidence_entry_ids: JSON.stringify(["evidence-1"]),
-    status: "draft_non_authoritative",
+    status: "reconciliation_ready",
     created_at: "2026-08-01T06:00:00.000Z",
     updated_at: "2026-08-01T07:00:00.000Z",
   });
@@ -183,7 +183,7 @@ function createFixtureDatabase(databasePath: string): void {
   db.close();
 }
 
-test("lists only pending Canonical Package approvals for the selected project", () => {
+test("lists only reconciliation-ready pending Canonical Package approvals for the selected project", () => {
   const databasePath = `/tmp/approval-request-repository-${process.pid}-list.db`;
 
   createFixtureDatabase(databasePath);
