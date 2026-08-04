@@ -29,7 +29,10 @@ require_marker "$ADAPTER" "export interface OllamaChatResult"
 require_marker "$ADAPTER" "reply: string;"
 require_marker "$ADAPTER" "durableInterpretation: string;"
 require_marker "$ADAPTER" "Promise<OllamaChatResult>"
-require_marker "$ADAPTER" "durableInterpretation: reply"
+require_marker "$ADAPTER" "format: OLLAMA_CHAT_OUTPUT_SCHEMA"
+require_marker "$ADAPTER" "parseStructuredResponse(rawResponse)"
+require_marker "$ADAPTER" "Ollama returned malformed structured response JSON."
+require_marker "$ADAPTER" "Ollama returned an empty durable interpretation."
 
 require_marker "$WORKFLOW" "ollamaResult.reply"
 require_marker "$WORKFLOW" "ollamaResult.durableInterpretation"
@@ -53,5 +56,6 @@ fi
 printf '\nPASS: structured Ollama response contract remains intact.\n'
 printf '  ✓ one typed response object\n'
 printf '  ✓ one model invocation seam\n'
-printf '  ✓ user-facing reply remains separate by contract\n'
-printf '  ✓ durable interpretation remains separately addressable\n'
+printf '  ✓ structured reply and durable interpretation generation\n'
+printf '  ✓ user-facing reply remains separately consumed\n'
+printf '  ✓ malformed or incomplete structured output fails closed\n'

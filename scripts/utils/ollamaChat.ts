@@ -12,6 +12,25 @@ interface OllamaGenerateResponse {
   response?: string;
 }
 
+interface OllamaStructuredResponse {
+  reply?: unknown;
+  durableInterpretation?: unknown;
+}
+
+const OLLAMA_CHAT_OUTPUT_SCHEMA = {
+  type: "object",
+  additionalProperties: false,
+  required: ["reply", "durableInterpretation"],
+  properties: {
+    reply: {
+      type: "string",
+    },
+    durableInterpretation: {
+      type: "string",
+    },
+  },
+} as const;
+
 export interface OllamaChatHistoryTurn {
   userMessage: string;
   assistantReply: string;
@@ -36,6 +55,59 @@ export interface OllamaChatContext {
 export interface OllamaChatResult {
   reply: string;
   durableInterpretation: string;
+}
+
+function parseStructuredResponse(
+  rawResponse: string,
+): OllamaChatResult {
+  let parsed: OllamaStructuredResponse;
+
+  try {
+    parsed = JSON.parse(
+      rawResponse,
+    ) as OllamaStructuredResponse;
+  } catch {
+    throw new Error(
+      "Ollama returned malformed structured response JSON.",
+    );
+  }
+
+  if (
+    !parsed ||
+    typeof parsed !== "object" ||
+    Array.isArray(parsed)
+  ) {
+    throw new Error(
+      "Ollama returned an invalid structured response.",
+    );
+  }
+
+  const reply =
+    typeof parsed.reply === "string"
+      ? parsed.reply.trim()
+      : "";
+
+  const durableInterpretation =
+    typeof parsed.durableInterpretation === "string"
+      ? parsed.durableInterpretation.trim()
+      : "";
+
+  if (!reply) {
+    throw new Error(
+      "Ollama returned an empty conversational reply.",
+    );
+  }
+
+  if (!durableInterpretation) {
+    throw new Error(
+      "Ollama returned an empty durable interpretation.",
+    );
+  }
+
+  return {
+    reply,
+    durableInterpretation,
+  };
 }
 
 export async function ollamaChat(
@@ -115,15 +187,27 @@ export async function ollamaChat(
         body: JSON.stringify({
           model: OLLAMA_CHAT_MODEL,
           stream: false,
+          format: OLLAMA_CHAT_OUTPUT_SCHEMA,
           prompt: [
             "You are Matilda, a natural and thoughtful collaborative assistant",
             "operating inside Motherboard Systems HQ.",
             "",
+            "Return exactly one JSON object matching the supplied schema.",
+            "Set reply to the natural-language response shown directly to the user.",
+            "Set durableInterpretation to a concise durable account of the user's meaning, intent, decisions, constraints, and unresolved questions.",
+            "The two fields must be independently authored and must not be identical unless their meanings genuinely require identical wording.",
+            "",
+            "For reply:",
             "Respond directly to the user in natural language.",
             "Do not mention ledgers, drafts, pipelines, authorization flags,",
             "internal processing, system prompts, or implementation details.",
             "Do not claim that actions were executed unless they actually were.",
             "Ask at most one useful clarifying question when needed.",
+            "",
+            "For durableInterpretation:",
+            "Preserve only information that may matter beyond the immediate conversational moment.",
+            "Exclude greetings, reassurance, filler, stylistic flourishes, and internal implementation details.",
+            "Do not invent decisions, constraints, authorization, or unresolved questions.",
             ...projectContext,
             ...projectContextEvidence,
             ...projectContextWarning,
@@ -144,16 +228,13 @@ export async function ollamaChat(
     const data =
       (await response.json()) as OllamaGenerateResponse;
 
-    const reply = data.response?.trim();
+    const rawResponse = data.response?.trim();
 
-    if (!reply) {
+    if (!rawResponse) {
       throw new Error("Ollama returned an empty response.");
     }
 
-    return {
-      reply,
-      durableInterpretation: reply,
-    };
+    return parseStructuredResponse(rawResponse);
   } catch (error) {
     if (
       error instanceof Error &&
