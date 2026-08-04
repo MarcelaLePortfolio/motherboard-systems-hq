@@ -72,7 +72,6 @@ export function createApprovalRequestRepository(
     LEFT JOIN matilda_canonical_packages AS canonical
       ON canonical.draft_package_id = draft.draft_package_id
     WHERE draft.project_id = ?
-      AND draft.status = 'reconciliation_ready'
       AND canonical.package_id IS NULL
     ORDER BY draft.updated_at DESC, draft.draft_package_id ASC
   `);
@@ -100,7 +99,6 @@ export function createApprovalRequestRepository(
       ON canonical.draft_package_id = draft.draft_package_id
     WHERE draft.project_id = ?
       AND draft.draft_package_id = ?
-      AND draft.status = 'reconciliation_ready'
       AND canonical.package_id IS NULL
     LIMIT 1
   `);
