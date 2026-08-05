@@ -58,13 +58,21 @@ test(
 
     assert.equal(context.history.length, 1);
     assert.equal(context.interpretations.length, 1);
+    assert.equal(
+      context.evaluatedInterpretations.length,
+      1,
+    );
+
     assert.deepEqual(turns, turnsBefore);
-    assert.deepEqual(retrieval, retrievalBefore);
+    assert.deepEqual(
+      retrieval,
+      retrievalBefore,
+    );
   },
 );
 
 test(
-  "leaves lifecycle unknown without lifecycle data",
+  "fails closed when lifecycle data is absent",
   () => {
     const context =
       composeMatildaConversationContext({
@@ -74,14 +82,15 @@ test(
       });
 
     assert.equal(
-      context.interpretations[0].supersessionStatus,
-      "unknown",
+      context.evaluatedInterpretations[0]
+        .authorityEvaluation,
+      "unresolved",
     );
   },
 );
 
 test(
-  "propagates resolved lifecycle state",
+  "evaluates current interpretations as eligible",
   () => {
     const context =
       composeMatildaConversationContext({
@@ -91,8 +100,35 @@ test(
             interpretation_entry_id:
               "iel-current",
           }),
+        ],
+        projectContextRetrieval:
+          createRetrieval(),
+        interpretationLifecycleEntries: [
+          {
+            entry_id: "iel-current",
+            supersession_status:
+              "current",
+          },
+        ],
+      });
+
+    assert.equal(
+      context.evaluatedInterpretations[0]
+        .authorityEvaluation,
+      "eligible",
+    );
+  },
+);
+
+test(
+  "evaluates superseded interpretations as ineligible",
+  () => {
+    const context =
+      composeMatildaConversationContext({
+        turns: [
           createTurn({
-            turn_id: "turn-superseded",
+            turn_id:
+              "turn-superseded",
             interpretation_entry_id:
               "iel-superseded",
           }),
@@ -101,32 +137,18 @@ test(
           createRetrieval(),
         interpretationLifecycleEntries: [
           {
-            entry_id: "iel-current",
-            supersession_status: "current",
-          },
-          {
-            entry_id: "iel-superseded",
+            entry_id:
+              "iel-superseded",
             supersession_status:
               "superseded",
           },
         ],
       });
 
-    assert.deepEqual(
-      context.interpretations.map((entry) => ({
-        id: entry.interpretationEntryId,
-        state: entry.supersessionStatus,
-      })),
-      [
-        {
-          id: "iel-current",
-          state: "current",
-        },
-        {
-          id: "iel-superseded",
-          state: "superseded",
-        },
-      ],
+    assert.equal(
+      context.evaluatedInterpretations[0]
+        .authorityEvaluation,
+      "ineligible_superseded",
     );
   },
 );
@@ -147,8 +169,14 @@ test(
       context.projectContextWarning,
       "warning",
     );
+
     assert.deepEqual(
       context.interpretations,
+      [],
+    );
+
+    assert.deepEqual(
+      context.evaluatedInterpretations,
       [],
     );
   },
