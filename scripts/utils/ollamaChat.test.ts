@@ -133,6 +133,76 @@ test(
 );
 
 test(
+  "ollamaChat preserves prompt behavior when history carries authority metadata",
+  async () => {
+    const originalFetch = globalThis.fetch;
+    let requestBody: Record<string, unknown> | null = null;
+
+    globalThis.fetch = async (
+      _input: string | URL | Request,
+      init?: RequestInit,
+    ) => {
+      requestBody = JSON.parse(
+        String(init?.body ?? "{}"),
+      ) as Record<string, unknown>;
+
+      return {
+        ok: true,
+        status: 200,
+        statusText: "OK",
+        json: async () => ({
+          response: JSON.stringify({
+            reply: "Current response.",
+            durableInterpretation:
+              "Current durable interpretation.",
+          }),
+        }),
+      } as Response;
+    };
+
+    try {
+      await ollamaChat(
+        "Current question.",
+        {
+          history: [
+            {
+              userMessage: "User-authored statement.",
+              assistantReply: "Assistant-authored claim.",
+              sourceTurnId: "turn-1",
+              userMessageAuthority: "user_statement",
+              assistantReplyAuthority: "assistant_claim",
+            },
+          ],
+        },
+      );
+
+      const prompt = String(requestBody?.prompt ?? "");
+
+      assert.ok(
+        prompt.includes("User: User-authored statement."),
+      );
+      assert.ok(
+        prompt.includes("Matilda: Assistant-authored claim."),
+      );
+      assert.equal(
+        prompt.includes("user_statement"),
+        false,
+      );
+      assert.equal(
+        prompt.includes("assistant_claim"),
+        false,
+      );
+      assert.equal(
+        prompt.includes("turn-1"),
+        false,
+      );
+    } finally {
+      globalThis.fetch = originalFetch;
+    }
+  },
+);
+
+test(
   "ollamaChat fails closed when structured JSON is malformed",
   async () => {
     const originalFetch = globalThis.fetch;
