@@ -64,6 +64,75 @@ test(
 );
 
 test(
+  "ollamaChat serializes supplied conversation history unchanged and in order",
+  async () => {
+    const originalFetch = globalThis.fetch;
+    let requestBody: Record<string, unknown> | null = null;
+
+    globalThis.fetch = async (
+      _input: string | URL | Request,
+      init?: RequestInit,
+    ) => {
+      requestBody = JSON.parse(
+        String(init?.body ?? "{}"),
+      ) as Record<string, unknown>;
+
+      return {
+        ok: true,
+        status: 200,
+        statusText: "OK",
+        json: async () => ({
+          response: JSON.stringify({
+            reply: "Current response.",
+            durableInterpretation:
+              "Current durable interpretation.",
+          }),
+        }),
+      } as Response;
+    };
+
+    try {
+      await ollamaChat(
+        "Current question.",
+        {
+          history: [
+            {
+              userMessage: "First user message.",
+              assistantReply: "First assistant reply.",
+            },
+            {
+              userMessage: "Second user message.",
+              assistantReply: "Second assistant reply.",
+            },
+          ],
+        },
+      );
+
+      const prompt = String(requestBody?.prompt ?? "");
+
+      const firstUserIndex =
+        prompt.indexOf("User: First user message.");
+      const firstAssistantIndex =
+        prompt.indexOf("Matilda: First assistant reply.");
+      const secondUserIndex =
+        prompt.indexOf("User: Second user message.");
+      const secondAssistantIndex =
+        prompt.indexOf("Matilda: Second assistant reply.");
+      const currentUserIndex =
+        prompt.lastIndexOf("User: Current question.");
+
+      assert.ok(firstUserIndex >= 0);
+      assert.ok(firstAssistantIndex > firstUserIndex);
+      assert.ok(secondUserIndex > firstAssistantIndex);
+      assert.ok(secondAssistantIndex > secondUserIndex);
+      assert.ok(currentUserIndex > secondAssistantIndex);
+    } finally {
+      globalThis.fetch = originalFetch;
+    }
+  },
+);
+
+test(
   "ollamaChat fails closed when structured JSON is malformed",
   async () => {
     const originalFetch = globalThis.fetch;
