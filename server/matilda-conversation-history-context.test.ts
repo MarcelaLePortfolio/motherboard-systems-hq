@@ -53,6 +53,7 @@ test(
           userMessageAuthority: "user_statement",
           assistantReply: "First assistant reply.",
           assistantReplyAuthority: "assistant_claim",
+          contaminationStatus: "unassessed",
         },
         {
           sourceTurnId: "turn-2",
@@ -60,6 +61,7 @@ test(
           userMessageAuthority: "user_statement",
           assistantReply: "Second assistant reply.",
           assistantReplyAuthority: "assistant_claim",
+          contaminationStatus: "unassessed",
         },
       ],
     );
@@ -102,6 +104,21 @@ test(
     assert.equal(
       contextTurn.sourceTurnId,
       "turn-authority-source",
+    );
+  },
+);
+
+test(
+  "marks assembled history as unassessed for contamination by default",
+  () => {
+    const [contextTurn] =
+      assembleMatildaConversationHistoryContext([
+        createTurn(),
+      ]);
+
+    assert.equal(
+      contextTurn.contaminationStatus,
+      "unassessed",
     );
   },
 );

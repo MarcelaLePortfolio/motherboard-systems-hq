@@ -9,11 +9,15 @@ export type MatildaConversationHistoryAuthority =
   | "user_statement"
   | "assistant_claim";
 
+export type MatildaConversationHistoryContaminationStatus =
+  | "unassessed";
+
 export interface MatildaConversationHistoryContextTurn
   extends OllamaChatHistoryTurn {
   sourceTurnId: string;
   userMessageAuthority: "user_statement";
   assistantReplyAuthority: "assistant_claim";
+  contaminationStatus: "unassessed";
 }
 
 export function assembleMatildaConversationHistoryContext(
@@ -25,5 +29,6 @@ export function assembleMatildaConversationHistoryContext(
     userMessageAuthority: "user_statement",
     assistantReply: turn.assistant_reply,
     assistantReplyAuthority: "assistant_claim",
+    contaminationStatus: "unassessed",
   }));
 }
