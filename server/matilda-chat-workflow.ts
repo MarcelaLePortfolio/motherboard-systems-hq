@@ -14,7 +14,7 @@ import {
 } from "../db/matilda-conversation-runtime";
 import { ollamaChat } from "../scripts/utils/ollamaChat";
 import { retrieveMatildaProjectContext } from "./matilda-project-context-retrieval";
-import { assembleMatildaConversationHistoryContext } from "./matilda-conversation-history-context";
+import { composeMatildaConversationContext } from "./matilda-conversation-context-runtime";
 
 export interface RunMatildaConversationWorkflowInput {
   message: string;
@@ -121,14 +121,18 @@ export async function runMatildaConversationWorkflow(
         message,
       });
 
-    const history =
-      assembleMatildaConversationHistoryContext(
-        listMatildaConversationTurns(
+    const conversationContext =
+      composeMatildaConversationContext({
+        turns: listMatildaConversationTurns(
           projectId,
           20,
           conversationId,
         ),
-      );
+        projectContextRetrieval,
+      });
+
+    const history =
+      conversationContext.history;
 
     const ollamaResult =
       await ollamaChat(message, {
@@ -136,9 +140,9 @@ export async function runMatildaConversationWorkflow(
         projectDisplayName,
         history,
         projectContextExcerpts:
-          projectContextRetrieval.excerpts,
+          conversationContext.projectContextExcerpts,
         projectContextWarning:
-          projectContextRetrieval.warning,
+          conversationContext.projectContextWarning,
       });
 
     const conversationalReply =
