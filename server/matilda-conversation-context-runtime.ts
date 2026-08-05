@@ -17,6 +17,14 @@ import {
   evaluateMatildaHistoryAuthority,
   type MatildaEvaluatedInterpretationContext,
 } from "./matilda-history-authority-evaluator";
+import {
+  evaluateMatildaHistoryContamination,
+  type MatildaContaminationEvaluatedInterpretation,
+} from "./matilda-history-contamination-evaluator";
+import {
+  selectMatildaConversationHistory,
+  type MatildaSelectedHistoryTurn,
+} from "./matilda-history-selection-runtime";
 
 export interface ComposeMatildaConversationContextInput {
   turns: MatildaConversationTurn[];
@@ -30,6 +38,10 @@ export interface MatildaConversationContext {
   interpretations: MatildaInterpretationContext[];
   evaluatedInterpretations:
     MatildaEvaluatedInterpretationContext[];
+  contaminationEvaluations:
+    MatildaContaminationEvaluatedInterpretation[];
+  selectedHistory:
+    MatildaSelectedHistoryTurn[];
   projectContextExcerpts:
     MatildaProjectContextRetrievalResult["excerpts"];
   projectContextWarning: string | null;
@@ -49,13 +61,28 @@ export function composeMatildaConversationContext(
       input.interpretationLifecycleEntries,
     );
 
+  const evaluatedInterpretations =
+    evaluateMatildaHistoryAuthority(
+      interpretations,
+    );
+
+  const contaminationEvaluations =
+    evaluateMatildaHistoryContamination(
+      evaluatedInterpretations,
+    );
+
+  const selectedHistory =
+    selectMatildaConversationHistory(
+      history,
+      contaminationEvaluations,
+    );
+
   return {
     history,
     interpretations,
-    evaluatedInterpretations:
-      evaluateMatildaHistoryAuthority(
-        interpretations,
-      ),
+    evaluatedInterpretations,
+    contaminationEvaluations,
+    selectedHistory,
     projectContextExcerpts:
       input.projectContextRetrieval.excerpts,
     projectContextWarning:

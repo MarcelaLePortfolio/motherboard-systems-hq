@@ -41,7 +41,7 @@ function createRetrieval():
 }
 
 test(
-  "composes conversation context without mutating inputs",
+  "composes all read models without mutating inputs",
   () => {
     const turns = [createTurn()];
     const retrieval = createRetrieval();
@@ -62,6 +62,14 @@ test(
       context.evaluatedInterpretations.length,
       1,
     );
+    assert.equal(
+      context.contaminationEvaluations.length,
+      1,
+    );
+    assert.equal(
+      context.selectedHistory.length,
+      0,
+    );
 
     assert.deepEqual(turns, turnsBefore);
     assert.deepEqual(
@@ -72,25 +80,7 @@ test(
 );
 
 test(
-  "fails closed when lifecycle data is absent",
-  () => {
-    const context =
-      composeMatildaConversationContext({
-        turns: [createTurn()],
-        projectContextRetrieval:
-          createRetrieval(),
-      });
-
-    assert.equal(
-      context.evaluatedInterpretations[0]
-        .authorityEvaluation,
-      "unresolved",
-    );
-  },
-);
-
-test(
-  "evaluates current interpretations as eligible",
+  "selects eligible history only",
   () => {
     const context =
       composeMatildaConversationContext({
@@ -112,43 +102,11 @@ test(
         ],
       });
 
-    assert.equal(
-      context.evaluatedInterpretations[0]
-        .authorityEvaluation,
-      "eligible",
-    );
-  },
-);
-
-test(
-  "evaluates superseded interpretations as ineligible",
-  () => {
-    const context =
-      composeMatildaConversationContext({
-        turns: [
-          createTurn({
-            turn_id:
-              "turn-superseded",
-            interpretation_entry_id:
-              "iel-superseded",
-          }),
-        ],
-        projectContextRetrieval:
-          createRetrieval(),
-        interpretationLifecycleEntries: [
-          {
-            entry_id:
-              "iel-superseded",
-            supersession_status:
-              "superseded",
-          },
-        ],
-      });
-
-    assert.equal(
-      context.evaluatedInterpretations[0]
-        .authorityEvaluation,
-      "ineligible_superseded",
+    assert.deepEqual(
+      context.selectedHistory.map(
+        (turn) => turn.sourceTurnId,
+      ),
+      ["turn-current"],
     );
   },
 );
@@ -156,13 +114,16 @@ test(
 test(
   "passes project evidence through unchanged",
   () => {
-    const retrieval = createRetrieval();
+    const retrieval =
+      createRetrieval();
+
     retrieval.warning = "warning";
 
     const context =
       composeMatildaConversationContext({
         turns: [],
-        projectContextRetrieval: retrieval,
+        projectContextRetrieval:
+          retrieval,
       });
 
     assert.equal(
@@ -171,12 +132,7 @@ test(
     );
 
     assert.deepEqual(
-      context.interpretations,
-      [],
-    );
-
-    assert.deepEqual(
-      context.evaluatedInterpretations,
+      context.selectedHistory,
       [],
     );
   },
