@@ -7,7 +7,6 @@ import type {
 import type {
   MatildaProjectContextRetrievalResult,
 } from "./matilda-project-context-retrieval";
-
 import {
   composeMatildaConversationContext,
 } from "./matilda-conversation-context-runtime";
@@ -55,10 +54,38 @@ test(
       });
 
     assert.equal(context.history.length, 1);
+    assert.equal(
+      context.interpretations.length,
+      1,
+    );
     assert.deepEqual(turns, turnsBefore);
     assert.deepEqual(
       retrieval,
       retrievalBefore,
+    );
+  },
+);
+
+test(
+  "derives interpretation context from assembled history lineage",
+  () => {
+    const context =
+      composeMatildaConversationContext({
+        turns: [createTurn()],
+        projectContextRetrieval:
+          createRetrieval(),
+      });
+
+    assert.deepEqual(
+      context.interpretations,
+      [
+        {
+          interpretationEntryId: "iel-1",
+          sourceTurnId: "turn-1",
+          supersessionStatus: "unknown",
+          contaminationStatus: "unassessed",
+        },
+      ],
     );
   },
 );
@@ -79,6 +106,11 @@ test(
     assert.equal(
       context.projectContextWarning,
       "warning",
+    );
+
+    assert.deepEqual(
+      context.interpretations,
+      [],
     );
   },
 );

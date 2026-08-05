@@ -8,6 +8,10 @@ import {
   assembleMatildaConversationHistoryContext,
   type MatildaConversationHistoryContextTurn,
 } from "./matilda-conversation-history-context";
+import {
+  buildInterpretationContext,
+  type MatildaInterpretationContext,
+} from "./matilda-interpretation-context-runtime";
 
 export interface ComposeMatildaConversationContextInput {
   turns: MatildaConversationTurn[];
@@ -16,6 +20,7 @@ export interface ComposeMatildaConversationContextInput {
 
 export interface MatildaConversationContext {
   history: MatildaConversationHistoryContextTurn[];
+  interpretations: MatildaInterpretationContext[];
   projectContextExcerpts:
     MatildaProjectContextRetrievalResult["excerpts"];
   projectContextWarning: string | null;
@@ -24,10 +29,15 @@ export interface MatildaConversationContext {
 export function composeMatildaConversationContext(
   input: ComposeMatildaConversationContextInput,
 ): MatildaConversationContext {
-  return {
-    history: assembleMatildaConversationHistoryContext(
+  const history =
+    assembleMatildaConversationHistoryContext(
       input.turns,
-    ),
+    );
+
+  return {
+    history,
+    interpretations:
+      buildInterpretationContext(history),
     projectContextExcerpts:
       input.projectContextRetrieval.excerpts,
     projectContextWarning:
