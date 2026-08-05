@@ -6,7 +6,10 @@ import {
   type MatildaChatResult,
 } from "../matilda-chat-stub";
 import { runMatildaChatDraftIntegration } from "../db/matilda-chat-draft-integration";
-import { createInterpretationEvidenceLedgerEntry } from "../db/matilda-interpretation-runtime";
+import {
+  createInterpretationEvidenceLedgerEntry,
+  listInterpretationEvidenceLedgerEntries,
+} from "../db/matilda-interpretation-runtime";
 import {
   createMatildaConversationTurn,
   listMatildaConversationTurns,
@@ -15,6 +18,9 @@ import {
 import { ollamaChat } from "../scripts/utils/ollamaChat";
 import { retrieveMatildaProjectContext } from "./matilda-project-context-retrieval";
 import { composeMatildaConversationContext } from "./matilda-conversation-context-runtime";
+import {
+  selectMatildaInterpretationLifecycleEntries,
+} from "./matilda-interpretation-lifecycle-provider";
 
 export interface RunMatildaConversationWorkflowInput {
   message: string;
@@ -121,14 +127,26 @@ export async function runMatildaConversationWorkflow(
         message,
       });
 
+    const conversationTurns =
+      listMatildaConversationTurns(
+        projectId,
+        20,
+        conversationId,
+      );
+
+    const interpretationLifecycleEntries =
+      selectMatildaInterpretationLifecycleEntries(
+        conversationTurns.map(
+          (turn) => turn.interpretation_entry_id,
+        ),
+        listInterpretationEvidenceLedgerEntries(500),
+      );
+
     const conversationContext =
       composeMatildaConversationContext({
-        turns: listMatildaConversationTurns(
-          projectId,
-          20,
-          conversationId,
-        ),
+        turns: conversationTurns,
         projectContextRetrieval,
+        interpretationLifecycleEntries,
       });
 
     const history =
