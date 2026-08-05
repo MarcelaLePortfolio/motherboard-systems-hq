@@ -11,11 +11,14 @@ import {
 import {
   buildInterpretationContext,
   type MatildaInterpretationContext,
+  type MatildaInterpretationLifecycleEntry,
 } from "./matilda-interpretation-context-runtime";
 
 export interface ComposeMatildaConversationContextInput {
   turns: MatildaConversationTurn[];
   projectContextRetrieval: MatildaProjectContextRetrievalResult;
+  interpretationLifecycleEntries?:
+    MatildaInterpretationLifecycleEntry[];
 }
 
 export interface MatildaConversationContext {
@@ -37,7 +40,10 @@ export function composeMatildaConversationContext(
   return {
     history,
     interpretations:
-      buildInterpretationContext(history),
+      buildInterpretationContext(
+        history,
+        input.interpretationLifecycleEntries,
+      ),
     projectContextExcerpts:
       input.projectContextRetrieval.excerpts,
     projectContextWarning:

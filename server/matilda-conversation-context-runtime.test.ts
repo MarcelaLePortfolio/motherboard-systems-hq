@@ -11,7 +11,9 @@ import {
   composeMatildaConversationContext,
 } from "./matilda-conversation-context-runtime";
 
-function createTurn(): MatildaConversationTurn {
+function createTurn(
+  overrides: Partial<MatildaConversationTurn> = {},
+): MatildaConversationTurn {
   return {
     turn_id: "turn-1",
     project_id: "hq",
@@ -21,6 +23,7 @@ function createTurn(): MatildaConversationTurn {
     interpretation_entry_id: "iel-1",
     project_context_evidence_trace: null,
     created_at: "2026-08-05T00:00:00.000Z",
+    ...overrides,
   };
 }
 
@@ -54,20 +57,14 @@ test(
       });
 
     assert.equal(context.history.length, 1);
-    assert.equal(
-      context.interpretations.length,
-      1,
-    );
+    assert.equal(context.interpretations.length, 1);
     assert.deepEqual(turns, turnsBefore);
-    assert.deepEqual(
-      retrieval,
-      retrievalBefore,
-    );
+    assert.deepEqual(retrieval, retrievalBefore);
   },
 );
 
 test(
-  "derives interpretation context from assembled history lineage",
+  "leaves lifecycle unknown without lifecycle data",
   () => {
     const context =
       composeMatildaConversationContext({
@@ -76,14 +73,58 @@ test(
           createRetrieval(),
       });
 
+    assert.equal(
+      context.interpretations[0].supersessionStatus,
+      "unknown",
+    );
+  },
+);
+
+test(
+  "propagates resolved lifecycle state",
+  () => {
+    const context =
+      composeMatildaConversationContext({
+        turns: [
+          createTurn({
+            turn_id: "turn-current",
+            interpretation_entry_id:
+              "iel-current",
+          }),
+          createTurn({
+            turn_id: "turn-superseded",
+            interpretation_entry_id:
+              "iel-superseded",
+          }),
+        ],
+        projectContextRetrieval:
+          createRetrieval(),
+        interpretationLifecycleEntries: [
+          {
+            entry_id: "iel-current",
+            supersession_status: "current",
+          },
+          {
+            entry_id: "iel-superseded",
+            supersession_status:
+              "superseded",
+          },
+        ],
+      });
+
     assert.deepEqual(
-      context.interpretations,
+      context.interpretations.map((entry) => ({
+        id: entry.interpretationEntryId,
+        state: entry.supersessionStatus,
+      })),
       [
         {
-          interpretationEntryId: "iel-1",
-          sourceTurnId: "turn-1",
-          supersessionStatus: "unknown",
-          contaminationStatus: "unassessed",
+          id: "iel-current",
+          state: "current",
+        },
+        {
+          id: "iel-superseded",
+          state: "superseded",
         },
       ],
     );
@@ -94,7 +135,6 @@ test(
   "passes project evidence through unchanged",
   () => {
     const retrieval = createRetrieval();
-
     retrieval.warning = "warning";
 
     const context =
@@ -107,7 +147,6 @@ test(
       context.projectContextWarning,
       "warning",
     );
-
     assert.deepEqual(
       context.interpretations,
       [],
