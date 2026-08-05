@@ -15,6 +15,7 @@ export type MatildaConversationHistoryContaminationStatus =
 export interface MatildaConversationHistoryContextTurn
   extends OllamaChatHistoryTurn {
   sourceTurnId: string;
+  interpretationEntryId: string;
   userMessageAuthority: "user_statement";
   assistantReplyAuthority: "assistant_claim";
   contaminationStatus: "unassessed";
@@ -25,6 +26,8 @@ export function assembleMatildaConversationHistoryContext(
 ): MatildaConversationHistoryContextTurn[] {
   return turns.map((turn) => ({
     sourceTurnId: turn.turn_id,
+    interpretationEntryId:
+      turn.interpretation_entry_id,
     userMessage: turn.user_message,
     userMessageAuthority: "user_statement",
     assistantReply: turn.assistant_reply,

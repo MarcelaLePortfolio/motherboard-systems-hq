@@ -18,7 +18,7 @@ function createTurn(
     user_message: "User message.",
     assistant_reply: "Assistant reply.",
     interpretation_entry_id: "iel-1",
-    project_context_evidence_trace_json: null,
+    project_context_evidence_trace: null,
     created_at: "2026-08-05T00:00:00.000Z",
     ...overrides,
   };
@@ -49,6 +49,7 @@ test(
       [
         {
           sourceTurnId: "turn-1",
+          interpretationEntryId: "iel-1",
           userMessage: "First user message.",
           userMessageAuthority: "user_statement",
           assistantReply: "First assistant reply.",
@@ -57,6 +58,7 @@ test(
         },
         {
           sourceTurnId: "turn-2",
+          interpretationEntryId: "iel-2",
           userMessage: "Second user message.",
           userMessageAuthority: "user_statement",
           assistantReply: "Second assistant reply.",
@@ -84,26 +86,28 @@ test(
       contextTurn.assistantReplyAuthority,
       "assistant_claim",
     );
-    assert.notEqual(
-      contextTurn.userMessageAuthority,
-      contextTurn.assistantReplyAuthority,
-    );
   },
 );
 
 test(
-  "preserves the persisted source turn identifier",
+  "preserves conversation-turn and interpretation lineage",
   () => {
     const [contextTurn] =
       assembleMatildaConversationHistoryContext([
         createTurn({
-          turn_id: "turn-authority-source",
+          turn_id: "turn-lineage-source",
+          interpretation_entry_id:
+            "iel-lineage-source",
         }),
       ]);
 
     assert.equal(
       contextTurn.sourceTurnId,
-      "turn-authority-source",
+      "turn-lineage-source",
+    );
+    assert.equal(
+      contextTurn.interpretationEntryId,
+      "iel-lineage-source",
     );
   },
 );
