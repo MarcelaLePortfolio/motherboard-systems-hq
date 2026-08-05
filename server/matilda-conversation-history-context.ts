@@ -5,11 +5,25 @@ import type {
   OllamaChatHistoryTurn,
 } from "../scripts/utils/ollamaChat";
 
+export type MatildaConversationHistoryAuthority =
+  | "user_statement"
+  | "assistant_claim";
+
+export interface MatildaConversationHistoryContextTurn
+  extends OllamaChatHistoryTurn {
+  sourceTurnId: string;
+  userMessageAuthority: "user_statement";
+  assistantReplyAuthority: "assistant_claim";
+}
+
 export function assembleMatildaConversationHistoryContext(
   turns: MatildaConversationTurn[],
-): OllamaChatHistoryTurn[] {
+): MatildaConversationHistoryContextTurn[] {
   return turns.map((turn) => ({
+    sourceTurnId: turn.turn_id,
     userMessage: turn.user_message,
+    userMessageAuthority: "user_statement",
     assistantReply: turn.assistant_reply,
+    assistantReplyAuthority: "assistant_claim",
   }));
 }
