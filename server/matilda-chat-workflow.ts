@@ -14,6 +14,7 @@ import {
 } from "../db/matilda-conversation-runtime";
 import { ollamaChat } from "../scripts/utils/ollamaChat";
 import { retrieveMatildaProjectContext } from "./matilda-project-context-retrieval";
+import { assembleMatildaConversationHistoryContext } from "./matilda-conversation-history-context";
 
 export interface RunMatildaConversationWorkflowInput {
   message: string;
@@ -121,15 +122,13 @@ export async function runMatildaConversationWorkflow(
       });
 
     const history =
-      listMatildaConversationTurns(
-        projectId,
-        20,
-        conversationId,
-      ).map((turn) => ({
-        userMessage: turn.user_message,
-        assistantReply:
-          turn.assistant_reply,
-      }));
+      assembleMatildaConversationHistoryContext(
+        listMatildaConversationTurns(
+          projectId,
+          20,
+          conversationId,
+        ),
+      );
 
     const ollamaResult =
       await ollamaChat(message, {
