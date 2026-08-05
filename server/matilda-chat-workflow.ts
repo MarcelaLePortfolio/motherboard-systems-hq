@@ -150,7 +150,7 @@ export async function runMatildaConversationWorkflow(
       });
 
     const history =
-      conversationContext.history;
+      conversationContext.selectedHistory;
 
     const ollamaResult =
       await ollamaChat(message, {
