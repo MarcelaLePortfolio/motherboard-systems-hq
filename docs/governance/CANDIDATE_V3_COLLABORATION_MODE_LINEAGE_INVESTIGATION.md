@@ -144,3 +144,42 @@ Accordingly, Candidate V3 should now be evaluated as a candidate evolution of th
 
 The final promotion decision should be based on the combined evidence from the Meaning Continuity and Behavioral Integration corridors.
 
+
+---
+
+## Phase Three — Lineage Determination
+
+### Evaluation
+
+The investigation evaluated the candidate lineage against evidence gathered across both the Meaning Continuity and Behavioral Integration corridors.
+
+The following questions were assessed:
+
+1. Did subsequent evidence materially contradict the Candidate V3 hypothesis?
+2. Did subsequent evidence strengthen the Candidate V3 hypothesis?
+3. Does the cumulative evidence establish a distinct collaboration methodology rather than isolated operating refinements?
+
+### Findings
+
+Repository-backed collaboration across a complete architectural investigation demonstrated consistent operation under the candidate methodology.
+
+The investigation identified no materially contradictory evidence.
+
+Instead, successive corridor work expanded the candidate operating characteristics from communication refinements into repeatable methodological practices governing:
+
+- architectural investigation
+- evidence evaluation
+- uncertainty reduction
+- attention management
+- governance decisions
+- repository readiness assessment
+- falsification-oriented investigation closure
+
+These operating characteristics were applied consistently throughout the Behavioral Integration corridor and proved reusable beyond the specific subsystem being investigated.
+
+### Preliminary Conclusion
+
+The accumulated evidence supports Candidate V3 as a coherent evolution of Matilda Collaboration Mode rather than a collection of independent refinements.
+
+The investigation therefore concludes that promotion to Version 3 is warranted, subject to formal closure of this investigation and corresponding governance updates.
+
