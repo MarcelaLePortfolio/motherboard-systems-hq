@@ -220,3 +220,74 @@ It does not conclude that:
 - project-context retrieval and conversation-history retrieval should converge
 - implementation is authorized
 
+
+---
+
+# Semantic Ranking Model State
+
+## Repository Finding
+
+The active conversation-history pipeline does not implement a semantic ranking model.
+
+Repository inspection found no evidence of:
+
+- comparative ranking
+- relevance scoring
+- weighting
+- prioritization
+- semantic similarity
+- embedding-based retrieval
+- tie-breaking
+- post-admission ordering
+
+History selection currently consists of:
+
+- bounded retrieval
+- authority evaluation
+- contamination evaluation
+- eligibility filtering
+- preservation of admitted history ordering
+
+Once a history turn satisfies the admission criteria, no additional positive choice is made among eligible candidates.
+
+---
+
+## Intermediate Semantic Read Models
+
+The Conversation Context Runtime composes and exposes the following runtime read models:
+
+- interpretations
+- evaluatedInterpretations
+- contaminationEvaluations
+- selectedHistory
+
+Repository evidence demonstrates that these are first-class runtime read models which:
+
+- are explicitly typed
+- are composed sequentially
+- are protected by repository tests
+- preserve lineage and metadata
+- support classification and admission
+
+No repository evidence establishes that these intermediate models currently perform or own semantic ranking.
+
+Likewise, no repository evidence establishes that they exist as future ranking extension points.
+
+Such a characterization would be architectural inference rather than verified repository state.
+
+---
+
+## Ranking Responsibility
+
+No ranking responsibility was identified within the active conversation-history path.
+
+The current responsibility boundary is:
+
+Conversation History
+→ Authority Evaluation
+→ Contamination Evaluation
+→ Eligibility Filtering
+→ selectedHistory
+
+Project-context retrieval remains a separate repository subsystem with its own scored ranking behavior.
+
