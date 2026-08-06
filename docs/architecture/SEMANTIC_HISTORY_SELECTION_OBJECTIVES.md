@@ -291,3 +291,79 @@ Conversation History
 
 Project-context retrieval remains a separate repository subsystem with its own scored ranking behavior.
 
+
+---
+
+# Token Budget Behavior
+
+## Repository Finding
+
+Repository inspection identified a single repository-controlled history budget within the active conversation-history pipeline.
+
+The production workflow retrieves:
+
+listMatildaConversationTurns(projectId, 20, conversationId)
+
+before semantic evaluation begins.
+
+The retrieved conversation window then proceeds through:
+
+- authority evaluation
+- contamination evaluation
+- eligibility filtering
+- selectedHistory
+
+The resulting selectedHistory is passed directly to the Conversation Workflow and serialized into the Ollama prompt.
+
+No additional repository-controlled token budgeting was identified after history retrieval.
+
+Repository inspection found no evidence of:
+
+- prompt truncation
+- history truncation after selection
+- token-budget calculation
+- max-token configuration
+- context-window configuration
+- post-selection history reduction
+
+The repository therefore currently establishes a single effective conversation-history budget:
+
+the bounded retrieval window.
+
+---
+
+## Retrieval Window
+
+The production workflow currently requests:
+
+20 conversation turns.
+
+Repository inspection established the implementation.
+
+Repository inspection did not establish why the value 20 was selected.
+
+No repository evidence was identified that attributes the current retrieval window to:
+
+- model context limitations
+- token budgeting
+- performance optimization
+- prompt engineering
+- architectural policy
+
+The current retrieval window should therefore be treated as an observed implementation parameter rather than an architecturally justified constraint.
+
+---
+
+## Scope Boundary
+
+This investigation establishes only repository-observed behavior.
+
+It does not conclude that:
+
+- the current retrieval window is optimal
+- twenty turns is the correct retrieval budget
+- the retrieval window should increase or decrease
+- the retrieval window is driven by model token limits
+- additional downstream context reduction is unnecessary
+- implementation changes are authorized
+
