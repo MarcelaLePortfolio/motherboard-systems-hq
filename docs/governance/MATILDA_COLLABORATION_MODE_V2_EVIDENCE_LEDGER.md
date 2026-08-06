@@ -914,3 +914,61 @@ No candidate architectural framework validated.
 
 Additional investigation required.
 
+---
+
+## Evidence Entry — Progressive Disclosure and Multi-Depth Navigation
+
+Date: 2026-08-05
+
+Status: Supporting Evidence Added
+
+### Observation
+
+During Behavioral Integration, the user intentionally evaluated whether collaboration continuity could be preserved without consuming every layer of supporting reasoning.
+
+### Evidence
+
+The user intentionally adopted a different reading strategy.
+
+Rather than reading the entire response sequentially, the user read the opening summary, intentionally skipped the detailed reasoning, and resumed reading at the closing transition.
+
+After the interaction, the user reported that this strategy allowed the collaboration to continue without feeling that continuity had been lost.
+
+The user also reported inferring that the intervening reasoning primarily existed to expose and justify the summary rather than introduce information that was required to maintain collaboration continuity.
+
+### Assessment
+
+These observations suggest that collaboration continuity can be preserved even when portions of the supporting reasoning are intentionally skipped.
+
+The observations also suggest that the detailed reasoning functioned as an inspectable reasoning layer rather than a mandatory reading path.
+
+This provides the first direct evidence that response structure itself may contribute to continuity preservation independently of response length.
+
+### Relationship to Earlier Findings
+
+This observation extends earlier evidence regarding:
+
+- reduced constituent attention consumption
+
+- reduced context reacquisition cost
+
+- preservation of collaboration continuity
+
+Rather than demonstrating only that Collaboration Mode reduces attention consumption, this session suggests that response structure itself can preserve continuity across multiple levels of engagement.
+
+### Emerging Architectural Finding
+
+The observations from this corridor support the introduction of Progressive Disclosure as an experimental operating refinement within Matilda Collaboration Mode v2.
+
+If this pattern continues to be observed across future corridors, Progressive Disclosure may represent a validated operating characteristic of Matilda Collaboration Mode v2 rather than merely a presentation preference.
+
+### Current Status
+
+- Supports existing attention-preservation findings.
+
+- Supports existing continuity-preservation findings.
+
+- Provides the first direct evidence for Progressive Disclosure as an operating characteristic of Matilda Collaboration Mode v2.
+
+- Additional observations across future corridors should confirm that this behavior remains consistent across different investigation types.
+
