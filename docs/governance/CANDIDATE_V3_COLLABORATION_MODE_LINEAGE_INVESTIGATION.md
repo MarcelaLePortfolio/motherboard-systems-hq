@@ -93,3 +93,54 @@ Reconciliation is not yet established.
 
 Further review is required.
 
+
+---
+
+## Phase Two — Behavioral Integration Reassessment
+
+Behavioral Integration provided an opportunity to evaluate Candidate V3 over the course of a complete architectural investigation rather than isolated corridor observations.
+
+Unlike the original investigation, which focused primarily on natural-language framing and contextual anchors, this phase evaluates whether the cumulative operating methodology has evolved beyond Matilda Collaboration Mode V2.
+
+### Additional Candidate Characteristics
+
+Behavioral Integration consistently demonstrated the following operating principles:
+
+- explicit Reasoning Status labels (Optional / Recommended)
+- attention-first reasoning consumption
+- uncertainty-driven architectural artifact creation
+- progressive uncertainty reduction across investigative sub-corridors
+- Repository Readiness as a governance assessment
+- falsification-based architectural investigation closure
+
+These characteristics affect not only communication style but also how architectural investigations are planned, conducted, documented, and concluded.
+
+### Revised Core Investigation Question
+
+Did the cumulative operating principles validated during the Behavioral Integration corridor constitute a refinement of Matilda Collaboration Mode V2, or do they establish a distinct collaboration methodology warranting promotion to Version 3?
+
+### Additional Attribution Question
+
+Determine whether the observed methodological changes represent:
+
+- incremental refinement within Version 2,
+- a distinct Version 3 collaboration methodology,
+- or an unresolved transitional state.
+
+### Current Assessment
+
+The accumulated evidence now extends beyond natural-language presentation.
+
+Behavioral Integration introduced repeatable governance practices for:
+
+- reasoning disclosure
+- constituent attention management
+- uncertainty reduction
+- investigation lifecycle management
+- repository readiness assessment
+- falsification-oriented corridor closure
+
+Accordingly, Candidate V3 should now be evaluated as a candidate evolution of the collaboration methodology itself rather than solely as a refinement of communication style.
+
+The final promotion decision should be based on the combined evidence from the Meaning Continuity and Behavioral Integration corridors.
+
