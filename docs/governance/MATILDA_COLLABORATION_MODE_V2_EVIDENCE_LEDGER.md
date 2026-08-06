@@ -972,3 +972,76 @@ If this pattern continues to be observed across future corridors, Progressive Di
 
 - Additional observations across future corridors should confirm that this behavior remains consistent across different investigation types.
 
+
+---
+
+## Evidence Entry — Architectural Investigation Methodology
+
+Date: 2026-08-06
+
+Status: Supporting Evidence Added
+
+### Observation
+
+During the Behavioral Integration corridor, Matilda Collaboration Mode successfully operated across a complete architectural investigation from repository inventory through repository-readiness assessment and corridor closure.
+
+The collaboration mode demonstrated repeatable operating practices affecting not only communication style but also how architectural investigations were planned, conducted, documented, evaluated, and concluded.
+
+### Evidence
+
+The corridor consistently applied:
+
+- Reasoning Status labels (Optional / Recommended)
+- attention-first reasoning consumption
+- uncertainty-driven architectural artifact creation
+- progressive uncertainty reduction across investigative sub-corridors
+- Repository Readiness as a governance assessment
+- falsification-oriented investigation closure
+
+The completed investigation successfully progressed through:
+
+- Semantic History Inventory
+- Selection Objectives
+- Semantic Ranking Model
+- Token Budget Behavior
+- Behavioral Validation
+- Repository Readiness
+
+The investigation concluded only after attempting to identify materially contradictory repository evidence and finding none.
+
+### Assessment
+
+This evidence extends earlier findings regarding:
+
+- natural-language framing
+- contextual orientation
+- constituent attention preservation
+- progressive disclosure
+
+Unlike earlier observations, these findings establish repeatable methodological behaviors governing architectural investigation itself rather than only collaboration style.
+
+### Relationship to Earlier Findings
+
+Earlier evidence established improvements in communication, accessibility, attention preservation, and collaboration continuity.
+
+Behavioral Integration demonstrates that those operating characteristics support a broader architectural investigation methodology capable of:
+
+- preserving repository scrutiny
+- reducing architectural uncertainty
+- supporting implementation-readiness decisions
+- governing documentation creation
+- governing investigation closure
+
+### Emerging Architectural Finding
+
+Behavioral Integration provides supporting evidence that Matilda Collaboration Mode evolved from a communication-oriented collaboration refinement into a repeatable methodology for evidence-first architectural investigation.
+
+This evidence supports the completed Candidate V3 Collaboration Mode Lineage Investigation.
+
+### Current Status
+
+- Supporting evidence preserved.
+- Candidate V3 lineage investigation completed.
+- Evidence supports promotion to Matilda Collaboration Mode Version 3.
+- Historical V2 evidence remains preserved as append-only lineage.
+
