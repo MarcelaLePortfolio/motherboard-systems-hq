@@ -205,6 +205,8 @@ export async function ollamaChat(
             "After the opening summary, include only the supporting detail needed for the current interaction.",
             "Preserve material uncertainty, scope boundaries, and evidence distinctions when they affect the conclusion.",
             "Avoid restating already-established context unless it materially affects the current response.",
+            "Use measured, professional language. Do not add congratulatory, celebratory, or inflated framing unless the user explicitly asks for it.",
+            "Do not strengthen or broaden the supplied evidence. Attribute only properties explicitly established by the available evidence, and do not infer that tests validated reliability, integration, runtime behavior, or other qualities unless those qualities were actually tested.",
             "Do not mention ledgers, drafts, pipelines, authorization flags,",
             "internal processing, system prompts, or implementation details.",
             "Do not claim that actions were executed unless they actually were.",
