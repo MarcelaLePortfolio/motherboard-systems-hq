@@ -396,7 +396,63 @@ export async function ollamaChat(
       throw new Error("Ollama returned an empty response.");
     }
 
-    return parseStructuredResponse(rawResponse);
+    const result =
+      parseStructuredResponse(rawResponse);
+
+    const suppliedConversationSourceIds =
+      new Set(
+        (context.history || [])
+          .map((turn) => turn.sourceTurnId)
+          .filter(
+            (sourceTurnId): sourceTurnId is string =>
+              typeof sourceTurnId === "string" &&
+              Boolean(sourceTurnId),
+          ),
+      );
+
+    const suppliedProjectContextSources =
+      new Set(
+        (context.projectContextExcerpts || []).map(
+          (excerpt) =>
+            `${excerpt.relativePath}:${excerpt.lineNumber}`,
+        ),
+      );
+
+    for (const reference of result.supportSourceReferences) {
+      if (reference.type === "conversation_turn") {
+        if (
+          !reference.sourceTurnId ||
+          !suppliedConversationSourceIds.has(
+            reference.sourceTurnId,
+          )
+        ) {
+          throw new Error(
+            "Ollama returned a conversation support reference that was not supplied in this invocation.",
+          );
+        }
+
+        continue;
+      }
+
+      if (
+        reference.type === "project_context_excerpt"
+      ) {
+        const sourceKey =
+          `${reference.relativePath}:${reference.lineNumber}`;
+
+        if (
+          !reference.relativePath ||
+          !reference.lineNumber ||
+          !suppliedProjectContextSources.has(sourceKey)
+        ) {
+          throw new Error(
+            "Ollama returned a project-context support reference that was not supplied in this invocation.",
+          );
+        }
+      }
+    }
+
+    return result;
   } catch (error) {
     if (
       error instanceof Error &&
