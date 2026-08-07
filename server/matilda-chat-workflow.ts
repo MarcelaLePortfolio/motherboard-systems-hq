@@ -16,6 +16,9 @@ import {
   type MatildaConversationTurn,
 } from "../db/matilda-conversation-runtime";
 import { ollamaChat } from "../scripts/utils/ollamaChat";
+import {
+  createMatildaPersistedSupportProvenance,
+} from "./matilda-support-provenance";
 import { retrieveMatildaProjectContext } from "./matilda-project-context-retrieval";
 import { composeMatildaConversationContext } from "./matilda-conversation-context-runtime";
 import {
@@ -169,6 +172,12 @@ export async function runMatildaConversationWorkflow(
     const durableInterpretation =
       ollamaResult.durableInterpretation;
 
+    const supportProvenance =
+      createMatildaPersistedSupportProvenance(
+        ollamaResult.supportSourceReferences,
+        ollamaResult.evidenceSufficient,
+      );
+
     createInterpretationEvidenceLedgerEntry({
       entry_id:
         result.meta.interpretation_entry_id,
@@ -205,6 +214,12 @@ export async function runMatildaConversationWorkflow(
             ),
           project_context_warning:
             projectContextRetrieval.warning,
+          support_source_references:
+            supportProvenance
+              .supportSourceReferences,
+          evidence_sufficient:
+            supportProvenance
+              .evidenceSufficient,
         }),
         12000,
       ),
