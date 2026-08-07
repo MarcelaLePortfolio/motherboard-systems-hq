@@ -290,3 +290,92 @@ test(
     }
   },
 );
+
+
+test(
+  "ollamaChat deterministically removes duplicate support references",
+  async () => {
+    const originalFetch = globalThis.fetch;
+
+    globalThis.fetch = (async () => ({
+      ok: true,
+      status: 200,
+      statusText: "OK",
+      json: async () => ({
+        response: JSON.stringify({
+          reply: "Conclusion.",
+          explanationStatus: "optional",
+          supportSourceReferences: [
+            {
+              type: "conversation_turn",
+              sourceTurnId: "turn-123",
+            },
+            {
+              type: "conversation_turn",
+              sourceTurnId: "turn-123",
+            },
+            {
+              type: "project_context_excerpt",
+              relativePath:
+                "server/matilda-chat-workflow.ts",
+              lineNumber: 155,
+            },
+            {
+              type: "project_context_excerpt",
+              relativePath:
+                "server/matilda-chat-workflow.ts",
+              lineNumber: 155,
+            },
+          ],
+          durableInterpretation:
+            "Durable interpretation.",
+        }),
+      }),
+    })) as typeof globalThis.fetch;
+
+    try {
+      const result = await ollamaChat(
+        "Question.",
+        {
+          history: [
+            {
+              sourceTurnId: "turn-123",
+              userMessage: "Prior user message.",
+              assistantReply: "Prior reply.",
+            },
+          ],
+          projectContextExcerpts: [
+            {
+              relativePath:
+                "server/matilda-chat-workflow.ts",
+              lineNumber: 155,
+              excerpt: "Known supplied evidence.",
+              provenance:
+                "git_tracked_project_file",
+              authorityStatus:
+                "candidate_evidence_not_authority",
+            },
+          ],
+        },
+      );
+
+      assert.deepEqual(
+        result.supportSourceReferences,
+        [
+          {
+            type: "conversation_turn",
+            sourceTurnId: "turn-123",
+          },
+          {
+            type: "project_context_excerpt",
+            relativePath:
+              "server/matilda-chat-workflow.ts",
+            lineNumber: 155,
+          },
+        ],
+      );
+    } finally {
+      globalThis.fetch = originalFetch;
+    }
+  },
+);

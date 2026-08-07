@@ -418,7 +418,28 @@ export async function ollamaChat(
         ),
       );
 
-    for (const reference of result.supportSourceReferences) {
+    const deduplicatedSupportSourceReferences =
+      result.supportSourceReferences.filter(
+        (reference, index, references) => {
+          const referenceKey =
+            reference.type === "conversation_turn"
+              ? `conversation_turn:${reference.sourceTurnId}`
+              : `project_context_excerpt:${reference.relativePath}:${reference.lineNumber}`;
+
+          return (
+            references.findIndex((candidate) => {
+              const candidateKey =
+                candidate.type === "conversation_turn"
+                  ? `conversation_turn:${candidate.sourceTurnId}`
+                  : `project_context_excerpt:${candidate.relativePath}:${candidate.lineNumber}`;
+
+              return candidateKey === referenceKey;
+            }) === index
+          );
+        },
+      );
+
+    for (const reference of deduplicatedSupportSourceReferences) {
       if (reference.type === "conversation_turn") {
         if (
           !reference.sourceTurnId ||
@@ -434,25 +455,25 @@ export async function ollamaChat(
         continue;
       }
 
-      if (
-        reference.type === "project_context_excerpt"
-      ) {
-        const sourceKey =
-          `${reference.relativePath}:${reference.lineNumber}`;
+      const sourceKey =
+        `${reference.relativePath}:${reference.lineNumber}`;
 
-        if (
-          !reference.relativePath ||
-          !reference.lineNumber ||
-          !suppliedProjectContextSources.has(sourceKey)
-        ) {
-          throw new Error(
-            "Ollama returned a project-context support reference that was not supplied in this invocation.",
-          );
-        }
+      if (
+        !reference.relativePath ||
+        !reference.lineNumber ||
+        !suppliedProjectContextSources.has(sourceKey)
+      ) {
+        throw new Error(
+          "Ollama returned a project-context support reference that was not supplied in this invocation.",
+        );
       }
     }
 
-    return result;
+    return {
+      ...result,
+      supportSourceReferences:
+        deduplicatedSupportSourceReferences,
+    };
   } catch (error) {
     if (
       error instanceof Error &&
