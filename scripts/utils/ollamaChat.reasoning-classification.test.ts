@@ -45,7 +45,19 @@ test(
 
       assert.ok(
         prompt.includes(
-          "Immediately after the opening summary, include exactly one reasoning classification line: Reasoning Status: Optional or Reasoning Status: Recommended.",
+          "Immediately after the opening summary, you MUST include exactly one standalone reasoning classification line.",
+        ),
+      );
+
+      assert.ok(
+        prompt.includes(
+          "Use exactly one of these two forms and no variation: Reasoning Status: Optional OR Reasoning Status: Recommended.",
+        ),
+      );
+
+      assert.ok(
+        prompt.includes(
+          "The reasoning classification line is mandatory even when no supporting reasoning follows.",
         ),
       );
 

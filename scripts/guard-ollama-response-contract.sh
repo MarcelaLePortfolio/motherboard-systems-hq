@@ -42,7 +42,9 @@ require_marker "$ADAPTER" "Preserve material uncertainty, scope boundaries, and 
 require_marker "$ADAPTER" "Avoid restating already-established context unless it materially affects the current response."
 
 # Reasoning Classification contract
-require_marker "$ADAPTER" "Immediately after the opening summary, include exactly one reasoning classification line: Reasoning Status: Optional or Reasoning Status: Recommended."
+require_marker "$ADAPTER" "Immediately after the opening summary, you MUST include exactly one standalone reasoning classification line."
+require_marker "$ADAPTER" "Use exactly one of these two forms and no variation: Reasoning Status: Optional OR Reasoning Status: Recommended."
+require_marker "$ADAPTER" "The reasoning classification line is mandatory even when no supporting reasoning follows."
 require_marker "$ADAPTER" "Reasoning Status: Optional is the default."
 require_marker "$ADAPTER" "Use Reasoning Status: Recommended only when skipping the supporting reasoning is likely to materially change the user's next engineering decision"
 require_marker "$ADAPTER" "Do not classify reasoning as Recommended merely because evidence exists, because the work was substantial, or because additional explanation is available."
