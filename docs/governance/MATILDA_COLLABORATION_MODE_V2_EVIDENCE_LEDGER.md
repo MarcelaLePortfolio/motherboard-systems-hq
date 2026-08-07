@@ -1045,3 +1045,62 @@ This evidence supports the completed Candidate V3 Collaboration Mode Lineage Inv
 - Evidence supports promotion to Matilda Collaboration Mode Version 3.
 - Historical V2 evidence remains preserved as append-only lineage.
 
+
+---
+
+## Evidence Entry — Corridor Success Criteria
+
+Date: 2026-08-07
+
+Status: Supporting Evidence Added
+
+### Observation
+
+Multiple architectural investigation corridors concluded successfully without requiring implementation.
+
+Rather than measuring success by implementation, the collaboration consistently measured success by reduction of architectural uncertainty.
+
+### Evidence
+
+Architectural investigations may conclude through three distinct success criteria:
+
+- Implementation when investigation demonstrated a genuine functional or architectural gap.
+- Deferral when a capability was valuable but not functionally necessary.
+- Falsification when repository investigation and behavioral validation demonstrated that the capability already existed or was unnecessary.
+
+These outcomes were repeatedly observed during architectural investigation corridors.
+
+In each case, investigation concluded only after sufficient repository evidence, behavioral evidence, or both had been gathered to confidently determine the appropriate success criterion.
+
+### Assessment
+
+These observations indicate that corridor success is governed by reduction of architectural uncertainty rather than implementation.
+
+Architectural investigations therefore possess multiple valid success criteria.
+
+Implementation, deferral, and falsification represent equally valid successful conclusions when supported by sufficient evidence.
+
+### Relationship to Earlier Findings
+
+This extends the earlier Architectural Investigation Methodology evidence.
+
+Earlier observations established evidence-first investigation.
+
+This observation refines the methodology by defining objective completion criteria for architectural corridors.
+
+### Emerging Architectural Finding
+
+A corridor should be considered successfully completed once sufficient evidence exists to confidently satisfy one of the following success criteria:
+
+- Implementation
+- Deferral
+- Falsification
+
+Additional investigation beyond this point should occur only if a materially new architectural hypothesis emerges.
+
+### Current Status
+
+- Supports evidence-first collaboration.
+- Supports uncertainty-driven investigation.
+- Supports falsification-oriented corridor closure.
+- Supports Version 3 collaboration methodology.
