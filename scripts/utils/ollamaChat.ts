@@ -90,12 +90,19 @@ export interface OllamaChatProjectContextExcerpt {
   authorityStatus: "candidate_evidence_not_authority";
 }
 
+export type MatildaPriorExplanationEvidenceStatus =
+  | "sufficient"
+  | "insufficient"
+  | "unavailable";
+
 export interface OllamaChatContext {
   projectId?: string | null;
   projectDisplayName?: string | null;
   history?: OllamaChatHistoryTurn[];
   projectContextExcerpts?: OllamaChatProjectContextExcerpt[];
   projectContextWarning?: string | null;
+  priorExplanationEvidenceStatus?:
+    MatildaPriorExplanationEvidenceStatus;
 }
 
 export type MatildaExplanationStatus =
@@ -321,6 +328,18 @@ export async function ollamaChat(
       ],
     );
 
+    const priorExplanationEvidence =
+      context.priorExplanationEvidenceStatus
+        ? [
+            "",
+            "Deterministic prior-conclusion evidence status:",
+            `Evidence status: ${context.priorExplanationEvidenceStatus}`,
+            context.priorExplanationEvidenceStatus === "sufficient"
+              ? "The immediately preceding eligible conclusion has persisted validated support provenance. A requested explanation may be provided, but it must remain grounded in supplied context and must not invent additional justification."
+              : "The immediately preceding eligible conclusion does not have persisted validated support provenance available for justification. If the current user explicitly requests an explanation of that prior conclusion, do not invent an engineering justification. State that sufficient supporting justification is not available from the established evidence.",
+          ]
+        : [];
+
     const response = await fetch(
       `${OLLAMA_BASE_URL}/api/generate`,
       {
@@ -375,6 +394,7 @@ export async function ollamaChat(
             ...projectContextEvidence,
             ...projectContextWarning,
             ...conversationHistory,
+            ...priorExplanationEvidence,
             "",
             `User: ${trimmedMessage}`,
           ].join("\n"),

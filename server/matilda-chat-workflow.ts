@@ -17,6 +17,12 @@ import {
 } from "../db/matilda-conversation-runtime";
 import { ollamaChat } from "../scripts/utils/ollamaChat";
 import {
+  isExplicitExplanationRequest,
+} from "./matilda-explanation-request-signal";
+import {
+  recoverMatildaPriorSupportProvenance,
+} from "./matilda-prior-support-provenance";
+import {
   createMatildaPersistedSupportProvenance,
 } from "./matilda-support-provenance";
 import { retrieveMatildaProjectContext } from "./matilda-project-context-retrieval";
@@ -137,12 +143,15 @@ export async function runMatildaConversationWorkflow(
         conversationId,
       );
 
+    const interpretationLedgerEntries =
+      listInterpretationEvidenceLedgerEntries(500);
+
     const interpretationLifecycleEntries =
       selectMatildaInterpretationLifecycleEntries(
         conversationTurns.map(
           (turn) => turn.interpretation_entry_id,
         ),
-        listInterpretationEvidenceLedgerEntries(500),
+        interpretationLedgerEntries,
       );
 
     const conversationContext =
@@ -155,6 +164,17 @@ export async function runMatildaConversationWorkflow(
     const history =
       conversationContext.selectedHistory;
 
+    const explicitExplanationRequest =
+      isExplicitExplanationRequest(message);
+
+    const priorSupportProvenance =
+      explicitExplanationRequest
+        ? recoverMatildaPriorSupportProvenance(
+            history,
+            interpretationLedgerEntries,
+          )
+        : null;
+
     const ollamaResult =
       await ollamaChat(message, {
         projectId,
@@ -164,6 +184,8 @@ export async function runMatildaConversationWorkflow(
           conversationContext.projectContextExcerpts,
         projectContextWarning:
           conversationContext.projectContextWarning,
+        priorExplanationEvidenceStatus:
+          priorSupportProvenance?.status,
       });
 
     const conversationalReply =
