@@ -34,6 +34,13 @@ require_marker "$ADAPTER" "parseStructuredResponse(rawResponse)"
 require_marker "$ADAPTER" "Ollama returned malformed structured response JSON."
 require_marker "$ADAPTER" "Ollama returned an empty durable interpretation."
 
+# Summary Composition contract
+require_marker "$ADAPTER" "Lead with a concise natural-language summary that communicates the conclusion, recommendation, or current assessment."
+require_marker "$ADAPTER" "Write the opening summary as a complete paragraph rather than shorthand or bullet points whenever practical."
+require_marker "$ADAPTER" "After the opening summary, include only the supporting detail needed for the current interaction."
+require_marker "$ADAPTER" "Preserve material uncertainty, scope boundaries, and evidence distinctions when they affect the conclusion."
+require_marker "$ADAPTER" "Avoid restating already-established context unless it materially affects the current response."
+
 require_marker "$WORKFLOW" "ollamaResult.reply"
 require_marker "$WORKFLOW" "ollamaResult.durableInterpretation"
 require_marker "$WORKFLOW" "matilda_observation:"
@@ -57,5 +64,6 @@ printf '\nPASS: structured Ollama response contract remains intact.\n'
 printf '  ✓ one typed response object\n'
 printf '  ✓ one model invocation seam\n'
 printf '  ✓ structured reply and durable interpretation generation\n'
+printf '  ✓ Summary Composition prompt contract\n'
 printf '  ✓ user-facing reply remains separately consumed\n'
 printf '  ✓ malformed or incomplete structured output fails closed\n'
