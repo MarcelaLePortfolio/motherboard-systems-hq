@@ -28,6 +28,8 @@ require_marker() {
 require_marker "$ADAPTER" "export interface OllamaChatResult"
 require_marker "$ADAPTER" "reply: string;"
 require_marker "$ADAPTER" "durableInterpretation: string;"
+require_marker "$ADAPTER" "explanationStatus: MatildaExplanationStatus;"
+require_marker "$ADAPTER" 'enum: ["optional", "recommended"]'
 require_marker "$ADAPTER" "Promise<OllamaChatResult>"
 require_marker "$ADAPTER" "format: OLLAMA_CHAT_OUTPUT_SCHEMA"
 require_marker "$ADAPTER" "parseStructuredResponse(rawResponse)"
@@ -65,5 +67,6 @@ printf '  ✓ one typed response object\n'
 printf '  ✓ one model invocation seam\n'
 printf '  ✓ structured reply and durable interpretation generation\n'
 printf '  ✓ Summary Composition prompt contract\n'
+printf '  ✓ Explanation Status structured contract\n'
 printf '  ✓ user-facing reply remains separately consumed\n'
 printf '  ✓ malformed or incomplete structured output fails closed\n'

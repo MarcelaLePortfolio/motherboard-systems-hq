@@ -14,16 +14,21 @@ interface OllamaGenerateResponse {
 
 interface OllamaStructuredResponse {
   reply?: unknown;
+  explanationStatus?: unknown;
   durableInterpretation?: unknown;
 }
 
 const OLLAMA_CHAT_OUTPUT_SCHEMA = {
   type: "object",
   additionalProperties: false,
-  required: ["reply", "durableInterpretation"],
+  required: ["reply", "explanationStatus", "durableInterpretation"],
   properties: {
     reply: {
       type: "string",
+    },
+    explanationStatus: {
+      type: "string",
+      enum: ["optional", "recommended"],
     },
     durableInterpretation: {
       type: "string",
@@ -52,8 +57,13 @@ export interface OllamaChatContext {
   projectContextWarning?: string | null;
 }
 
+export type MatildaExplanationStatus =
+  | "optional"
+  | "recommended";
+
 export interface OllamaChatResult {
   reply: string;
+  explanationStatus: MatildaExplanationStatus;
   durableInterpretation: string;
 }
 
@@ -87,6 +97,12 @@ function parseStructuredResponse(
       ? parsed.reply.trim()
       : "";
 
+  const explanationStatus =
+    parsed.explanationStatus === "optional" ||
+    parsed.explanationStatus === "recommended"
+      ? parsed.explanationStatus
+      : null;
+
   const durableInterpretation =
     typeof parsed.durableInterpretation === "string"
       ? parsed.durableInterpretation.trim()
@@ -98,6 +114,12 @@ function parseStructuredResponse(
     );
   }
 
+  if (!explanationStatus) {
+    throw new Error(
+      "Ollama returned an invalid explanation status.",
+    );
+  }
+
   if (!durableInterpretation) {
     throw new Error(
       "Ollama returned an empty durable interpretation.",
@@ -106,6 +128,7 @@ function parseStructuredResponse(
 
   return {
     reply,
+    explanationStatus,
     durableInterpretation,
   };
 }

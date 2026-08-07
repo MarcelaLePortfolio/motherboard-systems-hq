@@ -26,6 +26,8 @@ test(
         json: async () => ({
           response: JSON.stringify({
             reply: "We can proceed carefully.",
+            explanationStatus: "optional",
+            explanationStatus: "optional",
             durableInterpretation:
               "User authorizes careful continuation of the active corridor.",
           }),
@@ -84,6 +86,8 @@ test(
         json: async () => ({
           response: JSON.stringify({
             reply: "Current response.",
+            explanationStatus: "optional",
+            explanationStatus: "optional",
             durableInterpretation:
               "Current durable interpretation.",
           }),
@@ -153,6 +157,8 @@ test(
         json: async () => ({
           response: JSON.stringify({
             reply: "Current response.",
+            explanationStatus: "optional",
+            explanationStatus: "optional",
             durableInterpretation:
               "Current durable interpretation.",
           }),
@@ -241,6 +247,7 @@ test(
         json: async () => ({
           response: JSON.stringify({
             reply: "Hello.",
+            explanationStatus: "optional",
           }),
         }),
       }) as Response;
