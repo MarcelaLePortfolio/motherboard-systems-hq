@@ -15,13 +15,19 @@ interface OllamaGenerateResponse {
 interface OllamaStructuredResponse {
   reply?: unknown;
   explanationStatus?: unknown;
+  supportSourceReferences?: unknown;
   durableInterpretation?: unknown;
 }
 
 const OLLAMA_CHAT_OUTPUT_SCHEMA = {
   type: "object",
   additionalProperties: false,
-  required: ["reply", "explanationStatus", "durableInterpretation"],
+  required: [
+    "reply",
+    "explanationStatus",
+    "supportSourceReferences",
+    "durableInterpretation",
+  ],
   properties: {
     reply: {
       type: "string",
@@ -30,6 +36,9 @@ const OLLAMA_CHAT_OUTPUT_SCHEMA = {
       type: "string",
       enum: ["optional", "recommended"],
     },
+    supportSourceReferences: {
+      type: "array",
+    },
     durableInterpretation: {
       type: "string",
     },
@@ -37,8 +46,16 @@ const OLLAMA_CHAT_OUTPUT_SCHEMA = {
 } as const;
 
 export interface OllamaChatHistoryTurn {
+  sourceTurnId?: string;
   userMessage: string;
   assistantReply: string;
+}
+
+export interface MatildaSupportSourceReference {
+  type: "conversation_turn" | "project_context_excerpt";
+  sourceTurnId?: string;
+  relativePath?: string;
+  lineNumber?: number;
 }
 
 export interface OllamaChatProjectContextExcerpt {
@@ -64,6 +81,7 @@ export type MatildaExplanationStatus =
 export interface OllamaChatResult {
   reply: string;
   explanationStatus: MatildaExplanationStatus;
+  supportSourceReferences: MatildaSupportSourceReference[];
   durableInterpretation: string;
 }
 
@@ -103,6 +121,11 @@ function parseStructuredResponse(
       ? parsed.explanationStatus
       : null;
 
+  const supportSourceReferences =
+    Array.isArray(parsed.supportSourceReferences)
+      ? parsed.supportSourceReferences
+      : null;
+
   const durableInterpretation =
     typeof parsed.durableInterpretation === "string"
       ? parsed.durableInterpretation.trim()
@@ -120,6 +143,12 @@ function parseStructuredResponse(
     );
   }
 
+  if (!supportSourceReferences) {
+    throw new Error(
+      "Ollama returned invalid support source references.",
+    );
+  }
+
   if (!durableInterpretation) {
     throw new Error(
       "Ollama returned an empty durable interpretation.",
@@ -129,6 +158,7 @@ function parseStructuredResponse(
   return {
     reply,
     explanationStatus,
+    supportSourceReferences,
     durableInterpretation,
   };
 }
@@ -194,6 +224,9 @@ export async function ollamaChat(
     const conversationHistory = (context.history || []).flatMap(
       (turn) => [
         "",
+        ...(turn.sourceTurnId
+          ? [`Conversation source: ${turn.sourceTurnId}`]
+          : []),
         `User: ${turn.userMessage}`,
         `Matilda: ${turn.assistantReply}`,
       ],

@@ -28,6 +28,7 @@ test(
             reply:
               "The current architecture supports a bounded implementation attempt.",
             explanationStatus: "optional",
+            supportSourceReferences: [],
             durableInterpretation:
               "The user is evaluating whether the current architecture is ready for a bounded implementation attempt.",
           }),
@@ -47,6 +48,7 @@ test(
         [
           "reply",
           "explanationStatus",
+          "supportSourceReferences",
           "durableInterpretation",
         ],
       );
@@ -89,6 +91,7 @@ test(
         response: JSON.stringify({
           reply: "Conclusion.",
           explanationStatus: "required",
+          supportSourceReferences: [],
           durableInterpretation:
             "Durable interpretation.",
         }),

@@ -29,6 +29,7 @@ test(
               "The implementation is stable. Supporting detail follows only where needed.",
             explanationStatus: "optional",
             explanationStatus: "optional",
+            supportSourceReferences: [],
             durableInterpretation:
               "Summary Composition is implemented within the existing reply prompt contract.",
           }),

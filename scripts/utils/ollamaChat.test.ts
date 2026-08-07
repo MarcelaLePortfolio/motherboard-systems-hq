@@ -28,6 +28,7 @@ test(
             reply: "We can proceed carefully.",
             explanationStatus: "optional",
             explanationStatus: "optional",
+            supportSourceReferences: [],
             durableInterpretation:
               "User authorizes careful continuation of the active corridor.",
           }),
@@ -88,6 +89,7 @@ test(
             reply: "Current response.",
             explanationStatus: "optional",
             explanationStatus: "optional",
+            supportSourceReferences: [],
             durableInterpretation:
               "Current durable interpretation.",
           }),
@@ -159,6 +161,7 @@ test(
             reply: "Current response.",
             explanationStatus: "optional",
             explanationStatus: "optional",
+            supportSourceReferences: [],
             durableInterpretation:
               "Current durable interpretation.",
           }),
@@ -198,9 +201,8 @@ test(
         prompt.includes("assistant_claim"),
         false,
       );
-      assert.equal(
-        prompt.includes("turn-1"),
-        false,
+      assert.ok(
+        prompt.includes("Conversation source: turn-1"),
       );
     } finally {
       globalThis.fetch = originalFetch;
@@ -248,6 +250,7 @@ test(
           response: JSON.stringify({
             reply: "Hello.",
             explanationStatus: "optional",
+            supportSourceReferences: [],
           }),
         }),
       }) as Response;
