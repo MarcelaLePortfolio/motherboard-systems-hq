@@ -106,6 +106,7 @@ export interface OllamaChatResult {
   reply: string;
   explanationStatus: MatildaExplanationStatus;
   supportSourceReferences: MatildaSupportSourceReference[];
+  evidenceSufficient: boolean;
   durableInterpretation: string;
 }
 
@@ -473,6 +474,8 @@ export async function ollamaChat(
       ...result,
       supportSourceReferences:
         deduplicatedSupportSourceReferences,
+      evidenceSufficient:
+        deduplicatedSupportSourceReferences.length > 0,
     };
   } catch (error) {
     if (

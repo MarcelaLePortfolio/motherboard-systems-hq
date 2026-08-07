@@ -374,6 +374,50 @@ test(
           },
         ],
       );
+
+      assert.equal(
+        result.evidenceSufficient,
+        true,
+      );
+    } finally {
+      globalThis.fetch = originalFetch;
+    }
+  },
+);
+
+
+test(
+  "ollamaChat returns false evidence sufficiency for an empty validated support set",
+  async () => {
+    const originalFetch = globalThis.fetch;
+
+    globalThis.fetch = (async () => ({
+      ok: true,
+      status: 200,
+      statusText: "OK",
+      json: async () => ({
+        response: JSON.stringify({
+          reply: "Conclusion.",
+          explanationStatus: "optional",
+          supportSourceReferences: [],
+          durableInterpretation:
+            "Durable interpretation.",
+        }),
+      }),
+    })) as typeof globalThis.fetch;
+
+    try {
+      const result = await ollamaChat("Question.");
+
+      assert.deepEqual(
+        result.supportSourceReferences,
+        [],
+      );
+
+      assert.equal(
+        result.evidenceSufficient,
+        false,
+      );
     } finally {
       globalThis.fetch = originalFetch;
     }
