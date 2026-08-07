@@ -38,6 +38,30 @@ const OLLAMA_CHAT_OUTPUT_SCHEMA = {
     },
     supportSourceReferences: {
       type: "array",
+      items: {
+        type: "object",
+        additionalProperties: false,
+        required: ["type"],
+        properties: {
+          type: {
+            type: "string",
+            enum: [
+              "conversation_turn",
+              "project_context_excerpt",
+            ],
+          },
+          sourceTurnId: {
+            type: "string",
+          },
+          relativePath: {
+            type: "string",
+          },
+          lineNumber: {
+            type: "integer",
+            minimum: 1,
+          },
+        },
+      },
     },
     durableInterpretation: {
       type: "string",
@@ -121,10 +145,74 @@ function parseStructuredResponse(
       ? parsed.explanationStatus
       : null;
 
-  const supportSourceReferences =
+  const rawSupportSourceReferences =
     Array.isArray(parsed.supportSourceReferences)
       ? parsed.supportSourceReferences
       : null;
+
+  const supportSourceReferences:
+    MatildaSupportSourceReference[] = [];
+
+  if (rawSupportSourceReferences) {
+    for (const reference of rawSupportSourceReferences) {
+      if (
+        !reference ||
+        typeof reference !== "object" ||
+        Array.isArray(reference)
+      ) {
+        throw new Error(
+          "Ollama returned malformed support source reference.",
+        );
+      }
+
+      const candidate =
+        reference as Record<string, unknown>;
+
+      if (candidate.type === "conversation_turn") {
+        if (
+          typeof candidate.sourceTurnId !== "string" ||
+          !candidate.sourceTurnId.trim()
+        ) {
+          throw new Error(
+            "Ollama returned malformed conversation support reference.",
+          );
+        }
+
+        supportSourceReferences.push({
+          type: "conversation_turn",
+          sourceTurnId: candidate.sourceTurnId.trim(),
+        });
+
+        continue;
+      }
+
+      if (candidate.type === "project_context_excerpt") {
+        if (
+          typeof candidate.relativePath !== "string" ||
+          !candidate.relativePath.trim() ||
+          typeof candidate.lineNumber !== "number" ||
+          !Number.isInteger(candidate.lineNumber) ||
+          candidate.lineNumber < 1
+        ) {
+          throw new Error(
+            "Ollama returned malformed project-context support reference.",
+          );
+        }
+
+        supportSourceReferences.push({
+          type: "project_context_excerpt",
+          relativePath: candidate.relativePath.trim(),
+          lineNumber: candidate.lineNumber,
+        });
+
+        continue;
+      }
+
+      throw new Error(
+        "Ollama returned unknown support source reference type.",
+      );
+    }
+  }
 
   const durableInterpretation =
     typeof parsed.durableInterpretation === "string"
@@ -143,7 +231,7 @@ function parseStructuredResponse(
     );
   }
 
-  if (!supportSourceReferences) {
+  if (!rawSupportSourceReferences) {
     throw new Error(
       "Ollama returned invalid support source references.",
     );
