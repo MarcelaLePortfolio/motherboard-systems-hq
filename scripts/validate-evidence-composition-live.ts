@@ -5,6 +5,14 @@ async function main() {
     "What specific evidence supports preserving the existing workflow?",
     {
       priorExplanationEvidenceStatus: "sufficient",
+      priorExplanationSupportSourceReferences: [
+        {
+          type: "project_context_excerpt",
+          relativePath:
+            "server/matilda-chat-workflow.ts",
+          lineNumber: 179,
+        },
+      ],
       history: [
         {
           sourceTurnId: "turn-evidence-validation-1",
@@ -32,12 +40,15 @@ async function main() {
 
   console.log("=== LIVE EVIDENCE COMPOSITION VALIDATION ===");
   console.log();
+
   console.log("REPLY");
   console.log(result.reply);
   console.log();
+
   console.log("EXPLANATION STATUS");
   console.log(result.explanationStatus);
   console.log();
+
   console.log("SUPPORT SOURCE REFERENCES");
   console.log(
     JSON.stringify(
@@ -47,12 +58,14 @@ async function main() {
     ),
   );
   console.log();
+
   console.log("EVIDENCE SUFFICIENT");
   console.log(result.evidenceSufficient);
   console.log();
+
   console.log("=== VALIDATION TARGET ===");
   console.log(
-    "PASS only if the reply presents what the supplied source actually establishes.",
+    "PASS only if the reply presents what the validated prior support actually establishes.",
   );
   console.log(
     "PASS only if the reply does not invent design priorities, speed, simplicity, benefits, risks, or other unsupported rationale.",
@@ -61,7 +74,7 @@ async function main() {
     "PASS if the reply explicitly says the supplied evidence is narrower than the broader recommendation when appropriate.",
   );
   console.log(
-    "PASS if project-context evidence is preferred over treating the prior assistant recommendation as proof of itself.",
+    "PASS if the validated project-context evidence is used instead of treating the prior assistant recommendation as proof of itself.",
   );
   console.log(
     "PASS if internal source identifiers and raw provenance metadata remain hidden.",
