@@ -80,7 +80,7 @@ const OLLAMA_CHAT_OUTPUT_SCHEMA = {
               items: {
                 type: "object",
                 additionalProperties: false,
-                required: ["reference", "excerpt"],
+                required: ["reference"],
                 properties: {
                   reference: {
                     type: "object",
@@ -103,9 +103,6 @@ const OLLAMA_CHAT_OUTPUT_SCHEMA = {
                         minimum: 1,
                       },
                     },
-                  },
-                  excerpt: {
-                    type: "string",
                   },
                 },
               },
@@ -261,8 +258,7 @@ function parseStructuredResponse(
       if (
         !candidate.reference ||
         typeof candidate.reference !== "object" ||
-        Array.isArray(candidate.reference) ||
-        typeof candidate.excerpt !== "string"
+        Array.isArray(candidate.reference)
       ) {
         throw new Error(
           "Ollama returned malformed evidence source.",
@@ -291,7 +287,7 @@ function parseStructuredResponse(
           relativePath: reference.relativePath.trim(),
           lineNumber: reference.lineNumber,
         },
-        excerpt: candidate.excerpt,
+        excerpt: "",
       });
     }
 
@@ -619,53 +615,53 @@ export async function ollamaChat(
       result.evidence
         ? {
             sources:
-              result.evidence.sources.filter(
-                (source, index, sources) => {
-                  const referenceKey =
-                    `project_context_excerpt:${source.reference.relativePath}:${source.reference.lineNumber}`;
+              result.evidence.sources
+                .filter(
+                  (source, index, sources) => {
+                    const referenceKey =
+                      `project_context_excerpt:${source.reference.relativePath}:${source.reference.lineNumber}`;
 
-                  return (
-                    sources.findIndex((candidate) => {
-                      const candidateKey =
-                        `project_context_excerpt:${candidate.reference.relativePath}:${candidate.reference.lineNumber}`;
+                    return (
+                      sources.findIndex((candidate) => {
+                        const candidateKey =
+                          `project_context_excerpt:${candidate.reference.relativePath}:${candidate.reference.lineNumber}`;
 
-                      return candidateKey === referenceKey;
-                    }) === index
-                  );
-                },
-              ),
+                        return candidateKey === referenceKey;
+                      }) === index
+                    );
+                  },
+                )
+                .map((source) => {
+                  const reference = source.reference;
+                  const sourceKey =
+                    `${reference.relativePath}:${reference.lineNumber}`;
+
+                  const suppliedExcerpt =
+                    suppliedProjectContextExcerptBySource.get(
+                      sourceKey,
+                    );
+
+                  if (suppliedExcerpt === undefined) {
+                    throw new Error(
+                      "Ollama returned an evidence project-context source that was not supplied in this invocation.",
+                    );
+                  }
+
+                  return {
+                    reference,
+                    excerpt: suppliedExcerpt,
+                  };
+                }),
           }
         : null;
 
-    if (validatedEvidence) {
-      if (validatedEvidence.sources.length === 0) {
-        throw new Error(
-          "Ollama returned evidence without sources.",
-        );
-      }
-
-      for (const source of validatedEvidence.sources) {
-        const reference = source.reference;
-        const sourceKey =
-          `${reference.relativePath}:${reference.lineNumber}`;
-
-        const suppliedExcerpt =
-          suppliedProjectContextExcerptBySource.get(
-            sourceKey,
-          );
-
-        if (suppliedExcerpt === undefined) {
-          throw new Error(
-            "Ollama returned an evidence project-context source that was not supplied in this invocation.",
-          );
-        }
-
-        if (source.excerpt !== suppliedExcerpt) {
-          throw new Error(
-            "Ollama returned an evidence excerpt that does not exactly match the supplied project-context excerpt.",
-          );
-        }
-      }
+    if (
+      validatedEvidence &&
+      validatedEvidence.sources.length === 0
+    ) {
+      throw new Error(
+        "Ollama returned evidence without sources.",
+      );
     }
 
     for (const reference of deduplicatedSupportSourceReferences) {

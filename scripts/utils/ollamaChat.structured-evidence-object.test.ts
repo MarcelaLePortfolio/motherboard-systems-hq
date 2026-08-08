@@ -9,10 +9,12 @@ const suppliedExcerpt =
 const projectContext = {
   projectContextExcerpts: [
     {
-      relativePath: "server/matilda-chat-workflow.ts",
+      relativePath:
+        "server/matilda-chat-workflow.ts",
       lineNumber: 155,
       excerpt: suppliedExcerpt,
-      provenance: "git_tracked_project_file" as const,
+      provenance:
+        "git_tracked_project_file" as const,
       authorityStatus:
         "candidate_evidence_not_authority" as const,
     },
@@ -20,7 +22,7 @@ const projectContext = {
 };
 
 test(
-  "ollamaChat accepts paired project-context evidence",
+  "runtime attaches exact supplied excerpt to selected evidence source",
   async () => {
     const originalFetch = globalThis.fetch;
 
@@ -37,12 +39,12 @@ test(
             sources: [
               {
                 reference: {
-                  type: "project_context_excerpt",
+                  type:
+                    "project_context_excerpt",
                   relativePath:
                     "server/matilda-chat-workflow.ts",
                   lineNumber: 155,
                 },
-                excerpt: suppliedExcerpt,
               },
             ],
           },
@@ -54,21 +56,28 @@ test(
 
     try {
       const result =
-        await ollamaChat("Question.", projectContext);
+        await ollamaChat(
+          "Question.",
+          projectContext,
+        );
 
-      assert.deepEqual(result.evidence, {
-        sources: [
-          {
-            reference: {
-              type: "project_context_excerpt",
-              relativePath:
-                "server/matilda-chat-workflow.ts",
-              lineNumber: 155,
+      assert.deepEqual(
+        result.evidence,
+        {
+          sources: [
+            {
+              reference: {
+                type:
+                  "project_context_excerpt",
+                relativePath:
+                  "server/matilda-chat-workflow.ts",
+                lineNumber: 155,
+              },
+              excerpt: suppliedExcerpt,
             },
-            excerpt: suppliedExcerpt,
-          },
-        ],
-      });
+          ],
+        },
+      );
     } finally {
       globalThis.fetch = originalFetch;
     }
@@ -97,7 +106,9 @@ test(
     })) as typeof globalThis.fetch;
 
     try {
-      const result = await ollamaChat("Question.");
+      const result =
+        await ollamaChat("Question.");
+
       assert.equal(result.evidence, null);
     } finally {
       globalThis.fetch = originalFetch;
@@ -123,11 +134,12 @@ test(
             sources: [
               {
                 reference: {
-                  type: "project_context_excerpt",
-                  relativePath: "server/not-supplied.ts",
+                  type:
+                    "project_context_excerpt",
+                  relativePath:
+                    "server/not-supplied.ts",
                   lineNumber: 999,
                 },
-                excerpt: "not supplied",
               },
             ],
           },
@@ -139,52 +151,12 @@ test(
 
     try {
       await assert.rejects(
-        () => ollamaChat("Question.", projectContext),
+        () =>
+          ollamaChat(
+            "Question.",
+            projectContext,
+          ),
         /evidence project-context source that was not supplied/i,
-      );
-    } finally {
-      globalThis.fetch = originalFetch;
-    }
-  },
-);
-
-test(
-  "ollamaChat fails closed on non-exact evidence excerpt",
-  async () => {
-    const originalFetch = globalThis.fetch;
-
-    globalThis.fetch = (async () => ({
-      ok: true,
-      status: 200,
-      statusText: "OK",
-      json: async () => ({
-        response: JSON.stringify({
-          reply: "Conclusion.",
-          explanationStatus: "optional",
-          supportSourceReferences: [],
-          evidence: {
-            sources: [
-              {
-                reference: {
-                  type: "project_context_excerpt",
-                  relativePath:
-                    "server/matilda-chat-workflow.ts",
-                  lineNumber: 155,
-                },
-                excerpt: "A model-authored paraphrase.",
-              },
-            ],
-          },
-          durableInterpretation:
-            "Durable interpretation.",
-        }),
-      }),
-    })) as typeof globalThis.fetch;
-
-    try {
-      await assert.rejects(
-        () => ollamaChat("Question.", projectContext),
-        /does not exactly match/i,
       );
     } finally {
       globalThis.fetch = originalFetch;
@@ -217,7 +189,11 @@ test(
 
     try {
       await assert.rejects(
-        () => ollamaChat("Question.", projectContext),
+        () =>
+          ollamaChat(
+            "Question.",
+            projectContext,
+          ),
         /evidence without sources/i,
       );
     } finally {
@@ -233,12 +209,12 @@ test(
 
     const source = {
       reference: {
-        type: "project_context_excerpt",
+        type:
+          "project_context_excerpt",
         relativePath:
           "server/matilda-chat-workflow.ts",
         lineNumber: 155,
       },
-      excerpt: suppliedExcerpt,
     };
 
     globalThis.fetch = (async () => ({
@@ -261,9 +237,20 @@ test(
 
     try {
       const result =
-        await ollamaChat("Question.", projectContext);
+        await ollamaChat(
+          "Question.",
+          projectContext,
+        );
 
-      assert.equal(result.evidence?.sources.length, 1);
+      assert.equal(
+        result.evidence?.sources.length,
+        1,
+      );
+
+      assert.equal(
+        result.evidence?.sources[0].excerpt,
+        suppliedExcerpt,
+      );
     } finally {
       globalThis.fetch = originalFetch;
     }
