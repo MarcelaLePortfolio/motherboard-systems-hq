@@ -73,37 +73,39 @@ const OLLAMA_CHAT_OUTPUT_SCHEMA = {
         {
           type: "object",
           additionalProperties: false,
-          required: [
-            "text",
-            "supportSourceReferences",
-          ],
+          required: ["sources"],
           properties: {
-            text: {
-              type: "string",
-            },
-            supportSourceReferences: {
+            sources: {
               type: "array",
               items: {
                 type: "object",
                 additionalProperties: false,
-                required: ["type"],
+                required: ["reference", "excerpt"],
                 properties: {
-                  type: {
-                    type: "string",
-                    enum: [
-                      "conversation_turn",
-                      "project_context_excerpt",
+                  reference: {
+                    type: "object",
+                    additionalProperties: false,
+                    required: [
+                      "type",
+                      "relativePath",
+                      "lineNumber",
                     ],
+                    properties: {
+                      type: {
+                        type: "string",
+                        enum: ["project_context_excerpt"],
+                      },
+                      relativePath: {
+                        type: "string",
+                      },
+                      lineNumber: {
+                        type: "integer",
+                        minimum: 1,
+                      },
+                    },
                   },
-                  sourceTurnId: {
+                  excerpt: {
                     type: "string",
-                  },
-                  relativePath: {
-                    type: "string",
-                  },
-                  lineNumber: {
-                    type: "integer",
-                    minimum: 1,
                   },
                 },
               },
@@ -159,9 +161,10 @@ export type MatildaExplanationStatus =
   | "recommended";
 
 export interface MatildaEvidenceArtifact {
-  text: string;
-  supportSourceReferences:
-    MatildaSupportSourceReference[];
+  sources: Array<{
+    reference: MatildaSupportSourceReference;
+    excerpt: string;
+  }>;
 }
 
 export interface OllamaChatResult {
@@ -233,103 +236,66 @@ function parseStructuredResponse(
     const rawEvidence =
       parsed.evidence as Record<string, unknown>;
 
-    const evidenceText =
-      typeof rawEvidence.text === "string"
-        ? rawEvidence.text.trim()
-        : "";
-
-    if (!evidenceText) {
+    if (!Array.isArray(rawEvidence.sources)) {
       throw new Error(
-        "Ollama returned empty evidence artifact text.",
+        "Ollama returned malformed evidence sources.",
       );
     }
 
-    if (
-      !Array.isArray(
-        rawEvidence.supportSourceReferences,
-      )
-    ) {
-      throw new Error(
-        "Ollama returned malformed evidence support references.",
-      );
-    }
+    const sources: MatildaEvidenceArtifact["sources"] = [];
 
-    const evidenceSupportSourceReferences:
-      MatildaSupportSourceReference[] = [];
-
-    for (
-      const reference of
-      rawEvidence.supportSourceReferences
-    ) {
+    for (const source of rawEvidence.sources) {
       if (
-        !reference ||
-        typeof reference !== "object" ||
-        Array.isArray(reference)
+        !source ||
+        typeof source !== "object" ||
+        Array.isArray(source)
       ) {
         throw new Error(
-          "Ollama returned malformed evidence support reference.",
+          "Ollama returned malformed evidence source.",
         );
       }
 
       const candidate =
-        reference as Record<string, unknown>;
-
-      if (candidate.type === "conversation_turn") {
-        if (
-          typeof candidate.sourceTurnId !== "string" ||
-          !candidate.sourceTurnId.trim()
-        ) {
-          throw new Error(
-            "Ollama returned malformed evidence conversation support reference.",
-          );
-        }
-
-        evidenceSupportSourceReferences.push({
-          type: "conversation_turn",
-          sourceTurnId:
-            candidate.sourceTurnId.trim(),
-        });
-
-        continue;
-      }
+        source as Record<string, unknown>;
 
       if (
-        candidate.type ===
-        "project_context_excerpt"
+        !candidate.reference ||
+        typeof candidate.reference !== "object" ||
+        Array.isArray(candidate.reference) ||
+        typeof candidate.excerpt !== "string"
       ) {
-        if (
-          typeof candidate.relativePath !== "string" ||
-          !candidate.relativePath.trim() ||
-          typeof candidate.lineNumber !== "number" ||
-          !Number.isInteger(candidate.lineNumber) ||
-          candidate.lineNumber < 1
-        ) {
-          throw new Error(
-            "Ollama returned malformed evidence project-context support reference.",
-          );
-        }
-
-        evidenceSupportSourceReferences.push({
-          type: "project_context_excerpt",
-          relativePath:
-            candidate.relativePath.trim(),
-          lineNumber:
-            candidate.lineNumber,
-        });
-
-        continue;
+        throw new Error(
+          "Ollama returned malformed evidence source.",
+        );
       }
 
-      throw new Error(
-        "Ollama returned unknown evidence support source reference type.",
-      );
+      const reference =
+        candidate.reference as Record<string, unknown>;
+
+      if (
+        reference.type !== "project_context_excerpt" ||
+        typeof reference.relativePath !== "string" ||
+        !reference.relativePath.trim() ||
+        typeof reference.lineNumber !== "number" ||
+        !Number.isInteger(reference.lineNumber) ||
+        reference.lineNumber < 1
+      ) {
+        throw new Error(
+          "Ollama returned malformed evidence project-context source.",
+        );
+      }
+
+      sources.push({
+        reference: {
+          type: "project_context_excerpt",
+          relativePath: reference.relativePath.trim(),
+          lineNumber: reference.lineNumber,
+        },
+        excerpt: candidate.excerpt,
+      });
     }
 
-    evidence = {
-      text: evidenceText,
-      supportSourceReferences:
-        evidenceSupportSourceReferences,
-    };
+    evidence = { sources };
   }
 
   if (rawSupportSourceReferences) {
@@ -639,29 +605,32 @@ export async function ollamaChat(
         },
       );
 
+    const suppliedProjectContextExcerptBySource =
+      new Map(
+        (context.projectContextExcerpts || []).map(
+          (excerpt) => [
+            `${excerpt.relativePath}:${excerpt.lineNumber}`,
+            excerpt.excerpt,
+          ],
+        ),
+      );
+
     const validatedEvidence =
       result.evidence
         ? {
-            text: result.evidence.text,
-            supportSourceReferences:
-              result.evidence.supportSourceReferences.filter(
-                (reference, index, references) => {
+            sources:
+              result.evidence.sources.filter(
+                (source, index, sources) => {
                   const referenceKey =
-                    reference.type === "conversation_turn"
-                      ? `conversation_turn:${reference.sourceTurnId}`
-                      : `project_context_excerpt:${reference.relativePath}:${reference.lineNumber}`;
+                    `project_context_excerpt:${source.reference.relativePath}:${source.reference.lineNumber}`;
 
                   return (
-                    references.findIndex(
-                      (candidate) => {
-                        const candidateKey =
-                          candidate.type === "conversation_turn"
-                            ? `conversation_turn:${candidate.sourceTurnId}`
-                            : `project_context_excerpt:${candidate.relativePath}:${candidate.lineNumber}`;
+                    sources.findIndex((candidate) => {
+                      const candidateKey =
+                        `project_context_excerpt:${candidate.reference.relativePath}:${candidate.reference.lineNumber}`;
 
-                        return candidateKey === referenceKey;
-                      },
-                    ) === index
+                      return candidateKey === referenceKey;
+                    }) === index
                   );
                 },
               ),
@@ -669,48 +638,31 @@ export async function ollamaChat(
         : null;
 
     if (validatedEvidence) {
-      if (
-        validatedEvidence
-          .supportSourceReferences.length === 0
-      ) {
+      if (validatedEvidence.sources.length === 0) {
         throw new Error(
-          "Ollama returned evidence text without support references.",
+          "Ollama returned evidence without sources.",
         );
       }
 
-      for (
-        const reference of
-        validatedEvidence.supportSourceReferences
-      ) {
-        if (
-          reference.type === "conversation_turn"
-        ) {
-          if (
-            !reference.sourceTurnId ||
-            !suppliedConversationSourceIds.has(
-              reference.sourceTurnId,
-            )
-          ) {
-            throw new Error(
-              "Ollama returned an evidence conversation support reference that was not supplied in this invocation.",
-            );
-          }
-
-          continue;
-        }
-
+      for (const source of validatedEvidence.sources) {
+        const reference = source.reference;
         const sourceKey =
           `${reference.relativePath}:${reference.lineNumber}`;
 
-        if (
-          !reference.relativePath ||
-          !reference.lineNumber ||
-          !suppliedProjectContextSources.has(
+        const suppliedExcerpt =
+          suppliedProjectContextExcerptBySource.get(
             sourceKey,
-          )
-        ) {
+          );
+
+        if (suppliedExcerpt === undefined) {
           throw new Error(
-            "Ollama returned an evidence project-context support reference that was not supplied in this invocation.",
+            "Ollama returned an evidence project-context source that was not supplied in this invocation.",
+          );
+        }
+
+        if (source.excerpt !== suppliedExcerpt) {
+          throw new Error(
+            "Ollama returned an evidence excerpt that does not exactly match the supplied project-context excerpt.",
           );
         }
       }
