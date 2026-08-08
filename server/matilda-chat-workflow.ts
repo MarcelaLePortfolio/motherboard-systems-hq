@@ -186,6 +186,10 @@ export async function runMatildaConversationWorkflow(
           conversationContext.projectContextWarning,
         priorExplanationEvidenceStatus:
           priorSupportProvenance?.status,
+        priorExplanationSupportSourceReferences:
+          priorSupportProvenance
+            ?.provenance
+            ?.supportSourceReferences,
       });
 
     const conversationalReply =
