@@ -63,12 +63,12 @@ test(
       assert.match(prompt, /For evidence presentation:/);
       assert.match(prompt, /Present specific supporting evidence only when it materially helps/);
       assert.match(prompt, /Connect each presented evidence point to the claim it supports/);
-      assert.match(prompt, /For conversation-turn support, describe the relevant prior statement or conclusion naturally/);
-      assert.match(prompt, /For project-context support, identify the relevant repository artifact/);
-      assert.match(prompt, /Present the minimum sufficient evidence needed/);
+      assert.match(prompt, /For conversation-turn support, describe only what the supplied prior statement or conclusion actually establishes/);
+      assert.match(prompt, /For project-context support, identify the relevant repository artifact and state only the specific fact established by the supplied excerpt/);
+      assert.match(prompt, /Present the minimum sufficient evidence needed for the current response/);
       assert.match(prompt, /Do not present provenance metadata/);
       assert.match(prompt, /Do not imply that a source proves more than the supplied evidence establishes/);
-      assert.match(prompt, /Evidence presentation must remain part of the natural-language reply/);
+      assert.match(prompt, /Evidence presentation must remain part of the natural-language reply and must not become a separate semantic artifact/);
     } finally {
       globalThis.fetch = originalFetch;
     }
