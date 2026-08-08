@@ -7,6 +7,16 @@ async function main() {
   const result = await ollamaChat(
     "What repository evidence shows that this workflow invokes ollamaChat?",
     {
+      history: [
+        {
+          sourceTurnId:
+            "turn-source-excerpt-live-validation",
+          userMessage:
+            "We need repository evidence for the workflow invocation seam.",
+          assistantReply:
+            "The repository excerpt should establish that directly.",
+        },
+      ],
       projectContextExcerpts: [
         {
           relativePath:
@@ -22,7 +32,9 @@ async function main() {
     },
   );
 
-  console.log("=== SOURCE-EXCERPT-FIRST LIVE VALIDATION ===");
+  console.log(
+    "=== SOURCE-EXCERPT-FIRST LIVE VALIDATION ===",
+  );
   console.log();
 
   console.log("REPLY");
