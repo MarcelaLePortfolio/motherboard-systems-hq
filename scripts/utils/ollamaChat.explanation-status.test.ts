@@ -29,6 +29,7 @@ test(
               "The current architecture supports a bounded implementation attempt.",
             explanationStatus: "optional",
             supportSourceReferences: [],
+            evidence: null,
             durableInterpretation:
               "The user is evaluating whether the current architecture is ready for a bounded implementation attempt.",
           }),
@@ -49,6 +50,7 @@ test(
           "reply",
           "explanationStatus",
           "supportSourceReferences",
+          "evidence",
           "durableInterpretation",
         ],
       );
@@ -92,6 +94,7 @@ test(
           reply: "Conclusion.",
           explanationStatus: "required",
           supportSourceReferences: [],
+          evidence: null,
           durableInterpretation:
             "Durable interpretation.",
         }),

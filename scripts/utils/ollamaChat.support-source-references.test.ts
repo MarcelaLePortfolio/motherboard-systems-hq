@@ -27,6 +27,7 @@ test(
               lineNumber: 155,
             },
           ],
+          evidence: null,
           durableInterpretation:
             "Durable interpretation.",
         }),
@@ -100,6 +101,7 @@ test(
               type: "conversation_turn",
             },
           ],
+          evidence: null,
           durableInterpretation:
             "Durable interpretation.",
         }),
@@ -136,6 +138,7 @@ test(
               relativePath: "server/matilda-chat-workflow.ts",
             },
           ],
+          evidence: null,
           durableInterpretation:
             "Durable interpretation.",
         }),
@@ -171,6 +174,7 @@ test(
               type: "unknown",
             },
           ],
+          evidence: null,
           durableInterpretation:
             "Durable interpretation.",
         }),
@@ -208,6 +212,7 @@ test(
               sourceTurnId: "turn-not-supplied",
             },
           ],
+          evidence: null,
           durableInterpretation:
             "Durable interpretation.",
         }),
@@ -257,6 +262,7 @@ test(
               lineNumber: 999,
             },
           ],
+          evidence: null,
           durableInterpretation:
             "Durable interpretation.",
         }),
@@ -327,6 +333,7 @@ test(
               lineNumber: 155,
             },
           ],
+          evidence: null,
           durableInterpretation:
             "Durable interpretation.",
         }),
@@ -400,6 +407,7 @@ test(
           reply: "Conclusion.",
           explanationStatus: "optional",
           supportSourceReferences: [],
+          evidence: null,
           durableInterpretation:
             "Durable interpretation.",
         }),

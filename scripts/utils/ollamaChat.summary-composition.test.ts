@@ -30,6 +30,7 @@ test(
             explanationStatus: "optional",
             explanationStatus: "optional",
             supportSourceReferences: [],
+            evidence: null,
             durableInterpretation:
               "Summary Composition is implemented within the existing reply prompt contract.",
           }),

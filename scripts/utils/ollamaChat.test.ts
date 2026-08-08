@@ -29,6 +29,7 @@ test(
             explanationStatus: "optional",
             explanationStatus: "optional",
             supportSourceReferences: [],
+            evidence: null,
             durableInterpretation:
               "User authorizes careful continuation of the active corridor.",
           }),
@@ -90,6 +91,7 @@ test(
             explanationStatus: "optional",
             explanationStatus: "optional",
             supportSourceReferences: [],
+            evidence: null,
             durableInterpretation:
               "Current durable interpretation.",
           }),
@@ -162,6 +164,7 @@ test(
             explanationStatus: "optional",
             explanationStatus: "optional",
             supportSourceReferences: [],
+            evidence: null,
             durableInterpretation:
               "Current durable interpretation.",
           }),
@@ -251,6 +254,7 @@ test(
             reply: "Hello.",
             explanationStatus: "optional",
             supportSourceReferences: [],
+            evidence: null,
           }),
         }),
       }) as Response;

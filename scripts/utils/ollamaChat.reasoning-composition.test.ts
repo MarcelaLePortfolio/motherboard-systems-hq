@@ -21,6 +21,7 @@ test(
             reply: "The workflow remains the preferred approach because it preserves the validated architectural boundary.",
             explanationStatus: "optional",
             supportSourceReferences: [],
+            evidence: null,
             durableInterpretation:
               "The user requested reasoning for the previous recommendation.",
           }),

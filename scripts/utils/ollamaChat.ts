@@ -16,6 +16,7 @@ interface OllamaStructuredResponse {
   reply?: unknown;
   explanationStatus?: unknown;
   supportSourceReferences?: unknown;
+  evidence?: unknown;
   durableInterpretation?: unknown;
 }
 
@@ -26,6 +27,7 @@ const OLLAMA_CHAT_OUTPUT_SCHEMA = {
     "reply",
     "explanationStatus",
     "supportSourceReferences",
+    "evidence",
     "durableInterpretation",
   ],
   properties: {
@@ -62,6 +64,53 @@ const OLLAMA_CHAT_OUTPUT_SCHEMA = {
           },
         },
       },
+    },
+    evidence: {
+      anyOf: [
+        {
+          type: "null",
+        },
+        {
+          type: "object",
+          additionalProperties: false,
+          required: [
+            "text",
+            "supportSourceReferences",
+          ],
+          properties: {
+            text: {
+              type: "string",
+            },
+            supportSourceReferences: {
+              type: "array",
+              items: {
+                type: "object",
+                additionalProperties: false,
+                required: ["type"],
+                properties: {
+                  type: {
+                    type: "string",
+                    enum: [
+                      "conversation_turn",
+                      "project_context_excerpt",
+                    ],
+                  },
+                  sourceTurnId: {
+                    type: "string",
+                  },
+                  relativePath: {
+                    type: "string",
+                  },
+                  lineNumber: {
+                    type: "integer",
+                    minimum: 1,
+                  },
+                },
+              },
+            },
+          },
+        },
+      ],
     },
     durableInterpretation: {
       type: "string",
@@ -109,10 +158,17 @@ export type MatildaExplanationStatus =
   | "optional"
   | "recommended";
 
+export interface MatildaEvidenceArtifact {
+  text: string;
+  supportSourceReferences:
+    MatildaSupportSourceReference[];
+}
+
 export interface OllamaChatResult {
   reply: string;
   explanationStatus: MatildaExplanationStatus;
   supportSourceReferences: MatildaSupportSourceReference[];
+  evidence: MatildaEvidenceArtifact | null;
   evidenceSufficient: boolean;
   durableInterpretation: string;
 }
@@ -160,6 +216,121 @@ function parseStructuredResponse(
 
   const supportSourceReferences:
     MatildaSupportSourceReference[] = [];
+
+  let evidence: MatildaEvidenceArtifact | null = null;
+
+  if (parsed.evidence !== null) {
+    if (
+      !parsed.evidence ||
+      typeof parsed.evidence !== "object" ||
+      Array.isArray(parsed.evidence)
+    ) {
+      throw new Error(
+        "Ollama returned malformed evidence artifact.",
+      );
+    }
+
+    const rawEvidence =
+      parsed.evidence as Record<string, unknown>;
+
+    const evidenceText =
+      typeof rawEvidence.text === "string"
+        ? rawEvidence.text.trim()
+        : "";
+
+    if (!evidenceText) {
+      throw new Error(
+        "Ollama returned empty evidence artifact text.",
+      );
+    }
+
+    if (
+      !Array.isArray(
+        rawEvidence.supportSourceReferences,
+      )
+    ) {
+      throw new Error(
+        "Ollama returned malformed evidence support references.",
+      );
+    }
+
+    const evidenceSupportSourceReferences:
+      MatildaSupportSourceReference[] = [];
+
+    for (
+      const reference of
+      rawEvidence.supportSourceReferences
+    ) {
+      if (
+        !reference ||
+        typeof reference !== "object" ||
+        Array.isArray(reference)
+      ) {
+        throw new Error(
+          "Ollama returned malformed evidence support reference.",
+        );
+      }
+
+      const candidate =
+        reference as Record<string, unknown>;
+
+      if (candidate.type === "conversation_turn") {
+        if (
+          typeof candidate.sourceTurnId !== "string" ||
+          !candidate.sourceTurnId.trim()
+        ) {
+          throw new Error(
+            "Ollama returned malformed evidence conversation support reference.",
+          );
+        }
+
+        evidenceSupportSourceReferences.push({
+          type: "conversation_turn",
+          sourceTurnId:
+            candidate.sourceTurnId.trim(),
+        });
+
+        continue;
+      }
+
+      if (
+        candidate.type ===
+        "project_context_excerpt"
+      ) {
+        if (
+          typeof candidate.relativePath !== "string" ||
+          !candidate.relativePath.trim() ||
+          typeof candidate.lineNumber !== "number" ||
+          !Number.isInteger(candidate.lineNumber) ||
+          candidate.lineNumber < 1
+        ) {
+          throw new Error(
+            "Ollama returned malformed evidence project-context support reference.",
+          );
+        }
+
+        evidenceSupportSourceReferences.push({
+          type: "project_context_excerpt",
+          relativePath:
+            candidate.relativePath.trim(),
+          lineNumber:
+            candidate.lineNumber,
+        });
+
+        continue;
+      }
+
+      throw new Error(
+        "Ollama returned unknown evidence support source reference type.",
+      );
+    }
+
+    evidence = {
+      text: evidenceText,
+      supportSourceReferences:
+        evidenceSupportSourceReferences,
+    };
+  }
 
   if (rawSupportSourceReferences) {
     for (const reference of rawSupportSourceReferences) {
@@ -255,6 +426,7 @@ function parseStructuredResponse(
     reply,
     explanationStatus,
     supportSourceReferences,
+    evidence,
     durableInterpretation,
   };
 }
@@ -467,6 +639,83 @@ export async function ollamaChat(
         },
       );
 
+    const validatedEvidence =
+      result.evidence
+        ? {
+            text: result.evidence.text,
+            supportSourceReferences:
+              result.evidence.supportSourceReferences.filter(
+                (reference, index, references) => {
+                  const referenceKey =
+                    reference.type === "conversation_turn"
+                      ? `conversation_turn:${reference.sourceTurnId}`
+                      : `project_context_excerpt:${reference.relativePath}:${reference.lineNumber}`;
+
+                  return (
+                    references.findIndex(
+                      (candidate) => {
+                        const candidateKey =
+                          candidate.type === "conversation_turn"
+                            ? `conversation_turn:${candidate.sourceTurnId}`
+                            : `project_context_excerpt:${candidate.relativePath}:${candidate.lineNumber}`;
+
+                        return candidateKey === referenceKey;
+                      },
+                    ) === index
+                  );
+                },
+              ),
+          }
+        : null;
+
+    if (validatedEvidence) {
+      if (
+        validatedEvidence
+          .supportSourceReferences.length === 0
+      ) {
+        throw new Error(
+          "Ollama returned evidence text without support references.",
+        );
+      }
+
+      for (
+        const reference of
+        validatedEvidence.supportSourceReferences
+      ) {
+        if (
+          reference.type === "conversation_turn"
+        ) {
+          if (
+            !reference.sourceTurnId ||
+            !suppliedConversationSourceIds.has(
+              reference.sourceTurnId,
+            )
+          ) {
+            throw new Error(
+              "Ollama returned an evidence conversation support reference that was not supplied in this invocation.",
+            );
+          }
+
+          continue;
+        }
+
+        const sourceKey =
+          `${reference.relativePath}:${reference.lineNumber}`;
+
+        if (
+          !reference.relativePath ||
+          !reference.lineNumber ||
+          !suppliedProjectContextSources.has(
+            sourceKey,
+          )
+        ) {
+          throw new Error(
+            "Ollama returned an evidence project-context support reference that was not supplied in this invocation.",
+          );
+        }
+      }
+    }
+
     for (const reference of deduplicatedSupportSourceReferences) {
       if (reference.type === "conversation_turn") {
         if (
@@ -501,6 +750,7 @@ export async function ollamaChat(
       ...result,
       supportSourceReferences:
         deduplicatedSupportSourceReferences,
+      evidence: validatedEvidence,
       evidenceSufficient:
         deduplicatedSupportSourceReferences.length > 0,
     };

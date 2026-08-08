@@ -38,6 +38,7 @@ test(
                 lineNumber: 155,
               },
             ],
+            evidence: null,
             durableInterpretation:
               "The user is evaluating which approach preserves the established workflow invariant.",
           }),

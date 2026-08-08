@@ -26,6 +26,7 @@ test(
               "The prior conclusion can be explained from its established support.",
             explanationStatus: "optional",
             supportSourceReferences: [],
+            evidence: null,
             durableInterpretation:
               "The user requested explanation of a supported prior conclusion.",
           }),
@@ -84,6 +85,7 @@ test(
               "Sufficient supporting justification is not available from the established evidence.",
             explanationStatus: "optional",
             supportSourceReferences: [],
+            evidence: null,
             durableInterpretation:
               "The requested prior justification is unsupported by persisted evidence.",
           }),
@@ -145,6 +147,7 @@ test(
               "Sufficient supporting justification is not available from the established evidence.",
             explanationStatus: "optional",
             supportSourceReferences: [],
+            evidence: null,
             durableInterpretation:
               "Prior support provenance is unavailable.",
           }),

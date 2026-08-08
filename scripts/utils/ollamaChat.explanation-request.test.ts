@@ -27,6 +27,7 @@ test(
               "The recommendation follows from the validated workflow boundary and the architectural constraints already established.",
             explanationStatus: "optional",
             supportSourceReferences: [],
+            evidence: null,
             durableInterpretation:
               "The user requested an explanation of the previous recommendation.",
           }),
