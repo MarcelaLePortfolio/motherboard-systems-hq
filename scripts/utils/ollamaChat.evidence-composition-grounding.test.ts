@@ -4,7 +4,7 @@ import test from "node:test";
 import { ollamaChat } from "./ollamaChat";
 
 test(
-  "Evidence Composition receives validated support references for the prior conclusion",
+  "Evidence Composition grounds claims in supplied sources",
   async () => {
     const originalFetch = globalThis.fetch;
     let requestBody: Record<string, unknown> | null = null;
@@ -19,7 +19,7 @@ test(
         json: async () => ({
           response: JSON.stringify({
             reply:
-              "The supplied workflow excerpt shows that the workflow invokes ollamaChat through the established semantic seam.",
+              "The supplied workflow excerpt shows that the workflow invokes ollamaChat through the existing semantic seam. The supplied evidence does not establish broader claims about performance or development speed.",
             explanationStatus: "recommended",
             supportSourceReferences: [
               {
@@ -30,7 +30,7 @@ test(
               },
             ],
             durableInterpretation:
-              "The user requested evidence supporting the prior workflow recommendation.",
+              "The user requested evidence supporting the workflow recommendation.",
           }),
         }),
       } as Response;
@@ -38,16 +38,16 @@ test(
 
     try {
       await ollamaChat(
-        "What evidence supports that recommendation?",
+        "What evidence supports preserving the workflow?",
         {
-          priorExplanationEvidenceStatus:
-            "sufficient",
-          priorExplanationSupportSourceReferences: [
+          priorExplanationEvidenceStatus: "sufficient",
+          history: [
             {
-              type: "project_context_excerpt",
-              relativePath:
-                "server/matilda-chat-workflow.ts",
-              lineNumber: 179,
+              sourceTurnId: "turn-evidence-validation-1",
+              userMessage:
+                "Which implementation approach should we use?",
+              assistantReply:
+                "I recommend preserving the existing single-invocation workflow.",
             },
           ],
           projectContextExcerpts: [
@@ -70,22 +70,32 @@ test(
 
       assert.match(
         prompt,
-        /Validated support references for the immediately preceding eligible conclusion/,
+        /compose the evidence portion of the reply only from conversation turns and project-context excerpts supplied in this invocation/,
       );
 
       assert.match(
         prompt,
-        /Validated prior support: project_context_excerpt:server\/matilda-chat-workflow\.ts:179/,
+        /identify which supplied source actually establishes that claim/,
       );
 
       assert.match(
         prompt,
-        /compose the evidence from these validated support references/,
+        /the supplied evidence does not establish the claim/,
       );
 
       assert.match(
         prompt,
-        /Do not treat any other supplied context as evidence for that conclusion unless it appears in this validated list/,
+        /do not treat a prior assistant claim as independent proof of itself/,
+      );
+
+      assert.match(
+        prompt,
+        /Prefer project-context evidence over repeating a prior assistant conclusion/,
+      );
+
+      assert.match(
+        prompt,
+        /Do not invent design priorities, motivations, benefits, risks, performance claims, or architectural properties/,
       );
     } finally {
       globalThis.fetch = originalFetch;

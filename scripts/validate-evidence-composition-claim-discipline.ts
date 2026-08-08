@@ -38,18 +38,12 @@ async function main() {
     },
   );
 
-  console.log("=== LIVE EVIDENCE COMPOSITION VALIDATION ===");
+  console.log("=== EVIDENCE COMPOSITION CLAIM DISCIPLINE ===");
   console.log();
-
   console.log("REPLY");
   console.log(result.reply);
   console.log();
-
-  console.log("EXPLANATION STATUS");
-  console.log(result.explanationStatus);
-  console.log();
-
-  console.log("SUPPORT SOURCE REFERENCES");
+  console.log("SUPPORT REFERENCES");
   console.log(
     JSON.stringify(
       result.supportSourceReferences,
@@ -58,29 +52,60 @@ async function main() {
     ),
   );
   console.log();
-
   console.log("EVIDENCE SUFFICIENT");
   console.log(result.evidenceSufficient);
   console.log();
+  console.log("=== DETERMINATION ===");
 
-  console.log("=== VALIDATION TARGET ===");
+  const lower = result.reply.toLowerCase();
+
+  const unsupportedPhrases = [
+    "simplicity",
+    "complexity",
+    "speed",
+    "rapid",
+    "performance",
+    "efficient",
+    "efficiency",
+    "reliable",
+    "reliability",
+    "system configuration",
+    "current design",
+    "design priority",
+  ];
+
+  const unsupported =
+    unsupportedPhrases.filter(
+      (phrase) => lower.includes(phrase),
+    );
+
+  const referencesProjectEvidence =
+    lower.includes("workflow") &&
+    (
+      lower.includes("invokes") ||
+      lower.includes("invocation") ||
+      lower.includes("ollamachat") ||
+      lower.includes("semantic seam")
+    );
+
+  if (unsupported.length > 0) {
+    console.log(
+      `EVIDENCE_COMPOSITION_REMAINS_OPEN: unsupported or overbroad wording detected: ${unsupported.join(", ")}`,
+    );
+    process.exitCode = 2;
+    return;
+  }
+
+  if (!referencesProjectEvidence) {
+    console.log(
+      "EVIDENCE_COMPOSITION_REMAINS_OPEN: reply does not clearly present the fact established by the validated project-context evidence.",
+    );
+    process.exitCode = 2;
+    return;
+  }
+
   console.log(
-    "PASS only if the reply presents what the validated prior support actually establishes.",
-  );
-  console.log(
-    "PASS only if the reply does not invent design priorities, speed, simplicity, benefits, risks, or other unsupported rationale.",
-  );
-  console.log(
-    "PASS if the reply explicitly says the supplied evidence is narrower than the broader recommendation when appropriate.",
-  );
-  console.log(
-    "PASS if the validated project-context evidence is used instead of treating the prior assistant recommendation as proof of itself.",
-  );
-  console.log(
-    "PASS if internal source identifiers and raw provenance metadata remain hidden.",
-  );
-  console.log(
-    "PASS if the evidence remains integrated into natural-language prose.",
+    "EVIDENCE_COMPOSITION_BEHAVIORALLY_SUPPORTED",
   );
 }
 

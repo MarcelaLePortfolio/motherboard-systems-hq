@@ -103,8 +103,6 @@ export interface OllamaChatContext {
   projectContextWarning?: string | null;
   priorExplanationEvidenceStatus?:
     MatildaPriorExplanationEvidenceStatus;
-  priorExplanationSupportSourceReferences?:
-    MatildaSupportSourceReference[];
 }
 
 export type MatildaExplanationStatus =
@@ -336,19 +334,6 @@ export async function ollamaChat(
             "",
             "Deterministic prior-conclusion evidence status:",
             `Evidence status: ${context.priorExplanationEvidenceStatus}`,
-            ...(context.priorExplanationSupportSourceReferences?.length
-              ? [
-                  "Validated support references for the immediately preceding eligible conclusion:",
-                  ...context.priorExplanationSupportSourceReferences.map(
-                    (reference) =>
-                      reference.type === "conversation_turn"
-                        ? `Validated prior support: conversation_turn:${reference.sourceTurnId}`
-                        : `Validated prior support: project_context_excerpt:${reference.relativePath}:${reference.lineNumber}`,
-                  ),
-                  "When the user asks for evidence supporting the immediately preceding conclusion, compose the evidence from these validated support references.",
-                  "Do not treat any other supplied context as evidence for that conclusion unless it appears in this validated list.",
-                ]
-              : []),
             context.priorExplanationEvidenceStatus === "sufficient"
               ? "The immediately preceding eligible conclusion has persisted validated support provenance. A requested explanation may be provided, but it must remain grounded in supplied context and must not invent additional justification."
               : "The immediately preceding eligible conclusion does not have persisted validated support provenance available for justification. If the current user explicitly requests an explanation of that prior conclusion, do not invent an engineering justification. State that sufficient supporting justification is not available from the established evidence.",
@@ -404,20 +389,6 @@ export async function ollamaChat(
             "4. State material uncertainty or unresolved limits only when they affect the strength or applicability of the conclusion.",
             "Do not mechanically include every reasoning element when it is irrelevant; preserve a natural response and include only what materially explains the conclusion.",
             "Do not turn reasoning composition into an evidence inventory. Evidence presentation is a separate concern.",
-            "For evidence presentation:",
-            "Present specific supporting evidence only when it materially helps the user understand, verify, or act on the conclusion or explanation.",
-            "When the user explicitly asks what evidence supports a conclusion, compose the evidence portion of the reply only from conversation turns and project-context excerpts supplied in this invocation.",
-            "Before stating an evidence-backed claim, identify which supplied source actually establishes that claim. If no supplied source establishes it, state that the supplied evidence does not establish the claim instead of supplying a plausible rationale from general knowledge.",
-            "Connect each presented evidence point to the claim it supports rather than listing sources without explanation.",
-            "For conversation-turn support, describe only what the supplied prior statement or conclusion actually establishes; do not treat a prior assistant claim as independent proof of itself and do not expose internal source identifiers.",
-            "For project-context support, identify the relevant repository artifact and state only the specific fact established by the supplied excerpt.",
-            "Prefer project-context evidence over repeating a prior assistant conclusion when the repository excerpt directly establishes the requested fact.",
-            "Present the minimum sufficient evidence needed for the current response rather than every available source.",
-            "Do not present provenance metadata, raw supportSourceReferences objects, internal identifiers, or an evidence inventory in the user-facing reply.",
-            "Do not imply that a source proves more than the supplied evidence establishes.",
-            "Do not invent design priorities, motivations, benefits, risks, performance claims, or architectural properties that are not established by a supplied source.",
-            "If multiple sources support the same claim, combine them naturally instead of repeating equivalent evidence.",
-            "Evidence presentation must remain part of the natural-language reply and must not become a separate semantic artifact.",
             "Ground the explanation in the established evidence, architectural constraints, tradeoffs, implementation boundaries, and material uncertainty available in the current conversation context.",
             "Do not narrate hidden reasoning, internal thought processes, or chain-of-thought.",
             "Provide only the explanation necessary to help the user understand or act on the previously stated conclusion.",
