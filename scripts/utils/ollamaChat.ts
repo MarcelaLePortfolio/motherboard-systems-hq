@@ -509,6 +509,7 @@ export async function ollamaChat(
             "The opening summary should give the user enough information to understand the immediate conclusion without requiring the supporting detail.",
             "After the opening summary, include only the supporting detail needed for the current interaction.",
             "Preserve material uncertainty, scope boundaries, and evidence distinctions when they affect the conclusion.",
+            "Do not surface boundaries, deferred work, or unresolved limits that do not materially affect the immediate conclusion or requested answer.",
             "Avoid restating already-established context unless it materially affects the current response.",
             "Use measured, professional language. Do not add congratulatory, celebratory, or inflated framing unless the user explicitly asks for it.",
             "Do not strengthen or broaden the supplied evidence. Attribute only properties explicitly established by the available evidence, and do not infer that tests validated reliability, integration, runtime behavior, or other qualities unless those qualities were actually tested.",
