@@ -190,6 +190,9 @@ export interface OllamaChatContext {
   priorExplanationEvidenceStatus?:
     MatildaPriorExplanationEvidenceStatus;
   explicitEvidenceRequest?: boolean;
+  observeValidatedSelectedContextSegments?: (
+    segments: readonly MatildaSelectedContextSegment[],
+  ) => void;
 }
 
 export type MatildaExplanationStatus =
@@ -212,7 +215,7 @@ export interface OllamaChatResult {
   durableInterpretation: string;
 }
 
-interface MatildaSelectedContextSegment {
+export interface MatildaSelectedContextSegment {
   relativePath: string;
   sourceStartLine: number;
   sourceEndLine: number;
@@ -839,6 +842,12 @@ export async function ollamaChat(
           "Ollama returned project-context support without selecting a supplied child segment for that parent.",
         );
       }
+    }
+
+    if (context.observeValidatedSelectedContextSegments) {
+      context.observeValidatedSelectedContextSegments(
+        deduplicatedSelectedContextSegments,
+      );
     }
 
     const supportDrivenEvidenceSources =
