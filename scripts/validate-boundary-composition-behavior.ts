@@ -61,11 +61,12 @@ const scenarios: Scenario[] = [
       },
     ],
     required: [
-      /not been independently validated|uncertain|not yet validated/i,
+      /has(?: not|n't) been independently validated|not yet validated|uncertain|cannot fully rely|can(?: not|'t) fully rely/i,
     ],
     forbidden: [
       /fully validated/i,
       /confirmed end-to-end/i,
+      /guarantees? overall functionality/i,
     ],
   },
   {
