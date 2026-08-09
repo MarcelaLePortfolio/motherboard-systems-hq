@@ -1,33 +1,37 @@
 import { ollamaChat } from "./utils/ollamaChat";
 
 async function main() {
+  const relativePath =
+    "server/matilda-chat-workflow.ts";
+  const parentLineNumber = 155;
   const suppliedExcerpt =
     "const ollamaResult = await ollamaChat(message, {";
+
+  const suppliedSegment = {
+    relativePath,
+    parentRelativePath: relativePath,
+    parentLineNumber,
+    sourceStartLine: parentLineNumber,
+    sourceEndLine: parentLineNumber,
+    text: suppliedExcerpt,
+  };
 
   const result = await ollamaChat(
     "What repository evidence shows that this workflow invokes ollamaChat?",
     {
-      history: [
-        {
-          sourceTurnId:
-            "turn-source-excerpt-live-validation",
-          userMessage:
-            "We need repository evidence for the workflow invocation seam.",
-          assistantReply:
-            "The repository excerpt should establish that directly.",
-        },
-      ],
       projectContextExcerpts: [
         {
-          relativePath:
-            "server/matilda-chat-workflow.ts",
-          lineNumber: 155,
+          relativePath,
+          lineNumber: parentLineNumber,
           excerpt: suppliedExcerpt,
           provenance:
             "git_tracked_project_file",
           authorityStatus:
             "candidate_evidence_not_authority",
         },
+      ],
+      projectContextSegmentCandidates: [
+        suppliedSegment,
       ],
     },
   );
@@ -87,8 +91,9 @@ async function main() {
     source.reference.type !==
       "project_context_excerpt" ||
     source.reference.relativePath !==
-      "server/matilda-chat-workflow.ts" ||
-    source.reference.lineNumber !== 155
+      relativePath ||
+    source.reference.lineNumber !==
+      parentLineNumber
   ) {
     console.log(
       "SOURCE_EXCERPT_FIRST_LIVE_FAIL: evidence source identity does not match the supplied repository source.",
