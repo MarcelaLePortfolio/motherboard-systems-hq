@@ -611,59 +611,6 @@ export async function ollamaChat(
         ),
       );
 
-    const validatedEvidence =
-      result.evidence
-        ? {
-            sources:
-              result.evidence.sources
-                .filter(
-                  (source, index, sources) => {
-                    const referenceKey =
-                      `project_context_excerpt:${source.reference.relativePath}:${source.reference.lineNumber}`;
-
-                    return (
-                      sources.findIndex((candidate) => {
-                        const candidateKey =
-                          `project_context_excerpt:${candidate.reference.relativePath}:${candidate.reference.lineNumber}`;
-
-                        return candidateKey === referenceKey;
-                      }) === index
-                    );
-                  },
-                )
-                .map((source) => {
-                  const reference = source.reference;
-                  const sourceKey =
-                    `${reference.relativePath}:${reference.lineNumber}`;
-
-                  const suppliedExcerpt =
-                    suppliedProjectContextExcerptBySource.get(
-                      sourceKey,
-                    );
-
-                  if (suppliedExcerpt === undefined) {
-                    throw new Error(
-                      "Ollama returned an evidence project-context source that was not supplied in this invocation.",
-                    );
-                  }
-
-                  return {
-                    reference,
-                    excerpt: suppliedExcerpt,
-                  };
-                }),
-          }
-        : null;
-
-    if (
-      validatedEvidence &&
-      validatedEvidence.sources.length === 0
-    ) {
-      throw new Error(
-        "Ollama returned evidence without sources.",
-      );
-    }
-
     for (const reference of deduplicatedSupportSourceReferences) {
       if (reference.type === "conversation_turn") {
         if (
@@ -693,6 +640,46 @@ export async function ollamaChat(
         );
       }
     }
+
+    const supportDrivenEvidenceSources =
+      deduplicatedSupportSourceReferences
+        .filter(
+          (
+            reference,
+          ): reference is Extract<
+            MatildaSupportSourceReference,
+            { type: "project_context_excerpt" }
+          > =>
+            reference.type ===
+            "project_context_excerpt",
+        )
+        .map((reference) => {
+          const sourceKey =
+            `${reference.relativePath}:${reference.lineNumber}`;
+
+          const suppliedExcerpt =
+            suppliedProjectContextExcerptBySource.get(
+              sourceKey,
+            );
+
+          if (suppliedExcerpt === undefined) {
+            throw new Error(
+              "Validated project-context support reference has no supplied excerpt.",
+            );
+          }
+
+          return {
+            reference,
+            excerpt: suppliedExcerpt,
+          };
+        });
+
+    const validatedEvidence =
+      supportDrivenEvidenceSources.length > 0
+        ? {
+            sources: supportDrivenEvidenceSources,
+          }
+        : null;
 
     return {
       ...result,
