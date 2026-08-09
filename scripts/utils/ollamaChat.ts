@@ -140,6 +140,8 @@ export interface OllamaChatProjectContextExcerpt {
 
 export interface OllamaChatProjectContextSegmentCandidate {
   relativePath: string;
+  parentRelativePath: string;
+  parentLineNumber: number;
   sourceStartLine: number;
   sourceEndLine: number;
   text: string;

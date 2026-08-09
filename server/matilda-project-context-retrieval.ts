@@ -162,6 +162,8 @@ function resolveValidatedProjectRoot(
 
 export interface MatildaProjectContextSegmentCandidate {
   relativePath: string;
+  parentRelativePath: string;
+  parentLineNumber: number;
   sourceStartLine: number;
   sourceEndLine: number;
   text: string;
@@ -232,6 +234,8 @@ function segmentBoundedProjectContextSource(input: {
 
     segments.push({
       relativePath: input.relativePath,
+      parentRelativePath: input.relativePath,
+      parentLineNumber: input.matchedLineNumber,
       sourceStartLine:
         input.sourceStartLine + segmentStartIndex,
       sourceEndLine:
