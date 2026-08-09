@@ -3,6 +3,31 @@ set -euo pipefail
 
 cd "$HOME/Projects/motherboard-systems-hq-clean"
 
+echo "=== FIX ADAPTIVE DETAIL LIVE RUNNER — ANCESTRY GUARD ==="
+
+if [[ "$(git rev-parse --short HEAD)" != "e744d3e4" ]]; then
+  echo "STOP: HEAD no longer matches runner-repin checkpoint e744d3e4."
+  exit 2
+fi
+
+unexpected="$(
+  git status --porcelain |
+  grep -vE '^\?\? scripts/fix-adaptive-detail-live-runner-ancestry-guard\.sh$' ||
+  true
+)"
+
+if [[ -n "$unexpected" ]]; then
+  echo "STOP: unexpected working-tree changes exist:"
+  printf '%s\n' "$unexpected"
+  exit 2
+fi
+
+cat > scripts/run-adaptive-detail-mixed-content-live-validation.sh <<'RUNNER_EOF'
+#!/usr/bin/env bash
+set -euo pipefail
+
+cd "$HOME/Projects/motherboard-systems-hq-clean"
+
 echo "=== RUN ADAPTIVE DETAIL — MIXED CONTENT LIVE VALIDATION ==="
 
 required_implementation_commit="0a3251f5"
@@ -62,3 +87,22 @@ git diff --check
 
 echo
 echo "ADAPTIVE_DETAIL_MIXED_CONTENT_LIVE_VALIDATION_PASSED"
+RUNNER_EOF
+
+chmod +x scripts/run-adaptive-detail-mixed-content-live-validation.sh
+
+echo
+echo "=== VERIFY RUNNER CHANGE ==="
+git diff --check
+git diff -- scripts/run-adaptive-detail-mixed-content-live-validation.sh
+
+git add \
+  scripts/run-adaptive-detail-mixed-content-live-validation.sh \
+  scripts/fix-adaptive-detail-live-runner-ancestry-guard.sh
+
+git commit -m "Fix Adaptive Detail live validation ancestry guard"
+git push
+
+echo
+echo "=== EXECUTE LIVE VALIDATION ==="
+./scripts/run-adaptive-detail-mixed-content-live-validation.sh
