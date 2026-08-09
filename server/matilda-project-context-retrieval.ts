@@ -158,10 +158,19 @@ function resolveValidatedProjectRoot(
   return resolved;
 }
 
+interface MatildaBoundedExcerptReadResult {
+  excerpt: string;
+  metadata: {
+    sourceStartLine: number;
+    sourceEndLine: number;
+    excerptTruncated: boolean;
+  };
+}
+
 function readBoundedExcerpt(
   absolutePath: string,
   lineNumber: number
-): string | null {
+): MatildaBoundedExcerptReadResult | null {
   try {
     const stat = fs.statSync(absolutePath);
 
@@ -172,12 +181,20 @@ function readBoundedExcerpt(
     const lines = fs.readFileSync(absolutePath, "utf8").split(/\r?\n/);
     const start = Math.max(0, lineNumber - 3);
     const end = Math.min(lines.length, lineNumber + 2);
-
-    return lines
+    const boundedSource = lines
       .slice(start, end)
       .join("\n")
-      .trim()
-      .slice(0, MAX_EXCERPT_CHARACTERS);
+      .trim();
+
+    return {
+      excerpt: boundedSource.slice(0, MAX_EXCERPT_CHARACTERS),
+      metadata: {
+        sourceStartLine: start + 1,
+        sourceEndLine: end,
+        excerptTruncated:
+          boundedSource.length > MAX_EXCERPT_CHARACTERS,
+      },
+    };
   } catch {
     return null;
   }
@@ -329,12 +346,12 @@ export function retrieveMatildaProjectContext(input: {
     const excerpts: MatildaProjectContextExcerpt[] = [];
 
     for (const candidate of selectedCandidates.slice(0, MAX_MATCHES)) {
-      const excerpt = readBoundedExcerpt(
+      const boundedExcerpt = readBoundedExcerpt(
         path.join(projectRoot, candidate.relativePath),
         candidate.lineNumber
       );
 
-      if (!excerpt) {
+      if (!boundedExcerpt) {
         continue;
       }
 
@@ -342,7 +359,7 @@ export function retrieveMatildaProjectContext(input: {
         projectId,
         relativePath: candidate.relativePath,
         lineNumber: candidate.lineNumber,
-        excerpt,
+        excerpt: boundedExcerpt.excerpt,
         provenance: "git_tracked_project_file",
         authorityStatus: "candidate_evidence_not_authority",
       });
