@@ -34,12 +34,13 @@ const scenarios: Scenario[] = [
       },
     ],
     required: [
-      /package surface/i,
-      /downstream|not been validated|only/i,
+      /downstream governance integration|downstream/i,
+      /not been validated|not yet ready|only/i,
     ],
     forbidden: [
       /fully ready/i,
       /ready for all/i,
+      /all integration is validated/i,
     ],
   },
   {
@@ -89,8 +90,8 @@ const scenarios: Scenario[] = [
       /pending|not yet|requires/i,
     ],
     forbidden: [
-      /proceed now/i,
       /implementation is authorized/i,
+      /you can proceed now/i,
     ],
   },
   {
@@ -114,8 +115,8 @@ const scenarios: Scenario[] = [
       /production reliability was not tested|does not establish production reliability|not tested/i,
     ],
     forbidden: [
-      /reliable in production/i,
       /production reliability is confirmed/i,
+      /proves the system is reliable in production/i,
     ],
   },
   {
