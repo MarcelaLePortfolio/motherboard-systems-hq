@@ -28,6 +28,7 @@ test(
             reply: "We can proceed carefully.",
             explanationStatus: "optional",
             explanationStatus: "optional",
+            selectedContextSegments: [],
             supportSourceReferences: [],
             evidence: null,
             durableInterpretation:
@@ -90,6 +91,7 @@ test(
             reply: "Current response.",
             explanationStatus: "optional",
             explanationStatus: "optional",
+            selectedContextSegments: [],
             supportSourceReferences: [],
             evidence: null,
             durableInterpretation:
@@ -163,6 +165,7 @@ test(
             reply: "Current response.",
             explanationStatus: "optional",
             explanationStatus: "optional",
+            selectedContextSegments: [],
             supportSourceReferences: [],
             evidence: null,
             durableInterpretation:
@@ -253,6 +256,7 @@ test(
           response: JSON.stringify({
             reply: "Hello.",
             explanationStatus: "optional",
+            selectedContextSegments: [],
             supportSourceReferences: [],
             evidence: null,
           }),

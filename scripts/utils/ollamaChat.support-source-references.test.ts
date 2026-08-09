@@ -16,6 +16,7 @@ test(
         response: JSON.stringify({
           reply: "Conclusion.",
           explanationStatus: "optional",
+          selectedContextSegments: [],
           supportSourceReferences: [
             {
               type: "conversation_turn",
@@ -96,6 +97,7 @@ test(
         response: JSON.stringify({
           reply: "Conclusion.",
           explanationStatus: "optional",
+          selectedContextSegments: [],
           supportSourceReferences: [
             {
               type: "conversation_turn",
@@ -132,6 +134,7 @@ test(
         response: JSON.stringify({
           reply: "Conclusion.",
           explanationStatus: "optional",
+          selectedContextSegments: [],
           supportSourceReferences: [
             {
               type: "project_context_excerpt",
@@ -169,6 +172,7 @@ test(
         response: JSON.stringify({
           reply: "Conclusion.",
           explanationStatus: "optional",
+          selectedContextSegments: [],
           supportSourceReferences: [
             {
               type: "unknown",
@@ -206,6 +210,7 @@ test(
         response: JSON.stringify({
           reply: "Conclusion.",
           explanationStatus: "optional",
+          selectedContextSegments: [],
           supportSourceReferences: [
             {
               type: "conversation_turn",
@@ -255,6 +260,7 @@ test(
         response: JSON.stringify({
           reply: "Conclusion.",
           explanationStatus: "optional",
+          selectedContextSegments: [],
           supportSourceReferences: [
             {
               type: "project_context_excerpt",
@@ -311,6 +317,7 @@ test(
         response: JSON.stringify({
           reply: "Conclusion.",
           explanationStatus: "optional",
+          selectedContextSegments: [],
           supportSourceReferences: [
             {
               type: "conversation_turn",
@@ -406,6 +413,7 @@ test(
         response: JSON.stringify({
           reply: "Conclusion.",
           explanationStatus: "optional",
+          selectedContextSegments: [],
           supportSourceReferences: [],
           evidence: null,
           durableInterpretation:

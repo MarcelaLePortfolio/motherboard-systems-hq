@@ -15,6 +15,7 @@ interface OllamaGenerateResponse {
 interface OllamaStructuredResponse {
   reply?: unknown;
   explanationStatus?: unknown;
+  selectedContextSegments?: unknown;
   supportSourceReferences?: unknown;
   evidence?: unknown;
   durableInterpretation?: unknown;
@@ -26,6 +27,7 @@ const OLLAMA_CHAT_OUTPUT_SCHEMA = {
   required: [
     "reply",
     "explanationStatus",
+    "selectedContextSegments",
     "supportSourceReferences",
     "evidence",
     "durableInterpretation",
@@ -37,6 +39,31 @@ const OLLAMA_CHAT_OUTPUT_SCHEMA = {
     explanationStatus: {
       type: "string",
       enum: ["optional", "recommended"],
+    },
+    selectedContextSegments: {
+      type: "array",
+      items: {
+        type: "object",
+        additionalProperties: false,
+        required: [
+          "relativePath",
+          "sourceStartLine",
+          "sourceEndLine",
+        ],
+        properties: {
+          relativePath: {
+            type: "string",
+          },
+          sourceStartLine: {
+            type: "integer",
+            minimum: 1,
+          },
+          sourceEndLine: {
+            type: "integer",
+            minimum: 1,
+          },
+        },
+      },
     },
     supportSourceReferences: {
       type: "array",
@@ -185,9 +212,20 @@ export interface OllamaChatResult {
   durableInterpretation: string;
 }
 
+interface MatildaSelectedContextSegment {
+  relativePath: string;
+  sourceStartLine: number;
+  sourceEndLine: number;
+}
+
+type ParsedOllamaChatResult =
+  Omit<OllamaChatResult, "evidenceSufficient"> & {
+    selectedContextSegments: MatildaSelectedContextSegment[];
+  };
+
 function parseStructuredResponse(
   rawResponse: string,
-): OllamaChatResult {
+): ParsedOllamaChatResult {
   let parsed: OllamaStructuredResponse;
 
   try {
@@ -220,6 +258,50 @@ function parseStructuredResponse(
     parsed.explanationStatus === "recommended"
       ? parsed.explanationStatus
       : null;
+
+  const rawSelectedContextSegments =
+    Array.isArray(parsed.selectedContextSegments)
+      ? parsed.selectedContextSegments
+      : null;
+
+  const selectedContextSegments: MatildaSelectedContextSegment[] = [];
+
+  if (rawSelectedContextSegments) {
+    for (const segment of rawSelectedContextSegments) {
+      if (
+        !segment ||
+        typeof segment !== "object" ||
+        Array.isArray(segment)
+      ) {
+        throw new Error(
+          "Ollama returned malformed selected context segment.",
+        );
+      }
+
+      const candidate = segment as Record<string, unknown>;
+
+      if (
+        typeof candidate.relativePath !== "string" ||
+        !candidate.relativePath.trim() ||
+        typeof candidate.sourceStartLine !== "number" ||
+        !Number.isInteger(candidate.sourceStartLine) ||
+        candidate.sourceStartLine < 1 ||
+        typeof candidate.sourceEndLine !== "number" ||
+        !Number.isInteger(candidate.sourceEndLine) ||
+        candidate.sourceEndLine < candidate.sourceStartLine
+      ) {
+        throw new Error(
+          "Ollama returned malformed selected context segment.",
+        );
+      }
+
+      selectedContextSegments.push({
+        relativePath: candidate.relativePath.trim(),
+        sourceStartLine: candidate.sourceStartLine,
+        sourceEndLine: candidate.sourceEndLine,
+      });
+    }
+  }
 
   const rawSupportSourceReferences =
     Array.isArray(parsed.supportSourceReferences)
@@ -384,6 +466,12 @@ function parseStructuredResponse(
     );
   }
 
+  if (!rawSelectedContextSegments) {
+    throw new Error(
+      "Ollama returned invalid selected context segments.",
+    );
+  }
+
   if (!rawSupportSourceReferences) {
     throw new Error(
       "Ollama returned invalid support source references.",
@@ -399,6 +487,7 @@ function parseStructuredResponse(
   return {
     reply,
     explanationStatus,
+    selectedContextSegments,
     supportSourceReferences,
     evidence,
     durableInterpretation,
@@ -454,6 +543,26 @@ export async function ollamaChat(
           ]
         : [];
 
+    const projectContextSegmentCandidates =
+      context.projectContextSegmentCandidates?.length
+        ? [
+            "",
+            "Project-context segment candidates:",
+            "These child segments are deterministic subdivisions of supplied git-tracked project-context evidence.",
+            "They are candidate evidence, not authority.",
+            "Select only child segments whose content materially affects the immediate reply.",
+            "Parent excerpts remain the support-provenance and Evidence Composition universe.",
+            ...context.projectContextSegmentCandidates.flatMap(
+              (item) => [
+                "",
+                `Segment source: ${item.relativePath}:${item.sourceStartLine}-${item.sourceEndLine}`,
+                "Authority status: candidate_evidence_not_authority",
+                item.text,
+              ],
+            ),
+          ]
+        : [];
+
     const projectContextWarning = context.projectContextWarning
       ? [
           "",
@@ -504,7 +613,13 @@ export async function ollamaChat(
             "",
             "Return exactly one JSON object matching the supplied schema.",
             "Set reply to the natural-language response shown directly to the user.",
-            "Set supportSourceReferences to only the supplied conversation turns or project-context excerpts that explicitly support the conclusion, recommendation, or assessment expressed in reply.",
+            "Set selectedContextSegments to exactly the supplied project-context child segments whose content materially affects the immediate reply.",
+            "Use only the exact relativePath, sourceStartLine, and sourceEndLine supplied for each selected child.",
+            "Do not select a child merely because it was supplied.",
+            "Return [] when no supplied project-context child materially affects the immediate reply.",
+            "Conversation history remains independent and does not require selectedContextSegments membership.",
+            "Set supportSourceReferences to only the supplied conversation turns or parent project-context excerpts that explicitly support the conclusion, recommendation, or assessment expressed in reply.",
+            "selectedContextSegments records semantic project-context admission; supportSourceReferences records support provenance.",
             "For conversation support, use type conversation_turn with the exact Conversation source identifier supplied in history.",
             "For project-context support, use type project_context_excerpt with the exact relativePath and lineNumber supplied in bounded project context evidence.",
             "Do not invent, reconstruct, approximate, or reference a source identifier that was not supplied in this invocation.",
@@ -546,6 +661,7 @@ export async function ollamaChat(
             "Do not invent decisions, constraints, authorization, or unresolved questions.",
             ...projectContext,
             ...projectContextEvidence,
+            ...projectContextSegmentCandidates,
             ...projectContextWarning,
             ...conversationHistory,
             ...priorExplanationEvidence,
@@ -573,6 +689,48 @@ export async function ollamaChat(
 
     const result =
       parseStructuredResponse(rawResponse);
+
+    const suppliedSegmentCandidates =
+      context.projectContextSegmentCandidates || [];
+
+    const suppliedSegmentByIdentity = new Map(
+      suppliedSegmentCandidates.map((segment) => [
+        `${segment.relativePath}:${segment.sourceStartLine}:${segment.sourceEndLine}`,
+        segment,
+      ]),
+    );
+
+    const deduplicatedSelectedContextSegments =
+      result.selectedContextSegments.filter(
+        (segment, index, segments) => {
+          const identity =
+            `${segment.relativePath}:${segment.sourceStartLine}:${segment.sourceEndLine}`;
+
+          return segments.findIndex(
+            (candidate) =>
+              `${candidate.relativePath}:${candidate.sourceStartLine}:${candidate.sourceEndLine}` ===
+              identity,
+          ) === index;
+        },
+      );
+
+    for (const segment of deduplicatedSelectedContextSegments) {
+      const identity =
+        `${segment.relativePath}:${segment.sourceStartLine}:${segment.sourceEndLine}`;
+
+      if (!suppliedSegmentByIdentity.has(identity)) {
+        throw new Error(
+          "Ollama returned a selected context segment that was not supplied in this invocation.",
+        );
+      }
+    }
+
+    const selectedSegmentIdentities = new Set(
+      deduplicatedSelectedContextSegments.map(
+        (segment) =>
+          `${segment.relativePath}:${segment.sourceStartLine}:${segment.sourceEndLine}`,
+      ),
+    );
 
     const suppliedConversationSourceIds =
       new Set(
@@ -654,6 +812,35 @@ export async function ollamaChat(
       }
     }
 
+    for (const reference of deduplicatedSupportSourceReferences) {
+      if (reference.type !== "project_context_excerpt") {
+        continue;
+      }
+
+      const childrenForParent = suppliedSegmentCandidates.filter(
+        (segment) =>
+          segment.parentRelativePath === reference.relativePath &&
+          segment.parentLineNumber === reference.lineNumber,
+      );
+
+      if (childrenForParent.length === 0) {
+        continue;
+      }
+
+      const hasSelectedChild = childrenForParent.some(
+        (segment) =>
+          selectedSegmentIdentities.has(
+            `${segment.relativePath}:${segment.sourceStartLine}:${segment.sourceEndLine}`,
+          ),
+      );
+
+      if (!hasSelectedChild) {
+        throw new Error(
+          "Ollama returned project-context support without selecting a supplied child segment for that parent.",
+        );
+      }
+    }
+
     const supportDrivenEvidenceSources =
       deduplicatedSupportSourceReferences
         .filter(
@@ -719,12 +906,14 @@ export async function ollamaChat(
         : null;
 
     return {
-      ...result,
+      reply: result.reply,
+      explanationStatus: result.explanationStatus,
       supportSourceReferences:
         deduplicatedSupportSourceReferences,
       evidence: validatedEvidence,
       evidenceSufficient:
         deduplicatedSupportSourceReferences.length > 0,
+      durableInterpretation: result.durableInterpretation,
     };
   } catch (error) {
     if (

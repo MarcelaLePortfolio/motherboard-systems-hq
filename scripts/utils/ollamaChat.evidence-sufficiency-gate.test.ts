@@ -25,6 +25,7 @@ test(
             reply:
               "The prior conclusion can be explained from its established support.",
             explanationStatus: "optional",
+            selectedContextSegments: [],
             supportSourceReferences: [],
             evidence: null,
             durableInterpretation:
@@ -84,6 +85,7 @@ test(
             reply:
               "Sufficient supporting justification is not available from the established evidence.",
             explanationStatus: "optional",
+            selectedContextSegments: [],
             supportSourceReferences: [],
             evidence: null,
             durableInterpretation:
@@ -146,6 +148,7 @@ test(
             reply:
               "Sufficient supporting justification is not available from the established evidence.",
             explanationStatus: "optional",
+            selectedContextSegments: [],
             supportSourceReferences: [],
             evidence: null,
             durableInterpretation:

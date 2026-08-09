@@ -40,6 +40,7 @@ test(
             reply:
               "Repository evidence is available.",
             explanationStatus: "optional",
+            selectedContextSegments: [],
             supportSourceReferences: [
               {
                 type: "conversation_turn",
@@ -128,6 +129,7 @@ test(
           reply:
             "No repository evidence was retrieved.",
           explanationStatus: "optional",
+          selectedContextSegments: [],
           supportSourceReferences: [],
           evidence: null,
           durableInterpretation:
@@ -173,6 +175,7 @@ test(
           reply:
             "The workflow invokes ollamaChat.",
           explanationStatus: "optional",
+          selectedContextSegments: [],
           supportSourceReferences: [
             {
               type:

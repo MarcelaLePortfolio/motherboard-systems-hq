@@ -29,6 +29,7 @@ test(
               "The implementation is stable. Supporting detail follows only where needed.",
             explanationStatus: "optional",
             explanationStatus: "optional",
+            selectedContextSegments: [],
             supportSourceReferences: [],
             evidence: null,
             durableInterpretation:

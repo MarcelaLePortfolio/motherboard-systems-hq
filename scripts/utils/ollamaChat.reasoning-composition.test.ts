@@ -20,6 +20,7 @@ test(
           response: JSON.stringify({
             reply: "The workflow remains the preferred approach because it preserves the validated architectural boundary.",
             explanationStatus: "optional",
+            selectedContextSegments: [],
             supportSourceReferences: [],
             evidence: null,
             durableInterpretation:

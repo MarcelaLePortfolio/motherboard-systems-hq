@@ -28,6 +28,7 @@ test(
             reply:
               "The current architecture supports a bounded implementation attempt.",
             explanationStatus: "optional",
+            selectedContextSegments: [],
             supportSourceReferences: [],
             evidence: null,
             durableInterpretation:
@@ -49,7 +50,8 @@ test(
         [
           "reply",
           "explanationStatus",
-          "supportSourceReferences",
+          "selectedContextSegments",
+        "supportSourceReferences",
           "evidence",
           "durableInterpretation",
         ],
@@ -93,6 +95,7 @@ test(
         response: JSON.stringify({
           reply: "Conclusion.",
           explanationStatus: "required",
+          selectedContextSegments: [],
           supportSourceReferences: [],
           evidence: null,
           durableInterpretation:

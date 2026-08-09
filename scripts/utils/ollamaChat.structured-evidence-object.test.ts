@@ -35,6 +35,7 @@ test(
           reply:
             "The workflow invokes ollamaChat.",
           explanationStatus: "optional",
+          selectedContextSegments: [],
           supportSourceReferences: [
             {
               type:
@@ -91,6 +92,7 @@ test(
           reply:
             "The workflow invokes ollamaChat.",
           explanationStatus: "optional",
+          selectedContextSegments: [],
           supportSourceReferences: [
             {
               type:
@@ -141,6 +143,7 @@ test(
           reply:
             "The prior conversation supports this.",
           explanationStatus: "optional",
+          selectedContextSegments: [],
           supportSourceReferences: [
             {
               type: "conversation_turn",
@@ -205,6 +208,7 @@ test(
           reply:
             "The workflow invokes ollamaChat.",
           explanationStatus: "optional",
+          selectedContextSegments: [],
           supportSourceReferences: [
             reference,
             reference,
@@ -253,6 +257,7 @@ test(
         response: JSON.stringify({
           reply: "No supported conclusion.",
           explanationStatus: "optional",
+          selectedContextSegments: [],
           supportSourceReferences: [],
           evidence: null,
           durableInterpretation:

@@ -26,6 +26,7 @@ test(
             reply:
               "Preserving the current workflow preserves the established invariant.",
             explanationStatus: "optional",
+            selectedContextSegments: [],
             supportSourceReferences: [
               {
                 type: "conversation_turn",
@@ -81,7 +82,7 @@ test(
 
       assert.match(
         prompt,
-        /Set supportSourceReferences to only the supplied conversation turns or project-context excerpts that explicitly support/,
+        /Set supportSourceReferences to only the supplied conversation turns or parent project-context excerpts that explicitly support/,
       );
 
       assert.match(

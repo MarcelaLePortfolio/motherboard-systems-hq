@@ -28,6 +28,7 @@ test(
             reply:
               "The test verifies deterministic deduplication.",
             explanationStatus: "optional",
+            selectedContextSegments: [],
             supportSourceReferences: [],
             evidence: null,
             durableInterpretation:

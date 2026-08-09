@@ -26,6 +26,7 @@ test(
             reply:
               "The recommendation follows from the validated workflow boundary and the architectural constraints already established.",
             explanationStatus: "optional",
+            selectedContextSegments: [],
             supportSourceReferences: [],
             evidence: null,
             durableInterpretation:
