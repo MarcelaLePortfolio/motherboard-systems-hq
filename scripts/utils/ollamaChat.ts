@@ -193,6 +193,9 @@ export interface OllamaChatContext {
   observeValidatedSelectedContextSegments?: (
     segments: readonly MatildaSelectedContextSegment[],
   ) => void;
+  observeParsedSupportSourceReferences?: (
+    references: readonly MatildaSupportSourceReference[],
+  ) => void;
 }
 
 export type MatildaExplanationStatus =
@@ -753,6 +756,12 @@ export async function ollamaChat(
             `${excerpt.relativePath}:${excerpt.lineNumber}`,
         ),
       );
+
+    if (context.observeParsedSupportSourceReferences) {
+      context.observeParsedSupportSourceReferences(
+        result.supportSourceReferences,
+      );
+    }
 
     const deduplicatedSupportSourceReferences =
       result.supportSourceReferences.filter(
