@@ -193,6 +193,7 @@ export interface OllamaChatContext {
   observeValidatedSelectedContextSegments?: (
     segments: readonly MatildaSelectedContextSegment[],
   ) => void;
+  validationGenerationSeed?: number;
   observeParsedSupportSourceReferences?: (
     references: readonly MatildaSupportSourceReference[],
   ) => void;
@@ -616,6 +617,13 @@ export async function ollamaChat(
           model: OLLAMA_CHAT_MODEL,
           stream: false,
           format: OLLAMA_CHAT_OUTPUT_SCHEMA,
+          ...(context.validationGenerationSeed === undefined
+            ? {}
+            : {
+                options: {
+                  seed: context.validationGenerationSeed,
+                },
+              }),
           prompt: [
             "You are Matilda, a natural and thoughtful collaborative assistant",
             "operating inside Motherboard Systems HQ.",
