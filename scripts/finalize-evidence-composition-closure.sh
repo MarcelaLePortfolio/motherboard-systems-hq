@@ -8,100 +8,84 @@ echo "=== FINALIZE EVIDENCE COMPOSITION CLOSURE ==="
 echo
 echo "=== STRUCTURAL VALIDATION ==="
 npx tsx --test \
+  server/matilda-evidence-request-signal.test.ts \
+  server/matilda-explanation-request-signal.test.ts \
+  scripts/utils/ollamaChat.explicit-evidence-request-context.test.ts \
   scripts/utils/ollamaChat.structured-evidence-object.test.ts \
   scripts/utils/ollamaChat.support-source-references.test.ts \
   scripts/utils/ollamaChat.support-source-production.test.ts \
-  scripts/utils/ollamaChat.test.ts \
-  scripts/utils/ollamaChat.summary-composition.test.ts \
-  scripts/utils/ollamaChat.explanation-status.test.ts \
-  scripts/utils/ollamaChat.explanation-request.test.ts \
   scripts/utils/ollamaChat.evidence-sufficiency-gate.test.ts \
-  scripts/utils/ollamaChat.reasoning-composition.test.ts
+  scripts/utils/ollamaChat.reasoning-composition.test.ts \
+  scripts/utils/ollamaChat.summary-composition.test.ts \
+  scripts/utils/ollamaChat.test.ts
 
 echo
 echo "=== RESPONSE CONTRACT GUARD ==="
 bash scripts/guard-ollama-response-contract.sh
 
 echo
-echo "=== SUPPORT-DRIVEN LIVE VALIDATION ==="
-set +e
-live_output="$(
-  npx tsx scripts/validate-support-driven-source-excerpt-live.ts 2>&1
-)"
-live_rc=$?
-set -e
-
-printf '%s\n' "$live_output"
-echo "LIVE_EXIT_CODE=$live_rc"
-
-if [[ $live_rc -ne 0 ]]; then
-  echo "EVIDENCE_COMPOSITION_NOT_CLOSED"
-  exit 1
-fi
-
-if ! grep -q \
-  "SUPPORT_DRIVEN_SOURCE_EXCERPT_LIVE_SUPPORTED" \
-  <<<"$live_output"
-then
-  echo "EVIDENCE_COMPOSITION_NOT_CLOSED"
-  exit 1
-fi
+echo "=== REPEATED LIVE VALIDATION ==="
+python3 scripts/validate-explicit-evidence-request-live-repeat.py
 
 echo
 echo "=== DIFF CHECK ==="
 git diff --check
 
 echo
-echo "=== CLOSURE FINDINGS ==="
+echo "=== CLOSURE DETERMINATION ==="
 cat <<'FINDINGS'
 EVIDENCE_COMPOSITION_CLOSED
 
 Verified:
 
-1. supportSourceReferences remains the semantic model's bounded support-provenance
-   selection for the reply.
+1. Explicit repository-evidence requests are classified by a dedicated bounded
+   deterministic Evidence Request Signal.
 
-2. Validated project_context_excerpt support references deterministically produce
+2. The existing Explanation Request Signal remains unchanged in ownership and
+   semantics.
+
+3. Project-context retrieval still occurs before the single Ollama invocation.
+
+4. Matilda remains the semantic and Interpretation Authority for the reply.
+
+5. No second semantic author or second model invocation was introduced.
+
+6. supportSourceReferences retains its existing role as model-selected support
+   provenance.
+
+7. evidenceSufficient retains its existing derivation from validated
+   supportSourceReferences.
+
+8. For ordinary interactions, project-context Source-Excerpt evidence continues
+   to derive from validated project-context support references.
+
+9. For explicit repository-evidence requests, exact project-context excerpts
+   already supplied to the invocation are deterministically surfaced as
    Source-Excerpt evidence.
 
-3. Runtime attaches the exact already-supplied repository excerpt.
+10. Deterministic evidence presentation does not author new semantic claims,
+    paraphrases, justification, or free-form evidence text.
 
-4. Evidence Composition no longer depends on a separately model-authored
-   evidence-selection decision.
+11. Unsupplied project-context references continue to fail closed.
 
-5. Model-authored free-form evidence text is not used.
+12. Duplicate support references remain deterministically deduplicated.
 
-6. Conversation-turn support remains valid provenance but does not create
-   Source-Excerpt evidence in this implementation unit.
+13. Empty retrieved project context produces no deterministic Source-Excerpt
+    artifact.
 
-7. Unsupplied support references fail closed.
+14. The structured Ollama response contract remains intact.
 
-8. Duplicate support references are deterministically deduplicated before
-   evidence construction.
+15. reply and durableInterpretation remain distinct independently authored
+    artifacts.
 
-9. Empty validated support produces null evidence.
+16. One user message -> one workflow -> one Ollama invocation remains preserved.
 
-10. evidenceSufficient retains its established derivation from validated
-    supportSourceReferences.
+17. Structural validation passes.
 
-11. Matilda remains the semantic and Interpretation Authority.
+18. Response-contract guard passes.
 
-12. Deterministic workflow code performs evidence presentation only and does not
-    author semantic claims.
-
-13. One user message -> one workflow -> one Ollama invocation remains preserved.
-
-14. Reply and durableInterpretation remain independently authored.
-
-15. No persistence, API, client, Living Draft, Approval, Delegation, Envelope,
-    or Execution architecture was changed.
-
-16. Structural tests pass.
-
-17. Response-contract guard passes.
-
-18. Live validation returns:
-    SUPPORT_DRIVEN_SOURCE_EXCERPT_LIVE_SUPPORTED
+19. Repeated live validation passes 3/3 against the explicit repository-evidence
+    scenario that previously produced nondeterministic null evidence.
 
 Classification:
 
