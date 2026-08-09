@@ -147,10 +147,23 @@ const scenarios: Scenario[] = [
 
 async function runScenario(
   scenario: Scenario,
+  index: number,
 ): Promise<void> {
+  const sourceTurnId =
+    `turn-boundary-validation-${index + 1}`;
+
   const result = await ollamaChat(
     scenario.message,
     {
+      history: [
+        {
+          sourceTurnId,
+          userMessage:
+            "Evaluate the supplied bounded project context without broadening its claims.",
+          assistantReply:
+            "The conclusion should preserve any material boundary established by the supplied evidence.",
+        },
+      ],
       projectContextExcerpts:
         scenario.projectContextExcerpts,
     },
@@ -180,8 +193,15 @@ async function runScenario(
 }
 
 async function main() {
-  for (const scenario of scenarios) {
-    await runScenario(scenario);
+  for (
+    let index = 0;
+    index < scenarios.length;
+    index += 1
+  ) {
+    await runScenario(
+      scenarios[index],
+      index,
+    );
   }
 
   console.log();
