@@ -628,6 +628,8 @@ export async function ollamaChat(
             "selectedContextSegments records semantic project-context admission; supportSourceReferences records support provenance.",
             "For conversation support, use type conversation_turn with the exact Conversation source identifier supplied in history.",
             "For project-context support, use type project_context_excerpt with the exact relativePath and lineNumber supplied in bounded project context evidence.",
+            "For project_context_excerpt support, use only a Source identity explicitly shown under Bounded project context evidence.",
+            "Never use a Segment source line range, sourceStartLine, sourceEndLine, or child segment line number as a project_context_excerpt support identity.",
             "Do not invent, reconstruct, approximate, or reference a source identifier that was not supplied in this invocation.",
             "Return an empty supportSourceReferences array when no supplied source explicitly supports the conclusion, recommendation, or assessment.",
             "supportSourceReferences records support provenance only. Do not use it for reasoning text, confidence, correctness, or Explanation Status.",
