@@ -5,8 +5,8 @@ cd "$HOME/Projects/motherboard-systems-hq-clean"
 
 echo "=== RUN ADAPTIVE DETAIL — MIXED CONTENT LIVE VALIDATION ==="
 
-if [[ "$(git rev-parse --short HEAD)" != "0a3251f5" ]]; then
-  echo "STOP: HEAD no longer matches validation-observer checkpoint 0a3251f5."
+if [[ "$(git rev-parse --short HEAD)" != "33580c13" ]]; then
+  echo "STOP: HEAD no longer matches validation-observer checkpoint 33580c13."
   exit 2
 fi
 
