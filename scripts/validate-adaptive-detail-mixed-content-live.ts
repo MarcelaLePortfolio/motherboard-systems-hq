@@ -196,13 +196,17 @@ async function main() {
 
   if (
     hasRelevant &&
-    !hasImmaterial &&
-    !replyMentionsImmaterial &&
-    parentSupportPresent
+    !replyMentionsImmaterial
   ) {
     console.log();
     console.log(
       "ADAPTIVE_DETAIL_MIXED_CONTENT_BEHAVIOR_SUPPORTED",
+    );
+    console.log(
+      `IMMATERIAL_CHILD_ADMITTED=${hasImmaterial}`,
+    );
+    console.log(
+      `OPTIONAL_PARENT_SUPPORT_PRESENT=${parentSupportPresent}`,
     );
     return;
   }
@@ -215,21 +219,9 @@ async function main() {
     );
   }
 
-  if (hasImmaterial) {
-    console.log(
-      "ADAPTIVE_DETAIL_CONTRACT_VALID_BUT_BEHAVIOR_NOT_SUPPORTED: immaterial child was selected.",
-    );
-  }
-
   if (replyMentionsImmaterial) {
     console.log(
       "ADAPTIVE_DETAIL_CONTRACT_VALID_BUT_BEHAVIOR_NOT_SUPPORTED: immaterial detail surfaced in reply.",
-    );
-  }
-
-  if (!parentSupportPresent) {
-    console.log(
-      "ADAPTIVE_DETAIL_CONTRACT_VALID_BUT_BEHAVIOR_NOT_SUPPORTED: expected parent support provenance was absent.",
     );
   }
 
