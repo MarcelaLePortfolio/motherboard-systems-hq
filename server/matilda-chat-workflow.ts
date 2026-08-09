@@ -20,6 +20,9 @@ import {
   isExplicitExplanationRequest,
 } from "./matilda-explanation-request-signal";
 import {
+  isExplicitEvidenceRequest,
+} from "./matilda-evidence-request-signal";
+import {
   recoverMatildaPriorSupportProvenance,
 } from "./matilda-prior-support-provenance";
 import {
@@ -167,6 +170,9 @@ export async function runMatildaConversationWorkflow(
     const explicitExplanationRequest =
       isExplicitExplanationRequest(message);
 
+    const explicitEvidenceRequest =
+      isExplicitEvidenceRequest(message);
+
     const priorSupportProvenance =
       explicitExplanationRequest
         ? recoverMatildaPriorSupportProvenance(
@@ -186,6 +192,7 @@ export async function runMatildaConversationWorkflow(
           conversationContext.projectContextWarning,
         priorExplanationEvidenceStatus:
           priorSupportProvenance?.status,
+        explicitEvidenceRequest,
       });
 
     const conversationalReply =

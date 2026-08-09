@@ -151,6 +151,7 @@ export interface OllamaChatContext {
   projectContextWarning?: string | null;
   priorExplanationEvidenceStatus?:
     MatildaPriorExplanationEvidenceStatus;
+  explicitEvidenceRequest?: boolean;
 }
 
 export type MatildaExplanationStatus =
