@@ -5,160 +5,158 @@ cd "$HOME/Projects/motherboard-systems-hq-clean"
 
 echo "=== RECLASSIFY PHASE 1 — RESPONSE COMPOSITION AFTER EVIDENCE CLOSURE ==="
 
-required_ancestor="fa2a26a7"
+REQUIRED_ANCESTOR="13e565dd"
 
-if ! git merge-base --is-ancestor "$required_ancestor" HEAD; then
-  echo "STOP: HEAD does not contain required Evidence Composition diagnostic checkpoint $required_ancestor."
+if ! git merge-base --is-ancestor "$REQUIRED_ANCESTOR" HEAD; then
+  echo "STOP: required Evidence Composition reconciliation checkpoint is not an ancestor of HEAD."
   exit 2
 fi
 
-if [[ -n "$(git status --porcelain)" ]]; then
-  echo "STOP: working tree is not clean."
-  git status --short
+echo
+echo "=== VERIFY AUTHORIZED WORKING-TREE SURFACE ==="
+unexpected="$(
+  git status --porcelain |
+  grep -vE '^ M scripts/reclassify-phase-1-response-composition-after-evidence-closure\.sh$|^\?\? scripts/reclassify-phase-1-response-composition-after-evidence-closure\.sh$' ||
+  true
+)"
+
+if [[ -n "$unexpected" ]]; then
+  echo "STOP: unexpected working-tree changes exist:"
+  printf '%s\n' "$unexpected"
   exit 2
 fi
+
+echo "AUTHORIZED_RECLASSIFICATION_SCRIPT_ONLY"
 
 cat <<'FINDINGS'
-Purpose:
 
-Reclassify Phase 1 Response Composition only after the Evidence Composition
-closure-acceptance determination has been committed.
+Classification:
 
-Evidence that must be reconciled:
+PHASE_1_RESPONSE_COMPOSITION_COMPLETE
 
-1. Summary Composition has established repository/runtime support.
+Repository-supported determination:
 
-2. Reasoning Composition has established repository/runtime support.
+1. Phase 1 Response Composition consists of:
 
-3. Boundary Composition has established repository/runtime support.
+   - Summary Composition;
+   - Reasoning Composition;
+   - Evidence Composition;
+   - Boundary Composition;
+   - Adaptive Detail Selection.
 
-4. Adaptive Detail has established corridor closure.
+2. Summary Composition has an established runtime contract and regression
+   coverage.
 
-5. Adaptive Detail closure explicitly preserves the deferred reliability
-   corridor:
+Classification:
+
+SUMMARY_COMPOSITION_COMPLETE
+
+3. Reasoning Composition has an established runtime contract, regression
+   coverage, schema-constrained Explanation Status, and validated explicit
+   explanation behavior.
+
+Classification:
+
+REASONING_COMPOSITION_COMPLETE
+
+4. Evidence Composition deterministically constructs Source-Excerpt evidence
+   from validated project-context provenance.
+
+5. Conversation-turn support intentionally does not construct Source-Excerpt
+   evidence.
+
+6. Invalid or unsupplied support provenance fails closed.
+
+7. The recent live diagnostic exposed model-authored invented conversation
+   provenance rather than a deterministic Evidence Composition construction
+   defect.
+
+8. That broader semantic-generation reliability concern belongs to:
 
    CONVERSATION_ENGINE_GENERATION_STABILITY
 
-6. Evidence Composition structural behavior is established:
+Classification:
 
-   - validated project-context provenance constructs exact Source-Excerpt
-     evidence;
-   - conversation support does not construct Source-Excerpt evidence;
-   - duplicate project-context support is deterministically deduplicated;
-   - empty validated project-context support produces null evidence;
-   - invalid or unsupplied provenance fails closed.
+EVIDENCE_COMPOSITION_COMPLETE_WITH_DEFERRED_GENERATION_STABILITY_LIMITATION
 
-7. The latest Source-Excerpt live diagnostic did not establish an Evidence
-   Composition runtime defect.
+9. Boundary Composition retains its established runtime contract and regression
+   coverage.
 
-8. Instead, the model authored an unsupplied conversation support reference:
+10. No contradictory evidence requires reopening it.
 
-   {
-     "type": "conversation_turn",
-     "sourceTurnId": "1"
-   }
+Classification:
 
-9. Runtime correctly rejected that invented provenance.
+BOUNDARY_COMPOSITION_COMPLETE
 
-10. Evidence Composition closure acceptance therefore distinguishes:
+11. Adaptive Detail Selection has established segmentation, candidate transport,
+    selected-context observation and validation, child/parent identity
+    separation, mixed-content behavior, and corridor closure.
 
-    deterministic Evidence Composition behavior
+Classification:
 
-    from:
+ADAPTIVE_DETAIL_SELECTION_COMPLETE
 
-    broader model-authored provenance reliability.
+12. All five constituent Phase 1 corridors are therefore complete.
 
-11. Broader provenance reliability remains deferred to:
+13. The remaining model-generation reliability limitation is explicit but is
+    not owned by Response Composition.
+
+14. It remains deferred as:
 
     CONVERSATION_ENGINE_GENERATION_STABILITY
 
-12. That deferred concern must remain visible and must not be represented as
-    solved.
+15. Therefore:
 
-13. It must not silently reopen Adaptive Detail.
+    PHASE_1_RESPONSE_COMPOSITION_COMPLETE
 
-14. It must not silently expand Evidence Composition ownership.
+16. The next canonical phase is:
 
-15. Phase 1 completion must be determined from the established ownership and
-    closure state of its constituent Response Composition corridors.
+    PHASE_2_INVESTIGATION_LIFECYCLE
 
-Required classification:
+17. Phase 2 implementation is not authorized by this unit.
 
-Exactly one of:
+18. The next unit is collaboration/investigation only:
 
-PHASE_1_RESPONSE_COMPOSITION_COMPLETE
-PHASE_1_RESPONSE_COMPOSITION_INCOMPLETE
-PHASE_1_RESPONSE_COMPOSITION_STATE_REQUIRES_RECONCILIATION
+    RECONCILE_PHASE_2_INVESTIGATION_LIFECYCLE_CURRENT_STATE
 
-If complete:
+Do not reopen a completed Phase 1 corridor without contradictory repository
+evidence.
 
-- identify the established Phase 1 constituent corridors;
-- identify the deferred generation-stability limitation explicitly;
-- state that the limitation does not belong to Phase 1 Response Composition;
-- state that Phase 2 may become eligible to start only after a clean checkpoint
-  and explicit user authorization;
-- do not begin Phase 2 in this unit.
-
-If incomplete:
-
-- identify the exact unresolved Phase 1-owned capability;
-- distinguish it from deferred Conversation Engine generation stability;
-- identify the smallest remaining Phase 1 unit;
-- do not begin Phase 2.
-
-Do not implement.
-
-Do not change ollamaChat.ts.
-
-Do not change server/matilda-chat-workflow.ts.
-
-Do not change supportSourceReferences.
-
-Do not change selectedContextSegments.
-
-Do not change evidenceSufficient.
-
-Do not change Evidence Composition.
-
-Do not change Summary Composition.
-
-Do not change Reasoning Composition.
-
-Do not change Boundary Composition.
-
-Do not reopen Adaptive Detail.
+Do not alter production generation policy.
 
 Do not add retries.
 
 Do not add another model invocation.
 
-Do not add a production seed.
-
-Do not change model parameters.
-
-Do not change retrieval.
-
-Do not change segmentation.
-
-Do not change ranking.
-
-Do not begin Phase 2.
+Do not begin Phase 2 implementation.
 
 Preserve:
 
-one user message -> one workflow -> one Ollama invocation.
+one user message
+-> one workflow
+-> one Ollama invocation.
 
 Preserve Matilda as Interpretation Authority.
 FINDINGS
 
 echo
-echo "=== PHASE 1 REPOSITORY EVIDENCE ==="
-grep -RIn \
-  --exclude-dir=node_modules \
-  --exclude-dir=.git \
-  -E \
-  'SUMMARY_COMPOSITION.*CLOSED|REASONING_COMPOSITION.*CLOSED|BOUNDARY_COMPOSITION.*CLOSED|ADAPTIVE_DETAIL.*CLOSED|EVIDENCE_COMPOSITION.*CLOSURE|PHASE_1_RESPONSE_COMPOSITION|CONVERSATION_ENGINE_GENERATION_STABILITY' \
-  scripts docs 2>/dev/null | head -n 500 || true
+echo "=== RESPONSE COMPOSITION REGRESSION CHECK ==="
+npx tsx --test \
+  scripts/utils/ollamaChat.summary-composition.test.ts \
+  scripts/utils/ollamaChat.reasoning-composition.test.ts \
+  scripts/utils/ollamaChat.boundary-composition.test.ts \
+  scripts/utils/ollamaChat.explanation-status.test.ts \
+  scripts/utils/ollamaChat.explanation-request.test.ts \
+  scripts/utils/ollamaChat.structured-evidence-object.test.ts \
+  scripts/utils/ollamaChat.support-source-references.test.ts \
+  scripts/utils/ollamaChat.evidence-sufficiency-gate.test.ts \
+  scripts/utils/ollamaChat.explicit-evidence-request-context.test.ts
+
+echo
+echo "=== ADAPTIVE DETAIL CLOSURE MARKER ==="
+grep -n \
+  'ADAPTIVE_DETAIL_SELECTION_COMPLETE' \
+  scripts/validate-adaptive-detail-corridor-closure.sh
 
 echo
 echo "=== RESPONSE CONTRACT GUARD ==="
@@ -180,18 +178,40 @@ fi
 echo "PRODUCTION_RUNTIME_UNCHANGED"
 
 echo
-echo "=== VERIFY PHASE 2 HAS NOT STARTED ==="
-echo "PHASE_2_START=BLOCKED_DURING_RECLASSIFICATION"
+echo "=== VERIFY CHANGE SURFACE ==="
+changed="$(
+  git diff --name-only |
+  grep -vE '^scripts/reclassify-phase-1-response-composition-after-evidence-closure\.sh$' ||
+  true
+)"
+
+if [[ -n "$changed" ]]; then
+  echo "STOP: files outside reclassification-only scope changed:"
+  printf '%s\n' "$changed"
+  exit 2
+fi
+
+echo "RECLASSIFICATION_ONLY_CHANGE_SURFACE_CONFIRMED"
 
 echo
 echo "=== DIFF CHECK ==="
 git diff --check
 
 echo
-echo "PHASE_1_RESPONSE_COMPOSITION_RECLASSIFICATION_EVIDENCE_COLLECTED"
-echo "IMPLEMENTATION_NOT_STARTED"
-echo "NEXT_ACTION=CLASSIFY_PHASE_1_FROM_REPOSITORY_EVIDENCE"
+echo "=== PHASE 1 DETERMINATION ==="
+echo "SUMMARY_COMPOSITION_COMPLETE"
+echo "REASONING_COMPOSITION_COMPLETE"
+echo "EVIDENCE_COMPOSITION_COMPLETE_WITH_DEFERRED_GENERATION_STABILITY_LIMITATION"
+echo "BOUNDARY_COMPOSITION_COMPLETE"
+echo "ADAPTIVE_DETAIL_SELECTION_COMPLETE"
+echo "PHASE_1_RESPONSE_COMPOSITION_COMPLETE"
+echo "DEFERRED_CORRIDOR=CONVERSATION_ENGINE_GENERATION_STABILITY"
+echo "NEXT_CANONICAL_PHASE=PHASE_2_INVESTIGATION_LIFECYCLE"
+echo "PHASE_2_IMPLEMENTATION_NOT_STARTED"
+echo "NEXT_UNIT=RECONCILE_PHASE_2_INVESTIGATION_LIFECYCLE_CURRENT_STATE"
 
-git add scripts/reclassify-phase-1-response-composition-after-evidence-closure.sh
-git commit -m "Reclassify Phase 1 after Evidence Composition closure"
+git add \
+  scripts/reclassify-phase-1-response-composition-after-evidence-closure.sh
+
+git commit -m "Confirm Phase 1 Response Composition complete"
 git push
