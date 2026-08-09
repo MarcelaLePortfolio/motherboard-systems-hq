@@ -12,8 +12,8 @@ export function isExplicitEvidenceRequest(
 
   const explicitPatterns = [
     /^what evidence supports (?:that|this|your conclusion|your recommendation)\??$/,
-    /^what repository evidence supports (?:that|this|your conclusion|your recommendation)\??$/,
-    /^what repository evidence shows (?:that|this)\??$/,
+    /^what repository evidence supports (?:that|this|your conclusion|your recommendation)(?:\s+.+)?\??$/,
+    /^what repository evidence shows (?:that|this)(?:\s+.+)?\??$/,
     /^show me the repository evidence\.?$/,
     /^what evidence do we have in the repository\??$/,
   ];

@@ -14,6 +14,8 @@ test(
       "What repository evidence supports that?",
       "What repository evidence supports your recommendation?",
       "What repository evidence shows that?",
+      "What repository evidence shows that this workflow invokes ollamaChat?",
+      "What repository evidence supports that this runtime owns persistence?",
       "Show me the repository evidence.",
       "What evidence do we have in the repository?",
     ];
@@ -45,6 +47,8 @@ test(
       "Show me evidence about climate change.",
       "What happened?",
       "Give me the engineering justification.",
+      "What repository files mention ollamaChat?",
+      "What does the repository show?",
     ];
 
     for (const message of messages) {
@@ -62,7 +66,7 @@ test(
   () => {
     assert.equal(
       isExplicitEvidenceRequest(
-        "  WHAT REPOSITORY EVIDENCE SHOWS THAT?  ",
+        "  WHAT REPOSITORY EVIDENCE SHOWS THAT THIS WORKFLOW INVOKES OLLAMACHAT?  ",
       ),
       true,
     );
