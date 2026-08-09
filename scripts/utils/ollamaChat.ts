@@ -675,10 +675,34 @@ export async function ollamaChat(
           };
         });
 
+    const explicitRequestEvidenceSources =
+      context.explicitEvidenceRequest
+        ? (context.projectContextExcerpts || []).map(
+            (excerpt) => ({
+              reference: {
+                type:
+                  "project_context_excerpt" as const,
+                relativePath:
+                  excerpt.relativePath,
+                lineNumber:
+                  excerpt.lineNumber,
+              },
+              excerpt:
+                excerpt.excerpt,
+            }),
+          )
+        : [];
+
+    const deterministicEvidenceSources =
+      context.explicitEvidenceRequest
+        ? explicitRequestEvidenceSources
+        : supportDrivenEvidenceSources;
+
     const validatedEvidence =
-      supportDrivenEvidenceSources.length > 0
+      deterministicEvidenceSources.length > 0
         ? {
-            sources: supportDrivenEvidenceSources,
+            sources:
+              deterministicEvidenceSources,
           }
         : null;
 
