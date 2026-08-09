@@ -138,6 +138,13 @@ export interface OllamaChatProjectContextExcerpt {
   authorityStatus: "candidate_evidence_not_authority";
 }
 
+export interface OllamaChatProjectContextSegmentCandidate {
+  relativePath: string;
+  sourceStartLine: number;
+  sourceEndLine: number;
+  text: string;
+}
+
 export type MatildaPriorExplanationEvidenceStatus =
   | "sufficient"
   | "insufficient"
@@ -148,6 +155,8 @@ export interface OllamaChatContext {
   projectDisplayName?: string | null;
   history?: OllamaChatHistoryTurn[];
   projectContextExcerpts?: OllamaChatProjectContextExcerpt[];
+  projectContextSegmentCandidates?:
+    OllamaChatProjectContextSegmentCandidate[];
   projectContextWarning?: string | null;
   priorExplanationEvidenceStatus?:
     MatildaPriorExplanationEvidenceStatus;

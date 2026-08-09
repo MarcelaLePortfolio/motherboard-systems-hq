@@ -36,6 +36,7 @@ function createRetrieval():
     searched: true,
     queryTerms: [],
     excerpts: [],
+    projectContextSegmentCandidates: [],
     warning: null,
   };
 }

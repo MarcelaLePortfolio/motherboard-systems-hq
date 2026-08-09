@@ -61,6 +61,8 @@ export interface MatildaProjectContextRetrievalResult {
   searched: boolean;
   queryTerms: string[];
   excerpts: MatildaProjectContextExcerpt[];
+  projectContextSegmentCandidates:
+    MatildaProjectContextSegmentCandidate[];
   warning: string | null;
 }
 
@@ -158,12 +160,11 @@ function resolveValidatedProjectRoot(
   return resolved;
 }
 
-interface MatildaProjectContextSegmentCandidate {
+export interface MatildaProjectContextSegmentCandidate {
   relativePath: string;
-  matchedLineNumber: number;
-  startLineNumber: number;
-  endLineNumber: number;
-  content: string;
+  sourceStartLine: number;
+  sourceEndLine: number;
+  text: string;
 }
 
 interface MatildaBoundedExcerptReadResult {
@@ -231,12 +232,11 @@ function segmentBoundedProjectContextSource(input: {
 
     segments.push({
       relativePath: input.relativePath,
-      matchedLineNumber: input.matchedLineNumber,
-      startLineNumber:
+      sourceStartLine:
         input.sourceStartLine + segmentStartIndex,
-      endLineNumber:
+      sourceEndLine:
         input.sourceStartLine + exclusiveEndIndex - 1,
-      content: segmentLines.join("\n"),
+      text: segmentLines.join("\n"),
     });
 
     segmentStartIndex = null;
@@ -281,6 +281,7 @@ export function retrieveMatildaProjectContext(input: {
       searched: false,
       queryTerms,
       excerpts: [],
+      projectContextSegmentCandidates: [],
       warning:
         "The registered project repository is unavailable at its configured path.",
     };
@@ -294,6 +295,7 @@ export function retrieveMatildaProjectContext(input: {
       searched: false,
       queryTerms,
       excerpts: [],
+      projectContextSegmentCandidates: [],
       warning: null,
     };
   }
@@ -406,6 +408,8 @@ export function retrieveMatildaProjectContext(input: {
     }
 
     const excerpts: MatildaProjectContextExcerpt[] = [];
+    const projectContextSegmentCandidates:
+      MatildaProjectContextSegmentCandidate[] = [];
 
     for (const candidate of selectedCandidates.slice(0, MAX_MATCHES)) {
       const boundedExcerpt = readBoundedExcerpt(
@@ -417,14 +421,55 @@ export function retrieveMatildaProjectContext(input: {
         continue;
       }
 
-      segmentBoundedProjectContextSource({
-        relativePath: candidate.relativePath,
-        matchedLineNumber: candidate.lineNumber,
-        sourceStartLine:
-          boundedExcerpt.metadata.sourceStartLine,
-        boundedSourceLines:
-          boundedExcerpt.boundedSourceLines,
-      });
+      const admittedExcerpt =
+        boundedExcerpt.excerpt;
+
+      const sourceSegments =
+        segmentBoundedProjectContextSource({
+          relativePath: candidate.relativePath,
+          matchedLineNumber: candidate.lineNumber,
+          sourceStartLine:
+            boundedExcerpt.metadata.sourceStartLine,
+          boundedSourceLines:
+            boundedExcerpt.boundedSourceLines,
+        });
+
+      let admittedCharacters = 0;
+
+      for (const segment of sourceSegments) {
+        const segmentText = segment.text.trim();
+
+        if (!segmentText) {
+          continue;
+        }
+
+        const segmentOffset =
+          admittedExcerpt.indexOf(
+            segmentText,
+            admittedCharacters,
+          );
+
+        if (segmentOffset < 0) {
+          continue;
+        }
+
+        const segmentEndOffset =
+          segmentOffset + segmentText.length;
+
+        if (
+          segmentEndOffset >
+          admittedExcerpt.length
+        ) {
+          continue;
+        }
+
+        projectContextSegmentCandidates.push(
+          segment,
+        );
+
+        admittedCharacters =
+          segmentEndOffset;
+      }
 
       excerpts.push({
         projectId,
@@ -443,6 +488,7 @@ export function retrieveMatildaProjectContext(input: {
       searched: true,
       queryTerms,
       excerpts,
+      projectContextSegmentCandidates,
       warning: null,
     };
   } catch (error) {
@@ -461,6 +507,7 @@ export function retrieveMatildaProjectContext(input: {
         searched: true,
         queryTerms,
         excerpts: [],
+        projectContextSegmentCandidates: [],
         warning: null,
       };
     }
@@ -472,6 +519,7 @@ export function retrieveMatildaProjectContext(input: {
       searched: false,
       queryTerms,
       excerpts: [],
+      projectContextSegmentCandidates: [],
       warning: "Project context retrieval was unavailable for this request.",
     };
   }

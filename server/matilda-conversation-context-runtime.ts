@@ -44,6 +44,8 @@ export interface MatildaConversationContext {
     MatildaSelectedHistoryTurn[];
   projectContextExcerpts:
     MatildaProjectContextRetrievalResult["excerpts"];
+  projectContextSegmentCandidates:
+    MatildaProjectContextRetrievalResult["projectContextSegmentCandidates"];
   projectContextWarning: string | null;
 }
 
@@ -85,6 +87,9 @@ export function composeMatildaConversationContext(
     selectedHistory,
     projectContextExcerpts:
       input.projectContextRetrieval.excerpts,
+    projectContextSegmentCandidates:
+      input.projectContextRetrieval
+        .projectContextSegmentCandidates,
     projectContextWarning:
       input.projectContextRetrieval.warning,
   };

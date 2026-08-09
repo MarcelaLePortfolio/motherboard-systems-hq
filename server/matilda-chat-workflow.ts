@@ -188,6 +188,9 @@ export async function runMatildaConversationWorkflow(
         history,
         projectContextExcerpts:
           conversationContext.projectContextExcerpts,
+        projectContextSegmentCandidates:
+          conversationContext
+            .projectContextSegmentCandidates,
         projectContextWarning:
           conversationContext.projectContextWarning,
         priorExplanationEvidenceStatus:

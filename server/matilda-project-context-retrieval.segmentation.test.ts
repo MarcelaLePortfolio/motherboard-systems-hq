@@ -47,17 +47,17 @@ test(
 
     assert.match(
       source,
-      /startLineNumber:\s*number/,
+      /sourceStartLine:\s*number/,
     );
 
     assert.match(
       source,
-      /endLineNumber:\s*number/,
+      /sourceEndLine:\s*number/,
     );
 
     assert.match(
       source,
-      /content:\s*string/,
+      /text:\s*string/,
     );
   },
 );
@@ -92,12 +92,12 @@ test(
 
     assert.match(
       source,
-      /startLineNumber:\s*[\s\S]*input\.sourceStartLine \+ segmentStartIndex/,
+      /sourceStartLine:\s*[\s\S]*input\.sourceStartLine \+ segmentStartIndex/,
     );
 
     assert.match(
       source,
-      /endLineNumber:\s*[\s\S]*input\.sourceStartLine \+ exclusiveEndIndex - 1/,
+      /sourceEndLine:\s*[\s\S]*input\.sourceStartLine \+ exclusiveEndIndex - 1/,
     );
   },
 );
