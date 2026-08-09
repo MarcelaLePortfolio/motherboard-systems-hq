@@ -158,6 +158,14 @@ function resolveValidatedProjectRoot(
   return resolved;
 }
 
+interface MatildaProjectContextSegmentCandidate {
+  relativePath: string;
+  matchedLineNumber: number;
+  startLineNumber: number;
+  endLineNumber: number;
+  content: string;
+}
+
 interface MatildaBoundedExcerptReadResult {
   excerpt: string;
   metadata: {
@@ -165,6 +173,7 @@ interface MatildaBoundedExcerptReadResult {
     sourceEndLine: number;
     excerptTruncated: boolean;
   };
+  boundedSourceLines: string[];
 }
 
 function readBoundedExcerpt(
@@ -181,8 +190,8 @@ function readBoundedExcerpt(
     const lines = fs.readFileSync(absolutePath, "utf8").split(/\r?\n/);
     const start = Math.max(0, lineNumber - 3);
     const end = Math.min(lines.length, lineNumber + 2);
-    const boundedSource = lines
-      .slice(start, end)
+    const boundedSourceLines = lines.slice(start, end);
+    const boundedSource = boundedSourceLines
       .join("\n")
       .trim();
 
@@ -194,10 +203,63 @@ function readBoundedExcerpt(
         excerptTruncated:
           boundedSource.length > MAX_EXCERPT_CHARACTERS,
       },
+      boundedSourceLines,
     };
   } catch {
     return null;
   }
+}
+
+function segmentBoundedProjectContextSource(input: {
+  relativePath: string;
+  matchedLineNumber: number;
+  sourceStartLine: number;
+  boundedSourceLines: readonly string[];
+}): MatildaProjectContextSegmentCandidate[] {
+  const segments: MatildaProjectContextSegmentCandidate[] = [];
+  let segmentStartIndex: number | null = null;
+
+  const flushSegment = (exclusiveEndIndex: number): void => {
+    if (segmentStartIndex === null) {
+      return;
+    }
+
+    const segmentLines = input.boundedSourceLines.slice(
+      segmentStartIndex,
+      exclusiveEndIndex
+    );
+
+    segments.push({
+      relativePath: input.relativePath,
+      matchedLineNumber: input.matchedLineNumber,
+      startLineNumber:
+        input.sourceStartLine + segmentStartIndex,
+      endLineNumber:
+        input.sourceStartLine + exclusiveEndIndex - 1,
+      content: segmentLines.join("\n"),
+    });
+
+    segmentStartIndex = null;
+  };
+
+  for (
+    let index = 0;
+    index < input.boundedSourceLines.length;
+    index += 1
+  ) {
+    if (input.boundedSourceLines[index].trim() === "") {
+      flushSegment(index);
+      continue;
+    }
+
+    if (segmentStartIndex === null) {
+      segmentStartIndex = index;
+    }
+  }
+
+  flushSegment(input.boundedSourceLines.length);
+
+  return segments;
 }
 
 export function retrieveMatildaProjectContext(input: {
@@ -354,6 +416,15 @@ export function retrieveMatildaProjectContext(input: {
       if (!boundedExcerpt) {
         continue;
       }
+
+      segmentBoundedProjectContextSource({
+        relativePath: candidate.relativePath,
+        matchedLineNumber: candidate.lineNumber,
+        sourceStartLine:
+          boundedExcerpt.metadata.sourceStartLine,
+        boundedSourceLines:
+          boundedExcerpt.boundedSourceLines,
+      });
 
       excerpts.push({
         projectId,
