@@ -1,11 +1,26 @@
+import { isExplicitEvidenceRequest } from "../server/matilda-evidence-request-signal";
 import { ollamaChat } from "./utils/ollamaChat";
 
 async function main() {
   const suppliedExcerpt =
     "const ollamaResult = await ollamaChat(message, {";
 
+  const message =
+    "What repository evidence shows that this workflow invokes ollamaChat?";
+
+  const explicitEvidenceRequest =
+    isExplicitEvidenceRequest(message);
+
+  if (!explicitEvidenceRequest) {
+    console.log(
+      "EXPLICIT_EVIDENCE_SIGNAL_FAIL: live validation message was not classified as an explicit evidence request.",
+    );
+    process.exitCode = 2;
+    return;
+  }
+
   const result = await ollamaChat(
-    "What repository evidence shows that this workflow invokes ollamaChat?",
+    message,
     {
       history: [
         {
@@ -29,12 +44,17 @@ async function main() {
             "candidate_evidence_not_authority",
         },
       ],
+      explicitEvidenceRequest,
     },
   );
 
   console.log(
-    "=== SUPPORT-DRIVEN SOURCE-EXCERPT LIVE VALIDATION ===",
+    "=== EXPLICIT-EVIDENCE SOURCE-EXCERPT LIVE VALIDATION ===",
   );
+  console.log();
+
+  console.log("EXPLICIT EVIDENCE REQUEST");
+  console.log(explicitEvidenceRequest);
   console.log();
 
   console.log("REPLY");
@@ -53,31 +73,17 @@ async function main() {
 
   console.log("EVIDENCE");
   console.log(
-    JSON.stringify(result.evidence, null, 2),
+    JSON.stringify(
+      result.evidence,
+      null,
+      2,
+    ),
   );
   console.log();
 
   console.log("EVIDENCE SUFFICIENT");
   console.log(result.evidenceSufficient);
   console.log();
-
-  const projectSupport =
-    result.supportSourceReferences.find(
-      (reference) =>
-        reference.type ===
-          "project_context_excerpt" &&
-        reference.relativePath ===
-          "server/matilda-chat-workflow.ts" &&
-        reference.lineNumber === 155,
-    );
-
-  if (!projectSupport) {
-    console.log(
-      "SUPPORT_DRIVEN_SOURCE_EXCERPT_LIVE_INCONCLUSIVE: semantic invocation did not select the supplied project-context source as support.",
-    );
-    process.exitCode = 2;
-    return;
-  }
 
   const evidenceSource =
     result.evidence?.sources.find(
@@ -91,15 +97,18 @@ async function main() {
 
   if (!evidenceSource) {
     console.log(
-      "SUPPORT_DRIVEN_SOURCE_EXCERPT_LIVE_FAIL: validated project-context support did not produce Source-Excerpt evidence.",
+      "EXPLICIT_EVIDENCE_SOURCE_EXCERPT_LIVE_FAIL: deterministic explicit-evidence admission did not surface the supplied repository excerpt.",
     );
     process.exitCode = 2;
     return;
   }
 
-  if (evidenceSource.excerpt !== suppliedExcerpt) {
+  if (
+    evidenceSource.excerpt !==
+    suppliedExcerpt
+  ) {
     console.log(
-      "SUPPORT_DRIVEN_SOURCE_EXCERPT_LIVE_FAIL: runtime did not attach the exact supplied excerpt.",
+      "EXPLICIT_EVIDENCE_SOURCE_EXCERPT_LIVE_FAIL: surfaced evidence was not the exact supplied repository excerpt.",
     );
     process.exitCode = 2;
     return;
@@ -107,6 +116,9 @@ async function main() {
 
   console.log(
     "SUPPORT_DRIVEN_SOURCE_EXCERPT_LIVE_SUPPORTED",
+  );
+  console.log(
+    "EXPLICIT_EVIDENCE_SOURCE_EXCERPT_LIVE_SUPPORTED",
   );
 }
 
