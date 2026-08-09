@@ -561,7 +561,10 @@ export async function ollamaChat(
             ...context.projectContextSegmentCandidates.flatMap(
               (item) => [
                 "",
-                `Segment source: ${item.relativePath}:${item.sourceStartLine}-${item.sourceEndLine}`,
+                "Segment candidate:",
+                `relativePath = ${item.relativePath}`,
+                `sourceStartLine = ${item.sourceStartLine}`,
+                `sourceEndLine = ${item.sourceEndLine}`,
                 "Authority status: candidate_evidence_not_authority",
                 item.text,
               ],

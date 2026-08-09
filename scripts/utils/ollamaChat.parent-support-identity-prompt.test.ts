@@ -32,6 +32,26 @@ test(
 
     assert.match(
       source,
+      /Segment candidate:/,
+    );
+
+    assert.match(
+      source,
+      /relativePath =/,
+    );
+
+    assert.match(
+      source,
+      /sourceStartLine =/,
+    );
+
+    assert.match(
+      source,
+      /sourceEndLine =/,
+    );
+
+    assert.doesNotMatch(
+      source,
       /Segment source:/,
     );
 
