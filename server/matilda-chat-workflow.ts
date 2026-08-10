@@ -264,6 +264,8 @@ export async function runMatildaConversationWorkflow(
         `interpretation_entry:${result.meta.interpretation_entry_id}`,
       ].join("; "),
       supersession_status: "current",
+      investigation_lifecycle:
+        ollamaResult.investigationLifecycle,
     });
 
     const persistedTurn =

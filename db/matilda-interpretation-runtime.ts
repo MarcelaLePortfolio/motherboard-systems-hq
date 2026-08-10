@@ -1,3 +1,6 @@
+import type {
+  MatildaInvestigationLifecycleArtifact,
+} from "../scripts/utils/ollamaChat";
 
 import Database from "better-sqlite3";
 
@@ -28,7 +31,7 @@ export type CreateInterpretationEvidenceLedgerEntryInput = {
   lineage_references?: string | null;
 
   supersession_status?: string | null;
-  investigation_lifecycle_json?: string | null;
+  investigation_lifecycle?: MatildaInvestigationLifecycleArtifact | null;
 
 };
 
@@ -316,7 +319,12 @@ export function createInterpretationEvidenceLedgerEntry(
     lineage_references: optionalText(input.lineage_references),
 
     investigation_lifecycle_json:
-      input.investigation_lifecycle_json ?? null,
+      input.investigation_lifecycle === null ||
+      input.investigation_lifecycle === undefined
+        ? null
+        : JSON.stringify(
+            input.investigation_lifecycle,
+          ),
     supersession_status: optionalText(input.supersession_status) || "current",
 
   });
