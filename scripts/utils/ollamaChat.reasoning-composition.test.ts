@@ -18,6 +18,7 @@ test(
         statusText: "OK",
         json: async () => ({
           response: JSON.stringify({
+          investigationLifecycle: null,
             reply: "The workflow remains the preferred approach because it preserves the validated architectural boundary.",
             explanationStatus: "optional",
             selectedContextSegments: [],

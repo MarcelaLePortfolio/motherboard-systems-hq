@@ -23,6 +23,7 @@ test(
         statusText: "OK",
         json: async () => ({
           response: JSON.stringify({
+          investigationLifecycle: null,
             reply:
               "Preserving the current workflow preserves the established invariant.",
             explanationStatus: "optional",

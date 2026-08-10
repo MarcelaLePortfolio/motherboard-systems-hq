@@ -39,6 +39,7 @@ function baseResponse(
     selectedContextSegments,
     supportSourceReferences,
     evidence: null,
+    investigationLifecycle: null,
     durableInterpretation:
       "The relevant implementation behavior is supported.",
   };

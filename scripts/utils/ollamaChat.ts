@@ -18,6 +18,7 @@ interface OllamaStructuredResponse {
   selectedContextSegments?: unknown;
   supportSourceReferences?: unknown;
   evidence?: unknown;
+  investigationLifecycle?: unknown;
   durableInterpretation?: unknown;
 }
 
@@ -30,6 +31,7 @@ const OLLAMA_CHAT_OUTPUT_SCHEMA = {
     "selectedContextSegments",
     "supportSourceReferences",
     "evidence",
+    "investigationLifecycle",
     "durableInterpretation",
   ],
   properties: {
@@ -138,6 +140,52 @@ const OLLAMA_CHAT_OUTPUT_SCHEMA = {
         },
       ],
     },
+    investigationLifecycle: {
+      anyOf: [
+        {
+          type: "null",
+        },
+        {
+          type: "object",
+          additionalProperties: false,
+          required: [
+            "investigationIdentity",
+            "governingQuestion",
+            "lifecycleEvent",
+            "lifecycleDetermination",
+          ],
+          properties: {
+            investigationIdentity: {
+              type: "string",
+            },
+            governingQuestion: {
+              type: "string",
+            },
+            lifecycleEvent: {
+              type: "string",
+              enum: [
+                "entered",
+                "continued",
+                "advanced",
+                "resolved",
+                "superseded",
+                "abandoned",
+              ],
+            },
+            lifecycleDetermination: {
+              anyOf: [
+                {
+                  type: "null",
+                },
+                {
+                  type: "string",
+                },
+              ],
+            },
+          },
+        },
+      ],
+    },
     durableInterpretation: {
       type: "string",
     },
@@ -216,7 +264,23 @@ export interface OllamaChatResult {
   supportSourceReferences: MatildaSupportSourceReference[];
   evidence: MatildaEvidenceArtifact | null;
   evidenceSufficient: boolean;
+  investigationLifecycle: MatildaInvestigationLifecycleArtifact | null;
   durableInterpretation: string;
+}
+
+export type MatildaInvestigationLifecycleEvent =
+  | "entered"
+  | "continued"
+  | "advanced"
+  | "resolved"
+  | "superseded"
+  | "abandoned";
+
+export interface MatildaInvestigationLifecycleArtifact {
+  investigationIdentity: string;
+  governingQuestion: string;
+  lifecycleEvent: MatildaInvestigationLifecycleEvent;
+  lifecycleDetermination: string | null;
 }
 
 export interface MatildaSelectedContextSegment {
@@ -456,6 +520,115 @@ function parseStructuredResponse(
     }
   }
 
+  if (!("investigationLifecycle" in parsed)) {
+    throw new Error(
+      "Ollama returned structured response without investigation lifecycle.",
+    );
+  }
+
+  let investigationLifecycle: MatildaInvestigationLifecycleArtifact | null =
+    null;
+
+  if (parsed.investigationLifecycle !== null) {
+    if (
+      !parsed.investigationLifecycle ||
+      typeof parsed.investigationLifecycle !== "object" ||
+      Array.isArray(parsed.investigationLifecycle)
+    ) {
+      throw new Error(
+        "Ollama returned malformed investigation lifecycle artifact.",
+      );
+    }
+
+    const candidate =
+      parsed.investigationLifecycle as Record<string, unknown>;
+
+    const investigationIdentity =
+      typeof candidate.investigationIdentity === "string"
+        ? candidate.investigationIdentity.trim()
+        : "";
+
+    const governingQuestion =
+      typeof candidate.governingQuestion === "string"
+        ? candidate.governingQuestion.trim()
+        : "";
+
+    const lifecycleEvent =
+      candidate.lifecycleEvent;
+
+    const validLifecycleEvents =
+      new Set<MatildaInvestigationLifecycleEvent>([
+        "entered",
+        "continued",
+        "advanced",
+        "resolved",
+        "superseded",
+        "abandoned",
+      ]);
+
+    if (!investigationIdentity) {
+      throw new Error(
+        "Ollama returned investigation lifecycle without investigation identity.",
+      );
+    }
+
+    if (!governingQuestion) {
+      throw new Error(
+        "Ollama returned investigation lifecycle without governing question.",
+      );
+    }
+
+    if (
+      typeof lifecycleEvent !== "string" ||
+      !validLifecycleEvents.has(
+        lifecycleEvent as MatildaInvestigationLifecycleEvent,
+      )
+    ) {
+      throw new Error(
+        "Ollama returned invalid investigation lifecycle event.",
+      );
+    }
+
+    let lifecycleDetermination: string | null = null;
+
+    if (candidate.lifecycleDetermination !== null) {
+      if (
+        typeof candidate.lifecycleDetermination !== "string"
+      ) {
+        throw new Error(
+          "Ollama returned malformed investigation lifecycle determination.",
+        );
+      }
+
+      lifecycleDetermination =
+        candidate.lifecycleDetermination.trim();
+
+      if (!lifecycleDetermination) {
+        throw new Error(
+          "Ollama returned empty investigation lifecycle determination.",
+        );
+      }
+    }
+
+    if (
+      (lifecycleEvent === "advanced" ||
+        lifecycleEvent === "resolved") &&
+      !lifecycleDetermination
+    ) {
+      throw new Error(
+        `Ollama returned ${lifecycleEvent} investigation lifecycle without required determination.`,
+      );
+    }
+
+    investigationLifecycle = {
+      investigationIdentity,
+      governingQuestion,
+      lifecycleEvent:
+        lifecycleEvent as MatildaInvestigationLifecycleEvent,
+      lifecycleDetermination,
+    };
+  }
+
   const durableInterpretation =
     typeof parsed.durableInterpretation === "string"
       ? parsed.durableInterpretation.trim()
@@ -497,6 +670,7 @@ function parseStructuredResponse(
     selectedContextSegments,
     supportSourceReferences,
     evidence,
+    investigationLifecycle,
     durableInterpretation,
   };
 }
@@ -644,6 +818,13 @@ export async function ollamaChat(
             "Do not invent, reconstruct, approximate, or reference a source identifier that was not supplied in this invocation.",
             "Return an empty supportSourceReferences array when no supplied source explicitly supports the conclusion, recommendation, or assessment.",
             "supportSourceReferences records support provenance only. Do not use it for reasoning text, confidence, correctness, or Explanation Status.",
+            "Set investigationLifecycle to null when the current response does not semantically enter, continue, advance, resolve, supersede, or abandon an investigation.",
+            "Otherwise set investigationLifecycle to one bounded semantic artifact containing investigationIdentity, governingQuestion, lifecycleEvent, and lifecycleDetermination.",
+            "Use lifecycleEvent only as entered, continued, advanced, resolved, superseded, or abandoned.",
+            "For advanced and resolved, lifecycleDetermination must state the material investigative determination and must not be null.",
+            "For entered, continued, superseded, and abandoned, lifecycleDetermination may be null when no separate material determination is required.",
+            "Do not invent investigation progress unsupported by the conversation.",
+            "Do not use conversation identifiers or interpretation-entry identifiers as investigationIdentity merely because those identifiers exist.",
             "Set durableInterpretation to a concise durable account of the user's meaning, intent, decisions, constraints, and unresolved questions.",
             "The two fields must be independently authored and must not be identical unless their meanings genuinely require identical wording.",
             "",
@@ -944,7 +1125,10 @@ export async function ollamaChat(
       evidence: validatedEvidence,
       evidenceSufficient:
         deduplicatedSupportSourceReferences.length > 0,
-      durableInterpretation: result.durableInterpretation,
+      investigationLifecycle:
+        result.investigationLifecycle,
+      durableInterpretation:
+        result.durableInterpretation,
     };
   } catch (error) {
     if (

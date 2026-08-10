@@ -14,6 +14,7 @@ test(
       statusText: "OK",
       json: async () => ({
         response: JSON.stringify({
+          investigationLifecycle: null,
           reply: "Conclusion.",
           explanationStatus: "optional",
           selectedContextSegments: [],
@@ -95,6 +96,7 @@ test(
       statusText: "OK",
       json: async () => ({
         response: JSON.stringify({
+          investigationLifecycle: null,
           reply: "Conclusion.",
           explanationStatus: "optional",
           selectedContextSegments: [],
@@ -132,6 +134,7 @@ test(
       statusText: "OK",
       json: async () => ({
         response: JSON.stringify({
+          investigationLifecycle: null,
           reply: "Conclusion.",
           explanationStatus: "optional",
           selectedContextSegments: [],
@@ -170,6 +173,7 @@ test(
       statusText: "OK",
       json: async () => ({
         response: JSON.stringify({
+          investigationLifecycle: null,
           reply: "Conclusion.",
           explanationStatus: "optional",
           selectedContextSegments: [],
@@ -208,6 +212,7 @@ test(
       statusText: "OK",
       json: async () => ({
         response: JSON.stringify({
+          investigationLifecycle: null,
           reply: "Conclusion.",
           explanationStatus: "optional",
           selectedContextSegments: [],
@@ -258,6 +263,7 @@ test(
       statusText: "OK",
       json: async () => ({
         response: JSON.stringify({
+          investigationLifecycle: null,
           reply: "Conclusion.",
           explanationStatus: "optional",
           selectedContextSegments: [],
@@ -315,6 +321,7 @@ test(
       statusText: "OK",
       json: async () => ({
         response: JSON.stringify({
+          investigationLifecycle: null,
           reply: "Conclusion.",
           explanationStatus: "optional",
           selectedContextSegments: [],
@@ -411,6 +418,7 @@ test(
       statusText: "OK",
       json: async () => ({
         response: JSON.stringify({
+          investigationLifecycle: null,
           reply: "Conclusion.",
           explanationStatus: "optional",
           selectedContextSegments: [],

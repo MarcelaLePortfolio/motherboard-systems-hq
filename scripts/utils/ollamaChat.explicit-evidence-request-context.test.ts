@@ -37,6 +37,7 @@ test(
         statusText: "OK",
         json: async () => ({
           response: JSON.stringify({
+          investigationLifecycle: null,
             reply:
               "Repository evidence is available.",
             explanationStatus: "optional",
@@ -126,6 +127,7 @@ test(
       statusText: "OK",
       json: async () => ({
         response: JSON.stringify({
+          investigationLifecycle: null,
           reply:
             "No repository evidence was retrieved.",
           explanationStatus: "optional",
@@ -172,6 +174,7 @@ test(
       statusText: "OK",
       json: async () => ({
         response: JSON.stringify({
+          investigationLifecycle: null,
           reply:
             "The workflow invokes ollamaChat.",
           explanationStatus: "optional",

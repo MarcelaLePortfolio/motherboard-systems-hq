@@ -25,6 +25,7 @@ test(
         statusText: "OK",
         json: async () => ({
           response: JSON.stringify({
+          investigationLifecycle: null,
             reply:
               "The test verifies deterministic deduplication.",
             explanationStatus: "optional",

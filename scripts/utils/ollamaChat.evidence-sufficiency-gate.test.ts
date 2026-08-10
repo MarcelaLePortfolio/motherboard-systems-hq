@@ -22,6 +22,7 @@ test(
         statusText: "OK",
         json: async () => ({
           response: JSON.stringify({
+          investigationLifecycle: null,
             reply:
               "The prior conclusion can be explained from its established support.",
             explanationStatus: "optional",
@@ -82,6 +83,7 @@ test(
         statusText: "OK",
         json: async () => ({
           response: JSON.stringify({
+          investigationLifecycle: null,
             reply:
               "Sufficient supporting justification is not available from the established evidence.",
             explanationStatus: "optional",
@@ -145,6 +147,7 @@ test(
         statusText: "OK",
         json: async () => ({
           response: JSON.stringify({
+          investigationLifecycle: null,
             reply:
               "Sufficient supporting justification is not available from the established evidence.",
             explanationStatus: "optional",

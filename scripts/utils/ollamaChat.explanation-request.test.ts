@@ -23,6 +23,7 @@ test(
         statusText: "OK",
         json: async () => ({
           response: JSON.stringify({
+          investigationLifecycle: null,
             reply:
               "The recommendation follows from the validated workflow boundary and the architectural constraints already established.",
             explanationStatus: "optional",

@@ -70,3 +70,24 @@ printf '  ✓ Summary Composition prompt contract\n'
 printf '  ✓ Explanation Status structured contract\n'
 printf '  ✓ user-facing reply remains separately consumed\n'
 printf '  ✓ malformed or incomplete structured output fails closed\n'
+
+echo
+echo "========== GUARD INVESTIGATION LIFECYCLE RESPONSE CONTRACT =========="
+
+grep -q '"investigationLifecycle"' scripts/utils/ollamaChat.ts
+grep -q 'MatildaInvestigationLifecycleArtifact' scripts/utils/ollamaChat.ts
+grep -q '"entered"' scripts/utils/ollamaChat.ts
+grep -q '"continued"' scripts/utils/ollamaChat.ts
+grep -q '"advanced"' scripts/utils/ollamaChat.ts
+grep -q '"resolved"' scripts/utils/ollamaChat.ts
+grep -q '"superseded"' scripts/utils/ollamaChat.ts
+grep -q '"abandoned"' scripts/utils/ollamaChat.ts
+grep -q 'structured response without investigation lifecycle' scripts/utils/ollamaChat.ts
+grep -q 'without required determination' scripts/utils/ollamaChat.ts
+
+echo "PASS: bounded Investigation Lifecycle structured response contract remains intact."
+echo "  ✓ required nullable Investigation Lifecycle artifact"
+echo "  ✓ bounded lifecycle event vocabulary"
+echo "  ✓ fail-closed lifecycle validation"
+echo "  ✓ advanced/resolved determination requirement"
+echo "  ✓ one existing semantic-generation seam preserved"

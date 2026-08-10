@@ -25,6 +25,7 @@ test(
         statusText: "OK",
         json: async () => ({
           response: JSON.stringify({
+          investigationLifecycle: null,
             reply:
               "The current architecture supports a bounded implementation attempt.",
             explanationStatus: "optional",
@@ -53,7 +54,8 @@ test(
           "selectedContextSegments",
         "supportSourceReferences",
           "evidence",
-          "durableInterpretation",
+          "investigationLifecycle",
+      "durableInterpretation",
         ],
       );
 
@@ -93,6 +95,7 @@ test(
       statusText: "OK",
       json: async () => ({
         response: JSON.stringify({
+          investigationLifecycle: null,
           reply: "Conclusion.",
           explanationStatus: "required",
           selectedContextSegments: [],

@@ -19,6 +19,7 @@ test(
       new Response(
         JSON.stringify({
           response: JSON.stringify({
+          investigationLifecycle: null,
             reply: "Answer.",
             explanationStatus: "optional",
             selectedContextSegments: [],
@@ -77,6 +78,7 @@ test(
       new Response(
         JSON.stringify({
           response: JSON.stringify({
+          investigationLifecycle: null,
             reply: "Answer.",
             explanationStatus: "optional",
             selectedContextSegments: [],

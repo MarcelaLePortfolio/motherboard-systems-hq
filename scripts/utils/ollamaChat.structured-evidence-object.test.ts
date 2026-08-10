@@ -32,6 +32,7 @@ test(
       statusText: "OK",
       json: async () => ({
         response: JSON.stringify({
+          investigationLifecycle: null,
           reply:
             "The workflow invokes ollamaChat.",
           explanationStatus: "optional",
@@ -89,6 +90,7 @@ test(
       statusText: "OK",
       json: async () => ({
         response: JSON.stringify({
+          investigationLifecycle: null,
           reply:
             "The workflow invokes ollamaChat.",
           explanationStatus: "optional",
@@ -140,6 +142,7 @@ test(
       statusText: "OK",
       json: async () => ({
         response: JSON.stringify({
+          investigationLifecycle: null,
           reply:
             "The prior conversation supports this.",
           explanationStatus: "optional",
@@ -205,6 +208,7 @@ test(
       statusText: "OK",
       json: async () => ({
         response: JSON.stringify({
+          investigationLifecycle: null,
           reply:
             "The workflow invokes ollamaChat.",
           explanationStatus: "optional",
@@ -255,6 +259,7 @@ test(
       statusText: "OK",
       json: async () => ({
         response: JSON.stringify({
+          investigationLifecycle: null,
           reply: "No supported conclusion.",
           explanationStatus: "optional",
           selectedContextSegments: [],

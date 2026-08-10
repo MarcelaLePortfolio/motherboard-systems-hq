@@ -4,6 +4,7 @@ import test from "node:test";
 import { ollamaChat } from "./ollamaChat";
 
 const validResponse = JSON.stringify({
+          investigationLifecycle: null,
   reply: "Answer.",
   explanationStatus: "optional",
   selectedContextSegments: [],
@@ -28,7 +29,8 @@ test(
       capturedBody = JSON.parse(String(init?.body));
 
       return new Response(
-        JSON.stringify({ response: validResponse }),
+        JSON.stringify({
+          investigationLifecycle: null, response: validResponse }),
         {
           status: 200,
           headers: {
@@ -71,7 +73,8 @@ test(
       capturedBody = JSON.parse(String(init?.body));
 
       return new Response(
-        JSON.stringify({ response: validResponse }),
+        JSON.stringify({
+          investigationLifecycle: null, response: validResponse }),
         {
           status: 200,
           headers: {

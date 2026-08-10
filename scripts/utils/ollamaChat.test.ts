@@ -25,6 +25,7 @@ test(
         statusText: "OK",
         json: async () => ({
           response: JSON.stringify({
+          investigationLifecycle: null,
             reply: "We can proceed carefully.",
             explanationStatus: "optional",
             explanationStatus: "optional",
@@ -88,6 +89,7 @@ test(
         statusText: "OK",
         json: async () => ({
           response: JSON.stringify({
+          investigationLifecycle: null,
             reply: "Current response.",
             explanationStatus: "optional",
             explanationStatus: "optional",
@@ -162,6 +164,7 @@ test(
         statusText: "OK",
         json: async () => ({
           response: JSON.stringify({
+          investigationLifecycle: null,
             reply: "Current response.",
             explanationStatus: "optional",
             explanationStatus: "optional",
@@ -254,6 +257,7 @@ test(
         statusText: "OK",
         json: async () => ({
           response: JSON.stringify({
+          investigationLifecycle: null,
             reply: "Hello.",
             explanationStatus: "optional",
             selectedContextSegments: [],
