@@ -117,7 +117,7 @@ Repository-supported determination:
 
 2. IEL lifecycle reconstruction is implemented.
 
-3. The existing IEL reader now supports bounded optional project/conversation
+3. The existing IEL reader supports bounded optional project/conversation
    scoping.
 
 4. Scope is applied before ORDER BY and LIMIT.
@@ -140,7 +140,7 @@ Repository-supported determination:
 11. The selected prior artifact is transported unchanged through a dedicated
     nullable typed Ollama context field.
 
-12. Prior lifecycle state is not encoded as selectedHistory.
+12. Prior lifecycle state remains independent from selectedHistory.
 
 13. Prior lifecycle state is not encoded as a synthetic conversation turn.
 
@@ -171,11 +171,12 @@ Repository-supported determination:
 
 26. Current lifecycle output schema remains unchanged.
 
-27. Cross-turn lifecycle context transport is therefore implemented.
+27. Prior Investigation Lifecycle semantic context transport is therefore
+    implemented and validated.
 
-28. Cross-turn transition validation is still not implemented.
+28. Cross-turn lifecycle transition validation remains absent.
 
-29. Transition validation must remain a separate downstream corridor.
+29. Transition validation remains a separate downstream corridor.
 
 Capability state:
 
@@ -203,7 +204,7 @@ INVESTIGATE_INVESTIGATION_LIFECYCLE_CROSS_TURN_TRANSITION_VALIDATION_CURRENT_STA
 
 The next unit is investigation only.
 
-Do not implement transition validation during classification.
+Do not implement transition validation.
 
 Do not alter prior-context transport.
 
@@ -215,11 +216,11 @@ Do not alter selectedHistory.
 
 Do not alter Conversation Context Runtime.
 
-Do not add another model invocation.
-
 Do not change generation policy.
 
 Do not add retries.
+
+Do not add another model invocation.
 
 Do not reopen Phase 1.
 
@@ -286,7 +287,9 @@ echo
 echo "=== DIFF CHECK ==="
 git diff --check
 
-git add scripts/classify-investigation-lifecycle-prior-context-transport-implementation.sh
+git add \
+  scripts/classify-investigation-lifecycle-prior-context-transport-implementation.sh
+
 git diff --cached --check
 git commit -m "Classify Investigation Lifecycle prior context transport implementation"
 git push
