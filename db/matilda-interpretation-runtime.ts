@@ -28,6 +28,7 @@ export type CreateInterpretationEvidenceLedgerEntryInput = {
   lineage_references?: string | null;
 
   supersession_status?: string | null;
+  investigation_lifecycle_json?: string | null;
 
 };
 
@@ -87,6 +88,7 @@ function ensureInterpretationEvidenceLedgerTable() {
 
       lineage_references TEXT,
 
+      investigation_lifecycle_json TEXT,
       supersession_status TEXT NOT NULL DEFAULT 'current'
 
     );
@@ -191,6 +193,23 @@ function optionalText(value: string | null | undefined): string | null {
 
   return String(value);
 
+
+  const lifecycleColumns = sqlite
+    .prepare(
+      "PRAGMA table_info(matilda_interpretation_evidence_ledger)",
+    )
+    .all() as Array<{ name: string }>;
+
+  if (
+    !lifecycleColumns.some(
+      (column) => column.name === "investigation_lifecycle_json",
+    )
+  ) {
+    sqlite.exec(`
+      ALTER TABLE matilda_interpretation_evidence_ledger
+      ADD COLUMN investigation_lifecycle_json TEXT;
+    `);
+  }
 }
 
 export function createInterpretationEvidenceLedgerEntry(
@@ -241,6 +260,7 @@ export function createInterpretationEvidenceLedgerEntry(
 
       lineage_references,
 
+      investigation_lifecycle_json,
       supersession_status
 
     ) VALUES (
@@ -267,6 +287,7 @@ export function createInterpretationEvidenceLedgerEntry(
 
       @lineage_references,
 
+      @investigation_lifecycle_json,
       @supersession_status
 
     )
@@ -295,6 +316,8 @@ export function createInterpretationEvidenceLedgerEntry(
 
     lineage_references: optionalText(input.lineage_references),
 
+    investigation_lifecycle_json:
+      input.investigation_lifecycle_json ?? null,
     supersession_status: optionalText(input.supersession_status) || "current",
 
   });
