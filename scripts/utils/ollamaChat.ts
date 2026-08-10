@@ -294,6 +294,105 @@ type ParsedOllamaChatResult =
     selectedContextSegments: MatildaSelectedContextSegment[];
   };
 
+export function validateMatildaInvestigationLifecycleArtifact(
+  value: unknown,
+  errorPrefix = "Ollama returned",
+): MatildaInvestigationLifecycleArtifact {
+  if (
+    !value ||
+    typeof value !== "object" ||
+    Array.isArray(value)
+  ) {
+    throw new Error(
+      `${errorPrefix} malformed investigation lifecycle artifact.`,
+    );
+  }
+
+  const candidate = value as Record<string, unknown>;
+
+  const investigationIdentity =
+    typeof candidate.investigationIdentity === "string"
+      ? candidate.investigationIdentity.trim()
+      : "";
+
+  const governingQuestion =
+    typeof candidate.governingQuestion === "string"
+      ? candidate.governingQuestion.trim()
+      : "";
+
+  const lifecycleEvent = candidate.lifecycleEvent;
+
+  const validLifecycleEvents =
+    new Set<MatildaInvestigationLifecycleEvent>([
+      "entered",
+      "continued",
+      "advanced",
+      "resolved",
+      "superseded",
+      "abandoned",
+    ]);
+
+  if (!investigationIdentity) {
+    throw new Error(
+      `${errorPrefix} investigation lifecycle without investigation identity.`,
+    );
+  }
+
+  if (!governingQuestion) {
+    throw new Error(
+      `${errorPrefix} investigation lifecycle without governing question.`,
+    );
+  }
+
+  if (
+    typeof lifecycleEvent !== "string" ||
+    !validLifecycleEvents.has(
+      lifecycleEvent as MatildaInvestigationLifecycleEvent,
+    )
+  ) {
+    throw new Error(
+      `${errorPrefix} invalid investigation lifecycle event.`,
+    );
+  }
+
+  let lifecycleDetermination: string | null = null;
+
+  if (candidate.lifecycleDetermination !== null) {
+    if (typeof candidate.lifecycleDetermination !== "string") {
+      throw new Error(
+        `${errorPrefix} malformed investigation lifecycle determination.`,
+      );
+    }
+
+    lifecycleDetermination =
+      candidate.lifecycleDetermination.trim();
+
+    if (!lifecycleDetermination) {
+      throw new Error(
+        `${errorPrefix} empty investigation lifecycle determination.`,
+      );
+    }
+  }
+
+  if (
+    (lifecycleEvent === "advanced" ||
+      lifecycleEvent === "resolved") &&
+    !lifecycleDetermination
+  ) {
+    throw new Error(
+      `${errorPrefix} ${lifecycleEvent} investigation lifecycle without required determination.`,
+    );
+  }
+
+  return {
+    investigationIdentity,
+    governingQuestion,
+    lifecycleEvent:
+      lifecycleEvent as MatildaInvestigationLifecycleEvent,
+    lifecycleDetermination,
+  };
+}
+
 function parseStructuredResponse(
   rawResponse: string,
 ): ParsedOllamaChatResult {
@@ -530,103 +629,10 @@ function parseStructuredResponse(
     null;
 
   if (parsed.investigationLifecycle !== null) {
-    if (
-      !parsed.investigationLifecycle ||
-      typeof parsed.investigationLifecycle !== "object" ||
-      Array.isArray(parsed.investigationLifecycle)
-    ) {
-      throw new Error(
-        "Ollama returned malformed investigation lifecycle artifact.",
+    investigationLifecycle =
+      validateMatildaInvestigationLifecycleArtifact(
+        parsed.investigationLifecycle,
       );
-    }
-
-    const candidate =
-      parsed.investigationLifecycle as Record<string, unknown>;
-
-    const investigationIdentity =
-      typeof candidate.investigationIdentity === "string"
-        ? candidate.investigationIdentity.trim()
-        : "";
-
-    const governingQuestion =
-      typeof candidate.governingQuestion === "string"
-        ? candidate.governingQuestion.trim()
-        : "";
-
-    const lifecycleEvent =
-      candidate.lifecycleEvent;
-
-    const validLifecycleEvents =
-      new Set<MatildaInvestigationLifecycleEvent>([
-        "entered",
-        "continued",
-        "advanced",
-        "resolved",
-        "superseded",
-        "abandoned",
-      ]);
-
-    if (!investigationIdentity) {
-      throw new Error(
-        "Ollama returned investigation lifecycle without investigation identity.",
-      );
-    }
-
-    if (!governingQuestion) {
-      throw new Error(
-        "Ollama returned investigation lifecycle without governing question.",
-      );
-    }
-
-    if (
-      typeof lifecycleEvent !== "string" ||
-      !validLifecycleEvents.has(
-        lifecycleEvent as MatildaInvestigationLifecycleEvent,
-      )
-    ) {
-      throw new Error(
-        "Ollama returned invalid investigation lifecycle event.",
-      );
-    }
-
-    let lifecycleDetermination: string | null = null;
-
-    if (candidate.lifecycleDetermination !== null) {
-      if (
-        typeof candidate.lifecycleDetermination !== "string"
-      ) {
-        throw new Error(
-          "Ollama returned malformed investigation lifecycle determination.",
-        );
-      }
-
-      lifecycleDetermination =
-        candidate.lifecycleDetermination.trim();
-
-      if (!lifecycleDetermination) {
-        throw new Error(
-          "Ollama returned empty investigation lifecycle determination.",
-        );
-      }
-    }
-
-    if (
-      (lifecycleEvent === "advanced" ||
-        lifecycleEvent === "resolved") &&
-      !lifecycleDetermination
-    ) {
-      throw new Error(
-        `Ollama returned ${lifecycleEvent} investigation lifecycle without required determination.`,
-      );
-    }
-
-    investigationLifecycle = {
-      investigationIdentity,
-      governingQuestion,
-      lifecycleEvent:
-        lifecycleEvent as MatildaInvestigationLifecycleEvent,
-      lifecycleDetermination,
-    };
   }
 
   const durableInterpretation =

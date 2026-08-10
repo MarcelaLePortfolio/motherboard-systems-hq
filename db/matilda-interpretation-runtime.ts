@@ -1,5 +1,6 @@
-import type {
-  MatildaInvestigationLifecycleArtifact,
+import {
+  validateMatildaInvestigationLifecycleArtifact,
+  type MatildaInvestigationLifecycleArtifact,
 } from "../scripts/utils/ollamaChat";
 
 import Database from "better-sqlite3";
@@ -343,11 +344,59 @@ export function createInterpretationEvidenceLedgerEntry(
 
 }
 
-export function listInterpretationEvidenceLedgerEntries(limit = 20) {
+export type InterpretationEvidenceLedgerReadEntry = {
+  entry_id: string;
+  created_at: string;
+  actor: string;
+  project_id: string | null;
+  conversation_id: string | null;
+  interpretation_event: string;
+  minimum_sufficient_context: string;
+  supporting_raw_evidence: string;
+  matilda_observation: string;
+  unresolved_questions: string | null;
+  lineage_references: string | null;
+  investigationLifecycle: MatildaInvestigationLifecycleArtifact | null;
+  supersession_status: string;
+};
+
+type InterpretationEvidenceLedgerStoredReadEntry = Omit<
+  InterpretationEvidenceLedgerReadEntry,
+  "investigationLifecycle"
+> & {
+  investigation_lifecycle_json: string | null;
+};
+
+function reconstructInvestigationLifecycle(
+  value: string | null,
+): MatildaInvestigationLifecycleArtifact | null {
+  if (value === null) {
+    return null;
+  }
+
+  let parsed: unknown;
+
+  try {
+    parsed = JSON.parse(value) as unknown;
+  } catch {
+    throw new Error(
+      "Matilda IEL contains malformed investigation lifecycle JSON.",
+    );
+  }
+
+  return validateMatildaInvestigationLifecycleArtifact(
+    parsed,
+    "Matilda IEL contains",
+  );
+}
+
+export function listInterpretationEvidenceLedgerEntries(
+  limit = 20,
+): InterpretationEvidenceLedgerReadEntry[] {
 
   ensureInterpretationEvidenceLedgerTable();
 
-  return sqlite.prepare(`
+  const rows = sqlite.prepare(`
 
     SELECT
 
@@ -373,6 +422,8 @@ export function listInterpretationEvidenceLedgerEntries(limit = 20) {
 
       lineage_references,
 
+      investigation_lifecycle_json,
+
       supersession_status
 
     FROM matilda_interpretation_evidence_ledger
@@ -381,7 +432,30 @@ export function listInterpretationEvidenceLedgerEntries(limit = 20) {
 
     LIMIT ?
 
-  `).all(Math.max(1, Math.min(Number(limit) || 20, 100)));
+  `).all(
+    Math.max(1, Math.min(Number(limit) || 20, 100)),
+  ) as InterpretationEvidenceLedgerStoredReadEntry[];
+
+  return rows.map((row) => ({
+    entry_id: row.entry_id,
+    created_at: row.created_at,
+    actor: row.actor,
+    project_id: row.project_id,
+    conversation_id: row.conversation_id,
+    interpretation_event: row.interpretation_event,
+    minimum_sufficient_context:
+      row.minimum_sufficient_context,
+    supporting_raw_evidence:
+      row.supporting_raw_evidence,
+    matilda_observation: row.matilda_observation,
+    unresolved_questions: row.unresolved_questions,
+    lineage_references: row.lineage_references,
+    investigationLifecycle:
+      reconstructInvestigationLifecycle(
+        row.investigation_lifecycle_json,
+      ),
+    supersession_status: row.supersession_status,
+  }));
 
 }
 
