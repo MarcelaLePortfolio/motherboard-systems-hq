@@ -9,13 +9,17 @@ import { runMatildaChatDraftIntegration } from "../db/matilda-chat-draft-integra
 import {
   createInterpretationEvidenceLedgerEntry,
   listInterpretationEvidenceLedgerEntries,
+  type InterpretationEvidenceLedgerReadEntry,
 } from "../db/matilda-interpretation-runtime";
 import {
   createMatildaConversationTurn,
   listMatildaConversationTurns,
   type MatildaConversationTurn,
 } from "../db/matilda-conversation-runtime";
-import { ollamaChat } from "../scripts/utils/ollamaChat";
+import {
+  ollamaChat,
+  type MatildaInvestigationLifecycleArtifact,
+} from "../scripts/utils/ollamaChat";
 import {
   isExplicitExplanationRequest,
 } from "./matilda-explanation-request-signal";
@@ -52,6 +56,17 @@ export type MatildaConversationWorkflowResult =
     envelope_authorized: false;
     execution_authorized: false;
   };
+
+export function selectMatildaPriorInvestigationLifecycle(
+  entries: readonly InterpretationEvidenceLedgerReadEntry[],
+): MatildaInvestigationLifecycleArtifact | null {
+  const eligible =
+    entries.find(
+      (entry) => entry.investigationLifecycle !== null,
+    );
+
+  return eligible?.investigationLifecycle ?? null;
+}
 
 export class MatildaConversationWorkflowUnavailableError
   extends Error {
@@ -149,6 +164,20 @@ export async function runMatildaConversationWorkflow(
     const interpretationLedgerEntries =
       listInterpretationEvidenceLedgerEntries(500);
 
+    const scopedLifecycleLedgerEntries =
+      listInterpretationEvidenceLedgerEntries(
+        100,
+        {
+          projectId,
+          conversationId,
+        },
+      );
+
+    const priorInvestigationLifecycle =
+      selectMatildaPriorInvestigationLifecycle(
+        scopedLifecycleLedgerEntries,
+      );
+
     const interpretationLifecycleEntries =
       selectMatildaInterpretationLifecycleEntries(
         conversationTurns.map(
@@ -195,6 +224,7 @@ export async function runMatildaConversationWorkflow(
           conversationContext.projectContextWarning,
         priorExplanationEvidenceStatus:
           priorSupportProvenance?.status,
+        priorInvestigationLifecycle,
         explicitEvidenceRequest,
       });
 

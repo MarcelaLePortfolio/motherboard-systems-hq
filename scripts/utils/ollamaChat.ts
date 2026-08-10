@@ -237,6 +237,8 @@ export interface OllamaChatContext {
   projectContextWarning?: string | null;
   priorExplanationEvidenceStatus?:
     MatildaPriorExplanationEvidenceStatus;
+  priorInvestigationLifecycle?:
+    MatildaInvestigationLifecycleArtifact | null;
   explicitEvidenceRequest?: boolean;
   observeValidatedSelectedContextSegments?: (
     segments: readonly MatildaSelectedContextSegment[],
@@ -773,6 +775,20 @@ export async function ollamaChat(
       ],
     );
 
+    const priorInvestigationLifecycleContext =
+      context.priorInvestigationLifecycle
+        ? [
+            "",
+            "Prior Matilda-authored Investigation Lifecycle state:",
+            JSON.stringify(
+              context.priorInvestigationLifecycle,
+            ),
+            "Treat this as previously authored semantic state for continuity context only.",
+            "Do not treat its lifecycleEvent as the required current lifecycleEvent.",
+            "Determine the current investigationLifecycle from the current user message and supplied context.",
+          ]
+        : [];
+
     const priorExplanationEvidence =
       context.priorExplanationEvidenceStatus
         ? [
@@ -870,6 +886,7 @@ export async function ollamaChat(
             ...projectContextSegmentCandidates,
             ...projectContextWarning,
             ...conversationHistory,
+            ...priorInvestigationLifecycleContext,
             ...priorExplanationEvidence,
             "",
             `User: ${trimmedMessage}`,

@@ -390,11 +390,50 @@ function reconstructInvestigationLifecycle(
   );
 }
 
+export interface ListInterpretationEvidenceLedgerEntriesOptions {
+  projectId?: string | null;
+  conversationId?: string | null;
+}
+
 export function listInterpretationEvidenceLedgerEntries(
   limit = 20,
+  options: ListInterpretationEvidenceLedgerEntriesOptions = {},
 ): InterpretationEvidenceLedgerReadEntry[] {
 
   ensureInterpretationEvidenceLedgerTable();
+
+  const projectId =
+    typeof options.projectId === "string" &&
+    options.projectId.trim()
+      ? options.projectId.trim()
+      : null;
+
+  const conversationId =
+    typeof options.conversationId === "string" &&
+    options.conversationId.trim()
+      ? options.conversationId.trim()
+      : null;
+
+  const scopeClauses: string[] = [];
+  const scopeParameters: string[] = [];
+
+  if (projectId) {
+    scopeClauses.push("project_id = ?");
+    scopeParameters.push(projectId);
+  }
+
+  if (conversationId) {
+    scopeClauses.push("conversation_id = ?");
+    scopeParameters.push(conversationId);
+  }
+
+  const whereClause =
+    scopeClauses.length > 0
+      ? `WHERE ${scopeClauses.join(" AND ")}`
+      : "";
+
+  const boundedLimit =
+    Math.max(1, Math.min(Number(limit) || 20, 100));
 
   const rows = sqlite.prepare(`
 
@@ -428,12 +467,15 @@ export function listInterpretationEvidenceLedgerEntries(
 
     FROM matilda_interpretation_evidence_ledger
 
+    ${whereClause}
+
     ORDER BY created_at DESC
 
     LIMIT ?
 
   `).all(
-    Math.max(1, Math.min(Number(limit) || 20, 100)),
+    ...scopeParameters,
+    boundedLimit,
   ) as InterpretationEvidenceLedgerStoredReadEntry[];
 
   return rows.map((row) => ({
