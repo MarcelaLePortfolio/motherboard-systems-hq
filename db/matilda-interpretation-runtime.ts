@@ -165,6 +165,23 @@ function ensureInterpretationEvidenceLedgerTable() {
       created_at
     );
   `);
+
+  const lifecycleColumns = sqlite
+    .prepare(
+      "PRAGMA table_info(matilda_interpretation_evidence_ledger)",
+    )
+    .all() as Array<{ name: string }>;
+
+  if (
+    !lifecycleColumns.some(
+      (column) => column.name === "investigation_lifecycle_json",
+    )
+  ) {
+    sqlite.exec(`
+      ALTER TABLE matilda_interpretation_evidence_ledger
+      ADD COLUMN investigation_lifecycle_json TEXT;
+    `);
+  }
 }
 
 function requireText(
@@ -192,24 +209,6 @@ function optionalText(value: string | null | undefined): string | null {
   if (value === undefined || value === null) return null;
 
   return String(value);
-
-
-  const lifecycleColumns = sqlite
-    .prepare(
-      "PRAGMA table_info(matilda_interpretation_evidence_ledger)",
-    )
-    .all() as Array<{ name: string }>;
-
-  if (
-    !lifecycleColumns.some(
-      (column) => column.name === "investigation_lifecycle_json",
-    )
-  ) {
-    sqlite.exec(`
-      ALTER TABLE matilda_interpretation_evidence_ledger
-      ADD COLUMN investigation_lifecycle_json TEXT;
-    `);
-  }
 }
 
 export function createInterpretationEvidenceLedgerEntry(

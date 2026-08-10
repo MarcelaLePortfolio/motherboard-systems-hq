@@ -42,7 +42,7 @@ test(
 
     assert.doesNotMatch(
       source,
-      /UPDATE matilda_interpretation_evidence_ledger[\s\S]*investigation_lifecycle_json/,
+      /investigation_lifecycle_json\s*=/,
     );
   },
 );
