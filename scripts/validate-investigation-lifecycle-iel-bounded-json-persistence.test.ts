@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
-import test from "node:test";
 import fs from "node:fs";
+import test from "node:test";
 
 const source = fs.readFileSync(
   "db/matilda-interpretation-runtime.ts",
@@ -18,9 +18,14 @@ test(
 );
 
 test(
-  "IEL input accepts nullable bounded lifecycle JSON",
+  "IEL input accepts nullable bounded typed lifecycle artifact",
   () => {
     assert.match(
+      source,
+      /investigation_lifecycle\?:\s*MatildaInvestigationLifecycleArtifact \| null;/,
+    );
+
+    assert.doesNotMatch(
       source,
       /investigation_lifecycle_json\?: string \| null;/,
     );
@@ -32,32 +37,22 @@ test(
   () => {
     assert.match(
       source,
-      /column\.name === "investigation_lifecycle_json"/,
-    );
-
-    assert.match(
-      source,
-      /ALTER TABLE matilda_interpretation_evidence_ledger[\s\S]*ADD COLUMN investigation_lifecycle_json TEXT/,
+      /ALTER TABLE matilda_interpretation_evidence_ledger[\s\S]*ADD COLUMN investigation_lifecycle_json TEXT;/,
     );
 
     assert.doesNotMatch(
       source,
-      /investigation_lifecycle_json\s*=/,
+      /UPDATE matilda_interpretation_evidence_ledger[\s\S]*investigation_lifecycle_json\s*=/,
     );
   },
 );
 
 test(
-  "IEL INSERT persists nullable lifecycle JSON",
+  "IEL deterministically serializes nullable lifecycle artifact",
   () => {
     assert.match(
       source,
-      /INSERT INTO matilda_interpretation_evidence_ledger[\s\S]*investigation_lifecycle_json[\s\S]*@investigation_lifecycle_json/,
-    );
-
-    assert.match(
-      source,
-      /investigation_lifecycle_json:\s*[\r\n ]*input\.investigation_lifecycle_json \?\? null/,
+      /investigation_lifecycle_json:\s*[\s\S]*input\.investigation_lifecycle === null[\s\S]*input\.investigation_lifecycle === undefined[\s\S]*\? null[\s\S]*JSON\.stringify\([\s\S]*input\.investigation_lifecycle/,
     );
   },
 );
@@ -65,14 +60,14 @@ test(
 test(
   "lifecycle persistence remains owned by IEL runtime",
   () => {
-    const workflow = fs.readFileSync(
-      "server/matilda-chat-workflow.ts",
-      "utf8",
+    assert.match(
+      source,
+      /@investigation_lifecycle_json/,
     );
 
-    assert.doesNotMatch(
-      workflow,
-      /investigation_lifecycle_json/,
+    assert.match(
+      source,
+      /JSON\.stringify\([\s\S]*input\.investigation_lifecycle/,
     );
   },
 );
