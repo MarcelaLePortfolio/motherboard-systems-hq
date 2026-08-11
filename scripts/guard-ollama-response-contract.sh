@@ -84,10 +84,15 @@ grep -q '"superseded"' scripts/utils/ollamaChat.ts
 grep -q '"abandoned"' scripts/utils/ollamaChat.ts
 grep -q 'structured response without investigation lifecycle' scripts/utils/ollamaChat.ts
 grep -q 'without required determination' scripts/utils/ollamaChat.ts
+grep -q 'validateMatildaInvestigationLifecycleContinuity' scripts/utils/ollamaChat.ts
+grep -q 'context.priorInvestigationLifecycle ?? null' scripts/utils/ollamaChat.ts
+grep -q 'investigation identity that does not match prior lifecycle context' scripts/utils/ollamaChat.ts
 
 echo "PASS: bounded Investigation Lifecycle structured response contract remains intact."
 echo "  ✓ required nullable Investigation Lifecycle artifact"
 echo "  ✓ bounded lifecycle event vocabulary"
 echo "  ✓ fail-closed lifecycle validation"
 echo "  ✓ advanced/resolved determination requirement"
+echo "  ✓ continued/advanced cross-turn identity continuity validation"
+echo "  ✓ prior/current lifecycle comparison occurs in the existing semantic-generation seam"
 echo "  ✓ one existing semantic-generation seam preserved"

@@ -395,6 +395,38 @@ export function validateMatildaInvestigationLifecycleArtifact(
   };
 }
 
+export function validateMatildaInvestigationLifecycleContinuity(
+  priorInvestigationLifecycle:
+    MatildaInvestigationLifecycleArtifact | null,
+  currentInvestigationLifecycle:
+    MatildaInvestigationLifecycleArtifact | null,
+): void {
+  if (
+    !priorInvestigationLifecycle ||
+    !currentInvestigationLifecycle
+  ) {
+    return;
+  }
+
+  if (
+    currentInvestigationLifecycle.lifecycleEvent !==
+      "continued" &&
+    currentInvestigationLifecycle.lifecycleEvent !==
+      "advanced"
+  ) {
+    return;
+  }
+
+  if (
+    currentInvestigationLifecycle.investigationIdentity !==
+    priorInvestigationLifecycle.investigationIdentity
+  ) {
+    throw new Error(
+      `Ollama returned ${currentInvestigationLifecycle.lifecycleEvent} investigation lifecycle with investigation identity that does not match prior lifecycle context.`,
+    );
+  }
+}
+
 function parseStructuredResponse(
   rawResponse: string,
 ): ParsedOllamaChatResult {
@@ -912,6 +944,11 @@ export async function ollamaChat(
 
     const result =
       parseStructuredResponse(rawResponse);
+
+    validateMatildaInvestigationLifecycleContinuity(
+      context.priorInvestigationLifecycle ?? null,
+      result.investigationLifecycle,
+    );
 
     const suppliedSegmentCandidates =
       context.projectContextSegmentCandidates || [];
