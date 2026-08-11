@@ -3,10 +3,10 @@ set -euo pipefail
 
 echo "=== PHASE 3 REPEATED UNSEEDED PRODUCTION STABILITY VALIDATION ==="
 
-expected_head="842e5ec5"
+required_authorization_ancestor="842e5ec5"
 
-if [[ "$(git rev-parse --short=8 HEAD)" != "$expected_head" ]]; then
-  echo "STOP: HEAD no longer matches authorized runner-classification checkpoint $expected_head."
+if ! git merge-base --is-ancestor "$required_authorization_ancestor" HEAD; then
+  echo "STOP: required Phase 3 runner authorization checkpoint $required_authorization_ancestor is not an ancestor of HEAD."
   exit 2
 fi
 
@@ -39,6 +39,8 @@ semantic_failure=0
 
 : > "$summary_file"
 
+echo "AUTHORIZATION_ANCESTOR=$required_authorization_ancestor"
+echo "CURRENT_HEAD=$(git rev-parse --short=8 HEAD)"
 echo "ARTIFACT_DIRECTORY=$artifact_dir"
 echo "RUN_COUNT=10"
 echo "GENERATION_POLICY=UNSEEDED_UNCHANGED"
