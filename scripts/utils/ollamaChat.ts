@@ -1114,17 +1114,19 @@ export async function ollamaChat(
     }
 
     const supportDrivenEvidenceSources =
-      deduplicatedSupportSourceReferences
-        .filter(
-          (
-            reference,
-          ): reference is Extract<
-            MatildaSupportSourceReference,
-            { type: "project_context_excerpt" }
-          > =>
-            reference.type ===
-            "project_context_excerpt",
-        )
+      deduplicatedSupportSourceReferences          .filter(
+            (
+              reference,
+            ): reference is MatildaSupportSourceReference & {
+              type: "project_context_excerpt";
+              relativePath: string;
+              lineNumber: number;
+            } =>
+              reference.type ===
+                "project_context_excerpt" &&
+              typeof reference.relativePath === "string" &&
+              typeof reference.lineNumber === "number",
+          )
         .map((reference) => {
           const sourceKey =
             `${reference.relativePath}:${reference.lineNumber}`;
