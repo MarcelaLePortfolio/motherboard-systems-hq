@@ -24,7 +24,7 @@ echo
 echo "=== VERIFY VALIDATION-ONLY SURFACE ==="
 unexpected="$(
   git status --porcelain |
-  grep -vE '^\?\? scripts/validate-matilda-collaboration-runtime-milestone-closure\.sh$|^ M scripts/validate-matilda-collaboration-runtime-milestone-closure\.sh$' ||
+  grep -vE '^ M scripts/validate-matilda-collaboration-runtime-milestone-closure\.sh$' ||
   true
 )"
 
@@ -44,10 +44,15 @@ grep -nE \
 
 echo
 echo "=== VERIFY PHASE CLOSURE LINEAGE ==="
-git log --oneline --all --grep='Phase 1 Response Composition' | head -n 20
+git show -s --format='%h %s' 3d61e635
 git show -s --format='%h %s' c0934a3b
 git show -s --format='%h %s' 3320b0ed
 git show -s --format='%h %s' 1a3fb8d7
+
+git merge-base --is-ancestor 3d61e635 HEAD || {
+  echo "STOP: Phase 1 closure checkpoint is not an ancestor of HEAD."
+  exit 2
+}
 
 git merge-base --is-ancestor c0934a3b HEAD || {
   echo "STOP: Phase 2 closure checkpoint is not an ancestor of HEAD."
@@ -64,31 +69,44 @@ git merge-base --is-ancestor 1a3fb8d7 HEAD || {
   exit 2
 }
 
-echo "PHASE_2_THROUGH_PHASE_4_CLOSURE_LINEAGE_CONFIRMED"
+echo "FOUR_PHASE_CLOSURE_LINEAGE_CONFIRMED"
 
 echo
 echo "=== VERIFY RESPONSE CONTRACT ==="
 bash scripts/guard-ollama-response-contract.sh
 
 echo
+echo "=== VERIFY EXISTING TYPESCRIPT TEST RUNNER ==="
+if [[ -x "./node_modules/.bin/tsx" ]]; then
+  TEST_RUNNER="./node_modules/.bin/tsx --test"
+elif command -v tsx >/dev/null 2>&1; then
+  TEST_RUNNER="tsx --test"
+else
+  echo "STOP: tsx test runner is unavailable; do not change production imports to accommodate raw Node module resolution."
+  exit 2
+fi
+
+echo "TEST_RUNNER=$TEST_RUNNER"
+
+echo
 echo "=== VERIFY INVESTIGATION LIFECYCLE CONTRACT ==="
-node --test scripts/utils/ollamaChat.investigation-lifecycle-contract.test.ts
+$TEST_RUNNER scripts/utils/ollamaChat.investigation-lifecycle-contract.test.ts
 
 echo
 echo "=== VERIFY PRIOR LIFECYCLE CONTEXT TRANSPORT ==="
-node --test scripts/utils/ollamaChat.prior-investigation-lifecycle-context.test.ts
+$TEST_RUNNER scripts/utils/ollamaChat.prior-investigation-lifecycle-context.test.ts
 
 echo
 echo "=== VERIFY SCOPED IEL RETRIEVAL ==="
-node --test db/matilda-interpretation-runtime.scoped-lifecycle-retrieval.test.ts
+$TEST_RUNNER db/matilda-interpretation-runtime.scoped-lifecycle-retrieval.test.ts
 
 echo
 echo "=== VERIFY IEL LIFECYCLE RECONSTRUCTION ==="
-node --test db/matilda-interpretation-runtime.investigation-lifecycle-reconstruction.test.ts
+$TEST_RUNNER db/matilda-interpretation-runtime.investigation-lifecycle-reconstruction.test.ts
 
 echo
 echo "=== VERIFY TYPED IEL WORKFLOW TRANSPORT ==="
-node --test server/matilda-chat-workflow.investigation-lifecycle-transport.test.ts
+$TEST_RUNNER server/matilda-chat-workflow.investigation-lifecycle-transport.test.ts
 
 echo
 echo "=== VERIFY FOUR-PHASE CLOSURE SIGNALS ==="
@@ -164,7 +182,7 @@ cat <<'VALIDATION'
 
 Matilda Collaboration Runtime milestone closure validation:
 
-1. Phase 1 — Response Composition remains closed.
+1. Phase 1 — Response Composition is closed.
 
 2. Phase 2 — Investigation Lifecycle is closed.
 
@@ -262,5 +280,5 @@ git diff --check
 
 git add scripts/validate-matilda-collaboration-runtime-milestone-closure.sh
 git diff --cached --check
-git commit -m "Validate Matilda Collaboration Runtime milestone closure"
+git commit -m "Fix milestone closure validation test runner"
 git push
