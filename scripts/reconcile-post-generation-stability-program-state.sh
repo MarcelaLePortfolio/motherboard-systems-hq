@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-echo "=== RECONCILE POST-GENERATION-STABILITY PROGRAM STATE ==="
+echo "=== RECONCILE POST GENERATION STABILITY PROGRAM STATE ==="
 
 echo
 echo "=== BASELINE ==="
@@ -10,12 +10,10 @@ echo "HEAD=$(git rev-parse --short=8 HEAD)"
 echo "COMMIT=$(git log -1 --format=%s)"
 git status --short
 
-echo
-echo "=== VERIFY GENERATION-STABILITY CLOSURE CHECKPOINT ==="
-expected_head="d757ab0a"
+expected_head="88dc69e4"
 
 if [[ "$(git rev-parse --short=8 HEAD)" != "$expected_head" ]]; then
-  echo "STOP: HEAD no longer matches generation-stability closure checkpoint $expected_head."
+  echo "STOP: HEAD no longer matches normalized corridor-map checkpoint $expected_head."
   exit 2
 fi
 
@@ -31,75 +29,93 @@ if [[ -n "$unexpected" ]]; then
   exit 2
 fi
 
-echo "GENERATION_STABILITY_CLOSURE_CHECKPOINT=CONFIRMED"
+echo "NORMALIZED_CORRIDOR_MAP_CHECKPOINT=CONFIRMED"
 
 echo
-echo "=== VERIFY CLOSED MILESTONE STATE ==="
+echo "=== VERIFY GENERATION STABILITY CLOSURE ==="
 
 grep -nE \
-  'MILESTONE_STATUS=|COMPLETE|GENERATION_STABILITY_MILESTONE=|CLOSED|UNRESOLVED_PRODUCTION_CONDITION=|GENERATION_INSTABILITY_REMAINS|NEXT_ACTION=|RECONCILE_POST_GENERATION_STABILITY_PROGRAM_STATE' \
-  scripts/close-conversation-engine-generation-stability-milestone.sh
+  'GENERATION_STABILITY_MILESTONE=|REMAINS_CLOSED|NO_GENERATION_VARIANCE_WORK_MISSING|SEMANTIC_HISTORY_CONTEXT_OPTIMIZATION=|SEPARATE_MILESTONE' \
+  scripts/reconcile-generation-stability-normalized-corridor-map.sh
 
-echo "CLOSED_MILESTONE_STATE=CONFIRMED"
-
-echo
-echo "=== INVENTORY PROGRAM-LEVEL GOVERNANCE AND ARCHITECTURE SURFACES ==="
-
-find docs -maxdepth 3 -type f \
-  \( \
-    -iname '*roadmap*' -o \
-    -iname '*timeline*' -o \
-    -iname '*milestone*' -o \
-    -iname '*program*' -o \
-    -iname '*architecture*' -o \
-    -iname '*evidence*ledger*' \
-  \) |
-  sort
+echo "GENERATION_STABILITY_STATE=CONFIRMED"
 
 echo
-echo "=== INVENTORY RECENT CLOSURE / NEXT-STATE SIGNALS ==="
+echo "=== VERIFY SEMANTIC HISTORY WORK EXISTS AFTER CLOSURE ==="
 
-grep -RniE \
-  'NEXT_MILESTONE|NEXT CANONICAL MILESTONE|NEXT_CANONICAL_MILESTONE|DEFERRED|ACTIVE MILESTONE|ACTIVE_MILESTONE|CURRENT MILESTONE|CURRENT_MILESTONE' \
-  docs scripts \
-  --exclude='reconcile-post-generation-stability-program-state.sh' \
-  | tail -n 200 || true
+if ! git merge-base --is-ancestor d757ab0a 6df7560b; then
+  echo "STOP: semantic-history phase-map checkpoint is not downstream of Generation Stability closure."
+  exit 2
+fi
+
+if ! git merge-base --is-ancestor 6df7560b f5e136f5; then
+  echo "STOP: semantic-ranking requirement checkpoint is not downstream of semantic-history phase-map discovery."
+  exit 2
+fi
+
+echo "SEMANTIC_HISTORY_POST_CLOSURE_LINEAGE=CONFIRMED"
 
 echo
-echo "=== POST-MILESTONE RECONCILIATION CLASSIFICATION ==="
+echo "=== RECONCILED PROGRAM STATE ==="
 
 cat <<'MAP'
-PROGRAM=
-  MATILDA_CONVERSATION_ENGINE
-
-JUST_CLOSED_MILESTONE=
+COMPLETED_MILESTONE=
   CONVERSATION_ENGINE_GENERATION_STABILITY
 
-JUST_CLOSED_MILESTONE_STATUS=
-  COMPLETE
+COMPLETED_MILESTONE_STATUS=
+  CLOSED
 
-CLOSURE_COMMIT=
-  d757ab0a
+NORMALIZED_PHASE_1_CORRIDORS=
+  PRODUCTION_BASELINE=COMPLETE
+  GENERATION_VARIANCE=COMPLETE
+  FAILURE_CHARACTERIZATION=COMPLETE
+  DIAGNOSTIC_CONTROLS=COMPLETE
+  STABILITY_DETERMINATION=COMPLETE
+
+GENERATION_STABILITY_FINAL_RESULT=
+  COMPLETE_WITH_PRODUCTION_GENERATION_INSTABILITY_EXPLICITLY_ESTABLISHED
+
+UNQUALIFIED_PRODUCTION_STABLE=
+  NO
 
 PRODUCTION_GENERATION_POLICY=
   UNCHANGED
 
-KNOWN_DEFERRED_CONDITION=
-  PRODUCTION_GENERATION_INSTABILITY_REMAINS
+DEFERRED_PRODUCTION_CONDITION=
+  GENERATION_INSTABILITY_REMAINS
 
-KNOWN_DEFERRED_CONDITION_DISPOSITION=
-  EXPLICIT_PRODUCTION_POLICY_CONCERN
+DEFERRED_PRODUCTION_POLICY_PROMOTION=
+  PRESERVE
 
-NEXT_MILESTONE=
-  NOT_YET_CLASSIFIED
+POST_CLOSURE_MILESTONE=
+  SEMANTIC_HISTORY_CONTEXT_OPTIMIZATION
 
-RECONCILIATION_OBJECTIVE=
-  Inspect repository-supported program, roadmap, architecture, milestone, and
-  deferred-work evidence to determine the next canonical milestone without
-  inventing scope or reviving deferred work automatically.
+POST_CLOSURE_MILESTONE_RELATIONSHIP=
+  SEPARATE_FROM_GENERATION_STABILITY
 
-RECONCILIATION_MODE=
-  COLLABORATION_ONLY
+SEMANTIC_HISTORY_MILESTONE_STATUS=
+  ACTIVE
+
+SEMANTIC_HISTORY_PHASE_MAP=
+  PRESERVE
+
+SEMANTIC_HISTORY_CURRENT_PHASE=
+  PHASE_1_SEMANTIC_SELECTION_OPTIMIZATION
+
+SEMANTIC_HISTORY_CURRENT_CORRIDOR=
+  SEMANTIC_RANKING_REQUIREMENT
+
+SEMANTIC_RANKING_REQUIREMENT_CHECKPOINT=
+  f5e136f5
+
+GENERATION_STABILITY_REOPEN_REQUIRED=
+  NO
+
+GENERATION_VARIANCE_REOPEN_REQUIRED=
+  NO
+
+SEMANTIC_HISTORY_WORK_REVERT_REQUIRED=
+  NO
 
 IMPLEMENTATION_AUTHORIZED=
   NO
@@ -107,8 +123,11 @@ IMPLEMENTATION_AUTHORIZED=
 PRODUCTION_CHANGE=
   NONE
 
+PROGRAM_STATE_RECONCILIATION=
+  COMPLETE
+
 NEXT_ACTION=
-  REVIEW_REPOSITORY_EVIDENCE_AND_CLASSIFY_NEXT_CANONICAL_MILESTONE
+  RESUME_SEMANTIC_HISTORY_CONTEXT_OPTIMIZATION_FROM_SEMANTIC_RANKING_REQUIREMENT_CHECKPOINT
 MAP
 
 echo
@@ -121,7 +140,7 @@ changed="$(
 )"
 
 if [[ -n "$changed" ]]; then
-  echo "STOP: files outside reconciliation scope changed:"
+  echo "STOP: files outside program-state reconciliation scope changed:"
   printf '%s\n' "$changed"
   exit 2
 fi
@@ -131,8 +150,3 @@ echo "RECONCILIATION_ONLY_CHANGE_SURFACE_CONFIRMED"
 echo
 echo "=== DIFF CHECK ==="
 git diff --check
-
-git add scripts/reconcile-post-generation-stability-program-state.sh
-git diff --cached --check
-git commit -m "Reconcile post-generation-stability program state"
-git push
