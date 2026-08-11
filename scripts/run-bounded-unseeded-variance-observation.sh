@@ -11,15 +11,20 @@ echo "COMMIT=$(git log -1 --format=%s)"
 git status --short
 
 echo
-echo "=== VERIFY EXPECTED FIXTURE CLASSIFICATION CHECKPOINT ==="
-if [[ "$(git rev-parse --short=8 HEAD)" != "dae7dc47" ]]; then
-  echo "STOP: HEAD no longer matches fixture/runner classification checkpoint dae7dc47."
+echo "=== VERIFY REQUIRED FIXTURE CLASSIFICATION ANCESTOR ==="
+required_classification_commit="dae7dc47"
+
+if ! git merge-base --is-ancestor \
+  "$required_classification_commit" \
+  HEAD
+then
+  echo "STOP: HEAD does not contain required fixture/runner classification checkpoint $required_classification_commit."
   exit 2
 fi
 
 unexpected="$(
   git status --porcelain |
-  grep -vE '^\?\? scripts/run-bounded-unseeded-variance-observation\.sh$|^ M scripts/run-bounded-unseeded-variance-observation\.sh$' ||
+  grep -vE '^ M scripts/run-bounded-unseeded-variance-observation\.sh$' ||
   true
 )"
 
@@ -29,7 +34,7 @@ if [[ -n "$unexpected" ]]; then
   exit 2
 fi
 
-echo "EXPECTED_FIXTURE_CLASSIFICATION_CHECKPOINT=CONFIRMED"
+echo "REQUIRED_FIXTURE_CLASSIFICATION_ANCESTOR_PRESENT=$required_classification_commit"
 
 echo
 echo "=== VERIFY CHARACTERIZATION CONTRACT ==="
