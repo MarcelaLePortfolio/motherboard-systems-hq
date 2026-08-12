@@ -343,3 +343,43 @@ BOUNDARY_CHANGE_REQUIRED=NO
 PRODUCTION_POLICY_CHANGE=NONE
 IMPLEMENTATION_AUTHORIZED=NO
 NEXT_CORRIDOR=REQUEST_VS_SHARED_POLICY
+
+---
+
+# Phase 2 — Corridor 4 Closure: Request vs. Shared Policy
+
+Repository evidence establishes that the existing explicit generation-control seam is request-scoped.
+
+`validationGenerationSeed` is transported through `OllamaChatContext` for bounded diagnostic validation and maps to Ollama `options.seed` only when supplied.
+
+Ordinary production does not supply this control.
+
+No shared Conversation Engine sampling-policy object or equivalent shared production generation-policy configuration currently exists.
+
+Current evidence does not establish a need to introduce such a shared policy layer.
+
+Ownership of any future production generation control therefore remains intentionally unresolved until the control itself is evidence-supported. Ownership must follow the demonstrated scope and responsibility of the policy rather than configuration convenience.
+
+A request-scoped control may be appropriate when a control is intentionally bounded to one invocation. A shared policy may be appropriate only when separately established as a common production requirement.
+
+This determination preserves the existing one-workflow and one-Ollama-invocation architecture.
+
+No new shared generation-policy layer is justified or authorized by this corridor.
+
+PHASE=GENERATION_POLICY_AND_CONTROL_BOUNDARY
+CORRIDOR=REQUEST_VS_SHARED_POLICY
+CORRIDOR_STATUS=COMPLETE
+ESTABLISHED_GENERATION_CONTROL_SEAM=REQUEST_SCOPED
+ESTABLISHED_REQUEST_SCOPED_CONTROL=validationGenerationSeed
+ESTABLISHED_REQUEST_SCOPED_PURPOSE=BOUNDED_DIAGNOSTIC_VALIDATION
+ORDINARY_PRODUCTION_REQUEST_SCOPED_CONTROL=ABSENT
+SHARED_CONVERSATION_ENGINE_SAMPLING_POLICY=ABSENT
+SHARED_POLICY_REQUIRED_BY_CURRENT_EVIDENCE=NO
+FUTURE_PRODUCTION_CONTROL_OWNERSHIP=NOT_YET_ESTABLISHED
+OWNERSHIP_RULE=OWNERSHIP_MUST_FOLLOW_EVIDENCE_SUPPORTED_POLICY_SCOPE
+ONE_WORKFLOW_ARCHITECTURE=PRESERVED
+ONE_OLLAMA_INVOCATION_ARCHITECTURE=PRESERVED
+NEW_SHARED_POLICY_LAYER=NOT_JUSTIFIED
+PRODUCTION_POLICY_CHANGE=NONE
+IMPLEMENTATION_AUTHORIZED=NO
+NEXT_CORRIDOR=AUTHORIZATION_AND_SEMANTIC_PRESERVATION
