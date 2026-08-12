@@ -1,0 +1,177 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+echo "=== CLASSIFY PHASE 3 HYBRID AND MODEL CONTEXT OPTIMIZATION DISPOSITION ==="
+
+echo
+echo "=== BASELINE ==="
+echo "BRANCH=$(git branch --show-current)"
+echo "HEAD=$(git rev-parse --short=8 HEAD)"
+echo "COMMIT=$(git log -1 --format=%s)"
+
+expected_head="4b348075"
+
+if [[ "$(git rev-parse --short=8 HEAD)" != "$expected_head" ]]; then
+  echo "STOP: HEAD no longer matches model-runtime context checkpoint $expected_head."
+  exit 2
+fi
+
+unexpected="$(
+  git status --porcelain |
+  grep -vE '^\?\? scripts/classify-phase-3-hybrid-and-model-context-optimization-disposition\.sh$|^ M scripts/classify-phase-3-hybrid-and-model-context-optimization-disposition\.sh$' ||
+  true
+)"
+
+if [[ -n "$unexpected" ]]; then
+  echo "STOP: unexpected working-tree changes exist:"
+  printf '%s\n' "$unexpected"
+  exit 2
+fi
+
+echo "MODEL_RUNTIME_CONTEXT_CHECKPOINT=CONFIRMED"
+
+echo
+echo "=== VERIFY PHASE 3 CORRIDOR RESULTS ==="
+
+grep -q 'HYBRID_CONTEXT_REQUIREMENT_CORRIDOR=' scripts/classify-hybrid-context-requirement.sh
+grep -q 'COMPLETE_WITH_REQUIREMENT_NOT_ESTABLISHED' scripts/classify-hybrid-context-requirement.sh
+
+grep -q 'MODEL_RUNTIME_CONTEXT_BOUNDARY_CORRIDOR=' scripts/classify-model-runtime-context-boundary.sh
+grep -q 'COMPLETE_WITH_CHANGE_REQUIREMENT_NOT_ESTABLISHED' scripts/classify-model-runtime-context-boundary.sh
+
+echo "PHASE_3_CORRIDOR_RESULTS=CONFIRMED"
+
+echo
+echo "=== PHASE 3 DISPOSITION ==="
+
+cat <<'MAP'
+MILESTONE=
+  SEMANTIC_HISTORY_CONTEXT_OPTIMIZATION
+
+PHASE=
+  HYBRID_AND_MODEL_CONTEXT_OPTIMIZATION
+
+CORRIDOR_1=
+  HYBRID_CONTEXT_REQUIREMENT
+STATUS=
+  COMPLETE_WITH_REQUIREMENT_NOT_ESTABLISHED
+
+CORRIDOR_2=
+  HISTORY_AND_PROJECT_CONTEXT_RELATIONSHIP
+STATUS=
+  NOT_REQUIRED
+
+CORRIDOR_3=
+  MODEL_RUNTIME_CONTEXT_BOUNDARY
+STATUS=
+  COMPLETE_WITH_CHANGE_REQUIREMENT_NOT_ESTABLISHED
+
+CORRIDOR_4=
+  CROSS_CONTEXT_PRIORITY_AND_PRESERVATION
+STATUS=
+  NOT_REQUIRED
+
+CORRIDOR_5=
+  HYBRID_CONTEXT_VALIDATION
+STATUS=
+  NOT_REQUIRED_WITH_NO_NEW_HYBRID_OR_MODEL_CONTEXT_BEHAVIOR_AUTHORIZED
+
+PHASE_3_RESULT=
+  COMPLETE_WITH_NO_HYBRID_CONTEXT_OR_MODEL_RUNTIME_CONTEXT_CHANGE_REQUIREMENT_ESTABLISHED
+
+HYBRID_CONTEXT_REQUIREMENT=
+  NOT_ESTABLISHED
+
+HYBRID_CONTEXT_IMPLEMENTATION=
+  NOT_AUTHORIZED
+
+HISTORY_AND_PROJECT_CONTEXT_RELATIONSHIP_CLASSIFICATION=
+  NOT_REQUIRED
+
+CROSS_CONTEXT_PRIORITY_CLASSIFICATION=
+  NOT_REQUIRED
+
+MODEL_RUNTIME_CONTEXT_CHANGE_REQUIREMENT=
+  NOT_ESTABLISHED
+
+MODEL_RUNTIME_CONTEXT_IMPLEMENTATION=
+  NOT_AUTHORIZED
+
+MODEL_CONTEXT_SIZE_CHANGE=
+  NOT_AUTHORIZED
+
+NUM_CTX_CHANGE=
+  NOT_AUTHORIZED
+
+MODEL_CHANGE=
+  NOT_AUTHORIZED
+
+CONVERSATION_HISTORY_CHANNEL=
+  PRESERVE
+
+PROJECT_CONTEXT_CHANNEL=
+  PRESERVE
+
+PRIOR_INVESTIGATION_LIFECYCLE_CHANNEL=
+  PRESERVE
+
+AUTHORITY_BOUNDARIES=
+  PRESERVE
+
+PROVENANCE_BOUNDARIES=
+  PRESERVE
+
+SELECTED_HISTORY=
+  PRESERVE
+
+PROJECT_CONTEXT_RETRIEVAL=
+  PRESERVE_AS_DISTINCT_SUBSYSTEM
+
+ONE_OLLAMA_INVOCATION=
+  PRESERVE
+
+PRODUCTION_GENERATION_POLICY=
+  UNCHANGED
+
+IMPLEMENTATION_AUTHORIZED=
+  NO
+
+IMPLEMENTATION_STARTED=
+  NO
+
+PRODUCTION_CHANGE=
+  NONE
+
+PHASE_3_STATUS=
+  COMPLETE
+
+NEXT_PHASE=
+  OPTIMIZATION_INTEGRATION_AND_CLOSURE
+
+NEXT_CORRIDOR=
+  INTEGRATED_OPTIMIZATION_BOUNDARY
+
+NEXT_ACTION=
+  CLASSIFY_INTEGRATED_OPTIMIZATION_BOUNDARY
+MAP
+
+echo
+echo "=== VERIFY CLASSIFICATION-ONLY CHANGE SURFACE ==="
+
+changed="$(
+  git diff --name-only |
+  grep -vE '^scripts/classify-phase-3-hybrid-and-model-context-optimization-disposition\.sh$' ||
+  true
+)"
+
+if [[ -n "$changed" ]]; then
+  echo "STOP: files outside Phase 3 disposition scope changed:"
+  printf '%s\n' "$changed"
+  exit 2
+fi
+
+echo "CLASSIFICATION_ONLY_CHANGE_SURFACE_CONFIRMED"
+
+echo
+echo "=== DIFF CHECK ==="
+git diff --check
