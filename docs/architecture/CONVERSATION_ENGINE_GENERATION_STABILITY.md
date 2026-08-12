@@ -383,3 +383,44 @@ NEW_SHARED_POLICY_LAYER=NOT_JUSTIFIED
 PRODUCTION_POLICY_CHANGE=NONE
 IMPLEMENTATION_AUTHORIZED=NO
 NEXT_CORRIDOR=AUTHORIZATION_AND_SEMANTIC_PRESERVATION
+
+---
+
+# Phase 2 — Corridor 5 Closure: Authorization & Semantic Preservation
+
+Repository evidence does not establish that a production generation policy is currently necessary.
+
+No candidate production generation policy has been established as semantically safe across the required production surface.
+
+Fixed seed remains supported only as a bounded diagnostic control on the known failure surface. Wider semantic preservation has not been established, and fixed seed has not been established as a production remedy.
+
+No production generation-policy implementation has been explicitly authorized.
+
+Any future production generation policy must preserve Matilda as semantic author and preserve fail-closed semantic validation. Semantic-preservation evidence and explicit user authorization are mandatory gates before production implementation.
+
+Rollback for any future authorized generation-policy change must return to the current unconfigured, unseeded production behavior.
+
+Accordingly, this corridor requires no production implementation and authorizes none.
+
+All five canonical Phase 2 corridors are now complete. Phase 2 disposition must be verified and classified separately before Phase 3 begins.
+
+PHASE=GENERATION_POLICY_AND_CONTROL_BOUNDARY
+CORRIDOR=AUTHORIZATION_AND_SEMANTIC_PRESERVATION
+CORRIDOR_STATUS=COMPLETE
+PRODUCTION_GENERATION_POLICY_NECESSITY=NOT_ESTABLISHED
+SEMANTICALLY_SAFE_PRODUCTION_POLICY=NOT_ESTABLISHED
+FIXED_SEED_DIAGNOSTIC_STATUS=SUPPORTED_FOR_BOUNDED_KNOWN_FAILURE_SURFACE
+FIXED_SEED_WIDER_SEMANTIC_SAFETY=NOT_ESTABLISHED
+FIXED_SEED_PRODUCTION_REMEDY=NOT_ESTABLISHED
+PRODUCTION_POLICY_AUTHORIZATION=NOT_GRANTED
+PRODUCTION_IMPLEMENTATION_AUTHORIZATION=NOT_GRANTED
+MATILDA_SEMANTIC_AUTHORSHIP=MUST_BE_PRESERVED
+FAIL_CLOSED_SEMANTIC_VALIDATION=MUST_BE_PRESERVED
+FUTURE_POLICY_SEMANTIC_EVIDENCE_GATE=REQUIRED
+FUTURE_POLICY_EXPLICIT_AUTHORIZATION_GATE=REQUIRED
+ROLLBACK_BASELINE=CURRENT_UNCONFIGURED_UNSEEDED_PRODUCTION_BEHAVIOR
+PRODUCTION_POLICY_CHANGE=NONE
+IMPLEMENTATION_REQUIRED_BY_CORRIDOR=NO
+IMPLEMENTATION_AUTHORIZED=NO
+PHASE_2_CORRIDOR_SEQUENCE_STATUS=ALL_FIVE_CANONICAL_CORRIDORS_COMPLETE
+NEXT_ACTION=VERIFY_AND_CLASSIFY_PHASE_2_DISPOSITION_BEFORE_PHASE_3
