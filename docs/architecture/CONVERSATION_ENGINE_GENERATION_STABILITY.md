@@ -214,3 +214,61 @@ IMPLEMENTATION_STARTED=NO
 PRODUCTION_CHANGE=NONE
 
 NEXT_ACTION=BEGIN_PHASE_1_CURRENT_PRODUCTION_GENERATION_BEHAVIOR_RECONCILIATION
+
+---
+
+# Phase 2 — Corridor 1 Closure: Production Sampling Policy
+
+## Verified Production Baseline
+
+Repository reconciliation and falsification established the current production sampling-policy state.
+
+The ordinary Conversation Engine production workflow invokes `ollamaChat` once and supplies no explicit generation sampling control.
+
+Current production generation therefore has:
+
+- no explicit production seed
+- no explicit production temperature
+- no explicit production `top_p`
+- no explicit production `top_k`
+- no shared repository-owned production sampling-policy layer
+
+The effective production sampling behavior is currently governed by Ollama and model defaults.
+
+The established explicit generation-control seam is:
+
+`validationGenerationSeed`
+
+This seam is caller-supplied and request-scoped. The ordinary production workflow does not supply it.
+
+Fixed seed `424242` remains confined to validation and diagnostic surfaces. Its diagnostic success does not establish it as production policy or as a production remedy.
+
+Repository falsification found no hidden production caller, environment configuration, or shared generation-policy layer introducing seed, temperature, `top_p`, or `top_k` into ordinary production generation.
+
+## Corridor Determination
+
+The current production sampling-policy baseline is sufficiently established for Phase 2 to proceed.
+
+No production sampling-policy implementation is required or authorized by this corridor.
+
+No evidence from this corridor establishes that any particular production sampling control should be introduced.
+
+Any candidate production control remains subject to the downstream Phase 2 corridors governing the Ollama control surface, validation-versus-production separation, request-versus-shared ownership, authorization, and semantic preservation.
+
+Rollback baseline for any future authorized production-policy change remains the current unconfigured production sampling state.
+
+PHASE=GENERATION_POLICY_AND_CONTROL_BOUNDARY
+CORRIDOR=PRODUCTION_SAMPLING_POLICY
+CORRIDOR_STATUS=COMPLETE
+PRODUCTION_EXPLICIT_SEED=ABSENT
+PRODUCTION_EXPLICIT_TEMPERATURE=ABSENT
+PRODUCTION_EXPLICIT_TOP_P=ABSENT
+PRODUCTION_EXPLICIT_TOP_K=ABSENT
+SHARED_PRODUCTION_GENERATION_POLICY=ABSENT
+CURRENT_PRODUCTION_POLICY_SOURCE=OLLAMA_AND_MODEL_DEFAULTS
+REQUEST_SCOPED_DIAGNOSTIC_CONTROL=validationGenerationSeed
+FIXED_VALIDATION_SEED=424242
+FIXED_VALIDATION_SEED_PRODUCTION_STATUS=NOT_AUTHORIZED
+PRODUCTION_POLICY_CHANGE=NONE
+IMPLEMENTATION_AUTHORIZED=NO
+NEXT_CORRIDOR=OLLAMA_GENERATION_CONTROLS
