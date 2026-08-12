@@ -305,3 +305,41 @@ ADDITIONAL_PRODUCTION_CONTROL_NEED=NOT_ESTABLISHED
 PRODUCTION_POLICY_CHANGE=NONE
 IMPLEMENTATION_AUTHORIZED=NO
 NEXT_CORRIDOR=VALIDATION_VS_PRODUCTION_CONTROLS
+
+---
+
+# Phase 2 — Corridor 3 Closure: Validation vs. Production Controls
+
+Repository evidence preserves a strict boundary between validation-only generation controls and ordinary production generation.
+
+The established request-scoped control remains:
+
+`validationGenerationSeed`
+
+Fixed seed `424242` is used on bounded validation and diagnostic surfaces. Neither the ordinary production Conversation Engine workflow nor the direct Matilda route supplies `validationGenerationSeed`.
+
+No validation control therefore silently becomes an ordinary production default through the established production paths.
+
+The fixed-seed diagnostic established controlled repeatability on its bounded diagnostic surface. That result does not establish production semantic reliability, fixed seed as production policy, or fixed seed as a production remedy.
+
+The current validation-versus-production boundary can remain unchanged.
+
+No production generation-policy implementation is required or authorized by this corridor.
+
+PHASE=GENERATION_POLICY_AND_CONTROL_BOUNDARY
+CORRIDOR=VALIDATION_VS_PRODUCTION_CONTROLS
+CORRIDOR_STATUS=COMPLETE
+REQUEST_SCOPED_VALIDATION_CONTROL=validationGenerationSeed
+FIXED_VALIDATION_SEED=424242
+ORDINARY_PRODUCTION_WORKFLOW_VALIDATION_SEED=ABSENT
+DIRECT_PRODUCTION_ROUTE_VALIDATION_SEED=ABSENT
+VALIDATION_CONTROL_SILENT_PRODUCTION_DEFAULT=NO
+DIAGNOSTIC_REPEATABILITY=ESTABLISHED_ON_BOUNDED_FIXED_SEED_SURFACE
+PRODUCTION_SEMANTIC_RELIABILITY_FROM_DIAGNOSTIC_REPEATABILITY=NOT_ESTABLISHED
+FIXED_SEED_PRODUCTION_POLICY=NOT_ESTABLISHED
+FIXED_SEED_PRODUCTION_REMEDY=NOT_ESTABLISHED
+VALIDATION_VS_PRODUCTION_BOUNDARY=PRESERVED
+BOUNDARY_CHANGE_REQUIRED=NO
+PRODUCTION_POLICY_CHANGE=NONE
+IMPLEMENTATION_AUTHORIZED=NO
+NEXT_CORRIDOR=REQUEST_VS_SHARED_POLICY
