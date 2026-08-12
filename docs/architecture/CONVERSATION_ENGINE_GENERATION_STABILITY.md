@@ -272,3 +272,36 @@ FIXED_VALIDATION_SEED_PRODUCTION_STATUS=NOT_AUTHORIZED
 PRODUCTION_POLICY_CHANGE=NONE
 IMPLEMENTATION_AUTHORIZED=NO
 NEXT_CORRIDOR=OLLAMA_GENERATION_CONTROLS
+
+---
+
+# Phase 2 — Corridor 2 Closure: Ollama Generation Controls
+
+Repository investigation established the Conversation Engine's currently relevant Ollama generation-control surface.
+
+The adapter represents one explicit sampling-control seam:
+
+`validationGenerationSeed`
+
+When supplied, this maps to Ollama request `options.seed`.
+
+The ordinary production workflow does not supply this control.
+
+Repository evidence does not establish a production need for additional generation controls such as temperature, `top_p`, `top_k`, retries, model changes, or other Ollama-supported options merely because those capabilities may exist.
+
+Accordingly, the relevant control surface remains bounded to controls for which repository evidence establishes an actual architectural or behavioral need.
+
+Any future production generation control must separately establish semantic effect, ownership, validation, authorization, and rollback to the current unconfigured production sampling baseline.
+
+Matilda remains semantic author. Deterministic generation controls may constrain the generation environment only when separately supported and authorized; they must not replace interpretation authority.
+
+PHASE=GENERATION_POLICY_AND_CONTROL_BOUNDARY
+CORRIDOR=OLLAMA_GENERATION_CONTROLS
+CORRIDOR_STATUS=COMPLETE
+VERIFIED_REPOSITORY_CONTROL_SURFACE=REQUEST_SCOPED_validationGenerationSeed
+VERIFIED_OLLAMA_REQUEST_MAPPING=validationGenerationSeed_TO_options.seed
+ORDINARY_PRODUCTION_EXPLICIT_GENERATION_CONTROL=ABSENT
+ADDITIONAL_PRODUCTION_CONTROL_NEED=NOT_ESTABLISHED
+PRODUCTION_POLICY_CHANGE=NONE
+IMPLEMENTATION_AUTHORIZED=NO
+NEXT_CORRIDOR=VALIDATION_VS_PRODUCTION_CONTROLS
