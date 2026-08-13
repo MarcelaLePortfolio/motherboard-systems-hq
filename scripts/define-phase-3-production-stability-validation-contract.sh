@@ -12,10 +12,10 @@ git status --short
 
 echo
 echo "=== VERIFY PHASE 3 STARTING BOUNDARY CHECKPOINT ==="
-expected_head="7d9e1d77"
+canonical_starting_boundary="d8256e8d"
 
-if [[ "$(git rev-parse --short=8 HEAD)" != "$expected_head" ]]; then
-  echo "STOP: HEAD no longer matches Phase 3 starting-boundary checkpoint $expected_head."
+if ! git merge-base --is-ancestor "$canonical_starting_boundary" HEAD; then
+  echo "STOP: canonical Phase 3 starting boundary $canonical_starting_boundary is not an ancestor of HEAD."
   exit 2
 fi
 
