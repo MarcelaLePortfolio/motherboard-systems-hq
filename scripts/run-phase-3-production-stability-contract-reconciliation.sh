@@ -6,8 +6,8 @@ echo "HEAD=$(git rev-parse --short=8 HEAD)"
 echo "SUBJECT=$(git log -1 --pretty=%s)"
 echo "BRANCH=$(git branch --show-current)"
 
-test "$(git rev-parse --short=8 HEAD)" = "ad4a8ae6"
 test "$(git branch --show-current)" = "feature/support-source-references-runtime"
 test -z "$(git status --porcelain)"
+git merge-base --is-ancestor c8099e5b HEAD
 
 ./scripts/reconcile-phase-3-production-stability-contract.sh
