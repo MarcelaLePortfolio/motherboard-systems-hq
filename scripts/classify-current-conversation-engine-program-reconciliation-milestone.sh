@@ -1,0 +1,104 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+echo "=== CLASSIFY CURRENT CONVERSATION ENGINE PROGRAM RECONCILIATION MILESTONE ==="
+
+test "$(git branch --show-current)" = "feature/support-source-references-runtime"
+test -z "$(git status --porcelain)"
+git merge-base --is-ancestor 04ab2bdc HEAD
+
+successor="scripts/classify-post-semantic-history-successor-milestone.sh"
+test -f "$successor"
+
+echo "=== VERIFY EXISTING SUCCESSOR MILESTONE SEMANTICS ==="
+
+grep -q 'SUCCESSOR_MILESTONE=' "$successor"
+grep -q 'CONVERSATION_ENGINE_PROGRAM_RECONCILIATION_AND_NEXT_CAPABILITY_DETERMINATION' "$successor"
+grep -q 'SUCCESSOR_MILESTONE_CLASS=' "$successor"
+grep -q 'INVESTIGATION_AND_PROGRAM_BOUNDARY_CLASSIFICATION' "$successor"
+
+grep -q 'PHASE_1=' "$successor"
+grep -q 'CURRENT_CAPABILITY_AND_DEFERRED_WORK_RECONCILIATION' "$successor"
+
+grep -q 'PHASE_1_CORRIDOR_1=' "$successor"
+grep -q 'COMPLETED_RUNTIME_CAPABILITY_INVENTORY' "$successor"
+
+grep -q 'PHASE_1_CORRIDOR_2=' "$successor"
+grep -q 'DEFERRED_WORK_INVENTORY' "$successor"
+
+grep -q 'PHASE_1_CORRIDOR_3=' "$successor"
+grep -q 'UNRESOLVED_CAPABILITY_GAP_CLASSIFICATION' "$successor"
+
+grep -q 'PHASE_1_CORRIDOR_4=' "$successor"
+grep -q 'SUCCESSOR_PRIORITY_BOUNDARY' "$successor"
+
+echo "EXISTING_SUCCESSOR_MILESTONE_SEMANTICS=CONFIRMED"
+
+echo
+echo "=== VERIFY CURRENT CORRIDOR ARTIFACTS ==="
+
+corridor_artifacts=(
+  scripts/classify-completed-runtime-capability-inventory.sh
+  scripts/classify-deferred-work-inventory.sh
+  scripts/classify-unresolved-capability-gaps.sh
+  scripts/classify-successor-priority-boundary.sh
+)
+
+for artifact in "${corridor_artifacts[@]}"; do
+  test -f "$artifact"
+  echo "PRESENT=$artifact"
+done
+
+echo
+echo "=== CURRENT MILESTONE CLASSIFICATION ==="
+
+cat <<'MAP'
+PROGRAM=
+MATILDA_CONVERSATION_ENGINE
+
+PREDECESSOR_MILESTONES=
+GENERATION_STABILITY
+SEMANTIC_HISTORY_CONTEXT_OPTIMIZATION
+
+PREDECESSOR_STATUS=
+CLOSED
+
+CURRENT_CANONICAL_MILESTONE=
+CONVERSATION_ENGINE_PROGRAM_RECONCILIATION_AND_NEXT_CAPABILITY_DETERMINATION
+
+MILESTONE_CLASS=
+INVESTIGATION_AND_PROGRAM_BOUNDARY_CLASSIFICATION
+
+PHASE_1=
+CURRENT_CAPABILITY_AND_DEFERRED_WORK_RECONCILIATION
+
+PHASE_1_CORRIDOR_1=
+COMPLETED_RUNTIME_CAPABILITY_INVENTORY
+
+PHASE_1_CORRIDOR_2=
+DEFERRED_WORK_INVENTORY
+
+PHASE_1_CORRIDOR_3=
+UNRESOLVED_CAPABILITY_GAP_CLASSIFICATION
+
+PHASE_1_CORRIDOR_4=
+SUCCESSOR_PRIORITY_BOUNDARY
+
+PHASE_1_CORRIDOR_COUNT=
+4
+
+CURRENT_PHASE_STATUS=
+REQUIRES_CURRENTNESS_RECONCILIATION
+
+IMPLEMENTATION_AUTHORIZED=
+NO
+
+IMPLEMENTATION_STARTED=
+NO
+
+PRODUCTION_CHANGE=
+NONE
+
+NEXT_ACTION=
+RECONCILE_COMPLETED_RUNTIME_CAPABILITY_INVENTORY_CURRENTNESS
+MAP
