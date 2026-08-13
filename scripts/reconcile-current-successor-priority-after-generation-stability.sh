@@ -1,0 +1,97 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+echo "=== RECONCILE CURRENT SUCCESSOR PRIORITY AFTER GENERATION STABILITY ==="
+
+test "$(git branch --show-current)" = "feature/support-source-references-runtime"
+test -z "$(git status --porcelain)"
+git merge-base --is-ancestor e5b1f8ce HEAD
+
+echo "=== VERIFY CURRENT SUCCESSOR CLASSIFICATION ==="
+current="scripts/classify-repository-supported-successor-milestone.sh"
+test -f "$current"
+grep -q 'INITIAL_CANDIDATE_CURRENTNESS=' "$current"
+grep -q 'STALE_AS_A_MISSING_CAPABILITY' "$current"
+grep -q 'SUCCESSOR_MILESTONE_SELECTION=' "$current"
+grep -q 'NOT_YET_ESTABLISHED' "$current"
+echo "CURRENT_SUCCESSOR_CLASSIFICATION=CONFIRMED"
+
+echo
+echo "=== VERIFY EXISTING POST-GENERATION-STABILITY MILESTONE EVIDENCE ==="
+legacy="scripts/classify-post-generation-stability-next-canonical-milestone.sh"
+test -f "$legacy"
+
+grep -q 'NEXT_CANONICAL_MILESTONE=' "$legacy"
+grep -q 'SEMANTIC_HISTORY_CONTEXT_OPTIMIZATION' "$legacy"
+grep -q 'NEXT_MILESTONE_STATUS=' "$legacy"
+grep -q 'CLASSIFIED_NOT_STARTED' "$legacy"
+grep -q 'IMPLEMENTATION_AUTHORIZED=' "$legacy"
+grep -q 'IMPLEMENTATION_STARTED=' "$legacy"
+
+echo "EXISTING_SUCCESSOR_EVIDENCE=SEMANTIC_HISTORY_CONTEXT_OPTIMIZATION"
+
+echo
+echo "=== VERIFY SEMANTIC HISTORY ARCHITECTURE FOUNDATION ==="
+
+docs=(
+  docs/architecture/SEMANTIC_HISTORY_INVENTORY.md
+  docs/architecture/SEMANTIC_HISTORY_SELECTION_OBJECTIVES.md
+  docs/architecture/SEMANTIC_HISTORY_BEHAVIORAL_VALIDATION.md
+  docs/architecture/SEMANTIC_HISTORY_REPOSITORY_READINESS.md
+)
+
+for file in "${docs[@]}"; do
+  test -f "$file"
+  echo "PRESENT=$file"
+done
+
+echo
+echo "=== VERIFY CURRENTNESS / DEFERRED STATUS ==="
+grep -RniE \
+  'ranking|token budget|hybrid context|model runtime context|20-turn|deferred|not implemented|repository readiness|next action' \
+  "${docs[@]}" \
+  scripts/reconcile-semantic-history-context-optimization-current-state.sh \
+  2>/dev/null | head -220 || true
+
+echo
+echo "=== SUCCESSOR PRIORITY RECONCILIATION ==="
+cat <<'MAP'
+PREVIOUS_MILESTONE=
+CONVERSATION_ENGINE_GENERATION_STABILITY
+
+PREVIOUS_MILESTONE_STATUS=
+COMPLETE
+
+REJECTED_SUCCESSOR_CANDIDATE=
+INVESTIGATION_LIFECYCLE_CROSS_TURN_CONTINUITY
+
+REJECTED_CANDIDATE_REASON=
+CAPABILITY_ALREADY_IMPLEMENTED_AND_VALIDATED
+
+REPOSITORY_SUPPORTED_NEXT_CANONICAL_MILESTONE=
+SEMANTIC_HISTORY_CONTEXT_OPTIMIZATION
+
+SELECTION_BASIS=
+EXPLICITLY_DEFERRED_PREVIOUSLY
+REPOSITORY_ARCHITECTURE_SURFACE_ALREADY_EXISTS
+GENERATION_STABILITY_NOW_CLOSED
+INVESTIGATION_LIFECYCLE_CROSS_TURN_GAP_NO_LONGER_CURRENT
+
+SEMANTIC_HISTORY_MILESTONE_STATUS=
+CLASSIFIED_NOT_STARTED
+
+IMPLEMENTATION_AUTHORIZED=
+NO
+
+IMPLEMENTATION_STARTED=
+NO
+
+PRODUCTION_GENERATION_POLICY_REOPENED=
+NO
+
+PRODUCTION_CHANGE=
+NONE
+
+NEXT_ACTION=
+RECONCILE_SEMANTIC_HISTORY_CONTEXT_OPTIMIZATION_CURRENT_STATE
+MAP
