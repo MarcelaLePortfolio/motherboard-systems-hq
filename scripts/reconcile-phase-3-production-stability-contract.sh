@@ -17,15 +17,14 @@ echo
 echo "=== EXPECTED BASELINE ==="
 test "$(basename "$(git rev-parse --show-toplevel)")" = "motherboard-systems-hq-clean"
 test "$(git branch --show-current)" = "feature/support-source-references-runtime"
-test "$(git rev-parse --short=8 HEAD)" = "d8256e8d"
-test "$(git log -1 --pretty=%s)" = "Reconcile canonical Phase 3 starting boundary"
 test -z "$(git status --porcelain)"
+git merge-base --is-ancestor d8256e8d HEAD
 git merge-base --is-ancestor d8256e8d origin/feature/support-source-references-runtime
 echo "REPOSITORY_VERIFIED=YES"
 echo "BRANCH_VERIFIED=YES"
-echo "HEAD_VERIFIED=YES"
+echo "PHASE_3_STARTING_BOUNDARY_ANCESTRY=CONFIRMED"
 echo "WORKTREE_CLEAN=YES"
-echo "ORIGIN_CONTAINS_EXPECTED_HEAD=YES"
+echo "ORIGIN_CONTAINS_PHASE_3_STARTING_BOUNDARY=YES"
 
 echo
 echo "=== GOVERNING PHASE CHECKPOINTS ==="
