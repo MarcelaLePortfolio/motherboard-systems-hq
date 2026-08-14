@@ -1,0 +1,166 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+echo "=== INVESTIGATE PRODUCTION COLLABORATION FAILURE OWNERSHIP ==="
+
+test "$(git branch --show-current)" = "feature/support-source-references-runtime"
+test -z "$(git status --porcelain)"
+git merge-base --is-ancestor 93025372 HEAD
+
+baseline="scripts/reconcile-current-production-failure-baseline.sh"
+causal="scripts/classify-failure-repeatability-and-causal-boundary.sh"
+phase3="scripts/classify-current-phase-3-repeated-unseeded-validation-result.sh"
+validator="scripts/inspect-boundary-validator-support-reference-gap.sh"
+
+for artifact in "$baseline" "$causal" "$phase3" "$validator"; do
+  test -f "$artifact"
+  echo "PRESENT=$artifact"
+done
+
+echo
+echo "=== VERIFY CORRIDOR 2 CLOSURE ==="
+grep -q 'CORRIDOR_2_STATUS=' "$baseline"
+grep -q '^COMPLETE$' <(awk '/CORRIDOR_2_STATUS=/{getline; print}' "$baseline")
+grep -q 'NEXT_CORRIDOR=' "$baseline"
+grep -q '^FAILURE_OWNERSHIP$' <(awk '/NEXT_CORRIDOR=/{getline; print}' "$baseline")
+echo "CORRIDOR_2_CLOSURE=CONFIRMED"
+
+echo
+echo "=== VERIFY GENERATION-LAYER CAUSAL BOUNDARY ==="
+grep -q 'GENERATION_LAYER_SENSITIVITY_ESTABLISHED' "$causal"
+grep -q 'DETERMINISTIC_RUNTIME_REGRESSION_NOT_ESTABLISHED' "$causal"
+grep -q 'VALIDATOR_MALFUNCTION_NOT_ESTABLISHED' "$causal"
+grep -q 'observed failures occur' "$causal"
+grep -q 'upstream of deterministic acceptance and fail-closed enforcement' "$causal"
+echo "GENERATION_LAYER_CAUSAL_BOUNDARY=CONFIRMED"
+
+echo
+echo "=== VERIFY CURRENT FAILURE SURFACE ==="
+grep -q 'FAIL_CLOSED_OR_RUNTIME_REJECTION_RUNS=10' "$phase3"
+grep -q 'UNSUPPLIED_PROJECT_CONTEXT_SUPPORT_REFERENCE' "$phase3"
+echo "CURRENT_FAILURE_SURFACE=CONFIRMED"
+
+echo
+echo "=== VERIFY VALIDATOR BOUNDARY ==="
+grep -q 'Do not weaken fail-closed support validation' "$validator"
+echo "VALIDATOR_BOUNDARY=CONFIRMED"
+
+cat <<'MAP'
+PROGRAM=
+MATILDA_CONVERSATION_ENGINE
+
+MILESTONE=
+CONVERSATION_ENGINE_RELIABLE_PRODUCTION_COLLABORATION
+
+PHASE_1=
+STARTING_BOUNDARY_AND_RELIABILITY_BASELINE
+
+CORRIDOR_3=
+FAILURE_OWNERSHIP
+
+OWNERSHIP_QUESTION=
+WHICH_SYSTEM_BOUNDARY_CURRENTLY_OWNS_THE_OBSERVED_PRODUCTION_COLLABORATION_RELIABILITY_FAILURE
+
+ESTABLISHED_CAUSAL_BOUNDARY=
+FAILURES_OCCUR_UPSTREAM_OF_DETERMINISTIC_ACCEPTANCE_AND_FAIL_CLOSED_ENFORCEMENT
+
+PRIMARY_FAILURE_OWNER_CLASS=
+MODEL_GENERATION_LAYER
+
+GENERATION_LAYER_SENSITIVITY=
+ESTABLISHED
+
+CURRENT_PRIMARY_OBSERVED_FAILURE=
+INVALID_MODEL_AUTHORED_PROJECT_CONTEXT_SUPPORT_PROVENANCE
+
+CURRENT_PRIMARY_FAILURE_SIGNATURE=
+UNSUPPLIED_PROJECT_CONTEXT_SUPPORT_REFERENCE
+
+DETERMINISTIC_RUNTIME_REGRESSION=
+NOT_ESTABLISHED
+
+DETERMINISTIC_VALIDATOR_MALFUNCTION=
+NOT_ESTABLISHED
+
+FAIL_CLOSED_VALIDATOR=
+OPERATING_AS_DESIGNED
+
+CONTEXT_TRANSPORT_MALFUNCTION=
+NOT_ESTABLISHED
+
+IEL_PERSISTENCE_MALFUNCTION=
+NOT_ESTABLISHED
+
+ONE_OLLAMA_INVOCATION_MALFUNCTION=
+NOT_ESTABLISHED
+
+GENERATION_CONTROL_STATE_SENSITIVITY=
+ESTABLISHED
+
+FIXED_SEED_AS_ROOT_CAUSE=
+NOT_ESTABLISHED
+
+FIXED_SEED_AS_PRODUCTION_REMEDY=
+NOT_ESTABLISHED
+
+PRECISE_MODEL_INTERNAL_ROOT_CAUSE=
+NOT_ESTABLISHED
+
+PROMPT_CAUSAL_OWNERSHIP=
+NOT_ESTABLISHED
+
+MODEL_CAPABILITY_CAUSAL_OWNERSHIP=
+NOT_ESTABLISHED
+
+SAMPLING_POLICY_CAUSAL_OWNERSHIP=
+NOT_ESTABLISHED
+
+FAILURE_OWNERSHIP_CLASSIFICATION=
+GENERATION_LAYER_OWNS_THE_CURRENT_FAILURE_SURFACE_BUT_EXACT_GENERATION_SUBCAUSE_REMAINS_UNRESOLVED
+
+OWNERSHIP_INTERPRETATION=
+The current evidence is sufficient to place the observed collaboration failure
+upstream of deterministic runtime acceptance.
+
+The model-generation layer is producing semantic or provenance output that the
+existing deterministic validator correctly rejects.
+
+This does not yet distinguish whether the actionable generation-layer cause is
+prompt structure, model capability, sampling/control policy, or another bounded
+generation-input condition.
+
+Therefore Corridor 3 establishes ownership without prematurely selecting a remedy.
+
+PRODUCTION_GENERATION_POLICY_CHANGE=
+NOT_AUTHORIZED
+
+VALIDATOR_WEAKENING=
+NOT_AUTHORIZED
+
+RETRY_OR_SECOND_MODEL_CALL=
+NOT_AUTHORIZED
+
+MODEL_CHANGE=
+NOT_AUTHORIZED
+
+PROMPT_CHANGE=
+NOT_AUTHORIZED
+
+IMPLEMENTATION_AUTHORIZED=
+NO
+
+IMPLEMENTATION_STARTED=
+NO
+
+PRODUCTION_CHANGE=
+NONE
+
+CORRIDOR_3_STATUS=
+COMPLETE
+
+NEXT_CORRIDOR=
+CONSTRAINT_PRESERVATION
+
+NEXT_ACTION=
+CLASSIFY_RELIABLE_PRODUCTION_COLLABORATION_CONSTRAINT_PRESERVATION_BOUNDARY
+MAP
