@@ -4,7 +4,7 @@ set -euo pipefail
 echo "=== RUN POST-PROMOTION REGRESSION VALIDATION ==="
 
 test "$(git branch --show-current)" = "feature/support-source-references-runtime"
-git merge-base --is-ancestor 05297302 HEAD
+git merge-base --is-ancestor eba6fe40 HEAD
 test -z "$(git status --porcelain)"
 
 echo "=== VERIFY PROMOTED DEFAULT ==="
@@ -23,7 +23,7 @@ npx tsc \
   scripts/utils/ollamaChat.ts
 echo "TARGETED_TYPESCRIPT_VALIDATION=PASS"
 
-echo "=== DISCOVER EXISTING REGRESSION TEST SURFACE ==="
+echo "=== DISCOVER EXISTING NODE TEST SURFACE ==="
 test_files=()
 while IFS= read -r file; do
   test_files+=("$file")
@@ -38,16 +38,18 @@ done < <(
 )
 
 if [[ "${#test_files[@]}" -eq 0 ]]; then
-  echo "STOP: no existing relevant deterministic regression tests discovered."
+  echo "STOP: no existing relevant deterministic tests discovered."
   exit 2
 fi
 
 printf 'REGRESSION_TEST_FILE=%s\n' "${test_files[@]}"
 
-echo "=== RUN EXISTING DETERMINISTIC REGRESSION SUITE ==="
-npx vitest run "${test_files[@]}"
+echo "=== RUN EXISTING DETERMINISTIC NODE TEST SUITE VIA TSX ==="
+./node_modules/.bin/tsx --test "${test_files[@]}"
 
 echo "DETERMINISTIC_EXISTING_REGRESSION_SUITE=PASS"
+echo "TEST_RUNNER=NODE_TEST_VIA_EXISTING_TSX"
+echo "NEW_DEPENDENCY_INSTALL=NONE"
 echo "FAIL_CLOSED_CONTRACT=PRESERVED_BY_REGRESSION_SUITE"
 echo "PROMPT_PRESENTATION_DEFAULT=PROMOTED"
 echo "PRODUCTION_BEHAVIORAL_UNSEEDED_SAMPLE=STILL_REQUIRED"
