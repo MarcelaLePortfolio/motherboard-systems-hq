@@ -244,6 +244,8 @@ export interface OllamaChatContext {
     segments: readonly MatildaSelectedContextSegment[],
   ) => void;
   validationGenerationSeed?: number;
+  validationPromptPresentationVariant?:
+    | "explicit_parent_child_separation";
   observeParsedSupportSourceReferences?: (
     references: readonly MatildaSupportSourceReference[],
   ) => void;
@@ -833,6 +835,34 @@ export async function ollamaChat(
           ]
         : [];
 
+    const validationPromptPresentation =
+      context.validationPromptPresentationVariant ===
+      "explicit_parent_child_separation"
+        ? [
+            "",
+            "Validation-only project-context identity presentation:",
+            "Support provenance identities and semantic child-selection identities are separate domains.",
+            "",
+            "Parent support-provenance identities:",
+            ...(context.projectContextExcerpts || []).flatMap((item) => [
+              `Parent support source = ${item.relativePath}:${item.lineNumber}`,
+            ]),
+            "",
+            "Child semantic-selection identities:",
+            ...(context.projectContextSegmentCandidates || []).flatMap(
+              (item) => [
+                `Child selection source = ${item.relativePath}:${item.sourceStartLine}:${item.sourceEndLine}`,
+                `Child parent support source = ${item.parentRelativePath}:${item.parentLineNumber}`,
+              ],
+            ),
+            "",
+            "When a selected child supports the reply, selectedContextSegments must use the exact child selection identity.",
+            "supportSourceReferences must use only the corresponding exact parent support source identity.",
+            "Never copy a child sourceStartLine or sourceEndLine into a project_context_excerpt support reference.",
+            "This validation-only presentation does not change the semantic contract or the allowed source identities.",
+          ]
+        : [];
+
     const response = await fetch(
       `${OLLAMA_BASE_URL}/api/generate`,
       {
@@ -872,6 +902,7 @@ export async function ollamaChat(
             "Do not invent, reconstruct, approximate, or reference a source identifier that was not supplied in this invocation.",
             "Return an empty supportSourceReferences array when no supplied source explicitly supports the conclusion, recommendation, or assessment.",
             "supportSourceReferences records support provenance only. Do not use it for reasoning text, confidence, correctness, or Explanation Status.",
+            ...validationPromptPresentation,
             "Set investigationLifecycle to null when the current response does not semantically enter, continue, advance, resolve, supersede, or abandon an investigation.",
             "Otherwise set investigationLifecycle to one bounded semantic artifact containing investigationIdentity, governingQuestion, lifecycleEvent, and lifecycleDetermination.",
             "Use lifecycleEvent only as entered, continued, advanced, resolved, superseded, or abandoned.",
