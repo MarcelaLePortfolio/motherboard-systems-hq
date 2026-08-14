@@ -836,8 +836,9 @@ export async function ollamaChat(
         : [];
 
     const validationPromptPresentation =
+      context.validationPromptPresentationVariant === undefined ||
       context.validationPromptPresentationVariant ===
-      "explicit_parent_child_separation"
+        "explicit_parent_child_separation"
         ? [
             "",
             "Validation-only project-context identity presentation:",
