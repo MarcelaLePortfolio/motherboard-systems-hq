@@ -4,7 +4,7 @@ set -euo pipefail
 echo "=== RUN POST-PROMOTION REGRESSION VALIDATION ==="
 
 test "$(git branch --show-current)" = "feature/support-source-references-runtime"
-git merge-base --is-ancestor 00292763 HEAD
+git merge-base --is-ancestor 05297302 HEAD
 test -z "$(git status --porcelain)"
 
 echo "=== VERIFY PROMOTED DEFAULT ==="
@@ -24,7 +24,10 @@ npx tsc \
 echo "TARGETED_TYPESCRIPT_VALIDATION=PASS"
 
 echo "=== DISCOVER EXISTING REGRESSION TEST SURFACE ==="
-mapfile -t test_files < <(
+test_files=()
+while IFS= read -r file; do
+  test_files+=("$file")
+done < <(
   find . \
     \( -path './node_modules' -o -path './.git' \) -prune -o \
     -type f \
