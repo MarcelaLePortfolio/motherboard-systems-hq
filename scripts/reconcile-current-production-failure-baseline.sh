@@ -5,7 +5,7 @@ echo "=== RECONCILE CURRENT PRODUCTION FAILURE BASELINE ==="
 
 test "$(git branch --show-current)" = "feature/support-source-references-runtime"
 test -z "$(git status --porcelain)"
-git merge-base --is-ancestor 7e7eabc1 HEAD
+git merge-base --is-ancestor 1f81ba2c HEAD
 
 contract="scripts/investigate-collaboration-reliability-contract.sh"
 phase3="scripts/classify-current-phase-3-repeated-unseeded-validation-result.sh"
@@ -40,7 +40,7 @@ echo "EARLIER_PHASE_1_SAMPLE=CONFIRMED"
 
 echo
 echo "=== VERIFY FAILURE CLASSES ==="
-grep -q 'MODEL_AUTHORED_INVALID_SUPPORT_PROVENANCE' "$failure_classes"
+grep -q 'INVALID_MODEL_AUTHORED_PROJECT_CONTEXT_SUPPORT_PROVENANCE' "$failure_classes"
 grep -q 'SEMANTIC_ACCEPTANCE_FAILURE_AFTER_SUCCESSFUL_ADAPTER_RETURN' "$failure_classes"
 grep -q 'PRODUCTION_RUNTIME_REGRESSION=NOT_ESTABLISHED' "$failure_classes"
 grep -q 'FAIL_CLOSED_CONTRACT=PRESERVED' "$failure_classes"
@@ -93,7 +93,7 @@ SEMANTIC_ACCEPTANCE_FAILURE_RUNS=
 2
 
 OBSERVED_FAILURE_CLASSES=
-MODEL_AUTHORED_INVALID_SUPPORT_PROVENANCE
+INVALID_MODEL_AUTHORED_PROJECT_CONTEXT_SUPPORT_PROVENANCE
 SEMANTIC_ACCEPTANCE_FAILURE_AFTER_SUCCESSFUL_ADAPTER_RETURN
 
 PRODUCTION_STABILITY=
