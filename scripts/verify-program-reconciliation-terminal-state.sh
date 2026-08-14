@@ -1,0 +1,56 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+echo "=== VERIFY PROGRAM RECONCILIATION TERMINAL STATE ==="
+
+test "$(git branch --show-current)" = "feature/support-source-references-runtime"
+test -z "$(git status --porcelain)"
+git merge-base --is-ancestor 2ca95639 HEAD
+
+record="scripts/record-program-reconciliation-post-dr-terminal-state.sh"
+test -f "$record"
+
+grep -q 'PROGRAM_STATE=' "$record"
+grep -q 'STABLE_TERMINAL_CHECKPOINT' "$record"
+grep -q 'ACTIVE_RUNTIME_SUCCESSOR_MILESTONE=' "$record"
+grep -q '^NONE$' <(awk '/ACTIVE_RUNTIME_SUCCESSOR_MILESTONE=/{getline; print}' "$record")
+grep -q 'NEXT_ACTION=' "$record"
+grep -q 'NONE_AUTOMATIC' "$record"
+
+cat <<'MAP'
+PROGRAM=
+MATILDA_CONVERSATION_ENGINE
+
+VERIFIED_HEAD_ANCESTOR=
+2ca95639
+
+FINAL_DR=
+20260813_194322
+
+PROGRAM_RECONCILIATION_MILESTONE=
+CLOSED_AND_DR_PROTECTED
+
+PROGRAM_STATE=
+STABLE_TERMINAL_CHECKPOINT
+
+ACTIVE_RUNTIME_SUCCESSOR_MILESTONE=
+NONE
+
+CURRENT_UNRESOLVED_CAPABILITY_GAPS=
+ZERO_ON_CURRENT_INVENTORIED_SURFACE
+
+PRODUCTION_GENERATION_INSTABILITY=
+PRESERVED_AS_KNOWN_DEFERRED_CONDITION
+
+PRODUCTION_CHANGE=
+NONE
+
+AUTOMATIC_CONTINUATION=
+NO
+
+CONTINUATION_REQUIREMENT=
+NEW_EVIDENCE_OR_EXPLICIT_NEW_PROGRAM_OBJECTIVE
+
+NEXT_ACTION=
+NONE
+MAP
