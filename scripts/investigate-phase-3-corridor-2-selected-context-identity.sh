@@ -1,0 +1,60 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+echo "=== PHASE 3 / CORRIDOR 2 — SELECTED CONTEXT IDENTITY INVESTIGATION ==="
+
+test "$(git branch --show-current)" = "feature/support-source-references-runtime"
+git merge-base --is-ancestor 65f7bef8 HEAD
+
+cat <<'MAP'
+ATTEMPT_1=FAIL_CLOSED_SELECTED_CONTEXT_REJECTION
+ATTEMPT_2=FAIL_CLOSED_SELECTED_CONTEXT_REJECTION
+TARGET_EXPLANATION_STATUS_OBSERVED=NO
+FAILED_FIXTURE_APPROACH=RESET
+CURRENT_HYPOTHESIS=MODEL_AUTHORED_SELECTED_CONTEXT_IDENTITY_DIFFERS_FROM_SUPPLIED_CANDIDATE_IDENTITY
+PRODUCTION_CHANGE=NONE
+DR_NOW=NO
+MAP
+
+printf '\n--- EXACT MODEL SELECTED CONTEXT PROMPT CONTRACT ---\n'
+grep -n -B25 -A70 -E \
+'selectedContextSegments|project context segment|sourceStartLine|sourceEndLine' \
+scripts/utils/ollamaChat.ts | head -n 420
+
+printf '\n--- FAIL-CLOSED IDENTITY VALIDATION ---\n'
+sed -n '988,1035p' scripts/utils/ollamaChat.ts
+
+printf '\n--- HISTORICAL LIVE VALIDATORS THAT OBSERVE SELECTED IDENTITIES ---\n'
+sed -n '1,180p' scripts/validate-adaptive-detail-mixed-content-seeded-live.ts
+printf '\n'
+sed -n '1,150p' scripts/run-bounded-prompt-presentation-diagnostic.ts
+
+printf '\n--- SEARCH FOR PRIOR SELECTED-CONTEXT REJECTION DIAGNOSTICS ---\n'
+grep -RIn -B12 -A35 \
+'selected context segment that was not supplied\|SELECTED_CONTEXT_SEGMENT_NOT_SUPPLIED\|selectedContextSegments' \
+scripts \
+--include='*.sh' \
+--include='*.ts' \
+2>/dev/null | head -n 650
+
+cat <<'MAP'
+
+CURRENT_BOUNDARY=
+INVESTIGATION_ONLY
+
+QUESTION_TO_RESOLVE=
+WHAT_EXACT_SELECTED_CONTEXT_IDENTITY_DID_THE_MODEL_AUTHOR_AND_WHY_DID_IT_NOT_MATCH_THE_SUPPLIED_CANDIDATE
+
+DO_NOT_ATTEMPT_YET=
+THIRD_BEHAVIOR_VALIDATION_RUN
+
+DO_NOT_CHANGE=
+PRODUCTION_VALIDATOR
+PRODUCTION_PROMPT
+STRUCTURED_SCHEMA
+RETRY_POLICY
+MODEL_INVOCATION_COUNT
+
+NEXT_ACTION=
+IDENTIFY_EXISTING_OBSERVER_OR_PRE_VALIDATION_CAPTURE_SEAM_THAT_CAN_REVEAL_MODEL_AUTHORED_SELECTED_CONTEXT_WITHOUT_WEAKENING_FAIL_CLOSED_VALIDATION
+MAP
