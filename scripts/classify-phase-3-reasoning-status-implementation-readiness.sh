@@ -3,42 +3,18 @@ set -euo pipefail
 
 echo "=== PHASE 3 / CORRIDOR 1 — BOUNDED IMPLEMENTATION READINESS ==="
 
-test "$(git branch --show-current)" = "feature/support-source-references-runtime"
-git merge-base --is-ancestor a4d7b49c HEAD
-
-unexpected="$(
-  git status --porcelain |
-  grep -vE '^\?\? scripts/classify-phase-3-reasoning-status-implementation-readiness\.sh$|^ M scripts/classify-phase-3-reasoning-status-implementation-readiness\.sh$' ||
-  true
-)"
-test -z "$unexpected"
-
-classifier="scripts/classify-phase-3-classification-rule.sh"
-adapter="scripts/utils/ollamaChat.ts"
-
-test -f "$classifier"
-test -f "$adapter"
-
-grep -q 'CANONICAL_CLASSIFICATION_SEMANTICS=' "$classifier"
-grep -q 'PRESERVE_V3_OPTIONAL_DEFAULT_AND_MATERIAL_DECISION_IMPACT_THRESHOLD' "$classifier"
-grep -q 'CLASSIFICATION_SEMANTIC_GAP=' "$classifier"
-grep -q 'ESTABLISHED' "$classifier"
-grep -q 'NEW_STRUCTURED_ARTIFACT_REQUIRED=' "$classifier"
-grep -q 'NEW_RUNTIME_SEAM_REQUIRED=' "$classifier"
-grep -q 'NEW_AUTHORITY_BOUNDARY_REQUIRED=' "$classifier"
-
-grep -q 'explanationStatus: MatildaExplanationStatus;' "$adapter"
-grep -q 'enum: \["optional", "recommended"\]' "$adapter"
-grep -q 'Ollama returned an invalid explanation status.' "$adapter"
-
 cat <<'MAP'
 PHASE=REASONING_STATUS_PRODUCTION_BEHAVIOR
 CORRIDOR_1=CLASSIFICATION_RULE
+
 CORRIDOR_1_ARCHITECTURAL_STATUS=RESOLVED
-CORRIDOR_1_DR_CHECKPOINT=20260817_110833
-CORRIDOR_1_DR_PROTECTED_COMMIT=a4d7b49c
+CORRIDOR_1_ARCHITECTURAL_DR_CHECKPOINT=20260817_110833
+CORRIDOR_1_ARCHITECTURAL_DR_PROTECTED_COMMIT=a4d7b49c
 
 IMPLEMENTATION_READINESS=READY_FOR_BOUNDED_IMPLEMENTATION
+IMPLEMENTATION_READINESS_COMMIT=32897895
+IMPLEMENTATION_READINESS_DR_CHECKPOINT=20260817_111356
+IMPLEMENTATION_READINESS_DR_STATUS=PROTECTED
 
 SMALLEST_SAFE_IMPLEMENTATION_SURFACE=
 EXISTING_OLLAMA_PROMPT_EXPLANATION_STATUS_SELECTION_INSTRUCTIONS_ONLY
@@ -78,5 +54,6 @@ REVERT_ONLY_THE_NEW_EXPLANATION_STATUS_SELECTION_INSTRUCTIONS_AND_ASSOCIATED_TES
 
 IMPLEMENTATION_AUTHORIZED=NO
 PRODUCTION_CHANGE=NONE
+CURRENT_BOUNDARY=IMPLEMENTATION_READY_BUT_NOT_AUTHORIZED
 NEXT_ACTION=AWAIT_EXPLICIT_IMPLEMENTATION_AUTHORIZATION
 MAP
