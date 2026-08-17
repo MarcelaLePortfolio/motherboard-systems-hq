@@ -1,0 +1,29 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+echo "=== PHASE 3 / CORRIDOR 2 — OBSERVER AUTHORIZATION GATE ==="
+
+test "$(git branch --show-current)" = "feature/support-source-references-runtime"
+git merge-base --is-ancestor 665096cc HEAD
+
+unexpected="$(
+  git status --porcelain |
+  grep -vE '^\?\? scripts/record-phase-3-corridor-2-observer-authorization-gate\.sh$|^ M scripts/record-phase-3-corridor-2-observer-authorization-gate\.sh$' ||
+  true
+)"
+test -z "$unexpected"
+
+cat <<'MAP'
+PHASE_3=REASONING_STATUS_PRODUCTION_BEHAVIOR
+CORRIDOR_2=BEHAVIOR_VALIDATION
+STATUS=ACTIVE
+DIAGNOSTIC_OBSERVER_SURFACE=CLASSIFIED
+IMPLEMENTATION_READINESS=READY
+IMPLEMENTATION_AUTHORIZED=NO
+THIRD_BEHAVIOR_VALIDATION_ATTEMPT=NOT_AUTHORIZED
+CURRENT_GATE=EXPLICIT_USER_IMPLEMENTATION_AUTHORIZATION_REQUIRED
+AUTHORIZED_IMPLEMENTATION_IF_GRANTED=OPTIONAL_VALIDATION_ONLY_PRE_MEMBERSHIP_SELECTED_CONTEXT_OBSERVER
+PRODUCTION_SEMANTIC_CHANGE=NONE
+FAIL_CLOSED_VALIDATION_CHANGE=NONE
+DR_NOW=NO
+MAP
