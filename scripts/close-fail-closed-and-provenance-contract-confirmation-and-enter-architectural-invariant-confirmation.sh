@@ -1,0 +1,66 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+echo "=== CLOSE FAIL-CLOSED AND PROVENANCE CONTRACT CONFIRMATION AND ENTER ARCHITECTURAL INVARIANT CONFIRMATION ==="
+
+test "$(git branch --show-current)" = "feature/support-source-references-runtime"
+git merge-base --is-ancestor 0343919d HEAD
+
+unexpected="$(
+  git status --porcelain |
+  grep -vE '^\?\? scripts/close-fail-closed-and-provenance-contract-confirmation-and-enter-architectural-invariant-confirmation\.sh$|^ M scripts/close-fail-closed-and-provenance-contract-confirmation-and-enter-architectural-invariant-confirmation\.sh$' ||
+  true
+)"
+test -z "$unexpected"
+
+classifier="scripts/classify-fail-closed-and-provenance-contract-confirmation.sh"
+test -f "$classifier"
+
+grep -q 'CORRIDOR_3_STATUS=' "$classifier"
+grep -q '^READY_FOR_CLOSURE$' \
+  <(awk '/CORRIDOR_3_STATUS=/{getline; print}' "$classifier")
+
+grep -q 'FAIL_CLOSED_AND_PROVENANCE_CONTRACT_CONFIRMATION=' "$classifier"
+grep -q '^SATISFIED_ON_CURRENT_REPOSITORY_EVIDENCE$' \
+  <(awk '/FAIL_CLOSED_AND_PROVENANCE_CONTRACT_CONFIRMATION=/{getline; print}' "$classifier")
+
+cat <<'MAP'
+PROGRAM=
+MATILDA_CONVERSATION_ENGINE
+
+MILESTONE=
+CONVERSATION_ENGINE_RELIABLE_PRODUCTION_COLLABORATION
+
+PHASE_3=
+PRODUCTION_RELIABILITY_VALIDATION_AND_MILESTONE_CLOSURE
+
+CORRIDOR_3=
+FAIL_CLOSED_AND_PROVENANCE_CONTRACT_CONFIRMATION
+
+CORRIDOR_3_RESULT=
+FAIL_CLOSED_VALIDATION_AND_PROVENANCE_CONTRACTS_CONFIRMED_PRESERVED_ON_CURRENT_REPOSITORY_EVIDENCE
+
+CORRIDOR_3_STATUS=
+CLOSED
+
+DR_CHECKPOINT=
+20260816_201301
+
+DR_PROTECTS_CORRIDOR_3_CLASSIFICATION=
+YES
+
+ACTIVE_CORRIDOR=
+ARCHITECTURAL_INVARIANT_CONFIRMATION
+
+CORRIDOR_4_PURPOSE=
+CONFIRM_ONE_WORKFLOW_ONE_OLLAMA_INVOCATION_REPLY_DURABLE_INTERPRETATION_SEPARATION_IEL_CONTEXT_LIVING_DRAFT_AND_APPROVAL_BOUNDARIES_REMAIN_INTACT
+
+NEW_PRODUCTION_CHANGE=
+NONE
+
+IMPLEMENTATION_AUTHORIZED=
+NO_NEW_IMPLEMENTATION
+
+NEXT_ACTION=
+CLASSIFY_ARCHITECTURAL_INVARIANT_CONFIRMATION
+MAP
