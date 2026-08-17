@@ -46,6 +46,32 @@ test(
 
       assert.equal(invocationCount, 1);
 
+      const prompt = String(requestBody?.prompt ?? "");
+
+      assert.ok(
+        prompt.includes(
+          "Set explanationStatus to optional by default.",
+        ),
+      );
+
+      assert.ok(
+        prompt.includes(
+          "Set explanationStatus to recommended only when skipping supporting reasoning is likely to materially affect the user's next engineering decision.",
+        ),
+      );
+
+      assert.ok(
+        prompt.includes(
+          "Relevant triggers may include architectural nuance, implementation boundaries, significant uncertainty, competing interpretations, or evidence interpretation when they materially affect the conclusion.",
+        ),
+      );
+
+      assert.ok(
+        prompt.includes(
+          "Do not set explanationStatus to recommended merely because evidence exists, the work was substantial, or additional explanation is available.",
+        ),
+      );
+
       assert.deepEqual(
         requestBody?.format?.required,
         [
