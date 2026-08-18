@@ -243,6 +243,9 @@ export interface OllamaChatContext {
   observeValidatedSelectedContextSegments?: (
     segments: readonly MatildaSelectedContextSegment[],
   ) => void;
+  observeParsedSelectedContextSegments?: (
+    segments: readonly MatildaSelectedContextSegment[],
+  ) => void;
   validationGenerationSeed?: number;
   validationPromptPresentationVariant?:
     | "explicit_parent_child_separation";
@@ -982,6 +985,12 @@ export async function ollamaChat(
 
     const result =
       parseStructuredResponse(rawResponse);
+
+    if (context.observeParsedSelectedContextSegments) {
+      context.observeParsedSelectedContextSegments(
+        result.selectedContextSegments,
+      );
+    }
 
     validateMatildaInvestigationLifecycleContinuity(
       context.priorInvestigationLifecycle ?? null,
