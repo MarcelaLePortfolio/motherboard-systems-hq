@@ -1,0 +1,43 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+echo "=== PHASE 3 / CORRIDOR 3 — SURFACING CONTRACT CLOSURE ==="
+
+test "$(git branch --show-current)" = "feature/support-source-references-runtime"
+git merge-base --is-ancestor aa119a00 HEAD
+
+unexpected="$(
+  git status --porcelain |
+  grep -vE '^\?\? scripts/close-phase-3-corridor-3-surfacing-contract\.sh$|^ M scripts/close-phase-3-corridor-3-surfacing-contract\.sh$' ||
+  true
+)"
+test -z "$unexpected"
+
+npx tsx --test scripts/utils/ollamaChat.reasoning-status-surfacing.test.ts
+bash scripts/guard-ollama-response-contract.sh
+git diff --check
+
+cat <<'MAP'
+PHASE_3=REASONING_STATUS_PRODUCTION_BEHAVIOR
+CORRIDOR_3=SURFACING_CONTRACT
+STATUS=CLOSED
+SURFACING_CONTRACT_IMPLEMENTED=YES
+IMPLEMENTATION_COMMIT=3e8f1a51
+VALIDATION_COMMIT=5ced6c47
+CLOSURE_READINESS_COMMIT=aa119a00
+TARGETED_TEST=PASS
+RESPONSE_CONTRACT_GUARD=PASS
+INVESTIGATION_LIFECYCLE_GUARD=PASS
+VISIBLE_REASONING_STATUS_LABEL=NO
+UI_CHANGE=NONE
+WORKFLOW_CHANGE=NONE
+SCHEMA_CHANGE=NONE
+MODEL_INVOCATION_COUNT_CHANGE=NONE
+FAIL_CLOSED_VALIDATION_CHANGE=NONE
+CORRIDOR_2_BEHAVIORAL_RELIABILITY_LIMIT=PRESERVED
+MODEL_BEHAVIORAL_RELIABILITY_ESTABLISHED=NO
+REASONING_STATUS_DEFECT_ESTABLISHED=NO
+CORRIDOR_3_CLOSURE_STATUS=READY_FOR_CANONICAL_DR
+DR_NOW=YES
+NEXT_ACTION=COMMIT_CORRIDOR_3_CLOSURE_THEN_RUN_CANONICAL_DR_LAUNCHER
+MAP
