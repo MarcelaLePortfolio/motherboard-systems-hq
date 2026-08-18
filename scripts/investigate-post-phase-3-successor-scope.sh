@@ -1,0 +1,50 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+echo "=== POST PHASE 3 — SUCCESSOR SCOPE INVESTIGATION ==="
+
+test "$(git branch --show-current)" = "feature/support-source-references-runtime"
+git merge-base --is-ancestor e0a0b7ef HEAD
+
+unexpected="$(
+  git status --porcelain |
+  grep -vE '^\?\? scripts/investigate-post-phase-3-successor-scope\.sh$|^ M scripts/investigate-post-phase-3-successor-scope\.sh$' ||
+  true
+)"
+test -z "$unexpected"
+
+echo "=== PHASE 3 CLOSED STATE ==="
+grep -nE \
+  'PHASE_3_STATUS=CLOSED_BOUNDED|PHASE_3_CANONICAL_DR=20260818_102518|CORRIDOR_2_STATUS=DEFERRED_WITH_EXPLICIT_UNRESOLVED_BEHAVIORAL_RELIABILITY_LIMIT|BEHAVIORAL_RELIABILITY_LIMIT=CARRIED_FORWARD' \
+  scripts/record-phase-3-dr-protection-and-reconcile-successor-scope.sh
+
+echo "=== CROSS-CUTTING GENERATION RELIABILITY EVIDENCE ==="
+grep -RIn -E \
+  'GENERATION_STABILITY|selected context segment that was not supplied|MODEL_BEHAVIORAL_RELIABILITY|BEHAVIORAL_RELIABILITY|FAIL_CLOSED_OR_RUNTIME_REJECTION|SEMANTIC_ACCEPTANCE_FAILURE' \
+  scripts \
+  --exclude='investigate-post-phase-3-successor-scope.sh' \
+  | head -n 300 || true
+
+echo "=== PRIOR SUCCESSOR / DEFERRED-SCOPE CLASSIFICATIONS ==="
+find scripts -maxdepth 1 -type f \
+  \( -iname '*successor*' -o -iname '*defer*' -o -iname '*generation*reliability*' -o -iname '*generation*stability*' \) \
+  -print | sort
+
+cat <<'MAP'
+PHASE_3=REASONING_STATUS_PRODUCTION_BEHAVIOR
+PHASE_3_STATUS=CLOSED_BOUNDED
+PHASE_3_DR=20260818_102518
+PHASE_3_REOPENED=NO
+
+DEFERRED_ITEM=REASONING_STATUS_MODEL_BEHAVIORAL_RELIABILITY
+DEFERRED_ITEM_CAUSE=CROSS_CUTTING_SELECTED_CONTEXT_GENERATION_BEHAVIOR_PREVENTED_CLEAN_OBSERVATION
+THREE_FAILED_VALIDATION_ATTEMPTS=PRESERVED
+FOURTH_REPLAY_AUTHORIZED=NO
+
+SUCCESSOR_SCOPE_QUESTION=DOES_THE_DEFERRED_REASONING_STATUS_BEHAVIORAL_RELIABILITY_LIMIT_BELONG_TO_A_FUTURE_CROSS_CUTTING_GENERATION_RELIABILITY_MILESTONE_OR_REMAIN_SEPARATELY_DEFERRED
+MODE=COLLABORATION
+IMPLEMENTATION_AUTHORIZED=NO
+PRODUCTION_CHANGE=NONE
+DR_NOW=NO
+NEXT_ACTION=CLASSIFY_SUCCESSOR_SCOPE_FROM_EXISTING_PROGRAM_EVIDENCE_WITHOUT_REOPENING_PHASE_3
+MAP
