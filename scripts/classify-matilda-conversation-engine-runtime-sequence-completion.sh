@@ -1,0 +1,82 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+echo "=== MATILDA CONVERSATION ENGINE — RUNTIME SEQUENCE COMPLETION CLASSIFICATION ==="
+
+test "$(git branch --show-current)" = "feature/support-source-references-runtime"
+git merge-base --is-ancestor 5499622b HEAD
+
+unexpected="$(
+  git status --porcelain |
+  grep -vE '^\?\? scripts/classify-matilda-conversation-engine-runtime-sequence-completion\.sh$|^ M scripts/classify-matilda-conversation-engine-runtime-sequence-completion\.sh$' ||
+  true
+)"
+test -z "$unexpected"
+
+test -f scripts/classify-post-phase-3-deferred-work-disposition.sh
+test -f scripts/reconcile-current-successor-priority-boundary.sh
+test -f scripts/record-phase-3-dr-protection-and-reconcile-successor-scope.sh
+
+grep -Fq 'CURRENT_GENUINE_UNRESOLVED_RUNTIME_CAPABILITY_GAPS=' scripts/classify-post-phase-3-deferred-work-disposition.sh
+grep -Fq 'ZERO' scripts/classify-post-phase-3-deferred-work-disposition.sh
+grep -Fq 'EVIDENCE_SUPPORTED_SUCCESSOR_CANDIDATE=' scripts/classify-post-phase-3-deferred-work-disposition.sh
+grep -Fq 'NONE_ESTABLISHED' scripts/classify-post-phase-3-deferred-work-disposition.sh
+grep -Fq 'REASONING_STATUS_BEHAVIORAL_RELIABILITY_LIMIT=' scripts/classify-post-phase-3-deferred-work-disposition.sh
+grep -Fq 'SEPARATELY_DEFERRED_CROSS_CUTTING_CONDITION' scripts/classify-post-phase-3-deferred-work-disposition.sh
+grep -Fq 'PHASE_3_CANONICAL_DR=20260818_102518' scripts/record-phase-3-dr-protection-and-reconcile-successor-scope.sh
+
+cat <<'MAP'
+PROGRAM=MATILDA_CONVERSATION_ENGINE
+STATUS=RUNTIME_MILESTONE_SEQUENCE_COMPLETION_CLASSIFIED
+
+CURRENT_RUNTIME_MILESTONE_SEQUENCE=
+COMPLETE_ON_CURRENT_EVIDENCE_SUPPORTED_CAPABILITY_SURFACE
+
+CURRENT_GENUINE_UNRESOLVED_RUNTIME_CAPABILITY_GAPS=
+ZERO
+
+CURRENT_EVIDENCE_SUPPORTED_RUNTIME_SUCCESSOR=
+NONE_ESTABLISHED
+
+NEW_RUNTIME_MILESTONE_REQUIRED=
+NO
+
+NEW_RUNTIME_CORRIDOR_REQUIRED=
+NO
+
+REASONING_STATUS_MODEL_BEHAVIORAL_RELIABILITY=
+SEPARATELY_DEFERRED_NON_BLOCKING_CROSS_CUTTING_CONDITION
+
+DEFERRED_PRODUCTION_GENERATION_INSTABILITY=
+KNOWN_NON_BLOCKING_CONDITION
+
+COMPLETED_OR_CLOSED_ITEMS=
+DO_NOT_REOPEN_WITHOUT_NEW_EVIDENCE_OR_EXPLICIT_AUTHORIZATION
+
+PHASE_3_REASONING_STATUS_PRODUCTION_BEHAVIOR=
+CLOSED_BOUNDED
+
+PHASE_3_CANONICAL_DR=
+20260818_102518
+
+GENERATION_STABILITY=
+CLOSED
+
+RUNTIME_SEQUENCE_COMPLETION_MEANING=
+THE_CURRENT_REPOSITORY_EVIDENCE_SUPPORTS_NO_FURTHER_REQUIRED_RUNTIME_CAPABILITY_MILESTONE__SEPARATELY_DEFERRED_NON_BLOCKING_CONDITIONS_REMAIN_EXPLICITLY_UNRESOLVED_BUT_DO_NOT_PREVENT_COMPLETION_OF_THE_CURRENT_SEQUENCE
+
+IMPLEMENTATION_READINESS=
+NOT_APPLICABLE
+
+IMPLEMENTATION_AUTHORIZED=
+NO
+
+PRODUCTION_CHANGE=
+NONE
+
+DR_NOW=
+NO
+
+NEXT_ACTION=
+RECONCILE_PROGRAM_LEVEL_CLOSURE_OR_NEXT_NON_RUNTIME_PROGRAM_PRIORITY_WITHOUT_INVENTING_A_RUNTIME_SUCCESSOR
+MAP
