@@ -276,6 +276,51 @@ function NextStepCard({ mission }: { mission: MissionPresentationModel }) {
   );
 }
 
+function MissionPipelineCard({
+  mission,
+}: {
+  mission: MissionPresentationModel;
+}) {
+  const hasOwner = hasAuthoritativeValue(mission.owner);
+
+  return (
+    <MissionCard title="Mission Pipeline" className="mission-card--pipeline">
+      <div className="mission-pipeline">
+        <div className="mission-pipeline__node">
+          <span className="mission-pipeline__node-label">Current Stage</span>
+          <span className="mission-pipeline__node-value">
+            {formatLabel(mission.stage)}
+          </span>
+        </div>
+
+        <span className="mission-pipeline__arrow" aria-hidden="true">
+          →
+        </span>
+
+        <div className="mission-pipeline__node">
+          <span className="mission-pipeline__node-label">Current Owner</span>
+          <span className="mission-pipeline__node-value">
+            {hasOwner ? formatLabel(mission.owner) : "Unassigned"}
+          </span>
+        </div>
+
+        <span className="mission-pipeline__arrow" aria-hidden="true">
+          →
+        </span>
+
+        <div className="mission-pipeline__node">
+          <span className="mission-pipeline__node-label">Awaiting</span>
+          <span className="mission-pipeline__node-value">
+            {mission.awaiting
+              ? formatLabel(mission.awaiting)
+              : "Nothing pending"}
+          </span>
+        </div>
+      </div>
+    </MissionCard>
+  );
+}
+
 function ActiveAgentCard({ mission }: { mission: MissionPresentationModel }) {
   const hasOwner = hasAuthoritativeValue(mission.owner);
 
@@ -377,6 +422,13 @@ export default function MissionDashboardWorkspace() {
           <LatestEventCard mission={mission} />
           <NextStepCard mission={mission} />
           <ActiveAgentCard mission={mission} />
+        </section>
+
+        <section
+          className="mission-dashboard__pipeline-region"
+          aria-label="Mission pipeline position"
+        >
+          <MissionPipelineCard mission={mission} />
         </section>
         {/* --------------------------------------------------------------------------
             Archived Presentation Components
