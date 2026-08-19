@@ -1,0 +1,15 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+cd "$(git rev-parse --show-toplevel)"
+
+printf '%s\n' \
+  'MILESTONE=EXECUTIVE_MISSION_CONTROL' \
+  'PHASE=EXECUTIVE_MISSION_OVERVIEW' \
+  'CORRIDOR_2=MISSION_STATE_PROJECTION' \
+  'CORRIDOR_2_STATUS=CLOSED' \
+  'IMPLEMENTATION_COMMIT=64cf3fef' \
+  'CLOSURE_COMMIT=df8724c5' \
+  'NEXT_ACTION=RUN_DR_BEFORE_CORRIDOR_3'
+
+dr
