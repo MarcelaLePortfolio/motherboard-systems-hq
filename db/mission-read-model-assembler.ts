@@ -87,10 +87,11 @@ function deriveIntegrityWarnings(
   if (
     input.lifecycle_state !== null &&
     input.lifecycle_state !== "ASSIGNED" &&
-    input.gate_status !== "OPEN"
+    input.gate_status !== "OPEN" &&
+    input.gate_status !== "PASSED"
   ) {
     warnings.push(
-      "Envelope lifecycle state exists without an open envelope gate.",
+      "Envelope lifecycle state exists without authoritative envelope-gate lineage.",
     );
   }
 
