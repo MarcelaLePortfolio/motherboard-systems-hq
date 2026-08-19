@@ -1,6 +1,6 @@
 # Matilda UI 503 — Controlled Comparison Wait State
 
-Current checkpoint: 78e9465e
+Current checkpoint: af3f429d
 Issue resolved: NO
 
 Verified state:
