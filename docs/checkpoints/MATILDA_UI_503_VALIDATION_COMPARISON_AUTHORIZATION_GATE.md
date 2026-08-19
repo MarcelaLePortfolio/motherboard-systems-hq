@@ -1,6 +1,6 @@
 # Matilda UI 503 — Validation Comparison Authorization Gate
 
-Current checkpoint: d3f3c2f4
+Current checkpoint: 946e60a4
 Issue resolved: NO
 
 Status:
