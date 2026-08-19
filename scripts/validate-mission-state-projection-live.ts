@@ -1,9 +1,3 @@
-#!/usr/bin/env bash
-set -euo pipefail
-
-cd "$(git rev-parse --show-toplevel)"
-
-cat > scripts/validate-mission-state-projection-live.ts << 'TS'
 import Database from "better-sqlite3";
 import { createMissionReadRepository } from "../db/mission-read-repository";
 import { assembleMissionReadModel } from "../db/mission-read-model-assembler";
@@ -40,18 +34,3 @@ async function main(): Promise<void> {
 }
 
 void main();
-TS
-
-printf '\n=== TARGETED BACKEND VALIDATION ===\n'
-npx tsx db/mission-read-model-assembler.test.ts
-npx tsx db/mission-read-repository.test.ts
-npx tsx db/mission-read-model.integration.test.ts
-
-printf '\n=== CLIENT BUILD ===\n'
-npm run build --prefix client
-
-printf '\n=== LIVE PROJECTION ===\n'
-npx tsx scripts/validate-mission-state-projection-live.ts
-
-printf '\n=== WORKTREE ===\n'
-git status --short
