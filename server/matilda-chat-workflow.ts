@@ -356,6 +356,19 @@ export async function runMatildaConversationWorkflow(
       workflowError,
     );
 
+    console.error(
+      "[Matilda conversation workflow] Diagnostic failure details:",
+      workflowError instanceof Error
+        ? {
+            name: workflowError.name,
+            message: workflowError.message,
+            stack: workflowError.stack,
+          }
+        : {
+            value: String(workflowError),
+          },
+    );
+
     throw new MatildaConversationWorkflowUnavailableError();
   }
 }
