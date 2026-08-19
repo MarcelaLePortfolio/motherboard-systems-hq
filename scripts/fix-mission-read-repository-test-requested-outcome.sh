@@ -1,3 +1,9 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+cd "$(git rev-parse --show-toplevel)"
+
+cat > db/mission-read-repository.test.ts << 'TEST'
 import { strict as assert } from "node:assert";
 import Database from "better-sqlite3";
 
@@ -41,3 +47,15 @@ async function main(): Promise<void> {
 }
 
 void main();
+TEST
+
+printf '\n=== TARGETED BACKEND VALIDATION ===\n'
+npx tsx db/mission-read-model-assembler.test.ts
+npx tsx db/mission-read-repository.test.ts
+npx tsx db/mission-read-model.integration.test.ts
+
+printf '\n=== CLIENT VALIDATION ===\n'
+npm run build --prefix client
+
+printf '\n=== WORKTREE ===\n'
+git status --short
