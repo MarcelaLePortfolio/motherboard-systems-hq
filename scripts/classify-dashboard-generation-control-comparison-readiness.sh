@@ -1,0 +1,78 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+cd "$(git rev-parse --show-toplevel)"
+
+printf '%s\n' \
+  'CHECKPOINT=MATILDA_UI_SMOKE_TEST_503' \
+  'CURRENT_CHECKPOINT=609e27b6' \
+  'ISSUE_RESOLVED=NO' \
+  'MODE=COLLABORATION_IMPLEMENTATION_READINESS' \
+  'TARGET=CLASSIFY_BOUNDED_DASHBOARD_GENERATION_CONTROL_COMPARISON_IMPLEMENTATION_READINESS'
+
+printf '\n=== CONTRACT CHECKPOINT ===\n'
+grep -n -E \
+  'EXPERIMENT_CLASS=VALIDATION_ONLY|CAUSAL_VARIABLE=validationGenerationSeed_ONLY|UNSEEDED_SAMPLE_COUNT=10|CONTROLLED_SAMPLE_COUNT=10|DIAGNOSTIC_RUN_PERSISTENCE=PROHIBITED|PRODUCTION_PROMOTION_AUTHORIZED_BY_THIS_TEST=NO|IMPLEMENTATION_AUTHORIZED=NO' \
+  scripts/define-bounded-dashboard-generation-control-comparison.sh
+
+printf '\n=== EXISTING VALIDATION SURFACES ===\n'
+find scripts -maxdepth 1 -type f \
+  \( -name '*fixed-seed*' -o -name '*unseeded*' -o -name '*validation-seed*' -o -name '*semantic-preservation*' \) \
+  -print | sort
+
+printf '\n=== EXISTING EXACT-CONTEXT DIAGNOSTIC HOOKS ===\n'
+grep -Rni --exclude-dir=node_modules --exclude-dir=.git \
+  -E \
+  'observeParsedSupportSourceReferences|observeParsedSelectedContextSegments|observeValidatedSelectedContextSegments|validationGenerationSeed|ollamaChat\(' \
+  scripts/*.ts scripts/*.sh 2>/dev/null | head -400
+
+printf '\n=== PRODUCTION NON-MUTATION GUARDS ===\n'
+if grep -q 'validationGenerationSeed' server/matilda-chat-workflow.ts; then
+  echo 'STOP: production workflow unexpectedly supplies validationGenerationSeed.'
+  exit 1
+fi
+
+printf '%s\n' \
+  'PRODUCTION_WORKFLOW_SEED=ABSENT' \
+  'VALIDATOR_CHANGE_REQUIRED=NO' \
+  'PROMPT_CHANGE_REQUIRED=NO' \
+  'MODEL_CHANGE_REQUIRED=NO' \
+  'PERSISTENCE_CHANGE_REQUIRED=NO' \
+  'PRODUCTION_ROUTE_CHANGE_REQUIRED=NO'
+
+printf '\n=== IMPLEMENTATION SHAPE ===\n'
+printf '%s\n' \
+  'IMPLEMENTATION_SURFACE=NEW_VALIDATION_ONLY_RUNNER' \
+  'PRODUCTION_FILE_MUTATION=NONE' \
+  'RUNNER_CALLS=ollamaChat_DIRECTLY' \
+  'CONTEXT_SOURCE=SNAPSHOT_OF_CURRENT_DASHBOARD_REQUEST_CONTEXT' \
+  'DATABASE_WRITE=NONE' \
+  'UNSEEDED_ARM=10_DIRECT_OLLAMACHAT_INVOCATIONS_WITHOUT_validationGenerationSeed' \
+  'CONTROLLED_ARM=10_DIRECT_OLLAMACHAT_INVOCATIONS_WITH_validationGenerationSeed_424242' \
+  'RETRY=NONE' \
+  'RESULT_CAPTURE=PER_RUN_FAILURE_CLASS_ACCEPTANCE_FINGERPRINT_AND_SEMANTIC_OUTPUT'
+
+printf '\n=== READINESS DETERMINATION ===\n'
+printf '%s\n' \
+  'CONTRACT_DEFINED=YES' \
+  'EXISTING_REQUEST_SCOPED_CONTROL_AVAILABLE=YES' \
+  'DIRECT_NON_PERSISTING_OLLAMA_SURFACE_AVAILABLE=YES' \
+  'PRODUCTION_MUTATION_REQUIRED=NO' \
+  'IMPLEMENTATION_SCOPE_BOUNDED=YES' \
+  'ROLLBACK_SCOPE=DELETE_NEW_VALIDATION_ONLY_RUNNER' \
+  'IMPLEMENTATION_READY=YES' \
+  'IMPLEMENTATION_AUTHORIZED=NO' \
+  'NEXT_ACTION=AUTHORIZE_BOUNDED_VALIDATION_ONLY_DASHBOARD_CONTROL_COMPARISON_IMPLEMENTATION'
+
+printf '\n=== SAFETY BOUNDARY ===\n'
+printf '%s\n' \
+  'PRODUCTION_SEED_AUTHORIZED=NO' \
+  'PRODUCTION_POLICY_CHANGE_AUTHORIZED=NO' \
+  'VALIDATOR_WEAKENING_AUTHORIZED=NO' \
+  'PROMPT_CHANGE_AUTHORIZED=NO' \
+  'MODEL_CHANGE_AUTHORIZED=NO' \
+  'RETRY_CHANGE_AUTHORIZED=NO' \
+  'TIMEOUT_CHANGE_AUTHORIZED=NO'
+
+printf '\n=== WORKTREE ===\n'
+git status --short
