@@ -6,28 +6,32 @@ cd "$(git rev-parse --show-toplevel)"
 printf '%s\n' \
   'MILESTONE=EXECUTIVE_MISSION_CONTROL' \
   'PHASE=EXECUTIVE_MISSION_OVERVIEW' \
-  'CORRIDOR=EXECUTIVE_OVERVIEW_VALIDATION_AND_CLOSURE' \
-  'CURRENT_IMPLEMENTATION_UNIT=MISSION_STATE_PROJECTION' \
-  'REQUESTED_OUTCOME_UNIT_CHECKPOINT=3c8b4de9' \
-  'IMPLEMENTATION_AUTHORIZED=YES' \
-  'NEXT_ACTION=BOUND_STATE_PROJECTION_IMPLEMENTATION_FROM_LIVE_GOVERNANCE_TABLES'
+  'CORRIDOR_1_STATUS=CLOSED_AND_DR_PROTECTED' \
+  'CORRIDOR_1_DR=20260818_193830' \
+  'CORRIDOR_1_CHECKPOINT=db8fcab8' \
+  'ACTIVE_CORRIDOR=MISSION_STATE_PROJECTION' \
+  'IMPLEMENTATION_AUTHORIZED=YES'
 
-printf '\n=== CURRENT MISSION READ ASSEMBLER ===\n'
-sed -n '1,220p' db/mission-read-model-assembler.ts
+printf '\n=== CURRENT MISSION READ CONTRACT ===\n'
+cat db/mission-read-model-types.ts
 
-printf '\n=== CURRENT MISSION READ REPOSITORY ===\n'
-sed -n '1,220p' db/mission-read-repository.ts
+printf '\n=== CURRENT ASSEMBLER ===\n'
+cat db/mission-read-model-assembler.ts
 
-printf '\n=== GOVERNANCE STATE TABLE SCHEMAS ===\n'
+printf '\n=== CURRENT REPOSITORY ===\n'
+cat db/mission-read-repository.ts
+
+printf '\n=== AUTHORITATIVE GOVERNANCE STATE SCHEMAS ===\n'
 sqlite3 db/main.db ".schema governance_delegations"
 sqlite3 db/main.db ".schema governance_validation_results"
 sqlite3 db/main.db ".schema governance_envelope_gates"
 sqlite3 db/main.db ".schema governance_envelopes"
 
-printf '\n=== LIVE STATE VALUES ===\n'
+printf '\n=== LIVE GOVERNANCE STATE ===\n'
 sqlite3 -header -column db/main.db "
 SELECT
   p.package_id,
+  p.package_version,
   d.authorization_state,
   v.validation_status,
   g.gate_status,
@@ -48,11 +52,9 @@ LEFT JOIN governance_envelopes e
 WHERE p.package_id = 'corridor-smoke';
 "
 
-printf '\n=== STATE TEST EXPECTATIONS ===\n'
-sed -n '1,260p' db/mission-read-model-assembler.test.ts
-grep -Rni --exclude-dir=node_modules --exclude-dir=.git --exclude-dir=.next \
-  -E 'Awaiting Delegation|Governance Validation|Envelope Gate|ENVELOPE_CREATED|ASSIGNED|MissionOwner|MissionHealth|awaiting' \
-  db docs client/src 2>/dev/null | head -220
+printf '\n=== CURRENT STATE TESTS ===\n'
+cat db/mission-read-model-assembler.test.ts
+cat db/mission-read-model.integration.test.ts
 
 printf '\n=== WORKTREE ===\n'
 git status --short
