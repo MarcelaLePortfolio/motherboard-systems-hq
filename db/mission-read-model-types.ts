@@ -59,7 +59,6 @@ export interface MissionTimelineEntry {
 
 export interface MissionSummary {
   identity: MissionIdentity;
-  requested_outcome: string;
   stage: MissionStage;
   owner: MissionOwner;
   health: MissionHealth;
