@@ -45,6 +45,7 @@ export interface MissionPresentationModel {
   packageId: string;
   projectId: string | null;
   version: number;
+  requestedOutcome: string;
 
   stage: string;
   owner: string;
@@ -140,6 +141,7 @@ export function mapMissionReadToPresentation(
     packageId: mission.identity.package_id,
     projectId: mission.identity.project_id,
     version: mission.identity.package_version,
+    requestedOutcome: mission.requested_outcome,
 
     stage: mission.stage,
     owner: mission.owner,

@@ -23,7 +23,8 @@ export function createMissionReadRepository(
       package_id,
       package_version,
       project_id,
-      conversation_id
+      conversation_id,
+      requested_outcome
     FROM governance_packages
     WHERE package_id = ?
     LIMIT 1
@@ -57,6 +58,7 @@ export function createMissionReadRepository(
             package_version: number;
             project_id: string | null;
             conversation_id: string | null;
+            requested_outcome: string;
           }
         | undefined;
 
@@ -83,6 +85,7 @@ export function createMissionReadRepository(
         package_version: pkg.package_version,
         project_id: pkg.project_id,
         conversation_id: pkg.conversation_id,
+        requested_outcome: pkg.requested_outcome,
         lifecycle_state: envelope?.lifecycle_state ?? null,
         lifecycle_event_count: lifecycleEvents.length,
         lifecycle_events: lifecycleEvents,

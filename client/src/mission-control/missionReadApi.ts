@@ -40,6 +40,7 @@ export interface MissionTimelineEntry {
 
 export interface MissionReadModel {
   identity: MissionIdentity;
+  requested_outcome: string;
   stage: MissionStage;
   owner: MissionOwner;
   health: MissionHealth;

@@ -99,12 +99,11 @@ function ExecutiveBriefCard({
     <MissionCard title="Executive Brief" className="mission-card--brief">
       <div className="mission-brief">
         <p className="mission-brief__title">
-          Mission title not yet available
+          {mission.requestedOutcome}
         </p>
 
         <p className="mission-brief__objective">
-          Mission objective is not yet exposed by Mission Read for this
-          package. Displaying identity and operational state only.
+          {mission.requestedOutcome}
         </p>
 
         <dl className="mission-brief__facts">
