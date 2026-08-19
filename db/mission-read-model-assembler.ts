@@ -17,6 +17,9 @@ export interface MissionAssemblyInput {
   conversation_id: string | null;
   requested_outcome: string;
 
+  authorization_state: string | null;
+  validation_status: string | null;
+  gate_status: string | null;
   lifecycle_state: string | null;
 
   lifecycle_event_count: number;
@@ -26,18 +29,72 @@ export interface MissionAssemblyInput {
 }
 
 function deriveStage(input: MissionAssemblyInput): MissionStage {
-  switch (input.lifecycle_state) {
-    case "ENVELOPE_CREATED":
-      return "ENVELOPE_CREATED";
-
-    case "ASSIGNED":
-      return input.lifecycle_event_count > 0
-        ? "ASSIGNED"
-        : "UNKNOWN";
-
-    default:
-      return "UNKNOWN";
+  if (input.lifecycle_state === "ASSIGNED") {
+    return input.lifecycle_event_count > 0 ? "ASSIGNED" : "UNKNOWN";
   }
+
+  if (input.lifecycle_state === "ENVELOPE_CREATED") {
+    return "ENVELOPE_CREATED";
+  }
+
+  if (input.gate_status === "OPEN") {
+    return "ENVELOPE_GATE";
+  }
+
+  if (input.validation_status === "VALIDATION_PASSED") {
+    return "ENVELOPE_GATE";
+  }
+
+  if (input.authorization_state === "AUTHORIZED") {
+    return "GOVERNANCE_VALIDATION";
+  }
+
+  if (
+    input.authorization_state === null &&
+    input.validation_status === null &&
+    input.gate_status === null &&
+    input.lifecycle_state === null
+  ) {
+    return "AWAITING_DELEGATION";
+  }
+
+  return "UNKNOWN";
+}
+
+function deriveIntegrityWarnings(
+  input: MissionAssemblyInput,
+): string[] {
+  const warnings = [...(input.integrity_warnings ?? [])];
+
+  if (
+    input.validation_status !== null &&
+    input.authorization_state !== "AUTHORIZED"
+  ) {
+    warnings.push(
+      "Validation state exists without an authorized delegation.",
+    );
+  }
+
+  if (
+    input.gate_status !== null &&
+    input.validation_status !== "VALIDATION_PASSED"
+  ) {
+    warnings.push(
+      "Envelope gate state exists without passed governance validation.",
+    );
+  }
+
+  if (
+    input.lifecycle_state !== null &&
+    input.lifecycle_state !== "ASSIGNED" &&
+    input.gate_status !== "OPEN"
+  ) {
+    warnings.push(
+      "Envelope lifecycle state exists without an open envelope gate.",
+    );
+  }
+
+  return warnings;
 }
 
 function assembleTimeline(
@@ -67,16 +124,34 @@ export function assembleMissionReadModel(
   input: MissionAssemblyInput,
 ): MissionReadModel {
   const stage = deriveStage(input);
+  const integrityWarnings = deriveIntegrityWarnings(input);
 
   const owner: MissionOwner =
-    stage === "ASSIGNED"
-      ? "DEPARTMENT"
-      : "UNKNOWN";
+    stage === "AWAITING_DELEGATION"
+      ? "UNASSIGNED"
+      : stage === "GOVERNANCE_VALIDATION" ||
+          stage === "ENVELOPE_GATE" ||
+          stage === "ENVELOPE_CREATED"
+        ? "GOVERNANCE"
+        : stage === "ASSIGNED"
+          ? "DEPARTMENT"
+          : "UNKNOWN";
 
   const health: MissionHealth =
-    input.integrity_warnings?.length
+    integrityWarnings.length > 0
       ? "NEEDS_ATTENTION"
-      : "HEALTHY";
+      : stage === "AWAITING_DELEGATION"
+        ? "WAITING"
+        : "HEALTHY";
+
+  const awaiting =
+    stage === "AWAITING_DELEGATION"
+      ? "Delegation authorization"
+      : stage === "GOVERNANCE_VALIDATION"
+        ? "Governance validation"
+        : stage === "ENVELOPE_GATE"
+          ? "Envelope creation"
+          : null;
 
   return {
     identity: {
@@ -94,12 +169,12 @@ export function assembleMissionReadModel(
 
     health,
 
-    awaiting: null,
+    awaiting,
 
     evidence: {
       artifact_count: 0,
       lifecycle_event_count: input.lifecycle_event_count,
-      integrity_warnings: [...(input.integrity_warnings ?? [])],
+      integrity_warnings: integrityWarnings,
       latest_timestamp: null,
     },
 

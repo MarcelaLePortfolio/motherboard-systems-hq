@@ -30,12 +30,41 @@ export function createMissionReadRepository(
     LIMIT 1
   `);
 
+  const delegationStatement = db.prepare(`
+    SELECT authorization_state
+    FROM governance_delegations
+    WHERE package_id = ?
+      AND package_version = ?
+    ORDER BY created_at DESC
+    LIMIT 1
+  `);
+
+  const validationStatement = db.prepare(`
+    SELECT validation_status
+    FROM governance_validation_results
+    WHERE package_id = ?
+      AND package_version = ?
+    ORDER BY created_at DESC
+    LIMIT 1
+  `);
+
+  const gateStatement = db.prepare(`
+    SELECT gate_status
+    FROM governance_envelope_gates
+    WHERE package_id = ?
+      AND package_version = ?
+    ORDER BY created_at DESC
+    LIMIT 1
+  `);
+
   const envelopeStatement = db.prepare(`
     SELECT
       envelope_id,
       lifecycle_state
     FROM governance_envelopes
     WHERE package_id = ?
+      AND package_version = ?
+    ORDER BY created_at DESC
     LIMIT 1
   `);
 
@@ -66,7 +95,31 @@ export function createMissionReadRepository(
         return null;
       }
 
-      const envelope = envelopeStatement.get(packageId) as
+      const delegation = delegationStatement.get(
+        pkg.package_id,
+        pkg.package_version,
+      ) as
+        | { authorization_state: string }
+        | undefined;
+
+      const validation = validationStatement.get(
+        pkg.package_id,
+        pkg.package_version,
+      ) as
+        | { validation_status: string }
+        | undefined;
+
+      const gate = gateStatement.get(
+        pkg.package_id,
+        pkg.package_version,
+      ) as
+        | { gate_status: string }
+        | undefined;
+
+      const envelope = envelopeStatement.get(
+        pkg.package_id,
+        pkg.package_version,
+      ) as
         | {
             envelope_id: string;
             lifecycle_state: string | null;
@@ -86,6 +139,9 @@ export function createMissionReadRepository(
         project_id: pkg.project_id,
         conversation_id: pkg.conversation_id,
         requested_outcome: pkg.requested_outcome,
+        authorization_state: delegation?.authorization_state ?? null,
+        validation_status: validation?.validation_status ?? null,
+        gate_status: gate?.gate_status ?? null,
         lifecycle_state: envelope?.lifecycle_state ?? null,
         lifecycle_event_count: lifecycleEvents.length,
         lifecycle_events: lifecycleEvents,
