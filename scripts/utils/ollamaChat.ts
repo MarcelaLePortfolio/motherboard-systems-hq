@@ -812,30 +812,6 @@ export async function ollamaChat(
       ],
     );
 
-    const allowedConversationSupportSourceIds =
-      (context.history || [])
-        .map((turn) => turn.sourceTurnId)
-        .filter(
-          (sourceTurnId): sourceTurnId is string =>
-            typeof sourceTurnId === "string" &&
-            Boolean(sourceTurnId),
-        );
-
-    const conversationSupportIdentityPresentation = [
-      "",
-      "Allowed conversation support source identifiers:",
-      ...(allowedConversationSupportSourceIds.length > 0
-        ? allowedConversationSupportSourceIds.map(
-            (sourceTurnId) =>
-              `Allowed conversation support source = ${sourceTurnId}`,
-          )
-        : ["Allowed conversation support source = NONE"]),
-      allowedConversationSupportSourceIds.length > 0
-        ? "For type conversation_turn, use only one of the exact allowed conversation support source identifiers listed above."
-        : "No prior conversation support source identifiers were supplied. Do not return any conversation_turn entry in supportSourceReferences.",
-      "The current user message is not a prior conversation support source and must not be represented as conversation_turn provenance.",
-    ];
-
     const priorInvestigationLifecycleContext =
       context.priorInvestigationLifecycle
         ? [
@@ -924,7 +900,6 @@ export async function ollamaChat(
             "Set supportSourceReferences to only the supplied conversation turns or parent project-context excerpts that explicitly support the conclusion, recommendation, or assessment expressed in reply.",
             "selectedContextSegments records semantic project-context admission; supportSourceReferences records support provenance.",
             "For conversation support, use type conversation_turn with the exact Conversation source identifier supplied in history.",
-            ...conversationSupportIdentityPresentation,
             "For project-context support, use type project_context_excerpt with the exact relativePath and lineNumber supplied in bounded project context evidence.",
             "For project_context_excerpt support, use only a Source identity explicitly shown under Bounded project context evidence.",
             "Never use a Segment source line range, sourceStartLine, sourceEndLine, or child segment line number as a project_context_excerpt support identity.",
