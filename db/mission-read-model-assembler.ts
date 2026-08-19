@@ -15,6 +15,7 @@ export interface MissionAssemblyInput {
   package_version: number;
   project_id: string | null;
   conversation_id: string | null;
+  requested_outcome: string;
 
   lifecycle_state: string | null;
 
@@ -84,6 +85,8 @@ export function assembleMissionReadModel(
       project_id: input.project_id,
       conversation_id: input.conversation_id,
     },
+
+    requested_outcome: input.requested_outcome,
 
     stage,
 
