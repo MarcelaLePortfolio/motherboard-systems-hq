@@ -1,0 +1,74 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+cd "$(git rev-parse --show-toplevel)"
+
+printf '%s\n' \
+  'MILESTONE=EXECUTIVE_MISSION_CONTROL' \
+  'PHASE=DELEGATION_WORKSPACE' \
+  'ACTIVE_CORRIDOR=REQUEST_CHANGES_PERSISTENCE' \
+  'CURRENT_CHECKPOINT=1ab18e0f' \
+  'MODE=COLLABORATION' \
+  'IMPLEMENTATION_AUTHORIZED=NO' \
+  'PURPOSE=CLASSIFY_REQUEST_CHANGES_IMPLEMENTATION_READINESS'
+
+printf '\n=== ESTABLISHED ARCHITECTURAL OWNERSHIP ===\n'
+printf '%s\n' \
+  'EXECUTIVE_CLIENT_INPUT=APPROVAL_REQUEST_ID_AND_FEEDBACK_ONLY' \
+  'APPROVAL_REQUEST_MUTATION_RUNTIME=PROHIBITED' \
+  'SERVER_IDENTITY_RESOLUTION=REQUIRED' \
+  'TARGET_CONVERSATION=ORIGINATING_ARTIFACT_CONVERSATION' \
+  'ACTIVE_CONVERSATION_SWITCH=PROHIBITED' \
+  'INTERPRETER=MATILDA_ONLY' \
+  'LIVING_DRAFT=SOLE_MUTABLE_INTERPRETATION_ARTIFACT' \
+  'REQUEST_CHANGES_DOWNSTREAM_AUTHORITY=NONE'
+
+printf '\n=== SHARED MATILDA WORKFLOW EXPORTS ===\n'
+grep -n -E '^export |function .*workflow|conversation_id|project_id|user_message' \
+  server/matilda-chat-workflow.ts | head -260
+
+printf '\n=== CHAT ROUTE CALL SITE ===\n'
+grep -Rni --exclude-dir=node_modules --exclude-dir=.git \
+  -E 'matilda-chat-workflow|runMatilda|conversation workflow|user_message' \
+  server/routes routes server/index.ts 2>/dev/null | head -320
+
+printf '\n=== EXPLICIT TARGET CONVERSATION SUPPORT ===\n'
+sed -n '520,735p' db/matilda-conversation-runtime.ts
+
+printf '\n=== LINEAGE VALIDATION EVIDENCE ===\n'
+sed -n '300,475p' db/matilda-conversation-lineage.test.ts
+
+printf '\n=== APPROVAL REQUEST LOOKUP CAPABILITY ===\n'
+grep -n -A45 -B10 \
+  'getPendingCanonicalPackageApprovalById' \
+  db/approval-request-repository.ts
+
+printf '\n=== REQUEST CHANGES ROUTE PRESENCE CHECK ===\n'
+if grep -Rni --exclude-dir=node_modules --exclude-dir=.git --exclude='*.bak' \
+  -E 'router\.(post|put|patch).*request.?changes|/api/request-changes' \
+  server routes 2>/dev/null; then
+  echo 'REQUEST_CHANGES_ROUTE=EXISTS'
+else
+  echo 'REQUEST_CHANGES_ROUTE=NOT_IMPLEMENTED'
+fi
+
+printf '\n=== READINESS CLASSIFICATION ===\n'
+printf '%s\n' \
+  'PERSIST_FEEDBACK_AS_SEPARATE_APPROVAL_REQUEST_RECORD=NO' \
+  'FEEDBACK_PERSISTENCE_OWNER=SHARED_CONVERSATION_WORKFLOW' \
+  'FEEDBACK_DURABLE_FORM=VISIBLE_USER_MESSAGE_IN_ORIGINATING_CONVERSATION' \
+  'DRAFT_UPDATE_OWNER=EXISTING_MATILDA_INTERPRETATION_PIPELINE' \
+  'APPROVAL_REQUEST_REFRESH=READ_MODEL_REFETCH' \
+  'NEW_APPROVAL_REQUEST_PERSISTENCE=NOT_REQUIRED' \
+  'NEW_SEMANTIC_AUTHORITY=NOT_REQUIRED' \
+  'NEW_ROUTE_REQUIRED=LIKELY_YES' \
+  'EXACT_SHARED_WORKFLOW_CALL_SEAM=MUST_BE_CONFIRMED_BEFORE_IMPLEMENTATION'
+
+printf '\n=== IMPLEMENTATION GATE ===\n'
+echo 'IMPLEMENTATION_READINESS=CONDITIONALLY_READY'
+echo 'BLOCKER=CONFIRM_EXACT_EXISTING_SHARED_MATILDA_WORKFLOW_ENTRY_POINT_AND_EXPLICIT_TARGET_CONVERSATION_CALL_CONTRACT'
+echo 'NEXT_ACTION=CLASSIFY_REQUEST_CHANGES_SHARED_WORKFLOW_CALL_SEAM'
+echo 'IMPLEMENTATION_STARTED=NO'
+
+printf '\n=== WORKTREE ===\n'
+git status --short
