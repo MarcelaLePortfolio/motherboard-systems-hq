@@ -1,6 +1,6 @@
 # Matilda UI 503 — Support Reference Presentation Conflict Authorization Gate
 
-Current checkpoint: b43ef0c0
+Current checkpoint: db2e1dd2
 Issue resolved: NO
 
 Verified current position:
@@ -31,6 +31,10 @@ Authorization state:
 - Timeout change: NOT AUTHORIZED
 - Retry change: NOT AUTHORIZED
 - Generation-policy change: NOT AUTHORIZED
+
+Continuity rule:
+- Do not continue re-anchoring this authorization gate solely because repository HEAD advances.
+- The next repository change should occur only after the user authorizes or declines the bounded prompt-presentation conflict removal.
 
 Required user decision:
 Authorize or decline removal of only the conflicting model-visible parent `Display identity = path:line` presentation.
