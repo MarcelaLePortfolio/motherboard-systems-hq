@@ -35,7 +35,7 @@ Authorization state:
 Continuity rule:
 - This authorization gate is anchored and stationary.
 - Do not update this checkpoint merely because repository HEAD advances.
-- The latest GitHub commit is 789f2f00, but that does not require another checkpoint rewrite.
+- Do not record moving repository HEAD values in this stationary checkpoint.
 - The next repository change should occur only after the user authorizes or declines the bounded prompt-presentation conflict removal.
 
 Required user decision:
