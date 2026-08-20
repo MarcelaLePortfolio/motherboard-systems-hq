@@ -23,7 +23,7 @@ PROJECT_CONTEXT_SEGMENT_COUNT=9
   "errorMessage": "Ollama returned a project-context support reference that was not supplied in this invocation.",
   "parsedSelectedContextCount": 9,
   "validatedSelectedContextCount": null,
-  "parsedSupportReferenceCount": 5,
+  "parsedSupportReferenceCount": 7,
   "parsedSupportReferences": [
     {
       "type": "conversation_turn",
@@ -48,6 +48,16 @@ PROJECT_CONTEXT_SEGMENT_COUNT=9
       "type": "project_context_excerpt",
       "relativePath": "docs/MATILDA_CHAT_PHASE2_MILESTONES.md:1",
       "lineNumber": 1
+    },
+    {
+      "type": "project_context_excerpt",
+      "relativePath": "docs/v11-dashboard-bundle-handoff-v3.md:6",
+      "lineNumber": 6
+    },
+    {
+      "type": "project_context_excerpt",
+      "relativePath": "docs/architecture-findings/AF-002-react-shell-and-legacy-dashboard-are-distinct-applications.md:9",
+      "lineNumber": 9
     }
   ],
   "fingerprint": null,

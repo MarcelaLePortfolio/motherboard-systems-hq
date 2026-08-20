@@ -14,18 +14,8 @@ from pathlib import Path
 
 path = Path("scripts/.run-dashboard-support-reference-single-diagnostic.ts")
 text = path.read_text()
-
-text = text.replace(
-    "const UNSEEDED_RUNS = 10;",
-    "const UNSEEDED_RUNS = 1;",
-    1,
-)
-text = text.replace(
-    "const CONTROLLED_RUNS = 10;",
-    "const CONTROLLED_RUNS = 0;",
-    1,
-)
-
+text = text.replace("const UNSEEDED_RUNS = 10;", "const UNSEEDED_RUNS = 1;", 1)
+text = text.replace("const CONTROLLED_RUNS = 10;", "const CONTROLLED_RUNS = 0;", 1)
 path.write_text(text)
 PY
 
@@ -50,21 +40,17 @@ set -e
 
 rm -f "$TMP"
 
-printf '\n=== DIAGNOSTIC RESULT CLASSIFICATION ===\n'
-echo "RUN_STATUS=$RUN_STATUS"
-grep -n -A30 -B5 \
-  '=== UNSEEDED RUN 1/1 ===\|parsedSupportReferences\|failureClass\|errorMessage' \
+printf '\n=== CAPTURED SUPPORT REFERENCES ===\n'
+grep -n -A40 -B8 \
+  '"parsedSupportReferences"\|"failureClass"\|"errorMessage"' \
   "$RESULT" || true
-
-printf '\n=== EXACT RETURNED PROJECT-CONTEXT REFERENCES ===\n'
-grep -n -A25 '"parsedSupportReferences"' "$RESULT" || true
 
 printf '\n=== SAFETY BOUNDARY ===\n'
 printf '%s\n' \
-  'DIAGNOSTIC_RUN_COMPLETE=YES' \
+  "RUN_STATUS=$RUN_STATUS" \
+  'AUTHORIZED_INVOCATIONS_USED=1_OF_1' \
   'ADDITIONAL_OLLAMA_INVOCATIONS_AUTHORIZED=NO' \
   'PRODUCTION_FIX_AUTHORIZED=NO' \
-  'NEXT_ACTION=CLASSIFY_EXACT_MODEL_AUTHORED_REFERENCE_MISMATCH_FROM_CAPTURED_VALUES'
+  'NEXT_ACTION=CLASSIFY_EXACT_MODEL_AUTHORED_REFERENCE_MISMATCH'
 
 git status --short
-exit "$RUN_STATUS"
