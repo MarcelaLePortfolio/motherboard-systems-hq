@@ -1,0 +1,39 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+cd "$(git rev-parse --show-toplevel)"
+
+printf '%s\n' \
+  'CHECKPOINT=MATILDA_UI_SMOKE_TEST_503' \
+  'CURRENT_CHECKPOINT=4daacb84' \
+  'ACTION=RUN_REPAIRED_SECOND_POST_FIX_VALIDATION' \
+  'EXISTING_AUTHORIZATION=CONSUME_ONE_SECOND_POST_FIX_VALIDATION_INVOCATION' \
+  'ADDITIONAL_PRODUCTION_CHANGE=NO' \
+  'VALIDATOR_CHANGE=NO' \
+  'TIMEOUT_CHANGE=NO' \
+  'MODEL_CHANGE=NO' \
+  'GENERATION_POLICY_CHANGE=NO'
+
+set +e
+./scripts/run-second-post-fix-validation.sh
+RUN_STATUS=$?
+set -e
+
+printf '\n=== RESULT FILE STATE ===\n'
+RESULT="docs/checkpoints/MATILDA_UI_503_SECOND_POST_FIX_VALIDATION_RESULT.txt"
+if [[ -f "$RESULT" ]]; then
+  tail -140 "$RESULT"
+else
+  echo 'RESULT_FILE_MISSING=YES'
+fi
+
+printf '\n=== SAFETY BOUNDARY ===\n'
+printf '%s\n' \
+  "RUN_STATUS=$RUN_STATUS" \
+  'SECOND_VALIDATION_ATTEMPT_EXECUTED=YES' \
+  'THIRD_INVOCATION_STARTED=NO' \
+  'THIRD_INVOCATION_AUTHORIZED=NO' \
+  'ISSUE_RESOLVED=NO' \
+  'NEXT_ACTION=CLASSIFY_SECOND_POST_FIX_VALIDATION_RESULT'
+
+git status --short
