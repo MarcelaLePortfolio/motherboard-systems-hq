@@ -55,6 +55,9 @@ interface RunRecord {
   parsedSelectedContextCount: number | null;
   validatedSelectedContextCount: number | null;
   parsedSupportReferenceCount: number | null;
+  parsedSupportReferences:
+    | readonly MatildaSupportSourceReference[]
+    | null;
   fingerprint: string | null;
   reply: string | null;
   durableInterpretation: string | null;
@@ -314,6 +317,8 @@ async function runOnce(
         validatedSelected?.length ?? null,
       parsedSupportReferenceCount:
         parsedSupport?.length ?? null,
+      parsedSupportReferences:
+        parsedSupport ? [...parsedSupport] : null,
       fingerprint: fingerprint(output),
       reply: result.reply,
       durableInterpretation:
@@ -336,6 +341,8 @@ async function runOnce(
         validatedSelected?.length ?? null,
       parsedSupportReferenceCount:
         parsedSupport?.length ?? null,
+      parsedSupportReferences:
+        parsedSupport ? [...parsedSupport] : null,
       fingerprint: null,
       reply: null,
       durableInterpretation: null,
