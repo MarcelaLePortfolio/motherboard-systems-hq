@@ -5,7 +5,7 @@ const OLLAMA_CHAT_MODEL =
   process.env.OLLAMA_CHAT_MODEL ?? "gemma3:4b";
 
 const OLLAMA_CHAT_TIMEOUT_MS = Number(
-  process.env.OLLAMA_CHAT_TIMEOUT_MS ?? 60_000,
+  process.env.OLLAMA_CHAT_TIMEOUT_MS ?? 90_000,
 );
 
 interface OllamaGenerateResponse {
