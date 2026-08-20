@@ -1,6 +1,6 @@
 # Matilda UI 503 — Ollama Timeout Change Authorization Gate
 
-Current checkpoint: 1e4b7e7b
+Current checkpoint: 6eef81db
 Issue resolved: NO
 
 Verified evidence:
@@ -22,7 +22,7 @@ Bounded proposed intervention:
 - Establish a rollback boundary to checkpoint 1e4b7e7b.
 
 Authorization state:
-- Timeout implementation: NOT AUTHORIZED
+- Timeout implementation: AWAITING EXPLICIT USER AUTHORIZATION
 - Post-change Ollama validation invocation: NOT AUTHORIZED
 - Model change: NOT AUTHORIZED
 - Prompt change: NOT AUTHORIZED
@@ -31,4 +31,4 @@ Authorization state:
 - Generation-policy change: NOT AUTHORIZED
 
 Required user decision:
-Explicit authorization is required before changing the Ollama client timeout.
+Authorize or decline the bounded timeout-only implementation.
