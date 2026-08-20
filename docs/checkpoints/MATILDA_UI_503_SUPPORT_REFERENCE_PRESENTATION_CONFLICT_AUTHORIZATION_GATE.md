@@ -1,6 +1,6 @@
 # Matilda UI 503 — Support Reference Presentation Conflict Authorization Gate
 
-Current checkpoint: abf62c5e
+Current checkpoint: bee919a7
 Issue resolved: NO
 
 Verified current position:
