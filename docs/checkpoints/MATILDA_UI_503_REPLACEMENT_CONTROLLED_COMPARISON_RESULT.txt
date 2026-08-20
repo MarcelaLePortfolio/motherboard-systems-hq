@@ -158,3 +158,49 @@ PROJECT_CONTEXT_SEGMENT_COUNT=9
 }
 
 === CONTROLLED RUN 10/10 ===
+{
+  "arm": "CONTROLLED",
+  "run": 10,
+  "seed": 424242,
+  "accepted": false,
+  "failureClass": "UNSUPPLIED_PROJECT_CONTEXT_SUPPORT_REFERENCE",
+  "errorMessage": "Ollama returned a project-context support reference that was not supplied in this invocation.",
+  "parsedSelectedContextCount": 9,
+  "validatedSelectedContextCount": null,
+  "parsedSupportReferenceCount": 5,
+  "fingerprint": null,
+  "reply": null,
+  "durableInterpretation": null
+}
+
+=== COMPARISON SUMMARY ===
+{
+  "unseeded": {
+    "arm": "UNSEEDED",
+    "total": 0,
+    "accepted": 0,
+    "rejected": 0,
+    "uniqueAcceptedFingerprints": 0,
+    "failureClasses": {}
+  },
+  "controlled": {
+    "arm": "CONTROLLED",
+    "total": 10,
+    "accepted": 0,
+    "rejected": 10,
+    "uniqueAcceptedFingerprints": 0,
+    "failureClasses": {
+      "UNSUPPLIED_PROJECT_CONTEXT_SUPPORT_REFERENCE": 10
+    }
+  }
+}
+
+=== ACCEPTANCE BOUNDARY ===
+PRIMARY_CONTROL_CRITERION_CONTROLLED_10_OF_10=FAIL
+COMPARATIVE_CRITERION_FEWER_CONTROLLED_FAILURES=FAIL
+SEMANTIC_CRITERION=REQUIRES_REVIEW_OF_ACCEPTED_OUTPUTS
+PRODUCTION_PROMOTION_AUTHORIZED=NO
+VALIDATOR_WEAKENING_AUTHORIZED=NO
+PRODUCTION_GENERATION_POLICY_CHANGE_AUTHORIZED=NO
+ISSUE_RESOLVED=NO
+NEXT_ACTION=CLASSIFY_COMPARISON_RESULT_AND_SEMANTIC_PRESERVATION_BEFORE_ANY_PRODUCTION_CHANGE

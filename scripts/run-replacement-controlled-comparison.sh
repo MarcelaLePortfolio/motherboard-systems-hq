@@ -4,12 +4,12 @@ set -euo pipefail
 cd "$(git rev-parse --show-toplevel)"
 
 SOURCE="scripts/run-dashboard-generation-control-comparison.ts"
-TMP="/tmp/run-dashboard-generation-control-comparison-controlled-only.ts"
+TMP="scripts/.run-dashboard-generation-control-comparison-controlled-only.ts"
 RESULT="docs/checkpoints/MATILDA_UI_503_REPLACEMENT_CONTROLLED_COMPARISON_RESULT.txt"
 
 printf '%s\n' \
   'CHECKPOINT=MATILDA_UI_SMOKE_TEST_503' \
-  'CURRENT_CHECKPOINT=dbb2eb80' \
+  'CURRENT_CHECKPOINT=faee66f1' \
   'AUTHORIZATION=EXPLICIT_USER_AUTHORIZATION_RECEIVED' \
   'MODE=VALIDATION_ONLY_REPLACEMENT_CONTROLLED_COMPARISON' \
   'ISSUE_RESOLVED=NO' \
@@ -21,55 +21,28 @@ printf '%s\n' \
   'VALIDATOR_CHANGE=NONE' \
   'GENERATION_POLICY_CHANGE=NONE'
 
-if [[ ! -f "$SOURCE" ]]; then
-  echo "SOURCE_RUNNER_MISSING=$SOURCE"
-  exit 1
-fi
-
-grep -q 'validationGenerationSeed' "$SOURCE" || {
-  echo 'VALIDATION_SEED_SEAM_NOT_FOUND'
-  exit 1
-}
-
-grep -q 'const UNSEEDED_RUNS = 10;' "$SOURCE" || {
-  echo 'EXPECTED_UNSEEDED_RUN_COUNT_DECLARATION_NOT_FOUND'
-  exit 1
-}
-
-grep -q 'const CONTROLLED_RUNS = 10;' "$SOURCE" || {
-  echo 'EXPECTED_CONTROLLED_RUN_COUNT_DECLARATION_NOT_FOUND'
-  exit 1
-}
-
-grep -q 'const CONTROLLED_SEED = 424242;' "$SOURCE" || {
-  echo 'EXPECTED_CONTROLLED_SEED_NOT_FOUND'
-  exit 1
-}
-
 python3 - << 'PY'
 from pathlib import Path
 
-source = Path("scripts/run-dashboard-generation-control-comparison.ts").read_text()
+source_path = Path("scripts/run-dashboard-generation-control-comparison.ts")
+temp_path = Path("scripts/.run-dashboard-generation-control-comparison-controlled-only.ts")
 
+source = source_path.read_text()
 old = "const UNSEEDED_RUNS = 10;"
 new = "const UNSEEDED_RUNS = 0;"
 
 if old not in source:
-    raise SystemExit("UNSEEDED_RUN_DECLARATION_NOT_FOUND")
+    raise SystemExit("EXPECTED_UNSEEDED_RUN_COUNT_DECLARATION_NOT_FOUND")
 
-controlled = source.replace(old, new, 1)
-
-Path("/tmp/run-dashboard-generation-control-comparison-controlled-only.ts").write_text(
-    controlled
-)
+temp_path.write_text(source.replace(old, new, 1))
 PY
+
+trap 'rm -f "$TMP"' EXIT
 
 printf '\n=== VERIFY CONTROLLED-ONLY TEMP RUNNER ===\n'
 grep -nE \
   'UNSEEDED_RUNS|CONTROLLED_RUNS|CONTROLLED_SEED|validationGenerationSeed' \
   "$TMP"
-
-mkdir -p docs/checkpoints
 
 printf '\n=== RUN REPLACEMENT CONTROLLED COMPARISON ===\n'
 set +e
@@ -81,14 +54,12 @@ echo "RUN_STATUS=$RUN_STATUS"
 
 printf '\n=== RESULT MARKERS ===\n'
 grep -nE \
-  'CONTROLLED RUN|COMPARISON SUMMARY|ACCEPTANCE BOUNDARY|PRIMARY_CONTROL_CRITERION|COMPARATIVE_CRITERION|failureClass|accepted|ISSUE_RESOLVED' \
+  'CONTROLLED RUN|COMPARISON SUMMARY|ACCEPTANCE BOUNDARY|PRIMARY_CONTROL_CRITERION|COMPARATIVE_CRITERION|failureClass|accepted' \
   "$RESULT" || true
 
-printf '\n=== COMPLETION GATE ===\n'
-CONTROLLED_COUNT="$(
-  grep -c '^=== CONTROLLED RUN [0-9][0-9]*/10 ===$' "$RESULT" || true
-)"
+CONTROLLED_COUNT="$(grep -c '^=== CONTROLLED RUN [0-9][0-9]*/10 ===$' "$RESULT" || true)"
 
+printf '\n=== COMPLETION GATE ===\n'
 echo "CONTROLLED_RESULT_BLOCK_COUNT=$CONTROLLED_COUNT"
 
 if [[ "$RUN_STATUS" -eq 0 ]] \
@@ -104,7 +75,7 @@ else
   printf '%s\n' \
     'REPLACEMENT_CONTROLLED_COMPARISON_COMPLETE=NO' \
     "CONTROLLED_RUNS_CAPTURED=${CONTROLLED_COUNT}_OF_10" \
-    'NEXT_ACTION=CLASSIFY_EXACT_INCOMPLETE_OR_FAILED_RUN_WITHOUT_STARTING_ANOTHER_EXPERIMENT'
+    'NEXT_ACTION=CLASSIFY_THIS_FAILED_ATTEMPT_BEFORE_ANY_FURTHER_RETRY'
   exit 1
 fi
 
@@ -119,5 +90,4 @@ printf '%s\n' \
   'PERSISTENCE_CHANGE_AUTHORIZED=NO' \
   'ISSUE_RESOLVED=NO'
 
-printf '\n=== WORKTREE ===\n'
 git status --short
