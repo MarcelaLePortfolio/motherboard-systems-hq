@@ -1,6 +1,6 @@
 # Matilda UI 503 — Post-Timeout-Change Validation Gate
 
-Current checkpoint: f7b69945
+Current checkpoint: aedbf76b
 Issue resolved: NO
 
 Verified implementation:
@@ -23,7 +23,7 @@ Validation purpose:
 
 Authorization state:
 - Timeout implementation: COMPLETE
-- Single post-change Ollama validation invocation: AWAITING EXPLICIT USER AUTHORIZATION
+- Single post-change Ollama validation invocation: AUTHORIZED
 - Dashboard-visible smoke test: NOT AUTHORIZED
 - Additional retry: NOT AUTHORIZED
 - Prompt change: NOT AUTHORIZED
@@ -37,6 +37,3 @@ Success boundary:
 
 Issue resolution boundary remains stricter:
 - ISSUE RESOLVED may be declared only after both exact live API success and visible dashboard success.
-
-Required user decision:
-Authorize or decline one bounded post-timeout-change Ollama validation invocation.
