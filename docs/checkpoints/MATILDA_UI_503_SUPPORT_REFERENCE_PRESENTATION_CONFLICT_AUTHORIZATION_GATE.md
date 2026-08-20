@@ -33,8 +33,9 @@ Authorization state:
 - Generation-policy change: NOT AUTHORIZED
 
 Continuity rule:
-- This authorization gate is now anchored and stationary.
-- Do not update this checkpoint again merely because repository HEAD advances.
+- This authorization gate is anchored and stationary.
+- Do not update this checkpoint merely because repository HEAD advances.
+- The latest GitHub commit is ccab621c, but that does not require another checkpoint rewrite.
 - The next repository change should occur only after the user authorizes or declines the bounded prompt-presentation conflict removal.
 
 Required user decision:
