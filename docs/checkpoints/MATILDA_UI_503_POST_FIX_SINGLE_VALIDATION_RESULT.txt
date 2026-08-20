@@ -1,0 +1,63 @@
+CHECKPOINT=MATILDA_UI_SMOKE_TEST_503
+AUTHORIZATION=EXPLICIT_USER_AUTHORIZATION_RECEIVED
+EXPERIMENT_CLASS=VALIDATION_ONLY
+PRODUCTION_FILE_MUTATION=NONE
+DATABASE_WRITE=NONE
+CAUSAL_VARIABLE=validationGenerationSeed_ONLY
+CONTROLLED_SEED=424242
+
+=== SNAPSHOT ===
+PROJECT_ID=hq
+CONVERSATION_ID=matilda-conversation-hq-1787159584712-q6x7o3
+HISTORY_COUNT=1
+PROJECT_CONTEXT_EXCERPT_COUNT=6
+PROJECT_CONTEXT_SEGMENT_COUNT=9
+
+=== UNSEEDED RUN 1/1 ===
+{
+  "arm": "UNSEEDED",
+  "run": 1,
+  "seed": null,
+  "accepted": false,
+  "failureClass": "OLLAMA_TIMEOUT",
+  "errorMessage": "Ollama chat request timed out.",
+  "parsedSelectedContextCount": null,
+  "validatedSelectedContextCount": null,
+  "parsedSupportReferenceCount": null,
+  "parsedSupportReferences": null,
+  "fingerprint": null,
+  "reply": null,
+  "durableInterpretation": null
+}
+
+=== COMPARISON SUMMARY ===
+{
+  "unseeded": {
+    "arm": "UNSEEDED",
+    "total": 1,
+    "accepted": 0,
+    "rejected": 1,
+    "uniqueAcceptedFingerprints": 0,
+    "failureClasses": {
+      "OLLAMA_TIMEOUT": 1
+    }
+  },
+  "controlled": {
+    "arm": "CONTROLLED",
+    "total": 0,
+    "accepted": 0,
+    "rejected": 0,
+    "uniqueAcceptedFingerprints": 0,
+    "failureClasses": {}
+  }
+}
+
+=== ACCEPTANCE BOUNDARY ===
+PRIMARY_CONTROL_CRITERION_CONTROLLED_10_OF_10=PASS
+COMPARATIVE_CRITERION_FEWER_CONTROLLED_FAILURES=PASS
+SEMANTIC_CRITERION=REQUIRES_REVIEW_OF_ACCEPTED_OUTPUTS
+PRODUCTION_PROMOTION_AUTHORIZED=NO
+VALIDATOR_WEAKENING_AUTHORIZED=NO
+PRODUCTION_GENERATION_POLICY_CHANGE_AUTHORIZED=NO
+ISSUE_RESOLVED=NO
+NEXT_ACTION=CLASSIFY_COMPARISON_RESULT_AND_SEMANTIC_PRESERVATION_BEFORE_ANY_PRODUCTION_CHANGE
