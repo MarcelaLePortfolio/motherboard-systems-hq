@@ -1,6 +1,6 @@
 # Matilda UI 503 — Support Reference Observability Authorization Gate
 
-Current checkpoint: e633ec03
+Current checkpoint: 13c1ac93
 Issue resolved: NO
 
 Verified evidence:
