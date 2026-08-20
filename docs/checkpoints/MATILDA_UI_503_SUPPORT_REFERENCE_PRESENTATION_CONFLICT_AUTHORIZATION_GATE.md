@@ -1,35 +1,36 @@
 # Matilda UI 503 — Support Reference Presentation Conflict Authorization Gate
 
-Current checkpoint: 4381c0e8
+Current checkpoint: ab1299ed
 Issue resolved: NO
 
-Current position:
-- The original dashboard 503 investigation has isolated two separate problems.
-- The 60-second Ollama timeout was proven to be a real runtime reliability constraint and was increased to 90 seconds.
-- Post-timeout validation successfully completed generation, proving the timeout intervention worked.
-- That completed response exposed the remaining blocker: all six project-context support references still serialized `relativePath` as `path:lineNumber`.
-- The fail-closed validator correctly rejected those references.
-- The first prompt-presentation correction was therefore disproven as sufficient.
-- Subsequent non-Ollama inspection established that the prompt still exposes competing identity representations: separate `relativePath` / `lineNumber` fields plus combined `Display identity = path:line`.
-- The minimum supported next change is removal of only that conflicting combined parent display identity.
+Verified current position:
+- The QA Recovery Agent post-MVP item is PARKED and should not be re-anchored merely because repository HEAD advances.
+- Active engineering work has returned to the Matilda UI 503 investigation.
+- The 90-second timeout intervention is IMPLEMENTED AND VALIDATED.
+- The remaining blocker is the support-reference serialization conflict.
+- Conflicting model-visible `Display identity = path:line` presentation is ESTABLISHED.
+- Structured project-context support still requires separate `relativePath` and `lineNumber`.
+- Parser and fail-closed validator remain aligned with that separate-field contract.
+- Validator malfunction is NOT ESTABLISHED.
+
+Bounded implementation scope if authorized:
+- Remove only the combined parent `Display identity = path:line` presentation from model-visible prompt content.
+- Preserve separate `relativePath = ...` and `lineNumber = ...` presentation.
+- Preserve output schema.
+- Preserve fail-closed provenance validation.
+- Preserve selected-context child identity semantics.
+- Preserve model, timeout, retries, persistence, and generation policy.
 
 Authorization state:
-- Timeout intervention: IMPLEMENTED AND VALIDATED
-- Support-reference serialization defect: STILL ACTIVE
 - Prompt-presentation conflict removal: AWAITING EXPLICIT USER AUTHORIZATION
 - Post-change Ollama validation: NOT AUTHORIZED
 - Dashboard-visible smoke test: NOT AUTHORIZED
 - Validator change or weakening: NOT AUTHORIZED
+- Output schema change: NOT AUTHORIZED
 - Model change: NOT AUTHORIZED
-- Additional timeout change: NOT AUTHORIZED
-- Retry or generation-policy change: NOT AUTHORIZED
-
-Progress assessment:
-- The investigation has taken a while because the timeout temporarily prevented us from observing the original serialization failure.
-- That detour is now resolved and causally classified.
-- We are no longer broadly diagnosing the 503.
-- We are at a narrow implementation gate for the remaining known serialization defect.
-- If the bounded prompt change succeeds in validation, the next step is the visible dashboard smoke test required for final issue closure.
+- Timeout change: NOT AUTHORIZED
+- Retry change: NOT AUTHORIZED
+- Generation-policy change: NOT AUTHORIZED
 
 Required user decision:
 Authorize or decline removal of only the conflicting model-visible parent `Display identity = path:line` presentation.
