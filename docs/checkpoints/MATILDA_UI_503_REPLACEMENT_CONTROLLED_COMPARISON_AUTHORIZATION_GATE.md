@@ -1,6 +1,6 @@
 # Matilda UI 503 — Replacement Controlled Comparison Authorization Gate
 
-Current checkpoint: 84f34682
+Current checkpoint: ac5d384a
 Issue resolved: NO
 
 Verified evidence:
