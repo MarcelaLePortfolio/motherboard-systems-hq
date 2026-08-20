@@ -1,0 +1,24 @@
+node:internal/modules/cjs/loader:1369
+  const err = new Error(message);
+              ^
+
+Error: Cannot find module '../db/matilda-interpretation-runtime'
+Require stack:
+- /private/tmp/run-dashboard-generation-control-comparison-controlled-only.ts
+    at node:internal/modules/cjs/loader:1369:15
+    at nextResolveSimple (/Users/marcela-dev/Projects/motherboard-systems-hq-clean/node_modules/.pnpm/tsx@4.23.1/node_modules/tsx/dist/register-BoI6-WNn.cjs:10:1017)
+    at /Users/marcela-dev/Projects/motherboard-systems-hq-clean/node_modules/.pnpm/tsx@4.23.1/node_modules/tsx/dist/register-BoI6-WNn.cjs:9:4613
+    at /Users/marcela-dev/Projects/motherboard-systems-hq-clean/node_modules/.pnpm/tsx@4.23.1/node_modules/tsx/dist/register-BoI6-WNn.cjs:9:3894
+    at resolveTsPaths (/Users/marcela-dev/Projects/motherboard-systems-hq-clean/node_modules/.pnpm/tsx@4.23.1/node_modules/tsx/dist/register-BoI6-WNn.cjs:10:770)
+    at /Users/marcela-dev/Projects/motherboard-systems-hq-clean/node_modules/.pnpm/tsx@4.23.1/node_modules/tsx/dist/register-BoI6-WNn.cjs:10:1171
+    at T._resolveFilename (file:///Users/marcela-dev/Projects/motherboard-systems-hq-clean/node_modules/.pnpm/tsx@4.23.1/node_modules/tsx/dist/register-zZ7SWseA.mjs:2:15301)
+    at defaultResolveImpl (node:internal/modules/cjs/loader:1025:19)
+    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1030:22)
+    at Module._load (node:internal/modules/cjs/loader:1179:37) {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [
+    '/private/tmp/run-dashboard-generation-control-comparison-controlled-only.ts'
+  ]
+}
+
+Node.js v24.4.0
