@@ -1,6 +1,6 @@
 # Matilda UI 503 — Post-Timeout-Change Validation Gate
 
-Current checkpoint: 75feacb2
+Current checkpoint: b5b6ff5d
 Issue resolved: NO
 
 Verified implementation:
