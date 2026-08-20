@@ -1,24 +1,160 @@
-node:internal/modules/cjs/loader:1369
-  const err = new Error(message);
-              ^
+CHECKPOINT=MATILDA_UI_SMOKE_TEST_503
+AUTHORIZATION=EXPLICIT_USER_AUTHORIZATION_RECEIVED
+EXPERIMENT_CLASS=VALIDATION_ONLY
+PRODUCTION_FILE_MUTATION=NONE
+DATABASE_WRITE=NONE
+CAUSAL_VARIABLE=validationGenerationSeed_ONLY
+CONTROLLED_SEED=424242
 
-Error: Cannot find module '../db/matilda-interpretation-runtime'
-Require stack:
-- /private/tmp/run-dashboard-generation-control-comparison-controlled-only.ts
-    at node:internal/modules/cjs/loader:1369:15
-    at nextResolveSimple (/Users/marcela-dev/Projects/motherboard-systems-hq-clean/node_modules/.pnpm/tsx@4.23.1/node_modules/tsx/dist/register-BoI6-WNn.cjs:10:1017)
-    at /Users/marcela-dev/Projects/motherboard-systems-hq-clean/node_modules/.pnpm/tsx@4.23.1/node_modules/tsx/dist/register-BoI6-WNn.cjs:9:4613
-    at /Users/marcela-dev/Projects/motherboard-systems-hq-clean/node_modules/.pnpm/tsx@4.23.1/node_modules/tsx/dist/register-BoI6-WNn.cjs:9:3894
-    at resolveTsPaths (/Users/marcela-dev/Projects/motherboard-systems-hq-clean/node_modules/.pnpm/tsx@4.23.1/node_modules/tsx/dist/register-BoI6-WNn.cjs:10:770)
-    at /Users/marcela-dev/Projects/motherboard-systems-hq-clean/node_modules/.pnpm/tsx@4.23.1/node_modules/tsx/dist/register-BoI6-WNn.cjs:10:1171
-    at T._resolveFilename (file:///Users/marcela-dev/Projects/motherboard-systems-hq-clean/node_modules/.pnpm/tsx@4.23.1/node_modules/tsx/dist/register-zZ7SWseA.mjs:2:15301)
-    at defaultResolveImpl (node:internal/modules/cjs/loader:1025:19)
-    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1030:22)
-    at Module._load (node:internal/modules/cjs/loader:1179:37) {
-  code: 'MODULE_NOT_FOUND',
-  requireStack: [
-    '/private/tmp/run-dashboard-generation-control-comparison-controlled-only.ts'
-  ]
+=== SNAPSHOT ===
+PROJECT_ID=hq
+CONVERSATION_ID=matilda-conversation-hq-1787159584712-q6x7o3
+HISTORY_COUNT=1
+PROJECT_CONTEXT_EXCERPT_COUNT=6
+PROJECT_CONTEXT_SEGMENT_COUNT=9
+
+=== CONTROLLED RUN 1/10 ===
+{
+  "arm": "CONTROLLED",
+  "run": 1,
+  "seed": 424242,
+  "accepted": false,
+  "failureClass": "UNSUPPLIED_PROJECT_CONTEXT_SUPPORT_REFERENCE",
+  "errorMessage": "Ollama returned a project-context support reference that was not supplied in this invocation.",
+  "parsedSelectedContextCount": 9,
+  "validatedSelectedContextCount": null,
+  "parsedSupportReferenceCount": 5,
+  "fingerprint": null,
+  "reply": null,
+  "durableInterpretation": null
 }
 
-Node.js v24.4.0
+=== CONTROLLED RUN 2/10 ===
+{
+  "arm": "CONTROLLED",
+  "run": 2,
+  "seed": 424242,
+  "accepted": false,
+  "failureClass": "UNSUPPLIED_PROJECT_CONTEXT_SUPPORT_REFERENCE",
+  "errorMessage": "Ollama returned a project-context support reference that was not supplied in this invocation.",
+  "parsedSelectedContextCount": 9,
+  "validatedSelectedContextCount": null,
+  "parsedSupportReferenceCount": 5,
+  "fingerprint": null,
+  "reply": null,
+  "durableInterpretation": null
+}
+
+=== CONTROLLED RUN 3/10 ===
+{
+  "arm": "CONTROLLED",
+  "run": 3,
+  "seed": 424242,
+  "accepted": false,
+  "failureClass": "UNSUPPLIED_PROJECT_CONTEXT_SUPPORT_REFERENCE",
+  "errorMessage": "Ollama returned a project-context support reference that was not supplied in this invocation.",
+  "parsedSelectedContextCount": 9,
+  "validatedSelectedContextCount": null,
+  "parsedSupportReferenceCount": 5,
+  "fingerprint": null,
+  "reply": null,
+  "durableInterpretation": null
+}
+
+=== CONTROLLED RUN 4/10 ===
+{
+  "arm": "CONTROLLED",
+  "run": 4,
+  "seed": 424242,
+  "accepted": false,
+  "failureClass": "UNSUPPLIED_PROJECT_CONTEXT_SUPPORT_REFERENCE",
+  "errorMessage": "Ollama returned a project-context support reference that was not supplied in this invocation.",
+  "parsedSelectedContextCount": 9,
+  "validatedSelectedContextCount": null,
+  "parsedSupportReferenceCount": 5,
+  "fingerprint": null,
+  "reply": null,
+  "durableInterpretation": null
+}
+
+=== CONTROLLED RUN 5/10 ===
+{
+  "arm": "CONTROLLED",
+  "run": 5,
+  "seed": 424242,
+  "accepted": false,
+  "failureClass": "UNSUPPLIED_PROJECT_CONTEXT_SUPPORT_REFERENCE",
+  "errorMessage": "Ollama returned a project-context support reference that was not supplied in this invocation.",
+  "parsedSelectedContextCount": 9,
+  "validatedSelectedContextCount": null,
+  "parsedSupportReferenceCount": 5,
+  "fingerprint": null,
+  "reply": null,
+  "durableInterpretation": null
+}
+
+=== CONTROLLED RUN 6/10 ===
+{
+  "arm": "CONTROLLED",
+  "run": 6,
+  "seed": 424242,
+  "accepted": false,
+  "failureClass": "UNSUPPLIED_PROJECT_CONTEXT_SUPPORT_REFERENCE",
+  "errorMessage": "Ollama returned a project-context support reference that was not supplied in this invocation.",
+  "parsedSelectedContextCount": 9,
+  "validatedSelectedContextCount": null,
+  "parsedSupportReferenceCount": 5,
+  "fingerprint": null,
+  "reply": null,
+  "durableInterpretation": null
+}
+
+=== CONTROLLED RUN 7/10 ===
+{
+  "arm": "CONTROLLED",
+  "run": 7,
+  "seed": 424242,
+  "accepted": false,
+  "failureClass": "UNSUPPLIED_PROJECT_CONTEXT_SUPPORT_REFERENCE",
+  "errorMessage": "Ollama returned a project-context support reference that was not supplied in this invocation.",
+  "parsedSelectedContextCount": 9,
+  "validatedSelectedContextCount": null,
+  "parsedSupportReferenceCount": 5,
+  "fingerprint": null,
+  "reply": null,
+  "durableInterpretation": null
+}
+
+=== CONTROLLED RUN 8/10 ===
+{
+  "arm": "CONTROLLED",
+  "run": 8,
+  "seed": 424242,
+  "accepted": false,
+  "failureClass": "UNSUPPLIED_PROJECT_CONTEXT_SUPPORT_REFERENCE",
+  "errorMessage": "Ollama returned a project-context support reference that was not supplied in this invocation.",
+  "parsedSelectedContextCount": 9,
+  "validatedSelectedContextCount": null,
+  "parsedSupportReferenceCount": 5,
+  "fingerprint": null,
+  "reply": null,
+  "durableInterpretation": null
+}
+
+=== CONTROLLED RUN 9/10 ===
+{
+  "arm": "CONTROLLED",
+  "run": 9,
+  "seed": 424242,
+  "accepted": false,
+  "failureClass": "UNSUPPLIED_PROJECT_CONTEXT_SUPPORT_REFERENCE",
+  "errorMessage": "Ollama returned a project-context support reference that was not supplied in this invocation.",
+  "parsedSelectedContextCount": 9,
+  "validatedSelectedContextCount": null,
+  "parsedSupportReferenceCount": 5,
+  "fingerprint": null,
+  "reply": null,
+  "durableInterpretation": null
+}
+
+=== CONTROLLED RUN 10/10 ===
