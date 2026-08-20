@@ -1,6 +1,6 @@
 # Post-MVP QA Recovery Agent Registration — Current
 
-Current checkpoint: caf90f62
+Current checkpoint: 8be3e845
 
 Verified state:
 - QA Recovery Agent architecture is documented.
