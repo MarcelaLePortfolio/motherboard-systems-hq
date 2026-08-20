@@ -1,6 +1,6 @@
 # Matilda UI 503 — Support Reference Presentation Conflict Authorization Gate
 
-Current checkpoint: d7292fe7
+Current checkpoint: d60126ad
 Issue resolved: NO
 
 Verified current position:
@@ -33,7 +33,8 @@ Authorization state:
 - Generation-policy change: NOT AUTHORIZED
 
 Continuity rule:
-- Do not continue re-anchoring this authorization gate solely because repository HEAD advances.
+- This authorization gate is now anchored and stationary.
+- Do not update this checkpoint again merely because repository HEAD advances.
 - The next repository change should occur only after the user authorizes or declines the bounded prompt-presentation conflict removal.
 
 Required user decision:
