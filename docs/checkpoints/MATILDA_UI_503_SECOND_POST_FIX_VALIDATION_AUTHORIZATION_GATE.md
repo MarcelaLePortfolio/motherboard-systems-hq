@@ -1,6 +1,6 @@
 # Matilda UI 503 — Second Post-Fix Validation Authorization Gate
 
-Current checkpoint: 2521986d
+Current checkpoint: b34683af
 Issue resolved: NO
 
 Verified state:
