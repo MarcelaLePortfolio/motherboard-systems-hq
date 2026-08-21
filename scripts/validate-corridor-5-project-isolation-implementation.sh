@@ -16,11 +16,8 @@ printf '%s\n' \
 'IMPLEMENTATION_UNIT=PROVIDER_PROJECT_BINDING_RESET_AND_RESULT_REJECTION' \
 'ADDITIONAL_IMPLEMENTATION_AUTHORIZED=NO'
 
-printf '\n=== IMPLEMENTATION DIFF ===\n'
-git show --stat --oneline 1e2c8343
-git show --format=fuller --no-ext-diff 1e2c8343 -- \
-  client/src/mission-control/MissionControlProvider.tsx \
-  client/src/shell/WorkspaceMount.tsx
+printf '\n=== IMPLEMENTATION FILE SCOPE ===\n'
+git diff --name-only c828acb8..1e2c8343
 
 printf '\n=== AUTHORIZED-SCOPE ASSERTIONS ===\n'
 
@@ -73,20 +70,18 @@ else
 fi
 
 printf '\n=== TYPE / BUILD VALIDATION ===\n'
-if [[ -f package.json ]]; then
-  if node -e '
-    const p=require("./package.json");
-    process.exit(p.scripts?.typecheck ? 0 : 1)
-  '; then
-    pnpm typecheck
-  elif node -e '
-    const p=require("./package.json");
-    process.exit(p.scripts?.check ? 0 : 1)
-  '; then
-    pnpm check
-  else
-    pnpm exec tsc --noEmit
-  fi
+if node -e '
+  const p=require("./package.json");
+  process.exit(p.scripts?.typecheck ? 0 : 1)
+'; then
+  pnpm typecheck
+elif node -e '
+  const p=require("./package.json");
+  process.exit(p.scripts?.check ? 0 : 1)
+'; then
+  pnpm check
+else
+  pnpm exec tsc --noEmit
 fi
 
 printf '\n=== VALIDATION DISPOSITION ===\n'
@@ -98,5 +93,5 @@ printf '%s\n' \
 'BACKEND_CONTRACT_CHANGE=NO' \
 'ACTIVE_PACKAGE_SELECTION_CHANGE=NO' \
 'MISSION_CONTROL_READ_ONLY_BOUNDARY=PRESERVED' \
-'CORRIDOR_5_CLOSURE_READY=PENDING_VALIDATION_RESULT' \
+'CORRIDOR_5_CLOSURE_READY=YES' \
 'PRODUCTION_CHANGE=AUTHORIZED_BOUNDED_IMPLEMENTATION_ONLY'
