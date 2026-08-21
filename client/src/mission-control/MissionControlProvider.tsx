@@ -28,7 +28,10 @@ export interface MissionControlContextValue {
   status: MissionControlStatus;
   mission: MissionPresentationModel | null;
   error: string | null;
-  loadMission(packageId: string): Promise<void>;
+  loadMission(
+    packageId: string,
+    expectedProjectId?: string | null,
+  ): Promise<void>;
   refresh(): Promise<void>;
 }
 
@@ -48,7 +51,10 @@ export function MissionControlProvider({
 
   const requestSequenceRef = useRef(0);
 
-  const loadMission = useCallback(async (packageId: string) => {
+  const loadMission = useCallback(async (
+    packageId: string,
+    expectedProjectId?: string | null,
+  ) => {
     const normalizedPackageId = packageId.trim();
     const requestSequence = requestSequenceRef.current + 1;
 
@@ -58,7 +64,10 @@ export function MissionControlProvider({
     setError(null);
 
     try {
-      const readModel = await getMissionReadModel(normalizedPackageId);
+      const readModel = await getMissionReadModel(
+        normalizedPackageId,
+        expectedProjectId,
+      );
 
       if (requestSequence !== requestSequenceRef.current) {
         return;

@@ -77,11 +77,26 @@ export class MissionReadRequestError extends Error {
   }
 }
 
+export class MissionReadProjectMismatchError extends Error {
+  constructor(
+    readonly packageId: string,
+    readonly expectedProjectId: string,
+    readonly actualProjectId: string | null,
+  ) {
+    super(
+      `Mission package "${packageId}" does not belong to the active project.`,
+    );
+    this.name = "MissionReadProjectMismatchError";
+  }
+}
+
 export async function getMissionReadModel(
   packageId: string,
+  expectedProjectId?: string | null,
   signal?: AbortSignal,
 ): Promise<MissionReadModel> {
   const id = packageId.trim();
+  const expectedProject = expectedProjectId?.trim() || null;
 
   if (!id) {
     throw new MissionReadRequestError(
@@ -117,6 +132,17 @@ export async function getMissionReadModel(
     throw new MissionReadRequestError(
       payload.ok ? "Mission Read request failed." : payload.error,
       response.status,
+    );
+  }
+
+  if (
+    expectedProject &&
+    payload.mission.identity.project_id !== expectedProject
+  ) {
+    throw new MissionReadProjectMismatchError(
+      id,
+      expectedProject,
+      payload.mission.identity.project_id,
     );
   }
 
