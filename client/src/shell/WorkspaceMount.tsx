@@ -35,7 +35,7 @@ export default function WorkspaceMount({
       aria-label="Workspace content area"
     >
       {activeWorkspace === "dashboard" ? (
-        <MissionControlProvider>
+        <MissionControlProvider projectId={activeProjectId}>
           <MissionDashboardWorkspace />
         </MissionControlProvider>
       ) : activeWorkspace === "packages" ? (
