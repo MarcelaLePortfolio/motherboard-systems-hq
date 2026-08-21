@@ -2,7 +2,6 @@ import {
   createContext,
   useCallback,
   useContext,
-  useEffect,
   useMemo,
   useRef,
   useState,
@@ -26,7 +25,6 @@ export type MissionControlStatus =
   | "error";
 
 export interface MissionControlContextValue {
-  projectId: string | null;
   status: MissionControlStatus;
   mission: MissionPresentationModel | null;
   error: string | null;
@@ -37,16 +35,9 @@ export interface MissionControlContextValue {
 const MissionControlContext =
   createContext<MissionControlContextValue | null>(null);
 
-type MissionControlProviderProps = PropsWithChildren<{
-  projectId: string | null;
-}>;
-
 export function MissionControlProvider({
   children,
-  projectId,
-}: MissionControlProviderProps) {
-  const normalizedProjectId = projectId?.trim() || null;
-
+}: PropsWithChildren) {
   const [status, setStatus] =
     useState<MissionControlStatus>("idle");
   const [mission, setMission] =
@@ -57,109 +48,61 @@ export function MissionControlProvider({
 
   const requestSequenceRef = useRef(0);
 
-  useEffect(() => {
-    requestSequenceRef.current += 1;
-    setMission(null);
-    setLastPackageId(null);
+  const loadMission = useCallback(async (packageId: string) => {
+    const normalizedPackageId = packageId.trim();
+    const requestSequence = requestSequenceRef.current + 1;
+
+    requestSequenceRef.current = requestSequence;
+    setLastPackageId(normalizedPackageId);
+    setStatus("loading");
     setError(null);
-    setStatus("idle");
-  }, [normalizedProjectId]);
 
-  const loadMission = useCallback(
-    async (packageId: string) => {
-      if (!normalizedProjectId) {
-        requestSequenceRef.current += 1;
-        setMission(null);
-        setLastPackageId(null);
-        setError(null);
-        setStatus("idle");
+    try {
+      const readModel = await getMissionReadModel(normalizedPackageId);
+
+      if (requestSequence !== requestSequenceRef.current) {
         return;
       }
 
-      const normalizedPackageId = packageId.trim();
-
-      if (!normalizedPackageId) {
-        requestSequenceRef.current += 1;
-        setMission(null);
-        setLastPackageId(null);
-        setError("A mission package ID is required.");
-        setStatus("error");
+      setMission(mapMissionReadToPresentation(readModel));
+      setStatus("ready");
+    } catch (caughtError) {
+      if (requestSequence !== requestSequenceRef.current) {
         return;
       }
 
-      const requestSequence = requestSequenceRef.current + 1;
+      const message =
+        caughtError instanceof Error
+          ? caughtError.message
+          : "Unknown Mission Read error.";
 
-      requestSequenceRef.current = requestSequence;
-      setLastPackageId(normalizedPackageId);
-      setStatus("loading");
-      setError(null);
-
-      try {
-        const readModel =
-          await getMissionReadModel(normalizedPackageId);
-
-        if (requestSequence !== requestSequenceRef.current) {
-          return;
-        }
-
-        if (readModel.identity.project_id !== normalizedProjectId) {
-          setMission(null);
-          setError(
-            `Mission package "${normalizedPackageId}" does not belong to the active project.`,
-          );
-          setStatus("error");
-          return;
-        }
-
-        setMission(mapMissionReadToPresentation(readModel));
-        setStatus("ready");
-      } catch (caughtError) {
-        if (requestSequence !== requestSequenceRef.current) {
-          return;
-        }
-
-        const message =
-          caughtError instanceof Error
-            ? caughtError.message
-            : "Unknown Mission Read error.";
-
-        setMission(null);
-        setError(message);
-        setStatus(
-          caughtError instanceof MissionReadNotFoundError
-            ? "not_found"
-            : "error",
-        );
-      }
-    },
-    [normalizedProjectId],
-  );
+      setMission(null);
+      setError(message);
+      setStatus(
+        caughtError instanceof MissionReadNotFoundError
+          ? "not_found"
+          : "error",
+      );
+    }
+  }, []);
 
   const refresh = useCallback(async () => {
-    if (!lastPackageId || !normalizedProjectId) {
+    if (!lastPackageId) {
       return;
     }
 
     await loadMission(lastPackageId);
-  }, [lastPackageId, loadMission, normalizedProjectId]);
+  }, [lastPackageId, loadMission]);
 
   const value = useMemo<MissionControlContextValue>(
     () => ({
-      projectId: normalizedProjectId,
       status,
       mission,
       error,
       loadMission,
       refresh,
     }),
-    [
-      normalizedProjectId,
-      status,
-      mission,
-      error,
-      loadMission,
-      refresh,
-    ],
+    [status, mission, error, loadMission, refresh],
   );
 
   return (
