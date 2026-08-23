@@ -13,7 +13,7 @@ router.post("/api/matilda/canonical-package", (req, res) => {
   try {
     const result = createCanonicalPackageFromApprovedSummary(
       {
-        draft_package_id: req.body?.draft_package_id,
+        draft_revision_id: req.body?.draft_revision_id,
         approval_actor: EXECUTIVE_APPROVAL_ACTOR,
       },
       {

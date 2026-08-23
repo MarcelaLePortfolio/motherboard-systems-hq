@@ -2,6 +2,7 @@ import { randomUUID } from "node:crypto";
 
 import Database from "better-sqlite3";
 
+import { initializeDraftRevisionSchema } from "./matilda-draft-revision-runtime";
 import { generateReconciledIntentSummary } from "./matilda-reconciled-intent-runtime";
 
 const sqlite = new Database("db/main.db");
@@ -26,13 +27,17 @@ export class CanonicalPackageSchemaUnavailableError extends Error {
   }
 }
 
-export function initializeCanonicalPackageSchema() {
+function createCanonicalPackageTable() {
   sqlite.exec(`
     CREATE TABLE IF NOT EXISTS matilda_canonical_packages (
-      package_id TEXT PRIMARY KEY,
+      package_id TEXT NOT NULL,
+      package_version INTEGER NOT NULL CHECK (package_version >= 1),
       summary_id TEXT NOT NULL,
       draft_package_id TEXT NOT NULL,
+      draft_revision_id TEXT,
       lineage_id TEXT NOT NULL,
+      project_id TEXT,
+      conversation_id TEXT,
       approved_interpretation TEXT NOT NULL,
       approved_work TEXT,
       approved_artifacts TEXT,
@@ -42,51 +47,157 @@ export function initializeCanonicalPackageSchema() {
       approval_actor TEXT NOT NULL,
       approval_timestamp TEXT NOT NULL,
       status TEXT NOT NULL,
-      created_at TEXT NOT NULL
+      created_at TEXT NOT NULL,
+      PRIMARY KEY (package_id, package_version)
     )
   `);
+}
+
+function migrateLegacyCanonicalPackageTableIfRequired() {
+  const table = sqlite
+    .prepare(`
+      SELECT name
+      FROM sqlite_master
+      WHERE type = 'table'
+        AND name = 'matilda_canonical_packages'
+      LIMIT 1
+    `)
+    .get() as { name: string } | undefined;
+
+  if (!table) {
+    createCanonicalPackageTable();
+    return;
+  }
 
   const columns = sqlite
     .prepare("PRAGMA table_info(matilda_canonical_packages)")
-    .all() as Array<{ name: string }>;
+    .all() as Array<{
+      name: string;
+      pk: number;
+    }>;
 
-  if (!columns.some((column) => column.name === "project_id")) {
-    sqlite.exec(`
-      ALTER TABLE matilda_canonical_packages
-      ADD COLUMN project_id TEXT;
-    `);
-  }
+  const hasPackageVersion = columns.some(
+    (column) => column.name === "package_version",
+  );
 
-  if (!columns.some((column) => column.name === "conversation_id")) {
-    sqlite.exec(`
-      ALTER TABLE matilda_canonical_packages
-      ADD COLUMN conversation_id TEXT;
-    `);
-  }
+  const hasDraftRevisionId = columns.some(
+    (column) => column.name === "draft_revision_id",
+  );
 
-  try {
-    sqlite.exec(`
-      CREATE UNIQUE INDEX IF NOT EXISTS
-        idx_matilda_canonical_packages_draft_package_id
-      ON matilda_canonical_packages (draft_package_id);
-    `);
-  } catch (err) {
-    throw new Error(
-      "Unable to enforce one Canonical Package per draft_package_id: " +
-        "matilda_canonical_packages already contains duplicate draft_package_id rows, " +
-        "so the unique index could not be created. This must be resolved with an explicit, " +
-        "manually-reviewed data migration before Canonical Package creation can proceed safely. " +
-        `(${err instanceof Error ? err.message : String(err)})`,
+  const packageIdPrimaryKeyOnly =
+    columns.find((column) => column.name === "package_id")?.pk === 1
+    && !columns.some(
+      (column) =>
+        column.name === "package_version"
+        && column.pk > 0,
     );
+
+  if (
+    hasPackageVersion
+    && hasDraftRevisionId
+    && !packageIdPrimaryKeyOnly
+  ) {
+    return;
   }
+
+  sqlite.transaction(() => {
+    sqlite.exec(`
+      DROP INDEX IF EXISTS idx_matilda_canonical_packages_draft_package_id;
+    `);
+
+    sqlite.exec(`
+      ALTER TABLE matilda_canonical_packages
+      RENAME TO matilda_canonical_packages_legacy_version_identity;
+    `);
+
+    createCanonicalPackageTable();
+
+    sqlite.exec(`
+      INSERT INTO matilda_canonical_packages (
+        package_id,
+        package_version,
+        summary_id,
+        draft_package_id,
+        draft_revision_id,
+        lineage_id,
+        project_id,
+        conversation_id,
+        approved_interpretation,
+        approved_work,
+        approved_artifacts,
+        approved_scope,
+        approved_constraints,
+        approved_expected_outcome,
+        approval_actor,
+        approval_timestamp,
+        status,
+        created_at
+      )
+      SELECT
+        package_id,
+        1,
+        summary_id,
+        draft_package_id,
+        NULL,
+        lineage_id,
+        project_id,
+        conversation_id,
+        approved_interpretation,
+        approved_work,
+        approved_artifacts,
+        approved_scope,
+        approved_constraints,
+        approved_expected_outcome,
+        approval_actor,
+        approval_timestamp,
+        status,
+        created_at
+      FROM matilda_canonical_packages_legacy_version_identity;
+    `);
+
+    sqlite.exec(`
+      DROP TABLE matilda_canonical_packages_legacy_version_identity;
+    `);
+  })();
+}
+
+export function initializeCanonicalPackageSchema() {
+  initializeDraftRevisionSchema();
+
+  migrateLegacyCanonicalPackageTableIfRequired();
+
+  sqlite.exec(`
+    CREATE UNIQUE INDEX IF NOT EXISTS
+      idx_matilda_canonical_packages_draft_revision_id
+    ON matilda_canonical_packages (draft_revision_id)
+    WHERE draft_revision_id IS NOT NULL;
+  `);
+
+  sqlite.exec(`
+    CREATE INDEX IF NOT EXISTS
+      idx_matilda_canonical_packages_draft_package_version
+    ON matilda_canonical_packages (
+      draft_package_id,
+      package_version
+    );
+  `);
+
+  sqlite.exec(`
+    CREATE INDEX IF NOT EXISTS
+      idx_matilda_canonical_packages_lineage_version
+    ON matilda_canonical_packages (
+      lineage_id,
+      package_version
+    );
+  `);
 }
 
 export function createCanonicalPackageFromApprovedSummary(
   {
-    draft_package_id,
+    draft_revision_id,
     approval_actor,
   }: {
-    draft_package_id: string;
+    draft_revision_id: string;
     approval_actor: string;
   },
   { schemaReady }: { schemaReady: boolean },
@@ -95,34 +206,94 @@ export function createCanonicalPackageFromApprovedSummary(
     throw new CanonicalPackageSchemaUnavailableError();
   }
 
-  const existing = sqlite
-    .prepare(
-      "SELECT package_id FROM matilda_canonical_packages WHERE draft_package_id = ?",
-    )
-    .get(draft_package_id) as { package_id: string } | undefined;
+  if (
+    typeof draft_revision_id !== "string"
+    || draft_revision_id.trim().length === 0
+  ) {
+    throw new Error("draft_revision_id is required");
+  }
 
-  if (existing) {
+  const normalizedDraftRevisionId = draft_revision_id.trim();
+
+  const alreadyCanonicalized = sqlite
+    .prepare(`
+      SELECT
+        package_id,
+        package_version
+      FROM matilda_canonical_packages
+      WHERE draft_revision_id = ?
+      LIMIT 1
+    `)
+    .get(normalizedDraftRevisionId) as
+      | {
+          package_id: string;
+          package_version: number;
+        }
+      | undefined;
+
+  if (alreadyCanonicalized) {
     throw new Error(
-      `Canonical Package already exists for draft_package_id "${draft_package_id}" (package_id: ${existing.package_id}). Only one Canonical Package is permitted per Living Draft Package.`,
+      `Draft Revision "${normalizedDraftRevisionId}" already produced Canonical Package `
+      + `"${alreadyCanonicalized.package_id}" version ${alreadyCanonicalized.package_version}.`,
     );
   }
 
-  const summary = generateReconciledIntentSummary({ draft_package_id });
+  const summary = generateReconciledIntentSummary({
+    draft_revision_id: normalizedDraftRevisionId,
+  });
 
   if (summary.approval_required !== true) {
     throw new Error("Summary is not eligible for approval.");
   }
 
+  if (!summary.draft_revision_id) {
+    throw new Error(
+      "Canonical Package creation requires immutable Draft Revision provenance.",
+    );
+  }
+
+  const latest = sqlite
+    .prepare(`
+      SELECT
+        package_id,
+        package_version,
+        lineage_id,
+        draft_package_id
+      FROM matilda_canonical_packages
+      WHERE draft_package_id = ?
+        AND lineage_id = ?
+      ORDER BY package_version DESC
+      LIMIT 1
+    `)
+    .get(
+      summary.draft_package_id,
+      summary.lineage_id,
+    ) as
+      | {
+          package_id: string;
+          package_version: number;
+          lineage_id: string;
+          draft_package_id: string;
+        }
+      | undefined;
+
+  const package_id =
+    latest?.package_id ?? `pkg-${randomUUID()}`;
+
+  const package_version =
+    latest ? latest.package_version + 1 : 1;
+
   const created_at = new Date().toISOString();
-  const package_id = `pkg-${randomUUID()}`;
 
   try {
     sqlite
       .prepare(`
         INSERT INTO matilda_canonical_packages (
           package_id,
+          package_version,
           summary_id,
           draft_package_id,
+          draft_revision_id,
           lineage_id,
           project_id,
           conversation_id,
@@ -136,12 +307,14 @@ export function createCanonicalPackageFromApprovedSummary(
           approval_timestamp,
           status,
           created_at
-        ) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
+        ) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
       `)
       .run(
         package_id,
+        package_version,
         summary.summary_id,
         summary.draft_package_id,
+        summary.draft_revision_id,
         summary.lineage_id,
         summary.project_id,
         summary.conversation_id,
@@ -157,9 +330,12 @@ export function createCanonicalPackageFromApprovedSummary(
         created_at,
       );
   } catch (err) {
-    if (err instanceof Error && /UNIQUE constraint failed/i.test(err.message)) {
+    if (
+      err instanceof Error
+      && /UNIQUE constraint failed/i.test(err.message)
+    ) {
       throw new Error(
-        `Canonical Package already exists for draft_package_id "${draft_package_id}". Only one Canonical Package is permitted per Living Draft Package.`,
+        "Canonical Package version identity or Draft Revision provenance already exists.",
       );
     }
 
@@ -168,8 +344,10 @@ export function createCanonicalPackageFromApprovedSummary(
 
   return {
     package_id,
+    package_version,
     summary_id: summary.summary_id,
     draft_package_id: summary.draft_package_id,
+    draft_revision_id: summary.draft_revision_id,
     lineage_id: summary.lineage_id,
     project_id: summary.project_id,
     conversation_id: summary.conversation_id,
