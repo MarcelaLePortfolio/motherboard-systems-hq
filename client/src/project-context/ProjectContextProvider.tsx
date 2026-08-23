@@ -8,7 +8,9 @@ import {
 } from "react";
 import {
   getProjectRegistry,
+  registerProject as registerProjectRequest,
   setActiveProject,
+  type RegisterProjectInput,
 } from "./projectRegistryApi";
 import type { ProjectRegistryState } from "./types";
 
@@ -18,17 +20,12 @@ export interface ProjectContextValue {
   error: Error | null;
   refresh: () => Promise<void>;
   switchProject: (projectId: string) => Promise<void>;
+  registerProject: (input: RegisterProjectInput) => Promise<void>;
 }
 
 export const ProjectContext = createContext<ProjectContextValue | null>(null);
 
-interface ProjectContextProviderProps {
-  children: ReactNode;
-}
-
-export function ProjectContextProvider({
-  children,
-}: ProjectContextProviderProps) {
+export function ProjectContextProvider({ children }: { children: ReactNode }) {
   const [registry, setRegistry] = useState<ProjectRegistryState | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<Error | null>(null);
@@ -36,10 +33,8 @@ export function ProjectContextProvider({
   const refresh = useCallback(async () => {
     setLoading(true);
     setError(null);
-
     try {
-      const state = await getProjectRegistry();
-      setRegistry(state);
+      setRegistry(await getProjectRegistry());
     } catch (err) {
       setError(err instanceof Error ? err : new Error("Unknown error"));
     } finally {
@@ -49,10 +44,18 @@ export function ProjectContextProvider({
 
   const switchProject = useCallback(async (projectId: string) => {
     setError(null);
-
     try {
-      const state = await setActiveProject(projectId);
-      setRegistry(state);
+      setRegistry(await setActiveProject(projectId));
+    } catch (err) {
+      setError(err instanceof Error ? err : new Error("Unknown error"));
+      throw err;
+    }
+  }, []);
+
+  const registerProject = useCallback(async (input: RegisterProjectInput) => {
+    setError(null);
+    try {
+      setRegistry(await registerProjectRequest(input));
     } catch (err) {
       setError(err instanceof Error ? err : new Error("Unknown error"));
       throw err;
@@ -63,15 +66,16 @@ export function ProjectContextProvider({
     void refresh();
   }, [refresh]);
 
-  const value = useMemo<ProjectContextValue>(
+  const value = useMemo(
     () => ({
       registry,
       loading,
       error,
       refresh,
       switchProject,
+      registerProject,
     }),
-    [registry, loading, error, refresh, switchProject]
+    [registry, loading, error, refresh, switchProject, registerProject]
   );
 
   return (

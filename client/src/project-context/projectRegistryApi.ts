@@ -2,6 +2,25 @@ import type { ProjectRegistryState } from "./types";
 
 const PROJECT_REGISTRY_ENDPOINT = "/api/projects/registry";
 const ACTIVE_PROJECT_ENDPOINT = "/api/projects/active";
+const INSPECT_PROJECT_PATH_ENDPOINT = "/api/projects/inspect-path";
+const REGISTER_PROJECT_ENDPOINT = "/api/projects/register";
+
+export interface ProjectPathInspection {
+  ok: boolean;
+  inputPath: string;
+  resolvedPath: string | null;
+  projectDirectoryName: string | null;
+  exists: boolean;
+  isDirectory: boolean;
+  isGitRepository: boolean;
+  message: string;
+}
+
+export interface RegisterProjectInput {
+  projectId: string;
+  displayName: string;
+  projectRootPath: string;
+}
 
 async function readProjectRegistryResponse(
   response: Response,
@@ -12,12 +31,8 @@ async function readProjectRegistryResponse(
 
     try {
       const body = (await response.json()) as { error?: string };
-      if (body.error) {
-        message = body.error;
-      }
-    } catch {
-      // Preserve the fallback message when the response is not JSON.
-    }
+      if (body.error) message = body.error;
+    } catch {}
 
     throw new Error(`${message} (${response.status} ${response.statusText})`);
   }
@@ -26,10 +41,8 @@ async function readProjectRegistryResponse(
 }
 
 export async function getProjectRegistry(): Promise<ProjectRegistryState> {
-  const response = await fetch(PROJECT_REGISTRY_ENDPOINT);
-
   return readProjectRegistryResponse(
-    response,
+    await fetch(PROJECT_REGISTRY_ENDPOINT),
     "Failed to load Project Registry"
   );
 }
@@ -39,9 +52,7 @@ export async function setActiveProject(
 ): Promise<ProjectRegistryState> {
   const response = await fetch(ACTIVE_PROJECT_ENDPOINT, {
     method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
+    headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ projectId }),
   });
 
@@ -49,4 +60,37 @@ export async function setActiveProject(
     response,
     "Failed to update Active Context"
   );
+}
+
+export async function inspectProjectPath(
+  projectRootPath: string
+): Promise<ProjectPathInspection> {
+  const response = await fetch(INSPECT_PROJECT_PATH_ENDPOINT, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ projectRootPath }),
+  });
+
+  if (!response.ok) {
+    let message = "Unable to inspect project path.";
+    try {
+      const body = (await response.json()) as { error?: string };
+      if (body.error) message = body.error;
+    } catch {}
+    throw new Error(`${message} (${response.status} ${response.statusText})`);
+  }
+
+  return response.json() as Promise<ProjectPathInspection>;
+}
+
+export async function registerProject(
+  input: RegisterProjectInput
+): Promise<ProjectRegistryState> {
+  const response = await fetch(REGISTER_PROJECT_ENDPOINT, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(input),
+  });
+
+  return readProjectRegistryResponse(response, "Failed to register project");
 }
