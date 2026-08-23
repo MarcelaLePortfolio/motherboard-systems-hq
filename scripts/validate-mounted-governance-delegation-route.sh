@@ -11,9 +11,7 @@ CANONICAL_PACKAGE_JSON="$(
 const Database = require("better-sqlite3");
 const db = new Database("db/main.db", { readonly: true });
 const row = db.prepare(`
-  SELECT
-    package_id,
-    package_version
+  SELECT package_id, package_version
   FROM matilda_canonical_packages
   WHERE status = 'canonical_approved'
   ORDER BY package_version DESC
@@ -21,25 +19,15 @@ const row = db.prepare(`
 `).get();
 db.close();
 
-if (!row) {
-  process.exit(2);
-}
-
+if (!row) process.exit(2);
 process.stdout.write(JSON.stringify(row));
 NODE
 )"
 
-PACKAGE_ID="$(
-  node -e 'const x=JSON.parse(process.argv[1]); process.stdout.write(x.package_id)' \
-  "$CANONICAL_PACKAGE_JSON"
-)"
-
-PACKAGE_VERSION="$(
-  node -e 'const x=JSON.parse(process.argv[1]); process.stdout.write(String(x.package_version))' \
-  "$CANONICAL_PACKAGE_JSON"
-)"
-
+PACKAGE_ID="$(node -e 'const x=JSON.parse(process.argv[1]); process.stdout.write(x.package_id)' "$CANONICAL_PACKAGE_JSON")"
+PACKAGE_VERSION="$(node -e 'const x=JSON.parse(process.argv[1]); process.stdout.write(String(x.package_version))' "$CANONICAL_PACKAGE_JSON")"
 DELEGATION_ID="mounted-route-validation-$(date +%s)"
+LEGACY_DELEGATION_ID="mounted-legacy-rejection-$(date +%s)"
 
 cleanup() {
   if [[ -n "${SERVER_PID:-}" ]]; then
@@ -50,15 +38,21 @@ cleanup() {
   node <<NODE
 const Database = require("better-sqlite3");
 const db = new Database("db/main.db");
-db.prepare("DELETE FROM governance_delegations WHERE delegation_id = ?")
-  .run("${DELEGATION_ID}");
+db.prepare("DELETE FROM governance_delegations WHERE delegation_id IN (?, ?)")
+  .run("${DELEGATION_ID}", "${LEGACY_DELEGATION_ID}");
 db.close();
 NODE
 }
 trap cleanup EXIT
 
-printf '\n=== START SERVER ===\n'
-PORT="${PORT}" node -r ts-node/register server/index.ts >"${LOG_FILE}" 2>&1 &
+printf '\n=== DISCOVER NATIVE SERVER COMMAND ===\n'
+node <<'NODE'
+const pkg = require("./package.json");
+console.log(pkg.scripts || {});
+NODE
+
+printf '\n=== START SERVER WITH NATIVE TSX EXECUTION ===\n'
+PORT="${PORT}" npx tsx server/index.ts >"${LOG_FILE}" 2>&1 &
 SERVER_PID=$!
 
 for _ in $(seq 1 40); do
@@ -99,8 +93,9 @@ HTTP_BODY="$(
 
 printf '%s\n' "${HTTP_BODY}"
 
-node <<NODE
-const response = JSON.parse(${HTTP_BODY@Q});
+HTTP_BODY="${HTTP_BODY}" PACKAGE_ID="${PACKAGE_ID}" PACKAGE_VERSION="${PACKAGE_VERSION}" node <<'NODE'
+const response = JSON.parse(process.env.HTTP_BODY);
+const packageVersion = Number(process.env.PACKAGE_VERSION);
 
 if (response.ok !== true) {
   throw new Error("Mounted Delegation route did not succeed.");
@@ -111,13 +106,13 @@ if (response.route !== "governance_delegation_route") {
 }
 
 if (
-  response.delegation?.delegation?.package_id !== "${PACKAGE_ID}"
-  || response.delegation?.delegation?.package_version !== ${PACKAGE_VERSION}
+  response.delegation?.delegation?.package_id !== process.env.PACKAGE_ID ||
+  response.delegation?.delegation?.package_version !== packageVersion
 ) {
   throw new Error("Mounted route did not preserve exact Canonical Package identity.");
 }
 
-const prohibitedFlags = [
+for (const flag of [
   "scheduler_authorized",
   "worker_claim_authorized",
   "orchestration_authorized",
@@ -127,11 +122,9 @@ const prohibitedFlags = [
   "execution_authorized",
   "downstream_governance_authorized",
   "new_authority_introduced",
-];
-
-for (const flag of prohibitedFlags) {
+]) {
   if (response[flag] !== false) {
-    throw new Error(\`\${flag} must remain false.\`);
+    throw new Error(`${flag} must remain false.`);
   }
 }
 
@@ -141,30 +134,23 @@ console.log("DOWNSTREAM_AUTHORITY_REMAINS_OFF=PASS");
 NODE
 
 printf '\n=== PERSISTED DELEGATION ===\n'
-node <<NODE
+DELEGATION_ID="${DELEGATION_ID}" PACKAGE_ID="${PACKAGE_ID}" PACKAGE_VERSION="${PACKAGE_VERSION}" node <<'NODE'
 const Database = require("better-sqlite3");
 const db = new Database("db/main.db", { readonly: true });
 
 const row = db.prepare(`
-  SELECT
-    delegation_id,
-    package_id,
-    package_version,
-    authorization_state,
-    delegated_by
+  SELECT delegation_id, package_id, package_version, authorization_state, delegated_by
   FROM governance_delegations
   WHERE delegation_id = ?
-`).get("${DELEGATION_ID}");
+`).get(process.env.DELEGATION_ID);
 
 console.log(row);
 
-if (!row) {
-  throw new Error("Mounted Delegation request did not persist.");
-}
+if (!row) throw new Error("Mounted Delegation request did not persist.");
 
 if (
-  row.package_id !== "${PACKAGE_ID}"
-  || row.package_version !== ${PACKAGE_VERSION}
+  row.package_id !== process.env.PACKAGE_ID ||
+  row.package_version !== Number(process.env.PACKAGE_VERSION)
 ) {
   throw new Error("Persisted Delegation lost Canonical Package identity.");
 }
@@ -179,7 +165,7 @@ LEGACY_RESPONSE="$(
     -X POST \
     -H 'Content-Type: application/json' \
     -d "{
-      \"delegation_id\":\"mounted-legacy-rejection-$(date +%s)\",
+      \"delegation_id\":\"${LEGACY_DELEGATION_ID}\",
       \"package_id\":\"corridor-smoke\",
       \"package_version\":1,
       \"authorization_state\":\"AUTHORIZED\",
@@ -190,16 +176,14 @@ LEGACY_RESPONSE="$(
 
 printf '%s\n' "${LEGACY_RESPONSE}"
 
-node <<NODE
-const response = JSON.parse(${LEGACY_RESPONSE@Q});
+LEGACY_RESPONSE="${LEGACY_RESPONSE}" node <<'NODE'
+const response = JSON.parse(process.env.LEGACY_RESPONSE);
 
 if (response.ok !== false) {
   throw new Error("Legacy governance Package unexpectedly created a new Delegation.");
 }
 
-const findings = JSON.stringify(response);
-
-if (!/existing Canonical Package version/i.test(findings)) {
+if (!/existing Canonical Package version/i.test(JSON.stringify(response))) {
   throw new Error("Legacy rejection did not fail for the Canonical Package root requirement.");
 }
 
