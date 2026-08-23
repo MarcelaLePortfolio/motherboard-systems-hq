@@ -239,7 +239,7 @@ export function ensureGovernanceRuntimeTables(): void {
       delegated_by TEXT NOT NULL,
       created_at TEXT NOT NULL,
       FOREIGN KEY (package_id, package_version)
-        REFERENCES governance_packages(package_id, package_version)
+        REFERENCES matilda_canonical_packages(package_id, package_version)
     );
 
     CREATE TABLE IF NOT EXISTS governance_validation_results (
