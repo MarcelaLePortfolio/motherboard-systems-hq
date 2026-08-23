@@ -708,6 +708,30 @@ export function createGovernanceDelegation(
 
   const delegated_by = requireDelegationText(input, "delegated_by");
 
+  const canonicalPackage = sqlite.prepare(`
+    SELECT
+      package_id,
+      package_version
+    FROM matilda_canonical_packages
+    WHERE package_id = ?
+      AND package_version = ?
+    LIMIT 1
+  `).get(
+    package_id,
+    package_version,
+  ) as
+    | {
+        package_id: string;
+        package_version: number;
+      }
+    | undefined;
+
+  if (!canonicalPackage) {
+    throw new Error(
+      `Delegation requires an existing Canonical Package version: "${package_id}" version ${package_version}.`,
+    );
+  }
+
   const created_at = new Date().toISOString();
 
   sqlite.prepare(`
