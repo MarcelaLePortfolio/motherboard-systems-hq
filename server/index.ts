@@ -10,6 +10,7 @@ import missionReadRouter from "../routes/api-mission-read";
 import approvalRequestRouter from "../routes/api-approval-request";
 import { initializeCanonicalPackageSchema } from "../db/matilda-canonical-package-runtime";
 import matildaCanonicalPackageRouter from "./routes/matilda-canonical-package-route";
+import createGovernanceDelegationRouter from "./routes/governance-delegation-route";
 
 const app = express();
 
@@ -21,6 +22,7 @@ app.use(missionReadRouter);
 app.use(packageReadRouter);
 app.use("/api/approval-requests", approvalRequestRouter);
 app.use(matildaCanonicalPackageRouter);
+app.use(createGovernanceDelegationRouter());
 
 app.get("/ui", (_req, res) => {
   res.send(`
