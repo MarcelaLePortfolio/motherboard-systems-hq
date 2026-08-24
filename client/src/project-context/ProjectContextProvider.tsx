@@ -8,11 +8,13 @@ import {
 } from "react";
 import {
   archiveProject as archiveProjectRequest,
+  createNewProject as createNewProjectRequest,
   getProjectRegistry,
   registerProject as registerProjectRequest,
   restoreProject as restoreProjectRequest,
   setActiveProject,
   type RegisterProjectInput,
+  type CreateProjectInput,
 } from "./projectRegistryApi";
 import type { ProjectRegistryState } from "./types";
 
@@ -23,6 +25,7 @@ export interface ProjectContextValue {
   refresh: () => Promise<void>;
   switchProject: (projectId: string) => Promise<void>;
   registerProject: (input: RegisterProjectInput) => Promise<void>;
+  createNewProject: (input: CreateProjectInput) => Promise<void>;
   archiveProject: (projectId: string) => Promise<void>;
   restoreProject: (projectId: string) => Promise<void>;
 }
@@ -76,6 +79,19 @@ export function ProjectContextProvider({ children }: { children: ReactNode }) {
     }
   }, []);
 
+  const createNewProject = useCallback(
+    async (input: CreateProjectInput) => {
+      setError(null);
+      try {
+        setRegistry(await createNewProjectRequest(input));
+      } catch (err) {
+        setError(err instanceof Error ? err : new Error("Unknown error"));
+        throw err;
+      }
+    },
+    [],
+  );
+
   const restoreProject = useCallback(async (projectId: string) => {
     setError(null);
     try {
@@ -98,6 +114,7 @@ export function ProjectContextProvider({ children }: { children: ReactNode }) {
       refresh,
       switchProject,
       registerProject,
+      createNewProject,
       archiveProject,
       restoreProject,
     }),

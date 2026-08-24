@@ -24,12 +24,16 @@ export default function ProjectContextControl() {
     error,
     switchProject,
     registerProject,
+    createNewProject,
     archiveProject,
     restoreProject,
   } = useProjectContext();
 
   const [open, setOpen] = useState(false);
   const [registering, setRegistering] = useState(false);
+  const [creating, setCreating] = useState(false);
+  const [parentDirectory, setParentDirectory] = useState("");
+  const [newProjectName, setNewProjectName] = useState("");
   const [path, setPath] = useState("");
   const [projectId, setProjectId] = useState("");
   const [displayName, setDisplayName] = useState("");
@@ -99,6 +103,29 @@ export default function ProjectContextControl() {
       setOpen(true);
     } catch (err) {
       setMessage(err instanceof Error ? err.message : "Registration failed.");
+    } finally {
+      setBusy(false);
+    }
+  }
+
+  async function createProject() {
+    if (!parentDirectory.trim() || !newProjectName.trim()) return;
+
+    setBusy(true);
+    setMessage(null);
+
+    try {
+      await createNewProject({
+        parentDirectory: parentDirectory.trim(),
+        projectDirectoryName: newProjectName.trim(),
+      });
+
+      setCreating(false);
+      setParentDirectory("");
+      setNewProjectName("");
+      setOpen(true);
+    } catch (err) {
+      setMessage(err instanceof Error ? err.message : "Project creation failed.");
     } finally {
       setBusy(false);
     }
@@ -258,12 +285,115 @@ export default function ProjectContextControl() {
             role="menuitem"
             onClick={() => {
               setOpen(false);
+              setCreating(true);
+              setMessage(null);
+            }}
+          >
+            + New Project
+          </button>
+
+          <button
+            className="project-context-menu__item"
+            type="button"
+            role="menuitem"
+            onClick={() => {
+              setOpen(false);
               setRegistering(true);
               setMessage(null);
             }}
           >
             + Register Existing Project
           </button>
+        </div>
+      )}
+
+      {creating && (
+        <div
+          role="presentation"
+          style={{
+            position: "fixed",
+            inset: 0,
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            padding: "1rem",
+            background: "rgba(0,0,0,.55)",
+            zIndex: 2000,
+          }}
+        >
+          <div
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="new-project-title"
+            style={{
+              width: "min(520px,100%)",
+              padding: "1.25rem",
+              boxSizing: "border-box",
+              background: "#fff",
+              border: "1px solid #ccc",
+              borderRadius: ".5rem",
+            }}
+          >
+            <h2 id="new-project-title">New Project</h2>
+
+            <label>
+              Parent directory
+              <input
+                type="text"
+                value={parentDirectory}
+                onChange={(event) => setParentDirectory(event.target.value)}
+                style={{
+                  display: "block",
+                  width: "100%",
+                  boxSizing: "border-box",
+                }}
+              />
+            </label>
+
+            <label>
+              Project name
+              <input
+                type="text"
+                value={newProjectName}
+                onChange={(event) => setNewProjectName(event.target.value)}
+                style={{
+                  display: "block",
+                  width: "100%",
+                  boxSizing: "border-box",
+                }}
+              />
+            </label>
+
+            {message && <p>{message}</p>}
+
+            <div
+              style={{
+                display: "flex",
+                gap: ".5rem",
+                marginTop: "1rem",
+              }}
+            >
+              <button
+                type="button"
+                disabled={busy}
+                onClick={() => setCreating(false)}
+              >
+                Cancel
+              </button>
+
+              <button
+                type="button"
+                disabled={
+                  busy ||
+                  !parentDirectory.trim() ||
+                  !newProjectName.trim()
+                }
+                onClick={() => void createProject()}
+              >
+                {busy ? "Creating…" : "Create Project"}
+              </button>
+            </div>
+          </div>
         </div>
       )}
 

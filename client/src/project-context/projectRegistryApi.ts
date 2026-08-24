@@ -5,6 +5,7 @@ const ACTIVE_PROJECT_ENDPOINT = "/api/projects/active";
 const INSPECT_PROJECT_PATH_ENDPOINT = "/api/projects/inspect-path";
 const REGISTER_PROJECT_ENDPOINT = "/api/projects/register";
 const ARCHIVE_PROJECT_ENDPOINT = "/api/projects/archive";
+const CREATE_PROJECT_ENDPOINT = "/api/projects/create";
 
 export interface ProjectPathInspection {
   ok: boolean;
@@ -15,6 +16,13 @@ export interface ProjectPathInspection {
   isDirectory: boolean;
   isGitRepository: boolean;
   message: string;
+}
+
+export interface CreateProjectInput {
+  parentDirectory: string;
+  projectDirectoryName: string;
+  projectId?: string;
+  displayName?: string;
 }
 
 export interface RegisterProjectInput {
@@ -120,4 +128,16 @@ export async function restoreProject(
   });
 
   return readProjectRegistryResponse(response, "Failed to restore project");
+}
+
+export async function createNewProject(
+  input: CreateProjectInput
+): Promise<ProjectRegistryState> {
+  const response = await fetch(CREATE_PROJECT_ENDPOINT, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(input),
+  });
+
+  return readProjectRegistryResponse(response, "Failed to create project");
 }
