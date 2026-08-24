@@ -25,6 +25,7 @@ export default function ProjectContextControl() {
     switchProject,
     registerProject,
     archiveProject,
+    restoreProject,
   } = useProjectContext();
 
   const [open, setOpen] = useState(false);
@@ -111,6 +112,19 @@ export default function ProjectContextControl() {
       await archiveProject(projectIdToArchive);
     } catch (err) {
       setMessage(err instanceof Error ? err.message : "Archive failed.");
+    } finally {
+      setBusy(false);
+    }
+  }
+
+  async function restore(projectIdToRestore: string) {
+    setBusy(true);
+    setMessage(null);
+
+    try {
+      await restoreProject(projectIdToRestore);
+    } catch (err) {
+      setMessage(err instanceof Error ? err.message : "Restore failed.");
     } finally {
       setBusy(false);
     }
@@ -214,16 +228,26 @@ export default function ProjectContextControl() {
                 Archived / Inactive
               </div>
               {archivedProjects.map((project) => (
-                <button
-                  key={project.projectId}
-                  className="project-context-menu__item"
-                  data-lifecycle="archived"
-                  type="button"
-                  role="menuitem"
-                  disabled
-                >
-                  {project.displayName}
-                </button>
+                <div key={project.projectId}>
+                  <button
+                    className="project-context-menu__item"
+                    data-lifecycle="archived"
+                    type="button"
+                    role="menuitem"
+                    disabled
+                  >
+                    {project.displayName}
+                  </button>
+                  <button
+                    className="project-context-menu__item"
+                    type="button"
+                    role="menuitem"
+                    disabled={busy}
+                    onClick={() => void restore(project.projectId)}
+                  >
+                    Restore {project.displayName}
+                  </button>
+                </div>
               ))}
             </div>
           )}

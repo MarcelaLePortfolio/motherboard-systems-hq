@@ -107,3 +107,17 @@ export async function archiveProject(
 
   return readProjectRegistryResponse(response, "Failed to archive project");
 }
+
+const RESTORE_PROJECT_ENDPOINT = "/api/projects/restore";
+
+export async function restoreProject(
+  projectId: string
+): Promise<ProjectRegistryState> {
+  const response = await fetch(RESTORE_PROJECT_ENDPOINT, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ projectId }),
+  });
+
+  return readProjectRegistryResponse(response, "Failed to restore project");
+}
