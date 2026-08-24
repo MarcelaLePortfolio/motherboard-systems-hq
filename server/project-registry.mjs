@@ -971,6 +971,77 @@ export function setActiveProject(projectId, metadata = {}) {
 
 }
 
+export function normalizeProjectRegistration(projectId, canonicalRoot, metadata = {}) {
+
+  ensureProjectRegistry();
+
+  const normalizedProjectId = normalizeProjectId(projectId);
+  const targetRoot = String(canonicalRoot || "").trim();
+
+  if (!normalizedProjectId) {
+    const error = new Error("projectId is required.");
+    error.statusCode = 400;
+    throw error;
+  }
+
+  if (!targetRoot) {
+    const error = new Error("canonicalRoot is required.");
+    error.statusCode = 400;
+    throw error;
+  }
+
+  validateExistingGitRepository(targetRoot);
+
+  const duplicatePath = db.prepare(`
+    SELECT project_id
+    FROM project_registry
+    WHERE project_root_path = ?
+      AND project_id != ?
+      AND registration_status = 'registered'
+  `).get(targetRoot, normalizedProjectId);
+
+  if (duplicatePath) {
+    const error = new Error(
+      "A registered project already uses this canonical project root."
+    );
+    error.statusCode = 409;
+    throw error;
+  }
+
+  const project = db.prepare(`
+    SELECT
+      project_id,
+      registration_status
+    FROM project_registry
+    WHERE project_id = ?
+  `).get(normalizedProjectId);
+
+  if (!project) {
+    const error = new Error("Project does not exist.");
+    error.statusCode = 404;
+    throw error;
+  }
+
+  const timestamp = nowIso();
+
+  db.prepare(`
+    UPDATE project_registry
+    SET
+      project_root_path = ?,
+      git_repository_reference = ?,
+      updated_at = ?
+    WHERE project_id = ?
+  `).run(
+    targetRoot,
+    targetRoot,
+    timestamp,
+    normalizedProjectId
+  );
+
+  return getProjectRegistryState();
+
+}
+
 export function mountProjectRegistryRoutes(app) {
 
   ensureProjectRegistry();
@@ -1047,6 +1118,31 @@ export function mountProjectRegistryRoutes(app) {
 
         error: error.message || "Unable to create project."
 
+      });
+
+    }
+
+  });
+
+  app.post("/api/projects/normalize", (req, res) => {
+
+    try {
+
+      const state = normalizeProjectRegistration(
+        req.body?.projectId,
+        req.body?.canonicalRoot,
+        {
+          source: "dashboard",
+          action: "normalize_project_registration"
+        }
+      );
+
+      res.status(200).json(state);
+
+    } catch (error) {
+
+      res.status(error.statusCode || 500).json({
+        error: error.message || "Unable to normalize project registration."
       });
 
     }
