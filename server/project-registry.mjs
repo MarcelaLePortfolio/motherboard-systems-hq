@@ -1,4 +1,6 @@
 
+import { execFileSync } from "node:child_process";
+
 import fs from "fs";
 
 import path from "path";
@@ -543,6 +545,189 @@ export function registerProject(projectInput = {}, metadata = {}) {
 
 }
 
+export function createNewProject(projectInput = {}, metadata = {}) {
+
+  ensureProjectRegistry();
+
+  const parentDirectoryInput = String(
+    projectInput.parentDirectory || projectInput.parentPath || ""
+  ).trim();
+
+  const projectDirectoryName = String(
+    projectInput.projectDirectoryName || projectInput.directoryName || ""
+  ).trim();
+
+  if (!parentDirectoryInput) {
+
+    const error = new Error("parentDirectory is required.");
+
+    error.statusCode = 400;
+
+    throw error;
+
+  }
+
+  if (
+    !projectDirectoryName
+    || projectDirectoryName === "."
+    || projectDirectoryName === ".."
+    || path.basename(projectDirectoryName) !== projectDirectoryName
+  ) {
+
+    const error = new Error(
+      "projectDirectoryName must be a single directory name."
+    );
+
+    error.statusCode = 400;
+
+    throw error;
+
+  }
+
+  const resolvedParentDirectory =
+    resolveProjectPathForValidation(parentDirectoryInput);
+
+  if (
+    !resolvedParentDirectory
+    || !fs.existsSync(resolvedParentDirectory)
+  ) {
+
+    const error = new Error("Parent directory does not exist.");
+
+    error.statusCode = 400;
+
+    throw error;
+
+  }
+
+  const parentStat = fs.statSync(resolvedParentDirectory);
+
+  if (!parentStat.isDirectory()) {
+
+    const error = new Error("Parent path must be a directory.");
+
+    error.statusCode = 400;
+
+    throw error;
+
+  }
+
+  const targetPath = path.resolve(
+    resolvedParentDirectory,
+    projectDirectoryName
+  );
+
+  if (path.dirname(targetPath) !== path.resolve(resolvedParentDirectory)) {
+
+    const error = new Error(
+      "New project must be created directly inside the selected parent directory."
+    );
+
+    error.statusCode = 400;
+
+    throw error;
+
+  }
+
+  if (fs.existsSync(targetPath)) {
+
+    const error = new Error("Target project path already exists.");
+
+    error.statusCode = 409;
+
+    throw error;
+
+  }
+
+  const derivedProjectId = projectDirectoryName
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-+|-+$/g, "");
+
+  const derivedDisplayName = projectDirectoryName
+    .replace(/[-_]+/g, " ")
+    .replace(/\b\w/g, (character) => character.toUpperCase());
+
+  const projectId = normalizeProjectId(
+    projectInput.projectId || projectInput.id || derivedProjectId
+  );
+
+  const displayName = String(
+    projectInput.displayName || projectInput.name || derivedDisplayName
+  ).trim();
+
+  if (!projectId) {
+
+    const error = new Error("projectId is required.");
+
+    error.statusCode = 400;
+
+    throw error;
+
+  }
+
+  if (!displayName) {
+
+    const error = new Error("displayName is required.");
+
+    error.statusCode = 400;
+
+    throw error;
+
+  }
+
+  let createdTarget = false;
+
+  try {
+
+    fs.mkdirSync(targetPath);
+
+    createdTarget = true;
+
+    execFileSync("git", ["init"], {
+      cwd: targetPath,
+      stdio: "ignore",
+      shell: false
+    });
+
+    validateExistingGitRepository(targetPath);
+
+    return registerProject(
+      {
+        projectId,
+        displayName,
+        projectRootPath: targetPath,
+        gitRepositoryReference: targetPath
+      },
+      {
+        source: metadata.source || "dashboard",
+        action: metadata.action || "create_project"
+      }
+    );
+
+  } catch (error) {
+
+    if (createdTarget && fs.existsSync(targetPath)) {
+
+      fs.rmSync(targetPath, {
+        recursive: true,
+        force: true
+      });
+
+    }
+
+    if (!error.statusCode) {
+
+      error.statusCode = 500;
+
+    }
+
+    throw error;
+
+  }
+
+}
+
 export function archiveProject(projectId, metadata = {}) {
 
   ensureProjectRegistry();
@@ -818,6 +1003,32 @@ export function mountProjectRegistryRoutes(app) {
       res.status(error.statusCode || 500).json({
 
         error: error.message || "Unable to register project."
+
+      });
+
+    }
+
+  });
+
+  app.post("/api/projects/create", (req, res) => {
+
+    try {
+
+      const state = createNewProject(req.body || {}, {
+
+        source: "dashboard",
+
+        action: "create_project"
+
+      });
+
+      res.status(201).json(state);
+
+    } catch (error) {
+
+      res.status(error.statusCode || 500).json({
+
+        error: error.message || "Unable to create project."
 
       });
 
