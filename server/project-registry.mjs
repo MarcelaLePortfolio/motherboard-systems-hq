@@ -676,6 +676,23 @@ export function createNewProject(projectInput = {}, metadata = {}) {
 
   }
 
+  const duplicateProjectId = db.prepare(`
+    SELECT project_id
+    FROM project_registry
+    WHERE project_id = ?
+      AND registration_status = 'registered'
+  `).get(projectId);
+
+  if (duplicateProjectId) {
+
+    const error = new Error("A registered project already uses this projectId.");
+
+    error.statusCode = 409;
+
+    throw error;
+
+  }
+
   let createdTarget = false;
 
   try {
