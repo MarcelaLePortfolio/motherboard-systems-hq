@@ -161,6 +161,28 @@ body,
   font-weight: 600;
 }
 
+.project-lifecycle-group + .project-lifecycle-group {
+  border-top: 1px solid #e5e5e5;
+}
+
+.project-lifecycle-group__label {
+  padding: 0.4rem 0.75rem 0.25rem;
+  font-size: 0.6875rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  opacity: 0.65;
+}
+
+.project-context-menu__item[data-lifecycle="archived"] {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+.project-context-menu__item[data-lifecycle="archived"]:hover {
+  background: transparent;
+}
+
 /* Matilda Chat workspace */
 
 .matilda-chat-workspace {

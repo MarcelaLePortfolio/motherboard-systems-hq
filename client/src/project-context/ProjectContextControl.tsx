@@ -97,6 +97,29 @@ export default function ProjectContextControl() {
     }
   }
 
+  const projects = registry?.projects ?? [];
+  const activeProjectId = registry?.activeProjectId ?? null;
+
+  const activeProjects = projects.filter(
+    (project) => project.projectId === activeProjectId,
+  );
+
+  const availableProjects = projects.filter(
+    (project) =>
+      project.projectId !== activeProjectId &&
+      project.registrationStatus === "registered" &&
+      project.availabilityStatus === "available" &&
+      project.activeContextEligible,
+  );
+
+  const archivedProjects = projects.filter(
+    (project) =>
+      project.projectId !== activeProjectId &&
+      (project.registrationStatus !== "registered" ||
+        project.availabilityStatus !== "available" ||
+        !project.activeContextEligible),
+  );
+
   return (
     <div className="project-context-control">
       <button
@@ -112,22 +135,68 @@ export default function ProjectContextControl() {
 
       {open && (
         <div className="project-context-menu" role="menu">
-          {registry?.projects.map((project) => (
-            <button
-              key={project.projectId}
-              className="project-context-menu__item"
-              data-active={
-                project.projectId === registry.activeProjectId || undefined
-              }
-              type="button"
-              role="menuitem"
-              onClick={() => {
-                void switchProject(project.projectId).then(() => setOpen(false));
-              }}
-            >
-              {project.displayName}
-            </button>
-          ))}
+          {activeProjects.length > 0 && (
+            <div className="project-lifecycle-group">
+              <div className="project-lifecycle-group__label">Active</div>
+              {activeProjects.map((project) => (
+                <button
+                  key={project.projectId}
+                  className="project-context-menu__item"
+                  data-active="true"
+                  type="button"
+                  role="menuitem"
+                  onClick={() => {
+                    void switchProject(project.projectId).then(() =>
+                      setOpen(false),
+                    );
+                  }}
+                >
+                  {project.displayName}
+                </button>
+              ))}
+            </div>
+          )}
+
+          {availableProjects.length > 0 && (
+            <div className="project-lifecycle-group">
+              <div className="project-lifecycle-group__label">Available</div>
+              {availableProjects.map((project) => (
+                <button
+                  key={project.projectId}
+                  className="project-context-menu__item"
+                  type="button"
+                  role="menuitem"
+                  onClick={() => {
+                    void switchProject(project.projectId).then(() =>
+                      setOpen(false),
+                    );
+                  }}
+                >
+                  {project.displayName}
+                </button>
+              ))}
+            </div>
+          )}
+
+          {archivedProjects.length > 0 && (
+            <div className="project-lifecycle-group">
+              <div className="project-lifecycle-group__label">
+                Archived / Inactive
+              </div>
+              {archivedProjects.map((project) => (
+                <button
+                  key={project.projectId}
+                  className="project-context-menu__item"
+                  data-lifecycle="archived"
+                  type="button"
+                  role="menuitem"
+                  disabled
+                >
+                  {project.displayName}
+                </button>
+              ))}
+            </div>
+          )}
 
           <button
             className="project-context-menu__item"
@@ -182,7 +251,11 @@ export default function ProjectContextControl() {
                   setPath(event.target.value);
                   setValidPath(false);
                 }}
-                style={{ display: "block", width: "100%", boxSizing: "border-box" }}
+                style={{
+                  display: "block",
+                  width: "100%",
+                  boxSizing: "border-box",
+                }}
               />
             </label>
 
@@ -202,7 +275,11 @@ export default function ProjectContextControl() {
                 type="text"
                 value={projectId}
                 onChange={(event) => setProjectId(event.target.value)}
-                style={{ display: "block", width: "100%", boxSizing: "border-box" }}
+                style={{
+                  display: "block",
+                  width: "100%",
+                  boxSizing: "border-box",
+                }}
               />
             </label>
 
@@ -212,11 +289,21 @@ export default function ProjectContextControl() {
                 type="text"
                 value={displayName}
                 onChange={(event) => setDisplayName(event.target.value)}
-                style={{ display: "block", width: "100%", boxSizing: "border-box" }}
+                style={{
+                  display: "block",
+                  width: "100%",
+                  boxSizing: "border-box",
+                }}
               />
             </label>
 
-            <div style={{ display: "flex", gap: ".5rem", marginTop: "1rem" }}>
+            <div
+              style={{
+                display: "flex",
+                gap: ".5rem",
+                marginTop: "1rem",
+              }}
+            >
               <button
                 type="button"
                 disabled={busy}
