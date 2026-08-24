@@ -21,15 +21,7 @@ router.get("/atlas/why", (req, res) => {
 
   const intent = req.query.intent ?? null;
 
-  const state = {
-
-    before: {},
-
-    after: {}
-
-  };
-
-  const explanation = reconstructWhy(intent, events, state);
+  const explanation = reconstructWhy(intent, events);
 
   res.json({
 
