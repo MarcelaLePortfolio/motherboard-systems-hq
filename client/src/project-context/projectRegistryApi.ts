@@ -4,6 +4,7 @@ const PROJECT_REGISTRY_ENDPOINT = "/api/projects/registry";
 const ACTIVE_PROJECT_ENDPOINT = "/api/projects/active";
 const INSPECT_PROJECT_PATH_ENDPOINT = "/api/projects/inspect-path";
 const REGISTER_PROJECT_ENDPOINT = "/api/projects/register";
+const ARCHIVE_PROJECT_ENDPOINT = "/api/projects/archive";
 
 export interface ProjectPathInspection {
   ok: boolean;
@@ -93,4 +94,16 @@ export async function registerProject(
   });
 
   return readProjectRegistryResponse(response, "Failed to register project");
+}
+
+export async function archiveProject(
+  projectId: string
+): Promise<ProjectRegistryState> {
+  const response = await fetch(ARCHIVE_PROJECT_ENDPOINT, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ projectId }),
+  });
+
+  return readProjectRegistryResponse(response, "Failed to archive project");
 }

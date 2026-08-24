@@ -18,8 +18,14 @@ function deriveDisplayName(name: string) {
 }
 
 export default function ProjectContextControl() {
-  const { registry, loading, error, switchProject, registerProject } =
-    useProjectContext();
+  const {
+    registry,
+    loading,
+    error,
+    switchProject,
+    registerProject,
+    archiveProject,
+  } = useProjectContext();
 
   const [open, setOpen] = useState(false);
   const [registering, setRegistering] = useState(false);
@@ -97,6 +103,19 @@ export default function ProjectContextControl() {
     }
   }
 
+  async function archive(projectIdToArchive: string) {
+    setBusy(true);
+    setMessage(null);
+
+    try {
+      await archiveProject(projectIdToArchive);
+    } catch (err) {
+      setMessage(err instanceof Error ? err.message : "Archive failed.");
+    } finally {
+      setBusy(false);
+    }
+  }
+
   const projects = registry?.projects ?? [];
   const activeProjectId = registry?.activeProjectId ?? null;
 
@@ -161,19 +180,30 @@ export default function ProjectContextControl() {
             <div className="project-lifecycle-group">
               <div className="project-lifecycle-group__label">Available</div>
               {availableProjects.map((project) => (
-                <button
-                  key={project.projectId}
-                  className="project-context-menu__item"
-                  type="button"
-                  role="menuitem"
-                  onClick={() => {
-                    void switchProject(project.projectId).then(() =>
-                      setOpen(false),
-                    );
-                  }}
-                >
-                  {project.displayName}
-                </button>
+                <div key={project.projectId}>
+                  <button
+                    className="project-context-menu__item"
+                    type="button"
+                    role="menuitem"
+                    disabled={busy}
+                    onClick={() => {
+                      void switchProject(project.projectId).then(() =>
+                        setOpen(false),
+                      );
+                    }}
+                  >
+                    {project.displayName}
+                  </button>
+                  <button
+                    className="project-context-menu__item"
+                    type="button"
+                    role="menuitem"
+                    disabled={busy}
+                    onClick={() => void archive(project.projectId)}
+                  >
+                    Archive {project.displayName}
+                  </button>
+                </div>
               ))}
             </div>
           )}

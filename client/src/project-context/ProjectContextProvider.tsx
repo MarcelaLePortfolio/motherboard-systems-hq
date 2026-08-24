@@ -7,6 +7,7 @@ import {
   type ReactNode,
 } from "react";
 import {
+  archiveProject as archiveProjectRequest,
   getProjectRegistry,
   registerProject as registerProjectRequest,
   setActiveProject,
@@ -21,6 +22,7 @@ export interface ProjectContextValue {
   refresh: () => Promise<void>;
   switchProject: (projectId: string) => Promise<void>;
   registerProject: (input: RegisterProjectInput) => Promise<void>;
+  archiveProject: (projectId: string) => Promise<void>;
 }
 
 export const ProjectContext = createContext<ProjectContextValue | null>(null);
@@ -62,6 +64,16 @@ export function ProjectContextProvider({ children }: { children: ReactNode }) {
     }
   }, []);
 
+  const archiveProject = useCallback(async (projectId: string) => {
+    setError(null);
+    try {
+      setRegistry(await archiveProjectRequest(projectId));
+    } catch (err) {
+      setError(err instanceof Error ? err : new Error("Unknown error"));
+      throw err;
+    }
+  }, []);
+
   useEffect(() => {
     void refresh();
   }, [refresh]);
@@ -74,8 +86,17 @@ export function ProjectContextProvider({ children }: { children: ReactNode }) {
       refresh,
       switchProject,
       registerProject,
+      archiveProject,
     }),
-    [registry, loading, error, refresh, switchProject, registerProject]
+    [
+      registry,
+      loading,
+      error,
+      refresh,
+      switchProject,
+      registerProject,
+      archiveProject,
+    ]
   );
 
   return (
