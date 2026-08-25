@@ -1,0 +1,40 @@
+#!/usr/bin/env bash
+set -euo pipefail
+cd "$(git rev-parse --show-toplevel)"
+
+echo "=== VERIFY CURRENT STABLE WORKING TREE BOUNDARY ==="
+echo "VERIFIED_BASELINE_COMMIT=1d392012"
+echo "CURRENT_RUNTIME_STATE=STABLE"
+echo "TRACKED_WORKING_TREE_DRIFT_EXPECTED=NO"
+echo "LOCAL_DATABASE_BACKUPS_EXPECTED=YES"
+
+TRACKED_COUNT="$(git status --porcelain | awk '$1 != "??" {count++} END {print count+0}')"
+
+if [[ "${TRACKED_COUNT}" != "0" ]]; then
+  echo "TRACKED_WORKING_TREE_DRIFT=YES"
+  git status --short
+  exit 1
+fi
+
+echo "TRACKED_WORKING_TREE_DRIFT=NO"
+
+for backup in \
+  db/main.db.pre-operational-package-authority-20260825_140352.bak \
+  db/main.db.pre-project-scoped-delegation-20260825_105613.bak
+do
+  if [[ ! -f "${backup}" ]]; then
+    echo "EXPECTED_LOCAL_BACKUP_MISSING=${backup}"
+    exit 1
+  fi
+done
+
+echo "LOCAL_DATABASE_BACKUPS=PRESENT"
+echo "LOCAL_DATABASE_BACKUPS_CLASS=UNTRACKED_RECOVERY_ARTIFACTS"
+echo "LOCAL_DATABASE_BACKUPS_REQUIRE_COMMIT=NO"
+echo "PROJECT_CONTEXT_AND_EMPTY_MISSION_REGRESSION=CLOSED"
+echo "MISSION_CONTROL_PROJECT_CONTEXT_ALIGNMENT_MILESTONE_REOPENED=NO"
+echo "ACTIVE_RUNTIME_SUCCESSOR_MILESTONE=NONE"
+echo "IMPLEMENTATION_AUTHORIZED=NO"
+echo "PRODUCTION_CHANGE=NONE"
+echo "STABLE_CHECKPOINT=CONFIRMED"
+echo "NEXT_ACTION=AWAIT_NEW_EVIDENCE_OR_USER_SELECTED_PRIORITY"
