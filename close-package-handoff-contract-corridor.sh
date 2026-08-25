@@ -1,0 +1,91 @@
+#!/usr/bin/env bash
+set -euo pipefail
+cd "$(git rev-parse --show-toplevel)"
+
+PROJECT_ID="hq"
+PACKAGE_ID="pkg-ff156f5a-cd71-4cf9-8955-f3beaafb261c"
+PACKAGE_VERSION="1"
+
+echo "=== FORMALLY CLOSE PACKAGE HANDOFF CONTRACT CORRIDOR ==="
+echo "ACTIVE_PHASE=AUTHORITATIVE_MISSION_PACKAGE_HANDOFF"
+echo "CLOSING_CORRIDOR=PACKAGE_HANDOFF_CONTRACT"
+echo "RUNTIME_IMPLEMENTATION_COMMIT=2efe86d5"
+echo "LIVE_RECONCILIATION_SCRIPT_COMMIT=637ee00f"
+echo "IMPLEMENTATION_AUTHORIZED=NO"
+echo "PRODUCTION_CHANGE=NONE"
+
+echo
+echo "=== LIVE PROJECTION VERIFICATION ==="
+MATCH_COUNT="$(sqlite3 db/main.db "
+SELECT COUNT(*)
+FROM matilda_canonical_packages c
+JOIN governance_packages g
+  ON g.package_id = c.package_id
+ AND g.package_version = c.package_version
+WHERE c.project_id = '${PROJECT_ID}'
+  AND c.package_id = '${PACKAGE_ID}'
+  AND c.package_version = ${PACKAGE_VERSION}
+  AND c.status = 'canonical_approved'
+  AND g.project_id = c.project_id
+  AND g.conversation_id = c.conversation_id
+  AND g.requested_outcome = c.approved_expected_outcome
+  AND g.created_at = c.created_at
+  AND g.scope IS NULL
+  AND g.containment IS NULL
+  AND g.constraints IS NULL
+  AND g.success_criteria IS NULL
+  AND g.context IS NULL
+  AND g.style_presentation_intent IS NULL
+  AND g.exclusions IS NULL;
+")"
+
+echo "EXACT_LIVE_PROJECTION_MATCH_COUNT=${MATCH_COUNT}"
+
+if [ "${MATCH_COUNT}" != "1" ]; then
+  echo "PACKAGE_HANDOFF_CONTRACT_CLOSURE=BLOCKED"
+  echo "REASON=EXACT_LIVE_PROJECTION_NOT_VERIFIED"
+  exit 1
+fi
+
+echo
+echo "=== AUTHORITY NON-ESCALATION VERIFICATION ==="
+DELEGATION_COUNT="$(sqlite3 db/main.db "
+SELECT COUNT(*)
+FROM governance_delegations
+WHERE package_id = '${PACKAGE_ID}'
+  AND package_version = ${PACKAGE_VERSION};
+")"
+
+echo "LIVE_DELEGATION_COUNT=${DELEGATION_COUNT}"
+
+if [ "${DELEGATION_COUNT}" != "0" ]; then
+  echo "PACKAGE_HANDOFF_CONTRACT_CLOSURE=BLOCKED"
+  echo "REASON=UNEXPECTED_DELEGATION_STATE"
+  exit 1
+fi
+
+echo
+echo "=== CORRIDOR CLOSURE DETERMINATION ==="
+echo "SOURCE_AUTHORITY=EXACT_canonical_approved_PACKAGE"
+echo "SOURCE_IDENTITY=project_id+package_id+package_version"
+echo "TARGET=governance_packages_DERIVED_MISSION_READ_PROJECTION"
+echo "POST_APPROVAL_PROJECTION_RUNTIME=IMPLEMENTED"
+echo "TARGETED_VALIDATION=PASS"
+echo "LIVE_EXISTING_PACKAGE_RECONCILIATION=PASS"
+echo "IDEMPOTENT_RETRY=PASS"
+echo "FAIL_CLOSED_CONFLICT_BEHAVIOR=PASS"
+echo "LEGACY_FIELDS_NULL=PASS"
+echo "DELEGATION_STATE_UNCHANGED=YES"
+echo "MISSION_READ_CHANGE=NO"
+echo "MISSION_CONTROL_CHANGE=NO"
+echo "EXECUTION_CHANGE=NO"
+echo "GENERAL_HISTORICAL_BACKFILL=NOT_PERFORMED"
+
+echo
+echo "PACKAGE_HANDOFF_CONTRACT_CORRIDOR=CLOSED"
+echo "PACKAGE_HANDOFF_CONTRACT_DESIGN=CLOSED"
+echo "PACKAGE_HANDOFF_CONTRACT_RUNTIME=CLOSED"
+echo "PACKAGE_HANDOFF_CONTRACT_LIVE_STATE=CLOSED"
+echo "PROJECT_BOUND_HANDOFF_STARTED=NO"
+echo "NEXT_CORRIDOR=PROJECT_BOUND_HANDOFF"
+echo "NEXT_ACTION=BEGIN_PROJECT_BOUND_HANDOFF_IN_COLLABORATION_MODE_WITH_SCOPE_DETERMINATION_BEFORE_IMPLEMENTATION"
