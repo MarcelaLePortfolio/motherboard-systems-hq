@@ -370,15 +370,29 @@ export default function MissionDashboardWorkspace() {
     );
   }
 
-  if (status === "not_found") {
-    return (
-      <div className="mission-dashboard-state">
-        No mission is currently in progress.
-      </div>
-    );
-  }
+  const emptyMission =
+    status === "not_found"
+      ? ({
+          packageId: "No active mission",
+          version: 0,
+          projectId: activeProjectId ?? "No active project",
+          stage: "idle",
+          owner: null,
+          health: "idle",
+          awaiting: null,
+          evidenceCount: 0,
+          progressPosition: null,
+          progressTotal: 0,
+          progressStages: null,
+          latestEvent: null,
+          nextStep: null,
+          activeAgent: null,
+        } satisfies MissionPresentationModel)
+      : null;
 
-  if (status === "error" || !mission) {
+  const displayedMission = mission ?? emptyMission;
+
+  if (status === "error" || !displayedMission) {
     return (
       <div className="mission-dashboard-state mission-dashboard-state--error">
         <p>{error ?? "Mission Control could not load the current mission."}</p>
@@ -418,31 +432,31 @@ export default function MissionDashboardWorkspace() {
           className="mission-dashboard__hero-region"
           aria-label="Executive brief and mission status"
         >
-          <ExecutiveBriefCard mission={mission} />
-          <MissionStatusCard mission={mission} />
+          <ExecutiveBriefCard mission={displayedMission} />
+          <MissionStatusCard mission={displayedMission} />
         </section>
 
         <section
           className="mission-dashboard__progress-region"
           aria-label="Mission progress"
         >
-          <MissionProgressCard mission={mission} />
+          <MissionProgressCard mission={displayedMission} />
         </section>
 
         <section
           className="mission-dashboard__action-region"
           aria-label="Executive action cards"
         >
-          <LatestEventCard mission={mission} />
-          <NextStepCard mission={mission} />
-          <ActiveAgentCard mission={mission} />
+          <LatestEventCard mission={displayedMission} />
+          <NextStepCard mission={displayedMission} />
+          <ActiveAgentCard mission={displayedMission} />
         </section>
 
         <section
           className="mission-dashboard__pipeline-region"
           aria-label="Mission pipeline position"
         >
-          <MissionPipelineCard mission={mission} />
+          <MissionPipelineCard mission={displayedMission} />
         </section>
         {/* --------------------------------------------------------------------------
             Archived Presentation Components
