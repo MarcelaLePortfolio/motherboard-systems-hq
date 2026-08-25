@@ -173,14 +173,18 @@ replacements = [
       @package_version,"""
 ),
 (
-"""    delegation_id,
+"""  return {
+
+    delegation_id,
 
     package_id,
 
     package_version,
 
     authorization_state,""",
-"""    delegation_id,
+"""  return {
+
+    delegation_id,
 
     project_id,
 
