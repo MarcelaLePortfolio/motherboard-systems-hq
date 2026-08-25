@@ -7,7 +7,7 @@ import {
 
   type CreateGovernanceDelegationInput,
 
-} from "../../db/governance-runtime.js";
+} from "../../db/governance-runtime";
 
 import {
 
