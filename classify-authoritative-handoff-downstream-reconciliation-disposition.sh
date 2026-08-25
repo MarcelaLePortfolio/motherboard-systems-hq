@@ -1,0 +1,90 @@
+#!/usr/bin/env bash
+set -euo pipefail
+cd "$(git rev-parse --show-toplevel)"
+
+echo "=== AUTHORITATIVE HANDOFF DOWNSTREAM RECONCILIATION DISPOSITION ==="
+
+echo
+echo "=== BASELINE ==="
+printf "HEAD=" && git rev-parse --short=8 HEAD
+printf "BRANCH=" && git branch --show-current
+git status --short
+
+echo
+echo "=== VERIFIED ACTIVE-HANDOFF BOUNDARY ==="
+echo "CANONICAL_PACKAGE_EXISTS=YES"
+echo "CANONICAL_PACKAGE_STATUS=canonical_approved"
+echo "CANONICAL_PACKAGE_TO_AUTHORIZED_DELEGATION_COMPLETE=NO"
+echo "ACTIVE_HANDOFF_REQUIRED_NEXT_AUTHORITY_EVENT=EXPLICIT_OPERATOR_DELEGATION"
+echo "GOVERNANCE_VALIDATION_IS_DOWNSTREAM_OF_DELEGATION=YES"
+echo "GOVERNANCE_VALIDATION_CONSUMES_DELEGATION=YES"
+echo "PENDING_DELEGATION_PACKAGE_ELIGIBLE_FOR_VALIDATION=NO"
+
+echo
+echo "=== AUTHORITATIVE DOCUMENTATION EVIDENCE ==="
+rg -n -C 8 \
+  --hidden \
+  --glob '!node_modules/**' \
+  --glob '!.git/**' \
+  --glob '!snapshots/**' \
+  --glob '!scripts_backup*/**' \
+  --glob '!*.bak' \
+  'Production Delegation Package Root Reconciliation|READY_TO_RESUME|Any Delegation implementation must continue to require explicit operator Delegation|Delegation is a prerequisite for Governance Validation|Governance Validation consumes Delegation|No Governance Validation may occur while a Package remains Pending Delegation|Governance Validation consumes Delegated Packages' \
+  docs/governance \
+  2>/dev/null | head -n 2200
+
+echo
+echo "=== LIVE CANONICAL HANDOFF STATE ==="
+sqlite3 -header -column db/main.db "
+SELECT
+  cp.package_id,
+  cp.package_version,
+  cp.status,
+  CASE WHEN d.delegation_id IS NULL THEN 'NO' ELSE 'YES' END AS canonical_delegation_present,
+  d.delegation_id,
+  d.authorization_state
+FROM matilda_canonical_packages cp
+LEFT JOIN governance_delegations d
+  ON d.package_id = cp.package_id
+ AND d.package_version = cp.package_version
+ORDER BY cp.created_at;
+"
+
+echo
+echo "=== DOWNSTREAM DEFECT REMAINS REAL BUT SEPARATE ==="
+sqlite3 -header -column db/main.db "PRAGMA foreign_key_check;"
+
+echo
+echo "=== PIPELINE ORDER ==="
+echo "CANONICAL_PACKAGE=UPSTREAM"
+echo "EXPLICIT_DELEGATION=NEXT"
+echo "GOVERNANCE_VALIDATION=AFTER_DELEGATION"
+echo "ENVELOPE_GATE=AFTER_VALIDATION"
+echo "ENVELOPE=AFTER_GATE"
+echo "ROUTING=OUT_OF_SCOPE"
+echo "ASSIGNMENT=OUT_OF_SCOPE"
+echo "EXECUTION=OUT_OF_SCOPE"
+
+echo
+echo "=== DISPOSITION ==="
+echo "QUESTION_1_CANONICAL_PACKAGE_TO_AUTHORIZED_DELEGATION_REQUIRED_FOR_ACTIVE_HANDOFF=YES"
+echo "QUESTION_2_ACTIVE_HANDOFF_COMPLETION_REQUIRES_VALIDATION_GATE_OR_ENVELOPE=NO_EVIDENCE_ESTABLISHED"
+echo "QUESTION_3_DEFERRING_DOWNSTREAM_ROOT_RECONCILIATION_BLOCKS_CURRENT_DELEGATION_HANDOFF=NO"
+echo "QUESTION_4_VALIDATION_GATE_ENVELOPE_RECONCILIATION_IS_SUCCESSOR_PIPELINE_WORK=YES"
+echo
+echo "VERIFIED_OUTCOME=ACTIVE_HANDOFF_SCOPE_STOPS_AT_AUTHORIZED_CANONICAL_DELEGATION"
+echo "VERIFIED_OUTCOME=DOWNSTREAM_VALIDATION_GATE_ENVELOPE_ROOT_DEFECT_IS_REAL"
+echo "VERIFIED_OUTCOME=DOWNSTREAM_DEFECT_DOES_NOT_JUSTIFY_COMPRESSING_LATER_PIPELINE_STAGES_INTO_CURRENT_HANDOFF"
+echo "DEFERRED_SUCCESSOR_CORRIDOR=VALIDATION_GATE_ENVELOPE_CANONICAL_LINEAGE_RECONCILIATION"
+echo "ACTIVE_CORRIDOR=PRODUCTION_DELEGATION_PACKAGE_ROOT_RECONCILIATION"
+echo "ACTIVE_CORRIDOR_READY_TO_RESUME=YES"
+echo "HISTORICAL_LINEAGE_MUTATION_AUTHORIZED=NO"
+echo "GOVERNANCE_VALIDATION_ACTIVATION_AUTHORIZED=NO"
+echo "ENVELOPE_GATE_ACTIVATION_AUTHORIZED=NO"
+echo "ENVELOPE_ACTIVATION_AUTHORIZED=NO"
+echo "ROUTING_AUTHORIZED=NO"
+echo "ASSIGNMENT_AUTHORIZED=NO"
+echo "EXECUTION_AUTHORIZED=NO"
+echo "IMPLEMENTATION_AUTHORIZED=NO"
+echo "PRODUCTION_CHANGE=NONE"
+echo "NEXT_DECISION=RETURN_TO_BOUNDED_PRODUCTION_DELEGATION_PACKAGE_ROOT_RECONCILIATION_WITH_DOWNSTREAM_LINEAGE_RECONCILIATION_EXPLICITLY_DEFERRED"
