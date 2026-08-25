@@ -11,6 +11,8 @@ test("production Delegation consumer invokes Delegation entry point with injecte
 
     delegation_id: "delegation-consumer-success",
 
+    project_id: "hq",
+
     package_id: "pkg-delegation-consumer-success",
 
     package_version: 1,
@@ -24,6 +26,8 @@ test("production Delegation consumer invokes Delegation entry point with injecte
     create_governance_delegation: (input) => ({
 
       delegation_id: input.delegation_id,
+
+      project_id: input.project_id,
 
       package_id: input.package_id,
 
@@ -72,6 +76,8 @@ test("production Delegation consumer fails closed before downstream authority", 
   const result = consumeProductionDelegationEntryPoint({
 
     delegation_id: "delegation-consumer-fail",
+
+    project_id: "hq",
 
     package_id: "pkg-delegation-consumer-fail",
 

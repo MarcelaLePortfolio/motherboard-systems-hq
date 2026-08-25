@@ -49,6 +49,8 @@ export type CreateGovernanceDelegationInput = {
 
   delegation_id: string;
 
+  project_id: string;
+
   package_id: string;
 
   package_version: number;
@@ -64,6 +66,8 @@ export type CreateGovernanceDelegationInput = {
 export type CreatedGovernanceDelegation = {
 
   delegation_id: string;
+
+  project_id: string;
 
   package_id: string;
 
@@ -230,16 +234,20 @@ export function ensureGovernanceRuntimeTables(): void {
       PRIMARY KEY (package_id, package_version)
     );
 
+    CREATE UNIQUE INDEX IF NOT EXISTS idx_matilda_canonical_packages_project_package_version
+      ON matilda_canonical_packages(project_id, package_id, package_version);
+
     CREATE TABLE IF NOT EXISTS governance_delegations (
       delegation_id TEXT PRIMARY KEY,
+      project_id TEXT NOT NULL,
       package_id TEXT NOT NULL,
       package_version INTEGER NOT NULL,
       authorization_state TEXT NOT NULL,
       authorization_timestamp TEXT NOT NULL,
       delegated_by TEXT NOT NULL,
       created_at TEXT NOT NULL,
-      FOREIGN KEY (package_id, package_version)
-        REFERENCES matilda_canonical_packages(package_id, package_version)
+      FOREIGN KEY (project_id, package_id, package_version)
+        REFERENCES matilda_canonical_packages(project_id, package_id, package_version)
     );
 
     CREATE TABLE IF NOT EXISTS governance_validation_results (
@@ -349,6 +357,8 @@ const requiredPackageTextFields = [
 const requiredDelegationTextFields = [
 
   "delegation_id",
+
+  "project_id",
 
   "package_id",
 
@@ -698,6 +708,8 @@ export function createGovernanceDelegation(
 
   const delegation_id = requireDelegationText(input, "delegation_id");
 
+  const project_id = requireDelegationText(input, "project_id");
+
   const package_id = requireDelegationText(input, "package_id");
 
   const package_version = requirePackageVersion(input.package_version, "Delegation");
@@ -710,17 +722,21 @@ export function createGovernanceDelegation(
 
   const canonicalPackage = sqlite.prepare(`
     SELECT
+      project_id,
       package_id,
       package_version
     FROM matilda_canonical_packages
-    WHERE package_id = ?
+    WHERE project_id = ?
+      AND package_id = ?
       AND package_version = ?
     LIMIT 1
   `).get(
+    project_id,
     package_id,
     package_version,
   ) as
     | {
+        project_id: string;
         package_id: string;
         package_version: number;
       }
@@ -740,6 +756,8 @@ export function createGovernanceDelegation(
 
       delegation_id,
 
+      project_id,
+
       package_id,
 
       package_version,
@@ -755,6 +773,8 @@ export function createGovernanceDelegation(
     ) VALUES (
 
       @delegation_id,
+
+      @project_id,
 
       @package_id,
 
@@ -791,6 +811,8 @@ export function createGovernanceDelegation(
   return {
 
     delegation_id,
+
+    project_id,
 
     package_id,
 

@@ -37,6 +37,8 @@ test("production Delegation entry point creates only the canonical Delegation re
 
     delegation_id: "delegation-entry-point-success",
 
+    project_id: "hq",
+
     package_id: "pkg-delegation-entry-point-success",
 
     package_version: 1,

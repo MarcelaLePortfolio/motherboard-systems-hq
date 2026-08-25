@@ -105,6 +105,8 @@ export function invokeProductionDelegationEntryPoint(
 
       delegation_id: input.delegation_id,
 
+      project_id: input.project_id,
+
       package_id: input.package_id,
 
       package_version: input.package_version,
