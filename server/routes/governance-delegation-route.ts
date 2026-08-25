@@ -21,6 +21,8 @@ export type GovernanceDelegationRouteBody = {
 
   delegation_id?: unknown;
 
+  project_id?: unknown;
+
   package_id?: unknown;
 
   package_version?: unknown;
