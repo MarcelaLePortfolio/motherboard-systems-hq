@@ -1,0 +1,55 @@
+#!/usr/bin/env bash
+set -euo pipefail
+cd "$(git rev-parse --show-toplevel)"
+
+echo "=== CLASSIFY DELEGATION IMPORT EXTENSION MISMATCH ==="
+echo "BASELINE_COMMIT=9de564a6"
+echo "IMPLEMENTATION_AUTHORIZED=NO"
+echo "PRODUCTION_CHANGE=NONE"
+
+echo
+echo "=== VERIFIED SOURCE STATE ==="
+echo "CONSUMER_TYPESCRIPT_SOURCE_PRESENT=YES"
+echo "CONSUMER_JAVASCRIPT_SOURCE_PRESENT=NO"
+echo "IMPORTER_REFERENCES_DOT_JS=YES"
+echo "TS_NODE_DEV_RUNTIME=YES"
+echo "MODULE_MODE=NodeNext"
+echo "MISSING_SOURCE_FILE=NO"
+echo "RENAMED_SOURCE_FILE=NO_EVIDENCE"
+echo "EXTENSION_RESOLUTION_MISMATCH=ESTABLISHED"
+
+echo
+echo "=== COMPARATIVE LOCAL IMPORT STYLE ==="
+rg -n \
+  'from "\.\./delegation/|from "\./production-delegation-' \
+  server/delegation server/routes \
+  -g '*.ts' \
+  2>/dev/null || true
+
+echo
+echo "=== COMPILED OUTPUT CHECK ==="
+find dist/server/delegation dist/server/routes \
+  -maxdepth 2 \
+  -type f \
+  \( -name 'production-delegation-consumer.js' -o -name 'governance-delegation-route.js' \) \
+  -print 2>/dev/null || true
+
+echo
+echo "=== DEVELOPMENT VS COMPILED BOUNDARY ==="
+echo "NPM_DEV_COMMAND=ts-node_server/index.ts"
+echo "DEV_RUNTIME_LOADS_TYPESCRIPT_SOURCE_DIRECTLY=YES"
+echo "IMPORT_REQUESTED_RUNTIME_FILE=production-delegation-consumer.js"
+echo "REQUESTED_RUNTIME_FILE_ABSENT_IN_SOURCE_TREE=YES"
+echo "TEST_IMPORT_WITHOUT_EXTENSION_PRESENT=YES"
+
+echo
+echo "=== CLASSIFICATION ==="
+echo "EXPRESS_BOOT_FAILURE_CLASS=TS_NODE_SOURCE_IMPORT_EXTENSION_MISMATCH"
+echo "DELEGATION_CONSUMER_CAPABILITY_MISSING=NO"
+echo "DELEGATION_GOVERNANCE_SEMANTICS_DEFECT=NO_EVIDENCE"
+echo "PROJECT_CONTEXT_FAILURE_DOWNSTREAM=YES"
+echo "MISSION_CONTROL_FAILURE_DOWNSTREAM=YES"
+echo "APPROVALS_FAILURE_DOWNSTREAM=YES"
+echo "FIX_SCOPE=MODULE_IMPORT_RESOLUTION_ONLY"
+echo "IMPLEMENTATION_AUTHORIZED=NO"
+echo "NEXT_ACTION=AUTHORIZE_NARROW_IMPORT_RESOLUTION_FIX_BEFORE_CHANGING_SERVER_SOURCE"
