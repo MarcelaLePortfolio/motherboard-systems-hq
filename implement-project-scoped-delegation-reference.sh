@@ -6,7 +6,7 @@ echo "=== IMPLEMENT PROJECT-SCOPED DELEGATION REFERENCE ==="
 
 echo
 echo "=== BASELINE ==="
-test "$(git rev-parse --short=8 HEAD)" = "fea53c11" || {
+test "$(git rev-parse --short=8 HEAD)" = "7d206aef" || {
   echo "Unexpected HEAD; refusing implementation."
   exit 1
 }
