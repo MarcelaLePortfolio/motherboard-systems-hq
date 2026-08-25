@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 set -euo pipefail
+cd "$(git rev-parse --show-toplevel)"
 
 echo "=== VALIDATION HISTORICAL PRESERVATION BOUNDARY ==="
 
@@ -67,19 +68,13 @@ rg -n -C 6 \
   2>/dev/null | head -n 800
 
 echo
-echo "=== FRESH DATABASE CONTRACT ==="
-node --import tsx <<'NODE'
-import Database from "better-sqlite3";
-import { ensureGovernanceRuntimeTables } from "./db/governance-runtime.ts";
-
-const db = new Database(":memory:");
-db.pragma("foreign_keys = ON");
-
-console.log("NOTE: in-memory direct initialization cannot use the module-global db/main.db runtime.");
-console.log("Inspect db/governance-runtime.ts table declarations as authoritative fresh-runtime source.");
-NODE
-
+echo "=== FRESH RUNTIME CONTRACT — SOURCE DECLARATION ==="
 sed -n '228,266p' db/governance-runtime.ts
+
+echo
+echo "=== SOURCE EXPORT CHECK ==="
+rg -n '^export .*ensureGovernanceRuntimeTables|^function ensureGovernanceRuntimeTables|^export function ensureGovernanceRuntimeTables' \
+  db/governance-runtime.ts || true
 
 echo
 echo "=== CLASSIFICATION ==="
@@ -87,6 +82,8 @@ echo "CURRENT_LIVE_VALIDATION_DELEGATION_FK=LEGACY_RENAMED_TABLE"
 echo "HISTORICAL_VALIDATION_HAS_DOWNSTREAM_DEPENDENTS=YES"
 echo "HISTORICAL_LINEAGE_MUST_NOT_BE_REINTERPRETED_AS_CANONICAL=YES"
 echo "FRESH_RUNTIME_VALIDATION_DELEGATION_FK=GOVERNANCE_DELEGATIONS"
+echo "PREVIOUS_INSPECTION_FAILURE=NONEXPORTED_INTERNAL_INITIALIZER_IMPORT"
+echo "PREVIOUS_FAILURE_CHANGES_ARCHITECTURAL_FINDING=NO"
 echo "IMPLEMENTATION_AUTHORIZED=NO"
 echo "PRODUCTION_CHANGE=NONE"
 echo "NEXT_QUESTION=CAN_LIVE_VALIDATION_SCHEMA_BE_REBUILT_TO_CURRENT_CONTRACT_WHILE_PRESERVING_HISTORICAL_ROWS_AS_HISTORICAL_AND_WITHOUT_REPARENTING_THEIR_PACKAGE_LINEAGE"
