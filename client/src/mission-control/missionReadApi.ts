@@ -64,8 +64,8 @@ type MissionReadResponse =
   | MissionReadErrorResponse;
 
 export class MissionReadNotFoundError extends Error {
-  constructor(readonly packageId: string) {
-    super(`Mission package "${packageId}" was not found.`);
+  constructor(readonly projectId: string) {
+    super(`No active operational mission exists for project "${projectId}".`);
     this.name = "MissionReadNotFoundError";
   }
 }
@@ -78,14 +78,14 @@ export class MissionReadRequestError extends Error {
 }
 
 export async function getMissionReadModel(
-  packageId: string,
+  projectId: string,
   signal?: AbortSignal,
 ): Promise<MissionReadModel> {
-  const id = packageId.trim();
+  const id = projectId.trim();
 
   if (!id) {
     throw new MissionReadRequestError(
-      "A mission package ID is required.",
+      "A project ID is required.",
       400,
     );
   }

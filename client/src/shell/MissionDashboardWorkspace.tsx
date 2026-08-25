@@ -5,10 +5,10 @@ import type {
 } from "../mission-control/missionPresentationMapper";
 import type { MissionTimelineEntry } from "../mission-control/missionReadApi";
 import { useMissionControl } from "../mission-control/useMissionControl";
+import { useProjectContext } from "../project-context/useProjectContext";
 import "./mission-dashboard.css";
 import "./mission-dashboard-presentation.css";
 
-const ACTIVE_PACKAGE_ID = "corridor-smoke";
 
 interface MissionCardProps {
   title: string;
@@ -344,11 +344,25 @@ function ActiveAgentCard({ mission }: { mission: MissionPresentationModel }) {
 }
 
 export default function MissionDashboardWorkspace() {
-  const { mission, status, error, loadMission, refresh } = useMissionControl();
+  const {
+    mission,
+    status,
+    error,
+    loadMission,
+    clearMission,
+    refresh,
+  } = useMissionControl();
+  const { registry } = useProjectContext();
+  const activeProjectId = registry?.activeProjectId ?? null;
 
   useEffect(() => {
-    void loadMission(ACTIVE_PACKAGE_ID);
-  }, [loadMission]);
+    if (!activeProjectId) {
+      clearMission();
+      return;
+    }
+
+    void loadMission(activeProjectId);
+  }, [activeProjectId, clearMission, loadMission]);
 
   if (status === "idle" || status === "loading") {
     return (

@@ -28,7 +28,8 @@ export interface MissionControlContextValue {
   status: MissionControlStatus;
   mission: MissionPresentationModel | null;
   error: string | null;
-  loadMission(packageId: string): Promise<void>;
+  loadMission(projectId: string): Promise<void>;
+  clearMission(): void;
   refresh(): Promise<void>;
 }
 
@@ -43,22 +44,40 @@ export function MissionControlProvider({
   const [mission, setMission] =
     useState<MissionPresentationModel | null>(null);
   const [error, setError] = useState<string | null>(null);
-  const [lastPackageId, setLastPackageId] =
+  const [lastProjectId, setLastProjectId] =
     useState<string | null>(null);
 
   const requestSequenceRef = useRef(0);
 
-  const loadMission = useCallback(async (packageId: string) => {
-    const normalizedPackageId = packageId.trim();
+  const clearMission = useCallback(() => {
+    requestSequenceRef.current += 1;
+    setLastProjectId(null);
+    setMission(null);
+    setError(null);
+    setStatus("idle");
+  }, []);
+
+  const loadMission = useCallback(async (projectId: string) => {
+    const normalizedProjectId = projectId.trim();
     const requestSequence = requestSequenceRef.current + 1;
 
     requestSequenceRef.current = requestSequence;
-    setLastPackageId(normalizedPackageId);
+
+    if (!normalizedProjectId) {
+      setLastProjectId(null);
+      setMission(null);
+      setError(null);
+      setStatus("idle");
+      return;
+    }
+
+    setLastProjectId(normalizedProjectId);
+    setMission(null);
     setStatus("loading");
     setError(null);
 
     try {
-      const readModel = await getMissionReadModel(normalizedPackageId);
+      const readModel = await getMissionReadModel(normalizedProjectId);
 
       if (requestSequence !== requestSequenceRef.current) {
         return;
@@ -87,12 +106,12 @@ export function MissionControlProvider({
   }, []);
 
   const refresh = useCallback(async () => {
-    if (!lastPackageId) {
+    if (!lastProjectId) {
       return;
     }
 
-    await loadMission(lastPackageId);
-  }, [lastPackageId, loadMission]);
+    await loadMission(lastProjectId);
+  }, [lastProjectId, loadMission]);
 
   const value = useMemo<MissionControlContextValue>(
     () => ({
@@ -100,9 +119,17 @@ export function MissionControlProvider({
       mission,
       error,
       loadMission,
+      clearMission,
       refresh,
     }),
-    [status, mission, error, loadMission, refresh],
+    [
+      status,
+      mission,
+      error,
+      loadMission,
+      clearMission,
+      refresh,
+    ],
   );
 
   return (
