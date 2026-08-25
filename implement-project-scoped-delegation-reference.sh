@@ -6,8 +6,9 @@ echo "=== IMPLEMENT PROJECT-SCOPED DELEGATION REFERENCE ==="
 
 echo
 echo "=== BASELINE ==="
-test "$(git rev-parse --short=8 HEAD)" = "7d206aef" || {
-  echo "Unexpected HEAD; refusing implementation."
+AUTHORIZED_ANCESTOR="fea53c11"
+git merge-base --is-ancestor "$AUTHORIZED_ANCESTOR" HEAD || {
+  echo "Authorized implementation checkpoint is not an ancestor of HEAD; refusing implementation."
   exit 1
 }
 test -z "$(git status --short)" || {
