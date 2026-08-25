@@ -1,0 +1,134 @@
+#!/usr/bin/env bash
+set -euo pipefail
+cd "$(git rev-parse --show-toplevel)"
+
+echo "=== CLASSIFY PROJECT-SCOPED READ HANDOFF BOUNDARY ==="
+echo "ACTIVE_PHASE=AUTHORITATIVE_MISSION_PACKAGE_HANDOFF"
+echo "ACTIVE_CORRIDOR=PROJECT_BOUND_HANDOFF"
+echo "LIVE_SELECTION_COMMAND_COMMIT=46164291"
+echo "IMPLEMENTATION_AUTHORIZED=NO"
+echo "PRODUCTION_CHANGE=NONE"
+
+echo
+echo "=== LIVE OPERATIONAL AUTHORITY STATE ==="
+sqlite3 -header -column db/main.db "
+SELECT
+  project_id,
+  package_id,
+  package_version,
+  selected_at
+FROM operational_package_authority
+ORDER BY project_id;
+"
+
+echo
+echo "=== EXACT AUTHORITY / CANONICAL / PROJECTION JOIN ==="
+sqlite3 -header -column db/main.db "
+SELECT
+  a.project_id,
+  a.package_id,
+  a.package_version,
+  a.selected_at,
+  c.status AS canonical_status,
+  g.project_id AS mission_project_id,
+  g.package_id AS mission_package_id,
+  g.package_version AS mission_package_version
+FROM operational_package_authority a
+JOIN matilda_canonical_packages c
+  ON c.project_id = a.project_id
+ AND c.package_id = a.package_id
+ AND c.package_version = a.package_version
+JOIN governance_packages g
+  ON g.project_id = a.project_id
+ AND g.package_id = a.package_id
+ AND g.package_version = a.package_version
+ORDER BY a.project_id;
+"
+
+echo
+echo "=== CURRENT MISSION READ CONTRACT ==="
+sed -n '1,230p' db/mission-read-repository.ts
+
+echo
+echo "=== CURRENT MISSION READ API CONTRACT ==="
+sed -n '1,180p' routes/api-mission-read.ts
+
+echo
+echo "=== CURRENT CLIENT CONTRACT ==="
+sed -n '60,130p' client/src/mission-control/missionReadApi.ts
+
+echo
+echo "=== CURRENT MISSION CONTROL CALLER ==="
+rg -n -C 18 \
+  'ACTIVE_PACKAGE_ID|loadMission\(|getMissionReadModel\(' \
+  client/src/shell/MissionDashboardWorkspace.tsx \
+  client/src/mission-control/MissionControlProvider.tsx \
+  client/src/mission-control/missionReadApi.ts \
+  2>/dev/null || true
+
+echo
+echo "=== AUTHORITY CONSUMER SURFACE ==="
+rg -n -C 16 \
+  'getOperationalPackageForProject|operational_package_authority|MissionReadRepository|loadMission\(' \
+  db server routes client/src \
+  2>/dev/null || true
+
+echo
+echo "=== PROJECT-SCOPED READ HANDOFF QUESTIONS ==="
+echo "QUESTION_1=SHOULD_PROJECT_BOUND_HANDOFF_RESOLVE_OPERATIONAL_PACKAGE_AUTHORITY_BEFORE_MISSION_READ_PACKAGE_LOOKUP"
+echo "QUESTION_2=SHOULD_MISSION_READ_ACCEPT_EXACT_project_id+package_id+package_version_INSTEAD_OF_package_id_ONLY"
+echo "QUESTION_3=SHOULD_THE_ROUTE_RESOLVE_AUTHORITY_FROM_project_id_OR_REQUIRE_PRE_RESOLVED_EXACT_IDENTITY"
+echo "QUESTION_4=HOW_DO_WE_FAIL_CLOSED_IF_CALLER_PACKAGE_ID_DISAGREES_WITH_OPERATIONAL_AUTHORITY"
+echo "QUESTION_5=CAN_THIS_BOUNDARY_BE_IMPLEMENTED_WITHOUT_STARTING_MISSION_CONTROL_INTAKE"
+
+echo
+echo "=== CURRENT EVIDENCE CLASSIFICATION ==="
+echo "OPERATIONAL_PACKAGE_AUTHORITY_LIVE_STATE=ESTABLISHED"
+echo "OPERATIONAL_PACKAGE_AUTHORITY_IDENTITY=project_id+package_id+package_version"
+echo "MISSION_READ_CURRENT_ROOT_INPUT=package_id_ONLY"
+echo "MISSION_READ_CURRENT_PROJECT_VALIDATION=AFTER_PACKAGE_LOOKUP_ONLY"
+echo "MISSION_READ_CURRENT_VERSION_SELECTION=DERIVED_FROM_MATCHED_governance_packages_ROW"
+echo "MISSION_READ_CURRENT_AUTHORITY_RESOLUTION=NONE"
+echo "MISSION_CONTROL_CURRENT_SELECTION_AUTHORITY=HARDCODED_NONAUTHORITATIVE_PACKAGE_ID"
+echo "MISSION_CONTROL_INTAKE_STARTED=NO"
+
+echo
+echo "=== MINIMUM PROJECT-BOUND READ HANDOFF CONTRACT ==="
+echo "HANDOFF_INPUT=project_id"
+echo "AUTHORITY_RESOLUTION_SOURCE=operational_package_authority"
+echo "AUTHORITY_RESOLUTION_RESULT=EXACT_project_id+package_id+package_version_OR_NULL"
+echo "MISSION_READ_LOOKUP_IDENTITY=EXACT_project_id+package_id+package_version"
+echo "MISSION_READ_MUST_NOT_SELECT_NEWEST=YES"
+echo "MISSION_READ_MUST_NOT_USE_CALLER_PACKAGE_ID_AS_AUTHORITY=YES"
+echo "MISSION_READ_MUST_NOT_USE_DELEGATION_AS_AUTHORITY=YES"
+echo "MISSION_READ_MUST_NOT_MUTATE_OPERATIONAL_AUTHORITY=YES"
+echo "NO_OPERATIONAL_AUTHORITY_FOR_PROJECT=FAIL_CLOSED_OR_NO_ACTIVE_MISSION"
+echo "AUTHORITY_PROJECTION_IDENTITY_MISMATCH=FAIL_CLOSED"
+echo "AUTHORITY_CANONICAL_IDENTITY_MISMATCH=FAIL_CLOSED"
+
+echo
+echo "=== CORRIDOR OWNERSHIP BOUNDARY ==="
+echo "PROJECT_BOUND_HANDOFF_MAY_IMPLEMENT_AUTHORITY_TO_READ_RESOLUTION=YES"
+echo "MISSION_CONTROL_INTAKE_MAY_NOT_START_YET=YES"
+echo "MISSION_CONTROL_UI_CHANGE_IN_CURRENT_UNIT=NO"
+echo "MISSION_CONTROL_PROVIDER_CHANGE_IN_CURRENT_UNIT=NO"
+echo "CLIENT_API_CHANGE_IN_CURRENT_UNIT=NO_UNLESS_REQUIRED_BY_SERVER_CONTRACT"
+echo "DELEGATION_CHANGE=NO"
+echo "VALIDATION_CHANGE=NO"
+echo "ROUTING_CHANGE=NO"
+echo "ASSIGNMENT_CHANGE=NO"
+echo "EXECUTION_CHANGE=NO"
+
+echo
+echo "=== SCOPE DETERMINATION ==="
+echo "PROJECT_BOUND_HANDOFF_OPERATIONAL_AUTHORITY_STATE=ESTABLISHED"
+echo "PROJECT_BOUND_HANDOFF_READ_HANDOFF=NOT_IMPLEMENTED"
+echo "MINIMUM_MISSING_UNIT=SERVER_SIDE_PROJECT_SCOPED_AUTHORITY_RESOLUTION_PLUS_EXACT_MISSION_READ_IDENTITY_LOOKUP"
+echo "MISSION_CONTROL_INTAKE_REMAINS_SEPARATE_CORRIDOR=YES"
+echo "PROJECT_BOUND_HANDOFF_CORRIDOR=CANNOT_CLOSE_YET"
+echo "IMPLEMENTATION_AUTHORIZED=NO"
+echo "PRODUCTION_CHANGE=NONE"
+
+echo
+echo "=== NEXT ACTION ==="
+echo "NEXT_ACTION=CLASSIFY_BOUNDED_SERVER_SIDE_PROJECT_SCOPED_READ_HANDOFF_IMPLEMENTATION_UNIT_BEFORE_AUTHORIZATION"
