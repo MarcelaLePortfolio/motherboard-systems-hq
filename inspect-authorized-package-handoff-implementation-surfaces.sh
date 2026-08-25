@@ -1,0 +1,65 @@
+#!/usr/bin/env bash
+set -euo pipefail
+cd "$(git rev-parse --show-toplevel)"
+
+echo "=== INSPECT AUTHORIZED PACKAGE HANDOFF IMPLEMENTATION SURFACES ==="
+echo "ACTIVE_PHASE=AUTHORITATIVE_MISSION_PACKAGE_HANDOFF"
+echo "ACTIVE_CORRIDOR=PACKAGE_HANDOFF_CONTRACT"
+echo "IMPLEMENTATION_AUTHORIZED=YES"
+echo "AUTHORIZED_UNIT=CANONICAL_PACKAGE_TO_MISSION_PACKAGE_PROJECTION"
+echo "PRODUCTION_CHANGE=NONE"
+
+echo
+echo "=== AUTHORIZATION CHECKPOINT ==="
+echo "AUTHORIZATION_COMMIT=c3fe140d"
+echo "AUTHORIZED_SCOPE=NEW_PROJECTION_ADAPTER+POST_APPROVAL_INTEGRATION+TARGETED_TESTS_ONLY"
+echo "SCHEMA_CHANGE_AUTHORIZED=NO"
+echo "MISSION_READ_CHANGE_AUTHORIZED=NO"
+echo "MISSION_CONTROL_CHANGE_AUTHORIZED=NO"
+echo "DELEGATION_CHANGE_AUTHORIZED=NO"
+
+echo
+echo "=== CANONICAL RUNTIME FULL RELEVANT SURFACE ==="
+sed -n '1,390p' db/matilda-canonical-package-runtime.ts
+
+echo
+echo "=== GOVERNANCE RUNTIME PACKAGE WRITE SURFACE ==="
+sed -n '520,660p' db/governance-runtime.ts
+
+echo
+echo "=== APPROVAL ROUTE SURFACE ==="
+sed -n '1,120p' server/routes/matilda-canonical-package-route.ts
+
+echo
+echo "=== CANONICAL PACKAGE TEST SURFACES ==="
+find db server routes -type f \( \
+  -name '*canonical-package*.test.ts' -o \
+  -name '*canonical*package*.test.ts' \
+\) -print | sort
+
+echo
+echo "=== TEST REFERENCES TO CANONICAL CREATION ==="
+rg -n -C 12 \
+  'createCanonicalPackageFromApprovedSummary|matilda/canonical-package|canonical_approved' \
+  db server routes \
+  --glob '*.test.ts' \
+  2>/dev/null || true
+
+echo
+echo "=== SQLITE HANDLE / EXPORT BOUNDARY ==="
+sed -n '1,80p' db/matilda-canonical-package-runtime.ts
+sed -n '1,90p' db/governance-runtime.ts
+
+echo
+echo "=== IMPLEMENTATION PLACEMENT QUESTIONS ==="
+echo "QUESTION_1=CAN_NEW_PROJECTION_ADAPTER_LIVE_IN_db/matilda-canonical-package-runtime.ts_WITHOUT_IMPORT_CYCLE"
+echo "QUESTION_2=SHOULD_ADAPTER_WRITE_governance_packages_DIRECTLY_TO_AVOID_REUSING_CALLER_VALIDATION_SEMANTICS"
+echo "QUESTION_3=CAN_POST_APPROVAL_INTEGRATION_BE_CALLED_AFTER_CANONICAL_INSERT_AND_BEFORE_ROUTE_SUCCESS_RESPONSE"
+echo "QUESTION_4=WHICH_EXISTING_TEST_FILE_CAN_HOST_MINIMUM_REGRESSION_AND_PROJECTION_TESTS"
+echo "QUESTION_5=DOES_SHARED_SQLITE_HANDLE_ALLOW_DIRECT_ATOMICALLY_VISIBLE_READ_THEN_INSERT_WITHOUT_SCHEMA_CHANGE"
+
+echo
+echo "=== IMPLEMENTATION BOUNDARY ==="
+echo "CODE_CHANGE_PERFORMED=NO"
+echo "PRODUCTION_CHANGE=NONE"
+echo "NEXT_ACTION=USE_THIS_EXACT_SURFACE_EVIDENCE_TO_WRITE_ONE_BOUNDED_IMPLEMENTATION_PATCH"
