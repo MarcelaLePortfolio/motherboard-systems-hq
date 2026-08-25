@@ -31,7 +31,7 @@ rg -n -C 16 \
   --glob '!*.bak' \
   'active_package|active_package_id|operational_package|mission_package|mission_identity|package_nomination|nominated_package|selected_package|authoritative_package|current_package|package_handoff|handoff.*package|package.*handoff' \
   db server drizzle client/src docs/governance \
-  2>/dev/null | head -n 4200
+  2>/dev/null | head -n 4200 || true
 
 echo
 echo "=== SEARCH PERSISTED PROJECT/PACKAGE BINDINGS ==="
@@ -69,7 +69,7 @@ rg -n -C 20 \
   server \
   scripts \
   --glob '!*.bak' \
-  2>/dev/null | head -n 3000
+  2>/dev/null | head -n 3000 || true
 
 echo
 echo "=== FALSIFICATION TEST ==="
