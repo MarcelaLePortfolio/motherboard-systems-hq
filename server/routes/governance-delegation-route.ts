@@ -137,6 +137,8 @@ export function buildGovernanceDelegationRouteRequest(
 
     delegation_id: normalizeText(body.delegation_id),
 
+    project_id: normalizeText(body.project_id),
+
     package_id: normalizeText(body.package_id),
 
     package_version: normalizePackageVersion(body.package_version),
