@@ -49,15 +49,15 @@ echo
 echo "=== CURRENT DELEGATION MATCH ==="
 sqlite3 -header -column db/main.db "
 SELECT
-  d.delegation_id,
-  d.package_id,
-  d.package_version,
-  d.authorization_state,
-  d.authorization_timestamp,
-  d.delegated_by,
-  d.created_at
-FROM governance_delegations d
-WHERE d.delegation_id = 'corridor-delegation';
+  delegation_id,
+  package_id,
+  package_version,
+  authorization_state,
+  authorization_timestamp,
+  delegated_by,
+  created_at
+FROM governance_delegations
+WHERE delegation_id = 'corridor-delegation';
 "
 
 echo
@@ -66,7 +66,10 @@ sqlite3 -header -column db/main.db "
 SELECT
   gp.package_id,
   gp.package_version,
-  CASE WHEN cp.package_id IS NULL THEN 'NO_CANONICAL_MATCH' ELSE 'CANONICAL_MATCH' END AS canonical_overlap
+  CASE WHEN cp.package_id IS NULL
+    THEN 'NO_CANONICAL_MATCH'
+    ELSE 'CANONICAL_MATCH'
+  END AS canonical_overlap
 FROM governance_packages gp
 LEFT JOIN matilda_canonical_packages cp
   ON cp.package_id = gp.package_id
@@ -77,105 +80,113 @@ WHERE gp.package_id = 'corridor-smoke'
 
 echo
 echo "=== SCHEMA-ONLY REPAIR SIMULATION ON DISPOSABLE COPY ==="
-TMP_DB="$(mktemp /tmp/governance-fk-repair.XXXXXX.db)"
+TMP_DB="$(mktemp /tmp/governance-fk-repair.XXXXXX)"
 cp db/main.db "$TMP_DB"
 
-node "$TMP_DB" <<'NODE'
+TMP_DB="$TMP_DB" node <<'NODE'
 const Database = require("better-sqlite3");
-const path = process.argv[2];
+
+const path = process.env.TMP_DB;
+if (!path) {
+  throw new Error("TMP_DB is required");
+}
+
 const db = new Database(path);
 
 db.pragma("foreign_keys = OFF");
 
-const tableDefinitions = [
-  {
-    name: "governance_validation_results",
-    sql: `
-      CREATE TABLE governance_validation_results_new (
-        validation_result_id TEXT PRIMARY KEY,
-        package_id TEXT NOT NULL,
-        package_version INTEGER NOT NULL,
-        delegation_id TEXT NOT NULL,
-        validation_status TEXT NOT NULL,
-        governance_findings TEXT,
-        operational_requirements TEXT,
-        capability_requirements TEXT,
-        escalations TEXT,
-        validation_timestamp TEXT NOT NULL,
-        created_at TEXT NOT NULL,
-        FOREIGN KEY (package_id, package_version)
-          REFERENCES governance_packages(package_id, package_version),
-        FOREIGN KEY (delegation_id)
-          REFERENCES governance_delegations(delegation_id)
-      );
-    `
-  },
-  {
-    name: "governance_envelope_gates",
-    sql: `
-      CREATE TABLE governance_envelope_gates_new (
-        envelope_gate_id TEXT PRIMARY KEY,
-        package_id TEXT NOT NULL,
-        package_version INTEGER NOT NULL,
-        delegation_id TEXT NOT NULL,
-        validation_result_id TEXT NOT NULL,
-        gate_status TEXT NOT NULL,
-        gate_reason TEXT,
-        gate_decision_timestamp TEXT NOT NULL,
-        created_at TEXT NOT NULL,
-        FOREIGN KEY (package_id, package_version)
-          REFERENCES governance_packages(package_id, package_version),
-        FOREIGN KEY (delegation_id)
-          REFERENCES governance_delegations(delegation_id),
-        FOREIGN KEY (validation_result_id)
-          REFERENCES governance_validation_results(validation_result_id)
-      );
-    `
-  },
-  {
-    name: "governance_envelopes",
-    sql: `
-      CREATE TABLE governance_envelopes_new (
-        envelope_id TEXT PRIMARY KEY,
-        package_id TEXT NOT NULL,
-        package_version INTEGER NOT NULL,
-        delegation_id TEXT NOT NULL,
-        validation_result_id TEXT NOT NULL,
-        envelope_gate_id TEXT NOT NULL,
-        validation_status TEXT NOT NULL,
-        required_capabilities TEXT,
-        operational_corridor TEXT,
-        lifecycle_state TEXT NOT NULL,
-        created_at TEXT NOT NULL,
-        FOREIGN KEY (package_id, package_version)
-          REFERENCES governance_packages(package_id, package_version),
-        FOREIGN KEY (delegation_id)
-          REFERENCES governance_delegations(delegation_id),
-        FOREIGN KEY (validation_result_id)
-          REFERENCES governance_validation_results(validation_result_id),
-        FOREIGN KEY (envelope_gate_id)
-          REFERENCES governance_envelope_gates(envelope_gate_id)
-      );
-    `
-  }
-];
-
 const tx = db.transaction(() => {
-  for (const {name, sql} of tableDefinitions) {
-    db.exec(sql);
-    db.exec(`INSERT INTO ${name}_new SELECT * FROM ${name};`);
-    db.exec(`DROP TABLE ${name};`);
-    db.exec(`ALTER TABLE ${name}_new RENAME TO ${name};`);
-  }
+  db.exec(`
+    CREATE TABLE governance_validation_results_new (
+      validation_result_id TEXT PRIMARY KEY,
+      package_id TEXT NOT NULL,
+      package_version INTEGER NOT NULL,
+      delegation_id TEXT NOT NULL,
+      validation_status TEXT NOT NULL,
+      governance_findings TEXT,
+      operational_requirements TEXT,
+      capability_requirements TEXT,
+      escalations TEXT,
+      validation_timestamp TEXT NOT NULL,
+      created_at TEXT NOT NULL,
+      FOREIGN KEY (package_id, package_version)
+        REFERENCES governance_packages(package_id, package_version),
+      FOREIGN KEY (delegation_id)
+        REFERENCES governance_delegations(delegation_id)
+    );
+
+    INSERT INTO governance_validation_results_new
+    SELECT * FROM governance_validation_results;
+
+    CREATE TABLE governance_envelope_gates_new (
+      envelope_gate_id TEXT PRIMARY KEY,
+      package_id TEXT NOT NULL,
+      package_version INTEGER NOT NULL,
+      delegation_id TEXT NOT NULL,
+      validation_result_id TEXT NOT NULL,
+      gate_status TEXT NOT NULL,
+      gate_reason TEXT,
+      gate_decision_timestamp TEXT NOT NULL,
+      created_at TEXT NOT NULL,
+      FOREIGN KEY (package_id, package_version)
+        REFERENCES governance_packages(package_id, package_version),
+      FOREIGN KEY (delegation_id)
+        REFERENCES governance_delegations(delegation_id),
+      FOREIGN KEY (validation_result_id)
+        REFERENCES governance_validation_results_new(validation_result_id)
+    );
+
+    INSERT INTO governance_envelope_gates_new
+    SELECT * FROM governance_envelope_gates;
+
+    CREATE TABLE governance_envelopes_new (
+      envelope_id TEXT PRIMARY KEY,
+      package_id TEXT NOT NULL,
+      package_version INTEGER NOT NULL,
+      delegation_id TEXT NOT NULL,
+      validation_result_id TEXT NOT NULL,
+      envelope_gate_id TEXT NOT NULL,
+      validation_status TEXT NOT NULL,
+      required_capabilities TEXT,
+      operational_corridor TEXT,
+      lifecycle_state TEXT NOT NULL,
+      created_at TEXT NOT NULL,
+      FOREIGN KEY (package_id, package_version)
+        REFERENCES governance_packages(package_id, package_version),
+      FOREIGN KEY (delegation_id)
+        REFERENCES governance_delegations(delegation_id),
+      FOREIGN KEY (validation_result_id)
+        REFERENCES governance_validation_results_new(validation_result_id),
+      FOREIGN KEY (envelope_gate_id)
+        REFERENCES governance_envelope_gates_new(envelope_gate_id)
+    );
+
+    INSERT INTO governance_envelopes_new
+    SELECT * FROM governance_envelopes;
+
+    DROP TABLE governance_envelopes;
+    DROP TABLE governance_envelope_gates;
+    DROP TABLE governance_validation_results;
+
+    ALTER TABLE governance_validation_results_new
+      RENAME TO governance_validation_results;
+
+    ALTER TABLE governance_envelope_gates_new
+      RENAME TO governance_envelope_gates;
+
+    ALTER TABLE governance_envelopes_new
+      RENAME TO governance_envelopes;
+  `);
 });
 
 tx();
+
 db.pragma("foreign_keys = ON");
 
 console.log("=== FOREIGN KEY CHECK AFTER SIMULATION ===");
 console.log(db.prepare("PRAGMA foreign_key_check").all());
 
-console.log("=== VALIDATION ROW AFTER SIMULATION ===");
+console.log("=== HISTORICAL VALIDATION AFTER SIMULATION ===");
 console.log(
   db.prepare(`
     SELECT *
@@ -184,7 +195,7 @@ console.log(
   `).get()
 );
 
-console.log("=== GATE ROW AFTER SIMULATION ===");
+console.log("=== HISTORICAL GATE AFTER SIMULATION ===");
 console.log(
   db.prepare(`
     SELECT *
@@ -193,7 +204,7 @@ console.log(
   `).get()
 );
 
-console.log("=== ENVELOPE ROW AFTER SIMULATION ===");
+console.log("=== HISTORICAL ENVELOPE AFTER SIMULATION ===");
 console.log(
   db.prepare(`
     SELECT *
