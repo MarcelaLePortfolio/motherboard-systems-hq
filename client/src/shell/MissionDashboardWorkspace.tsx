@@ -374,19 +374,23 @@ export default function MissionDashboardWorkspace() {
     status === "not_found"
       ? ({
           packageId: "No active mission",
+          projectId: activeProjectId,
           version: 0,
-          projectId: activeProjectId ?? "No active project",
+          requestedOutcome: "No active mission",
           stage: "idle",
-          owner: null,
+          owner: "",
           health: "idle",
           awaiting: null,
-          evidenceCount: 0,
+          artifactCount: 0,
+          lifecycleEventCount: 0,
+          integrityWarnings: [],
+          latestTimestamp: null,
+          timeline: [],
+          startedTimestamp: null,
+          progressStages: null,
           progressPosition: null,
           progressTotal: 0,
-          progressStages: null,
-          latestEvent: null,
-          nextStep: null,
-          activeAgent: null,
+          nextStageLabel: null,
         } satisfies MissionPresentationModel)
       : null;
 
