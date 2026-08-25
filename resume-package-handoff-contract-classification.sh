@@ -1,0 +1,60 @@
+#!/usr/bin/env bash
+set -euo pipefail
+cd "$(git rev-parse --show-toplevel)"
+
+echo "=== RESUME PACKAGE HANDOFF CONTRACT CLASSIFICATION ==="
+echo "ACTIVE_PHASE=AUTHORITATIVE_MISSION_PACKAGE_HANDOFF"
+echo "ACTIVE_CORRIDOR=PACKAGE_HANDOFF_CONTRACT"
+echo "PROJECT_SCOPED_DELEGATION_CORRIDOR=CLOSED"
+echo "DELEGATION_RECLOSURE_COMMIT=d7171d9b"
+echo "KNOWN_DOWNSTREAM_LEGACY_ROOT_DEFECT=STILL_SEPARATELY_DEFERRED"
+echo "IMPLEMENTATION_AUTHORIZED=NO"
+echo "PRODUCTION_CHANGE=NONE"
+
+echo
+echo "=== ESTABLISHED PACKAGE / MISSION FACTS ==="
+echo "CANONICAL_PACKAGE_AUTHORITY_ROOT=matilda_canonical_packages"
+echo "CANONICAL_PACKAGE_IDENTITY=project_id+package_id+package_version"
+echo "MISSION_READ_ROOT=governance_packages"
+echo "MISSION_READ_SELECTION=CALLER_SUPPLIED_PACKAGE_ID"
+echo "MISSION_CONTROL_ACTIVE_PACKAGE_SOURCE=HARDCODED_UI_CONFIGURATION"
+echo "DELEGATION=EXPLICIT_DISTINCT_AUTHORITY_EVENT"
+echo "DELEGATION_IS_NOT_AUTOMATIC_PACKAGE_HANDOFF=YES"
+
+echo
+echo "=== HANDOFF CONTRACT CLASSIFICATION QUESTIONS ==="
+echo "Q1=DOES_AN_AUTHORITATIVE_HANDOFF_ARTIFACT_EXIST_BETWEEN_CANONICAL_APPROVAL_AND_MISSION_READ"
+echo "Q2=IF_NOT_WHICH_RUNTIME_LAYER_MUST_OWN_SELECTION_WITHOUT_COLLAPSING_DELEGATION_INTO_HANDOFF"
+echo "Q3=WHAT_EXACT_IDENTITY_AND_STATUS_MUST_CROSS_THE_HANDOFF_BOUNDARY"
+echo "Q4=IS_GOVERNANCE_PACKAGES_AN_AUTHORITATIVE_HANDOFF_PROJECTION_OR_ONLY_LEGACY_OPERATIONAL_STORAGE"
+echo "Q5=WHAT_PRECISE_GAP_PREVENTS_PROJECT_BOUND_HANDOFF"
+
+echo
+echo "=== TARGETED REPOSITORY EVIDENCE ==="
+for file in \
+  db/mission-read-repository.ts \
+  db/governance-runtime.ts \
+  server/delegation/production-delegation-entry-point.ts \
+  server/delegation/production-delegation-consumer.ts \
+  client/src/mission-control/missionReadApi.ts \
+  client/src/mission-control/MissionControlProvider.tsx \
+  client/src/shell/MissionDashboardWorkspace.tsx
+do
+  echo "--- ${file} ---"
+  test -f "$file" && sed -n '1,900p' "$file" || echo "MISSING"
+done
+
+echo
+echo "=== FOCUSED SEARCH FOR HANDOFF OWNERSHIP ==="
+rg -n -C 8 \
+  'matilda_canonical_packages|governance_packages|canonical_approved|loadMission|ACTIVE_PACKAGE_ID|package_version|project_id|handoff|delegation' \
+  db server client \
+  | head -n 2200 || true
+
+echo
+echo "=== CLASSIFICATION ==="
+echo "PACKAGE_HANDOFF_CONTRACT_STATUS=INVESTIGATION_RESUMED"
+echo "DELEGATION_CORRIDOR_REOPENED=NO"
+echo "MISSION_CONTROL_IMPLEMENTATION_AUTHORIZED=NO"
+echo "PROJECT_BOUND_HANDOFF_STARTED=NO"
+echo "NEXT_ACTION=CLASSIFY_WHETHER_AUTHORITATIVE_HANDOFF_CAPABILITY_EXISTS_OR_IS_MISSING"
