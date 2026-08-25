@@ -794,6 +794,8 @@ export function createGovernanceDelegation(
 
     delegation_id,
 
+    project_id,
+
     package_id,
 
     package_version,
