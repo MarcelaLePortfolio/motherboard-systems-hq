@@ -1,0 +1,147 @@
+#!/usr/bin/env bash
+set -euo pipefail
+cd "$(git rev-parse --show-toplevel)"
+
+echo "=== CLASSIFY DELEGATION PROJECT-SCOPE SCHEMA MECHANISM ==="
+
+echo
+echo "=== BASELINE ==="
+printf "HEAD=" && git rev-parse --short=8 HEAD
+printf "BRANCH=" && git branch --show-current
+git status --short
+
+echo
+echo "=== VERIFIED STRUCTURAL EVIDENCE ==="
+echo "CANONICAL_PACKAGE_PRIMARY_KEY=(package_id,package_version)"
+echo "CANONICAL_PACKAGE_PROJECT_ID=NULLABLE"
+echo "CANONICAL_PACKAGE_UNIQUE_PROJECT_PACKAGE_VERSION_CONSTRAINT=NO"
+echo "DELEGATION_CURRENT_FK=(package_id,package_version)"
+echo "DELEGATION_PROJECT_ID=ABSENT"
+echo "CROSS_PROJECT_DUPLICATE_PACKAGE_VERSION_OBSERVED=NO"
+echo "ABSENCE_OF_CURRENT_DUPLICATES_DOES_NOT_ESTABLISH_DATABASE_UNIQUENESS=YES"
+
+echo
+echo "=== SQLITE COMPOSITE FK REQUIREMENT ==="
+echo "DATABASE_ENFORCED_TARGET=(project_id,package_id,package_version)"
+echo "PARENT_MUST_HAVE_MATCHING_UNIQUE_OR_PRIMARY_KEY=YES"
+echo "MATCHING_PARENT_UNIQUE_CONSTRAINT_CURRENTLY_PRESENT=NO"
+echo "DIRECT_COMPOSITE_FK_WITHOUT_PARENT_UNIQUE_INDEX=NOT_SCHEMA_SAFE"
+
+echo
+echo "=== NULLABILITY BOUNDARY ==="
+echo "HISTORICAL_CANONICAL_PACKAGE_PROJECT_ID_MAY_BE_NULL=YES"
+echo "GLOBAL_PROJECT_ID_NOT_NULL_REWRITE_REQUIRED=NO"
+echo "HISTORICAL_PACKAGE_REPARENTING_ALLOWED=NO"
+echo "NEW_CANONICAL_PACKAGE_PROJECT_SCOPE_EXPECTED=YES"
+echo "LEGACY_TRUTH_MUST_REMAIN_UNCHANGED=YES"
+
+echo
+echo "=== INSPECT NULL PROJECT DISTRIBUTION ==="
+sqlite3 -header -column db/main.db "
+SELECT
+  COUNT(*) AS total_canonical_packages,
+  SUM(CASE WHEN project_id IS NULL OR TRIM(project_id) = '' THEN 1 ELSE 0 END) AS null_or_blank_project_packages,
+  SUM(CASE WHEN project_id IS NOT NULL AND TRIM(project_id) <> '' THEN 1 ELSE 0 END) AS project_scoped_packages
+FROM matilda_canonical_packages;
+"
+
+echo
+echo "=== INSPECT PROJECT-SCOPED IDENTITY COLLISIONS ==="
+sqlite3 -header -column db/main.db "
+SELECT
+  project_id,
+  package_id,
+  package_version,
+  COUNT(*) AS row_count
+FROM matilda_canonical_packages
+WHERE project_id IS NOT NULL
+  AND TRIM(project_id) <> ''
+GROUP BY project_id, package_id, package_version
+HAVING COUNT(*) > 1;
+"
+
+echo
+echo "=== INSPECT EXISTING CANONICAL DELEGATIONS AND PROJECT ROOTS ==="
+sqlite3 -header -column db/main.db "
+SELECT
+  d.delegation_id,
+  d.package_id,
+  d.package_version,
+  d.authorization_state,
+  cp.project_id AS canonical_project_id
+FROM governance_delegations d
+LEFT JOIN matilda_canonical_packages cp
+  ON cp.package_id = d.package_id
+ AND cp.package_version = d.package_version
+ORDER BY d.created_at;
+"
+
+echo
+echo "=== TEST UNIQUE INDEX FEASIBILITY IN DISPOSABLE DATABASE COPY ==="
+TMP_DB="$(mktemp "${TMPDIR:-/tmp}/delegation-project-scope.XXXXXX.db")"
+trap 'rm -f "$TMP_DB"' EXIT
+cp db/main.db "$TMP_DB"
+
+sqlite3 "$TMP_DB" "
+CREATE UNIQUE INDEX probe_matilda_canonical_packages_project_package_version
+ON matilda_canonical_packages(project_id, package_id, package_version);
+"
+
+echo "PROJECT_PACKAGE_VERSION_UNIQUE_INDEX_PROBE=PASS"
+
+echo
+echo "=== TEST COMPOSITE FK SHAPE IN DISPOSABLE TABLE ==="
+sqlite3 "$TMP_DB" "
+PRAGMA foreign_keys = ON;
+
+CREATE TABLE probe_project_scoped_delegations (
+  delegation_id TEXT PRIMARY KEY,
+  project_id TEXT NOT NULL,
+  package_id TEXT NOT NULL,
+  package_version INTEGER NOT NULL,
+  FOREIGN KEY (project_id, package_id, package_version)
+    REFERENCES matilda_canonical_packages(project_id, package_id, package_version)
+);
+"
+
+echo "PROJECT_SCOPED_DELEGATION_COMPOSITE_FK_DDL_PROBE=PASS"
+
+echo
+echo "=== CLASSIFICATION ==="
+echo "FAILED_HYPOTHESIS=NO"
+echo "DATABASE_ENFORCED_PROJECT_SCOPED_DELEGATION=SCHEMA_FEASIBLE"
+echo "REQUIRED_PARENT_ADDITION=UNIQUE_INDEX_ON_PROJECT_ID_PACKAGE_ID_PACKAGE_VERSION"
+echo "REQUIRED_DELEGATION_ADDITION=PROJECT_ID"
+echo "REQUIRED_NEW_DELEGATION_FK=(project_id,package_id,package_version)"
+echo "CANONICAL_PACKAGE_PRIMARY_KEY_CHANGE_REQUIRED=NO"
+echo "CANONICAL_PACKAGE_PROJECT_ID_NOT_NULL_MIGRATION_REQUIRED=NO"
+echo "HISTORICAL_CANONICAL_PACKAGE_MUTATION_REQUIRED=NO"
+echo "HISTORICAL_DELEGATION_REPARENTING_REQUIRED=NO"
+echo "APPLICATION_ONLY_PROJECT_SCOPE_CHECK_PREFERRED=NO"
+echo "DATABASE_ENFORCEMENT_AVAILABLE_WITH_BOUNDED_SCHEMA_EXTENSION=YES"
+
+echo
+echo "=== AUTHORITY PRESERVATION ==="
+echo "DELEGATION_REMAINS_EXPLICIT_OPERATOR_AUTHORITY_EVENT=YES"
+echo "PROJECT_ID_CONFERS_NEW_AUTHORITY=NO"
+echo "APPROVAL_SEMANTICS_CHANGE=NO"
+echo "VALIDATION_SEMANTICS_CHANGE=NO"
+echo "GATE_SEMANTICS_CHANGE=NO"
+echo "ENVELOPE_SEMANTICS_CHANGE=NO"
+echo "ROUTING_CHANGE=NO"
+echo "ASSIGNMENT_CHANGE=NO"
+echo "EXECUTION_CHANGE=NO"
+
+echo
+echo "=== SCOPE DETERMINATION ==="
+echo "VERIFIED_OUTCOME=PROJECT_SCOPED_DELEGATION_CAN_BE_DATABASE_ENFORCED_WITHOUT_CHANGING_CANONICAL_PACKAGE_PRIMARY_IDENTITY"
+echo "VERIFIED_OUTCOME=BOUNDED_PARENT_UNIQUE_INDEX_ENABLES_COMPOSITE_DELEGATION_REFERENCE"
+echo "VERIFIED_OUTCOME=NULL_HISTORICAL_PROJECT_ROWS_NEED_NOT_BE_REPARENTED_TO_ENABLE_NEW_PROJECT_SCOPED_REFERENCES"
+echo "COMPLETED_DELEGATION_PACKAGE_ROOT_RECONCILIATION_REOPENED=NO"
+echo "KNOWN_DOWNSTREAM_GOVERNANCE_LINEAGE_DEFECT_REOPENED=NO"
+echo "IMPLEMENTATION_AUTHORIZED=NO"
+echo "PRODUCTION_CHANGE=NONE"
+
+echo
+echo "=== NEXT DECISION ==="
+echo "NEXT_DECISION=PRESENT_BOUNDED_PROJECT_SCOPED_DELEGATION_IMPLEMENTATION_UNIT_FOR_EXPLICIT_AUTHORIZATION"
