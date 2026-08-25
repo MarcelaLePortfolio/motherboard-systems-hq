@@ -69,22 +69,29 @@ import Database from "better-sqlite3";
 import { createMissionReadRepository } from "./db/mission-read-repository.ts";
 import { assembleMissionReadModel } from "./db/mission-read-model-assembler.ts";
 
-const db = new Database("db/main.db", { readonly: true });
+async function main(): Promise<void> {
+  const db = new Database("db/main.db", { readonly: true });
 
-try {
-  const repository = createMissionReadRepository(db);
-  const input = await repository.loadMission("corridor-smoke");
+  try {
+    const repository = createMissionReadRepository(db);
+    const input = await repository.loadMission("corridor-smoke");
 
-  console.log("MISSION_INPUT_PRESENT=" + (input ? "YES" : "NO"));
+    console.log("MISSION_INPUT_PRESENT=" + (input ? "YES" : "NO"));
 
-  if (input) {
-    console.log(JSON.stringify(input, null, 2));
-    console.log("=== ASSEMBLED MISSION ===");
-    console.log(JSON.stringify(assembleMissionReadModel(input), null, 2));
+    if (input) {
+      console.log(JSON.stringify(input, null, 2));
+      console.log("=== ASSEMBLED MISSION ===");
+      console.log(JSON.stringify(assembleMissionReadModel(input), null, 2));
+    }
+  } finally {
+    db.close();
   }
-} finally {
-  db.close();
 }
+
+main().catch((error) => {
+  console.error(error);
+  process.exit(1);
+});
 '
 
 echo
