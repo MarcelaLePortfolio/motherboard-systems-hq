@@ -11,70 +11,24 @@ printf "BRANCH=" && git branch --show-current
 git status --short
 
 echo
-echo "=== PRESERVED CORRECTIONS ==="
-echo "PRODUCTION_DELEGATION_PACKAGE_ROOT_RECONCILIATION=COMPLETE_AND_VALIDATED"
-echo "CURRENT_CANONICAL_PACKAGE_DELEGATION_EVENT=PENDING_OPERATOR_AUTHORITY"
-echo "PENDING_DELEGATION_IS_NOT_RUNTIME_IMPLEMENTATION_FAILURE=YES"
-echo "DOWNSTREAM_VALIDATION_GATE_ENVELOPE_DEFECT=SEPARATELY_DEFERRED"
-echo "DO_NOT_AUTO_DELEGATE=YES"
-echo "IMPLEMENTATION_AUTHORIZED=NO"
+echo "=== FAILURE CLASSIFICATION ==="
+echo "FAILED_HYPOTHESIS=NO"
+echo "REPOSITORY_DEFECT_ESTABLISHED=NO"
+echo "INSPECTION_SCRIPT_DEFECT=YES"
+echo "DEFECT=QUERY_REFERENCED_NONEXISTENT_APPROVED_AT_COLUMN"
+echo "PRIOR_EVIDENCE_INVALIDATED=NO"
 echo "PRODUCTION_CHANGE=NONE"
+echo "IMPLEMENTATION_AUTHORIZED=NO"
 
 echo
-echo "=== FIND AUTHORITATIVE MISSION PACKAGE HANDOFF STATE ==="
-rg -n -C 18 \
-  --hidden \
-  --glob '!node_modules/**' \
-  --glob '!.git/**' \
-  --glob '!snapshots/**' \
-  --glob '!scripts_backup*/**' \
-  --glob '!*.bak' \
-  'AUTHORITATIVE MISSION PACKAGE HANDOFF|Authoritative Mission Package Handoff|Operational Package Authority|Package Handoff Contract|Project-Bound Handoff|Mission Control Intake|Handoff Validation|Mission Package Handoff' \
-  docs/governance docs/checkpoints . \
-  2>/dev/null | head -n 3600
-
-echo
-echo "=== OPERATIONAL PACKAGE AUTHORITY EVIDENCE ==="
-rg -n -C 16 \
-  --hidden \
-  --glob '!node_modules/**' \
-  --glob '!.git/**' \
-  --glob '!snapshots/**' \
-  --glob '!scripts_backup*/**' \
-  --glob '!*.bak' \
-  'operational package|Operational Package|mission identity|Mission identity|package_id.*package_version|project_id.*package_id|handoff|nominate|nomination|activate.*package|active.*package' \
-  docs/governance db server client/src \
-  2>/dev/null | head -n 3600
-
-echo
-echo "=== MISSION READ STAGE CAPABILITY ==="
-sed -n '1,260p' db/mission-read-model-assembler.ts
-
-echo
-echo "=== MISSION READ ROOT ==="
-sed -n '1,180p' db/mission-read-repository.ts
-
-echo
-echo "=== MISSION CONTROL PACKAGE SELECTION ==="
-rg -n -C 16 \
-  --hidden \
-  --glob '!node_modules/**' \
-  --glob '!.git/**' \
-  'ACTIVE_PACKAGE_ID|loadMission\(|corridor-smoke|packageId|package_id|activeProjectId' \
-  client/src db server \
-  2>/dev/null | head -n 2800
+echo "=== ACTUAL CANONICAL PACKAGE TABLE CONTRACT ==="
+sqlite3 db/main.db ".schema matilda_canonical_packages"
+sqlite3 -header -column db/main.db "PRAGMA table_info(matilda_canonical_packages);"
 
 echo
 echo "=== CANONICAL PACKAGE LIVE STATE ==="
 sqlite3 -header -column db/main.db "
-SELECT
-  package_id,
-  package_version,
-  project_id,
-  conversation_id,
-  status,
-  approved_at,
-  created_at
+SELECT *
 FROM matilda_canonical_packages
 ORDER BY created_at;
 "
@@ -95,34 +49,44 @@ ORDER BY created_at;
 "
 
 echo
-echo "=== SEARCH FOR EXACT MISSION NOMINATION RECORD ==="
-rg -n -C 14 \
+echo "=== OPERATIONAL PACKAGE AUTHORITY / HANDOFF EVIDENCE ==="
+rg -n -C 18 \
   --hidden \
   --glob '!node_modules/**' \
   --glob '!.git/**' \
   --glob '!snapshots/**' \
   --glob '!scripts_backup*/**' \
   --glob '!*.bak' \
-  'mission_package|mission package|mission_identity|mission identity|operational_package|operational package|handoff_record|handoff record|package_nomination|package nomination|active_package|selected_package' \
-  db drizzle server client/src docs/governance \
-  2>/dev/null | head -n 3200
+  'AUTHORITATIVE MISSION PACKAGE HANDOFF|Authoritative Mission Package Handoff|Operational Package Authority|mission identity|Mission identity|operational package|Operational Package|handoff|nomination|active_package|selected_package|loadMission\(' \
+  docs/governance db server client/src \
+  2>/dev/null | head -n 4200
+
+echo
+echo "=== MISSION READ ROOT ==="
+sed -n '1,260p' db/mission-read-repository.ts
+
+echo
+echo "=== MISSION READ MODEL ASSEMBLY ==="
+sed -n '1,300p' db/mission-read-model-assembler.ts
 
 echo
 echo "=== AUTHORITY FALSIFICATION QUESTIONS ==="
-echo "Q1=DOES_CANONICAL_APPROVAL_SEMANTICALLY_NOMINATE_THE_PACKAGE_AS_MISSION_CONTROL_MISSION"
-echo "Q2=DOES_EXPLICIT_DELEGATION_SEMANTICALLY_NOMINATE_THE_PACKAGE_AS_MISSION_CONTROL_MISSION_OR_ONLY_AUTHORIZE_INTERPRETATION"
-echo "Q3=DOES_ANY_EXISTING_PERSISTED_RECORD_EXPLICITLY_CARRY_PROJECT_ID_PACKAGE_ID_PACKAGE_VERSION_AS_OPERATIONAL_MISSION_IDENTITY"
-echo "Q4=CAN_MISSION_CONTROL_SELECT_A_PACKAGE_WITHOUT_RECENCY_APPROVAL_UI_OR_PROJECT_ONLY_INFERENCE"
-echo "Q5=IS_A_NEW_HANDOFF_CONTRACT_ACTUALLY_MISSING_OR_DOES_AN_EXISTING_AUTHORITY_EVENT_ALREADY_SATISFY_THE_ROLE"
+echo "Q1=DOES_CANONICAL_APPROVAL_NOMINATE_THE_PACKAGE_AS_THE_OPERATIONAL_MISSION"
+echo "Q2=DOES_DELEGATION_NOMINATE_THE_PACKAGE_AS_THE_OPERATIONAL_MISSION_OR_ONLY_AUTHORIZE_DOWNSTREAM_INTERPRETATION"
+echo "Q3=DOES_ANY_PERSISTED_RECORD_EXPLICITLY_BIND_PROJECT_ID_PACKAGE_ID_PACKAGE_VERSION_AS_MISSION_IDENTITY"
+echo "Q4=CAN_MISSION_CONTROL_SELECT_THE_PACKAGE_WITHOUT_RECENCY_UI_OR_PROJECT_ONLY_INFERENCE"
+echo "Q5=IS_A_NEW_HANDOFF_AUTHORITY_CONTRACT_MISSING_OR_DOES_AN_EXISTING_AUTHORITY_EVENT_ALREADY_SATISFY_IT"
 
 echo
-echo "=== CLASSIFICATION BOUNDARY ==="
+echo "=== SCOPE DETERMINATION ==="
+echo "VERIFIED_OUTCOME=PRODUCTION_DELEGATION_PACKAGE_ROOT_RECONCILIATION_COMPLETE"
+echo "VERIFIED_OUTCOME=PENDING_OPERATOR_DELEGATION_IS_NOT_INCOMPLETE_RUNTIME_IMPLEMENTATION"
 echo "CURRENT_PHASE=AUTHORITATIVE_MISSION_PACKAGE_HANDOFF"
 echo "CURRENT_CORRIDOR=OPERATIONAL_PACKAGE_AUTHORITY"
 echo "DELEGATION_CORRIDOR_REOPENED=NO"
 echo "EXPLICIT_OPERATOR_DELEGATION_TRIGGERED=NO"
-echo "DOWNSTREAM_SCHEMA_RECONCILIATION_REOPENED=NO"
+echo "DOWNSTREAM_VALIDATION_GATE_ENVELOPE_RECONCILIATION=DEFERRED"
 echo "PROPOSED_IMPLEMENTATION=NONE"
 echo "IMPLEMENTATION_AUTHORIZED=NO"
 echo "PRODUCTION_CHANGE=NONE"
-echo "NEXT_DECISION=DETERMINE_WHAT_AUTHORITATIVE_PERSISTED_EVENT_OR_STATE_NOMINATES_EXACT_PROJECT_ID_PACKAGE_ID_PACKAGE_VERSION_AS_MISSION_IDENTITY_WITHOUT_INFERENCE"
+echo "NEXT_DECISION=IDENTIFY_THE_EXISTING_OR_MISSING_AUTHORITATIVE_PERSISTED_EVENT_THAT_NOMINATES_EXACT_PROJECT_ID_PACKAGE_ID_PACKAGE_VERSION_AS_MISSION_IDENTITY"
