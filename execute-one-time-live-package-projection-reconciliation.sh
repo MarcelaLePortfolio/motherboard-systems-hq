@@ -50,17 +50,16 @@ FROM governance_delegations
 WHERE package_id = '${PACKAGE_ID}'
   AND package_version = ${PACKAGE_VERSION};
 ")"
-
 echo "DELEGATION_ROWS_BEFORE=${DELEGATION_BEFORE}"
 
-cat > /tmp/run-one-time-package-projection-reconciliation.ts << 'INNER'
+cat > db/run-one-time-package-projection-reconciliation.ts << 'INNER'
 import Database from "better-sqlite3";
 
 import {
   projectCanonicalPackageToMissionPackage,
-} from "../db/canonical-package-mission-projection";
+} from "./canonical-package-mission-projection";
 
-const sqlite = new Database("../db/main.db");
+const sqlite = new Database("db/main.db");
 
 try {
   sqlite.pragma("foreign_keys = ON");
@@ -83,12 +82,8 @@ try {
 }
 INNER
 
-(
-  cd db
-  npx tsx /tmp/run-one-time-package-projection-reconciliation.ts
-)
-
-rm -f /tmp/run-one-time-package-projection-reconciliation.ts
+npx tsx db/run-one-time-package-projection-reconciliation.ts
+rm -f db/run-one-time-package-projection-reconciliation.ts
 
 echo
 echo "=== POST-RECONCILIATION TARGET STATE ==="
@@ -176,7 +171,6 @@ FROM governance_delegations
 WHERE package_id = '${PACKAGE_ID}'
   AND package_version = ${PACKAGE_VERSION};
 ")"
-
 echo "DELEGATION_ROWS_AFTER=${DELEGATION_AFTER}"
 
 if [ "${DELEGATION_BEFORE}" != "${DELEGATION_AFTER}" ]; then
@@ -185,22 +179,18 @@ if [ "${DELEGATION_BEFORE}" != "${DELEGATION_AFTER}" ]; then
 fi
 
 echo "DELEGATION_STATE_UNCHANGED=YES"
-echo "CANONICAL_PACKAGE_MUTATED=NO_EXPECTED"
-echo "NEW_CANONICAL_VERSION_CREATED=NO_EXPECTED"
 echo "MISSION_READ_CHANGE=NO"
 echo "MISSION_CONTROL_CHANGE=NO"
 echo "EXECUTION_CHANGE=NO"
 
-echo
-echo "=== IDEMPOTENT RETRY VERIFICATION ==="
-cat > /tmp/retry-one-time-package-projection-reconciliation.ts << 'INNER'
+cat > db/retry-one-time-package-projection-reconciliation.ts << 'INNER'
 import Database from "better-sqlite3";
 
 import {
   projectCanonicalPackageToMissionPackage,
-} from "../db/canonical-package-mission-projection";
+} from "./canonical-package-mission-projection";
 
-const sqlite = new Database("../db/main.db");
+const sqlite = new Database("db/main.db");
 
 try {
   const result = projectCanonicalPackageToMissionPackage(
@@ -225,12 +215,8 @@ try {
 }
 INNER
 
-(
-  cd db
-  npx tsx /tmp/retry-one-time-package-projection-reconciliation.ts
-)
-
-rm -f /tmp/retry-one-time-package-projection-reconciliation.ts
+npx tsx db/retry-one-time-package-projection-reconciliation.ts
+rm -f db/retry-one-time-package-projection-reconciliation.ts
 
 echo
 echo "=== RECONCILIATION COMPLETION ==="
