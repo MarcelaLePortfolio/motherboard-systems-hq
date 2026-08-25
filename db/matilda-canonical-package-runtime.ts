@@ -4,6 +4,7 @@ import Database from "better-sqlite3";
 
 import { initializeDraftRevisionSchema } from "./matilda-draft-revision-runtime";
 import { generateReconciledIntentSummary } from "./matilda-reconciled-intent-runtime";
+import { projectCanonicalPackageToMissionPackage } from "./canonical-package-mission-projection";
 
 const sqlite = new Database("db/main.db");
 
@@ -341,6 +342,15 @@ export function createCanonicalPackageFromApprovedSummary(
 
     throw err;
   }
+
+  projectCanonicalPackageToMissionPackage(
+    sqlite,
+    {
+      project_id: summary.project_id,
+      package_id,
+      package_version,
+    },
+  );
 
   return {
     package_id,
