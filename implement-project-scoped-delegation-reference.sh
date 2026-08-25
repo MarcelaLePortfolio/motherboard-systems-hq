@@ -54,29 +54,45 @@ replacements = [
 ),
 (
 """    CREATE TABLE IF NOT EXISTS governance_delegations (
-
       delegation_id TEXT PRIMARY KEY,
+      package_id TEXT NOT NULL,
+      package_version INTEGER NOT NULL,
+      authorization_state TEXT NOT NULL,
+      authorization_timestamp TEXT NOT NULL,
+      delegated_by TEXT NOT NULL,
+      created_at TEXT NOT NULL,
+      FOREIGN KEY (package_id, package_version)
+        REFERENCES matilda_canonical_packages(package_id, package_version)
+    );""",
+"""    CREATE UNIQUE INDEX IF NOT EXISTS idx_matilda_canonical_packages_project_package_version
+      ON matilda_canonical_packages(project_id, package_id, package_version);
 
-      package_id TEXT NOT NULL,""",
-"""    CREATE TABLE IF NOT EXISTS governance_delegations (
-
+    CREATE TABLE IF NOT EXISTS governance_delegations (
       delegation_id TEXT PRIMARY KEY,
-
       project_id TEXT NOT NULL,
-
-      package_id TEXT NOT NULL,"""
+      package_id TEXT NOT NULL,
+      package_version INTEGER NOT NULL,
+      authorization_state TEXT NOT NULL,
+      authorization_timestamp TEXT NOT NULL,
+      delegated_by TEXT NOT NULL,
+      created_at TEXT NOT NULL,
+      FOREIGN KEY (project_id, package_id, package_version)
+        REFERENCES matilda_canonical_packages(project_id, package_id, package_version)
+    );"""
 ),
 (
-"""      FOREIGN KEY (package_id, package_version)
+"""const requiredDelegationTextFields = [
 
-        REFERENCES matilda_canonical_packages(package_id, package_version)
+  "delegation_id",
 
-    );""",
-"""      FOREIGN KEY (project_id, package_id, package_version)
+  "package_id",""",
+"""const requiredDelegationTextFields = [
 
-        REFERENCES matilda_canonical_packages(project_id, package_id, package_version)
+  "delegation_id",
 
-    );"""
+  "project_id",
+
+  "package_id","""
 ),
 (
 """  const delegation_id = requireDelegationText(input, "delegation_id");
@@ -89,7 +105,8 @@ replacements = [
   const package_id = requireDelegationText(input, "package_id");"""
 ),
 (
-"""    SELECT
+"""  const canonicalPackage = sqlite.prepare(`
+    SELECT
       package_id,
       package_version
     FROM matilda_canonical_packages
@@ -103,8 +120,10 @@ replacements = [
     | {
         package_id: string;
         package_version: number;
-      }""",
-"""    SELECT
+      }
+    | undefined;""",
+"""  const canonicalPackage = sqlite.prepare(`
+    SELECT
       project_id,
       package_id,
       package_version
@@ -122,7 +141,8 @@ replacements = [
         project_id: string;
         package_id: string;
         package_version: number;
-      }"""
+      }
+    | undefined;"""
 ),
 (
 """      delegation_id,
@@ -157,31 +177,28 @@ replacements = [
 
     package_id,
 
-    package_version,""",
+    package_version,
+
+    authorization_state,""",
 """    delegation_id,
 
     project_id,
 
     package_id,
 
-    package_version,"""
+    package_version,
+
+    authorization_state,"""
 ),
 ]
 
 for old, new in replacements:
-    if old not in text:
-        raise SystemExit(f"Expected governance-runtime fragment not found:\n{old[:180]}")
+    count = text.count(old)
+    if count != 1:
+        raise SystemExit(
+            f"Expected exactly one verified governance-runtime fragment, found {count}:\\n{old[:220]}"
+        )
     text = text.replace(old, new, 1)
-
-marker = """    CREATE TABLE IF NOT EXISTS governance_delegations ("""
-index_sql = """    CREATE UNIQUE INDEX IF NOT EXISTS idx_matilda_canonical_packages_project_package_version
-    ON matilda_canonical_packages(project_id, package_id, package_version);
-
-"""
-if index_sql not in text:
-    if marker not in text:
-        raise SystemExit("Delegation table marker not found for unique index insertion.")
-    text = text.replace(marker, index_sql + marker, 1)
 
 path.write_text(text)
 PY
