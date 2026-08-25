@@ -3,6 +3,7 @@ import Database from "better-sqlite3";
 
 import { createMissionReadRepository } from "../db/mission-read-repository";
 import { assembleMissionReadModel } from "../db/mission-read-model-assembler";
+import { getOperationalPackageForProject } from "../db/operational-package-authority";
 
 const router = express.Router();
 
@@ -16,25 +17,58 @@ const db = new Database("db/main.db", {
 });
 
 router.get(
-  "/api/mission-read/:packageId",
+  "/api/mission-read/:projectId",
   async (req, res) => {
     try {
-      const packageId = req.params.packageId?.trim();
+      const projectId = req.params.projectId?.trim();
 
-      if (!packageId) {
+      if (!projectId) {
         return res.status(400).json({
           ok: false,
-          error: "Missing packageId.",
+          error: "Missing projectId.",
+        });
+      }
+
+      const authority =
+        getOperationalPackageForProject(db, projectId);
+
+      if (!authority) {
+        return res.status(404).json({
+          ok: false,
+          error: "No active operational mission for project.",
+        });
+      }
+
+      if (authority.project_id !== projectId) {
+        return res.status(409).json({
+          ok: false,
+          error: "Operational Package Authority project mismatch.",
         });
       }
 
       const repository = createMissionReadRepository(db);
-      const mission = await repository.loadMission(packageId);
+
+      const mission = await repository.loadMission({
+        project_id: authority.project_id,
+        package_id: authority.package_id,
+        package_version: authority.package_version,
+      });
 
       if (!mission) {
-        return res.status(404).json({
+        return res.status(409).json({
           ok: false,
-          error: "Mission package not found.",
+          error: "Operational mission projection is missing or mismatched.",
+        });
+      }
+
+      if (
+        mission.project_id !== authority.project_id ||
+        mission.package_id !== authority.package_id ||
+        mission.package_version !== authority.package_version
+      ) {
+        return res.status(409).json({
+          ok: false,
+          error: "Operational mission identity mismatch.",
         });
       }
 

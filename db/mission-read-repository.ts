@@ -9,9 +9,15 @@
 import type { Database } from "better-sqlite3";
 import type { MissionAssemblyInput } from "./mission-read-model-assembler";
 
+export interface MissionReadIdentity {
+  project_id: string;
+  package_id: string;
+  package_version: number;
+}
+
 export interface MissionReadRepository {
   loadMission(
-    packageId: string,
+    identity: MissionReadIdentity,
   ): Promise<MissionAssemblyInput | null>;
 }
 
@@ -26,7 +32,9 @@ export function createMissionReadRepository(
       conversation_id,
       requested_outcome
     FROM governance_packages
-    WHERE package_id = ?
+    WHERE project_id = ?
+      AND package_id = ?
+      AND package_version = ?
     LIMIT 1
   `);
 
@@ -79,9 +87,25 @@ export function createMissionReadRepository(
 
   return {
     async loadMission(
-      packageId: string,
+      identity: MissionReadIdentity,
     ): Promise<MissionAssemblyInput | null> {
-      const pkg = packageStatement.get(packageId) as
+      const project_id = identity.project_id.trim();
+      const package_id = identity.package_id.trim();
+
+      if (
+        !project_id ||
+        !package_id ||
+        !Number.isInteger(identity.package_version) ||
+        identity.package_version < 1
+      ) {
+        return null;
+      }
+
+      const pkg = packageStatement.get(
+        project_id,
+        package_id,
+        identity.package_version,
+      ) as
         | {
             package_id: string;
             package_version: number;
@@ -92,6 +116,14 @@ export function createMissionReadRepository(
         | undefined;
 
       if (!pkg) {
+        return null;
+      }
+
+      if (
+        pkg.project_id !== project_id ||
+        pkg.package_id !== package_id ||
+        pkg.package_version !== identity.package_version
+      ) {
         return null;
       }
 
