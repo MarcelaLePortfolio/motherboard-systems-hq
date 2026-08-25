@@ -52,9 +52,26 @@ echo "HISTORICAL_PACKAGE_VERSION_MUTATED=NO"
 
 echo
 echo "=== DOWNSTREAM DEFECT BOUNDARY ==="
-echo "VALIDATION_FK_TARGET=$(sqlite3 db/main.db \"SELECT DISTINCT \\\"table\\\" FROM pragma_foreign_key_list('governance_validation_results') WHERE \\\"from\\\"='delegation_id';\")"
-echo "GATE_FK_TARGET=$(sqlite3 db/main.db \"SELECT DISTINCT \\\"table\\\" FROM pragma_foreign_key_list('governance_envelope_gates') WHERE \\\"from\\\"='delegation_id';\")"
-echo "ENVELOPE_FK_TARGET=$(sqlite3 db/main.db \"SELECT DISTINCT \\\"table\\\" FROM pragma_foreign_key_list('governance_envelopes') WHERE \\\"from\\\"='delegation_id';\")"
+VALIDATION_FK_TARGET="$(
+  sqlite3 db/main.db \
+    "SELECT DISTINCT \"table\" FROM pragma_foreign_key_list('governance_validation_results') WHERE \"from\"='delegation_id';"
+)"
+GATE_FK_TARGET="$(
+  sqlite3 db/main.db \
+    "SELECT DISTINCT \"table\" FROM pragma_foreign_key_list('governance_envelope_gates') WHERE \"from\"='delegation_id';"
+)"
+ENVELOPE_FK_TARGET="$(
+  sqlite3 db/main.db \
+    "SELECT DISTINCT \"table\" FROM pragma_foreign_key_list('governance_envelopes') WHERE \"from\"='delegation_id';"
+)"
+
+echo "VALIDATION_FK_TARGET=${VALIDATION_FK_TARGET}"
+echo "GATE_FK_TARGET=${GATE_FK_TARGET}"
+echo "ENVELOPE_FK_TARGET=${ENVELOPE_FK_TARGET}"
+
+test "$VALIDATION_FK_TARGET" = "governance_delegations_legacy_root"
+test "$GATE_FK_TARGET" = "governance_delegations_legacy_root"
+test "$ENVELOPE_FK_TARGET" = "governance_delegations_legacy_root"
 
 echo
 echo "=== CLASSIFICATION ==="
@@ -65,7 +82,7 @@ echo "LIVE_HISTORICAL_DELEGATION_CANONICAL_ROOT=ABSENT"
 echo "MIGRATION_PRESERVES_HISTORICAL_UNROOTED_ROW=YES"
 echo "MIGRATION_DOES_NOT_FALSELY_REPARENT_HISTORY=YES"
 echo "PROJECT_SCOPED_NEW_DELEGATION_CONTRACT=SUPPORTED"
-echo "KNOWN_DOWNSTREAM_LEGACY_ROOT_DEFECT=UNCHANGED_AND_SEPARATE"
+echo "KNOWN_DOWNSTREAM_LEGACY_ROOT_DEFECT=VERIFIED_UNCHANGED_AND_SEPARATE"
 echo "LIVE_MIGRATION_TECHNICAL_COMPATIBILITY=ESTABLISHED_WITHIN_CURRENT_UNIT"
 echo "LIVE_MIGRATION_AUTHORIZED=NO"
 echo "CORRIDOR_CLOSED=NO"
