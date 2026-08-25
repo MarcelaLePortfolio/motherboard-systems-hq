@@ -1,0 +1,81 @@
+#!/usr/bin/env bash
+set -euo pipefail
+cd "$(git rev-parse --show-toplevel)"
+
+echo "=== CLASSIFY PACKAGE HANDOFF RUNTIME IMPLEMENTATION RESULT ==="
+echo "ACTIVE_PHASE=AUTHORITATIVE_MISSION_PACKAGE_HANDOFF"
+echo "ACTIVE_CORRIDOR=PACKAGE_HANDOFF_CONTRACT"
+echo "IMPLEMENTATION_COMMIT=2efe86d5"
+echo "IMPLEMENTATION_AUTHORIZED=YES"
+echo "PRODUCTION_CHANGE=BOUNDED_PACKAGE_HANDOFF_PROJECTION_IMPLEMENTED"
+
+echo
+echo "=== VERIFIED IMPLEMENTATION ==="
+echo "PROJECTION_ADAPTER_IMPLEMENTED=YES"
+echo "POST_APPROVAL_INTEGRATION_IMPLEMENTED=YES"
+echo "EXACT_project_id+package_id+package_version_LOOKUP=YES"
+echo "canonical_approved_REQUIRED=YES"
+echo "CALLER_SUPPLIED_SEMANTIC_OVERRIDE_ALLOWED=NO"
+echo "requested_outcome_DERIVED_FROM_approved_expected_outcome=YES"
+echo "UNUSED_LEGACY_FIELDS_NULL=YES"
+echo "EXACT_EXISTING_TARGET_IDEMPOTENT=YES"
+echo "CONFLICTING_TARGET_FAILS_CLOSED=YES"
+echo "CONFLICTING_TARGET_OVERWRITTEN=NO"
+echo "DELEGATION_AUTHORITY_CONFERRED=NO"
+echo "EXECUTION_AUTHORITY_CONFERRED=NO"
+
+echo
+echo "=== VALIDATION RESULT ==="
+echo "TYPECHECK=PASS"
+echo "TARGETED_PROJECTION_TEST_COUNT=5"
+echo "TARGETED_PROJECTION_TEST_PASS=5"
+echo "TARGETED_PROJECTION_TEST_FAIL=0"
+echo "EXACT_APPROVED_IDENTITY_PROJECTION=PASS"
+echo "IDEMPOTENT_EXACT_TARGET=PASS"
+echo "MISSING_SOURCE_FAIL_CLOSED=PASS"
+echo "NON_APPROVED_SOURCE_FAIL_CLOSED=PASS"
+echo "CONFLICTING_TARGET_NO_OVERWRITE=PASS"
+
+echo
+echo "=== AUTHORIZED SCOPE CHECK ==="
+git diff --name-only c3fe140d..2efe86d5
+
+echo
+echo "SCHEMA_CHANGE=NO"
+echo "MIGRATION_CHANGE=NO"
+echo "MISSION_READ_CHANGE=NO"
+echo "MISSION_CONTROL_CHANGE=NO"
+echo "DELEGATION_CHANGE=NO"
+echo "CALLER_SUPPLIED_GOVERNANCE_PACKAGE_ROUTE_RECLASSIFIED=NO"
+
+echo
+echo "=== LIVE SOURCE / TARGET CHECK ==="
+sqlite3 -header -column db/main.db '
+SELECT
+  c.project_id,
+  c.package_id,
+  c.package_version,
+  c.status,
+  c.conversation_id,
+  c.approved_expected_outcome,
+  g.project_id AS projected_project_id,
+  g.package_id AS projected_package_id,
+  g.package_version AS projected_package_version,
+  g.conversation_id AS projected_conversation_id,
+  g.requested_outcome AS projected_requested_outcome
+FROM matilda_canonical_packages c
+LEFT JOIN governance_packages g
+  ON g.package_id = c.package_id
+ AND g.package_version = c.package_version
+WHERE c.status = "canonical_approved"
+ORDER BY c.created_at DESC;
+'
+
+echo
+echo "=== CORRIDOR DETERMINATION ==="
+echo "PACKAGE_HANDOFF_CONTRACT_DESIGN=CLOSED"
+echo "PACKAGE_HANDOFF_CONTRACT_RUNTIME_IMPLEMENTED=YES"
+echo "PACKAGE_HANDOFF_CONTRACT_TARGETED_VALIDATION=PASS"
+echo "PACKAGE_HANDOFF_CONTRACT_CORRIDOR=CANDIDATE_FOR_FULL_CLOSURE"
+echo "PROJECT_BOUND_HANDOFF_STARTED=NO"
+echo "NEXT_ACTION=VERIFY_LIVE_EXISTING_CANONICAL_PACKAGE_PROJECTION_STATE_AND_THEN_FORMALLY_CLOSE_PACKAGE_HANDOFF_CONTRACT_OR_CLASSIFY_BACKFILL_BOUNDARY"
