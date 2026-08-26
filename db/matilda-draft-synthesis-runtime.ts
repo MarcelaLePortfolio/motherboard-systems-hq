@@ -71,13 +71,11 @@ export function synthesizeLivingDraft(
 
     .join("\n\n");
 
-  const unresolved = evidence
+  const selectedPackageSemantics = evidence
 
-    .map((entry: any) => entry.unresolved_questions)
+    .find((entry: any) => entry.packageSemantics !== null)
 
-    .filter(Boolean)
-
-    .join("\n");
+    ?.packageSemantics ?? null;
 
   return upsertLivingDraftPackage({
 
@@ -93,29 +91,31 @@ export function synthesizeLivingDraft(
 
     proposed_work:
 
-      "Continue synthesizing interpretation evidence into a reviewable Living Draft Package.",
+      selectedPackageSemantics?.proposedWork ?? null,
 
     proposed_artifacts:
 
-      "Living Draft Package",
+      selectedPackageSemantics?.proposedArtifacts ?? null,
 
     in_scope:
 
-      "Interpretation synthesis only.",
+      selectedPackageSemantics?.inScope ?? null,
 
     out_of_scope:
 
-      "Canonical Package creation, Delegation, Validation, Envelope creation, Routing, Assignment, Cade execution.",
+      selectedPackageSemantics?.outOfScope ?? null,
 
     constraints:
 
-      "Remain non-authoritative until explicit operator approval.",
+      selectedPackageSemantics?.constraints ?? null,
 
     expected_outcome:
 
-      "A continuously improving Living Draft Package.",
+      selectedPackageSemantics?.expectedOutcome ?? null,
 
-    unresolved_questions: unresolved,
+    unresolved_questions:
+
+      selectedPackageSemantics?.unresolvedQuestions ?? null,
 
     evidence_entry_ids: input.evidence_entry_ids,
 
