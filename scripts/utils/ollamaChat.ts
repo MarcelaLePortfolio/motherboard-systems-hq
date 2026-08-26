@@ -1243,6 +1243,11 @@ export async function ollamaChat(
     const result =
       parseStructuredResponse(rawResponse);
 
+    enforceMatildaUserPackageSemanticsFidelity(
+      validatedUserPackageSemantics,
+      result.packageSemantics,
+    );
+
     if (context.observeValidatedPackageSemantics) {
       context.observeValidatedPackageSemantics(
         result.packageSemantics,
