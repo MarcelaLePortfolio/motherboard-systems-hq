@@ -1,6 +1,8 @@
 import {
   validateMatildaInvestigationLifecycleArtifact,
+  validateMatildaPackageSemanticsArtifact,
   type MatildaInvestigationLifecycleArtifact,
+  type MatildaPackageSemanticsArtifact,
 } from "../scripts/utils/ollamaChat";
 
 import Database from "better-sqlite3";
@@ -33,6 +35,7 @@ export type CreateInterpretationEvidenceLedgerEntryInput = {
 
   supersession_status?: string | null;
   investigation_lifecycle?: MatildaInvestigationLifecycleArtifact | null;
+  package_semantics?: MatildaPackageSemanticsArtifact | null;
 
 };
 
@@ -93,6 +96,7 @@ function ensureInterpretationEvidenceLedgerTable() {
       lineage_references TEXT,
 
       investigation_lifecycle_json TEXT,
+      package_semantics_json TEXT,
       supersession_status TEXT NOT NULL DEFAULT 'current'
 
     );
@@ -186,6 +190,17 @@ function ensureInterpretationEvidenceLedgerTable() {
       ADD COLUMN investigation_lifecycle_json TEXT;
     `);
   }
+
+  if (
+    !lifecycleColumns.some(
+      (column) => column.name === "package_semantics_json",
+    )
+  ) {
+    sqlite.exec(`
+      ALTER TABLE matilda_interpretation_evidence_ledger
+      ADD COLUMN package_semantics_json TEXT;
+    `);
+  }
 }
 
 function requireText(
@@ -264,6 +279,7 @@ export function createInterpretationEvidenceLedgerEntry(
       lineage_references,
 
       investigation_lifecycle_json,
+      package_semantics_json,
       supersession_status
 
     ) VALUES (
@@ -291,6 +307,7 @@ export function createInterpretationEvidenceLedgerEntry(
       @lineage_references,
 
       @investigation_lifecycle_json,
+      @package_semantics_json,
       @supersession_status
 
     )
@@ -326,6 +343,16 @@ export function createInterpretationEvidenceLedgerEntry(
         : JSON.stringify(
             input.investigation_lifecycle,
           ),
+    package_semantics_json:
+      input.package_semantics === null ||
+      input.package_semantics === undefined
+        ? null
+        : JSON.stringify(
+            validateMatildaPackageSemanticsArtifact(
+              input.package_semantics,
+              "Matilda IEL write contains",
+            ),
+          ),
     supersession_status: optionalText(input.supersession_status) || "current",
 
   });
@@ -357,14 +384,16 @@ export type InterpretationEvidenceLedgerReadEntry = {
   unresolved_questions: string | null;
   lineage_references: string | null;
   investigationLifecycle: MatildaInvestigationLifecycleArtifact | null;
+  packageSemantics: MatildaPackageSemanticsArtifact | null;
   supersession_status: string;
 };
 
 type InterpretationEvidenceLedgerStoredReadEntry = Omit<
   InterpretationEvidenceLedgerReadEntry,
-  "investigationLifecycle"
+  "investigationLifecycle" | "packageSemantics"
 > & {
   investigation_lifecycle_json: string | null;
+  package_semantics_json: string | null;
 };
 
 function reconstructInvestigationLifecycle(
@@ -385,6 +414,29 @@ function reconstructInvestigationLifecycle(
   }
 
   return validateMatildaInvestigationLifecycleArtifact(
+    parsed,
+    "Matilda IEL contains",
+  );
+}
+
+function reconstructPackageSemantics(
+  value: string | null,
+): MatildaPackageSemanticsArtifact | null {
+  if (value === null) {
+    return null;
+  }
+
+  let parsed: unknown;
+
+  try {
+    parsed = JSON.parse(value) as unknown;
+  } catch {
+    throw new Error(
+      "Matilda IEL contains malformed package semantics JSON.",
+    );
+  }
+
+  return validateMatildaPackageSemanticsArtifact(
     parsed,
     "Matilda IEL contains",
   );
@@ -463,6 +515,8 @@ export function listInterpretationEvidenceLedgerEntries(
 
       investigation_lifecycle_json,
 
+      package_semantics_json,
+
       supersession_status
 
     FROM matilda_interpretation_evidence_ledger
@@ -495,6 +549,10 @@ export function listInterpretationEvidenceLedgerEntries(
     investigationLifecycle:
       reconstructInvestigationLifecycle(
         row.investigation_lifecycle_json,
+      ),
+    packageSemantics:
+      reconstructPackageSemantics(
+        row.package_semantics_json,
       ),
     supersession_status: row.supersession_status,
   }));
