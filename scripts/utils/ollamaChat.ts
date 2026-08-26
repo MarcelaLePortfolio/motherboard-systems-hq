@@ -297,6 +297,9 @@ export interface OllamaChatContext {
   observeParsedSupportSourceReferences?: (
     references: readonly MatildaSupportSourceReference[],
   ) => void;
+  observeValidatedPackageSemantics?: (
+    packageSemantics: MatildaPackageSemanticsArtifact | null,
+  ) => void;
 }
 
 export type MatildaExplanationStatus =
@@ -1140,6 +1143,12 @@ export async function ollamaChat(
 
     const result =
       parseStructuredResponse(rawResponse);
+
+    if (context.observeValidatedPackageSemantics) {
+      context.observeValidatedPackageSemantics(
+        result.packageSemantics,
+      );
+    }
 
     if (context.observeParsedSelectedContextSegments) {
       context.observeParsedSelectedContextSegments(
