@@ -1061,6 +1061,8 @@ export async function ollamaChat(
             "Set packageSemantics to null only when the current turn establishes no request-specific structured package semantics.",
             "Otherwise set packageSemantics to one atomic non-authoritative artifact describing the user's requested outcome, proposed work, proposed artifacts, scope, constraints, and unresolved questions.",
             "For expectedOutcome, proposedWork, proposedArtifacts, inScope, outOfScope, constraints, and unresolvedQuestions, use a concise non-empty string only when that semantic is actually established; otherwise use null.",
+            "When the current user request explicitly establishes any package-semantic field, preserve that request-specific information in the corresponding non-null packageSemantics field instead of returning null for that field.",
+            "A package-semantics field may remain null when the current request does not establish that information. Do not invent unsupported package semantics merely to fill a nullable field.",
             "Do not use generic Living Draft process language as package semantics.",
             "Do not invent scope, deliverables, constraints, outcomes, or unresolved questions.",
             "Set durableInterpretation to a concise durable account of the user's meaning, intent, decisions, constraints, and unresolved questions.",

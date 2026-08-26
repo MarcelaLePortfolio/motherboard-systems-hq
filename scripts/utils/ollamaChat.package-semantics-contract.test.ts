@@ -112,6 +112,21 @@ test(
 );
 
 test(
+  "Package Semantics prompt preserves explicitly established current-request semantics",
+  () => {
+    assert.match(
+      source,
+      /When the current user request explicitly establishes any package-semantic field, preserve that request-specific information in the corresponding non-null packageSemantics field instead of returning null for that field\./,
+    );
+
+    assert.match(
+      source,
+      /A package-semantics field may remain null when the current request does not establish that information\. Do not invent unsupported package semantics merely to fill a nullable field\./,
+    );
+  },
+);
+
+test(
   "Package Semantics prompt requires request-specific semantics and prohibits generic process copy",
   () => {
     assert.match(
