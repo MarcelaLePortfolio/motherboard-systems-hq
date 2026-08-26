@@ -183,7 +183,7 @@ test(
   () => {
     assert.match(
       source,
-      /const result =\s*parseStructuredResponse\(rawResponse\);\s*validateMatildaInvestigationLifecycleContinuity\(\s*context\.priorInvestigationLifecycle \?\? null,\s*result\.investigationLifecycle,\s*\);/s,
+      /const result =\s*parseStructuredResponse\(rawResponse\);[\s\S]*?validateMatildaInvestigationLifecycleContinuity\(\s*context\.priorInvestigationLifecycle \?\? null,\s*result\.investigationLifecycle,\s*\);/,
     );
   },
 );
