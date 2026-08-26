@@ -139,67 +139,6 @@ function BriefingSection({
   );
 }
 
-function ArtifactSwitcher({
-  requests,
-  selectedRequestId,
-  onSelect,
-  onPrevious,
-  onNext,
-  previousDisabled,
-  nextDisabled,
-}: {
-  requests: ApprovalRequestReadModel[];
-  selectedRequestId: string;
-  onSelect(requestId: string): void;
-  onPrevious(): void;
-  onNext(): void;
-  previousDisabled: boolean;
-  nextDisabled: boolean;
-}) {
-  return (
-    <div
-      className="executive-inbox-artifact-switcher"
-      aria-label="Approval artifact switcher"
-    >
-      <button
-        type="button"
-        onClick={onPrevious}
-        disabled={previousDisabled}
-      >
-        Previous
-      </button>
-
-      <label>
-        <span>Approval artifact</span>
-
-        <select
-          value={selectedRequestId}
-          onChange={(event) =>
-            onSelect(event.target.value)
-          }
-        >
-          {requests.map((request, index) => (
-            <option
-              key={request.approval_request_id}
-              value={request.approval_request_id}
-            >
-              {artifactLabel(request, index)}
-            </option>
-          ))}
-        </select>
-      </label>
-
-      <button
-        type="button"
-        onClick={onNext}
-        disabled={nextDisabled}
-      >
-        Next
-      </button>
-    </div>
-  );
-}
-
 function DecisionActions({
   request,
   onApproved,
@@ -618,25 +557,6 @@ export default function ApprovalsWorkspace() {
       ? requests[selectedIndex]
       : null;
 
-  function selectPrevious(): void {
-    if (selectedIndex > 0) {
-      setSelectedRequestId(
-        requests[selectedIndex - 1].approval_request_id,
-      );
-    }
-  }
-
-  function selectNext(): void {
-    if (
-      selectedIndex >= 0 &&
-      selectedIndex < requests.length - 1
-    ) {
-      setSelectedRequestId(
-        requests[selectedIndex + 1].approval_request_id,
-      );
-    }
-  }
-
   return (
     <main className="executive-inbox-workspace">
       <header className="executive-inbox-header">
@@ -684,21 +604,6 @@ export default function ApprovalsWorkspace() {
 
       {!loading && !error ? (
         <>
-          {selectedRequestId ? (
-            <ArtifactSwitcher
-              requests={requests}
-              selectedRequestId={selectedRequestId}
-              onSelect={setSelectedRequestId}
-              onPrevious={selectPrevious}
-              onNext={selectNext}
-              previousDisabled={selectedIndex <= 0}
-              nextDisabled={
-                selectedIndex < 0 ||
-                selectedIndex >= requests.length - 1
-              }
-            />
-          ) : null}
-
           <div className="executive-inbox-layout">
             <aside className="executive-inbox-list">
               <div className="executive-inbox-list__header">
