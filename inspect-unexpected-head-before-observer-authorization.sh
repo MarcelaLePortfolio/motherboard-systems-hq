@@ -1,0 +1,43 @@
+#!/usr/bin/env bash
+set -euo pipefail
+cd "$(git rev-parse --show-toplevel)"
+
+echo "=== INSPECT UNEXPECTED HEAD BEFORE OBSERVER AUTHORIZATION ==="
+echo "EXPECTED_PRIOR_HEAD_PREFIX=570fcda95"
+echo "OBSERVED_HEAD_PREFIX=806e71999"
+echo "RECOVERY_POINT=DR_20260826_111719"
+echo "MODE=COLLABORATION"
+echo "IMPLEMENTATION_AUTHORIZED=NO_PENDING_HEAD_RECONCILIATION"
+echo "PRODUCTION_CHANGE=NONE"
+
+CURRENT_HEAD="$(git rev-parse HEAD)"
+echo "CURRENT_HEAD=${CURRENT_HEAD}"
+
+echo
+echo "=== RECENT COMMITS ==="
+git log --oneline --decorate -8
+
+echo
+echo "=== COMMITS SINCE VERIFIED REVALIDATION-SEAM CHECKPOINT ==="
+git log --oneline --reverse 570fcda95..HEAD || true
+
+echo
+echo "=== FILES CHANGED SINCE VERIFIED REVALIDATION-SEAM CHECKPOINT ==="
+git diff --name-status 570fcda95..HEAD || true
+
+echo
+echo "=== CURRENT HEAD DETAILS ==="
+git show --stat --oneline --decorate --no-renames HEAD
+
+echo
+echo "=== WORKING TREE ==="
+git status --short
+
+echo
+echo "=== RECONCILIATION BOUNDARY ==="
+echo "OBSERVER_IMPLEMENTATION_STARTED=NO"
+echo "OBSERVER_AUTHORIZATION_REISSUED=NO"
+echo "ROLLBACK_PERFORMED=NO"
+echo "NEXT_ACTION=CLASSIFY_WHETHER_806e71999_IS_A_VALID_SUCCESSOR_CHECKPOINT_BEFORE_ANY_OBSERVER_IMPLEMENTATION"
+
+git diff --check
