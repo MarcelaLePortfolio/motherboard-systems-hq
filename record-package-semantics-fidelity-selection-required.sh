@@ -1,0 +1,27 @@
+#!/usr/bin/env bash
+set -euo pipefail
+cd "$(git rev-parse --show-toplevel)"
+
+echo "=== PACKAGE SEMANTICS FIDELITY SELECTION REQUIRED ==="
+echo "EXPECTED_HEAD_PREFIX=ff755c034"
+echo "MODE=COLLABORATION"
+echo "IMPLEMENTATION_AUTHORIZED=NO"
+echo "PRODUCTION_CHANGE=NONE"
+
+CURRENT_HEAD="$(git rev-parse HEAD)"
+if [[ "${CURRENT_HEAD}" != ff755c034* ]]; then
+  echo "UNEXPECTED_HEAD=${CURRENT_HEAD}"
+  exit 1
+fi
+
+echo
+echo "OPTION_A=ACCEPT_MODEL_LEVEL_SEMANTIC_FIDELITY_WITH_RAW_MESSAGE_ONLY"
+echo "OPTION_B=REQUIRE_DETERMINISTIC_EXPLICIT_FIELD_FIDELITY_AND_DESIGN_OPTIONAL_TYPED_USER_PACKAGE_SEMANTICS_INPUT"
+echo "RECOMMENDATION=OPTION_B_IF_EXPLICIT_USER_FIELD_MEANING_MUST_SURVIVE_WITHOUT_MODEL_SUBSTITUTION"
+echo "NO_DESIGN_OR_IMPLEMENTATION_BEYOND_THIS_GATE_WITHOUT_USER_SELECTION=YES"
+
+git diff --check
+
+git add record-package-semantics-fidelity-selection-required.sh
+git commit -m "Record package semantics fidelity selection requirement"
+git push
