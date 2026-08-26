@@ -19,6 +19,7 @@ interface OllamaStructuredResponse {
   supportSourceReferences?: unknown;
   evidence?: unknown;
   investigationLifecycle?: unknown;
+  packageSemantics?: unknown;
   durableInterpretation?: unknown;
 }
 
@@ -32,6 +33,7 @@ const OLLAMA_CHAT_OUTPUT_SCHEMA = {
     "supportSourceReferences",
     "evidence",
     "investigationLifecycle",
+    "packageSemantics",
     "durableInterpretation",
   ],
   properties: {
@@ -186,6 +188,49 @@ const OLLAMA_CHAT_OUTPUT_SCHEMA = {
         },
       ],
     },
+    packageSemantics: {
+      anyOf: [
+        {
+          type: "null",
+        },
+        {
+          type: "object",
+          additionalProperties: false,
+          required: [
+            "expectedOutcome",
+            "proposedWork",
+            "proposedArtifacts",
+            "inScope",
+            "outOfScope",
+            "constraints",
+            "unresolvedQuestions",
+          ],
+          properties: {
+            expectedOutcome: {
+              anyOf: [{ type: "null" }, { type: "string" }],
+            },
+            proposedWork: {
+              anyOf: [{ type: "null" }, { type: "string" }],
+            },
+            proposedArtifacts: {
+              anyOf: [{ type: "null" }, { type: "string" }],
+            },
+            inScope: {
+              anyOf: [{ type: "null" }, { type: "string" }],
+            },
+            outOfScope: {
+              anyOf: [{ type: "null" }, { type: "string" }],
+            },
+            constraints: {
+              anyOf: [{ type: "null" }, { type: "string" }],
+            },
+            unresolvedQuestions: {
+              anyOf: [{ type: "null" }, { type: "string" }],
+            },
+          },
+        },
+      ],
+    },
     durableInterpretation: {
       type: "string",
     },
@@ -272,7 +317,18 @@ export interface OllamaChatResult {
   evidence: MatildaEvidenceArtifact | null;
   evidenceSufficient: boolean;
   investigationLifecycle: MatildaInvestigationLifecycleArtifact | null;
+  packageSemantics: MatildaPackageSemanticsArtifact | null;
   durableInterpretation: string;
+}
+
+export interface MatildaPackageSemanticsArtifact {
+  expectedOutcome: string | null;
+  proposedWork: string | null;
+  proposedArtifacts: string | null;
+  inScope: string | null;
+  outOfScope: string | null;
+  constraints: string | null;
+  unresolvedQuestions: string | null;
 }
 
 export type MatildaInvestigationLifecycleEvent =
@@ -300,6 +356,70 @@ type ParsedOllamaChatResult =
   Omit<OllamaChatResult, "evidenceSufficient"> & {
     selectedContextSegments: MatildaSelectedContextSegment[];
   };
+
+export function validateMatildaPackageSemanticsArtifact(
+  value: unknown,
+  errorPrefix = "Ollama returned",
+): MatildaPackageSemanticsArtifact {
+  if (
+    !value ||
+    typeof value !== "object" ||
+    Array.isArray(value)
+  ) {
+    throw new Error(
+      `${errorPrefix} malformed package semantics artifact.`,
+    );
+  }
+
+  const candidate = value as Record<string, unknown>;
+
+  const fields = [
+    "expectedOutcome",
+    "proposedWork",
+    "proposedArtifacts",
+    "inScope",
+    "outOfScope",
+    "constraints",
+    "unresolvedQuestions",
+  ] as const;
+
+  const validated: MatildaPackageSemanticsArtifact = {
+    expectedOutcome: null,
+    proposedWork: null,
+    proposedArtifacts: null,
+    inScope: null,
+    outOfScope: null,
+    constraints: null,
+    unresolvedQuestions: null,
+  };
+
+  for (const field of fields) {
+    const rawValue = candidate[field];
+
+    if (rawValue === null) {
+      validated[field] = null;
+      continue;
+    }
+
+    if (typeof rawValue !== "string") {
+      throw new Error(
+        `${errorPrefix} malformed package semantics field ${field}.`,
+      );
+    }
+
+    const trimmedValue = rawValue.trim();
+
+    if (!trimmedValue) {
+      throw new Error(
+        `${errorPrefix} empty package semantics field ${field}.`,
+      );
+    }
+
+    validated[field] = trimmedValue;
+  }
+
+  return validated;
+}
 
 export function validateMatildaInvestigationLifecycleArtifact(
   value: unknown,
@@ -664,6 +784,12 @@ function parseStructuredResponse(
     );
   }
 
+  if (!("packageSemantics" in parsed)) {
+    throw new Error(
+      "Ollama returned structured response without package semantics.",
+    );
+  }
+
   let investigationLifecycle: MatildaInvestigationLifecycleArtifact | null =
     null;
 
@@ -671,6 +797,16 @@ function parseStructuredResponse(
     investigationLifecycle =
       validateMatildaInvestigationLifecycleArtifact(
         parsed.investigationLifecycle,
+      );
+  }
+
+  let packageSemantics: MatildaPackageSemanticsArtifact | null =
+    null;
+
+  if (parsed.packageSemantics !== null) {
+    packageSemantics =
+      validateMatildaPackageSemanticsArtifact(
+        parsed.packageSemantics,
       );
   }
 
@@ -716,6 +852,7 @@ function parseStructuredResponse(
     supportSourceReferences,
     evidence,
     investigationLifecycle,
+    packageSemantics,
     durableInterpretation,
   };
 }
@@ -921,6 +1058,11 @@ export async function ollamaChat(
             "For entered, continued, superseded, and abandoned, lifecycleDetermination may be null when no separate material determination is required.",
             "Do not invent investigation progress unsupported by the conversation.",
             "Do not use conversation identifiers or interpretation-entry identifiers as investigationIdentity merely because those identifiers exist.",
+            "Set packageSemantics to null only when the current turn establishes no request-specific structured package semantics.",
+            "Otherwise set packageSemantics to one atomic non-authoritative artifact describing the user's requested outcome, proposed work, proposed artifacts, scope, constraints, and unresolved questions.",
+            "For expectedOutcome, proposedWork, proposedArtifacts, inScope, outOfScope, constraints, and unresolvedQuestions, use a concise non-empty string only when that semantic is actually established; otherwise use null.",
+            "Do not use generic Living Draft process language as package semantics.",
+            "Do not invent scope, deliverables, constraints, outcomes, or unresolved questions.",
             "Set durableInterpretation to a concise durable account of the user's meaning, intent, decisions, constraints, and unresolved questions.",
             "The two fields must be independently authored and must not be identical unless their meanings genuinely require identical wording.",
             "",
@@ -1247,6 +1389,8 @@ export async function ollamaChat(
         deduplicatedSupportSourceReferences.length > 0,
       investigationLifecycle:
         result.investigationLifecycle,
+      packageSemantics:
+        result.packageSemantics,
       durableInterpretation:
         result.durableInterpretation,
     };
