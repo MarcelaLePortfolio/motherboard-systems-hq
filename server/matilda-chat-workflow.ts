@@ -43,6 +43,15 @@ export interface RunMatildaConversationWorkflowInput {
   agent?: string | null;
   project_id: string;
   conversation_id: string;
+  userPackageSemantics?: {
+    expectedOutcome?: string | null;
+    proposedWork?: string | null;
+    proposedArtifacts?: string | null;
+    inScope?: string | null;
+    outOfScope?: string | null;
+    constraints?: string | null;
+    unresolvedQuestions?: string | null;
+  } | null;
 }
 
 export type MatildaConversationWorkflowResult =
@@ -225,6 +234,8 @@ export async function runMatildaConversationWorkflow(
         priorExplanationEvidenceStatus:
           priorSupportProvenance?.status,
         priorInvestigationLifecycle,
+        userPackageSemantics:
+          input.userPackageSemantics ?? null,
         explicitEvidenceRequest,
       });
 

@@ -284,6 +284,8 @@ export interface OllamaChatContext {
     MatildaPriorExplanationEvidenceStatus;
   priorInvestigationLifecycle?:
     MatildaInvestigationLifecycleArtifact | null;
+  userPackageSemantics?:
+    MatildaUserPackageSemanticsInput | null;
   explicitEvidenceRequest?: boolean;
   observeValidatedSelectedContextSegments?: (
     segments: readonly MatildaSelectedContextSegment[],
@@ -333,6 +335,10 @@ export interface MatildaPackageSemanticsArtifact {
   constraints: string | null;
   unresolvedQuestions: string | null;
 }
+
+export type MatildaUserPackageSemanticsInput = Partial<
+  MatildaPackageSemanticsArtifact
+>;
 
 export type MatildaInvestigationLifecycleEvent =
   | "entered"
@@ -422,6 +428,88 @@ export function validateMatildaPackageSemanticsArtifact(
   }
 
   return validated;
+}
+
+export function validateMatildaUserPackageSemanticsInput(
+  value: unknown,
+): MatildaUserPackageSemanticsInput | null {
+  if (value === null || value === undefined) return null;
+  if (typeof value !== "object" || Array.isArray(value)) {
+    throw new Error("Malformed explicit user package semantics input.");
+  }
+
+  const candidate = value as Record<string, unknown>;
+  const fields = [
+    "expectedOutcome",
+    "proposedWork",
+    "proposedArtifacts",
+    "inScope",
+    "outOfScope",
+    "constraints",
+    "unresolvedQuestions",
+  ] as const;
+
+  const allowed = new Set(fields);
+  for (const key of Object.keys(candidate)) {
+    if (!allowed.has(key as typeof fields[number])) {
+      throw new Error(
+        `Unknown explicit user package semantics field ${key}.`,
+      );
+    }
+  }
+
+  const validated: MatildaUserPackageSemanticsInput = {};
+  for (const field of fields) {
+    if (!(field in candidate)) continue;
+    const rawValue = candidate[field];
+    if (rawValue === null) {
+      validated[field] = null;
+      continue;
+    }
+    if (typeof rawValue !== "string") {
+      throw new Error(
+        `Malformed explicit user package semantics field ${field}.`,
+      );
+    }
+    const trimmed = rawValue.trim();
+    if (!trimmed) {
+      throw new Error(
+        `Empty explicit user package semantics field ${field}.`,
+      );
+    }
+    validated[field] = trimmed;
+  }
+
+  return validated;
+}
+
+export function enforceMatildaUserPackageSemanticsFidelity(
+  explicitInput: MatildaUserPackageSemanticsInput | null | undefined,
+  authored: MatildaPackageSemanticsArtifact | null,
+): void {
+  if (!explicitInput) return;
+
+  for (const [field, value] of Object.entries(explicitInput)) {
+    if (value === null || value === undefined) continue;
+
+    if (!authored) {
+      throw new Error(
+        "Ollama failed explicit user package semantics fidelity: packageSemantics was null.",
+      );
+    }
+
+    const authoredValue =
+      authored[field as keyof MatildaPackageSemanticsArtifact];
+
+    if (
+      typeof authoredValue !== "string" ||
+      authoredValue.trim() !== value.trim()
+    ) {
+      throw new Error(
+        `Ollama failed explicit user package semantics fidelity for ${field}.`,
+      );
+    }
+  }
 }
 
 export function validateMatildaInvestigationLifecycleArtifact(
@@ -870,6 +958,11 @@ export async function ollamaChat(
     throw new Error("Ollama chat requires a non-empty message.");
   }
 
+  const validatedUserPackageSemantics =
+    validateMatildaUserPackageSemanticsInput(
+      context.userPackageSemantics,
+    );
+
   const controller = new AbortController();
   const timeout = setTimeout(
     () => controller.abort(),
@@ -1061,6 +1154,12 @@ export async function ollamaChat(
             "For entered, continued, superseded, and abandoned, lifecycleDetermination may be null when no separate material determination is required.",
             "Do not invent investigation progress unsupported by the conversation.",
             "Do not use conversation identifiers or interpretation-entry identifiers as investigationIdentity merely because those identifiers exist.",
+            ...(validatedUserPackageSemantics
+              ? [
+                  "Explicit user-supplied Package Semantics are provided below. These values are user-authored intent evidence and must be preserved exactly in the corresponding packageSemantics fields, except for boundary whitespace normalization.",
+                  JSON.stringify(validatedUserPackageSemantics),
+                ]
+              : []),
             "Set packageSemantics to null only when the current turn establishes no request-specific structured package semantics.",
             "Otherwise set packageSemantics to one atomic non-authoritative artifact describing the user's requested outcome, proposed work, proposed artifacts, scope, constraints, and unresolved questions.",
             "For expectedOutcome, proposedWork, proposedArtifacts, inScope, outOfScope, constraints, and unresolvedQuestions, use a concise non-empty string only when that semantic is actually established; otherwise use null.",
