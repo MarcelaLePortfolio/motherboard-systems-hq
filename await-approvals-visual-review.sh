@@ -3,7 +3,7 @@ set -euo pipefail
 cd "$(git rev-parse --show-toplevel)"
 
 echo "=== AWAIT APPROVALS VISUAL REVIEW ==="
-echo "BASELINE_COMMIT=ed068b1d"
+echo "BASELINE_COMMIT=b5f9fa5f"
 echo "CLIENT_BUILD=PASS"
 echo "IMPLEMENTATION_STATE=PAUSED"
 echo "FURTHER_UI_CHANGE_AUTHORIZED=NO"
