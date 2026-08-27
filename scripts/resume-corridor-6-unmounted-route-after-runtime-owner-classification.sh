@@ -1,0 +1,88 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+cd "$(git rev-parse --show-toplevel)"
+
+EXPECTED_HEAD="700ea955d"
+
+if [[ "$(git rev-parse HEAD)" != "$EXPECTED_HEAD"* ]]; then
+  echo "STOP=UNEXPECTED_HEAD"
+  echo "CURRENT_HEAD=$(git rev-parse HEAD)"
+  exit 1
+fi
+
+rm -rf .tmp-corridor-6-minimum-owner
+
+echo "=== CORRIDOR 6 — RESUME UNMOUNTED ROUTE IMPLEMENTATION ==="
+echo "MODE=COLLABORATION"
+echo "PRODUCTION_CHANGE=NONE"
+echo "EXACT_MINIMUM_RUNTIME_OWNER_CLASSIFIED=YES"
+echo "MINIMUM_OWNER=UNMOUNTED_ROUTE_COMPOSITION_DEPENDENCY_BOUNDARY"
+echo
+
+echo "=== VERIFIED IMPLEMENTATION CONTRACT ==="
+echo "ROUTE_MUST_NOT_STATICALLY_IMPORT_EXECUTION_APPROVAL_GATE=YES"
+echo "ROUTE_MUST_REQUIRE_APPROVAL_EVALUATOR_DEPENDENCY=YES"
+echo "ROUTE_MAY_IMPORT_PRODUCTION_EXECUTION_ENTRY_POINT=YES"
+echo "ROUTE_MAY_IMPORT_DURABLE_READERS=YES"
+echo "ROUTE_MAY_IMPORT_APPROVAL_COMPILER=YES"
+echo "ROUTE_MUST_REJECT_CLIENT_AUTHORITY_FIELDS=YES"
+echo "ROUTE_TESTS_MUST_USE_INJECTED_APPROVAL_EVALUATOR=YES"
+echo "ROUTE_TESTS_MUST_NOT_EXECUTE_REAL_GIT_EFFECTS=YES"
+echo "PRODUCTION_APPROVAL_GATE_BINDING=DEFERRED"
+echo "ROUTE_MOUNT=DEFERRED"
+echo "PRODUCTION_REACHABILITY=DEFERRED"
+echo
+
+echo "=== AUTHORIZATION BOUNDARY ==="
+echo "PRIOR_EXPLICIT_USER_AUTHORIZATION=BOUNDED_UNMOUNTED_DEDICATED_EXECUTION_ROUTE_PLUS_TARGETED_TESTS"
+echo "NEW_RUNTIME_REPAIR_REQUIRED=NO"
+echo "SCOPE_EXPANSION=NO"
+echo "NEW_AUTHORITY=NO"
+echo "GENERIC_CADE_CHANGE=NO"
+echo "GENERIC_SHELL_OR_MUTATION_CHANGE=NO"
+echo "SCHEDULER_OR_AUTONOMY_CHANGE=NO"
+echo
+
+echo "=== IMPLEMENTATION READINESS ==="
+for file in \
+  db/governance-execution-approval-persistence.ts \
+  db/governance-execution-scope-persistence.ts \
+  db/governance-execution-read-repository.ts \
+  server/execution/compile-persisted-execution-approval.mjs \
+  server/execution/production-execution-entry-point.ts
+do
+  [[ -f "$file" ]] || {
+    echo "STOP=MISSING_REQUIRED_SOURCE:$file"
+    exit 1
+  }
+  echo "REQUIRED_SOURCE_PRESENT=$file"
+done
+
+if [[ -e server/routes/governance-execution-route.ts ]]; then
+  echo "STOP=ROUTE_ALREADY_PRESENT"
+  exit 1
+fi
+
+if grep -q 'createGovernanceExecutionRouter' server/index.ts; then
+  echo "STOP=EXECUTION_ROUTE_UNEXPECTEDLY_MOUNTED"
+  exit 1
+fi
+
+npx tsc --noEmit
+
+echo
+echo "=== RESULT ==="
+echo "UNMOUNTED_ROUTE_IMPLEMENTATION_READY=YES"
+echo "STATIC_APPROVAL_GATE_IMPORT_PROHIBITED=YES"
+echo "INJECTED_APPROVAL_EVALUATOR_REQUIRED=YES"
+echo "PRODUCTION_BINDING_AUTHORIZED=NO"
+echo "ROUTE_MOUNT_AUTHORIZED=NO"
+echo "PRODUCTION_REACHABILITY_AUTHORIZED=NO"
+echo "CORRIDOR_6_STATUS=ACTIVE_READY_FOR_PREVIOUSLY_AUTHORIZED_UNMOUNTED_ROUTE_IMPLEMENTATION"
+echo "PHASE_1_STATUS=ACTIVE"
+echo "NEXT_ACTION=IMPLEMENT_BOUNDED_UNMOUNTED_ROUTE_WITH_INJECTED_APPROVAL_EVALUATOR"
+echo
+echo "HEAD=$(git rev-parse HEAD)"
+echo "BRANCH=$(git branch --show-current)"
+git status --short
