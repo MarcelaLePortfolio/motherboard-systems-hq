@@ -69,6 +69,16 @@ export function createExecutionEnvelope(input = {}) {
 
       intent_id: input?.identity?.intent_id ?? null,
 
+      package_id: input?.identity?.package_id ?? null,
+
+      package_version: input?.identity?.package_version ?? null,
+
+      delegation_id: input?.identity?.delegation_id ?? null,
+
+      validation_result_id: input?.identity?.validation_result_id ?? null,
+
+      envelope_gate_id: input?.identity?.envelope_gate_id ?? null,
+
       timestamp: input?.identity?.timestamp ?? new Date().toISOString(),
 
       origin: "matilda",
