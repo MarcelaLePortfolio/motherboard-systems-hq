@@ -6,15 +6,17 @@ import { buildApprovalArtifact } from "./build-approval-artifact.mjs";
 import { evaluateExecutionApproval } from "./execution-approval-gate.mjs";
 import { validateGovernedExecutionEnvelope } from "./governance-validator.mjs";
 
-function buildEnvelope(projectTarget = {}) {
+function buildEnvelope(projectTarget = {}, overrides = {}) {
   return createExecutionEnvelope({
     identity: {
       envelope_id: "env-version-control-contract-smoke",
       intent_id: "intent-version-control-contract-smoke",
     },
     intent: {
-      raw_user_intent: "Validate version-control contract semantics only",
-      normalized_intent: "Validate contract semantics",
+      raw_user_intent:
+        "Validate version-control contract semantics only",
+      normalized_intent:
+        "Validate contract semantics",
       intent_type: "inspect",
       intent_evidence: ["user_authorization"],
       confidence_score: 1,
@@ -31,9 +33,11 @@ function buildEnvelope(projectTarget = {}) {
       allowed_paths: ["docs/contracts/"],
       forbidden_paths: ["secrets/", ".env"],
       scope_constraints: "Contract-only smoke",
+      ...(overrides.mutation_scope || {}),
     },
     execution_plan: {
-      summary: "Validate version-control contract semantics",
+      summary:
+        "Validate version-control contract semantics",
       steps: [
         {
           step_id: "step-1",
@@ -57,13 +61,17 @@ function buildEnvelope(projectTarget = {}) {
     validation_contract: {
       pre_checks: [],
       post_checks: [],
-      success_criteria: ["Contract validation succeeds"],
+      success_criteria: [
+        "Contract validation succeeds",
+      ],
       failure_conditions: [],
     },
     rollback_contract: {
       rollback_supported: true,
       rollback_method: "git",
-      rollback_trigger_conditions: ["validation failure"],
+      rollback_trigger_conditions: [
+        "validation failure",
+      ],
     },
     reconciliation: {
       required: true,
@@ -83,92 +91,326 @@ function buildEnvelope(projectTarget = {}) {
       required: true,
       state: "delegated",
       notes: "Contract-only smoke",
+      ...(overrides.delegation_authorization || {}),
     },
   });
 }
 
+function approvedCommitArtifact(overrides = {}) {
+  return {
+    ...buildApprovalArtifact({
+      version_control_authorization: {
+        commit_authorized: true,
+        push_authorized: false,
+        remote: "origin",
+        branch:
+          "feature/support-source-references-runtime",
+      },
+    }),
+    status: "approved",
+    ...overrides,
+  };
+}
+
 const ordinary = buildEnvelope();
-assert.equal(ordinary.project_target.expected_head, null);
-assert.doesNotThrow(() => validateExecutionEnvelope(ordinary));
+assert.equal(
+  ordinary.project_target.expected_head,
+  null,
+);
+assert.doesNotThrow(() =>
+  validateExecutionEnvelope(ordinary),
+);
 
 const expectedHead = "a".repeat(40);
 const withExpectedHead = buildEnvelope({
   expected_head: expectedHead,
 });
-assert.equal(withExpectedHead.project_target.expected_head, expectedHead);
-assert.doesNotThrow(() => validateExecutionEnvelope(withExpectedHead));
+assert.equal(
+  withExpectedHead.project_target.expected_head,
+  expectedHead,
+);
+assert.doesNotThrow(() =>
+  validateExecutionEnvelope(withExpectedHead),
+);
 
 const malformedExpectedHead = buildEnvelope({
   expected_head: "not-a-git-sha",
 });
 assert.throws(
-  () => validateExecutionEnvelope(malformedExpectedHead),
+  () =>
+    validateExecutionEnvelope(
+      malformedExpectedHead,
+    ),
   /expected_head/,
 );
 
 const defaults = buildApprovalArtifact();
 assert.equal(
-  defaults.version_control_authorization.commit_authorized,
+  defaults.version_control_authorization
+    .commit_authorized,
   false,
 );
 assert.equal(
-  defaults.version_control_authorization.push_authorized,
+  defaults.version_control_authorization
+    .push_authorized,
   false,
 );
-assert.equal(defaults.version_control_authorization.remote, "origin");
-assert.equal(defaults.version_control_authorization.branch, null);
+assert.equal(
+  defaults.version_control_authorization.remote,
+  "origin",
+);
+assert.equal(
+  defaults.version_control_authorization.branch,
+  null,
+);
 
 const commitOnly = buildApprovalArtifact({
   version_control_authorization: {
     commit_authorized: true,
     push_authorized: false,
     remote: "origin",
-    branch: "feature/support-source-references-runtime",
+    branch:
+      "feature/support-source-references-runtime",
   },
 });
 
 assert.equal(
-  commitOnly.version_control_authorization.commit_authorized,
+  commitOnly.version_control_authorization
+    .commit_authorized,
   true,
 );
 assert.equal(
-  commitOnly.version_control_authorization.push_authorized,
+  commitOnly.version_control_authorization
+    .push_authorized,
   false,
 );
-assert.equal(commitOnly.mutation_authorized, false);
-assert.equal(commitOnly.shell_execution_authorized, false);
+assert.equal(
+  commitOnly.mutation_authorized,
+  false,
+);
+assert.equal(
+  commitOnly.shell_execution_authorized,
+  false,
+);
 
-const governance = validateGovernedExecutionEnvelope(ordinary);
+const ordinaryGovernance =
+  validateGovernedExecutionEnvelope(ordinary);
 
-const gated = evaluateExecutionApproval({
-  envelope: ordinary,
-  governance,
-  approval: commitOnly,
+const ordinaryGated =
+  evaluateExecutionApproval({
+    envelope: ordinary,
+    governance: ordinaryGovernance,
+    approval: commitOnly,
+  });
+
+assert.equal(
+  ordinaryGated.execution_phase,
+  "governed_planning_only",
+);
+assert.equal(
+  ordinaryGated.version_control_authorization
+    .commit_authorized,
+  false,
+);
+assert.equal(
+  ordinaryGated.version_control_authorization
+    .push_authorized,
+  false,
+);
+
+const governedCommitEnvelope = buildEnvelope({
+  expected_head: expectedHead,
 });
 
-assert.equal(gated.execution_phase, "governed_planning_only");
-assert.equal(gated.mutation_authorized, false);
-assert.equal(gated.shell_execution_authorized, false);
-assert.equal(gated.autonomous_execution_authorized, false);
+const governedCommitGovernance =
+  validateGovernedExecutionEnvelope(
+    governedCommitEnvelope,
+  );
+
+const governedCommitApproval =
+  approvedCommitArtifact();
+
+const governedCommit =
+  evaluateExecutionApproval({
+    envelope: governedCommitEnvelope,
+    governance: governedCommitGovernance,
+    approval: governedCommitApproval,
+  });
+
 assert.equal(
-  gated.version_control_authorization.commit_authorized,
+  governedCommit.execution_phase,
+  "governed_version_control_commit",
+);
+assert.equal(
+  governedCommit.version_control_authorization
+    .commit_authorized,
+  true,
+);
+assert.equal(
+  governedCommit.version_control_authorization
+    .push_authorized,
   false,
 );
 assert.equal(
-  gated.version_control_authorization.push_authorized,
+  governedCommit.mutation_authorized,
+  false,
+);
+assert.equal(
+  governedCommit.shell_execution_authorized,
+  false,
+);
+assert.equal(
+  governedCommit.autonomous_execution_authorized,
   false,
 );
 
-console.log(JSON.stringify({
-  ok: true,
-  ordinary_planning_backward_compatible: true,
-  expected_head_preserved: true,
-  malformed_expected_head_failed_closed: true,
-  commit_authorization_default_false: true,
-  push_authorization_default_false: true,
-  commit_does_not_imply_push: true,
-  version_control_does_not_enable_mutation: true,
-  version_control_does_not_enable_shell: true,
-  planning_only_preserved: true,
-  git_side_effects: false,
-}, null, 2));
+const missingHead =
+  evaluateExecutionApproval({
+    envelope: buildEnvelope(),
+    governance: ordinaryGovernance,
+    approval: approvedCommitArtifact(),
+  });
+
+assert.equal(
+  missingHead.version_control_authorization
+    .commit_authorized,
+  false,
+);
+
+const noAllowedPathsEnvelope =
+  buildEnvelope(
+    { expected_head: expectedHead },
+    {
+      mutation_scope: {
+        allowed_paths: [],
+      },
+    },
+  );
+
+assert.throws(
+  () =>
+    validateGovernedExecutionEnvelope(
+      noAllowedPathsEnvelope,
+    ),
+  /allowed_paths required/,
+);
+
+const noAllowedPaths =
+  evaluateExecutionApproval({
+    envelope: noAllowedPathsEnvelope,
+    governance: {
+      ok: true,
+    },
+    approval: approvedCommitArtifact(),
+  });
+
+assert.equal(
+  noAllowedPaths.version_control_authorization
+    .commit_authorized,
+  false,
+);
+
+const undelegatedEnvelope =
+  buildEnvelope(
+    { expected_head: expectedHead },
+    {
+      delegation_authorization: {
+        state: "pending",
+      },
+    },
+  );
+
+assert.throws(
+  () =>
+    validateGovernedExecutionEnvelope(
+      undelegatedEnvelope,
+    ),
+  /execution not delegated/,
+);
+
+const undelegated =
+  evaluateExecutionApproval({
+    envelope: undelegatedEnvelope,
+    governance: {
+      ok: true,
+    },
+    approval: approvedCommitArtifact(),
+  });
+
+assert.equal(
+  undelegated.version_control_authorization
+    .commit_authorized,
+  false,
+);
+
+assert.throws(
+  () =>
+    evaluateExecutionApproval({
+      envelope: governedCommitEnvelope,
+      governance: governedCommitGovernance,
+      approval: approvedCommitArtifact({
+        version_control_authorization: {
+          commit_authorized: true,
+          push_authorized: true,
+          remote: "origin",
+          branch:
+            "feature/support-source-references-runtime",
+        },
+      }),
+    }),
+  /push authority remains disabled/,
+);
+
+assert.throws(
+  () =>
+    evaluateExecutionApproval({
+      envelope: governedCommitEnvelope,
+      governance: { ok: false },
+      approval: governedCommitApproval,
+    }),
+  /governance validation/,
+);
+
+assert.equal(
+  governedCommit.trace.some(
+    (entry) =>
+      entry.event ===
+      "version_control_commit_authority_granted",
+  ),
+  true,
+);
+
+console.log(
+  JSON.stringify(
+    {
+      ok: true,
+      ordinary_planning_backward_compatible:
+        true,
+      expected_head_preserved: true,
+      malformed_expected_head_failed_closed:
+        true,
+      commit_authorization_default_false:
+        true,
+      push_authorization_default_false:
+        true,
+      commit_does_not_imply_push: true,
+      governed_commit_authority_granted:
+        true,
+      push_remains_blocked: true,
+      mutation_remains_blocked: true,
+      shell_remains_blocked: true,
+      autonomous_remains_blocked: true,
+      missing_expected_head_blocks_commit:
+        true,
+      empty_allowed_paths_blocks_commit:
+        true,
+      undelegated_request_blocks_commit:
+        true,
+      governance_failure_blocks_commit:
+        true,
+      git_side_effects: false,
+    },
+    null,
+    2,
+  ),
+);

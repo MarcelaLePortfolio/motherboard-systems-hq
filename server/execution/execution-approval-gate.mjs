@@ -39,7 +39,38 @@ function normalizeApproval(approval = {}) {
     issued_at: approval?.issued_at ?? null,
     expires_at: approval?.expires_at ?? null,
     justification: approval?.justification ?? null,
+    status: approval?.status ?? null,
   };
+}
+
+function hasNonEmptyString(value) {
+  return typeof value === "string" && value.trim().length > 0;
+}
+
+function hasAllowedPaths(envelope = {}) {
+  return (
+    Array.isArray(envelope?.mutation_scope?.allowed_paths) &&
+    envelope.mutation_scope.allowed_paths.length > 0
+  );
+}
+
+function shouldGrantGovernedCommitAuthority({
+  envelope = {},
+  normalized = {},
+} = {}) {
+  const vc = normalized.version_control_authorization;
+
+  return (
+    envelope?.delegation_authorization?.state === "delegated" &&
+    normalized.approval_id !== null &&
+    normalized.status === "approved" &&
+    vc.commit_authorized === true &&
+    vc.push_authorized === false &&
+    hasNonEmptyString(envelope?.project_target?.expected_head) &&
+    hasNonEmptyString(envelope?.project_target?.repo_path) &&
+    hasNonEmptyString(envelope?.project_target?.branch) &&
+    hasAllowedPaths(envelope)
+  );
 }
 
 export function evaluateExecutionApproval({
@@ -77,24 +108,59 @@ export function evaluateExecutionApproval({
     );
   }
 
+  if (normalized.version_control_authorization.push_authorized === true) {
+    fail(
+      "PUSH_AUTHORITY_DISABLED",
+      "push authority remains disabled in the local commit phase",
+    );
+  }
+
+  const commitAuthorized = shouldGrantGovernedCommitAuthority({
+    envelope,
+    normalized,
+  });
+
   return {
     ok: true,
     approval_gate: "canonical_execution_approval_gate",
-    execution_phase: "governed_planning_only",
-    delegated: envelope?.delegation_authorization?.state === "delegated",
+    execution_phase: commitAuthorized
+      ? "governed_version_control_commit"
+      : "governed_planning_only",
+    delegated:
+      envelope?.delegation_authorization?.state === "delegated",
     approval_present: normalized.approval_id !== null,
     mutation_authorized: false,
     shell_execution_authorized: false,
     autonomous_execution_authorized: false,
     version_control_authorization: {
       ...normalized.version_control_authorization,
-      commit_authorized: false,
+      commit_authorized: commitAuthorized,
       push_authorized: false,
     },
     approval_artifact: normalized,
     trace: [
       {
         event: "approval_artifact_normalized",
+        ok: true,
+      },
+      {
+        event: "governance_validated",
+        ok: true,
+      },
+      {
+        event: "delegation_validated",
+        ok:
+          envelope?.delegation_authorization?.state ===
+          "delegated",
+      },
+      {
+        event: commitAuthorized
+          ? "version_control_commit_authority_granted"
+          : "version_control_commit_authority_blocked",
+        ok: true,
+      },
+      {
+        event: "push_authority_blocked",
         ok: true,
       },
       {
@@ -107,10 +173,6 @@ export function evaluateExecutionApproval({
       },
       {
         event: "autonomous_authority_blocked",
-        ok: true,
-      },
-      {
-        event: "version_control_authority_blocked",
         ok: true,
       },
     ],
