@@ -102,6 +102,7 @@ export function createExecutionEnvelope(input = {}) {
       repo_path: input?.project_target?.repo_path ?? "",
 
       branch: input?.project_target?.branch ?? "",
+      expected_head: input?.project_target?.expected_head ?? null,
 
       workspace_type:
 

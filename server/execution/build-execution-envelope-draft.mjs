@@ -88,6 +88,7 @@ export function buildExecutionEnvelopeDraft({
       repo_path: project_target.repo_path ?? process.cwd(),
 
       branch: project_target.branch ?? null,
+      expected_head: project_target.expected_head ?? null,
 
       workspace_type: project_target.workspace_type ?? "motherboard_systems",
 

@@ -63,6 +63,18 @@ export function validateExecutionEnvelope(envelope = {}) {
 
   );
 
+  const expectedHead = envelope?.project_target?.expected_head;
+
+  invariant(
+    expectedHead === undefined ||
+      expectedHead === null ||
+      (
+        typeof expectedHead === "string" &&
+        /^[0-9a-f]{40}$/i.test(expectedHead)
+      ),
+    "project_target.expected_head must be a 40-character git commit SHA when supplied",
+  );
+
   invariant(
 
     SCOPE_TYPES.includes(
