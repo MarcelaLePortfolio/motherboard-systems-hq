@@ -462,3 +462,251 @@ export function performGovernedLocalCommit(
     pushEffect: false,
   };
 }
+
+export type GovernedRemotePushInput = {
+  repoPath: string;
+  branch: string;
+  remote: string;
+  expectedLocalHead: string;
+  expectedRemoteUrl: string;
+  approvalId: string;
+  envelopeId: string;
+  executionId: string;
+  commitAuthorized: boolean;
+  pushAuthorized: boolean;
+};
+
+export type GovernedRemotePushResult = {
+  status: "ok";
+  localHead: string;
+  branch: string;
+  remote: string;
+  remoteUrl: string;
+  preRemoteHead: string | null;
+  postRemoteHead: string;
+  approvalId: string;
+  envelopeId: string;
+  executionId: string;
+  remoteEffect: true;
+  pushEffect: true;
+  forceEffect: false;
+};
+
+function remoteHead(
+  repoPath: string,
+  remote: string,
+  branch: string,
+): string | null {
+  const output = git(repoPath, [
+    "ls-remote",
+    remote,
+    `refs/heads/${branch}`,
+  ]);
+
+  if (!output) {
+    return null;
+  }
+
+  const [head] = output.split(/\s+/);
+
+  return head || null;
+}
+
+export function performGovernedRemotePush(
+  input: GovernedRemotePushInput,
+): GovernedRemotePushResult {
+  if (!input || typeof input !== "object") {
+    fail(
+      "INVALID_REMOTE_PUSH_INPUT",
+      "governed remote push input required",
+    );
+  }
+
+  for (const [value, message] of [
+    [input.repoPath, "repo_path required"],
+    [input.branch, "branch required"],
+    [input.remote, "remote required"],
+    [input.expectedLocalHead, "expected_local_head required"],
+    [input.expectedRemoteUrl, "expected_remote_url required"],
+    [input.approvalId, "approval_id required"],
+    [input.envelopeId, "envelope_id required"],
+    [input.executionId, "execution_id required"],
+  ]) {
+    if (
+      typeof value !== "string" ||
+      value.trim().length === 0
+    ) {
+      fail(
+        "REMOTE_PUSH_INPUT_REQUIRED",
+        message,
+      );
+    }
+  }
+
+  if (input.commitAuthorized !== true) {
+    fail(
+      "REMOTE_PUSH_COMMIT_AUTHORITY_REQUIRED",
+      "commit_authorized=true required",
+    );
+  }
+
+  if (input.pushAuthorized !== true) {
+    fail(
+      "REMOTE_PUSH_AUTHORITY_REQUIRED",
+      "push_authorized=true required",
+    );
+  }
+
+  if (
+    !/^[0-9a-f]{40}$/i.test(
+      input.expectedLocalHead,
+    )
+  ) {
+    fail(
+      "INVALID_EXPECTED_LOCAL_HEAD",
+      "expected_local_head must be a 40-character SHA",
+    );
+  }
+
+  const repoPath =
+    normalizeRepoPath(input.repoPath);
+
+  assertRepositoryRoot(repoPath);
+
+  const localHead = git(repoPath, [
+    "rev-parse",
+    "HEAD",
+  ]);
+
+  if (
+    localHead !==
+    input.expectedLocalHead
+  ) {
+    fail(
+      "REMOTE_PUSH_LOCAL_HEAD_MISMATCH",
+      `expected local HEAD ${input.expectedLocalHead} but found ${localHead}`,
+    );
+  }
+
+  const branch = git(repoPath, [
+    "branch",
+    "--show-current",
+  ]);
+
+  if (branch !== input.branch) {
+    fail(
+      "REMOTE_PUSH_BRANCH_MISMATCH",
+      `expected branch ${input.branch} but found ${branch}`,
+    );
+  }
+
+  const trackedDirty = trackedDirtyPaths(
+    repoPath,
+  );
+
+  if (trackedDirty.length > 0) {
+    fail(
+      "REMOTE_PUSH_TRACKED_DRIFT",
+      `tracked worktree drift blocks push: ${trackedDirty.join(", ")}`,
+    );
+  }
+
+  const staged = stagedPaths(repoPath);
+
+  if (staged.length > 0) {
+    fail(
+      "REMOTE_PUSH_STAGED_SET_NOT_EMPTY",
+      `staged paths block push: ${staged.join(", ")}`,
+    );
+  }
+
+  const remoteUrl = git(repoPath, [
+    "remote",
+    "get-url",
+    input.remote,
+  ]);
+
+  if (
+    normalizeRepoPath(remoteUrl) !==
+    normalizeRepoPath(
+      input.expectedRemoteUrl,
+    )
+  ) {
+    fail(
+      "REMOTE_PUSH_URL_MISMATCH",
+      "observed remote URL does not match authorized remote URL",
+    );
+  }
+
+  const preRemoteHead = remoteHead(
+    repoPath,
+    input.remote,
+    input.branch,
+  );
+
+  git(repoPath, [
+    "push",
+    input.remote,
+    `HEAD:refs/heads/${input.branch}`,
+  ]);
+
+  const postRemoteHead = remoteHead(
+    repoPath,
+    input.remote,
+    input.branch,
+  );
+
+  if (
+    postRemoteHead !==
+    input.expectedLocalHead
+  ) {
+    fail(
+      "REMOTE_PUSH_POST_VERIFY_FAILED",
+      "remote head does not equal expected local head after push",
+    );
+  }
+
+  const localHeadAfter = git(repoPath, [
+    "rev-parse",
+    "HEAD",
+  ]);
+
+  if (
+    localHeadAfter !==
+    input.expectedLocalHead
+  ) {
+    fail(
+      "REMOTE_PUSH_LOCAL_HEAD_CHANGED",
+      "local HEAD changed during push",
+    );
+  }
+
+  const branchAfter = git(repoPath, [
+    "branch",
+    "--show-current",
+  ]);
+
+  if (branchAfter !== input.branch) {
+    fail(
+      "REMOTE_PUSH_LOCAL_BRANCH_CHANGED",
+      "local branch changed during push",
+    );
+  }
+
+  return {
+    status: "ok",
+    localHead:
+      input.expectedLocalHead,
+    branch: input.branch,
+    remote: input.remote,
+    remoteUrl,
+    preRemoteHead,
+    postRemoteHead,
+    approvalId: input.approvalId,
+    envelopeId: input.envelopeId,
+    executionId: input.executionId,
+    remoteEffect: true,
+    pushEffect: true,
+    forceEffect: false,
+  };
+}
