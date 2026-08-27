@@ -145,3 +145,43 @@ test(
     );
   },
 );
+
+test(
+  "Package Semantics validator fails closed on unknown fields",
+  () => {
+    assert.throws(
+      () =>
+        validateMatildaPackageSemanticsArtifact({
+          ...validPackageSemantics(),
+          unexpectedField: "not allowed",
+        }),
+      /unknown package semantics field unexpectedField/i,
+    );
+  },
+);
+
+test(
+  "Package Semantics validator continues accepting null known fields",
+  () => {
+    assert.deepEqual(
+      validateMatildaPackageSemanticsArtifact({
+        expectedOutcome: null,
+        proposedWork: null,
+        proposedArtifacts: null,
+        inScope: null,
+        outOfScope: null,
+        constraints: null,
+        unresolvedQuestions: null,
+      }),
+      {
+        expectedOutcome: null,
+        proposedWork: null,
+        proposedArtifacts: null,
+        inScope: null,
+        outOfScope: null,
+        constraints: null,
+        unresolvedQuestions: null,
+      },
+    );
+  },
+);

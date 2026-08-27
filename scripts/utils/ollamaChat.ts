@@ -392,6 +392,16 @@ export function validateMatildaPackageSemanticsArtifact(
     "unresolvedQuestions",
   ] as const;
 
+  const allowedFields = new Set<string>(fields);
+
+  for (const key of Object.keys(candidate)) {
+    if (!allowedFields.has(key)) {
+      throw new Error(
+        `${errorPrefix} unknown package semantics field ${key}.`,
+      );
+    }
+  }
+
   const validated: MatildaPackageSemanticsArtifact = {
     expectedOutcome: null,
     proposedWork: null,
