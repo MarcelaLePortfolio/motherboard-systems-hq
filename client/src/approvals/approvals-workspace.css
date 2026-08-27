@@ -163,8 +163,13 @@
 }
 
 .executive-inbox-item__heading strong {
+  display: -webkit-box;
+  min-width: 0;
+  overflow: hidden;
   line-height: 1.25;
   overflow-wrap: anywhere;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
 }
 
 .executive-inbox-item__summary {

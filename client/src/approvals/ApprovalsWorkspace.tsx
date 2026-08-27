@@ -11,6 +11,7 @@ import {
   type ApprovalRequestDecision,
   type ApprovalRequestReadModel,
 } from "./approvalRequestApi";
+import { deriveDecisionListTitle } from "./decisionListTitle";
 import { useApprovalRequests } from "./useApprovalRequests";
 
 import "./approvals-workspace.css";
@@ -88,9 +89,11 @@ function DecisionListItem({
     >
       <div className="executive-inbox-item__heading">
         <strong>
-          {readText(
-            request.evidence.expected_outcome,
-            request.evidence.interpreted_objective,
+          {deriveDecisionListTitle(
+            readText(
+              request.evidence.expected_outcome,
+              request.evidence.interpreted_objective,
+            ),
           )}
         </strong>
         <DecisionBadge>Needs review</DecisionBadge>
