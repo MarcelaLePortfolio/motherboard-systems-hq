@@ -1,0 +1,69 @@
+#!/usr/bin/env bash
+set -euo pipefail
+cd "$(git rev-parse --show-toplevel)"
+
+echo "=== AUTHORIZE ISOLATED EXECUTION REGISTRY INTEGRITY REPAIR ==="
+echo "MODE=EXECUTION"
+echo "AUTHORIZATION_SCOPE=PRE_EXISTING_EXECUTION_REGISTRY_INTEGRITY_ONLY"
+echo "CADE_VERSION_CONTROL_CONTRACT_WORK=PAUSED"
+echo "GIT_SIDE_EFFECTS_IN_RUNTIME=PROHIBITED"
+
+CURRENT_HEAD="$(git rev-parse HEAD)"
+echo "CURRENT_HEAD=${CURRENT_HEAD}"
+
+echo
+echo "=== AUTHORIZED REPAIR SET ==="
+echo "REPAIR_1=ADD_TRANSITIONS_TO_REGISTRY_TYPE"
+echo "REPAIR_2=POINT_REGISTRY_LOADER_TO_CANONICAL_JSON"
+echo "REPAIR_3=RESTORE_EVALUATOR_TO_REGISTRY_TRANSITIONS"
+echo "REPAIR_4=RESTORE_TRANSITION_TABLE_TO_REGISTRY_TRANSITIONS"
+echo "REPAIR_5=RESTORE_REGISTRY_VALIDATOR_TO_REGISTRY_TRANSITIONS"
+
+echo
+echo "=== AUTHORIZED FILES ==="
+echo "1 server/execution/matilda-execution-registry-loader.ts"
+echo "2 server/execution/matilda-execution-switch-evaluator.ts"
+echo "3 server/execution/matilda-execution-transition-table.ts"
+echo "4 server/execution/matilda-execution-registry-validate.ts"
+
+echo
+echo "=== REQUIRED SEMANTICS ==="
+echo "CANONICAL_REGISTRY=docs/governance/CADE_EXECUTION_SOURCE_OF_TRUTH_REGISTRY.json"
+echo "REGISTRY_TRANSITIONS_REMAIN_SINGLE_SOURCE_OF_TRUTH=YES"
+echo "EXECUTABLE_REMAINS_DERIVED_ONLY=YES"
+echo "NO_DIRECT_EXECUTABLE_ASSIGNMENT=YES"
+echo "NO_NEW_EXECUTION_AUTHORITY=YES"
+echo "NO_APPROVAL_GATE_POLICY_CHANGE=YES"
+echo "NO_CADE_GIT_CAPABILITY_CHANGE=YES"
+
+echo
+echo "=== REQUIRED VALIDATION BEFORE REPAIR COMMIT ==="
+echo "TEST_1=npx tsc --noEmit"
+echo "TEST_2=tsx registry loader reads canonical JSON"
+echo "TEST_3=registry validator passes"
+echo "TEST_4=transition table equals canonical registry transitions"
+echo "TEST_5=evaluator DISABLED plus no authorization remains DISABLED"
+echo "TEST_6=evaluator DISABLED plus authorization may derive only ARMED"
+echo "TEST_7=no state skips canonical transition graph"
+echo "TEST_8=no generic mutation shell or Git authority introduced"
+
+echo
+echo "=== CURRENT PARTIAL CONTRACT WORKTREE POLICY ==="
+echo "PRESERVE_PARTIAL_CADE_CONTRACT_CHANGES=YES"
+echo "DO_NOT_STAGE_PARTIAL_CADE_CONTRACT_CHANGES=YES"
+echo "DO_NOT_STAGE_VERSION_CONTROL_SMOKE=YES"
+echo "STAGE_ONLY_FOUR_AUTHORIZED_REGISTRY_FILES=YES"
+
+echo
+echo "=== FAILURE CONTAINMENT ==="
+echo "ANY_TYPESCRIPT_REGRESSION=STOP_AND_REVERT_REPAIR_FILES"
+echo "ANY_EXECUTION_AUTHORITY_EXPANSION=STOP_AND_REVERT_REPAIR_FILES"
+echo "ANY_UNAUTHORIZED_FILE_STAGED=STOP"
+echo "ANY_RUNTIME_GIT_SIDE_EFFECT=STOP"
+echo "THREE_FAILED_HYPOTHESIS_RULE=ACTIVE"
+
+echo
+echo "=== AUTHORIZATION ==="
+echo "ISOLATED_REGISTRY_INTEGRITY_REPAIR_AUTHORIZED=YES"
+echo "CADE_VERSION_CONTROL_IMPLEMENTATION_AUTHORIZATION_EXPANDED=NO"
+echo "NEXT_ACTION=APPLY_AND_VALIDATE_ONLY_THE_FOUR_FILE_REGISTRY_REPAIR"
