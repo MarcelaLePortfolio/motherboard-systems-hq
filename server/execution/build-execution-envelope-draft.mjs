@@ -11,6 +11,8 @@ function normalizeArray(value) {
 
 export function buildExecutionEnvelopeDraft({
 
+  identity = {},
+
   intent = {},
 
   project_target = {},
@@ -56,6 +58,16 @@ export function buildExecutionEnvelopeDraft({
       envelope_id: `env-${Date.now()}`,
 
       intent_id: normalized.intent_id,
+
+      package_id: identity.package_id ?? null,
+
+      package_version: identity.package_version ?? null,
+
+      delegation_id: identity.delegation_id ?? null,
+
+      validation_result_id: identity.validation_result_id ?? null,
+
+      envelope_gate_id: identity.envelope_gate_id ?? null,
 
       timestamp: new Date().toISOString(),
 
