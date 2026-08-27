@@ -1,0 +1,107 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+cd "$(git rev-parse --show-toplevel)"
+
+EXPECTED_HEAD="d77c0c1ac"
+
+if [[ "$(git rev-parse HEAD)" != "$EXPECTED_HEAD"* ]]; then
+  echo "STOP=UNEXPECTED_HEAD"
+  echo "CURRENT_HEAD=$(git rev-parse HEAD)"
+  exit 1
+fi
+
+echo "=== CORRIDOR 6 — MINIMUM PRODUCTION REACHABILITY REASSESSMENT ==="
+echo "MODE=COLLABORATION"
+echo "EXECUTION_APPROVAL_TRANSITION_UNIT_STATUS=CLOSED"
+echo "PRODUCTION_REACHABILITY_AUTHORIZED=NO"
+echo "ROUTE_MOUNT_AUTHORIZED=NO"
+echo
+
+echo "=== VERIFIED CURRENT CAPABILITY ==="
+echo "BOUNDED_EXECUTION_ENTRY_POINT_EXISTS=YES"
+echo "EXECUTION_APPROVAL_PERSISTENCE_EXISTS=YES"
+echo "USER_OWNED_APPROVAL_WRITE_EXISTS=YES"
+echo "FAIL_CLOSED_APPROVAL_READER_EXISTS=YES"
+echo "APPROVAL_COMPILER_EXISTS=YES"
+echo "GOVERNED_COMMIT_EFFECT_EXISTS=YES"
+echo "GOVERNED_PUSH_EFFECT_EXISTS=YES"
+echo "PRODUCTION_CALLER_EXISTS=NO"
+echo
+
+echo "=== CURRENT ROUTE SURFACES ==="
+for f in \
+  server/routes/matilda-canonical-package-route.ts \
+  server/routes/governance-delegation-route.ts \
+  server/routes/matilda-execution-authorization-route.ts \
+  server/index.ts
+do
+  if [[ -f "$f" ]]; then
+    echo
+    echo "----- $f -----"
+    sed -n '1,360p' "$f"
+  fi
+done
+echo
+
+echo "=== BOUNDED EXECUTION COMPOSITION ==="
+sed -n '1,360p' server/execution/production-execution-entry-point.ts
+echo
+
+echo "=== APPROVAL PERSISTENCE / COMPILER ==="
+sed -n '1,420p' db/governance-execution-approval-persistence.ts
+echo
+cat server/execution/compile-persisted-execution-approval.mjs
+echo
+
+echo "=== ROUTE MOUNT / CALLER SEARCH ==="
+git grep -n -E \
+'production-execution-entry-point|executeProduction|persistGovernanceExecutionApproval|loadGovernanceExecutionApproval|compilePersistedExecutionApproval|/api/.+execution|matilda-execution-authorization' \
+-- \
+server routes client/src db \
+':!**/*.test.ts' \
+':!server/execution/compile-persisted-execution-approval.mjs' \
+':!db/governance-execution-approval-persistence.ts' \
+|| true
+echo
+
+echo "=== REACHABILITY CANDIDATES ==="
+echo "CANDIDATE_A=EXTEND_CANONICAL_PACKAGE_ROUTE"
+echo "CANDIDATE_B=EXTEND_GOVERNANCE_DELEGATION_ROUTE"
+echo "CANDIDATE_C=REUSE_LEGACY_EXECUTION_AUTHORIZATION_ROUTE"
+echo "CANDIDATE_D=NEW_DEDICATED_EXECUTION_ROUTE"
+echo "CANDIDATE_E=INTERNAL_CALLER_ONLY"
+echo
+echo "CANDIDATE_A_PRIOR_DISPOSITION=REJECT_AUTHORITY_CONFLATION"
+echo "CANDIDATE_B_PRIOR_DISPOSITION=REJECT_DELEGATION_EXECUTION_CONFLATION"
+echo "CANDIDATE_C_PRIOR_DISPOSITION=REJECT_LEGACY_NONCANONICAL_AUTHORITY_SURFACE"
+echo "CANDIDATE_E_PRIOR_DISPOSITION=REJECT_NOT_OPERATOR_REACHABLE"
+echo "CANDIDATE_D_PRIOR_DISPOSITION=PROVISIONALLY_SELECTED"
+echo
+
+echo "=== REASSESSMENT QUESTIONS ==="
+echo "Q1=DOES_ANY_EXISTING_MOUNTED_ROUTE_NOW_SAFELY_ACCEPT_EXACT_APPROVAL_ID_AND_ENVELOPE_ID_WITHOUT_CONFLATING_AUTHORITY?"
+echo "Q2=DOES_ANY_EXISTING_ROUTE_COMPILE_THE_DURABLE_APPROVAL_AND_CALL_THE_BOUNDED_EXECUTION_ENTRY_POINT?"
+echo "Q3=CAN_LEGACY_EXECUTION_AUTHORIZATION_ROUTE_BE_REUSED_WITHOUT_REINTRODUCING_ITS_IN_MEMORY_AUTHORITY_MODEL?"
+echo "Q4=IS_A_NEW_DEDICATED_EXECUTION_ROUTE_STILL_THE_SMALLEST_OPERATOR_REACHABLE_SURFACE?"
+echo "Q5=WHAT_EXACT_INPUTS_MUST_SUCH_A_ROUTE_ACCEPT_WITHOUT_CREATING_OR_EXPANDING_AUTHORITY?"
+echo "Q6=WHAT_EXACT_OUTPUT_MUST_IT_RETURN_TO_PRESERVE_COMMIT_PUSH_PROOF_CORRELATION?"
+echo "Q7=WHAT_SERVER_MOUNT_CHANGE_WOULD_BE_REQUIRED_IF_LATER_AUTHORIZED?"
+echo
+
+echo "=== SAFETY BOUNDARY ==="
+echo "ROUTE_IMPLEMENTATION_PERFORMED=NO"
+echo "ROUTE_MOUNT_PERFORMED=NO"
+echo "PRODUCTION_REACHABILITY_CHANGE=NO"
+echo "GENERIC_CADE_CHANGE=NO"
+echo "GIT_EFFECT_CHANGE=NO"
+echo "SCHEDULER_OR_AUTONOMY_CHANGE=NO"
+echo
+echo "CORRIDOR_6_STATUS=OPEN_REACHABILITY_REASSESSMENT"
+echo "PHASE_1_STATUS=ACTIVE"
+echo "NEXT_ACTION=CLASSIFY_MINIMUM_SAFE_PRODUCTION_REACHABILITY_SURFACE_FROM_CURRENT_REPOSITORY_EVIDENCE"
+echo
+
+echo "HEAD=$(git rev-parse HEAD)"
+echo "BRANCH=$(git branch --show-current)"
+git status --short
