@@ -1,0 +1,114 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+cd "$(git rev-parse --show-toplevel)"
+
+echo "=== CLASSIFY DURABLE EXECUTION APPROVAL PERSISTENCE REUSE BOUNDARY ==="
+echo "MODE=COLLABORATION"
+echo "PRODUCTION_CHANGE=NONE"
+echo "IMPLEMENTATION_AUTHORIZED=NO"
+
+EXPECTED_HEAD_PREFIX="92431807e"
+CURRENT_HEAD="$(git rev-parse HEAD)"
+
+if [[ "${CURRENT_HEAD}" != "${EXPECTED_HEAD_PREFIX}"* ]]; then
+  echo "STOP: unexpected HEAD ${CURRENT_HEAD}"
+  exit 1
+fi
+
+echo
+echo "=== INSPECT EXISTING EXECUTION AUTHORIZATION RUNTIME ==="
+sed -n '1,260p' db/matilda-execution-authorization-runtime.ts
+
+echo
+echo "=== INSPECT GOVERNANCE RUNTIME TYPES AND TABLE OWNERSHIP ==="
+sed -n '1,220p' db/governance-runtime.ts
+sed -n '220,330p' db/governance-runtime.ts
+sed -n '360,430p' db/governance-runtime.ts
+
+echo
+echo "=== INSPECT ENVELOPE CREATION AND READ SURFACES ==="
+sed -n '1040,1205p' db/governance-runtime.ts
+git grep -n -I -E \
+  'createGovernanceEnvelope|governance_envelopes|envelope_id' \
+  -- \
+  db \
+  server \
+  routes \
+  ':!server/execution/smoke-test-*' \
+  | sed -n '1,1000p' || true
+
+echo
+echo "=== INSPECT EXECUTION AUTHORIZATION CALL SURFACE ==="
+git grep -n -I -E \
+  'createExecutionAuthorization|matilda-execution-authorization-runtime|authorization_actor|authorization_status|execution authorization' \
+  -- \
+  db \
+  server \
+  routes \
+  client/src \
+  | sed -n '1,1000p' || true
+
+echo
+echo "=== INSPECT EXISTING APPROVAL ARTIFACT COMPILATION BOUNDARY ==="
+sed -n '1,260p' server/execution/build-approval-artifact.mjs
+sed -n '1,470p' server/execution/execution-approval-gate.mjs
+
+echo
+echo "=== REUSE CLASSIFICATION ==="
+echo "GOVERNANCE_ENVELOPES_ARE_ALREADY_DURABLE=YES"
+echo "GOVERNANCE_ENVELOPE_ID_IS_CANONICAL_DURABLE_IDENTITY=YES"
+echo "EXECUTION_AUTHORIZATION_CONCEPT_ALREADY_EXISTS=YES"
+echo "EXECUTION_AUTHORIZATION_DURABILITY_CURRENTLY_ABSENT=YES"
+echo "EXECUTION_APPROVAL_ARTIFACT_ALREADY_EXISTS=YES"
+echo "APPROVAL_GATE_ALREADY_CONSUMES_APPROVAL_ARTIFACT=YES"
+echo "PARALLEL_GENERAL_APPROVAL_SYSTEM_REQUIRED=NO"
+
+echo
+echo "=== OWNERSHIP QUESTION ==="
+echo "CANDIDATE_A=EXTEND_GOVERNANCE_RUNTIME_WITH_EXECUTION_APPROVAL_RECORD_BOUND_TO_ENVELOPE"
+echo "CANDIDATE_B=MAKE_EXISTING_MATILDA_EXECUTION_AUTHORIZATION_RUNTIME_DURABLE_AND_ENVELOPE_BOUND"
+echo "CANDIDATE_C=CREATE_NEW_PARALLEL_APPROVAL_RUNTIME"
+echo "CANDIDATE_C_DISPOSITION=REJECT_UNLESS_EXISTING_OWNERSHIP_PROVES_INSUFFICIENT"
+
+echo
+echo "=== REQUIRED DURABLE RECORD SEMANTICS ==="
+echo "RECORD_MUST_BIND_envelope_id=YES"
+echo "RECORD_MUST_BIND_package_id=YES"
+echo "RECORD_MUST_BIND_package_version=YES"
+echo "RECORD_MUST_BIND_delegation_or_lineage_identity=YES"
+echo "RECORD_MUST_BIND_approval_actor=YES"
+echo "RECORD_MUST_BIND_approval_timestamp=YES"
+echo "RECORD_MUST_BIND_approval_status=YES"
+echo "RECORD_MUST_BIND_version_control_commit_scope=YES"
+echo "RECORD_MUST_BIND_version_control_push_scope=YES"
+echo "RECORD_MUST_BIND_repo_path=YES_FOR_VERSION_CONTROL"
+echo "RECORD_MUST_BIND_branch=YES_FOR_VERSION_CONTROL"
+echo "RECORD_MUST_BIND_remote=YES_FOR_PUSH"
+echo "RECORD_MUST_BIND_expected_head=YES_FOR_VERSION_CONTROL"
+echo "RECORD_MUST_BIND_allowed_paths=YES_FOR_COMMIT"
+echo "CALLER_SUPPLIED_ACTOR_ALONE_SUFFICIENT=NO"
+
+echo
+echo "=== REQUIRED COMPILATION BOUNDARY ==="
+echo "DURABLE_USER_APPROVAL_MUST_COMPILE_INTO_EXISTING_APPROVAL_ARTIFACT=YES"
+echo "APPROVAL_ARTIFACT_MUST_NOT_INVENT_USER_AUTHORITY=YES"
+echo "APPROVAL_GATE_MUST_VALIDATE_DURABLE_APPROVAL_CORRELATION=YES"
+echo "EXISTING_COMMIT_AND_PUSH_PHASES_SHOULD_BE_REUSED=YES"
+echo "LOCAL_COMMIT_EFFECT_CHANGE_REQUIRED=NO"
+echo "REMOTE_PUSH_EFFECT_CHANGE_REQUIRED=NO"
+echo "GENERIC_CADE_ROUTE_CHANGE_REQUIRED=NO"
+
+echo
+echo "=== NEXT DECISION ==="
+echo "NEXT_ACTION=DETERMINE_CANONICAL_PERSISTENCE_OWNER_AND_MINIMUM_SCHEMA_FOR_DURABLE_EXECUTION_APPROVAL"
+echo "IMPLEMENTATION_AUTHORIZED=NO"
+
+echo
+echo "=== BOUNDARIES ==="
+echo "NO_PRODUCTION_FILE_EDIT=YES"
+echo "NO_DATABASE_SCHEMA_WRITE=YES"
+echo "NO_APPROVAL_WRITE=YES"
+echo "NO_EXECUTION_AUTHORIZATION_WRITE=YES"
+echo "NO_GIT_EFFECT=YES"
+echo "NO_REMOTE_WRITE=YES"
