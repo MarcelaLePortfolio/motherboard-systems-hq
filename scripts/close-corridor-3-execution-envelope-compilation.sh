@@ -1,0 +1,28 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+cd "$(git rev-parse --show-toplevel)"
+
+EXPECTED_HEAD="ca7f5aa81c22816a66dbd0072aee0b7c9d0b6f38"
+
+if [[ "$(git rev-parse HEAD)" != "$EXPECTED_HEAD" ]]; then
+  echo "STOP=UNEXPECTED_HEAD"
+  echo "CURRENT_HEAD=$(git rev-parse HEAD)"
+  exit 1
+fi
+
+echo "=== CORRIDOR 3 CLOSURE ==="
+echo "CORRIDOR_3=EXECUTION_ENVELOPE_COMPILATION"
+echo "CORRIDOR_3_STATUS=CLOSED"
+echo "OPTION_A_CONTRACT_EXTENSION=VERIFIED"
+echo "OPTION_A_DRAFT_COMPILATION=VERIFIED"
+echo "GOVERNANCE_LINEAGE_PRESERVATION=VERIFIED"
+echo "AUTHORITY_MODEL_CHANGE=NO"
+echo "GIT_EFFECT_BEHAVIOR_CHANGE=NO"
+echo "ROUTE_MOUNT_CHANGE=NO"
+echo "IMPLEMENTATION_COMMITS=22766039a,ca7f5aa81"
+echo "RECOVERY_POINT_BEFORE_IMPLEMENTATION=DR_20260827_104712"
+echo "NEXT_ACTION=TAKE_POST_CORRIDOR_3_DR"
+echo
+echo "HEAD=$(git rev-parse HEAD)"
+echo "BRANCH=$(git branch --show-current)"
