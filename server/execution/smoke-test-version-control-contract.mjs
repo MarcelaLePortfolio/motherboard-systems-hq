@@ -358,7 +358,7 @@ assert.throws(
         },
       }),
     }),
-  /push authority remains disabled/,
+  /successful local commit result/,
 );
 
 assert.throws(
