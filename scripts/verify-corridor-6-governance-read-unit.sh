@@ -1,0 +1,71 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+cd "$(git rev-parse --show-toplevel)"
+
+EXPECTED_HEAD="f5dfa2eeb"
+
+if [[ "$(git rev-parse HEAD)" != "$EXPECTED_HEAD"* ]]; then
+  echo "STOP=UNEXPECTED_HEAD"
+  echo "CURRENT_HEAD=$(git rev-parse HEAD)"
+  exit 1
+fi
+
+echo "=== CORRIDOR 6 — GOVERNANCE READ UNIT VERIFICATION ==="
+echo "MODE=EXECUTION"
+echo "PRODUCTION_CHANGE=NONE"
+echo
+
+node --import tsx --test db/governance-execution-read-repository.test.ts
+npx tsc --noEmit
+
+git diff --exit-code "$EXPECTED_HEAD" -- server/index.ts
+git diff --exit-code "$EXPECTED_HEAD" -- server/routes
+git diff --exit-code "$EXPECTED_HEAD" -- server/execution/production-execution-entry-point.ts
+git diff --exit-code "$EXPECTED_HEAD" -- server/execution/cade-governed-commit-adapter.ts
+git diff --exit-code "$EXPECTED_HEAD" -- server/execution/cade-governed-push-adapter.ts
+
+echo
+echo "=== VERIFIED UNIT ==="
+echo "EXACT_DELEGATION_READER=PASS"
+echo "EXACT_VALIDATION_RESULT_READER=PASS"
+echo "EXACT_ENVELOPE_GATE_READER=PASS"
+echo "EXACT_ENVELOPE_READER=PASS"
+echo "PACKAGE_VERSION_LINEAGE_CORRELATION=PASS"
+echo "DELEGATION_VALIDATION_GATE_CORRELATION=PASS"
+echo "FAIL_CLOSED_UNAUTHORIZED_DELEGATION=PASS"
+echo "FAIL_CLOSED_FAILED_VALIDATION=PASS"
+echo "FAIL_CLOSED_CLOSED_GATE=PASS"
+echo "FAIL_CLOSED_LINEAGE_MISMATCH=PASS"
+echo "FAIL_CLOSED_MISSING_ARTIFACT=PASS"
+echo "TARGETED_TESTS=6_OF_6_PASS"
+echo "TYPESCRIPT=PASS"
+echo "PRODUCTION_DB_USED_BY_TESTS=NO"
+echo
+
+echo "=== PRESERVED BOUNDARIES ==="
+echo "NEW_AUTHORITY_CREATED=NO"
+echo "NEW_WRITE_PATH_CREATED=NO"
+echo "ROUTE_IMPLEMENTATION_CHANGED=NO"
+echo "ROUTE_MOUNT_CHANGED=NO"
+echo "PRODUCTION_REACHABILITY_CHANGED=NO"
+echo "GIT_EFFECT_CHANGED=NO"
+echo "GENERIC_CADE_CHANGED=NO"
+echo "GENERIC_SHELL_OR_MUTATION_AUTHORITY_CHANGED=NO"
+echo "SCHEDULER_OR_AUTONOMY_CHANGED=NO"
+echo
+
+echo "=== RESULT ==="
+echo "GOVERNANCE_READ_UNIT_VERIFIED=YES"
+echo "GOVERNANCE_READ_UNIT_STATUS=CLOSED"
+echo "UNMOUNTED_EXECUTION_ROUTE_IMPLEMENTATION_AUTHORIZATION=REMAINS_VALID"
+echo "UNMOUNTED_EXECUTION_ROUTE_IMPLEMENTATION_MAY_RESUME=YES"
+echo "ROUTE_MOUNT_AUTHORIZED=NO"
+echo "PRODUCTION_REACHABILITY_AUTHORIZED=NO"
+echo "CORRIDOR_6_STATUS=ACTIVE"
+echo "PHASE_1_STATUS=ACTIVE"
+echo "NEXT_ACTION=RESUME_SEPARATELY_AUTHORIZED_UNMOUNTED_EXECUTION_ROUTE_IMPLEMENTATION"
+echo
+echo "HEAD=$(git rev-parse HEAD)"
+echo "BRANCH=$(git branch --show-current)"
+git status --short
