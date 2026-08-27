@@ -1,53 +1,39 @@
+import {
+  loadCadeExecutionRegistry,
+  type CadeExecutionState,
+} from "./matilda-execution-registry-loader";
 
-import { loadCadeExecutionRegistry } from "./matilda-execution-registry-loader";
-
-type State = string;
+type State = CadeExecutionState;
 
 export function validateExecutionRegistry() {
-
   const registry = loadCadeExecutionRegistry();
-
-  const transitions = {} as Record<State, State[]>;
-
+  const transitions = registry.execution_state_model.transitions;
   const states = registry.execution_state_model.states;
 
-  // 1. Ensure all transition nodes exist in declared state set
-
-  for (const from of Object.keys(transitions)) {
-
+  for (const from of Object.keys(transitions) as State[]) {
     if (!states.includes(from)) {
-
-      throw new Error(`Invalid registry: unknown state '${from}' in transitions`);
-
+      throw new Error(
+        `Invalid registry: unknown state '${from}' in transitions`,
+      );
     }
 
     for (const to of transitions[from]) {
-
       if (!states.includes(to)) {
-
-        throw new Error(`Invalid registry: unknown transition target '${to}'`);
-
+        throw new Error(
+          `Invalid registry: unknown transition target '${to}'`,
+        );
       }
-
     }
-
   }
 
-  // 2. Ensure EXECUTABLE is terminal (enforced invariant)
-
-  if (transitions["EXECUTABLE"]?.length > 0) {
-
-    throw new Error("Invalid registry: EXECUTABLE must be terminal state");
-
+  if (transitions.EXECUTABLE.length > 0) {
+    throw new Error(
+      "Invalid registry: EXECUTABLE must be terminal state",
+    );
   }
 
   return {
-
     ok: true,
-
     validatedStates: states.length,
-
   };
-
 }
-

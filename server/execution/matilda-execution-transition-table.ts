@@ -1,13 +1,12 @@
+import {
+  loadCadeExecutionRegistry,
+  type CadeExecutionState,
+} from "./matilda-execution-registry-loader";
 
-import { loadCadeExecutionRegistry } from "./matilda-execution-registry-loader";
-
-type State = "DISABLED" | "ARMED" | "READY" | "EXECUTABLE";
+type State = CadeExecutionState;
 
 export function buildTransitionTable(): Record<State, State[]> {
-
   const registry = loadCadeExecutionRegistry();
 
-  return {} as Record<State, State[]>;
-
+  return registry.execution_state_model.transitions;
 }
-
