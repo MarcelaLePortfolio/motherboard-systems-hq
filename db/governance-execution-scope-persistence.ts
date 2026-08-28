@@ -11,6 +11,7 @@ export type CreateGovernanceExecutionScopeInput = {
   package_version: number;
   repo_path: string;
   expected_head: string;
+  branch: string;
   allowed_paths: string[];
   forbidden_paths: string[];
   scope_constraints: string;
@@ -119,6 +120,7 @@ export function ensureGovernanceExecutionScopeTable(
       package_version INTEGER NOT NULL,
       repo_path TEXT NOT NULL,
       expected_head TEXT NOT NULL,
+      branch TEXT NOT NULL,
       allowed_paths TEXT NOT NULL,
       forbidden_paths TEXT NOT NULL,
       scope_constraints TEXT NOT NULL,
@@ -152,6 +154,7 @@ export function persistGovernanceExecutionScope(
   const package_version = requirePackageVersion(input.package_version);
   const repo_path = requireText(input.repo_path, "repo_path");
   const expected_head = requireExpectedHead(input.expected_head);
+  const branch = requireText(input.branch, "branch");
   const allowed_paths = requirePathList(
     input.allowed_paths,
     "allowed_paths",
@@ -210,6 +213,7 @@ export function persistGovernanceExecutionScope(
       package_version,
       repo_path,
       expected_head,
+      branch,
       allowed_paths,
       forbidden_paths,
       scope_constraints,
@@ -221,6 +225,7 @@ export function persistGovernanceExecutionScope(
       @package_version,
       @repo_path,
       @expected_head,
+      @branch,
       @allowed_paths,
       @forbidden_paths,
       @scope_constraints,
@@ -233,6 +238,7 @@ export function persistGovernanceExecutionScope(
     package_version,
     repo_path,
     expected_head,
+    branch,
     allowed_paths: JSON.stringify(allowed_paths),
     forbidden_paths: JSON.stringify(forbidden_paths),
     scope_constraints,
@@ -265,6 +271,7 @@ export function loadGovernanceExecutionScope(
         package_version,
         repo_path,
         expected_head,
+        branch,
         allowed_paths,
         forbidden_paths,
         scope_constraints,
@@ -281,6 +288,7 @@ export function loadGovernanceExecutionScope(
       package_version: number;
       repo_path: string;
       expected_head: string;
+      branch: string;
       allowed_paths: string;
       forbidden_paths: string;
       scope_constraints: string;
@@ -344,7 +352,7 @@ export function loadGovernanceExecutionScope(
     package_version: row.package_version,
     repo_path: requireText(row.repo_path, "repo_path"),
     expected_head: requireExpectedHead(row.expected_head),
-    branch: approval.branch,
+    branch: requireText(row.branch, "branch"),
     allowed_paths: parsePersistedPathList(
       row.allowed_paths,
       "allowed_paths",
