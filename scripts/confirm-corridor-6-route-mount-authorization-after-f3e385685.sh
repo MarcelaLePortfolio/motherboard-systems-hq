@@ -1,0 +1,17 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+EXPECTED_HEAD="f3e385685"
+
+echo "=== CORRIDOR 6 ROUTE MOUNT AUTHORIZATION STILL REQUIRED ==="
+test "$(git rev-parse --short HEAD)" = "${EXPECTED_HEAD}"
+
+echo "LATEST_VERIFIED_COMMIT=f3e3856854623303402f6dcc51f126ee6eb24d71"
+echo "DEDICATED_ROUTE_MOUNTED=NO"
+echo "PRODUCTION_REACHABILITY=NO"
+echo "USER_INTENT_AUTHORITY_REQUIRED=YES"
+echo "EXPLICIT_USER_CHAT_AUTHORIZATION_PRESENT=NO"
+echo "IMPLEMENTATION_AUTHORIZED=NO"
+echo "REQUIRED_USER_CHAT_PHRASE=I authorize the bounded Corridor 6 Dedicated Route Mount and Production Reachability implementation plus targeted tests."
+echo "CORRIDOR_6_STATUS=ACTIVE"
+echo "PHASE_1_STATUS=ACTIVE"
