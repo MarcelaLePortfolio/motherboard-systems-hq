@@ -6,7 +6,10 @@ export type GovernedRepositoryState = {
   repo_path: string;
   expected_head: string;
   branch: string;
+  remote_name: string;
   remote_url: string;
+  remote_push_url: string;
+  upstream: string;
 };
 
 function requireText(value: unknown, field: string): string {
@@ -38,15 +41,12 @@ function normalizeRepoPath(repoPath: string): string {
 
 export function observeGovernedRepositoryState({
   repoPath,
-  remote = "origin",
 }: {
   repoPath: string;
-  remote?: string;
 }): GovernedRepositoryState {
   const requestedRepoPath = normalizeRepoPath(
     requireText(repoPath, "repo_path"),
   );
-  const remoteName = requireText(remote, "remote");
 
   const observedRoot = normalizeRepoPath(
     git(requestedRepoPath, ["rev-parse", "--show-toplevel"]),
@@ -69,15 +69,59 @@ export function observeGovernedRepositoryState({
     "observed branch",
   );
 
+  const upstream = requireText(
+    git(observedRoot, [
+      "rev-parse",
+      "--abbrev-ref",
+      "--symbolic-full-name",
+      "@{upstream}",
+    ]),
+    "tracked branch upstream",
+  );
+
+  const remote_name = requireText(
+    git(observedRoot, ["config", "--get", `branch.${branch}.remote`]),
+    "tracked branch remote",
+  );
+
+  const mergeRef = requireText(
+    git(observedRoot, ["config", "--get", `branch.${branch}.merge`]),
+    "tracked branch merge ref",
+  );
+
+  const expectedMergeRef = `refs/heads/${branch}`;
+
+  if (mergeRef !== expectedMergeRef) {
+    throw new Error(
+      `Tracked branch merge ref ${mergeRef} does not match observed branch ${expectedMergeRef}.`,
+    );
+  }
+
+  const expectedUpstream = `${remote_name}/${branch}`;
+
+  if (upstream !== expectedUpstream) {
+    throw new Error(
+      `Tracked upstream ${upstream} does not match observed remote/branch ${expectedUpstream}.`,
+    );
+  }
+
   const remote_url = requireText(
-    git(observedRoot, ["remote", "get-url", remoteName]),
+    git(observedRoot, ["remote", "get-url", remote_name]),
     "observed remote URL",
+  );
+
+  const remote_push_url = requireText(
+    git(observedRoot, ["remote", "get-url", "--push", remote_name]),
+    "observed remote push URL",
   );
 
   return {
     repo_path: observedRoot,
     expected_head,
     branch,
+    remote_name,
     remote_url,
+    remote_push_url,
+    upstream,
   };
 }

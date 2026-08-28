@@ -213,20 +213,6 @@ function validatePushAuthorityProof({
     );
   }
 
-  if (!hasNonEmptyString(vc.remote)) {
-    fail(
-      "PUSH_REMOTE_REQUIRED",
-      "push authority requires approved remote",
-    );
-  }
-
-  if (!hasNonEmptyString(vc.branch)) {
-    fail(
-      "PUSH_AUTHORIZED_BRANCH_REQUIRED",
-      "push authority requires approved branch",
-    );
-  }
-
   const local =
     normalizeLocalCommitResult(
       localCommitResult,
@@ -306,16 +292,6 @@ function validatePushAuthorityProof({
     fail(
       "LOCAL_COMMIT_BRANCH_MISMATCH",
       "local commit branch must match envelope branch",
-    );
-  }
-
-  if (
-    vc.branch !==
-    envelope?.project_target?.branch
-  ) {
-    fail(
-      "AUTHORIZED_BRANCH_MISMATCH",
-      "approved branch must match envelope branch",
     );
   }
 

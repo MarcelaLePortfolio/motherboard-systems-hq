@@ -24,7 +24,6 @@ export type ProductionExecutionRequest = {
   commitRequested: boolean;
   pushRequested: boolean;
   commitMessage?: string;
-  expectedRemoteUrl?: string;
 };
 
 function requireNonEmptyString(
@@ -141,16 +140,10 @@ export function executeProductionExecutionEntryPoint(
     );
   }
 
-  requireNonEmptyString(
-    request.expectedRemoteUrl,
-    "production execution entry point requires expected_remote_url",
-  );
-
   const pushResult = effects.executePush({
     envelope: request.envelope,
     approvalGate: pushGate,
     executionId: request.executionId,
-    expectedRemoteUrl: request.expectedRemoteUrl,
   });
 
   return {

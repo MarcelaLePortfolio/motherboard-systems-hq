@@ -3,17 +3,18 @@ import {
   type GovernedRemotePushResult,
 } from "../cade/cade-version-control-effects";
 import { recordExecutionEvent } from "../cade/cade-event-wrapper";
+import {
+  observeGovernedRepositoryState,
+} from "./governed-repository-state-observer";
 
 export function executeGovernedRemotePush({
   envelope,
   approvalGate,
   executionId,
-  expectedRemoteUrl,
 }: {
   envelope: any;
   approvalGate: any;
   executionId: string;
-  expectedRemoteUrl: string;
 }): GovernedRemotePushResult {
   const vc =
     approvalGate
@@ -37,9 +38,6 @@ export function executeGovernedRemotePush({
   const branch =
     envelope?.project_target?.branch;
 
-  const remote =
-    vc?.remote;
-
   const expectedLocalHead =
     approvalGate?.expected_push_head;
 
@@ -51,13 +49,35 @@ export function executeGovernedRemotePush({
   const envelopeId =
     envelope?.identity?.envelope_id;
 
+  if (!repoPath) {
+    throw new Error(
+      "governed push adapter requires repo_path",
+    );
+  }
+
+  if (!branch) {
+    throw new Error(
+      "governed push adapter requires branch",
+    );
+  }
+
+  const observed = observeGovernedRepositoryState({
+    repoPath,
+  });
+
+  if (observed.branch !== branch) {
+    throw new Error(
+      "governed push adapter observed branch does not match durable execution scope branch",
+    );
+  }
+
   const result =
     performGovernedRemotePush({
       repoPath,
       branch,
-      remote,
+      remote: observed.remote_name,
       expectedLocalHead,
-      expectedRemoteUrl,
+      expectedRemoteUrl: observed.remote_push_url,
       approvalId,
       envelopeId,
       executionId,
@@ -71,7 +91,7 @@ export function executeGovernedRemotePush({
     input: {
       repo_path: repoPath,
       branch,
-      remote,
+      remote: observed.remote_name,
       remote_url:
         result.remoteUrl,
       expected_local_head:

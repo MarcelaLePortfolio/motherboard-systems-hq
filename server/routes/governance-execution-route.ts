@@ -33,7 +33,6 @@ export type GovernanceExecutionRouteBody = {
   commit_requested?: unknown;
   push_requested?: unknown;
   commit_message?: unknown;
-  expected_remote_url?: unknown;
   [key: string]: unknown;
 };
 
@@ -77,7 +76,6 @@ const ALLOWED_BODY_FIELDS = new Set([
   "commit_requested",
   "push_requested",
   "commit_message",
-  "expected_remote_url",
 ]);
 
 function requireText(
@@ -204,10 +202,6 @@ export function handleGovernanceExecutionRouteRequest(
       body.commit_message,
       "commit_message",
     );
-    const expectedRemoteUrl = optionalText(
-      body.expected_remote_url,
-      "expected_remote_url",
-    );
 
     if (pushRequested && !commitRequested) {
       throw new Error(
@@ -218,12 +212,6 @@ export function handleGovernanceExecutionRouteRequest(
     if (commitRequested && !commitMessage) {
       throw new Error(
         "Governance execution route requires commit_message when commit is requested.",
-      );
-    }
-
-    if (pushRequested && !expectedRemoteUrl) {
-      throw new Error(
-        "Governance execution route requires expected_remote_url when push is requested.",
       );
     }
 
@@ -312,7 +300,6 @@ export function handleGovernanceExecutionRouteRequest(
       commitRequested,
       pushRequested,
       commitMessage,
-      expectedRemoteUrl,
     };
 
     const execution = executeExecution(
