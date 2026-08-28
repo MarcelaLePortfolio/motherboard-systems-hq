@@ -323,6 +323,96 @@ export function getProjectRegistryState() {
 
 }
 
+export function resolveRegisteredProjectRepository(projectId) {
+
+  ensureProjectRegistry();
+
+  const normalizedProjectId = normalizeProjectId(projectId);
+
+  if (!normalizedProjectId) {
+
+    const error = new Error("projectId is required.");
+
+    error.statusCode = 400;
+
+    throw error;
+
+  }
+
+  const projects = db.prepare(`
+
+    SELECT
+
+      project_id AS projectId,
+
+      project_root_path AS projectRootPath,
+
+      git_repository_reference AS gitRepositoryReference,
+
+      registration_status AS registrationStatus,
+
+      availability_status AS availabilityStatus
+
+    FROM project_registry
+
+    WHERE project_id = ?
+
+      AND registration_status = 'registered'
+
+      AND availability_status = 'available'
+
+    LIMIT 2
+
+  `).all(normalizedProjectId);
+
+  if (projects.length !== 1) {
+
+    const error = new Error(
+      "Project is not uniquely registered and available for governed repository resolution."
+    );
+
+    error.statusCode = 404;
+
+    throw error;
+
+  }
+
+  const resolved = projects[0];
+
+  const projectRootPath = String(resolved.projectRootPath || "").trim();
+
+  const gitRepositoryReference = String(
+    resolved.gitRepositoryReference || ""
+  ).trim();
+
+  if (!projectRootPath || !gitRepositoryReference) {
+
+    const error = new Error(
+      "Registered project is missing authoritative repository identity."
+    );
+
+    error.statusCode = 409;
+
+    throw error;
+
+  }
+
+  return {
+
+    projectId: resolved.projectId,
+
+    projectRootPath,
+
+    gitRepositoryReference,
+
+    registrationStatus: resolved.registrationStatus,
+
+    availabilityStatus: resolved.availabilityStatus
+
+  };
+
+}
+
 export function inspectProjectPath(projectRootPath) {
 
   const inputPath = String(projectRootPath || "").trim();
