@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-EXPECTED_HEAD="54087ed41"
+EXPECTED_HEAD="e7f618223"
 
 echo "=== CORRIDOR 6 ROUTE MOUNT AUTHORIZATION STATUS ==="
 test "$(git rev-parse --short HEAD)" = "${EXPECTED_HEAD}"
