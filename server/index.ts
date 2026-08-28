@@ -11,6 +11,8 @@ import approvalRequestRouter from "../routes/api-approval-request";
 import { initializeCanonicalPackageSchema } from "../db/matilda-canonical-package-runtime";
 import matildaCanonicalPackageRouter from "./routes/matilda-canonical-package-route";
 import { createGovernanceDelegationRouter } from "./routes/governance-delegation-route";
+import { handleGovernanceExecutionRouteRequest } from "./routes/governance-execution-route.js";
+import { createProductionGovernanceExecutionRouter } from "./execution/production-governance-execution-composition.js";
 
 const app = express();
 
@@ -99,7 +101,14 @@ async function bootstrap() {
 
   mountProjectRegistryRoutes(app);
 
-  const port = process.env.PORT || 3000;
+  // CORRIDOR_6_DEDICATED_ROUTE_MOUNT
+const governanceExecutionComposition = createProductionGovernanceExecutionRouter();
+app.use(
+  "/api/governance/execution",
+  handleGovernanceExecutionRouteRequest(governanceExecutionComposition),
+);
+
+const port = process.env.PORT || 3000;
 
   app.listen(port, () => {
     console.log(
