@@ -85,21 +85,6 @@ async function bootstrap() {
     );
   }
 
-  const governanceExecutionCompositionPath = pathToFileURL(
-    path.resolve(
-      process.cwd(),
-      "server",
-      "execution",
-      "production-governance-execution-composition.mjs",
-    ),
-  ).href;
-
-  const {
-    createProductionGovernanceExecutionRouter,
-  } = await import(governanceExecutionCompositionPath);
-
-  app.use(createProductionGovernanceExecutionRouter());
-
   const registryPath = pathToFileURL(
     path.resolve(
       process.cwd(),
