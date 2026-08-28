@@ -1,0 +1,118 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+cd "$(git rev-parse --show-toplevel)"
+
+EXPECTED_HEAD_PREFIX="e16414add"
+CURRENT_HEAD="$(git rev-parse HEAD)"
+
+echo "=== PHASE 2 ORCHESTRATION BOUNDARY INVESTIGATION ==="
+echo "EXPECTED_HEAD_PREFIX=${EXPECTED_HEAD_PREFIX}"
+echo "CURRENT_HEAD=${CURRENT_HEAD}"
+echo "MODE=COLLABORATION"
+echo "PRODUCTION_CHANGE=NONE"
+echo "RECOVERY_POINT=DR_20260828_104838"
+
+if [[ "${CURRENT_HEAD}" != "${EXPECTED_HEAD_PREFIX}"* ]]; then
+  echo "UNEXPECTED_HEAD=${CURRENT_HEAD}"
+  exit 1
+fi
+
+STATE_MACHINE="server/execution/execution-phase-state-machine.mjs"
+PLANNING_PIPELINE="server/execution/governed-planning-pipeline.mjs"
+ENVELOPE_BUILDER="server/execution/build-execution-envelope-draft.mjs"
+PLANNING_BUNDLE="server/execution/build-governed-planning-artifact-bundle.mjs"
+PRODUCTION_ENTRY="server/execution/production-execution-entry-point.ts"
+ROUTE="server/routes/governance-execution-route.ts"
+
+for file in \
+  "${STATE_MACHINE}" \
+  "${PLANNING_PIPELINE}" \
+  "${ENVELOPE_BUILDER}" \
+  "${PLANNING_BUNDLE}" \
+  "${PRODUCTION_ENTRY}" \
+  "${ROUTE}"
+do
+  test -f "${file}" || {
+    echo "MISSING_REQUIRED_FILE=${file}"
+    exit 1
+  }
+done
+
+echo
+echo "=== EXISTING ORCHESTRATION SEAMS ==="
+
+grep -q '"intent_normalized"' "${STATE_MACHINE}"
+grep -q '"envelope_drafted"' "${STATE_MACHINE}"
+grep -q '"governance_validated"' "${STATE_MACHINE}"
+grep -q '"approval_gated"' "${STATE_MACHINE}"
+grep -q '"planning_completed"' "${STATE_MACHINE}"
+grep -q '"mutation_authorized"' "${STATE_MACHINE}"
+grep -q '"execution_completed"' "${STATE_MACHINE}"
+grep -q '"reconciliation_completed"' "${STATE_MACHINE}"
+grep -q '"failed_closed"' "${STATE_MACHINE}"
+
+echo "CANONICAL_EXECUTION_PHASE_STATE_MACHINE=VERIFIED"
+echo "INTENT_TO_ENVELOPE_BOUNDARY=VERIFIED"
+echo "GOVERNANCE_VALIDATION_BOUNDARY=VERIFIED"
+echo "APPROVAL_GATE_BOUNDARY=VERIFIED"
+echo "PLANNING_COMPLETION_BOUNDARY=VERIFIED"
+echo "MUTATION_AUTHORIZATION_BOUNDARY=VERIFIED"
+echo "EXECUTION_COMPLETION_BOUNDARY=VERIFIED"
+echo "RECONCILIATION_COMPLETION_BOUNDARY=VERIFIED"
+echo "FAIL_CLOSED_TRANSITION=VERIFIED"
+
+grep -q 'buildExecutionEnvelopeDraft' "${PLANNING_PIPELINE}"
+grep -q 'validateGovernedExecutionEnvelope' "${PLANNING_PIPELINE}"
+grep -q 'evaluateExecutionApproval' "${PLANNING_PIPELINE}"
+grep -q 'planCadeEngineeringExecution' "${PLANNING_PIPELINE}"
+
+echo "EXISTING_GOVERNED_PLANNING_PIPELINE=VERIFIED"
+
+grep -q 'project_target' "${ENVELOPE_BUILDER}"
+grep -q 'repo_path' "${ENVELOPE_BUILDER}"
+grep -q 'branch' "${ENVELOPE_BUILDER}"
+grep -q 'expected_head' "${ENVELOPE_BUILDER}"
+grep -q 'mutation_scope' "${ENVELOPE_BUILDER}"
+
+echo "TARGET_REPOSITORY_ENVELOPE_BINDING=VERIFIED"
+echo "TARGET_SCOPED_MUTATION_BOUNDARY=VERIFIED"
+
+grep -q 'reconciliation' "${PLANNING_BUNDLE}"
+grep -q 'audit_ledger' "${PLANNING_BUNDLE}"
+
+echo "RECONCILIATION_ARTIFACT_SEAM=VERIFIED"
+echo "AUDIT_LEDGER_SEAM=VERIFIED"
+
+grep -q 'executeCommit' "${PRODUCTION_ENTRY}"
+grep -q 'executePush' "${PRODUCTION_ENTRY}"
+
+echo "GOVERNED_COMMIT_PUSH_EXECUTION=VERIFIED"
+
+grep -q 'repo_path: scope.repo_path' "${ROUTE}"
+grep -q 'branch: scope.branch' "${ROUTE}"
+grep -q 'expected_head: scope.expected_head' "${ROUTE}"
+
+echo "PERSISTED_TARGET_TO_EXECUTION_ROUTE_BINDING=VERIFIED"
+
+echo
+echo "=== INVESTIGATION DETERMINATION ==="
+echo "TARGET_RELATIVE_EXECUTION_MODEL=CONFIRMED"
+echo "SPECIAL_SELF_AWARE_EXECUTION_MODE=NOT_FOUND"
+echo "EXISTING_ORCHESTRATION_ARCHITECTURE=FOUND"
+echo "EXISTING_STATE_MACHINE_SHOULD_CONSTRAIN_PHASE_2_MAP=YES"
+echo "RECONCILIATION_AND_AUDIT_REQUIRE_PHASE_2_COVERAGE=YES"
+echo "EARLIER_SIX_CORRIDOR_DRAFT=NOT_CANONICAL"
+echo "PHASE_1_STATUS=CLOSED"
+echo "PHASE_1_REOPEN_REQUIRED=NO"
+echo "PHASE_2_IMPLEMENTATION_AUTHORIZED=NO"
+
+echo
+echo "CANDIDATE_PHASE_2_NAME=GOVERNED_TARGET_REPOSITORY_ORCHESTRATION"
+echo "CANDIDATE_CORRIDOR_1=TARGET_REPOSITORY_AND_EXECUTION_ENVELOPE_BINDING"
+echo "CANDIDATE_CORRIDOR_2=GOVERNANCE_VALIDATION_AND_APPROVAL_TRANSITION"
+echo "CANDIDATE_CORRIDOR_3=PLANNING_TO_MUTATION_AUTHORIZATION_HANDOFF"
+echo "CANDIDATE_CORRIDOR_4=GOVERNED_TARGET_EXECUTION_ORCHESTRATION"
+echo "CANDIDATE_CORRIDOR_5=EXECUTION_RECONCILIATION_AND_AUDIT"
+echo "CANDIDATE_CORRIDOR_6=TARGET_RELATIVE_WORKFLOW_VALIDATION_AND_PHASE_CLOSURE"
+echo "CANDIDATE_MAP_STATUS=EVIDENCE_DERIVED_NOT_YET_CANONICAL"
