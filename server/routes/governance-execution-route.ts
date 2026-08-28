@@ -14,7 +14,7 @@ import {
 } from "../../db/governance-execution-read-repository.js";
 import {
   compilePersistedExecutionApproval,
-} from "../execution/compile-persisted-execution-approval.mjs";
+} from "../execution/compile-persisted-execution-approval.js";
 import {
   executeProductionExecutionEntryPoint,
   type ProductionExecutionRequest,
