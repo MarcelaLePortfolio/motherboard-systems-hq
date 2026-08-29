@@ -33,14 +33,17 @@ test("binds the existing governed commit and push adapters", () => {
   );
 });
 
-test("constructs the production router without mounting or authorizing reachability", () => {
+test("constructs the reachable governed workflow without authorizing production execution", () => {
   const router = createProductionGovernanceExecutionRouter();
 
   assert.ok(router);
   assert.equal(typeof router.use, "function");
   assert.deepEqual(productionGovernanceExecutionComposition, {
-    route_mounted: false,
-    production_reachability_authorized: false,
+    route_mounted: true,
+    execution_route_reachable: true,
+    execution_approval_route_reachable: true,
+    execution_scope_route_reachable: true,
+    production_execution_authorized: false,
     new_authority_introduced: false,
   });
 });

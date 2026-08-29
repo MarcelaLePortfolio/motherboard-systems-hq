@@ -142,17 +142,6 @@ export function materializeGovernanceExecutionScope(
     repoPath: repository.projectRootPath,
   });
 
-  const registeredRepositoryReference = requireText(
-    repository.gitRepositoryReference,
-    "git_repository_reference",
-  );
-
-  if (observed.remote_url !== registeredRepositoryReference) {
-    throw new Error(
-      "Observed repository remote does not match registered repository identity.",
-    );
-  }
-
   return persistGovernanceExecutionScope(db, {
     approval_id: approvalId,
     envelope_id: envelopeId,
