@@ -19,6 +19,11 @@ import {
   executeProductionExecutionEntryPoint,
   type ProductionExecutionRequest,
 } from "../execution/production-execution-entry-point.js";
+import {
+  persistGovernanceExecutionReconciliationEntry,
+  type GovernanceExecutionEffectStatus,
+  type GovernanceExecutionReconciliationStage,
+} from "../../db/governance-execution-reconciliation-persistence.js";
 
 type GovernanceExecutionApprovalRecord =
   ReturnType<typeof loadGovernanceExecutionApproval>;
@@ -67,6 +72,7 @@ export type GovernanceExecutionRouteDependencies = {
   ) => GovernanceExecutionReadChain;
   compile_approval?: typeof compilePersistedExecutionApproval;
   execute_execution?: ExecutionEntryPoint;
+  persist_reconciliation_entry?: typeof persistGovernanceExecutionReconciliationEntry;
 };
 
 const ALLOWED_BODY_FIELDS = new Set([
@@ -302,27 +308,179 @@ export function handleGovernanceExecutionRouteRequest(
       commitMessage,
     };
 
-    const execution = executeExecution(
-      request,
-      {
-        evaluateApproval:
-          dependencies.evaluate_approval,
-        executeCommit:
-          dependencies.execute_commit as any,
-        executePush:
-          dependencies.execute_push as any,
-      },
+    const persistReconciliation =
+      dependencies.persist_reconciliation_entry ??
+      persistGovernanceExecutionReconciliationEntry;
+
+    const reconciliationBase = {
+      execution_id: executionId,
+      project_id:
+        governanceChain.delegation.project_id,
+      package_id: identity.package_id,
+      package_version: identity.package_version,
+      delegation_id: identity.delegation_id,
+      validation_result_id:
+        identity.validation_result_id,
+      envelope_gate_id:
+        identity.envelope_gate_id,
+      approval_id: approvalId,
+      envelope_id: envelopeId,
+      repo_path: scope.repo_path,
+      expected_head: scope.expected_head,
+      branch: scope.branch,
+      allowed_paths: scope.allowed_paths,
+      forbidden_paths: scope.forbidden_paths,
+      scope_constraints: scope.scope_constraints,
+      commit_requested: commitRequested,
+      push_requested: pushRequested,
+    };
+
+    const appendReconciliation = (
+      stage: GovernanceExecutionReconciliationStage,
+      localEffectStatus: GovernanceExecutionEffectStatus,
+      remoteEffectStatus: GovernanceExecutionEffectStatus,
+      evidence: Record<string, unknown> | null = null,
+    ) =>
+      persistReconciliation(
+        dependencies.db,
+        {
+          ...reconciliationBase,
+          stage,
+          local_effect_status: localEffectStatus,
+          remote_effect_status: remoteEffectStatus,
+          evidence,
+        },
+      );
+
+    let commitAttempted = false;
+    let commitConfirmed = false;
+    let pushAttempted = false;
+    let pushConfirmed = false;
+
+    appendReconciliation(
+      "EXECUTION_STARTED",
+      "none",
+      "none",
     );
 
-    return {
-      ok: true,
-      route: "governance_execution_route",
-      execution,
-      route_mounted: false,
-      production_reachability_authorized: false,
-      production_approval_gate_bound: false,
-      new_authority_introduced: false,
-    };
+    try {
+      const execution = executeExecution(
+        request,
+        {
+          evaluateApproval:
+            dependencies.evaluate_approval,
+          executeCommit: ((...args: any[]) => {
+            commitAttempted = true;
+            const result =
+              dependencies.execute_commit(...args);
+
+            appendReconciliation(
+              "COMMIT_CONFIRMED",
+              "confirmed",
+              "none",
+              {
+                pre_head: result.preHead,
+                post_head: result.postHead,
+                branch: result.branch,
+                committed_files:
+                  result.committedFiles,
+                commit_message:
+                  result.commitMessage,
+              },
+            );
+
+            commitConfirmed = true;
+            return result;
+          }) as any,
+          executePush: ((...args: any[]) => {
+            pushAttempted = true;
+            const result =
+              dependencies.execute_push(...args);
+
+            appendReconciliation(
+              "PUSH_CONFIRMED",
+              "confirmed",
+              "confirmed",
+              {
+                local_head: result.localHead,
+                branch: result.branch,
+                remote: result.remote,
+                remote_url: result.remoteUrl,
+                pre_remote_head:
+                  result.preRemoteHead,
+                post_remote_head:
+                  result.postRemoteHead,
+                force_effect:
+                  result.forceEffect,
+              },
+            );
+
+            pushConfirmed = true;
+            return result;
+          }) as any,
+        },
+      );
+
+      if (
+        execution.commit_requested === false &&
+        execution.push_requested === false
+      ) {
+        appendReconciliation(
+          "EXECUTION_NO_EFFECT_COMPLETED",
+          "none",
+          "none",
+        );
+      }
+
+      return {
+        ok: true,
+        route: "governance_execution_route",
+        execution,
+        route_mounted: false,
+        production_reachability_authorized: false,
+        production_approval_gate_bound: false,
+        new_authority_introduced: false,
+      };
+    } catch (error) {
+      appendReconciliation(
+        "EXECUTION_FAILED_CLOSED",
+        commitConfirmed
+          ? "confirmed"
+          : commitAttempted
+            ? "unknown"
+            : "none",
+        pushConfirmed
+          ? "confirmed"
+          : pushAttempted
+            ? "unknown"
+            : "none",
+        {
+          error_message:
+            error instanceof Error
+              ? error.message
+              : String(error),
+          error_code:
+            error instanceof Error &&
+            "code" in error
+              ? String(
+                  (
+                    error as Error & {
+                      code?: unknown;
+                    }
+                  ).code ?? "",
+                )
+              : null,
+          last_confirmed_stage:
+            pushConfirmed
+              ? "PUSH_CONFIRMED"
+              : commitConfirmed
+                ? "COMMIT_CONFIRMED"
+                : "EXECUTION_STARTED",
+        },
+      );
+
+      throw error;
+    }
   } catch (error) {
     return {
       ok: false,

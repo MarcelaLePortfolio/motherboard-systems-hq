@@ -168,6 +168,9 @@ function deps(overrides: Record<string, unknown> = {}) {
     execute_push: (() => {
       assert.fail("real push effect must not run");
     }) as any,
+    persist_reconciliation_entry: (() => ({
+      entry_id: 1,
+    })) as any,
     ...overrides,
   };
 }
@@ -292,8 +295,6 @@ test(
           execution_id: "x1",
           commit_requested: false,
           push_requested: true,
-          expected_remote_url:
-            "https://github.com/example/repo.git",
         },
         deps(),
       );
@@ -302,6 +303,41 @@ test(
     assert.match(
       (result as any).findings[0],
       /push without commit/,
+    );
+  },
+);
+
+
+test(
+  "records reconciliation for no-effect execution",
+  () => {
+    const stages: string[] = [];
+
+    const result =
+      handleGovernanceExecutionRouteRequest(
+        {
+          approval_id: "a1",
+          envelope_id: "e1",
+          execution_id: "x-reconcile-no-effect",
+          commit_requested: false,
+          push_requested: false,
+        },
+        deps({
+          persist_reconciliation_entry:
+            ((_db: unknown, input: any) => {
+              stages.push(input.stage);
+              return { entry_id: stages.length };
+            }) as any,
+        }),
+      );
+
+    assert.equal(result.ok, true);
+    assert.deepEqual(
+      stages,
+      [
+        "EXECUTION_STARTED",
+        "EXECUTION_NO_EFFECT_COMPLETED",
+      ],
     );
   },
 );
