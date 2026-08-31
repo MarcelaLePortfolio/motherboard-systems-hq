@@ -1102,8 +1102,13 @@ export async function ollamaChat(
             "Child semantic-selection identities:",
             ...(context.projectContextSegmentCandidates || []).flatMap(
               (item) => [
-                `Child selection source = ${item.relativePath}:${item.sourceStartLine}:${item.sourceEndLine}`,
-                `Child parent support source = ${item.parentRelativePath}:${item.parentLineNumber}`,
+                "Child selection source:",
+                `relativePath = ${item.relativePath}`,
+                `sourceStartLine = ${item.sourceStartLine}`,
+                `sourceEndLine = ${item.sourceEndLine}`,
+                "Child parent support source:",
+                `relativePath = ${item.parentRelativePath}`,
+                `lineNumber = ${item.parentLineNumber}`,
               ],
             ),
             "",

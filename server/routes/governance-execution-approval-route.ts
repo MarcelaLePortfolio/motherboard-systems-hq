@@ -9,7 +9,7 @@ import {
 } from "../../db/governance-execution-read-repository";
 import {
   resolveRegisteredProjectRepository,
-} from "../project-registry.mjs";
+} from "../../db/project-registry-read-repository";
 
 type ApprovalRouteDependencies = {
   db: any;
@@ -106,7 +106,7 @@ export function createGovernanceExecutionApprovalRouter({
         chain.delegation.project_id,
         "project_id",
       );
-      const repository = resolveRegisteredProjectRepository(projectId);
+      const repository = resolveRegisteredProjectRepository(db, projectId);
 
       const approval = persistGovernanceExecutionApproval(db, {
         approval_id: `execution-approval-${randomUUID()}`,

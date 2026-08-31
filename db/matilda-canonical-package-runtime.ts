@@ -253,6 +253,15 @@ export function createCanonicalPackageFromApprovedSummary(
     );
   }
 
+  if (
+    typeof summary.expected_outcome !== "string"
+    || summary.expected_outcome.trim().length === 0
+  ) {
+    throw new Error(
+      "Canonical Package approval requires a non-empty expected_outcome.",
+    );
+  }
+
   const latest = sqlite
     .prepare(`
       SELECT
@@ -286,71 +295,75 @@ export function createCanonicalPackageFromApprovedSummary(
 
   const created_at = new Date().toISOString();
 
-  try {
-    sqlite
-      .prepare(`
-        INSERT INTO matilda_canonical_packages (
+  const persistCanonicalPackageAndProjection = sqlite.transaction(() => {
+    try {
+      sqlite
+        .prepare(`
+          INSERT INTO matilda_canonical_packages (
+            package_id,
+            package_version,
+            summary_id,
+            draft_package_id,
+            draft_revision_id,
+            lineage_id,
+            project_id,
+            conversation_id,
+            approved_interpretation,
+            approved_work,
+            approved_artifacts,
+            approved_scope,
+            approved_constraints,
+            approved_expected_outcome,
+            approval_actor,
+            approval_timestamp,
+            status,
+            created_at
+          ) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
+        `)
+        .run(
           package_id,
           package_version,
-          summary_id,
-          draft_package_id,
-          draft_revision_id,
-          lineage_id,
-          project_id,
-          conversation_id,
-          approved_interpretation,
-          approved_work,
-          approved_artifacts,
-          approved_scope,
-          approved_constraints,
-          approved_expected_outcome,
+          summary.summary_id,
+          summary.draft_package_id,
+          summary.draft_revision_id,
+          summary.lineage_id,
+          summary.project_id,
+          summary.conversation_id,
+          summary.interpreted_objective,
+          summary.proposed_work,
+          summary.proposed_artifacts,
+          summary.in_scope,
+          summary.constraints,
+          summary.expected_outcome,
           approval_actor,
-          approval_timestamp,
-          status,
-          created_at
-        ) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
-      `)
-      .run(
-        package_id,
-        package_version,
-        summary.summary_id,
-        summary.draft_package_id,
-        summary.draft_revision_id,
-        summary.lineage_id,
-        summary.project_id,
-        summary.conversation_id,
-        summary.interpreted_objective,
-        summary.proposed_work,
-        summary.proposed_artifacts,
-        summary.in_scope,
-        summary.constraints,
-        summary.expected_outcome,
-        approval_actor,
-        created_at,
-        "canonical_approved",
-        created_at,
-      );
-  } catch (err) {
-    if (
-      err instanceof Error
-      && /UNIQUE constraint failed/i.test(err.message)
-    ) {
-      throw new Error(
-        "Canonical Package version identity or Draft Revision provenance already exists.",
-      );
+          created_at,
+          "canonical_approved",
+          created_at,
+        );
+    } catch (err) {
+      if (
+        err instanceof Error
+        && /UNIQUE constraint failed/i.test(err.message)
+      ) {
+        throw new Error(
+          "Canonical Package version identity or Draft Revision provenance already exists.",
+        );
+      }
+
+      throw err;
     }
 
-    throw err;
-  }
+    projectCanonicalPackageToMissionPackage(
+      sqlite,
+      {
+        project_id: summary.project_id,
+        package_id,
+        package_version,
+      },
+    );
+  });
 
-  projectCanonicalPackageToMissionPackage(
-    sqlite,
-    {
-      project_id: summary.project_id,
-      package_id,
-      package_version,
-    },
-  );
+  persistCanonicalPackageAndProjection();
 
   return {
     package_id,

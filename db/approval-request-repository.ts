@@ -29,6 +29,10 @@ export interface ApprovalRequestRepository {
     draftPackageId: string,
   ): ApprovalRequestSourceRecord | null;
 
+  getPendingCanonicalPackageApprovalByDraftPackageId(
+    draftPackageId: string,
+  ): ApprovalRequestSourceRecord | null;
+
   close(): void;
 }
 
@@ -103,6 +107,32 @@ export function createApprovalRequestRepository(
     LIMIT 1
   `);
 
+  const detailByDraftPackageIdStatement = db.prepare(`
+    SELECT
+      draft.draft_package_id,
+      draft.lineage_id,
+      draft.project_id,
+      draft.conversation_id,
+      draft.current_interpretation,
+      draft.proposed_work,
+      draft.proposed_artifacts,
+      draft.in_scope,
+      draft.out_of_scope,
+      draft.constraints,
+      draft.expected_outcome,
+      draft.unresolved_questions,
+      draft.evidence_entry_ids,
+      draft.status AS source_draft_status,
+      draft.created_at,
+      draft.updated_at
+    FROM matilda_living_draft_packages AS draft
+    LEFT JOIN matilda_canonical_packages AS canonical
+      ON canonical.draft_package_id = draft.draft_package_id
+    WHERE draft.draft_package_id = ?
+      AND canonical.package_id IS NULL
+    LIMIT 1
+  `);
+
   return {
     listPendingCanonicalPackageApprovalsByProject(projectId) {
       return listStatement.all(
@@ -114,6 +144,14 @@ export function createApprovalRequestRepository(
       return (
         (detailStatement.get(
           requireIdentifier(projectId, "projectId"),
+          requireIdentifier(draftPackageId, "draftPackageId"),
+        ) as ApprovalRequestSourceRecord | undefined) ?? null
+      );
+    },
+
+    getPendingCanonicalPackageApprovalByDraftPackageId(draftPackageId) {
+      return (
+        (detailByDraftPackageIdStatement.get(
           requireIdentifier(draftPackageId, "draftPackageId"),
         ) as ApprovalRequestSourceRecord | undefined) ?? null
       );

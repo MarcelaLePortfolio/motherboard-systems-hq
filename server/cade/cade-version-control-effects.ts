@@ -236,6 +236,19 @@ function stagedPaths(
   );
 }
 
+function untrackedPaths(
+  repoPath: string,
+): string[] {
+  return parseNameOnly(
+    git(repoPath, [
+      "ls-files",
+      "--others",
+      "--exclude-standard",
+      "--",
+    ]),
+  );
+}
+
 function isPathAllowed(
   file: string,
   allowedPaths: string[],
@@ -271,6 +284,15 @@ function assertAuthorizedTrackedPaths(
   }
 
   return dirty;
+}
+
+function authorizedUntrackedPaths(
+  repoPath: string,
+  allowedPaths: string[],
+): string[] {
+  return untrackedPaths(repoPath).filter(
+    (file) => isPathAllowed(file, allowedPaths),
+  );
 }
 
 function assertAuthorizedPreexistingStaging(
@@ -370,6 +392,17 @@ export function performGovernedLocalCommit(
       allowedPaths,
     );
 
+  const authorizedNewPaths =
+    authorizedUntrackedPaths(
+      repoPath,
+      allowedPaths,
+    );
+
+  const authorizedMutationPaths = uniqueSorted([
+    ...authorizedDirtyPaths,
+    ...authorizedNewPaths,
+  ]);
+
   assertAuthorizedPreexistingStaging(
     repoPath,
     allowedPaths,
@@ -377,13 +410,13 @@ export function performGovernedLocalCommit(
 
   stageExplicitPaths(
     repoPath,
-    authorizedDirtyPaths,
+    authorizedMutationPaths,
   );
 
   const staged =
     assertExactStagedSet(
       repoPath,
-      authorizedDirtyPaths,
+      authorizedMutationPaths,
     );
 
   const preHead = git(repoPath, [

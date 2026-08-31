@@ -12,7 +12,7 @@ import {
 } from "../../db/governance-execution-read-repository";
 import {
   resolveRegisteredProjectRepository,
-} from "../project-registry.mjs";
+} from "../../db/project-registry-read-repository";
 import {
   observeGovernedRepositoryState,
 } from "./governed-repository-state-observer";
@@ -136,7 +136,7 @@ export function materializeGovernanceExecutionScope(
     chain.delegation.project_id,
     "project_id",
   );
-  const repository = resolveRegisteredProjectRepository(projectId);
+  const repository = resolveRegisteredProjectRepository(db, projectId);
 
   const observed = observeGovernedRepositoryState({
     repoPath: repository.projectRootPath,

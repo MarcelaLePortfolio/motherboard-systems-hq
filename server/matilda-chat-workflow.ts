@@ -19,6 +19,7 @@ import {
 import {
   ollamaChat,
   type MatildaInvestigationLifecycleArtifact,
+  type MatildaPackageSemanticsArtifact,
 } from "../scripts/utils/ollamaChat";
 import {
   isExplicitExplanationRequest,
@@ -52,6 +53,7 @@ export interface RunMatildaConversationWorkflowInput {
     constraints?: string | null;
     unresolvedQuestions?: string | null;
   } | null;
+  requirePackageSemantics?: boolean;
 }
 
 export type MatildaConversationWorkflowResult =
@@ -65,6 +67,23 @@ export type MatildaConversationWorkflowResult =
     envelope_authorized: false;
     execution_authorized: false;
   };
+
+export function enforceMatildaWorkflowPackageSemanticsRequirement(
+  required: boolean | undefined,
+  packageSemantics: MatildaPackageSemanticsArtifact | null,
+): void {
+  if (!required) return;
+
+  if (
+    packageSemantics === null
+    || typeof packageSemantics.expectedOutcome !== "string"
+    || packageSemantics.expectedOutcome.trim().length === 0
+  ) {
+    throw new Error(
+      "Matilda workflow requires request-specific Package Semantics with a non-empty expectedOutcome before persistence.",
+    );
+  }
+}
 
 export function selectMatildaPriorInvestigationLifecycle(
   entries: readonly InterpretationEvidenceLedgerReadEntry[],
@@ -238,6 +257,11 @@ export async function runMatildaConversationWorkflow(
           input.userPackageSemantics ?? null,
         explicitEvidenceRequest,
       });
+
+    enforceMatildaWorkflowPackageSemanticsRequirement(
+      input.requirePackageSemantics,
+      ollamaResult.packageSemantics,
+    );
 
     const conversationalReply =
       ollamaResult.reply;

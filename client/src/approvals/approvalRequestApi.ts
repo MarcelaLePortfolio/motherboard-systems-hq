@@ -40,6 +40,33 @@ export interface ApprovalRequestCollection {
   requests: ApprovalRequestReadModel[];
 }
 
+export interface RequestChangesUserPackageSemantics {
+  expectedOutcome?: string | null;
+  proposedWork?: string | null;
+  proposedArtifacts?: string | null;
+  inScope?: string | null;
+  outOfScope?: string | null;
+  constraints?: string | null;
+  unresolvedQuestions?: string | null;
+}
+
+export interface RequestChangesResult {
+  ok: true;
+  route: "request_changes_route";
+  result: {
+    canonical_package_created: false;
+    delegation_authorized: false;
+    validation_authorized: false;
+    envelope_authorized: false;
+    execution_authorized: false;
+  };
+  canonical_package_created: false;
+  delegation_authorized: false;
+  validation_authorized: false;
+  envelope_authorized: false;
+  execution_authorized: false;
+}
+
 export interface CanonicalPackageApprovalResult {
   ok: true;
   route: "matilda_canonical_package_route";
@@ -130,6 +157,52 @@ export async function fetchApprovalRequests(
   }
 
   return response.json() as Promise<ApprovalRequestCollection>;
+}
+
+export async function requestChanges(
+  approvalRequestId: string,
+  feedback: string,
+  userPackageSemantics?: RequestChangesUserPackageSemantics | null,
+): Promise<RequestChangesResult> {
+  const normalizedApprovalRequestId = requireText(
+    approvalRequestId,
+    "approvalRequestId",
+  );
+  const normalizedFeedback = requireText(
+    feedback,
+    "feedback",
+  );
+
+  const response = await fetch(
+    "/api/request-changes",
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        approval_request_id: normalizedApprovalRequestId,
+        feedback: normalizedFeedback,
+        ...(userPackageSemantics
+          ? {
+              user_package_semantics:
+                userPackageSemantics,
+            }
+          : {}),
+      }),
+    },
+  );
+
+  if (!response.ok) {
+    throw new Error(
+      await readApiError(
+        response,
+        "The changes request could not be submitted.",
+      ),
+    );
+  }
+
+  return response.json() as Promise<RequestChangesResult>;
 }
 
 export async function approveCanonicalPackage(

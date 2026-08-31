@@ -8,6 +8,7 @@ import {
 
 import {
   approveCanonicalPackage,
+  requestChanges,
   type ApprovalRequestDecision,
   type ApprovalRequestReadModel,
 } from "./approvalRequestApi";
@@ -136,7 +137,18 @@ function DecisionActions({
 }) {
   const [changesOpen, setChangesOpen] = useState(false);
   const [feedback, setFeedback] = useState("");
+  const [typedSemantics, setTypedSemantics] = useState({
+    expectedOutcome: "",
+    proposedWork: "",
+    proposedArtifacts: "",
+    inScope: "",
+    outOfScope: "",
+    constraints: "",
+    unresolvedQuestions: "",
+  });
   const [feedbackReady, setFeedbackReady] = useState(false);
+  const [requestingChanges, setRequestingChanges] =
+    useState(false);
   const [approving, setApproving] = useState(false);
   const [approvalError, setApprovalError] =
     useState<string | null>(null);
@@ -144,7 +156,17 @@ function DecisionActions({
   useEffect(() => {
     setChangesOpen(false);
     setFeedback("");
+    setTypedSemantics({
+      expectedOutcome: "",
+      proposedWork: "",
+      proposedArtifacts: "",
+      inScope: "",
+      outOfScope: "",
+      constraints: "",
+      unresolvedQuestions: "",
+    });
     setFeedbackReady(false);
+    setRequestingChanges(false);
     setApproving(false);
     setApprovalError(null);
   }, [request.approval_request_id]);
@@ -183,16 +205,54 @@ function DecisionActions({
     }
   }
 
-  function handleFeedbackSubmit(
+  async function handleFeedbackSubmit(
     event: FormEvent<HTMLFormElement>,
-  ): void {
+  ): Promise<void> {
     event.preventDefault();
 
-    if (!feedback.trim()) {
+    if (!feedback.trim() || requestingChanges) {
       return;
     }
 
-    setFeedbackReady(true);
+    setRequestingChanges(true);
+    setFeedbackReady(false);
+    setApprovalError(null);
+
+    try {
+      const explicitTypedSemantics = Object.fromEntries(
+        Object.entries(typedSemantics)
+          .map(([key, value]) => [key, value.trim()])
+          .filter(([, value]) => value.length > 0),
+      );
+
+      await requestChanges(
+        request.approval_request_id,
+        feedback,
+        Object.keys(explicitTypedSemantics).length > 0
+          ? explicitTypedSemantics
+          : null,
+      );
+      setFeedback("");
+      setTypedSemantics({
+        expectedOutcome: "",
+        proposedWork: "",
+        proposedArtifacts: "",
+        inScope: "",
+        outOfScope: "",
+        constraints: "",
+        unresolvedQuestions: "",
+      });
+      setChangesOpen(false);
+      await onApproved();
+    } catch (error) {
+      setApprovalError(
+        error instanceof Error
+          ? error.message
+          : "The changes request could not be submitted.",
+      );
+    } finally {
+      setRequestingChanges(false);
+    }
   }
 
   return (
@@ -239,7 +299,7 @@ function DecisionActions({
             type="button"
             className="executive-decision-button"
             aria-expanded={changesOpen}
-            disabled={approving}
+            disabled={approving || requestingChanges}
             onClick={() => {
               setChangesOpen((current) => !current);
               setFeedbackReady(false);
@@ -284,12 +344,63 @@ function DecisionActions({
             }}
           />
 
+          <details className="executive-change-request__typed-semantics">
+            <summary>Exact values to preserve (optional)</summary>
+
+            <p className="executive-change-request__status">
+              Enter only values you explicitly want Matilda to preserve exactly.
+              Blank fields are not sent.
+            </p>
+
+            {[
+              ["expectedOutcome", "Expected outcome"],
+              ["proposedWork", "Proposed work"],
+              ["proposedArtifacts", "Deliverables"],
+              ["inScope", "In scope"],
+              ["outOfScope", "Out of scope"],
+              ["constraints", "Constraints"],
+              ["unresolvedQuestions", "Open questions"],
+            ].map(([field, label]) => (
+              <label
+                key={field}
+                htmlFor={`executive-change-request-${field}`}
+              >
+                {label}
+                <textarea
+                  id={`executive-change-request-${field}`}
+                  rows={2}
+                  value={
+                    typedSemantics[
+                      field as keyof typeof typedSemantics
+                    ]
+                  }
+                  onChange={(event) => {
+                    setTypedSemantics((current) => ({
+                      ...current,
+                      [field]: event.target.value,
+                    }));
+                    setFeedbackReady(false);
+                  }}
+                />
+              </label>
+            ))}
+          </details>
+
           <div className="executive-change-request__footer">
             <button
               type="button"
               onClick={() => {
                 setChangesOpen(false);
                 setFeedback("");
+                setTypedSemantics({
+                  expectedOutcome: "",
+                  proposedWork: "",
+                  proposedArtifacts: "",
+                  inScope: "",
+                  outOfScope: "",
+                  constraints: "",
+                  unresolvedQuestions: "",
+                });
                 setFeedbackReady(false);
               }}
             >
@@ -298,21 +409,14 @@ function DecisionActions({
 
             <button
               type="submit"
-              disabled={!feedback.trim()}
+              disabled={!feedback.trim() || requestingChanges}
             >
-              Prepare Changes Request
+              {requestingChanges
+                ? "Submitting…"
+                : "Request Changes"}
             </button>
           </div>
 
-          {feedbackReady ? (
-            <p
-              className="executive-change-request__status"
-              role="status"
-            >
-              Feedback is ready. Submission remains disabled until the Request
-              Changes persistence corridor is authorized.
-            </p>
-          ) : null}
         </form>
       ) : null}
     </section>

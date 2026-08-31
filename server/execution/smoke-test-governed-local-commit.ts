@@ -141,6 +141,67 @@ function runAuthorizedCommitTest(): void {
   );
 }
 
+function runAuthorizedNewFileCommitTest(): void {
+  const repo = createRepo();
+
+  fs.writeFileSync(
+    path.join(repo.root, "authorized-new.txt"),
+    "authorized new file\n",
+  );
+
+  fs.writeFileSync(
+    path.join(repo.root, "unrelated.tmp"),
+    "untracked and unrelated\n",
+  );
+
+  const result = performGovernedLocalCommit({
+    repoPath: repo.root,
+    branch: repo.branch,
+    expectedHead: repo.head,
+    allowedPaths: ["authorized-new.txt"],
+    commitMessage: "Governed authorized new-file smoke",
+    approvalId: "approval-new-file-smoke",
+    envelopeId: "envelope-new-file-smoke",
+    executionId: "execution-new-file-smoke",
+    commitAuthorized: true,
+    pushAuthorized: false,
+  });
+
+  assert.deepEqual(
+    result.committedFiles,
+    ["authorized-new.txt"],
+  );
+
+  assert.equal(
+    git(repo.root, [
+      "show",
+      "--format=",
+      "--name-only",
+      "HEAD",
+      "--",
+    ]),
+    "authorized-new.txt",
+  );
+
+  assert.equal(
+    fs.readFileSync(
+      path.join(repo.root, "unrelated.tmp"),
+      "utf8",
+    ),
+    "untracked and unrelated\n",
+  );
+
+  assert.equal(
+    git(repo.root, [
+      "status",
+      "--short",
+      "--",
+      "unrelated.tmp",
+    ]),
+    "?? unrelated.tmp",
+  );
+}
+
 function runHeadMismatchTest(): void {
   const repo = createRepo();
 
@@ -341,6 +402,7 @@ function runPushAuthorityTest(): void {
 }
 
 runAuthorizedCommitTest();
+runAuthorizedNewFileCommitTest();
 runHeadMismatchTest();
 runBranchMismatchTest();
 runUnauthorizedTrackedChangeTest();
@@ -353,6 +415,7 @@ console.log(
     {
       ok: true,
       valid_local_commit: true,
+      authorized_new_file_commit: true,
       expected_head_guard: true,
       branch_guard: true,
       unauthorized_tracked_guard: true,

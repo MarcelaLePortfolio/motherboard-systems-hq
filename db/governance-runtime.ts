@@ -2,6 +2,7 @@
 import Database from "better-sqlite3";
 
 import { ensureGovernanceLifecycleEventTable } from "./governance-lifecycle-persistence";
+import { repairStaleGovernanceDelegationForeignKeys } from "./governance-stale-delegation-fk-migration";
 
 export type CreateGovernancePackageInput = {
 
@@ -330,6 +331,8 @@ export function ensureGovernanceRuntimeTables(): void {
       ADD COLUMN conversation_id TEXT;
     `);
   }
+
+  repairStaleGovernanceDelegationForeignKeys(sqlite);
 
   ensureGovernanceLifecycleEventTable(sqlite);
 }

@@ -135,7 +135,7 @@ test("reconciled intent derives authoritative identity and meaning from the Livi
 
     assert.throws(
       () => runtime.generateReconciledIntentSummary({}),
-      /draft_package_id is required/,
+      /draft_package_id or draft_revision_id is required/,
     );
   } finally {
     process.chdir(previousWorkingDirectory);
