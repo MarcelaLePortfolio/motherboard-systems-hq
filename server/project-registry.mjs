@@ -9,8 +9,6 @@ import Database from "better-sqlite3";
 
 const dbPath = path.join(process.cwd(), "db", "main.db");
 
-const seedPath = path.join(process.cwd(), "projects", "registry.example.json");
-
 const db = new Database(dbPath);
 
 function nowIso() {
@@ -124,94 +122,6 @@ export function ensureProjectRegistry() {
     );
 
   `);
-
-  const projectCount = db.prepare("SELECT COUNT(*) AS count FROM project_registry").get().count;
-
-  if (projectCount === 0 && fs.existsSync(seedPath)) {
-
-    const seed = JSON.parse(fs.readFileSync(seedPath, "utf8"));
-
-    const timestamp = nowIso();
-
-    const insert = db.prepare(`
-
-      INSERT INTO project_registry (
-
-        project_id,
-
-        display_name,
-
-        project_root_path,
-
-        git_repository_reference,
-
-        registration_status,
-
-        availability_status,
-
-        active_context_eligible,
-
-        created_at,
-
-        updated_at,
-
-        last_opened_at
-
-      ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-
-    `);
-
-    for (const project of seed.projects || []) {
-
-      insert.run(
-
-        project.id,
-
-        project.name,
-
-        project.repoPath || null,
-
-        project.repoPath || null,
-
-        "registered",
-
-        "available",
-
-        1,
-
-        timestamp,
-
-        timestamp,
-
-        project.id === seed.activeProjectId ? timestamp : null
-
-      );
-
-    }
-
-    if (seed.activeProjectId) {
-
-      db.prepare(`
-
-        INSERT OR REPLACE INTO active_context (
-
-          singleton_id,
-
-          current_project_id,
-
-          source,
-
-          action,
-
-          updated_at
-
-        ) VALUES (1, ?, 'seed', 'initialize_active_context', ?)
-
-      `).run(seed.activeProjectId, timestamp);
-
-    }
-
-  }
 
   const active = db.prepare("SELECT current_project_id FROM active_context WHERE singleton_id = 1").get();
 
