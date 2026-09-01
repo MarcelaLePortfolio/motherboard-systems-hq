@@ -61,6 +61,19 @@ function normalizeRepoPath(repoPath: string): string {
   }
 }
 
+function normalizeRemoteReference(remoteReference: string): string {
+  const normalized = remoteReference.trim();
+
+  if (
+    /^[A-Za-z][A-Za-z0-9+.-]*:\/\//.test(normalized) ||
+    /^[^@\s]+@[^:\s]+:.+/.test(normalized)
+  ) {
+    return normalized;
+  }
+
+  return normalizeRepoPath(normalized);
+}
+
 function normalizePath(value: string): string {
   return value.replaceAll("\\", "/").replace(/^\.\/+/, "");
 }
@@ -656,12 +669,13 @@ export function performGovernedRemotePush(
   const remoteUrl = git(repoPath, [
     "remote",
     "get-url",
+    "--push",
     input.remote,
   ]);
 
   if (
-    normalizeRepoPath(remoteUrl) !==
-    normalizeRepoPath(
+    normalizeRemoteReference(remoteUrl) !==
+    normalizeRemoteReference(
       input.expectedRemoteUrl,
     )
   ) {
