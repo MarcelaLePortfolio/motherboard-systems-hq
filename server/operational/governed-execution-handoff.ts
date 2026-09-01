@@ -11,10 +11,17 @@ import {
   productionGovernanceExecutionDependencies,
 } from "../execution/production-governance-execution-composition";
 
+export type GovernedExecutionEffectIntent =
+  | { kind: "no_effect" }
+  | { kind: "commit"; commit_message: string }
+  | { kind: "commit_and_push"; commit_message: string }
+  | { kind: "push"; prior_commit_execution_id: string };
+
 export type GovernedExecutionHandoffInput = {
   scheduler_dispatch_contract: SchedulerDispatchContractResult;
   scheduler_runtime_finalization_readiness_completion:
     ProductionSchedulerRuntimeFinalizationReadinessCompletionConsumerResult;
+  effect_intent: GovernedExecutionEffectIntent;
 };
 
 export type GovernedExecutionHandoffResult =
@@ -27,8 +34,9 @@ export type GovernedExecutionHandoffResult =
       package_version: number;
       approval_id: string;
       execution_id: string;
-      commit_requested: false;
-      push_requested: false;
+      effect_intent: GovernedExecutionEffectIntent["kind"];
+      commit_requested: boolean;
+      push_requested: boolean;
       scheduler_authorized: false;
       routing_authorized: false;
       worker_claim_authorized: false;
@@ -55,17 +63,68 @@ type GovernedExecutionHandoffDependencies = {
   db?: Database;
   governance_execution_dependencies?: GovernanceExecutionRouteDependencies;
   create_execution_id?: () => string;
+  invoke_governance_execution?: typeof handleGovernanceExecutionRouteRequest;
 };
 
-function resolveApprovalIdentityForEnvelope(
-  db: Database,
-  envelopeId: string,
-): {
+type DurableGovernanceIdentity = {
   approval_id: string;
   envelope_id: string;
   package_id: string;
   package_version: number;
-} {
+};
+
+function requireNonEmptyText(value: unknown, field: string): string {
+  if (typeof value !== "string" || value.trim().length === 0) {
+    throw new Error(`Governed execution handoff requires ${field}.`);
+  }
+
+  return value.trim();
+}
+
+function compileEffectIntent(intent: GovernedExecutionEffectIntent) {
+  switch (intent.kind) {
+    case "no_effect":
+      return {
+        commit_requested: false,
+        push_requested: false,
+      };
+
+    case "commit":
+      return {
+        commit_requested: true,
+        push_requested: false,
+        commit_message: requireNonEmptyText(
+          intent.commit_message,
+          "commit_message for commit intent",
+        ),
+      };
+
+    case "commit_and_push":
+      return {
+        commit_requested: true,
+        push_requested: true,
+        commit_message: requireNonEmptyText(
+          intent.commit_message,
+          "commit_message for commit_and_push intent",
+        ),
+      };
+
+    case "push":
+      return {
+        commit_requested: false,
+        push_requested: true,
+        prior_commit_execution_id: requireNonEmptyText(
+          intent.prior_commit_execution_id,
+          "prior_commit_execution_id for push intent",
+        ),
+      };
+  }
+}
+
+function resolveApprovalIdentityForEnvelope(
+  db: Database,
+  envelopeId: string,
+): DurableGovernanceIdentity {
   const rows = db
     .prepare(`
       SELECT
@@ -77,12 +136,7 @@ function resolveApprovalIdentityForEnvelope(
       WHERE envelope_id = ?
       LIMIT 2
     `)
-    .all(envelopeId) as Array<{
-      approval_id: string;
-      envelope_id: string;
-      package_id: string;
-      package_version: number;
-    }>;
+    .all(envelopeId) as DurableGovernanceIdentity[];
 
   if (rows.length !== 1) {
     throw new Error(
@@ -128,9 +182,7 @@ export function handoffSchedulerReadinessToGovernedExecution(
       dependencies.governance_execution_dependencies ??
       productionGovernanceExecutionDependencies;
 
-    const db =
-      dependencies.db ??
-      governanceDependencies.db;
+    const db = dependencies.db ?? governanceDependencies.db;
 
     const durableIdentity =
       resolveApprovalIdentityForEnvelope(
@@ -148,18 +200,34 @@ export function handoffSchedulerReadinessToGovernedExecution(
       );
     }
 
+    const effectRequest =
+      compileEffectIntent(input.effect_intent);
+
     const executionId =
       dependencies.create_execution_id?.() ??
       `execution-${randomUUID()}`;
 
+    const invokeGovernanceExecution =
+      dependencies.invoke_governance_execution ??
+      handleGovernanceExecutionRouteRequest;
+
     const executionResult =
-      handleGovernanceExecutionRouteRequest(
+      invokeGovernanceExecution(
         {
           approval_id: durableIdentity.approval_id,
           envelope_id: durableIdentity.envelope_id,
           execution_id: executionId,
-          commit_requested: false,
-          push_requested: false,
+          commit_requested: effectRequest.commit_requested,
+          push_requested: effectRequest.push_requested,
+          ...(effectRequest.commit_message
+            ? { commit_message: effectRequest.commit_message }
+            : {}),
+          ...(effectRequest.prior_commit_execution_id
+            ? {
+                prior_commit_execution_id:
+                  effectRequest.prior_commit_execution_id,
+              }
+            : {}),
         },
         governanceDependencies,
       );
@@ -195,8 +263,9 @@ export function handoffSchedulerReadinessToGovernedExecution(
       package_version: durableIdentity.package_version,
       approval_id: durableIdentity.approval_id,
       execution_id: executionId,
-      commit_requested: false,
-      push_requested: false,
+      effect_intent: input.effect_intent.kind,
+      commit_requested: effectRequest.commit_requested,
+      push_requested: effectRequest.push_requested,
       scheduler_authorized: false,
       routing_authorized: false,
       worker_claim_authorized: false,
@@ -206,7 +275,7 @@ export function handoffSchedulerReadinessToGovernedExecution(
       execution_result: executionResult,
       findings: [
         "Scheduler readiness was handed to the existing governed execution boundary without creating scheduler, routing, worker-claim, orchestration, execution, commit, push, or new authority.",
-        "The handoff requested no repository effect; commit and push effect selection remain outside Corridor 2.",
+        "Explicit effect intent was transported to the existing governance execution route and did not itself confer effect authority.",
       ],
     };
   } catch (error) {
