@@ -558,3 +558,137 @@ test(
     );
   },
 );
+
+test(
+  "records confirmed local effect and unknown remote effect when push fails after successful commit",
+  () => {
+    const entries: any[] = [];
+
+    const result =
+      handleGovernanceExecutionRouteRequest(
+        {
+          approval_id: "a1",
+          envelope_id: "e1",
+          execution_id:
+            "commit-success-push-failure-x1",
+          commit_requested: true,
+          push_requested: true,
+          commit_message:
+            "bounded partial-effect reconciliation test",
+        },
+        deps({
+          execute_execution:
+            ((request: any, effects: any) => {
+              const commitResult =
+                effects.executeCommit({
+                  envelope: request.envelope,
+                  executionId:
+                    request.executionId,
+                  commitMessage:
+                    request.commitMessage,
+                });
+
+              assert.equal(
+                commitResult.status,
+                "ok",
+              );
+
+              effects.executePush({
+                envelope: request.envelope,
+                executionId:
+                  request.executionId,
+              });
+
+              assert.fail(
+                "push failure must terminate execution",
+              );
+            }) as any,
+          execute_commit:
+            (() => ({
+              status: "ok",
+              preHead:
+                "0000000000000000000000000000000000000000",
+              postHead:
+                "1111111111111111111111111111111111111111",
+              branch:
+                "feature/support-source-references-runtime",
+              committedFiles: [
+                "server/example.ts",
+              ],
+              commitMessage:
+                "bounded partial-effect reconciliation test",
+              approvalId: "a1",
+              envelopeId: "e1",
+              executionId:
+                "commit-success-push-failure-x1",
+              remoteEffect: false,
+              pushEffect: false,
+            })) as any,
+          execute_push:
+            (() => {
+              const error = new Error(
+                "simulated governed push failure",
+              ) as Error & {
+                code?: string;
+              };
+              error.code =
+                "SIMULATED_PUSH_FAILURE";
+              throw error;
+            }) as any,
+          persist_reconciliation_entry:
+            ((_db: unknown, input: any) => {
+              entries.push(input);
+              return {
+                entry_id: entries.length,
+              };
+            }) as any,
+        }),
+      );
+
+    assert.equal(result.ok, false);
+    assert.match(
+      (result as any).findings[0],
+      /simulated governed push failure/,
+    );
+
+    assert.deepEqual(
+      entries.map((entry) => ({
+        stage: entry.stage,
+        local_effect_status:
+          entry.local_effect_status,
+        remote_effect_status:
+          entry.remote_effect_status,
+        last_confirmed_stage:
+          entry.evidence?.last_confirmed_stage ??
+          null,
+        error_code:
+          entry.evidence?.error_code ?? null,
+      })),
+      [
+        {
+          stage: "EXECUTION_STARTED",
+          local_effect_status: "none",
+          remote_effect_status: "none",
+          last_confirmed_stage: null,
+          error_code: null,
+        },
+        {
+          stage: "COMMIT_CONFIRMED",
+          local_effect_status: "confirmed",
+          remote_effect_status: "none",
+          last_confirmed_stage: null,
+          error_code: null,
+        },
+        {
+          stage: "EXECUTION_FAILED_CLOSED",
+          local_effect_status: "confirmed",
+          remote_effect_status: "unknown",
+          last_confirmed_stage:
+            "COMMIT_CONFIRMED",
+          error_code:
+            "SIMULATED_PUSH_FAILURE",
+        },
+      ],
+    );
+  },
+);
