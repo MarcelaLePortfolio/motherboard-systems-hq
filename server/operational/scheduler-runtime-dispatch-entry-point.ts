@@ -1,6 +1,4 @@
 
-import { evaluateExecutionAuthority } from "../execution/execution-authority-core";
-
 import type { SchedulerRuntimeDispatchBoundaryResult } from "./scheduler-runtime-dispatch-boundary";
 
 export type SchedulerRuntimeDispatchEntryPointInput = {
@@ -19,15 +17,15 @@ export type SchedulerRuntimeDispatchEntryPointResult =
 
       scheduler_runtime_dispatch_request_ready: true;
 
-      scheduler_authorized: boolean;
+      scheduler_authorized: false;
 
-      routing_authorized: boolean;
+      routing_authorized: false;
 
-      worker_claim_authorized: boolean;
+      worker_claim_authorized: false;
 
-      orchestration_authorized: boolean;
+      orchestration_authorized: false;
 
-      execution_authorized: boolean;
+      execution_authorized: false;
 
       new_authority_introduced: false;
 
@@ -43,15 +41,15 @@ export type SchedulerRuntimeDispatchEntryPointResult =
 
       scheduler_runtime_dispatch_request_ready: false;
 
-      scheduler_authorized: boolean;
+      scheduler_authorized: false;
 
-      routing_authorized: boolean;
+      routing_authorized: false;
 
-      worker_claim_authorized: boolean;
+      worker_claim_authorized: false;
 
-      orchestration_authorized: boolean;
+      orchestration_authorized: false;
 
-      execution_authorized: boolean;
+      execution_authorized: false;
 
       new_authority_introduced: false;
 
@@ -67,28 +65,6 @@ export function invokeSchedulerRuntimeDispatchEntryPoint(
 
   const dispatchBoundary = input.scheduler_runtime_dispatch_boundary;
 
-  const decision = evaluateExecutionAuthority({
-
-    preview_confirmed: true,
-
-    plan_review_ready: dispatchBoundary.ok
-
-  });
-
-  const baseFlags = {
-
-    scheduler_authorized: dispatchBoundary.ok,
-
-    routing_authorized: dispatchBoundary.ok,
-
-    worker_claim_authorized: dispatchBoundary.ok,
-
-    orchestration_authorized: dispatchBoundary.ok,
-
-    execution_authorized: decision.execution_authorized,
-
-  };
-
   if (!dispatchBoundary.ok || !dispatchBoundary.scheduler_runtime_dispatch_ready) {
 
     return {
@@ -99,13 +75,21 @@ export function invokeSchedulerRuntimeDispatchEntryPoint(
 
       scheduler_runtime_dispatch_request_ready: false,
 
-      ...baseFlags,
+      scheduler_authorized: false,
+
+      routing_authorized: false,
+
+      worker_claim_authorized: false,
+
+      orchestration_authorized: false,
+
+      execution_authorized: false,
 
       new_authority_introduced: false,
 
       findings: [
 
-        "Dispatch blocked at boundary; all downstream authorizations inherit boundary failure state."
+        "Scheduler Runtime Dispatch Entry Point failed closed because Scheduler Runtime Dispatch Boundary did not establish dispatch readiness.",
 
       ],
 
@@ -121,13 +105,21 @@ export function invokeSchedulerRuntimeDispatchEntryPoint(
 
     scheduler_runtime_dispatch_request_ready: true,
 
-    ...baseFlags,
+    scheduler_authorized: false,
+
+    routing_authorized: false,
+
+    worker_claim_authorized: false,
+
+    orchestration_authorized: false,
+
+    execution_authorized: false,
 
     new_authority_introduced: false,
 
     findings: [
 
-      "Dispatch passed boundary; authorization state derived consistently from boundary + authority core."
+      "Scheduler Runtime Dispatch Entry Point accepted dispatch readiness without authorizing scheduling, routing, worker claims, orchestration, execution, or new authority.",
 
     ],
 
