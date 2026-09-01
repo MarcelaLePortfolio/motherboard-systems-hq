@@ -129,6 +129,22 @@ function normalizeLocalCommitResult(
       localCommitResult?.push_effect ??
       localCommitResult?.pushEffect ??
       null,
+    project_id:
+      localCommitResult?.project_id ?? null,
+    package_id:
+      localCommitResult?.package_id ?? null,
+    package_version:
+      localCommitResult?.package_version ?? null,
+    delegation_id:
+      localCommitResult?.delegation_id ?? null,
+    validation_result_id:
+      localCommitResult?.validation_result_id ?? null,
+    envelope_gate_id:
+      localCommitResult?.envelope_gate_id ?? null,
+    repo_path:
+      localCommitResult?.repo_path ?? null,
+    expected_head:
+      localCommitResult?.expected_head ?? null,
   };
 }
 
@@ -262,27 +278,71 @@ function validatePushAuthorityProof({
     );
   }
 
-  if (
-    local.approval_id !==
-    normalized.approval_id
-  ) {
-    fail(
-      "LOCAL_COMMIT_APPROVAL_ID_MISMATCH",
-      "local commit approval_id must match approval artifact",
-    );
-  }
-
   const envelopeId =
     envelope?.identity?.envelope_id ?? null;
 
-  if (
-    local.envelope_id !==
-    envelopeId
-  ) {
-    fail(
-      "LOCAL_COMMIT_ENVELOPE_ID_MISMATCH",
-      "local commit envelope_id must match envelope",
-    );
+  const certifiedPriorCommit =
+    hasNonEmptyString(local.project_id) &&
+    hasNonEmptyString(local.package_id) &&
+    Number.isInteger(local.package_version) &&
+    hasNonEmptyString(local.delegation_id) &&
+    hasNonEmptyString(local.validation_result_id) &&
+    hasNonEmptyString(local.envelope_gate_id) &&
+    hasNonEmptyString(local.repo_path) &&
+    hasNonEmptyString(local.expected_head);
+
+  if (!certifiedPriorCommit) {
+    if (
+      local.approval_id !==
+      normalized.approval_id
+    ) {
+      fail(
+        "LOCAL_COMMIT_APPROVAL_ID_MISMATCH",
+        "local commit approval_id must match approval artifact",
+      );
+    }
+
+    if (
+      local.envelope_id !==
+      envelopeId
+    ) {
+      fail(
+        "LOCAL_COMMIT_ENVELOPE_ID_MISMATCH",
+        "local commit envelope_id must match envelope",
+      );
+    }
+  } else {
+    if (
+      local.package_id !==
+        envelope?.identity?.package_id ||
+      local.package_version !==
+        envelope?.identity?.package_version
+    ) {
+      fail(
+        "LOCAL_COMMIT_PACKAGE_LINEAGE_MISMATCH",
+        "certified prior local commit package lineage must match current envelope",
+      );
+    }
+
+    if (
+      local.repo_path !==
+      envelope?.project_target?.repo_path
+    ) {
+      fail(
+        "LOCAL_COMMIT_REPO_PATH_MISMATCH",
+        "certified prior local commit repo_path must match current envelope",
+      );
+    }
+
+    if (
+      local.post_head !==
+      envelope?.project_target?.expected_head
+    ) {
+      fail(
+        "LOCAL_COMMIT_EXPECTED_HEAD_MISMATCH",
+        "certified prior local commit post_head must match current envelope expected_head",
+      );
+    }
   }
 
   if (

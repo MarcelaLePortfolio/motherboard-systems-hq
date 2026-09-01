@@ -20,7 +20,9 @@ import {
   type ProductionExecutionRequest,
 } from "../execution/production-execution-entry-point.js";
 import {
+  loadCertifiedGovernedLocalCommitProof,
   persistGovernanceExecutionReconciliationEntry,
+  type CertifiedGovernedLocalCommitProof,
   type GovernanceExecutionEffectStatus,
   type GovernanceExecutionReconciliationStage,
 } from "../../db/governance-execution-reconciliation-persistence.js";
@@ -38,6 +40,7 @@ export type GovernanceExecutionRouteBody = {
   commit_requested?: unknown;
   push_requested?: unknown;
   commit_message?: unknown;
+  prior_commit_execution_id?: unknown;
   [key: string]: unknown;
 };
 
@@ -72,6 +75,10 @@ export type GovernanceExecutionRouteDependencies = {
   ) => GovernanceExecutionReadChain;
   compile_approval?: typeof compilePersistedExecutionApproval;
   execute_execution?: ExecutionEntryPoint;
+  load_certified_commit_proof?: (
+    db: Database.Database,
+    executionId: string,
+  ) => CertifiedGovernedLocalCommitProof;
   persist_reconciliation_entry?: typeof persistGovernanceExecutionReconciliationEntry;
 };
 
@@ -82,6 +89,7 @@ const ALLOWED_BODY_FIELDS = new Set([
   "commit_requested",
   "push_requested",
   "commit_message",
+  "prior_commit_execution_id",
 ]);
 
 function requireText(
@@ -208,10 +216,27 @@ export function handleGovernanceExecutionRouteRequest(
       body.commit_message,
       "commit_message",
     );
+    const priorCommitExecutionId = optionalText(
+      body.prior_commit_execution_id,
+      "prior_commit_execution_id",
+    );
 
-    if (pushRequested && !commitRequested) {
+    if (
+      pushRequested &&
+      !commitRequested &&
+      !priorCommitExecutionId
+    ) {
       throw new Error(
-        "Governance execution route refuses push without commit.",
+        "Governance execution route requires prior_commit_execution_id for push without a new commit.",
+      );
+    }
+
+    if (
+      priorCommitExecutionId &&
+      (!pushRequested || commitRequested)
+    ) {
+      throw new Error(
+        "Governance execution route accepts prior_commit_execution_id only for push without a new commit.",
       );
     }
 
@@ -236,6 +261,9 @@ export function handleGovernanceExecutionRouteRequest(
     const executeExecution =
       dependencies.execute_execution ??
       executeProductionExecutionEntryPoint;
+    const loadCertifiedCommitProof =
+      dependencies.load_certified_commit_proof ??
+      loadCertifiedGovernedLocalCommitProof;
 
     const approval = loadApproval(
       dependencies.db,
@@ -298,6 +326,14 @@ export function handleGovernanceExecutionRouteRequest(
       },
     };
 
+    const localCommitResult =
+      priorCommitExecutionId
+        ? loadCertifiedCommitProof(
+            dependencies.db,
+            priorCommitExecutionId,
+          )
+        : undefined;
+
     const request: ProductionExecutionRequest = {
       envelope,
       governance: governanceChain.governance,
@@ -306,6 +342,7 @@ export function handleGovernanceExecutionRouteRequest(
       commitRequested,
       pushRequested,
       commitMessage,
+      localCommitResult,
     };
 
     const persistReconciliation =
@@ -333,6 +370,8 @@ export function handleGovernanceExecutionRouteRequest(
       scope_constraints: scope.scope_constraints,
       commit_requested: commitRequested,
       push_requested: pushRequested,
+      prior_commit_execution_id:
+        priorCommitExecutionId ?? null,
     };
 
     const appendReconciliation = (
@@ -399,7 +438,7 @@ export function handleGovernanceExecutionRouteRequest(
 
             appendReconciliation(
               "PUSH_CONFIRMED",
-              "confirmed",
+              commitRequested ? "confirmed" : "none",
               "confirmed",
               {
                 local_head: result.localHead,

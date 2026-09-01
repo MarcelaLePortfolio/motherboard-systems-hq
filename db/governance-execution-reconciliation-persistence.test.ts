@@ -4,6 +4,7 @@ import Database from "better-sqlite3";
 
 import {
   listGovernanceExecutionReconciliationEntries,
+  loadCertifiedGovernedLocalCommitProof,
   persistGovernanceExecutionReconciliationEntry,
 } from "./governance-execution-reconciliation-persistence";
 
@@ -186,5 +187,250 @@ test("preserves unknown effect state on failure", () => {
   assert.equal(
     entries[1].local_effect_status,
     "unknown",
+  );
+});
+
+
+test("certifies terminal commit-only reconciliation as durable local commit proof", () => {
+  const db = createDb();
+
+  persistGovernanceExecutionReconciliationEntry(
+    db,
+    base({
+      push_requested: false,
+    }) as any,
+  );
+
+  persistGovernanceExecutionReconciliationEntry(
+    db,
+    base({
+      stage: "COMMIT_CONFIRMED",
+      push_requested: false,
+      local_effect_status: "confirmed",
+      remote_effect_status: "none",
+      evidence: {
+        pre_head: HEAD,
+        post_head: "2222222222222222222222222222222222222222",
+        branch: "feature/test",
+      },
+    }) as any,
+  );
+
+  assert.deepEqual(
+    loadCertifiedGovernedLocalCommitProof(db, "x1"),
+    {
+      status: "ok",
+      pre_head: HEAD,
+      post_head: "2222222222222222222222222222222222222222",
+      branch: "feature/test",
+      approval_id: "a1",
+      envelope_id: "e1",
+      execution_id: "x1",
+      project_id: "hq",
+      package_id: "p1",
+      package_version: 1,
+      delegation_id: "d1",
+      validation_result_id: "v1",
+      envelope_gate_id: "g1",
+      repo_path: "/tmp/repo",
+      expected_head: HEAD,
+      remote_effect: false,
+      push_effect: false,
+    },
+  );
+});
+
+test("refuses to certify non-terminal commit-plus-push lineage", () => {
+  const db = createDb();
+
+  persistGovernanceExecutionReconciliationEntry(
+    db,
+    base(),
+  );
+
+  persistGovernanceExecutionReconciliationEntry(
+    db,
+    base({
+      stage: "COMMIT_CONFIRMED",
+      local_effect_status: "confirmed",
+      evidence: {
+        pre_head: "1111111111111111111111111111111111111111",
+        post_head: "2222222222222222222222222222222222222222",
+        branch: "feature/test",
+      },
+    }) as any,
+  );
+
+  assert.throws(
+    () => loadCertifiedGovernedLocalCommitProof(db, "x1"),
+    /commit_requested=true and push_requested=false/,
+  );
+});
+
+test("refuses to certify failed reconciliation lineage", () => {
+  const db = createDb();
+
+  persistGovernanceExecutionReconciliationEntry(
+    db,
+    base({
+      push_requested: false,
+    }) as any,
+  );
+
+  persistGovernanceExecutionReconciliationEntry(
+    db,
+    base({
+      stage: "EXECUTION_FAILED_CLOSED",
+      push_requested: false,
+      local_effect_status: "unknown",
+      remote_effect_status: "none",
+    }) as any,
+  );
+
+  assert.throws(
+    () => loadCertifiedGovernedLocalCommitProof(db, "x1"),
+    /terminal commit-only reconciliation lineage/,
+  );
+});
+
+test("persists certified prior-commit push-only lineage without a new local effect", () => {
+  const db = createDb();
+
+  persistGovernanceExecutionReconciliationEntry(
+    db,
+    base({
+      execution_id: "push-only-x1",
+      commit_requested: false,
+      push_requested: true,
+      prior_commit_execution_id: "prior-x1",
+      local_effect_status: "none",
+      remote_effect_status: "none",
+    }) as any,
+  );
+
+  persistGovernanceExecutionReconciliationEntry(
+    db,
+    base({
+      execution_id: "push-only-x1",
+      stage: "PUSH_CONFIRMED",
+      commit_requested: false,
+      push_requested: true,
+      prior_commit_execution_id: "prior-x1",
+      local_effect_status: "none",
+      remote_effect_status: "confirmed",
+    }) as any,
+  );
+
+  const entries =
+    listGovernanceExecutionReconciliationEntries(
+      db,
+      "push-only-x1",
+    );
+
+  assert.deepEqual(
+    entries.map((entry) => ({
+      stage: entry.stage,
+      prior_commit_execution_id:
+        entry.prior_commit_execution_id,
+      local_effect_status:
+        entry.local_effect_status,
+      remote_effect_status:
+        entry.remote_effect_status,
+    })),
+    [
+      {
+        stage: "EXECUTION_STARTED",
+        prior_commit_execution_id: "prior-x1",
+        local_effect_status: "none",
+        remote_effect_status: "none",
+      },
+      {
+        stage: "PUSH_CONFIRMED",
+        prior_commit_execution_id: "prior-x1",
+        local_effect_status: "none",
+        remote_effect_status: "confirmed",
+      },
+    ],
+  );
+});
+
+test("rejects push-only reconciliation without prior commit execution reference", () => {
+  const db = createDb();
+
+  assert.throws(
+    () =>
+      persistGovernanceExecutionReconciliationEntry(
+        db,
+        base({
+          execution_id: "push-only-no-proof",
+          commit_requested: false,
+          push_requested: true,
+          local_effect_status: "none",
+          remote_effect_status: "none",
+        }) as any,
+      ),
+    /requires prior_commit_execution_id/,
+  );
+});
+
+test("certified local commit proof requires pre_head to match durable expected_head", () => {
+  const db = createDb();
+
+  persistGovernanceExecutionReconciliationEntry(
+    db,
+    base({
+      push_requested: false,
+    }) as any,
+  );
+
+  persistGovernanceExecutionReconciliationEntry(
+    db,
+    base({
+      stage: "COMMIT_CONFIRMED",
+      push_requested: false,
+      local_effect_status: "confirmed",
+      remote_effect_status: "none",
+      evidence: {
+        pre_head: "3333333333333333333333333333333333333333",
+        post_head: "2222222222222222222222222222222222222222",
+        branch: "feature/test",
+      },
+    }) as any,
+  );
+
+  assert.throws(
+    () => loadCertifiedGovernedLocalCommitProof(db, "x1"),
+    /pre_head does not match durable reconciliation expected_head/,
+  );
+});
+
+test("refuses to certify malformed COMMIT_CONFIRMED evidence", () => {
+  const db = createDb();
+
+  persistGovernanceExecutionReconciliationEntry(
+    db,
+    base({
+      push_requested: false,
+    }) as any,
+  );
+
+  persistGovernanceExecutionReconciliationEntry(
+    db,
+    base({
+      stage: "COMMIT_CONFIRMED",
+      push_requested: false,
+      local_effect_status: "confirmed",
+      remote_effect_status: "none",
+      evidence: {
+        pre_head: "not-a-head",
+        post_head: "2222222222222222222222222222222222222222",
+        branch: "feature/test",
+      },
+    }) as any,
+  );
+
+  assert.throws(
+    () => loadCertifiedGovernedLocalCommitProof(db, "x1"),
+    /evidence is incomplete or invalid/,
   );
 });

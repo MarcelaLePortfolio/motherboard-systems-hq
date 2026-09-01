@@ -168,6 +168,29 @@ function deps(overrides: Record<string, unknown> = {}) {
     execute_push: (() => {
       assert.fail("real push effect must not run");
     }) as any,
+    load_certified_commit_proof: (() => ({
+      status: "ok",
+      pre_head:
+        "0000000000000000000000000000000000000000",
+      post_head:
+        "1111111111111111111111111111111111111111",
+      branch:
+        "feature/support-source-references-runtime",
+      approval_id: "prior-a1",
+      envelope_id: "prior-e1",
+      execution_id: "prior-x1",
+      project_id: "hq",
+      package_id: "p1",
+      package_version: 1,
+      delegation_id: "prior-d1",
+      validation_result_id: "prior-v1",
+      envelope_gate_id: "prior-g1",
+      repo_path: "/tmp/repo",
+      expected_head:
+        "0000000000000000000000000000000000000000",
+      remote_effect: false,
+      push_effect: false,
+    })) as any,
     persist_reconciliation_entry: (() => ({
       entry_id: 1,
     })) as any,
@@ -285,7 +308,7 @@ test(
 );
 
 test(
-  "rejects push without commit",
+  "rejects push without commit proof reference",
   () => {
     const result =
       handleGovernanceExecutionRouteRequest(
@@ -302,7 +325,201 @@ test(
     assert.equal(result.ok, false);
     assert.match(
       (result as any).findings[0],
-      /push without commit/,
+      /requires prior_commit_execution_id/,
+    );
+  },
+);
+
+test(
+  "loads certified prior commit proof server-side for push-only execution",
+  () => {
+    const calls: string[] = [];
+
+    const result =
+      handleGovernanceExecutionRouteRequest(
+        {
+          approval_id: "a1",
+          envelope_id: "e1",
+          execution_id: "push-x1",
+          commit_requested: false,
+          push_requested: true,
+          prior_commit_execution_id: "prior-x1",
+        },
+        deps({
+          load_certified_commit_proof:
+            ((_db: unknown, executionId: string) => {
+              calls.push(`proof:${executionId}`);
+              return {
+                status: "ok",
+                pre_head:
+                  "0000000000000000000000000000000000000000",
+                post_head:
+                  "1111111111111111111111111111111111111111",
+                branch:
+                  "feature/support-source-references-runtime",
+                approval_id: "prior-a1",
+                envelope_id: "prior-e1",
+                execution_id: "prior-x1",
+                project_id: "hq",
+                package_id: "p1",
+                package_version: 1,
+                delegation_id: "prior-d1",
+                validation_result_id: "prior-v1",
+                envelope_gate_id: "prior-g1",
+                repo_path: "/tmp/repo",
+                expected_head:
+                  "0000000000000000000000000000000000000000",
+                remote_effect: false,
+                push_effect: false,
+              };
+            }) as any,
+          execute_execution:
+            ((request: any) => {
+              calls.push("execute");
+              assert.equal(
+                request.localCommitResult.execution_id,
+                "prior-x1",
+              );
+              assert.equal(
+                request.localCommitResult.approval_id,
+                "prior-a1",
+              );
+              assert.equal(
+                request.localCommitResult.envelope_id,
+                "prior-e1",
+              );
+
+              return {
+                status: "ok",
+                execution_id: "push-x1",
+                commit_requested: false,
+                push_requested: true,
+                commit_result:
+                  request.localCommitResult,
+                push_result: {
+                  status: "ok",
+                },
+              };
+            }) as any,
+        }),
+      );
+
+    assert.equal(result.ok, true);
+    assert.deepEqual(
+      calls,
+      ["proof:prior-x1", "execute"],
+    );
+  },
+);
+
+test(
+  "records push-only reconciliation against certified prior execution without a new local effect",
+  () => {
+    const entries: any[] = [];
+
+    const result =
+      handleGovernanceExecutionRouteRequest(
+        {
+          approval_id: "a1",
+          envelope_id: "e1",
+          execution_id: "push-reconcile-x1",
+          commit_requested: false,
+          push_requested: true,
+          prior_commit_execution_id: "prior-x1",
+        },
+        deps({
+          execute_execution:
+            ((request: any, effects: any) => {
+              const pushResult =
+                effects.executePush();
+
+              return {
+                status: "ok",
+                execution_id:
+                  request.executionId,
+                commit_requested: false,
+                push_requested: true,
+                commit_result:
+                  request.localCommitResult,
+                push_result: pushResult,
+              };
+            }) as any,
+          execute_push: (() => ({
+            status: "ok",
+            localHead:
+              "1111111111111111111111111111111111111111",
+            branch:
+              "feature/support-source-references-runtime",
+            remote: "origin",
+            remoteUrl:
+              "https://example.invalid/repo.git",
+            preRemoteHead:
+              "0000000000000000000000000000000000000000",
+            postRemoteHead:
+              "1111111111111111111111111111111111111111",
+            forceEffect: false,
+          })) as any,
+          persist_reconciliation_entry:
+            ((_db: unknown, input: any) => {
+              entries.push(input);
+              return {
+                entry_id: entries.length,
+              };
+            }) as any,
+        }),
+      );
+
+    assert.equal(result.ok, true);
+    assert.deepEqual(
+      entries.map((entry) => ({
+        stage: entry.stage,
+        prior_commit_execution_id:
+          entry.prior_commit_execution_id,
+        local_effect_status:
+          entry.local_effect_status,
+        remote_effect_status:
+          entry.remote_effect_status,
+      })),
+      [
+        {
+          stage: "EXECUTION_STARTED",
+          prior_commit_execution_id:
+            "prior-x1",
+          local_effect_status: "none",
+          remote_effect_status: "none",
+        },
+        {
+          stage: "PUSH_CONFIRMED",
+          prior_commit_execution_id:
+            "prior-x1",
+          local_effect_status: "none",
+          remote_effect_status: "confirmed",
+        },
+      ],
+    );
+  },
+);
+
+test(
+  "rejects prior commit proof reference outside push-only transition",
+  () => {
+    const result =
+      handleGovernanceExecutionRouteRequest(
+        {
+          approval_id: "a1",
+          envelope_id: "e1",
+          execution_id: "x1",
+          commit_requested: false,
+          push_requested: false,
+          prior_commit_execution_id: "prior-x1",
+        },
+        deps(),
+      );
+
+    assert.equal(result.ok, false);
+    assert.match(
+      (result as any).findings[0],
+      /accepts prior_commit_execution_id only for push without a new commit/,
     );
   },
 );

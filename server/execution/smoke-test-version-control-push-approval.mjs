@@ -418,3 +418,119 @@ console.log(
     2,
   ),
 );
+
+
+const certifiedPriorProofEnvelope = buildEnvelope();
+
+certifiedPriorProofEnvelope.identity = {
+  ...certifiedPriorProofEnvelope.identity,
+  package_id: "pkg-certified-prior",
+  package_version: 1,
+  envelope_id: "current-push-envelope",
+};
+
+certifiedPriorProofEnvelope.project_target = {
+  ...certifiedPriorProofEnvelope.project_target,
+  repo_path: "/tmp/certified-prior-repo",
+  branch:
+    "feature/support-source-references-runtime",
+  expected_head: proof.postHead,
+};
+
+const certifiedPriorProofApproval = {
+  ...approvedVc({
+    push: true,
+  }),
+  approval_id: "current-push-approval",
+};
+
+const certifiedPriorProof = {
+  status: "ok",
+  pre_head: proof.preHead,
+  post_head: proof.postHead,
+  branch:
+    "feature/support-source-references-runtime",
+  approval_id: "prior-commit-approval",
+  envelope_id: "prior-commit-envelope",
+  execution_id: "prior-commit-execution",
+  project_id: "hq",
+  package_id: "pkg-certified-prior",
+  package_version: 1,
+  delegation_id: "prior-delegation",
+  validation_result_id: "prior-validation",
+  envelope_gate_id: "prior-gate",
+  repo_path: "/tmp/certified-prior-repo",
+  expected_head: proof.preHead,
+  remote_effect: false,
+  push_effect: false,
+};
+
+const certifiedPriorPush =
+  evaluateExecutionApproval({
+    envelope: certifiedPriorProofEnvelope,
+    governance,
+    approval: certifiedPriorProofApproval,
+    localCommitResult: certifiedPriorProof,
+  });
+
+assert.equal(
+  certifiedPriorPush.execution_phase,
+  "governed_version_control_push",
+);
+
+assert.equal(
+  certifiedPriorPush.expected_push_head,
+  proof.postHead,
+);
+
+assert.equal(
+  certifiedPriorPush.local_commit_result.approval_id,
+  "prior-commit-approval",
+);
+
+assert.equal(
+  certifiedPriorPush.local_commit_result.envelope_id,
+  "prior-commit-envelope",
+);
+
+assert.throws(
+  () =>
+    evaluateExecutionApproval({
+      envelope: certifiedPriorProofEnvelope,
+      governance,
+      approval: certifiedPriorProofApproval,
+      localCommitResult: {
+        ...certifiedPriorProof,
+        package_id: "wrong-package",
+      },
+    }),
+  /package lineage/,
+);
+
+assert.throws(
+  () =>
+    evaluateExecutionApproval({
+      envelope: certifiedPriorProofEnvelope,
+      governance,
+      approval: certifiedPriorProofApproval,
+      localCommitResult: {
+        ...certifiedPriorProof,
+        repo_path: "/tmp/wrong-repo",
+      },
+    }),
+  /repo_path/,
+);
+
+assert.throws(
+  () =>
+    evaluateExecutionApproval({
+      envelope: certifiedPriorProofEnvelope,
+      governance,
+      approval: certifiedPriorProofApproval,
+      localCommitResult: {
+        ...certifiedPriorProof,
+        post_head: "f".repeat(40),
+      },
+    }),
+  /expected_head/,
+);

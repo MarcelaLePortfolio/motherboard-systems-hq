@@ -35,6 +35,7 @@ export type PersistGovernanceExecutionReconciliationEntryInput = {
   scope_constraints: string;
   commit_requested: boolean;
   push_requested: boolean;
+  prior_commit_execution_id?: string | null;
   local_effect_status: GovernanceExecutionEffectStatus;
   remote_effect_status: GovernanceExecutionEffectStatus;
   evidence?: Record<string, unknown> | null;
@@ -62,6 +63,7 @@ export type PersistedGovernanceExecutionReconciliationEntry = {
   scope_constraints: string;
   commit_requested: boolean;
   push_requested: boolean;
+  prior_commit_execution_id: string | null;
   local_effect_status: GovernanceExecutionEffectStatus;
   remote_effect_status: GovernanceExecutionEffectStatus;
   evidence: Record<string, unknown> | null;
@@ -204,12 +206,26 @@ function validateStageSemantics(input: {
   stage: GovernanceExecutionReconciliationStage;
   commit_requested: boolean;
   push_requested: boolean;
+  prior_commit_execution_id?: string | null;
   local_effect_status: GovernanceExecutionEffectStatus;
   remote_effect_status: GovernanceExecutionEffectStatus;
 }) {
-  if (input.push_requested && !input.commit_requested) {
+  if (
+    input.push_requested &&
+    !input.commit_requested &&
+    !input.prior_commit_execution_id
+  ) {
     throw new Error(
-      "Execution reconciliation refuses push without commit.",
+      "Execution reconciliation requires prior_commit_execution_id for push without a new commit.",
+    );
+  }
+
+  if (
+    input.prior_commit_execution_id &&
+    (!input.push_requested || input.commit_requested)
+  ) {
+    throw new Error(
+      "Execution reconciliation accepts prior_commit_execution_id only for push without a new commit.",
     );
   }
 
@@ -252,18 +268,26 @@ function validateStageSemantics(input: {
     );
   }
 
-  if (
-    input.stage === "PUSH_CONFIRMED" &&
-    (
-      !input.commit_requested ||
-      !input.push_requested ||
-      input.local_effect_status !== "confirmed" ||
-      input.remote_effect_status !== "confirmed"
-    )
-  ) {
-    throw new Error(
-      "PUSH_CONFIRMED requires confirmed local and remote effects.",
-    );
+  if (input.stage === "PUSH_CONFIRMED") {
+    const sameExecutionCommitPush =
+      input.commit_requested === true &&
+      input.push_requested === true &&
+      !input.prior_commit_execution_id &&
+      input.local_effect_status === "confirmed" &&
+      input.remote_effect_status === "confirmed";
+
+    const certifiedPriorCommitPush =
+      input.commit_requested === false &&
+      input.push_requested === true &&
+      Boolean(input.prior_commit_execution_id) &&
+      input.local_effect_status === "none" &&
+      input.remote_effect_status === "confirmed";
+
+    if (!sameExecutionCommitPush && !certifiedPriorCommitPush) {
+      throw new Error(
+        "PUSH_CONFIRMED requires same-execution commit confirmation or certified prior-commit push confirmation.",
+      );
+    }
   }
 }
 
@@ -292,6 +316,7 @@ export function ensureGovernanceExecutionReconciliationTable(
       scope_constraints TEXT NOT NULL,
       commit_requested INTEGER NOT NULL,
       push_requested INTEGER NOT NULL,
+      prior_commit_execution_id TEXT,
       local_effect_status TEXT NOT NULL,
       remote_effect_status TEXT NOT NULL,
       evidence_json TEXT,
@@ -311,6 +336,24 @@ export function ensureGovernanceExecutionReconciliationTable(
         entry_sequence
       );
   `);
+
+  const columns = db
+    .prepare(
+      "PRAGMA table_info(governance_execution_reconciliation_entries)",
+    )
+    .all() as Array<{ name: string }>;
+
+  if (
+    !columns.some(
+      (column) =>
+        column.name === "prior_commit_execution_id",
+    )
+  ) {
+    db.exec(`
+      ALTER TABLE governance_execution_reconciliation_entries
+      ADD COLUMN prior_commit_execution_id TEXT
+    `);
+  }
 }
 
 function assertAuthoritativeScope(
@@ -428,6 +471,14 @@ export function listGovernanceExecutionReconciliationEntries(
     scope_constraints: row.scope_constraints,
     commit_requested: row.commit_requested === 1,
     push_requested: row.push_requested === 1,
+    prior_commit_execution_id:
+      row.prior_commit_execution_id === null ||
+      row.prior_commit_execution_id === undefined
+        ? null
+        : requireText(
+            row.prior_commit_execution_id,
+            "prior_commit_execution_id",
+          ),
     local_effect_status: requireEffectStatus(
       row.local_effect_status,
       "local_effect_status",
@@ -444,6 +495,150 @@ export function listGovernanceExecutionReconciliationEntries(
           ),
     persisted_at: row.persisted_at,
   }));
+}
+
+export type CertifiedGovernedLocalCommitProof = {
+  status: "ok";
+  pre_head: string;
+  post_head: string;
+  branch: string;
+  approval_id: string;
+  envelope_id: string;
+  execution_id: string;
+  project_id: string;
+  package_id: string;
+  package_version: number;
+  delegation_id: string;
+  validation_result_id: string;
+  envelope_gate_id: string;
+  repo_path: string;
+  expected_head: string;
+  remote_effect: false;
+  push_effect: false;
+};
+
+export function loadCertifiedGovernedLocalCommitProof(
+  db: Database,
+  executionId: string,
+): CertifiedGovernedLocalCommitProof {
+  const entries =
+    listGovernanceExecutionReconciliationEntries(
+      db,
+      requireText(executionId, "execution_id"),
+    );
+
+  if (entries.length !== 2) {
+    throw new Error(
+      "Certified local commit proof requires exactly EXECUTION_STARTED followed by terminal COMMIT_CONFIRMED.",
+    );
+  }
+
+  const [started, committed] = entries;
+
+  if (
+    started.stage !== "EXECUTION_STARTED" ||
+    committed.stage !== "COMMIT_CONFIRMED"
+  ) {
+    throw new Error(
+      "Certified local commit proof requires terminal commit-only reconciliation lineage.",
+    );
+  }
+
+  for (const entry of entries) {
+    if (
+      entry.commit_requested !== true ||
+      entry.push_requested !== false
+    ) {
+      throw new Error(
+        "Certified local commit proof requires commit_requested=true and push_requested=false.",
+      );
+    }
+
+    if (
+      entry.execution_id !== started.execution_id ||
+      entry.project_id !== started.project_id ||
+      entry.package_id !== started.package_id ||
+      entry.package_version !== started.package_version ||
+      entry.delegation_id !== started.delegation_id ||
+      entry.validation_result_id !== started.validation_result_id ||
+      entry.envelope_gate_id !== started.envelope_gate_id ||
+      entry.approval_id !== started.approval_id ||
+      entry.envelope_id !== started.envelope_id ||
+      entry.repo_path !== started.repo_path ||
+      entry.expected_head !== started.expected_head ||
+      entry.branch !== started.branch
+    ) {
+      throw new Error(
+        "Certified local commit proof reconciliation lineage is inconsistent.",
+      );
+    }
+  }
+
+  if (
+    committed.local_effect_status !== "confirmed" ||
+    committed.remote_effect_status !== "none"
+  ) {
+    throw new Error(
+      "Certified local commit proof requires confirmed local effect and no remote effect.",
+    );
+  }
+
+  const evidence = committed.evidence;
+
+  if (!evidence) {
+    throw new Error(
+      "Certified local commit proof requires COMMIT_CONFIRMED evidence.",
+    );
+  }
+
+  const preHead = evidence.pre_head;
+  const postHead = evidence.post_head;
+  const branch = evidence.branch;
+
+  if (
+    typeof preHead !== "string" ||
+    !/^[0-9a-f]{40}$/i.test(preHead) ||
+    typeof postHead !== "string" ||
+    !/^[0-9a-f]{40}$/i.test(postHead) ||
+    typeof branch !== "string" ||
+    branch.trim().length === 0
+  ) {
+    throw new Error(
+      "Certified local commit proof evidence is incomplete or invalid.",
+    );
+  }
+
+  if (branch !== committed.branch) {
+    throw new Error(
+      "Certified local commit proof branch does not match durable reconciliation scope.",
+    );
+  }
+
+  if (preHead !== committed.expected_head) {
+    throw new Error(
+      "Certified local commit proof pre_head does not match durable reconciliation expected_head.",
+    );
+  }
+
+  return {
+    status: "ok",
+    pre_head: preHead,
+    post_head: postHead,
+    branch,
+    approval_id: committed.approval_id,
+    envelope_id: committed.envelope_id,
+    execution_id: committed.execution_id,
+    project_id: committed.project_id,
+    package_id: committed.package_id,
+    package_version: committed.package_version,
+    delegation_id: committed.delegation_id,
+    validation_result_id: committed.validation_result_id,
+    envelope_gate_id: committed.envelope_gate_id,
+    repo_path: committed.repo_path,
+    expected_head: committed.expected_head,
+    remote_effect: false,
+    push_effect: false,
+  };
 }
 
 export function persistGovernanceExecutionReconciliationEntry(
@@ -495,6 +690,14 @@ export function persistGovernanceExecutionReconciliationEntry(
       raw.push_requested,
       "push_requested",
     ),
+    prior_commit_execution_id:
+      raw.prior_commit_execution_id === undefined ||
+      raw.prior_commit_execution_id === null
+        ? null
+        : requireText(
+            raw.prior_commit_execution_id,
+            "prior_commit_execution_id",
+          ),
     local_effect_status: requireEffectStatus(
       raw.local_effect_status,
       "local_effect_status",
@@ -538,7 +741,9 @@ export function persistGovernanceExecutionReconciliationEntry(
 
       if (
         first.commit_requested !== input.commit_requested ||
-        first.push_requested !== input.push_requested
+        first.push_requested !== input.push_requested ||
+        first.prior_commit_execution_id !==
+          input.prior_commit_execution_id
       ) {
         throw new Error(
           "Execution reconciliation request contract changed within lineage.",
@@ -564,12 +769,13 @@ export function persistGovernanceExecutionReconciliationEntry(
 
       if (
         input.stage === "PUSH_CONFIRMED" &&
+        !input.prior_commit_execution_id &&
         !existing.some(
           (entry) => entry.stage === "COMMIT_CONFIRMED",
         )
       ) {
         throw new Error(
-          "PUSH_CONFIRMED requires prior COMMIT_CONFIRMED.",
+          "PUSH_CONFIRMED requires prior COMMIT_CONFIRMED or certified prior commit execution reference.",
         );
       }
     }
@@ -600,6 +806,7 @@ export function persistGovernanceExecutionReconciliationEntry(
         scope_constraints,
         commit_requested,
         push_requested,
+        prior_commit_execution_id,
         local_effect_status,
         remote_effect_status,
         evidence_json,
@@ -624,6 +831,7 @@ export function persistGovernanceExecutionReconciliationEntry(
         @scope_constraints,
         @commit_requested,
         @push_requested,
+        @prior_commit_execution_id,
         @local_effect_status,
         @remote_effect_status,
         @evidence_json,
@@ -649,6 +857,8 @@ export function persistGovernanceExecutionReconciliationEntry(
       scope_constraints: input.scope_constraints,
       commit_requested: input.commit_requested ? 1 : 0,
       push_requested: input.push_requested ? 1 : 0,
+      prior_commit_execution_id:
+        input.prior_commit_execution_id,
       local_effect_status: input.local_effect_status,
       remote_effect_status: input.remote_effect_status,
       evidence_json:

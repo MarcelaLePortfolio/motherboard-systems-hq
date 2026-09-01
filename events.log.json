@@ -30,5 +30,78 @@
     "affectedFiles": [
       "persist-test.txt"
     ]
+  },
+  {
+    "id": "corridor2-governed-local-commit-20260831T220709Z",
+    "timestamp": 1788214030059,
+    "action": "commit_changes",
+    "input": {
+      "repo_path": "/Users/marcela-dev/Projects/motherboard-systems-hq-clean",
+      "branch": "feature/support-source-references-runtime",
+      "expected_head": "305cb38bdc723c2bf46609fc5c4be3a7394a8983",
+      "approval_id": "execution-approval-826cdfb6-7c84-4a1a-8c9e-abbe81ab698a",
+      "envelope_id": "corridor2-commit-validation-envelope-20260831T215528Z",
+      "execution_id": "corridor2-governed-local-commit-20260831T220709Z",
+      "commit_message": "Validate Corridor 2 governed local commit"
+    },
+    "output": {
+      "pre_head": "305cb38bdc723c2bf46609fc5c4be3a7394a8983",
+      "post_head": "6f734fad1e86399048494a26ea4d97e3657e9386",
+      "committed_files": [
+        "client/src/approvals/ApprovalsWorkspace.tsx",
+        "client/src/approvals/approvalRequestApi.test.ts",
+        "client/src/approvals/approvalRequestApi.ts",
+        "db/approval-request-repository.ts",
+        "db/governance-runtime.ts",
+        "db/governance-stale-delegation-fk-migration.test.ts",
+        "db/governance-stale-delegation-fk-migration.ts",
+        "db/matilda-canonical-package-runtime.test.ts",
+        "db/matilda-canonical-package-runtime.ts",
+        "db/matilda-reconciled-intent-runtime.test.ts",
+        "db/project-registry-read-repository.test.ts",
+        "db/project-registry-read-repository.ts",
+        "routes/api-request-changes.integration.test.ts",
+        "routes/api-request-changes.test.ts",
+        "routes/api-request-changes.ts",
+        "scripts/utils/ollamaChat.ts",
+        "server/cade/cade-version-control-effects.ts",
+        "server/execution/materialize-governance-execution-scope.ts",
+        "server/execution/smoke-test-governed-local-commit.ts",
+        "server/index.ts",
+        "server/matilda-chat-workflow.explicit-target.integration.test.ts",
+        "server/matilda-chat-workflow.package-semantics-policy.test.ts",
+        "server/matilda-chat-workflow.ts",
+        "server/routes/governance-execution-approval-route.ts"
+      ],
+      "commit_message": "Validate Corridor 2 governed local commit",
+      "remote_effect": false,
+      "push_effect": false
+    },
+    "affectedFiles": [
+      "client/src/approvals/ApprovalsWorkspace.tsx",
+      "client/src/approvals/approvalRequestApi.test.ts",
+      "client/src/approvals/approvalRequestApi.ts",
+      "db/approval-request-repository.ts",
+      "db/governance-runtime.ts",
+      "db/governance-stale-delegation-fk-migration.test.ts",
+      "db/governance-stale-delegation-fk-migration.ts",
+      "db/matilda-canonical-package-runtime.test.ts",
+      "db/matilda-canonical-package-runtime.ts",
+      "db/matilda-reconciled-intent-runtime.test.ts",
+      "db/project-registry-read-repository.test.ts",
+      "db/project-registry-read-repository.ts",
+      "routes/api-request-changes.integration.test.ts",
+      "routes/api-request-changes.test.ts",
+      "routes/api-request-changes.ts",
+      "scripts/utils/ollamaChat.ts",
+      "server/cade/cade-version-control-effects.ts",
+      "server/execution/materialize-governance-execution-scope.ts",
+      "server/execution/smoke-test-governed-local-commit.ts",
+      "server/index.ts",
+      "server/matilda-chat-workflow.explicit-target.integration.test.ts",
+      "server/matilda-chat-workflow.package-semantics-policy.test.ts",
+      "server/matilda-chat-workflow.ts",
+      "server/routes/governance-execution-approval-route.ts"
+    ]
   }
 ]

@@ -24,6 +24,7 @@ export type ProductionExecutionRequest = {
   commitRequested: boolean;
   pushRequested: boolean;
   commitMessage?: string;
+  localCommitResult?: any;
 };
 
 function requireNonEmptyString(
@@ -48,9 +49,50 @@ export function executeProductionExecutionEntryPoint(
   );
 
   if (request.pushRequested && !request.commitRequested) {
-    throw new Error(
-      "production execution entry point requires commit when push is requested",
-    );
+    if (
+      !request.localCommitResult ||
+      typeof request.localCommitResult !== "object"
+    ) {
+      throw new Error(
+        "production execution entry point requires persisted local commit proof when push is requested without a new commit",
+      );
+    }
+
+    const pushGate = effects.evaluateApproval({
+      envelope: request.envelope,
+      governance: request.governance,
+      approval: request.approval,
+      localCommitResult: request.localCommitResult,
+    });
+
+    if (
+      pushGate?.ok !== true ||
+      pushGate
+        ?.version_control_authorization
+        ?.commit_authorized !== true ||
+      pushGate
+        ?.version_control_authorization
+        ?.push_authorized !== true
+    ) {
+      throw new Error(
+        "production execution entry point requires separately proven push authority",
+      );
+    }
+
+    const pushResult = effects.executePush({
+      envelope: request.envelope,
+      approvalGate: pushGate,
+      executionId: request.executionId,
+    });
+
+    return {
+      status: "ok",
+      execution_id: request.executionId,
+      commit_requested: false,
+      push_requested: true,
+      commit_result: request.localCommitResult,
+      push_result: pushResult,
+    };
   }
 
   const initialGate = effects.evaluateApproval({
