@@ -44,6 +44,7 @@ const EXCLUDED_SEGMENTS = new Set([
 const MAX_QUERY_TERMS = 8;
 const MAX_MATCHES = 6;
 const MAX_EXCERPT_CHARACTERS = 900;
+const MAX_STRUCTURAL_EXCERPT_LINES = 13;
 
 export interface MatildaProjectContextExcerpt {
   projectId: string;
@@ -160,6 +161,10 @@ function resolveValidatedProjectRoot(
   return resolved;
 }
 
+export type MatildaProjectContextRetrievalOrigin =
+  | "lexical"
+  | "structural";
+
 export interface MatildaProjectContextSegmentCandidate {
   relativePath: string;
   parentRelativePath: string;
@@ -167,6 +172,7 @@ export interface MatildaProjectContextSegmentCandidate {
   sourceStartLine: number;
   sourceEndLine: number;
   text: string;
+  retrievalOrigin: MatildaProjectContextRetrievalOrigin;
 }
 
 interface MatildaBoundedExcerptReadResult {
@@ -181,7 +187,8 @@ interface MatildaBoundedExcerptReadResult {
 
 function readBoundedExcerpt(
   absolutePath: string,
-  lineNumber: number
+  lineNumber: number,
+  useStructuralUnitExcerpt = false
 ): MatildaBoundedExcerptReadResult | null {
   try {
     const stat = fs.statSync(absolutePath);
@@ -191,8 +198,68 @@ function readBoundedExcerpt(
     }
 
     const lines = fs.readFileSync(absolutePath, "utf8").split(/\r?\n/);
-    const start = Math.max(0, lineNumber - 3);
-    const end = Math.min(lines.length, lineNumber + 2);
+
+    let start = Math.max(0, lineNumber - 3);
+    let end = Math.min(lines.length, lineNumber + 2);
+
+    if (
+      useStructuralUnitExcerpt &&
+      lineNumber >= 1 &&
+      lineNumber <= lines.length
+    ) {
+      const matchedIndex = lineNumber - 1;
+
+      let structuralStart = matchedIndex;
+      while (
+        structuralStart > 0 &&
+        lines[structuralStart - 1].trim() !== ""
+      ) {
+        structuralStart -= 1;
+      }
+
+      let structuralEnd = matchedIndex + 1;
+      while (
+        structuralEnd < lines.length &&
+        lines[structuralEnd].trim() !== ""
+      ) {
+        structuralEnd += 1;
+      }
+
+      const structuralLength =
+        structuralEnd - structuralStart;
+
+      if (
+        structuralLength <=
+        MAX_STRUCTURAL_EXCERPT_LINES
+      ) {
+        start = structuralStart;
+        end = structuralEnd;
+      } else {
+        const linesBeforeMatch = Math.floor(
+          (MAX_STRUCTURAL_EXCERPT_LINES - 1) / 2
+        );
+
+        start = Math.max(
+          0,
+          matchedIndex - linesBeforeMatch
+        );
+        end = Math.min(
+          lines.length,
+          start + MAX_STRUCTURAL_EXCERPT_LINES
+        );
+
+        if (
+          end - start <
+          MAX_STRUCTURAL_EXCERPT_LINES
+        ) {
+          start = Math.max(
+            0,
+            end - MAX_STRUCTURAL_EXCERPT_LINES
+          );
+        }
+      }
+    }
+
     const boundedSourceLines = lines.slice(start, end);
     const boundedSource = boundedSourceLines
       .join("\n")
@@ -218,6 +285,7 @@ function segmentBoundedProjectContextSource(input: {
   matchedLineNumber: number;
   sourceStartLine: number;
   boundedSourceLines: readonly string[];
+  retrievalOrigin: MatildaProjectContextRetrievalOrigin;
 }): MatildaProjectContextSegmentCandidate[] {
   const segments: MatildaProjectContextSegmentCandidate[] = [];
   let segmentStartIndex: number | null = null;
@@ -241,6 +309,7 @@ function segmentBoundedProjectContextSource(input: {
       sourceEndLine:
         input.sourceStartLine + exclusiveEndIndex - 1,
       text: segmentLines.join("\n"),
+      retrievalOrigin: input.retrievalOrigin,
     });
 
     segmentStartIndex = null;
@@ -264,6 +333,401 @@ function segmentBoundedProjectContextSource(input: {
   flushSegment(input.boundedSourceLines.length);
 
   return segments;
+}
+
+interface MatildaRankedProjectContextCandidate {
+  relativePath: string;
+  lineNumber: number;
+  score: number;
+  useStructuralUnitExcerpt?: boolean;
+}
+
+function escapeProjectContextRegExp(value: string): string {
+  return value.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+}
+
+function isTrackedProjectFile(
+  projectRoot: string,
+  relativePath: string
+): boolean {
+  if (!isAllowedTrackedPath(relativePath)) {
+    return false;
+  }
+
+  try {
+    const output = execFileSync(
+      "git",
+      [
+        "-C",
+        projectRoot,
+        "ls-files",
+        "--error-unmatch",
+        "--",
+        relativePath,
+      ],
+      {
+        encoding: "utf8",
+        stdio: ["ignore", "pipe", "ignore"],
+      }
+    );
+
+    return output.trim() === relativePath;
+  } catch {
+    return false;
+  }
+}
+
+function resolveLocalTrackedImport(input: {
+  projectRoot: string;
+  importerRelativePath: string;
+  specifier: string;
+}): string | null {
+  if (!input.specifier.startsWith(".")) {
+    return null;
+  }
+
+  const importerDirectory = path.posix.dirname(
+    input.importerRelativePath.replaceAll("\\", "/")
+  );
+  const base = path.posix.normalize(
+    path.posix.join(importerDirectory, input.specifier)
+  );
+
+  const candidates = [
+    base,
+    `${base}.ts`,
+    `${base}.tsx`,
+    `${base}.js`,
+    `${base}.mjs`,
+    `${base}.cjs`,
+    path.posix.join(base, "index.ts"),
+    path.posix.join(base, "index.tsx"),
+    path.posix.join(base, "index.js"),
+    path.posix.join(base, "index.mjs"),
+    path.posix.join(base, "index.cjs"),
+  ];
+
+  for (const candidate of candidates) {
+    const absolutePath = path.join(input.projectRoot, candidate);
+
+    if (
+      fs.existsSync(absolutePath) &&
+      fs.statSync(absolutePath).isFile() &&
+      isTrackedProjectFile(input.projectRoot, candidate)
+    ) {
+      return candidate;
+    }
+  }
+
+  return null;
+}
+
+function exactQueryTermsOnLine(
+  line: string,
+  queryTerms: readonly string[]
+): string[] {
+  const tokens = new Set(
+    line.toLowerCase().match(/[a-z0-9][a-z0-9_-]{2,}/g) ?? []
+  );
+
+  return queryTerms.filter((term) => tokens.has(term));
+}
+
+function extractIdentifiersOutsideStrings(line: string): string[] {
+  const stripped = line
+    .replace(/"[^"]*"|'[^']*'|`[^`]*`/g, " ")
+    .replace(/\/\/.*$/g, " ");
+
+  const identifiers =
+    stripped.match(/\b[A-Za-z_$][A-Za-z0-9_$]*\b/g) ?? [];
+
+  const ignored = new Set([
+    "import",
+    "from",
+    "type",
+    "const",
+    "let",
+    "var",
+    "return",
+    "if",
+    "else",
+    "true",
+    "false",
+    "null",
+    "undefined",
+    "new",
+    "function",
+  ]);
+
+  return Array.from(
+    new Set(identifiers.filter((identifier) => !ignored.has(identifier)))
+  );
+}
+
+function findExactTokenStructuralAnchor(input: {
+  projectRoot: string;
+  relativePath: string;
+  queryTerms: readonly string[];
+}): {
+  lineNumber: number;
+  identifiers: string[];
+} | null {
+  if (!/\.(?:ts|tsx|js|jsx)$/.test(input.relativePath)) {
+    return null;
+  }
+
+  try {
+    const lines = fs
+      .readFileSync(
+        path.join(input.projectRoot, input.relativePath),
+        "utf8"
+      )
+      .split(/\r?\n/);
+
+    let best:
+      | {
+          lineNumber: number;
+          exactTermCount: number;
+          quotedExactTermCount: number;
+          identifiers: string[];
+        }
+      | null = null;
+
+    for (let index = 0; index < lines.length; index += 1) {
+      const line = lines[index];
+      const exactTerms = exactQueryTermsOnLine(
+        line,
+        input.queryTerms
+      );
+
+      if (exactTerms.length === 0) {
+        continue;
+      }
+
+      const lowerLine = line.toLowerCase();
+      const quotedExactTermCount = exactTerms.filter(
+        (term) =>
+          lowerLine.includes(`"${term}"`) ||
+          lowerLine.includes(`'${term}'`) ||
+          lowerLine.includes(`\`${term}\``)
+      ).length;
+
+      const candidate = {
+        lineNumber: index + 1,
+        exactTermCount: exactTerms.length,
+        quotedExactTermCount,
+        identifiers: extractIdentifiersOutsideStrings(line),
+      };
+
+      if (
+        !best ||
+        candidate.quotedExactTermCount > best.quotedExactTermCount ||
+        (
+          candidate.quotedExactTermCount === best.quotedExactTermCount &&
+          candidate.exactTermCount > best.exactTermCount
+        ) ||
+        (
+          candidate.quotedExactTermCount === best.quotedExactTermCount &&
+          candidate.exactTermCount === best.exactTermCount &&
+          candidate.lineNumber < best.lineNumber
+        )
+      ) {
+        best = candidate;
+      }
+    }
+
+    return best
+      ? {
+          lineNumber: best.lineNumber,
+          identifiers: best.identifiers,
+        }
+      : null;
+  } catch {
+    return null;
+  }
+}
+
+function parseLocalNamedImportBindings(input: {
+  projectRoot: string;
+  relativePath: string;
+  source: string;
+}): Array<{
+  localName: string;
+  sourcePath: string;
+}> {
+  const bindings: Array<{
+    localName: string;
+    sourcePath: string;
+  }> = [];
+
+  const pattern =
+    /\bimport\s+(?:type\s+)?\{([^}]+)\}\s+from\s+["']([^"']+)["']/g;
+
+  let match: RegExpExecArray | null;
+
+  while ((match = pattern.exec(input.source)) !== null) {
+    const sourcePath = resolveLocalTrackedImport({
+      projectRoot: input.projectRoot,
+      importerRelativePath: input.relativePath,
+      specifier: match[2],
+    });
+
+    if (!sourcePath) {
+      continue;
+    }
+
+    for (const rawBinding of match[1].split(",")) {
+      const cleaned = rawBinding.trim().replace(/^type\s+/, "");
+
+      if (!cleaned) {
+        continue;
+      }
+
+      const [importedName, alias] = cleaned.split(/\s+as\s+/);
+
+      bindings.push({
+        localName: (alias ?? importedName).trim(),
+        sourcePath,
+      });
+    }
+  }
+
+  return bindings;
+}
+
+function findBestLexicalAnchorInTrackedFile(input: {
+  projectRoot: string;
+  relativePath: string;
+  queryTerms: readonly string[];
+}): MatildaRankedProjectContextCandidate | null {
+  try {
+    const lines = fs
+      .readFileSync(
+        path.join(input.projectRoot, input.relativePath),
+        "utf8"
+      )
+      .split(/\r?\n/);
+    const normalizedPath = input.relativePath.toLowerCase();
+
+    let best: MatildaRankedProjectContextCandidate | null = null;
+
+    for (let index = 0; index < lines.length; index += 1) {
+      const matchedLine = lines[index].toLowerCase();
+
+      if (
+        !input.queryTerms.some((term) =>
+          matchedLine.includes(term)
+        )
+      ) {
+        continue;
+      }
+
+      const score = input.queryTerms.reduce((total, term) => {
+        const pathScore = normalizedPath.includes(term) ? 6 : 0;
+        const lineScore = matchedLine.includes(term) ? 1 : 0;
+
+        return total + pathScore + lineScore;
+      }, 0);
+
+      if (!best || score > best.score) {
+        best = {
+          relativePath: input.relativePath,
+          lineNumber: index + 1,
+          score,
+        };
+      }
+    }
+
+    return best;
+  } catch {
+    return null;
+  }
+}
+
+function discoverBoundedStructuralProjectContextCandidate(input: {
+  projectRoot: string;
+  queryTerms: readonly string[];
+  lexicalRuntimeCandidates: readonly MatildaRankedProjectContextCandidate[];
+}): MatildaRankedProjectContextCandidate | null {
+  const existingPaths = new Set(
+    input.lexicalRuntimeCandidates.map(
+      (candidate) => candidate.relativePath
+    )
+  );
+
+  for (const lexicalCandidate of input.lexicalRuntimeCandidates) {
+    const anchor = findExactTokenStructuralAnchor({
+      projectRoot: input.projectRoot,
+      relativePath: lexicalCandidate.relativePath,
+      queryTerms: input.queryTerms,
+    });
+
+    if (!anchor || anchor.identifiers.length === 0) {
+      continue;
+    }
+
+    let source: string;
+
+    try {
+      source = fs.readFileSync(
+        path.join(
+          input.projectRoot,
+          lexicalCandidate.relativePath
+        ),
+        "utf8"
+      );
+    } catch {
+      continue;
+    }
+
+    const imports = parseLocalNamedImportBindings({
+      projectRoot: input.projectRoot,
+      relativePath: lexicalCandidate.relativePath,
+      source,
+    });
+
+    for (const identifier of anchor.identifiers) {
+      const escaped = escapeProjectContextRegExp(identifier);
+      const declarationPattern = new RegExp(
+        `\\b${escaped}\\??\\s*:\\s*([A-Za-z_$][A-Za-z0-9_$]*)`,
+        "g"
+      );
+
+      let declarationMatch: RegExpExecArray | null;
+
+      while (
+        (declarationMatch = declarationPattern.exec(source)) !== null
+      ) {
+        const governingSymbol = declarationMatch[1];
+        const imported = imports.find(
+          (entry) => entry.localName === governingSymbol
+        );
+
+        if (
+          !imported ||
+          existingPaths.has(imported.sourcePath)
+        ) {
+          continue;
+        }
+
+        const structuralCandidate =
+          findBestLexicalAnchorInTrackedFile({
+            projectRoot: input.projectRoot,
+            relativePath: imported.sourcePath,
+            queryTerms: input.queryTerms,
+          });
+
+        if (structuralCandidate) {
+          return {
+            ...structuralCandidate,
+            useStructuralUnitExcerpt: true,
+          };
+        }
+      }
+    }
+  }
+
+  return null;
 }
 
 export function retrieveMatildaProjectContext(input: {
@@ -331,11 +795,7 @@ export function retrieveMatildaProjectContext(input: {
 
     const candidatesByPath = new Map<
       string,
-      {
-        relativePath: string;
-        lineNumber: number;
-        score: number;
-      }
+      MatildaRankedProjectContextCandidate
     >();
 
     for (const line of output.split(/\r?\n/)) {
@@ -392,9 +852,22 @@ export function retrieveMatildaProjectContext(input: {
       (candidate) => candidate.relativePath.startsWith("docs/")
     );
 
+    const lexicalRuntimeCandidates =
+      runtimeCandidates.slice(0, 3);
+    const structuralCandidate =
+      discoverBoundedStructuralProjectContextCandidate({
+        projectRoot,
+        queryTerms,
+        lexicalRuntimeCandidates,
+      });
+
     const selectedCandidates = [
-      ...runtimeCandidates.slice(0, 3),
-      ...documentCandidates.slice(0, 3),
+      ...lexicalRuntimeCandidates,
+      ...(structuralCandidate ? [structuralCandidate] : []),
+      ...documentCandidates.slice(
+        0,
+        structuralCandidate ? 2 : 3
+      ),
     ];
 
     for (const candidate of rankedCandidates) {
@@ -418,7 +891,8 @@ export function retrieveMatildaProjectContext(input: {
     for (const candidate of selectedCandidates.slice(0, MAX_MATCHES)) {
       const boundedExcerpt = readBoundedExcerpt(
         path.join(projectRoot, candidate.relativePath),
-        candidate.lineNumber
+        candidate.lineNumber,
+        candidate.useStructuralUnitExcerpt === true
       );
 
       if (!boundedExcerpt) {
@@ -436,6 +910,10 @@ export function retrieveMatildaProjectContext(input: {
             boundedExcerpt.metadata.sourceStartLine,
           boundedSourceLines:
             boundedExcerpt.boundedSourceLines,
+          retrievalOrigin:
+            candidate.useStructuralUnitExcerpt === true
+              ? "structural"
+              : "lexical",
         });
 
       let admittedCharacters = 0;

@@ -265,6 +265,7 @@ export interface OllamaChatProjectContextSegmentCandidate {
   sourceStartLine: number;
   sourceEndLine: number;
   text: string;
+  retrievalOrigin?: "lexical" | "structural";
 }
 
 export type MatildaPriorExplanationEvidenceStatus =
@@ -1023,6 +1024,8 @@ export async function ollamaChat(
             "They are candidate evidence, not authority.",
             "Select only child segments whose content materially affects the immediate reply.",
             "Parent excerpts remain the support-provenance and Evidence Composition universe.",
+            "Retrieval origin records only how runtime discovered a candidate. It does not determine semantic relevance.",
+            "Do not select or reject a child segment merely because of its retrieval origin.",
             ...context.projectContextSegmentCandidates.flatMap(
               (item) => [
                 "",
@@ -1030,6 +1033,9 @@ export async function ollamaChat(
                 `relativePath = ${item.relativePath}`,
                 `sourceStartLine = ${item.sourceStartLine}`,
                 `sourceEndLine = ${item.sourceEndLine}`,
+                ...(item.retrievalOrigin
+                  ? [`retrieval origin = ${item.retrievalOrigin}`]
+                  : []),
                 "Authority status: candidate_evidence_not_authority",
                 item.text,
               ],
