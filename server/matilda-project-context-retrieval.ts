@@ -95,6 +95,7 @@ function extractQueryTerms(message: string): string[] {
     "still",
     "that",
     "testing",
+    "the",
     "their",
     "there",
     "these",
@@ -121,6 +122,72 @@ function extractQueryTerms(message: string): string[] {
   )
     .sort((left, right) => right.length - left.length)
     .slice(0, MAX_QUERY_TERMS);
+}
+
+const PROJECT_CHANGE_INTENT_TERMS = new Set([
+  "adjust",
+  "change",
+  "edit",
+  "modify",
+  "tweak",
+  "update",
+]);
+
+const UNDERSPECIFIED_PROJECT_CHANGE_QUERY_TERMS = new Set([
+  "adjust",
+  "app",
+  "application",
+  "backend",
+  "change",
+  "changes",
+  "dashboard",
+  "edit",
+  "frontend",
+  "little",
+  "make",
+  "minor",
+  "modify",
+  "page",
+  "quick",
+  "simple",
+  "site",
+  "small",
+  "something",
+  "system",
+  "thing",
+  "things",
+  "tweak",
+  "ui",
+  "update",
+  "want",
+  "website",
+]);
+
+function isUnderspecifiedProjectChangeIntent(
+  message: string,
+  queryTerms: readonly string[],
+): boolean {
+  if (queryTerms.length === 0) {
+    return false;
+  }
+
+  const messageTokens =
+    message
+      .toLowerCase()
+      .match(/[a-z0-9][a-z0-9_-]{2,}/g) ?? [];
+
+  const expressesChangeIntent = messageTokens.some(
+    (term) => PROJECT_CHANGE_INTENT_TERMS.has(term),
+  );
+
+  if (!expressesChangeIntent) {
+    return false;
+  }
+
+  return queryTerms.every(
+    (term) =>
+      UNDERSPECIFIED_PROJECT_CHANGE_QUERY_TERMS.has(term),
+  );
 }
 
 function isAllowedTrackedPath(relativePath: string): boolean {
@@ -757,6 +824,24 @@ export function retrieveMatildaProjectContext(input: {
   }
 
   if (queryTerms.length === 0) {
+    return {
+      projectId,
+      projectRootPath: projectRoot,
+      available: true,
+      searched: false,
+      queryTerms,
+      excerpts: [],
+      projectContextSegmentCandidates: [],
+      warning: null,
+    };
+  }
+
+  if (
+    isUnderspecifiedProjectChangeIntent(
+      input.message,
+      queryTerms,
+    )
+  ) {
     return {
       projectId,
       projectRootPath: projectRoot,
