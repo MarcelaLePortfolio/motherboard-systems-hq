@@ -23,21 +23,16 @@ test(
         statusText: "OK",
         json: async () => ({
           response: JSON.stringify({
+            packageSemantics: null,
           investigationLifecycle: null,
             reply:
               "Preserving the current workflow preserves the established invariant.",
             explanationStatus: "optional",
-            selectedContextCandidatePositions: [],
+            selectedContextCandidatePositions: [0],
             supportSourceReferences: [
               {
                 type: "conversation_turn",
                 sourceTurnId: "turn-123",
-              },
-              {
-                type: "project_context_excerpt",
-                relativePath:
-                  "server/matilda-chat-workflow.ts",
-                lineNumber: 155,
               },
             ],
             evidence: null,
@@ -74,6 +69,16 @@ test(
                 "candidate_evidence_not_authority",
             },
           ],
+          projectContextSegmentCandidates: [
+            {
+              relativePath: "server/matilda-chat-workflow.ts",
+              parentRelativePath: "server/matilda-chat-workflow.ts",
+              parentLineNumber: 155,
+              sourceStartLine: 155,
+              sourceEndLine: 155,
+              text: "const ollamaResult = await ollamaChat(message, {",
+            },
+          ],
         },
       );
 
@@ -83,7 +88,7 @@ test(
 
       assert.match(
         prompt,
-        /Set supportSourceReferences to only the supplied conversation turns or parent project-context excerpts that explicitly support/,
+        /Set supportSourceReferences to only supplied conversation turns that explicitly support/,
       );
 
       assert.match(
@@ -93,27 +98,37 @@ test(
 
       assert.match(
         prompt,
-        /For project-context support, use type project_context_excerpt with the exact relativePath and lineNumber supplied/,
+        /selectedContextCandidatePositions records semantic project-context admission\. Project-context child identity and parent support provenance are reconstructed deterministically by runtime from validated candidate positions/,
       );
 
       assert.match(
         prompt,
-        /Return an empty supportSourceReferences array when no supplied source explicitly supports/,
+        /Do not return project_context_excerpt entries in supportSourceReferences/,
       );
 
       assert.match(
         prompt,
-        /Do not invent, reconstruct, approximate, or reference a source identifier that was not supplied/,
+        /Return an empty supportSourceReferences array when no supplied conversation turn explicitly supports/,
       );
 
       assert.match(
         prompt,
-        /Conversation source: turn-123/,
+        /Do not invent, reconstruct, approximate, or reference a conversation source identifier that was not supplied in this invocation/,
       );
 
       assert.match(
         prompt,
-        /Source: server\/matilda-chat-workflow\.ts:155/,
+        /Allowed conversation support source = turn-123/,
+      );
+
+      assert.match(
+        prompt,
+        /relativePath = server\/matilda-chat-workflow\.ts/,
+      );
+
+      assert.match(
+        prompt,
+        /lineNumber = 155/,
       );
     } finally {
       globalThis.fetch = originalFetch;

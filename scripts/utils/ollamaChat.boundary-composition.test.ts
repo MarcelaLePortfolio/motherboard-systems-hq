@@ -25,11 +25,12 @@ test(
         statusText: "OK",
         json: async () => ({
           response: JSON.stringify({
+            packageSemantics: null,
           investigationLifecycle: null,
             reply:
               "The test verifies deterministic deduplication.",
             explanationStatus: "optional",
-            selectedContextSegments: [],
+            selectedContextCandidatePositions: [],
             supportSourceReferences: [],
             evidence: null,
             durableInterpretation:

@@ -23,11 +23,12 @@ test(
         statusText: "OK",
         json: async () => ({
           response: JSON.stringify({
+            packageSemantics: null,
           investigationLifecycle: null,
             reply:
               "The recommendation follows from the validated workflow boundary and the architectural constraints already established.",
             explanationStatus: "optional",
-            selectedContextSegments: [],
+            selectedContextCandidatePositions: [],
             supportSourceReferences: [],
             evidence: null,
             durableInterpretation:

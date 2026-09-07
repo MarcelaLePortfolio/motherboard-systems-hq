@@ -4,10 +4,11 @@ import test from "node:test";
 import { ollamaChat } from "./ollamaChat";
 
 const validResponse = JSON.stringify({
+  packageSemantics: null,
           investigationLifecycle: null,
   reply: "Answer.",
   explanationStatus: "optional",
-  selectedContextSegments: [],
+  selectedContextCandidatePositions: [],
   supportSourceReferences: [],
   evidence: null,
   evidenceSufficient: false,

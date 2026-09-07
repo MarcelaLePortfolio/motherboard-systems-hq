@@ -14,19 +14,15 @@ test(
       statusText: "OK",
       json: async () => ({
         response: JSON.stringify({
+          packageSemantics: null,
           investigationLifecycle: null,
           reply: "Conclusion.",
           explanationStatus: "optional",
-          selectedContextSegments: [],
+          selectedContextCandidatePositions: [0],
           supportSourceReferences: [
             {
               type: "conversation_turn",
               sourceTurnId: "turn-123",
-            },
-            {
-              type: "project_context_excerpt",
-              relativePath: "server/matilda-chat-workflow.ts",
-              lineNumber: 155,
             },
           ],
           evidence: null,
@@ -62,6 +58,16 @@ test(
                 "candidate_evidence_not_authority",
             },
           ],
+          projectContextSegmentCandidates: [
+            {
+              relativePath: "server/matilda-chat-workflow.ts",
+              parentRelativePath: "server/matilda-chat-workflow.ts",
+              parentLineNumber: 155,
+              sourceStartLine: 155,
+              sourceEndLine: 155,
+              text: "const ollamaResult = await ollamaChat(message, {",
+            },
+          ],
         },
       );
 
@@ -74,7 +80,8 @@ test(
           },
           {
             type: "project_context_excerpt",
-            relativePath: "server/matilda-chat-workflow.ts",
+            relativePath:
+              "server/matilda-chat-workflow.ts",
             lineNumber: 155,
           },
         ],
@@ -96,10 +103,11 @@ test(
       statusText: "OK",
       json: async () => ({
         response: JSON.stringify({
+          packageSemantics: null,
           investigationLifecycle: null,
           reply: "Conclusion.",
           explanationStatus: "optional",
-          selectedContextSegments: [],
+          selectedContextCandidatePositions: [],
           supportSourceReferences: [
             {
               type: "conversation_turn",
@@ -134,10 +142,11 @@ test(
       statusText: "OK",
       json: async () => ({
         response: JSON.stringify({
+          packageSemantics: null,
           investigationLifecycle: null,
           reply: "Conclusion.",
           explanationStatus: "optional",
-          selectedContextSegments: [],
+          selectedContextCandidatePositions: [],
           supportSourceReferences: [
             {
               type: "project_context_excerpt",
@@ -173,10 +182,11 @@ test(
       statusText: "OK",
       json: async () => ({
         response: JSON.stringify({
+          packageSemantics: null,
           investigationLifecycle: null,
           reply: "Conclusion.",
           explanationStatus: "optional",
-          selectedContextSegments: [],
+          selectedContextCandidatePositions: [],
           supportSourceReferences: [
             {
               type: "unknown",
@@ -212,10 +222,11 @@ test(
       statusText: "OK",
       json: async () => ({
         response: JSON.stringify({
+          packageSemantics: null,
           investigationLifecycle: null,
           reply: "Conclusion.",
           explanationStatus: "optional",
-          selectedContextSegments: [],
+          selectedContextCandidatePositions: [],
           supportSourceReferences: [
             {
               type: "conversation_turn",
@@ -263,10 +274,11 @@ test(
       statusText: "OK",
       json: async () => ({
         response: JSON.stringify({
+          packageSemantics: null,
           investigationLifecycle: null,
           reply: "Conclusion.",
           explanationStatus: "optional",
-          selectedContextSegments: [],
+          selectedContextCandidatePositions: [],
           supportSourceReferences: [
             {
               type: "project_context_excerpt",
@@ -301,7 +313,7 @@ test(
               ],
             },
           ),
-        /project-context support reference that was not supplied/i,
+        /model-authored project-context support provenance/i,
       );
     } finally {
       globalThis.fetch = originalFetch;
@@ -321,10 +333,11 @@ test(
       statusText: "OK",
       json: async () => ({
         response: JSON.stringify({
+          packageSemantics: null,
           investigationLifecycle: null,
           reply: "Conclusion.",
           explanationStatus: "optional",
-          selectedContextSegments: [],
+          selectedContextCandidatePositions: [0],
           supportSourceReferences: [
             {
               type: "conversation_turn",
@@ -333,18 +346,6 @@ test(
             {
               type: "conversation_turn",
               sourceTurnId: "turn-123",
-            },
-            {
-              type: "project_context_excerpt",
-              relativePath:
-                "server/matilda-chat-workflow.ts",
-              lineNumber: 155,
-            },
-            {
-              type: "project_context_excerpt",
-              relativePath:
-                "server/matilda-chat-workflow.ts",
-              lineNumber: 155,
             },
           ],
           evidence: null,
@@ -375,6 +376,16 @@ test(
                 "git_tracked_project_file",
               authorityStatus:
                 "candidate_evidence_not_authority",
+            },
+          ],
+          projectContextSegmentCandidates: [
+            {
+              relativePath: "server/matilda-chat-workflow.ts",
+              parentRelativePath: "server/matilda-chat-workflow.ts",
+              parentLineNumber: 155,
+              sourceStartLine: 155,
+              sourceEndLine: 155,
+              text: "Known supplied evidence.",
             },
           ],
         },
@@ -418,10 +429,11 @@ test(
       statusText: "OK",
       json: async () => ({
         response: JSON.stringify({
+          packageSemantics: null,
           investigationLifecycle: null,
           reply: "Conclusion.",
           explanationStatus: "optional",
-          selectedContextSegments: [],
+          selectedContextCandidatePositions: [],
           supportSourceReferences: [],
           evidence: null,
           durableInterpretation:

@@ -25,11 +25,12 @@ test(
         statusText: "OK",
         json: async () => ({
           response: JSON.stringify({
+            packageSemantics: null,
           investigationLifecycle: null,
             reply:
               "The current architecture supports a bounded implementation attempt.",
             explanationStatus: "optional",
-            selectedContextSegments: [],
+            selectedContextCandidatePositions: [],
             supportSourceReferences: [],
             evidence: null,
             durableInterpretation:
@@ -77,11 +78,12 @@ test(
         [
           "reply",
           "explanationStatus",
-          "selectedContextSegments",
+          "selectedContextCandidatePositions",
         "supportSourceReferences",
           "evidence",
           "investigationLifecycle",
-      "durableInterpretation",
+      "packageSemantics",
+          "durableInterpretation",
         ],
       );
 
@@ -121,10 +123,11 @@ test(
       statusText: "OK",
       json: async () => ({
         response: JSON.stringify({
+          packageSemantics: null,
           investigationLifecycle: null,
           reply: "Conclusion.",
           explanationStatus: "required",
-          selectedContextSegments: [],
+          selectedContextCandidatePositions: [],
           supportSourceReferences: [],
           evidence: null,
           durableInterpretation:

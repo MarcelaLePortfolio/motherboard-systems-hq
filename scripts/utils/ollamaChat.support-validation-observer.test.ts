@@ -19,10 +19,11 @@ test(
       new Response(
         JSON.stringify({
           response: JSON.stringify({
+            packageSemantics: null,
           investigationLifecycle: null,
             reply: "Answer.",
             explanationStatus: "optional",
-            selectedContextSegments: [],
+            selectedContextCandidatePositions: [],
             supportSourceReferences: [
               {
                 type: "project_context_excerpt",
@@ -55,7 +56,7 @@ test(
               observed = [...references];
             },
         }),
-      /project-context support reference that was not supplied/i,
+      /model-authored project-context support provenance/i,
     );
 
     assert.deepEqual(
@@ -78,10 +79,11 @@ test(
       new Response(
         JSON.stringify({
           response: JSON.stringify({
+            packageSemantics: null,
           investigationLifecycle: null,
             reply: "Answer.",
             explanationStatus: "optional",
-            selectedContextSegments: [],
+            selectedContextCandidatePositions: [],
             supportSourceReferences: [],
             evidence: null,
             durableInterpretation:

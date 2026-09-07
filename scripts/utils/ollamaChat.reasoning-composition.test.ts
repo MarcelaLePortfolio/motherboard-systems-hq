@@ -18,10 +18,11 @@ test(
         statusText: "OK",
         json: async () => ({
           response: JSON.stringify({
+            packageSemantics: null,
           investigationLifecycle: null,
             reply: "The workflow remains the preferred approach because it preserves the validated architectural boundary.",
             explanationStatus: "optional",
-            selectedContextSegments: [],
+            selectedContextCandidatePositions: [],
             supportSourceReferences: [],
             evidence: null,
             durableInterpretation:

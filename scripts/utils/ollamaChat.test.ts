@@ -26,10 +26,11 @@ test(
         json: async () => ({
           response: JSON.stringify({
           investigationLifecycle: null,
+          packageSemantics: null,
             reply: "We can proceed carefully.",
             explanationStatus: "optional",
             explanationStatus: "optional",
-            selectedContextSegments: [],
+            selectedContextCandidatePositions: [],
             supportSourceReferences: [],
             evidence: null,
             durableInterpretation:
@@ -90,10 +91,11 @@ test(
         json: async () => ({
           response: JSON.stringify({
           investigationLifecycle: null,
+          packageSemantics: null,
             reply: "Current response.",
             explanationStatus: "optional",
             explanationStatus: "optional",
-            selectedContextSegments: [],
+            selectedContextCandidatePositions: [],
             supportSourceReferences: [],
             evidence: null,
             durableInterpretation:
@@ -165,10 +167,11 @@ test(
         json: async () => ({
           response: JSON.stringify({
           investigationLifecycle: null,
+          packageSemantics: null,
             reply: "Current response.",
             explanationStatus: "optional",
             explanationStatus: "optional",
-            selectedContextSegments: [],
+            selectedContextCandidatePositions: [],
             supportSourceReferences: [],
             evidence: null,
             durableInterpretation:
@@ -258,9 +261,10 @@ test(
         json: async () => ({
           response: JSON.stringify({
           investigationLifecycle: null,
+          packageSemantics: null,
             reply: "Hello.",
             explanationStatus: "optional",
-            selectedContextSegments: [],
+            selectedContextCandidatePositions: [],
             supportSourceReferences: [],
             evidence: null,
           }),

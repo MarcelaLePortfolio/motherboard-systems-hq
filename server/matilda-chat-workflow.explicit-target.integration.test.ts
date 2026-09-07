@@ -125,7 +125,7 @@ test(
             reply:
               "I incorporated the requested revision.",
             explanationStatus: "optional",
-            selectedContextSegments: [],
+            selectedContextCandidatePositions: [],
             supportSourceReferences: [],
             evidence: null,
             investigationLifecycle: null,

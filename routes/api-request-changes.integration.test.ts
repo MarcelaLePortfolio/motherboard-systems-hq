@@ -163,7 +163,7 @@ test(
                 "I incorporated the requested correction.",
               explanationStatus:
                 "optional",
-              selectedContextSegments: [],
+              selectedContextCandidatePositions: [],
               supportSourceReferences: [],
               evidence: null,
               investigationLifecycle: null,
