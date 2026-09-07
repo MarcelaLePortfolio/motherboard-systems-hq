@@ -1,9 +1,7 @@
 import assert from "node:assert/strict";
 import test from "node:test";
 
-import {
-  ollamaChat,
-} from "./ollamaChat";
+import { ollamaChat } from "./ollamaChat";
 
 const originalFetch = globalThis.fetch;
 
@@ -13,9 +11,10 @@ test.afterEach(() => {
 
 function acceptedResponse() {
   return {
-    reply: "The status workspace becomes active when activeWorkspace equals status.",
+    reply:
+      "The status workspace becomes active when activeWorkspace equals status.",
     explanationStatus: "optional",
-    selectedContextSegments: [],
+    selectedContextCandidatePositions: [],
     supportSourceReferences: [],
     evidence: null,
     investigationLifecycle: null,
@@ -26,7 +25,7 @@ function acceptedResponse() {
 }
 
 test(
-  "retrieval origin is presented as non-semantic candidate provenance without changing child identity fields",
+  "retrieval origin is presented as non-semantic provenance beside runtime-owned candidate positions",
   async () => {
     let observedPrompt = "";
 
@@ -107,6 +106,16 @@ test(
 
     assert.match(
       observedPrompt,
+      /candidatePosition = 0/,
+    );
+
+    assert.match(
+      observedPrompt,
+      /candidatePosition = 1/,
+    );
+
+    assert.match(
+      observedPrompt,
       /retrieval origin = lexical/,
     );
 
@@ -115,17 +124,17 @@ test(
       /retrieval origin = structural/,
     );
 
-    assert.match(
+    assert.doesNotMatch(
       observedPrompt,
       /relativePath = client\/src\/workspace\/StatusWorkspace\.tsx/,
     );
 
-    assert.match(
+    assert.doesNotMatch(
       observedPrompt,
       /sourceStartLine = 9/,
     );
 
-    assert.match(
+    assert.doesNotMatch(
       observedPrompt,
       /sourceEndLine = 11/,
     );
@@ -133,7 +142,7 @@ test(
 );
 
 test(
-  "retrieval origin is not added to the model-authored selectedContextSegments identity schema",
+  "retrieval origin is not part of the model-authored positional selection schema",
   async () => {
     let requestBody = "";
 
@@ -185,35 +194,40 @@ test(
     ) as {
       format?: {
         properties?: {
-          selectedContextSegments?: {
+          selectedContextCandidatePositions?: {
+            type?: unknown;
             items?: {
-              required?: string[];
-              properties?: Record<
-                string,
-                unknown
-              >;
+              type?: unknown;
+              minimum?: unknown;
+              properties?: Record<string, unknown>;
             };
           };
         };
       };
     };
 
-    const selectedItem =
+    const positionalSchema =
       parsed.format?.properties
-        ?.selectedContextSegments?.items;
+        ?.selectedContextCandidatePositions;
 
-    assert.deepEqual(
-      selectedItem?.required,
-      [
-        "relativePath",
-        "sourceStartLine",
-        "sourceEndLine",
-      ],
+    assert.equal(
+      positionalSchema?.type,
+      "array",
+    );
+
+    assert.equal(
+      positionalSchema?.items?.type,
+      "integer",
+    );
+
+    assert.equal(
+      positionalSchema?.items?.minimum,
+      0,
     );
 
     assert.equal(
       Object.prototype.hasOwnProperty.call(
-        selectedItem?.properties ?? {},
+        positionalSchema?.items?.properties ?? {},
         "retrievalOrigin",
       ),
       false,

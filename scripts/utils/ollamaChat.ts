@@ -15,7 +15,7 @@ interface OllamaGenerateResponse {
 interface OllamaStructuredResponse {
   reply?: unknown;
   explanationStatus?: unknown;
-  selectedContextSegments?: unknown;
+  selectedContextCandidatePositions?: unknown;
   supportSourceReferences?: unknown;
   evidence?: unknown;
   investigationLifecycle?: unknown;
@@ -29,7 +29,7 @@ const OLLAMA_CHAT_OUTPUT_SCHEMA = {
   required: [
     "reply",
     "explanationStatus",
-    "selectedContextSegments",
+    "selectedContextCandidatePositions",
     "supportSourceReferences",
     "evidence",
     "investigationLifecycle",
@@ -44,29 +44,11 @@ const OLLAMA_CHAT_OUTPUT_SCHEMA = {
       type: "string",
       enum: ["optional", "recommended"],
     },
-    selectedContextSegments: {
+    selectedContextCandidatePositions: {
       type: "array",
       items: {
-        type: "object",
-        additionalProperties: false,
-        required: [
-          "relativePath",
-          "sourceStartLine",
-          "sourceEndLine",
-        ],
-        properties: {
-          relativePath: {
-            type: "string",
-          },
-          sourceStartLine: {
-            type: "integer",
-            minimum: 1,
-          },
-          sourceEndLine: {
-            type: "integer",
-            minimum: 1,
-          },
-        },
+        type: "integer",
+        minimum: 0,
       },
     },
     supportSourceReferences: {
@@ -291,8 +273,8 @@ export interface OllamaChatContext {
   observeValidatedSelectedContextSegments?: (
     segments: readonly MatildaSelectedContextSegment[],
   ) => void;
-  observeParsedSelectedContextSegments?: (
-    segments: readonly MatildaSelectedContextSegment[],
+  observeParsedSelectedContextCandidatePositions?: (
+    positions: readonly number[],
   ) => void;
   validationGenerationSeed?: number;
   validationPromptPresentationVariant?:
@@ -364,7 +346,7 @@ export interface MatildaSelectedContextSegment {
 
 type ParsedOllamaChatResult =
   Omit<OllamaChatResult, "evidenceSufficient"> & {
-    selectedContextSegments: MatildaSelectedContextSegment[];
+    selectedContextCandidatePositions: number[];
   };
 
 export function validateMatildaPackageSemanticsArtifact(
@@ -690,47 +672,26 @@ function parseStructuredResponse(
       ? parsed.explanationStatus
       : null;
 
-  const rawSelectedContextSegments =
-    Array.isArray(parsed.selectedContextSegments)
-      ? parsed.selectedContextSegments
+  const rawSelectedContextCandidatePositions =
+    Array.isArray(parsed.selectedContextCandidatePositions)
+      ? parsed.selectedContextCandidatePositions
       : null;
 
-  const selectedContextSegments: MatildaSelectedContextSegment[] = [];
+  const selectedContextCandidatePositions: number[] = [];
 
-  if (rawSelectedContextSegments) {
-    for (const segment of rawSelectedContextSegments) {
+  if (rawSelectedContextCandidatePositions) {
+    for (const position of rawSelectedContextCandidatePositions) {
       if (
-        !segment ||
-        typeof segment !== "object" ||
-        Array.isArray(segment)
+        typeof position !== "number" ||
+        !Number.isInteger(position) ||
+        position < 0
       ) {
         throw new Error(
-          "Ollama returned malformed selected context segment.",
+          "Ollama returned malformed selected context candidate position.",
         );
       }
 
-      const candidate = segment as Record<string, unknown>;
-
-      if (
-        typeof candidate.relativePath !== "string" ||
-        !candidate.relativePath.trim() ||
-        typeof candidate.sourceStartLine !== "number" ||
-        !Number.isInteger(candidate.sourceStartLine) ||
-        candidate.sourceStartLine < 1 ||
-        typeof candidate.sourceEndLine !== "number" ||
-        !Number.isInteger(candidate.sourceEndLine) ||
-        candidate.sourceEndLine < candidate.sourceStartLine
-      ) {
-        throw new Error(
-          "Ollama returned malformed selected context segment.",
-        );
-      }
-
-      selectedContextSegments.push({
-        relativePath: candidate.relativePath.trim(),
-        sourceStartLine: candidate.sourceStartLine,
-        sourceEndLine: candidate.sourceEndLine,
-      });
+      selectedContextCandidatePositions.push(position);
     }
   }
 
@@ -929,9 +890,9 @@ function parseStructuredResponse(
     );
   }
 
-  if (!rawSelectedContextSegments) {
+  if (!rawSelectedContextCandidatePositions) {
     throw new Error(
-      "Ollama returned invalid selected context segments.",
+      "Ollama returned invalid selected context candidate positions.",
     );
   }
 
@@ -950,7 +911,7 @@ function parseStructuredResponse(
   return {
     reply,
     explanationStatus,
-    selectedContextSegments,
+    selectedContextCandidatePositions,
     supportSourceReferences,
     evidence,
     investigationLifecycle,
@@ -1027,12 +988,10 @@ export async function ollamaChat(
             "Retrieval origin records only how runtime discovered a candidate. It does not determine semantic relevance.",
             "Do not select or reject a child segment merely because of its retrieval origin.",
             ...context.projectContextSegmentCandidates.flatMap(
-              (item) => [
+              (item, candidatePosition) => [
                 "",
                 "Segment candidate:",
-                `relativePath = ${item.relativePath}`,
-                `sourceStartLine = ${item.sourceStartLine}`,
-                `sourceEndLine = ${item.sourceEndLine}`,
+                `candidatePosition = ${candidatePosition}`,
                 ...(item.retrievalOrigin
                   ? [`retrieval origin = ${item.retrievalOrigin}`]
                   : []),
@@ -1041,7 +1000,12 @@ export async function ollamaChat(
               ],
             ),
           ]
-        : [];
+        : [
+            "",
+            "Project-context segment candidates:",
+            "Project-context segment candidate = NONE",
+            "No project-context segment candidates were supplied. Return [] for selectedContextCandidatePositions.",
+          ];
 
     const projectContextWarning = context.projectContextWarning
       ? [
@@ -1090,7 +1054,6 @@ export async function ollamaChat(
         : [];
 
     const validationPromptPresentation =
-      context.validationPromptPresentationVariant === undefined ||
       context.validationPromptPresentationVariant ===
         "explicit_parent_child_separation"
         ? [
@@ -1150,23 +1113,18 @@ export async function ollamaChat(
             "",
             "Return exactly one JSON object matching the supplied schema.",
             "Set reply to the natural-language response shown directly to the user.",
-            "Set selectedContextSegments to exactly the supplied project-context child segments whose content materially affects the immediate reply.",
-            "Use only the exact relativePath, sourceStartLine, and sourceEndLine supplied for each selected child.",
+            "Set selectedContextCandidatePositions to the integer candidate positions of exactly the supplied project-context child segments whose content materially affects the immediate reply.",
+            "Use only the exact integer candidatePosition supplied for each selected child.",
             "Do not select a child merely because it was supplied.",
             "Return [] when no supplied project-context child materially affects the immediate reply.",
-            "Conversation history remains independent and does not require selectedContextSegments membership.",
-            "Set supportSourceReferences to only the supplied conversation turns or parent project-context excerpts that explicitly support the conclusion, recommendation, or assessment expressed in reply.",
-            "selectedContextSegments records semantic project-context admission; supportSourceReferences records support provenance.",
+            "Conversation history remains independent and does not require selectedContextCandidatePositions membership.",
+            "Set supportSourceReferences to only supplied conversation turns that explicitly support the conclusion, recommendation, or assessment expressed in reply.",
+            "selectedContextCandidatePositions records semantic project-context admission. Project-context child identity and parent support provenance are reconstructed deterministically by runtime from validated candidate positions.",
+            "Do not return project_context_excerpt entries in supportSourceReferences.",
             "For conversation support, use type conversation_turn with the exact Conversation source identifier supplied in history.",
-            "For project-context support, use type project_context_excerpt with the exact relativePath and lineNumber supplied in bounded project context evidence.",
-            "For project_context_excerpt support, copy relativePath from the explicit relativePath field only and copy lineNumber from the explicit lineNumber field only.",
-            "The relativePath field must contain only the raw repository path and must never include a colon-line suffix such as :12.",
-            "A Display identity such as path/to/file.ts:12 is human-readable only and must never be copied wholesale into relativePath.",
-            "For project_context_excerpt support, use only a Source identity explicitly shown under Bounded project context evidence.",
-            "Never use a Segment source line range, sourceStartLine, sourceEndLine, or child segment line number as a project_context_excerpt support identity.",
-            "Do not invent, reconstruct, approximate, or reference a source identifier that was not supplied in this invocation.",
-            "Return an empty supportSourceReferences array when no supplied source explicitly supports the conclusion, recommendation, or assessment.",
-            "supportSourceReferences records support provenance only. Do not use it for reasoning text, confidence, correctness, or Explanation Status.",
+            "Do not invent, reconstruct, approximate, or reference a conversation source identifier that was not supplied in this invocation.",
+            "Return an empty supportSourceReferences array when no supplied conversation turn explicitly supports the conclusion, recommendation, or assessment.",
+            "supportSourceReferences records conversation support provenance only. Do not use it for reasoning text, confidence, correctness, or Explanation Status.",
             ...validationPromptPresentation,
             "Set investigationLifecycle to null when the current response does not semantically enter, continue, advance, resolve, supersede, or abandon an investigation.",
             "Otherwise set investigationLifecycle to one bounded semantic artifact containing investigationIdentity, governingQuestion, lifecycleEvent, and lifecycleDetermination.",
@@ -1275,19 +1233,62 @@ export async function ollamaChat(
       );
     }
 
-    if (context.observeParsedSelectedContextSegments) {
-      context.observeParsedSelectedContextSegments(
-        result.selectedContextSegments,
-      );
-    }
-
     validateMatildaInvestigationLifecycleContinuity(
       context.priorInvestigationLifecycle ?? null,
       result.investigationLifecycle,
     );
 
+    if (
+      context.observeParsedSelectedContextCandidatePositions
+    ) {
+      context.observeParsedSelectedContextCandidatePositions(
+        result.selectedContextCandidatePositions,
+      );
+    }
+
     const suppliedSegmentCandidates =
       context.projectContextSegmentCandidates || [];
+
+    const seenSelectedContextCandidatePositions =
+      new Set<number>();
+
+    const deduplicatedSelectedContextCandidatePositions =
+      result.selectedContextCandidatePositions.filter(
+        (position) => {
+          if (
+            position < 0 ||
+            position >= suppliedSegmentCandidates.length
+          ) {
+            throw new Error(
+              "Ollama returned a selected context candidate position that was not supplied in this invocation.",
+            );
+          }
+
+          if (
+            seenSelectedContextCandidatePositions.has(position)
+          ) {
+            return false;
+          }
+
+          seenSelectedContextCandidatePositions.add(position);
+          return true;
+        },
+      );
+
+    const deduplicatedSelectedContextSegments:
+      MatildaSelectedContextSegment[] =
+      deduplicatedSelectedContextCandidatePositions.map(
+        (position) => {
+          const suppliedSegment =
+            suppliedSegmentCandidates[position];
+
+          return {
+            relativePath: suppliedSegment.relativePath,
+            sourceStartLine: suppliedSegment.sourceStartLine,
+            sourceEndLine: suppliedSegment.sourceEndLine,
+          };
+        },
+      );
 
     const suppliedSegmentByIdentity = new Map(
       suppliedSegmentCandidates.map((segment) => [
@@ -1295,31 +1296,6 @@ export async function ollamaChat(
         segment,
       ]),
     );
-
-    const deduplicatedSelectedContextSegments =
-      result.selectedContextSegments.filter(
-        (segment, index, segments) => {
-          const identity =
-            `${segment.relativePath}:${segment.sourceStartLine}:${segment.sourceEndLine}`;
-
-          return segments.findIndex(
-            (candidate) =>
-              `${candidate.relativePath}:${candidate.sourceStartLine}:${candidate.sourceEndLine}` ===
-              identity,
-          ) === index;
-        },
-      );
-
-    for (const segment of deduplicatedSelectedContextSegments) {
-      const identity =
-        `${segment.relativePath}:${segment.sourceStartLine}:${segment.sourceEndLine}`;
-
-      if (!suppliedSegmentByIdentity.has(identity)) {
-        throw new Error(
-          "Ollama returned a selected context segment that was not supplied in this invocation.",
-        );
-      }
-    }
 
     const selectedSegmentIdentities = new Set(
       deduplicatedSelectedContextSegments.map(
@@ -1353,26 +1329,63 @@ export async function ollamaChat(
       );
     }
 
-    const deduplicatedSupportSourceReferences =
-      result.supportSourceReferences.filter(
-        (reference, index, references) => {
-          const referenceKey =
-            reference.type === "conversation_turn"
-              ? `conversation_turn:${reference.sourceTurnId}`
-              : `project_context_excerpt:${reference.relativePath}:${reference.lineNumber}`;
+    const modelAuthoredConversationSupportReferences =
+      result.supportSourceReferences.filter((reference) => {
+        if (reference.type !== "conversation_turn") {
+          throw new Error(
+            "Ollama returned model-authored project-context support provenance; project-context provenance must be reconstructed from validated selected context segments.",
+          );
+        }
+
+        return true;
+      });
+
+    const deduplicatedConversationSupportReferences =
+      modelAuthoredConversationSupportReferences.filter(
+        (reference, index, references) =>
+          references.findIndex(
+            (candidate) =>
+              candidate.sourceTurnId === reference.sourceTurnId,
+          ) === index,
+      );
+
+    const projectedProjectSupportReferences =
+      deduplicatedSelectedContextSegments
+        .map((selectedSegment) => {
+          const identity =
+            `${selectedSegment.relativePath}:${selectedSegment.sourceStartLine}:${selectedSegment.sourceEndLine}`;
+
+          const suppliedSegment =
+            suppliedSegmentByIdentity.get(identity);
+
+          if (!suppliedSegment) {
+            throw new Error(
+              "Validated selected context segment has no supplied parent provenance.",
+            );
+          }
+
+          return {
+            type: "project_context_excerpt" as const,
+            relativePath: suppliedSegment.parentRelativePath,
+            lineNumber: suppliedSegment.parentLineNumber,
+          };
+        })
+        .filter((reference, index, references) => {
+          const key =
+            `${reference.relativePath}:${reference.lineNumber}`;
 
           return (
-            references.findIndex((candidate) => {
-              const candidateKey =
-                candidate.type === "conversation_turn"
-                  ? `conversation_turn:${candidate.sourceTurnId}`
-                  : `project_context_excerpt:${candidate.relativePath}:${candidate.lineNumber}`;
-
-              return candidateKey === referenceKey;
-            }) === index
+            references.findIndex(
+              (candidate) =>
+                `${candidate.relativePath}:${candidate.lineNumber}` === key,
+            ) === index
           );
-        },
-      );
+        });
+
+    const deduplicatedSupportSourceReferences = [
+      ...deduplicatedConversationSupportReferences,
+      ...projectedProjectSupportReferences,
+    ];
 
     const suppliedProjectContextExcerptBySource =
       new Map(

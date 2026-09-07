@@ -8,61 +8,61 @@ const source = fs.readFileSync(
 );
 
 test(
-  "child candidate identity uses explicit named fields instead of source-style notation",
+  "production child semantic-selection identity is invocation-local candidate position",
   () => {
     assert.match(
       source,
-      /"Segment candidate:"/,
+      /`candidatePosition = \$\{candidatePosition\}`/,
     );
-
     assert.match(
       source,
-      /`relativePath = \$\{item\.relativePath\}`/,
+      /selectedContextCandidatePositions: \{/,
     );
-
     assert.match(
       source,
-      /`sourceStartLine = \$\{item\.sourceStartLine\}`/,
+      /type: "integer"/,
     );
-
     assert.match(
       source,
-      /`sourceEndLine = \$\{item\.sourceEndLine\}`/,
-    );
-
-    assert.doesNotMatch(
-      source,
-      /`Segment source: \$\{item\.relativePath\}:\$\{item\.sourceStartLine\}-\$\{item\.sourceEndLine\}`/,
+      /minimum: 0/,
     );
   },
 );
 
 test(
-  "parent support Source presentation remains unchanged",
+  "runtime candidate retains structural identity and parent provenance for deterministic projection",
   () => {
+    assert.match(source, /relativePath: string;/);
+    assert.match(source, /sourceStartLine: number;/);
+    assert.match(source, /sourceEndLine: number;/);
+    assert.match(source, /parentRelativePath: string;/);
+    assert.match(source, /parentLineNumber: number;/);
+
     assert.match(
       source,
-      /`Source: \$\{item\.relativePath\}:\$\{item\.lineNumber\}`/,
+      /relativePath: suppliedSegment\.relativePath/,
+    );
+    assert.match(
+      source,
+      /sourceStartLine: suppliedSegment\.sourceStartLine/,
+    );
+    assert.match(
+      source,
+      /sourceEndLine: suppliedSegment\.sourceEndLine/,
     );
   },
 );
 
 test(
-  "selectedContextSegments structured identity contract remains unchanged",
+  "runtime projects validated positions back to structural selected-context segments",
   () => {
     assert.match(
       source,
-      /relativePath/,
+      /deduplicatedSelectedContextCandidatePositions\.map/,
     );
-
     assert.match(
       source,
-      /sourceStartLine/,
-    );
-
-    assert.match(
-      source,
-      /sourceEndLine/,
+      /const suppliedSegment =\s*suppliedSegmentCandidates\[position\]/,
     );
   },
 );

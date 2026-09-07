@@ -1,10 +1,7 @@
 import assert from "node:assert/strict";
 import test from "node:test";
 
-import {
-  ollamaChat,
-  type MatildaSelectedContextSegment,
-} from "./ollamaChat";
+import { ollamaChat } from "./ollamaChat";
 
 const originalFetch = globalThis.fetch;
 
@@ -13,24 +10,19 @@ test.afterEach(() => {
 });
 
 test(
-  "parsed selected-context observer fires before invalid membership fails closed",
+  "parsed positional observer fires before invalid membership fails closed",
   async () => {
-    const modelSelectedSegment = {
-      relativePath: "docs/model-authored.md",
-      sourceStartLine: 99,
-      sourceEndLine: 101,
-    };
-
     globalThis.fetch = async () =>
       new Response(
         JSON.stringify({
           response: JSON.stringify({
             reply: "Candidate response.",
             explanationStatus: "optional",
-            selectedContextSegments: [modelSelectedSegment],
+            selectedContextCandidatePositions: [99],
             supportSourceReferences: [],
             evidence: null,
             investigationLifecycle: null,
+            packageSemantics: null,
             durableInterpretation: "Candidate interpretation.",
           }),
         }),
@@ -40,8 +32,7 @@ test(
         },
       );
 
-    let observed:
-      readonly MatildaSelectedContextSegment[] | undefined;
+    let observed: readonly number[] | undefined;
 
     await assert.rejects(
       () =>
@@ -56,13 +47,14 @@ test(
               text: "Supplied candidate.",
             },
           ],
-          observeParsedSelectedContextSegments: (segments) => {
-            observed = [...segments];
-          },
+          observeParsedSelectedContextCandidatePositions:
+            (positions) => {
+              observed = [...positions];
+            },
         }),
-      /selected context segment that was not supplied/,
+      /selected context candidate position that was not supplied/,
     );
 
-    assert.deepEqual(observed, [modelSelectedSegment]);
+    assert.deepEqual(observed, [99]);
   },
 );

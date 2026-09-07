@@ -30,20 +30,30 @@ test.afterEach(() => {
 });
 
 function baseResponse(
-  selectedContextSegments: unknown[],
+  selectedContextCandidatePositions: unknown[],
   supportSourceReferences: unknown[] = [],
 ) {
   return {
     reply: "The relevant implementation behavior is supported.",
     explanationStatus: "optional",
-    selectedContextSegments,
+    selectedContextCandidatePositions,
     supportSourceReferences,
     evidence: null,
     investigationLifecycle: null,
+    packageSemantics: null,
     durableInterpretation:
       "The relevant implementation behavior is supported.",
   };
 }
+
+const suppliedExcerpt = {
+  relativePath: "docs/adaptive-detail.md",
+  lineNumber: 10,
+  excerpt: "Relevant implementation behavior.",
+  provenance: "git_tracked_project_file" as const,
+  authorityStatus:
+    "candidate_evidence_not_authority" as const,
+};
 
 const suppliedCandidate = {
   relativePath: "docs/adaptive-detail.md",
@@ -54,70 +64,56 @@ const suppliedCandidate = {
   text: "Relevant implementation behavior.",
 };
 
+const selectedIdentity = {
+  relativePath: suppliedCandidate.relativePath,
+  sourceStartLine: suppliedCandidate.sourceStartLine,
+  sourceEndLine: suppliedCandidate.sourceEndLine,
+};
+
 test(
   "normal production-style invocation remains valid without an observer",
   async () => {
-    installResponse(
-      baseResponse([
-        {
-          relativePath: suppliedCandidate.relativePath,
-          sourceStartLine: suppliedCandidate.sourceStartLine,
-          sourceEndLine: suppliedCandidate.sourceEndLine,
-        },
-      ]),
-    );
+    installResponse(baseResponse([0]));
 
     const result = await ollamaChat("Question.", {
-      projectContextSegmentCandidates: [
-        suppliedCandidate,
-      ],
+      projectContextExcerpts: [suppliedExcerpt],
+      projectContextSegmentCandidates: [suppliedCandidate],
     });
 
     assert.equal(
       result.reply,
       "The relevant implementation behavior is supported.",
     );
-
-    assert.equal(
-      "selectedContextSegments" in result,
-      false,
-    );
+    assert.equal("selectedContextSegments" in result, false);
+    assert.deepEqual(result.supportSourceReferences, [
+      {
+        type: "project_context_excerpt",
+        relativePath: "docs/adaptive-detail.md",
+        lineNumber: 10,
+      },
+    ]);
   },
 );
 
 test(
   "observer receives only validated deterministically deduplicated selections",
   async () => {
-    const identity = {
-      relativePath: suppliedCandidate.relativePath,
-      sourceStartLine: suppliedCandidate.sourceStartLine,
-      sourceEndLine: suppliedCandidate.sourceEndLine,
-    };
-
     installResponse(
-      baseResponse([
-        identity,
-        identity,
-      ]),
+      baseResponse([0, 0]),
     );
 
     let observed:
       readonly MatildaSelectedContextSegment[] | undefined;
 
     await ollamaChat("Question.", {
-      projectContextSegmentCandidates: [
-        suppliedCandidate,
-      ],
-      observeValidatedSelectedContextSegments:
-        (segments) => {
-          observed = segments;
-        },
+      projectContextExcerpts: [suppliedExcerpt],
+      projectContextSegmentCandidates: [suppliedCandidate],
+      observeValidatedSelectedContextSegments: (segments) => {
+        observed = segments;
+      },
     });
 
-    assert.deepEqual(
-      observed,
-      [identity],
-    );
+    assert.deepEqual(observed, [selectedIdentity]);
   },
 );
 
@@ -125,11 +121,36 @@ test(
   "invented selection fails before observer invocation",
   async () => {
     installResponse(
-      baseResponse([
+      baseResponse([1]),
+    );
+
+    let observerCalled = false;
+
+    await assert.rejects(
+      () =>
+        ollamaChat("Question.", {
+          projectContextExcerpts: [suppliedExcerpt],
+          projectContextSegmentCandidates: [suppliedCandidate],
+          observeValidatedSelectedContextSegments: () => {
+            observerCalled = true;
+          },
+        }),
+      /selected context candidate position that was not supplied/,
+    );
+
+    assert.equal(observerCalled, false);
+  },
+);
+
+test(
+  "model-authored project support fails before observer invocation",
+  async () => {
+    installResponse(
+      baseResponse([], [
         {
-          relativePath: "docs/invented.md",
-          sourceStartLine: 99,
-          sourceEndLine: 101,
+          type: "project_context_excerpt",
+          relativePath: "docs/adaptive-detail.md",
+          lineNumber: 10,
         },
       ]),
     );
@@ -139,63 +160,13 @@ test(
     await assert.rejects(
       () =>
         ollamaChat("Question.", {
-          projectContextSegmentCandidates: [
-            suppliedCandidate,
-          ],
-          observeValidatedSelectedContextSegments:
-            () => {
-              observerCalled = true;
-            },
-        }),
-      /selected context segment that was not supplied/,
-    );
-
-    assert.equal(observerCalled, false);
-  },
-);
-
-test(
-  "parent support inconsistency fails before observer invocation",
-  async () => {
-    installResponse(
-      baseResponse(
-        [],
-        [
-          {
-            type: "project_context_excerpt",
-            relativePath: "docs/adaptive-detail.md",
-            lineNumber: 10,
+          projectContextExcerpts: [suppliedExcerpt],
+          projectContextSegmentCandidates: [suppliedCandidate],
+          observeValidatedSelectedContextSegments: () => {
+            observerCalled = true;
           },
-        ],
-      ),
-    );
-
-    let observerCalled = false;
-
-    await assert.rejects(
-      () =>
-        ollamaChat("Question.", {
-          projectContextExcerpts: [
-            {
-              relativePath: "docs/adaptive-detail.md",
-              lineNumber: 10,
-              excerpt:
-                "Relevant implementation behavior.",
-              provenance:
-                "git_tracked_project_file",
-              authorityStatus:
-                "candidate_evidence_not_authority",
-            },
-          ],
-          projectContextSegmentCandidates: [
-            suppliedCandidate,
-          ],
-          observeValidatedSelectedContextSegments:
-            () => {
-              observerCalled = true;
-            },
         }),
-      /project-context support without selecting a supplied child segment/,
+      /model-authored project-context support provenance/,
     );
 
     assert.equal(observerCalled, false);

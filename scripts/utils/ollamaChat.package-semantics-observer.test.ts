@@ -18,7 +18,7 @@ function responseWith(
       response: JSON.stringify({
         reply: "Answer.",
         explanationStatus: "optional",
-        selectedContextSegments: [],
+        selectedContextCandidatePositions: [],
         supportSourceReferences,
         evidence: null,
         investigationLifecycle: null,

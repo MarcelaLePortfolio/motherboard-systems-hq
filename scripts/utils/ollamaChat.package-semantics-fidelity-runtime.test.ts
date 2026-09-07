@@ -10,7 +10,7 @@ const originalFetch = globalThis.fetch;
 
 function responseWith(
   packageSemantics: MatildaPackageSemanticsArtifact | null,
-  selectedContextSegments: unknown = [],
+  selectedContextCandidatePositions: unknown = [],
 ): Response {
   return {
     ok: true,
@@ -18,7 +18,7 @@ function responseWith(
       response: JSON.stringify({
         reply: "Answer.",
         explanationStatus: "optional",
-        selectedContextSegments,
+        selectedContextCandidatePositions,
         supportSourceReferences: [],
         evidence: null,
         investigationLifecycle: null,
@@ -80,13 +80,7 @@ test("mismatch fails before package observer and selected-context rejection", as
         ...matchingArtifact,
         expectedOutcome: "Different authored outcome.",
       },
-      [
-        {
-          relativePath: "not-supplied.ts",
-          sourceStartLine: 1,
-          sourceEndLine: 1,
-        },
-      ],
+      [0],
     );
   }) as typeof globalThis.fetch;
 

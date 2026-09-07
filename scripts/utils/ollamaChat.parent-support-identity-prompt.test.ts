@@ -8,56 +8,36 @@ const source = fs.readFileSync(
 );
 
 test(
-  "project-context support is explicitly restricted to parent Source identities",
+  "project-context support provenance is reconstructed instead of model-authored",
   () => {
     assert.match(
       source,
-      /For project_context_excerpt support, use only a Source identity explicitly shown under Bounded project context evidence\./,
+      /Project-context child identity and parent support provenance are reconstructed deterministically by runtime from validated candidate positions\./,
     );
-
     assert.match(
       source,
-      /Never use a Segment source line range, sourceStartLine, sourceEndLine, or child segment line number as a project_context_excerpt support identity\./,
+      /Do not return project_context_excerpt entries in supportSourceReferences\./,
     );
   },
 );
 
 test(
-  "existing parent support and child semantic identity instructions remain distinct",
+  "project semantic selection and conversation support provenance remain distinct",
   () => {
     assert.match(
       source,
-      /For project-context support, use type project_context_excerpt with the exact relativePath and lineNumber supplied in bounded project context evidence\./,
+      /Set selectedContextCandidatePositions to the integer candidate positions of exactly the supplied project-context child segments whose content materially affects the immediate reply\./,
     );
-
     assert.match(
       source,
-      /Segment candidate:/,
+      /Set supportSourceReferences to only supplied conversation turns that explicitly support the conclusion, recommendation, or assessment expressed in reply\./,
     );
-
-    assert.match(
-      source,
-      /relativePath =/,
-    );
-
-    assert.match(
-      source,
-      /sourceStartLine =/,
-    );
-
-    assert.match(
-      source,
-      /sourceEndLine =/,
-    );
-
+    assert.match(source, /Segment candidate:/);
+    assert.match(source, /parentRelativePath =/);
+    assert.match(source, /parentLineNumber =/);
     assert.doesNotMatch(
       source,
-      /Segment source:/,
-    );
-
-    assert.match(
-      source,
-      /selectedContextSegments/,
+      /For project-context support, use type project_context_excerpt with the exact relativePath and lineNumber supplied in bounded project context evidence\./,
     );
   },
 );
