@@ -27,7 +27,7 @@ test(
             reply:
               "Preserving the current workflow preserves the established invariant.",
             explanationStatus: "optional",
-            selectedContextSegments: [],
+            selectedContextCandidatePositions: [],
             supportSourceReferences: [
               {
                 type: "conversation_turn",
@@ -114,6 +114,151 @@ test(
       assert.match(
         prompt,
         /Source: server\/matilda-chat-workflow\.ts:155/,
+      );
+    } finally {
+      globalThis.fetch = originalFetch;
+    }
+  },
+);
+
+test(
+  "ollamaChat presents NONE when no prior conversation support identities exist",
+  async () => {
+    const originalFetch = globalThis.fetch;
+    let invocationCount = 0;
+    let requestBody: Record<string, any> | null = null;
+
+    globalThis.fetch = (async (_url, init) => {
+      invocationCount += 1;
+
+      requestBody = JSON.parse(
+        String(init?.body ?? "{}"),
+      ) as Record<string, any>;
+
+      return {
+        ok: true,
+        status: 200,
+        statusText: "OK",
+        json: async () => ({
+          response: JSON.stringify({
+            investigationLifecycle: null,
+            packageSemantics: null,
+            reply: "No prior conversation support is available.",
+            explanationStatus: "optional",
+            selectedContextCandidatePositions: [],
+            supportSourceReferences: [],
+            evidence: null,
+            durableInterpretation:
+              "No durable user semantics were established in this turn.",
+          }),
+        }),
+      } as Response;
+    }) as typeof globalThis.fetch;
+
+    try {
+      await ollamaChat(
+        "Answer using only support actually available in this invocation.",
+      );
+
+      assert.equal(invocationCount, 1);
+
+      const prompt = String(requestBody?.prompt ?? "");
+
+      assert.match(
+        prompt,
+        /Allowed conversation support source = NONE/,
+      );
+
+      assert.match(
+        prompt,
+        /No prior conversation support source identifiers were supplied\. Do not return any conversation_turn entry in supportSourceReferences\./,
+      );
+    } finally {
+      globalThis.fetch = originalFetch;
+    }
+  },
+);
+
+test(
+  "ollamaChat excludes the current user message from conversation-turn support identity",
+  async () => {
+    const originalFetch = globalThis.fetch;
+    let invocationCount = 0;
+    let requestBody: Record<string, any> | null = null;
+
+    globalThis.fetch = (async (_url, init) => {
+      invocationCount += 1;
+
+      requestBody = JSON.parse(
+        String(init?.body ?? "{}"),
+      ) as Record<string, any>;
+
+      return {
+        ok: true,
+        status: 200,
+        statusText: "OK",
+        json: async () => ({
+          response: JSON.stringify({
+            investigationLifecycle: null,
+            packageSemantics: null,
+            reply: "The prior turn supports the response.",
+            explanationStatus: "optional",
+            selectedContextCandidatePositions: [],
+            supportSourceReferences: [
+              {
+                type: "conversation_turn",
+                sourceTurnId: "turn-prior-123",
+              },
+            ],
+            evidence: null,
+            durableInterpretation:
+              "The prior conversation establishes support for the response.",
+          }),
+        }),
+      } as Response;
+    }) as typeof globalThis.fetch;
+
+    try {
+      await ollamaChat(
+        "This is the current user message and is not prior conversation provenance.",
+        {
+          history: [
+            {
+              sourceTurnId: "turn-prior-123",
+              userMessage: "Prior user message.",
+              assistantReply: "Prior assistant reply.",
+            },
+          ],
+        },
+      );
+
+      assert.equal(invocationCount, 1);
+
+      const prompt = String(requestBody?.prompt ?? "");
+
+      assert.match(
+        prompt,
+        /The current user message is not a prior conversation support source and must not be represented as conversation_turn provenance\./,
+      );
+
+      const allowedIdentityLines = prompt
+        .split("\n")
+        .filter((line) =>
+          line.startsWith(
+            "Allowed conversation support source = ",
+          ),
+        );
+
+      assert.deepEqual(
+        allowedIdentityLines,
+        [
+          "Allowed conversation support source = turn-prior-123",
+        ],
+      );
+
+      assert.match(
+        prompt,
+        /Conversation source: turn-prior-123/,
       );
     } finally {
       globalThis.fetch = originalFetch;

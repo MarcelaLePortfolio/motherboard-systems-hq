@@ -1027,6 +1027,30 @@ export async function ollamaChat(
       ],
     );
 
+    const allowedConversationSupportSourceIds =
+      (context.history || [])
+        .map((turn) => turn.sourceTurnId)
+        .filter(
+          (sourceTurnId): sourceTurnId is string =>
+            typeof sourceTurnId === "string" &&
+            Boolean(sourceTurnId),
+        );
+
+    const conversationSupportIdentityPresentation = [
+      "",
+      "Allowed conversation support source identifiers:",
+      ...(allowedConversationSupportSourceIds.length > 0
+        ? allowedConversationSupportSourceIds.map(
+            (sourceTurnId) =>
+              `Allowed conversation support source = ${sourceTurnId}`,
+          )
+        : ["Allowed conversation support source = NONE"]),
+      allowedConversationSupportSourceIds.length > 0
+        ? "For type conversation_turn, use only one of the exact allowed conversation support source identifiers listed above."
+        : "No prior conversation support source identifiers were supplied. Do not return any conversation_turn entry in supportSourceReferences.",
+      "The current user message is not a prior conversation support source and must not be represented as conversation_turn provenance.",
+    ];
+
     const priorInvestigationLifecycleContext =
       context.priorInvestigationLifecycle
         ? [
@@ -1122,6 +1146,7 @@ export async function ollamaChat(
             "selectedContextCandidatePositions records semantic project-context admission. Project-context child identity and parent support provenance are reconstructed deterministically by runtime from validated candidate positions.",
             "Do not return project_context_excerpt entries in supportSourceReferences.",
             "For conversation support, use type conversation_turn with the exact Conversation source identifier supplied in history.",
+            ...conversationSupportIdentityPresentation,
             "Do not invent, reconstruct, approximate, or reference a conversation source identifier that was not supplied in this invocation.",
             "Return an empty supportSourceReferences array when no supplied conversation turn explicitly supports the conclusion, recommendation, or assessment.",
             "supportSourceReferences records conversation support provenance only. Do not use it for reasoning text, confidence, correctness, or Explanation Status.",
