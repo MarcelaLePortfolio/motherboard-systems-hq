@@ -81,6 +81,7 @@ function extractQueryTerms(message: string): string[] {
     "from",
     "happened",
     "have",
+    "hey",
     "how",
     "into",
     "just",
