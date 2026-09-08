@@ -1,5 +1,9 @@
 import fs from "node:fs";
 import path from "node:path";
+
+import {
+  isExplicitEvidenceRequest,
+} from "./matilda-evidence-request-signal";
 import { execFileSync } from "node:child_process";
 
 const ALLOWED_ROOTS = new Set([
@@ -124,46 +128,33 @@ function extractQueryTerms(message: string): string[] {
     .slice(0, MAX_QUERY_TERMS);
 }
 
-const PROJECT_CHANGE_INTENT_TERMS = new Set([
-  "adjust",
-  "change",
-  "edit",
-  "modify",
-  "tweak",
-  "update",
+const CONCRETE_PROJECT_OPERATION_TERMS = new Set([
+  "add",
+  "create",
+  "delete",
+  "disable",
+  "enable",
+  "hide",
+  "move",
+  "open",
+  "remove",
+  "rename",
+  "replace",
+  "restore",
+  "show",
 ]);
 
-const UNDERSPECIFIED_PROJECT_CHANGE_QUERY_TERMS = new Set([
-  "adjust",
-  "app",
-  "application",
-  "backend",
-  "change",
-  "changes",
-  "dashboard",
-  "edit",
-  "frontend",
-  "little",
-  "make",
-  "minor",
-  "modify",
-  "page",
-  "quick",
-  "simple",
-  "site",
-  "small",
-  "something",
-  "system",
-  "thing",
-  "things",
-  "tweak",
-  "ui",
-  "update",
-  "want",
-  "website",
-]);
+function tokenizeRetrievalAdmissionMessage(
+  message: string,
+): string[] {
+  return (
+    message
+      .toLowerCase()
+      .match(/[a-z0-9][a-z0-9_-]*/g) ?? []
+  );
+}
 
-function isUnderspecifiedProjectChangeIntent(
+function isSubstantiveProjectQuestion(
   message: string,
   queryTerms: readonly string[],
 ): boolean {
@@ -171,23 +162,66 @@ function isUnderspecifiedProjectChangeIntent(
     return false;
   }
 
-  const messageTokens =
-    message
-      .toLowerCase()
-      .match(/[a-z0-9][a-z0-9_-]{2,}/g) ?? [];
+  const normalized = message.trim().toLowerCase();
 
-  const expressesChangeIntent = messageTokens.some(
-    (term) => PROJECT_CHANGE_INTENT_TERMS.has(term),
+  return /^(?:how|what|where|which|why|who)\b/.test(
+    normalized,
   );
+}
 
-  if (!expressesChangeIntent) {
+function hasConcreteProjectOperation(
+  message: string,
+): boolean {
+  const messageTokens =
+    tokenizeRetrievalAdmissionMessage(message);
+
+  if (
+    messageTokens.some((term) =>
+      CONCRETE_PROJECT_OPERATION_TERMS.has(term),
+    )
+  ) {
+    return true;
+  }
+
+  const normalized = message.trim().toLowerCase();
+
+  if (
+    /\b(?:change|edit|modify|update|adjust|tweak)\b/.test(
+      normalized,
+    ) &&
+    (
+      /\bfrom\b.+\bto\b/.test(normalized) ||
+      /\binstead of\b/.test(normalized) ||
+      /["'`][^"'`]+["'`]/.test(message)
+    )
+  ) {
+    return true;
+  }
+
+  return false;
+}
+
+function shouldAdmitProjectContextRetrieval(
+  message: string,
+  queryTerms: readonly string[],
+): boolean {
+  if (queryTerms.length === 0) {
     return false;
   }
 
-  return queryTerms.every(
-    (term) =>
-      UNDERSPECIFIED_PROJECT_CHANGE_QUERY_TERMS.has(term),
-  );
+  if (isExplicitEvidenceRequest(message)) {
+    return true;
+  }
+
+  if (isSubstantiveProjectQuestion(message, queryTerms)) {
+    return true;
+  }
+
+  if (hasConcreteProjectOperation(message)) {
+    return true;
+  }
+
+  return false;
 }
 
 function isAllowedTrackedPath(relativePath: string): boolean {
@@ -837,7 +871,7 @@ export function retrieveMatildaProjectContext(input: {
   }
 
   if (
-    isUnderspecifiedProjectChangeIntent(
+    !shouldAdmitProjectContextRetrieval(
       input.message,
       queryTerms,
     )
