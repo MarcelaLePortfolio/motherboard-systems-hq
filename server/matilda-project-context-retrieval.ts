@@ -201,9 +201,40 @@ function hasConcreteProjectOperation(
   return false;
 }
 
+const REPOSITORY_VERIFICATION_INTENT =
+  /\b(?:verify|verifying|verification|confirm|confirmation|validate|validation|check|checking)\b/i;
+
+const REPOSITORY_VERIFICATION_TARGET =
+  /\b(?:repository|repo|runtime|code|codebase|implementation|wiring|backend)\b/i;
+
+const VERIFICATION_CONTINUATION_PATTERNS = [
+  /\bare you still (?:verifying|checking|validating|confirming)\b/i,
+  /\bcontinue (?:the|that|this) (?:verification|check|validation|confirmation)\b/i,
+  /\bdid you (?:finish|complete) (?:the|that|this) (?:verification|check|validation|confirmation)\b/i,
+  /\bhave you (?:finished|completed) (?:the|that|this) (?:verification|check|validation|confirmation)\b/i,
+];
+
+function isDirectRepositoryVerificationRequest(
+  message: string,
+): boolean {
+  return (
+    REPOSITORY_VERIFICATION_INTENT.test(message) &&
+    REPOSITORY_VERIFICATION_TARGET.test(message)
+  );
+}
+
+function isBoundedVerificationContinuation(
+  message: string,
+): boolean {
+  return VERIFICATION_CONTINUATION_PATTERNS.some(
+    (pattern) => pattern.test(message),
+  );
+}
+
 function shouldAdmitProjectContextRetrieval(
   message: string,
   queryTerms: readonly string[],
+  priorUserMessage?: string | null,
 ): boolean {
   if (queryTerms.length === 0) {
     return false;
@@ -218,6 +249,18 @@ function shouldAdmitProjectContextRetrieval(
   }
 
   if (hasConcreteProjectOperation(message)) {
+    return true;
+  }
+
+  if (isDirectRepositoryVerificationRequest(message)) {
+    return true;
+  }
+
+  if (
+    priorUserMessage &&
+    isDirectRepositoryVerificationRequest(priorUserMessage) &&
+    isBoundedVerificationContinuation(message)
+  ) {
     return true;
   }
 
@@ -836,6 +879,7 @@ export function retrieveMatildaProjectContext(input: {
   projectId: string;
   projectRootPath?: string | null;
   message: string;
+  priorUserMessage?: string | null;
 }): MatildaProjectContextRetrievalResult {
   const projectId = input.projectId.trim();
   const queryTerms = extractQueryTerms(input.message);
@@ -874,6 +918,7 @@ export function retrieveMatildaProjectContext(input: {
     !shouldAdmitProjectContextRetrieval(
       input.message,
       queryTerms,
+      input.priorUserMessage,
     )
   ) {
     return {

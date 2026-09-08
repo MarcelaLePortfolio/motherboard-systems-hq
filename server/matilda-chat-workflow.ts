@@ -175,19 +175,26 @@ export async function runMatildaConversationWorkflow(
     projectRootPath =
       project?.projectRootPath ?? null;
 
-    const projectContextRetrieval =
-      retrieveMatildaProjectContext({
-        projectId,
-        projectRootPath,
-        message,
-      });
-
     const conversationTurns =
       listMatildaConversationTurns(
         projectId,
         20,
         conversationId,
       );
+
+    const priorUserMessage =
+      conversationTurns.length > 0
+        ? conversationTurns[conversationTurns.length - 1]
+            .user_message
+        : null;
+
+    const projectContextRetrieval =
+      retrieveMatildaProjectContext({
+        projectId,
+        projectRootPath,
+        message,
+        priorUserMessage,
+      });
 
     const interpretationLedgerEntries =
       listInterpretationEvidenceLedgerEntries(500);

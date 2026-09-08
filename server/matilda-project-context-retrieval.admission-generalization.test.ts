@@ -122,3 +122,110 @@ test(
     assert.equal(result.searched, false);
   },
 );
+
+test(
+  "repository verification requests are retrieval eligible while unrelated verification remains below admission",
+  () => {
+    const direct = [
+      "Please verify the repository state before we proceed.",
+      "Can you check the backend implementation?",
+      "Confirm this is actually wired in the codebase.",
+      "Please complete the underlying code/runtime verification.",
+    ];
+
+    for (const message of direct) {
+      assert.equal(
+        retrieveMatildaProjectContext({
+          projectId: "hq",
+          projectRootPath,
+          message,
+        }).searched,
+        true,
+      );
+    }
+
+    const unrelated = [
+      "Verify the browser experience.",
+      "Verify my email address.",
+      "Verify the source of this quote.",
+      "Check the file I uploaded.",
+      "Verify the server address I gave you.",
+      "Please validate this before continuing.",
+    ];
+
+    for (const message of unrelated) {
+      assert.equal(
+        retrieveMatildaProjectContext({
+          projectId: "hq",
+          projectRootPath,
+          message,
+        }).searched,
+        false,
+      );
+    }
+  },
+);
+
+test(
+  "bounded verification continuation inherits only an immediately prior repository verification request",
+  () => {
+    const priorUserMessage =
+      "Please complete the underlying code/runtime verification.";
+
+    for (const message of [
+      "Are you still verifying this?",
+      "Continue the verification.",
+      "Did you finish the verification?",
+      "Have you completed that check?",
+    ]) {
+      assert.equal(
+        retrieveMatildaProjectContext({
+          projectId: "hq",
+          projectRootPath,
+          priorUserMessage,
+          message,
+        }).searched,
+        true,
+      );
+    }
+
+    const negativeCases = [
+      [
+        "Please proceed with the browser validation.",
+        "Are you still verifying this?",
+      ],
+      [
+        "Please verify my email address.",
+        "Are you still verifying this?",
+      ],
+      [
+        "I want to make changes to the frontend.",
+        "Did you finish the verification?",
+      ],
+      [
+        "Verify the runtime implementation.",
+        "Continue",
+      ],
+      [
+        "Verify the runtime implementation.",
+        "Continue the browser validation",
+      ],
+      [
+        "Verify the runtime implementation.",
+        "What about this?",
+      ],
+    ];
+
+    for (const [priorUserMessage, message] of negativeCases) {
+      assert.equal(
+        retrieveMatildaProjectContext({
+          projectId: "hq",
+          projectRootPath,
+          priorUserMessage,
+          message,
+        }).searched,
+        false,
+      );
+    }
+  },
+);
