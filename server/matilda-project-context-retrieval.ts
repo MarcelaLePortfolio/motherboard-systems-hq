@@ -946,6 +946,7 @@ export function retrieveMatildaProjectContext(input: {
         "grep",
         "-n",
         "-I",
+        "-i",
         "-E",
         "--",
         pattern,
@@ -986,8 +987,10 @@ export function retrieveMatildaProjectContext(input: {
       }
 
       const normalizedPath = relativePath.toLowerCase();
+      const isDocumentCandidate = relativePath.startsWith("docs/");
       const score = queryTerms.reduce((total, term) => {
-        const pathScore = normalizedPath.includes(term) ? 6 : 0;
+        const pathScore =
+          !isDocumentCandidate && normalizedPath.includes(term) ? 6 : 0;
         const lineScore = matchedLine.includes(term) ? 1 : 0;
 
         return total + pathScore + lineScore;
