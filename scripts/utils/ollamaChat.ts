@@ -270,6 +270,7 @@ export interface OllamaChatContext {
   userPackageSemantics?:
     MatildaUserPackageSemanticsInput | null;
   explicitEvidenceRequest?: boolean;
+  executionAuthorized?: boolean;
   observeValidatedSelectedContextSegments?: (
     segments: readonly MatildaSelectedContextSegment[],
   ) => void;
@@ -1182,6 +1183,16 @@ export async function ollamaChat(
             "",
             "For reply:",
             "Respond directly to the user in natural language.",
+            ...(context.executionAuthorized === false
+              ? [
+                  "Current Matilda Chat capability boundary: execution_authorized = false.",
+                  "This conversation workflow provides interpretation, collaboration, and evidence-grounded reasoning only.",
+                  "It cannot itself execute browser validation, repository/runtime verification, code changes, shell commands, deployments, or other external actions.",
+                  "Do not claim that you personally performed or completed any action this workflow cannot execute.",
+                  "You may report an external action as already completed only when supplied evidence explicitly establishes that it occurred, and you must not attribute that execution to yourself unless the evidence establishes that attribution.",
+                  "When the user asks you to perform an action this workflow cannot execute, distinguish what can be concluded from supplied evidence from what still requires an execution-capable surface.",
+                ]
+              : []),
             "Use explanationStatus to govern the amount of supporting reasoning in reply without exposing explanationStatus itself as a user-visible label.",
             "When explanationStatus is optional, keep reply concise and include only the supporting reasoning needed for the immediate interaction.",
             "When explanationStatus is recommended, keep the concise answer first, then include enough supporting reasoning to preserve any material architectural boundary, implementation boundary, uncertainty, tradeoff, or evidence interpretation that could change the user's next engineering decision.",

@@ -263,6 +263,7 @@ export async function runMatildaConversationWorkflow(
         userPackageSemantics:
           input.userPackageSemantics ?? null,
         explicitEvidenceRequest,
+        executionAuthorized: false,
       });
 
     enforceMatildaWorkflowPackageSemanticsRequirement(
