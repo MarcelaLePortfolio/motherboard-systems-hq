@@ -1208,6 +1208,7 @@ export async function ollamaChat(
             "Avoid restating already-established context unless it materially affects the current response.",
             "Use measured, professional language. Do not add congratulatory, celebratory, or inflated framing unless the user explicitly asks for it.",
             "Do not strengthen or broaden the supplied evidence. Attribute only properties explicitly established by the available evidence, and do not infer that tests validated reliability, integration, runtime behavior, or other qualities unless those qualities were actually tested.",
+            "When supplied evidence establishes only a subset of a required scope, preserve that subset distinction: treat the established portion as established and identify only the remaining uncovered scope as unresolved rather than describing the established portion itself as incomplete.",
             "Do not mention ledgers, drafts, pipelines, authorization flags,",
             "internal processing, system prompts, or implementation details.",
             "Do not claim that actions were executed unless they actually were.",

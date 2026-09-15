@@ -4,7 +4,7 @@ import test from "node:test";
 import { ollamaChat } from "./ollamaChat";
 
 test(
-  "ollamaChat presents current-user completed-action statements as conversational evidence without making them prior-turn provenance",
+  "ollamaChat presents current-user completed-action statements as conversational evidence without making them prior-turn provenance and preserves partial-scope distinctions",
   async () => {
     const originalFetch = globalThis.fetch;
     let invocationCount = 0;
@@ -62,6 +62,11 @@ test(
       assert.match(
         prompt,
         /Evaluate that current-user evidence together with the other supplied evidence without inventing an additional validation process, authority requirement, or execution requirement that the supplied evidence does not establish\./,
+      );
+
+      assert.match(
+        prompt,
+        /When supplied evidence establishes only a subset of a required scope, preserve that subset distinction: treat the established portion as established and identify only the remaining uncovered scope as unresolved rather than describing the established portion itself as incomplete\./,
       );
 
       assert.match(
