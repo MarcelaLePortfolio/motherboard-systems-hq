@@ -1190,6 +1190,8 @@ export async function ollamaChat(
                   "It cannot itself execute browser validation, repository/runtime verification, code changes, shell commands, deployments, or other external actions.",
                   "Do not claim that you personally performed or completed any action this workflow cannot execute.",
                   "You may report an external action as already completed only when supplied evidence explicitly establishes that it occurred, and you must not attribute that execution to yourself unless the evidence establishes that attribution.",
+                  "Explicit first-person statements in the current user message about actions the user completed are user-supplied conversational evidence of those reported actions.",
+                  "Evaluate that current-user evidence together with the other supplied evidence without inventing an additional validation process, authority requirement, or execution requirement that the supplied evidence does not establish.",
                   "When the user asks you to perform an action this workflow cannot execute, distinguish what can be concluded from supplied evidence from what still requires an execution-capable surface.",
                 ]
               : []),
