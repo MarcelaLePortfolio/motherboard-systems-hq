@@ -1,3 +1,5 @@
+import express from "express";
+
 import {
   readAtlasTypedPreexecutionObservations,
 } from "../../atlas/atlas-preexecution-observation-aggregator";
@@ -62,3 +64,50 @@ export function readAtlasPreExecutionRoute(
     scopedObservations,
   );
 }
+
+export function createAtlasPreExecutionRouter(): express.Router {
+  const router = express.Router();
+
+  router.get("/atlas/preexecution", (req, res) => {
+    try {
+      const projectId = String(req.query.projectId ?? "");
+      const conversationId = String(
+        req.query.conversationId ?? "",
+      );
+
+      const result = readAtlasPreExecutionRoute({
+        projectId,
+        conversationId,
+      });
+
+      return res.json({
+        status: "ok",
+        route: "atlas_preexecution_read_route",
+        projectId: result.projectId,
+        observations: result.observations,
+        lineageSequences: result.lineageSequences,
+        causalExplanation: false,
+        executionHistory: false,
+        approvalDecision: false,
+        authorityDecision: false,
+      });
+    } catch (error) {
+      return res.status(400).json({
+        status: "error",
+        route: "atlas_preexecution_read_route",
+        error:
+          error instanceof Error
+            ? error.message
+            : String(error),
+        causalExplanation: false,
+        executionHistory: false,
+        approvalDecision: false,
+        authorityDecision: false,
+      });
+    }
+  });
+
+  return router;
+}
+
+export default createAtlasPreExecutionRouter();

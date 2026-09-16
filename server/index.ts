@@ -17,6 +17,7 @@ import { createGovernanceValidationRouter } from "./routes/governance-validation
 import { createGovernanceEnvelopeGateRouter } from "./routes/governance-envelope-gate-route";
 import { createGovernanceEnvelopeRouter } from "./routes/governance-envelope-route";
 import { createProductionGovernanceExecutionRouter } from "./execution/production-governance-execution-composition.js";
+import atlasPreExecutionRouter from "./routes/atlas/preexecution";
 
 const app = express();
 
@@ -35,6 +36,7 @@ app.use(createGovernanceValidationRouter());
 app.use(createGovernanceEnvelopeGateRouter());
 app.use(createGovernanceEnvelopeRouter());
 app.use(createProductionGovernanceExecutionRouter());
+app.use(atlasPreExecutionRouter);
 
 app.get("/ui", (_req, res) => {
   res.send(`
