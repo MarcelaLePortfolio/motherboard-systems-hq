@@ -657,7 +657,11 @@ export function createMatildaConversationTurn(
 export function listMatildaConversationTurns(
   projectId: string,
   limit = 20,
-  conversationId?: string | null
+  conversationId?: string | null,
+  cursor?: {
+    createdAt: string;
+    turnId: string;
+  }
 ): MatildaConversationTurn[] {
   ensureMatildaConversationTables();
 
@@ -706,13 +710,22 @@ export function listMatildaConversationTurns(
       FROM matilda_conversation_turns
       WHERE project_id = ?
         AND conversation_id = ?
-      ORDER BY created_at DESC
+        ${cursor
+          ? `AND (
+              created_at < ?
+              OR (created_at = ? AND turn_id < ?)
+            )`
+          : ""}
+      ORDER BY created_at DESC, turn_id DESC
       LIMIT ?
     )
-    ORDER BY created_at ASC
+    ORDER BY created_at ASC, turn_id ASC
   `).all(
     project_id,
     conversation_id,
+    ...(cursor
+      ? [cursor.createdAt, cursor.createdAt, cursor.turnId]
+      : []),
     boundedLimit
   ) as Array<{
     turn_id: string;

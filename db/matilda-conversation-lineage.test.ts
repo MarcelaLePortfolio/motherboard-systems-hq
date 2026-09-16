@@ -141,6 +141,110 @@ test("conversation identity remains explicit across IEL and Living Draft lineage
 
     const database = new Database(databasePath);
 
+    const activeCursorConversation =
+      conversationRuntime.getOrCreateActiveMatildaConversation("hq");
+
+    const cursorInsert = database.prepare(`
+      INSERT INTO matilda_conversation_turns (
+        turn_id,
+        project_id,
+        conversation_id,
+        user_message,
+        assistant_reply,
+        interpretation_entry_id,
+        project_context_evidence_trace_json,
+        created_at
+      ) VALUES (?, 'hq', ?, ?, ?, ?, NULL, ?)
+    `);
+
+    const cursorRows = [
+      ["cursor-turn-001", "2026-09-16T00:00:01.000Z"],
+      ["cursor-turn-002", "2026-09-16T00:00:02.000Z"],
+      ["cursor-turn-003", "2026-09-16T00:00:03.000Z"],
+      ["cursor-turn-004", "2026-09-16T00:00:03.000Z"],
+      ["cursor-turn-005", "2026-09-16T00:00:04.000Z"],
+      ["cursor-turn-006", "2026-09-16T00:00:05.000Z"],
+    ] as const;
+
+    for (const [turnId, createdAt] of cursorRows) {
+      cursorInsert.run(
+        turnId,
+        activeCursorConversation.conversation_id,
+        `user-${turnId}`,
+        `assistant-${turnId}`,
+        `iel-${turnId}`,
+        createdAt
+      );
+    }
+
+    const cursorFirstPage =
+      conversationRuntime.listMatildaConversationTurns(
+        "hq",
+        3,
+        activeCursorConversation.conversation_id
+      );
+
+    assert.deepEqual(
+      cursorFirstPage.map(
+        (turn: { turn_id: string }) => turn.turn_id
+      ),
+      [
+        "cursor-turn-004",
+        "cursor-turn-005",
+        "cursor-turn-006",
+      ]
+    );
+
+    const cursorOldestFirstPage = cursorFirstPage[0];
+
+    const cursorSecondPage =
+      conversationRuntime.listMatildaConversationTurns(
+        "hq",
+        3,
+        activeCursorConversation.conversation_id,
+        {
+          createdAt: cursorOldestFirstPage.created_at,
+          turnId: cursorOldestFirstPage.turn_id,
+        }
+      );
+
+    assert.deepEqual(
+      cursorSecondPage.map(
+        (turn: { turn_id: string }) => turn.turn_id
+      ),
+      [
+        "cursor-turn-001",
+        "cursor-turn-002",
+        "cursor-turn-003",
+      ]
+    );
+
+    const cursorCombinedIds = [
+      ...cursorSecondPage.map(
+        (turn: { turn_id: string }) => turn.turn_id
+      ),
+      ...cursorFirstPage.map(
+        (turn: { turn_id: string }) => turn.turn_id
+      ),
+    ];
+
+    assert.deepEqual(
+      cursorCombinedIds,
+      [
+        "cursor-turn-001",
+        "cursor-turn-002",
+        "cursor-turn-003",
+        "cursor-turn-004",
+        "cursor-turn-005",
+        "cursor-turn-006",
+      ]
+    );
+
+    assert.equal(
+      new Set(cursorCombinedIds).size,
+      cursorCombinedIds.length
+    );
+
     const backfilledIel = database
       .prepare(`
         SELECT project_id, conversation_id
