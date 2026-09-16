@@ -99,6 +99,9 @@ test(
       "dir",
     );
 
+    let ollamaInvocationCount = 0;
+    let latestOllamaRequestBody = "";
+
     const stub = createServer(
       (request, response) => {
         if (
@@ -120,6 +123,9 @@ test(
 
         request.on("end", () => {
           assert.ok(body.length > 0);
+
+          ollamaInvocationCount += 1;
+          latestOllamaRequestBody = body;
 
           const structuredResponse = {
             reply:
@@ -259,6 +265,222 @@ test(
         0,
       );
 
+      database = new Database(
+        path.join(
+          temporaryRoot,
+          "db",
+          "main.db",
+        ),
+      );
+
+      const backfillConversation =
+        conversationRuntime
+          .createMatildaConversation(
+            "hq",
+          );
+
+      conversationRuntime
+        .setActiveMatildaConversation(
+          "hq",
+          activeConversation.conversation_id,
+        );
+
+      assert.equal(
+        conversationRuntime
+          .getOrCreateActiveMatildaConversation(
+            "hq",
+          )
+          .conversation_id,
+        activeConversation.conversation_id,
+      );
+
+      const insertLedger =
+        database.prepare(`
+          INSERT INTO matilda_interpretation_evidence_ledger (
+            entry_id,
+            created_at,
+            actor,
+            project_id,
+            conversation_id,
+            interpretation_event,
+            minimum_sufficient_context,
+            supporting_raw_evidence,
+            matilda_observation,
+            unresolved_questions,
+            lineage_references,
+            supersession_status
+          ) VALUES (
+            ?,
+            ?,
+            'matilda',
+            'hq',
+            ?,
+            'Backfill regression fixture',
+            'fixture',
+            ?,
+            ?,
+            NULL,
+            NULL,
+            ?
+          )
+        `);
+
+      const insertTurn =
+        database.prepare(`
+          INSERT INTO matilda_conversation_turns (
+            turn_id,
+            project_id,
+            conversation_id,
+            user_message,
+            assistant_reply,
+            interpretation_entry_id,
+            project_context_evidence_trace_json,
+            created_at
+          ) VALUES (
+            ?,
+            'hq',
+            ?,
+            ?,
+            ?,
+            ?,
+            NULL,
+            ?
+          )
+        `);
+
+      for (
+        let index = 1;
+        index <= 40;
+        index += 1
+      ) {
+        const suffix =
+          String(index).padStart(3, "0");
+
+        const createdAt =
+          `2026-09-16T00:00:${String(index).padStart(2, "0")}.000Z`;
+
+        const entryId =
+          `backfill-iel-${suffix}`;
+
+        const turnId =
+          `backfill-turn-${suffix}`;
+
+        const isRecentIneligible =
+          index > 20;
+
+        const supportPayload =
+          JSON.stringify({
+            supportSourceReferences: [],
+            evidenceSufficient: true,
+          });
+
+        insertLedger.run(
+          entryId,
+          createdAt,
+          backfillConversation.conversation_id,
+          supportPayload,
+          `Backfill interpretation ${suffix}`,
+          isRecentIneligible
+            ? "superseded"
+            : "current",
+        );
+
+        insertTurn.run(
+          turnId,
+          backfillConversation.conversation_id,
+          `Backfill user ${suffix}`,
+          `Backfill assistant ${suffix}`,
+          entryId,
+          createdAt,
+        );
+      }
+
+      const ollamaBeforeBackfill =
+        ollamaInvocationCount;
+
+      const backfillResult =
+        await workflowRuntime
+          .runMatildaConversationWorkflow({
+            message:
+              "Use the eligible conversation history.",
+            agent: "matilda",
+            project_id: "hq",
+            conversation_id:
+              backfillConversation
+                .conversation_id,
+          });
+
+      assert.equal(
+        ollamaInvocationCount
+          - ollamaBeforeBackfill,
+        1,
+      );
+
+      assert.equal(
+        backfillResult.turn.conversation_id,
+        backfillConversation
+          .conversation_id,
+      );
+
+      assert.ok(
+        latestOllamaRequestBody.includes(
+          "Backfill user 001",
+        ),
+      );
+
+      assert.ok(
+        latestOllamaRequestBody.includes(
+          "Backfill user 020",
+        ),
+      );
+
+      assert.equal(
+        latestOllamaRequestBody.includes(
+          "Backfill user 021",
+        ),
+        false,
+      );
+
+      assert.equal(
+        latestOllamaRequestBody.includes(
+          "Backfill user 040",
+        ),
+        false,
+      );
+
+      const firstEligibleIndex =
+        latestOllamaRequestBody.indexOf(
+          "Backfill user 001",
+        );
+
+      const lastEligibleIndex =
+        latestOllamaRequestBody.indexOf(
+          "Backfill user 020",
+        );
+
+      assert.ok(firstEligibleIndex >= 0);
+      assert.ok(lastEligibleIndex > firstEligibleIndex);
+
+      const backfillTurnCount =
+        database
+          .prepare(`
+            SELECT COUNT(*) AS count
+            FROM matilda_conversation_turns
+            WHERE project_id = 'hq'
+              AND conversation_id = ?
+          `)
+          .get(
+            backfillConversation
+              .conversation_id,
+          ) as {
+            count: number;
+          };
+
+      assert.equal(
+        backfillTurnCount.count,
+        41,
+      );
+
       const result =
         await workflowRuntime
           .runMatildaConversationWorkflow({
@@ -358,14 +580,6 @@ test(
           )
           .conversation_id,
         activeConversation.conversation_id,
-      );
-
-      database = new Database(
-        path.join(
-          temporaryRoot,
-          "db",
-          "main.db",
-        ),
       );
 
       const draft =

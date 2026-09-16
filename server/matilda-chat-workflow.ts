@@ -176,12 +176,19 @@ export async function runMatildaConversationWorkflow(
     projectRootPath =
       project?.projectRootPath ?? null;
 
-    const conversationTurns =
+    const semanticHistoryTarget = 20;
+    const semanticHistoryBatchSize = 20;
+    const semanticHistoryScanCeiling = 75;
+
+    let conversationTurns =
       listMatildaConversationTurns(
         projectId,
-        20,
+        semanticHistoryBatchSize,
         conversationId,
       );
+
+    let rawTurnsScanned =
+      conversationTurns.length;
 
     const priorUserMessage =
       conversationTurns.length > 0
@@ -197,7 +204,7 @@ export async function runMatildaConversationWorkflow(
         priorUserMessage,
       });
 
-    const interpretationLedgerEntries =
+    let interpretationLedgerEntries =
       readInterpretationEvidenceLedgerEntriesByIds(
         conversationTurns.map(
           (turn) => turn.interpretation_entry_id,
@@ -207,6 +214,105 @@ export async function runMatildaConversationWorkflow(
           conversationId,
         },
       );
+
+    let interpretationLifecycleEntries =
+      selectMatildaInterpretationLifecycleEntries(
+        conversationTurns.map(
+          (turn) => turn.interpretation_entry_id,
+        ),
+        interpretationLedgerEntries,
+      );
+
+    let conversationContext =
+      composeMatildaConversationContext({
+        turns: conversationTurns,
+        projectContextRetrieval,
+        interpretationLifecycleEntries,
+      });
+
+    while (
+      conversationContext.selectedHistory.length
+        < semanticHistoryTarget
+      && rawTurnsScanned
+        < semanticHistoryScanCeiling
+      && conversationTurns.length > 0
+    ) {
+      const oldestRetrievedTurn =
+        conversationTurns[0];
+
+      const remainingScanCapacity =
+        semanticHistoryScanCeiling
+        - rawTurnsScanned;
+
+      const requestedPageSize =
+        Math.min(
+          semanticHistoryBatchSize,
+          remainingScanCapacity,
+        );
+
+      if (requestedPageSize <= 0) {
+        break;
+      }
+
+      const olderPage =
+        listMatildaConversationTurns(
+          projectId,
+          requestedPageSize,
+          conversationId,
+          {
+            createdAt:
+              oldestRetrievedTurn.created_at,
+            turnId:
+              oldestRetrievedTurn.turn_id,
+          },
+        );
+
+      rawTurnsScanned += olderPage.length;
+
+      if (olderPage.length === 0) {
+        break;
+      }
+
+      conversationTurns = [
+        ...olderPage,
+        ...conversationTurns,
+      ];
+
+      interpretationLedgerEntries =
+        readInterpretationEvidenceLedgerEntriesByIds(
+          conversationTurns.map(
+            (turn) =>
+              turn.interpretation_entry_id,
+          ),
+          {
+            projectId,
+            conversationId,
+          },
+        );
+
+      interpretationLifecycleEntries =
+        selectMatildaInterpretationLifecycleEntries(
+          conversationTurns.map(
+            (turn) =>
+              turn.interpretation_entry_id,
+          ),
+          interpretationLedgerEntries,
+        );
+
+      conversationContext =
+        composeMatildaConversationContext({
+          turns: conversationTurns,
+          projectContextRetrieval,
+          interpretationLifecycleEntries,
+        });
+
+      if (
+        olderPage.length
+          < requestedPageSize
+      ) {
+        break;
+      }
+    }
 
     const scopedLifecycleLedgerEntries =
       listInterpretationEvidenceLedgerEntries(
@@ -222,23 +328,13 @@ export async function runMatildaConversationWorkflow(
         scopedLifecycleLedgerEntries,
       );
 
-    const interpretationLifecycleEntries =
-      selectMatildaInterpretationLifecycleEntries(
-        conversationTurns.map(
-          (turn) => turn.interpretation_entry_id,
-        ),
-        interpretationLedgerEntries,
-      );
-
-    const conversationContext =
-      composeMatildaConversationContext({
-        turns: conversationTurns,
-        projectContextRetrieval,
-        interpretationLifecycleEntries,
-      });
-
     const history =
-      conversationContext.selectedHistory;
+      conversationContext.selectedHistory.length
+        > semanticHistoryTarget
+        ? conversationContext.selectedHistory.slice(
+            -semanticHistoryTarget,
+          )
+        : conversationContext.selectedHistory;
 
     const explicitExplanationRequest =
       isExplicitExplanationRequest(message);
