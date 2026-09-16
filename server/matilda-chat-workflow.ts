@@ -9,6 +9,7 @@ import { runMatildaChatDraftIntegration } from "../db/matilda-chat-draft-integra
 import {
   createInterpretationEvidenceLedgerEntry,
   listInterpretationEvidenceLedgerEntries,
+  readInterpretationEvidenceLedgerEntriesByIds,
   type InterpretationEvidenceLedgerReadEntry,
 } from "../db/matilda-interpretation-runtime";
 import {
@@ -197,7 +198,15 @@ export async function runMatildaConversationWorkflow(
       });
 
     const interpretationLedgerEntries =
-      listInterpretationEvidenceLedgerEntries(500);
+      readInterpretationEvidenceLedgerEntriesByIds(
+        conversationTurns.map(
+          (turn) => turn.interpretation_entry_id,
+        ),
+        {
+          projectId,
+          conversationId,
+        },
+      );
 
     const scopedLifecycleLedgerEntries =
       listInterpretationEvidenceLedgerEntries(

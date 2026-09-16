@@ -559,3 +559,83 @@ export function listInterpretationEvidenceLedgerEntries(
 
 }
 
+
+export function readInterpretationEvidenceLedgerEntriesByIds(
+  entryIds: readonly string[],
+  scope: {
+    projectId: string;
+    conversationId: string;
+  },
+): InterpretationEvidenceLedgerReadEntry[] {
+  ensureInterpretationEvidenceLedgerTable();
+
+  const projectId = String(scope.projectId || "").trim();
+  const conversationId = String(scope.conversationId || "").trim();
+
+  if (!projectId) {
+    throw new Error(
+      "projectId is required for exact Interpretation Evidence Ledger retrieval.",
+    );
+  }
+
+  if (!conversationId) {
+    throw new Error(
+      "conversationId is required for exact Interpretation Evidence Ledger retrieval.",
+    );
+  }
+
+  const requestedIds = Array.from(
+    new Set(
+      entryIds
+        .map((entryId) => String(entryId || "").trim())
+        .filter(Boolean),
+    ),
+  );
+
+  if (requestedIds.length === 0) {
+    return [];
+  }
+
+  const placeholders = requestedIds.map(() => "?").join(", ");
+
+  const rows = sqlite
+    .prepare(`
+      SELECT *
+      FROM matilda_interpretation_evidence_ledger
+      WHERE project_id = ?
+        AND conversation_id = ?
+        AND entry_id IN (${placeholders})
+      ORDER BY created_at DESC
+    `)
+    .all(
+      projectId,
+      conversationId,
+      ...requestedIds,
+    ) as InterpretationEvidenceLedgerStoredReadEntry[];
+
+  return rows.map((row) => ({
+    entry_id: row.entry_id,
+    created_at: row.created_at,
+    actor: row.actor,
+    project_id: row.project_id,
+    conversation_id: row.conversation_id,
+    interpretation_event: row.interpretation_event,
+    minimum_sufficient_context:
+      row.minimum_sufficient_context,
+    supporting_raw_evidence:
+      row.supporting_raw_evidence,
+    matilda_observation: row.matilda_observation,
+    unresolved_questions: row.unresolved_questions,
+    lineage_references: row.lineage_references,
+    investigationLifecycle:
+      reconstructInvestigationLifecycle(
+        row.investigation_lifecycle_json,
+      ),
+    packageSemantics:
+      reconstructPackageSemantics(
+        row.package_semantics_json,
+      ),
+    supersession_status: row.supersession_status,
+  }));
+}
+
