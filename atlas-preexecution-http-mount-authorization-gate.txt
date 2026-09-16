@@ -1,0 +1,1 @@
+I authorize implementation of the minimum Atlas read-only pre-execution HTTP mount and mount tests, with no UI, execution-route, reasoner, aggregator, Matilda, persistence, or database changes.
