@@ -19,7 +19,7 @@ echo "No source foreign keys"
 
 test "$(git rev-parse --abbrev-ref HEAD)" = "$EXPECTED_BRANCH"
 git fetch origin "$EXPECTED_BRANCH"
-test "$(git rev-list --left-right --count "HEAD...origin/$EXPECTED_BRANCH")" = $'0\\t0'
+test "$(git rev-list --left-right --count "HEAD...origin/$EXPECTED_BRANCH")" = $'0\t0'
 test -z "$(git diff --cached --name-only)"
 
 mapfile_safe() {
