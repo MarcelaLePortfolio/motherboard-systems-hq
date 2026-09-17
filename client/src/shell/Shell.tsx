@@ -2,6 +2,7 @@ import { useState } from "react";
 import NavigationRegion, { type ShellWorkspace } from "./NavigationRegion";
 import WorkspaceMount from "./WorkspaceMount";
 import ProjectContextControl from "../project-context/ProjectContextControl";
+import AtlasPreexecutionPresentation from "../atlas/AtlasPreexecutionPresentation";
 import "./shell.css";
 
 export default function Shell() {
@@ -33,7 +34,10 @@ export default function Shell() {
           activeWorkspace={activeWorkspace}
           onSelectWorkspace={setActiveWorkspace}
         />
-        <WorkspaceMount activeWorkspace={activeWorkspace} />
+        <div className="shell-workspace-stack">
+          <WorkspaceMount activeWorkspace={activeWorkspace} />
+          <AtlasPreexecutionPresentation />
+        </div>
       </div>
     </div>
   );

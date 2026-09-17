@@ -565,3 +565,51 @@ body,
 .shell-conversation-navigation__error {
   overflow-wrap: anywhere;
 }
+
+.shell-workspace-stack {
+  min-width: 0;
+  display: grid;
+  gap: 1rem;
+}
+
+.atlas-preexecution-presentation {
+  border: 1px solid currentColor;
+  border-radius: 0.75rem;
+  padding: 1rem;
+}
+
+.atlas-preexecution-presentation__header {
+  margin-bottom: 0.75rem;
+}
+
+.atlas-preexecution-presentation__eyebrow,
+.atlas-preexecution-presentation__status,
+.atlas-preexecution-presentation__error,
+.atlas-preexecution-presentation__content p {
+  margin: 0;
+}
+
+.atlas-preexecution-presentation__eyebrow {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.atlas-preexecution-presentation__header h2 {
+  margin: 0.25rem 0 0;
+}
+
+.atlas-preexecution-presentation__error {
+  font-weight: 600;
+}
+
+.atlas-preexecution-presentation__observations {
+  margin: 0.75rem 0 0;
+  padding-left: 1.5rem;
+}
+
+.atlas-preexecution-presentation__observations pre {
+  overflow-x: auto;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
