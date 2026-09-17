@@ -1,0 +1,20 @@
+01550c296 (HEAD -> feature/support-source-references-runtime, origin/feature/support-source-references-runtime) Verify Atlas React presentation corridor closure
+896fc5215 Record Atlas React presentation corridor closure
+c1bfc8e8e Close Atlas React presentation corridor
+73d92f2c5 Verify Atlas React presentation landed
+2af069463 Record Atlas React presentation implementation
+f64cb63e9 Add Atlas read-only pre-execution presentation
+4df267cf1 Classify Atlas minimum React presentation unit
+aefc65434 Inspect existing Atlas pre-execution presentation evidence
+11b572b6a Investigate Atlas active conversation UI boundary
+2444e54fd Classify Atlas pre-execution operator presentation boundary
+24cefee47 Inspect Atlas pre-execution operator presentation boundary
+6358d172c Mount Atlas pre-execution read endpoint
+851e53343 Record Atlas pre-execution HTTP mount implementation script
+f62ec1047 Record Atlas pre-execution HTTP mount authorization gate
+821c68cf3 Inspect Atlas pre-execution HTTP mount boundary
+c6f73f8fa Add Atlas pre-execution read route
+9f55a2872 Classify Atlas pre-execution read route contract
+d09d3bcb2 Inspect Atlas pre-execution presentation integration boundary
+923062ad1 Add Atlas pre-execution structural reasoner
+e2ab95b91 Record Atlas structural reasoner authorization gate
