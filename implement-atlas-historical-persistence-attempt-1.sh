@@ -2,7 +2,7 @@
 set -euo pipefail
 
 EXPECTED_BRANCH="feature/support-source-references-runtime"
-EXPECTED_HEAD="5f243fc3e"
+EXPECTED_HEAD="66a650923"
 ALLOWED_EXISTING_TRACKED_DRIFT=(
   ".DS_Store"
   "scripts/diagnose-live-selected-context-identities.ts"
