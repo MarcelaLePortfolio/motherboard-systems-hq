@@ -7,6 +7,11 @@ import {
 } from "../matilda-chat-stub";
 import { runMatildaChatDraftIntegration } from "../db/matilda-chat-draft-integration";
 import {
+  atlasInterpretationEvidenceSourceIdentity,
+  atlasLivingDraftSourceIdentity,
+  persistAtlasHistoricalObservation,
+} from "../db/atlas-historical-observation-persistence";
+import {
   createInterpretationEvidenceLedgerEntry,
   listInterpretationEvidenceLedgerEntries,
   readInterpretationEvidenceLedgerEntriesByIds,
@@ -388,7 +393,8 @@ export async function runMatildaConversationWorkflow(
         ollamaResult.evidenceSufficient,
       );
 
-    createInterpretationEvidenceLedgerEntry({
+    const persistedInterpretationEvidence =
+      createInterpretationEvidenceLedgerEntry({
       entry_id:
         result.meta.interpretation_entry_id,
       actor: result.agent,
@@ -448,6 +454,40 @@ export async function runMatildaConversationWorkflow(
         ollamaResult.packageSemantics,
     });
 
+    persistAtlasHistoricalObservation({
+      sourceKind: "interpretation_evidence",
+      sourceIdentity:
+        atlasInterpretationEvidenceSourceIdentity(
+          persistedInterpretationEvidence.entry_id,
+        ),
+      projectId,
+      conversationId,
+      lineageId:
+        `matilda-lineage-${conversationId}`,
+      observedAt:
+        persistedInterpretationEvidence.created_at,
+      authorityStatus:
+        "matilda_authored_interpretive_evidence",
+      payload: {
+        entryId:
+          persistedInterpretationEvidence.entry_id,
+        projectId:
+          persistedInterpretationEvidence.project_id,
+        conversationId:
+          persistedInterpretationEvidence.conversation_id,
+        createdAt:
+          persistedInterpretationEvidence.created_at,
+        actor: result.agent,
+        matildaObservation:
+          durableInterpretation,
+        supportProvenance,
+        investigationLifecycle:
+          ollamaResult.investigationLifecycle,
+        packageSemantics:
+          ollamaResult.packageSemantics,
+      },
+    });
+
     const persistedTurn =
       createMatildaConversationTurn({
         project_id: projectId,
@@ -466,17 +506,41 @@ export async function runMatildaConversationWorkflow(
     let draftPackageUpdated = false;
 
     try {
-      runMatildaChatDraftIntegration({
-        project_id: projectId,
-        conversation_id:
-          conversationId,
-        draft_package_id:
-          `matilda-draft-${conversationId}`,
-        lineage_id:
-          `matilda-lineage-${conversationId}`,
-        latest_entry_id:
-          result.meta
-            .interpretation_entry_id,
+      const draftIntegration =
+        runMatildaChatDraftIntegration({
+          project_id: projectId,
+          conversation_id:
+            conversationId,
+          draft_package_id:
+            `matilda-draft-${conversationId}`,
+          lineage_id:
+            `matilda-lineage-${conversationId}`,
+          latest_entry_id:
+            result.meta
+              .interpretation_entry_id,
+        });
+
+      const persistedDraft =
+        draftIntegration.draft;
+
+      persistAtlasHistoricalObservation({
+        sourceKind: "living_draft",
+        sourceIdentity:
+          atlasLivingDraftSourceIdentity(
+            persistedDraft.draft_package_id,
+            persistedDraft.updated_at,
+          ),
+        projectId,
+        conversationId,
+        lineageId:
+          persistedDraft.lineage_id,
+        observedAt:
+          persistedDraft.updated_at,
+        authorityStatus:
+          "non_authoritative",
+        payload: {
+          ...persistedDraft,
+        },
       });
 
       draftPackageUpdated = true;
