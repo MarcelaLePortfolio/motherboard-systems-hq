@@ -2,7 +2,6 @@
 set -euo pipefail
 
 EXPECTED_BRANCH="feature/support-source-references-runtime"
-EXPECTED_HEAD="010a598a3"
 ALLOWED_EXISTING_TRACKED_DRIFT=(
   ".DS_Store"
   "scripts/diagnose-live-selected-context-identities.ts"
@@ -19,7 +18,8 @@ echo "No execution authority"
 echo "No source foreign keys"
 
 test "$(git rev-parse --abbrev-ref HEAD)" = "$EXPECTED_BRANCH"
-test "$(git rev-parse --short=9 HEAD)" = "$EXPECTED_HEAD"
+git fetch origin "$EXPECTED_BRANCH"
+test "$(git rev-list --left-right --count "HEAD...origin/$EXPECTED_BRANCH")" = $'0\\t0'
 test -z "$(git diff --cached --name-only)"
 
 mapfile_safe() {
