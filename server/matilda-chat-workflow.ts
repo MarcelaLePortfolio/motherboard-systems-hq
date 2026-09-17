@@ -478,13 +478,53 @@ export async function runMatildaConversationWorkflow(
         createdAt:
           persistedInterpretationEvidence.created_at,
         actor: result.agent,
+        interpretationEvent:
+          "Matilda interpreted the current project-scoped conversation turn using available conversation history and bounded project evidence.",
+        minimumSufficientContext: [
+          `project:${projectId}`,
+          `conversation:${conversationId}`,
+          `prior_turns:${history.length}`,
+          `project_context_excerpts:${projectContextRetrieval.excerpts.length}`,
+          projectContextRetrieval.warning
+            ? "project_context_warning:present"
+            : "project_context_warning:none",
+        ].join("; "),
+        supportingRawEvidence: clampText(
+          JSON.stringify({
+            user_message: message,
+            prior_turn_count: history.length,
+            project_context_sources:
+              projectContextRetrieval.excerpts.map(
+                (excerpt) => ({
+                  relative_path: excerpt.relativePath,
+                  line_number: excerpt.lineNumber,
+                  provenance: excerpt.provenance,
+                  authority_status: excerpt.authorityStatus,
+                }),
+              ),
+            project_context_warning:
+              projectContextRetrieval.warning,
+            support_source_references:
+              supportProvenance.supportSourceReferences,
+            evidence_sufficient:
+              supportProvenance.evidenceSufficient,
+          }),
+          12000,
+        ),
         matildaObservation:
           durableInterpretation,
-        supportProvenance,
+        unresolvedQuestions: null,
+        lineageReferences: [
+          `project:${projectId}`,
+          `conversation:${conversationId}`,
+          `interpretation_entry:${result.meta.interpretation_entry_id}`,
+        ].join("; "),
         investigationLifecycle:
           ollamaResult.investigationLifecycle,
         packageSemantics:
           ollamaResult.packageSemantics,
+        supersessionStatus: "current",
+        supportProvenance,
       },
     });
 
