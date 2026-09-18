@@ -202,6 +202,39 @@ test(
           "./matilda-chat-workflow"
         );
 
+      const historicalObservationRuntime =
+        require(
+          "../db/atlas-historical-observation-persistence",
+        ) as typeof import(
+          "../db/atlas-historical-observation-persistence"
+        );
+
+      const historicalObservationAdapter =
+        require(
+          "./atlas/atlas-historical-observation-adapter",
+        ) as typeof import(
+          "./atlas/atlas-historical-observation-adapter"
+        );
+
+      const preexecutionObservationAggregator =
+        require(
+          "./atlas/atlas-preexecution-observation-aggregator",
+        ) as typeof import(
+          "./atlas/atlas-preexecution-observation-aggregator"
+        );
+
+      const {
+        readAtlasHistoricalObservations,
+      } = historicalObservationRuntime;
+
+      const {
+        readAtlasHistoricalTypedObservations,
+      } = historicalObservationAdapter;
+
+      const {
+        readAtlasTypedPreexecutionObservations,
+      } = preexecutionObservationAggregator;
+
       const activeConversation =
         conversationRuntime
           .getOrCreateActiveMatildaConversation(
@@ -293,6 +326,47 @@ test(
           .conversation_id,
         activeConversation.conversation_id,
       );
+
+      database.exec(`
+        CREATE TABLE IF NOT EXISTS matilda_canonical_packages (
+          package_id TEXT NOT NULL,
+          package_version INTEGER NOT NULL CHECK (package_version >= 1),
+          summary_id TEXT NOT NULL,
+          draft_package_id TEXT NOT NULL,
+          draft_revision_id TEXT,
+          lineage_id TEXT NOT NULL,
+          project_id TEXT,
+          conversation_id TEXT,
+          approved_interpretation TEXT NOT NULL,
+          approved_work TEXT,
+          approved_artifacts TEXT,
+          approved_scope TEXT,
+          approved_constraints TEXT,
+          approved_expected_outcome TEXT,
+          approval_actor TEXT NOT NULL,
+          approval_timestamp TEXT NOT NULL,
+          status TEXT NOT NULL,
+          created_at TEXT NOT NULL,
+          PRIMARY KEY (package_id, package_version)
+        );
+      `);
+
+      database.exec(`
+        CREATE TABLE IF NOT EXISTS matilda_interpretation_evidence_ledger (
+          entry_id TEXT PRIMARY KEY,
+          created_at TEXT NOT NULL,
+          actor TEXT NOT NULL,
+          project_id TEXT NOT NULL,
+          conversation_id TEXT,
+          interpretation_event TEXT NOT NULL,
+          minimum_sufficient_context TEXT NOT NULL,
+          supporting_raw_evidence TEXT NOT NULL,
+          matilda_observation TEXT NOT NULL,
+          unresolved_questions TEXT,
+          lineage_references TEXT,
+          supersession_status TEXT NOT NULL
+        );
+      `);
 
       const insertLedger =
         database.prepare(`
@@ -662,6 +736,151 @@ test(
         evidenceIds[0],
         afterTargetEntries[0]
           ?.entry_id,
+      );
+
+      const historicalRecords =
+        readAtlasHistoricalObservations(
+          "hq",
+          database,
+        );
+
+      const targetHistoricalRecords =
+        historicalRecords.filter(
+          (observation) =>
+            observation.conversationId ===
+            explicitTargetConversation.conversation_id,
+        );
+
+      const historicalInterpretationEvidence =
+        targetHistoricalRecords.filter(
+          (observation) =>
+            observation.sourceKind ===
+            "interpretation_evidence",
+        );
+
+      const historicalLivingDrafts =
+        targetHistoricalRecords.filter(
+          (observation) =>
+            observation.sourceKind ===
+            "living_draft",
+        );
+
+      assert.equal(
+        historicalInterpretationEvidence.length,
+        1,
+      );
+
+      assert.ok(
+        historicalLivingDrafts.length >= 1,
+      );
+
+      assert.equal(
+        historicalInterpretationEvidence[0]
+          ?.authorityStatus,
+        "matilda_authored_interpretive_evidence",
+      );
+
+      assert.ok(
+        historicalLivingDrafts.every(
+          (observation) =>
+            observation.authorityStatus ===
+            "non_authoritative" &&
+            observation.conversationId ===
+            explicitTargetConversation.conversation_id,
+        ),
+      );
+
+      const databasePath =
+        path.join(
+          temporaryRoot,
+          "db",
+          "main.db",
+        );
+
+      const typedHistorical =
+        readAtlasHistoricalTypedObservations(
+          "hq",
+          databasePath,
+        ).filter(
+          (observation) =>
+            observation.observation.conversationId ===
+            explicitTargetConversation.conversation_id,
+        );
+
+      assert.equal(
+        typedHistorical.filter(
+          (observation) =>
+            observation.observationKind ===
+            "interpretation_evidence",
+        ).length,
+        1,
+      );
+
+      assert.ok(
+        typedHistorical
+          .filter(
+            (observation) =>
+              observation.observationKind ===
+              "living_draft",
+          )
+          .every(
+            (observation) =>
+              observation.authorityStatus ===
+              "non_authoritative",
+          ),
+      );
+
+      const merged =
+        readAtlasTypedPreexecutionObservations({
+          projectId: "hq",
+          conversationId:
+            explicitTargetConversation.conversation_id,
+          databasePath,
+        });
+
+      const mergedInterpretationEvidence =
+        merged.filter(
+          (observation) =>
+            observation.sourceKind ===
+              "interpretation_evidence" &&
+            observation.payload.entryId ===
+              afterTargetEntries[0]?.entry_id,
+        );
+
+      assert.equal(
+        mergedInterpretationEvidence.length,
+        1,
+      );
+
+      const mergedDrafts =
+        merged.filter(
+          (observation) =>
+            observation.sourceKind ===
+              "living_draft" &&
+            observation.payload.draftPackageId ===
+              draft.draft_package_id,
+        );
+
+      const mergedDraftRevisionKeys =
+        mergedDrafts.map(
+          (observation) =>
+            `${observation.payload.draftPackageId}\u0000${observation.payload.updatedAt}`,
+        );
+
+      assert.equal(
+        new Set(mergedDraftRevisionKeys).size,
+        mergedDraftRevisionKeys.length,
+      );
+
+      const chronological =
+        merged.map(
+          (observation) =>
+            observation.observedAt,
+        );
+
+      assert.deepEqual(
+        chronological,
+        [...chronological].sort(),
       );
 
       const activeDraftCount =
