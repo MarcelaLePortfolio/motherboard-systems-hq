@@ -580,6 +580,10 @@ export async function runMatildaConversationWorkflow(
           "non_authoritative",
         payload: {
           ...persistedDraft,
+          evidence_entry_ids:
+            JSON.stringify(
+              persistedDraft.evidence_entry_ids,
+            ),
         },
       });
 
