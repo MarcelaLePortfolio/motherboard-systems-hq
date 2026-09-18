@@ -267,8 +267,12 @@ export function adaptAtlasHistoricalObservation(
 
 export function readAtlasHistoricalTypedObservations(
   projectId: string,
+  databasePath = "db/main.db",
 ): AtlasHistoricalTypedObservation[] {
-  return readAtlasHistoricalObservations(projectId).map(
+  return readAtlasHistoricalObservations(
+    projectId,
+    databasePath,
+  ).map(
     adaptAtlasHistoricalObservation,
   );
 }

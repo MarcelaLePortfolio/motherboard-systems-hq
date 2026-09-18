@@ -14,6 +14,9 @@ import {
   readAtlasCanonicalPackageObservations,
   type AtlasCanonicalPackageObservation,
 } from "./atlas-canonical-package-observation";
+import {
+  readAtlasHistoricalTypedObservations,
+} from "./atlas-historical-observation-adapter";
 
 export type AtlasTypedPreexecutionObservation =
   | {
@@ -212,34 +215,130 @@ export function readAtlasTypedPreexecutionObservations(
 
   const databasePath = scope.databasePath ?? "db/main.db";
 
-  return aggregateAtlasPreExecutionObservationRecords(
-    normalizedProjectId,
-    {
-      interpretationEvidence: readAtlasPreExecutionObservations({
-        projectId: normalizedProjectId,
-        conversationId: normalizedConversationId,
-      }),
-      livingDrafts: readAtlasLivingDraftObservations(
-        normalizedProjectId,
-        databasePath,
-      ).filter(
+  const liveObservations =
+    aggregateAtlasPreExecutionObservationRecords(
+      normalizedProjectId,
+      {
+        interpretationEvidence: readAtlasPreExecutionObservations({
+          projectId: normalizedProjectId,
+          conversationId: normalizedConversationId,
+        }),
+        livingDrafts: readAtlasLivingDraftObservations(
+          normalizedProjectId,
+          databasePath,
+        ).filter(
+          (observation) =>
+            observation.conversationId === normalizedConversationId,
+        ),
+        pendingApprovals: readAtlasPendingApprovalObservations(
+          normalizedProjectId,
+          databasePath,
+        ).filter(
+          (observation) =>
+            observation.conversationId === normalizedConversationId,
+        ),
+        canonicalPackages: readAtlasCanonicalPackageObservations(
+          normalizedProjectId,
+          databasePath,
+        ).filter(
+          (observation) =>
+            observation.conversationId === normalizedConversationId,
+        ),
+      },
+    );
+
+  const historicalObservations =
+    readAtlasHistoricalTypedObservations(
+      normalizedProjectId,
+      databasePath,
+    ).filter(
+      (historical) =>
+        historical.observation.conversationId ===
+        normalizedConversationId,
+    );
+
+  const liveInterpretationEntryIds = new Set(
+    liveObservations
+      .filter(
         (observation) =>
-          observation.conversationId === normalizedConversationId,
-      ),
-      pendingApprovals: readAtlasPendingApprovalObservations(
-        normalizedProjectId,
-        databasePath,
-      ).filter(
+          observation.sourceKind === "interpretation_evidence",
+      )
+      .map(
         (observation) =>
-          observation.conversationId === normalizedConversationId,
+          observation.payload.entryId,
       ),
-      canonicalPackages: readAtlasCanonicalPackageObservations(
-        normalizedProjectId,
-        databasePath,
-      ).filter(
-        (observation) =>
-          observation.conversationId === normalizedConversationId,
-      ),
-    },
   );
+
+  const liveDraftRevisionKeys = new Set(
+    liveObservations
+      .filter(
+        (observation) =>
+          observation.sourceKind === "living_draft",
+      )
+      .map(
+        (observation) =>
+          `${observation.payload.draftPackageId}\u0000${observation.payload.updatedAt}`,
+      ),
+  );
+
+  const historicalTypedObservations =
+    historicalObservations
+      .filter((historical) => {
+        if (
+          historical.observationKind ===
+          "interpretation_evidence"
+        ) {
+          return !liveInterpretationEntryIds.has(
+            historical.observation.entryId,
+          );
+        }
+
+        return !liveDraftRevisionKeys.has(
+          `${historical.observation.draftPackageId}\u0000${historical.observation.updatedAt}`,
+        );
+      })
+      .map(
+        (historical): AtlasTypedPreexecutionObservation => {
+          if (
+            historical.observationKind ===
+            "interpretation_evidence"
+          ) {
+            return {
+              sourceKind: "interpretation_evidence",
+              authorityStatus:
+                historical.authorityStatus,
+              projectId:
+                historical.observation.projectId,
+              conversationId:
+                historical.observation.conversationId,
+              lineageId:
+                historical.observation.lineageReferences ?? null,
+              observedAt:
+                historical.observation.createdAt,
+              payload:
+                historical.observation,
+            };
+          }
+
+          return {
+            sourceKind: "living_draft",
+            authorityStatus: "non_authoritative",
+            projectId:
+              historical.observation.projectId,
+            conversationId:
+              historical.observation.conversationId,
+            lineageId:
+              historical.observation.lineageId,
+            observedAt:
+              historical.observation.updatedAt,
+            payload:
+              historical.observation,
+          };
+        },
+      );
+
+  return [
+    ...liveObservations,
+    ...historicalTypedObservations,
+  ].sort(compareObservations);
 }

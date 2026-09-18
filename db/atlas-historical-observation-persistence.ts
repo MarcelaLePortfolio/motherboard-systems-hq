@@ -229,10 +229,18 @@ export function persistAtlasHistoricalObservation(
 
 export function readAtlasHistoricalObservations(
   projectId: string,
-  db?: any,
+  databasePathOrDb: string | any = "db/main.db",
 ): AtlasHistoricalObservationRecord[] {
-  const sqlite = db ?? new Database("db/main.db");
-  const ownsConnection = db === undefined;
+  const suppliedDatabase =
+    typeof databasePathOrDb === "string"
+      ? null
+      : databasePathOrDb;
+
+  const sqlite =
+    suppliedDatabase ??
+    new Database(databasePathOrDb as string);
+
+  const ownsConnection = suppliedDatabase === null;
 
   try {
     ensureAtlasHistoricalObservationTable(sqlite);
