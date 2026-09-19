@@ -109,7 +109,7 @@ process.chdir(fixtureRoot);
 const {
   assembleApprovalRequestReadCollection,
   assembleApprovalRequestReadModel,
-} = await import("./approval-request-model-assembler");
+} = require("./approval-request-model-assembler");
 
 after(() => {
   process.chdir(originalCwd);

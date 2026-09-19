@@ -142,7 +142,7 @@ process.chdir(fixtureRoot);
 
 const {
   handleApprovalRequestList,
-} = await import("./api-approval-request");
+} = require("./api-approval-request");
 
 after(() => {
   process.chdir(originalCwd);
