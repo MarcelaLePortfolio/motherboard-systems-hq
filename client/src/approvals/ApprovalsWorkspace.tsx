@@ -192,6 +192,7 @@ function DecisionActions({
     try {
       await approveCanonicalPackage(
         request.draft_package_id,
+        request.draft_revision_id,
       );
       await onApproved();
     } catch (error) {
