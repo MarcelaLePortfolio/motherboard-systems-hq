@@ -27,6 +27,7 @@ export interface ApprovalRequestReadModel {
   conversation_id: string | null;
   lineage_id: string;
   draft_package_id: string;
+  draft_revision_id: string;
   executive_question: string;
   available_decisions: ApprovalRequestDecision[];
   source_draft_status: string;
@@ -207,10 +208,15 @@ export async function requestChanges(
 
 export async function approveCanonicalPackage(
   draftPackageId: string,
+  draftRevisionId: string,
 ): Promise<CanonicalPackageApprovalResult> {
   const normalizedDraftPackageId = requireText(
     draftPackageId,
     "draftPackageId",
+  );
+  const normalizedDraftRevisionId = requireText(
+    draftRevisionId,
+    "draftRevisionId",
   );
 
   const response = await fetch(
@@ -222,6 +228,7 @@ export async function approveCanonicalPackage(
       },
       body: JSON.stringify({
         draft_package_id: normalizedDraftPackageId,
+        draft_revision_id: normalizedDraftRevisionId,
       }),
     },
   );

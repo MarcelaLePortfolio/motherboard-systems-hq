@@ -5,6 +5,9 @@ import type {
 import {
   assembleReconciledInterpretationSummary,
 } from "./matilda-reconciled-intent-runtime";
+import {
+  createDraftRevisionForApprovalReview,
+} from "./matilda-draft-revision-runtime";
 
 export type ApprovalRequestKind =
   | "canonical_package_approval";
@@ -35,6 +38,7 @@ export interface ApprovalRequestReadModel {
   conversation_id: string | null;
   lineage_id: string;
   draft_package_id: string;
+  draft_revision_id: string;
   executive_question: string;
   available_decisions: ApprovalRequestDecision[];
   source_draft_status: string;
@@ -88,6 +92,10 @@ export function assembleApprovalRequestReadModel(
     "draft_package_id",
   );
 
+  const revision = createDraftRevisionForApprovalReview({
+    draft_package_id: draftPackageId,
+  });
+
   const summary = assembleReconciledInterpretationSummary({
     draft_package_id: draftPackageId,
     lineage_id: requireText(
@@ -131,6 +139,7 @@ export function assembleApprovalRequestReadModel(
     conversation_id: summary.conversation_id,
     lineage_id: summary.lineage_id,
     draft_package_id: summary.draft_package_id,
+    draft_revision_id: revision.draft_revision_id,
     executive_question:
       "Should this Reconciled Interpretation Summary become the authoritative Canonical Package?",
     available_decisions: [
