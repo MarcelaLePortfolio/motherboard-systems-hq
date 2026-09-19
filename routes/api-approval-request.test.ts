@@ -1,12 +1,8 @@
 import assert from "node:assert/strict";
-import test from "node:test";
+import test, { after } from "node:test";
 import Database from "better-sqlite3";
 import fs from "node:fs";
 import path from "node:path";
-
-import {
-  handleApprovalRequestList,
-} from "./api-approval-request";
 
 type CapturedResponse = {
   statusCode: number;
@@ -125,6 +121,37 @@ function createFixtureDatabase(databasePath: string): void {
   db.close();
 }
 
+const originalCwd = process.cwd();
+const fixtureRoot = path.join(
+  "/tmp",
+  `approval-request-api-${process.pid}-${Date.now()}`,
+);
+
+fs.mkdirSync(
+  path.join(fixtureRoot, "db"),
+  {
+    recursive: true,
+  },
+);
+
+createFixtureDatabase(
+  path.join(fixtureRoot, "db", "main.db"),
+);
+
+process.chdir(fixtureRoot);
+
+const {
+  handleApprovalRequestList,
+} = await import("./api-approval-request");
+
+after(() => {
+  process.chdir(originalCwd);
+  fs.rmSync(fixtureRoot, {
+    recursive: true,
+    force: true,
+  });
+});
+
 test("rejects a request without project_id", () => {
   const { response, res } = createResponseCapture();
 
@@ -142,65 +169,43 @@ test("rejects a request without project_id", () => {
 });
 
 test("returns a project-scoped Approval Request collection", () => {
-  const originalCwd = process.cwd();
+  const { response, res } = createResponseCapture();
 
-  const fixtureRoot = path.join(
-    "/tmp",
-    `approval-request-api-${process.pid}-${Date.now()}`,
-  );
-
-  fs.mkdirSync(
-    path.join(fixtureRoot, "db"),
+  handleApprovalRequestList(
     {
-      recursive: true,
-    },
-  );
-
-  createFixtureDatabase(
-    path.join(fixtureRoot, "db", "main.db"),
-  );
-
-  process.chdir(fixtureRoot);
-
-  try {
-    const { response, res } = createResponseCapture();
-
-    handleApprovalRequestList(
-      {
-        query: {
-          project_id: "hq",
-        },
+      query: {
+        project_id: "hq",
       },
-      res,
-    );
+    },
+    res,
+  );
 
-    assert.equal(response.statusCode, 200);
+  assert.equal(response.statusCode, 200);
 
-    const body = response.body as {
-      project_id: string;
-      requests: Array<{
-        approval_request_id: string;
-        available_decisions: string[];
-      }>;
-    };
+  const body = response.body as {
+    project_id: string;
+    requests: Array<{
+      approval_request_id: string;
+      draft_revision_id: string;
+      available_decisions: string[];
+    }>;
+  };
 
-    assert.equal(body.project_id, "hq");
-    assert.equal(body.requests.length, 1);
+  assert.equal(body.project_id, "hq");
+  assert.equal(body.requests.length, 1);
 
-    assert.equal(
-      body.requests[0]?.approval_request_id,
-      "canonical_package_approval:draft-api-pending",
-    );
+  assert.equal(
+    body.requests[0]?.approval_request_id,
+    "canonical_package_approval:draft-api-pending",
+  );
 
-    assert.deepEqual(
-      body.requests[0]?.available_decisions,
-      ["approve_canonical_package"],
-    );
-  } finally {
-    process.chdir(originalCwd);
-    fs.rmSync(fixtureRoot, {
-      recursive: true,
-      force: true,
-    });
-  }
+  assert.match(
+    body.requests[0]?.draft_revision_id ?? "",
+    /^draft-revision-/,
+  );
+
+  assert.deepEqual(
+    body.requests[0]?.available_decisions,
+    ["approve_canonical_package"],
+  );
 });
