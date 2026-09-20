@@ -146,7 +146,6 @@ function DecisionActions({
     constraints: "",
     unresolvedQuestions: "",
   });
-  const [feedbackReady, setFeedbackReady] = useState(false);
   const [requestingChanges, setRequestingChanges] =
     useState(false);
   const [approving, setApproving] = useState(false);
@@ -165,7 +164,6 @@ function DecisionActions({
       constraints: "",
       unresolvedQuestions: "",
     });
-    setFeedbackReady(false);
     setRequestingChanges(false);
     setApproving(false);
     setApprovalError(null);
@@ -216,7 +214,6 @@ function DecisionActions({
     }
 
     setRequestingChanges(true);
-    setFeedbackReady(false);
     setApprovalError(null);
 
     try {
@@ -303,7 +300,6 @@ function DecisionActions({
             disabled={approving || requestingChanges}
             onClick={() => {
               setChangesOpen((current) => !current);
-              setFeedbackReady(false);
               setApprovalError(null);
             }}
           >
@@ -341,7 +337,6 @@ function DecisionActions({
             placeholder="Describe the correction Matilda should make."
             onChange={(event) => {
               setFeedback(event.target.value);
-              setFeedbackReady(false);
             }}
           />
 
@@ -380,7 +375,6 @@ function DecisionActions({
                       ...current,
                       [field]: event.target.value,
                     }));
-                    setFeedbackReady(false);
                   }}
                 />
               </label>
@@ -402,7 +396,6 @@ function DecisionActions({
                   constraints: "",
                   unresolvedQuestions: "",
                 });
-                setFeedbackReady(false);
               }}
             >
               Cancel
