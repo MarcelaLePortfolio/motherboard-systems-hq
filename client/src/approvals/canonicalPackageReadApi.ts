@@ -1,3 +1,26 @@
+export type CanonicalPackageDelegationState =
+  | {
+      state: "awaiting_delegation";
+      delegation_id: null;
+      authorization_state: null;
+      authorization_timestamp: null;
+      delegated_by: null;
+    }
+  | {
+      state: "delegated";
+      delegation_id: string;
+      authorization_state: "AUTHORIZED";
+      authorization_timestamp: string;
+      delegated_by: string;
+    }
+  | {
+      state: "ambiguous";
+      delegation_id: null;
+      authorization_state: null;
+      authorization_timestamp: null;
+      delegated_by: null;
+    };
+
 export interface CanonicalPackageReadModel {
   package_id: string;
   package_version: number;
@@ -17,6 +40,7 @@ export interface CanonicalPackageReadModel {
   approval_timestamp: string;
   status: "canonical_approved";
   created_at: string;
+  delegation: CanonicalPackageDelegationState;
 }
 
 export interface CanonicalPackageReadCollection {

@@ -14,6 +14,7 @@ import {
 } from "./approvalRequestApi";
 import { deriveDecisionListTitle } from "./decisionListTitle";
 import type { CanonicalPackageReadModel } from "./canonicalPackageReadApi";
+import { delegateCanonicalPackage } from "./governanceDelegationApi";
 import { useApprovalRequests } from "./useApprovalRequests";
 
 import "./approvals-workspace.css";
@@ -631,16 +632,63 @@ function ExecutiveBriefing({
 function ApprovedCanonicalPackageBriefing({
   pkg,
   onClose,
+  onDelegated,
 }: {
   pkg: CanonicalPackageReadModel;
   onClose(): void;
+  onDelegated(): Promise<void>;
 }) {
+  const [delegating, setDelegating] = useState(false);
+  const [delegationError, setDelegationError] =
+    useState<string | null>(null);
+
+  async function handleDelegate(): Promise<void> {
+    if (
+      delegating ||
+      pkg.delegation.state !== "awaiting_delegation"
+    ) {
+      return;
+    }
+
+    setDelegating(true);
+    setDelegationError(null);
+
+    try {
+      await delegateCanonicalPackage({
+        delegation_id: crypto.randomUUID(),
+        project_id: pkg.project_id,
+        package_id: pkg.package_id,
+        package_version: pkg.package_version,
+        authorization_state: "AUTHORIZED",
+        authorization_timestamp: new Date().toISOString(),
+        delegated_by: "marcela",
+      });
+
+      await onDelegated();
+    } catch (error) {
+      setDelegationError(
+        error instanceof Error
+          ? error.message
+          : "The Canonical Package could not be delegated.",
+      );
+    } finally {
+      setDelegating(false);
+    }
+  }
+
   return (
     <article className="executive-briefing">
       <header className="executive-briefing__header executive-briefing__header--calm">
         <div>
           <div className="executive-briefing__status-line">
             <DecisionBadge>Approved</DecisionBadge>
+            <DecisionBadge>
+              {pkg.delegation.state === "delegated"
+                ? "Delegated"
+                : pkg.delegation.state === "awaiting_delegation"
+                  ? "Awaiting delegation"
+                  : "Delegation unavailable"}
+            </DecisionBadge>
           </div>
 
           <h2>Canonical Package</h2>
@@ -726,6 +774,90 @@ function ApprovedCanonicalPackageBriefing({
         </dl>
       </details>
 
+      {pkg.delegation.state === "awaiting_delegation" ? (
+        <section
+          className="executive-decision-actions"
+          aria-labelledby="executive-delegation-action-title"
+        >
+          <div className="executive-decision-actions__heading">
+            <div>
+              <h3 id="executive-delegation-action-title">
+                Your delegation decision
+              </h3>
+              <p>
+                Delegation authorizes this Canonical Package for the existing
+                governance delegation stage only. It does not authorize
+                execution.
+              </p>
+            </div>
+          </div>
+
+          <div className="executive-decision-actions__options">
+            <div className="executive-decision-option">
+              <button
+                type="button"
+                className="executive-decision-button executive-decision-button--primary"
+                disabled={delegating}
+                onClick={() => void handleDelegate()}
+              >
+                {delegating ? "Delegating…" : "Delegate"}
+              </button>
+
+              <p>
+                Records your explicit Delegation decision for this exact
+                Canonical Package version.
+              </p>
+            </div>
+          </div>
+
+          {delegationError ? (
+            <p
+              className="executive-change-request__status"
+              role="alert"
+            >
+              {delegationError}
+            </p>
+          ) : null}
+        </section>
+      ) : null}
+
+      {pkg.delegation.state === "delegated" ? (
+        <BriefingSection title="Delegation">
+          <dl className="executive-briefing-grid">
+            <div>
+              <dt>Status</dt>
+              <dd>Authorized</dd>
+            </div>
+            <div>
+              <dt>Delegated by</dt>
+              <dd>{pkg.delegation.delegated_by}</dd>
+            </div>
+            <div>
+              <dt>Delegated</dt>
+              <dd>
+                {formatTimestamp(
+                  pkg.delegation.authorization_timestamp,
+                )}
+              </dd>
+            </div>
+            <div>
+              <dt>Delegation</dt>
+              <dd>{pkg.delegation.delegation_id}</dd>
+            </div>
+          </dl>
+        </BriefingSection>
+      ) : null}
+
+      {pkg.delegation.state === "ambiguous" ? (
+        <p
+          className="executive-change-request__status"
+          role="alert"
+        >
+          Delegation state could not be reconciled. No Delegation action is
+          available.
+        </p>
+      ) : null}
+
       <footer className="executive-briefing__footer">
         <button
           type="button"
@@ -735,8 +867,8 @@ function ApprovedCanonicalPackageBriefing({
         </button>
 
         <p>
-          This Canonical Package is approved and read-only here.
-          Approval does not delegate or execute the work.
+          This Canonical Package is approved. Delegation is a separate
+          explicit decision and does not authorize execution.
         </p>
       </footer>
     </article>
@@ -946,6 +1078,7 @@ export default function ApprovalsWorkspace() {
                   onClose={() =>
                     setSelectedApprovedPackageId(null)
                   }
+                  onDelegated={refresh}
                 />
               ) : null}
 

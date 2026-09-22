@@ -1,5 +1,28 @@
 import Database from "better-sqlite3";
 
+export type CanonicalPackageDelegationState =
+  | {
+      state: "awaiting_delegation";
+      delegation_id: null;
+      authorization_state: null;
+      authorization_timestamp: null;
+      delegated_by: null;
+    }
+  | {
+      state: "delegated";
+      delegation_id: string;
+      authorization_state: "AUTHORIZED";
+      authorization_timestamp: string;
+      delegated_by: string;
+    }
+  | {
+      state: "ambiguous";
+      delegation_id: null;
+      authorization_state: null;
+      authorization_timestamp: null;
+      delegated_by: null;
+    };
+
 export interface CanonicalPackageReadRecord {
   package_id: string;
   package_version: number;
@@ -19,12 +42,25 @@ export interface CanonicalPackageReadRecord {
   approval_timestamp: string;
   status: "canonical_approved";
   created_at: string;
+  delegation: CanonicalPackageDelegationState;
 }
 
 export interface CanonicalPackageReadRepository {
   listByProject(projectId: string): CanonicalPackageReadRecord[];
   close(): void;
 }
+
+type CanonicalPackageRow = Omit<
+  CanonicalPackageReadRecord,
+  "delegation"
+>;
+
+type DelegationRow = {
+  delegation_id: string;
+  authorization_state: string;
+  authorization_timestamp: string;
+  delegated_by: string;
+};
 
 function requireIdentifier(
   value: string,
@@ -37,6 +73,55 @@ function requireIdentifier(
   }
 
   return normalized;
+}
+
+function readDelegationState(
+  rows: DelegationRow[],
+): CanonicalPackageDelegationState {
+  if (rows.length === 0) {
+    return {
+      state: "awaiting_delegation",
+      delegation_id: null,
+      authorization_state: null,
+      authorization_timestamp: null,
+      delegated_by: null,
+    };
+  }
+
+  if (rows.length !== 1) {
+    return {
+      state: "ambiguous",
+      delegation_id: null,
+      authorization_state: null,
+      authorization_timestamp: null,
+      delegated_by: null,
+    };
+  }
+
+  const row = rows[0];
+
+  if (
+    row.authorization_state !== "AUTHORIZED" ||
+    !row.delegation_id.trim() ||
+    !row.authorization_timestamp.trim() ||
+    !row.delegated_by.trim()
+  ) {
+    return {
+      state: "ambiguous",
+      delegation_id: null,
+      authorization_state: null,
+      authorization_timestamp: null,
+      delegated_by: null,
+    };
+  }
+
+  return {
+    state: "delegated",
+    delegation_id: row.delegation_id,
+    authorization_state: "AUTHORIZED",
+    authorization_timestamp: row.authorization_timestamp,
+    delegated_by: row.delegated_by,
+  };
 }
 
 export function createCanonicalPackageReadRepository(
@@ -73,11 +158,43 @@ export function createCanonicalPackageReadRepository(
     ORDER BY approval_timestamp DESC, package_version DESC
   `);
 
+  const delegationStatement = db.prepare(`
+    SELECT
+      delegation_id,
+      authorization_state,
+      authorization_timestamp,
+      delegated_by
+    FROM governance_delegations
+    WHERE project_id = ?
+      AND package_id = ?
+      AND package_version = ?
+    ORDER BY created_at DESC
+    LIMIT 2
+  `);
+
   return {
     listByProject(projectId) {
-      return listStatement.all(
-        requireIdentifier(projectId, "projectId"),
-      ) as CanonicalPackageReadRecord[];
+      const normalizedProjectId = requireIdentifier(
+        projectId,
+        "projectId",
+      );
+
+      const packages = listStatement.all(
+        normalizedProjectId,
+      ) as CanonicalPackageRow[];
+
+      return packages.map((pkg) => {
+        const delegationRows = delegationStatement.all(
+          normalizedProjectId,
+          pkg.package_id,
+          pkg.package_version,
+        ) as DelegationRow[];
+
+        return {
+          ...pkg,
+          delegation: readDelegationState(delegationRows),
+        };
+      });
     },
 
     close() {
