@@ -1,0 +1,34 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+cd "$(git rev-parse --show-toplevel)"
+
+BRANCH="feature/support-source-references-runtime"
+EXPECTED_HEAD="c6305f9ba"
+CLOSURE_DOC="docs/checkpoints/PARENT_SEQUENCE_SUCCESSOR_RECONCILIATION_CLOSURE_20260922.md"
+
+git fetch origin "$BRANCH"
+
+test "$(git rev-parse --abbrev-ref HEAD)" = "$BRANCH"
+test "$(git rev-parse --short=9 HEAD)" = "$EXPECTED_HEAD"
+test "$(git rev-parse --short=9 "origin/$BRANCH")" = "$EXPECTED_HEAD"
+test -f "$CLOSURE_DOC"
+
+grep -q '^SUCCESSOR_RECONCILIATION_STATUS=CLOSED$' "$CLOSURE_DOC"
+grep -q '^AUTOMATIC_PARENT_SEQUENCE_SUCCESSOR=NONE_ESTABLISHED$' "$CLOSURE_DOC"
+grep -q '^PARENT_SEQUENCE_STATE=AWAITING_NEW_USER_SELECTED_OBJECTIVE$' "$CLOSURE_DOC"
+grep -q '^NEW_IMPLEMENTATION_AUTHORIZED=NO$' "$CLOSURE_DOC"
+grep -q '^NEXT_ACTION=AWAIT_NEW_USER_SELECTED_OBJECTIVE$' "$CLOSURE_DOC"
+
+echo "============================================================"
+echo " OBJECTIVE-SELECTION BOUNDARY — CONFIRMED"
+echo "============================================================"
+echo "SUCCESSOR_RECONCILIATION_STATUS=CLOSED"
+echo "AUTOMATIC_PARENT_SEQUENCE_SUCCESSOR=NONE_ESTABLISHED"
+echo "PARENT_SEQUENCE_STATE=AWAITING_NEW_USER_SELECTED_OBJECTIVE"
+echo "PRODUCT_MUTATION_AUTHORIZED=NO"
+echo "DATABASE_MUTATION_AUTHORIZED=NO"
+echo "AUTHORITY_CHANGE_AUTHORIZED=NO"
+echo "NEW_IMPLEMENTATION_AUTHORIZED=NO"
+echo "NEXT_ACTION=USER_SELECT_NEW_DEVELOPMENT_OBJECTIVE"
+echo "CLEAR_STOPPING_POINT=YES"
