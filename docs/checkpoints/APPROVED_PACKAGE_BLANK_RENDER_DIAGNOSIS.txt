@@ -1,0 +1,1063 @@
+From https://github.com/MarcelaLePortfolio/motherboard-systems-hq
+ * branch                feature/support-source-references-runtime -> FETCH_HEAD
+============================================================
+ APPROVED CANONICAL PACKAGE — BLANK RENDER DIAGNOSIS
+============================================================
+
+=== APPROVED PACKAGE SELECTION / DETAIL RENDER ===
+612-      />
+613-
+614-      <footer className="executive-briefing__footer">
+615-        <button
+616-          type="button"
+617-          onClick={onClose}
+618-        >
+619-          Close detail
+620-        </button>
+621-
+622-        <p>
+623-          Approval creates a Canonical Package only. Delegation and execution
+624-          remain unauthorized.
+625-        </p>
+626-      </footer>
+627-    </article>
+628-  );
+629-}
+630-
+631-
+632:function ApprovedCanonicalPackageBriefing({
+633-  pkg,
+634-  onClose,
+635:  onDelegated,
+636-}: {
+637-  pkg: CanonicalPackageReadModel;
+638-  onClose(): void;
+639:  onDelegated(): Promise<void>;
+640-}) {
+641-  const [delegating, setDelegating] = useState(false);
+642:  const [delegationError, setDelegationError] =
+643-    useState<string | null>(null);
+644-
+645-  async function handleDelegate(): Promise<void> {
+646-    if (
+647-      delegating ||
+648:      pkg.delegation.state !== "awaiting_delegation"
+649-    ) {
+650-      return;
+651-    }
+652-
+653-    setDelegating(true);
+654-    setDelegationError(null);
+655-
+656-    try {
+657-      await delegateCanonicalPackage({
+658:        delegation_id: crypto.randomUUID(),
+659-        project_id: pkg.project_id,
+660-        package_id: pkg.package_id,
+661-        package_version: pkg.package_version,
+662-        authorization_state: "AUTHORIZED",
+663-        authorization_timestamp: new Date().toISOString(),
+664-        delegated_by: "marcela",
+665-      });
+666-
+667:      await onDelegated();
+668-    } catch (error) {
+669-      setDelegationError(
+670-        error instanceof Error
+671-          ? error.message
+672-          : "The Canonical Package could not be delegated.",
+673-      );
+674-    } finally {
+675-      setDelegating(false);
+676-    }
+677-  }
+678-
+679-  return (
+680-    <article className="executive-briefing">
+681-      <header className="executive-briefing__header executive-briefing__header--calm">
+682-        <div>
+683-          <div className="executive-briefing__status-line">
+684-            <DecisionBadge>Approved</DecisionBadge>
+685-            <DecisionBadge>
+686:              {pkg.delegation.state === "delegated"
+687-                ? "Delegated"
+688:                : pkg.delegation.state === "awaiting_delegation"
+689:                  ? "Awaiting delegation"
+690-                  : "Delegation unavailable"}
+691-            </DecisionBadge>
+692-          </div>
+693-
+694-          <h2>Canonical Package</h2>
+695-
+696-          <p className="executive-briefing__question">
+697-            {readText(pkg.approved_interpretation)}
+698-          </p>
+699-        </div>
+700-      </header>
+701-
+702-      <BriefingSection title="Approved package">
+703-        <dl className="executive-briefing-grid">
+704-          <div>
+705-            <dt>Expected outcome</dt>
+706-            <dd>{readText(pkg.approved_expected_outcome)}</dd>
+707-          </div>
+708-
+709-          <div>
+710-            <dt>Approved work</dt>
+711-            <dd>{readText(pkg.approved_work)}</dd>
+712-          </div>
+713-
+714-          <div>
+715-            <dt>Deliverables</dt>
+716-            <dd>{readText(pkg.approved_artifacts)}</dd>
+717-          </div>
+718-
+719-          <div>
+720-            <dt>Scope</dt>
+721-            <dd>{readText(pkg.approved_scope)}</dd>
+722-          </div>
+723-
+724-          <div>
+725-            <dt>Constraints</dt>
+726-            <dd>{readText(pkg.approved_constraints)}</dd>
+727-          </div>
+728-        </dl>
+729-      </BriefingSection>
+730-
+731-      <details className="executive-briefing-technical">
+732-        <summary>Technical details</summary>
+733-
+734-        <dl className="executive-briefing-grid">
+735-          <div>
+736-            <dt>Package</dt>
+737-            <dd>{pkg.package_id}</dd>
+738-          </div>
+739-
+740-          <div>
+741-            <dt>Version</dt>
+742-            <dd>{pkg.package_version}</dd>
+743-          </div>
+744-
+745-          <div>
+746-            <dt>Draft package</dt>
+747-            <dd>{pkg.draft_package_id}</dd>
+748-          </div>
+749-
+750-          <div>
+751-            <dt>Draft revision</dt>
+752-            <dd>{pkg.draft_revision_id ?? "Unavailable"}</dd>
+753-          </div>
+754-
+755-          <div>
+756-            <dt>Conversation</dt>
+757-            <dd>{pkg.conversation_id ?? "Unavailable"}</dd>
+758-          </div>
+759-
+760-          <div>
+761-            <dt>Lineage</dt>
+762-            <dd>{pkg.lineage_id}</dd>
+763-          </div>
+764-
+765-          <div>
+766-            <dt>Approved by</dt>
+767-            <dd>{pkg.approval_actor}</dd>
+768-          </div>
+769-
+770-          <div>
+771-            <dt>Approved</dt>
+772-            <dd>{formatTimestamp(pkg.approval_timestamp)}</dd>
+773-          </div>
+774-        </dl>
+775-      </details>
+776-
+777:      {pkg.delegation.state === "awaiting_delegation" ? (
+778-        <section
+779-          className="executive-decision-actions"
+780:          aria-labelledby="executive-delegation-action-title"
+781-        >
+782-          <div className="executive-decision-actions__heading">
+783-            <div>
+784:              <h3 id="executive-delegation-action-title">
+785:                Your delegation decision
+786-              </h3>
+787-              <p>
+788-                Delegation authorizes this Canonical Package for the existing
+789:                governance delegation stage only. It does not authorize
+790-                execution.
+791-              </p>
+792-            </div>
+793-          </div>
+794-
+795-          <div className="executive-decision-actions__options">
+796-            <div className="executive-decision-option">
+797-              <button
+798-                type="button"
+799-                className="executive-decision-button executive-decision-button--primary"
+800-                disabled={delegating}
+801-                onClick={() => void handleDelegate()}
+802-              >
+803-                {delegating ? "Delegating…" : "Delegate"}
+804-              </button>
+805-
+806-              <p>
+807-                Records your explicit Delegation decision for this exact
+808-                Canonical Package version.
+809-              </p>
+810-            </div>
+811-          </div>
+812-
+813:          {delegationError ? (
+814-            <p
+815-              className="executive-change-request__status"
+816-              role="alert"
+817-            >
+818:              {delegationError}
+819-            </p>
+820-          ) : null}
+821-        </section>
+822-      ) : null}
+823-
+824:      {pkg.delegation.state === "delegated" ? (
+825-        <BriefingSection title="Delegation">
+826-          <dl className="executive-briefing-grid">
+827-            <div>
+828-              <dt>Status</dt>
+829-              <dd>Authorized</dd>
+830-            </div>
+831-            <div>
+832-              <dt>Delegated by</dt>
+833:              <dd>{pkg.delegation.delegated_by}</dd>
+834-            </div>
+835-            <div>
+836-              <dt>Delegated</dt>
+837-              <dd>
+838-                {formatTimestamp(
+839:                  pkg.delegation.authorization_timestamp,
+840-                )}
+841-              </dd>
+842-            </div>
+843-            <div>
+844-              <dt>Delegation</dt>
+845:              <dd>{pkg.delegation.delegation_id}</dd>
+846-            </div>
+847-          </dl>
+848-        </BriefingSection>
+849-      ) : null}
+850-
+851:      {pkg.delegation.state === "ambiguous" ? (
+852-        <p
+853-          className="executive-change-request__status"
+854-          role="alert"
+855-        >
+856-          Delegation state could not be reconciled. No Delegation action is
+857-          available.
+858-        </p>
+859-      ) : null}
+860-
+861-      <footer className="executive-briefing__footer">
+862-        <button
+863-          type="button"
+864-          onClick={onClose}
+865-        >
+866-          Close detail
+867-        </button>
+868-
+869-        <p>
+870-          This Canonical Package is approved. Delegation is a separate
+871-          explicit decision and does not authorize execution.
+872-        </p>
+873-      </footer>
+874-    </article>
+875-  );
+876-}
+877-
+878-export default function ApprovalsWorkspace() {
+879-  const {
+880-    collection,
+881-    canonicalCollection,
+882-    loading,
+883-    error,
+884-    refresh,
+885-  } = useApprovalRequests();
+886-
+887-  const requests = useMemo(
+888-    () => collection?.requests ?? [],
+889-    [collection],
+890-  );
+891-
+892-  const approvedPackages = useMemo(
+893-    () => canonicalCollection?.packages ?? [],
+894-    [canonicalCollection],
+895-  );
+896-
+897-  const [
+898:    selectedApprovedPackageId,
+899-    setSelectedApprovedPackageId,
+900-  ] = useState<string | null>(null);
+901-
+902-  useEffect(() => {
+903-    const selectionExists = approvedPackages.some(
+904:      (pkg) => pkg.package_id === selectedApprovedPackageId,
+905-    );
+906-
+907-    if (
+908:      selectedApprovedPackageId !== null &&
+909-      !selectionExists
+910-    ) {
+911-      setSelectedApprovedPackageId(null);
+912-    }
+913-  }, [
+914-    approvedPackages,
+915:    selectedApprovedPackageId,
+916-  ]);
+917-
+918:  const selectedApprovedPackage =
+919-    approvedPackages.find(
+920-      (pkg) =>
+921:        pkg.package_id === selectedApprovedPackageId,
+922-    ) ?? null;
+923-
+924-  const [
+925-    selectedRequestId,
+926-    setSelectedRequestId,
+927-  ] = useState<string | null>(null);
+928-
+929-  useEffect(() => {
+930-    if (requests.length === 0) {
+931-      setSelectedRequestId(null);
+932-      return;
+933-    }
+934-
+935-    const selectionExists = requests.some(
+936-      (request) =>
+937-        request.approval_request_id === selectedRequestId,
+938-    );
+939-
+940-    if (!selectionExists) {
+941-      setSelectedRequestId(
+942-        requests[0].approval_request_id,
+943-      );
+944-    }
+945-  }, [requests, selectedRequestId]);
+946-
+947-  const selectedIndex = requests.findIndex(
+948-    (request) =>
+949-      request.approval_request_id === selectedRequestId,
+950-  );
+951-
+952-  const selectedRequest =
+953-    selectedIndex >= 0
+954-      ? requests[selectedIndex]
+955-      : null;
+956-
+957-  return (
+958-    <main className="executive-inbox-workspace">
+959-      <header className="executive-inbox-header">
+960-        <div>
+961-          <h1>Executive Inbox</h1>
+962-
+963-          <p>
+964-            Review decisions generated for the active project.
+965-          </p>
+966-        </div>
+967-
+968-        <button
+969-          type="button"
+970-          onClick={() => void refresh()}
+971-          disabled={loading}
+972-        >
+973-          {loading ? "Refreshing…" : "Refresh"}
+974-        </button>
+975-      </header>
+976-
+977-      <div className="executive-inbox-notice">
+978-        Approving a Reconciled Interpretation Summary creates its authoritative
+979-        Canonical Package. It does not delegate or execute the work.
+980-      </div>
+981-
+982-      {loading && !collection ? (
+983-        <section className="executive-inbox-state">
+984-          Loading Executive Inbox…
+985-        </section>
+986-      ) : null}
+987-
+988-      {error ? (
+989-        <section className="executive-inbox-state">
+990-          <h2>Unable to load Executive Inbox.</h2>
+991-          <p>Please retry the request.</p>
+992-
+993-          <button
+994-            type="button"
+995-            onClick={() => void refresh()}
+996-          >
+997-            Try again
+998-          </button>
+999-        </section>
+1000-      ) : null}
+1001-
+--
+1036-                          request.approval_request_id,
+1037-                        )
+1038-                      }
+1039-                    />
+1040-                  ))
+1041-                )}
+1042-
+1043-              {approvedPackages.length > 0 ? (
+1044-                <>
+1045-                  <div className="executive-inbox-list__section-heading">
+1046-                    <span>Approved</span>
+1047-                    <strong>{approvedPackages.length}</strong>
+1048-                  </div>
+1049-
+1050-                  {approvedPackages.map((pkg) => (
+1051-                    <ApprovedPackageListItem
+1052-                      key={`${pkg.package_id}:${pkg.package_version}`}
+1053-                      pkg={pkg}
+1054-                      selected={
+1055-                        pkg.package_id ===
+1056:                        selectedApprovedPackageId
+1057-                      }
+1058-                      onSelect={() => {
+1059-                        setSelectedRequestId(null);
+1060-                        setSelectedApprovedPackageId(
+1061-                          pkg.package_id,
+1062-                        );
+1063-                      }}
+1064-                    />
+1065-                  ))}
+1066-                </>
+1067-              ) : null}
+1068-
+1069-              </div>
+1070-            </aside>
+1071-
+1072-            <section className="executive-inbox-reading-pane">
+1073-
+1074:              {selectedApprovedPackage ? (
+1075:                <ApprovedCanonicalPackageBriefing
+1076:                  key={`${selectedApprovedPackage.package_id}:${selectedApprovedPackage.package_version}`}
+1077:                  pkg={selectedApprovedPackage}
+1078-                  onClose={() =>
+1079-                    setSelectedApprovedPackageId(null)
+1080-                  }
+1081:                  onDelegated={refresh}
+1082-                />
+1083-              ) : null}
+1084-
+1085-              {selectedRequest ? (
+1086-                <ExecutiveBriefing
+1087-                  key={selectedRequest.approval_request_id}
+1088-                  request={selectedRequest}
+1089-                  artifactNumber={selectedIndex + 1}
+1090-                  artifactCount={requests.length}
+1091-                  onClose={() =>
+1092-                    setSelectedRequestId(null)
+1093-                  }
+1094-                  onApproved={refresh}
+1095-                />
+1096-              ) : (
+1097-                <div className="executive-inbox-reading-pane__empty">
+1098-                  {requests.length === 0
+1099-                    ? "Reconciled Interpretation Summaries will appear here after Matilda determines that an interpretation is stable enough for executive review."
+1100-                    : "Select an approval artifact to view its executive briefing."}
+1101-                </div>
+1102-              )}
+1103-            </section>
+1104-          </div>
+1105-        </>
+1106-      ) : null}
+1107-    </main>
+1108-  );
+1109-}
+
+=== CANONICAL PACKAGE READ TYPE ===
+export type CanonicalPackageDelegationState =
+  | {
+      state: "awaiting_delegation";
+      delegation_id: null;
+      authorization_state: null;
+      authorization_timestamp: null;
+      delegated_by: null;
+    }
+  | {
+      state: "delegated";
+      delegation_id: string;
+      authorization_state: "AUTHORIZED";
+      authorization_timestamp: string;
+      delegated_by: string;
+    }
+  | {
+      state: "ambiguous";
+      delegation_id: null;
+      authorization_state: null;
+      authorization_timestamp: null;
+      delegated_by: null;
+    };
+
+export interface CanonicalPackageReadModel {
+  package_id: string;
+  package_version: number;
+  summary_id: string;
+  draft_package_id: string;
+  draft_revision_id: string | null;
+  lineage_id: string;
+  project_id: string;
+  conversation_id: string | null;
+  approved_interpretation: string;
+  approved_work: string | null;
+  approved_artifacts: string | null;
+  approved_scope: string | null;
+  approved_constraints: string | null;
+  approved_expected_outcome: string | null;
+  approval_actor: string;
+  approval_timestamp: string;
+  status: "canonical_approved";
+  created_at: string;
+  delegation: CanonicalPackageDelegationState;
+}
+
+export interface CanonicalPackageReadCollection {
+  project_id: string;
+  packages: CanonicalPackageReadModel[];
+}
+
+function requireText(
+  value: string,
+  fieldName: string,
+): string {
+  const normalized = value.trim();
+
+  if (!normalized) {
+    throw new Error(`${fieldName} is required.`);
+  }
+
+  return normalized;
+}
+
+export async function fetchCanonicalPackages(
+  projectId: string,
+): Promise<CanonicalPackageReadCollection> {
+  const normalizedProjectId = requireText(
+    projectId,
+    "projectId",
+  );
+
+  const response = await fetch(
+    `/api/canonical-packages?project_id=${encodeURIComponent(
+      normalizedProjectId,
+    )}`,
+  );
+
+  if (!response.ok) {
+    throw new Error(
+      "Unable to load approved Canonical Packages.",
+    );
+  }
+
+  return response.json() as Promise<CanonicalPackageReadCollection>;
+}
+
+=== DELEGATION API ===
+export interface GovernanceDelegationRequest {
+  delegation_id: string;
+  project_id: string;
+  package_id: string;
+  package_version: number;
+  authorization_state: "AUTHORIZED";
+  authorization_timestamp: string;
+  delegated_by: string;
+}
+
+type GovernanceDelegationRouteResult = {
+  ok: boolean;
+  findings?: string[];
+};
+
+function requireText(
+  value: string,
+  fieldName: string,
+): string {
+  const normalized = value.trim();
+
+  if (!normalized) {
+    throw new Error(`${fieldName} is required.`);
+  }
+
+  return normalized;
+}
+
+export async function delegateCanonicalPackage(
+  input: GovernanceDelegationRequest,
+): Promise<void> {
+  const request: GovernanceDelegationRequest = {
+    delegation_id: requireText(
+      input.delegation_id,
+      "delegation_id",
+    ),
+    project_id: requireText(input.project_id, "project_id"),
+    package_id: requireText(input.package_id, "package_id"),
+    package_version: input.package_version,
+    authorization_state: "AUTHORIZED",
+    authorization_timestamp: requireText(
+      input.authorization_timestamp,
+      "authorization_timestamp",
+    ),
+    delegated_by: requireText(input.delegated_by, "delegated_by"),
+  };
+
+  if (
+    !Number.isInteger(request.package_version) ||
+    request.package_version <= 0
+  ) {
+    throw new Error("package_version must be a positive integer.");
+  }
+
+  const response = await fetch("/api/governance/delegation", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(request),
+  });
+
+  const result =
+    (await response.json()) as GovernanceDelegationRouteResult;
+
+  if (!response.ok || !result.ok) {
+    throw new Error(
+      result.findings?.[0] ??
+        "The Canonical Package could not be delegated.",
+    );
+  }
+}
+
+=== READ REPOSITORY DELEGATION PROJECTION ===
+1-import Database from "better-sqlite3";
+2-
+3-export type CanonicalPackageDelegationState =
+4-  | {
+5:      state: "awaiting_delegation";
+6:      delegation_id: null;
+7-      authorization_state: null;
+8-      authorization_timestamp: null;
+9:      delegated_by: null;
+10-    }
+11-  | {
+12:      state: "delegated";
+13:      delegation_id: string;
+14-      authorization_state: "AUTHORIZED";
+15-      authorization_timestamp: string;
+16:      delegated_by: string;
+17-    }
+18-  | {
+19:      state: "ambiguous";
+20:      delegation_id: null;
+21-      authorization_state: null;
+22-      authorization_timestamp: null;
+23:      delegated_by: null;
+24-    };
+25-
+26-export interface CanonicalPackageReadRecord {
+27-  package_id: string;
+28-  package_version: number;
+29-  summary_id: string;
+30-  draft_package_id: string;
+31-  draft_revision_id: string | null;
+32-  lineage_id: string;
+33-  project_id: string;
+34-  conversation_id: string | null;
+35-  approved_interpretation: string;
+36-  approved_work: string | null;
+37-  approved_artifacts: string | null;
+38-  approved_scope: string | null;
+39-  approved_constraints: string | null;
+40-  approved_expected_outcome: string | null;
+41-  approval_actor: string;
+42-  approval_timestamp: string;
+43-  status: "canonical_approved";
+44-  created_at: string;
+45:  delegation: CanonicalPackageDelegationState;
+46-}
+47-
+48-export interface CanonicalPackageReadRepository {
+49-  listByProject(projectId: string): CanonicalPackageReadRecord[];
+50-  close(): void;
+51-}
+52-
+53-type CanonicalPackageRow = Omit<
+54-  CanonicalPackageReadRecord,
+55:  "delegation"
+56->;
+57-
+58-type DelegationRow = {
+59:  delegation_id: string;
+60-  authorization_state: string;
+61-  authorization_timestamp: string;
+62:  delegated_by: string;
+63-};
+64-
+65-function requireIdentifier(
+66-  value: string,
+67-  name: string,
+68-): string {
+69-  const normalized = value.trim();
+70-
+71-  if (!normalized) {
+72-    throw new Error(`${name} is required.`);
+73-  }
+74-
+75-  return normalized;
+76-}
+77-
+78-function readDelegationState(
+79-  rows: DelegationRow[],
+80-): CanonicalPackageDelegationState {
+81-  if (rows.length === 0) {
+82-    return {
+83:      state: "awaiting_delegation",
+84:      delegation_id: null,
+85-      authorization_state: null,
+86-      authorization_timestamp: null,
+87:      delegated_by: null,
+88-    };
+89-  }
+90-
+91-  if (rows.length !== 1) {
+92-    return {
+93:      state: "ambiguous",
+94:      delegation_id: null,
+95-      authorization_state: null,
+96-      authorization_timestamp: null,
+97:      delegated_by: null,
+98-    };
+99-  }
+100-
+101-  const row = rows[0];
+102-
+103-  if (
+104-    row.authorization_state !== "AUTHORIZED" ||
+105:    !row.delegation_id.trim() ||
+106-    !row.authorization_timestamp.trim() ||
+107:    !row.delegated_by.trim()
+108-  ) {
+109-    return {
+110:      state: "ambiguous",
+111:      delegation_id: null,
+112-      authorization_state: null,
+113-      authorization_timestamp: null,
+114:      delegated_by: null,
+115-    };
+116-  }
+117-
+118-  return {
+119:    state: "delegated",
+120:    delegation_id: row.delegation_id,
+121-    authorization_state: "AUTHORIZED",
+122-    authorization_timestamp: row.authorization_timestamp,
+123:    delegated_by: row.delegated_by,
+124-  };
+125-}
+126-
+127-export function createCanonicalPackageReadRepository(
+128-  databasePath = "db/main.db",
+129-): CanonicalPackageReadRepository {
+130-  const db = new Database(databasePath, {
+131-    readonly: true,
+132-    fileMustExist: true,
+133-  });
+134-
+135-  const listStatement = db.prepare(`
+136-    SELECT
+137-      package_id,
+138-      package_version,
+139-      summary_id,
+140-      draft_package_id,
+141-      draft_revision_id,
+142-      lineage_id,
+143-      project_id,
+144-      conversation_id,
+145-      approved_interpretation,
+146-      approved_work,
+147-      approved_artifacts,
+148-      approved_scope,
+149-      approved_constraints,
+150-      approved_expected_outcome,
+151-      approval_actor,
+152-      approval_timestamp,
+153-      status,
+154-      created_at
+155-    FROM matilda_canonical_packages
+156-    WHERE project_id = ?
+157-      AND status = 'canonical_approved'
+158-    ORDER BY approval_timestamp DESC, package_version DESC
+159-  `);
+160-
+161:  const delegationStatement = db.prepare(`
+162-    SELECT
+163:      delegation_id,
+164-      authorization_state,
+165-      authorization_timestamp,
+166:      delegated_by
+167:    FROM governance_delegations
+168-    WHERE project_id = ?
+169-      AND package_id = ?
+170-      AND package_version = ?
+171-    ORDER BY created_at DESC
+172-    LIMIT 2
+173-  `);
+174-
+175-  return {
+176-    listByProject(projectId) {
+177-      const normalizedProjectId = requireIdentifier(
+178-        projectId,
+179-        "projectId",
+180-      );
+181-
+182-      const packages = listStatement.all(
+183-        normalizedProjectId,
+184-      ) as CanonicalPackageRow[];
+185-
+186-      return packages.map((pkg) => {
+187:        const delegationRows = delegationStatement.all(
+188-          normalizedProjectId,
+189-          pkg.package_id,
+190-          pkg.package_version,
+191-        ) as DelegationRow[];
+192-
+193-        return {
+194-          ...pkg,
+195:          delegation: readDelegationState(delegationRows),
+196-        };
+197-      });
+198-    },
+199-
+200-    close() {
+201-      db.close();
+202-    },
+203-  };
+204-}
+
+=== POTENTIAL RENDER-TIME PROPERTY ACCESSES ===
+144:              pkg.approved_expected_outcome,
+145:              pkg.approved_interpretation,
+153:        {readText(pkg.approved_interpretation)}
+157:        <time dateTime={pkg.approval_timestamp}>
+158:          {formatTimestamp(pkg.approval_timestamp)}
+648:      pkg.delegation.state !== "awaiting_delegation"
+659:        project_id: pkg.project_id,
+660:        package_id: pkg.package_id,
+661:        package_version: pkg.package_version,
+686:              {pkg.delegation.state === "delegated"
+688:                : pkg.delegation.state === "awaiting_delegation"
+697:            {readText(pkg.approved_interpretation)}
+706:            <dd>{readText(pkg.approved_expected_outcome)}</dd>
+711:            <dd>{readText(pkg.approved_work)}</dd>
+716:            <dd>{readText(pkg.approved_artifacts)}</dd>
+721:            <dd>{readText(pkg.approved_scope)}</dd>
+726:            <dd>{readText(pkg.approved_constraints)}</dd>
+737:            <dd>{pkg.package_id}</dd>
+742:            <dd>{pkg.package_version}</dd>
+747:            <dd>{pkg.draft_package_id}</dd>
+752:            <dd>{pkg.draft_revision_id ?? "Unavailable"}</dd>
+757:            <dd>{pkg.conversation_id ?? "Unavailable"}</dd>
+762:            <dd>{pkg.lineage_id}</dd>
+767:            <dd>{pkg.approval_actor}</dd>
+772:            <dd>{formatTimestamp(pkg.approval_timestamp)}</dd>
+777:      {pkg.delegation.state === "awaiting_delegation" ? (
+824:      {pkg.delegation.state === "delegated" ? (
+833:              <dd>{pkg.delegation.delegated_by}</dd>
+839:                  pkg.delegation.authorization_timestamp,
+845:              <dd>{pkg.delegation.delegation_id}</dd>
+851:      {pkg.delegation.state === "ambiguous" ? (
+904:      (pkg) => pkg.package_id === selectedApprovedPackageId,
+921:        pkg.package_id === selectedApprovedPackageId,
+1052:                      key={`${pkg.package_id}:${pkg.package_version}`}
+1055:                        pkg.package_id ===
+1061:                          pkg.package_id,
+1076:                  key={`${selectedApprovedPackage.package_id}:${selectedApprovedPackage.package_version}`}
+
+=== EXISTING APPROVAL WORKSPACE TEST COVERAGE ===
+client/src/approvals/approvalRequestApi.test.ts
+client/src/approvals/canonicalPackageReadApi.test.ts
+client/src/approvals/decisionListTitle.test.ts
+client/src/approvals/governanceDelegationApi.test.ts
+client/src/approvals/governanceDelegationApi.test.ts:5:  delegateCanonicalPackage,
+client/src/approvals/governanceDelegationApi.test.ts:35:    await delegateCanonicalPackage({
+client/src/approvals/governanceDelegationApi.test.ts:42:      delegated_by: "marcela",
+client/src/approvals/governanceDelegationApi.test.ts:60:        delegated_by: "marcela",
+client/src/approvals/governanceDelegationApi.test.ts:79:      delegateCanonicalPackage({
+client/src/approvals/governanceDelegationApi.test.ts:86:        delegated_by: "marcela",
+
+=== BUILD STATE ===
+
+> motherboard-systems-hq-clean@1.0.0 build
+> tsc
+
+
+> client@0.0.0 build
+> tsc && vite build
+
+vite v5.4.21 building for production...
+transforming...
+✓ 64 modules transformed.
+rendering chunks...
+computing gzip size...
+dist/index.html                   0.41 kB │ gzip:  0.29 kB
+dist/assets/index-nTX31feX.css   32.06 kB │ gzip:  5.85 kB
+dist/assets/index-C55v2uY2.js   204.54 kB │ gzip: 59.24 kB
+✓ built in 266ms
+
+=== REPOSITORY STATE ===
+ M .DS_Store
+ M client/vite.config.ts
+ M diagnose-approved-package-blank-render.sh
+ M scripts/diagnose-live-selected-context-identities.ts
+ M scripts/utils/ollamaChat.explicit-evidence-request-context.test.ts
+ M scripts/utils/ollamaChat.structured-evidence-object.test.ts
+ M scripts/utils/ollamaChat.ts
+?? apply-isolated-execution-registry-integrity-repair.sh
+?? backups/pre-clean-slate-20260901T225905Z/
+?? begin-decisions-list-title-compactness-investigation.sh
+?? capture-atlas-lifecycle-validation-result.sh
+?? classify-execution-registry-transition-integrity.sh
+?? commit-authorized-atlas-lifecycle-test-restoration.sh
+?? commit-push-atlas-historical-adapter.sh
+?? db/main.db.pre-dogfood-cleanup-20260914_140324.bak
+?? db/main.db.pre-governance-fk-repair.20260831_141331.bak
+?? db/main.db.pre-operational-package-authority-20260825_140352.bak
+?? db/main.db.pre-project-scoped-delegation-20260825_105613.bak
+?? db/main_backup_before_rebuild.sqlite-shm
+?? db/main_backup_before_rebuild.sqlite-wal
+?? db/main_backup_before_reflection_fix.sqlite-shm
+?? db/main_backup_before_reflection_fix.sqlite-wal
+?? db/main_backup_before_type_patch.sqlite-shm
+?? db/main_backup_before_type_patch.sqlite-wal
+?? define-bounded-atlas-lifecycle-test-restoration.sh
+?? determine-empty-transition-stabilization-intent.sh
+?? diagnose-atlas-attempt2-exact-ollama-binding.sh
+?? diagnose-atlas-lifecycle-attempt1-sqlite-error.sh
+?? diagnose-atlas-lifecycle-sqlite-error-after-snapshot-fix.sh
+?? diagnose-atlas-lifecycle-temp-schema-mismatch.sh
+?? diagnose-authorized-atlas-test-commit-not-landed.sh
+?? dist.prev-49069cade/
+?? dist.prev-968137bdd/
+?? dist.prev-clean-d89b9119b/
+?? dist.prev-d89b9119b/
+?? dist.prev-h2/
+?? docs/checkpoints/APPROVED_PACKAGE_BLANK_RENDER_DIAGNOSIS.txt
+?? docs/checkpoints/PARENT_DEVELOPMENT_SEQUENCE_RESUMPTION.md
+?? execute-atlas-lifecycle-attempt1-and-capture.sh
+?? handoffs/MATILDA_ADMISSION_SUPPORT_FIREWALL_CLAUDE_REVIEW_20260902.zip
+?? handoffs/MATILDA_ADMISSION_SUPPORT_FIREWALL_CLAUDE_REVIEW_20260902/
+?? handoffs/MATILDA_COLLABORATION_RELIABILITY_CLAUDE_BUNDLE.zip
+?? handoffs/MATILDA_COLLABORATION_RELIABILITY_CLAUDE_REVIEW_20260902.zip
+?? handoffs/MATILDA_COLLABORATION_RELIABILITY_CLAUDE_REVIEW_20260902/
+?? handoffs/MATILDA_PER_ITEM_SUPPORT_FLAG_POST_EXPERIMENT_CLAUDE_REVIEW_20260903.zip
+?? handoffs/MATILDA_SUPPORT_BEARING_SUBSET_FAILED_EXPERIMENT_CLAUDE_REVIEW_20260902.zip
+?? implement-approvals-ui-recomposition.sh
+?? implement-atlas-canonical-package-observation-attempt-1.sh
+?? implement-atlas-draft-approval-adapter-attempt-1.sh
+?? implement-atlas-historical-observation-adapter-attempt-1.sh
+?? implement-atlas-lifecycle-test-attempt-2.sh
+?? implement-atlas-preexecution-observation-aggregator-attempt-1.sh
+?? implement-atlas-preexecution-read-route-attempt-1.sh
+?? implement-atlas-preexecution-structural-reasoner-attempt-1.sh
+?? implement-atlas-workflow-integration-attempt-1.sh
+?? implement-authorized-atlas-fixture-canonical-schema-restoration.sh
+?? implement-executive-delegation-decision-adapter.sh
+?? implement-option-b-typed-user-package-semantics.sh
+?? implement-package-semantics-conditional-completeness-attempt-2.sh
+?? implement-package-semantics-conditional-completeness.sh
+?? inspect-atlas-attempt-1-post-repair-state.sh
+?? inspect-atlas-historical-adapter-final-boundary.sh
+?? inspect-atlas-historical-runtime-merge-exact-contract.sh
+?? inspect-atlas-preexecution-exact-joins.sh
+?? inspect-atlas-qa-lifecycle-remaining-work.sh
+?? inspect-atlas-safe-dogfood-validation-seam.sh
+?? inspect-authoritative-approval-transition-and-registry-fields.sh
+?? inspect-decisions-list-compact-title-after-attempt-2-pattern-miss.sh
+?? inspect-execution-registry-repair-result.sh
+?? inspect-option-b-attempt-1-scope-failure.sh
+?? inspect-option-b-exact-function-entry-before-attempt-2.sh
+?? inspect-package-semantics-live-revalidation-method.sh
+?? inspect-pre-orchestrator-authority-and-project-identity-gap.sh
+?? inspect-seeded-package-semantics.sh
+?? investigate-canonical-package-delegation-boundary.sh
+?? investigate-dual-approval-item-reconciliation.sh
+?? investigate-packages-tab-reconciliation.sh
+?? investigate-semantic-history-final-depth.sh
+?? motherboard.db
+?? prove-atlas-bounded-dogfood-seam.sh
+?? reconcile-live-phase-4-state.sh
+?? reconcile-parent-sequence-successor.sh
+?? record-approvals-browser-validation-result.sh
+?? record-atlas-ui-manual-checkpoint.sh
+?? repair-approvals-react-recomposition.sh
+?? repair-atlas-preexecution-http-mount-attempt-1.sh
+?? repair-atlas-preexecution-observation-aggregator-attempt-1.sh
+?? repair-atlas-preexecution-observation-aggregator-attempt-1b.sh
+?? repair-atlas-preexecution-observation-aggregator-attempt-1c.sh
+?? repair-atlas-preexecution-observation-aggregator-attempt-1d.sh
+?? repair-draft-revision-test-fixtures.sh
+?? restore-bounded-atlas-lifecycle-validation.sh
+?? retry-authorized-atlas-lifecycle-test-attempt-3.sh
+?? revalidate-package-semantics-live-seed.sh
+?? revalidate-package-semantics-live-seed.ts
+?? revert-atlas-lifecycle-test-after-attempt3.sh
+?? review-point-4-investigation-output.sh
+?? scripts/_local/repair-corridor-3-option-a-attempt-2.sh
+?? scripts/classify-corridor-6-execution-field-authority-status.sh
+?? scripts/classify-corridor-6-minimum-execution-approval-transition-unit.sh
+?? scripts/implement-corridor-3-existing-commit-push-entry-point.sh
+?? scripts/implement-corridor-6-third-runtime-hypothesis.sh
+?? scripts/inspect-corridor-2-current-durable-authorization-contract.sh
+?? scripts/inspect-corridor-6-approval-transition-implementation-boundaries.sh
+?? scripts/inspect-corridor-6-authoritative-execution-field-sources-focused.sh
+?? scripts/inspect-corridor-6-dedicated-route-binding-boundaries.sh
+?? scripts/inspect-corridor-6-exact-approval-persistence-insertion-boundary.sh
+?? scripts/inspect-corridor-6-full-envelope-reconstruction-source.sh
+?? scripts/inspect-corridor-6-package-to-execution-authority-mapping.sh
+?? scripts/inspect-corridor-6-unexpected-head.sh
+?? scripts/investigate-corridor-6-durable-execution-envelope-authority-sources.sh
+?? scripts/investigate-corridor-6-self-improvement-execution-activation-closure.sh
+?? scripts/reconcile-corridor-2-authorization-closure-history.sh
+?? scripts/reconcile-corridor-6-after-corridor-2-authority-correction.sh
+?? scripts/reconcile-corridor-6-existing-execution-approval-transition.sh
+?? scripts/repair-corridor-6-route-mount-checkpoint-verification.sh
+?? scripts/repair-corridor-6-third-hypothesis-equivalence-check.sh
+?? scripts/run-packages-tab-unseeded-characterization.ts
+?? scripts/run-positional-selection-live-characterization.ts
+?? scripts/run-support-bearing-subset-characterization.ts
+?? scripts/utils/ollamaChat.duplicate-child-enumeration-isolation-experiment.ts
+?? scripts/utils/ollamaChat.duplicate-parent-enumeration-isolation-experiment.ts
+?? scripts/utils/ollamaChat.parent-identity-removal-experiment.ts
+?? scripts/utils/ollamaChat.per-item-support-flag-experiment.ts
+?? scripts/utils/ollamaChat.positional-live-experiment.test.ts
+?? scripts/utils/ollamaChat.positional-live-experiment.ts
+?? scripts/utils/ollamaChat.positional-selection-artifact-experiment.test.ts
+?? scripts/utils/ollamaChat.positional-selection-artifact-experiment.ts
+?? scripts/utils/ollamaChat.positional-selection-experiment.test.ts
+?? scripts/utils/ollamaChat.positional-selection-experiment.ts
+?? scripts/utils/ollamaChat.project-provenance-projection.test.ts
+?? scripts/utils/ollamaChat.raw-response-observer.test.ts
+?? scripts/utils/ollamaChat.same-parent-rejected-identity-diagnostic.ts
+?? scripts/utils/ollamaChat.selected-context-instruction-placement-experiment.ts
+?? scripts/utils/ollamaChat.zero-segment-candidate-prompt.test.ts
+?? validate-authorized-atlas-fixture-canonical-schema-restoration.sh
+?? validate-authorized-atlas-lifecycle-restoration.sh
+?? validate-current-atlas-lifecycle-attempt3.sh
+?? validate-existing-atlas-lifecycle-test-attempt-1.sh
+?? validate-feedbackready-repair-current-worktree.sh
+?? verify-and-commit-authorized-atlas-lifecycle-test.sh
+?? verify-package-semantics-corridor-closed.sh
+
+BROWSER_OBSERVATION=APPROVED_PACKAGE_SELECTION_BLANKS_PAGE
+LIST_SURFACE_RENDERED=YES
+APPROVED_DETAIL_RENDER_VALIDATED=NO
+END_TO_END_BROWSER_VALIDATION=FAILED
+PRODUCT_MUTATION_PERFORMED=NO
+DATABASE_MUTATION_PERFORMED=NO
+AUTHORITY_CHANGED=NO
+NEXT_ACTION=CLASSIFY_RENDER_FAILURE_FROM_DIAGNOSTIC_EVIDENCE
+CLEAR_STOPPING_POINT=YES
