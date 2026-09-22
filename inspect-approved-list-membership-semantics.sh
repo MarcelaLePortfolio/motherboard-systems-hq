@@ -3,7 +3,7 @@ set -euo pipefail
 cd "$(git rev-parse --show-toplevel)"
 
 BRANCH="feature/support-source-references-runtime"
-EXPECTED_HEAD="d74636c2b"
+EXPECTED_HEAD="bdefa5fd2"
 
 git fetch origin "$BRANCH"
 test "$(git rev-parse --abbrev-ref HEAD)" = "$BRANCH"
@@ -17,7 +17,7 @@ echo "============================================================"
 echo
 echo "=== APPROVAL WORKSPACE PACKAGE COLLECTIONS / FILTERS ==="
 grep -n -B 12 -A 24 \
-  -E 'approvedPackages|canonicalPackages|approved.*filter|filter\(.*delegation|delegation\.state|fetchCanonicalPackages|set.*Package' \
+  -E 'approvedPackages|canonicalCollection|canonicalPackages|filter\(.*delegation|delegation\.state|fetchCanonicalPackages' \
   client/src/approvals/ApprovalsWorkspace.tsx \
   client/src/approvals/ApprovalRequestProvider.tsx \
   client/src/approvals/canonicalPackageReadApi.ts \
@@ -26,7 +26,7 @@ grep -n -B 12 -A 24 \
 echo
 echo "=== APPROVED LIST RENDERING ==="
 grep -n -B 20 -A 50 \
-  -E 'Approved|approvedPackages|canonicalPackages.*map|packages.*map|selectedApprovedPackage' \
+  -E 'Approved|approvedPackages|selectedApprovedPackage' \
   client/src/approvals/ApprovalsWorkspace.tsx \
   || true
 
