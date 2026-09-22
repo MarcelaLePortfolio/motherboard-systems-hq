@@ -1,0 +1,106 @@
+=== PORT 3000 PROCESS ===
+PID=87260
+
+=== PROCESS COMMAND ===
+87260     1 04:50:42 node dist/server/index.js
+
+=== PROCESS WORKING DIRECTORY ===
+p87260
+fcwd
+n/Users/marcela-dev/Projects/motherboard-systems-hq-clean
+
+=== CURRENT REPO ROOT ===
+/Users/marcela-dev/Projects/motherboard-systems-hq-clean
+
+=== CURRENT DIST CANONICAL REPOSITORY ===
+8-function requireIdentifier(value, name) {
+9-    const normalized = value.trim();
+10-    if (!normalized) {
+11-        throw new Error(`${name} is required.`);
+12-    }
+13-    return normalized;
+14-}
+15-function readDelegationState(rows) {
+16-    if (rows.length === 0) {
+17-        return {
+18:            state: "awaiting_delegation",
+19-            delegation_id: null,
+20-            authorization_state: null,
+21-            authorization_timestamp: null,
+22-            delegated_by: null,
+23-        };
+24-    }
+25-    if (rows.length !== 1) {
+26-        return {
+27-            state: "ambiguous",
+28-            delegation_id: null,
+29-            authorization_state: null,
+30-            authorization_timestamp: null,
+31-            delegated_by: null,
+32-        };
+33-    }
+34-    const row = rows[0];
+35-    if (row.authorization_state !== "AUTHORIZED" ||
+36-        !row.delegation_id.trim() ||
+37-        !row.authorization_timestamp.trim() ||
+38-        !row.delegated_by.trim()) {
+39-        return {
+40-            state: "ambiguous",
+41-            delegation_id: null,
+42-            authorization_state: null,
+43-            authorization_timestamp: null,
+44-            delegated_by: null,
+45-        };
+46-    }
+47-    return {
+48-        state: "delegated",
+--
+75-      approved_expected_outcome,
+76-      approval_actor,
+77-      approval_timestamp,
+78-      status,
+79-      created_at
+80-    FROM matilda_canonical_packages
+81-    WHERE project_id = ?
+82-      AND status = 'canonical_approved'
+83-    ORDER BY approval_timestamp DESC, package_version DESC
+84-  `);
+85:    const delegationStatement = db.prepare(`
+86-    SELECT
+87-      delegation_id,
+88-      authorization_state,
+89-      authorization_timestamp,
+90-      delegated_by
+91:    FROM governance_delegations
+92-    WHERE project_id = ?
+93-      AND package_id = ?
+94-      AND package_version = ?
+95-    ORDER BY created_at DESC
+96-    LIMIT 2
+97-  `);
+98-    return {
+99-        listByProject(projectId) {
+100-            const normalizedProjectId = requireIdentifier(projectId, "projectId");
+101-            const packages = listStatement.all(normalizedProjectId);
+102-            return packages.map((pkg) => {
+103:                const delegationRows = delegationStatement.all(normalizedProjectId, pkg.package_id, pkg.package_version);
+104-                return {
+105-                    ...pkg,
+106-                    delegation: readDelegationState(delegationRows),
+107-                };
+108-            });
+109-        },
+110-        close() {
+111-            db.close();
+112-        },
+113-    };
+114-}
+
+=== SERVER INDEX CANONICAL ROUTE BINDING ===
+server/index.ts:14:import canonicalPackageReadRouter from "../routes/api-canonical-package-read";
+server/index.ts:34:app.use(canonicalPackageReadRouter);
+
+=== LIVE RESPONSE STILL MISSING DELEGATION? ===
+
+RUNTIME_RECONCILIATION_MUTATION=NO
+NEXT_ACTION=RESTART_ONLY_IF_PID_IS_CONFIRMED_STALE_CURRENT_REPO_RUNTIME
