@@ -3,7 +3,7 @@ set -euo pipefail
 cd "$(git rev-parse --show-toplevel)"
 
 BRANCH="feature/support-source-references-runtime"
-EXPECTED_HEAD="610aad624"
+EXPECTED_HEAD="6041099d9"
 FILE="client/src/approvals/ApprovalsWorkspace.tsx"
 
 git fetch origin "$BRANCH"
@@ -17,57 +17,35 @@ from pathlib import Path
 path = Path("client/src/approvals/ApprovalsWorkspace.tsx")
 text = path.read_text()
 
-selection_anchor = """  const selectedApprovedPackage =
-    canonicalPackages.find(
-      (pkg) =>
-        pkg.package_id === selectedApprovedPackageId,
-    ) ?? null;
+anchor = """  const approvedPackages = useMemo(
+    () => canonicalCollection?.packages ?? [],
+    [canonicalCollection],
+  );
 """
 
-selection_replacement = """  const executiveInboxApprovedPackages =
-    canonicalPackages.filter(
-      (pkg) => pkg.delegation.state !== "delegated",
-    );
-
-  const selectedApprovedPackage =
-    executiveInboxApprovedPackages.find(
-      (pkg) =>
-        pkg.package_id === selectedApprovedPackageId,
-    ) ?? null;
+replacement = """  const approvedPackages = useMemo(
+    () =>
+      (canonicalCollection?.packages ?? []).filter(
+        (pkg) => pkg.delegation.state !== "delegated",
+      ),
+    [canonicalCollection],
+  );
 """
 
-if selection_anchor not in text:
+if anchor not in text:
     raise SystemExit(
-        "Approved-package selection anchor not found; refusing speculative mutation."
+        "Approved-package collection anchor not found; refusing speculative mutation."
     )
 
-text = text.replace(selection_anchor, selection_replacement, 1)
-
-render_replacements = (
-    ("canonicalPackages.map(", "executiveInboxApprovedPackages.map("),
-    ("canonicalPackages.length", "executiveInboxApprovedPackages.length"),
-)
-
-render_change = False
-
-for old, new in render_replacements:
-    if old in text:
-        text = text.replace(old, new)
-        render_change = True
-
-if not render_change:
-    raise SystemExit(
-        "Approved-list render anchor not found; refusing speculative mutation."
-    )
-
+text = text.replace(anchor, replacement, 1)
 path.write_text(text)
 PY
 
 git diff --check -- "$FILE"
 
 echo "=== EXECUTIVE INBOX FILTER ==="
-grep -n -B 8 -A 18 \
-  -E 'executiveInboxApprovedPackages|selectedApprovedPackage' \
+grep -n -B 6 -A 12 \
+  -E 'const approvedPackages|delegation\.state !== "delegated"' \
   "$FILE"
 
 echo
