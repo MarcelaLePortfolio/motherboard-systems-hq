@@ -890,7 +890,10 @@ export default function ApprovalsWorkspace() {
   );
 
   const approvedPackages = useMemo(
-    () => canonicalCollection?.packages ?? [],
+    () =>
+      (canonicalCollection?.packages ?? []).filter(
+        (pkg) => pkg.delegation.state !== "delegated",
+      ),
     [canonicalCollection],
   );
 
