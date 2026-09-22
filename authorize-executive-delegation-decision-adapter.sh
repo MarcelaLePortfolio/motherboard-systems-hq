@@ -4,7 +4,7 @@ set -euo pipefail
 cd "$(git rev-parse --show-toplevel)"
 
 BRANCH="feature/support-source-references-runtime"
-EXPECTED_HEAD="dfc8e2d19"
+EXPECTED_HEAD="786d3d3da"
 
 git fetch origin "$BRANCH"
 
@@ -16,7 +16,7 @@ echo "============================================================"
 echo " EXECUTIVE DELEGATION DECISION ADAPTER — AUTHORIZATION REQUIRED"
 echo "============================================================"
 echo
-echo "Exact authorization sentence:"
+echo "Reply exactly:"
 echo
 echo "I authorize implementation of the bounded Executive Delegation Decision Adapter."
 echo
