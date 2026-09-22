@@ -1,0 +1,263 @@
+============================================================
+ APPROVED CANONICAL PACKAGE — LIVE PAYLOAD DIAGNOSIS
+============================================================
+
+=== SERVER LISTENERS ===
+COMMAND   PID        USER   FD   TYPE             DEVICE SIZE/OFF NODE NAME
+node    87260 marcela-dev   22u  IPv6 0x9c3ac9ddfea75e52      0t0  TCP *:3000 (LISTEN)
+
+=== LIVE CANONICAL PACKAGE RESPONSE :3000 ===
+HTTP/1.1 200 OK
+X-Powered-By: Express
+Content-Type: application/json; charset=utf-8
+Content-Length: 2288
+ETag: W/"8f0-x6+6BMsxEAWSaY2l3KkvzA8YnhQ"
+Date: Tue, 22 Sep 2026 22:06:48 GMT
+Connection: keep-alive
+Keep-Alive: timeout=5
+
+{"project_id":"hq","packages":[{"package_id":"pkg-68dfc4bc-791d-4156-b32a-e51e458b3160","package_version":1,"summary_id":"8292f178-2bfb-4ff1-a697-e405b724d8a5","draft_package_id":"matilda-draft-matilda-conversation-hq","draft_revision_id":"draft-revision-7d868f8c-1661-4547-8a8e-5eaf5c286736","lineage_id":"matilda-lineage-matilda-conversation-hq","project_id":"hq","conversation_id":"matilda-conversation-hq","approved_interpretation":"The user requested a documented change to remove the 'Packages' tab from the frontend while preserving existing package runtime functionality, and I've provided a structured description of this proposed change, including the expected outcome, deliverables, in/out scope elements, and key constraints. The current understanding is that the frontend's presentation of package data and the backend's runtime management remain independent and unaffected by this UI modification.\n\nThe user's request is to remove the 'Packages' tab from the frontend while maintaining the integrity and functionality of the package runtime artifacts, which are governed by the backend and retain authority.\n\nThe user’s request is to remove the 'Packages' tab from the frontend, maintaining the authoritative status of package runtime artifacts. The documentation supports this approach.\n\nUser wants to remove the 'Packages' tab from the frontend.\n\nThe user is initiating a request to make changes to the frontend of the Motherboard Systems HQ project. No specific project-context segment candidates have been supplied.\n\nHello. I'm ready to assist you with the Motherboard Systems HQ project. How can I help today?","approved_work":"Remove the 'Packages' tab from the frontend sidebar.","approved_artifacts":"Frontend code changes reflecting the tab removal.","approved_scope":"Changes to the frontend UI specifically related to the 'Packages' tab.","approved_constraints":"All underlying package runtime functionality and authority must remain unchanged.","approved_expected_outcome":"The frontend displays information without the 'Packages' tab, maintaining access to all package runtime data and functionality.","approval_actor":"marcela","approval_timestamp":"2026-09-21T02:57:22.066Z","status":"canonical_approved","created_at":"2026-09-21T02:57:22.066Z"}]}
+=== LIVE CANONICAL PACKAGE RESPONSE :3001 ===
+
+=== SOURCE CONTRACT REQUIRING DELEGATION ===
+24:export interface CanonicalPackageReadModel {
+25-  package_id: string;
+26-  package_version: number;
+27-  summary_id: string;
+28-  draft_package_id: string;
+29-  draft_revision_id: string | null;
+30-  lineage_id: string;
+31-  project_id: string;
+32-  conversation_id: string | null;
+33-  approved_interpretation: string;
+34-  approved_work: string | null;
+35-  approved_artifacts: string | null;
+36-  approved_scope: string | null;
+37-  approved_constraints: string | null;
+38-  approved_expected_outcome: string | null;
+39-  approval_actor: string;
+40-  approval_timestamp: string;
+41-  status: "canonical_approved";
+42-  created_at: string;
+43:  delegation: CanonicalPackageDelegationState;
+44-}
+45-
+46-export interface CanonicalPackageReadCollection {
+47-  project_id: string;
+48-  packages: CanonicalPackageReadModel[];
+49-}
+50-
+51-function requireText(
+52-  value: string,
+53-  fieldName: string,
+54-): string {
+55-  const normalized = value.trim();
+56-
+57-  if (!normalized) {
+58-    throw new Error(`${fieldName} is required.`);
+59-  }
+60-
+61-  return normalized;
+62-}
+63-
+64-export async function fetchCanonicalPackages(
+65-  projectId: string,
+66-): Promise<CanonicalPackageReadCollection> {
+67-  const normalizedProjectId = requireText(
+68-    projectId,
+69-    "projectId",
+70-  );
+71-
+72-  const response = await fetch(
+73-    `/api/canonical-packages?project_id=${encodeURIComponent(
+74-      normalizedProjectId,
+75-    )}`,
+76-  );
+77-
+78-  if (!response.ok) {
+79-    throw new Error(
+80-      "Unable to load approved Canonical Packages.",
+81-    );
+82-  }
+83-
+84-  return response.json() as Promise<CanonicalPackageReadCollection>;
+85-}
+
+=== FIRST DETAIL RENDER ACCESS TO DELEGATION ===
+640-}) {
+641-  const [delegating, setDelegating] = useState(false);
+642-  const [delegationError, setDelegationError] =
+643-    useState<string | null>(null);
+644-
+645-  async function handleDelegate(): Promise<void> {
+646-    if (
+647-      delegating ||
+648:      pkg.delegation.state !== "awaiting_delegation"
+649-    ) {
+650-      return;
+651-    }
+652-
+653-    setDelegating(true);
+654-    setDelegationError(null);
+655-
+656-    try {
+657-      await delegateCanonicalPackage({
+658-        delegation_id: crypto.randomUUID(),
+659-        project_id: pkg.project_id,
+660-        package_id: pkg.package_id,
+661-        package_version: pkg.package_version,
+662-        authorization_state: "AUTHORIZED",
+663-        authorization_timestamp: new Date().toISOString(),
+664-        delegated_by: "marcela",
+--
+678-
+679-  return (
+680-    <article className="executive-briefing">
+681-      <header className="executive-briefing__header executive-briefing__header--calm">
+682-        <div>
+683-          <div className="executive-briefing__status-line">
+684-            <DecisionBadge>Approved</DecisionBadge>
+685-            <DecisionBadge>
+686:              {pkg.delegation.state === "delegated"
+687-                ? "Delegated"
+688:                : pkg.delegation.state === "awaiting_delegation"
+689-                  ? "Awaiting delegation"
+690-                  : "Delegation unavailable"}
+691-            </DecisionBadge>
+692-          </div>
+693-
+694-          <h2>Canonical Package</h2>
+695-
+696-          <p className="executive-briefing__question">
+697-            {readText(pkg.approved_interpretation)}
+698-          </p>
+699-        </div>
+700-      </header>
+701-
+702-      <BriefingSection title="Approved package">
+703-        <dl className="executive-briefing-grid">
+704-          <div>
+--
+769-
+770-          <div>
+771-            <dt>Approved</dt>
+772-            <dd>{formatTimestamp(pkg.approval_timestamp)}</dd>
+773-          </div>
+774-        </dl>
+775-      </details>
+776-
+777:      {pkg.delegation.state === "awaiting_delegation" ? (
+778-        <section
+779-          className="executive-decision-actions"
+780-          aria-labelledby="executive-delegation-action-title"
+781-        >
+782-          <div className="executive-decision-actions__heading">
+783-            <div>
+784-              <h3 id="executive-delegation-action-title">
+785-                Your delegation decision
+786-              </h3>
+787-              <p>
+788-                Delegation authorizes this Canonical Package for the existing
+789-                governance delegation stage only. It does not authorize
+790-                execution.
+791-              </p>
+792-            </div>
+793-          </div>
+--
+816-              role="alert"
+817-            >
+818-              {delegationError}
+819-            </p>
+820-          ) : null}
+821-        </section>
+822-      ) : null}
+823-
+824:      {pkg.delegation.state === "delegated" ? (
+825-        <BriefingSection title="Delegation">
+826-          <dl className="executive-briefing-grid">
+827-            <div>
+828-              <dt>Status</dt>
+829-              <dd>Authorized</dd>
+830-            </div>
+831-            <div>
+832-              <dt>Delegated by</dt>
+833-              <dd>{pkg.delegation.delegated_by}</dd>
+834-            </div>
+835-            <div>
+836-              <dt>Delegated</dt>
+837-              <dd>
+838-                {formatTimestamp(
+839-                  pkg.delegation.authorization_timestamp,
+840-                )}
+--
+843-            <div>
+844-              <dt>Delegation</dt>
+845-              <dd>{pkg.delegation.delegation_id}</dd>
+846-            </div>
+847-          </dl>
+848-        </BriefingSection>
+849-      ) : null}
+850-
+851:      {pkg.delegation.state === "ambiguous" ? (
+852-        <p
+853-          className="executive-change-request__status"
+854-          role="alert"
+855-        >
+856-          Delegation state could not be reconciled. No Delegation action is
+857-          available.
+858-        </p>
+859-      ) : null}
+860-
+861-      <footer className="executive-briefing__footer">
+862-        <button
+863-          type="button"
+864-          onClick={onClose}
+865-        >
+866-          Close detail
+867-        </button>
+
+=== SERVER ROUTE / REPOSITORY BINDING ===
+db/canonical-package-read-repository.delegation.test.ts:9:  createCanonicalPackageReadRepository,
+db/canonical-package-read-repository.delegation.test.ts:131:    createCanonicalPackageReadRepository(databasePath);
+db/canonical-package-read-repository.delegation.test.ts:134:    const [pkg] = repository.listByProject("hq");
+db/canonical-package-read-repository.delegation.test.ts:153:    createCanonicalPackageReadRepository(databasePath);
+db/canonical-package-read-repository.delegation.test.ts:156:    const [pkg] = repository.listByProject("hq");
+db/canonical-package-read-repository.delegation.test.ts:189:    createCanonicalPackageReadRepository(databasePath);
+db/canonical-package-read-repository.delegation.test.ts:192:    const [pkg] = repository.listByProject("hq");
+db/canonical-package-read-repository.delegation.test.ts:211:    createCanonicalPackageReadRepository(databasePath);
+db/canonical-package-read-repository.delegation.test.ts:214:    const [pkg] = repository.listByProject("hq");
+db/canonical-package-read-repository.ts:49:  listByProject(projectId: string): CanonicalPackageReadRecord[];
+db/canonical-package-read-repository.ts:127:export function createCanonicalPackageReadRepository(
+db/canonical-package-read-repository.ts:176:    listByProject(projectId) {
+
+=== COMPILED RUNTIME DELEGATION EVIDENCE ===
+dist/db/mission-read-model-assembler.js:24:        return "AWAITING_DELEGATION";
+dist/db/mission-read-model-assembler.js:66:    const owner = stage === "AWAITING_DELEGATION"
+dist/db/mission-read-model-assembler.js:77:        : stage === "AWAITING_DELEGATION"
+dist/db/mission-read-model-assembler.js:80:    const awaiting = stage === "AWAITING_DELEGATION"
+dist/db/governance-stale-delegation-fk-migration.js:4:const STALE_DELEGATION_PARENT = "governance_delegations_legacy_root";
+dist/db/governance-stale-delegation-fk-migration.js:33:        REFERENCES governance_delegations(delegation_id)
+dist/db/governance-stale-delegation-fk-migration.js:84:        REFERENCES governance_delegations(delegation_id),
+dist/db/governance-stale-delegation-fk-migration.js:135:        REFERENCES governance_delegations(delegation_id),
+dist/db/canonical-package-read-repository.js:18:            state: "awaiting_delegation",
+dist/db/canonical-package-read-repository.js:85:    const delegationStatement = db.prepare(`
+dist/db/canonical-package-read-repository.js:91:    FROM governance_delegations
+dist/db/canonical-package-read-repository.js:103:                const delegationRows = delegationStatement.all(normalizedProjectId, pkg.package_id, pkg.package_version);
+dist/db/governance-runtime.js:39:    CREATE TABLE IF NOT EXISTS governance_delegations (
+dist/db/governance-runtime.js:67:        REFERENCES governance_delegations(delegation_id)
+dist/db/governance-runtime.js:83:        REFERENCES governance_delegations(delegation_id),
+dist/db/governance-runtime.js:103:        REFERENCES governance_delegations(delegation_id),
+dist/db/governance-runtime.js:344:    INSERT INTO governance_delegations (
+dist/db/mission-read-repository.js:25:    const delegationStatement = db.prepare(`
+dist/db/mission-read-repository.js:27:    FROM governance_delegations
+dist/db/mission-read-repository.js:86:            const delegation = delegationStatement.get(pkg.package_id, pkg.package_version);
+dist/db/governance-execution-read-repository.js:33:      FROM governance_delegations
+
+=== CLASSIFICATION TARGET ===
+HYPOTHESIS=LIVE_CANONICAL_PACKAGE_PAYLOAD_MAY_LACK_DELEGATION_PROJECTION
+PRODUCT_MUTATION_PERFORMED=NO
+DATABASE_MUTATION_PERFORMED=NO
+AUTHORITY_CHANGED=NO
+FIX_AUTHORIZED=NO
+NEXT_ACTION=CLASSIFY_LIVE_PAYLOAD_BEFORE_ANY_PRODUCT_FIX
+CLEAR_STOPPING_POINT=YES
