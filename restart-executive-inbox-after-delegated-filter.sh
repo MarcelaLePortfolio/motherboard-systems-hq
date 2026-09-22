@@ -3,7 +3,7 @@ set -euo pipefail
 cd "$(git rev-parse --show-toplevel)"
 
 BRANCH="feature/support-source-references-runtime"
-EXPECTED_HEAD="0c80bc4cf"
+EXPECTED_HEAD="aba2f9adb"
 PORT=3000
 LOG="/tmp/motherboard-executive-inbox-runtime.log"
 
