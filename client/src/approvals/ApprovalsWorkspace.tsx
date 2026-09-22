@@ -13,6 +13,7 @@ import {
   type ApprovalRequestReadModel,
 } from "./approvalRequestApi";
 import { deriveDecisionListTitle } from "./decisionListTitle";
+import type { CanonicalPackageReadModel } from "./canonicalPackageReadApi";
 import { useApprovalRequests } from "./useApprovalRequests";
 
 import "./approvals-workspace.css";
@@ -107,6 +108,53 @@ function DecisionListItem({
       <div className="executive-inbox-item__meta">
         <time dateTime={request.updated_at}>
           {formatTimestamp(request.updated_at)}
+        </time>
+      </div>
+    </button>
+  );
+}
+
+
+function ApprovedPackageListItem({
+  pkg,
+  selected,
+  onSelect,
+}: {
+  pkg: CanonicalPackageReadModel;
+  selected: boolean;
+  onSelect(): void;
+}) {
+  return (
+    <button
+      type="button"
+      className={[
+        "executive-inbox-item",
+        selected ? "executive-inbox-item--selected" : "",
+      ]
+        .filter(Boolean)
+        .join(" ")}
+      aria-current={selected ? "true" : undefined}
+      onClick={onSelect}
+    >
+      <div className="executive-inbox-item__heading">
+        <strong>
+          {deriveDecisionListTitle(
+            readText(
+              pkg.approved_expected_outcome,
+              pkg.approved_interpretation,
+            ),
+          )}
+        </strong>
+        <DecisionBadge>Approved</DecisionBadge>
+      </div>
+
+      <p className="executive-inbox-item__summary">
+        {readText(pkg.approved_interpretation)}
+      </p>
+
+      <div className="executive-inbox-item__meta">
+        <time dateTime={pkg.approval_timestamp}>
+          {formatTimestamp(pkg.approval_timestamp)}
         </time>
       </div>
     </button>
@@ -579,9 +627,126 @@ function ExecutiveBriefing({
   );
 }
 
+
+function ApprovedCanonicalPackageBriefing({
+  pkg,
+  onClose,
+}: {
+  pkg: CanonicalPackageReadModel;
+  onClose(): void;
+}) {
+  return (
+    <article className="executive-briefing">
+      <header className="executive-briefing__header executive-briefing__header--calm">
+        <div>
+          <div className="executive-briefing__status-line">
+            <DecisionBadge>Approved</DecisionBadge>
+          </div>
+
+          <h2>Canonical Package</h2>
+
+          <p className="executive-briefing__question">
+            {readText(pkg.approved_interpretation)}
+          </p>
+        </div>
+      </header>
+
+      <BriefingSection title="Approved package">
+        <dl className="executive-briefing-grid">
+          <div>
+            <dt>Expected outcome</dt>
+            <dd>{readText(pkg.approved_expected_outcome)}</dd>
+          </div>
+
+          <div>
+            <dt>Approved work</dt>
+            <dd>{readText(pkg.approved_work)}</dd>
+          </div>
+
+          <div>
+            <dt>Deliverables</dt>
+            <dd>{readText(pkg.approved_artifacts)}</dd>
+          </div>
+
+          <div>
+            <dt>Scope</dt>
+            <dd>{readText(pkg.approved_scope)}</dd>
+          </div>
+
+          <div>
+            <dt>Constraints</dt>
+            <dd>{readText(pkg.approved_constraints)}</dd>
+          </div>
+        </dl>
+      </BriefingSection>
+
+      <details className="executive-briefing-technical">
+        <summary>Technical details</summary>
+
+        <dl className="executive-briefing-grid">
+          <div>
+            <dt>Package</dt>
+            <dd>{pkg.package_id}</dd>
+          </div>
+
+          <div>
+            <dt>Version</dt>
+            <dd>{pkg.package_version}</dd>
+          </div>
+
+          <div>
+            <dt>Draft package</dt>
+            <dd>{pkg.draft_package_id}</dd>
+          </div>
+
+          <div>
+            <dt>Draft revision</dt>
+            <dd>{pkg.draft_revision_id ?? "Unavailable"}</dd>
+          </div>
+
+          <div>
+            <dt>Conversation</dt>
+            <dd>{pkg.conversation_id ?? "Unavailable"}</dd>
+          </div>
+
+          <div>
+            <dt>Lineage</dt>
+            <dd>{pkg.lineage_id}</dd>
+          </div>
+
+          <div>
+            <dt>Approved by</dt>
+            <dd>{pkg.approval_actor}</dd>
+          </div>
+
+          <div>
+            <dt>Approved</dt>
+            <dd>{formatTimestamp(pkg.approval_timestamp)}</dd>
+          </div>
+        </dl>
+      </details>
+
+      <footer className="executive-briefing__footer">
+        <button
+          type="button"
+          onClick={onClose}
+        >
+          Close detail
+        </button>
+
+        <p>
+          This Canonical Package is approved and read-only here.
+          Approval does not delegate or execute the work.
+        </p>
+      </footer>
+    </article>
+  );
+}
+
 export default function ApprovalsWorkspace() {
   const {
     collection,
+    canonicalCollection,
     loading,
     error,
     refresh,
@@ -591,6 +756,38 @@ export default function ApprovalsWorkspace() {
     () => collection?.requests ?? [],
     [collection],
   );
+
+  const approvedPackages = useMemo(
+    () => canonicalCollection?.packages ?? [],
+    [canonicalCollection],
+  );
+
+  const [
+    selectedApprovedPackageId,
+    setSelectedApprovedPackageId,
+  ] = useState<string | null>(null);
+
+  useEffect(() => {
+    const selectionExists = approvedPackages.some(
+      (pkg) => pkg.package_id === selectedApprovedPackageId,
+    );
+
+    if (
+      selectedApprovedPackageId !== null &&
+      !selectionExists
+    ) {
+      setSelectedApprovedPackageId(null);
+    }
+  }, [
+    approvedPackages,
+    selectedApprovedPackageId,
+  ]);
+
+  const selectedApprovedPackage =
+    approvedPackages.find(
+      (pkg) =>
+        pkg.package_id === selectedApprovedPackageId,
+    ) ?? null;
 
   const [
     selectedRequestId,
@@ -710,10 +907,48 @@ export default function ApprovalsWorkspace() {
                     />
                   ))
                 )}
+
+              {approvedPackages.length > 0 ? (
+                <>
+                  <div className="executive-inbox-list__section-heading">
+                    <span>Approved</span>
+                    <strong>{approvedPackages.length}</strong>
+                  </div>
+
+                  {approvedPackages.map((pkg) => (
+                    <ApprovedPackageListItem
+                      key={`${pkg.package_id}:${pkg.package_version}`}
+                      pkg={pkg}
+                      selected={
+                        pkg.package_id ===
+                        selectedApprovedPackageId
+                      }
+                      onSelect={() => {
+                        setSelectedRequestId(null);
+                        setSelectedApprovedPackageId(
+                          pkg.package_id,
+                        );
+                      }}
+                    />
+                  ))}
+                </>
+              ) : null}
+
               </div>
             </aside>
 
             <section className="executive-inbox-reading-pane">
+
+              {selectedApprovedPackage ? (
+                <ApprovedCanonicalPackageBriefing
+                  key={`${selectedApprovedPackage.package_id}:${selectedApprovedPackage.package_version}`}
+                  pkg={selectedApprovedPackage}
+                  onClose={() =>
+                    setSelectedApprovedPackageId(null)
+                  }
+                />
+              ) : null}
+
               {selectedRequest ? (
                 <ExecutiveBriefing
                   key={selectedRequest.approval_request_id}

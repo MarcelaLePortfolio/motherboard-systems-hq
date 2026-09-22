@@ -12,9 +12,14 @@ import {
   fetchApprovalRequests,
   type ApprovalRequestCollection,
 } from "./approvalRequestApi";
+import {
+  fetchCanonicalPackages,
+  type CanonicalPackageReadCollection,
+} from "./canonicalPackageReadApi";
 
 interface ApprovalRequestContextValue {
   collection: ApprovalRequestCollection | null;
+  canonicalCollection: CanonicalPackageReadCollection | null;
   loading: boolean;
   error: Error | null;
   refresh(): Promise<void>;
@@ -35,6 +40,9 @@ export function ApprovalRequestProvider({
   const [collection, setCollection] =
     useState<ApprovalRequestCollection | null>(null);
 
+  const [canonicalCollection, setCanonicalCollection] =
+    useState<CanonicalPackageReadCollection | null>(null);
+
   const [loading, setLoading] = useState(false);
 
   const [error, setError] =
@@ -45,10 +53,14 @@ export function ApprovalRequestProvider({
     setError(null);
 
     try {
-      const result =
-        await fetchApprovalRequests(projectId);
+      const [approvalRequests, canonicalPackages] =
+        await Promise.all([
+          fetchApprovalRequests(projectId),
+          fetchCanonicalPackages(projectId),
+        ]);
 
-      setCollection(result);
+      setCollection(approvalRequests);
+      setCanonicalCollection(canonicalPackages);
     } catch (err) {
       setError(err as Error);
     } finally {
@@ -63,11 +75,18 @@ export function ApprovalRequestProvider({
   const value = useMemo(
     () => ({
       collection,
+      canonicalCollection,
       loading,
       error,
       refresh,
     }),
-    [collection, loading, error, refresh],
+    [
+      collection,
+      canonicalCollection,
+      loading,
+      error,
+      refresh,
+    ],
   );
 
   return (
