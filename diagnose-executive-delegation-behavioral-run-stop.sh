@@ -4,7 +4,7 @@ set -euo pipefail
 cd "$(git rev-parse --show-toplevel)"
 
 BRANCH="feature/support-source-references-runtime"
-EXPECTED_HEAD="1d0b6a4d0"
+EXPECTED_HEAD="988f7ecb8"
 CAPTURE="/tmp/executive-delegation-behavioral-test-result.txt"
 
 git fetch origin "$BRANCH"
