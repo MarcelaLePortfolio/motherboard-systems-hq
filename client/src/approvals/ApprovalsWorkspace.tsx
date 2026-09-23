@@ -15,6 +15,7 @@ import {
 import { deriveDecisionListTitle } from "./decisionListTitle";
 import type { CanonicalPackageReadModel } from "./canonicalPackageReadApi";
 import { delegateCanonicalPackage } from "./governanceDelegationApi";
+import { submitGovernanceValidation } from "./governanceValidationApi";
 import { useApprovalRequests } from "./useApprovalRequests";
 
 import "./approvals-workspace.css";
@@ -641,6 +642,52 @@ function ApprovedCanonicalPackageBriefing({
   const [delegating, setDelegating] = useState(false);
   const [delegationError, setDelegationError] =
     useState<string | null>(null);
+  const [validating, setValidating] = useState(false);
+  const [validationError, setValidationError] =
+    useState<string | null>(null);
+  const [validationComplete, setValidationComplete] = useState(false);
+
+  async function handleValidate(): Promise<void> {
+    if (
+      validating ||
+      validationComplete ||
+      pkg.delegation.state !== "delegated"
+    ) {
+      return;
+    }
+
+    const validationStatus = window.prompt(
+      "Validation status",
+      "VALIDATION_PASSED",
+    );
+
+    if (!validationStatus?.trim()) {
+      return;
+    }
+
+    setValidating(true);
+    setValidationError(null);
+
+    try {
+      await submitGovernanceValidation({
+        validation_result_id: crypto.randomUUID(),
+        package_id: pkg.package_id,
+        package_version: pkg.package_version,
+        delegation_id: pkg.delegation.delegation_id,
+        validation_status: validationStatus.trim(),
+      });
+
+      setValidationComplete(true);
+    } catch (error) {
+      setValidationError(
+        error instanceof Error
+          ? error.message
+          : "Governance Validation could not be recorded.",
+      );
+    } finally {
+      setValidating(false);
+    }
+  }
 
   async function handleDelegate(): Promise<void> {
     if (
@@ -816,6 +863,56 @@ function ApprovedCanonicalPackageBriefing({
               role="alert"
             >
               {delegationError}
+            </p>
+          ) : null}
+        </section>
+      ) : null}
+
+      {pkg.delegation.state === "delegated" ? (
+        <section
+          className="executive-decision-actions"
+          aria-labelledby="executive-validation-action-title"
+        >
+          <div className="executive-decision-actions__heading">
+            <div>
+              <h3 id="executive-validation-action-title">
+                Your Validation decision
+              </h3>
+              <p>
+                Validation records the governance result for this exact
+                delegated Canonical Package version. It does not authorize
+                execution or advance the lifecycle automatically.
+              </p>
+            </div>
+          </div>
+
+          <div className="executive-decision-actions__options">
+            <div className="executive-decision-option">
+              <button
+                type="button"
+                className="executive-decision-button executive-decision-button--primary"
+                disabled={validating || validationComplete}
+                onClick={() => void handleValidate()}
+              >
+                {validationComplete
+                  ? "Validated"
+                  : validating
+                    ? "Validating…"
+                    : "Validate"}
+              </button>
+
+              <p>
+                Explicitly records Validation for this delegated package only.
+              </p>
+            </div>
+          </div>
+
+          {validationError ? (
+            <p
+              className="executive-change-request__status"
+              role="alert"
+            >
+              {validationError}
             </p>
           ) : null}
         </section>
