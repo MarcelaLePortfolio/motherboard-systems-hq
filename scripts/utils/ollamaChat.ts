@@ -180,6 +180,7 @@ const OLLAMA_CHAT_OUTPUT_SCHEMA = {
           additionalProperties: false,
           required: [
             "expectedOutcome",
+            "successCriteria",
             "proposedWork",
             "proposedArtifacts",
             "inScope",
@@ -189,6 +190,9 @@ const OLLAMA_CHAT_OUTPUT_SCHEMA = {
           ],
           properties: {
             expectedOutcome: {
+              anyOf: [{ type: "null" }, { type: "string" }],
+            },
+            successCriteria: {
               anyOf: [{ type: "null" }, { type: "string" }],
             },
             proposedWork: {
@@ -376,6 +380,7 @@ export function validateMatildaPackageSemanticsArtifact(
 
   const fields = [
     "expectedOutcome",
+    "successCriteria",
     "proposedWork",
     "proposedArtifacts",
     "inScope",
@@ -396,6 +401,7 @@ export function validateMatildaPackageSemanticsArtifact(
 
   const validated: MatildaPackageSemanticsArtifact = {
     expectedOutcome: null,
+    successCriteria: null,
     proposedWork: null,
     proposedArtifacts: null,
     inScope: null,
@@ -1240,8 +1246,8 @@ export async function ollamaChat(
                 ]
               : []),
             "Set packageSemantics to null only when the current turn establishes no request-specific structured package semantics.",
-            "Otherwise set packageSemantics to one atomic non-authoritative artifact describing the user's requested outcome, proposed work, proposed artifacts, scope, constraints, and unresolved questions.",
-            "For expectedOutcome, proposedWork, proposedArtifacts, inScope, outOfScope, constraints, and unresolvedQuestions, use a concise non-empty string only when that semantic is actually established; otherwise use null.",
+            "Otherwise set packageSemantics to one atomic non-authoritative artifact describing the user's requested outcome, success criteria, proposed work, proposed artifacts, scope, constraints, and unresolved questions.",
+            "For expectedOutcome, successCriteria, proposedWork, proposedArtifacts, inScope, outOfScope, constraints, and unresolvedQuestions, use a concise non-empty string only when that semantic is actually established; otherwise use null.",
             "When the current user request explicitly establishes any package-semantic field, preserve that request-specific information in the corresponding non-null packageSemantics field instead of returning null for that field.",
             "A package-semantics field may remain null when the current request does not establish that information. Do not invent unsupported package semantics merely to fill a nullable field.",
             "Do not use generic Living Draft process language as package semantics.",

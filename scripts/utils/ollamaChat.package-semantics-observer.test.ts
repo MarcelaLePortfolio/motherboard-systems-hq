@@ -41,6 +41,7 @@ test(
       responseWith(
         {
           expectedOutcome: "A visible checklist.",
+          successCriteria: "The checklist is visible and complete.",
           proposedWork: "Create the checklist.",
           proposedArtifacts: "Checklist",
           inScope: "Verify package semantics.",
@@ -87,6 +88,7 @@ test(
     globalThis.fetch = (async () =>
       responseWith({
         expectedOutcome: "",
+        successCriteria: null,
         proposedWork: null,
         proposedArtifacts: null,
         inScope: null,

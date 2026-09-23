@@ -15,6 +15,7 @@ const source = fs.readFileSync(
 function validPackageSemantics(): MatildaPackageSemanticsArtifact {
   return {
     expectedOutcome: "A request-specific approval outcome.",
+    successCriteria: "The requested outcome is verifiably complete.",
     proposedWork: "Perform the requested work.",
     proposedArtifacts: "A request-specific artifact.",
     inScope: "Only the requested work.",
@@ -166,6 +167,7 @@ test(
     assert.deepEqual(
       validateMatildaPackageSemanticsArtifact({
         expectedOutcome: null,
+        successCriteria: null,
         proposedWork: null,
         proposedArtifacts: null,
         inScope: null,
@@ -175,6 +177,7 @@ test(
       }),
       {
         expectedOutcome: null,
+        successCriteria: null,
         proposedWork: null,
         proposedArtifacts: null,
         inScope: null,

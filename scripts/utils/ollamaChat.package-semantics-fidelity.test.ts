@@ -11,6 +11,7 @@ const authored = (
   expectedOutcome: string | null,
 ): MatildaPackageSemanticsArtifact => ({
   expectedOutcome,
+  successCriteria: null,
   proposedWork: "Perform the requested work.",
   proposedArtifacts: null,
   inScope: null,
