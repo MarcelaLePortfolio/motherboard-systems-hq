@@ -22,6 +22,7 @@ export type ReconciledIntentSummary = {
   out_of_scope: string | null;
   constraints: string | null;
   expected_outcome: string | null;
+  success_criteria: string | null;
   unresolved_questions: string | null;
   evidence_entry_ids: string[];
   source_draft_status: string;
@@ -50,6 +51,7 @@ export function assembleReconciledInterpretationSummary(source: {
   out_of_scope: string | null;
   constraints: string | null;
   expected_outcome: string | null;
+  success_criteria: string | null;
   unresolved_questions: string | null;
   evidence_entry_ids: string[];
   status: string;
@@ -68,6 +70,7 @@ export function assembleReconciledInterpretationSummary(source: {
     out_of_scope: source.out_of_scope,
     constraints: source.constraints,
     expected_outcome: source.expected_outcome,
+    success_criteria: source.success_criteria,
     unresolved_questions: source.unresolved_questions,
     evidence_entry_ids: source.evidence_entry_ids,
     source_draft_status: source.status,
@@ -104,6 +107,7 @@ export function generateReconciledIntentSummary(
       out_of_scope: revision.out_of_scope,
       constraints: revision.constraints,
       expected_outcome: revision.expected_outcome,
+      success_criteria: revision.success_criteria,
       unresolved_questions: revision.unresolved_questions,
       evidence_entry_ids: revision.evidence_entry_ids,
       status: revision.status,
@@ -129,6 +133,7 @@ export function generateReconciledIntentSummary(
     out_of_scope: draft.out_of_scope,
     constraints: draft.constraints,
     expected_outcome: draft.expected_outcome,
+    success_criteria: draft.success_criteria,
     unresolved_questions: draft.unresolved_questions,
     evidence_entry_ids: draft.evidence_entry_ids,
     status: draft.status,

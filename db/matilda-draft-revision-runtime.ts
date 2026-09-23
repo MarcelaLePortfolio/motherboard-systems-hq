@@ -21,6 +21,7 @@ export type DraftRevisionRecord = {
   out_of_scope: string | null;
   constraints: string | null;
   expected_outcome: string | null;
+  success_criteria: string | null;
   unresolved_questions: string | null;
   evidence_entry_ids: string[];
   source_draft_status: string;
@@ -44,6 +45,7 @@ export function initializeDraftRevisionSchema() {
       out_of_scope TEXT,
       constraints TEXT,
       expected_outcome TEXT,
+      success_criteria TEXT,
       unresolved_questions TEXT,
       evidence_entry_ids TEXT NOT NULL,
       source_draft_status TEXT NOT NULL,
@@ -55,6 +57,17 @@ export function initializeDraftRevisionSchema() {
         REFERENCES matilda_living_draft_packages(draft_package_id)
     )
   `);
+
+  const columns = sqlite
+    .prepare("PRAGMA table_info(matilda_draft_revisions)")
+    .all() as Array<{ name: string }>;
+
+  if (!columns.some((column) => column.name === "success_criteria")) {
+    sqlite.exec(`
+      ALTER TABLE matilda_draft_revisions
+      ADD COLUMN success_criteria TEXT
+    `);
+  }
 
   sqlite.exec(`
     CREATE INDEX IF NOT EXISTS
@@ -138,6 +151,7 @@ export function createDraftRevisionForApprovalReview({
         out_of_scope,
         constraints,
         expected_outcome,
+        success_criteria,
         unresolved_questions,
         evidence_entry_ids,
         source_draft_status,
@@ -145,7 +159,7 @@ export function createDraftRevisionForApprovalReview({
         status,
         created_at
       ) VALUES (
-        ?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?
+        ?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?
       )
     `)
     .run(
@@ -161,6 +175,7 @@ export function createDraftRevisionForApprovalReview({
       draft.out_of_scope,
       draft.constraints,
       draft.expected_outcome,
+      draft.success_criteria,
       draft.unresolved_questions,
       JSON.stringify(draft.evidence_entry_ids),
       draft.status,

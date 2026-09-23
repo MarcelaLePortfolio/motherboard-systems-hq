@@ -117,6 +117,7 @@ export function assembleApprovalRequestReadModel(
     out_of_scope: source.out_of_scope,
     constraints: source.constraints,
     expected_outcome: source.expected_outcome,
+    success_criteria: revision.success_criteria,
     unresolved_questions: source.unresolved_questions,
     evidence_entry_ids: parseEvidenceEntryIds(
       source.evidence_entry_ids,

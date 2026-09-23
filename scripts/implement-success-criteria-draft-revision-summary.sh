@@ -4,7 +4,7 @@ set -euo pipefail
 cd /Users/marcela-dev/Projects/motherboard-systems-hq-clean
 
 BRANCH="feature/support-source-references-runtime"
-BASELINE="f59432fab"
+BASELINE="cb379eff0"
 
 test "$(git branch --show-current)" = "$BRANCH"
 test "$(git rev-parse --short=9 HEAD)" = "$BASELINE"
@@ -17,7 +17,9 @@ def replace(path_name: str, old: str, new: str, count: int = 1):
     path = Path(path_name)
     source = path.read_text()
     if source.count(old) < count:
-        raise SystemExit(f"Expected anchor not found enough times in {path_name}:\n{old}")
+        raise SystemExit(
+            f"Expected anchor not found enough times in {path_name}:\n{old}"
+        )
     path.write_text(source.replace(old, new, count))
 
 revision = "db/matilda-draft-revision-runtime.ts"
