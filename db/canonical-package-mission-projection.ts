@@ -27,6 +27,8 @@ type CanonicalProjectionSource = {
   project_id: string | null;
   conversation_id: string | null;
   approved_expected_outcome: string | null;
+  approved_scope: string | null;
+  approved_constraints: string | null;
   status: string;
   created_at: string;
 };
@@ -69,9 +71,9 @@ function exactProjectionMatch(
     && existing.conversation_id === source.conversation_id
     && existing.requested_outcome === source.approved_expected_outcome
     && existing.created_at === source.created_at
-    && existing.scope === null
+    && existing.scope === source.approved_scope
     && existing.containment === null
-    && existing.constraints === null
+    && existing.constraints === source.approved_constraints
     && existing.success_criteria === null
     && existing.context === null
     && existing.style_presentation_intent === null
@@ -105,6 +107,8 @@ export function projectCanonicalPackageToMissionPackage(
         project_id,
         conversation_id,
         approved_expected_outcome,
+        approved_scope,
+        approved_constraints,
         status,
         created_at
       FROM matilda_canonical_packages
@@ -141,6 +145,11 @@ export function projectCanonicalPackageToMissionPackage(
     "approved_expected_outcome",
   );
 
+  const scope = requireText(source.approved_scope, "approved_scope");
+  const constraints = requireText(
+    source.approved_constraints,
+    "approved_constraints",
+  );
   const created_at = requireText(source.created_at, "created_at");
 
   const existing = sqlite
@@ -214,9 +223,9 @@ export function projectCanonicalPackageToMissionPackage(
         @project_id,
         @conversation_id,
         @requested_outcome,
+        @scope,
         NULL,
-        NULL,
-        NULL,
+        @constraints,
         NULL,
         NULL,
         NULL,
@@ -230,6 +239,8 @@ export function projectCanonicalPackageToMissionPackage(
       project_id,
       conversation_id,
       requested_outcome,
+      scope,
+      constraints,
       created_at,
     });
 
