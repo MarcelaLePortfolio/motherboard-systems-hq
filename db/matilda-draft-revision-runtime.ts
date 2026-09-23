@@ -21,6 +21,7 @@ export type DraftRevisionRecord = {
   out_of_scope: string | null;
   constraints: string | null;
   expected_outcome: string | null;
+  success_criteria: string | null;
   unresolved_questions: string | null;
   evidence_entry_ids: string[];
   source_draft_status: string;
@@ -44,6 +45,7 @@ export function initializeDraftRevisionSchema() {
       out_of_scope TEXT,
       constraints TEXT,
       expected_outcome TEXT,
+      success_criteria TEXT,
       unresolved_questions TEXT,
       evidence_entry_ids TEXT NOT NULL,
       source_draft_status TEXT NOT NULL,
