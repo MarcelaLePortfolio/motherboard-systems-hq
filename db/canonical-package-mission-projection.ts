@@ -27,6 +27,7 @@ type CanonicalProjectionSource = {
   project_id: string | null;
   conversation_id: string | null;
   approved_expected_outcome: string | null;
+  approved_success_criteria: string | null;
   approved_scope: string | null;
   approved_constraints: string | null;
   status: string;
@@ -74,7 +75,7 @@ function exactProjectionMatch(
     && existing.scope === source.approved_scope
     && existing.containment === null
     && existing.constraints === source.approved_constraints
-    && existing.success_criteria === null
+    && existing.success_criteria === source.approved_success_criteria
     && existing.context === null
     && existing.style_presentation_intent === null
     && existing.exclusions === null
@@ -107,6 +108,7 @@ export function projectCanonicalPackageToMissionPackage(
         project_id,
         conversation_id,
         approved_expected_outcome,
+        approved_success_criteria,
         approved_scope,
         approved_constraints,
         status,
@@ -143,6 +145,11 @@ export function projectCanonicalPackageToMissionPackage(
   const requested_outcome = requireText(
     source.approved_expected_outcome,
     "approved_expected_outcome",
+  );
+
+  const success_criteria = requireText(
+    source.approved_success_criteria,
+    "approved_success_criteria",
   );
 
   const scope = requireText(source.approved_scope, "approved_scope");
@@ -226,7 +233,7 @@ export function projectCanonicalPackageToMissionPackage(
         @scope,
         NULL,
         @constraints,
-        NULL,
+        @success_criteria,
         NULL,
         NULL,
         NULL,
@@ -241,6 +248,7 @@ export function projectCanonicalPackageToMissionPackage(
       requested_outcome,
       scope,
       constraints,
+      success_criteria,
       created_at,
     });
 

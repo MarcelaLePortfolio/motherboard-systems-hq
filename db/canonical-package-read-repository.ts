@@ -38,6 +38,7 @@ export interface CanonicalPackageReadRecord {
   approved_scope: string | null;
   approved_constraints: string | null;
   approved_expected_outcome: string | null;
+  approved_success_criteria: string | null;
   approval_actor: string;
   approval_timestamp: string;
   status: "canonical_approved";
@@ -148,6 +149,7 @@ export function createCanonicalPackageReadRepository(
       approved_scope,
       approved_constraints,
       approved_expected_outcome,
+      approved_success_criteria,
       approval_actor,
       approval_timestamp,
       status,

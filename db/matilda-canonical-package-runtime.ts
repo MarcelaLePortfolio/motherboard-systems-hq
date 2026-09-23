@@ -45,6 +45,7 @@ function createCanonicalPackageTable() {
       approved_scope TEXT,
       approved_constraints TEXT,
       approved_expected_outcome TEXT,
+      approved_success_criteria TEXT,
       approval_actor TEXT NOT NULL,
       approval_timestamp TEXT NOT NULL,
       status TEXT NOT NULL,
@@ -98,6 +99,13 @@ function migrateLegacyCanonicalPackageTableIfRequired() {
     && hasDraftRevisionId
     && !packageIdPrimaryKeyOnly
   ) {
+    if (!columns.some((column) => column.name === "approved_success_criteria")) {
+      sqlite.exec(`
+        ALTER TABLE matilda_canonical_packages
+        ADD COLUMN approved_success_criteria TEXT
+      `);
+    }
+
     return;
   }
 
@@ -262,6 +270,15 @@ export function createCanonicalPackageFromApprovedSummary(
     );
   }
 
+  if (
+    typeof summary.success_criteria !== "string"
+    || summary.success_criteria.trim().length === 0
+  ) {
+    throw new Error(
+      "Canonical Package approval requires a non-empty success_criteria.",
+    );
+  }
+
   const latest = sqlite
     .prepare(`
       SELECT
@@ -314,11 +331,12 @@ export function createCanonicalPackageFromApprovedSummary(
             approved_scope,
             approved_constraints,
             approved_expected_outcome,
+            approved_success_criteria,
             approval_actor,
             approval_timestamp,
             status,
             created_at
-          ) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
+          ) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
         `)
         .run(
           package_id,
@@ -335,6 +353,7 @@ export function createCanonicalPackageFromApprovedSummary(
           summary.in_scope,
           summary.constraints,
           summary.expected_outcome,
+          summary.success_criteria,
           approval_actor,
           created_at,
           "canonical_approved",
@@ -380,6 +399,7 @@ export function createCanonicalPackageFromApprovedSummary(
     approved_scope: summary.in_scope,
     approved_constraints: summary.constraints,
     approved_expected_outcome: summary.expected_outcome,
+    approved_success_criteria: summary.success_criteria,
     approval_actor,
     approval_timestamp: created_at,
     status: "canonical_approved",

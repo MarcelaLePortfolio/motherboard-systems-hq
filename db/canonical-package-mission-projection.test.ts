@@ -17,6 +17,7 @@ function createFixture() {
       project_id TEXT,
       conversation_id TEXT,
       approved_expected_outcome TEXT,
+      approved_success_criteria TEXT,
       approved_scope TEXT,
       approved_constraints TEXT,
       status TEXT NOT NULL,
@@ -53,6 +54,7 @@ function insertCanonical(
     project_id = "hq",
     conversation_id = "conversation-handoff",
     approved_expected_outcome = "Approved mission outcome",
+    approved_success_criteria = "Mission success criteria",
     approved_scope = "Approved mission scope",
     approved_constraints = "Approved mission constraints",
     status = "canonical_approved",
@@ -66,17 +68,19 @@ function insertCanonical(
       project_id,
       conversation_id,
       approved_expected_outcome,
+      approved_success_criteria,
       approved_scope,
       approved_constraints,
       status,
       created_at
-    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
   `).run(
     package_id,
     package_version,
     project_id,
     conversation_id,
     approved_expected_outcome,
+    approved_success_criteria,
     approved_scope,
     approved_constraints,
     status,
@@ -120,7 +124,7 @@ test("projects exact approved Canonical Package identity", () => {
   assert.equal(row.scope, "Approved mission scope");
   assert.equal(row.containment, null);
   assert.equal(row.constraints, "Approved mission constraints");
-  assert.equal(row.success_criteria, null);
+  assert.equal(row.success_criteria, "Mission success criteria");
   assert.equal(row.context, null);
   assert.equal(row.style_presentation_intent, null);
   assert.equal(row.exclusions, null);

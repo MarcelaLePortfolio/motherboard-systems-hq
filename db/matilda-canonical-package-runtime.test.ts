@@ -40,6 +40,7 @@ function initializeFixtureSchema(): void {
       out_of_scope TEXT,
       constraints TEXT,
       expected_outcome TEXT,
+      success_criteria TEXT,
       unresolved_questions TEXT,
       evidence_entry_ids TEXT NOT NULL,
       status TEXT NOT NULL,
@@ -60,6 +61,7 @@ function initializeFixtureSchema(): void {
       out_of_scope TEXT,
       constraints TEXT,
       expected_outcome TEXT,
+      success_criteria TEXT,
       unresolved_questions TEXT,
       evidence_entry_ids TEXT NOT NULL,
       source_draft_status TEXT NOT NULL,
@@ -84,6 +86,7 @@ function initializeFixtureSchema(): void {
       approved_scope TEXT,
       approved_constraints TEXT,
       approved_expected_outcome TEXT,
+      approved_success_criteria TEXT,
       approval_actor TEXT NOT NULL,
       approval_timestamp TEXT NOT NULL,
       status TEXT NOT NULL,
@@ -140,13 +143,14 @@ function resetFixture({
       out_of_scope,
       constraints,
       expected_outcome,
+      success_criteria,
       unresolved_questions,
       evidence_entry_ids,
       source_draft_status,
       source_draft_updated_at,
       status,
       created_at
-    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
   `).run(
     "revision-canonical-test",
     "draft-canonical-test",
@@ -160,6 +164,7 @@ function resetFixture({
     "Delegation, validation, execution, and push.",
     "Fail closed without partial authoritative persistence.",
     expectedOutcome,
+    "Completion is evaluated by preserving the authoritative Living Draft meaning through reconciliation.",
     null,
     JSON.stringify(["iel-canonical-test"]),
     "draft_non_authoritative",
@@ -185,11 +190,12 @@ function resetFixture({
         approved_scope,
         approved_constraints,
         approved_expected_outcome,
+        approved_success_criteria,
         approval_actor,
         approval_timestamp,
         status,
         created_at
-      ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+      ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
     `).run(
       "pkg-canonical-test",
       1,
@@ -205,6 +211,7 @@ function resetFixture({
       null,
       null,
       "Prior approved outcome.",
+      "Prior approved success criteria.",
       "marcela",
       "2026-08-30T00:00:00.000Z",
       "canonical_approved",
@@ -329,7 +336,8 @@ test(
           package_id,
           package_version,
           draft_revision_id,
-          approved_expected_outcome
+          approved_expected_outcome,
+          approved_success_criteria
         FROM matilda_canonical_packages
         ORDER BY package_version
       `).all() as Array<{
@@ -337,6 +345,7 @@ test(
         package_version: number;
         draft_revision_id: string;
         approved_expected_outcome: string;
+        approved_success_criteria: string;
       }>;
 
       assert.deepEqual(canonicalRows, [
@@ -345,6 +354,7 @@ test(
           package_version: 1,
           draft_revision_id: "revision-prior-canonical-test",
           approved_expected_outcome: "Prior approved outcome.",
+          approved_success_criteria: "Prior approved success criteria.",
         },
       ]);
     } finally {
@@ -370,6 +380,11 @@ test(
       );
 
     assert.equal(result.status, "canonical_approved");
+    assert.equal(
+      result.approved_success_criteria,
+      "Completion is evaluated by preserving the authoritative Living Draft meaning through reconciliation.",
+    );
+
     assert.equal(
       result.approved_expected_outcome,
       "One safely projected Canonical Package.",
