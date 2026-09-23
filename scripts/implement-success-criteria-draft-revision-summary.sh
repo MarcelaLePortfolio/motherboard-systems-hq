@@ -4,7 +4,7 @@ set -euo pipefail
 cd /Users/marcela-dev/Projects/motherboard-systems-hq-clean
 
 BRANCH="feature/support-source-references-runtime"
-BASELINE="16d5df200"
+BASELINE="f59432fab"
 
 test "$(git branch --show-current)" = "$BRANCH"
 test "$(git rev-parse --short=9 HEAD)" = "$BASELINE"
@@ -16,14 +16,9 @@ from pathlib import Path
 def replace(path_name: str, old: str, new: str, count: int = 1):
     path = Path(path_name)
     source = path.read_text()
-
     if source.count(old) < count:
-        raise SystemExit(
-            f"Expected anchor not found enough times in {path_name}:\n{old}"
-        )
-
+        raise SystemExit(f"Expected anchor not found enough times in {path_name}:\n{old}")
     path.write_text(source.replace(old, new, count))
-
 
 revision = "db/matilda-draft-revision-runtime.ts"
 
@@ -97,7 +92,6 @@ replace(
       draft.unresolved_questions,""",
 )
 
-
 summary = "db/matilda-reconciled-intent-runtime.ts"
 
 replace(
@@ -148,11 +142,8 @@ node --import tsx --test \
 
 git diff --check -- \
   db/matilda-draft-revision-runtime.ts \
-  db/matilda-reconciled-intent-runtime.ts
-
-git diff -- \
-  db/matilda-draft-revision-runtime.ts \
-  db/matilda-reconciled-intent-runtime.ts
+  db/matilda-reconciled-intent-runtime.ts \
+  scripts/implement-success-criteria-draft-revision-summary.sh
 
 git add \
   db/matilda-draft-revision-runtime.ts \
