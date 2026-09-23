@@ -113,6 +113,10 @@ export function synthesizeLivingDraft(
 
       selectedPackageSemantics?.expectedOutcome ?? null,
 
+    success_criteria:
+
+      selectedPackageSemantics?.successCriteria ?? null,
+
     unresolved_questions:
 
       selectedPackageSemantics?.unresolvedQuestions ?? null,

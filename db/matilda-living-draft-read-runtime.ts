@@ -17,6 +17,7 @@ export function getLivingDraftPackageById(draft_package_id: string) {
       out_of_scope,
       constraints,
       expected_outcome,
+      success_criteria,
       unresolved_questions,
       evidence_entry_ids,
       status,

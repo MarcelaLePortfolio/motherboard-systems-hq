@@ -29,6 +29,8 @@ export type UpsertLivingDraftPackageInput = {
 
   expected_outcome?: string | null;
 
+  success_criteria?: string | null;
+
   unresolved_questions?: string | null;
 
   evidence_entry_ids: string[];
@@ -84,6 +86,8 @@ function ensureLivingDraftPackageTable() {
 
       expected_outcome TEXT,
 
+      success_criteria TEXT,
+
       unresolved_questions TEXT,
 
       evidence_entry_ids TEXT NOT NULL,
@@ -114,6 +118,13 @@ function ensureLivingDraftPackageTable() {
     sqlite.exec(`
       ALTER TABLE matilda_living_draft_packages
       ADD COLUMN conversation_id TEXT;
+    `);
+  }
+
+  if (!columns.some((column) => column.name === "success_criteria")) {
+    sqlite.exec(`
+      ALTER TABLE matilda_living_draft_packages
+      ADD COLUMN success_criteria TEXT;
     `);
   }
 
@@ -312,6 +323,8 @@ export function upsertLivingDraftPackage(
 
       expected_outcome,
 
+      success_criteria,
+
       unresolved_questions,
 
       evidence_entry_ids,
@@ -345,6 +358,8 @@ export function upsertLivingDraftPackage(
       @constraints,
 
       @expected_outcome,
+
+      @success_criteria,
 
       @unresolved_questions,
 
@@ -380,6 +395,8 @@ export function upsertLivingDraftPackage(
 
       expected_outcome = excluded.expected_outcome,
 
+      success_criteria = excluded.success_criteria,
+
       unresolved_questions = excluded.unresolved_questions,
 
       evidence_entry_ids = excluded.evidence_entry_ids,
@@ -411,6 +428,8 @@ export function upsertLivingDraftPackage(
     constraints: optionalText(input.constraints),
 
     expected_outcome: optionalText(input.expected_outcome),
+
+    success_criteria: optionalText(input.success_criteria),
 
     unresolved_questions: optionalText(input.unresolved_questions),
 
@@ -447,6 +466,8 @@ export function upsertLivingDraftPackage(
     constraints: optionalText(input.constraints),
 
     expected_outcome: optionalText(input.expected_outcome),
+
+    success_criteria: optionalText(input.success_criteria),
 
     unresolved_questions: optionalText(input.unresolved_questions),
 
