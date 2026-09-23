@@ -279,9 +279,16 @@ export interface OllamaChatContext {
   ) => void;
   validationGenerationSeed?: number;
   validationPromptPresentationVariant?:
-    | "explicit_parent_child_separation";
+    | "explicit_parent_child_separation"
+    | "explicit_parent_child_separation_without_duplicate_child_enumeration"
+    | "explicit_parent_child_separation_without_duplicate_parent_or_child_enumeration"
+    | "selected_context_contract_adjacent_to_candidates"
+    | "selected_context_adjacent_without_model_visible_parent_identity";
   observeParsedSupportSourceReferences?: (
     references: readonly MatildaSupportSourceReference[],
+  ) => void;
+  observeRawResponse?: (
+    rawResponse: string,
   ) => void;
   observeValidatedPackageSemantics?: (
     packageSemantics: MatildaPackageSemanticsArtifact | null,
@@ -312,6 +319,7 @@ export interface OllamaChatResult {
 
 export interface MatildaPackageSemanticsArtifact {
   expectedOutcome: string | null;
+  successCriteria: string | null;
   proposedWork: string | null;
   proposedArtifacts: string | null;
   inScope: string | null;
@@ -1107,11 +1115,56 @@ export async function ollamaChat(
             ),
             "",
             "When a selected child supports the reply, selectedContextSegments must use the exact child selection identity.",
-            "supportSourceReferences must use only the corresponding exact parent support source identity.",
-            "Never copy a child sourceStartLine or sourceEndLine into a project_context_excerpt support reference.",
-            "This validation-only presentation does not change the semantic contract or the allowed source identities.",
+            "The corresponding parent support source identity is supplied only so project-context support provenance can be reconstructed deterministically after selectedContextSegments is validated.",
+            "Do not return project_context_excerpt entries in supportSourceReferences.",
+            "Never copy a child sourceStartLine or sourceEndLine into project-context support provenance.",
+            "This presentation preserves the explicit parent/child identity separation while leaving project-context provenance reconstruction to the runtime.",
           ]
-        : [];
+        : context.validationPromptPresentationVariant ===
+            "explicit_parent_child_separation_without_duplicate_child_enumeration"
+          ? [
+              "",
+              "Validation-only project-context identity presentation:",
+              "Support provenance identities and semantic child-selection identities are separate domains.",
+              "",
+              "Parent support-provenance identities:",
+              ...(context.projectContextExcerpts || []).flatMap((item) => [
+                "Parent support source:",
+                `relativePath = ${item.relativePath}`,
+                `lineNumber = ${item.lineNumber}`,
+              ]),
+              "",
+              "Use the exact child selection identities already supplied with each Project-context segment candidate.",
+              "The corresponding parent support source identities above are supplied only so project-context support provenance can be reconstructed deterministically after selectedContextSegments is validated.",
+              "Do not return project_context_excerpt entries in supportSourceReferences.",
+              "Never copy a child sourceStartLine or sourceEndLine into project-context support provenance.",
+              "This validation-only variant preserves parent/child provenance-domain separation without repeating the complete child candidate identity list.",
+            ]
+          : context.validationPromptPresentationVariant ===
+              "explicit_parent_child_separation_without_duplicate_parent_or_child_enumeration"
+            ? [
+                "",
+                "Validation-only project-context identity presentation:",
+                "Support provenance identities and semantic child-selection identities are separate domains.",
+                "",
+                "Parent support identities are the exact Source identities already supplied under Bounded project context evidence.",
+                "Child selection identities are the exact relativePath, sourceStartLine, and sourceEndLine identities already supplied with each Project-context segment candidate.",
+                "Project-context support provenance is reconstructed deterministically by the runtime from validated selectedContextSegments.",
+                "Do not return project_context_excerpt entries in supportSourceReferences.",
+                "Never use child sourceStartLine or sourceEndLine values as parent project-context support identities.",
+                "This validation-only variant preserves parent/child identity-domain separation without repeating the complete parent or child identity lists.",
+              ]
+            : context.validationPromptPresentationVariant ===
+                "selected_context_adjacent_without_model_visible_parent_identity"
+              ? [
+                  "",
+                  "Validation-only project-context identity presentation:",
+                  "Project-context parent provenance is reconstructed deterministically by the runtime after selectedContextSegments is validated.",
+                  "Use only the exact child selection identities supplied with each Project-context segment candidate.",
+                  "Do not return project_context_excerpt entries in supportSourceReferences.",
+                  "Do not invent, reconstruct, approximate, or combine parent and child identity fields.",
+                ]
+              : [];
 
     const response = await fetch(
       `${OLLAMA_BASE_URL}/api/generate`,
@@ -1138,11 +1191,32 @@ export async function ollamaChat(
             "",
             "Return exactly one JSON object matching the supplied schema.",
             "Set reply to the natural-language response shown directly to the user.",
-            "Set selectedContextCandidatePositions to the integer candidate positions of exactly the supplied project-context child segments whose content materially affects the immediate reply.",
-            "Use only the exact integer candidatePosition supplied for each selected child.",
-            "Do not select a child merely because it was supplied.",
-            "Return [] when no supplied project-context child materially affects the immediate reply.",
-            "Conversation history remains independent and does not require selectedContextCandidatePositions membership.",
+            ...(context.executionAuthorized === false
+              ? [
+                  "",
+                  "Current Matilda Chat capability boundary:",
+                  "execution_authorized = false",
+                  "This conversation workflow provides interpretation, collaboration, and evidence-grounded reasoning only.",
+                  "It cannot itself execute browser validation, repository/runtime verification, code changes, shell commands, deployments, or other external actions.",
+                  "Do not claim that you personally performed or completed any action this workflow cannot execute.",
+                  "You may report an external action as already completed only when supplied evidence explicitly establishes that it occurred, and you must not attribute that execution to yourself unless the evidence establishes that attribution.",
+                  "Explicit first-person statements in the current user message about actions the user completed are user-supplied conversational evidence of those reported actions.",
+                  "Evaluate that current-user evidence together with the other supplied evidence without inventing an additional validation process, authority requirement, or execution requirement that the supplied evidence does not establish.",
+                  "When the user asks you to perform an action this workflow cannot execute, distinguish what can be concluded from supplied evidence from what still requires an execution-capable surface.",
+                ]
+              : []),
+            ...(context.validationPromptPresentationVariant ===
+              "selected_context_contract_adjacent_to_candidates" ||
+            context.validationPromptPresentationVariant ===
+              "selected_context_adjacent_without_model_visible_parent_identity"
+              ? []
+              : [
+                  "Set selectedContextCandidatePositions to the integer candidate positions of exactly the supplied project-context child segments whose content materially affects the immediate reply.",
+                  "Use only the exact integer candidatePosition supplied for each selected child.",
+                  "Do not select a child merely because it was supplied.",
+                  "Return [] when no supplied project-context child materially affects the immediate reply.",
+                  "Conversation history remains independent and does not require selectedContextCandidatePositions membership.",
+                ]),
             "Set supportSourceReferences to only supplied conversation turns that explicitly support the conclusion, recommendation, or assessment expressed in reply.",
             "selectedContextCandidatePositions records semantic project-context admission. Project-context child identity and parent support provenance are reconstructed deterministically by runtime from validated candidate positions.",
             "Do not return project_context_excerpt entries in supportSourceReferences.",
@@ -1183,18 +1257,6 @@ export async function ollamaChat(
             "",
             "For reply:",
             "Respond directly to the user in natural language.",
-            ...(context.executionAuthorized === false
-              ? [
-                  "Current Matilda Chat capability boundary: execution_authorized = false.",
-                  "This conversation workflow provides interpretation, collaboration, and evidence-grounded reasoning only.",
-                  "It cannot itself execute browser validation, repository/runtime verification, code changes, shell commands, deployments, or other external actions.",
-                  "Do not claim that you personally performed or completed any action this workflow cannot execute.",
-                  "You may report an external action as already completed only when supplied evidence explicitly establishes that it occurred, and you must not attribute that execution to yourself unless the evidence establishes that attribution.",
-                  "Explicit first-person statements in the current user message about actions the user completed are user-supplied conversational evidence of those reported actions.",
-                  "Evaluate that current-user evidence together with the other supplied evidence without inventing an additional validation process, authority requirement, or execution requirement that the supplied evidence does not establish.",
-                  "When the user asks you to perform an action this workflow cannot execute, distinguish what can be concluded from supplied evidence from what still requires an execution-capable surface.",
-                ]
-              : []),
             "Use explanationStatus to govern the amount of supporting reasoning in reply without exposing explanationStatus itself as a user-visible label.",
             "When explanationStatus is optional, keep reply concise and include only the supporting reasoning needed for the immediate interaction.",
             "When explanationStatus is recommended, keep the concise answer first, then include enough supporting reasoning to preserve any material architectural boundary, implementation boundary, uncertainty, tradeoff, or evidence interpretation that could change the user's next engineering decision.",
@@ -1234,6 +1296,18 @@ export async function ollamaChat(
             ...projectContext,
             ...projectContextEvidence,
             ...projectContextSegmentCandidates,
+            ...(context.validationPromptPresentationVariant ===
+              "selected_context_contract_adjacent_to_candidates" ||
+            context.validationPromptPresentationVariant ===
+              "selected_context_adjacent_without_model_visible_parent_identity"
+              ? [
+                  "Set selectedContextCandidatePositions to the integer candidate positions of exactly the supplied project-context child segments whose content materially affects the immediate reply.",
+                  "Use only the exact integer candidatePosition supplied for each selected child.",
+                  "Do not select a child merely because it was supplied.",
+                  "Return [] when no supplied project-context child materially affects the immediate reply.",
+                  "Conversation history remains independent and does not require selectedContextCandidatePositions membership.",
+                ]
+              : []),
             ...projectContextWarning,
             ...conversationHistory,
             ...priorInvestigationLifecycleContext,
@@ -1258,6 +1332,10 @@ export async function ollamaChat(
 
     if (!rawResponse) {
       throw new Error("Ollama returned an empty response.");
+    }
+
+    if (context.observeRawResponse) {
+      context.observeRawResponse(rawResponse);
     }
 
     const result =
