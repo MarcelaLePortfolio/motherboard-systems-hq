@@ -1,0 +1,67 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+BRANCH="feature/support-source-references-runtime"
+EXPECTED_HEAD="7afd33e84"
+
+git fetch origin "$BRANCH"
+test "$(git rev-parse --abbrev-ref HEAD)" = "$BRANCH"
+test "$(git rev-parse --short=9 HEAD)" = "$EXPECTED_HEAD"
+test "$(git rev-parse --short=9 "origin/$BRANCH")" = "$EXPECTED_HEAD"
+
+printf '\n=== VALIDATION ELIGIBILITY REPAIR BOUNDARY ===\n'
+echo "DEFECT_CONFIRMED=YES"
+echo "CANONICAL_ASSERT_VALIDATION_ELIGIBLE=EXISTS"
+echo "CANONICAL_REQUIRED_AUTHORIZATION_STATE=AUTHORIZED"
+echo "EXISTING_EXACT_DELEGATION_READ_PATTERN=EXISTS"
+echo "PRODUCTION_VALIDATION_ELIGIBILITY_GATE=ABSENT"
+echo "INJECTED_VALIDATION_TEST_SEAM=EXISTS"
+echo "DOWNSTREAM_AUTHORITY_ON_VALIDATION=NONE"
+echo "MINIMUM_REPAIR_BOUNDARY=CONFIRMED"
+
+printf '\n=== MINIMUM AUTHORIZED IMPLEMENTATION SCOPE ===\n'
+echo "SCOPE_1=Load exact Delegation by delegation_id + package_id + package_version before Validation persistence"
+echo "SCOPE_2=Require exactly one matching Delegation"
+echo "SCOPE_3=Apply existing assertValidationEligible to loaded Delegation"
+echo "SCOPE_4=Fail closed before persistence for missing, mismatched, ambiguous, or unauthorized Delegation"
+echo "SCOPE_5=Preserve AUTHORIZED Delegation Validation behavior"
+echo "SCOPE_6=Inject read dependency for isolated tests without live db/main.db"
+echo "SCOPE_7=Verify every downstream authority flag remains false"
+
+printf '\n=== EXCLUDED SCOPE ===\n'
+echo "OPERATOR_TRIGGER_UI=EXCLUDED"
+echo "AUTOMATIC_VALIDATION=PROHIBITED"
+echo "LIVE_GOVERNANCE_DATA_MUTATION=EXCLUDED"
+echo "LEGACY_MATILDA_RUNTIME_REVIVAL=PROHIBITED"
+echo "ENVELOPE_CREATION=EXCLUDED"
+echo "LIFECYCLE_AUTO_ADVANCE=PROHIBITED"
+echo "EXECUTION_AUTHORITY=EXCLUDED"
+echo "NEW_AUTHORITY=PROHIBITED"
+
+printf '\n=== REQUIRED TEST MATRIX ===\n'
+echo "AUTHORIZED_EXACT_DELEGATION=VALIDATION_SUCCEEDS"
+echo "UNAUTHORIZED_DELEGATION=FAILS_BEFORE_PERSISTENCE"
+echo "MISSING_DELEGATION=FAILS_BEFORE_PERSISTENCE"
+echo "PACKAGE_ID_MISMATCH=FAILS_BEFORE_PERSISTENCE"
+echo "PACKAGE_VERSION_MISMATCH=FAILS_BEFORE_PERSISTENCE"
+echo "AMBIGUOUS_IDENTITY=FAILS_BEFORE_PERSISTENCE_IF_STRUCTURALLY_POSSIBLE"
+echo "SUCCESS_DOWNSTREAM_AUTHORITY=NONE"
+echo "FAILURE_DOWNSTREAM_AUTHORITY=NONE"
+
+printf '\n=== BUILD PROTOCOL ===\n'
+echo "IMPLEMENTATION_HYPOTHESIS=1"
+echo "FAILED_IMPLEMENTATION_ATTEMPTS=0"
+echo "MAX_FAILED_ATTEMPTS_PER_HYPOTHESIS=3"
+echo "LAST_STABLE_HEAD=$EXPECTED_HEAD"
+echo "IMPLEMENTATION_PERFORMED=NO"
+echo "DATABASE_DATA_MUTATION_PERFORMED=NO"
+
+printf '\n=== AUTHORIZATION GATE ===\n'
+echo "IMPLEMENTATION_AUTHORIZATION_REQUIRED=YES"
+echo "IMPLEMENTATION_AUTHORIZED=NO"
+echo "EXACT_AUTHORIZATION_SENTENCE=I authorize the bounded Validation eligibility repair."
+
+printf '\n=== PRESERVED WORKTREE ===\n'
+git status --short
+
+printf '\nVALIDATION_ELIGIBILITY_REPAIR_AUTHORIZATION_GATE=READY\n'
