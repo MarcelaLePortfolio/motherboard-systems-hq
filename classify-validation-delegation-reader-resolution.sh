@@ -1,0 +1,53 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+BRANCH="feature/support-source-references-runtime"
+EXPECTED_HEAD="0141ca20e"
+
+git fetch origin "$BRANCH"
+test "$(git rev-parse --abbrev-ref HEAD)" = "$BRANCH"
+test "$(git rev-parse --short=9 HEAD)" = "$EXPECTED_HEAD"
+test "$(git rev-parse --short=9 "origin/$BRANCH")" = "$EXPECTED_HEAD"
+
+printf '\n=== VALIDATION DELEGATION READER CLASSIFICATION ===\n'
+echo "CONCLUSION=MINIMUM_READ_ONLY_VALIDATION_SPECIFIC_READER_REQUIRED"
+echo "EXISTING_EXACT_EXECUTION_QUERY=YES"
+echo "EXISTING_EXECUTION_CHAIN_SAFE_TO_REUSE=NO"
+echo "REASON=COUPLED_TO_VALIDATION_RESULT_ENVELOPE_GATE_ENVELOPE_AND_LATER_LIFECYCLE_ASSERTIONS"
+echo "MISSION_READER_EXACT_DELEGATION_ID=NO"
+echo "CANONICAL_PACKAGE_DELEGATION_READER_EXPORTED_FOR_THIS_USE=NO"
+
+printf '\n=== MINIMUM READER CONTRACT ===\n'
+echo "IDENTITY=delegation_id+package_id+package_version"
+echo "RETURN_REQUIRED=authorization_state"
+echo "CARDINALITY=EXACTLY_ONE"
+echo "MISSING=FAIL_CLOSED"
+echo "AMBIGUOUS=FAIL_CLOSED"
+echo "DATABASE_ACCESS=READ_ONLY"
+echo "INJECTABLE_FOR_TESTS=YES"
+
+printf '\n=== AUTHORIZED REPAIR BOUNDARY ===\n'
+echo "IMPLEMENTATION_AUTHORIZATION=ALREADY_GRANTED"
+echo "NEXT_RUNTIME_FILE=server/validation/production-validation-consumer.ts"
+echo "NEXT_ROUTE_FILE=server/routes/governance-validation-route.ts"
+echo "NEXT_DB_FILE=db/governance-validation-read-repository.ts"
+echo "TESTS_REQUIRED=YES"
+echo "ENTRY_POINT_CHANGE=NO"
+echo "SCHEMA_CHANGE=NO"
+echo "LIVE_DATABASE_MUTATION=NO"
+echo "UI_CHANGE=NO"
+echo "AUTO_ADVANCE=NO"
+echo "NEW_AUTHORITY=NO"
+
+printf '\n=== BUILD PROTOCOL ===\n'
+echo "PREVIOUS_HYPOTHESIS_FAILURES=CONTAINED"
+echo "CURRENT_HYPOTHESIS=MINIMUM_EXACT_READ_ONLY_DELEGATION_READER"
+echo "CURRENT_HYPOTHESIS_ATTEMPTS=0"
+echo "TEST_RUNNER=./node_modules/.bin/tsx --test"
+echo "TYPECHECK=npm run check"
+echo "NEXT_ACTION=IMPLEMENT_AUTHORIZED_ATOMIC_REPAIR"
+
+printf '\n=== PRESERVED WORKTREE ===\n'
+git status --short
+
+printf '\nVALIDATION_DELEGATION_READER_CLASSIFICATION=COMPLETE\n'
