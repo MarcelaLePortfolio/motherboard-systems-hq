@@ -13,6 +13,12 @@ import {
 
 import type {
 
+  GovernanceEnvelopeGateValidationLoader,
+
+} from "../../db/governance-envelope-gate-validation-read-repository.js";
+
+import type {
+
   GovernanceEnvelopeGatePersistenceFunction,
 
 } from "../gate/production-envelope-gate-entry-point.js";
@@ -40,6 +46,8 @@ export type GovernanceEnvelopeGateRouteBody = {
 export type GovernanceEnvelopeGateRouteOptions = {
 
   create_governance_envelope_gate?: GovernanceEnvelopeGatePersistenceFunction;
+
+  load_exact_governance_validation_result?: GovernanceEnvelopeGateValidationLoader;
 
 };
 
@@ -156,6 +164,10 @@ export function buildGovernanceEnvelopeGateRouteRequest(
     gate_decision_timestamp: normalizeOptionalText(body.gate_decision_timestamp),
 
     create_governance_envelope_gate: options.create_governance_envelope_gate,
+
+    load_exact_governance_validation_result:
+
+      options.load_exact_governance_validation_result,
 
   };
 

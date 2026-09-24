@@ -23,6 +23,26 @@ test("production Envelope Gate consumer invokes Envelope Gate entry point with i
 
     gate_decision_timestamp: "2026-06-26T23:32:52.000Z",
 
+    load_exact_governance_validation_result: (identity) => ({
+
+      ...identity,
+
+      validation_status: "VALIDATION_PASSED",
+
+      governance_findings: null,
+
+      operational_requirements: null,
+
+      capability_requirements: null,
+
+      escalations: null,
+
+      validation_timestamp: "2026-06-26T23:32:52.000Z",
+
+      created_at: "2026-06-26T23:32:52.000Z",
+
+    }),
+
     create_governance_envelope_gate: (input) => ({
 
       envelope_gate_id: input.envelope_gate_id,
@@ -87,6 +107,26 @@ test("production Envelope Gate consumer fails closed before Envelope creation au
 
     gate_status: "",
 
+    load_exact_governance_validation_result: (identity) => ({
+
+      ...identity,
+
+      validation_status: "VALIDATION_PASSED",
+
+      governance_findings: null,
+
+      operational_requirements: null,
+
+      capability_requirements: null,
+
+      escalations: null,
+
+      validation_timestamp: "2026-06-26T23:32:52.000Z",
+
+      created_at: "2026-06-26T23:32:52.000Z",
+
+    }),
+
     create_governance_envelope_gate: () => {
 
       throw new Error("gate_status is required");
@@ -119,3 +159,114 @@ test("production Envelope Gate consumer fails closed before Envelope creation au
 
 });
 
+
+
+test("production Envelope Gate consumer fails closed before persistence when Validation is not passed", () => {
+
+  let createCalled = false;
+
+  const result = consumeProductionEnvelopeGateEntryPoint({
+
+    envelope_gate_id: "gate-validation-failed",
+
+    package_id: "pkg-validation-failed",
+
+    package_version: 1,
+
+    delegation_id: "delegation-validation-failed",
+
+    validation_result_id: "validation-failed",
+
+    gate_status: "OPEN",
+
+    load_exact_governance_validation_result: (identity) => ({
+
+      ...identity,
+
+      validation_status: "VALIDATION_FAILED",
+
+      governance_findings: null,
+
+      operational_requirements: null,
+
+      capability_requirements: null,
+
+      escalations: null,
+
+      validation_timestamp: "2026-06-26T23:32:52.000Z",
+
+      created_at: "2026-06-26T23:32:52.000Z",
+
+    }),
+
+    create_governance_envelope_gate: () => {
+
+      createCalled = true;
+
+      throw new Error("must not persist");
+
+    },
+
+  });
+
+  assert.equal(result.ok, false);
+
+  assert.equal(createCalled, false);
+
+  assert.equal(result.endpoint_authorized, false);
+
+  assert.equal(result.execution_authorized, false);
+
+  assert.equal(result.envelope_creation_authorized, false);
+
+  assert.equal(result.new_authority_introduced, false);
+
+});
+
+test("production Envelope Gate consumer fails closed before persistence when exact Validation read fails", () => {
+
+  let createCalled = false;
+
+  const result = consumeProductionEnvelopeGateEntryPoint({
+
+    envelope_gate_id: "gate-validation-missing",
+
+    package_id: "pkg-validation-missing",
+
+    package_version: 1,
+
+    delegation_id: "delegation-validation-missing",
+
+    validation_result_id: "validation-missing",
+
+    gate_status: "OPEN",
+
+    load_exact_governance_validation_result: () => {
+
+      throw new Error("Governance Envelope Gate validation result not found or ambiguous.");
+
+    },
+
+    create_governance_envelope_gate: () => {
+
+      createCalled = true;
+
+      throw new Error("must not persist");
+
+    },
+
+  });
+
+  assert.equal(result.ok, false);
+
+  assert.equal(createCalled, false);
+
+  assert.equal(result.endpoint_authorized, false);
+
+  assert.equal(result.execution_authorized, false);
+
+  assert.equal(result.envelope_creation_authorized, false);
+
+  assert.equal(result.new_authority_introduced, false);
+
+});

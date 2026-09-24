@@ -73,6 +73,26 @@ test("governance Envelope Gate route handler invokes Envelope Gate consumer with
 
     {
 
+      load_exact_governance_validation_result: (identity) => ({
+
+        ...identity,
+
+        validation_status: "VALIDATION_PASSED",
+
+        governance_findings: null,
+
+        operational_requirements: null,
+
+        capability_requirements: null,
+
+        escalations: null,
+
+        validation_timestamp: "2026-06-26T23:32:52.000Z",
+
+        created_at: "2026-06-26T23:32:52.000Z",
+
+      }),
+
       create_governance_envelope_gate: (input) => ({
 
         envelope_gate_id: input.envelope_gate_id,
@@ -159,6 +179,26 @@ test("governance Envelope Gate route handler fails closed", () => {
 
     {
 
+      load_exact_governance_validation_result: (identity) => ({
+
+        ...identity,
+
+        validation_status: "VALIDATION_PASSED",
+
+        governance_findings: null,
+
+        operational_requirements: null,
+
+        capability_requirements: null,
+
+        escalations: null,
+
+        validation_timestamp: "2026-06-26T23:32:52.000Z",
+
+        created_at: "2026-06-26T23:32:52.000Z",
+
+      }),
+
       create_governance_envelope_gate: () => {
 
         createCalled = true;
@@ -199,3 +239,60 @@ test("governance Envelope Gate route handler fails closed", () => {
 
 });
 
+
+
+test("governance Envelope Gate route threads Validation loader and fails before persistence", () => {
+
+  let createCalled = false;
+
+  const result = handleGovernanceEnvelopeGateRouteRequest(
+
+    {
+
+      envelope_gate_id: "gate-route-validation-fail",
+
+      package_id: "pkg-route-validation-fail",
+
+      package_version: 1,
+
+      delegation_id: "delegation-route-validation-fail",
+
+      validation_result_id: "validation-route-validation-fail",
+
+      gate_status: "OPEN",
+
+    },
+
+    {
+
+      load_exact_governance_validation_result: () => {
+
+        throw new Error("Governance Envelope Gate validation result not found or ambiguous.");
+
+      },
+
+      create_governance_envelope_gate: () => {
+
+        createCalled = true;
+
+        throw new Error("must not persist");
+
+      },
+
+    },
+
+  );
+
+  assert.equal(result.ok, false);
+
+  assert.equal(createCalled, false);
+
+  assert.equal(result.endpoint_authorized, true);
+
+  assert.equal(result.execution_authorized, false);
+
+  assert.equal(result.envelope_creation_authorized, false);
+
+  assert.equal(result.new_authority_introduced, false);
+
+});
