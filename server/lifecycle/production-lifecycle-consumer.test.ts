@@ -103,9 +103,9 @@ test("production lifecycle consumer invokes production entry point, composes ope
 
   if (result.ok) {
 
-    assert.equal(result.lifecycle.persistence.lifecycle_state, "ASSIGNED");
+    assert.equal(result.entry.lifecycle.persistence.lifecycle_state, "ASSIGNED");
 
-    assert.equal(result.lifecycle.assignment_boundary.ellis_decision.assigned_department, "engineering");
+    assert.equal(result.entry.lifecycle.assignment_boundary.ellis_decision.assigned_department, "engineering");
 
     assert.equal(result.operational_intake.lifecycle_state_at_intake, "ASSIGNED");
 
@@ -131,7 +131,7 @@ test("production lifecycle consumer invokes production entry point, composes ope
 
     assert.equal(result.operational_consumption.execution_authorized, false);
 
-    assert.equal("assigned_actor" in result.lifecycle.assignment_boundary.ellis_decision, false);
+    assert.equal("assigned_actor" in result.entry.lifecycle.assignment_boundary.ellis_decision, false);
 
   }
 
