@@ -219,7 +219,7 @@ test(
 
     }
 
-    assert.equal(result.lifecycle.lifecycle.persistence.lifecycle_state, "ASSIGNED");
+    assert.equal(result.lifecycle.entry.lifecycle.persistence.lifecycle_state, "ASSIGNED");
 
     assert.equal(result.lifecycle.operational_intake.lifecycle_state_at_intake, "ASSIGNED");
 
@@ -227,7 +227,7 @@ test(
 
     assert.equal(result.lifecycle.operational_intake.execution_authorized, false);
 
-    assert.equal("assigned_actor" in result.lifecycle.lifecycle.persistence, false);
+    assert.equal("assigned_actor" in result.lifecycle.entry.lifecycle.persistence, false);
 
   },
 
