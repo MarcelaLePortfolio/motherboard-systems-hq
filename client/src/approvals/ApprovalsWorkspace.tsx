@@ -17,6 +17,7 @@ import type { CanonicalPackageReadModel } from "./canonicalPackageReadApi";
 import { delegateCanonicalPackage } from "./governanceDelegationApi";
 import { submitGovernanceValidation } from "./governanceValidationApi";
 import { postGovernanceEnvelopeGate } from "./governanceEnvelopeGateApi";
+import { postGovernanceEnvelope } from "./governanceEnvelopeApi";
 import { useApprovalRequests } from "./useApprovalRequests";
 
 import "./approvals-workspace.css";
@@ -651,6 +652,10 @@ function ApprovedCanonicalPackageBriefing({
     useState<string | null>(null);
   const [creatingEnvelopeGate, setCreatingEnvelopeGate] = useState(false);
   const [envelopeGateComplete, setEnvelopeGateComplete] = useState(false);
+  const [envelopeGateId, setEnvelopeGateId] = useState<string | null>(null);
+  const [creatingEnvelope, setCreatingEnvelope] = useState(false);
+  const [envelopeComplete, setEnvelopeComplete] = useState(false);
+  const [envelopeError, setEnvelopeError] = useState<string | null>(null);
   const [envelopeGateError, setEnvelopeGateError] =
     useState<string | null>(null);
 
@@ -714,14 +719,18 @@ function ApprovedCanonicalPackageBriefing({
     setEnvelopeGateError(null);
 
     try {
-      await postGovernanceEnvelopeGate({
-        gate_id: crypto.randomUUID(),
+      const gateId = crypto.randomUUID();
+      const gateResult = await postGovernanceEnvelopeGate({
+        gate_id: gateId,
         validation_result_id: validationResultId,
         package_id: pkg.package_id,
         package_version: pkg.package_version,
         delegation_id: pkg.delegation.delegation_id,
       });
 
+      setEnvelopeGateId(
+        gateResult.envelope_gate.envelope_gate_id,
+      );
       setEnvelopeGateComplete(true);
     } catch (error) {
       setEnvelopeGateError(
@@ -733,6 +742,46 @@ function ApprovedCanonicalPackageBriefing({
       setCreatingEnvelopeGate(false);
     }
   }
+
+  async function handleCreateEnvelope(): Promise<void> {
+    if (
+      creatingEnvelope ||
+      envelopeComplete ||
+      !envelopeGateComplete ||
+      !envelopeGateId ||
+      !validationResultId ||
+      !selectedRequest?.package_id ||
+      !selectedRequest?.package_version ||
+      !selectedRequest?.delegation?.delegation_id
+    ) {
+      return;
+    }
+
+    setCreatingEnvelope(true);
+    setEnvelopeError(null);
+
+    try {
+      await postGovernanceEnvelope({
+        envelope_id: crypto.randomUUID(),
+        package_id: selectedRequest.package_id,
+        package_version: selectedRequest.package_version,
+        delegation_id: selectedRequest.delegation.delegation_id,
+        validation_result_id: validationResultId,
+        envelope_gate_id: envelopeGateId,
+      });
+
+      setEnvelopeComplete(true);
+    } catch (error) {
+      setEnvelopeError(
+        error instanceof Error
+          ? error.message
+          : "Governance Envelope could not be created.",
+      );
+    } finally {
+      setCreatingEnvelope(false);
+    }
+  }
+
 
   async function handleDelegate(): Promise<void> {
     if (
@@ -980,6 +1029,42 @@ function ApprovedCanonicalPackageBriefing({
                     : "Record Envelope Gate"}
               </button>
             </section>
+          ) : null}
+
+          {envelopeGateComplete && envelopeGateId ? (
+            <section
+              className="executive-action-card"
+              aria-labelledby="executive-envelope-action-title"
+            >
+              <div>
+                <h3 id="executive-envelope-action-title">
+                  Envelope
+                </h3>
+                <p>
+                  Explicitly creates the Envelope for this exact passed
+                  Validation and recorded Envelope Gate lineage. It does not
+                  authorize lifecycle transition, routing, assignment,
+                  scheduling, orchestration, or execution.
+                </p>
+              </div>
+              <button
+                type="button"
+                disabled={creatingEnvelope || envelopeComplete}
+                onClick={() => void handleCreateEnvelope()}
+              >
+                {envelopeComplete
+                  ? "Envelope created"
+                  : creatingEnvelope
+                    ? "Creating Envelope..."
+                    : "Create Envelope"}
+              </button>
+            </section>
+          ) : null}
+
+          {envelopeError ? (
+            <p role="alert" className="executive-action-error">
+              {envelopeError}
+            </p>
           ) : null}
 
           {envelopeGateError ? (
