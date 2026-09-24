@@ -17,6 +17,7 @@ import { createGovernanceDelegationRouter } from "./routes/governance-delegation
 import { createGovernanceValidationRouter } from "./routes/governance-validation-route";
 import { createGovernanceEnvelopeGateRouter } from "./routes/governance-envelope-gate-route";
 import { createGovernanceEnvelopeRouter } from "./routes/governance-envelope-route";
+import { createGovernanceLifecycleRouter } from "./routes/governance-lifecycle-route";
 import { createProductionGovernanceExecutionRouter } from "./execution/production-governance-execution-composition.js";
 import atlasPreExecutionRouter from "./routes/atlas/preexecution";
 
@@ -37,6 +38,7 @@ app.use(createGovernanceDelegationRouter());
 app.use(createGovernanceValidationRouter());
 app.use(createGovernanceEnvelopeGateRouter());
 app.use(createGovernanceEnvelopeRouter());
+app.use(createGovernanceLifecycleRouter());
 app.use(createProductionGovernanceExecutionRouter());
 app.use(atlasPreExecutionRouter);
 
