@@ -16,6 +16,7 @@ import { deriveDecisionListTitle } from "./decisionListTitle";
 import type { CanonicalPackageReadModel } from "./canonicalPackageReadApi";
 import { delegateCanonicalPackage } from "./governanceDelegationApi";
 import { submitGovernanceValidation } from "./governanceValidationApi";
+import { postGovernanceEnvelopeGate } from "./governanceEnvelopeGateApi";
 import { useApprovalRequests } from "./useApprovalRequests";
 
 import "./approvals-workspace.css";
@@ -646,6 +647,12 @@ function ApprovedCanonicalPackageBriefing({
   const [validationError, setValidationError] =
     useState<string | null>(null);
   const [validationComplete, setValidationComplete] = useState(false);
+  const [validationResultId, setValidationResultId] =
+    useState<string | null>(null);
+  const [creatingEnvelopeGate, setCreatingEnvelopeGate] = useState(false);
+  const [envelopeGateComplete, setEnvelopeGateComplete] = useState(false);
+  const [envelopeGateError, setEnvelopeGateError] =
+    useState<string | null>(null);
 
   async function handleValidate(): Promise<void> {
     if (
@@ -669,14 +676,17 @@ function ApprovedCanonicalPackageBriefing({
     setValidationError(null);
 
     try {
+      const validationResultId = crypto.randomUUID();
+
       await submitGovernanceValidation({
-        validation_result_id: crypto.randomUUID(),
+        validation_result_id: validationResultId,
         package_id: pkg.package_id,
         package_version: pkg.package_version,
         delegation_id: pkg.delegation.delegation_id,
         validation_status: validationStatus.trim(),
       });
 
+      setValidationResultId(validationResultId);
       setValidationComplete(true);
     } catch (error) {
       setValidationError(
@@ -686,6 +696,41 @@ function ApprovedCanonicalPackageBriefing({
       );
     } finally {
       setValidating(false);
+    }
+  }
+
+  async function handleCreateEnvelopeGate(): Promise<void> {
+    if (
+      creatingEnvelopeGate ||
+      envelopeGateComplete ||
+      !validationComplete ||
+      !validationResultId ||
+      pkg.delegation.state !== "delegated"
+    ) {
+      return;
+    }
+
+    setCreatingEnvelopeGate(true);
+    setEnvelopeGateError(null);
+
+    try {
+      await postGovernanceEnvelopeGate({
+        gate_id: crypto.randomUUID(),
+        validation_result_id: validationResultId,
+        package_id: pkg.package_id,
+        package_version: pkg.package_version,
+        delegation_id: pkg.delegation.delegation_id,
+      });
+
+      setEnvelopeGateComplete(true);
+    } catch (error) {
+      setEnvelopeGateError(
+        error instanceof Error
+          ? error.message
+          : "Governance Envelope Gate could not be recorded.",
+      );
+    } finally {
+      setCreatingEnvelopeGate(false);
     }
   }
 
@@ -906,6 +951,42 @@ function ApprovedCanonicalPackageBriefing({
               </p>
             </div>
           </div>
+
+          {validationComplete && validationResultId ? (
+            <section
+              className="executive-validation-action"
+              aria-labelledby="executive-envelope-gate-action-title"
+            >
+              <div>
+                <h3 id="executive-envelope-gate-action-title">
+                  Envelope Gate
+                </h3>
+                <p>
+                  Explicitly records the Envelope Gate for this exact passed
+                  Validation lineage only. It does not create an Envelope or
+                  authorize execution.
+                </p>
+              </div>
+
+              <button
+                type="button"
+                disabled={creatingEnvelopeGate || envelopeGateComplete}
+                onClick={() => void handleCreateEnvelopeGate()}
+              >
+                {envelopeGateComplete
+                  ? "Envelope Gate recorded"
+                  : creatingEnvelopeGate
+                    ? "Recording Envelope Gate..."
+                    : "Record Envelope Gate"}
+              </button>
+            </section>
+          ) : null}
+
+          {envelopeGateError ? (
+            <p role="alert" className="executive-validation-error">
+              {envelopeGateError}
+            </p>
+          ) : null}
 
           {validationError ? (
             <p
