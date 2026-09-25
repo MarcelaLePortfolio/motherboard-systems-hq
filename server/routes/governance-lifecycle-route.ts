@@ -51,6 +51,11 @@ import {
   composeProductionSchedulerRuntimeFinalizationReadinessCompletion,
   type ProductionSchedulerRuntimeFinalizationReadinessCompletionCompositionResult,
 } from "../operational/production-scheduler-runtime-finalization-readiness-completion-composition.js";
+import {
+  composeProductionSchedulerRuntimeTerminalGovernedExecution,
+  type ProductionSchedulerRuntimeTerminalGovernedExecutionCompositionResult,
+} from "../operational/production-scheduler-runtime-terminal-governed-execution-composition.js";
+import type { GovernedExecutionEffectIntent } from "../operational/governed-execution-handoff.js";
 
 
 
@@ -60,6 +65,8 @@ import {
 export type GovernanceLifecycleRouteBody = {
 
   envelope_id?: unknown;
+
+  effect_intent?: GovernedExecutionEffectIntent;
 
   envelope?: ProductionLifecycleConsumerInput["envelope"];
 
@@ -83,7 +90,9 @@ export type GovernanceLifecycleRouteOptions = {
 
 };
 
-export type GovernanceLifecycleRouteRequest = ProductionLifecycleConsumerInput;
+export type GovernanceLifecycleRouteRequest = ProductionLifecycleConsumerInput & {
+  effect_intent?: GovernedExecutionEffectIntent;
+};
 
 export type GovernanceLifecycleRouteResult =
 
@@ -106,6 +115,8 @@ export type GovernanceLifecycleRouteResult =
       runtime_finalization_readiness: ProductionSchedulerRuntimeFinalizationReadinessCompositionResult;
 
       runtime_finalization_readiness_completion: ProductionSchedulerRuntimeFinalizationReadinessCompletionCompositionResult;
+
+      terminal_governed_execution: ProductionSchedulerRuntimeTerminalGovernedExecutionCompositionResult;
 
       endpoint_authorized: true;
 
@@ -181,6 +192,8 @@ export function buildGovernanceLifecycleRouteRequest(
 
     envelope_id: normalizeText(body.envelope_id),
 
+    effect_intent: body.effect_intent,
+
     envelope: body.envelope,
 
     available_departments: normalizeTextArray(body.available_departments),
@@ -209,11 +222,9 @@ export function handleGovernanceLifecycleRouteRequest(
 
 ): GovernanceLifecycleRouteResult {
 
-  const lifecycle = consumeProductionLifecycleEntryPoint(
+  const routeRequest = buildGovernanceLifecycleRouteRequest(body, options);
 
-    buildGovernanceLifecycleRouteRequest(body, options),
-
-  );
+  const lifecycle = consumeProductionLifecycleEntryPoint(routeRequest);
 
   if (!lifecycle.ok) {
 
@@ -247,6 +258,24 @@ export function handleGovernanceLifecycleRouteRequest(
 
     };
 
+  }
+
+  if (!routeRequest.effect_intent) {
+    return {
+      ok: false,
+      route: "governance_lifecycle_route",
+      lifecycle,
+      endpoint_authorized: true,
+      scheduler_authorized: false,
+      worker_claim_authorized: false,
+      orchestration_authorized: false,
+      routing_authorized: false,
+      execution_authorized: false,
+      new_authority_introduced: false,
+      findings: [
+        "Governance lifecycle route failed closed because explicit effect_intent was not supplied.",
+      ],
+    };
   }
 
   const scheduler = composeProductionLifecycleScheduler({
@@ -284,6 +313,15 @@ export function handleGovernanceLifecycleRouteRequest(
         runtimeFinalizationReadiness.production_scheduler_runtime_finalization_readiness_consumer,
     });
 
+  const terminalGovernedExecution =
+    composeProductionSchedulerRuntimeTerminalGovernedExecution({
+      scheduler_dispatch_contract: scheduler.scheduler_dispatch_contract,
+      production_scheduler_runtime_finalization_readiness_completion_consumer:
+        runtimeFinalizationReadinessCompletion
+          .production_scheduler_runtime_finalization_readiness_completion_consumer,
+      effect_intent: routeRequest.effect_intent,
+    });
+
 
 
 
@@ -310,6 +348,7 @@ export function handleGovernanceLifecycleRouteRequest(
     runtime_finalization_readiness: runtimeFinalizationReadiness,
 
     runtime_finalization_readiness_completion: runtimeFinalizationReadinessCompletion,
+    terminal_governed_execution: terminalGovernedExecution,
 
     endpoint_authorized: true,
 

@@ -140,6 +140,7 @@ test(
       available_departments: ["engineering"],
 
       department_handshake: departmentHandshake,
+      effect_intent: { kind: "no_effect" },
 
     });
 
@@ -148,6 +149,7 @@ test(
     assert.deepEqual(request.available_departments, ["engineering"]);
 
     assert.equal(request.department_handshake, departmentHandshake);
+    assert.deepEqual(request.effect_intent, { kind: "no_effect" });
 
     assert.equal("available_actors" in request, false);
 
@@ -182,6 +184,7 @@ test(
         available_departments: ["engineering"],
 
         department_handshake: departmentHandshake,
+        effect_intent: { kind: "no_effect" },
 
       },
 
@@ -425,6 +428,18 @@ test(
       false,
     );
 
+    assert.equal(
+      result.terminal_governed_execution
+        .scheduler_runtime_finalization_readiness_completion_authorization.ok,
+      true,
+    );
+    assert.equal(result.terminal_governed_execution.scheduler_authorized, false);
+    assert.equal(result.terminal_governed_execution.routing_authorized, false);
+    assert.equal(result.terminal_governed_execution.worker_claim_authorized, false);
+    assert.equal(result.terminal_governed_execution.orchestration_authorized, false);
+    assert.equal(result.terminal_governed_execution.execution_authorized, false);
+    assert.equal(result.terminal_governed_execution.new_authority_introduced, false);
+
 
     assert.equal("assigned_actor" in result.lifecycle.entry.lifecycle.persistence, false);
 
@@ -578,3 +593,36 @@ test(
 
 );
 
+
+
+test(
+  "governance lifecycle route fails closed when explicit effect intent is absent",
+  () => {
+    const result = handleGovernanceLifecycleRouteRequest(
+      {
+        envelope_id: "env-governance-lifecycle-route-missing-effect-intent",
+        envelope: {
+          lifecycle_state: "ENVELOPE_CREATED",
+          required_capabilities: "engineering",
+          operational_corridor: "governance lifecycle route missing effect intent test",
+        },
+        available_departments: ["engineering"],
+        department_handshake: departmentHandshake,
+      },
+      {
+        persist_lifecycle_transition: fakePersist,
+        create_operational_intake: fakeOperationalIntake,
+      },
+    );
+
+    assert.equal(result.ok, false);
+    assert.equal(result.execution_authorized, false);
+    assert.equal(result.new_authority_introduced, false);
+    assert.equal(
+      result.findings.includes(
+        "Governance lifecycle route failed closed because explicit effect_intent was not supplied.",
+      ),
+      true,
+    );
+  },
+);
