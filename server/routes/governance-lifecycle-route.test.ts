@@ -301,6 +301,39 @@ test(
     assert.equal(result.runtime_authorization_dispatch.execution_authorized, false);
     assert.equal(result.runtime_authorization_dispatch.new_authority_introduced, false);
 
+    assert.equal(
+      result.runtime_dispatch_finalization.scheduler_runtime_dispatch_authorization.ok,
+      true,
+    );
+    assert.equal(
+      result.runtime_dispatch_finalization.scheduler_runtime_dispatch_contract.ok,
+      true,
+    );
+    assert.equal(
+      result.runtime_dispatch_finalization
+        .production_scheduler_runtime_dispatch_contract_consumer.ok,
+      true,
+    );
+    assert.equal(
+      result.runtime_dispatch_finalization.scheduler_runtime_finalization_boundary.ok,
+      true,
+    );
+    assert.equal(
+      result.runtime_dispatch_finalization.scheduler_runtime_finalization_entry_point.ok,
+      true,
+    );
+    assert.equal(
+      result.runtime_dispatch_finalization
+        .production_scheduler_runtime_finalization_consumer.ok,
+      true,
+    );
+    assert.equal(result.runtime_dispatch_finalization.scheduler_authorized, false);
+    assert.equal(result.runtime_dispatch_finalization.routing_authorized, false);
+    assert.equal(result.runtime_dispatch_finalization.worker_claim_authorized, false);
+    assert.equal(result.runtime_dispatch_finalization.orchestration_authorized, false);
+    assert.equal(result.runtime_dispatch_finalization.execution_authorized, false);
+    assert.equal(result.runtime_dispatch_finalization.new_authority_introduced, false);
+
 
     assert.equal("assigned_actor" in result.lifecycle.entry.lifecycle.persistence, false);
 
