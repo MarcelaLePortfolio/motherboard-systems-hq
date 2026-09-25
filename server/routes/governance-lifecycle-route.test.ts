@@ -257,6 +257,16 @@ test(
 
     assert.equal(result.scheduler.new_authority_introduced, false);
 
+    assert.equal(result.runtime.scheduler_runtime_boundary.ok, true);
+    assert.equal(result.runtime.scheduler_runtime_entry_point.ok, true);
+    assert.equal(result.runtime.production_scheduler_runtime_consumer.ok, true);
+    assert.equal(result.runtime.scheduler_authorized, false);
+    assert.equal(result.runtime.routing_authorized, false);
+    assert.equal(result.runtime.worker_claim_authorized, false);
+    assert.equal(result.runtime.orchestration_authorized, false);
+    assert.equal(result.runtime.execution_authorized, false);
+    assert.equal(result.runtime.new_authority_introduced, false);
+
 
     assert.equal("assigned_actor" in result.lifecycle.entry.lifecycle.persistence, false);
 

@@ -27,6 +27,12 @@ import {
 
 } from "../operational/production-lifecycle-scheduler-composition.js";
 
+import {
+  composeProductionSchedulerRuntime,
+  type ProductionSchedulerRuntimeCompositionResult,
+} from "../operational/production-scheduler-runtime-composition.js";
+
+
 export type GovernanceLifecycleRouteBody = {
 
   envelope_id?: unknown;
@@ -66,6 +72,8 @@ export type GovernanceLifecycleRouteResult =
       lifecycle: Extract<ProductionLifecycleConsumerResult, { ok: true }>;
 
       scheduler: ProductionLifecycleSchedulerCompositionResult;
+
+      runtime: ProductionSchedulerRuntimeCompositionResult;
 
       endpoint_authorized: true;
 
@@ -215,6 +223,12 @@ export function handleGovernanceLifecycleRouteRequest(
 
   });
 
+  const runtime = composeProductionSchedulerRuntime({
+    production_scheduler_execution_consumer:
+      scheduler.production_scheduler_execution_consumer,
+  });
+
+
 
 
   return {
@@ -226,6 +240,8 @@ export function handleGovernanceLifecycleRouteRequest(
     lifecycle,
 
     scheduler,
+
+    runtime,
 
     endpoint_authorized: true,
 
