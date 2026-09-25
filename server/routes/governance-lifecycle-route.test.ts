@@ -370,6 +370,61 @@ test(
     assert.equal(result.runtime_finalization_readiness.execution_authorized, false);
     assert.equal(result.runtime_finalization_readiness.new_authority_introduced, false);
 
+    assert.equal(
+      result.runtime_finalization_readiness_completion
+        .scheduler_runtime_finalization_readiness_authorization.ok,
+      true,
+    );
+    assert.equal(
+      result.runtime_finalization_readiness_completion
+        .scheduler_runtime_finalization_readiness_contract.ok,
+      true,
+    );
+    assert.equal(
+      result.runtime_finalization_readiness_completion
+        .production_scheduler_runtime_finalization_readiness_contract_consumer.ok,
+      true,
+    );
+    assert.equal(
+      result.runtime_finalization_readiness_completion
+        .scheduler_runtime_finalization_readiness_completion_boundary.ok,
+      true,
+    );
+    assert.equal(
+      result.runtime_finalization_readiness_completion
+        .scheduler_runtime_finalization_readiness_completion_entry_point.ok,
+      true,
+    );
+    assert.equal(
+      result.runtime_finalization_readiness_completion
+        .production_scheduler_runtime_finalization_readiness_completion_consumer.ok,
+      true,
+    );
+    assert.equal(
+      result.runtime_finalization_readiness_completion.scheduler_authorized,
+      false,
+    );
+    assert.equal(
+      result.runtime_finalization_readiness_completion.routing_authorized,
+      false,
+    );
+    assert.equal(
+      result.runtime_finalization_readiness_completion.worker_claim_authorized,
+      false,
+    );
+    assert.equal(
+      result.runtime_finalization_readiness_completion.orchestration_authorized,
+      false,
+    );
+    assert.equal(
+      result.runtime_finalization_readiness_completion.execution_authorized,
+      false,
+    );
+    assert.equal(
+      result.runtime_finalization_readiness_completion.new_authority_introduced,
+      false,
+    );
+
 
     assert.equal("assigned_actor" in result.lifecycle.entry.lifecycle.persistence, false);
 

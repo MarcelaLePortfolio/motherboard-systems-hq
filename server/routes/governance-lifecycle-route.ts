@@ -47,6 +47,12 @@ import {
   type ProductionSchedulerRuntimeFinalizationReadinessCompositionResult,
 } from "../operational/production-scheduler-runtime-finalization-readiness-composition.js";
 
+import {
+  composeProductionSchedulerRuntimeFinalizationReadinessCompletion,
+  type ProductionSchedulerRuntimeFinalizationReadinessCompletionCompositionResult,
+} from "../operational/production-scheduler-runtime-finalization-readiness-completion-composition.js";
+
+
 
 
 
@@ -98,6 +104,8 @@ export type GovernanceLifecycleRouteResult =
       runtime_dispatch_finalization: ProductionSchedulerRuntimeDispatchFinalizationCompositionResult;
 
       runtime_finalization_readiness: ProductionSchedulerRuntimeFinalizationReadinessCompositionResult;
+
+      runtime_finalization_readiness_completion: ProductionSchedulerRuntimeFinalizationReadinessCompletionCompositionResult;
 
       endpoint_authorized: true;
 
@@ -270,6 +278,13 @@ export function handleGovernanceLifecycleRouteRequest(
         runtimeDispatchFinalization.production_scheduler_runtime_finalization_consumer,
     });
 
+  const runtimeFinalizationReadinessCompletion =
+    composeProductionSchedulerRuntimeFinalizationReadinessCompletion({
+      production_scheduler_runtime_finalization_readiness_consumer:
+        runtimeFinalizationReadiness.production_scheduler_runtime_finalization_readiness_consumer,
+    });
+
+
 
 
 
@@ -293,6 +308,8 @@ export function handleGovernanceLifecycleRouteRequest(
     runtime_dispatch_finalization: runtimeDispatchFinalization,
 
     runtime_finalization_readiness: runtimeFinalizationReadiness,
+
+    runtime_finalization_readiness_completion: runtimeFinalizationReadinessCompletion,
 
     endpoint_authorized: true,
 
