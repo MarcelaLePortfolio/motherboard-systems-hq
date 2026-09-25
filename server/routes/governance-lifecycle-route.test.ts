@@ -227,6 +227,37 @@ test(
 
     assert.equal(result.lifecycle.operational_intake.execution_authorized, false);
 
+    assert.equal(result.scheduler.scheduler_readiness.ok, true);
+
+    assert.equal(result.scheduler.scheduler_entry_point.ok, true);
+
+    assert.equal(result.scheduler.production_scheduler_consumer.ok, true);
+
+    assert.equal(result.scheduler.scheduler_authorization.ok, true);
+
+    assert.equal(result.scheduler.scheduler_dispatch_contract.ok, true);
+
+    assert.equal(result.scheduler.production_scheduler_dispatch_consumer.ok, true);
+
+    assert.equal(result.scheduler.scheduler_execution_readiness.ok, true);
+
+    assert.equal(result.scheduler.scheduler_execution_entry_point.ok, true);
+
+    assert.equal(result.scheduler.production_scheduler_execution_consumer.ok, true);
+
+    assert.equal(result.scheduler.scheduler_authorized, false);
+
+    assert.equal(result.scheduler.routing_authorized, false);
+
+    assert.equal(result.scheduler.worker_claim_authorized, false);
+
+    assert.equal(result.scheduler.orchestration_authorized, false);
+
+    assert.equal(result.scheduler.execution_authorized, false);
+
+    assert.equal(result.scheduler.new_authority_introduced, false);
+
+
     assert.equal("assigned_actor" in result.lifecycle.entry.lifecycle.persistence, false);
 
   },

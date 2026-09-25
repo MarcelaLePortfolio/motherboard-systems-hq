@@ -19,6 +19,14 @@ import type {
 
 } from "../../db/governance-lifecycle-composition.js";
 
+import {
+
+  composeProductionLifecycleScheduler,
+
+  type ProductionLifecycleSchedulerCompositionResult,
+
+} from "../operational/production-lifecycle-scheduler-composition.js";
+
 export type GovernanceLifecycleRouteBody = {
 
   envelope_id?: unknown;
@@ -56,6 +64,8 @@ export type GovernanceLifecycleRouteResult =
       route: "governance_lifecycle_route";
 
       lifecycle: Extract<ProductionLifecycleConsumerResult, { ok: true }>;
+
+      scheduler: ProductionLifecycleSchedulerCompositionResult;
 
       endpoint_authorized: true;
 
@@ -199,6 +209,14 @@ export function handleGovernanceLifecycleRouteRequest(
 
   }
 
+  const scheduler = composeProductionLifecycleScheduler({
+
+    production_lifecycle_consumer: lifecycle,
+
+  });
+
+
+
   return {
 
     ok: true,
@@ -206,6 +224,8 @@ export function handleGovernanceLifecycleRouteRequest(
     route: "governance_lifecycle_route",
 
     lifecycle,
+
+    scheduler,
 
     endpoint_authorized: true,
 
