@@ -32,6 +32,12 @@ import {
   type ProductionSchedulerRuntimeCompositionResult,
 } from "../operational/production-scheduler-runtime-composition.js";
 
+import {
+  composeProductionSchedulerRuntimeAuthorizationDispatch,
+  type ProductionSchedulerRuntimeAuthorizationDispatchCompositionResult,
+} from "../operational/production-scheduler-runtime-authorization-dispatch-composition.js";
+
+
 
 export type GovernanceLifecycleRouteBody = {
 
@@ -74,6 +80,8 @@ export type GovernanceLifecycleRouteResult =
       scheduler: ProductionLifecycleSchedulerCompositionResult;
 
       runtime: ProductionSchedulerRuntimeCompositionResult;
+
+      runtime_authorization_dispatch: ProductionSchedulerRuntimeAuthorizationDispatchCompositionResult;
 
       endpoint_authorized: true;
 
@@ -228,6 +236,13 @@ export function handleGovernanceLifecycleRouteRequest(
       scheduler.production_scheduler_execution_consumer,
   });
 
+  const runtimeAuthorizationDispatch =
+    composeProductionSchedulerRuntimeAuthorizationDispatch({
+      production_scheduler_runtime_consumer:
+        runtime.production_scheduler_runtime_consumer,
+    });
+
+
 
 
 
@@ -242,6 +257,8 @@ export function handleGovernanceLifecycleRouteRequest(
     scheduler,
 
     runtime,
+
+    runtime_authorization_dispatch: runtimeAuthorizationDispatch,
 
     endpoint_authorized: true,
 

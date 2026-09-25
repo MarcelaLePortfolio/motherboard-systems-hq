@@ -267,6 +267,40 @@ test(
     assert.equal(result.runtime.execution_authorized, false);
     assert.equal(result.runtime.new_authority_introduced, false);
 
+    assert.equal(
+      result.runtime_authorization_dispatch.scheduler_runtime_authorization.ok,
+      true,
+    );
+    assert.equal(
+      result.runtime_authorization_dispatch.scheduler_runtime_contract.ok,
+      true,
+    );
+    assert.equal(
+      result.runtime_authorization_dispatch
+        .production_scheduler_runtime_contract_consumer.ok,
+      true,
+    );
+    assert.equal(
+      result.runtime_authorization_dispatch.scheduler_runtime_dispatch_boundary.ok,
+      true,
+    );
+    assert.equal(
+      result.runtime_authorization_dispatch
+        .scheduler_runtime_dispatch_entry_point.ok,
+      true,
+    );
+    assert.equal(
+      result.runtime_authorization_dispatch
+        .production_scheduler_runtime_dispatch_consumer.ok,
+      true,
+    );
+    assert.equal(result.runtime_authorization_dispatch.scheduler_authorized, false);
+    assert.equal(result.runtime_authorization_dispatch.routing_authorized, false);
+    assert.equal(result.runtime_authorization_dispatch.worker_claim_authorized, false);
+    assert.equal(result.runtime_authorization_dispatch.orchestration_authorized, false);
+    assert.equal(result.runtime_authorization_dispatch.execution_authorized, false);
+    assert.equal(result.runtime_authorization_dispatch.new_authority_introduced, false);
+
 
     assert.equal("assigned_actor" in result.lifecycle.entry.lifecycle.persistence, false);
 
