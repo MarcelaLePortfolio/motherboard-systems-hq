@@ -334,6 +334,42 @@ test(
     assert.equal(result.runtime_dispatch_finalization.execution_authorized, false);
     assert.equal(result.runtime_dispatch_finalization.new_authority_introduced, false);
 
+    assert.equal(
+      result.runtime_finalization_readiness
+        .scheduler_runtime_finalization_authorization.ok,
+      true,
+    );
+    assert.equal(
+      result.runtime_finalization_readiness.scheduler_runtime_finalization_contract.ok,
+      true,
+    );
+    assert.equal(
+      result.runtime_finalization_readiness
+        .production_scheduler_runtime_finalization_contract_consumer.ok,
+      true,
+    );
+    assert.equal(
+      result.runtime_finalization_readiness
+        .scheduler_runtime_finalization_readiness_boundary.ok,
+      true,
+    );
+    assert.equal(
+      result.runtime_finalization_readiness
+        .scheduler_runtime_finalization_readiness_entry_point.ok,
+      true,
+    );
+    assert.equal(
+      result.runtime_finalization_readiness
+        .production_scheduler_runtime_finalization_readiness_consumer.ok,
+      true,
+    );
+    assert.equal(result.runtime_finalization_readiness.scheduler_authorized, false);
+    assert.equal(result.runtime_finalization_readiness.routing_authorized, false);
+    assert.equal(result.runtime_finalization_readiness.worker_claim_authorized, false);
+    assert.equal(result.runtime_finalization_readiness.orchestration_authorized, false);
+    assert.equal(result.runtime_finalization_readiness.execution_authorized, false);
+    assert.equal(result.runtime_finalization_readiness.new_authority_introduced, false);
+
 
     assert.equal("assigned_actor" in result.lifecycle.entry.lifecycle.persistence, false);
 
