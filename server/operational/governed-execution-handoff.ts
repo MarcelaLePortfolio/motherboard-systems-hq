@@ -10,6 +10,9 @@ import {
 import {
   productionGovernanceExecutionDependencies,
 } from "../execution/production-governance-execution-composition";
+import {
+  loadGovernanceExecutionScopeByEnvelope,
+} from "../../db/governance-execution-scope-persistence";
 
 export type GovernedExecutionEffectIntent =
   | { kind: "no_effect" }
@@ -66,13 +69,6 @@ type GovernedExecutionHandoffDependencies = {
   invoke_governance_execution?: typeof handleGovernanceExecutionRouteRequest;
 };
 
-type DurableGovernanceIdentity = {
-  approval_id: string;
-  envelope_id: string;
-  package_id: string;
-  package_version: number;
-};
-
 function requireNonEmptyText(value: unknown, field: string): string {
   if (typeof value !== "string" || value.trim().length === 0) {
     throw new Error(`Governed execution handoff requires ${field}.`);
@@ -121,32 +117,6 @@ function compileEffectIntent(intent: GovernedExecutionEffectIntent) {
   }
 }
 
-function resolveApprovalIdentityForEnvelope(
-  db: Database,
-  envelopeId: string,
-): DurableGovernanceIdentity {
-  const rows = db
-    .prepare(`
-      SELECT
-        approval_id,
-        envelope_id,
-        package_id,
-        package_version
-      FROM governance_execution_scopes
-      WHERE envelope_id = ?
-      LIMIT 2
-    `)
-    .all(envelopeId) as DurableGovernanceIdentity[];
-
-  if (rows.length !== 1) {
-    throw new Error(
-      `Governed execution handoff requires exactly one durable execution scope for envelope: ${envelopeId}`,
-    );
-  }
-
-  return rows[0];
-}
-
 export function handoffSchedulerReadinessToGovernedExecution(
   input: GovernedExecutionHandoffInput,
   dependencies: GovernedExecutionHandoffDependencies = {},
@@ -185,7 +155,7 @@ export function handoffSchedulerReadinessToGovernedExecution(
     const db = dependencies.db ?? governanceDependencies.db;
 
     const durableIdentity =
-      resolveApprovalIdentityForEnvelope(
+      loadGovernanceExecutionScopeByEnvelope(
         db,
         dispatch.envelope_id,
       );

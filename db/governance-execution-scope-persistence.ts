@@ -252,6 +252,38 @@ export function persistGovernanceExecutionScope(
   );
 }
 
+export function loadGovernanceExecutionScopeByEnvelope(
+  db: Database,
+  envelopeId: string,
+): PersistedGovernanceExecutionScope {
+  ensureGovernanceExecutionScopeTable(db);
+
+  const envelope_id = requireText(envelopeId, "envelope_id");
+
+  const rows = db
+    .prepare(`
+      SELECT approval_id
+      FROM governance_execution_scopes
+      WHERE envelope_id = ?
+      LIMIT 2
+    `)
+    .all(envelope_id) as Array<{
+      approval_id: string;
+    }>;
+
+  if (rows.length !== 1) {
+    throw new Error(
+      `Execution scope not found or ambiguous for envelope: ${envelope_id}`,
+    );
+  }
+
+  return loadGovernanceExecutionScope(
+    db,
+    rows[0].approval_id,
+    envelope_id,
+  );
+}
+
 export function loadGovernanceExecutionScope(
   db: Database,
   approvalId: string,
