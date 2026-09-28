@@ -9,6 +9,7 @@ import {
 import {
   ensureGovernanceExecutionScopeTable,
   loadGovernanceExecutionScope,
+  loadGovernanceExecutionScopeByEnvelope,
   persistGovernanceExecutionScope,
 } from "./governance-execution-scope-persistence";
 
@@ -237,5 +238,39 @@ test("rejects a second durable scope for the same envelope", () => {
       forbidden_paths: [],
       scope_constraints: "Different scope.",
     }),
+  );
+});
+
+test("loads the existing durable execution scope by envelope", () => {
+  const db = fixture();
+
+  persistGovernanceExecutionScope(db, {
+    approval_id: "approval-1",
+    envelope_id: "env-1",
+    package_id: "pkg-1",
+    package_version: 1,
+    repo_path: "/workspace/motherboard-systems-hq",
+    expected_head: "1".repeat(40),
+    branch: "feature/test",
+    allowed_paths: ["db/example.ts"],
+    forbidden_paths: [],
+    scope_constraints: "Bounded scope.",
+  });
+
+  const loaded =
+    loadGovernanceExecutionScopeByEnvelope(db, "env-1");
+
+  assert.equal(loaded.approval_id, "approval-1");
+  assert.equal(loaded.envelope_id, "env-1");
+  assert.equal(loaded.package_id, "pkg-1");
+  assert.equal(loaded.package_version, 1);
+});
+
+test("fails closed when no durable execution scope exists for envelope", () => {
+  const db = fixture();
+
+  assert.throws(
+    () => loadGovernanceExecutionScopeByEnvelope(db, "env-1"),
+    /not found or ambiguous for envelope/,
   );
 });

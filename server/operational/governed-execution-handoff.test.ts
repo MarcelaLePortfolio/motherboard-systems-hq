@@ -45,21 +45,82 @@ const completion:
 function fakeDb({
   packageId = "package-1",
   packageVersion = 1,
+  scopePresent = true,
 }: {
   packageId?: string;
   packageVersion?: number;
+  scopePresent?: boolean;
 } = {}) {
   return {
-    prepare: () => ({
-      all: () => [
-        {
-          approval_id: "approval-1",
-          envelope_id: "envelope-1",
-          package_id: packageId,
-          package_version: packageVersion,
-        },
-      ],
-    }),
+    exec: () => undefined,
+    prepare: (sql: string) => {
+      if (
+        sql.includes("SELECT approval_id") &&
+        sql.includes("FROM governance_execution_scopes") &&
+        sql.includes("WHERE envelope_id = ?")
+      ) {
+        return {
+          all: () =>
+            scopePresent
+              ? [{ approval_id: "approval-1" }]
+              : [],
+        };
+      }
+
+      if (
+        sql.includes("FROM governance_execution_scopes") &&
+        sql.includes("WHERE approval_id = ?")
+      ) {
+        return {
+          all: () => [
+            {
+              approval_id: "approval-1",
+              envelope_id: "envelope-1",
+              package_id: packageId,
+              package_version: packageVersion,
+              repo_path: "/workspace/motherboard-systems-hq",
+              expected_head: "a".repeat(40),
+              branch: "feature/test",
+              allowed_paths: JSON.stringify(["server/example.ts"]),
+              forbidden_paths: JSON.stringify([]),
+              scope_constraints: "Bounded test scope.",
+              created_at: new Date().toISOString(),
+            },
+          ],
+        };
+      }
+
+      if (sql.includes("FROM governance_execution_approvals")) {
+        return {
+          all: () => [
+            {
+              approval_id: "approval-1",
+              envelope_id: "envelope-1",
+              package_id: packageId,
+              package_version: packageVersion,
+              approved_by: "user",
+              approval_scope: "governed_version_control_commit",
+              commit_authorized: true,
+              push_authorized: false,
+              remote: "origin",
+              branch: "feature/test",
+              issued_at: new Date().toISOString(),
+            },
+          ],
+        };
+      }
+
+      if (sql.includes("FROM governance_envelopes")) {
+        return {
+          get: () => ({
+            package_id: packageId,
+            package_version: packageVersion,
+          }),
+        };
+      }
+
+      throw new Error(`Unexpected test SQL: ${sql}`);
+    },
   } as any;
 }
 
@@ -308,11 +369,7 @@ test("fails closed when durable scope is not unique", () => {
         effect_intent: { kind: "no_effect" },
       },
       {
-        db: {
-          prepare: () => ({
-            all: () => [],
-          }),
-        } as any,
+        db: fakeDb({ scopePresent: false }),
         governance_execution_dependencies:
           dependencies(),
       },
@@ -321,7 +378,7 @@ test("fails closed when durable scope is not unique", () => {
   assert.equal(result.ok, false);
   assert.match(
     result.findings[0],
-    /exactly one durable execution scope/,
+    /not found or ambiguous for envelope/,
   );
   assertAuthorityBoundary(result);
 });
