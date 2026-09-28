@@ -9,6 +9,7 @@ import {
 } from "../../db/matilda-preview-runtime.js";
 import {
   createPreviewConfirmation,
+  loadPreviewConfirmation,
 } from "../../db/matilda-preview-confirmation-runtime.js";
 
 test("durable preview confirmation accepts exact persisted provenance", () => {
@@ -105,4 +106,43 @@ test("confirmation fails closed on persisted identity mismatch", () => {
     }),
     /Preview confirmation provenance does not match persisted preview/,
   );
+});
+
+test("preview confirmation is durably reloadable without granting execution authority", () => {
+  const suffix = `${Date.now()}-${Math.random()}`;
+
+  const plan = createExecutionPlan({
+    assignment_id: `assignment-durable-${suffix}`,
+    package_id: `package-durable-${suffix}`,
+    lineage_id: `lineage-durable-${suffix}`,
+    assigned_agent: "cade",
+  });
+
+  const preview = createPreview({
+    execution_plan_id: plan.execution_plan_id,
+    assignment_id: plan.assignment_id,
+    package_id: plan.package_id,
+    lineage_id: plan.lineage_id,
+  });
+
+  const confirmation = createPreviewConfirmation({
+    preview_id: preview.preview_id,
+    execution_plan_id: plan.execution_plan_id,
+    package_id: plan.package_id,
+    lineage_id: plan.lineage_id,
+    confirmation_actor: "operator",
+  });
+
+  const persisted = loadPreviewConfirmation(
+    confirmation.confirmation_id,
+  );
+
+  assert.ok(persisted);
+  assert.equal(persisted.confirmation_id, confirmation.confirmation_id);
+  assert.equal(persisted.preview_id, preview.preview_id);
+  assert.equal(persisted.execution_plan_id, plan.execution_plan_id);
+  assert.equal(persisted.package_id, plan.package_id);
+  assert.equal(persisted.lineage_id, plan.lineage_id);
+  assert.equal(persisted.status, "preview_confirmed");
+  assert.equal(persisted.execution_authorized, false);
 });
