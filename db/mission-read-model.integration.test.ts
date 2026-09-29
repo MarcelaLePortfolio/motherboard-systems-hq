@@ -11,15 +11,27 @@ async function main(): Promise<void> {
     const repository = createMissionReadRepository(db);
 
     const packageRow = db
-      .prepare("SELECT package_id FROM governance_packages LIMIT 1")
-      .get() as { package_id?: string } | undefined;
+      .prepare(
+        "SELECT project_id, package_id, package_version FROM governance_packages LIMIT 1",
+      )
+      .get() as
+        | {
+            project_id?: string;
+            package_id?: string;
+            package_version?: number;
+          }
+        | undefined;
 
     if (!packageRow?.package_id) {
       console.log("No governance packages exist; integration test skipped.");
       return;
     }
 
-    const assemblyInput = await repository.loadMission(packageRow.package_id);
+    const assemblyInput = await repository.loadMission({
+      project_id: packageRow.project_id,
+      package_id: packageRow.package_id,
+      package_version: packageRow.package_version,
+    });
 
     assert.ok(assemblyInput);
 

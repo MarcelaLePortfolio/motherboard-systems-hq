@@ -75,7 +75,11 @@ async function main(): Promise<void> {
 
   const repository = createMissionReadRepository(db);
 
-  const mission = await repository.loadMission("test-package");
+  const mission = await repository.loadMission({
+    project_id: "test-project",
+    package_id: "test-package",
+    package_version: 1,
+  });
 
   assert.equal(mission, null);
 

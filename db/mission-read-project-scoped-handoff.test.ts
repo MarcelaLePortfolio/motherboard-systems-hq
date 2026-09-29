@@ -302,13 +302,17 @@ async function testUnselectedProjectHasNoAuthority(): Promise<void> {
   }
 }
 
-await testSelectedExactIdentity();
-await testMissingProjectionFailsClosed();
-await testWrongProjectFailsClosed();
-await testWrongVersionFailsClosed();
-await testNewerVersionDoesNotAutoActivate();
-await testUnselectedProjectHasNoAuthority();
+async function main(): Promise<void> {
+  await testSelectedExactIdentity();
+  await testMissingProjectionFailsClosed();
+  await testWrongProjectFailsClosed();
+  await testWrongVersionFailsClosed();
+  await testNewerVersionDoesNotAutoActivate();
+  await testUnselectedProjectHasNoAuthority();
 
-console.log(
-  "Project-scoped Mission Read handoff targeted tests passed.",
-);
+  console.log(
+    "Project-scoped Mission Read handoff targeted tests passed.",
+  );
+}
+
+void main();
