@@ -14,7 +14,6 @@ echo "=== RELEVANT DATABASE SCHEMA ==="
 sqlite3 db/main.db <<'SQL'
 .headers on
 .mode column
-
 SELECT
   m.name AS table_name,
   p.cid,
@@ -57,17 +56,6 @@ sqlite3 db/main.db <<'SQL'
 .headers on
 .mode column
 SELECT * FROM governance_delegations LIMIT 100;
-SQL
-
-echo
-echo "=== TABLES WITH CURRENT ROW COUNTS ==="
-sqlite3 db/main.db <<'SQL'
-.headers on
-.mode column
-
-SELECT 'governance_delegations' AS table_name,
-       COUNT(*) AS row_count
-FROM governance_delegations;
 SQL
 
 echo
@@ -115,7 +103,7 @@ grep -RniE \
   2>/dev/null || true
 
 echo
-echo "=== CLASSIFICATION ==="
+echo "=== CLASSIFICATION BOUNDARY ==="
 echo "LIFECYCLE_COMPONENTS_AUTOMATICALLY_AGENTS=NO"
 echo "AGENT_IDENTITY_REQUIRES_EXPLICIT_RUNTIME_OR_PERSISTED_BINDING=YES"
 echo "EMPTY_GOVERNANCE_DELEGATIONS_MEANS_NO_CURRENT_DELEGATION_ROWS=YES"
