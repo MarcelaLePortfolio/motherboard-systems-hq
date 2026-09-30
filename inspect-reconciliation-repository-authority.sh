@@ -6,38 +6,39 @@ BRANCH="feature/support-source-references-runtime"
 
 cd "$ROOT"
 
-printf '\n=== CURRENT REPOSITORY BASELINE ===\n'
+printf '\n=== BASELINE ===\n'
 git fetch origin "$BRANCH"
-printf 'REPOSITORY=%s\n' "$(basename "$(git rev-parse --show-toplevel)")"
+git status --short
 printf 'BRANCH=%s\n' "$(git rev-parse --abbrev-ref HEAD)"
 printf 'HEAD=%s\n' "$(git rev-parse HEAD)"
 printf 'REMOTE_HEAD=%s\n' "$(git rev-parse "origin/$BRANCH")"
-git status --short
 
-printf '\n=== PROJECT REGISTRY ===\n'
-if [ -f db/main.db ]; then
-  sqlite3 db/main.db <<'SQL'
+printf '\n=== PROJECT REGISTRY AUTHORITY ===\n'
+sqlite3 db/main.db <<'SQL'
 .headers on
 .mode column
 SELECT * FROM project_registry;
 SQL
-fi
 
-printf '\n=== RECONCILIATION / ENTITY AUTHORITY REFERENCES ===\n'
+printf '\n=== RECONCILIATION IMPLEMENTATION ===\n'
 grep -RniE \
   --exclude-dir=node_modules \
   --exclude-dir=.git \
   --exclude-dir=dist \
-  --include='*.ts' \
-  --include='*.tsx' \
-  --include='*.mjs' \
-  --include='*.md' \
-  --include='*.json' \
-  '(reconciliation|reconcile|canonical.*identity|entity.*registry|identity.*registry|actor.*registry|agent.*registry|Matilda|Cade|Effie)' \
-  server db routes client/src docs scripts \
+  '(reconciliation|canonical.*identity|entity.*classification|entity.*registry|identity.*registry|actor.*registry|agent.*registry)' \
+  server db client/src docs scripts \
   2>/dev/null || true
 
-printf '\n=== NEIGHBORING PROJECT REPOSITORIES ===\n'
+printf '\n=== NAMED AGENT REFERENCES ===\n'
+grep -RniE \
+  --exclude-dir=node_modules \
+  --exclude-dir=.git \
+  --exclude-dir=dist \
+  '(\bMatilda\b|\bCade\b|\bEffie\b|Chief of Staff)' \
+  server db client/src docs scripts \
+  2>/dev/null || true
+
+printf '\n=== NEIGHBORING GIT REPOSITORIES ===\n'
 find /Users/marcela-dev/Projects \
   -mindepth 1 \
   -maxdepth 3 \
@@ -46,54 +47,17 @@ find /Users/marcela-dev/Projects \
   -print 2>/dev/null |
 while read -r gitdir; do
   repo="${gitdir%/.git}"
-  printf '\n--- %s ---\n' "$repo"
-  git -C "$repo" rev-parse --abbrev-ref HEAD 2>/dev/null || true
-  git -C "$repo" rev-parse --short=12 HEAD 2>/dev/null || true
+  printf '\nREPOSITORY=%s\n' "$repo"
+  printf 'BRANCH=%s\n' "$(git -C "$repo" rev-parse --abbrev-ref HEAD 2>/dev/null || true)"
+  printf 'HEAD=%s\n' "$(git -C "$repo" rev-parse HEAD 2>/dev/null || true)"
 done
 
-printf '\n=== CROSS-REPOSITORY RECONCILIATION EVIDENCE ===\n'
-find /Users/marcela-dev/Projects \
-  -mindepth 1 \
-  -maxdepth 3 \
-  -type d \
-  -name .git \
-  -print 2>/dev/null |
-while read -r gitdir; do
-  repo="${gitdir%/.git}"
-
-  matches="$(
-    grep -RniE \
-      --exclude-dir=.git \
-      --exclude-dir=node_modules \
-      --exclude-dir=dist \
-      --exclude-dir=build \
-      --include='*.ts' \
-      --include='*.tsx' \
-      --include='*.js' \
-      --include='*.mjs' \
-      --include='*.md' \
-      --include='*.json' \
-      '(reconciliation|canonical.*identity|entity.*registry|identity.*registry|actor.*registry|agent.*registry|\bMatilda\b|\bCade\b|\bEffie\b)' \
-      "$repo" 2>/dev/null |
-      head -300 || true
-  )"
-
-  if [ -n "$matches" ]; then
-    printf '\n--- REPOSITORY: %s ---\n' "$repo"
-    printf '%s\n' "$matches"
-  fi
-done
-
-printf '\n=== AUTHORITY CLASSIFICATION BOUNDARY ===\n'
-echo 'CURRENT_REPOSITORY_ASSUMED_AUTHORITATIVE=NO'
-echo 'HISTORICAL_TIMELINE_ASSUMED_AUTHORITATIVE=NO'
-echo 'AGENT_IDENTITY_INFERRED_FROM_COMPONENT_NAMES=NO'
+printf '\n=== CLASSIFICATION ===\n'
+echo 'REPOSITORY_AUTHORITY_INFERRED=NO'
+echo 'IDENTITY_AUTHORITY_INFERRED=NO'
 echo 'MATILDA_EQUALS_CHIEF_OF_STAFF=NO'
-echo 'IDENTITY_MUTATION_PERFORMED=NO'
-echo 'GOVERNANCE_MUTATION_PERFORMED=NO'
-echo 'RUNTIME_MUTATION_PERFORMED=NO'
-echo 'DATABASE_MUTATION_PERFORMED=NO'
-echo 'OBJECTIVE=IDENTIFY_REPOSITORY_THAT_OWNS_CURRENT_RECONCILIATION_ENTITY_CLASSIFICATION'
+echo 'MUTATION_PERFORMED=NO'
+echo 'NEXT_STEP=CLASSIFY_FROM_EVIDENCE_ONLY'
 
-printf '\n=== FINAL WORKTREE ===\n'
+printf '\n=== FINAL STATUS ===\n'
 git status --short
