@@ -1,6 +1,20 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
+echo "=== REPOSITORY BASELINE ==="
+git fetch origin feature/support-source-references-runtime
+
+BRANCH="$(git rev-parse --abbrev-ref HEAD)"
+HEAD="$(git rev-parse HEAD)"
+REMOTE="$(git rev-parse origin/feature/support-source-references-runtime)"
+
+echo "BRANCH=$BRANCH"
+echo "HEAD=$HEAD"
+echo "REMOTE=$REMOTE"
+
+test "$BRANCH" = "feature/support-source-references-runtime"
+
+echo
 echo "=== GOVERNANCE DELEGATIONS: ACTUAL SCHEMA ==="
 sqlite3 db/main.db <<'SQL'
 .headers on
@@ -70,6 +84,10 @@ grep -RniE \
   'docker-wA|docker-wB|WORKER_OWNER|PHASE26_WORKER_ACTOR|agent identity|agent registry|requesting runtime or actor' \
   . \
   2>/dev/null || true
+
+echo
+echo "=== WORKTREE ==="
+git status --short
 
 echo
 echo "=== CLASSIFICATION BOUNDARY ==="
