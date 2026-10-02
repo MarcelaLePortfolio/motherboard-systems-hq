@@ -39,7 +39,10 @@ import {
 import {
   createMatildaPersistedSupportProvenance,
 } from "./matilda-support-provenance";
-import { retrieveMatildaProjectContext } from "./matilda-project-context-retrieval";
+import {
+  hasConcreteProjectOperation,
+  retrieveMatildaProjectContext,
+} from "./matilda-project-context-retrieval";
 import { composeMatildaConversationContext } from "./matilda-conversation-context-runtime";
 import {
   selectMatildaInterpretationLifecycleEntries,
@@ -209,6 +212,10 @@ export async function runMatildaConversationWorkflow(
         priorUserMessage,
       });
 
+    const requirePackageSemantics =
+      input.requirePackageSemantics === true
+      || hasConcreteProjectOperation(message);
+
     let interpretationLedgerEntries =
       readInterpretationEvidenceLedgerEntriesByIds(
         conversationTurns.map(
@@ -374,10 +381,11 @@ export async function runMatildaConversationWorkflow(
           input.userPackageSemantics ?? null,
         explicitEvidenceRequest,
         executionAuthorized: false,
+        requirePackageSemantics,
       });
 
     enforceMatildaWorkflowPackageSemanticsRequirement(
-      input.requirePackageSemantics,
+      requirePackageSemantics,
       ollamaResult.packageSemantics,
     );
 

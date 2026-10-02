@@ -169,7 +169,7 @@ function isSubstantiveProjectQuestion(
   );
 }
 
-function hasConcreteProjectOperation(
+export function hasConcreteProjectOperation(
   message: string,
 ): boolean {
   const messageTokens =

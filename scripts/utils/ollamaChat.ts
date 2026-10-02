@@ -273,6 +273,7 @@ export interface OllamaChatContext {
     MatildaInvestigationLifecycleArtifact | null;
   userPackageSemantics?:
     MatildaUserPackageSemanticsInput | null;
+  requirePackageSemantics?: boolean;
   explicitEvidenceRequest?: boolean;
   executionAuthorized?: boolean;
   observeValidatedSelectedContextSegments?: (
@@ -1248,6 +1249,12 @@ export async function ollamaChat(
             "Set packageSemantics to null only when the current turn establishes no request-specific structured package semantics.",
             "Otherwise set packageSemantics to one atomic non-authoritative artifact describing the user's requested outcome, success criteria, proposed work, proposed artifacts, scope, constraints, and unresolved questions.",
             "For expectedOutcome, successCriteria, proposedWork, proposedArtifacts, inScope, outOfScope, constraints, and unresolvedQuestions, use a concise non-empty string only when that semantic is actually established; otherwise use null.",
+            ...(context.requirePackageSemantics === true
+              ? [
+                  "The current request requires durable Package Semantics. Return a non-null packageSemantics object whose expectedOutcome is a concise non-empty string grounded in the current user request.",
+                  "Do not satisfy this requirement by inventing missing semantics. Fields other than expectedOutcome remain null unless actually established by the user request and supplied context.",
+                ]
+              : []),
             "When the current user request explicitly establishes any package-semantic field, preserve that request-specific information in the corresponding non-null packageSemantics field instead of returning null for that field.",
             "A package-semantics field may remain null when the current request does not establish that information. Do not invent unsupported package semantics merely to fill a nullable field.",
             "Do not use generic Living Draft process language as package semantics.",
@@ -1346,6 +1353,19 @@ export async function ollamaChat(
 
     const result =
       parseStructuredResponse(rawResponse);
+
+    if (
+      context.requirePackageSemantics === true
+      && (
+        result.packageSemantics === null
+        || typeof result.packageSemantics.expectedOutcome !== "string"
+        || result.packageSemantics.expectedOutcome.trim().length === 0
+      )
+    ) {
+      throw new Error(
+        "Ollama response requires non-null Package Semantics with a non-empty expectedOutcome.",
+      );
+    }
 
     enforceMatildaUserPackageSemanticsFidelity(
       validatedUserPackageSemantics,

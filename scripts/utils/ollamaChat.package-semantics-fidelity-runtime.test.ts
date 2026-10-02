@@ -34,6 +34,7 @@ const exactOutcome = "Exact typed expected outcome.";
 
 const matchingArtifact: MatildaPackageSemanticsArtifact = {
   expectedOutcome: exactOutcome,
+  successCriteria: null,
   proposedWork: null,
   proposedArtifacts: null,
   inScope: null,
