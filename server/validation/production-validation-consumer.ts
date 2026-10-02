@@ -10,22 +10,34 @@ import {
 } from "../../db/governance-validation-read-repository.js";
 
 import {
-  assertValidationEligible,
-} from "../../db/governance-lifecycle-enforcement.js";
-
-import {
   invokeProductionValidationEntryPoint,
   type GovernanceValidationPersistenceFunction,
-  type ProductionValidationEntryPointInput,
   type ProductionValidationEntryPointResult,
-} from "./production-validation-entry-point";
+} from "./production-validation-entry-point.js";
 
-export type ProductionValidationConsumerInput = Omit<
-  ProductionValidationEntryPointInput,
-  "create_governance_validation_result"
-> & {
+import {
+  loadGovernanceValidationEvidence,
+} from "./governance-validation-evidence-loader.js";
+
+import {
+  analyzeGovernanceValidationSemantics,
+  type GovernanceValidationSemanticResult,
+} from "./governance-validation-semantic-adapter.js";
+
+export type GovernanceValidationSemanticAnalysisFunction = (
+  evidence: Parameters<typeof analyzeGovernanceValidationSemantics>[0],
+) => Promise<GovernanceValidationSemanticResult>;
+
+export type ProductionValidationConsumerInput = {
+  validation_result_id: string;
+  package_id: string;
+  package_version: number;
+  delegation_id: string;
+  validation_timestamp?: string | null;
   create_governance_validation_result?: GovernanceValidationPersistenceFunction;
   load_exact_governance_delegation?: GovernanceValidationDelegationLoader;
+  analyze_governance_validation_semantics?: GovernanceValidationSemanticAnalysisFunction;
+  database_path?: string;
 };
 
 export type ProductionValidationConsumerResult =
@@ -57,42 +69,52 @@ function failedClosed(findings: string[]): ProductionValidationConsumerResult {
   };
 }
 
-export function consumeProductionValidationEntryPoint(
+export async function consumeProductionValidationEntryPoint(
   input: ProductionValidationConsumerInput,
-): ProductionValidationConsumerResult {
+): Promise<ProductionValidationConsumerResult> {
   try {
     const loadExactGovernanceDelegation =
       input.load_exact_governance_delegation ??
-      createGovernanceValidationDelegationLoader();
+      createGovernanceValidationDelegationLoader(input.database_path);
 
-    const delegation = loadExactGovernanceDelegation({
-      delegation_id: input.delegation_id,
+    const evidence = loadGovernanceValidationEvidence(
+      {
+        delegation_id: input.delegation_id,
+        package_id: input.package_id,
+        package_version: input.package_version,
+      },
+      {
+        database_path: input.database_path,
+        load_exact_governance_delegation: loadExactGovernanceDelegation,
+      },
+    );
+
+    const analyzeSemantics =
+      input.analyze_governance_validation_semantics ??
+      analyzeGovernanceValidationSemantics;
+
+    const semanticResult = await analyzeSemantics(evidence);
+
+    return invokeProductionValidationEntryPoint({
+      validation_result_id: input.validation_result_id,
       package_id: input.package_id,
       package_version: input.package_version,
+      delegation_id: input.delegation_id,
+      validation_status: semanticResult.validation_status,
+      governance_findings: semanticResult.governance_findings,
+      operational_requirements: semanticResult.operational_requirements,
+      capability_requirements: semanticResult.capability_requirements,
+      escalations: semanticResult.escalations,
+      validation_timestamp: input.validation_timestamp,
+      create_governance_validation_result:
+        input.create_governance_validation_result ??
+        createDefaultValidationPersistence(),
     });
-
-    assertValidationEligible({ delegation });
   } catch (error) {
     return failedClosed([
-      `Production Validation eligibility failed closed: ${
+      `Production Validation semantic evaluation failed closed: ${
         error instanceof Error ? error.message : String(error)
       }`,
     ]);
   }
-
-  return invokeProductionValidationEntryPoint({
-    validation_result_id: input.validation_result_id,
-    package_id: input.package_id,
-    package_version: input.package_version,
-    delegation_id: input.delegation_id,
-    validation_status: input.validation_status,
-    governance_findings: input.governance_findings,
-    operational_requirements: input.operational_requirements,
-    capability_requirements: input.capability_requirements,
-    escalations: input.escalations,
-    validation_timestamp: input.validation_timestamp,
-    create_governance_validation_result:
-      input.create_governance_validation_result ??
-      createDefaultValidationPersistence(),
-  });
 }

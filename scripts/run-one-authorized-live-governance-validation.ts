@@ -10,19 +10,11 @@ const package_version = 1;
 
 const validation_result_id = crypto.randomUUID();
 
-const result = consumeProductionValidationEntryPoint({
+const result = await consumeProductionValidationEntryPoint({
   validation_result_id,
   package_id,
   package_version,
   delegation_id,
-  validation_status: "VALIDATION_PASSED",
-  governance_findings:
-    "Exact authorized Delegation verified; no governance blocker identified for bounded Envelope eligibility validation.",
-  operational_requirements:
-    "Preserve exact governed lineage; require explicit operator Envelope Gate and explicit operator Envelope creation; no automatic progression.",
-  capability_requirements:
-    "Governed Envelope creation eligibility validation only.",
-  escalations: null,
   validation_timestamp: new Date().toISOString(),
 });
 

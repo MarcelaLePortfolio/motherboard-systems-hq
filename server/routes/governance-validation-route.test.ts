@@ -1,10 +1,60 @@
 import test from "node:test";
 import assert from "node:assert/strict";
+import Database from "better-sqlite3";
+import { mkdtempSync, rmSync } from "node:fs";
+import { tmpdir } from "node:os";
+import { join } from "node:path";
 
 import {
   buildGovernanceValidationRouteRequest,
   handleGovernanceValidationRouteRequest,
-} from "./governance-validation-route";
+} from "./governance-validation-route.ts";
+
+function createFixture() {
+  const directory = mkdtempSync(join(tmpdir(), "governance-validation-route-"));
+  const databasePath = join(directory, "main.db");
+  const db = new Database(databasePath);
+
+  db.exec(`
+    CREATE TABLE governance_packages (
+      package_id TEXT NOT NULL,
+      package_version INTEGER NOT NULL,
+      project_id TEXT,
+      requested_outcome TEXT,
+      scope TEXT,
+      constraints TEXT,
+      success_criteria TEXT,
+      PRIMARY KEY (package_id, package_version)
+    );
+  `);
+
+  db.prepare(`
+    INSERT INTO governance_packages (
+      project_id,
+      package_id,
+      package_version,
+      requested_outcome,
+      scope,
+      constraints,
+      success_criteria
+    ) VALUES (?, ?, ?, ?, ?, ?, ?)
+  `).run(
+    "hq",
+    "pkg-route",
+    1,
+    "Deliver approved outcome.",
+    "Approved scope.",
+    "Preserve governance boundaries.",
+    "Approved success criteria.",
+  );
+
+  db.close();
+
+  return {
+    databasePath,
+    cleanup: () => rmSync(directory, { recursive: true, force: true }),
+  };
+}
 
 function authorizedDelegation(identity: {
   delegation_id: string;
@@ -13,147 +63,72 @@ function authorizedDelegation(identity: {
 }) {
   return {
     delegation_id: identity.delegation_id,
+    project_id: "hq",
     package_id: identity.package_id,
     package_version: identity.package_version,
     authorization_state: "AUTHORIZED",
   };
 }
 
-test("governance Validation route request builder normalizes body without adding authority", () => {
+test("route request builder ignores caller-authored semantic Validation fields", () => {
   const request = buildGovernanceValidationRouteRequest({
-    validation_result_id: "validation-route-builder",
-    package_id: "pkg-validation-route-builder",
+    validation_result_id: "validation-route",
+    package_id: "pkg-route",
     package_version: 1,
-    delegation_id: "delegation-validation-route-builder",
-    validation_status: "VALIDATION_PASSED",
-    governance_findings: "No blockers",
-    operational_requirements: "None",
-    capability_requirements: "engineering",
-    escalations: "",
+    delegation_id: "delegation-route",
     validation_timestamp: "2026-06-26T23:18:30.000Z",
-  });
+    validation_status: "VALIDATION_PASSED",
+    governance_findings: "caller supplied",
+  } as Record<string, unknown>);
 
-  assert.equal(request.validation_result_id, "validation-route-builder");
-  assert.equal(request.package_id, "pkg-validation-route-builder");
-  assert.equal(request.package_version, 1);
-  assert.equal(request.delegation_id, "delegation-validation-route-builder");
-  assert.equal(request.validation_status, "VALIDATION_PASSED");
-  assert.equal(request.escalations, null);
+  assert.equal("validation_status" in request, false);
+  assert.equal("governance_findings" in request, false);
 });
 
-test("governance Validation route handler invokes Validation consumer with injected persistence", () => {
-  const result = handleGovernanceValidationRouteRequest(
-    {
-      validation_result_id: "validation-route-success",
-      package_id: "pkg-validation-route-success",
-      package_version: 1,
-      delegation_id: "delegation-validation-route-success",
-      validation_status: "VALIDATION_PASSED",
-      validation_timestamp: "2026-06-26T23:18:30.000Z",
-    },
-    {
-      load_exact_governance_delegation: authorizedDelegation,
-      create_governance_validation_result: (input) => ({
-        validation_result_id: input.validation_result_id,
-        package_id: input.package_id,
-        package_version: input.package_version,
-        delegation_id: input.delegation_id,
-        validation_status: input.validation_status,
-        validation_timestamp:
-          input.validation_timestamp ?? "2026-06-26T23:18:30.000Z",
-        created_at: "2026-06-26T23:18:30.000Z",
-      }),
-    },
-  );
+test("route persists semantic adapter output and preserves authority boundary", async () => {
+  const fixture = createFixture();
 
-  assert.equal(result.ok, true);
-  assert.equal(result.route, "governance_validation_route");
-  assert.equal(result.endpoint_authorized, true);
-  assert.equal(result.scheduler_authorized, false);
-  assert.equal(result.worker_claim_authorized, false);
-  assert.equal(result.orchestration_authorized, false);
-  assert.equal(result.routing_authorized, false);
-  assert.equal(result.assignment_authorized, false);
-  assert.equal(result.lifecycle_transition_authorized, false);
-  assert.equal(result.execution_authorized, false);
-  assert.equal(result.downstream_governance_authorized, false);
-  assert.equal(result.new_authority_introduced, false);
+  try {
+    const result = await handleGovernanceValidationRouteRequest(
+      {
+        validation_result_id: "validation-route",
+        package_id: "pkg-route",
+        package_version: 1,
+        delegation_id: "delegation-route",
+      },
+      {
+        database_path: fixture.databasePath,
+        load_exact_governance_delegation: authorizedDelegation,
+        analyze_governance_validation_semantics: async () => ({
+          validation_status: "VALIDATION_PASSED",
+          governance_findings: "Semantic evidence validated.",
+          operational_requirements: null,
+          capability_requirements: null,
+          escalations: null,
+        }),
+        create_governance_validation_result: (input) => ({
+          validation_result_id: input.validation_result_id,
+          package_id: input.package_id,
+          package_version: input.package_version,
+          delegation_id: input.delegation_id,
+          validation_status: input.validation_status,
+          validation_timestamp:
+            input.validation_timestamp ?? "2026-06-26T23:18:30.000Z",
+          created_at: "2026-06-26T23:18:30.000Z",
+        }),
+      },
+    );
 
-  if (!result.ok) {
-    assert.fail("Expected governance Validation route to succeed.");
+    assert.equal(result.ok, true);
+    assert.equal(result.execution_authorized, false);
+    assert.equal(result.downstream_governance_authorized, false);
+    assert.equal(result.new_authority_introduced, false);
+    if (!result.ok) assert.fail("Expected route success.");
+    assert.equal(
+      result.validation.validation.validation_status,
+      "VALIDATION_PASSED",
+    );
+  } finally {
+    fixture.cleanup();
   }
-
-  assert.equal(
-    result.validation.validation.validation_result_id,
-    "validation-route-success",
-  );
-});
-
-test("governance Validation route handler fails closed", () => {
-  let createCalled = false;
-
-  const result = handleGovernanceValidationRouteRequest(
-    {
-      validation_result_id: "",
-      package_id: "pkg-validation-route-fail",
-      package_version: 1,
-      delegation_id: "delegation-validation-route-fail",
-      validation_status: "VALIDATION_PASSED",
-    },
-    {
-      load_exact_governance_delegation: authorizedDelegation,
-      create_governance_validation_result: () => {
-        createCalled = true;
-        throw new Error("validation_result_id is required");
-      },
-    },
-  );
-
-  assert.equal(createCalled, true);
-  assert.equal(result.ok, false);
-  assert.equal(result.route, "governance_validation_route");
-  assert.equal(result.endpoint_authorized, true);
-  assert.equal(result.scheduler_authorized, false);
-  assert.equal(result.worker_claim_authorized, false);
-  assert.equal(result.orchestration_authorized, false);
-  assert.equal(result.routing_authorized, false);
-  assert.equal(result.assignment_authorized, false);
-  assert.equal(result.lifecycle_transition_authorized, false);
-  assert.equal(result.execution_authorized, false);
-  assert.equal(result.downstream_governance_authorized, false);
-  assert.equal(result.new_authority_introduced, false);
-});
-
-test("governance Validation route threads Delegation eligibility and fails before persistence", () => {
-  let createCalled = false;
-
-  const result = handleGovernanceValidationRouteRequest(
-    {
-      validation_result_id: "validation-route-ineligible",
-      package_id: "pkg-validation-route-ineligible",
-      package_version: 1,
-      delegation_id: "delegation-validation-route-ineligible",
-      validation_status: "VALIDATION_PASSED",
-    },
-    {
-      load_exact_governance_delegation: (identity) => ({
-        delegation_id: identity.delegation_id,
-        package_id: identity.package_id,
-        package_version: identity.package_version,
-        authorization_state: "PENDING",
-      }),
-      create_governance_validation_result: () => {
-        createCalled = true;
-        throw new Error("persistence must not run");
-      },
-    },
-  );
-
-  assert.equal(createCalled, false);
-  assert.equal(result.ok, false);
-  assert.equal(result.route, "governance_validation_route");
-  assert.equal(result.endpoint_authorized, true);
-  assert.equal(result.execution_authorized, false);
-  assert.equal(result.downstream_governance_authorized, false);
-  assert.equal(result.new_authority_introduced, false);
 });

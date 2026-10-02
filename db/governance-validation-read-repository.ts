@@ -8,6 +8,7 @@ export type GovernanceValidationDelegationIdentity = {
 
 export type GovernanceValidationDelegationReadRecord = {
   delegation_id: string;
+  project_id: string;
   package_id: string;
   package_version: number;
   authorization_state: string;
@@ -52,6 +53,7 @@ export function createGovernanceValidationDelegationLoader(
       const rows = db.prepare(`
         SELECT
           delegation_id,
+          project_id,
           package_id,
           package_version,
           authorization_state

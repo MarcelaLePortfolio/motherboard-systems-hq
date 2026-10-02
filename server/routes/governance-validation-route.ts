@@ -2,6 +2,7 @@ import express from "express";
 
 import {
   consumeProductionValidationEntryPoint,
+  type GovernanceValidationSemanticAnalysisFunction,
   type ProductionValidationConsumerInput,
   type ProductionValidationConsumerResult,
 } from "../validation/production-validation-consumer.js";
@@ -19,17 +20,14 @@ export type GovernanceValidationRouteBody = {
   package_id?: unknown;
   package_version?: unknown;
   delegation_id?: unknown;
-  validation_status?: unknown;
-  governance_findings?: unknown;
-  operational_requirements?: unknown;
-  capability_requirements?: unknown;
-  escalations?: unknown;
   validation_timestamp?: unknown;
 };
 
 export type GovernanceValidationRouteOptions = {
   create_governance_validation_result?: GovernanceValidationPersistenceFunction;
   load_exact_governance_delegation?: GovernanceValidationDelegationLoader;
+  analyze_governance_validation_semantics?: GovernanceValidationSemanticAnalysisFunction;
+  database_path?: string;
 };
 
 export type GovernanceValidationRouteRequest = ProductionValidationConsumerInput;
@@ -89,24 +87,22 @@ export function buildGovernanceValidationRouteRequest(
     package_id: normalizeText(body.package_id),
     package_version: normalizePackageVersion(body.package_version),
     delegation_id: normalizeText(body.delegation_id),
-    validation_status: normalizeText(body.validation_status),
-    governance_findings: normalizeOptionalText(body.governance_findings),
-    operational_requirements: normalizeOptionalText(body.operational_requirements),
-    capability_requirements: normalizeOptionalText(body.capability_requirements),
-    escalations: normalizeOptionalText(body.escalations),
     validation_timestamp: normalizeOptionalText(body.validation_timestamp),
     create_governance_validation_result:
       options.create_governance_validation_result,
     load_exact_governance_delegation:
       options.load_exact_governance_delegation,
+    analyze_governance_validation_semantics:
+      options.analyze_governance_validation_semantics,
+    database_path: options.database_path,
   };
 }
 
-export function handleGovernanceValidationRouteRequest(
+export async function handleGovernanceValidationRouteRequest(
   body: GovernanceValidationRouteBody = {},
   options: GovernanceValidationRouteOptions = {},
-): GovernanceValidationRouteResult {
-  const validationResult = consumeProductionValidationEntryPoint(
+): Promise<GovernanceValidationRouteResult> {
+  const validationResult = await consumeProductionValidationEntryPoint(
     buildGovernanceValidationRouteRequest(body, options),
   );
 
@@ -146,7 +142,7 @@ export function handleGovernanceValidationRouteRequest(
     downstream_governance_authorized: false,
     new_authority_introduced: false,
     findings: [
-      "Governance Validation route invoked the production Validation consumer without scheduler, worker, orchestration, routing, assignment, lifecycle transition, execution, downstream governance, or new authority.",
+      "Governance Validation route invoked semantic Validation without scheduler, worker, orchestration, routing, assignment, lifecycle transition, execution, downstream governance, or new authority.",
     ],
   };
 }
@@ -156,8 +152,8 @@ export function createGovernanceValidationRouter(
 ): express.Router {
   const router = express.Router();
 
-  router.post("/api/governance/validation", (req, res) => {
-    const result = handleGovernanceValidationRouteRequest(
+  router.post("/api/governance/validation", async (req, res) => {
+    const result = await handleGovernanceValidationRouteRequest(
       req.body || {},
       options,
     );
