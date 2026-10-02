@@ -274,6 +274,7 @@ export interface OllamaChatContext {
   userPackageSemantics?:
     MatildaUserPackageSemanticsInput | null;
   requirePackageSemantics?: boolean;
+  concreteOperationMessage?: string | null;
   explicitEvidenceRequest?: boolean;
   executionAuthorized?: boolean;
   observeValidatedSelectedContextSegments?: (
@@ -936,6 +937,80 @@ function parseStructuredResponse(
   };
 }
 
+
+function normalizeConcreteOperationFidelityTerms(
+  value: string,
+): string[] {
+  const stopWords = new Set([
+    "a", "all", "an", "and", "by", "for", "from", "i", "in",
+    "into", "is", "it", "of", "on", "the", "to", "underlying",
+    "while", "with", "would", "want", "like", "lets", "let", "start",
+    "making", "changes", "functionality", "authority", "preserving",
+    "preserve",
+  ]);
+
+  return Array.from(
+    new Set(
+      value
+        .toLowerCase()
+        .replace(/['’]/g, "")
+        .match(/[a-z0-9]+/g)
+        ?.filter((term) => term.length > 1 && !stopWords.has(term))
+        ?? [],
+    ),
+  );
+}
+
+function enforceConcreteOperationPackageSemanticsFidelity(
+  concreteOperationMessage: string | null | undefined,
+  packageSemantics: MatildaPackageSemanticsArtifact | null,
+): void {
+  if (!concreteOperationMessage) return;
+
+  if (
+    packageSemantics === null
+    || typeof packageSemantics.expectedOutcome !== "string"
+    || packageSemantics.expectedOutcome.trim().length === 0
+  ) {
+    throw new Error(
+      "Ollama response failed current-request Package Semantics fidelity: expectedOutcome is required.",
+    );
+  }
+
+  const requestTerms =
+    normalizeConcreteOperationFidelityTerms(concreteOperationMessage);
+  const outcomeTerms = new Set(
+    normalizeConcreteOperationFidelityTerms(
+      packageSemantics.expectedOutcome,
+    ),
+  );
+
+  const operationTerms = requestTerms.filter((term) =>
+    [
+      "add", "change", "edit", "hide", "move", "remove",
+      "rename", "replace", "show", "update",
+    ].includes(term),
+  );
+
+  const subjectTerms = requestTerms.filter(
+    (term) => !operationTerms.includes(term),
+  );
+
+  const preservesOperation =
+    operationTerms.length === 0
+    || operationTerms.some((term) => outcomeTerms.has(term));
+
+  const preservesSubject =
+    subjectTerms.length === 0
+    || subjectTerms.some((term) => outcomeTerms.has(term));
+
+  if (!preservesOperation || !preservesSubject) {
+    throw new Error(
+      "Ollama response failed current-request Package Semantics fidelity for expectedOutcome.",
+    );
+  }
+}
+
 export async function ollamaChat(
   message: string,
   context: OllamaChatContext = {},
@@ -1366,6 +1441,11 @@ export async function ollamaChat(
         "Ollama response requires non-null Package Semantics with a non-empty expectedOutcome.",
       );
     }
+
+    enforceConcreteOperationPackageSemanticsFidelity(
+      context.concreteOperationMessage,
+      result.packageSemantics,
+    );
 
     enforceMatildaUserPackageSemanticsFidelity(
       validatedUserPackageSemantics,

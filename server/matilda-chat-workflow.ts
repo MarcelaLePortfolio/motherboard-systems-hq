@@ -382,6 +382,10 @@ export async function runMatildaConversationWorkflow(
         explicitEvidenceRequest,
         executionAuthorized: false,
         requirePackageSemantics,
+        concreteOperationMessage:
+          hasConcreteProjectOperation(message)
+            ? message
+            : null,
       });
 
     enforceMatildaWorkflowPackageSemanticsRequirement(
