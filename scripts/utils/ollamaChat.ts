@@ -1144,28 +1144,20 @@ export async function ollamaChat(
             Boolean(sourceTurnId),
         );
 
-    const conversationSupportIdentityPresentation =
+    const conversationSupportIdentityPresentation = [
+      "",
+      "Allowed conversation support source identifiers:",
+      ...(allowedConversationSupportSourceIds.length > 0
+        ? allowedConversationSupportSourceIds.map(
+            (sourceTurnId) =>
+              `Allowed conversation support source = ${sourceTurnId}`,
+          )
+        : ["Allowed conversation support source = NONE"]),
       allowedConversationSupportSourceIds.length > 0
-        ? [
-            "",
-            "Allowed conversation support source identifiers:",
-            ...allowedConversationSupportSourceIds.map(
-              (sourceTurnId) =>
-                `Allowed conversation support source = ${sourceTurnId}`,
-            ),
-            "For type conversation_turn, use only one of the exact allowed conversation support source identifiers listed above.",
-            "The current user message is not a prior conversation support source and must not be represented as conversation_turn provenance.",
-          ]
-        : [
-            "",
-            "No prior conversation support source identifiers were supplied.",
-            "Return an empty supportSourceReferences array.",
-          ];
-
-    const conversationSupportInstruction =
-      allowedConversationSupportSourceIds.length > 0
-        ? "For conversation support, use type conversation_turn with the exact Conversation source identifier supplied in history."
-        : "No prior conversation support is available. Return an empty supportSourceReferences array.";
+        ? "For type conversation_turn, use only one of the exact allowed conversation support source identifiers listed above."
+        : "No prior conversation support source identifiers were supplied. Do not return any conversation_turn entry in supportSourceReferences.",
+      "The current user message is not a prior conversation support source and must not be represented as conversation_turn provenance.",
+    ];
 
     const priorInvestigationLifecycleContext =
       context.priorInvestigationLifecycle
@@ -1327,7 +1319,7 @@ export async function ollamaChat(
             "Set supportSourceReferences to only supplied conversation turns that explicitly support the conclusion, recommendation, or assessment expressed in reply.",
             "selectedContextCandidatePositions records semantic project-context admission. Project-context child identity and parent support provenance are reconstructed deterministically by runtime from validated candidate positions.",
             "Do not return project_context_excerpt entries in supportSourceReferences.",
-            conversationSupportInstruction,
+            "For conversation support, use type conversation_turn with the exact Conversation source identifier supplied in history.",
             ...conversationSupportIdentityPresentation,
             "Do not invent, reconstruct, approximate, or reference a conversation source identifier that was not supplied in this invocation.",
             "Return an empty supportSourceReferences array when no supplied conversation turn explicitly supports the conclusion, recommendation, or assessment.",
