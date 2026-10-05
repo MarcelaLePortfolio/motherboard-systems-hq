@@ -23,7 +23,7 @@ interface OllamaStructuredResponse {
   durableInterpretation?: unknown;
 }
 
-const OLLAMA_CHAT_OUTPUT_SCHEMA = {
+const BASE_OLLAMA_CHAT_OUTPUT_SCHEMA = {
   type: "object",
   additionalProperties: false,
   required: [
@@ -222,6 +222,34 @@ const OLLAMA_CHAT_OUTPUT_SCHEMA = {
     },
   },
 } as const;
+
+function buildOllamaChatOutputSchema(
+  allowedConversationSupportSourceIds: readonly string[],
+) {
+  if (allowedConversationSupportSourceIds.length > 0) {
+    return BASE_OLLAMA_CHAT_OUTPUT_SCHEMA;
+  }
+
+  return {
+    ...BASE_OLLAMA_CHAT_OUTPUT_SCHEMA,
+    properties: {
+      ...BASE_OLLAMA_CHAT_OUTPUT_SCHEMA.properties,
+      supportSourceReferences: {
+        ...BASE_OLLAMA_CHAT_OUTPUT_SCHEMA.properties.supportSourceReferences,
+        items: {
+          ...BASE_OLLAMA_CHAT_OUTPUT_SCHEMA.properties.supportSourceReferences.items,
+          properties: {
+            ...BASE_OLLAMA_CHAT_OUTPUT_SCHEMA.properties.supportSourceReferences.items.properties,
+            type: {
+              type: "string",
+              enum: ["project_context_excerpt"],
+            },
+          },
+        },
+      },
+    },
+  };
+}
 
 export interface OllamaChatHistoryTurn {
   sourceTurnId?: string;
@@ -1276,7 +1304,9 @@ export async function ollamaChat(
         body: JSON.stringify({
           model: OLLAMA_CHAT_MODEL,
           stream: false,
-          format: OLLAMA_CHAT_OUTPUT_SCHEMA,
+          format: buildOllamaChatOutputSchema(
+            allowedConversationSupportSourceIds,
+          ),
           ...(context.validationGenerationSeed === undefined
             ? {}
             : {
