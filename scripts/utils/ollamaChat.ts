@@ -996,9 +996,26 @@ function enforceConcreteOperationPackageSemanticsFidelity(
     (term) => !operationTerms.includes(term),
   );
 
+  const operationSemanticTerms: Record<string, readonly string[]> = {
+    add: ["add", "added", "adding", "include", "included", "introduce", "introduced"],
+    change: ["change", "changed", "changing", "modify", "modified", "update", "updated"],
+    edit: ["edit", "edited", "editing", "modify", "modified", "change", "changed"],
+    hide: ["hide", "hidden", "hiding", "not", "shown", "visible"],
+    move: ["move", "moved", "moving", "relocate", "relocated", "reposition", "repositioned"],
+    remove: ["remove", "removed", "removing", "delete", "deleted", "eliminate", "eliminated", "absent", "without", "longer"],
+    rename: ["rename", "renamed", "renaming", "called", "label", "labeled", "named"],
+    replace: ["replace", "replaced", "replacing", "instead", "substitute", "substituted"],
+    show: ["show", "shown", "showing", "display", "displayed", "visible"],
+    update: ["update", "updated", "updating", "change", "changed", "modify", "modified"],
+  };
+
   const preservesOperation =
     operationTerms.length === 0
-    || operationTerms.some((term) => outcomeTerms.has(term));
+    || operationTerms.some((term) =>
+      (operationSemanticTerms[term] ?? [term]).some(
+        (semanticTerm) => outcomeTerms.has(semanticTerm),
+      ),
+    );
 
   const preservesSubject =
     subjectTerms.length === 0
