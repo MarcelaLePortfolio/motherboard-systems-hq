@@ -1022,6 +1022,13 @@ function enforceConcreteOperationPackageSemanticsFidelity(
     || subjectTerms.some((term) => outcomeTerms.has(term));
 
   if (!preservesOperation || !preservesSubject) {
+    console.error(
+      "[Ollama expectedOutcome fidelity diagnostic]",
+      {
+        currentRequest: concreteOperationMessage,
+        modelAuthoredExpectedOutcome: packageSemantics.expectedOutcome,
+      },
+    );
     throw new Error(
       "Ollama response failed current-request Package Semantics fidelity for expectedOutcome.",
     );
