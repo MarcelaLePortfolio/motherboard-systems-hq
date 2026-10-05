@@ -1319,7 +1319,11 @@ export async function ollamaChat(
             "Set supportSourceReferences to only supplied conversation turns that explicitly support the conclusion, recommendation, or assessment expressed in reply.",
             "selectedContextCandidatePositions records semantic project-context admission. Project-context child identity and parent support provenance are reconstructed deterministically by runtime from validated candidate positions.",
             "Do not return project_context_excerpt entries in supportSourceReferences.",
-            "For conversation support, use type conversation_turn with the exact Conversation source identifier supplied in history.",
+            ...(allowedConversationSupportSourceIds.length > 0
+              ? [
+                  "For conversation support, use type conversation_turn with the exact Conversation source identifier supplied in history.",
+                ]
+              : []),
             ...conversationSupportIdentityPresentation,
             "Do not invent, reconstruct, approximate, or reference a conversation source identifier that was not supplied in this invocation.",
             "Return an empty supportSourceReferences array when no supplied conversation turn explicitly supports the conclusion, recommendation, or assessment.",
