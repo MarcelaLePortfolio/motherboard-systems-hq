@@ -436,11 +436,29 @@ function reconstructPackageSemantics(
     );
   }
 
+  if (
+    parsed
+    && typeof parsed === "object"
+    && !Array.isArray(parsed)
+    && !Object.prototype.hasOwnProperty.call(
+      parsed,
+      "successCriteria",
+    )
+  ) {
+    parsed = {
+      ...(parsed as Record<string, unknown>),
+      successCriteria: null,
+    };
+  }
+
   return validateMatildaPackageSemanticsArtifact(
     parsed,
     "Matilda IEL contains",
   );
 }
+
+export const __testOnlyReconstructPackageSemantics =
+  reconstructPackageSemantics;
 
 export interface ListInterpretationEvidenceLedgerEntriesOptions {
   projectId?: string | null;
