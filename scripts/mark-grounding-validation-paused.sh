@@ -1,0 +1,19 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+cd /Users/marcela-dev/Projects/motherboard-systems-hq-clean
+
+BRANCH="feature/support-source-references-runtime"
+EXPECTED_HEAD="688403221"
+
+test "$(git rev-parse --abbrev-ref HEAD)" = "$BRANCH"
+test "$(git rev-parse --short=9 HEAD)" = "$EXPECTED_HEAD"
+
+echo "WORK_PAUSED=YES"
+echo "CURRENT_HEAD=$EXPECTED_HEAD"
+echo "GROUNDING_FUNCTIONAL_COMMIT_COMPLETE=NO"
+echo "LIVE_DOGFOOD_PERFORMED=NO"
+echo "ATTEMPT_3_STARTED=NO"
+echo "LAST_VALIDATION_RESULT=112_PASS_2_FAIL"
+echo "REMAINING_FAILURE_CLASS=ABANDONED_EMPTY_HISTORY_SCHEMA_BOUNDING_TEST"
+echo "NEXT_ACTION_ON_RESUME=RECONCILE_TRACKING_STATUS_OF_EMPTY_HISTORY_SCHEMA_BOUNDING_TEST_BEFORE_ANY_FURTHER_VALIDATION"
