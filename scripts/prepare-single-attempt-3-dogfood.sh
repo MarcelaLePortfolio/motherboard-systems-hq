@@ -4,17 +4,18 @@ set -euo pipefail
 cd /Users/marcela-dev/Projects/motherboard-systems-hq-clean
 
 BRANCH="feature/support-source-references-runtime"
-EXPECTED_HEAD="2fa56b11a"
 EXPECTED_RUNTIME_PID="61897"
 RUNTIME_LOG="/tmp/motherboard-attempt3-runtime.log"
 CAPTURE="/tmp/motherboard-attempt3-dogfood-result.log"
 REQUEST="hi matilda, let's start by making changes the frontend. i want to remove the 'packages' tab from the sidebar while preserving all underlying package runtime functionality and authority."
 
 test "$(git rev-parse --abbrev-ref HEAD)" = "$BRANCH"
-test "$(git rev-parse --short=9 HEAD)" = "$EXPECTED_HEAD"
 
 git fetch origin "$BRANCH"
-test "$(git rev-parse HEAD)" = "$(git rev-parse "origin/$BRANCH")"
+
+LOCAL_HEAD="$(git rev-parse HEAD)"
+REMOTE_HEAD="$(git rev-parse "origin/$BRANCH")"
+test "$LOCAL_HEAD" = "$REMOTE_HEAD"
 
 LISTENER_PID="$(lsof -tiTCP:3000 -sTCP:LISTEN || true)"
 test "$LISTENER_PID" = "$EXPECTED_RUNTIME_PID"
@@ -28,6 +29,7 @@ grep -q 'Server listening on port 3000' "$RUNTIME_LOG"
 : > "$CAPTURE"
 
 echo "=== SINGLE CONTROLLED ATTEMPT 3 DOGFOOD ==="
+echo "REPOSITORY_REMOTE_CONVERGED=YES"
 echo "FRESH_RUNTIME_CERTIFIED=YES"
 echo "RUNTIME_PID=$LISTENER_PID"
 echo "COMPILED_ATTEMPT_3_GROUNDING_PRESENT=YES"
