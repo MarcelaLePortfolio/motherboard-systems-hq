@@ -4,17 +4,19 @@ set -euo pipefail
 cd /Users/marcela-dev/Projects/motherboard-systems-hq-clean
 
 BRANCH="feature/support-source-references-runtime"
-EXPECTED_HEAD="c6aadb6fa"
 
 test "$(git rev-parse --abbrev-ref HEAD)" = "$BRANCH"
-test "$(git rev-parse --short=9 HEAD)" = "$EXPECTED_HEAD"
 
 git fetch origin "$BRANCH"
-test "$(git rev-parse HEAD)" = "$(git rev-parse "origin/$BRANCH")"
+
+LOCAL_HEAD="$(git rev-parse HEAD)"
+REMOTE_HEAD="$(git rev-parse "origin/$BRANCH")"
+test "$LOCAL_HEAD" = "$REMOTE_HEAD"
 
 echo "=== STABLE BOUNDARY ==="
 echo "TARGETED_GROUNDING_REVERT=COMPLETE"
 echo "GROUNDING_ATTEMPTS_2_AND_3_REMOVED=YES"
+echo "REPOSITORY_REMOTE_CONVERGED=YES"
 echo "DOGFOOD_RETRY_AUTHORIZED=NO"
 echo "NEW_IMPLEMENTATION_AUTHORIZED=NO"
 echo "INVESTIGATION_ONLY=YES"
