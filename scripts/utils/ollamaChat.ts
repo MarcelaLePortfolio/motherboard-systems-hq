@@ -1355,15 +1355,6 @@ export async function ollamaChat(
             ...(context.requirePackageSemantics === true
               ? [
                   "The current request requires durable Package Semantics. Return a non-null packageSemantics object whose expectedOutcome is a concise non-empty string grounded in the current user request.",
-                  ...(context.concreteOperationMessage
-                    ? [
-                        "Authoritative current concrete operation for Package Semantics expectedOutcome:",
-                        context.concreteOperationMessage,
-                        "The expectedOutcome must describe this current concrete operation and its subject. Retrieved, historical, or supporting context may constrain or inform the operation but must not replace its operation, direction, or subject.",
-                      ]
-                    : []),
-                  "For a concrete operation, expectedOutcome must preserve the operation and direction established by the current user request. Do not invert removal or hiding into restoration or showing, and do not invert addition or showing into removal or hiding.",
-                  "Treat preservation requirements as constraints on the requested operation, not as substitutes for or reversals of expectedOutcome. For example, removing a UI tab while preserving its underlying runtime functionality means the expected outcome is removal of the UI tab with that runtime functionality preserved, not restoration of the tab or package visibility.",
                   "Do not satisfy this requirement by inventing missing semantics. Fields other than expectedOutcome remain null unless actually established by the user request and supplied context.",
                 ]
               : []),
