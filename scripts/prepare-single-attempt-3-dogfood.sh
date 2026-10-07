@@ -4,7 +4,8 @@ set -euo pipefail
 cd /Users/marcela-dev/Projects/motherboard-systems-hq-clean
 
 BRANCH="feature/support-source-references-runtime"
-EXPECTED_HEAD="8ab8b15f6"
+EXPECTED_HEAD="2fa56b11a"
+EXPECTED_RUNTIME_PID="61897"
 RUNTIME_LOG="/tmp/motherboard-attempt3-runtime.log"
 CAPTURE="/tmp/motherboard-attempt3-dogfood-result.log"
 REQUEST="hi matilda, let's start by making changes the frontend. i want to remove the 'packages' tab from the sidebar while preserving all underlying package runtime functionality and authority."
@@ -16,7 +17,7 @@ git fetch origin "$BRANCH"
 test "$(git rev-parse HEAD)" = "$(git rev-parse "origin/$BRANCH")"
 
 LISTENER_PID="$(lsof -tiTCP:3000 -sTCP:LISTEN || true)"
-test "$LISTENER_PID" = "61897"
+test "$LISTENER_PID" = "$EXPECTED_RUNTIME_PID"
 
 grep -q \
   'Authoritative current concrete operation for Package Semantics expectedOutcome:' \
@@ -29,6 +30,7 @@ grep -q 'Server listening on port 3000' "$RUNTIME_LOG"
 echo "=== SINGLE CONTROLLED ATTEMPT 3 DOGFOOD ==="
 echo "FRESH_RUNTIME_CERTIFIED=YES"
 echo "RUNTIME_PID=$LISTENER_PID"
+echo "COMPILED_ATTEMPT_3_GROUNDING_PRESENT=YES"
 echo "DOGFOOD_COUNT_BEFORE=0"
 echo "MAX_DOGFOOD_SUBMISSIONS=1"
 echo
