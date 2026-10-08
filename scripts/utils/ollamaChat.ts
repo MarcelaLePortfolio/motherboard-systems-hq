@@ -1459,6 +1459,38 @@ export async function ollamaChat(
 
     if (
       context.requirePackageSemantics === true
+      && context.concreteOperationMessage
+      && result.packageSemantics === null
+      && !validatedUserPackageSemantics
+    ) {
+      const request = context.concreteOperationMessage.trim();
+      const match = request.match(
+        /^(remove|hide|rename|move|add|replace|show)\s+(.+?)(?:\s+while\s+(.+))?\.?$/i,
+      );
+
+      if (match) {
+        const operation = match[1].toLowerCase();
+        const subject = match[2].trim();
+        const constraint = match[3]?.trim() ?? null;
+
+        if (subject && !/[.!?]/.test(subject)) {
+          result.packageSemantics = {
+            expectedOutcome:
+              `${operation} ${subject}${constraint ? ` while ${constraint}` : ""}.`,
+            successCriteria: null,
+            proposedWork: null,
+            proposedArtifacts: null,
+            inScope: null,
+            outOfScope: null,
+            constraints: constraint,
+            unresolvedQuestions: null,
+          };
+        }
+      }
+    }
+
+    if (
+      context.requirePackageSemantics === true
       && (
         result.packageSemantics === null
         || typeof result.packageSemantics.expectedOutcome !== "string"
