@@ -137,10 +137,23 @@ test(
             investigationLifecycle: null,
             packageSemantics:
               latestOllamaRequestBody.includes(
-                "Remove the Packages tab from the sidebar"
+                "Reject contradictory Package Semantics"
               )
-                ? null
-                : {
+                ? {
+                    expectedOutcome: "Add a dashboard widget.",
+                    successCriteria: null,
+                    proposedWork: null,
+                    proposedArtifacts: null,
+                    inScope: null,
+                    outOfScope: null,
+                    constraints: null,
+                    unresolvedQuestions: null,
+                  }
+                : latestOllamaRequestBody.includes(
+                    "Remove the Packages tab from the sidebar"
+                  )
+                  ? null
+                  : {
                     expectedOutcome:
                       "Preserve the reviewed intent with the requested correction.",
                     successCriteria: null,
@@ -816,6 +829,63 @@ test(
         reconciledDraft.expected_outcome,
       );
       assert.equal(semantics.proposedWork, null);
+
+      const rejectedConversation =
+        conversationRuntime.createMatildaConversation("hq");
+
+      const rejectedMessage =
+        "Remove the Packages tab from the sidebar while preserving underlying package functionality and authority. Reject contradictory Package Semantics.";
+
+      await assert.rejects(
+        () =>
+          workflowRuntime.runMatildaConversationWorkflow({
+            message: rejectedMessage,
+            agent: "matilda",
+            project_id: "hq",
+            conversation_id: rejectedConversation.conversation_id,
+          }),
+      );
+
+      const rejectedEntries =
+        interpretationRuntime.listInterpretationEvidenceLedgerEntries(
+          100,
+          {
+            projectId: "hq",
+            conversationId: rejectedConversation.conversation_id,
+          },
+        );
+
+      const rejectedTurns =
+        conversationRuntime.listMatildaConversationTurns(
+          "hq",
+          100,
+          rejectedConversation.conversation_id,
+        );
+
+      assert.equal(rejectedEntries.length, 0);
+      assert.equal(rejectedTurns.length, 0);
+
+      const rejectedDraftCount =
+        database.prepare(`
+          SELECT COUNT(*) AS count
+          FROM matilda_living_draft_packages
+          WHERE conversation_id = ?
+        `).get(rejectedConversation.conversation_id) as {
+          count: number;
+        };
+
+      assert.equal(rejectedDraftCount.count, 0);
+
+      const rejectedHistoricalCount =
+        database.prepare(`
+          SELECT COUNT(*) AS count
+          FROM atlas_historical_observations
+          WHERE conversation_id = ?
+        `).get(rejectedConversation.conversation_id) as {
+          count: number;
+        };
+
+      assert.equal(rejectedHistoricalCount.count, 0);
 
       const historicalRecords =
         readAtlasHistoricalObservations(
