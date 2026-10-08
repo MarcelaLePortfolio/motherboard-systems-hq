@@ -138,6 +138,7 @@ test(
             packageSemantics: {
               expectedOutcome:
                 "Preserve the reviewed intent with the requested correction.",
+              successCriteria: null,
               proposedWork:
                 "Revise the reviewed interpretation using the supplied feedback.",
               proposedArtifacts: null,
