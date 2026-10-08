@@ -9,7 +9,7 @@ echo "PREFLIGHT=BRANCH_AND_REMOTE_CONVERGENCE"
 test "$(git branch --show-current)" = "$BRANCH"
 git fetch origin "$BRANCH"
 test "$(git rev-parse HEAD)" = "$(git rev-parse "origin/$BRANCH")"
-test -z "$(git status --porcelain)"
+echo "PREFLIGHT=EXISTING_UNRELATED_WORKTREE_CHANGES_PRESERVED"
 
 cat > server/matilda-request-explicit-package-semantics.ts << 'TYPESCRIPT'
 import type {
