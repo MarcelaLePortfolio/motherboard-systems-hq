@@ -1033,6 +1033,92 @@ function enforceConcreteOperationPackageSemanticsFidelity(
       "Ollama response failed current-request Package Semantics fidelity for expectedOutcome.",
     );
   }
+
+  // This bounded guard applies only when the concrete request explicitly
+  // preserves underlying package functionality and authority. It does not
+  // infer general semantic equivalence or rewrite model-authored fields.
+  const explicitlyPreservesPackageFunctionality =
+    /\bpreserv(?:e|ing)\b[^.!?]*\b(?:underlying\s+)?package\s+functionality\b/i.test(
+      concreteOperationMessage,
+    );
+  const explicitlyPreservesAuthority =
+    /\bpreserv(?:e|ing)\b[^.!?]*\bauthority\b/i.test(
+      concreteOperationMessage,
+    );
+
+  if (
+    explicitlyPreservesPackageFunctionality
+    || explicitlyPreservesAuthority
+  ) {
+    const nonOutcomeFields = [
+      "successCriteria",
+      "proposedWork",
+      "proposedArtifacts",
+      "inScope",
+      "outOfScope",
+      "constraints",
+      "unresolvedQuestions",
+    ] as const;
+
+    const destructiveAction =
+      /\b(?:delete|deleting|deleted|remove|removing|removed|removal|disable|disabling|disabled|destroy|destroying|destroyed|eliminate|eliminating|eliminated|revoke|revoking|revoked|bypass|bypassing|bypassed)\b/i;
+
+    const packageFunctionalityTarget =
+      /\b(?:package\s+(?:functionality|execution|services?|system)|underlying\s+package\s+(?:functionality|execution|services?|system))\b/i;
+
+    const authorityTarget =
+      /\b(?:authority|authorization|approval|permission|access\s+controls?|authority\s+checks?|authorization\s+requirements?)\b/i;
+
+    const preservationTarget =
+      /\b(?:preserv(?:e|ation|ing)|retain(?:ing)?|maintain(?:ing)?)\b/i;
+
+    const negatedDestruction =
+      /\b(?:do\s+not|don't|must\s+not|never|without|prevent|avoid|prohibit|forbid)\b[^.!?]*\b(?:delete|remove|disable|destroy|eliminate|revoke|bypass)\b/i;
+
+    for (const field of nonOutcomeFields) {
+      const value = packageSemantics[field];
+      if (typeof value !== "string" || !value.trim()) continue;
+
+      const clauses = value.split(/[.!?;]+/).map((part) => part.trim());
+
+      const contradictsPreservation = clauses.some((clause) => {
+        if (!clause) return false;
+
+        if (
+          field === "outOfScope"
+          && preservationTarget.test(clause)
+          && (
+            (explicitlyPreservesPackageFunctionality
+              && packageFunctionalityTarget.test(clause))
+            || (explicitlyPreservesAuthority
+              && authorityTarget.test(clause))
+          )
+        ) {
+          return true;
+        }
+
+        if (
+          !destructiveAction.test(clause)
+          || negatedDestruction.test(clause)
+        ) {
+          return false;
+        }
+
+        return (
+          (explicitlyPreservesPackageFunctionality
+            && packageFunctionalityTarget.test(clause))
+          || (explicitlyPreservesAuthority
+            && authorityTarget.test(clause))
+        );
+      });
+
+      if (contradictsPreservation) {
+        throw new Error(
+          `Ollama response failed current-request Package Semantics fidelity for ${field}: contradicts explicit preservation constraints.`,
+        );
+      }
+    }
+  }
 }
 
 export async function ollamaChat(

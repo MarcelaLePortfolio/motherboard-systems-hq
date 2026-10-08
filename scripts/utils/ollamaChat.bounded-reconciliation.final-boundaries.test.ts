@@ -108,6 +108,94 @@ test("valid authored non-outcome fields remain unchanged", async () => {
   }
 });
 
+test("explicitly contradictory non-outcome fields fail before observer", async () => {
+  const base = {
+    expectedOutcome:
+      "Remove the Packages tab from the sidebar while preserving underlying package functionality and authority.",
+    successCriteria: null,
+    proposedWork: null,
+    proposedArtifacts: null,
+    inScope: null,
+    outOfScope: null,
+    constraints: null,
+    unresolvedQuestions: null,
+  };
+
+  const contradictions = [
+    {
+      successCriteria: "Underlying package functionality is deleted.",
+    },
+    {
+      proposedWork:
+        "Delete package execution services and remove package authority checks.",
+    },
+    {
+      inScope: "Removal of the underlying package execution system.",
+    },
+    {
+      outOfScope: "Preservation of underlying package functionality.",
+    },
+    {
+      constraints:
+        "Disable package approval and execution authorization requirements.",
+    },
+  ];
+
+  for (const contradiction of contradictions) {
+    let observerCalled = false;
+    globalThis.fetch = (async () =>
+      responseWith({ ...base, ...contradiction })) as typeof fetch;
+
+    try {
+      await assert.rejects(
+        () =>
+          ollamaChat(request, {
+            requirePackageSemantics: true,
+            concreteOperationMessage: request,
+            executionAuthorized: false,
+            observeValidatedPackageSemantics: () => {
+              observerCalled = true;
+            },
+          }),
+        /Package Semantics fidelity/,
+      );
+      assert.equal(observerCalled, false);
+    } finally {
+      globalThis.fetch = originalFetch;
+    }
+  }
+});
+
+test("explicit preservation and non-destructive scope remain valid", async () => {
+  const authored = {
+    expectedOutcome:
+      "Remove the Packages tab from the sidebar while preserving underlying package functionality and authority.",
+    successCriteria: "Package functionality remains available.",
+    proposedWork: "Remove only the sidebar navigation entry.",
+    proposedArtifacts: null,
+    inScope: "Sidebar navigation only.",
+    outOfScope: "Changes to underlying package execution.",
+    constraints:
+      "Do not delete package execution services or disable package authorization.",
+    unresolvedQuestions: null,
+  };
+
+  globalThis.fetch = (async () =>
+    responseWith(authored)) as typeof fetch;
+
+  try {
+    const result = await ollamaChat(request, {
+      requirePackageSemantics: true,
+      concreteOperationMessage: request,
+      executionAuthorized: false,
+    });
+
+    assert.deepEqual(result.packageSemantics, authored);
+  } finally {
+    globalThis.fetch = originalFetch;
+  }
+});
+
 test("null semantics without required context remain null", async () => {
   globalThis.fetch = (async () => responseWith(null)) as typeof fetch;
 
