@@ -1,97 +1,24 @@
-import assert from "node:assert/strict";
-import test from "node:test";
-import { ollamaChat } from "./ollamaChat";
+#!/usr/bin/env bash
+set -euo pipefail
 
-const originalFetch = globalThis.fetch;
+BRANCH="feature/support-source-references-runtime"
+BASELINE="26772c927"
+TARGET="scripts/utils/ollamaChat.bounded-reconciliation.test.ts"
 
-function responseWith(packageSemantics: unknown): Response {
-  return {
-    ok: true,
-    json: async () => ({
-      response: JSON.stringify({
-        reply: "Acknowledged.",
-        explanationStatus: "optional",
-        selectedContextCandidatePositions: [],
-        supportSourceReferences: [],
-        evidence: null,
-        investigationLifecycle: null,
-        packageSemantics,
-        durableInterpretation: "The user requested a sidebar change.",
-      }),
-    }),
-  } as Response;
+test "$(git branch --show-current)" = "$BRANCH"
+test "$(git rev-parse --short=9 HEAD)" = "$BASELINE"
+test -z "$(git status --short -- "$TARGET" scripts/utils/ollamaChat.ts)"
+
+BACKUP="$(mktemp)"
+cp "$TARGET" "$BACKUP"
+
+restore_on_failure() {
+  cp "$BACKUP" "$TARGET"
+  rm -f "$BACKUP"
 }
+trap restore_on_failure ERR
 
-test("reconciles null semantics for a bounded concrete request", async () => {
-  globalThis.fetch = (async () => responseWith(null)) as typeof fetch;
-
-  try {
-    const result = await ollamaChat(
-      "Remove the Packages tab from the sidebar while preserving underlying package functionality and authority.",
-      {
-        requirePackageSemantics: true,
-        concreteOperationMessage:
-          "Remove the Packages tab from the sidebar while preserving underlying package functionality and authority.",
-      },
-    );
-
-    assert.match(
-      result.packageSemantics?.expectedOutcome ?? "",
-      /remove the Packages tab from the sidebar/i,
-    );
-    assert.match(
-      result.packageSemantics?.constraints ?? "",
-      /preserving underlying package functionality and authority/i,
-    );
-  } finally {
-    globalThis.fetch = originalFetch;
-  }
-});
-
-test("does not replace contradictory model-authored outcome", async () => {
-  globalThis.fetch = (async () =>
-    responseWith({
-      expectedOutcome: "Add a dashboard widget.",
-      successCriteria: null,
-      proposedWork: null,
-      proposedArtifacts: null,
-      inScope: null,
-      outOfScope: null,
-      constraints: null,
-      unresolvedQuestions: null,
-    })) as typeof fetch;
-
-  try {
-    await assert.rejects(
-      () =>
-        ollamaChat("Remove the Packages tab from the sidebar.", {
-          requirePackageSemantics: true,
-          concreteOperationMessage:
-            "Remove the Packages tab from the sidebar.",
-        }),
-      /current-request Package Semantics fidelity/,
-    );
-  } finally {
-    globalThis.fetch = originalFetch;
-  }
-});
-
-test("does not reconcile vague requests", async () => {
-  globalThis.fetch = (async () => responseWith(null)) as typeof fetch;
-
-  try {
-    await assert.rejects(
-      () =>
-        ollamaChat("Make the navigation better.", {
-          requirePackageSemantics: true,
-          concreteOperationMessage: "Make the navigation better.",
-        }),
-      /requires non-null Package Semantics/,
-    );
-  } finally {
-    globalThis.fetch = originalFetch;
-  }
-});
+cat >> "$TARGET" << 'TEST_EOF'
 
 test("preserves valid model-authored semantics unchanged", async () => {
   const authored = {
@@ -278,3 +205,30 @@ test("malformed model semantics remain rejected", async () => {
     globalThis.fetch = originalFetch;
   }
 });
+TEST_EOF
+
+echo "=== EXPANDED TARGETED REGRESSION TESTS ==="
+
+npx tsx --test \
+  scripts/utils/ollamaChat.bounded-reconciliation.test.ts \
+  scripts/utils/ollamaChat.package-semantics-contract.test.ts \
+  scripts/utils/ollamaChat.package-semantics-fidelity.test.ts \
+  scripts/utils/ollamaChat.package-semantics-fidelity-runtime.test.ts \
+  scripts/utils/ollamaChat.current-request-package-semantics-fidelity.test.ts
+
+echo "=== TYPECHECK ==="
+npx tsc --noEmit
+
+echo "=== DIFF CHECK ==="
+git diff --check
+
+echo "=== SUCCESS ==="
+echo "UPSTREAM_REGRESSION_TESTS=PASS"
+echo "PRODUCTION_SOURCE=UNCHANGED"
+echo "WORKFLOW_PERSISTENCE_TESTS=STILL_REQUIRED"
+echo "CONTRADICTORY_NON_OUTCOME_FIELD_TEST=STILL_REQUIRED"
+echo "LIVE_DOGFOOD=NOT_PERFORMED"
+echo "CORRIDOR=OPEN"
+
+trap - ERR
+rm -f "$BACKUP"
