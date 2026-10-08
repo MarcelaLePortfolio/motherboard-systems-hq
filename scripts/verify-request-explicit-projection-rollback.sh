@@ -2,23 +2,20 @@
 set -euo pipefail
 
 BRANCH="feature/support-source-references-runtime"
-EXPECTED_HEAD="9ef3862a8"
 WORKFLOW="server/matilda-chat-workflow.ts"
 MODULE="server/matilda-request-explicit-package-semantics.ts"
 TEST="server/matilda-request-explicit-package-semantics.test.ts"
 
 test "$(git branch --show-current)" = "$BRANCH"
-test "$(git rev-parse --short=9 HEAD)" = "$EXPECTED_HEAD"
 
 git fetch origin "$BRANCH"
 test "$(git rev-parse HEAD)" = "$(git rev-parse "origin/$BRANCH")"
 
-echo "=== VERIFY ROLLBACK SCOPE ==="
+echo "=== VERIFY EXACT ROLLBACK SCOPE ==="
 
 test -f "$WORKFLOW"
 test -f "$MODULE"
 test -f "$TEST"
-
 test -z "$(git ls-files -- "$MODULE" "$TEST")"
 
 node << 'JAVASCRIPT'
@@ -45,8 +42,12 @@ const projectionBlock = `    const reconciledPackageSemantics =
 
 `;
 
-if (!current.includes(importLine) || !current.includes(projectionBlock)) {
-  throw new Error("STOP: Expected implementation structure differs.");
+if (current.split(importLine).length !== 2) {
+  throw new Error("STOP: Unexpected projection import structure.");
+}
+
+if (current.split(projectionBlock).length !== 2) {
+  throw new Error("STOP: Unexpected projection block structure.");
 }
 
 const restored = current
@@ -58,35 +59,29 @@ const restored = current
   );
 
 if (restored !== baseline) {
-  throw new Error(
-    "STOP: Workflow contains changes outside the reviewed projection.",
-  );
+  throw new Error("STOP: Workflow contains changes outside the reviewed projection.");
 }
 
-console.log("ROLLBACK_SCOPE_VERIFIED=YES");
-console.log("UNRELATED_WORKFLOW_CHANGES=NONE");
+console.log("EXACT_ROLLBACK_SCOPE=VERIFIED");
 JAVASCRIPT
 
 echo
-echo "=== PRESERVE ABANDONED IMPLEMENTATION ==="
+echo "=== PRESERVE REVIEW COPY ==="
 
 BACKUP="$(mktemp -d "${TMPDIR:-/tmp}/matilda-projection-rollback.XXXXXX")"
-
 cp "$WORKFLOW" "$MODULE" "$TEST" "$BACKUP/"
-
 echo "REVIEW_BACKUP=$BACKUP"
 
 echo
-echo "=== RESTORE EXACT BASELINE ==="
+echo "=== RESTORE ONLY VERIFIED FILES ==="
 
 git restore --source=HEAD --worktree -- "$WORKFLOW"
 rm -- "$MODULE" "$TEST"
 
 echo
-echo "=== VERIFY ==="
+echo "=== VERIFY RESTORED BASELINE ==="
 
 git diff --exit-code HEAD -- "$WORKFLOW"
-
 test ! -e "$MODULE"
 test ! -e "$TEST"
 
