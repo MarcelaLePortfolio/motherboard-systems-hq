@@ -4,11 +4,10 @@ set -euo pipefail
 cd /Users/marcela-dev/Projects/motherboard-systems-hq-clean
 
 BRANCH="feature/support-source-references-runtime"
-BASELINE="db054b0e5"
+echo "PREFLIGHT=BRANCH_AND_REMOTE_CONVERGENCE"
 
 test "$(git branch --show-current)" = "$BRANCH"
 git fetch origin "$BRANCH"
-test "$(git rev-parse --short=9 HEAD)" = "$BASELINE"
 test "$(git rev-parse HEAD)" = "$(git rev-parse "origin/$BRANCH")"
 test -z "$(git status --porcelain)"
 
