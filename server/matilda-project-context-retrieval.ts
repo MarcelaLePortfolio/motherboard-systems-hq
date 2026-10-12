@@ -938,6 +938,43 @@ export function retrieveMatildaProjectContext(input: {
       .map((term) => term.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"))
       .join("|");
 
+    const trackedPaths = execFileSync(
+      "git",
+      [
+        "-C",
+        projectRoot,
+        "ls-files",
+        "--",
+        ...Array.from(ALLOWED_ROOTS).map((root) => `${root}/`),
+      ],
+      {
+        encoding: "utf8",
+        maxBuffer: 8_000_000,
+        stdio: ["ignore", "pipe", "ignore"],
+      }
+    );
+
+    const trackedRoots = Array.from(ALLOWED_ROOTS)
+      .filter((root) =>
+        trackedPaths
+          .split(/\r?\n/)
+          .some((file) => file.startsWith(`${root}/`))
+      )
+      .map((root) => `${root}/`);
+
+    if (trackedRoots.length === 0) {
+      return {
+        projectId,
+        projectRootPath: projectRoot,
+        available: true,
+        searched: true,
+        queryTerms,
+        excerpts: [],
+        projectContextSegmentCandidates: [],
+        warning: null,
+      };
+    }
+
     const output = execFileSync(
       "git",
       [
@@ -950,7 +987,7 @@ export function retrieveMatildaProjectContext(input: {
         "-E",
         "--",
         pattern,
-        ...Array.from(ALLOWED_ROOTS).map((root) => `${root}/`),
+        ...trackedRoots,
       ],
       {
         encoding: "utf8",
