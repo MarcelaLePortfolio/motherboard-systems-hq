@@ -875,6 +875,130 @@ function discoverBoundedStructuralProjectContextCandidate(input: {
   return null;
 }
 
+
+function discoverBoundedControlOwnershipCandidate(input: {
+  projectRoot: string;
+  queryTerms: readonly string[];
+  runtimeCandidates: readonly MatildaRankedProjectContextCandidate[];
+}): MatildaRankedProjectContextCandidate | null {
+  const controlTerms = input.queryTerms.filter(
+    (term) =>
+      !new Set([
+        "repository",
+        "evidence",
+        "responsible",
+        "identifies",
+        "component",
+        "rendering",
+      ]).has(term),
+  );
+
+  if (controlTerms.length < 2) {
+    return null;
+  }
+
+  let best:
+    | (MatildaRankedProjectContextCandidate & {
+        ownershipScore: number;
+      })
+    | null = null;
+
+  for (const candidate of input.runtimeCandidates) {
+    if (!/\.(?:tsx|jsx)$/.test(candidate.relativePath)) {
+      continue;
+    }
+
+    let lines: string[];
+
+    try {
+      const absolutePath = path.join(
+        input.projectRoot,
+        candidate.relativePath,
+      );
+      const stat = fs.statSync(absolutePath);
+
+      if (!stat.isFile() || stat.size > 1_000_000) {
+        continue;
+      }
+
+      lines = fs.readFileSync(absolutePath, "utf8").split(/\r?\n/);
+    } catch {
+      continue;
+    }
+
+    const normalizedPath = candidate.relativePath.toLowerCase();
+    const normalizedSource = lines.join("\n").toLowerCase();
+
+    if (
+      !controlTerms.every(
+        (term) =>
+          normalizedPath.includes(term) ||
+          normalizedSource.includes(term),
+      )
+    ) {
+      continue;
+    }
+
+    for (let index = 0; index < lines.length; index += 1) {
+      if (!/<button\b/.test(lines[index])) {
+        continue;
+      }
+
+      const end = Math.min(
+        lines.length,
+        index + MAX_STRUCTURAL_EXCERPT_LINES,
+      );
+      const unit = lines.slice(index, end).join("\n");
+      const normalizedUnit = unit.toLowerCase();
+
+      if (!/<\/button>/.test(unit)) {
+        continue;
+      }
+
+      const exactControlTerms = controlTerms.filter(
+        (term) =>
+          new RegExp(
+            `\\b${escapeProjectContextRegExp(term)}\\b`,
+            "i",
+          ).test(normalizedUnit),
+      );
+
+      if (exactControlTerms.length === 0) {
+        continue;
+      }
+
+      const ownershipScore =
+        exactControlTerms.length * 4 +
+        (/<nav\b/.test(normalizedSource) ? 2 : 0) +
+        (normalizedPath.includes("navigation") ? 2 : 0);
+
+      if (
+        !best ||
+        ownershipScore > best.ownershipScore ||
+        (
+          ownershipScore === best.ownershipScore &&
+          candidate.relativePath.localeCompare(best.relativePath) < 0
+        )
+      ) {
+        best = {
+          relativePath: candidate.relativePath,
+          lineNumber: index + 1,
+          score: candidate.score,
+          ownershipScore,
+          useStructuralUnitExcerpt: true,
+        };
+      }
+    }
+  }
+
+  if (!best || best.ownershipScore < 8) {
+    return null;
+  }
+
+  const { ownershipScore: _ownershipScore, ...selected } = best;
+  return selected;
+}
+
 export function retrieveMatildaProjectContext(input: {
   projectId: string;
   projectRootPath?: string | null;
@@ -1066,6 +1190,13 @@ export function retrieveMatildaProjectContext(input: {
         lexicalRuntimeCandidates,
       });
 
+    const controlOwnershipCandidate =
+      discoverBoundedControlOwnershipCandidate({
+        projectRoot,
+        queryTerms,
+        runtimeCandidates,
+      });
+
     const selectedCandidates = [
       ...lexicalRuntimeCandidates,
       ...(structuralCandidate ? [structuralCandidate] : []),
@@ -1087,6 +1218,20 @@ export function retrieveMatildaProjectContext(input: {
       ) {
         selectedCandidates.push(candidate);
       }
+    }
+
+    if (
+      controlOwnershipCandidate &&
+      !selectedCandidates.some(
+        (candidate) =>
+          candidate.relativePath ===
+          controlOwnershipCandidate.relativePath,
+      )
+    ) {
+      if (selectedCandidates.length >= MAX_MATCHES) {
+        selectedCandidates.pop();
+      }
+      selectedCandidates.push(controlOwnershipCandidate);
     }
 
     const excerpts: MatildaProjectContextExcerpt[] = [];

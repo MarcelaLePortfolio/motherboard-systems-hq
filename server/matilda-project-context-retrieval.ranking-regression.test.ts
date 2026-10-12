@@ -35,3 +35,33 @@ test(
     );
   },
 );
+
+
+test(
+  "repository evidence question retrieves the Packages navigation control",
+  () => {
+    const result = retrieveMatildaProjectContext({
+      projectId: "hq",
+      projectRootPath,
+      message:
+        "What repository evidence identifies the component responsible for rendering the Packages navigation tab?",
+    });
+
+    assert.equal(result.available, true);
+    assert.equal(result.searched, true);
+    assert.equal(result.warning, null);
+    assert.ok(result.excerpts.length <= 6);
+
+    const navigation = result.projectContextSegmentCandidates.filter(
+      (candidate) =>
+        candidate.parentRelativePath ===
+        "client/src/shell/NavigationRegion.tsx",
+    );
+
+    assert.equal(navigation.length, 1);
+    assert.equal(navigation[0].sourceStartLine, 71);
+    assert.equal(navigation[0].sourceEndLine, 83);
+    assert.match(navigation[0].text, /onSelectWorkspace\("packages"\)/);
+    assert.match(navigation[0].text, />\s*Packages\s*<\/button>/);
+  },
+);
