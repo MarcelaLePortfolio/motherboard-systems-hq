@@ -126,7 +126,7 @@ test("consumer persists exactly once when semantic adapter returns PASS", async 
         validation_status: "VALIDATION_PASSED",
         governance_findings: "Evidence is coherent.",
         operational_requirements: null,
-        capability_requirements: null,
+        capability_requirements: "engineering_planning",
         escalations: null,
       }),
       create_governance_validation_result: (input) => {

@@ -7,6 +7,10 @@ import type {
 
 } from "../../db/governance-runtime.js";
 
+import {
+  hasDeterminateCapabilityRequirements,
+} from "./governance-validation-semantic-adapter.js";
+
 export type GovernanceValidationPersistenceFunction = (
 
   input: CreateGovernanceValidationResultInput,
@@ -102,6 +106,15 @@ export function invokeProductionValidationEntryPoint(
 ): ProductionValidationEntryPointResult {
 
   try {
+
+    if (
+      input.validation_status === "VALIDATION_PASSED"
+      && !hasDeterminateCapabilityRequirements(input.capability_requirements)
+    ) {
+      throw new Error(
+        "VALIDATION_PASSED requires determinate operational capability identifiers.",
+      );
+    }
 
     const created = input.create_governance_validation_result({
 

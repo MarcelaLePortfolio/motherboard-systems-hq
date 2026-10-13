@@ -58,9 +58,7 @@ const GOVERNANCE_VALIDATION_SCHEMA = {
 } as const;
 
 function normalizeOptionalText(value: unknown): string | null {
-  if (value === null) {
-    return null;
-  }
+  if (value === null) return null;
 
   if (typeof value !== "string") {
     throw new Error("Governance Validation semantic result contains a non-text field.");
@@ -68,6 +66,23 @@ function normalizeOptionalText(value: unknown): string | null {
 
   const normalized = value.trim();
   return normalized.length > 0 ? normalized : null;
+}
+
+export function hasDeterminateCapabilityRequirements(
+  value: unknown,
+): value is string {
+  if (typeof value !== "string") return false;
+
+  const normalized = value.trim();
+
+  if (!normalized) return false;
+
+  const capabilities = normalized.split(",").map((capability) => capability.trim());
+
+  return capabilities.length > 0
+    && capabilities.every((capability) =>
+      /^[a-z][a-z0-9]*(?:_[a-z0-9]+)*$/.test(capability)
+    );
 }
 
 function resolutionRequired(reason: string): GovernanceValidationSemanticResult {
@@ -106,6 +121,11 @@ function buildPrompt(evidence: GovernanceValidationEvidence): string {
     "Evaluate only the supplied authorized governance evidence.",
     "Do not invent authority, requirements, scope, facts, or missing evidence.",
     "Return VALIDATION_PASSED only when the requested outcome, scope, constraints, and success criteria are semantically coherent, mutually compatible, and sufficiently specific to validate the bounded proposed work.",
+    "Derive the operational capabilities required to fulfill the requested outcome.",
+    "Express capability_requirements as one or more lowercase snake_case capability identifiers separated by commas.",
+    "Capabilities describe work the organization must be able to perform, such as engineering_planning or repository_analysis.",
+    "Do not substitute governance findings, approval requirements, operator instructions, or lifecycle restrictions for operational capabilities.",
+    "Return RESOLUTION_REQUIRED when required capabilities cannot be determined from the supplied evidence.",
     "Return RESOLUTION_REQUIRED when there is ambiguity, contradiction, missing semantic information, unresolved governance risk, or insufficient specificity.",
     "Do not authorize scheduling, routing, assignment, lifecycle transition, execution, downstream governance, or any new authority.",
     "",
@@ -150,13 +170,24 @@ function parseSemanticResult(raw: string): GovernanceValidationSemanticResult {
     );
   }
 
-  return {
+  const result: GovernanceValidationSemanticResult = {
     validation_status: status,
     governance_findings: normalizeOptionalText(parsed.governance_findings),
     operational_requirements: normalizeOptionalText(parsed.operational_requirements),
     capability_requirements: normalizeOptionalText(parsed.capability_requirements),
     escalations: normalizeOptionalText(parsed.escalations),
   };
+
+  if (
+    result.validation_status === "VALIDATION_PASSED"
+    && !hasDeterminateCapabilityRequirements(result.capability_requirements)
+  ) {
+    return resolutionRequired(
+      "Governance Validation cannot PASS without determinate operational capability identifiers.",
+    );
+  }
+
+  return result;
 }
 
 export async function analyzeGovernanceValidationSemantics(

@@ -93,11 +93,38 @@ test("production Validation entry point creates only the canonical Validation Re
 
 });
 
+test("production Validation entry point rejects PASS without capability persistence", () => {
+
+  let persistenceCalls = 0;
+
+  const result = invokeProductionValidationEntryPoint({
+    validation_result_id: "validation-missing-capabilities",
+    package_id: "pkg-1",
+    package_version: 1,
+    delegation_id: "delegation-1",
+    validation_status: "VALIDATION_PASSED",
+    capability_requirements: null,
+    create_governance_validation_result: (input) => {
+      persistenceCalls += 1;
+      return fakeCreateValidation(input);
+    },
+  });
+
+  assert.equal(result.ok, false);
+  assert.equal(persistenceCalls, 0);
+  assert.match(result.findings.join("\\n"), /capability/i);
+  assert.equal(result.execution_authorized, false);
+  assert.equal(result.new_authority_introduced, false);
+
+});
+
 test("production Validation entry point fails closed when persistence rejects input", () => {
 
   const result = invokeProductionValidationEntryPoint({
 
     validation_result_id: "",
+
+    capability_requirements: "engineering_planning",
 
     package_id: "pkg-validation-entry-point-fail",
 

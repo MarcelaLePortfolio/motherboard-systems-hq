@@ -3,6 +3,7 @@ import test from "node:test";
 
 import {
   analyzeGovernanceValidationSemantics,
+  hasDeterminateCapabilityRequirements,
 } from "./governance-validation-semantic-adapter.ts";
 
 function completeEvidence() {
@@ -26,7 +27,7 @@ function completeEvidence() {
   };
 }
 
-test("semantic adapter accepts a schema-valid VALIDATION_PASSED result", async () => {
+test("semantic adapter accepts PASS with determinate capabilities", async () => {
   const result = await analyzeGovernanceValidationSemantics(
     completeEvidence(),
     {
@@ -34,8 +35,8 @@ test("semantic adapter accepts a schema-valid VALIDATION_PASSED result", async (
         response: JSON.stringify({
           validation_status: "VALIDATION_PASSED",
           governance_findings: "Evidence is coherent and sufficiently specific.",
-          operational_requirements: null,
-          capability_requirements: null,
+          operational_requirements: "planning_only",
+          capability_requirements: "engineering_planning, repository_analysis",
           escalations: null,
         }),
       }),
@@ -44,8 +45,63 @@ test("semantic adapter accepts a schema-valid VALIDATION_PASSED result", async (
 
   assert.equal(result.validation_status, "VALIDATION_PASSED");
   assert.equal(
-    result.governance_findings,
-    "Evidence is coherent and sufficiently specific.",
+    result.capability_requirements,
+    "engineering_planning, repository_analysis",
+  );
+});
+
+test("semantic adapter rejects PASS without capabilities", async () => {
+  const result = await analyzeGovernanceValidationSemantics(
+    completeEvidence(),
+    {
+      generate: async () => ({
+        response: JSON.stringify({
+          validation_status: "VALIDATION_PASSED",
+          governance_findings: "Evidence is coherent.",
+          operational_requirements: "planning_only",
+          capability_requirements: null,
+          escalations: null,
+        }),
+      }),
+    },
+  );
+
+  assert.equal(result.validation_status, "RESOLUTION_REQUIRED");
+  assert.match(result.governance_findings ?? "", /capability/i);
+});
+
+test("semantic adapter rejects governance instructions as capabilities", async () => {
+  const result = await analyzeGovernanceValidationSemantics(
+    completeEvidence(),
+    {
+      generate: async () => ({
+        response: JSON.stringify({
+          validation_status: "VALIDATION_PASSED",
+          governance_findings: null,
+          operational_requirements: "planning_only",
+          capability_requirements: "Governed Envelope creation eligibility validation only.",
+          escalations: null,
+        }),
+      }),
+    },
+  );
+
+  assert.equal(result.validation_status, "RESOLUTION_REQUIRED");
+});
+
+test("capability identifier validation rejects empty and prose values", () => {
+  assert.equal(hasDeterminateCapabilityRequirements(null), false);
+  assert.equal(hasDeterminateCapabilityRequirements(" "), false);
+  assert.equal(hasDeterminateCapabilityRequirements("Governance approval required."), false);
+  assert.equal(hasDeterminateCapabilityRequirements("governed envelope creation eligibility validation only"), false);
+  assert.equal(hasDeterminateCapabilityRequirements("engineering_planning repository_analysis"), false);
+  assert.equal(hasDeterminateCapabilityRequirements("engineering_planning,"), false);
+  assert.equal(hasDeterminateCapabilityRequirements(",engineering_planning"), false);
+  assert.equal(hasDeterminateCapabilityRequirements("engineering_planning,,repository_analysis"), false);
+  assert.equal(hasDeterminateCapabilityRequirements("engineering_planning"), true);
+  assert.equal(
+    hasDeterminateCapabilityRequirements("engineering_planning, repository_analysis"),
+    true,
   );
 });
 
@@ -66,10 +122,7 @@ test("semantic adapter preserves a schema-valid RESOLUTION_REQUIRED result", asy
   );
 
   assert.equal(result.validation_status, "RESOLUTION_REQUIRED");
-  assert.equal(
-    result.operational_requirements,
-    "Clarify the bounded operation.",
-  );
+  assert.equal(result.operational_requirements, "Clarify the bounded operation.");
 });
 
 test("semantic adapter does not invoke model when required evidence is incomplete", async () => {
