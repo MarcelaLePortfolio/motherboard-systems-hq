@@ -598,6 +598,9 @@ test(
 test(
   "governance lifecycle route fails closed when explicit effect intent is absent",
   () => {
+    let persistCalled = false;
+    let intakeCalled = false;
+
     const result = handleGovernanceLifecycleRouteRequest(
       {
         envelope_id: "env-governance-lifecycle-route-missing-effect-intent",
@@ -610,12 +613,20 @@ test(
         department_handshake: departmentHandshake,
       },
       {
-        persist_lifecycle_transition: fakePersist,
-        create_operational_intake: fakeOperationalIntake,
+        persist_lifecycle_transition: (input) => {
+          persistCalled = true;
+          return fakePersist(input);
+        },
+        create_operational_intake: (input) => {
+          intakeCalled = true;
+          return fakeOperationalIntake(input);
+        },
       },
     );
 
     assert.equal(result.ok, false);
+    assert.equal(persistCalled, false);
+    assert.equal(intakeCalled, false);
     assert.equal(result.execution_authorized, false);
     assert.equal(result.new_authority_introduced, false);
     assert.equal(

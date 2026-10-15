@@ -224,6 +224,24 @@ export function handleGovernanceLifecycleRouteRequest(
 
   const routeRequest = buildGovernanceLifecycleRouteRequest(body, options);
 
+  if (!routeRequest.effect_intent) {
+    return {
+      ok: false,
+      route: "governance_lifecycle_route",
+      endpoint_authorized: true,
+      scheduler_authorized: false,
+      worker_claim_authorized: false,
+      orchestration_authorized: false,
+      routing_authorized: false,
+      execution_authorized: false,
+      new_authority_introduced: false,
+      findings: [
+        "Governance lifecycle route failed closed because explicit effect_intent was not supplied.",
+      ],
+    };
+  }
+
+
   const lifecycle = consumeProductionLifecycleEntryPoint(routeRequest);
 
   if (!lifecycle.ok) {
@@ -260,23 +278,6 @@ export function handleGovernanceLifecycleRouteRequest(
 
   }
 
-  if (!routeRequest.effect_intent) {
-    return {
-      ok: false,
-      route: "governance_lifecycle_route",
-      lifecycle,
-      endpoint_authorized: true,
-      scheduler_authorized: false,
-      worker_claim_authorized: false,
-      orchestration_authorized: false,
-      routing_authorized: false,
-      execution_authorized: false,
-      new_authority_introduced: false,
-      findings: [
-        "Governance lifecycle route failed closed because explicit effect_intent was not supplied.",
-      ],
-    };
-  }
 
   const scheduler = composeProductionLifecycleScheduler({
 
