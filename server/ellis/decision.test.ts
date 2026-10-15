@@ -113,3 +113,36 @@ test("Ellis decision assigns department without actor assignment", () => {
 
 });
 
+test("Ellis rejects available departments without a capability match", () => {
+  const result = evaluateEllisDecision({
+    required_capabilities: "engineering_planning, repository_analysis",
+    operational_corridor: "planning_only",
+    available_departments: ["finance", "operations"],
+  });
+
+  assert.equal(result.ok, false);
+  assert.equal(result.escalation_required, true);
+  assert.equal(result.mutation_authorized, false);
+  assert.equal(result.execution_authorized, false);
+  assert.equal(result.persistence_authorized, false);
+  assert.equal(result.autonomous_authority, false);
+});
+
+test("Ellis selects a matching department after an unmatched department", () => {
+  const result = evaluateEllisDecision({
+    required_capabilities: "engineering_planning, repository_analysis",
+    operational_corridor: "planning_only",
+    available_departments: ["finance", "repository_analysis"],
+  });
+
+  assert.equal(result.ok, true);
+
+  if (result.ok) {
+    assert.equal(result.assigned_department, "repository_analysis");
+  }
+
+  assert.equal(result.mutation_authorized, false);
+  assert.equal(result.execution_authorized, false);
+  assert.equal(result.persistence_authorized, false);
+  assert.equal(result.autonomous_authority, false);
+});

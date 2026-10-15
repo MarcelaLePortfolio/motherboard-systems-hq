@@ -211,11 +211,7 @@ export function evaluateEllisDecision(
 
       requiredCapabilities.includes(department),
 
-    ) ??
-
-    availableDepartments[0] ??
-
-    null;
+    );
 
   if (!assignedDepartment) {
 
