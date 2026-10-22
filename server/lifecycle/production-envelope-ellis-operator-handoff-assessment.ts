@@ -1,13 +1,13 @@
 /**
  * Non-mutating Envelope-to-Ellis operator handoff assessment.
  *
- * This module evaluates supplied evidence only.
- * It does not authenticate operators, verify credential provenance,
- * persist assignments, advance lifecycle state, invoke Ellis,
- * or grant execution authority.
+ * This module checks the internal consistency of caller-supplied assertions.
+ * It does not independently verify operator identity, authorization,
+ * department eligibility, acknowledgement, capability, or provenance.
  *
- * Successful assessment means supplied evidence is internally consistent.
- * It does not authorize a production lifecycle transition.
+ * A successful assessment is not trusted evidence of production readiness.
+ * It cannot authorize assignment, persistence, lifecycle transition,
+ * credential issuance, execution, or any other production effect.
  */
 
 export type EnvelopeEllisOperatorHandoffAssessmentInput = Readonly<{
@@ -43,10 +43,30 @@ export function assessEnvelopeEllisOperatorHandoff(
 ): EnvelopeEllisOperatorHandoffAssessmentResult {
   const findings: string[] = [];
 
-  const envelopeId = input.envelope_id?.trim();
-  const packageId = input.package_id?.trim();
-  const envelopePackageId = input.envelope_package_id?.trim();
-  const departmentId = input.selected_department_id?.trim();
+  const envelopeId =
+    typeof input.envelope_id === "string"
+      ? input.envelope_id.trim()
+      : "";
+
+  const packageId =
+    typeof input.package_id === "string"
+      ? input.package_id.trim()
+      : "";
+
+  const envelopePackageId =
+    typeof input.envelope_package_id === "string"
+      ? input.envelope_package_id.trim()
+      : "";
+
+  const departmentId =
+    typeof input.selected_department_id === "string"
+      ? input.selected_department_id.trim()
+      : "";
+
+  const operatorAuthorizationId =
+    typeof input.operator_authorization_id === "string"
+      ? input.operator_authorization_id.trim()
+      : "";
 
   if (!envelopeId) {
     findings.push("An exact governance Envelope ID is required.");
@@ -66,7 +86,9 @@ export function assessEnvelopeEllisOperatorHandoff(
     input.envelope_package_version < 1 ||
     input.package_version !== input.envelope_package_version
   ) {
-    findings.push("Exact canonical package ID and version lineage must match.");
+    findings.push(
+      "Supplied canonical package ID and version lineage must match.",
+    );
   }
 
   if (
@@ -74,31 +96,43 @@ export function assessEnvelopeEllisOperatorHandoff(
     !Array.isArray(input.eligible_department_ids) ||
     !input.eligible_department_ids.includes(departmentId)
   ) {
-    findings.push("The selected department must be capability-eligible.");
+    findings.push(
+      "The selected department must appear in the supplied eligibility list.",
+    );
   }
 
   if (
-    !input.operator_authorization_id?.trim() ||
+    !operatorAuthorizationId ||
     input.operator_authorization_verified !== true
   ) {
-    findings.push("Independently verified operator authorization is required.");
+    findings.push(
+      "A claimed operator authorization ID and affirmative verification assertion are required.",
+    );
   }
 
   if (input.department_acknowledgement_verified !== true) {
-    findings.push("Verified departmental acknowledgement is required.");
+    findings.push(
+      "An affirmative departmental acknowledgement assertion is required.",
+    );
   }
 
   if (input.department_capability_confirmed !== true) {
-    findings.push("Verified departmental capability confirmation is required.");
+    findings.push(
+      "An affirmative departmental capability assertion is required.",
+    );
   }
 
   const assessmentReady = findings.length === 0;
 
   if (assessmentReady) {
     findings.push(
-      "Supplied handoff evidence is internally consistent; production authority remains separately blocked.",
+      "Caller-supplied handoff assertions are internally consistent; their provenance and authenticity have not been independently verified.",
     );
   }
+
+  findings.push(
+    "This assessment grants no production authority and must not be used as a trusted lifecycle or execution admission decision.",
+  );
 
   return {
     assessment: "envelope_to_ellis_operator_handoff",
