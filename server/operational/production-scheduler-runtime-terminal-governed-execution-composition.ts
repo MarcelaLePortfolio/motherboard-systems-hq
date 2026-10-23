@@ -18,6 +18,13 @@ import {
   type GovernedExecutionHandoffResult,
 } from "./governed-execution-handoff";
 
+type GovernedExecutionHandoffDependencies =
+  NonNullable<
+    Parameters<
+      typeof handoffSchedulerReadinessToGovernedExecution
+    >[1]
+  >;
+
 export type ProductionSchedulerRuntimeTerminalGovernedExecutionCompositionInput = {
   scheduler_dispatch_contract: SchedulerDispatchContractResult;
   production_scheduler_runtime_finalization_readiness_completion_consumer:
@@ -43,6 +50,7 @@ export type ProductionSchedulerRuntimeTerminalGovernedExecutionCompositionResult
 
 export function composeProductionSchedulerRuntimeTerminalGovernedExecution(
   input: ProductionSchedulerRuntimeTerminalGovernedExecutionCompositionInput,
+  dependencies: GovernedExecutionHandoffDependencies = {},
 ): ProductionSchedulerRuntimeTerminalGovernedExecutionCompositionResult {
   const authorization =
     authorizeSchedulerRuntimeFinalizationReadinessCompletionTransition({
@@ -64,18 +72,22 @@ export function composeProductionSchedulerRuntimeTerminalGovernedExecution(
   const governedExecutionHandoff =
     contractConsumer.ok &&
     contractConsumer.scheduler_runtime_finalization_readiness_completion_contract_consumed
-      ? handoffSchedulerReadinessToGovernedExecution({
-          scheduler_dispatch_contract: input.scheduler_dispatch_contract,
-          scheduler_runtime_finalization_readiness_completion:
-            input.production_scheduler_runtime_finalization_readiness_completion_consumer,
-          effect_intent: input.effect_intent,
-        })
+      ? handoffSchedulerReadinessToGovernedExecution(
+          {
+            scheduler_dispatch_contract: input.scheduler_dispatch_contract,
+            scheduler_runtime_finalization_readiness_completion:
+              input.production_scheduler_runtime_finalization_readiness_completion_consumer,
+            effect_intent: input.effect_intent,
+          },
+          dependencies,
+        )
       : null;
 
   return {
     scheduler_runtime_finalization_readiness_completion_authorization:
       authorization,
-    scheduler_runtime_finalization_readiness_completion_contract: contract,
+    scheduler_runtime_finalization_readiness_completion_contract:
+      contract,
     production_scheduler_runtime_finalization_readiness_completion_contract_consumer:
       contractConsumer,
     governed_execution_handoff: governedExecutionHandoff,
