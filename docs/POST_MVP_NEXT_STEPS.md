@@ -82,3 +82,35 @@ The investigation must distinguish:
 - Whether it belongs immediately after MVP or later.
 
 Do not silently convert this registry entry into an implementation authorization.
+
+## Ellis Stage 3 — Private-use device security architecture
+
+Decision record:
+
+`docs/governance/ELLIS_STAGE3_PRIVATE_USE_DEVICE_SECURITY_DECISION_20261026.md`
+
+The selected private-use design separates the Motherboard
+MacBook host, iPhone human approval, and iPad Ed25519
+issuance-manifest signing.
+
+This is an architecture selection, not an implementation
+authorization or declaration of production readiness.
+
+Ellis Stage 3 remains open. Production credential issuance
+remains blocked pending independent trust-source establishment
+and required governance validation. Stage 4 is not authorized.
+
+When reviewing next tasks, remaining Ellis corridors,
+credential issuance, security readiness, or dependent
+production transitions, consult this decision and the
+existing tracked trust-source deferral:
+
+`docs/governance/ELLIS_STAGE3_DEFERRED_INDEPENDENT_TRUST_SOURCE.md`
+
+Next eligible work is evidence-first device feasibility
+validation planning and governance reconciliation, subject
+to separate authorization.
+
+Do not silently convert this registry entry into
+implementation, key provisioning, production-risk acceptance,
+commit, push, or Stage 4 authorization.
