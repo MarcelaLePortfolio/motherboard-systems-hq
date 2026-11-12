@@ -692,3 +692,92 @@ test(
     );
   },
 );
+
+test(
+  "records failed-closed reconciliation for isolated no-effect execution",
+  () => {
+    const entries: any[] = [];
+    let commitCalls = 0;
+    let pushCalls = 0;
+
+    const result = handleGovernanceExecutionRouteRequest(
+      {
+        approval_id: "a1",
+        envelope_id: "e1",
+        execution_id: "isolated-no-effect-failure-x1",
+        commit_requested: false,
+        push_requested: false,
+      },
+      deps({
+        execute_execution: (() => {
+          const error = new Error(
+            "simulated isolated no-effect execution failure",
+          ) as Error & { code?: string };
+
+          error.code = "SIMULATED_NO_EFFECT_FAILURE";
+          throw error;
+        }) as any,
+        execute_commit: (() => {
+          commitCalls += 1;
+          assert.fail("commit effect must never run");
+        }) as any,
+        execute_push: (() => {
+          pushCalls += 1;
+          assert.fail("push effect must never run");
+        }) as any,
+        persist_reconciliation_entry:
+          ((_db: unknown, entry: any) => {
+            entries.push(entry);
+            return { entry_id: entries.length };
+          }) as any,
+      }),
+    );
+
+    assert.equal(result.ok, false);
+    assert.match(
+      (result as any).findings[0],
+      /simulated isolated no-effect execution failure/,
+    );
+
+    assert.equal(commitCalls, 0);
+    assert.equal(pushCalls, 0);
+
+    assert.deepEqual(
+      entries.map((entry) => ({
+        stage: entry.stage,
+        local_effect_status: entry.local_effect_status,
+        remote_effect_status: entry.remote_effect_status,
+        commit_requested: entry.commit_requested,
+        push_requested: entry.push_requested,
+        last_confirmed_stage:
+          entry.evidence?.last_confirmed_stage ?? null,
+        error_code: entry.evidence?.error_code ?? null,
+      })),
+      [
+        {
+          stage: "EXECUTION_STARTED",
+          local_effect_status: "none",
+          remote_effect_status: "none",
+          commit_requested: false,
+          push_requested: false,
+          last_confirmed_stage: null,
+          error_code: null,
+        },
+        {
+          stage: "EXECUTION_FAILED_CLOSED",
+          local_effect_status: "none",
+          remote_effect_status: "none",
+          commit_requested: false,
+          push_requested: false,
+          last_confirmed_stage: "EXECUTION_STARTED",
+          error_code: "SIMULATED_NO_EFFECT_FAILURE",
+        },
+      ],
+    );
+
+    assert.equal(
+      (result as any).new_authority_introduced,
+      false,
+    );
+  },
+);
