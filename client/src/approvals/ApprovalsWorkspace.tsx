@@ -750,9 +750,9 @@ function ApprovedCanonicalPackageBriefing({
       !envelopeGateComplete ||
       !envelopeGateId ||
       !validationResultId ||
-      !selectedRequest?.package_id ||
-      !selectedRequest?.package_version ||
-      !selectedRequest?.delegation?.delegation_id
+      !pkg.package_id ||
+      !pkg.package_version ||
+      !pkg.delegation.delegation_id
     ) {
       return;
     }
@@ -763,9 +763,9 @@ function ApprovedCanonicalPackageBriefing({
     try {
       await postGovernanceEnvelope({
         envelope_id: crypto.randomUUID(),
-        package_id: selectedRequest.package_id,
-        package_version: selectedRequest.package_version,
-        delegation_id: selectedRequest.delegation.delegation_id,
+        package_id: pkg.package_id,
+        package_version: pkg.package_version,
+        delegation_id: pkg.delegation.delegation_id,
         validation_result_id: validationResultId,
         envelope_gate_id: envelopeGateId,
       });
