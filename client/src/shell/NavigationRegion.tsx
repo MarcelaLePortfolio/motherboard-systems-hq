@@ -65,7 +65,7 @@ export default function NavigationRegion({
             onSelectWorkspace("dashboard")
           }
         >
-          Dashboard
+          Mission Control
         </button>
 
         <button
