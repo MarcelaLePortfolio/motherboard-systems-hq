@@ -1,5 +1,11 @@
-
 #!/usr/bin/env bash
+# Historical dashboard restoration is disabled by default.
+# The authoritative dashboard is the protected React build.
+if [[ "${MOTHERBOARD_ALLOW_LEGACY_DASHBOARD_RESTORE:-}" != "I_ACKNOWLEDGE_LEGACY_DASHBOARD_RESTORE" ]]; then
+  echo "BLOCKED: Legacy dashboard restoration is disabled." >&2
+  echo "Authoritative dashboard: client/dist/index.html" >&2
+  exit 78
+fi
 
 set -euo pipefail
 
