@@ -1,4 +1,11 @@
 #!/usr/bin/env bash
+
+# Dashboard Protection Corridor 3: default-deny historical entrypoint.
+if [ "${MOTHERBOARD_ALLOW_LEGACY_DASHBOARD_RESTORE:-}" != "I_ACKNOWLEDGE_LEGACY_DASHBOARD_RESTORE" ]; then
+  echo "BLOCKED: Legacy dashboard restoration is disabled." >&2
+  echo "Authoritative dashboard: client/dist/index.html" >&2
+  exit 78
+fi
 set -euo pipefail
 trap 'echo "[build_dashboard_bundle] FAIL line= cmd= rc=0" >&2' ERR
 

@@ -1,5 +1,12 @@
 /* eslint-disable import/no-commonjs */
 #!/bin/bash
+
+# Dashboard Protection Corridor 3: default-deny historical entrypoint.
+if [ "${MOTHERBOARD_ALLOW_LEGACY_DASHBOARD_RESTORE:-}" != "I_ACKNOWLEDGE_LEGACY_DASHBOARD_RESTORE" ]; then
+  echo "BLOCKED: Legacy dashboard restoration is disabled." >&2
+  echo "Authoritative dashboard: client/dist/index.html" >&2
+  exit 78
+fi
 set -e
 
 PROJECT_DIR="$HOME/Desktop/Motherboard_Systems_HQ"
