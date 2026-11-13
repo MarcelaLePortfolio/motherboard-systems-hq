@@ -1,7 +1,7 @@
+#!/bin/bash
+set -euo pipefail
 
-set -e
-echo "<0001f9ed> Restoring demo baseline (v1.0.4.1-demo-locked)..."
-git fetch --all --tags
-git reset --hard v1.0.4.1-demo-locked
-pm2 restart all
-echo "✅ Demo baseline restored and agents restarted."
+echo "BLOCKED=LEGACY_DEMO_BASELINE_RESTORE_DISABLED"
+echo "REASON=UNAUTHORIZED_GIT_RESET_AND_PM2_RESTART"
+echo "DASHBOARD_RECOVERY=GOVERNED_REACT_DASHBOARD_ONLY"
+exit 78

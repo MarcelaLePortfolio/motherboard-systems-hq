@@ -1,6 +1,7 @@
+#!/bin/bash
+set -euo pipefail
 
-echo "�� Running convenience & recovery automations..."
-bash scripts/util/backup-db.sh
-bash scripts/util/restore-demo-baseline.sh || echo "⚠️ Baseline already active."
-tsx scripts/sequences/prewarm-all-agents.ts
-echo "🧠 All recovery utilities executed successfully."
+echo "BLOCKED=LEGACY_START_ALL_AGENTS_DISABLED"
+echo "REASON=STARTUP_INVOKES_DESTRUCTIVE_DEMO_BASELINE_RESTORE"
+echo "DASHBOARD_RECOVERY=GOVERNED_REACT_DASHBOARD_ONLY"
+exit 78
