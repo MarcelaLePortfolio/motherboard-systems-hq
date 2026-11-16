@@ -6,7 +6,9 @@ umask 077
 #
 # Requires separate authorization for execution.
 # Requires an independently created and mounted AES-256 encrypted
-# APFS disk image stored on Rio Drive.
+# sparsebundle containing an APFS filesystem, stored on Rio Drive.
+#
+# Encryption is provided by the disk image, not the inner APFS volume.
 #
 # This script does not create, attach, or unlock disk images.
 # It does not delete historical backups or execute restoration.
@@ -15,7 +17,7 @@ umask 077
 REPO="/Users/marcela-dev/Projects/motherboard-systems-hq-clean"
 EXPECTED_BRANCH="feature/support-source-references-runtime"
 EXTERNAL="/Volumes/Rio Drive"
-EXPECTED_IMAGE="$EXTERNAL/backups/Motherboard_Encrypted_DR.sparsebundle"
+EXPECTED_IMAGE="$EXTERNAL/backups/Motherboard_Encrypted_DR_AES256.sparsebundle"
 EXPECTED_MOUNT="/Volumes/Motherboard Encrypted DR"
 
 die() {
@@ -71,14 +73,14 @@ printf '%s\n' "$EXTERNAL_INFO" |
   grep -Eq 'File System Personality:[[:space:]]+ExFAT' ||
   die "Unexpected Rio Drive filesystem"
 
-# The encrypted disk image must already exist.
 [[ -d "$EXPECTED_IMAGE" ]] ||
   die "Expected encrypted sparsebundle does not exist"
 
 [[ -d "$EXPECTED_MOUNT" ]] ||
   die "Encrypted destination is not mounted"
 
-# Verify that the mounted volume is APFS and encrypted.
+# Verify the inner filesystem is mounted APFS.
+# The enclosing sparsebundle provides encryption.
 MOUNT_INFO="$(diskutil info "$EXPECTED_MOUNT")"
 
 printf '%s\n' "$MOUNT_INFO" |
@@ -89,43 +91,45 @@ printf '%s\n' "$MOUNT_INFO" |
   grep -Eq 'File System Personality:[[:space:]]+APFS' ||
   die "Encrypted destination is not APFS"
 
-printf '%s\n' "$MOUNT_INFO" |
-  grep -Eq 'Encrypted:[[:space:]]+Yes' ||
-  die "Destination encryption is not verified"
-
-# Verify that the mounted APFS volume belongs to the
-# specifically approved sparsebundle on Rio Drive.
+# Verify encryption and mount linkage within the same
+# hdiutil image record. Do not accept independent matches
+# from unrelated attached images.
 IMAGE_INFO="$(hdiutil info)"
 
 printf '%s\n' "$IMAGE_INFO" |
-  grep -Fq "$EXPECTED_IMAGE" ||
-  die "Approved encrypted disk image is not attached"
-
-# Do not rely on the preceding independent checks alone:
-# confirm that the approved image and destination mount
-# appear in the same hdiutil image record.
-printf '%s\n' "$IMAGE_INFO" |
   awk -v image="$EXPECTED_IMAGE" -v mount="$EXPECTED_MOUNT" '
+    function verify_record() {
+      if (seen && path_ok && encrypted && mount_ok)
+        valid=1
+    }
+
     /^image-path[[:space:]]*:/ {
-      if (seen && found_image && found_mount) valid=1
+      verify_record()
       seen=1
-      found_image=(index($0,image)>0)
-      found_mount=0
+      path_ok=($0 ~ /^image-path[[:space:]]*:/ &&
+               index($0, image) > 0)
+      encrypted=0
+      mount_ok=0
       next
     }
-    seen && index($0,mount)>0 {
-      found_mount=1
+
+    seen && /^image-encrypted[[:space:]]*:/ {
+      encrypted=($0 ~ /TRUE[[:space:]]*$/)
     }
+
+    seen && index($0, mount) > 0 {
+      mount_ok=1
+    }
+
     END {
-      if (found_image && found_mount) valid=1
+      verify_record()
       exit(valid ? 0 : 1)
     }
   ' ||
-  die "Encrypted image and mounted destination are not linked"
+  die "Approved encrypted image and destination linkage not verified"
 
 BACKUP_ROOT="$EXPECTED_MOUNT/backups"
 
-# Prevent fallback to the unencrypted external volume.
 case "$BACKUP_ROOT" in
   "$EXPECTED_MOUNT"/*) ;;
   *) die "Backup destination escapes encrypted volume" ;;
@@ -180,9 +184,6 @@ git bundle verify "$STAGING/repository.bundle" \
   > "$STAGING/git-bundle-verification.txt" 2>&1 ||
   die "Git bundle verification failed"
 
-# Preserve tracked, modified, ignored, and untracked files.
-# Exclude nested historical backups and Git metadata.
-# The live SQLite database is captured transactionally below.
 rsync -a \
   --exclude='/.git/' \
   --exclude='/backups/' \
@@ -207,6 +208,7 @@ HEAD: $HEAD
 Remote-tracking HEAD: $REMOTE
 Encrypted image: $EXPECTED_IMAGE
 Encrypted destination: $EXPECTED_MOUNT
+Encryption boundary: AES-256 sparsebundle
 Dashboard: PROTECTED_REACT_DASHBOARD
 Dashboard route: /ui
 Legacy dashboard restoration: PROHIBITED
@@ -239,7 +241,6 @@ MANIFEST
     > CHECKSUM_VERIFICATION.txt
 )
 
-# Publish only after capture verification.
 mv "$STAGING" "$FINAL"
 trap - ERR
 
