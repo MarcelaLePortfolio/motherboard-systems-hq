@@ -1,0 +1,10 @@
+384d271d7ff9571354ecb0616329ab15a7b15502 test(ellis): validate nonproduction dual-device evidence handoff
+9115c1ba5bf1796a03e5176561ec5c826c200aec test(ellis): validate isolated HTTP credential provider integration
+b54496f27d1393a87df6b353e878f1794ce04514 test(ellis): validate isolated department credential provider
+e453fd69467761d671b3a65b4b1713c0b1aa7deb docs(ellis): defer security assurance until functional validation
+482b86ea61126c946b4d4c8bedcc84582db38695 fix(dr): validate encrypted sparsebundle destination
+5a37beb5a15789832aa4be56f31abf15107d70d3 Require verified encrypted destination for DR capture
+12a0c330ad1c04e37796ecc9b3b97fdb28ad535f Implement gated non-destructive DR capture procedure
+4b6b46a8ca354cfd98003aab7a488ec980fc0dc4 docs: prepare non-destructive DR capture procedure
+124c2e015c496b8c60c2c6bbbb42f89dd1ad35a2 docs: record Corridor 1B verification and defer rollback certification
+afd7c37bef82f380fc49e022ea01705548b386b9 docs: record isolated React dashboard recovery validation
