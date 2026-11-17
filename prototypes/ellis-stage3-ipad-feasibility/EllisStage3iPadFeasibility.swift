@@ -9,7 +9,8 @@ import UIKit
 // persistent signing keys, or Motherboard integration.
 //
 // Ed25519 private keys are software-held, not Secure Enclave-backed.
-// Independent iPhone approval verification is NOT implemented.
+// A simulated nonproduction P-256 approval gate is used by the UI.
+// No physical iPhone approval or independent authority is established.
 // Application confirmation is not independent authority provenance.
 
 enum EllisStage3iPadFeasibilityError: Error {
@@ -95,6 +96,8 @@ final class EllisStage3iPadFeasibility {
 
 struct EllisStage3iPadFeasibilityView: View {
     @State private var reviewedManifest: Data?
+    @State private var pendingApproval:
+        EllisStage3iPadApprovalFixture.PreparedApproval?
     @State private var reviewPresented = false
     @State private var result = "NOT TESTED"
     @State private var exportedEvidence: String?
@@ -135,7 +138,9 @@ struct EllisStage3iPadFeasibilityView: View {
 
             Text(
                 "Review the exact manifest bytes before confirming. " +
-                "No independent iPhone approval is verified."
+                "A simulated nonproduction P-256 approval must verify " +
+                "before separate iPad signing confirmation. " +
+                "No physical iPhone approval is established."
             )
             .multilineTextAlignment(.center)
 
@@ -143,13 +148,25 @@ struct EllisStage3iPadFeasibilityView: View {
                 exportedEvidence = nil
 
                 do {
-                    reviewedManifest =
-                        try EllisStage3iPadManifestFixture.canonicalBytes()
+                    let prepared =
+                        try EllisStage3iPadApprovalFixture.prepare()
+
+                    guard EllisStage3iPadApprovalGate.verifyIphoneApproval(
+                        manifest: prepared.manifest,
+                        evidence: prepared.evidence,
+                        trustedKey: prepared.trustedKey
+                    ) else {
+                        throw EllisStage3iPadApprovalError.invalidEvidence
+                    }
+
+                    pendingApproval = prepared
+                    reviewedManifest = prepared.manifest
                     reviewPresented = true
-                    result = "AWAITING EXPLICIT CONFIRMATION"
+                    result = "SIMULATED APPROVAL VERIFIED — AWAITING CONFIRMATION"
                 } catch {
                     reviewedManifest = nil
-                    result = "MANIFEST PREPARATION FAILED"
+                    pendingApproval = nil
+                    result = "APPROVAL VERIFICATION FAILED — NO SIGNING"
                 }
             }
 
@@ -250,6 +267,7 @@ struct EllisStage3iPadFeasibilityView: View {
 
                     Button("Cancel", role: .cancel) {
                         reviewedManifest = nil
+                        pendingApproval = nil
                         reviewPresented = false
                         exportedEvidence = nil
                         result = "CANCELLED — NO SIGNING"
@@ -263,39 +281,63 @@ struct EllisStage3iPadFeasibilityView: View {
 
     private func performConfirmedTest() {
         guard let manifest = reviewedManifest,
+              let prepared = pendingApproval,
+              manifest == prepared.manifest,
               EllisStage3iPadManifestExplanation.explanation(
                   for: manifest
               ) != nil else {
             reviewedManifest = nil
+            pendingApproval = nil
             reviewPresented = false
             exportedEvidence = nil
             result = "CONFIRMATION FAILED — NO SIGNING"
             return
         }
 
-        // Consume the reviewed request before performing signing.
+        // Consume the reviewed request before attempting signing.
         reviewedManifest = nil
+        pendingApproval = nil
         reviewPresented = false
         exportedEvidence = nil
 
         do {
-            let evidence = try feasibility.signNonproductionManifest(
-                manifest,
-                explicitlyConfirmed: true
-            )
-
-            if evidence.exactBytesVerified &&
-                evidence.alteredBytesRejected {
-                exportedEvidence = Self.evidenceBundle(
+            // The gate independently revalidates the exact bytes
+            // before creating the ephemeral Ed25519 signature.
+            let evidence =
+                try EllisStage3iPadApprovalGate.signAfterVerification(
                     manifest: manifest,
-                    evidence: evidence
+                    evidence: prepared.evidence,
+                    trustedKey: prepared.trustedKey,
+                    explicitlyConfirmed: true
                 )
-                result = "APPLICATION-REPORTED TEST PASS"
-            } else {
-                result = "TEST FAILED"
+
+            guard evidence.iphoneApprovalVerified,
+                  evidence.exactBytesVerified,
+                  evidence.productionIssuance == false else {
+                result = "VERIFICATION FAILED — NO SIGNING"
+                return
             }
+
+            let manifestHex = Self.lowercaseHex(manifest)
+
+            exportedEvidence = [
+                "ELLIS_STAGE3_IPAD_DUAL_SIGNATURE_NONPRODUCTION_V1",
+                "manifest_utf8_hex=\(manifestHex)",
+                "manifest_sha256_hex=\(evidence.manifestSHA256Hex)",
+                "iphone_approval_verified=true",
+                "iphone_approval_source=SIMULATED_NONPRODUCTION_FIXTURE",
+                "iphone_public_key_id=\(prepared.trustedKey.keyID)",
+                "iphone_public_key_fingerprint_sha256_hex=\(prepared.trustedKey.fingerprintSHA256Hex)",
+                "ipad_public_key_ed25519_hex=\(Self.lowercaseHex(evidence.ipadPublicKeyEd25519))",
+                "ipad_signature_ed25519_hex=\(Self.lowercaseHex(evidence.ipadSignatureEd25519))",
+                "exact_bytes_verified=true",
+                "production_issuance=false",
+                "independent_human_authority_established=false"
+            ].joined(separator: "\n")
+
+            result = "SIMULATED NONPRODUCTION APPROVAL + IPAD SIGNING PASS"
         } catch {
-            result = "TEST FAILED"
+            result = "VERIFICATION OR SIGNING FAILED"
         }
     }
 }

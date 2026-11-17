@@ -19,6 +19,8 @@
             isa = PBXBuildFile;
             fileRef = A20000000000000000000004;
         };
+        E90000000000000000000001 = {isa = PBXBuildFile; fileRef = E90000000000000000000011; };
+        E90000000000000000000002 = {isa = PBXBuildFile; fileRef = E90000000000000000000012; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -47,12 +49,16 @@
             path = EllisStage3iPadManifestExplanation.swift;
             sourceTree = "<group>";
         };
+        E90000000000000000000011 = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EllisStage3iPadApprovalGate.swift; sourceTree = "<group>"; };
+        E90000000000000000000012 = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EllisStage3iPadApprovalFixture.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXGroup section */
         A30000000000000000000001 = {
             isa = PBXGroup;
             children = (
+                E90000000000000000000011,
+                E90000000000000000000012,
                 A20000000000000000000001,
                 A20000000000000000000002,
                 A20000000000000000000004,
@@ -122,6 +128,8 @@
             isa = PBXSourcesBuildPhase;
             buildActionMask = 2147483647;
             files = (
+                E90000000000000000000001,
+                E90000000000000000000002,
                 A10000000000000000000001,
                 A10000000000000000000002,
                 A10000000000000000000003,
